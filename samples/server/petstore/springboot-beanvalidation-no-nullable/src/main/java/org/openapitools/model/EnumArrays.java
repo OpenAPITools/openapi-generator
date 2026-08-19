@@ -64,6 +64,7 @@ public class EnumArrays {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable JustSymbolEnum justSymbol;
 
   /**
@@ -102,6 +103,7 @@ public class EnumArrays {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(@Nullable JustSymbolEnum justSymbol) {
@@ -120,7 +122,6 @@ public class EnumArrays {
     return justSymbol;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("just_symbol")
   public void setJustSymbol(@Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -150,7 +151,6 @@ public class EnumArrays {
     return arrayEnum;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_enum")
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;

@@ -75,7 +75,6 @@ public class ParentWithNullable {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable TypeEnum type;
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
   public ParentWithNullable type(@Nullable TypeEnum type) {
@@ -109,7 +108,7 @@ public class ParentWithNullable {
    * @return nullableProperty
    */
   
-  @Schema(name = "nullableProperty", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableProperty", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableProperty")
   public JsonNullable<String> getNullableProperty() {
     return nullableProperty;

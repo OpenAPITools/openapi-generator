@@ -188,6 +188,7 @@ Class | Method | HTTP request | Description
  - [Model.GrandparentAnimal](GrandparentAnimal.md)
  - [Model.HasOnlyReadOnly](HasOnlyReadOnly.md)
  - [Model.HealthCheckResult](HealthCheckResult.md)
+ - [Model.InjectedVendorExtensionsTest](InjectedVendorExtensionsTest.md)
  - [Model.IsoscelesTriangle](IsoscelesTriangle.md)
  - [Model.List](List.md)
  - [Model.LiteralStringClass](LiteralStringClass.md)

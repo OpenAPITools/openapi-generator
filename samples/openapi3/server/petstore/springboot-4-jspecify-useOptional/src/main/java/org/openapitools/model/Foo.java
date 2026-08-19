@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
@@ -38,44 +37,33 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Foo {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private Optional<java.time.Instant> dt = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private JsonNullable<java.time.Instant> nullableDt = JsonNullable.<java.time.Instant>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<org.springframework.core.io.Resource> binary = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<org.springframework.core.io.Resource> nullableBinary = JsonNullable.<org.springframework.core.io.Resource>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<java.time.Instant> listOfDt = new ArrayList<>();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<java.time.Instant> listMinIntems = new ArrayList<>();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<java.time.Instant>> nullableListMinIntems = JsonNullable.<List<java.time.Instant>>undefined();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private java.time.Instant requiredDt;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<java.math.BigDecimal> number = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<java.math.BigDecimal> nullableNumber = JsonNullable.<java.math.BigDecimal>undefined();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<String> color = Optional.of("red");
 
   private String requiredColor = "red";
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<String> nullableColor = JsonNullable.<String>undefined();
 
   public Foo() {
@@ -143,7 +131,7 @@ public class Foo {
    * @return nullableDt
    */
   @Valid 
-  @Schema(name = "nullableDt", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableDt", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableDt")
   @JacksonXmlProperty(localName = "nullableDt")
   @XmlElement(name = "nullableDt")
@@ -189,7 +177,7 @@ public class Foo {
    * @return nullableBinary
    */
   @Valid 
-  @Schema(name = "nullableBinary", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableBinary", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableBinary")
   @JacksonXmlProperty(localName = "nullableBinary")
   @XmlElement(name = "nullableBinary")
@@ -275,7 +263,7 @@ public class Foo {
   }
 
   public Foo addNullableListMinIntemsItem(java.time.Instant nullableListMinIntemsItem) {
-    if (this.nullableListMinIntems == null || !this.nullableListMinIntems.isPresent()) {
+    if (this.nullableListMinIntems == null || !this.nullableListMinIntems.isPresent() || this.nullableListMinIntems.get() == null) {
       this.nullableListMinIntems = JsonNullable.of(new ArrayList<>());
     }
     this.nullableListMinIntems.get().add(nullableListMinIntemsItem);
@@ -287,7 +275,7 @@ public class Foo {
    * @return nullableListMinIntems
    */
   @Valid @Size(min = 1) 
-  @Schema(name = "nullableListMinIntems", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableListMinIntems", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableListMinIntems")
   @JacksonXmlProperty(localName = "nullableListMinIntems")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -358,7 +346,7 @@ public class Foo {
    * @return nullableNumber
    */
   @Valid 
-  @Schema(name = "nullableNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableNumber")
   @JacksonXmlProperty(localName = "nullableNumber")
   @XmlElement(name = "nullableNumber")
@@ -428,7 +416,7 @@ public class Foo {
    * @return nullableColor
    */
   
-  @Schema(name = "nullableColor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableColor", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableColor")
   @JacksonXmlProperty(localName = "nullableColor")
   @XmlElement(name = "nullableColor")

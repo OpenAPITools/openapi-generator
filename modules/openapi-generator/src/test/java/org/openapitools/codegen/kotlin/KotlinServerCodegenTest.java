@@ -28,12 +28,12 @@ import org.testng.annotations.Test;
 
 import static org.openapitools.codegen.CodegenConstants.API_PACKAGE;
 import static org.openapitools.codegen.CodegenConstants.LIBRARY;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
 import static org.openapitools.codegen.CodegenConstants.MODEL_PACKAGE;
 import static org.openapitools.codegen.CodegenConstants.PACKAGE_NAME;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKARTA_EE;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INTERFACE_ONLY;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN5;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN6;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAXRS_SPEC;
@@ -168,12 +168,12 @@ public class KotlinServerCodegenTest {
 
         Path petModel = Paths.get(outputPath + "/models/Pet.kt");
         assertFileNotContains(
-                petApi,
+                petModel,
                 "import jakarta.validation.Valid",
                 "import jakarta.validation.Valid"
         );
         assertFileContains(
-                petApi,
+                petModel,
                 "import javax.validation.constraints.*",
                 "import javax.validation.Valid"
         );
@@ -318,8 +318,8 @@ public class KotlinServerCodegenTest {
         ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
         KotlinTestUtils.CustomKotlinParseListener customKotlinParseListener = new KotlinTestUtils.CustomKotlinParseListener();
         parseTreeWalker.walk(customKotlinParseListener, parseTree);
-        Assert.assertTrue(syntaxErrorListener.getSyntaxErrorCount() == 0);
-        Assert.assertTrue(customKotlinParseListener.getStringReferenceCount() == 0);
+        Assert.assertEquals(syntaxErrorListener.getSyntaxErrorCount(), 0);
+        Assert.assertEquals(customKotlinParseListener.getStringReferenceCount(), 0);
     }
 
     // ==================== Polymorphism and Discriminator Tests ====================

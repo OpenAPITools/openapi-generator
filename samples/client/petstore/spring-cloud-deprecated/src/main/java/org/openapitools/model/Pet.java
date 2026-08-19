@@ -36,8 +36,10 @@ public class Pet {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Category category;
 
+  @JsonInclude(JsonInclude.Include.ALWAYS)
   private JsonNullable<String> name = JsonNullable.<String>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Deprecated
   private List<String> photoUrls = new ArrayList<>();
 
@@ -147,8 +149,8 @@ public class Pet {
    * Get name
    * @return name
    */
-  @NotNull 
-  @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
+  /* @Present */ 
+  @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("name")
   public JsonNullable<String> getName() {
     return name;

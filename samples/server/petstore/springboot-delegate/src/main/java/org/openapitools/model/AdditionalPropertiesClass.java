@@ -57,7 +57,6 @@ public class AdditionalPropertiesClass {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Object anytype1;
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -347,7 +346,7 @@ public class AdditionalPropertiesClass {
    * @return anytype2
    */
   
-  @Schema(name = "anytype_2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "anytype_2", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("anytype_2")
   public JsonNullable<Object> getAnytype2() {
     return anytype2;

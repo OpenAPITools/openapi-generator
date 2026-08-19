@@ -3,9 +3,20 @@ info:
   description: test fully qualified name and jspecify
   title: jspecify
   version: 1.0.0
+tags:
+  - name: requiredAndNullable
+    description: requiredAndNullable
+  - name: foo
+    description: foo
+  - name: upload
+    description: upload
+  - name: file
+    description: file
 paths:
   /foo/{dtParam}:
     get:
+      tags:
+        - foo
       parameters:
         - in: path
           name: dtParam
@@ -36,8 +47,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Foo'
+  /requiredAndNullable:
+    post:
+      tags:
+        - requiredAndNullable
+      requestBody:
+        required: true
+        description: bodyWithRequiredAndNullableAttributes
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequiredAndNullable'
+      responses:
+        default:
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequiredAndNullable'
   /upload:
     post:
+      tags:
+        - upload
       requestBody:
         description: file
         content:
@@ -51,9 +82,29 @@ paths:
       responses:
         default:
           description: ok
-
+  /uploadFiles:
+    post:
+      tags:
+        - upload
+      requestBody:
+        description: file
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        default:
+          description: ok
   /file/{id}:
     get:
+      tags:
+        - file
       parameters:
         - in: path
           name: id
@@ -63,7 +114,10 @@ paths:
       responses:
         '200':
           description: ok
- 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileContent'
 components:
   schemas:
     Foo:
@@ -121,7 +175,48 @@ components:
           type: string
           default: red
           nullable: true
-
-
-
-
+    RequiredAndNullable:
+      type: object
+      required:
+        - str
+        - file
+        - color
+        - onlyRequired
+        - list
+      properties:
+        str:
+          nullable: true
+          type: string
+        file:
+          nullable: true
+          type: string
+          format: binary
+        color:
+          type: string
+          default: red
+          nullable: true
+        onlyRequired:
+          # NON nullable
+          type: string
+        list:
+          type: array
+          nullable: true
+          items:
+            type: string
+    FileContent:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          readOnly: true
+        size:
+          type: integer
+          readOnly: true
+        virusScan:
+          type: string
+          readOnly: true
+          enum:
+            - clean
+            - detected

@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -30,7 +29,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class NullableMapPropertyDto {
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
 
   public NullableMapPropertyDto languageValues(Map<String, String> languageValues) {
@@ -39,7 +37,7 @@ public class NullableMapPropertyDto {
   }
 
   public NullableMapPropertyDto putLanguageValuesItem(String key, String languageValuesItem) {
-    if (this.languageValues == null || !this.languageValues.isPresent()) {
+    if (this.languageValues == null || !this.languageValues.isPresent() || this.languageValues.get() == null) {
       this.languageValues = JsonNullable.of(new HashMap<>());
     }
     this.languageValues.get().put(key, languageValuesItem);
@@ -51,7 +49,7 @@ public class NullableMapPropertyDto {
    * @return languageValues
    */
   
-  @Schema(name = "languageValues", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "languageValues", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("languageValues")
   public JsonNullable<Map<String, String>> getLanguageValues() {
     return languageValues;

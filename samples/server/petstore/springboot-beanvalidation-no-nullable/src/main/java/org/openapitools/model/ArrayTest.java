@@ -29,12 +29,15 @@ import jakarta.annotation.Generated;
 public class ArrayTest {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<String> arrayOfString = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
@@ -61,7 +64,6 @@ public class ArrayTest {
     return arrayOfString;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_of_string")
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -91,7 +93,6 @@ public class ArrayTest {
     return arrayArrayOfInteger;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_array_of_integer")
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
@@ -121,7 +122,6 @@ public class ArrayTest {
     return arrayArrayOfModel;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_array_of_model")
   public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;

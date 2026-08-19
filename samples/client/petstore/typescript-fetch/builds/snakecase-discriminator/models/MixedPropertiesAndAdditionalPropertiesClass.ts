@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 import type { Animal } from './Animal';
 import {
     AnimalFromJSON,
@@ -59,7 +59,7 @@ export function MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json: a
     return {
         
         'uuid': json['uuid'] == null ? undefined : json['uuid'],
-        'dateTime': json['dateTime'] == null ? undefined : (new Date(json['dateTime'])),
+        'dateTime': json['dateTime'] == null ? undefined : (parseDateTime(json['dateTime'])),
         'map': json['map'] == null ? undefined : (mapValues(json['map'], AnimalFromJSON)),
     };
 }
@@ -76,7 +76,7 @@ export function MixedPropertiesAndAdditionalPropertiesClassToJSONTyped(value?: M
     return {
         
         'uuid': value['uuid'],
-        'dateTime': value['dateTime'] == null ? value['dateTime'] : value['dateTime'].toISOString(),
+        'dateTime': value['dateTime'] == null ? value['dateTime'] : serializeDateTime(value['dateTime']),
         'map': value['map'] == null ? undefined : (mapValues(value['map'], AnimalToJSON)),
     };
 }

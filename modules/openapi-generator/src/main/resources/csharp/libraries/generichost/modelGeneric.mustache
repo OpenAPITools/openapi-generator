@@ -17,7 +17,7 @@
         /// <param name="{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}">{{description}}{{^description}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/description}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
         {{/isDiscriminator}}
         {{/allVars}}
-        {{#model.vendorExtensions.x-model-is-mutable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutable}}{{^model.vendorExtensions.x-model-is-mutable}}internal{{/model.vendorExtensions.x-model-is-mutable}} {{classname}}({{#lambda.joinWithComma}}{{{dataType}}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{#model.composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{baseType}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{/model.composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#parentModel.composedSchemas.oneOf}}{{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{parent}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}.{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}  {{/parentModel.composedSchemas.oneOf}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
+        {{#model.vendorExtensions.x-model-is-operation-input}}{{>visibility}}{{/model.vendorExtensions.x-model-is-operation-input}}{{^model.vendorExtensions.x-model-is-operation-input}}internal{{/model.vendorExtensions.x-model-is-operation-input}} {{classname}}({{#lambda.joinWithComma}}{{{dataType}}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{#model.composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{baseType}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{/model.composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#parentModel.composedSchemas.oneOf}}{{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{parent}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}.{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}  {{/parentModel.composedSchemas.oneOf}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
         {
             {{#composedSchemas.anyOf}}
             {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
@@ -115,7 +115,7 @@
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public {{#isNew}}new {{/isNew}}Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}> {{name}}Option { get; {{^isReadOnly}}private set; {{/isReadOnly}}}
+        public {{#isNew}}new {{/isNew}}Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}> {{name}}Option { get; {{^isReadOnly}}private set; {{/isReadOnly}}{{#isReadOnly}}{{#vendorExtensions.x-setter-visibility}}private set; {{/vendorExtensions.x-setter-visibility}}{{/isReadOnly}}}
 
         {{/required}}
         /// <summary>
@@ -131,7 +131,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{#isNew}}new {{/isNew}}{{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{name}}Option.Value; } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
+        {{#vendorExtensions.x-property-visibility}}{{.}}{{/vendorExtensions.x-property-visibility}}{{^vendorExtensions.x-property-visibility}}public{{/vendorExtensions.x-property-visibility}} {{#isNew}}new {{/isNew}}{{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}{{#vendorExtensions.x-setter-visibility}}{{.}} set; {{/vendorExtensions.x-setter-visibility}}}{{/required}}{{^required}}{ get { return this.{{name}}Option.Value; } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}{{#vendorExtensions.x-setter-visibility}}{{.}} set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/vendorExtensions.x-setter-visibility}}}{{/required}}
 
         {{/isEnum}}
         {{/isDiscriminator}}
@@ -144,7 +144,7 @@
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public {{#isNew}}new {{/isNew}}Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}> {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option { get; {{^isReadOnly}}private set; {{/isReadOnly}}}
+        public {{#isNew}}new {{/isNew}}Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}> {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option { get; {{^isReadOnly}}private set; {{/isReadOnly}}{{#isReadOnly}}{{#vendorExtensions.x-setter-visibility}}private set; {{/vendorExtensions.x-setter-visibility}}{{/isReadOnly}}}
 
         {{/required}}
         /// <summary>
@@ -157,7 +157,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option.Value; } {{^isReadOnly}}set { this.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
+        {{#vendorExtensions.x-property-visibility}}{{.}}{{/vendorExtensions.x-property-visibility}}{{^vendorExtensions.x-property-visibility}}public{{/vendorExtensions.x-property-visibility}} {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}{{#vendorExtensions.x-setter-visibility}}{{.}} set; {{/vendorExtensions.x-setter-visibility}}}{{/required}}{{^required}}{ get { return this.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option.Value; } {{^isReadOnly}}set { this.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}{{#vendorExtensions.x-setter-visibility}}{{.}} set { this.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/vendorExtensions.x-setter-visibility}}}{{/required}}
 
         {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.anyOf}}
@@ -173,7 +173,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{dataType}}}{{>NullConditionalProperty}} {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
+        {{#vendorExtensions.x-property-visibility}}{{.}}{{/vendorExtensions.x-property-visibility}}{{^vendorExtensions.x-property-visibility}}public{{/vendorExtensions.x-property-visibility}} {{{dataType}}}{{>NullConditionalProperty}} {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}{{#vendorExtensions.x-setter-visibility}}{{.}} set; {{/vendorExtensions.x-setter-visibility}}}
 
         {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.oneOf}}
@@ -201,7 +201,7 @@
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public new Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}> {{name}}Option { get; {{^isReadOnly}}private set; {{/isReadOnly}}}
+        public new Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}> {{name}}Option { get; {{^isReadOnly}}private set; {{/isReadOnly}}{{#isReadOnly}}{{#vendorExtensions.x-setter-visibility}}private set; {{/vendorExtensions.x-setter-visibility}}{{/isReadOnly}}}
 
         {{/required}}
         /// <summary>
@@ -215,7 +215,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public new {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{name}}Option.Value; } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
+        {{#vendorExtensions.x-property-visibility}}{{.}}{{/vendorExtensions.x-property-visibility}}{{^vendorExtensions.x-property-visibility}}public{{/vendorExtensions.x-property-visibility}} new {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}{{#vendorExtensions.x-setter-visibility}}{{.}} set; {{/vendorExtensions.x-setter-visibility}}}{{/required}}{{^required}}{ get { return this.{{name}}Option.Value; } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}{{#vendorExtensions.x-setter-visibility}}{{.}} set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/vendorExtensions.x-setter-visibility}}}{{/required}}
 
         {{/isNew}}
         {{/isInherited}}
@@ -226,7 +226,7 @@
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}> {{name}}Option { get; {{^isReadOnly}}private set; {{/isReadOnly}}}
+        public Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}> {{name}}Option { get; {{^isReadOnly}}private set; {{/isReadOnly}}{{#isReadOnly}}{{#vendorExtensions.x-setter-visibility}}private set; {{/vendorExtensions.x-setter-visibility}}{{/isReadOnly}}}
 
         {{/required}}
         /// <summary>
@@ -240,7 +240,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{name}}Option.Value; } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
+        {{#vendorExtensions.x-property-visibility}}{{.}}{{/vendorExtensions.x-property-visibility}}{{^vendorExtensions.x-property-visibility}}public{{/vendorExtensions.x-property-visibility}} {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}{{#vendorExtensions.x-setter-visibility}}{{.}} set; {{/vendorExtensions.x-setter-visibility}}}{{/required}}{{^required}}{ get { return this.{{name}}Option.Value; } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}{{#vendorExtensions.x-setter-visibility}}{{.}} set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/vendorExtensions.x-setter-visibility}}}{{/required}}
 
         {{/isInherited}}
         {{/isEnum}}

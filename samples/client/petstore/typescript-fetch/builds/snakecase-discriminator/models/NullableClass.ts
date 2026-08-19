@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 /**
  * 
  * @export
@@ -92,8 +92,8 @@ export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boole
         'numberProp': json['number_prop'] === undefined ? undefined : json['number_prop'] === null ? null : json['number_prop'],
         'booleanProp': json['boolean_prop'] === undefined ? undefined : json['boolean_prop'] === null ? null : json['boolean_prop'],
         'stringProp': json['string_prop'] === undefined ? undefined : json['string_prop'] === null ? null : json['string_prop'],
-        'dateProp': json['date_prop'] === undefined ? undefined : json['date_prop'] === null ? null : (new Date(json['date_prop'])),
-        'datetimeProp': json['datetime_prop'] === undefined ? undefined : json['datetime_prop'] === null ? null : (new Date(json['datetime_prop'])),
+        'dateProp': json['date_prop'] === undefined ? undefined : json['date_prop'] === null ? null : (parseDate(json['date_prop'])),
+        'datetimeProp': json['datetime_prop'] === undefined ? undefined : json['datetime_prop'] === null ? null : (parseDateTime(json['datetime_prop'])),
         'arrayNullableProp': json['array_nullable_prop'] === undefined ? undefined : json['array_nullable_prop'] === null ? null : json['array_nullable_prop'],
         'arrayAndItemsNullableProp': json['array_and_items_nullable_prop'] === undefined ? undefined : json['array_and_items_nullable_prop'] === null ? null : json['array_and_items_nullable_prop'],
         'arrayItemsNullable': json['array_items_nullable'] == null ? undefined : json['array_items_nullable'],
@@ -119,8 +119,8 @@ export function NullableClassToJSONTyped(value?: NullableClass | null, ignoreDis
         'number_prop': value['numberProp'],
         'boolean_prop': value['booleanProp'],
         'string_prop': value['stringProp'],
-        'date_prop': value['dateProp'] == null ? value['dateProp'] : value['dateProp'].toISOString().substring(0,10),
-        'datetime_prop': value['datetimeProp'] == null ? value['datetimeProp'] : value['datetimeProp'].toISOString(),
+        'date_prop': value['dateProp'] == null ? value['dateProp'] : serializeDate(value['dateProp']),
+        'datetime_prop': value['datetimeProp'] == null ? value['datetimeProp'] : serializeDateTime(value['datetimeProp']),
         'array_nullable_prop': value['arrayNullableProp'],
         'array_and_items_nullable_prop': value['arrayAndItemsNullableProp'],
         'array_items_nullable': value['arrayItemsNullable'],

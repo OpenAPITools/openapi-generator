@@ -28,9 +28,11 @@ import jakarta.annotation.Generated;
 public class Model200Response {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Integer name;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String propertyClass;
 
   public Model200Response name(@Nullable Integer name) {
@@ -49,7 +51,6 @@ public class Model200Response {
     return name;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name")
   public void setName(@Nullable Integer name) {
     this.name = name;
@@ -71,7 +72,6 @@ public class Model200Response {
     return propertyClass;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("class")
   public void setPropertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;

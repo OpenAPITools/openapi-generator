@@ -31,44 +31,48 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class FormatTest {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<@Min(value = 10) @Max(value = 100) Integer> integer = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<@Min(value = 20) @Max(value = 200) Integer> int32 = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<Long> int64 = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private BigDecimal number;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<@DecimalMin(value = "54.3") @DecimalMax(value = "987.6") Float> _float = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<@DecimalMin(value = "67.8") @DecimalMax(value = "123.4") Double> _double = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<@Pattern(regexp = "[a-zA-Z]") String> string = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private byte[] _byte;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<org.springframework.core.io.Resource> binary = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private Optional<OffsetDateTime> dateTime = Optional.empty();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<UUID> uuid = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String password;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<BigDecimal> bigDecimal = Optional.empty();
 
   public FormatTest() {

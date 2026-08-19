@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  title: sttp4 mixed case fields
+  version: 1.0.0
+paths:
+  /bookings:
+    post:
+      operationId: createBooking
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MixedCaseModel'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentMethod'
+components:
+  schemas:
+    MixedCaseModel:
+      type: object
+      required:
+        - assignment_key
+      properties:
+        assignment_key:
+          type: string
+        first-name:
+          type: string
+        phone_number:
+          type: string
+        lastName:
+          type: string
+        ZipCode:
+          type: string
+        address_line_2:
+          type: string
+        trip_summary:
+          $ref: '#/components/schemas/TripSummary'
+        booking_status:
+          type: string
+          enum:
+            - pending
+            - confirmed
+    TripSummary:
+      type: object
+      properties:
+        departure_airport_code:
+          type: string
+    PaymentMethod:
+      oneOf:
+        - $ref: '#/components/schemas/CreditCardPayment'
+        - $ref: '#/components/schemas/BankTransferPayment'
+      discriminator:
+        propertyName: payment_type
+        mapping:
+          credit_card: '#/components/schemas/CreditCardPayment'
+          bank_transfer: '#/components/schemas/BankTransferPayment'
+    CreditCardPayment:
+      type: object
+      required:
+        - card_holder_name
+      properties:
+        payment_type:
+          type: string
+        card_holder_name:
+          type: string
+        last-four-digits:
+          type: string
+    BankTransferPayment:
+      type: object
+      properties:
+        payment_type:
+          type: string
+        account_holder_name:
+          type: string
+    Shape:
+      oneOf:
+        - $ref: '#/components/schemas/Circle'
+        - $ref: '#/components/schemas/Square'
+    Circle:
+      type: object
+      required:
+        - radius_cm
+      properties:
+        radius_cm:
+          type: number
+    Square:
+      type: object
+      properties:
+        side_length:
+          type: number

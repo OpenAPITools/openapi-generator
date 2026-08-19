@@ -27,6 +27,7 @@ import jakarta.annotation.Generated;
 public class ModelList {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String _123list;
 
   public ModelList _123list(@Nullable String _123list) {
@@ -45,7 +46,6 @@ public class ModelList {
     return _123list;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("123-list")
   public void set123list(@Nullable String _123list) {
     this._123list = _123list;

@@ -134,6 +134,9 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     public static JsonMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
+        if (null == dateFormat) {
+            dateFormat = createDefaultDateFormat();
+        }
         return JsonMapper.builder()
             .defaultDateFormat(dateFormat)
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
@@ -155,7 +158,7 @@ public class ApiClient extends JavaTimeFormatter {
     public static RestClient.Builder buildRestClientBuilder(JsonMapper mapper) {
 
         Consumer<HttpMessageConverters.ClientBuilder> messageConverters = builder -> {
-            builder.addCustomConverter(new JacksonJsonHttpMessageConverter(mapper));
+            builder.registerDefaults().withJsonConverter(new JacksonJsonHttpMessageConverter(mapper));
         };
 
         return RestClient.builder().configureMessageConverters(messageConverters);

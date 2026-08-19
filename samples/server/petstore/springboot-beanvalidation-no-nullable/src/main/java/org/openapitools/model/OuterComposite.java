@@ -26,12 +26,15 @@ import jakarta.annotation.Generated;
 public class OuterComposite {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable BigDecimal myNumber;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String myString;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Boolean myBoolean;
 
   public OuterComposite myNumber(@Nullable BigDecimal myNumber) {
@@ -50,7 +53,6 @@ public class OuterComposite {
     return myNumber;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_number")
   public void setMyNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -72,7 +74,6 @@ public class OuterComposite {
     return myString;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_string")
   public void setMyString(@Nullable String myString) {
     this.myString = myString;
@@ -94,7 +95,6 @@ public class OuterComposite {
     return myBoolean;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_boolean")
   public void setMyBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;

@@ -1,4 +1,4 @@
-import { mapValues } from '../runtime{{importFileExtension}}';
+import { mapValues{{#isDateLibraryDate}}{{#vendorExtensions.x-hasDateVars}}, parseDate, parseDateTime, serializeDate, serializeDateTime{{/vendorExtensions.x-hasDateVars}}{{/isDateLibraryDate}} } from '../runtime{{importFileExtension}}';
 {{#hasImports}}
 {{#tsImports}}
 import type { {{{classname}}} } from './{{filename}}{{importFileExtension}}';
@@ -98,10 +98,10 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         {{/isArray}}
         {{^isArray}}
         {{#isDateType}}
-        '{{name}}': {{^required}}{{#isNullable}}json['{{baseName}}'] === undefined ? undefined : json['{{baseName}}'] === null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? undefined : {{/isNullable}}{{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}new Date(json['{{baseName}}'])),
+        '{{name}}': {{^required}}{{#isNullable}}json['{{baseName}}'] === undefined ? undefined : json['{{baseName}}'] === null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? undefined : {{/isNullable}}{{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? json['{{baseName}}'] : {{/isNullable}}{{/required}}parseDate(json['{{baseName}}'])),
         {{/isDateType}}
         {{#isDateTimeType}}
-        '{{name}}': {{^required}}{{#isNullable}}json['{{baseName}}'] === undefined ? undefined : json['{{baseName}}'] === null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? undefined : {{/isNullable}}{{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}new Date(json['{{baseName}}'])),
+        '{{name}}': {{^required}}{{#isNullable}}json['{{baseName}}'] === undefined ? undefined : json['{{baseName}}'] === null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? undefined : {{/isNullable}}{{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? json['{{baseName}}'] : {{/isNullable}}{{/required}}parseDateTime(json['{{baseName}}'])),
         {{/isDateTimeType}}
         {{^isDateType}}
         {{^isDateTimeType}}
@@ -173,10 +173,10 @@ export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classnam
         {{^isReadOnly}}
         {{#isPrimitiveType}}
         {{#isDateType}}
-        '{{baseName}}': {{^required}}value['{{name}}'] == null ? value['{{name}}'] : {{/required}}{{#isNullable}}{{#required}}value['{{name}}'] == null ? value['{{name}}'] : {{/required}}{{/isNullable}}value['{{name}}'].toISOString().substring(0,10),
+        '{{baseName}}': value['{{name}}'] == null ? value['{{name}}'] : serializeDate(value['{{name}}']),
         {{/isDateType}}
         {{#isDateTimeType}}
-        '{{baseName}}': {{^required}}value['{{name}}'] == null ? value['{{name}}'] : {{/required}}{{#isNullable}}{{#required}}value['{{name}}'] == null ? value['{{name}}'] : {{/required}}{{/isNullable}}value['{{name}}'].toISOString(),
+        '{{baseName}}': value['{{name}}'] == null ? value['{{name}}'] : serializeDateTime(value['{{name}}']),
         {{/isDateTimeType}}
         {{#isArray}}
         '{{baseName}}': {{#uniqueItems}}{{^required}}value['{{name}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}Array.from(value['{{name}}'] as Set<any>){{/uniqueItems}}{{^uniqueItems}}value['{{name}}']{{/uniqueItems}},

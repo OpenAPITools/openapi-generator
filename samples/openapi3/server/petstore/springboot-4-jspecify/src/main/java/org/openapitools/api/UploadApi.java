@@ -35,7 +35,7 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
-@Tag(name = "upload", description = "the upload API")
+@Tag(name = "upload", description = "upload")
 public interface UploadApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -51,6 +51,7 @@ public interface UploadApi {
      */
     @Operation(
         operationId = "uploadPost",
+        tags = { "upload" },
         responses = {
             @ApiResponse(responseCode = "default", description = "ok")
         }

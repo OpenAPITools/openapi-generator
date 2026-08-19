@@ -9,4 +9,3 @@ additionalProperties:
   containerDefaultToNull: "true"
   useJakartaEe: true
   useSpringBoot4: true
-

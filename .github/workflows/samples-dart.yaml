@@ -30,7 +30,7 @@ jobs:
         with:
           path: $PUB_CACHE
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('samples/**/pubspec.*') }}
-      - uses: dart-lang/setup-dart@v1.7.2
+      - uses: dart-lang/setup-dart@v1.8.0
         with:
           sdk: 2.15.0
       - name: Run tests

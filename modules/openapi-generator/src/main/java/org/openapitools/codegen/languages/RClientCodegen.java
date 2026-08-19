@@ -40,7 +40,6 @@ import java.io.Writer;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.CodegenConstants.ENUM_VALUES;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.camelize;

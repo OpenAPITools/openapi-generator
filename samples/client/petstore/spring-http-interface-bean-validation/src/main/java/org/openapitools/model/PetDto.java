@@ -39,8 +39,10 @@ public class PetDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable CategoryDto category;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -48,7 +50,9 @@ public class PetDto {
 
   /**
    * pet status in the store
+   * @deprecated deprecated
    */
+  @Deprecated
   public enum StatusEnum {
     AVAILABLE("available"),
     

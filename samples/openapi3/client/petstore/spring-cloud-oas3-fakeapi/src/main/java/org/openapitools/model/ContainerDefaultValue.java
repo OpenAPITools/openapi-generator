@@ -28,14 +28,14 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
+  @JsonInclude(JsonInclude.Include.ALWAYS)
   private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> requiredArray = new ArrayList<>();
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
   public ContainerDefaultValue() {
@@ -48,7 +48,7 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addNullableArrayItem(String nullableArrayItem) {
-    if (this.nullableArray == null || !this.nullableArray.isPresent()) {
+    if (this.nullableArray == null || !this.nullableArray.isPresent() || this.nullableArray.get() == null) {
       this.nullableArray = JsonNullable.of(new ArrayList<>());
     }
     this.nullableArray.get().add(nullableArrayItem);
@@ -60,7 +60,7 @@ public class ContainerDefaultValue {
    * @return nullableArray
    */
   
-  @Schema(name = "nullable_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullable_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullable_array")
   public JsonNullable<List<String>> getNullableArray() {
     return nullableArray;
@@ -76,7 +76,7 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addNullableRequiredArrayItem(String nullableRequiredArrayItem) {
-    if (this.nullableRequiredArray == null || !this.nullableRequiredArray.isPresent()) {
+    if (this.nullableRequiredArray == null || !this.nullableRequiredArray.isPresent() || this.nullableRequiredArray.get() == null) {
       this.nullableRequiredArray = JsonNullable.of(new ArrayList<>());
     }
     this.nullableRequiredArray.get().add(nullableRequiredArrayItem);
@@ -87,8 +87,8 @@ public class ContainerDefaultValue {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @NotNull 
-  @Schema(name = "nullable_required_array", requiredMode = Schema.RequiredMode.REQUIRED)
+  /* @Present */ 
+  @Schema(name = "nullable_required_array", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
     return nullableRequiredArray;
@@ -134,7 +134,7 @@ public class ContainerDefaultValue {
   }
 
   public ContainerDefaultValue addNullableArrayWithDefaultItem(String nullableArrayWithDefaultItem) {
-    if (this.nullableArrayWithDefault == null || !this.nullableArrayWithDefault.isPresent()) {
+    if (this.nullableArrayWithDefault == null || !this.nullableArrayWithDefault.isPresent() || this.nullableArrayWithDefault.get() == null) {
       this.nullableArrayWithDefault = JsonNullable.of(new ArrayList<>(Arrays.asList("foo", "bar")));
     }
     this.nullableArrayWithDefault.get().add(nullableArrayWithDefaultItem);
@@ -146,7 +146,7 @@ public class ContainerDefaultValue {
    * @return nullableArrayWithDefault
    */
   
-  @Schema(name = "nullable_array_with_default", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullable_array_with_default", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullable_array_with_default")
   public JsonNullable<List<String>> getNullableArrayWithDefault() {
     return nullableArrayWithDefault;
