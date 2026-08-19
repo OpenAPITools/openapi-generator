@@ -485,6 +485,26 @@ public class DartDioModelTest {
         Assert.assertTrue(animalNonSelfMappedModelOrder.indexOf("Crocodile") < animalNonSelfMappedModelOrder.indexOf("Reptile"));
     }
 
+    @Test(description = "preserves declared oneOf alternatives on inherited discriminators")
+    public void inheritedDiscriminatorKeepsDeclaredOneOfAlternatives() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/bugs/issue_23717_inherited_discriminator_oneof.yaml");
+
+        final DefaultCodegen codegen = new DartDioClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_BUILT_VALUE);
+        codegen.processOpts();
+        codegen.setOpenAPI(openAPI);
+
+        final Schema reptileSchema = openAPI.getComponents().getSchemas().get("Reptile");
+        final CodegenModel reptileModel = codegen.fromModel("Reptile", reptileSchema);
+
+        Assert.assertNotNull(reptileModel.discriminator);
+        Assert.assertNotNull(reptileModel.discriminator.getMapping());
+        Assert.assertTrue(reptileModel.discriminator.getMapping().containsKey("Reptile"));
+        Assert.assertTrue(reptileModel.discriminator.getMapping().containsKey("Lizard"));
+        Assert.assertTrue(reptileModel.discriminator.getMapping().containsKey("Snake"));
+        Assert.assertFalse(reptileModel.discriminator.getMapping().containsKey("Bird"));
+    }
+
     @DataProvider(name = "modelNames")
     public static Object[][] modelNames() {
         return new Object[][]{

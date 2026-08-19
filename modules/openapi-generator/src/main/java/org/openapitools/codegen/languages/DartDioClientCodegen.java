@@ -669,15 +669,18 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             return sub;
         }
 
-        // For inherited discriminators, keep only real allOf descendants of this schema
+        // For inherited discriminators, keep real allOf descendants of this schema
         // (e.g. Reptile keeps Crocodile/Turtle, but not Bird from Animal's mapping).
+        // Also preserve alternatives declared directly in this schema's oneOf/anyOf.
         Set<String> descendantSchemaNames = getAllOfDescendants(schemaName).stream()
                 .map(MappedModel::getSchemaName)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
+        Set<String> declaredAlternatives = getComposedAlternativeSchemaNames(schema);
 
         if (ModelUtils.isComposedSchema(schema) && schema.getAllOf() != null) {
             filterMappedModels(sub, mappedModel -> descendantSchemaNames.contains(mappedModel.getSchemaName())
+                    || declaredAlternatives.contains(mappedModel.getSchemaName())
                     || schemaName.equals(mappedModel.getSchemaName()));
         }
 
@@ -799,6 +802,38 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
 
         return null;
+    }
+
+    /**
+     * Gets schema names referenced directly by oneOf/anyOf in the provided schema.
+     */
+    private Set<String> getComposedAlternativeSchemaNames(Schema schema) {
+        Set<String> alternatives = new HashSet<>();
+        if (schema == null || !ModelUtils.isComposedSchema(schema)) {
+            return alternatives;
+        }
+
+        List<Schema> oneOfSchemas = schema.getOneOf();
+        if (oneOfSchemas != null) {
+            for (Schema oneOfSchema : oneOfSchemas) {
+                String ref = oneOfSchema != null ? oneOfSchema.get$ref() : null;
+                if (ref != null) {
+                    alternatives.add(ModelUtils.getSimpleRef(ref));
+                }
+            }
+        }
+
+        List<Schema> anyOfSchemas = schema.getAnyOf();
+        if (anyOfSchemas != null) {
+            for (Schema anyOfSchema : anyOfSchemas) {
+                String ref = anyOfSchema != null ? anyOfSchema.get$ref() : null;
+                if (ref != null) {
+                    alternatives.add(ModelUtils.getSimpleRef(ref));
+                }
+            }
+        }
+
+        return alternatives;
     }
 
     @Override
