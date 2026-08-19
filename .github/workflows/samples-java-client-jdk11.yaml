@@ -13,12 +13,19 @@ on:
       - samples/openapi3/client/petstore/java/native**
       - samples/client/others/java/okhttp-gson-oneOf/**
       - samples/client/others/java/okhttp-gson-oneOf-array/**
+      - samples/client/others/java/okhttp-oneOf/**
+      - samples/client/others/java/okhttp-oneOf-array/**
+      - samples/client/others/java/okhttp-jackson-oneOf/**
+      - samples/client/others/java/okhttp-jackson3-oneOf/**
+      - samples/client/others/java/okhttp-jsonb-oneOf/**
       - samples/client/others/java/resttemplate-useAbstractionForFiles/**
       - samples/client/others/java/webclient-useAbstractionForFiles/**
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
       - samples/client/others/java/okhttp-gson-streaming/**
+      - samples/client/others/java/okhttp-streaming/**
+      - samples/client/echo_api/java/okhttp**
       - samples/client/others/java/resteasy/**
       - samples/client/others/java/apache-httpclient/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
@@ -35,12 +42,19 @@ on:
       - samples/openapi3/client/petstore/java/native**
       - samples/client/others/java/okhttp-gson-oneOf/**
       - samples/client/others/java/okhttp-gson-oneOf-array/**
+      - samples/client/others/java/okhttp-oneOf/**
+      - samples/client/others/java/okhttp-oneOf-array/**
+      - samples/client/others/java/okhttp-jackson-oneOf/**
+      - samples/client/others/java/okhttp-jackson3-oneOf/**
+      - samples/client/others/java/okhttp-jsonb-oneOf/**
       - samples/client/others/java/resttemplate-useAbstractionForFiles/**
       - samples/client/others/java/webclient-useAbstractionForFiles/**
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
       - samples/client/others/java/okhttp-gson-streaming/**
+      - samples/client/others/java/okhttp-streaming/**
+      - samples/client/echo_api/java/okhttp**
       - samples/client/others/java/resteasy/**
       - samples/client/others/java/apache-httpclient/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
@@ -93,24 +107,47 @@ jobs:
           - samples/client/petstore/java/feign-hc5
           - samples/client/petstore/java/feign-no-nullable
           - samples/client/petstore/java/okhttp-gson-awsv4signature
+          - samples/client/petstore/java/okhttp-awsv4signature
           - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
           - samples/openapi3/client/petstore/java/native
           - samples/client/petstore/java/okhttp-gson-swagger1/
+          - samples/client/petstore/java/okhttp-swagger1/
           - samples/client/petstore/java/resttemplate-swagger1/
           - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/
           - samples/client/petstore/java/okhttp-gson-swagger2/
+          - samples/client/petstore/java/okhttp-swagger2/
           - samples/client/petstore/java/resttemplate-swagger2/
           - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/
           - samples/client/others/java/okhttp-gson-oneOf/
           - samples/client/others/java/okhttp-gson-oneOf-array/
+          - samples/client/others/java/okhttp-oneOf/
+          - samples/client/others/java/okhttp-oneOf-array/
+          - samples/client/others/java/okhttp-jackson-oneOf/
+          - samples/client/others/java/okhttp-jackson3-oneOf/
+          - samples/client/others/java/okhttp-jsonb-oneOf/
           - samples/client/echo_api/java/okhttp-gson-user-defined-templates/
+          - samples/client/echo_api/java/okhttp-user-defined-templates/
+          - samples/client/echo_api/java/okhttp-jackson-user-defined-templates/
           - samples/client/others/java/resttemplate-useAbstractionForFiles/
           - samples/client/others/java/webclient-useAbstractionForFiles/
           - samples/client/others/java/jersey2-oneOf-duplicates/
           - samples/client/others/java/jersey2-oneOf-Mixed/
           - samples/client/others/java/resttemplate-list-schema-validation/
           - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/
+          - samples/client/petstore/java/okhttp-3.1-duplicated-operationid/
           - samples/client/others/java/okhttp-gson-streaming/
+          - samples/client/others/java/okhttp-streaming/
+          - samples/client/petstore/java/okhttp-jackson/
+          - samples/client/petstore/java/okhttp-jackson3/
+          - samples/client/petstore/java/okhttp-jsonb/
+          - samples/client/petstore/java/okhttp-jackson-jspecify/
+          - samples/client/petstore/java/okhttp-jackson3-jspecify/
+          - samples/client/petstore/java/okhttp-jsonb-jspecify/
+          - samples/client/petstore/java/okhttp-nullable-required/
+          - samples/client/petstore/java/okhttp-jackson-nullable-required/
+          - samples/client/petstore/java/okhttp-jsonb-nullable-required/
+          - samples/client/petstore/java/okhttp-group-parameter/
+          - samples/client/petstore/java/okhttp-parcelableModel/
           - samples/client/petstore/java/resteasy/
           - samples/client/petstore/java/apache-httpclient/
     steps:
