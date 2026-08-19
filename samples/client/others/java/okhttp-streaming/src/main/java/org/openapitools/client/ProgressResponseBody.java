@@ -28,6 +28,7 @@ public class ProgressResponseBody extends ResponseBody {
 
     private final ResponseBody responseBody;
     private final ApiCallback callback;
+    private BufferedSource bufferedSource;
 
     public ProgressResponseBody(ResponseBody responseBody, ApiCallback callback) {
         this.responseBody = responseBody;
@@ -46,7 +47,12 @@ public class ProgressResponseBody extends ResponseBody {
 
     @Override
     public BufferedSource source() {
-        return Okio.buffer(source(responseBody.source()));
+        // Memoized: OkHttp calls source() again on close(), and a second ForwardingSource would
+        // reset the progress counter and re-wrap an already partially consumed stream.
+        if (bufferedSource == null) {
+            bufferedSource = Okio.buffer(source(responseBody.source()));
+        }
+        return bufferedSource;
     }
 
     private Source source(Source source) {

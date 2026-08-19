@@ -21,6 +21,7 @@ import org.openapitools.client.model.Animal;
 
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import java.io.IOException;
 import java.util.Arrays;

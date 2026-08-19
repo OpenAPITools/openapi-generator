@@ -13,7 +13,6 @@ lazy val root = (project in file(".")).
       "com.squareup.okhttp3" % "okhttp" % "5.4.0",
       "com.squareup.okhttp3" % "logging-interceptor" % "5.4.0",
       "tools.jackson.core" % "jackson-core" % "3.2.1",
-      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.22",
       "tools.jackson.core" % "jackson-databind" % "3.2.1",
       "org.apache.commons" % "commons-lang3" % "3.18.0",
       "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5",

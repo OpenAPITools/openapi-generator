@@ -67,6 +67,7 @@ public class JSON {
                 .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
                 .defaultDateFormat(new RFC3339DateFormat())
                 .addModule(new JavaTimeModule())
+                .addModule(new RFC3339JavaTimeModule())
                 .build();
         }
     }

@@ -47,10 +47,6 @@ public class ProgressRequestBody extends RequestBody {
         callback.onUploadProgress(bytesWritten, contentLength, true);
     }
 
-    private Sink countingSink(Sink sink) {
-        return new CountingSink(sink);
-    }
-
     private final class CountingSink extends ForwardingSink {
 
         private long bytesWritten = 0L;
@@ -68,7 +64,9 @@ public class ProgressRequestBody extends RequestBody {
             }
 
             bytesWritten += byteCount;
-            callback.onUploadProgress(bytesWritten, contentLength, bytesWritten == contentLength);
+            // writeTo emits the single terminal callback once the body is fully written; reporting
+            // done here as well would fire it twice for a known-length body.
+            callback.onUploadProgress(bytesWritten, contentLength, false);
         }
     }
 }
