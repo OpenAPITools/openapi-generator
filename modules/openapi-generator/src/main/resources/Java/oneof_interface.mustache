@@ -1,4 +1,4 @@
-{{>additionalOneOfTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>deductionAnnotation}}{{>xmlAnnotation}}
+{{>additionalOneOfTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{^discriminator}}{{^useDeductionForOneOfInterfaces}}{{>typeInfoAnnotation}}{{/useDeductionForOneOfInterfaces}}{{/discriminator}}{{>deductionAnnotation}}{{>xmlAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}

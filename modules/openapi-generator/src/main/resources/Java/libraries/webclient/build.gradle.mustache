@@ -50,11 +50,6 @@ ext {
     {{^useJackson3}}
     jackson_version = "2.21.5"
     {{/useJackson3}}
-    {{^useSpringBoot4}}
-    {{#useJspecify}}
-    implementation "org.jspecify:jspecify:1.0.0"
-    {{/useJspecify}}
-    {{/useSpringBoot4}}
     jackson_annotations_version = "2.21"
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.11"
@@ -182,6 +177,11 @@ dependencies {
     {{^useJspecify}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     {{/useJspecify}}
+    {{^useSpringBoot4}}
+    {{#useJspecify}}
+    implementation "org.jspecify:jspecify:1.0.0"
+    {{/useJspecify}}
+    {{/useSpringBoot4}}
     implementation "io.projectreactor:reactor-core:$reactor_version"
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
     implementation "io.projectreactor.netty:reactor-netty-http:$reactor_netty_version"

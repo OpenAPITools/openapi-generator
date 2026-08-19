@@ -29,11 +29,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")    @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog.class)
-    @JsonSubTypes({
-        @JsonSubTypes.Type(value = Dog.class), 
-        @JsonSubTypes.Type(value = Cat.class)
-    })
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog.class)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Dog.class), 
+    @JsonSubTypes.Type(value = Cat.class)
+})
 
 public interface Animal {
 }
