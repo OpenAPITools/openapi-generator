@@ -4697,27 +4697,28 @@ public class JavaClientCodegenTest {
     @DataProvider(name = "jspecifyLibraries")
     public Object[][] jspecifyLibraries() {
         return new Object[][]{
-                {"restclient", false, true},
-                {"restclient", true, false},
-                {"webclient", false, true},
-                {"webclient", true, false},
-                {"resttemplate", false, true},
-                {"resttemplate", true, true},
-                {"native", false, true}
+                {"restclient", 3, true},
+                {"restclient", 4, false},
+                {"webclient", 3, true},
+                {"webclient", 4, false},
+                {"resttemplate", 3, true},
+                {"resttemplate", 4, true},
+                {"native", 3, true}
         };
     }
 
     @Test(dataProvider = "jspecifyLibraries")
-    public void testJspecify(String library, boolean useSpringBoot4, boolean hasJspecifyDependency) throws IOException {
+    public void testJspecify(String library, int springBootVersion, boolean hasJspecifyDependency) throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
                         "containerDefaultToNull", true,
-                        USE_SPRING_BOOT4, useSpringBoot4,
+                        USE_SPRING_BOOT4, springBootVersion == 4,
                         JavaClientCodegen.OPENAPI_NULLABLE, false,
                         GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
                         GENERATE_BUILDERS, true,
-                        USE_ABSTRACTION_FOR_FILES, true
-                ),
+                        USE_ABSTRACTION_FOR_FILES, true,
+                        ANNOTATION_LIBRARY, "swagger2"
+                        ),
                 codegenConfigurator ->
                         codegenConfigurator
                                 .setValidateSpec(false)
@@ -4760,6 +4761,16 @@ public class JavaClientCodegenTest {
                     .fileContains(
                         "public Foo(@JsonProperty(JSON_PROPERTY_DT) java.time.@Nullable Instant dt, @JsonProperty(JSON_PROPERTY_NULLABLE_DT) java.time.@Nullable Instant nullableDt, @JsonProperty(JSON_PROPERTY_BINARY) @Nullable File binary, @JsonProperty(JSON_PROPERTY_NULLABLE_BINARY) @Nullable File nullableBinary, @JsonProperty(JSON_PROPERTY_LIST_OF_DT) @Nullable List<java.time.Instant> listOfDt, @JsonProperty(JSON_PROPERTY_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> listMinIntems, @JsonProperty(JSON_PROPERTY_NULLABLE_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> nullableListMinIntems, @JsonProperty(JSON_PROPERTY_REQUIRED_DT) java.time.Instant requiredDt, @JsonProperty(JSON_PROPERTY_NUMBER) java.math.@Nullable BigDecimal number, @JsonProperty(JSON_PROPERTY_NULLABLE_NUMBER) java.math.@Nullable BigDecimal nullableNumber, @JsonProperty(JSON_PROPERTY_COLOR) @Nullable String color, @JsonProperty(JSON_PROPERTY_REQUIRED_COLOR) String requiredColor, @JsonProperty(JSON_PROPERTY_NULLABLE_COLOR) @Nullable String nullableColor) {");
         }
+        JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
+                .fileContains(
+                        "void setStr(@Nullable String str)",
+                        "RequiredAndNullable str(@Nullable String str)",
+                        "@Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = \"\", nullable = true)");
+        JavaFileAssert.assertThat(files.get("FileContent.java"))
+                .fileContains(
+                        "private @Nullable VirusScanEnum virusScan",
+                        "FileContent.Builder virusScan(@Nullable VirusScanEnum virusScan)"
+                );
         if (!RESTTEMPLATE.equals(library)) {
             JavaFileAssert.assertThat(files.get("FooApi.java"))
                     .fileContains("fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)");
@@ -4778,14 +4789,15 @@ public class JavaClientCodegenTest {
     }
 
     @Test(dataProvider = "jspecifyLibraries")
-    public void testJspecify_openapiNullable(String library, boolean useSpringBoot4, boolean hasJspecifyDependency) throws IOException {
+    public void testJspecify_openapiNullable(String library, int springBootVersion, boolean hasJspecifyDependency) throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
                         "containerDefaultToNull", true,
-                        USE_SPRING_BOOT4, useSpringBoot4,
+                        USE_SPRING_BOOT4, springBootVersion == 4,
                         JavaClientCodegen.OPENAPI_NULLABLE, true,
                         GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
-                        GENERATE_BUILDERS, true
+                        GENERATE_BUILDERS, true,
+                        ANNOTATION_LIBRARY, "swagger2"
                 ),
                 codegenConfigurator ->
                         codegenConfigurator

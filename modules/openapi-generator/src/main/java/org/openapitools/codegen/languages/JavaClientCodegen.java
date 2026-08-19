@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -1411,8 +1412,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator),
                     "package-info.java"));
         }
+        String nullableAnnotation = "@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable";
         //  nullable_var_annotations.mustache generates nullable annotations as @{{javaxPackage}}.annotation.Nullable
         // override the default pattern for the "find and replace"
-        jSpecifyNullableLambda.setNullableAnnotation("@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable");
+        jSpecifyNullableLambda.setNullableAnnotation(nullableAnnotation);
     }
 }
