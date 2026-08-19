@@ -10,7 +10,7 @@ All URIs are relative to *http://localhost*
 
 ## fileIdGet
 
-> fileIdGet(id)
+> FileContent fileIdGet(id)
 
 
 
@@ -32,7 +32,8 @@ public class Example {
         FileApi apiInstance = new FileApi(defaultClient);
         String id = "id_example"; // String | 
         try {
-            apiInstance.fileIdGet(id);
+            FileContent result = apiInstance.fileIdGet(id);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FileApi#fileIdGet");
             System.err.println("Status code: " + e.getCode());
@@ -53,7 +54,7 @@ public class Example {
 
 ### Return type
 
-null (empty response body)
+[**FileContent**](FileContent.md)
 
 ### Authorization
 
@@ -62,7 +63,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ### HTTP response details

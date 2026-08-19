@@ -6,6 +6,8 @@ info:
 servers:
 - url: /
 tags:
+- description: requiredAndNullable
+  name: requiredAndNullable
 - description: foo
   name: foo
 - description: upload
@@ -59,6 +61,27 @@ paths:
       - foo
       x-accepts:
       - application/json
+  /requiredAndNullable:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequiredAndNullable"
+        description: bodyWithRequiredAndNullableAttributes
+        required: true
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequiredAndNullable"
+          description: response
+      tags:
+      - requiredAndNullable
+      x-content-type: application/json
+      x-accepts:
+      - application/json
   /upload:
     post:
       requestBody:
@@ -103,6 +126,10 @@ paths:
         style: simple
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileContent"
           description: ok
       tags:
       - file
@@ -185,6 +212,62 @@ components:
       required:
       - requiredColor
       - requiredDt
+    RequiredAndNullable:
+      example:
+        str: str
+        file: ""
+        color: red
+        onlyRequired: onlyRequired
+        list:
+        - list
+        - list
+      properties:
+        str:
+          nullable: true
+          type: string
+        file:
+          format: binary
+          nullable: true
+          type: string
+        color:
+          default: red
+          nullable: true
+          type: string
+        onlyRequired:
+          type: string
+        list:
+          items:
+            type: string
+          nullable: true
+          type: array
+      required:
+      - color
+      - file
+      - list
+      - onlyRequired
+      - str
+      type: object
+    FileContent:
+      example:
+        name: name
+        size: 0
+        virusScan: clean
+      properties:
+        name:
+          readOnly: true
+          type: string
+        size:
+          readOnly: true
+          type: integer
+        virusScan:
+          enum:
+          - clean
+          - detected
+          readOnly: true
+          type: string
+      required:
+      - name
+      type: object
     _upload_post_request:
       properties:
         file:
