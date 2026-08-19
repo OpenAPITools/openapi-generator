@@ -19,40 +19,13 @@ part 'cat.g.dart';
   disallowUnrecognizedKeys: false,
   explicitToJson: true,
 )
-class Cat {
-  /// Returns a new [Cat] instance.
+class Cat extends Animal {
+/// Returns a new [Cat] instance.
   Cat({
-
-    required  this.className,
-
-     this.color = 'red',
-
      this.declawed,
+    required  super.className,
+     super.color = 'red',
   });
-
-  @JsonKey(
-    
-    name: r'className',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final String className;
-
-
-
-  @JsonKey(
-    defaultValue: 'red',
-    name: r'color',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? color;
-
-
 
   @JsonKey(
     
@@ -70,6 +43,7 @@ class Cat {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Cat &&
+    runtimeType == other.runtimeType &&
       other.className == className &&
       other.color == color &&
       other.declawed == declawed;

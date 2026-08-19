@@ -16,32 +16,20 @@ part 'nullable_class.g.dart';
   disallowUnrecognizedKeys: false,
   explicitToJson: true,
 )
-class NullableClass {
-  /// Returns a new [NullableClass] instance.
+class NullableClass extends Object {
+/// Returns a new [NullableClass] instance.
   NullableClass({
-
      this.integerProp,
-
      this.numberProp,
-
      this.booleanProp,
-
      this.stringProp,
-
      this.dateProp,
-
      this.datetimeProp,
-
      this.arrayNullableProp,
-
      this.arrayAndItemsNullableProp,
-
      this.arrayItemsNullable,
-
      this.objectNullableProp,
-
      this.objectAndItemsNullableProp,
-
      this.objectItemsNullable,
   });
 
@@ -193,6 +181,7 @@ class NullableClass {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
+    runtimeType == other.runtimeType &&
       other.integerProp == integerProp &&
       other.numberProp == numberProp &&
       other.booleanProp == booleanProp &&
