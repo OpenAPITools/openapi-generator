@@ -1,5 +1,7 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { ApiImplementations } from './api-implementations'
+import { FakeApi } from './api';
+import { FakeApiController } from './controllers';
 import { PetApi } from './api';
 import { PetApiController } from './controllers';
 import { StoreApi } from './api';
@@ -23,6 +25,10 @@ export class ApiModule {
   static forRoot(configuration: ApiModuleConfiguration): DynamicModule {
       const providers: Provider[] = [
         {
+          provide: FakeApi,
+          useClass: configuration.apiImplementations.fakeApi
+        },
+        {
           provide: PetApi,
           useClass: configuration.apiImplementations.petApi
         },
@@ -40,6 +46,7 @@ export class ApiModule {
       return {
         module: ApiModule,
         controllers: [
+          FakeApiController,
           PetApiController,
           StoreApiController,
           UserApiController,
