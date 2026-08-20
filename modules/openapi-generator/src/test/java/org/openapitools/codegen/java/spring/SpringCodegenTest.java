@@ -1207,6 +1207,35 @@ public class SpringCodegenTest {
 
 
     @Test
+    public void modelNamedTagDoesNotClashWithSwaggerTagAnnotation() throws IOException {
+        // A model named `Tag` collides with io.swagger.v3.oas.annotations.tags.Tag. Importing both
+        // is a duplicate single-type-import, which javac rejects outright, so the generated api
+        // must fall back to the fully qualified annotation name and skip the import.
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/model-named-tag.yaml", null, new ParseOptions())
+                .getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        Path api = files.get("TagApi.java").toPath();
+        assertFileNotContains(api, "import io.swagger.v3.oas.annotations.tags.Tag;");
+        assertFileContains(api, "@io.swagger.v3.oas.annotations.tags.Tag(name = \"pets\"");
+        // the model import must still be there -- that is the type actually used in signatures
+        assertFileContains(api, "import org.openapitools.model.Tag;");
+    }
+
+    @Test
     public void shouldUseTagsForClassname() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
