@@ -80,9 +80,9 @@ try {
 ```
 
 ### Parameters
-| **metadata** | [**Bird**](Bird.md)|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **metadata** | [**Bird**](Bird.md)|  | |
 | **file** | **io.ktor.client.request.forms.FormPart&lt;io.ktor.client.request.forms.InputProvider&gt;**|  | |
 
 ### Return type

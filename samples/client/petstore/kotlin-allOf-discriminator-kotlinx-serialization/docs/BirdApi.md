@@ -80,9 +80,9 @@ try {
 ```
 
 ### Parameters
-| **metadata** | [**Bird**](Bird.md)|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **metadata** | [**Bird**](Bird.md)|  | |
 | **file** | **java.io.File**|  | |
 
 ### Return type
