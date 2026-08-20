@@ -7190,9 +7190,13 @@ public class SpringCodegenTest {
                         "java.time.@Nullable Instant dtCookie"
                 );
         if (SPRING_HTTP_INTERFACE.equals(library)) {
-            fooApi.fileContains("@RequestParam(value = \"color\", required = false, defaultValue = \"red\") @Nullable String color");
+            fooApi.fileContains(
+                        "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") @Nullable String color"
+                    );
         } else {
-            fooApi.fileContains("@RequestParam(value = \"color\", required = false, defaultValue = \"red\") String color");
+            fooApi.fileContains(
+                        "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") String color"
+                    );
         }
         JavaFileAssert.assertThat(files.get("FileContent.java"))
                 .fileContains("VirusScanEnum getVirusScan()");
