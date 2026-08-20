@@ -71,8 +71,8 @@ export function EnumArraysFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function EnumArraysToJSON(json: any): EnumArrays {
-    return EnumArraysToJSONTyped(json, false);
+export function EnumArraysToJSON(value?: EnumArrays | null): any {
+    return EnumArraysToJSONTyped(value, false);
 }
 
 export function EnumArraysToJSONTyped(value?: EnumArrays | null, ignoreDiscriminator: boolean = false): any {

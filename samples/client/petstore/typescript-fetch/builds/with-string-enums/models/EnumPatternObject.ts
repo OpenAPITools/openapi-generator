@@ -78,8 +78,8 @@ export function EnumPatternObjectFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function EnumPatternObjectToJSON(json: any): EnumPatternObject {
-    return EnumPatternObjectToJSONTyped(json, false);
+export function EnumPatternObjectToJSON(value?: EnumPatternObject | null): any {
+    return EnumPatternObjectToJSONTyped(value, false);
 }
 
 export function EnumPatternObjectToJSONTyped(value?: EnumPatternObject | null, ignoreDiscriminator: boolean = false): any {
