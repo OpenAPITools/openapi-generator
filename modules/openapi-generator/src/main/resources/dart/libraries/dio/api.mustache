@@ -51,7 +51,7 @@ class {{classname}} {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}}.toString()){{/pathParams}};
+    final _path = r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{#includeLibraryTemplate}}api/path_param{{/includeLibraryTemplate}}){{/pathParams}};
     final _options = Options(
       method: r'{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}',
       {{#isResponseFile}}
@@ -86,7 +86,14 @@ class {{classname}} {
       {{#queryParams}}
       {{^required}}if ({{{paramName}}} != null) {{/required}}r'{{baseName}}': {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}},
       {{/queryParams}}
-    };{{/hasQueryParams}}{{#hasBodyOrFormParams}}
+    };
+    removeNullQueryParametersExcept(
+      _queryParameters,
+      <String>{
+        {{#queryParams}}{{#required}}{{#isNullable}}r'{{baseName}}',
+        {{/isNullable}}{{/required}}{{/queryParams}}
+      },
+    );{{/hasQueryParams}}{{#hasBodyOrFormParams}}
 
     dynamic _bodyData;
 

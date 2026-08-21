@@ -394,4 +394,57 @@ public class DartDioClientCodegenTest {
                 "const FullType(BuiltMap, [FullType(String), FullType(BuiltList, [FullType(Widget)])]),",
                 "() => MapBuilder<String, BuiltList<Widget>>(),");
     }
+
+    /**
+     * Regression test for nullable collection item types in serializers.dart.
+     *
+     * <p>When a list or set property has a nullable item type (e.g.
+     * {@code items: { type: number, nullable: true }}), the generated
+     * {@code addBuilderFactory} call must use {@code ListBuilder<double?>()}
+     * (or {@code SetBuilder<String?>()}) to match the emitted
+     * {@code FullType.nullable(double)} / {@code FullType.nullable(String)}.
+     *
+     * <p>Before the fix, the builder instantiation was
+     * {@code ListBuilder<double>()} — without the {@code ?} — causing a
+     * {@code FullType} mismatch at runtime.
+     */
+    @Test
+    public void testNullableCollectionItemsGetNullableBuilderFactory() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/built_value_nullable_collection_items.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path serializers = output.toPath().resolve("lib/src/serializers.dart");
+
+        // BuiltList with nullable double items: FullType must be .nullable and
+        // the builder factory must carry the ? on the type argument.
+        TestUtils.assertFileContains(serializers,
+                "const FullType(BuiltList, [FullType.nullable(double)]),",
+                "() => ListBuilder<double?>(),");
+
+        // BuiltSet with nullable String items.
+        TestUtils.assertFileContains(serializers,
+                "const FullType(BuiltSet, [FullType.nullable(String)]),",
+                "() => SetBuilder<String?>(),");
+
+        // BuiltMap with nullable String values.
+        TestUtils.assertFileContains(serializers,
+                "const FullType(BuiltMap, [FullType(String), FullType.nullable(String)]),",
+                "() => MapBuilder<String, String?>(),");
+
+        // Negative: non-nullable builder variants must NOT appear.
+        TestUtils.assertFileNotContains(serializers,
+                "() => ListBuilder<double>(),");
+        TestUtils.assertFileNotContains(serializers,
+                "() => SetBuilder<String>(),");
+    }
 }

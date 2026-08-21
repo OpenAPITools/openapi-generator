@@ -38,7 +38,7 @@ dynamic encodeQueryParameter(
   FullType type,
 ) {
   if (value == null) {
-    return '';
+    return null;
   }
   if (value is String || value is num || value is bool) {
     return value;
@@ -52,7 +52,7 @@ dynamic encodeQueryParameter(
     specifiedType: type,
   );
   if (serialized == null) {
-    return '';
+    return null;
   }
   if (serialized is String) {
     return serialized;
@@ -60,18 +60,31 @@ dynamic encodeQueryParameter(
   return serialized;
 }
 
-ListParam<Object?> encodeCollectionQueryParameter<T>(
+ListParam<Object?>? encodeCollectionQueryParameter<T>(
   Serializers serializers,
   dynamic value,
   FullType type, {
   ListFormat format = ListFormat.multi,
 }) {
+  if (value == null) {
+    return null;
+  }
   final serialized = serializers.serialize(
     value as Object,
     specifiedType: type,
   );
+  if (serialized == null) {
+    return null;
+  }
   if (value is BuiltList<T> || value is BuiltSet<T>) {
     return ListParam(List.of((serialized as Iterable<Object?>).cast()), format);
   }
   throw ArgumentError('Invalid value passed to encodeCollectionQueryParameter');
+}
+
+void removeNullQueryParametersExcept(
+  Map<String, dynamic> queryParameters,
+  Set<String> requiredParameters,
+) {
+  queryParameters.removeWhere((key, value) => value == null && !requiredParameters.contains(key));
 }

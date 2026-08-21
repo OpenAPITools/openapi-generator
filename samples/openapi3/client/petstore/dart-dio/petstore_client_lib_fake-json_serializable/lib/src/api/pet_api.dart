@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
+import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/api_response.dart';
 import 'package:openapi/src/model/pet.dart';
 
@@ -188,6 +189,12 @@ class PetApi {
     final _queryParameters = <String, dynamic>{
       r'status': status,
     };
+    removeNullQueryParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     final _response = await _dio.request<Object>(
       _path,
@@ -271,6 +278,12 @@ _responseData = rawData == null ? null : deserialize<List<Pet>, Pet>(rawData, 'L
     final _queryParameters = <String, dynamic>{
       r'tags': tags,
     };
+    removeNullQueryParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     final _response = await _dio.request<Object>(
       _path,

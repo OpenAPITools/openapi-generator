@@ -266,7 +266,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', encodeQueryParameter(_serializers, username, const FullType(String)).toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -320,7 +320,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', encodeQueryParameter(_serializers, username, const FullType(String)).toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -414,6 +414,12 @@ class UserApi {
       r'username': encodeQueryParameter(_serializers, username, const FullType(String)),
       r'password': encodeQueryParameter(_serializers, password, const FullType(String)),
     };
+    removeNullQueryParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     final _response = await _dio.request<Object>(
       _path,
@@ -529,7 +535,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', encodeQueryParameter(_serializers, username, const FullType(String)).toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
