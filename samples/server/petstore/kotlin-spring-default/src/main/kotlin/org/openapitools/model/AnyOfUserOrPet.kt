@@ -42,17 +42,17 @@ data class AnyOfUserOrPet(
 
     @Schema(required = true, description = "")
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("username")
+    @param:JsonProperty("username", required = true)
     @get:JsonProperty("username", required = true) val username: kotlin.String,
 
     @Schema(example = "doggie", required = true, description = "")
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("name")
+    @param:JsonProperty("name", required = true)
     @get:JsonProperty("name", required = true) val name: kotlin.String,
 
     @Schema(required = true, description = "")
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("photoUrls")
+    @param:JsonProperty("photoUrls", required = true)
     @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @Schema(description = "")
