@@ -494,6 +494,31 @@ public class SpringPageableScanUtilsTest {
     }
 
     @Test
+    public void applyPageableAnnotations_usesOriginalOperationIdForRegistryLookup() {
+        CodegenOperation op = minimalOp("listItems");
+        op.operationIdOriginal = "list-items";
+
+        Map<String, SpringPageableScanUtils.PageableConstraintsData> constraintsRegistry =
+                Collections.singletonMap("list-items", new SpringPageableScanUtils.PageableConstraintsData(50, 100, -1, -1));
+        Map<String, List<String>> sortValidationRegistry =
+                Collections.singletonMap("list-items", List.of("id,asc", "name,desc"));
+        Map<String, SpringPageableScanUtils.PageableDefaultsData> defaultsRegistry =
+                Collections.singletonMap("list-items", new SpringPageableScanUtils.PageableDefaultsData(
+                        0, 25, List.of(new SpringPageableScanUtils.SortFieldDefault("name", "DESC"))));
+
+        SpringPageableScanUtils.applyPageableAnnotations(op, true, true, constraintsRegistry,
+                true, sortValidationRegistry, defaultsRegistry,
+                SpringPageableScanUtils.AnnotationSyntax.JAVA);
+
+        List<String> annotations = (List<String>) op.vendorExtensions.get("x-pageable-extra-annotation");
+        assertThat(annotations).containsExactly(
+                "@ValidPageable(maxSize = 100, maxPage = 50)",
+                "@ValidSort(allowedValues = {\"id,asc\", \"name,desc\"})",
+                "@PageableDefault(page = 0, size = 25)",
+                "@SortDefault.SortDefaults({@SortDefault(sort = {\"name\"}, direction = Sort.Direction.DESC)})");
+    }
+
+    @Test
     public void applyPageableAnnotations_noMatchingRegistryEntries_noAnnotationsAdded() {
         CodegenOperation op = minimalOp("someOtherOp");
 
