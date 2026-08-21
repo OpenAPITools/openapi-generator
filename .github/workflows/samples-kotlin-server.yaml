@@ -41,6 +41,7 @@ jobs:
           - samples/server/petstore/kotlin-springboot-source-swagger2
           - samples/server/petstore/kotlin-springboot-x-kotlin-implements
           - samples/server/petstore/kotlin-springboot-include-http-request-context-delegate
+          - samples/server/petstore/kotlin-spring-issue8366-inheritance-parent-ctor-call
           - samples/server/petstore/kotlin-server/ktor2
           - samples/server/petstore/kotlin-server/jaxrs-spec
           - samples/server/petstore/kotlin-server/jaxrs-spec-mutiny
