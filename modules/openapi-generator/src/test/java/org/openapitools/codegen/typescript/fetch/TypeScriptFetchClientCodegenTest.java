@@ -68,6 +68,32 @@ public class TypeScriptFetchClientCodegenTest {
     }
 
     @Test
+    public void testAnyTypeFormParamUsesQualifiedAnyToJSON() throws IOException {
+        // A form parameter with no type at all is "any type", not a free-form object. dataType is
+        // `any`, so `{{dataType}}ToJSON` renders as a bare `anyToJSON` -- but apis.ts only imports
+        // the runtime as `* as runtime`, so that identifier does not exist and the output does not
+        // compile. anyToJSON has to be referenced through the runtime namespace, the same way the
+        // free-form object case already does.
+        final String specPath = "src/test/resources/3_0/typescript-fetch/any-type-form-param.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec(specPath)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(api, "runtime.anyToJSON(requestParameters['meta'])");
+        TestUtils.assertFileNotContains(api, "JSON.stringify(anyToJSON(");
+    }
+
+    @Test
     public void testMergesContentTypeVariantsIntoOneMethod() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();

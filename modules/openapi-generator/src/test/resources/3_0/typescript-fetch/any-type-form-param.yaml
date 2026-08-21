@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  title: any-typed multipart form parameter
+  version: 1.0.0
+paths:
+  /upload:
+    post:
+      operationId: upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                # no type at all -> "any type", not a free-form object
+                meta:
+                  description: can be any type
+      responses:
+        "200":
+          description: ok
