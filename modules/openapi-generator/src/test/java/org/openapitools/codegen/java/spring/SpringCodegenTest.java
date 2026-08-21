@@ -7184,17 +7184,17 @@ public class SpringCodegenTest {
                         "javax.annotation.Nullable",
                         "jakarta.annotation.Nullable")
                 .assertMethod("getRequiredDt").assertMethodAnnotations().containsWithName("NotNull").containsWithName("Valid");
-        JavaFileAssert fooApiAsset = JavaFileAssert.assertThat(files.get("FooApi.java"))
+        JavaFileAssert fooApiAssert = JavaFileAssert.assertThat(files.get("FooApi.java"))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "java.time.@Nullable Instant dtParam",
                         "java.time.@Nullable Instant dtQuery",
                         "java.time.@Nullable Instant dtCookie");
         if (SPRING_HTTP_INTERFACE.equals(library)) {
-            fooApiAsset.fileContains(
+            fooApiAssert.fileContains(
                         "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") @Nullable String color");
         } else {
-            fooApiAsset.fileContains(
+            fooApiAssert.fileContains(
                     "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") String color");
         }
         JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
