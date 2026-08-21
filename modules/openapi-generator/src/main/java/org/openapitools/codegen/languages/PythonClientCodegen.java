@@ -475,6 +475,12 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         modelPackage = this.packageName + "." + modelPackage;
         apiPackage = this.packageName + "." + apiPackage;
+
+        // the template bundles apply additionalProperties on top of the values derived here,
+        // so the fully qualified names must be written back or user-supplied ones would shadow
+        // them and produce imports missing the package prefix (#3285)
+        additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
     }
 
     public boolean getUseOneOfDiscriminatorLookup() {
