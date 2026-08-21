@@ -85,6 +85,8 @@ jobs:
           - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization
           - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-nonPublicApi
           - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-explicitApi
+          - samples/client/petstore/kotlin-allOf-special-discriminator-kotlinx-serialization
+          - samples/client/petstore/kotlin-multiplatform-allOf-special-discriminator
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v5.7.0
