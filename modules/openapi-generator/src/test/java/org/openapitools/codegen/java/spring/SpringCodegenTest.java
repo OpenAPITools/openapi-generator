@@ -7190,6 +7190,8 @@ public class SpringCodegenTest {
                         "java.time.@Nullable Instant dtParam",
                         "java.time.@Nullable Instant dtQuery",
                         "java.time.@Nullable Instant dtCookie");
+
+        // SPRING_HTTP_INTERFACE has other requirements for default in api arguments
         if (SPRING_HTTP_INTERFACE.equals(library)) {
             fooApiAssert.fileContains(
                         "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") @Nullable String color");
@@ -7197,6 +7199,7 @@ public class SpringCodegenTest {
             fooApiAssert.fileContains(
                     "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") String color");
         }
+
         JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
                 .fileContains(
                         "private @Nullable String str = null;",
