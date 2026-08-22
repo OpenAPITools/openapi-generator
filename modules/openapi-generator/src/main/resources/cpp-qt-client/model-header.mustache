@@ -1,5 +1,5 @@
 {{>licenseInfo}}
-{{#models}}{{#model}}/*
+{{#models}}{{#model}}{{#discriminator}}{{>model-oneof}}{{/discriminator}}{{^discriminator}}/*
  * {{classname}}.h
  *
  * {{description}}
@@ -10,6 +10,7 @@
 
 #include <QJsonObject>
 
+{{/discriminator}}
 {{/model}}{{/models}}{{#imports}}{{{import}}}
 {{/imports}}
 
@@ -18,6 +19,7 @@
 
 {{#models}}
 {{#model}}
+{{^discriminator}}
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
@@ -76,5 +78,6 @@ private:
 Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{classname}})
 
 #endif // {{classname}}_H
+{{/discriminator}}
 {{/model}}
 {{/models}}

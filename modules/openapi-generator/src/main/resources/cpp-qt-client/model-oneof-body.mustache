@@ -1,0 +1,142 @@
+#include "{{classname}}.h"
+
+#include <QDebug>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QObject>
+#include <QJsonValue>
+#include <variant>
+#include <memory>
+
+{{#discriminator}}
+{{#mappedModels}}
+#include "{{modelName}}.h"
+{{/mappedModels}}
+{{/discriminator}}
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+{{classname}}::{{classname}}() {
+    this->initializeModel();
+}
+
+{{classname}}::{{classname}}(QString json) {
+    this->initializeModel();
+    this->fromJson(json);
+}
+
+{{classname}}::~{{classname}}() {}
+
+void {{classname}}::initializeModel() {
+    m_actualInstance = std::monostate{};
+    m_discriminatorValue = QString();
+}
+
+void {{classname}}::fromJson(QString jsonString) {
+    QByteArray array(jsonString.toStdString().c_str());
+    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonObject jsonObject = doc.object();
+    this->fromJsonObject(jsonObject);
+}
+
+void {{classname}}::fromJsonObject(QJsonObject json) {
+{{#discriminator}}
+    m_discriminatorValue = json["{{propertyName}}"].toString();
+{{/discriminator}}
+    
+{{#discriminator}}
+{{#mappedModels}}
+    if (m_discriminatorValue == "{{mappingName}}") {
+        auto instance = std::make_shared<{{modelName}}>();
+        instance->fromJsonObject(json);
+        m_actualInstance = instance;
+        return;
+    }
+{{/mappedModels}}
+{{/discriminator}}
+    
+    qWarning() << "{{classname}}: Unknown discriminator value '" << m_discriminatorValue << "'";
+}
+
+QString {{classname}}::asJson() const {
+    return std::visit([](const auto& value) -> QString {
+        using T = std::decay_t<decltype(value)>;
+        if constexpr (std::is_same_v<T, std::monostate>) {
+            return QString();
+        } else {
+            return value->asJson();
+        }
+    }, m_actualInstance);
+}
+
+QJsonObject {{classname}}::asJsonObject() const {
+    return std::visit([this](const auto& value) -> QJsonObject {
+        using T = std::decay_t<decltype(value)>;
+        if constexpr (std::is_same_v<T, std::monostate>) {
+            return QJsonObject();
+        } else {
+            QJsonObject obj = value->asJsonObject();
+{{#discriminator}}
+            if (!m_discriminatorValue.isEmpty()) {
+                obj.insert(QString("{{propertyName}}"), QJsonValue(m_discriminatorValue));
+            }
+{{/discriminator}}
+            return obj;
+        }
+    }, m_actualInstance);
+}
+
+bool {{classname}}::isSet() const {
+    return !std::holds_alternative<std::monostate>(m_actualInstance) && !m_discriminatorValue.isEmpty();
+}
+
+
+bool {{classname}}::isValid() const {
+    return std::visit([](const auto& value) -> bool {
+        using T = std::decay_t<decltype(value)>;
+        if constexpr (std::is_same_v<T, std::monostate>) {
+            return false;
+        } else {
+            return value->isValid();
+        }
+    }, m_actualInstance);
+}
+
+void {{classname}}::setValue(const {{classname}}::VariantType &value) {
+    m_actualInstance = value;
+    
+    // Determine discriminator value by visiting the variant
+    std::visit([this](const auto& v) {
+        using T = std::decay_t<decltype(v)>;
+        if constexpr (std::is_same_v<T, std::monostate>) {
+            m_discriminatorValue = QString();
+        } else {
+{{#discriminator}}
+{{#mappedModels}}
+            if constexpr (std::is_same_v<T, std::shared_ptr<{{modelName}}>>) {
+                m_discriminatorValue = "{{mappingName}}";
+            }
+{{/mappedModels}}
+{{/discriminator}}
+        }
+    }, value);
+}
+
+{{#discriminator}}
+{{#mappedModels}}
+bool {{classname}}::is{{modelName}}() const {
+    return std::holds_alternative<std::shared_ptr<{{modelName}}>>(m_actualInstance);
+}
+
+std::shared_ptr<{{modelName}}> {{classname}}::as{{modelName}}() const {
+    auto ptr = std::get_if<std::shared_ptr<{{modelName}}>>(const_cast<VariantType *>(&m_actualInstance));
+    return ptr ? *ptr : nullptr;
+}
+{{/mappedModels}}
+{{/discriminator}}
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
