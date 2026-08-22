@@ -154,6 +154,12 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{^lombok.Data}}
 
   {{! begin feature: fluent setter methods }}
+  {{#deprecated}}
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} {{name}}({{>nullableArgument_chainSetter}} {{name}}) {
     {{#openApiNullable}}
     this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.of{{#optionalAcceptNullable}}Nullable{{/optionalAcceptNullable}}({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
@@ -165,6 +171,12 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   }
   {{#isArray}}
 
+  {{#deprecated}}
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent() || this.{{name}}.get() == null{{/isNullable}}) {
@@ -183,6 +195,12 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{/isArray}}
   {{#isMap}}
 
+  {{#deprecated}}
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent() || this.{{name}}.get() == null{{/isNullable}}) {
@@ -270,12 +288,24 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
 
   {{^lombok.Setter}}
   {{! begin feature: fluent setter methods for inherited properties }}
+  {{#deprecated}}
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     super.{{name}}({{name}});
     return this;
   }
   {{#isArray}}
 
+  {{#deprecated}}
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     super.add{{nameInPascalCase}}Item({{name}}Item);
     return this;
@@ -283,6 +313,12 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{/isArray}}
   {{#isMap}}
 
+  {{#deprecated}}
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     super.put{{nameInPascalCase}}Item(key, {{name}}Item);
     return this;
