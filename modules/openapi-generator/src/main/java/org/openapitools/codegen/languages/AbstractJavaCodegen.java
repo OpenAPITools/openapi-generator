@@ -57,7 +57,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.lang.model.SourceVersion;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -229,6 +228,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
+
+    protected Map<String, String> typeInfoDefaultImpls = new HashMap<>();
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -746,6 +747,26 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             for (String modelName : objs.keySet()) {
                 Map<String, Object> models = objs.get(modelName);
                 models.put(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, additionalEnumTypeAnnotations);
+            }
+        }
+
+        // Resolve x-jackson-default-impl and typeInfoDefaultImpls into x-jackson-resolved-default-impl
+        // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
+        // and discriminator-based oneOf interfaces.
+        if (!typeInfoDefaultImpls.isEmpty() || allModels.values().stream()
+                .anyMatch(cm -> cm.vendorExtensions.containsKey(VendorExtension.X_JACKSON_DEFAULT_IMPL.getName()))) {
+            for (CodegenModel cm : allModels.values()) {
+                String resolved = JacksonDefaultImplResolver.resolve(
+                        typeInfoDefaultImpls, cm, this::toModelName, allModels.keySet(), LOGGER::warn);
+                if (resolved != null && !resolved.isBlank()) {
+                    cm.vendorExtensions.put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
+                    // When a discriminator is present, the typeInfoAnnotation partial is rendered
+                    // inside {{#discriminator}}, so the template engine resolves 'vendorExtensions'
+                    // against CodegenDiscriminator (not CodegenModel). Store there too.
+                    if (cm.discriminator != null) {
+                        cm.discriminator.getVendorExtensions().put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
+                    }
+                }
             }
         }
 

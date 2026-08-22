@@ -24,6 +24,11 @@ sourceSets {
     main.java.srcDirs = ['src/main/java']
 }
 
+ext {
+    jakarta_annotation_version = "1.3.5"
+    bean_validation_version = "2.0.2"
+}
+
 if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
@@ -101,11 +106,6 @@ if(hasProperty('target') && target == 'android') {
        mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
-}
-
-ext {
-    jakarta_annotation_version = "1.3.5"
-    bean_validation_version = "2.0.2"
 }
 
 dependencies {
