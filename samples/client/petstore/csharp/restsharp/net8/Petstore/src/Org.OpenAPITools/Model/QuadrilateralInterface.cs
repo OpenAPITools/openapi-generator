@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets QuadrilateralType
         /// </summary>
-        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = false)]
         public string QuadrilateralType { get; set; }
 
         /// <summary>
