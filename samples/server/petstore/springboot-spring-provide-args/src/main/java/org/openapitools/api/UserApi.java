@@ -76,7 +76,7 @@ public interface UserApi {
         @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password,
         @Parameter(hidden = true) @Value("${server.port}") String someValue,
-        @Parameter(hidden = true) @RequestHeader(value="x-project-id", required = false) String someHeaderValue,
+        @Parameter(hidden = true) @RequestHeader(value = "x-project-id", required = false) String someHeaderValue,
         @Parameter(hidden = true) @RequestHeader final HttpHeaders headers,
         @Parameter(hidden = true) Principal principal,
         @Parameter(hidden = true) @Qualifier("jacksonObjectMapper") ObjectMapper mapper
@@ -106,7 +106,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> logoutUser(
         @Parameter(hidden = true) @Value("${server.port}") String somePropertyValue,
-        @Parameter(hidden = true) @RequestHeader(value="x-project-id", required = false) String someHeaderValue,
+        @Parameter(hidden = true) @RequestHeader(value = "x-project-id", required = false) String someHeaderValue,
         @Parameter(hidden = true) @RequestHeader final HttpHeaders headers,
         @Parameter(hidden = true) Principal principal,
         @Parameter(hidden = true) @Qualifier("jacksonObjectMapper") ObjectMapper mapper
