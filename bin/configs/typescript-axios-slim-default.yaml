@@ -1,0 +1,4 @@
+generatorName: typescript-axios-slim
+outputDir: samples/client/petstore/typescript-axios-slim/builds/default
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-axios-slim
