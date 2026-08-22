@@ -340,6 +340,7 @@ public class CodegenConstants {
     // Not user-configurable. System provided for use in templates.
     public static final String GENERATE_MODELS = "generateModels";
     public static final String GENERATE_MODEL_DOCS = "generateModelDocs";
+    public static final String GENERATE_SUPPORTING_FILES = "generateSupportingFiles";
 
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String VIRTUAL_SERVICE_DESC = "Generate Spring boot rest service as virtual service with Virtualan";

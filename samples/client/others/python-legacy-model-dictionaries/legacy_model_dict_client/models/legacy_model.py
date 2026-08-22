@@ -27,72 +27,12 @@ from pydantic_core import to_jsonable_python
 from typing import TYPE_CHECKING
 
 
-_OPENAPI_GENERATOR_TO_DICT = "_openapi_generator_to_dict"
-
-
-def _get_openapi_to_dict(value: Any) -> Any:
-    # Reciprocal function references preserve inherited generated methods
-    # without reserving model member names. Checking both directions also
-    # rejects overrides whose decorators copy function attributes.
-    to_dict = getattr(value, "to_dict", None)
-    type_to_dict = getattr(type(value), "to_dict", None)
-    if (
-        not callable(to_dict)
-        or getattr(to_dict, "__func__", None) is not type_to_dict
-    ):
-        return None
-
-    openapi_to_dict = getattr(
-        type_to_dict, _OPENAPI_GENERATOR_TO_DICT, None
-    )
-    if (
-        not callable(openapi_to_dict)
-        or getattr(
-            openapi_to_dict,
-            _OPENAPI_GENERATOR_TO_DICT,
-            None,
-        ) is not type_to_dict
-    ):
-        return None
-    return openapi_to_dict
-
-
-def _to_legacy_item(value: Any, serialize: bool) -> Any:
-    to_dict = getattr(value, "to_dict", None)
-    if _get_openapi_to_dict(value) is not None and callable(to_dict):
-        return to_dict(serialize=serialize)
-    if callable(to_dict):
-        return to_dict()
-    return value
-
-
-def _to_legacy_value(value: Any, serialize: bool) -> Any:
-    # python-legacy converted only immediate list elements or dictionary values:
-    # https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb49b45c940c2f694/modules/openapi-generator/src/main/resources/python-legacy/model.mustache#L203-L231
-    if isinstance(value, list):
-        return [_to_legacy_item(item, serialize) for item in value]
-    if isinstance(value, dict):
-        return {
-            key: _to_legacy_item(item, serialize)
-            for key, item in value.items()
-        }
-    return _to_legacy_item(value, serialize)
-
-
-def _to_openapi_value(value: Any) -> Any:
-    if isinstance(value, list):
-        return [_to_openapi_value(item) for item in value]
-    if isinstance(value, dict):
-        return {key: _to_openapi_value(item) for key, item in value.items()}
-
-    to_openapi_dict = _get_openapi_to_dict(value)
-    if to_openapi_dict is not None:
-        return to_openapi_dict(value)
-
-    to_dict = getattr(value, "to_dict", None)
-    if callable(to_dict):
-        return to_dict()
-    return value
+from legacy_model_dict_client._legacy_model_helpers import (
+    _OPENAPI_GENERATOR_TO_DICT,
+    _get_openapi_to_dict,
+    _to_legacy_value,
+    _to_openapi_value,
+)
 
 
 class LegacyModel(BaseModel):
