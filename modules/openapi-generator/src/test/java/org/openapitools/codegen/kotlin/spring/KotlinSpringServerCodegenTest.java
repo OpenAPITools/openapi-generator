@@ -4618,6 +4618,38 @@ public class KotlinSpringServerCodegenTest {
     // ========== AUTO X-SPRING-PAGINATED TESTS ==========
 
     @Test
+    public void autoXSpringPaginatedResolvesOas31ReferencedParameters() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+        additionalProperties.put(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/spring/issue_24719.yaml", additionalProperties);
+
+        Assert.assertNotNull(files.get("ValidPageable.kt"));
+        Assert.assertNotNull(files.get("ValidSort.kt"));
+        File itemsApi = files.get("ItemsApi.kt");
+        assertFileContains(itemsApi.toPath(),
+                "pageable: Pageable",
+                "@PageableDefault(page = 0, size = 20)",
+                "@SortDefault.SortDefaults(SortDefault(sort = [\"name\"], direction = Sort.Direction.DESC))",
+                "@ValidPageable(",
+                "maxSize = 100",
+                "minSize = 1",
+                "minPage = 0",
+                "@ValidSort(allowedValues = [\"name,asc\", \"name,desc\"])");
+        assertFileNotContains(itemsApi.toPath(),
+                "@RequestParam(value = \"page\"",
+                "@RequestParam(value = \"size\"",
+                "@RequestParam(value = \"sort\"");
+    }
+
+    @Test
     public void generatePageableConstraintValidationResolvesMaximumFromAllOfRef() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(USE_TAGS, "true");
