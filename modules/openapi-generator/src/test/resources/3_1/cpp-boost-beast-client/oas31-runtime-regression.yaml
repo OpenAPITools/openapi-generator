@@ -1,0 +1,71 @@
+openapi: 3.1.0
+info:
+  title: C++ Boost.Beast OAS 3.1 runtime regression
+  version: 1.0.0
+paths:
+  /probe:
+    get:
+      operationId: getProbe
+      responses:
+        '200':
+          description: Integer success
+          content:
+            application/json:
+              schema:
+                type: integer
+        default:
+          description: Composed fallback
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fallback'
+  /empty:
+    get:
+      operationId: getEmpty
+      responses:
+        '200':
+          description: Empty any-type composition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/allNull'
+components:
+  schemas:
+    Base:
+      type: object
+      required: [base]
+      properties:
+        base:
+          type: string
+    A:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          const: a
+    B:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          const: b
+    mixed:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+      oneOf:
+        - $ref: '#/components/schemas/A'
+        - $ref: '#/components/schemas/B'
+    Fallback:
+      oneOf:
+        - $ref: '#/components/schemas/A'
+        - $ref: '#/components/schemas/B'
+    allNull:
+      anyOf:
+        - type: "null"
+        - type: "null"
+    duplicateNull:
+      oneOf:
+        - type: "null"
+        - type: "null"

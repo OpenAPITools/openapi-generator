@@ -10,6 +10,7 @@
 #include "api/PetApi.h"
 #include "model/Pet.h"
 
+#include <functional>
 #include <map>
 #include <string>
 #include <utility>
@@ -73,6 +74,15 @@ public:
         return {boost::beast::http::status{500}, "this should not happen"};
     }
 
+    boost::beast::http::status
+    executeStream(const std::string&,
+                  const std::string&,
+                  const std::string&,
+                  const std::map<std::string, std::string>&,
+                  std::function<void(const std::string &)>) override {
+        throw std::logic_error("executeStream not implemented");
+    }
+
 private:
     ExceptionType m_exceptionType;
 };
@@ -95,6 +105,17 @@ public:
         m_body = body;
         m_headers = headers;
         return {m_responseStatus, m_responseBody};
+    }
+
+    boost::beast::http::status
+    executeStream(const std::string& verb,
+                  const std::string& target,
+                  const std::string& body,
+                  const std::map<std::string, std::string>& headers,
+                  std::function<void(const std::string &)> onEvent) override {
+        execute(verb, target, body, headers);
+        onEvent(m_responseBody);
+        return m_responseStatus;
     }
 
     const std::string& target() const {

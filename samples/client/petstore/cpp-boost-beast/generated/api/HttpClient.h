@@ -1,9 +1,12 @@
 #ifndef BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_
 #define BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_
 
+#include <functional>
 #include <map>
+#include <stdexcept>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include <boost/beast/http/status.hpp>
 
@@ -12,6 +15,14 @@ namespace org {
 namespace openapitools {
 namespace client {
 namespace api {
+
+/// Rich HTTP response containing status, body, and response headers.
+struct HttpResponseData {
+    boost::beast::http::status status;
+    std::string body;
+    std::map<std::string, std::string> headers;
+};
+
 class HttpClient {
 
 public:
@@ -23,8 +34,67 @@ public:
             const std::string &target,
             const std::string &body,
             const std::map<std::string, std::string> &headers) = 0;
+
+    /// Execute an HTTP request and return status, body, and response headers.
+    /// Default implementation wraps execute() with empty headers to preserve
+    /// compatibility with custom HttpClient implementations that do not
+    /// override executeWithMetadata.
+    virtual HttpResponseData
+    executeWithMetadata(const std::string &verb,
+                        const std::string &target,
+                        const std::string &body,
+                        const std::map<std::string, std::string> &headers) {
+        auto [status, responseBody] = execute(verb, target, body, headers);
+        return HttpResponseData{status, std::move(responseBody), {}};
+    }
+
+    /// Execute an HTTP request and yield complete SSE events incrementally
+    /// via callback. Used by text/event-stream endpoints.
+    ///
+    /// The SseEventFramer (in HttpClientImpl) is data-only — each onEvent
+    /// invocation receives one event's data payload (multi-line data fields
+    /// joined by LF), framed per the WHATWG SSE specification.
+    ///
+    /// WHATWG framing behavior:
+    /// - BOM: Initial UTF-8 BOM (EF BB BF) is consumed silently.
+    /// - Field parsing: event, data, id, and retry fields are recognized;
+    ///   only data is accumulated (framer is data-only).
+    /// - Comments: Lines starting with ':' are ignored.
+    /// - Multi-line data: Consecutive data: fields are joined by LF.
+    /// - Incomplete events at EOF are discarded.
+    /// - A configurable response body limit guards against memory exhaustion.
+    ///
+    /// Returns the HTTP status code.
+    /// Throws std::invalid_argument if onEvent is empty.
+    virtual boost::beast::http::status
+    executeStream(const std::string &,
+                  const std::string &,
+                  const std::string &,
+                  const std::map<std::string, std::string> &,
+                  std::function<void(const std::string &)>) {
+        throw std::logic_error(
+            "Streaming is not supported by this HttpClient implementation");
+    }
 };
 
+/// One declared security scheme usage: a scheme name plus the OAuth scopes
+/// requested for the operation (apiKey/http schemes carry type/in/paramName/
+/// httpScheme instead of scopes).
+struct SecuritySchemeUse {
+    std::string schemeName;
+    std::string type;       // apiKey | http | oauth2 | openIdConnect | mutualTLS | unknown
+    std::string in;         // header | query | cookie (apiKey)
+    std::string paramName;  // apiKey parameter name
+    std::string httpScheme; // basic | bearer | <custom> (http)
+    std::vector<std::string> scopes;
+};
+
+/// One (OR) alternative of an operation's security requirements: every
+/// scheme in the list must be satisfied (AND). An empty list means
+/// anonymous access is allowed for that alternative.
+struct SecurityRequirementGroup {
+    std::vector<SecuritySchemeUse> ands;
+};
 
 }
 }

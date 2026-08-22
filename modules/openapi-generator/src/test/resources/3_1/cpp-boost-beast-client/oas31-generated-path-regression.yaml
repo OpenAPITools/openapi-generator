@@ -1,0 +1,68 @@
+openapi: 3.1.0
+info:
+  title: Wave1 Generated-Path Numeric/Boolean Integration
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    # The numeric/boolean keyword slice (ADR D1 / Option B) expressed as
+    # oneOf-wrapped component schemas so the Wave-1 IR emitter
+    # (CppBoostBeastClientCodegen::irNodeFromBranch) lowers each branch to a
+    # densified SchemaNode and a thin generated validate_<id> dispatch
+    # (schema_ir.generated.hpp/.cpp + schema_validate.generated.cpp).
+    # Each schema is a single-branch composition, so its IR node is
+    # validate_<SchemaName>_branch_0.  Raw instances are fed to those GENERATED
+    # dispatch functions in the integration driver (oas31-generated-path/).
+    ExactEqualsOne:
+      oneOf:
+        - type: number
+          const: 1
+    ExactIntegerType:
+      oneOf:
+        - type: integer
+    MulTenth:
+      oneOf:
+        - type: number
+          multipleOf: 0.1
+    MulThird:
+      oneOf:
+        - type: number
+          multipleOf: 0.3
+    RangeMinMax:
+      oneOf:
+        - type: number
+          minimum: 5
+          maximum: 10
+    ZeroConst:
+      oneOf:
+        - type: number
+          const: 0
+    BigConst:
+      oneOf:
+        - type: number
+          const: 1180591620717411303424
+    HugeMax:
+      oneOf:
+        - type: number
+          exclusiveMaximum: 1e300
+    TinyMin:
+      oneOf:
+        - type: number
+          exclusiveMinimum: 1e-300
+    # NOTE: `multipleOf: <=0` is not here on purpose — JSON Schema/OAS itself
+    # declares multipleOf must be > 0, so it is spec-invalid and cannot appear
+    # in a valid generated schema.  The engine-level refusal of a non-positive
+    # multipleOf is covered by the standalone custom driver
+    # (oas-compliance phase2_numeric_driver), not by a generated schema.
+    BoolConstTrue:
+      oneOf:
+        - type: boolean
+          const: true
+    BoolEnumTrue:
+      oneOf:
+        - type: boolean
+          enum: [true]
+    NumberEnumSpellings:
+      oneOf:
+        - type: number
+          enum: [1, 2.5]

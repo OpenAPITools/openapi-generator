@@ -1,5 +1,37 @@
 {{>licenseInfo}}
-{{#models}}{{#model}}/*
+{{#models}}{{#model}}{{#vendorExtensions.x-cpp-is-alias}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
+#define BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
+
+{{#imports}}{{{this}}}
+{{/imports}}
+#include <boost/json.hpp>
+#include "ValidationTypes.h"
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+/// <summary>
+/// {{description}}
+/// </summary>
+using {{classname}} = {{{vendorExtensions.x-cpp-type}}};
+
+boost::json::value toJsonValue_{{classname}}({{classname}} const& value);
+{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value);
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_ */
+{{/vendorExtensions.x-cpp-is-alias}}
+{{^vendorExtensions.x-cpp-is-alias}}/*
  * {{classname}}.h
  *
  * {{description}}
@@ -19,6 +51,7 @@
 #include <utility>
 {{/parent}}
 #include <boost/json.hpp>
+#include "NullableField.h"
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -45,6 +78,67 @@ struct {{classname}}ModelPropertyStorage<ValueType, false>
     {
     }
 
+    bool hasOptionalValue() const
+    {
+        if constexpr (IsNullableField<ValueType>{}) {
+            return value.hasOptionalValue();
+        } else {
+            return value.has_value();
+        }
+    }
+
+    void resetOptionalValue()
+    {
+        if constexpr (IsNullableField<ValueType>{}) {
+            value.resetOptionalValue();
+        } else {
+            value.reset();
+        }
+    }
+
+    /// NullableField-compatible: hasValue() forwards to NullableField::hasValue()
+    /// or std::optional::has_value() for the generic case.
+    bool hasValue() const
+    {
+        if constexpr (IsNullableField<ValueType>{}) {
+            return value.hasValue();
+        } else {
+            return value.has_value();
+        }
+    }
+
+    /// NullableField-compatible: isNull() returns NullableField::isNull()
+    /// or false for non-nullable types.
+    bool isNull() const
+    {
+        if constexpr (IsNullableField<ValueType>{}) {
+            return value.isNull();
+        }
+        return false;
+    }
+
+    /// NullableField-compatible: setNull() forwards to NullableField::setNull()
+    /// or resets the value for non-nullable types.
+    void setNull()
+    {
+        if constexpr (IsNullableField<ValueType>{}) {
+            value.setNull();
+        } else {
+            value = ValueType();
+        }
+    }
+
+    /// NullableField-compatible: resetMissing() forwards to NullableField::resetMissing()
+    /// or resets the value for non-nullable types.
+    void resetMissing()
+    {
+        if constexpr (IsNullableField<ValueType>{}) {
+            value.resetMissing();
+        } else {
+            value.reset();
+        }
+    }
+
     ValueType value;
 };
 
@@ -52,6 +146,33 @@ template <typename ValueType>
 struct {{classname}}ModelPropertyStorage<ValueType, true>
 {
     explicit {{classname}}ModelPropertyStorage(ValueType = ValueType())
+    {
+    }
+
+    bool hasOptionalValue() const
+    {
+        return false;
+    }
+
+    void resetOptionalValue()
+    {
+    }
+
+    bool hasValue() const
+    {
+        return false;
+    }
+
+    bool isNull() const
+    {
+        return false;
+    }
+
+    void setNull()
+    {
+    }
+
+    void resetMissing()
     {
     }
 };
@@ -102,10 +223,31 @@ public:
     /// <summary>
     /// {{description}}
     /// </summary>
+{{#vendorExtensions.x-cpp-const}}
+{{#vendorExtensions.x-cpp-const-inline-value}}
+{{{dataType}}} {{getter}}() const { return {{{vendorExtensions.x-cpp-const-inline-value}}}; }
+{{/vendorExtensions.x-cpp-const-inline-value}}
+{{^vendorExtensions.x-cpp-const-inline-value}}
+{{{dataType}}} {{getter}}() const;
+{{/vendorExtensions.x-cpp-const-inline-value}}
+{{/vendorExtensions.x-cpp-const}}
+    {{^vendorExtensions.x-cpp-const}}
     {{{dataType}}} {{getter}}() const;
     void {{setter}}({{{dataType}}} value);
+    {{/vendorExtensions.x-cpp-const}}
     {{/vars}}
 
+{{#vendorExtensions.x-cpp-is-optional}}
+    /// Returns true when this model represents an explicit JSON null (nullable object root).
+    bool isNull() const { return m_{{classname}}IsNull; }
+
+    /// Returns true when the model holds a value (not null).
+    bool hasOptionalValue() const { return !m_{{classname}}IsNull; }
+
+    /// Resets to null state.
+    void resetOptionalValue() { m_{{classname}}IsNull = true; }
+
+{{/vendorExtensions.x-cpp-is-optional}}
 protected:
     //////////////////////////////////////
     // Override these for customization //
@@ -145,11 +287,17 @@ protected:
 
 protected:
     {{#vars}}
+    {{^vendorExtensions.x-cpp-const}}
     {{#parent}}
     {{^isContainer}}
     {{^isModel}}
+    {{#vendorExtensions.x-cpp-no-is-set}}
+    {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}};
+    {{/vendorExtensions.x-cpp-no-is-set}}
+    {{^vendorExtensions.x-cpp-no-is-set}}
     {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}} =
         {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value>({{{defaultValue}}});
+    {{/vendorExtensions.x-cpp-no-is-set}}
     {{/isModel}}
     {{#isModel}}
     {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}};
@@ -162,7 +310,12 @@ protected:
     {{^parent}}
     {{^isContainer}}
     {{^isModel}}
-    {{{dataType}}} m_{{name}} = {{{defaultValue}}};
+    {{#vendorExtensions.x-cpp-no-is-set}}
+    {{{dataType}}} m_{{name}};
+    {{/vendorExtensions.x-cpp-no-is-set}}
+    {{^vendorExtensions.x-cpp-no-is-set}}
+    {{{dataType}}} m_{{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
+    {{/vendorExtensions.x-cpp-no-is-set}}
     {{/isModel}}
     {{#isModel}}
     {{{dataType}}} m_{{name}};
@@ -173,20 +326,27 @@ protected:
     {{/isContainer}}
     {{/parent}}
     {{^required}}
+    {{^vendorExtensions.x-cpp-no-is-set}}
     bool m_{{name}}IsSet = false;
+    {{/vendorExtensions.x-cpp-no-is-set}}
     {{/required}}
+    {{/vendorExtensions.x-cpp-const}}
     {{/vars}}
+{{#vendorExtensions.x-cpp-is-optional}}
+    bool m_{{classname}}IsNull = false;
+{{/vendorExtensions.x-cpp-is-optional}}
 };
 
 std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{classname}}>>& data);
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}>>& vec, const std::string& json);
 
+{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value);
+
 {{#modelNamespaceDeclarations}}
 }
 {{/modelNamespaceDeclarations}}
-
+#endif /* BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_ */
+{{/vendorExtensions.x-cpp-is-alias}}
 {{/model}}
 {{/models}}
-
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_ */

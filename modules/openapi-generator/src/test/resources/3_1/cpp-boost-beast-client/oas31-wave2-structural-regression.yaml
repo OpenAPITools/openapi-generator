@@ -1,0 +1,124 @@
+openapi: 3.1.0
+info:
+  title: Wave-2 Object/Array Structural IR Regression (§10)
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    # --- Object structural (§10.2): properties / required / additionalProperties
+    # tri-state / min-maxProperties. Lowered through the real generator into
+    # densified SchemaNode rows (hasObjectSchema + PropertyBinding + ...).
+    ObjectBranch:
+      oneOf:
+        - type: object
+          required: [name, age]
+          properties:
+            name:
+              type: string
+            age:
+              type: integer
+              minimum: 0
+          additionalProperties: false
+          minProperties: 1
+          maxProperties: 5
+
+    # additionalProperties schema-form: unlisted values validated by child row.
+    AddPropsSchema:
+      oneOf:
+        - type: object
+          properties:
+            fixed:
+              type: string
+          additionalProperties:
+            type: integer
+
+    # additionalProperties true-form: unlisted keys allowed (no-op).
+    AddPropsAllowed:
+      oneOf:
+        - type: object
+          properties:
+            fixed:
+              type: string
+          additionalProperties: true
+
+    # --- Array structural (§10.2): prefixItems by index, items remainder,
+    # min-maxItems, uniqueItems:true (exact deep-uniqueness).
+    ArrayBranch:
+      oneOf:
+        - type: array
+          prefixItems:
+            - type: string
+            - type: integer
+          items:
+            type: boolean
+          minItems: 1
+          maxItems: 4
+          uniqueItems: true
+
+    # uniqueItems:false is a NO-OP but the node must still be emitted (so the
+    # corpus never reports "no validate_ emitted" → BLOCKED-at-emission).
+    UniqueItemsFalse:
+      oneOf:
+        - type: array
+          items:
+            type: number
+          uniqueItems: false
+
+    # --- enum: [] reject-all (Wave-1 G14 close): deep store with ZERO members.
+    EmptyEnum:
+      oneOf:
+        - enum: []
+
+    # --- Container-depth EXACT numeric lexemes: nested numbers inside deep
+    # const/enum members must survive verbatim in the emitted W1J literal —
+    # never a Boost.JSON double round-trip (1.0 and 2.500 must not degrade).
+    DeepContainerConst:
+      oneOf:
+        - enum:
+            - { amount: 1.0, tag: "x" }
+            - [2.500, 3]
+
+    # --- $defs surfacing: JSTS hoists $defs into components.schemas and
+    # REWRITES the ref to #/components/schemas/<name> before generation.
+    # Ref-to-plain resolves to the densified <name>_component resource row.
+    DefsRef:
+      oneOf:
+        - $ref: '#/components/schemas/hoistedDef'
+    hoistedDef:
+      type: string
+      enum: [a, b]
+
+    # Un-hoisted JSON-Schema-style #/$defs/% pointer ref: when it appears as a
+    # NESTED property schema it cannot poison the model interface pipeline, and
+    # the emitter's refSimpleName maps %#/$defs/<name>% to the hoisted
+    # component row (hoistedDef_component) so the local ref still resolves.
+    DefsNestedProperty:
+      oneOf:
+        - type: object
+          properties:
+            inner:
+              $ref: '#/$defs/hoistedDef'
+
+    # --- $ref + siblings (2020-12): the $ref applicator AND the sibling
+    # keyword BOTH apply; minProperties is densified onto the ref node inline.
+    RefWithSibling:
+      oneOf:
+        - $ref: '#/components/schemas/BaseThing'
+          minProperties: 2
+    BaseThing:
+      oneOf:
+        - type: object
+          properties:
+            a:
+              type: string
+
+    # --- Ref to a plain (non-composed) extracted component row.
+    RefToPlain:
+      oneOf:
+        - $ref: '#/components/schemas/PlainTarget'
+    PlainTarget:
+      type: object
+      properties:
+        id:
+          type: integer
+      required: [id]

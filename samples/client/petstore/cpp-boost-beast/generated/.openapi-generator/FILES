@@ -14,6 +14,7 @@ model/ApiResponse.cpp
 model/ApiResponse.h
 model/Category.cpp
 model/Category.h
+model/NullableField.h
 model/Order.cpp
 model/Order.h
 model/Pet.cpp
@@ -22,3 +23,13 @@ model/Tag.cpp
 model/Tag.h
 model/User.cpp
 model/User.h
+model/ValidationTypes.h
+model/oas31_deep_equal.hpp
+model/oas31_exact_number.hpp
+model/oas31_ir.hpp
+model/oas31_object_array.hpp
+model/oas31_validator.hpp
+model/schema_ir.generated.cpp
+model/schema_ir.generated.hpp
+model/schema_validate.generated.cpp
+test/MultipartWireTest.cpp

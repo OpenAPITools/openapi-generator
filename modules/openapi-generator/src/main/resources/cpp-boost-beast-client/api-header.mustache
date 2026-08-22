@@ -13,12 +13,14 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include <boost/beast/core.hpp>
 #include <boost/optional.hpp>
 
 #include "api/HttpClient.h"
+#include "ValidationTypes.h"
 
 {{#imports}}{{{import}}}
 {{/imports}}
@@ -27,8 +29,27 @@
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
-using namespace {{modelNamespace}};
+{{#x-codegen-has-models}}using namespace {{modelNamespace}};
+{{/x-codegen-has-models}}
 
+{{#operation}}
+{{#vendorExtensions.x-codegen-response-union}}
+/// Response union type for {{#operationId}}{{{.}}}{{/operationId}}.
+struct {{vendorExtensions.x-codegen-response-union}} {
+    boost::beast::http::status status;
+    std::string contentType;
+    std::map<std::string, std::string> headers;
+    std::variant<
+    {{#responses}}
+    {{#vendorExtensions.x-codegen-response-union}}
+        {{{vendorExtensions.x-codegen-response-union-body-type}}}{{^-last}},{{/-last}}
+    {{/vendorExtensions.x-codegen-response-union}}
+    {{/responses}}
+    > body;
+};
+
+{{/vendorExtensions.x-codegen-response-union}}
+{{/operation}}
 ///
 /// Exception to flag problems in the api's
 ///
@@ -51,7 +72,7 @@ class {{classname}} {
 public:
     {{classname}}(
         std::shared_ptr<HttpClient> client,
-        const std::string& context = "{{contextPath}}")
+        const std::string& context = "{{{contextPath}}}")
       : m_client(std::move(client)),
         m_context(context)
     {}
@@ -65,10 +86,19 @@ public:
     /// <remarks>
     /// {{notes}}
     /// </remarks>
-    virtual {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    virtual {{#vendorExtensions.x-codegen-response-union}}{{vendorExtensions.x-codegen-response-union}}{{/vendorExtensions.x-codegen-response-union}}{{^vendorExtensions.x-codegen-response-union}}{{#vendorExtensions.x-codegen-streaming-response}}{{#vendorExtensions.x-codegen-sse-representation-mode}}std::vector<std::string>{{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}{{#vendorExtensions.x-codegen-stream-element-type}}std::vector<{{{.}}}>{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}{{#returnType}}std::vector<{{{.}}}>{{/returnType}}{{^returnType}}void{{/returnType}}{{/vendorExtensions.x-codegen-stream-element-type}}{{/vendorExtensions.x-codegen-sse-representation-mode}}{{/vendorExtensions.x-codegen-streaming-response}}{{^vendorExtensions.x-codegen-streaming-response}}{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/vendorExtensions.x-codegen-streaming-response}}{{/vendorExtensions.x-codegen-response-union}}
     {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
         {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
 
+    {{#vendorExtensions.x-codegen-dual-content}}
+    /// <summary>
+    /// {{summary}} (streaming)
+    /// </summary>
+    virtual std::vector<{{#vendorExtensions.x-codegen-sse-representation-mode}}std::string{{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}{{#vendorExtensions.x-codegen-dual-stream-element-type}}{{{.}}}{{/vendorExtensions.x-codegen-dual-stream-element-type}}{{^vendorExtensions.x-codegen-dual-stream-element-type}}{{{vendorExtensions.x-codegen-dual-stream-return-type}}}{{/vendorExtensions.x-codegen-dual-stream-element-type}}{{/vendorExtensions.x-codegen-sse-representation-mode}}>
+    {{#operationId}}{{{.}}}{{/operationId}}Stream(
+        {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+
+    {{/vendorExtensions.x-codegen-dual-content}}
     {{#vendorExtensions.x-codegen-other-methods}}
     /// <summary>
     /// {{summary}}
@@ -76,11 +106,23 @@ public:
     /// <remarks>
     /// {{notes}}
     /// </remarks>
-    virtual {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    virtual {{#vendorExtensions.x-codegen-response-union}}{{vendorExtensions.x-codegen-response-union}}{{/vendorExtensions.x-codegen-response-union}}{{^vendorExtensions.x-codegen-response-union}}{{#vendorExtensions.x-codegen-streaming-response}}{{#vendorExtensions.x-codegen-sse-representation-mode}}std::vector<std::string>{{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}{{#vendorExtensions.x-codegen-stream-element-type}}std::vector<{{{.}}}>{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}{{#returnType}}std::vector<{{{.}}}>{{/returnType}}{{^returnType}}void{{/returnType}}{{/vendorExtensions.x-codegen-stream-element-type}}{{/vendorExtensions.x-codegen-sse-representation-mode}}{{/vendorExtensions.x-codegen-streaming-response}}{{^vendorExtensions.x-codegen-streaming-response}}{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/vendorExtensions.x-codegen-streaming-response}}{{/vendorExtensions.x-codegen-response-union}}
     {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
         {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
     {{/vendorExtensions.x-codegen-other-methods}}
     {{/operation}}
+
+    /// Credential hook invoked before each operation with its effective security
+    /// requirements. Operation requirements override root requirements and an
+    /// empty list clears them. Override this no-op to attach credentials;
+    /// `target` is mutable for apiKey-in-query placement.
+    virtual void applyOperationSecurity(
+        const std::string& operationId,
+        const std::vector<SecurityRequirementGroup>& requirements,
+        std::string& target,
+        std::map<std::string, std::string>& headers) {
+        (void)operationId; (void)requirements; (void)target; (void)headers;
+    }
 
 protected:
     virtual std::string base64encode(const std::string& str);

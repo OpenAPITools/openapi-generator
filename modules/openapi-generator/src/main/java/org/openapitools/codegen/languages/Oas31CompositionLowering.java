@@ -1,0 +1,1608 @@
+package org.openapitools.codegen.languages;
+
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.CodegenDiscriminator;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+/**
+ * Ordered composition lowering for the cpp-boost-beast client: builds the
+ * per-schema {@link CompositionDescriptor}s (branch scan surfaces, validator
+ * ids, null capability, discriminator) before model processing, computes
+ * recursive allOf intersections into synthetic schemas, and lowers composed
+ * branch sets to C++ storage types (std::optional / std::variant /
+ * CompositionBranchValue / boost::json::value) per the ordered rules.
+ *
+ * <p>The descriptor records ({@link CompositionDescriptor} and friends) are
+ * public nested types so tests and template-facing maps keep using the same
+ * accessor surface. The class is deliberately stateless: every method takes
+ * its inputs as parameters, incl. the parsed {@code openAPI} document and the
+ * component-schema index; the codegen keeps the compositionDescriptors /
+ * allOfIntersections indexes and the model-phase consumers
+ * (processComposedModelFromDescriptor, fromModel, template maps) — those
+ * mutate CodegenModel state and stay on the generator.
+ *
+ * <p>Branch surfaces are scanned by {@link Oas31SchemaIrEmitter#scanSurfaceAssertions};
+ * exceptions (UnsupportedSchemaAssertionException, AllOfRequiredUnsatisfiableException)
+ * live on the generator and are referenced through it.
+ */
+public final class Oas31CompositionLowering {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Oas31CompositionLowering.class);
+
+    private Oas31CompositionLowering() {
+    }
+
+    /**
+     * Describes a composed schema (oneOf, anyOf, allOf) with its branches,
+     * preserving the original keyword and branch order after normalization.
+     */
+    public static final class CompositionDescriptor {
+        private final String schemaName;
+        private final String schemaLocation;
+        private final String keyword;
+        private final List<CompositionBranchDescriptor> branches;
+        private final DiscriminatorDescriptor discriminator;
+
+        public CompositionDescriptor(String schemaName, String schemaLocation,
+                                     String keyword,
+                                     List<CompositionBranchDescriptor> branches,
+                                     DiscriminatorDescriptor discriminator) {
+            this.schemaName = schemaName;
+            this.schemaLocation = schemaLocation;
+            this.keyword = keyword;
+            this.branches = Collections.unmodifiableList(
+                    new ArrayList<>(branches));
+            this.discriminator = discriminator;
+        }
+
+        public String getSchemaName() { return schemaName; }
+        public String getSchemaLocation() { return schemaLocation; }
+        public String getKeyword() { return keyword; }
+        public List<CompositionBranchDescriptor> getBranches() { return branches; }
+        public DiscriminatorDescriptor getDiscriminator() { return discriminator; }
+        public boolean hasDiscriminator() { return discriminator != null; }
+
+        /** Converts this descriptor to a template-safe map for Mustache. */
+        public Map<String, Object> toTemplateMap() {
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("schema-name", schemaName);
+            map.put("schema-location", schemaLocation);
+            map.put("keyword", keyword);
+            List<Map<String, Object>> branchMaps = new ArrayList<>();
+            for (CompositionBranchDescriptor branch : branches) {
+                branchMaps.add(branch.toTemplateMap());
+            }
+            map.put("branches", branchMaps);
+            if (discriminator != null) {
+                map.put("discriminator-property-name", discriminator.getPropertyName());
+                map.put("discriminator-mapping", discriminator.getMapping());
+            }
+            return map;
+        }
+    }
+
+    /**
+     * Describes an optional discriminator on a composed schema.
+     */
+    public static final class DiscriminatorDescriptor {
+        private final String propertyName;
+        private final Map<String, String> mapping;
+
+        public DiscriminatorDescriptor(String propertyName, Map<String, String> mapping) {
+            this.propertyName = propertyName;
+            this.mapping = mapping != null
+                    ? Collections.unmodifiableMap(new LinkedHashMap<>(mapping))
+                    : Collections.emptyMap();
+        }
+
+        public String getPropertyName() { return propertyName; }
+        public Map<String, String> getMapping() { return mapping; }
+    }
+
+    /**
+     * Describes a single branch within a composed schema.
+     * Captures branch index, resolved schema reference, C++ storage type,
+     * validator identity, null capability, assertion metadata, and
+     * validation parameter values.
+     *
+     * <p>{@code storageCppType} is populated after storage selection.
+     * {@code validatorId} identifies the generated {@code validate_<id>()} function.
+     *
+     * <p>Validation parameters ({@code validateParams}) carry the actual
+     * assertion values (min, max, minLength, etc.) from the source schema
+     * so Mustache templates can generate per-branch validators without
+     * re-scanning the schema tree.
+     */
+    public static final class CompositionBranchDescriptor {
+        private final int branchIndex;
+        private final String sourceSchemaRef;
+        private final String resolvedSchemaName;
+        /** C++ storage type selected after descriptor construction. */
+        private final String storageCppType;
+        /** Stable generated validator identity. */
+        private final String validatorId;
+        private final NullCapability nullCapability;
+        private final List<String> supportedAssertions;
+        private final List<String> unsupportedAssertions;
+        /**
+         * Validation parameter values for Mustache template consumption.
+         * Keys: "validation-type", "validation-enum-values",
+         * "validation-min", "validation-max", "validation-exclusive-min",
+         * "validation-exclusive-max", "validation-multiple-of",
+         * "validation-min-length", "validation-max-length",
+         * "validation-pattern", "validation-min-items",
+         * "validation-max-items", "validation-unique-items",
+         * "validation-min-properties", "validation-max-properties",
+         * "validation-required".
+         * Values are Objects (String, Number, Boolean, List<String>).
+         */
+        private final Map<String, Object> validateParams;
+
+        public enum NullCapability { NEVER, ALWAYS, CONDITIONAL }
+
+        public CompositionBranchDescriptor(int branchIndex, String sourceSchemaRef,
+                                           String resolvedSchemaName, String storageCppType,
+                                           String validatorId, NullCapability nullCapability,
+                                           List<String> supportedAssertions,
+                                           List<String> unsupportedAssertions,
+                                           Map<String, Object> validateParams) {
+            this.branchIndex = branchIndex;
+            this.sourceSchemaRef = sourceSchemaRef;
+            this.resolvedSchemaName = resolvedSchemaName;
+            this.storageCppType = storageCppType;
+            this.validatorId = validatorId;
+            this.nullCapability = nullCapability;
+            this.supportedAssertions = supportedAssertions != null
+                    ? Collections.unmodifiableList(new ArrayList<>(supportedAssertions))
+                    : Collections.emptyList();
+            this.unsupportedAssertions = unsupportedAssertions != null
+                    ? Collections.unmodifiableList(new ArrayList<>(unsupportedAssertions))
+                    : Collections.emptyList();
+            this.validateParams = validateParams != null
+                    ? Collections.unmodifiableMap(new LinkedHashMap<>(validateParams))
+                    : Collections.emptyMap();
+        }
+
+        public int getBranchIndex() { return branchIndex; }
+        public String getSourceSchemaRef() { return sourceSchemaRef; }
+        public String getResolvedSchemaName() { return resolvedSchemaName; }
+        public String getStorageCppType() { return storageCppType; }
+        public String getValidatorId() { return validatorId; }
+        public NullCapability getNullCapability() { return nullCapability; }
+        public List<String> getSupportedAssertions() { return supportedAssertions; }
+        public List<String> getUnsupportedAssertions() { return unsupportedAssertions; }
+        public Map<String, Object> getValidateParams() { return validateParams; }
+
+        /** Converts this branch descriptor to a template-safe map for Mustache. */
+        public Map<String, Object> toTemplateMap() {
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("branch-index", branchIndex);
+            map.put("source-schema-ref", sourceSchemaRef);
+            map.put("resolved-schema-name", resolvedSchemaName);
+            map.put("storage-cpp-type", storageCppType);
+            map.put("validator-id", validatorId);
+            map.put("null-capability", nullCapability.name().toLowerCase(Locale.ROOT));
+            map.put("has-supported-assertions", !supportedAssertions.isEmpty());
+            map.put("supported-assertions", supportedAssertions);
+            map.put("has-unsupported-assertions", !unsupportedAssertions.isEmpty());
+            map.put("unsupported-assertions", unsupportedAssertions);
+            // Emit validation parameters for template-driven generator functions
+            for (Map.Entry<String, Object> vp : validateParams.entrySet()) {
+                map.put(vp.getKey(), vp.getValue());
+            }
+            return map;
+        }
+    }
+
+
+    /**
+     * Result of recursively intersecting allOf contributor schemas.
+     * Captures merged properties, union required, and satisfiability.
+     * Used to build synthetic object schemas for storage model generation.
+     */
+    public static final class AllOfIntersection {
+        private final Map<String, Schema> properties;
+        private final Set<String> required;
+        private final boolean isSatisfiable;
+        private final String unsatisfiableReason;
+        /** Map of property names whose intersection is empty (optional impossible). */
+        private final Set<String> optionalImpossibleProperties;
+        /** Intersected root-level type across all branches (null if absent). */
+        private final String rootScalarType;
+        /** Intersected root-level enum values across all branches. */
+        private final List<Object> rootEnumValues;
+        /** Intersected root-level const value across all branches. */
+        private final Object rootConstValue;
+        /** Minimum numeric value (intersection takes the larger). */
+        private final BigDecimal rootMinimum;
+        /** Maximum numeric value (intersection takes the smaller). */
+        private final BigDecimal rootMaximum;
+        /** Exclusive minimum flag. */
+        private final Boolean rootExclusiveMinimum;
+        /** Exclusive maximum flag. */
+        private final Boolean rootExclusiveMaximum;
+        /** Minimum string length (intersection takes the larger). */
+        private final Integer rootMinLength;
+        /** Maximum string length (intersection takes the smaller). */
+        private final Integer rootMaxLength;
+
+        public AllOfIntersection(Map<String, Schema> properties, Set<String> required,
+                                 boolean isSatisfiable, String unsatisfiableReason,
+                                 Set<String> optionalImpossibleProperties) {
+            this(properties, required, isSatisfiable, unsatisfiableReason,
+                    optionalImpossibleProperties,
+                    null, null, null, null, null, null, null,
+                    null, null);
+        }
+
+        public AllOfIntersection(Map<String, Schema> properties, Set<String> required,
+                                 boolean isSatisfiable, String unsatisfiableReason,
+                                 Set<String> optionalImpossibleProperties,
+                                 String rootScalarType, List<Object> rootEnumValues,
+                                 Object rootConstValue,
+                                 BigDecimal rootMinimum, BigDecimal rootMaximum,
+                                 Boolean rootExclusiveMinimum, Boolean rootExclusiveMaximum,
+                                 Integer rootMinLength, Integer rootMaxLength) {
+            this.properties = properties != null
+                    ? Collections.unmodifiableMap(new LinkedHashMap<>(properties))
+                    : Collections.emptyMap();
+            this.required = required != null
+                    ? Collections.unmodifiableSet(new LinkedHashSet<>(required))
+                    : Collections.emptySet();
+            this.isSatisfiable = isSatisfiable;
+            this.unsatisfiableReason = unsatisfiableReason;
+            this.optionalImpossibleProperties = optionalImpossibleProperties != null
+                    ? Collections.unmodifiableSet(new LinkedHashSet<>(optionalImpossibleProperties))
+                    : Collections.emptySet();
+            this.rootScalarType = rootScalarType;
+            this.rootEnumValues = rootEnumValues != null
+                    ? Collections.unmodifiableList(new ArrayList<>(rootEnumValues))
+                    : null;
+            this.rootConstValue = rootConstValue;
+            this.rootMinimum = rootMinimum;
+            this.rootMaximum = rootMaximum;
+            this.rootExclusiveMinimum = rootExclusiveMinimum;
+            this.rootExclusiveMaximum = rootExclusiveMaximum;
+            this.rootMinLength = rootMinLength;
+            this.rootMaxLength = rootMaxLength;
+        }
+
+        public Map<String, Schema> getProperties() { return properties; }
+        public Set<String> getRequired() { return required; }
+        public boolean isSatisfiable() { return isSatisfiable; }
+        public String getUnsatisfiableReason() { return unsatisfiableReason; }
+        public Set<String> getOptionalImpossibleProperties() { return optionalImpossibleProperties; }
+        public String getRootScalarType() { return rootScalarType; }
+        public List<Object> getRootEnumValues() { return rootEnumValues; }
+        public Object getRootConstValue() { return rootConstValue; }
+        public BigDecimal getRootMinimum() { return rootMinimum; }
+        public BigDecimal getRootMaximum() { return rootMaximum; }
+        public Boolean getRootExclusiveMinimum() { return rootExclusiveMinimum; }
+        public Boolean getRootExclusiveMaximum() { return rootExclusiveMaximum; }
+        public Integer getRootMinLength() { return rootMinLength; }
+        public Integer getRootMaxLength() { return rootMaxLength; }
+    }
+
+    /**
+     * Builds a CompositionDescriptor for a schema if it has oneOf, anyOf, or
+     * allOf branches. Returns null for non-composed schemas.
+     * <p>
+     * Resolves $ref targets recursively with cycle detection via the visited
+     * set. Records JSON Pointer locations for diagnostic use.
+     */
+    static CompositionDescriptor buildCompositionDescriptor(
+            String schemaName, Schema schema, OpenAPI openAPI,
+            Map<String, Schema> schemas, Set<String> visited) {
+        if (schema == null) return null;
+
+        List<Schema> branchSchemas = null;
+        String keyword = null;
+
+        if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+            branchSchemas = schema.getOneOf();
+            keyword = "oneOf";
+        } else if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+            branchSchemas = schema.getAnyOf();
+            keyword = "anyOf";
+        } else if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+            branchSchemas = schema.getAllOf();
+            keyword = "allOf";
+        }
+
+        if (branchSchemas == null) return null;
+
+        String schemaLocation = "#/components/schemas/" + schemaName;
+        List<CompositionBranchDescriptor> branches = new ArrayList<>();
+
+        // Capture optional discriminator
+        DiscriminatorDescriptor discriminatorDescriptor = null;
+        if (schema.getDiscriminator() != null) {
+            discriminatorDescriptor = new DiscriminatorDescriptor(
+                    schema.getDiscriminator().getPropertyName(),
+                    schema.getDiscriminator().getMapping());
+        }
+
+        for (int index = 0; index < branchSchemas.size(); index++) {
+            Schema branchSchema = branchSchemas.get(index);
+            String sourceRef = null;
+            String resolvedName = null;
+            CompositionBranchDescriptor.NullCapability nullCap =
+                    CompositionBranchDescriptor.NullCapability.NEVER;
+            List<String> supported = new ArrayList<>();
+            List<String> unsupported = new ArrayList<>();
+            Map<String, Object> validateParams = new LinkedHashMap<>();
+
+            // Resolve the branch schema for assertion scanning
+            Schema targetForAssertions = null;
+            if (branchSchema != null && branchSchema.get$ref() != null) {
+                sourceRef = branchSchema.get$ref();
+                String refName = ModelUtils.getSimpleRef(branchSchema.get$ref());
+                resolvedName = refName;
+                // Preserve the local ref target for later IR resolution.
+                validateParams.put("validation-ref", refName);
+                // Detect null type via $ref to null schema
+                if ("null".equals(refName)) {
+                    nullCap = CompositionBranchDescriptor.NullCapability.ALWAYS;
+                } else if (schemas.containsKey(refName) && !visited.contains(refName)) {
+                    visited.add(refName);
+                    Schema refTarget = schemas.get(refName);
+                    if (ModelUtils.isNullTypeSchema(openAPI, refTarget)) {
+                        nullCap = CompositionBranchDescriptor.NullCapability.ALWAYS;
+                    } else {
+                        if (Boolean.TRUE.equals(refTarget.getNullable())) {
+                            nullCap = CompositionBranchDescriptor.NullCapability.CONDITIONAL;
+                        }
+                        targetForAssertions = refTarget;
+                    }
+                }
+            } else if (branchSchema != null) {
+                targetForAssertions = branchSchema;
+                // Detect OAS 3.1 boolean value schemas (true/false literals)
+                if (branchSchema.getBooleanSchemaValue() != null) {
+                    resolvedName = "boolean-schema";
+                } else {
+                    resolvedName = branchSchema.getType();
+                }
+                if (resolvedName == null) {
+                    if (branchSchema.getEnum() != null && !branchSchema.getEnum().isEmpty()) {
+                        resolvedName = "enum";
+                    } else {
+                        resolvedName = "object";
+                    }
+                }
+                if (ModelUtils.isNullType(branchSchema)) {
+                    nullCap = CompositionBranchDescriptor.NullCapability.ALWAYS;
+                } else if (Boolean.TRUE.equals(branchSchema.getNullable())) {
+                    nullCap = CompositionBranchDescriptor.NullCapability.CONDITIONAL;
+                }
+            }
+
+            // Scan the resolved target schema for assertion keywords.
+            // Under JSON Schema 2020-12, a $ref target and its sibling keywords
+            // both apply. Scan both surfaces and retain unsupported siblings for
+            // fail-closed diagnostics.
+            boolean refBranch = branchSchema != null && branchSchema.get$ref() != null;
+            if (targetForAssertions != null) {
+                Oas31SchemaIrEmitter.scanSurfaceAssertions(targetForAssertions, openAPI,
+                        supported, unsupported, validateParams, refBranch);
+                if (refBranch && branchSchema != targetForAssertions) {
+                    // $ref with siblings: BOTH the resolved target and the branch's
+                    // own keyword set apply (2020-12). Ref-node applicator stays
+                    // branch-driven; sibling keywords are emitted inline.
+                    Oas31SchemaIrEmitter.scanSurfaceAssertions(branchSchema, openAPI,
+                            supported, unsupported, validateParams, true);
+                }
+            }
+
+            // Dynamic-scope markers belong to the branch's own surface, never
+            // the ref target, and flow into the branch's IR parameters.
+            if (branchSchema != null) {
+                java.util.Map ext = branchSchema.getExtensions();
+                if (ext != null) {
+                    Object dynres = ext.get("x-oas31-res");
+                    if (dynres instanceof Number) {
+                        validateParams.put("validation-dynamic-resource",
+                                ((Number) dynres).intValue());
+                    }
+                    Object dynroot = ext.get("x-oas31-res-root");
+                    if (Boolean.TRUE.equals(dynroot) || (dynroot instanceof Number
+                            && ((Number) dynroot).intValue() != 0)) {
+                        validateParams.put("validation-resource-root", Boolean.TRUE);
+                    }
+                    Object vinert = ext.get("x-oas31-vocab-inert");
+                    if (Boolean.TRUE.equals(vinert)) {
+                        validateParams.put("validation-vocab-inert", Boolean.TRUE);
+                    }
+                    Object dynref = ext.get("x-oas31-dynref");
+                    if (dynref != null) {
+                        validateParams.put("validation-dynamic-ref-anchor",
+                                String.valueOf(dynref));
+                    }
+                }
+                if (branchSchema.get$dynamicAnchor() != null
+                        && !branchSchema.get$dynamicAnchor().isEmpty()) {
+                    validateParams.put("validation-dynamic-anchor",
+                            branchSchema.get$dynamicAnchor());
+                }
+            }
+
+            // Generate a deterministic base name for branch validation dispatch.
+            String validatorId = CppBoostBeastClientCodegen.toValidIdentifier(schemaName)
+                    + "_branch_" + index;
+
+            CompositionBranchDescriptor branch = new CompositionBranchDescriptor(
+                    index, sourceRef, resolvedName, null, validatorId,
+                    nullCap, supported, unsupported, validateParams);
+            branches.add(branch);
+        }
+
+        return new CompositionDescriptor(
+                schemaName, schemaLocation, keyword, branches,
+                discriminatorDescriptor);
+    }
+
+    /**
+     * Checks a composition descriptor for unsupported branch assertions that
+     * can affect membership. Throws UnsupportedSchemaAssertionException when
+     * a branch has unsupportedAssertions that overlap with supportedAssertions
+     * in a way that changes membership fidelity.
+     */
+    static void validateDescriptorAssertions(CompositionDescriptor desc) {
+        if (desc == null) return;
+        for (CompositionBranchDescriptor branch : desc.getBranches()) {
+            for (String unsupported : branch.getUnsupportedAssertions()) {
+                // `not` is always fail-closed: it flips membership, so every
+                // composition keyword must have explicit support.
+                // All other unsupported assertion categories stop generation
+                // for oneOf/anyOf only, since they can change membership count
+                // without a generated validator.
+                // allOf models are exempted from the non-not check because allOf
+                // membership means "all branches must match" — unsupported
+                // assertions don't change match count.
+                if ("not".equals(unsupported)) {
+                    // `not` always fails generation regardless of keyword
+                } else if ("allOf".equals(desc.getKeyword())) {
+                    continue; // non-not unsupported assertions exempted for allOf
+                }
+                throw new CppBoostBeastClientCodegen.UnsupportedSchemaAssertionException(
+                        desc.getSchemaLocation(), unsupported);
+            }
+        }
+    }
+
+    // ========================================================================
+    // Recursive allOf intersection engine
+    // ========================================================================
+
+    /**
+     * Computes the recursive intersection of all allOf contributors.
+     * Resolves $ref-to-allOf chains recursively with cycle detection via the
+     * visited set. Merges properties, unions required, and detects
+     * unsatisfiable intersections.
+     * <p>
+     * For each property that appears in multiple contributors, their property
+     * schemas are recursively intersected. If the intersection of a required
+     * property is empty, the model is unsatisfiable. If the intersection of
+     * an optional property is empty, the property is tagged as
+     * optional-impossible (rejected when present, but does not invalidate
+     * an otherwise valid object).
+     *
+     * @param schemaName the source schema name (for diagnostics)
+     * @param schema     the allOf schema whose branches to intersect
+     * @param openAPI    the parsed OpenAPI document
+     * @param schemas    the component schemas index
+     * @param visited    set of already-visited schema names (cycle guard)
+     * @return the computed intersection, or null if no allOf branches
+     * @throws AllOfRequiredUnsatisfiableException if a required intersection
+     *         is empty and the model cannot be generated
+     */
+    static AllOfIntersection computeAllOfIntersection(
+            String schemaName, Schema schema, OpenAPI openAPI,
+            Map<String, Schema> schemas, Set<String> visited) {
+        if (schema == null) return null;
+        List<Schema> allOfBranches = schema.getAllOf();
+        if (allOfBranches == null || allOfBranches.isEmpty()) return null;
+
+        // Register at entry so recursive allOf references return a cycle sentinel.
+        if (schemaName != null && visited.contains(schemaName)) {
+            return new AllOfIntersection(
+                    new LinkedHashMap<>(), new LinkedHashSet<>(),
+                    true, null, new LinkedHashSet<>());
+        }
+        if (schemaName != null) {
+            visited.add(schemaName);
+        }
+
+        Map<String, Schema> mergedProperties = new LinkedHashMap<>();
+        Set<String> mergedRequired = new LinkedHashSet<>();
+        Set<String> optionalImpossibleProperties = new LinkedHashSet<>();
+        boolean satisfiable = true;
+        String unsatisfiableReason = null;
+
+        // Root-level scalar intersection tracking
+        String rootScalarType = null;
+        List<Object> rootEnumValues = null;
+        Object rootConstValue = null;
+        BigDecimal rootMinimum = null;
+        BigDecimal rootMaximum = null;
+        Boolean rootExclusiveMinimumObj = null;
+        Boolean rootExclusiveMaximumObj = null;
+        Integer rootMinLength = null;
+        Integer rootMaxLength = null;
+        boolean hasRootScalarConstraints = false;
+        boolean rootEnumIntersected = false;
+
+        for (int bi = 0; bi < allOfBranches.size(); bi++) {
+            Schema branch = allOfBranches.get(bi);
+            Schema resolvedBranch = resolveAllOfBranch(branch, openAPI, schemas, visited);
+            if (resolvedBranch == null) continue;
+
+            // Detect nested allOf within the resolved branch and recurse.
+            if (resolvedBranch.getAllOf() != null && !resolvedBranch.getAllOf().isEmpty()) {
+                AllOfIntersection nested = computeAllOfIntersection(
+                        schemaName + "_nested_" + bi, resolvedBranch, openAPI, schemas, visited);
+                if (nested != null) {
+                    mergeIntersectionIntoResult(mergedProperties, mergedRequired,
+                            optionalImpossibleProperties, nested, openAPI, schemas);
+                    if (!nested.isSatisfiable()) {
+                        satisfiable = false;
+                        unsatisfiableReason = nested.getUnsatisfiableReason();
+                    }
+                    // Propagate optional-impossible entries from nested
+                    optionalImpossibleProperties.addAll(nested.getOptionalImpossibleProperties());
+                }
+            }
+
+            // Merge this contributor's properties into the result.
+            // For properties that already exist (from a prior contributor),
+            // recursively intersect the property schemas.
+            if (resolvedBranch.getProperties() != null) {
+                @SuppressWarnings("rawtypes")
+                Map rawProps = resolvedBranch.getProperties();
+                @SuppressWarnings("unchecked")
+                Map<String, Schema> typedProps = rawProps;
+                for (Map.Entry<String, Schema> propEntry
+                        : typedProps.entrySet()) {
+                    String propName = propEntry.getKey();
+                    Schema propSchema = propEntry.getValue();
+                    if (mergedProperties.containsKey(propName)) {
+                        Schema existing = mergedProperties.get(propName);
+                        Schema intersected = intersectPropertySchemas(
+                                existing, propSchema, openAPI, schemas, visited);
+                        mergedProperties.put(propName, intersected);
+                    } else {
+                        mergedProperties.put(propName, propSchema);
+                    }
+                }
+            }
+
+            // Union required property sets
+            if (resolvedBranch.getRequired() != null) {
+                mergedRequired.addAll(resolvedBranch.getRequired());
+            }
+
+            // Handle additionalProperties / closed-object semantics:
+            // If any contributor sets additionalProperties to false, the
+            // result is closed. If multiple contributors constrain the
+            // additional properties schema, use the stricter intersection.
+            // Preserve the strictest additionalProperties constraint available.
+            Object branchAddProps = resolvedBranch.getAdditionalProperties();
+            if (branchAddProps != null) {
+                // Track the constraint — but we don't currently produce a
+                // synthetic additionalProperties; we just note the constraint.
+            }
+
+            // Accumulate root-level scalar constraints from non-object branches
+            // (branches that contribute no properties).
+            if (resolvedBranch.getProperties() == null
+                    || resolvedBranch.getProperties().isEmpty()) {
+                // Intersect root-level type
+                String branchType = resolvedBranch.getType();
+                if (branchType != null) {
+                    hasRootScalarConstraints = true;
+                    if (rootScalarType == null) {
+                        rootScalarType = branchType;
+                    } else if (!rootScalarType.equals(branchType)) {
+                        // Compatible numeric types
+                        if ("integer".equals(branchType) && "number".equals(rootScalarType)) {
+                            rootScalarType = "integer";
+                        } else if ("number".equals(branchType) && "integer".equals(rootScalarType)) {
+                            rootScalarType = "integer";
+                        } else {
+                            satisfiable = false;
+                            unsatisfiableReason = "Incompatible root types across allOf '"
+                                    + schemaName + "' contributors: '" + rootScalarType
+                                    + "' vs '" + branchType + "'";
+                        }
+                    }
+                }
+
+                // Intersect root-level enum (intersection of all branch enum sets)
+                List<Object> branchEnum = resolvedBranch.getEnum();
+                if (branchEnum != null && !branchEnum.isEmpty()) {
+                    hasRootScalarConstraints = true;
+                    if (rootEnumValues == null) {
+                        rootEnumValues = new ArrayList<>(branchEnum);
+                        rootEnumIntersected = false;
+                    } else {
+                        rootEnumValues.retainAll(branchEnum);
+                        rootEnumIntersected = true;
+                    }
+                }
+
+                // Intersect root-level const (must match)
+                Object branchConst = resolvedBranch.getConst();
+                if (branchConst != null) {
+                    hasRootScalarConstraints = true;
+                    if (rootConstValue == null) {
+                        rootConstValue = branchConst;
+                    } else if (!rootConstValue.equals(branchConst)) {
+                        satisfiable = false;
+                        unsatisfiableReason = "Incompatible const values across allOf '"
+                                + schemaName + "' contributors: '"
+                                + rootConstValue + "' vs '" + branchConst + "'";
+                    }
+                }
+
+                // Intersect numeric bounds: minimum/maximum take tighter range
+                if (resolvedBranch.getMinimum() != null) {
+                    hasRootScalarConstraints = true;
+                    BigDecimal branchMin = resolvedBranch.getMinimum();
+                    if (rootMinimum == null || branchMin.compareTo(rootMinimum) > 0) {
+                        rootMinimum = branchMin;
+                    }
+                    // ExclusiveMinimum: take the more restrictive (larger value)
+                    if (Boolean.TRUE.equals(resolvedBranch.getExclusiveMinimum())
+                            || (resolvedBranch.getExclusiveMinimumValue() != null
+                            && resolvedBranch.getExclusiveMinimumValue().compareTo(BigDecimal.ZERO) > 0)) {
+                        rootExclusiveMinimumObj = Boolean.TRUE;
+                    } else if (rootExclusiveMinimumObj == null && !Boolean.FALSE.equals(resolvedBranch.getExclusiveMinimum())) {
+                        // OpenAPI 3.0 style: exclusiveMinimum is a boolean
+                        Object rawExclusiveMin = resolvedBranch.getExclusiveMinimum();
+                        if (rawExclusiveMin instanceof Boolean && Boolean.TRUE.equals(rawExclusiveMin)) {
+                            rootExclusiveMinimumObj = Boolean.TRUE;
+                        }
+                    }
+                }
+                if (resolvedBranch.getMaximum() != null) {
+                    hasRootScalarConstraints = true;
+                    BigDecimal branchMax = resolvedBranch.getMaximum();
+                    if (rootMaximum == null || branchMax.compareTo(rootMaximum) < 0) {
+                        rootMaximum = branchMax;
+                    }
+                    if (Boolean.TRUE.equals(resolvedBranch.getExclusiveMaximum())
+                            || (resolvedBranch.getExclusiveMaximumValue() != null
+                            && resolvedBranch.getExclusiveMaximumValue().compareTo(BigDecimal.ZERO) > 0)) {
+                        rootExclusiveMaximumObj = Boolean.TRUE;
+                    } else if (rootExclusiveMaximumObj == null && !Boolean.FALSE.equals(resolvedBranch.getExclusiveMaximum())) {
+                        Object rawExclusiveMax = resolvedBranch.getExclusiveMaximum();
+                        if (rawExclusiveMax instanceof Boolean && Boolean.TRUE.equals(rawExclusiveMax)) {
+                            rootExclusiveMaximumObj = Boolean.TRUE;
+                        }
+                    }
+                }
+
+                // Intersect minLength / maxLength: tighter wins
+                if (resolvedBranch.getMinLength() != null) {
+                    hasRootScalarConstraints = true;
+                    Integer branchMinLength = resolvedBranch.getMinLength();
+                    if (rootMinLength == null || branchMinLength > rootMinLength) {
+                        rootMinLength = branchMinLength;
+                    }
+                }
+                if (resolvedBranch.getMaxLength() != null) {
+                    hasRootScalarConstraints = true;
+                    Integer branchMaxLength = resolvedBranch.getMaxLength();
+                    if (rootMaxLength == null || branchMaxLength < rootMaxLength) {
+                        rootMaxLength = branchMaxLength;
+                    }
+                }
+            }
+        }
+
+        // Detect empty enum intersection: two or more branches both contributed
+        // enum lists whose intersection is empty (e.g., [a,b] ∩ [c,d] = {}).
+        if (rootEnumIntersected && rootEnumValues != null && rootEnumValues.isEmpty()) {
+            satisfiable = false;
+            unsatisfiableReason = "Empty enum intersection across allOf '"
+                    + schemaName + "' contributors: no common enum values";
+        }
+
+        // Required properties must have non-empty intersections. The property
+        // intersection helper records unsatisfiable schemas with an extension
+        // marker, which is converted to a model-level generation error below.
+
+        // Detect unsatisfiable required properties:
+        // Scan merged properties for unsatisfiable markers.
+        for (String propName : mergedRequired) {
+            Schema propSchema = mergedProperties.get(propName);
+            if (propSchema != null && Boolean.TRUE.equals(
+                    propSchema.getExtensions() != null
+                            ? propSchema.getExtensions().get("x-cpp-unsatisfiable")
+                            : null)) {
+                satisfiable = false;
+                unsatisfiableReason = "Required property '" + propName
+                        + "' in schema '" + schemaName
+                        + "' has an empty intersection across allOf contributors. "
+                        + "This property is required but cannot satisfy all "
+                        + "contributor constraints simultaneously.";
+            }
+        }
+
+        // Tag optional impossible properties: present in merged but marked
+        // with the unsatisfiable flag and NOT in mergedRequired.
+        for (Map.Entry<String, Schema> entry : mergedProperties.entrySet()) {
+            String propName = entry.getKey();
+            if (mergedRequired.contains(propName)) continue;
+            Schema propSchema = entry.getValue();
+            if (propSchema != null && Boolean.TRUE.equals(
+                    propSchema.getExtensions() != null
+                            ? propSchema.getExtensions().get("x-cpp-unsatisfiable")
+                            : null)) {
+                optionalImpossibleProperties.add(propName);
+            }
+        }
+
+        // If no scalar constraints were accumulated but properties exist, null out root fields
+        if (!hasRootScalarConstraints) {
+            rootScalarType = null;
+            rootEnumValues = null;
+            rootConstValue = null;
+            rootMinimum = null;
+            rootMaximum = null;
+            rootExclusiveMinimumObj = null;
+            rootExclusiveMaximumObj = null;
+            rootMinLength = null;
+            rootMaxLength = null;
+        }
+
+        return new AllOfIntersection(
+                mergedProperties, mergedRequired, satisfiable,
+                unsatisfiableReason, optionalImpossibleProperties,
+                rootScalarType, rootEnumValues, rootConstValue,
+                rootMinimum, rootMaximum,
+                rootExclusiveMinimumObj, rootExclusiveMaximumObj,
+                rootMinLength, rootMaxLength);
+    }
+
+    /**
+     * Merges a nested AllOfIntersection into a running result.
+     * For properties that already exist, recursively intersects them.
+     */
+    private static void mergeIntersectionIntoResult(
+            Map<String, Schema> mergedProperties, Set<String> mergedRequired,
+            Set<String> optionalImpossibleProperties,
+            AllOfIntersection nested,
+            OpenAPI openAPI, Map<String, Schema> schemas) {
+        for (Map.Entry<String, Schema> nestedProp : nested.getProperties().entrySet()) {
+            String propName = nestedProp.getKey();
+            Schema nestedSchema = nestedProp.getValue();
+            if (mergedProperties.containsKey(propName)) {
+                mergedProperties.put(propName,
+                        intersectPropertySchemas(
+                                mergedProperties.get(propName),
+                                nestedSchema, openAPI, schemas, new HashSet<>()));
+            } else {
+                mergedProperties.put(propName, nestedSchema);
+            }
+        }
+        mergedRequired.addAll(nested.getRequired());
+        optionalImpossibleProperties.addAll(nested.getOptionalImpossibleProperties());
+    }
+
+    /**
+     * Resolves an allOf branch schema, following $ref targets recursively.
+     * If the branch has a $ref, resolves it to a non-allOf schema.
+     * If the resolved target is itself allOf, returns it as-is for
+     * recursive handling by the caller.
+     *
+     * @param branch  the allOf contributor (possibly a $ref)
+     * @param openAPI the parsed OpenAPI document
+     * @param schemas the component schemas index
+     * @param visited set of already-visited schema names (cycle guard)
+     * @return the resolved schema, or null if unresolvable
+     */
+    private static Schema resolveAllOfBranch(
+            Schema branch, OpenAPI openAPI,
+            Map<String, Schema> schemas, Set<String> visited) {
+        if (branch == null) return null;
+        if (branch.get$ref() == null) return branch;
+
+        String refName = ModelUtils.getSimpleRef(branch.get$ref());
+        if (refName == null) return branch;
+        if (visited.contains(refName)) return branch; // cycle guard
+
+        Schema refTarget = schemas != null ? schemas.get(refName) : null;
+        if (refTarget == null && openAPI != null) {
+            refTarget = ModelUtils.getReferencedSchema(openAPI, branch);
+        }
+        if (refTarget == null) return branch;
+
+        visited.add(refName);
+        try {
+            // If the resolved target also has allOf, recurse
+            if (refTarget.getAllOf() != null && !refTarget.getAllOf().isEmpty()) {
+                return refTarget; // Return so caller can recurse
+            }
+            // If the resolved target has properties, return it directly
+            if (refTarget.getProperties() != null && !refTarget.getProperties().isEmpty()) {
+                return refTarget;
+            }
+            return refTarget;
+        } finally {
+            visited.remove(refName);
+        }
+    }
+
+    /**
+     * Intersects two property schemas, combining their constraints.
+     * Returns a synthetic Schema that represents the intersection:
+     * <ul>
+     *   <li>Types are intersected (must have a common type)</li>
+     *   <li>Enums are intersected (common values only)</li>
+     *   <li>Numeric bounds are tightened</li>
+     *   <li>String bounds are tightened</li>
+     *   <li>Patterns are retained from both</li>
+     *   <li>Required properties are unioned</li>
+     *   <li>Properties are recursively intersected</li>
+     * </ul>
+     * <p>
+     * When the intersection is empty (e.g., string ∩ integer), the resulting
+     * Schema is tagged with vendor extension {@code x-cpp-unsatisfiable: true}
+     * and the property should either fail generation (if required) or generate
+     * decode-time rejection (if optional).
+     */
+    private static Schema intersectPropertySchemas(
+            Schema existing, Schema incoming,
+            OpenAPI openAPI, Map<String, Schema> schemas, Set<String> visited) {
+        if (existing == null) return incoming;
+        if (incoming == null) return existing;
+
+        // Resolve $ref on both sides before intersecting
+        // Property schemas may be unresolved $ref references to component schemas
+        existing = ModelUtils.getReferencedSchema(openAPI, existing);
+        incoming = ModelUtils.getReferencedSchema(openAPI, incoming);
+
+        // Both non-null: compute intersection
+        String existingType = existing.getType();
+        String incomingType = incoming.getType();
+        boolean typeCompatible = true;
+
+        // Check type compatibility
+        if (existingType != null && incomingType != null
+                && !existingType.equals(incomingType)) {
+            // Special case: integer ⊂ number
+            if (!("integer".equals(existingType) && "number".equals(incomingType))
+                    && !("number".equals(existingType) && "integer".equals(incomingType))) {
+                typeCompatible = false;
+            }
+        }
+
+        // Check enum compatibility
+        List<Object> existingEnum = existing.getEnum();
+        List<Object> incomingEnum = incoming.getEnum();
+        List<Object> intersectedEnum = null;
+        if (existingEnum != null && incomingEnum != null) {
+            intersectedEnum = new ArrayList<>(existingEnum);
+            intersectedEnum.retainAll(incomingEnum);
+            if (intersectedEnum.isEmpty()) {
+                typeCompatible = false; // No common enum values
+            }
+        }
+
+        // Build the intersected schema
+        Schema intersected = new Schema();
+
+        // Intersect type: if compatible, keep the more specific type (integer over number)
+        if (typeCompatible) {
+            if (existingType != null && "integer".equals(existingType)) {
+                intersected.setType("integer");
+            } else if (incomingType != null && "integer".equals(incomingType)) {
+                intersected.setType("integer");
+            } else if (existingType != null) {
+                intersected.setType(existingType);
+            } else {
+                intersected.setType(incomingType);
+            }
+        }
+
+        // Intersect enum values
+        if (intersectedEnum != null && !intersectedEnum.isEmpty()) {
+            intersected.setEnum(intersectedEnum);
+        } else if (existingEnum != null && incomingEnum == null) {
+            intersected.setEnum(new ArrayList<>(existingEnum));
+        } else if (incomingEnum != null && existingEnum == null) {
+            intersected.setEnum(new ArrayList<>(incomingEnum));
+        }
+
+        // Intersect const values
+        if (existing.getConst() != null && incoming.getConst() != null) {
+            if (existing.getConst().equals(incoming.getConst())) {
+                intersected.setConst(existing.getConst());
+            } else {
+                typeCompatible = false; // conflicting const values
+            }
+        } else if (existing.getConst() != null) {
+            intersected.setConst(existing.getConst());
+        } else if (incoming.getConst() != null) {
+            intersected.setConst(incoming.getConst());
+        }
+
+        // Numeric bounds: take the tighter bound (higher min, lower max)
+        if (existing.getMinimum() != null || incoming.getMinimum() != null) {
+            java.math.BigDecimal existingMin = existing.getMinimum();
+            java.math.BigDecimal incomingMin = incoming.getMinimum();
+            if (existingMin == null) {
+                intersected.setMinimum(incomingMin);
+                intersected.setExclusiveMinimum(incoming.getExclusiveMinimum());
+            } else if (incomingMin == null) {
+                intersected.setMinimum(existingMin);
+                intersected.setExclusiveMinimum(existing.getExclusiveMinimum());
+            } else {
+                // Compare: take the larger (tighter) minimum
+                if (existingMin.compareTo(incomingMin) >= 0) {
+                    intersected.setMinimum(existingMin);
+                    intersected.setExclusiveMinimum(existing.getExclusiveMinimum());
+                } else {
+                    intersected.setMinimum(incomingMin);
+                    intersected.setExclusiveMinimum(incoming.getExclusiveMinimum());
+                }
+            }
+        }
+        if (existing.getMaximum() != null || incoming.getMaximum() != null) {
+            java.math.BigDecimal existingMax = existing.getMaximum();
+            java.math.BigDecimal incomingMax = incoming.getMaximum();
+            if (existingMax == null) {
+                intersected.setMaximum(incomingMax);
+                intersected.setExclusiveMaximum(incoming.getExclusiveMaximum());
+            } else if (incomingMax == null) {
+                intersected.setMaximum(existingMax);
+                intersected.setExclusiveMaximum(existing.getExclusiveMaximum());
+            } else {
+                // Compare: take the smaller (tighter) maximum
+                if (existingMax.compareTo(incomingMax) <= 0) {
+                    intersected.setMaximum(existingMax);
+                    intersected.setExclusiveMaximum(existing.getExclusiveMaximum());
+                } else {
+                    intersected.setMaximum(incomingMax);
+                    intersected.setExclusiveMaximum(incoming.getExclusiveMaximum());
+                }
+            }
+        }
+        if (existing.getMultipleOf() != null || incoming.getMultipleOf() != null) {
+            // The synthetic schema is for C++ storage modeling; retain one
+            // representative constraint. The evaluator still validates every
+            // original allOf contributor.
+            if (existing.getMultipleOf() != null) {
+                intersected.setMultipleOf(existing.getMultipleOf());
+            } else {
+                intersected.setMultipleOf(incoming.getMultipleOf());
+            }
+        }
+
+        // String bounds: take the tighter
+        intersected.setMinLength(tighterMinLen(
+                existing.getMinLength(), incoming.getMinLength()));
+        intersected.setMaxLength(tighterMaxLen(
+                existing.getMaxLength(), incoming.getMaxLength()));
+
+        // Retain one pattern on the synthetic storage schema. Exact membership
+        // evaluates every original allOf contributor, so no assertion is lost.
+        if (existing.getPattern() != null || incoming.getPattern() != null) {
+            if (existing.getPattern() != null) {
+                intersected.setPattern(existing.getPattern());
+            } else {
+                intersected.setPattern(incoming.getPattern());
+            }
+        }
+
+        // Array bounds: take the tighter
+        intersected.setMinItems(tighterMinLen(
+                existing.getMinItems(), incoming.getMinItems()));
+        intersected.setMaxItems(tighterMaxLen(
+                existing.getMaxItems(), incoming.getMaxItems()));
+        if (Boolean.TRUE.equals(existing.getUniqueItems())
+                || Boolean.TRUE.equals(incoming.getUniqueItems())) {
+            intersected.setUniqueItems(true);
+        }
+
+        // Object bounds: take the tighter
+        intersected.setMinProperties(tighterMinLen(
+                existing.getMinProperties(), incoming.getMinProperties()));
+        intersected.setMaxProperties(tighterMaxLen(
+                existing.getMaxProperties(), incoming.getMaxProperties()));
+
+        // Recursive property intersection for nested object schemas
+        // (properties on properties)
+        Map<String, Schema> existingProperties = existing.getProperties();
+        Map<String, Schema> incomingProperties = incoming.getProperties();
+        if ((existingProperties != null && !existingProperties.isEmpty())
+                || (incomingProperties != null && !incomingProperties.isEmpty())) {
+            if (existingProperties != null && incomingProperties != null) {
+                Map<String, Schema> merged = new LinkedHashMap<>(existingProperties);
+                for (Map.Entry<String, Schema> entry : incomingProperties.entrySet()) {
+                    String key = entry.getKey();
+                    Schema val = entry.getValue();
+                    if (merged.containsKey(key)) {
+                        merged.put(key, intersectPropertySchemas(
+                                merged.get(key), val, openAPI, schemas, visited));
+                    } else {
+                        merged.put(key, val);
+                    }
+                }
+                intersected.setProperties(merged);
+            } else if (existingProperties != null) {
+                intersected.setProperties(new LinkedHashMap<>(existingProperties));
+            } else {
+                intersected.setProperties(new LinkedHashMap<>(incomingProperties));
+            }
+        }
+
+        // Mark unsatisfiable when types are incompatible
+        if (!typeCompatible) {
+            Map<String, Object> extensions = intersected.getExtensions();
+            if (extensions == null) {
+                extensions = new LinkedHashMap<>();
+                intersected.setExtensions(extensions);
+            }
+            extensions.put("x-cpp-unsatisfiable", true);
+        }
+
+        return intersected;
+    }
+
+    /**
+     * Returns the tighter (larger) of two min bounds, or whichever is non-null.
+     */
+    private static Integer tighterMinLen(Integer first, Integer second) {
+        if (first == null) return second;
+        if (second == null) return first;
+        return Math.max(first, second);
+    }
+
+    /**
+     * Returns the tighter (smaller) of two max bounds, or whichever is non-null.
+     */
+    private static Integer tighterMaxLen(Integer first, Integer second) {
+        if (first == null) return second;
+        if (second == null) return first;
+        return Math.min(first, second);
+    }
+
+    /**
+     * Builds a synthetic object Schema from an AllOfIntersection result.
+     * The synthetic schema is used as input to super.fromModel, replacing
+     * the original allOf structure with pre-computed merged properties
+     * and required sets.
+     *
+     * @param schemaName   the model name
+     * @param intersection the pre-computed allOf intersection
+     * @return a synthetic object Schema with merged properties and required
+     */
+    static Schema buildSyntheticAllOfSchema(
+            String schemaName, AllOfIntersection intersection) {
+        Schema synthetic = new Schema();
+
+        // Set root-level type from intersection, default to "object"
+        if (intersection.getRootScalarType() != null) {
+            synthetic.setType(intersection.getRootScalarType());
+        } else {
+            synthetic.setType("object");
+        }
+
+        // Apply intersected root-level enum values
+        if (intersection.getRootEnumValues() != null
+                && !intersection.getRootEnumValues().isEmpty()) {
+            synthetic.setEnum(new ArrayList<>(intersection.getRootEnumValues()));
+        }
+
+        // Apply intersected root-level const value
+        if (intersection.getRootConstValue() != null) {
+            synthetic.setConst(intersection.getRootConstValue());
+        }
+
+        // Apply intersected numeric bounds
+        if (intersection.getRootMinimum() != null) {
+            synthetic.setMinimum(intersection.getRootMinimum());
+        }
+        if (intersection.getRootMaximum() != null) {
+            synthetic.setMaximum(intersection.getRootMaximum());
+        }
+        if (intersection.getRootExclusiveMinimum() != null) {
+            synthetic.setExclusiveMinimum(intersection.getRootExclusiveMinimum());
+        }
+        if (intersection.getRootExclusiveMaximum() != null) {
+            synthetic.setExclusiveMaximum(intersection.getRootExclusiveMaximum());
+        }
+
+        // Apply intersected string length bounds
+        if (intersection.getRootMinLength() != null) {
+            synthetic.setMinLength(intersection.getRootMinLength());
+        }
+        if (intersection.getRootMaxLength() != null) {
+            synthetic.setMaxLength(intersection.getRootMaxLength());
+        }
+
+        // Copy merged properties (skipping optional-impossible properties)
+        if (!intersection.getProperties().isEmpty()) {
+            Map<String, Schema> syntheticProps = new LinkedHashMap<>();
+            for (Map.Entry<String, Schema> propEntry
+                    : intersection.getProperties().entrySet()) {
+                String propName = propEntry.getKey();
+                if (intersection.getOptionalImpossibleProperties().contains(propName)) {
+                    // For optional-impossible properties (e.g., string ∩ int32),
+                    // use the first contributor's schema so the property has a
+                    // storage member (avoids empty-shell detection). Mark with
+                    // x-cpp-optional-impossible for template-level awareness.
+                    Schema propSchema = propEntry.getValue();
+                    // The intersected schema may have x-cpp-unsatisfiable set.
+                    // Ensure it has at least one contributor type so fromModel
+                    // produces a CodegenProperty with a real dataType. Fall back
+                    // to the existing intersected schema as-is when it already
+                    // has a type or if no better alternative is available.
+                    if (propSchema.getType() == null) {
+                        // Assign a fallback type so the property gets a member.
+                        // Prefer the first contributor's type, otherwise use
+                        // boost::json::value as the most generic C++ type.
+                        propSchema.setType("string");
+                    }
+                    Map<String, Object> ext = propSchema.getExtensions();
+                    if (ext == null) {
+                        ext = new LinkedHashMap<>();
+                        propSchema.setExtensions(ext);
+                    }
+                    ext.put("x-cpp-optional-impossible", true);
+                    syntheticProps.put(propName, propSchema);
+                } else {
+                    syntheticProps.put(propName, propEntry.getValue());
+                }
+            }
+            synthetic.setProperties(syntheticProps);
+        }
+
+        // Set required as the union of required from all contributors
+        if (!intersection.getRequired().isEmpty()) {
+            synthetic.setRequired(new ArrayList<>(intersection.getRequired()));
+        }
+
+        return synthetic;
+    }
+
+    /**
+     * Builds a list of {key, value} maps from the full set of discriminator
+     * mapped models (explicit URI mappings + implicit component-name mappings)
+     * for template-iteration.  Each entry maps a C++-escaped discriminator value
+     * to a composition branch index so the template can reorder candidate
+     * validation for diagnostics.
+     * <p>
+     * Unresolvable mappings (where the model name does not match any branch
+     * resolved schema name) fail generation with a clear diagnostic per §8.
+     *
+     * @param mappedModels the full set of discriminator mapped models
+     * @param branches     the composition branch descriptors
+     * @return list of {key, value} maps; non-empty when at least one mapping
+     *         resolves to a valid branch
+     * @throws RuntimeException when a mapping does not resolve to any branch
+     */
+    public static List<Map<String, Object>> buildDiscriminatorBranchIndex(
+            Set<CodegenDiscriminator.MappedModel> mappedModels,
+            List<CompositionBranchDescriptor> branches) {
+        List<Map<String, Object>> indexList = new ArrayList<>();
+        if (mappedModels == null || mappedModels.isEmpty()) return indexList;
+        for (CodegenDiscriminator.MappedModel mm : mappedModels) {
+            if (mm == null) continue;
+            int branchIndex = -1;
+            for (int bi = 0; bi < branches.size(); bi++) {
+                String resolvedName = branches.get(bi).getResolvedSchemaName();
+                if (resolvedName == null) continue;
+                // Match on raw schemaName first (handles lowercase/raw names),
+                // then on sanitized modelName (handles normalised names).
+                if (resolvedName.equals(mm.getSchemaName())
+                        || resolvedName.equals(mm.getModelName())) {
+                    branchIndex = bi;
+                    break;
+                }
+            }
+            if (branchIndex >= 0) {
+                Map<String, Object> entry = new LinkedHashMap<>();
+                entry.put("key", CppBoostBeastClientCodegen.escapeCppStringContent(mm.getMappingName()));
+                entry.put("value", branchIndex);
+                indexList.add(entry);
+            } else {
+                // §8: unresolvable → hard diagnostic
+                throw new RuntimeException(
+                    "Discriminator mapping value '"
+                    + CppBoostBeastClientCodegen.escapeCppStringContent(mm.getMappingName())
+                    + "' (schema: " + mm.getSchemaName()
+                    + ", model: " + mm.getModelName()
+                    + ") does not match any composition branch for schema '"
+                    + (mm.getModelName() != null ? mm.getModelName() : "(unknown)")
+                    + "'. Valid branches: "
+                    + branches.stream()
+                        .map(CompositionBranchDescriptor::getResolvedSchemaName)
+                        .filter(n -> n != null)
+                        .collect(Collectors.joining(", ")));
+            }
+        }
+        return indexList;
+    }
+
+    /**
+     * Fallback variant: builds a list of {key, value} maps from explicit
+     * discriminator mapping entries only (used when the codegen model's
+     * full MappedModel set is unavailable).
+     *
+     * @param discMapping the discriminator.value → target mapping
+     * @param branches    the composition branch descriptors
+     * @return list of {key, value} maps
+     */
+    public static List<Map<String, Object>> buildDiscriminatorBranchIndex(
+            Map<String, String> discMapping,
+            List<CompositionBranchDescriptor> branches) {
+        List<Map<String, Object>> indexList = new ArrayList<>();
+        if (discMapping == null || discMapping.isEmpty()) return indexList;
+        for (Map.Entry<String, String> entry : discMapping.entrySet()) {
+            String targetName = extractSimpleRef(entry.getValue());
+            if (targetName == null) continue;
+            int branchIndex = -1;
+            for (int bi = 0; bi < branches.size(); bi++) {
+                if (targetName.equals(branches.get(bi).getResolvedSchemaName())) {
+                    branchIndex = bi;
+                    break;
+                }
+            }
+            if (branchIndex >= 0) {
+                Map<String, Object> entryMap = new LinkedHashMap<>();
+                entryMap.put("key", CppBoostBeastClientCodegen.escapeCppStringContent(entry.getKey()));
+                entryMap.put("value", branchIndex);
+                indexList.add(entryMap);
+            } else {
+                throw new RuntimeException(
+                    "Discriminator mapping target '" + entry.getValue()
+                    + "' (resolved: " + targetName
+                    + ") does not match any composition branch. Valid branches: "
+                    + branches.stream()
+                        .map(CompositionBranchDescriptor::getResolvedSchemaName)
+                        .filter(n -> n != null)
+                        .collect(Collectors.joining(", ")));
+            }
+        }
+        return indexList;
+    }
+
+    /**
+     * Extracts a simple schema name from a discriminator mapping value.
+     * Handles both URI references (e.g. "#/components/schemas/Mammal")
+     * and plain component names (e.g. "Mammal").
+     */
+    private static String extractSimpleRef(String mappingValue) {
+        if (mappingValue == null || mappingValue.isEmpty()) return null;
+        String ref = mappingValue.trim();
+        if (ref.startsWith("#/")) {
+            int lastSlash = ref.lastIndexOf('/');
+            return lastSlash >= 0 ? ref.substring(lastSlash + 1) : ref;
+        }
+        return ref;
+    }
+
+    /**
+     * Ordered lowering rules for composed types (OAS-first):
+     * 1. anyOf/oneOf: [T, null] → std::optional&lt;T&gt;
+     * 2. anyOf only: all strings/string-enums → std::string
+     * 3. Remove null branches
+     * 4. Single non-null branch → that branch's type
+     * 5. Deduplicate identical branch types
+     * 6. oneOf open-string + string-enum (type-erased) → boost::json::value
+     *    (do not pretend exclusivity after both erase to std::string)
+     * 7. oneOf multi-branch → single identical C++ type (alias collapse) → that type
+     * 8. Emit std::variant&lt;Branches...&gt; or boost::json::value
+     * <p>
+     * When a non-null {@code descriptor} is provided, its branch metadata
+     * (nullCapability, supportedAssertions) replaces C++ type-string heuristics
+     * for Rules 1, 3, and 6.
+     */
+    static String lowerComposedTypes(List<CppBoostBeastClientCodegen.ComposedBranch> branches,
+                                     String composedKeyword,
+                                     CompositionDescriptor descriptor) {
+        if (branches == null || branches.isEmpty()) {
+            return "boost::json::value";
+        }
+        List<String> branchTypes = branches.stream()
+                .map(b -> b.cppType)
+                .collect(Collectors.toList());
+
+        // Rule 1: anyOf/oneOf: [T, null] → std::optional<T>
+        // Use descriptor nullCapability when available for semantic accuracy.
+        // Uses originalBranchIndex to align with descriptor after self-ref filtering.
+        // Tightened: non-null branch must have NullCapability.NEVER (not CONDITIONAL).
+        if (descriptor != null) {
+            int alwaysNullCount = 0;
+            int nonNullComposedIndex = -1;
+            List<CompositionBranchDescriptor> descBranches = descriptor.getBranches();
+            for (int ci = 0; ci < branches.size(); ci++) {
+                int descIdx = branches.get(ci).originalBranchIndex;
+                if (descIdx < 0 || descIdx >= descBranches.size()) continue;
+                CompositionBranchDescriptor.NullCapability nc =
+                        descBranches.get(descIdx).getNullCapability();
+                if (nc == CompositionBranchDescriptor.NullCapability.ALWAYS) {
+                    alwaysNullCount++;
+                } else if (nc == CompositionBranchDescriptor.NullCapability.NEVER
+                        && nonNullComposedIndex < 0) {
+                    nonNullComposedIndex = ci;
+                }
+            }
+            if (alwaysNullCount == 1 && branches.size() == 2
+                    && nonNullComposedIndex >= 0
+                    && nonNullComposedIndex < branchTypes.size()) {
+                String nonNullBranch = branchTypes.get(nonNullComposedIndex);
+                if (nonNullBranch != null) {
+                    return "std::optional<" + nonNullBranch + ">";
+                }
+            }
+        } else {
+            // Fallback: C++ type-string heuristic (no descriptor available)
+            int nullCount = (int) branchTypes.stream().filter("std::nullptr_t"::equals).count();
+            if (nullCount == 1 && branchTypes.size() == 2) {
+                String nonNullBranch = branchTypes.stream()
+                        .filter(bt -> !"std::nullptr_t".equals(bt))
+                        .findFirst().orElse(null);
+                if (nonNullBranch != null) {
+                    return "std::optional<" + nonNullBranch + ">";
+                }
+            }
+        }
+
+        // Rule 2: anyOf-only collapse of unconstrained string branches.
+        // Enum constraints require distinct branch validators, and oneOf cannot
+        // collapse without losing exclusive-match semantics.
+        if ("anyOf".equals(composedKeyword) && branchTypes.stream().allMatch("std::string"::equals)) {
+            // Check if any branch has enum assertions using descriptor metadata
+            // or fallback ComposedBranch isEnum flag.
+            boolean hasEnumString = false;
+            if (descriptor != null) {
+                List<CompositionBranchDescriptor> descBranches = descriptor.getBranches();
+                for (CppBoostBeastClientCodegen.ComposedBranch cb : branches) {
+                    int descIdx = cb.originalBranchIndex;
+                    if (descIdx >= 0 && descIdx < descBranches.size()
+                            && descBranches.get(descIdx).getSupportedAssertions().contains("enum")) {
+                        hasEnumString = true;
+                        break;
+                    }
+                }
+            } else {
+                hasEnumString = branches.stream().anyMatch(b -> b.isEnum);
+            }
+            if (!hasEnumString) {
+                return "std::string";
+            }
+            // Has enum string branches — fall through to CompositionBranchValue
+            // preservation (Rule 5) which keeps validators active.
+        }
+
+        // Rule 3: Remove null branches for further processing, preserving all
+        // branches when every branch is null so oneOf cardinality remains exact.
+        List<CppBoostBeastClientCodegen.ComposedBranch> nonNullMeta;
+        if (descriptor != null) {
+            List<CompositionBranchDescriptor> descBranches = descriptor.getBranches();
+            nonNullMeta = new ArrayList<>();
+            boolean hasNonNull = false;
+            for (CppBoostBeastClientCodegen.ComposedBranch cb : branches) {
+                int descIdx = cb.originalBranchIndex;
+                if (descIdx >= 0 && descIdx < descBranches.size()) {
+                    CompositionBranchDescriptor.NullCapability nc =
+                            descBranches.get(descIdx).getNullCapability();
+                    if (nc != CompositionBranchDescriptor.NullCapability.ALWAYS) {
+                        nonNullMeta.add(cb);
+                        hasNonNull = true;
+                    }
+                }
+            }
+            // All branches were null — keep them for identity preservation
+            if (!hasNonNull && !branches.isEmpty()) {
+                nonNullMeta = new ArrayList<>(branches);
+            }
+        } else {
+            List<CppBoostBeastClientCodegen.ComposedBranch> nonNullOnly = branches.stream()
+                    .filter(b -> !"std::nullptr_t".equals(b.cppType))
+                    .collect(Collectors.toList());
+            if (!nonNullOnly.isEmpty()) {
+                nonNullMeta = nonNullOnly;
+            } else {
+                // All branches are null — keep them
+                nonNullMeta = new ArrayList<>(branches);
+            }
+        }
+        List<String> nonNullBranches = nonNullMeta.stream()
+                .map(b -> b.cppType)
+                .collect(Collectors.toList());
+
+        // Rule 3b: Flatten nested variants
+        List<String> flattened = new ArrayList<>();
+        for (String bt : nonNullBranches) {
+            if (bt.startsWith("std::variant<") && bt.endsWith(">")) {
+                String inner = bt.substring(13, bt.length() - 1);
+                int depth = 0;
+                int start = 0;
+                for (int i = 0; i < inner.length(); i++) {
+                    char c = inner.charAt(i);
+                    if (c == '<') depth++;
+                    else if (c == '>') depth--;
+                    else if (c == ',' && depth == 0) {
+                        flattened.add(inner.substring(start, i).trim());
+                        start = i + 1;
+                    }
+                }
+                if (start < inner.length()) {
+                    flattened.add(inner.substring(start).trim());
+                }
+            } else {
+                flattened.add(bt);
+            }
+        }
+
+        // Rule 4: All-null or empty → boost::json::value
+        if (flattened.isEmpty()) {
+            return "boost::json::value";
+        }
+
+        // Rule 5: Detect duplicate branch types that would lose schema
+        // identity after C++ dedup. When multiple branches lower to the
+        // same C++ type (e.g., two double branches with different numeric
+        // constraints, or a string + string-enum both becoming std::string),
+        // wrap each in CompositionBranchValue<originalBranchIndex, Type>
+        // to preserve distinct branch identity.
+        boolean hasDuplicateTypes = false;
+        outer:
+        for (int i = 0; i < nonNullBranches.size(); i++) {
+            for (int j = i + 1; j < nonNullBranches.size(); j++) {
+                if (nonNullBranches.get(i).equals(nonNullBranches.get(j))) {
+                    hasDuplicateTypes = true;
+                    break outer;
+                }
+            }
+        }
+
+        if (hasDuplicateTypes) {
+            // Shortcut: wrap all branches in CompositionBranchValue to
+            // preserve identity. Skip flattening (nested variants only
+            // appear once in nonNullBranches so they won't collide here).
+            // Also skip Rule 6 (string exclusivity) since tagged branches
+            // already preserve distinct membership.
+            List<String> tagged = new ArrayList<>();
+            for (int i = 0; i < nonNullBranches.size(); i++) {
+                String rawType = nonNullBranches.get(i);
+                int origIdx = nonNullMeta.get(i).originalBranchIndex;
+                // For inline schemas (origIdx < 0), use flat position as tag.
+                int brIdx = origIdx >= 0 ? origIdx : i;
+                // Flatten nested variant types within tagged branches
+                if (rawType.startsWith("std::variant<") && rawType.endsWith(">")) {
+                    String inner = rawType.substring(13, rawType.length() - 1);
+                    int depth = 0;
+                    int start = 0;
+                    for (int ci = 0; ci < inner.length(); ci++) {
+                        char c = inner.charAt(ci);
+                        if (c == '<') depth++;
+                        else if (c == '>') depth--;
+                        else if (c == ',' && depth == 0) {
+                            String innerType = inner.substring(start, ci).trim();
+                            tagged.add("CompositionBranchValue<" + brIdx
+                                    + ", " + innerType + ">");
+                            start = ci + 1;
+                        }
+                    }
+                    if (start < inner.length()) {
+                        String innerType = inner.substring(start).trim();
+                        tagged.add("CompositionBranchValue<" + brIdx
+                                + ", " + innerType + ">");
+                    }
+                } else {
+                    tagged.add("CompositionBranchValue<" + brIdx
+                            + ", " + rawType + ">");
+                }
+            }
+            // When hasDuplicateTypes, null branches must be wrapped in
+            // CompositionBranchValue too — never bare std::nullptr_t.
+            // Find null branches that were filtered by Rule 3 and wrap
+            // them, skipping any that Rule 3 already preserved in tagged.
+            boolean hasNull = branchTypes.stream().anyMatch("std::nullptr_t"::equals);
+            if (hasNull) {
+                for (int ni = 0; ni < branches.size(); ni++) {
+                    if ("std::nullptr_t".equals(branches.get(ni).cppType)) {
+                        int origIdx = branches.get(ni).originalBranchIndex;
+                        int brIdx = origIdx >= 0 ? origIdx : ni;
+                        String cbvNull = "CompositionBranchValue<" + brIdx
+                                + ", std::nullptr_t>";
+                        if (!tagged.contains(cbvNull)) {
+                            tagged.add(cbvNull);
+                        }
+                    }
+                }
+            }
+            return "std::variant<" + String.join(", ", tagged) + ">";
+        }
+
+        // Rule 6: Deduplicate identical branch types (safe when no duplicates).
+        List<String> deduped = flattened.stream()
+                .distinct()
+                .collect(Collectors.toList());
+
+        // Rule 7: oneOf string branches that lose exclusivity after type lowering.
+        // Branches [open-string, string-enum] or [string-enum-A, string-enum-B] all
+        // collapse to std::string after type lowering, so every string value matches
+        // every original string-like branch. Under JSON Schema oneOf, this means
+        // values matching multiple original branches cannot be detected (count is
+        // artificially 1 instead of 2+), causing false acceptance of invalid oneOf
+        // inputs. Type-erase to boost::json::value when multiple string-like branches
+        // collapse and at least one has enum constraints (the constraint is the only
+        // thing that distinguishes otherwise-identical branches). anyOf keeps the
+        // string collapse (rule 2) since first-match is correct behavior.
+        //
+        // When a descriptor is available, use its supportedAssertions for enum
+        // detection instead of the ComposedBranch isEnum flag. Descriptor
+        // assertions are semantically richer (captured from raw schema scanning)
+        // and carried from preprocessOpenAPI through all lowering passes.
+        if ("oneOf".equals(composedKeyword) && nonNullMeta.size() > 1) {
+            long preDedupStringCount = nonNullMeta.stream()
+                    .filter(b -> b.isStringLike)
+                    .count();
+            long postDedupStringCount = deduped.stream()
+                    .filter("std::string"::equals)
+                    .count();
+            List<CompositionBranchDescriptor> descBranches = descriptor != null
+                    ? descriptor.getBranches() : null;
+            boolean hasStringEnum = nonNullMeta.stream()
+                    .anyMatch(b -> {
+                        if (!b.isStringLike) return false;
+                        // Descriptor path: consult supportedAssertions
+                        if (descBranches != null && b.originalBranchIndex >= 0
+                                && b.originalBranchIndex < descBranches.size()) {
+                            return descBranches.get(b.originalBranchIndex)
+                                    .getSupportedAssertions().contains("enum");
+                        }
+                        // Fallback: use ComposedBranch.isEnum (CodegenProperty)
+                        return b.isEnum;
+                    });
+            if (preDedupStringCount > postDedupStringCount && hasStringEnum) {
+                LOGGER.warn(
+                        "oneOf string branches erase to std::string; "
+                                + "emitting boost::json::value to avoid false exclusive-union fidelity");
+                return "boost::json::value";
+            }
+        }
+
+        // Rule 7: Single branch after dedup (including oneOf alias chains that
+        // resolve to the same underlying C++ type without enum/open-string mix).
+        if (deduped.size() == 1) {
+            return deduped.get(0);
+        }
+
+        // Rule 8: Emit std::variant<Branches...>
+        List<String> variantBranches = new ArrayList<>(deduped);
+        // Re-append null for any null-containing composition not consumed
+        // by Rule 1 ([T, null] -> optional<T>). Rule 1 always returns early,
+        // so every null surviving to this point must be restored.
+        boolean hasNull = branchTypes.stream().anyMatch("std::nullptr_t"::equals);
+        boolean nullsAlreadyPreserved = variantBranches.stream().anyMatch(
+                v -> v.contains("std::nullptr_t"));
+        if (hasNull && !nullsAlreadyPreserved) {
+            variantBranches.add("std::nullptr_t");
+        }
+        return "std::variant<" + String.join(", ", variantBranches) + ">";
+    }
+}

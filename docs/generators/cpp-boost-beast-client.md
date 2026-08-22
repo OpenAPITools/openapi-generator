@@ -19,8 +19,28 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |apiPackage|C++ namespace for apis (convention: name.space.api).| |org.openapitools.client.api|
+|compileWithValidation|Enable decode-time oneOf/anyOf/discriminator branch validation. Representation checks such as finite numeric conversion, integer range, and required properties remain active when disabled.| |true|
+|formatAssertionPolicy|Schema `format` is annotation-only. The generator rejects unsupported assertion modes rather than changing branch match counts.|<dl><dt>**annotation**</dt><dd>Record format as an annotation</dd></dl>|annotation|
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.client.model|
 |packageName|C++ package and library name.| |CppBoostBeastOpenAPIClient|
+|sseSchemaMode|SSE schema interpretation mode for text/event-stream responses. 'representation' (default): the response schema describes the text/event-stream media representation; generate framed events with raw data strings, event type, id, and retry fields. 'jsonEventData': the response schema describes each JSON data field; decode each event's data payload against the schema. Use the x-sse-event-data-schema vendor extension for per-operation opt-in to typed event-data decoding.|<dl><dt>**representation**</dt><dd>Strict mode &mdash; schema describes media representation</dd><dt>**jsonEventData**</dt><dd>Schema describes each JSON event data payload</dd></dl>|representation|
+
+## OAS 3.1 EXACT NUMERIC VALIDATION
+
+Generated validators preserve each JSON number's original token and evaluate
+numeric bounds, mathematical-integer membership, numeric `enum`/`const`, and
+`multipleOf` with an arbitrary-precision decimal representation. Both the
+mantissa and base-10 exponent are arbitrary precision; tokens such as
+`1e2147483648` therefore remain valid inputs and never narrow through a
+fixed-width exponent or `double` during validation.
+
+One explicit resource limit applies: an individual JSON number token may be at
+most 4096 bytes. Longer tokens fail with `std::length_error`. The legacy
+`ExactNumber::add` and `divmod` helpers likewise reject decimal expansions over
+4096 places, while generated range and `multipleOf` validation use non-expanding
+algorithms. Public model storage is unchanged (`double`, `std::int32_t`, or
+`std::int64_t` as mapped below), so exact validation does not imply lossless
+round-tripping after a value has been converted into and mutated through a model.
 
 ## IMPORT MAPPING
 
@@ -32,8 +52,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |int32_t|#include &lt;cstdint&gt;|
 |int64_t|#include &lt;cstdint&gt;|
 |std::map|#include &lt;map&gt;|
+|std::monostate|#include &lt;variant&gt;|
 |std::nullptr_t|#include &lt;cstddef&gt;|
+|std::optional|#include &lt;optional&gt;|
+|std::shared_ptr|#include &lt;memory&gt;|
 |std::string|#include &lt;string&gt;|
+|std::variant|#include &lt;variant&gt;|
 |std::vector|#include &lt;vector&gt;|
 
 
@@ -51,9 +75,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>double</li>
 <li>float</li>
 <li>int</li>
-<li>int32_t</li>
-<li>int64_t</li>
 <li>long</li>
+<li>std::int32_t</li>
+<li>std::int64_t</li>
 </ul>
 
 ## RESERVED WORDS
@@ -168,14 +192,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Int64|✓|OAS2,OAS3
 |Float|✓|OAS2,OAS3
 |Double|✓|OAS2,OAS3
-|Decimal|✓|ToolingExtension
+|Decimal|✗|ToolingExtension
 |String|✓|OAS2,OAS3
-|Byte|✓|OAS2,OAS3
-|Binary|✓|OAS2,OAS3
+|Byte|✗|OAS2,OAS3
+|Binary|✗|OAS2,OAS3
 |Boolean|✓|OAS2,OAS3
-|Date|✓|OAS2,OAS3
-|DateTime|✓|OAS2,OAS3
-|Password|✓|OAS2,OAS3
+|Date|✗|OAS2,OAS3
+|DateTime|✗|OAS2,OAS3
+|Password|✗|OAS2,OAS3
 |File|✓|OAS2
 |Uuid|✗|
 |Array|✓|OAS2,OAS3
@@ -217,11 +241,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ExternalDocumentation|✓|OAS2,OAS3
 |Examples|✓|OAS2,OAS3
 |XMLStructureDefinitions|✗|OAS2,OAS3
-|MultiServer|✗|OAS3
+|MultiServer|✓|OAS3
 |ParameterizedServer|✗|OAS3
-|ParameterStyling|✗|OAS3
-|Callbacks|✗|OAS3
-|LinkObjects|✗|OAS3
+|ParameterStyling|✓|OAS3
+|Callbacks|✓|OAS3
+|LinkObjects|✓|OAS3
 
 ### Parameter Feature
 | Name | Supported | Defined By |
@@ -232,18 +256,18 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Body|✓|OAS2
 |FormUnencoded|✓|OAS2
 |FormMultipart|✓|OAS2
-|Cookie|✗|OAS3
+|Cookie|✓|OAS3
 
 ### Schema Support Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |Simple|✓|OAS2,OAS3
 |Composite|✓|OAS2,OAS3
-|Polymorphism|✗|OAS2,OAS3
-|Union|✗|OAS3
-|allOf|✗|OAS2,OAS3
-|anyOf|✗|OAS3
-|oneOf|✗|OAS3
+|Polymorphism|✓|OAS2,OAS3
+|Union|✓|OAS3
+|allOf|✓|OAS2,OAS3
+|anyOf|✓|OAS3
+|oneOf|✓|OAS3
 |not|✗|OAS3
 
 ### Security Feature
