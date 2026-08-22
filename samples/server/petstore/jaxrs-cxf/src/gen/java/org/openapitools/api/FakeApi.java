@@ -167,7 +167,7 @@ public interface FakeApi  {
     @ApiOperation(value = "test inline additionalProperties", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void testInlineAdditionalProperties(@Valid @NotNull Map<String, String> param);
+    public void testInlineAdditionalProperties(@NotNull Map<String, String> param);
 
     /**
      * test json serialization of form data

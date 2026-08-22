@@ -52,9 +52,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 {{#swagger2AnnotationLibrary}}
   @Schema(description = "{{{description}}}"{{#example}}, example = "{{{example}}}"{{/example}}{{#required}}, requiredMode = Schema.RequiredMode.REQUIRED{{/required}})
 {{/swagger2AnnotationLibrary}}
-{{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
+{{^isContainer}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
   @Valid
-{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}
+{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}{{/isContainer}}
 {{#vendorExtensions.x-field-extra-annotation}}
 {{{.}}}
 {{/vendorExtensions.x-field-extra-annotation}}
