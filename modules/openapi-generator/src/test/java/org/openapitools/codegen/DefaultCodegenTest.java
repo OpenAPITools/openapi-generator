@@ -1316,6 +1316,27 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllOfNullableWithoutTypeKeepsType() {
+        // issue #4128: an allOf part that only sets 'nullable: true' on a property
+        // defined in another part must not erase the property type
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf-nullable-typeless-override.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("UpdateFirm");
+        CodegenModel model = codegen.fromModel("UpdateFirm", schema);
+
+        CodegenProperty addressId = model.vars.stream()
+                .filter(v -> "addressId".equals(v.baseName)).findFirst().orElseThrow();
+        assertEquals("String", addressId.dataType);
+        assertTrue(addressId.isNullable);
+        assertEquals(Integer.valueOf(36), addressId.maxLength);
+        // extensions from both parts survive the merge
+        assertEquals("keep", addressId.vendorExtensions.get("x-base-marker"));
+        assertEquals("added", addressId.vendorExtensions.get("x-overlay-marker"));
+    }
+
+    @Test
     public void testAllOfSingleAndDoubleRefWithOwnPropsNoDiscriminator() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition.yaml");
         final DefaultCodegen codegen = new CodegenWithMultipleInheritance();
