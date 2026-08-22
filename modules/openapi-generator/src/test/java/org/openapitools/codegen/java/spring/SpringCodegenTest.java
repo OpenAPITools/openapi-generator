@@ -2715,6 +2715,27 @@ public class SpringCodegenTest {
                 .doesNotHaveParameter("pageable");
     }
 
+    @Test
+    public void explicitXSpringPaginatedFalseKeepsQueryParamsForSpringCloud_issue24720() throws IOException {
+        // Regression #24720: x-spring-paginated: false on a spring-cloud operation must NOT be
+        // treated as enabled. The individual page/size/sort query params must be retained and no
+        // Pageable parameter added (the value must be checked, not just the key's presence).
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_CLOUD_LIBRARY, props);
+
+        // findPetsManualFalse has x-spring-paginated: false with page/size/sort query params:
+        // Pageable must NOT be injected and the query params must remain.
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsManualFalse", "Integer", "Integer", "String")
+                .doesNotHaveParameter("pageable");
+    }
+
     @DataProvider(name = "sealedScenarios")
     public static Object[][] sealedScenarios() {
         return new Object[][]{

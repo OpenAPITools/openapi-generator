@@ -1441,7 +1441,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Auto-detect pagination parameters and set x-spring-paginated if autoXSpringPaginated is enabled.
         // Must be done BEFORE super.fromOperation() so that the base codegen populates
         // codegenOperation.vendorExtensions from the extension we just set on 'operation'.
-        // Only for spring-boot; respect manual x-spring-paginated: false override.
+        // Only for libraries that support Pageable (spring-boot, spring-cloud);
+        // respect manual x-spring-paginated: false override.
         if (isPageableSupported()) {
             SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(operation, autoXSpringPaginated);
         }
@@ -1471,7 +1472,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     codegenOperation.operationId, library);
         }
         // add org.springframework.data.domain.Pageable import when needed
-        if (isPageableSupported() && codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
+        if (isPageableSupported()
+                && Boolean.TRUE.equals(codegenOperation.vendorExtensions.get("x-spring-paginated"))) {
             codegenOperation.imports.add("Pageable");
             SpringPageableScanUtils.applySpringDocPageableAnnotation(codegenOperation,
                     SpringPageableScanUtils.AnnotationSyntax.JAVA,
