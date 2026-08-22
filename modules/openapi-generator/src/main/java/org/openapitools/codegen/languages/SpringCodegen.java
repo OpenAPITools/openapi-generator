@@ -1433,7 +1433,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         // codegenOperation.vendorExtensions from the extension we just set on 'operation'.
         // Only for spring-boot; respect manual x-spring-paginated: false override.
         if (SPRING_BOOT.equals(library)) {
-            SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(operation, autoXSpringPaginated);
+            SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(
+                    openAPI, operation, autoXSpringPaginated);
         }
 
         // add Pageable import only if x-spring-paginated explicitly used AND it's a server library.

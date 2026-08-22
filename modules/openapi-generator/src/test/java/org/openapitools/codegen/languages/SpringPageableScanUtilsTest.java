@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -360,6 +361,70 @@ public class SpringPageableScanUtilsTest {
 
         assertThat(result).isFalse();
         assertThat(op.getExtensions()).isNull();
+    }
+
+    @Test
+    public void referencedParameters_areResolvedForDetectionAndScans() {
+        Schema<?> pageSchema = new IntegerSchema()
+                .minimum(BigDecimal.ZERO)
+                ._default(0);
+        Schema<?> sizeSchema = new IntegerSchema()
+                .minimum(BigDecimal.ONE)
+                .maximum(BigDecimal.valueOf(100))
+                ._default(20);
+        Schema<?> sortSchema = new ArraySchema()
+                .items(new StringSchema()._enum(List.of("name,asc", "name,desc")))
+                ._default(List.of("name,desc"));
+
+        Components components = new Components()
+                .addParameters("Page", new Parameter().name("page").in("query").schema(pageSchema))
+                .addParameters("Size", new Parameter().name("size").in("query").schema(sizeSchema))
+                .addParameters("Sort", new Parameter().name("sort").in("query").schema(sortSchema));
+
+        Operation operation = new Operation()
+                .operationId("listItems")
+                .addParametersItem(new Parameter().$ref("#/components/parameters/Page"))
+                .addParametersItem(new Parameter().$ref("#/components/parameters/Size"))
+                .addParametersItem(new Parameter().$ref("#/components/parameters/Sort"));
+        OpenAPI openAPI = new OpenAPI()
+                .components(components)
+                .paths(new Paths().addPathItem("/items", new PathItem().get(operation)));
+
+        assertThat(SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(openAPI, operation, true))
+                .isTrue();
+        assertThat(operation.getExtensions()).containsEntry("x-spring-paginated", Boolean.TRUE);
+
+        Map<String, SpringPageableScanUtils.PageableDefaultsData> defaults =
+                SpringPageableScanUtils.scanPageableDefaults(openAPI, true);
+        assertThat(defaults).containsKey("listItems");
+        assertThat(defaults.get("listItems").page).isEqualTo(0);
+        assertThat(defaults.get("listItems").size).isEqualTo(20);
+        assertThat(defaults.get("listItems").sortDefaults)
+                .extracting(defaultValue -> defaultValue.field, defaultValue -> defaultValue.direction)
+                .containsExactly(org.assertj.core.groups.Tuple.tuple("name", "DESC"));
+
+        Map<String, SpringPageableScanUtils.PageableConstraintsData> constraints =
+                SpringPageableScanUtils.scanPageableConstraints(openAPI, true);
+        assertThat(constraints).containsKey("listItems");
+        assertThat(constraints.get("listItems").minPage).isEqualTo(0);
+        assertThat(constraints.get("listItems").minSize).isEqualTo(1);
+        assertThat(constraints.get("listItems").maxSize).isEqualTo(100);
+
+        assertThat(SpringPageableScanUtils.scanSortValidationEnums(openAPI, true))
+                .containsEntry("listItems", List.of("name,asc", "name,desc"));
+    }
+
+    @Test
+    public void unresolvedParameterReferences_doNotTriggerAutoDetection() {
+        Operation operation = new Operation()
+                .addParametersItem(new Parameter().$ref("#/components/parameters/Page"))
+                .addParametersItem(new Parameter().$ref("#/components/parameters/Size"))
+                .addParametersItem(new Parameter().$ref("#/components/parameters/Sort"));
+        OpenAPI openAPI = new OpenAPI().components(new Components());
+
+        assertThat(SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(openAPI, operation, true))
+                .isFalse();
+        assertThat(operation.getExtensions()).isNull();
     }
 
     // -------------------------------------------------------------------------

@@ -1127,7 +1127,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // codegenOperation.vendorExtensions from the extension we just set on 'operation'.
         // Only for spring-boot library; respect manual x-spring-paginated: false override.
         if (SPRING_BOOT.equals(library)) {
-            SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(operation, autoXSpringPaginated);
+            SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(
+                    openAPI, operation, autoXSpringPaginated);
         }
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
