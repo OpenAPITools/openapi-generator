@@ -7526,7 +7526,25 @@ public class KotlinSpringServerCodegenTest {
         assertThat(itemFile).isNotNull();
         assertFileContains(
                 itemFile.toPath(),
-                "@param:JsonProperty(\"snake_case_value\")\n    @get:JsonProperty(\"snake_case_value\", required = true) val mappedValue"
+                "@param:JsonProperty(\"snake_case_value\", required = true)\n    @get:JsonProperty(\"snake_case_value\", required = true) val mappedValue"
+        );
+    }
+
+    @Test(description = "required vars: @param:JsonProperty must be marked required to keep missing-property failures")
+    public void requiredParamJsonPropertyAnnotationIsMarkedRequired() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/param-json-property.yaml"
+        );
+
+        File itemFile = files.get("Item.kt");
+        assertThat(itemFile).isNotNull();
+        assertFileContains(
+                itemFile.toPath(),
+                "@param:JsonProperty(\"snake_case_value\", required = true)\n    @get:JsonProperty(\"snake_case_value\", required = true) val snakeCaseValue"
+        );
+        assertFileContains(
+                itemFile.toPath(),
+                "@param:JsonProperty(\"2nd_field\")\n    @get:JsonProperty(\"2nd_field\") val `2ndField`"
         );
     }
 

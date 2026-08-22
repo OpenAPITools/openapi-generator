@@ -25,7 +25,7 @@ data class Category(
 
     @Schema(required = true, description = "")
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("name")
+    @param:JsonProperty("name", required = true)
     @get:JsonProperty("name", required = true) val name: kotlin.String = "default-name",
 
     @Schema(description = "")
