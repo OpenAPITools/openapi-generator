@@ -3995,6 +3995,24 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void springPaginatedIgnoredForDeclarativeHttpInterface_issue24720() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml",
+                additionalProperties, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        // spring-declarative-http-interface still does not support Pageable
+        File petApi = files.get("PetApi.kt");
+        assertFileNotContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileNotContains(petApi.toPath(), "pageable: Pageable");
+    }
+
+    @Test
     public void springPaginatedWithSpringDocAndSpringBoot3() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(USE_TAGS, "true");
@@ -5198,13 +5216,15 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void autoXSpringPaginatedOnlyForSpringBoot() throws Exception {
+    public void autoXSpringPaginatedWorksForSpringCloud_issue24720() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(USE_TAGS, "true");
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
         additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
 
-        // Test with spring-cloud library (should NOT auto-detect)
+        // spring-cloud generates a Feign client — auto-detect must now apply there too (#24720)
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-auto-paginated.yaml",
                 additionalProperties,
@@ -5212,31 +5232,23 @@ public class KotlinSpringServerCodegenTest {
                 configurator -> configurator.setLibrary("spring-cloud")
         );
 
-        File petApi = files.get("PetApiClient.kt");
-        if (petApi != null) {
-            String content = Files.readString(petApi.toPath());
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
 
-            // For spring-cloud, should NOT have Pageable even with auto-detect enabled
-            Assert.assertFalse(content.contains("pageable: Pageable"),
-                    "spring-cloud library should NOT auto-detect pageable (needs actual query params for HTTP)");
+        int methodStart = content.indexOf("fun findPetsWithAutoDetect(");
+        int methodEnd = content.indexOf("): ", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
 
-            // Should have all three query params
-            int methodStart = content.indexOf("fun findPetsWithAutoDetect(");
-            if (methodStart >= 0) {
-                int methodEnd = content.indexOf("): ", methodStart);
-                String methodSignature = content.substring(methodStart, methodEnd);
-
-                Assert.assertTrue(methodSignature.contains("page") || methodSignature.contains("@Query"),
-                        "spring-cloud should keep query parameters");
-            }
-        }
+        Assert.assertTrue(methodSignature.contains("pageable: Pageable"),
+                "spring-cloud library should auto-detect pageable (#24720)");
     }
 
     @Test
-    public void explicitXSpringPaginatedIgnoredForSpringCloud() throws Exception {
-        // When x-spring-paginated: true is set explicitly in the spec but the library is spring-cloud,
-        // the extension must be stripped so the template does not emit "pageable: Pageable".
-        // Individual page/size/sort @RequestParam args from the spec should remain.
+    public void explicitXSpringPaginatedHonoredForSpringCloud_issue24720() throws Exception {
+        // Regression #24720: when x-spring-paginated: true is set explicitly in the spec and the
+        // library is spring-cloud, the extension must be honored so the interface emits
+        // "pageable: Pageable" (Feign supports it via PageableSpringEncoder), and the matching
+        // page/size/sort query params (#8315) are removed.
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(USE_TAGS, "true");
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
@@ -5253,17 +5265,18 @@ public class KotlinSpringServerCodegenTest {
         File petApi = files.get("PetApi.kt");
         Assert.assertNotNull(petApi, "PetApi.kt should be generated for spring-cloud library");
 
-        // No Pageable type or its import must appear for spring-cloud
-        assertFileNotContains(petApi.toPath(),
+        // Pageable and its import are now present for spring-cloud
+        assertFileContains(petApi.toPath(),
                 "import org.springframework.data.domain.Pageable",
                 "pageable: Pageable");
 
-        // findPetsByStatus must exist without a Pageable parameter
+        // findPetsByStatus must exist and now carry a Pageable parameter
         assertFileContains(petApi.toPath(), "fun findPetsByStatus(");
 
-        // findPetsByTags must retain all individual query params defined alongside x-spring-paginated
-        assertFileContains(petApi.toPath(), "@RequestParam(value = \"page\"");
-        assertFileContains(petApi.toPath(), "@RequestParam(value = \"sort\"");
+        // findPetsByTags: matching page/size/sort query params must be removed (#8315)
+        assertFileNotContains(petApi.toPath(),
+                "@RequestParam(value = \"page\"",
+                "@RequestParam(value = \"sort\"");
     }
 
     @Test

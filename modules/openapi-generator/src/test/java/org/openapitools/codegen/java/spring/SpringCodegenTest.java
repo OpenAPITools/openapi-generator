@@ -2696,6 +2696,25 @@ public class SpringCodegenTest {
                 .assertParameter("pageable").hasType("Pageable");
     }
 
+    @Test
+    public void shouldIgnorePageableForSpringHttpInterface_issue24720() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(USE_SPRING_BOOT3, "true");
+        additionalProperties.put(SpringCodegen.OPENAPI_NULLABLE, "false");
+
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_15265.yaml",
+                SPRING_HTTP_INTERFACE, additionalProperties);
+
+        // spring-http-interface still does not support Pageable: no Pageable parameter must be emitted
+        JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
+                .hasNoImports("org.springframework.data.domain.Pageable")
+                .assertMethod("paginated")
+                .doesNotHaveParameter("pageable");
+    }
+
     @DataProvider(name = "sealedScenarios")
     public static Object[][] sealedScenarios() {
         return new Object[][]{
@@ -7508,27 +7527,28 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void autoXSpringPaginatedOnlyForSpringBoot() throws IOException {
+    public void autoXSpringPaginatedWorksForSpringCloud_issue24720() throws IOException {
         Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
 
-        // spring-cloud generates a Feign client — auto-detect should not apply there
+        // spring-cloud generates a Feign client — auto-detect must now apply there too (#24720)
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", "spring-cloud", props);
 
-        File petApiClient = files.get("PetApiClient.java");
-        if (petApiClient != null) {
-            String content = java.nio.file.Files.readString(petApiClient.toPath());
-            assertThat(content).doesNotContain("Pageable pageable");
-        }
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithAutoDetect")
+                .assertParameter("pageable").hasType("Pageable");
     }
 
     @Test
-    public void explicitXSpringPaginatedIgnoredForSpringCloud() throws IOException {
-        // When x-spring-paginated: true is set explicitly in the spec but the library is spring-cloud,
-        // the extension must be stripped so the template does not emit "@ParameterObject Pageable pageable".
-        // Instead, individual page/size/sort @RequestParam args from the spec should remain.
+    public void explicitXSpringPaginatedHonoredForSpringCloud_issue24720() throws IOException {
+        // Regression #24720: when x-spring-paginated: true is set explicitly in the spec and the
+        // library is spring-cloud, the extension must be honored so the interface emits a Pageable
+        // parameter (Feign supports it via PageableSpringEncoder), and the matching page/size/sort
+        // query params (#8315) are removed.
         Map<String, Object> props = new HashMap<>();
         props.put(INTERFACE_ONLY, "true");
         props.put(SpringCodegen.DOCUMENTATION_PROVIDER, "springdoc");
@@ -7538,18 +7558,15 @@ public class SpringCodegenTest {
 
         JavaFileAssert petApi = JavaFileAssert.assertThat(files.get("PetApi.java"));
 
-        // No Pageable type, @ParameterObject annotation, or their imports must appear for spring-cloud
-        petApi.fileDoesNotContain("Pageable pageable", "@ParameterObject")
-              .hasNoImports(
-                      "org.springframework.data.domain.Pageable",
-                      "org.springdoc.core.annotations.ParameterObject");
+        // Pageable and its import are now present for spring-cloud
+        petApi.hasImports("org.springframework.data.domain.Pageable");
 
-        // findPetsByStatus has only the 'status' param from the spec (no Pageable added)
-        petApi.assertMethod("findPetsByStatus", "List<String>");
+        // findPetsByStatus gains a Pageable parameter alongside its 'status' param
+        petApi.assertMethod("findPetsByStatus", "List<String>", "Pageable");
 
-        // findPetsByTags retains all individual query params defined alongside x-spring-paginated
-        // (page, size, sort remain; header 'size' also stays)
-        petApi.assertMethod("findPetsByTags", "List<String>", "Integer", "Integer", "String", "String");
+        // findPetsByTags: matching page/size/sort query params removed (#8315); header 'size' stays,
+        // and a Pageable parameter is appended
+        petApi.assertMethod("findPetsByTags", "List<String>", "String", "Pageable");
     }
 
     @Test

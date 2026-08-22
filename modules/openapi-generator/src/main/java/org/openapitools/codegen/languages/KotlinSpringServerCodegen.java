@@ -312,8 +312,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(SCHEMA_IMPLEMENTS, "A map of single interface or a list of interfaces per schema name that should be implemented (serves similar purpose as `x-kotlin-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map");
         addOption(SCHEMA_IMPLEMENTS_FIELDS, "A map of single field or a list of fields per schema name that should be prepended with `override` (serves similar purpose as `x-kotlin-implements-fields`, but is fully decoupled from the api spec). Example: yaml `schemaImplementsFields: {Pet: id, Category: [name, id], Dog: [bark, breed]}` marks fields to be prepended with `override` in schemas `Pet` (field `id`), `Category` (fields `name`, `id`) and `Dog` (fields `bark`, `breed`)", "empty map");
         addSwitch(AUTO_X_SPRING_PAGINATED, "Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.", autoXSpringPaginated);
-        addSwitch(GENERATE_SORT_VALIDATION, "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library=spring-boot.", generateSortValidation);
-        addSwitch(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library=spring-boot.", generatePageableConstraintValidation);
+        addSwitch(GENERATE_SORT_VALIDATION, "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generateSortValidation);
+        addSwitch(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generatePageableConstraintValidation);
         addSwitch(SUBSTITUTE_GENERIC_PAGED_MODEL,
                 "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
                 + "pagination-metadata property) and replace their generated references with "
@@ -823,15 +823,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(USE_TAGS)) {
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
         }
-        if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED) && library.equals(SPRING_BOOT)) {
+        if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED) && isPageableSupported()) {
             this.setAutoXSpringPaginated(convertPropertyToBoolean(AUTO_X_SPRING_PAGINATED));
         }
         writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
-        if (additionalProperties.containsKey(GENERATE_SORT_VALIDATION) && library.equals(SPRING_BOOT)) {
+        if (additionalProperties.containsKey(GENERATE_SORT_VALIDATION) && isPageableSupported()) {
             this.setGenerateSortValidation(convertPropertyToBoolean(GENERATE_SORT_VALIDATION));
         }
         writePropertyBack(GENERATE_SORT_VALIDATION, generateSortValidation);
-        if (additionalProperties.containsKey(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION) && library.equals(SPRING_BOOT)) {
+        if (additionalProperties.containsKey(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION) && isPageableSupported()) {
             this.setGeneratePageableConstraintValidation(convertPropertyToBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION));
         }
         writePropertyBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, generatePageableConstraintValidation);
@@ -1090,6 +1090,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     /**
+     * Whether the current library supports the {@code x-spring-paginated} extension (i.e. a
+     * Spring Data {@code Pageable} parameter). Supported for the {@code spring-boot} server and
+     * the {@code spring-cloud} (Feign) client, which handles {@code Pageable} through
+     * {@code org.springframework.cloud.openfeign.support.PageableSpringEncoder}.
+     */
+    private boolean isPageableSupported() {
+        return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
+    }
+
+    /**
      * Processes operations to support the x-spring-paginated vendor extension.
      *
      * When x-spring-paginated is set to true on an operation, this method:
@@ -1101,16 +1111,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      * - Automatically detects operations with 'page', 'size', and 'sort' query parameters (case-sensitive)
      * - Applies x-spring-paginated behavior to these operations automatically
      * - Respects manual x-spring-paginated: false setting (manual override takes precedence)
-     * - Only applies when library is spring-boot
+     * - Only applies when library supports Pageable (spring-boot, spring-cloud)
      *
-     * Note: x-spring-paginated is ONLY applied for server-side libraries (spring-boot).
-     * Client libraries (spring-cloud, spring-declarative-http-interface) need actual query parameters
-     * to send over HTTP, so the extension is ignored for them.
+     * Note: x-spring-paginated is applied for spring-boot (server) and spring-cloud (Feign client).
+     * The spring-declarative-http-interface client needs actual query parameters to send over HTTP,
+     * so the extension is ignored for it.
      *
      * Parameter ordering in generated methods:
      * 1. Regular OpenAPI parameters (allParams)
      * 2. Optional HttpServletRequest/ServerWebExchange (if includeHttpRequestContext is enabled)
-     * 3. Pageable parameter (if x-spring-paginated is true and library is spring-boot)
+     * 3. Pageable parameter (if x-spring-paginated is true and library supports Pageable)
      *
      * This implementation mirrors the behavior in SpringCodegen for consistency.
      *
@@ -1125,30 +1135,30 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // Auto-detect pagination parameters and set x-spring-paginated if autoXSpringPaginated is enabled.
         // Must be done BEFORE super.fromOperation() so that the base codegen populates
         // codegenOperation.vendorExtensions from the extension we just set on 'operation'.
-        // Only for spring-boot library; respect manual x-spring-paginated: false override.
-        if (SPRING_BOOT.equals(library)) {
+        // Only for libraries that support Pageable; respect manual x-spring-paginated: false override.
+        if (isPageableSupported()) {
             SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(operation, autoXSpringPaginated);
         }
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
 
-        // For client libraries (spring-cloud, spring-declarative-http-interface) x-spring-paginated is not supported:
-        // they need explicit query parameters for HTTP calls, not a Pageable object.
-        // Strip the extension so the template does not render Pageable, and log it.
-        if (!SPRING_BOOT.equals(library) && codegenOperation.vendorExtensions.remove("x-spring-paginated") != null) {
-            LOGGER.debug("x-spring-paginated on operation '{}' is ignored for library '{}'; "
-                    + "Pageable is only supported for spring-boot. "
+        // For libraries that do not support Pageable (e.g. spring-declarative-http-interface)
+        // x-spring-paginated cannot be honored: they need explicit query parameters for HTTP calls,
+        // not a Pageable object. Strip the extension so the template does not render Pageable, and warn.
+        if (!isPageableSupported() && codegenOperation.vendorExtensions.remove("x-spring-paginated") != null) {
+            LOGGER.warn("x-spring-paginated on operation '{}' is ignored for library '{}'; "
+                    + "Pageable is only supported for spring-boot and spring-cloud. "
                     + "Individual page/size/sort query parameters will be used instead.",
                     codegenOperation.operationId, library);
         }
 
-        if (SPRING_BOOT.equals(library)
+        if (isPageableSupported()
                 && Boolean.TRUE.equals(SpringPageableScanUtils.getXSpringPaginated(operation))) {
-            // add Pageable import only if x-spring-paginated explicitly used AND it's a server library
+            // add Pageable import only if x-spring-paginated explicitly used AND the library supports it
             // this allows to use a custom Pageable schema without importing Spring Pageable.
             importMapping.putIfAbsent("Pageable", "org.springframework.data.domain.Pageable");
 
-            // add org.springframework.data.domain.Pageable import when needed (server libraries only)
+            // add org.springframework.data.domain.Pageable import when needed
             codegenOperation.imports.add("Pageable");
             SpringPageableScanUtils.applySpringDocPageableAnnotation(
                     codegenOperation,
@@ -1206,7 +1216,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.kt"));
         }
 
-        if (SPRING_BOOT.equals(library)) {
+        if (isPageableSupported()) {
             pageableUtils.scanAll(openAPI, autoXSpringPaginated);
 
             if (generateSortValidation && useBeanValidation && !pageableUtils.sortValidationEnums.isEmpty()) {
