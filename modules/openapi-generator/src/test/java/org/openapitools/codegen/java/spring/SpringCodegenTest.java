@@ -7184,14 +7184,22 @@ public class SpringCodegenTest {
                         "javax.annotation.Nullable",
                         "jakarta.annotation.Nullable")
                 .assertMethod("getRequiredDt").assertMethodAnnotations().containsWithName("NotNull").containsWithName("Valid");
-        JavaFileAssert.assertThat(files.get("FooApi.java"))
+        JavaFileAssert fooApiAssert = JavaFileAssert.assertThat(files.get("FooApi.java"))
                 .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "java.time.@Nullable Instant dtParam",
                         "java.time.@Nullable Instant dtQuery",
-                        "java.time.@Nullable Instant dtCookie",
-                        " @RequestParam(value = \"color\", required = false, defaultValue = \"red\") String color"
-                );
+                        "java.time.@Nullable Instant dtCookie");
+
+        // SPRING_HTTP_INTERFACE has other requirements for default in api arguments
+        if (SPRING_HTTP_INTERFACE.equals(library)) {
+            fooApiAssert.fileContains(
+                        "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") @Nullable String color");
+        } else {
+            fooApiAssert.fileContains(
+                    "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") String color");
+        }
+
         JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
                 .fileContains(
                         "private @Nullable String str = null;",
