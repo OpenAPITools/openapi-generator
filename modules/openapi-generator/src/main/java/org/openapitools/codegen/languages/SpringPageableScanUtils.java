@@ -350,7 +350,9 @@ public class SpringPageableScanUtils {
             Map<String, PageableDefaultsData> pageableDefaultsRegistry,
             AnnotationSyntax syntax) {
 
-        String operationId = codegenOperation.operationId;
+        String operationId = codegenOperation.operationIdOriginal != null
+                ? codegenOperation.operationIdOriginal
+                : codegenOperation.operationId;
         List<String> pageableAnnotations = new ArrayList<>();
 
         if (generatePageableConstraintValidation && useBeanValidation
