@@ -1,0 +1,10 @@
+generatorName: java
+outputDir: samples/client/others/java/okhttp-oneOf-array
+library: okhttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf_array.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  serializationLibrary: gson
+  artifactId: okhttp-oneOf-array
+  hideGenerationTimestamp: "true"
+  useBeanValidation: "true"

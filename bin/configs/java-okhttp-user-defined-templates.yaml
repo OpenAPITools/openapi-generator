@@ -1,9 +1,11 @@
 generatorName: java
-outputDir: samples/client/echo_api/java/okhttp-gson-user-defined-templates
-library: okhttp-gson
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+outputDir: samples/client/echo_api/java/okhttp-user-defined-templates
+library: okhttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
+  serializationLibrary: gson
+  artifactId: echo-api-okhttp-user-defined-templates
   hideGenerationTimestamp: "true"
 files:
   README.mustache:

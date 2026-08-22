@@ -1,0 +1,19 @@
+generatorName: java
+outputDir: samples/client/echo_api/java/okhttp-jackson-user-defined-templates
+library: okhttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: echo-api-okhttp-jackson-user-defined-templates
+  hideGenerationTimestamp: "true"
+  serializationLibrary: jackson
+files:
+  README.mustache:
+    destinationFilename: info.md
+  api_doc.mustache:
+    templateType: APIDocs
+    destinationFilename: Documentation.md
+  pojo.mustache:
+      templateType: Model
+      folder: modelCopy
+      destinationFilename: .java
