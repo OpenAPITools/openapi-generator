@@ -34,6 +34,7 @@ import org.openapitools.codegen.languages.Oas31KeywordScanner;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -1530,9 +1531,9 @@ public class ModelApiSurfaceTest {
 
     @Test
     public void featureSetReflectsWave5Deliverables() {
-        // Parameter styling, multi-server, and cookie params are delivered and
-        // assertable; callbacks/link objects are preserved as metadata; XML
-        // structure definitions stay excluded.
+        // Parameter styling, multi-server, cookie params, and `not` schema
+        // validation are delivered and assertable; callbacks/link objects are
+        // preserved as metadata; XML structure definitions stay excluded.
         io.swagger.v3.oas.models.OpenAPI openAPI =
                 new io.swagger.v3.oas.models.OpenAPI();
         openAPI.setOpenapi("3.1.0");
@@ -1556,6 +1557,9 @@ public class ModelApiSurfaceTest {
         Assert.assertTrue(features.getParameterFeatures()
                 .contains(ParameterFeature.Cookie),
                 "Cookie params must be delivered");
+        Assert.assertTrue(features.getSchemaSupportFeatures()
+                .contains(SchemaSupportFeature.not),
+                "not schema validation must be advertised");
         Assert.assertFalse(globals.contains(GlobalFeature.XMLStructureDefinitions),
                 "XMLStructureDefinitions stays excluded");
     }

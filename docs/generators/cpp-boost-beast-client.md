@@ -268,7 +268,7 @@ round-tripping after a value has been converted into and mutated through a model
 |allOf|✓|OAS2,OAS3
 |anyOf|✓|OAS3
 |oneOf|✓|OAS3
-|not|✗|OAS3
+|not|✓|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |

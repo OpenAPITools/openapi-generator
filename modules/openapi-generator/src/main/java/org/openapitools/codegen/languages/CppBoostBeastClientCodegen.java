@@ -363,6 +363,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                         SchemaSupportFeature.oneOf,
                         SchemaSupportFeature.anyOf,
                         SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.not,
                         SchemaSupportFeature.Union
                 )
                 .includeDataTypeFeatures(
