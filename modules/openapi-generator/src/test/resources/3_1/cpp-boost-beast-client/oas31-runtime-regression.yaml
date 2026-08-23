@@ -108,6 +108,34 @@ components:
       properties:
         value:
           type: string
+    NullDriftResponse:
+      type: object
+      required: [id]
+      properties:
+        id:
+          type: string
+        user:
+          type: string
+        error:
+          $ref: '#/components/schemas/Simple'
+        status_details:
+          type: string
+    NullDriftEvent:
+      anyOf:
+        - type: object
+          required: [type, response]
+          properties:
+            type:
+              type: string
+              const: response.completed
+            response:
+              $ref: '#/components/schemas/NullDriftResponse'
+        - type: object
+          required: [type]
+          properties:
+            type:
+              type: string
+              const: other
     Zeta:
       title: Simple
       type: object

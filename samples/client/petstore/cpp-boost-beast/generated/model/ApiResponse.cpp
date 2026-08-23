@@ -703,33 +703,39 @@ void ApiResponse::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto CodeIt = object.find("code");
         if (CodeIt != object.end()) {
+            if (!CodeIt->value().is_null()) {
             try {
                 setCode(JsonValueConverter<std::int32_t>::fromJsonValue(CodeIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'code' in ApiResponse: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto TypeIt = object.find("type");
         if (TypeIt != object.end()) {
+            if (!TypeIt->value().is_null()) {
             try {
                 setType(JsonValueConverter<std::string>::fromJsonValue(TypeIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'type' in ApiResponse: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto MessageIt = object.find("message");
         if (MessageIt != object.end()) {
+            if (!MessageIt->value().is_null()) {
             try {
                 setMessage(JsonValueConverter<std::string>::fromJsonValue(MessageIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'message' in ApiResponse: " + std::string(ex.what()));
+            }
             }
         }
     }

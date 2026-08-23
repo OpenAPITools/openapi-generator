@@ -810,66 +810,78 @@ void Order::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {
+            if (!IdIt->value().is_null()) {
             try {
                 setId(JsonValueConverter<std::int64_t>::fromJsonValue(IdIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'id' in Order: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto PetIdIt = object.find("petId");
         if (PetIdIt != object.end()) {
+            if (!PetIdIt->value().is_null()) {
             try {
                 setPetId(JsonValueConverter<std::int64_t>::fromJsonValue(PetIdIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'petId' in Order: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto QuantityIt = object.find("quantity");
         if (QuantityIt != object.end()) {
+            if (!QuantityIt->value().is_null()) {
             try {
                 setQuantity(JsonValueConverter<std::int32_t>::fromJsonValue(QuantityIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'quantity' in Order: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto ShipDateIt = object.find("shipDate");
         if (ShipDateIt != object.end()) {
+            if (!ShipDateIt->value().is_null()) {
             try {
                 setShipDate(JsonValueConverter<std::string>::fromJsonValue(ShipDateIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'shipDate' in Order: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto StatusIt = object.find("status");
         if (StatusIt != object.end()) {
+            if (!StatusIt->value().is_null()) {
             try {
                 setStatus(JsonValueConverter<std::string>::fromJsonValue(StatusIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'status' in Order: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto CompleteIt = object.find("complete");
         if (CompleteIt != object.end()) {
+            if (!CompleteIt->value().is_null()) {
             try {
                 setComplete(JsonValueConverter<bool>::fromJsonValue(CompleteIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'complete' in Order: " + std::string(ex.what()));
+            }
             }
         }
     }

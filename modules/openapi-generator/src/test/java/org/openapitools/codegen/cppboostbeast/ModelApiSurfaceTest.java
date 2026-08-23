@@ -1499,33 +1499,18 @@ public class ModelApiSurfaceTest {
     }
 
     @Test
-    public void tolerateNonNullableNullsIsOptInAndSkipsPresentNullValues() throws IOException {
+    public void tolerateNonNullableNullsDefaultsOnAndCanBeDisabled() throws IOException {
         CppBoostBeastClientCodegen defaults = new CppBoostBeastClientCodegen();
         defaults.processOpts();
         Assert.assertEquals(defaults.additionalProperties().get("tolerateNonNullableNulls"),
-                false,
-                "Non-conforming null responses must remain strict by default");
-
-        Path strictOutput = Files.createTempDirectory(
-                Path.of("target"), "cpp-boost-beast-strict-null-");
-        strictOutput.toFile().deleteOnExit();
-        CodegenConfigurator strictConfigurator = new CodegenConfigurator()
-                .setGeneratorName("cpp-boost-beast-client")
-                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/model-generation-regression.yaml")
-                .setOutputDir(strictOutput.toString());
-        List<File> strictFiles = new DefaultGenerator()
-                .opts(strictConfigurator.toClientOptInput()).generate();
-        Assert.assertFalse(strictFiles.isEmpty(), "strict generation must produce files");
-        String strictSource = Files.readString(strictOutput.resolve("model/ContainerModel.cpp"));
-        Assert.assertFalse(strictSource.contains("if (!RequiredValueIt->value().is_null())"),
-                "Default decoding must not suppress a required non-nullable null");
+                true,
+                "Generated clients must tolerate non-conforming null responses by default");
 
         Path output = Files.createTempDirectory(Path.of("target"), "cpp-boost-beast-null-tolerance-");
         output.toFile().deleteOnExit();
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
                 .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/model-generation-regression.yaml")
-                .addAdditionalProperty("tolerateNonNullableNulls", "true")
                 .setOutputDir(output.toString());
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
         Assert.assertFalse(files.isEmpty(), "generation must produce files");
@@ -1533,13 +1518,34 @@ public class ModelApiSurfaceTest {
         String source = Files.readString(output.resolve("model/ContainerModel.cpp"));
         Assert.assertTrue(source.contains("if (OptionalScalarIt != object.end())"));
         Assert.assertTrue(source.contains("if (!OptionalScalarIt->value().is_null())"),
-                "Compatibility mode must treat an optional non-nullable null as absent");
+                "Default decoding must treat an optional non-nullable null as absent");
         Assert.assertTrue(source.contains("if (RequiredValueIt != object.end())"));
         Assert.assertTrue(source.contains("if (!RequiredValueIt->value().is_null())"),
-                "A present required key with null must be tolerated in compatibility mode");
+                "A present required key with null must be tolerated by default");
         Assert.assertTrue(source.contains(
                 "Required field 'requiredValue' not found in ContainerModel"),
                 "Compatibility mode must still reject a missing required key");
+
+        Path strictOutput = Files.createTempDirectory(
+                Path.of("target"), "cpp-boost-beast-strict-null-");
+        strictOutput.toFile().deleteOnExit();
+        CodegenConfigurator strictConfigurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/oas31-runtime-regression.yaml")
+                .addAdditionalProperty("tolerateNonNullableNulls", "false")
+                .setOutputDir(strictOutput.toString());
+        List<File> strictFiles = new DefaultGenerator()
+                .opts(strictConfigurator.toClientOptInput()).generate();
+        Assert.assertFalse(strictFiles.isEmpty(), "strict generation must produce files");
+        String strictResponseSource = Files.readString(
+                strictOutput.resolve("model/NullDriftResponse.cpp"));
+        Assert.assertFalse(strictResponseSource.contains("if (!UserIt->value().is_null())"),
+                "Explicit strict decoding must reject a non-nullable null");
+        String strictEventSource = Files.readString(
+                strictOutput.resolve("model/NullDriftEvent.cpp"));
+        Assert.assertFalse(strictEventSource.contains(
+                        "tolerateNonNullablePropertyNulls = true"),
+                "Explicit strict decoding must not relax composition validation");
     }
 
     @Test

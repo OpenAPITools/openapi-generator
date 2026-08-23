@@ -723,88 +723,104 @@ void User::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {
+            if (!IdIt->value().is_null()) {
             try {
                 setId(JsonValueConverter<std::int64_t>::fromJsonValue(IdIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'id' in User: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto UsernameIt = object.find("username");
         if (UsernameIt != object.end()) {
+            if (!UsernameIt->value().is_null()) {
             try {
                 setUsername(JsonValueConverter<std::string>::fromJsonValue(UsernameIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'username' in User: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto FirstNameIt = object.find("firstName");
         if (FirstNameIt != object.end()) {
+            if (!FirstNameIt->value().is_null()) {
             try {
                 setFirstName(JsonValueConverter<std::string>::fromJsonValue(FirstNameIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'firstName' in User: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto LastNameIt = object.find("lastName");
         if (LastNameIt != object.end()) {
+            if (!LastNameIt->value().is_null()) {
             try {
                 setLastName(JsonValueConverter<std::string>::fromJsonValue(LastNameIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'lastName' in User: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto EmailIt = object.find("email");
         if (EmailIt != object.end()) {
+            if (!EmailIt->value().is_null()) {
             try {
                 setEmail(JsonValueConverter<std::string>::fromJsonValue(EmailIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'email' in User: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto PasswordIt = object.find("password");
         if (PasswordIt != object.end()) {
+            if (!PasswordIt->value().is_null()) {
             try {
                 setPassword(JsonValueConverter<std::string>::fromJsonValue(PasswordIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'password' in User: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto PhoneIt = object.find("phone");
         if (PhoneIt != object.end()) {
+            if (!PhoneIt->value().is_null()) {
             try {
                 setPhone(JsonValueConverter<std::string>::fromJsonValue(PhoneIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'phone' in User: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto UserStatusIt = object.find("userStatus");
         if (UserStatusIt != object.end()) {
+            if (!UserStatusIt->value().is_null()) {
             try {
                 setUserStatus(JsonValueConverter<std::int32_t>::fromJsonValue(UserStatusIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'userStatus' in User: " + std::string(ex.what()));
+            }
             }
         }
     }

@@ -804,33 +804,39 @@ void Pet::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {
+            if (!IdIt->value().is_null()) {
             try {
                 setId(JsonValueConverter<std::int64_t>::fromJsonValue(IdIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'id' in Pet: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto CategoryIt = object.find("category");
         if (CategoryIt != object.end()) {
+            if (!CategoryIt->value().is_null()) {
             try {
                 setCategory(JsonValueConverter<Category>::fromJsonValue(CategoryIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'category' in Pet: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto NameIt = object.find("name");
         if (NameIt != object.end()) {
+            if (!NameIt->value().is_null()) {
             try {
                 setName(JsonValueConverter<std::string>::fromJsonValue(NameIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'name' in Pet: " + std::string(ex.what()));
+            }
             }
         } else {
             throw std::invalid_argument("Required field 'name' not found in Pet");
@@ -839,11 +845,13 @@ void Pet::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto PhotoUrlsIt = object.find("photoUrls");
         if (PhotoUrlsIt != object.end()) {
+            if (!PhotoUrlsIt->value().is_null()) {
             try {
                 setPhotoUrls(JsonValueConverter<std::vector<std::string>>::fromJsonValue(PhotoUrlsIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'photoUrls' in Pet: " + std::string(ex.what()));
+            }
             }
         } else {
             throw std::invalid_argument("Required field 'photoUrls' not found in Pet");
@@ -852,22 +860,26 @@ void Pet::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto TagsIt = object.find("tags");
         if (TagsIt != object.end()) {
+            if (!TagsIt->value().is_null()) {
             try {
                 setTags(JsonValueConverter<std::vector<std::shared_ptr<Tag>>>::fromJsonValue(TagsIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'tags' in Pet: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto StatusIt = object.find("status");
         if (StatusIt != object.end()) {
+            if (!StatusIt->value().is_null()) {
             try {
                 setStatus(JsonValueConverter<std::string>::fromJsonValue(StatusIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'status' in Pet: " + std::string(ex.what()));
+            }
             }
         }
     }

@@ -17,6 +17,8 @@
 #include "model/DuplicateNull.h"
 #include "model/OuterUnion.h"
 #include "model/Simple.h"
+#include "model/NullDriftEvent.h"
+#include "model/NullDriftResponse.h"
 #include "model/NullableEnumBox.h"
 #include "model/StreamChunk.h"
 #include "model/TaggedUnionContainer.h"
@@ -254,6 +256,39 @@ int main() {
     expect(disabledJson.as_object().at("enabled").is_bool()
                && !disabledJson.as_object().at("enabled").as_bool(),
            "false model property did not round-trip as false");
+
+    const boost::json::value nullDriftResponseJson = boost::json::parse(
+        R"({"id":"response-id","user":null,"error":null,"status_details":null})");
+    model::NullDriftResponse nullDriftResponse;
+    nullDriftResponse.fromJsonValue(nullDriftResponseJson);
+    const boost::json::value nullDriftResponseRoundTrip =
+        nullDriftResponse.toJsonValue();
+    const boost::json::object& nullDriftResponseObject =
+        nullDriftResponseRoundTrip.as_object();
+    expect(nullDriftResponseObject.at("id") == "response-id",
+           "non-null response field changed while tolerating null drift");
+    expect(nullDriftResponseObject.find("user") == nullDriftResponseObject.end()
+               && nullDriftResponseObject.find("error") == nullDriftResponseObject.end()
+               && nullDriftResponseObject.find("status_details")
+                      == nullDriftResponseObject.end(),
+           "non-nullable null response fields were not treated as absent");
+
+    expect(!validatesSchema(
+               "NullDriftResponse_component",
+               R"({"id":"response-id","user":null,"error":null,"status_details":null})"),
+           "standalone schema validation became permissive for non-nullable nulls");
+
+    const model::NullDriftEvent nullDriftEvent =
+        model::fromJsonValue_NullDriftEvent(boost::json::parse(
+            R"({"type":"response.completed","response":{"id":"response-id","user":null,"error":null,"status_details":null}})"));
+    const boost::json::value nullDriftEventRoundTrip =
+        model::toJsonValue_NullDriftEvent(nullDriftEvent);
+    const boost::json::object& nestedResponse =
+        nullDriftEventRoundTrip.as_object().at("response").as_object();
+    expect(nestedResponse.find("user") == nestedResponse.end()
+               && nestedResponse.find("error") == nestedResponse.end()
+               && nestedResponse.find("status_details") == nestedResponse.end(),
+           "composition branch decoding rejected or retained nested null drift");
 
     expect(validatesSchema("UnevaluatedAllOf_branch_0", R"({"extra":"ok"})"),
            "unevaluatedProperties allOf schema rejected a matching value");

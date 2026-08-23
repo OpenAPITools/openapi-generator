@@ -283,6 +283,8 @@ private:
 
 struct ValidationContext {
     AnnotationStore annotations;
+    // Decode-only compatibility policy; standalone schema validation stays strict.
+    bool tolerateNonNullablePropertyNulls = false;
     struct ActiveEvaluation {
         SchemaIndex node;
         boost::json::value const* instance;
@@ -678,7 +680,7 @@ public:
         }
 
         // uniqueItems uses exact deep equality, so 1 and 1.0 are duplicates.
-        if (node.hasUniqueItems && instance.isArray()) {
+        if (!vInert && node.hasUniqueItems && instance.isArray()) {
             std::size_t const n = instance.size();
             for (std::size_t i = 0; i < n; ++i) {
                 for (std::size_t j = i + 1; j < n; ++j) {
@@ -1094,7 +1096,10 @@ private:
             ctx.pushLocation();
             ValidationResult r = this->validate(pb.node, m, childPath, ctx);
             ctx.popLocation();
-            if (!r.success) return r;
+            if (!r.success
+                    && (!ctx.tolerateNonNullablePropertyNulls || !m.isNull())) {
+                return r;
+            }
             ctx.curProps().insert(pb.name);
         }
 

@@ -699,22 +699,26 @@ void Category::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {
+            if (!IdIt->value().is_null()) {
             try {
                 setId(JsonValueConverter<std::int64_t>::fromJsonValue(IdIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'id' in Category: " + std::string(ex.what()));
             }
+            }
         }
     }
     {
         const auto NameIt = object.find("name");
         if (NameIt != object.end()) {
+            if (!NameIt->value().is_null()) {
             try {
                 setName(JsonValueConverter<std::string>::fromJsonValue(NameIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'name' in Category: " + std::string(ex.what()));
+            }
             }
         }
     }

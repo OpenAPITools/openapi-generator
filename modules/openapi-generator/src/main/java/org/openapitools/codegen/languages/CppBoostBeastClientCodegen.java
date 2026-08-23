@@ -51,8 +51,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     private static final String SSE_SCHEMA_MODE_JSON_EVENT_DATA = "jsonEventData";
     /** Controls composition-branch validation during model decoding. */
     private boolean validateOnDecode = true;
-    /** Opt-in compatibility mode for server responses that send undeclared nulls. */
-    private boolean tolerateNonNullableNulls = false;
+    /** Compatibility mode for server responses that send undeclared nulls. */
+    private boolean tolerateNonNullableNulls = true;
 
     private static final String X_CODEGEN_IS_RAW_BODY = "x-codegen-is-raw-body";
     private static final String X_CODEGEN_IS_OPTIONAL_QUERY_PARAMETER =
@@ -453,10 +453,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         CliOption tolerateNonNullableNullsOption = new CliOption(
                 "tolerateNonNullableNulls",
                 "Treat explicit JSON null values as absent for generated model properties"
-                + " whose schemas do not allow null. This opt-in compatibility mode"
-                + " tolerates non-conforming server responses while preserving required-key"
-                + " presence checks; non-null values remain fully validated.");
-        tolerateNonNullableNullsOption.defaultValue(Boolean.FALSE.toString());
+                + " whose schemas do not allow null. Enabled by default to tolerate"
+                + " non-conforming server responses while preserving required-key"
+                + " presence checks; set to false for strict schema decoding."
+                + " Non-null values remain fully validated.");
+        tolerateNonNullableNullsOption.defaultValue(Boolean.TRUE.toString());
         cliOptions.add(tolerateNonNullableNullsOption);
 
 

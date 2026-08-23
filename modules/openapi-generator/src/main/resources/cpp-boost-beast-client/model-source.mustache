@@ -383,6 +383,9 @@ ValidationResult validate_{{validator-id}}(
     {{schemaValidationNamespace}}::RawInstance rawInstance(&instance);
     {{schemaValidationNamespace}}::ValidationPath evaluatorPath(path.str());
     {{schemaValidationNamespace}}::ValidationContext context;
+    {{#tolerateNonNullableNulls}}
+    context.tolerateNonNullablePropertyNulls = true;
+    {{/tolerateNonNullableNulls}}
     {{schemaValidationNamespace}}::ValidationResult const result =
         {{schemaValidationNamespace}}::sharedSchemaEvaluator().validate(
             index, rawInstance, evaluatorPath, context);
@@ -454,6 +457,9 @@ ValidationResult validate_{{validator-id}}(
             {{schemaValidationNamespace}}::RawInstance rootInstance(&value);
             {{schemaValidationNamespace}}::ValidationPath rootPath;
             {{schemaValidationNamespace}}::ValidationContext rootContext;
+            {{#tolerateNonNullableNulls}}
+            rootContext.tolerateNonNullablePropertyNulls = true;
+            {{/tolerateNonNullableNulls}}
             {{schemaValidationNamespace}}::ValidationResult const rootResult =
                 {{schemaValidationNamespace}}::sharedSchemaEvaluator().validate(
                     rootIndex, rootInstance, rootPath, rootContext);
@@ -1685,10 +1691,16 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto it = object.find("{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}");
         if (it != object.end()) {
+            {{#vendorExtensions.x-cpp-tolerate-nonnullable-null}}
+            if (!it->value().is_null()) {
+            {{/vendorExtensions.x-cpp-tolerate-nonnullable-null}}
             throw std::invalid_argument(
                 "Property '{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}' in {{classname}} is present but "
                 "cannot satisfy all allOf constraints (optional-impossible). "
                 "Remove the property or adjust the allOf schema.");
+            {{#vendorExtensions.x-cpp-tolerate-nonnullable-null}}
+            }
+            {{/vendorExtensions.x-cpp-tolerate-nonnullable-null}}
         }
     }
     {{/vendorExtensions.x-cpp-reject-if-present}}

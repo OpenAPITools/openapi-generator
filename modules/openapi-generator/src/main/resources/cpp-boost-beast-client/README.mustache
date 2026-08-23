@@ -174,19 +174,18 @@ model is in the null state.
 
 ### Non-conforming response compatibility
 
-Response decoding is strict by default: an explicit JSON `null` for a property
-whose schema does not allow null is rejected. For APIs that occasionally send
-such non-conforming values, enable the compatibility mode at generation time:
+Generated clients tolerate an explicit JSON `null` for a property whose schema
+does not allow null. The value is treated as absent during normal model decoding
+and composition-branch validation. Required keys must still be present, but a
+present null leaves their generated storage at its default value. Properties
+whose schemas allow null retain their normal null representation.
+
+Use strict schema decoding when the server is guaranteed to conform:
 
 ```sh
 openapi-generator generate -g cpp-boost-beast-client \
-  -o output --additional-properties=tolerateNonNullableNulls=true
+  -o output --additional-properties=tolerateNonNullableNulls=false
 ```
-
-In this mode, explicit `null` is ignored for non-nullable properties. Required
-keys must still be present, but a present null leaves their generated storage at
-its default value. Properties whose schemas allow null retain their normal null
-representation.
 
 ---
 

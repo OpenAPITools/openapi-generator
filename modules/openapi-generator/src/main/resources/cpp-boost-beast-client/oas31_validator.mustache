@@ -283,6 +283,8 @@ private:
 
 struct ValidationContext {
     AnnotationStore annotations;
+    // Decode-only compatibility policy; standalone schema validation stays strict.
+    bool tolerateNonNullablePropertyNulls = false;
     struct ActiveEvaluation {
         SchemaIndex node;
         boost::json::value const* instance;
@@ -1094,7 +1096,10 @@ private:
             ctx.pushLocation();
             ValidationResult r = this->validate(pb.node, m, childPath, ctx);
             ctx.popLocation();
-            if (!r.success) return r;
+            if (!r.success
+                    && (!ctx.tolerateNonNullablePropertyNulls || !m.isNull())) {
+                return r;
+            }
             ctx.curProps().insert(pb.name);
         }
 
