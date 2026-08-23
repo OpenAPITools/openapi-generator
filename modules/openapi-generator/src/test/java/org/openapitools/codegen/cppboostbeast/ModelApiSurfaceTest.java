@@ -757,7 +757,7 @@ public class ModelApiSurfaceTest {
                 "serializedRequestBody = boost::json::serialize(toRequestJsonValue(inputParam));"),
                 "postVariantBody must serialize using toRequestJsonValue");
         Assert.assertTrue(postVariantBodyMethod.contains(
-                "deserializedResponse = fromJsonValue_InputParam(exactResponse.value);"),
+                "return fromJsonValue_InputParam(responseValue);"),
                 "postVariantBody must decode through schema-aware branch selection");
 
         // Verify postAliasBody method serializes alias body param
@@ -918,7 +918,7 @@ public class ModelApiSurfaceTest {
 
         String inlineAnyOfMethod = CppBoostBeastTestSupport.extractMethod(generatedApiSource, "getInlineAnyOfResponse(");
         Assert.assertTrue(inlineAnyOfMethod.contains(
-                "fromJsonValue_GetInlineAnyOfResponse_200_response(exactResponse.value)"),
+                "fromJsonValue_GetInlineAnyOfResponse_200_response(responseValue)"),
                 "Inline anyOf responses must use schema-aware first-match decoding");
         Assert.assertFalse(inlineAnyOfMethod.contains("OneOfResponseBodyDeserializer"),
                 "Inline anyOf responses must not use exactly-one decoding");

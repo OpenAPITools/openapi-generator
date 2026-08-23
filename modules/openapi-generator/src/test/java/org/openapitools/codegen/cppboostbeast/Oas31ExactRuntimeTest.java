@@ -127,6 +127,18 @@ public class Oas31ExactRuntimeTest {
                         && schemaIrSource.contains("duplicateNull_branch_0")
                         && schemaIrSource.contains("duplicateNull_branch_1"),
                 "raw duplicate-null branches must each receive a schema IR row");
+        int patternNodeEnd = schemaIrSource.indexOf(
+                "n.sourceName = \"nonAsciiPattern_branch_0\"");
+        Assert.assertTrue(patternNodeEnd >= 0,
+                "non-ASCII pattern schema must receive a schema IR row");
+        int patternNodeStart = schemaIrSource.lastIndexOf("\n    { // node", patternNodeEnd);
+        Assert.assertTrue(patternNodeStart >= 0,
+                "non-ASCII pattern schema row must have a generated node block");
+        String patternNode = schemaIrSource.substring(patternNodeStart, patternNodeEnd);
+        Assert.assertTrue(
+                patternNode.contains("AdditionalPropertiesKind::reject")
+                        && patternNode.contains("patternProperties.push_back"),
+                "raw patternProperties and additionalProperties must survive inline-model normalization");
 
         Path source = Path.of(
                 "src/test/resources/3_1/cpp-boost-beast-client/"

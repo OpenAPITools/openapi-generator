@@ -41,6 +41,21 @@ components:
               type: string
           additionalProperties: true
 
+    # Inline-model extraction rewrites this branch to a synthetic $ref. The
+    # carrier must retain its declared property names so additionalProperties
+    # does not reject valid objects before dynamic-anchor evaluation.
+    DynamicAnchorObject:
+      oneOf:
+        - $dynamicAnchor: elements
+          type: object
+          properties:
+            a: true
+          required: [a]
+          additionalProperties: false
+          x-oas31-res: 1
+      x-oas31-res: 1
+      x-oas31-dyanchor: elements
+
     # --- Array structural (§10.2): prefixItems by index, items remainder,
     # min-maxItems, uniqueItems:true (exact deep-uniqueness).
     ArrayBranch:

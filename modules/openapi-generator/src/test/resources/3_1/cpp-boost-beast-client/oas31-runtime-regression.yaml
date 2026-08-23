@@ -69,3 +69,8 @@ components:
       oneOf:
         - type: "null"
         - type: "null"
+    nonAsciiPattern:
+      oneOf:
+        - patternProperties:
+            "^á": {}
+          additionalProperties: false

@@ -1476,7 +1476,6 @@ public class Oas31IrComplianceTest {
                 () -> codegen.preprocessOpenAPI(openAPI));
     }
 
-
     @Test
     public void nestedCompositionBranchPositionsAreScanned() {
         CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
@@ -1645,6 +1644,34 @@ public class Oas31IrComplianceTest {
                         .matcher(ir).find(),
                 "schema-form additionalProperties must reference a densified child row");
 
+        String allowedBranch = schemaNodeBlock(ir,
+                "#/components/schemas/AddPropsAllowed/oneOf/0");
+        Assert.assertTrue(allowedBranch.contains(
+                        "n.additionalProperties = AdditionalPropertiesKind::allowed;"),
+                "additionalProperties:true must stay on its own extracted branch");
+        Assert.assertFalse(allowedBranch.contains(
+                        "n.additionalProperties = AdditionalPropertiesKind::schema;"),
+                "schema-form additionalProperties must not leak between extracted branches");
+
+        String schemaBranch = schemaNodeBlock(ir,
+                "#/components/schemas/AddPropsSchema/oneOf/0");
+        Assert.assertTrue(schemaBranch.contains(
+                        "n.additionalProperties = AdditionalPropertiesKind::schema;"),
+                "schema-form additionalProperties must stay on its own extracted branch");
+        Assert.assertTrue(java.util.regex.Pattern.compile("n\\.additionalSchema = \\d+;")
+                        .matcher(schemaBranch).find(),
+                "schema-form additionalProperties must retain its branch-local child row");
+
+        String dynamicAnchorCarrier = schemaNodeBlockForSourceName(
+                ir, "DynamicAnchorObject_component_app1");
+        Assert.assertTrue(dynamicAnchorCarrier.contains(
+                        "n.additionalProperties = AdditionalPropertiesKind::reject;"),
+                "synthetic ref carrier must retain additionalProperties:false");
+        Assert.assertTrue(java.util.regex.Pattern.compile(
+                        "b\\.name = \"a\"; b\\.node = \\d+;")
+                        .matcher(dynamicAnchorCarrier).find(),
+                "synthetic ref carrier must retain names declared by properties");
+
         // -- Array structural: prefixItems / items / min-maxItems / uniqueItems --
         TestUtils.assertFileContains(irSource,
                 "n.prefixItems.push_back(",
@@ -1684,11 +1711,11 @@ public class Oas31IrComplianceTest {
                 "a lossy double rendering of the nested decimal must never leak in");
 
         // -- Root-node accounting: main rows 0..M-1 only; component/helper rows
-        // appended after M are NOT resource roots. 12 composed components =>
-        // last main root index 11. --
-        Assert.assertTrue(ir.contains("res.rootNodes.push_back(11);"),
-                "12 composed components => last main root index 11");
-        Assert.assertFalse(ir.contains("res.rootNodes.push_back(12);"),
+        // appended after M are NOT resource roots. 13 composed components =>
+        // last main root index 12. --
+        Assert.assertTrue(ir.contains("res.rootNodes.push_back(12);"),
+                "13 composed components => last main root index 12");
+        Assert.assertFalse(ir.contains("res.rootNodes.push_back(13);"),
                 "component/helper rows must not be resource roots");
         Assert.assertTrue(dispatchContent.contains("validate_DefsNestedProperty_branch_0"),
                 "DefsNestedProperty must be dispatched");
@@ -1755,4 +1782,26 @@ public class Oas31IrComplianceTest {
         Assert.assertTrue(dispatchContent.contains("validate_RefToPlain_branch_0"),
                 "RefToPlain must be dispatched");
     }
+    private static String schemaNodeBlock(String ir, String schemaPath) {
+        String marker = "n.schemaPath = \"" + schemaPath + "\";";
+        int pathIndex = ir.indexOf(marker);
+        Assert.assertTrue(pathIndex >= 0, "missing generated schema row for " + schemaPath);
+        int start = ir.lastIndexOf("{ // node ", pathIndex);
+        int end = ir.indexOf("reg.nodes.push_back(n);", pathIndex);
+        Assert.assertTrue(start >= 0 && end > pathIndex,
+                "malformed generated schema row for " + schemaPath);
+        return ir.substring(start, end);
+    }
+
+    private static String schemaNodeBlockForSourceName(String ir, String sourceName) {
+        String marker = "n.sourceName = \"" + sourceName + "\";";
+        int sourceIndex = ir.indexOf(marker);
+        Assert.assertTrue(sourceIndex >= 0, "missing generated schema row for " + sourceName);
+        int start = ir.lastIndexOf("{ // node ", sourceIndex);
+        int end = ir.indexOf("reg.nodes.push_back(n);", sourceIndex);
+        Assert.assertTrue(start >= 0 && end > sourceIndex,
+                "malformed generated schema row for " + sourceName);
+        return ir.substring(start, end);
+    }
+
 }

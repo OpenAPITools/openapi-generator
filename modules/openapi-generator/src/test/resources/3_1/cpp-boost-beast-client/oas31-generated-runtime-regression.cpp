@@ -12,6 +12,9 @@
 #include "model/AllNull.h"
 #include "model/DuplicateNull.h"
 #include "api/DefaultApi.cpp"
+#include "model/oas31_object_array.hpp"
+#include "model/oas31_validator.hpp"
+#include "model/schema_ir.generated.hpp"
 
 namespace api = org::openapitools::client::api;
 namespace model = org::openapitools::client::model;
@@ -23,6 +26,16 @@ void expect(bool condition, const char* message) {
         std::cerr << message << '\n';
         std::exit(1);
     }
+}
+
+bool validatesSchema(std::string const& schemaId, std::string const& payload) {
+    oas31::ExactJsonValue document = oas31::parseExactJson(payload);
+    oas31::RawInstance instance(&document.value);
+    oas31::ValidationPath path;
+    oas31::ValidationContext context;
+    oas31::SchemaIndex const node = oas31::schemaNodeFor(schemaId);
+    return node != oas31::kNoSchema
+        && oas31::sharedSchemaEvaluator().validate(node, instance, path, context).success;
 }
 
 class FakeHttpClient final : public api::HttpClient {
@@ -66,6 +79,11 @@ int main() {
     }
     expect(rejectedDuplicateNull,
            "duplicate-null oneOf accepted a value matching both branches");
+
+    expect(validatesSchema("nonAsciiPattern_branch_0", R"({"ármányos":1})"),
+           "patternProperties failed to match a non-ASCII object key");
+    expect(!validatesSchema("nonAsciiPattern_branch_0", R"({"élmény":1})"),
+           "additionalProperties false accepted an unmatched object key");
 
     api::DefaultApi defaultApi(std::make_shared<FakeHttpClient>());
     (void)defaultApi.getEmpty();

@@ -3,6 +3,7 @@ package org.openapitools.codegen.languages;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.swagger.v3.core.util.Json31;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -178,6 +179,7 @@ final class Oas31RawSpecRecovery {
         rawRootSchemaPositions(document).forEach((location, raw) -> {
             Schema parsed = parsedSchemas.get(location);
             if (parsed != null) {
+                restoreRawObjectKeywords(raw, parsed, location);
                 recoverSchema(raw, recoveryTarget(api,
                         raw.isObject() && !raw.has("$ref"), parsed), location, api);
             }
@@ -442,6 +444,66 @@ final class Oas31RawSpecRecovery {
                 location + "/unevaluatedItems", api);
     }
 
+    private static void restoreRawObjectKeywords(
+            JsonNode raw, Schema parsed, String location) {
+        if (raw == null || !raw.isObject() || parsed == null) {
+            return;
+        }
+        JsonNode additionalProperties = raw.get("additionalProperties");
+        if (additionalProperties != null) {
+            if (additionalProperties.isBoolean()) {
+                parsed.setAdditionalProperties(additionalProperties.booleanValue());
+            } else {
+                parsed.setAdditionalProperties(schemaFromRaw(
+                        additionalProperties, location + "/additionalProperties"));
+            }
+        }
+        JsonNode properties = raw.get("properties");
+        if (parsed.get$ref() != null && properties != null && properties.isObject()) {
+            Map<String, Schema> recovered = new LinkedHashMap<>();
+            Iterator<Map.Entry<String, JsonNode>> fields = properties.fields();
+            while (fields.hasNext()) {
+                Map.Entry<String, JsonNode> field = fields.next();
+                recovered.put(field.getKey(), schemaFromRaw(
+                        field.getValue(), location + "/properties/"
+                                + pointerSegment(field.getKey())));
+            }
+            parsed.setProperties(recovered);
+        }
+
+        JsonNode patternProperties = raw.get("patternProperties");
+        if (patternProperties != null && patternProperties.isObject()) {
+            Map<String, Schema> recovered = new LinkedHashMap<>();
+            Iterator<Map.Entry<String, JsonNode>> fields = patternProperties.fields();
+            while (fields.hasNext()) {
+                Map.Entry<String, JsonNode> field = fields.next();
+                recovered.put(field.getKey(), schemaFromRaw(
+                        field.getValue(), location + "/patternProperties/"
+                                + pointerSegment(field.getKey())));
+            }
+            parsed.setPatternProperties(recovered);
+        }
+
+        JsonNode propertyNames = raw.get("propertyNames");
+        if (propertyNames != null) {
+            parsed.setPropertyNames(schemaFromRaw(
+                    propertyNames, location + "/propertyNames"));
+        }
+    }
+
+    private static Schema schemaFromRaw(JsonNode raw, String location) {
+        if (raw == null || (!raw.isObject() && !raw.isBoolean())) {
+            throw new IllegalArgumentException(
+                    "Expected a schema at " + location);
+        }
+        try {
+            return Json31.mapper().treeToValue(raw.deepCopy(), Schema.class);
+        } catch (Exception ex) {
+            throw new IllegalStateException(
+                    "Unable to recover raw OAS 3.1 schema at " + location, ex);
+        }
+    }
+
     private static List<Schema> restoreCollapsedAllNullBranches(
             JsonNode rawBranches, List<Schema> parsedBranches) {
         if (rawBranches == null || !rawBranches.isArray()) {
@@ -539,16 +601,23 @@ final class Oas31RawSpecRecovery {
         Iterator<Map.Entry<String, JsonNode>> fields = raw.fields();
         while (fields.hasNext()) {
             Map.Entry<String, JsonNode> field = fields.next();
-            recoverChild(field.getValue(), parsed.get(field.getKey()),
-                    location + "/" + pointerSegment(field.getKey()), api);
+            Object parsedChild = parsed.get(field.getKey());
+            if (parsedChild != null) {
+                recoverChild(field.getValue(), parsedChild,
+                        location + "/" + pointerSegment(field.getKey()), api);
+            }
         }
     }
 
     private static void recoverChild(
             JsonNode raw, Object parsed, String location, OpenAPI api) {
         if (parsed instanceof Schema) {
+            Schema parsedSchema = (Schema) parsed;
+            // Synthetic inline-model refs need the raw object surface on the
+            // carrier so additionalProperties can recognize declared names.
+            restoreRawObjectKeywords(raw, parsedSchema, location);
             Schema target = recoveryTarget(api,
-                    raw != null && raw.isObject() && !raw.has("$ref"), (Schema) parsed);
+                    raw != null && raw.isObject() && !raw.has("$ref"), parsedSchema);
             recoverSchema(raw, target, location, api);
         }
     }

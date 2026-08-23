@@ -2955,9 +2955,13 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         var.defaultValue = originalDefaultValue;
     }
 
+
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         Map<String, Object> processed = super.postProcessSupportingFileData(objs);
+        // Model processing can replace inline branch schema objects after the
+        // initial recovery pass; refresh the emitted graph from the raw spec.
+        Oas31RawSpecRecovery.recoverPristineLiterals(openAPI, getInputSpec());
         Oas31SchemaIrEmitter emitter = new Oas31SchemaIrEmitter(
                 openAPI, compositionDescriptors, additionalProperties());
         return emitter.produce(processed);
