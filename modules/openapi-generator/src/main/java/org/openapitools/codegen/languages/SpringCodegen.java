@@ -406,19 +406,19 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. "
                 + "When enabled, operations with all three parameters will have Pageable support automatically applied. "
                 + "Operations with x-spring-paginated explicitly set to false will not be auto-detected. "
-                + "Only applies when library=spring-boot.",
+                + "Only applies when library is spring-boot or spring-cloud.",
                 autoXSpringPaginated));
         cliOptions.add(CliOption.newBoolean(GENERATE_SORT_VALIDATION,
                 "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to "
                 + "the injected Pageable parameter of operations whose 'sort' parameter has enum values. "
                 + "The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. "
-                + "Requires useBeanValidation=true and library=spring-boot.",
+                + "Requires useBeanValidation=true and library is spring-boot or spring-cloud.",
                 generateSortValidation));
         cliOptions.add(CliOption.newBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION,
                 "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to "
                 + "the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. "
                 + "The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. "
-                + "Requires useBeanValidation=true and library=spring-boot.",
+                + "Requires useBeanValidation=true and library is spring-boot or spring-cloud.",
                 generatePageableConstraintValidation));
         cliOptions.add(CliOption.newBoolean(SUBSTITUTE_GENERIC_PAGED_MODEL,
                 "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
@@ -682,7 +682,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, this::setUseEnumValueInterface);
 
-        if (SPRING_BOOT.equals(library)) {
+        if (isPageableSupported()) {
             convertPropertyToBooleanAndWriteBack(AUTO_X_SPRING_PAGINATED, this::setAutoXSpringPaginated);
             convertPropertyToBooleanAndWriteBack(GENERATE_SORT_VALIDATION, this::setGenerateSortValidation);
             convertPropertyToBooleanAndWriteBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, this::setGeneratePageableConstraintValidation);
@@ -901,6 +901,16 @@ public class SpringCodegen extends AbstractJavaCodegen
         return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
     }
 
+    /**
+     * Whether the current library supports the {@code x-spring-paginated} extension (i.e. a
+     * Spring Data {@code Pageable} parameter). Supported for the {@code spring-boot} server and
+     * the {@code spring-cloud} (Feign) client, which handles {@code Pageable} through
+     * {@code org.springframework.cloud.openfeign.support.PageableSpringEncoder}.
+     */
+    private boolean isPageableSupported() {
+        return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
+    }
+
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         if (supportLibraryUseTags() && !useTags) {
@@ -936,7 +946,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.java"));
         }
 
-        if (SPRING_BOOT.equals(library)) {
+        if (isPageableSupported()) {
             pageableUtils.scanAll(openAPI, autoXSpringPaginated);
 
             if (generateSortValidation && useBeanValidation && !pageableUtils.sortValidationEnums.isEmpty()) {
@@ -1431,16 +1441,17 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Auto-detect pagination parameters and set x-spring-paginated if autoXSpringPaginated is enabled.
         // Must be done BEFORE super.fromOperation() so that the base codegen populates
         // codegenOperation.vendorExtensions from the extension we just set on 'operation'.
-        // Only for spring-boot; respect manual x-spring-paginated: false override.
-        if (SPRING_BOOT.equals(library)) {
+        // Only for libraries that support Pageable (spring-boot, spring-cloud);
+        // respect manual x-spring-paginated: false override.
+        if (isPageableSupported()) {
             SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(
                     openAPI, operation, autoXSpringPaginated);
         }
 
-        // add Pageable import only if x-spring-paginated explicitly used AND it's a server library.
+        // add Pageable import only if x-spring-paginated explicitly used AND it's a pageable-supporting library.
         // this allows to use a custom Pageable schema without importing Spring Pageable,
-        // and avoids polluting the import mapping for client libraries.
-        if (SPRING_BOOT.equals(library) && operation.getExtensions() != null
+        // and avoids polluting the import mapping for libraries that don't support Pageable.
+        if (isPageableSupported() && operation.getExtensions() != null
                 && Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
             importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         }
@@ -1452,17 +1463,18 @@ public class SpringCodegen extends AbstractJavaCodegen
         // add org.springframework.format.annotation.DateTimeFormat when needed
         codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
                 .ifPresent(p -> codegenOperation.imports.add("DateTimeFormat"));
-        // For client libraries (spring-cloud, spring-http-interface) x-spring-paginated is not supported:
-        // they need explicit query parameters for HTTP calls, not a Pageable object.
-        // Strip the extension so the template does not render @ParameterObject Pageable, and log it.
-        if (!SPRING_BOOT.equals(library) && codegenOperation.vendorExtensions.remove("x-spring-paginated") != null) {
-            LOGGER.debug("x-spring-paginated on operation '{}' is ignored for library '{}'; "
-                    + "Pageable is only supported for spring-boot. "
+        // For libraries that do not support Pageable (e.g. spring-http-interface) x-spring-paginated
+        // cannot be honored: they need explicit query parameters for HTTP calls, not a Pageable object.
+        // Strip the extension so the template does not render @ParameterObject Pageable, and warn.
+        if (!isPageableSupported() && codegenOperation.vendorExtensions.remove("x-spring-paginated") != null) {
+            LOGGER.warn("x-spring-paginated on operation '{}' is ignored for library '{}'; "
+                    + "Pageable is only supported for spring-boot and spring-cloud. "
                     + "Individual page/size/sort query parameters will be used instead.",
                     codegenOperation.operationId, library);
         }
         // add org.springframework.data.domain.Pageable import when needed
-        if (SPRING_BOOT.equals(library) && codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
+        if (isPageableSupported()
+                && Boolean.TRUE.equals(codegenOperation.vendorExtensions.get("x-spring-paginated"))) {
             codegenOperation.imports.add("Pageable");
             SpringPageableScanUtils.applySpringDocPageableAnnotation(codegenOperation,
                     SpringPageableScanUtils.AnnotationSyntax.JAVA,
