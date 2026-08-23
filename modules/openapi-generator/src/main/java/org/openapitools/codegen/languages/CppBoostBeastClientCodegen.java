@@ -2910,6 +2910,16 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             if ("boost::json::value".equals(codegenProperty.dataType)) {
                 return "boost::json::value()";
             }
+            Schema referenceSchema = Oas31CompositionLowering.referenceSchemaOf(schema);
+            if (referenceSchema != null && referenceSchema != schema
+                    && schema.getDefault() == null) {
+                Schema referencedTarget = ModelUtils.getReferencedSchema(openAPI, referenceSchema);
+                if (referencedTarget != null && referencedTarget != referenceSchema
+                        && codegenProperty.dataType != null
+                        && codegenProperty.dataType.equals(getTypeDeclaration(referencedTarget))) {
+                    return toDefaultValue(referencedTarget);
+                }
+            }
         }
         return super.toDefaultValue(codegenProperty, schema);
     }

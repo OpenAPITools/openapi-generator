@@ -24,8 +24,10 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.OpenAPINormalizer;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.CppBoostBeastClientCodegen;
@@ -2759,6 +2761,118 @@ public class CompositionLoweringTest {
         Assert.assertTrue(branch.getValidateParams()
                         .containsKey("validation-anyof-schemas"),
                 "$ref sibling anyOf must remain an adjacent applicator");
+    }
+
+    @Test
+    public void normalizedReferenceSiblingRetainsDiscriminatorIdentityAndAssertions() {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        io.swagger.v3.oas.models.OpenAPI openAPI = new io.swagger.v3.oas.models.OpenAPI();
+        openAPI.setOpenapi("3.1.0");
+        io.swagger.v3.oas.models.Components components = new io.swagger.v3.oas.models.Components();
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+
+        ObjectSchema documentBlock = new ObjectSchema();
+        documentBlock.addProperty("type", new StringSchema());
+        ObjectSchema textBlock = new ObjectSchema();
+        textBlock.addProperty("type", new StringSchema());
+
+        Schema documentRef = new Schema()
+                .$ref("#/components/schemas/RequestDocumentBlock");
+        documentRef.setDescription("Normalized reference sibling");
+        documentRef.setMinProperties(2);
+        Schema textRef = new Schema()
+                .$ref("#/components/schemas/RequestTextBlock");
+
+        ComposedSchema block = new ComposedSchema();
+        block.addOneOfItem(documentRef);
+        block.addOneOfItem(textRef);
+        Map<String, String> mapping = new LinkedHashMap<>();
+        mapping.put("document", "#/components/schemas/RequestDocumentBlock");
+        mapping.put("text", "#/components/schemas/RequestTextBlock");
+        io.swagger.v3.oas.models.media.Discriminator discriminator =
+                new io.swagger.v3.oas.models.media.Discriminator();
+        discriminator.setPropertyName("type");
+        discriminator.setMapping(mapping);
+        block.setDiscriminator(discriminator);
+
+        schemas.put("RequestDocumentBlock", documentBlock);
+        schemas.put("RequestTextBlock", textBlock);
+        schemas.put("RequestContentBlock", block);
+        components.setSchemas(schemas);
+        openAPI.setComponents(components);
+
+        class TestOpenAPINormalizer extends OpenAPINormalizer {
+            TestOpenAPINormalizer(io.swagger.v3.oas.models.OpenAPI spec,
+                                  Map<String, String> rules) {
+                super(spec, rules);
+            }
+
+            void run() {
+                normalize();
+            }
+        }
+        new TestOpenAPINormalizer(
+                openAPI, Map.of("NORMALIZE_31SPEC", "true")).run();
+        Schema normalizedBlock = (Schema) openAPI.getComponents().getSchemas()
+                .get("RequestContentBlock");
+        Schema normalizedBranch = (Schema) normalizedBlock.getOneOf().get(0);
+        Assert.assertNull(normalizedBranch.get$ref(),
+                "Normalizer must move the sibling $ref off the outer schema");
+        Assert.assertEquals(normalizedBranch.getAllOf().size(), 1);
+        Schema normalizedRef = (Schema) normalizedBranch.getAllOf().get(0);
+        Assert.assertEquals(normalizedRef.get$ref(),
+                "#/components/schemas/RequestDocumentBlock");
+
+        codegen.preprocessOpenAPI(openAPI);
+        Oas31CompositionLowering.CompositionDescriptor descriptor =
+                codegen.getCompositionDescriptor("RequestContentBlock");
+        Oas31CompositionLowering.CompositionBranchDescriptor branch =
+                descriptor.getBranches().get(0);
+        Assert.assertEquals(branch.getSourceSchemaRef(),
+                "#/components/schemas/RequestDocumentBlock");
+        Assert.assertEquals(branch.getResolvedSchemaName(), "RequestDocumentBlock");
+        Assert.assertEquals(branch.getValidateParams().get("validation-ref"),
+                "RequestDocumentBlock");
+        Assert.assertEquals(branch.getValidateParams().get("validation-min-properties"), 2);
+        Assert.assertEquals(branch.getValidateParams().get("validation-ann-description"),
+                "\"Normalized reference sibling\"");
+        Assert.assertFalse(branch.getValidateParams().containsKey("validation-allof-schemas"),
+                "Normalizer's singleton allOf must not become a second ref applicator");
+
+        List<Map<String, Object>> branchIndex =
+                Oas31CompositionLowering.buildDiscriminatorBranchIndex(
+                        mapping, descriptor.getBranches());
+        Assert.assertEquals(branchIndex.size(), 2);
+        Assert.assertEquals(branchIndex.get(0).get("key"), "document");
+        Assert.assertEquals(branchIndex.get(0).get("value"), 0);
+        Assert.assertEquals(branchIndex.get(1).get("key"), "text");
+        Assert.assertEquals(branchIndex.get(1).get("value"), 1);
+    }
+
+    @Test
+    public void singletonAllOfPrimitiveReferenceUsesResolvedDefault() {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        io.swagger.v3.oas.models.OpenAPI openAPI = new io.swagger.v3.oas.models.OpenAPI();
+        openAPI.setOpenapi("3.1.0");
+        io.swagger.v3.oas.models.Components components = new io.swagger.v3.oas.models.Components();
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("BetaTimestamp", new StringSchema().format("date-time"));
+        components.setSchemas(schemas);
+        openAPI.setComponents(components);
+        codegen.setOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(openAPI);
+
+        ComposedSchema timestampProperty = new ComposedSchema();
+        timestampProperty.addAllOfItem(
+                new Schema().$ref("#/components/schemas/BetaTimestamp"));
+        CodegenProperty property = new CodegenProperty();
+        property.dataType = "std::string";
+
+        Assert.assertEquals(codegen.toDefaultValue(property, timestampProperty), "\"\"");
     }
 
     @Test

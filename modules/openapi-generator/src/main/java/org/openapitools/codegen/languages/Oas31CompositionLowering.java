@@ -345,9 +345,12 @@ public final class Oas31CompositionLowering {
 
             // Resolve the branch schema for assertion scanning
             Schema targetForAssertions = null;
-            if (branchSchema != null && branchSchema.get$ref() != null) {
-                sourceRef = branchSchema.get$ref();
-                String refName = ModelUtils.getSimpleRef(branchSchema.get$ref());
+            Schema referenceSchema = referenceSchemaOf(branchSchema);
+            boolean normalizedRefWrapper = referenceSchema != null
+                    && referenceSchema != branchSchema;
+            if (referenceSchema != null) {
+                sourceRef = referenceSchema.get$ref();
+                String refName = ModelUtils.getSimpleRef(referenceSchema.get$ref());
                 resolvedName = refName;
                 // Preserve the local ref target for later IR resolution.
                 validateParams.put("validation-ref", refName);
@@ -391,17 +394,25 @@ public final class Oas31CompositionLowering {
             // Under JSON Schema 2020-12, a $ref target and its sibling keywords
             // both apply. Scan both surfaces and retain unsupported siblings for
             // fail-closed diagnostics.
-            boolean refBranch = branchSchema != null && branchSchema.get$ref() != null;
+            boolean refBranch = referenceSchema != null;
             if (targetForAssertions != null) {
                 Oas31SchemaIrEmitter.scanSurfaceAssertions(targetForAssertions, openAPI,
                         supported, unsupported, validateParams, refBranch);
-                if (refBranch && branchSchema != targetForAssertions) {
-                    // $ref with siblings: BOTH the resolved target and the branch's
-                    // own keyword set apply (2020-12). Ref-node applicator stays
-                    // branch-driven; sibling keywords are emitted inline.
-                    Oas31SchemaIrEmitter.scanSurfaceAssertions(branchSchema, openAPI,
-                            supported, unsupported, validateParams, false);
-                }
+            }
+            if (refBranch && referenceSchema != targetForAssertions) {
+                // $ref with siblings: BOTH the resolved target and the ref's
+                // own keyword set apply (2020-12). Ref-node applicator stays
+                // branch-driven; sibling keywords are emitted inline.
+                Oas31SchemaIrEmitter.scanSurfaceAssertions(referenceSchema, openAPI,
+                        supported, unsupported, validateParams, false);
+            }
+            if (normalizedRefWrapper) {
+                // OpenAPINormalizer moves a $ref beside annotations/assertions
+                // into a singleton allOf. Scan the outer siblings as adjacent
+                // keywords, then discard only that synthetic applicator.
+                Oas31SchemaIrEmitter.scanSurfaceAssertions(branchSchema, openAPI,
+                        supported, unsupported, validateParams, false);
+                validateParams.remove("validation-allof-schemas");
             }
 
             // Dynamic-scope markers belong to the branch's own surface, never
@@ -449,6 +460,20 @@ public final class Oas31CompositionLowering {
         return new CompositionDescriptor(
                 schemaName, schemaLocation, keyword, branches,
                 discriminatorDescriptor);
+    }
+
+    /**
+     * Returns the direct reference schema, including the singleton-allOf shape
+     * produced by {@link org.openapitools.codegen.OpenAPINormalizer} for a
+     * {@code $ref} with sibling keywords.
+     */
+    static Schema referenceSchemaOf(Schema branchSchema) {
+        if (branchSchema == null) return null;
+        if (branchSchema.get$ref() != null) return branchSchema;
+        List<Schema> allOf = branchSchema.getAllOf();
+        if (allOf == null || allOf.size() != 1) return null;
+        Schema candidate = allOf.get(0);
+        return candidate != null && candidate.get$ref() != null ? candidate : null;
     }
 
     /**
