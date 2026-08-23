@@ -44,6 +44,8 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -492,6 +494,24 @@ public class CompositionLoweringTest {
                 + "requires CompositionBranchValue");
         Assert.assertFalse(oneOfStringOverlapContent.contains("using OneOfWithStringOverlap = boost::json::value;"),
                 "OneOfWithStringOverlap must NOT type-erase to boost::json::value");
+        Assert.assertTrue(oneOfStringOverlapContent.contains(
+                "bool isOneOfWithStringOverlapBranch0(OneOfWithStringOverlap const& value);"),
+                "Duplicate-type branch predicates must be declared in the public model header: "
+                + oneOfStringOverlapContent);
+        Assert.assertTrue(oneOfStringOverlapContent.contains(
+                "std::string getOneOfWithStringOverlapBranch0(OneOfWithStringOverlap const& value);"),
+                "Duplicate-type branch getters must be declared in the public model header: "
+                + oneOfStringOverlapContent);
+        Assert.assertTrue(oneOfStringOverlapContent.contains(
+                "OneOfWithStringOverlap makeOneOfWithStringOverlapBranch0(std::string value);"),
+                "Duplicate-type branch factories must be declared in the public model header");
+        String oneOfStringOverlapSource = java.nio.file.Files.readString(
+                output.toPath().resolve("model/OneOfWithStringOverlap.cpp"));
+        Assert.assertTrue(oneOfStringOverlapSource.contains(
+                "bool isOneOfWithStringOverlapBranch0(OneOfWithStringOverlap const& value)"),
+                "Duplicate-type branch predicates must have an exported definition");
+        Assert.assertFalse(oneOfStringOverlapSource.contains("inline bool isBranch0("),
+                "Unqualified translation-unit-local branch helpers must not be emitted");
 
         // Scenario 16b: StringOverlapHolder property references OneOfWithStringOverlap
         // which is a using-alias for a CompositionBranchValue variant. Verify the property uses the
@@ -2679,6 +2699,110 @@ public class CompositionLoweringTest {
         Assert.assertEquals(patternBranchDesc.getValidateParams().get("validation-pattern"),
                 "^[a-z]+$",
                 "Pattern branch must have correct pattern");
+    }
+
+    @Test
+    public void repeatedNullReferencesRetainNullCapability() {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        io.swagger.v3.oas.models.OpenAPI openAPI = new io.swagger.v3.oas.models.OpenAPI();
+        openAPI.setOpenapi("3.1.0");
+        io.swagger.v3.oas.models.Components components = new io.swagger.v3.oas.models.Components();
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        Schema nullTarget = new Schema();
+        nullTarget.setTypes(new LinkedHashSet<>(java.util.Collections.singletonList("null")));
+        ComposedSchema wrapper = new ComposedSchema();
+        wrapper.addOneOfItem(new Schema().$ref("#/components/schemas/NullTarget"));
+        wrapper.addOneOfItem(new Schema().$ref("#/components/schemas/NullTarget"));
+        schemas.put("NullTarget", nullTarget);
+        schemas.put("RepeatedNull", wrapper);
+        components.setSchemas(schemas);
+        openAPI.setComponents(components);
+
+        codegen.preprocessOpenAPI(openAPI);
+        Oas31CompositionLowering.CompositionDescriptor descriptor =
+                codegen.getCompositionDescriptor("RepeatedNull");
+        Assert.assertNotNull(descriptor);
+        Assert.assertEquals(descriptor.getBranches().size(), 2);
+        for (Oas31CompositionLowering.CompositionBranchDescriptor branch
+                : descriptor.getBranches()) {
+            Assert.assertEquals(branch.getNullCapability(),
+                    Oas31CompositionLowering.CompositionBranchDescriptor.NullCapability.ALWAYS);
+        }
+    }
+
+    @Test
+    public void referenceSiblingCompositionIsRetained() {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        io.swagger.v3.oas.models.OpenAPI openAPI = new io.swagger.v3.oas.models.OpenAPI();
+        openAPI.setOpenapi("3.1.0");
+        io.swagger.v3.oas.models.Components components = new io.swagger.v3.oas.models.Components();
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        Schema target = new io.swagger.v3.oas.models.media.ObjectSchema();
+        Schema refWithSibling = new Schema().$ref("#/components/schemas/Target");
+        refWithSibling.setAnyOf(java.util.Arrays.asList(
+                new Schema().type("string"), new Schema().type("integer")));
+        ComposedSchema wrapper = new ComposedSchema();
+        wrapper.addOneOfItem(refWithSibling);
+        schemas.put("Target", target);
+        schemas.put("RefSiblingComposition", wrapper);
+        components.setSchemas(schemas);
+        openAPI.setComponents(components);
+
+        codegen.preprocessOpenAPI(openAPI);
+        Oas31CompositionLowering.CompositionBranchDescriptor branch =
+                codegen.getCompositionDescriptor("RefSiblingComposition")
+                        .getBranches().get(0);
+        Assert.assertTrue(branch.getValidateParams()
+                        .containsKey("validation-anyof-schemas"),
+                "$ref sibling anyOf must remain an adjacent applicator");
+    }
+
+    @Test
+    public void allOfNumericEnumsUseJsonNumberEquality() {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.processOpts();
+
+        Schema integerValue = new IntegerSchema();
+        integerValue.setEnum(java.util.Collections.singletonList(1));
+        Schema decimalValue = new NumberSchema();
+        decimalValue.setEnum(java.util.Collections.singletonList(
+                new java.math.BigDecimal("1.0")));
+        Schema deepIntegerValue = new ObjectSchema();
+        Map<String, Object> integerObject = new LinkedHashMap<>();
+        integerObject.put("nested", java.util.Collections.singletonList(1));
+        deepIntegerValue.setEnum(java.util.Collections.singletonList(integerObject));
+        Schema deepDecimalValue = new ObjectSchema();
+        Map<String, Object> decimalObject = new LinkedHashMap<>();
+        decimalObject.put("nested", java.util.Collections.singletonList(
+                new java.math.BigDecimal("1.0")));
+        deepDecimalValue.setEnum(java.util.Collections.singletonList(decimalObject));
+        ObjectSchema first = new ObjectSchema();
+        first.addProperty("value", integerValue);
+        first.addProperty("deep", deepIntegerValue);
+        first.addRequiredItem("value");
+        first.addRequiredItem("deep");
+        ObjectSchema second = new ObjectSchema();
+        second.addProperty("value", decimalValue);
+        second.addProperty("deep", deepDecimalValue);
+        second.addRequiredItem("value");
+        second.addRequiredItem("deep");
+        ComposedSchema wrapper = new ComposedSchema();
+        wrapper.addAllOfItem(first);
+        wrapper.addAllOfItem(second);
+
+        io.swagger.v3.oas.models.OpenAPI openAPI = new io.swagger.v3.oas.models.OpenAPI();
+        openAPI.setOpenapi("3.1.0");
+        io.swagger.v3.oas.models.Components components = new io.swagger.v3.oas.models.Components();
+        components.setSchemas(java.util.Collections.singletonMap("NumericEnums", wrapper));
+        openAPI.setComponents(components);
+
+        codegen.preprocessOpenAPI(openAPI);
+        Assert.assertNotNull(codegen.fromModel("NumericEnums", wrapper),
+                "JSON-equal numeric and nested enum values must have a satisfiable intersection");
     }
 
     /**

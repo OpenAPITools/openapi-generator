@@ -70,9 +70,9 @@
 #include <boost/json.hpp>
 
 #include "ValidationTypes.h"
-#include "oas31_object_array.hpp"
-#include "oas31_validator.hpp"
-#include "schema_ir.generated.hpp"
+#include "Oas31ExactJson.h"
+#include "Oas31Validator.h"
+#include "Oas31SchemaRegistry.h"
 
 namespace org {
 namespace openapitools {
@@ -701,8 +701,9 @@ std::string Pet::toJsonString(bool prettyJson /* = false */) const
 
 void Pet::fromJsonString(std::string const& jsonString)
 {
-    oas31::ExactJsonValue exactJson = oas31::parseExactJson(jsonString);
-    oas31::ExactInstanceScope exactScope(exactJson);
+    org::openapitools::client::model::detail::schema_validation::ExactJsonValue exactJson = org::openapitools::client::model::detail::schema_validation::parseExactJson(jsonString);
+    org::openapitools::client::model::detail::schema_validation::requireModelConvertibleJson(exactJson);
+    org::openapitools::client::model::detail::schema_validation::ExactInstanceScope exactScope(exactJson);
     fromJsonValue(exactJson.value);
 }
 
@@ -904,8 +905,9 @@ std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<Pe
 
 void createModelVectorFromJsonString(std::vector<std::shared_ptr<Pet>>& vec, const std::string& json)
 {
-    oas31::ExactJsonValue exactJson = oas31::parseExactJson(json);
-    oas31::ExactInstanceScope exactScope(exactJson);
+    org::openapitools::client::model::detail::schema_validation::ExactJsonValue exactJson = org::openapitools::client::model::detail::schema_validation::parseExactJson(json);
+    org::openapitools::client::model::detail::schema_validation::requireModelConvertibleJson(exactJson);
+    org::openapitools::client::model::detail::schema_validation::ExactInstanceScope exactScope(exactJson);
     vec = JsonValueConverter<std::vector<std::shared_ptr<Pet>>>::fromJsonValue(exactJson.value);
 }
 

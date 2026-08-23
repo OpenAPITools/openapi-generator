@@ -1,15 +1,15 @@
 // ============================================================================
-// oas31_ir.hpp - densified schema IR tables (ADR D5).
+// Oas31SchemaIr.h - densified schema IR tables (ADR D5).
 //
 // SchemaResourceRegistry owns the SchemaNode rows interpreted by
 // SchemaEvaluator. Java emission and C++ evaluation share this layout.
 //
 // HEADER-ONLY. Built under -Werror with g++ -std=c++17.
 // ============================================================================
-#ifndef OAS31_IR_HPP_
-#define OAS31_IR_HPP_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_SCHEMA_IR_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_SCHEMA_IR_H_
 
-#include "oas31_object_array.hpp"
+#include "Oas31ExactJson.h"
 
 #include <boost/json.hpp>
 
@@ -20,7 +20,7 @@
 #include <utility>
 #include <vector>
 
-namespace oas31 {
+namespace org::openapitools::client::model::detail::schema_validation {
 
 /// JSON value kinds supported by the raw-instance view.
 /// NOTE: `integer` is a schema-level type (JSON Schema `type: integer`), not a
@@ -261,6 +261,6 @@ struct SchemaResourceRegistry {
     }
 };
 
-} // namespace oas31
+} // namespace org::openapitools::client::model::detail::schema_validation
 
-#endif // OAS31_IR_HPP_
+#endif // ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_SCHEMA_IR_H_

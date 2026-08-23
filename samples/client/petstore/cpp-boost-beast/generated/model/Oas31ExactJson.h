@@ -1,5 +1,5 @@
 // ============================================================================
-// oas31_object_array.hpp - exact JSON document parsing and numeric lexeme paths.
+// Oas31ExactJson.h - exact JSON document parsing and numeric lexeme paths.
 //
 // Boost.JSON stores numbers as int64, uint64, or double and Boost 1.75 rejects
 // exponent magnitudes outside int32. JSON Schema numeric equality instead uses
@@ -13,13 +13,14 @@
 //
 // HEADER-ONLY. Built under -Werror with g++ -std=c++17.
 // ============================================================================
-#ifndef OAS31_OBJECT_ARRAY_HPP_
-#define OAS31_OBJECT_ARRAY_HPP_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_EXACT_JSON_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_EXACT_JSON_H_
 
-#include "oas31_exact_number.hpp"
+#include "Oas31ExactNumber.h"
 
 #include <boost/json.hpp>
 
+#include <cmath>
 #include <cstddef>
 #include <map>
 #include <stdexcept>
@@ -28,7 +29,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace oas31 {
+namespace org::openapitools::client::model::detail::schema_validation {
 
 /// RFC 6901 escaping. The length-aware view preserves embedded NUL bytes in
 /// decoded JSON member names.
@@ -55,6 +56,9 @@ struct InstanceLexemeTable {
 struct ExactJsonValue {
     boost::json::value value;
     InstanceLexemeTable lexemes;
+    // Validation can use lexemes when Boost.JSON cannot represent a number,
+    // but generated public model types cannot safely consume the surrogate DOM.
+    bool requiresExactNumberConversion = false;
 };
 
 namespace detail {
@@ -260,6 +264,22 @@ inline std::string captureAndSanitizeNumbers(
     return sanitized;
 }
 
+inline bool containsNonFiniteNumber(boost::json::value const& value) {
+    if (value.is_double()) {
+        return !std::isfinite(value.as_double());
+    }
+    if (value.is_array()) {
+        for (boost::json::value const& element : value.as_array()) {
+            if (containsNonFiniteNumber(element)) return true;
+        }
+    } else if (value.is_object()) {
+        for (auto const& member : value.as_object()) {
+            if (containsNonFiniteNumber(member.value())) return true;
+        }
+    }
+    return false;
+}
+
 } // namespace detail
 
 inline void captureInstanceLexemes(std::string const& payload,
@@ -274,7 +294,11 @@ inline ExactJsonValue parseExactJson(std::string const& payload) {
 
     boost::system::error_code originalError;
     result.value = boost::json::parse(payload, originalError);
-    if (!originalError) return result;
+    if (!originalError) {
+        result.requiresExactNumberConversion =
+            detail::containsNonFiniteNumber(result.value);
+        return result;
+    }
 
     boost::system::error_code sanitizedError;
     result.value = boost::json::parse(sanitized, sanitizedError);
@@ -282,7 +306,16 @@ inline ExactJsonValue parseExactJson(std::string const& payload) {
         throw std::invalid_argument(
             "invalid JSON payload: " + sanitizedError.message());
     }
+    result.requiresExactNumberConversion = true;
     return result;
+}
+
+inline void requireModelConvertibleJson(ExactJsonValue const& document) {
+    if (document.requiresExactNumberConversion) {
+        throw std::invalid_argument(
+            "JSON payload contains a number that cannot be represented "
+            "by the generated public model");
+    }
 }
 
 namespace detail {
@@ -346,6 +379,6 @@ inline InstanceLexemeTable const* activeInstanceLexemes(
     path = found->second;
     return context->lexemes;
 }
-} // namespace oas31
+} // namespace org::openapitools::client::model::detail::schema_validation
 
-#endif // OAS31_OBJECT_ARRAY_HPP_
+#endif // ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_EXACT_JSON_H_

@@ -81,13 +81,13 @@ target_sources(${PROJECT_NAME} PRIVATE
     model/AnyType.h
     model/ValidationTypes.h
     model/NullableField.h
-    model/oas31_deep_equal.hpp
-    model/oas31_exact_number.hpp
-    model/oas31_ir.hpp
-    model/oas31_object_array.hpp
-    model/oas31_validator.hpp
+    model/Oas31DeepEqual.h
+    model/Oas31ExactNumber.h
+    model/Oas31SchemaIr.h
+    model/Oas31ExactJson.h
+    model/Oas31Validator.h
     model/schema_ir.generated.cpp
-    model/schema_ir.generated.hpp
+    model/Oas31SchemaRegistry.h
     model/schema_validate.generated.cpp
 )
 

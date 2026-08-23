@@ -188,10 +188,16 @@ final class Oas31RawSpecRecovery {
 
     private static String readInputSpec(String inputSpec) throws Exception {
         boolean windowsDrivePath = inputSpec.matches("^[A-Za-z]:[\\\\/].*");
-        URI uri = URI.create(inputSpec);
-        if (!windowsDrivePath && uri.getScheme() != null) {
-            try (InputStream input = uri.toURL().openStream()) {
-                return new String(input.readAllBytes(), StandardCharsets.UTF_8);
+        if (!windowsDrivePath) {
+            try {
+                URI uri = URI.create(inputSpec);
+                if (uri.getScheme() != null) {
+                    try (InputStream input = uri.toURL().openStream()) {
+                        return new String(input.readAllBytes(), StandardCharsets.UTF_8);
+                    }
+                }
+            } catch (IllegalArgumentException ignored) {
+                // A local path may contain URI-reserved characters such as spaces.
             }
         }
         return Files.readString(Paths.get(inputSpec), StandardCharsets.UTF_8);

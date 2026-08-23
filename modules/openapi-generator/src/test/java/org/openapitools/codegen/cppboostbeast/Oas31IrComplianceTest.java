@@ -61,6 +61,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class Oas31IrComplianceTest {
+    private static final String VALIDATION_NAMESPACE =
+            "org::openapitools::client::model::detail::schema_validation";
 
     @Test
     public void generatesTypedJsonValuesForOpenApi31Schemas() throws IOException {
@@ -86,8 +88,9 @@ public class Oas31IrComplianceTest {
                 "std::map<std::string, boost::json::value>");
         TestUtils.assertFileContains(modelSource,
                 "boost::json::serialize",
-                "oas31::parseExactJson",
-                "oas31::ExactInstanceScope");
+                VALIDATION_NAMESPACE + "::parseExactJson",
+                VALIDATION_NAMESPACE + "::requireModelConvertibleJson(exactJson)",
+                VALIDATION_NAMESPACE + "::ExactInstanceScope");
         TestUtils.assertFileNotContains(modelSource,
                 "boost::property_tree",
                 "fromJsonValue(boost::json::parse");
@@ -159,26 +162,26 @@ public class Oas31IrComplianceTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
-        Path irHeader = output.toPath().resolve("model/schema_ir.generated.hpp");
+        Path irHeader = output.toPath().resolve("model/Oas31SchemaRegistry.h");
         Path irSource = output.toPath().resolve("model/schema_ir.generated.cpp");
         Path dispatch = output.toPath().resolve("model/schema_validate.generated.cpp");
-        Path exactHeader = output.toPath().resolve("model/oas31_exact_number.hpp");
-        Path irStructs = output.toPath().resolve("model/oas31_ir.hpp");
-        Path validatorHeader = output.toPath().resolve("model/oas31_validator.hpp");
+        Path exactHeader = output.toPath().resolve("model/Oas31ExactNumber.h");
+        Path irStructs = output.toPath().resolve("model/Oas31SchemaIr.h");
+        Path validatorHeader = output.toPath().resolve("model/Oas31Validator.h");
 
         Assert.assertTrue(java.nio.file.Files.exists(irHeader),
-                "schema_ir.generated.hpp must be emitted");
+                "Oas31SchemaRegistry.h must be emitted");
         Assert.assertTrue(java.nio.file.Files.exists(irSource),
                 "schema_ir.generated.cpp must be emitted");
         Assert.assertTrue(java.nio.file.Files.exists(dispatch),
                 "schema_validate.generated.cpp must be emitted");
-        // Static runtime-support headers are copied into model/.
+        // Runtime-support headers are rendered into model/.
         Assert.assertTrue(java.nio.file.Files.exists(exactHeader),
-                "oas31_exact_number.hpp must be copied into model/");
+                "Oas31ExactNumber.h must be emitted into model/");
         Assert.assertTrue(java.nio.file.Files.exists(irStructs),
-                "oas31_ir.hpp must be copied into model/");
+                "Oas31SchemaIr.h must be emitted into model/");
         Assert.assertTrue(java.nio.file.Files.exists(validatorHeader),
-                "oas31_validator.hpp must be copied into model/");
+                "Oas31Validator.h must be emitted into model/");
 
         String ir = java.nio.file.Files.readString(irSource);
         // Numeric constraints must carry their ORIGINAL lexeme verbatim (the
@@ -208,10 +211,11 @@ public class Oas31IrComplianceTest {
         Assert.assertTrue(dispatchContent.contains("validate_Amount_branch_2"),
                 "thin dispatch must emit validate_Amount_branch_2");
         TestUtils.assertFileContains(dispatch,
-                "oas31::sharedSchemaEvaluator().validate",
-                "oas31::schemaNodeFor");
+                "namespace " + VALIDATION_NAMESPACE + " {",
+                "sharedSchemaEvaluator().validate",
+                "schemaNodeFor");
         TestUtils.assertFileNotContains(dispatch,
-                "static oas31::SchemaEvaluator const evaluator");
+                "static SchemaEvaluator const evaluator");
 
         // The generated registry owns exactly one process-wide evaluator, and
         // model decode adapters route through that same instance.
@@ -230,9 +234,9 @@ public class Oas31IrComplianceTest {
                 "n.annContentSchemaJson = ",
                 "n.annExtras.push_back({\"x-note\"");
         TestUtils.assertFileContains(amountSource,
-                "oas31::sharedSchemaEvaluator().validate");
+                VALIDATION_NAMESPACE + "::sharedSchemaEvaluator().validate");
         TestUtils.assertFileNotContains(amountSource,
-                "static oas31::SchemaEvaluator const evaluator");
+                "static SchemaEvaluator const evaluator");
     }
 
     @Test
@@ -240,15 +244,15 @@ public class Oas31IrComplianceTest {
         // JSON one-line input must still recover `enum: []` (reject-all) via the
         // format-tolerant raw-text recovery; the parser otherwise degrades the
         // branch to types=[string] and only the string case would wrongly pass.
-        Path spec = java.nio.file.Files.createTempFile("jsts-enum-empty", ".json");
-        spec.toFile().deleteOnExit();
+        Path inputDirectory = java.nio.file.Files.createTempDirectory(
+                java.nio.file.Files.createDirectories(Path.of("target")),
+                "jsts enum empty ");
+        Path spec = inputDirectory.resolve("schema #1.json");
         java.nio.file.Files.writeString(spec,
                 "{\"openapi\":\"3.1.0\",\"info\":{\"title\":\"t\",\"version\":\"1.0.0\"},"
               + "\"paths\":{},\"components\":{\"schemas\":{\"G0\":"
               + "{\"oneOf\":[{\"enum\":[]}]}}}}");
-        File output = java.nio.file.Files.createTempDirectory(
-                "cpp-boost-beast-enum-empty").toFile();
-        output.deleteOnExit();
+        File output = inputDirectory.resolve("generated").toFile();
         CodegenConfigurator cfg = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
                 .setInputSpec(spec.toString())
@@ -421,14 +425,14 @@ public class Oas31IrComplianceTest {
 
         Path irSource = output.toPath().resolve("model/schema_ir.generated.cpp");
         Path dispatch = output.toPath().resolve("model/schema_validate.generated.cpp");
-        Path irHeader = output.toPath().resolve("model/schema_ir.generated.hpp");
+        Path irHeader = output.toPath().resolve("model/Oas31SchemaRegistry.h");
 
         Assert.assertTrue(java.nio.file.Files.exists(irSource),
                 "schema_ir.generated.cpp must be emitted");
         Assert.assertTrue(java.nio.file.Files.exists(dispatch),
                 "schema_validate.generated.cpp must be emitted");
         Assert.assertTrue(java.nio.file.Files.exists(irHeader),
-                "schema_ir.generated.hpp must be emitted");
+                "Oas31SchemaRegistry.h must be emitted");
 
         // Each numeric/boolean keyword must survive as its ORIGINAL lexeme (the
         // >2^53 const, decimal multipleOf, and huge/tiny exponent bounds) so
@@ -467,8 +471,9 @@ public class Oas31IrComplianceTest {
                 "validate_BoolEnumTrue_branch_0",
                 "validate_NumberEnumSpellings_branch_0");
         TestUtils.assertFileContains(dispatch,
-                "oas31::sharedSchemaEvaluator().validate",
-                "oas31::schemaNodeFor");
+                "namespace " + VALIDATION_NAMESPACE + " {",
+                "sharedSchemaEvaluator().validate",
+                "schemaNodeFor");
     }
 
     @Test
@@ -724,8 +729,8 @@ public class Oas31IrComplianceTest {
         TestUtils.assertFileExists(irSource);
 
         TestUtils.assertFileContains(constrainedSource,
-                "oas31::schemaNodeFor",
-                "oas31::sharedSchemaEvaluator().validate");
+                VALIDATION_NAMESPACE + "::schemaNodeFor",
+                VALIDATION_NAMESPACE + "::sharedSchemaEvaluator().validate");
         TestUtils.assertFileNotContains(constrainedSource,
                 "std::fmod(",
                 "rawInt == static_cast<std::int64_t>");
@@ -873,6 +878,33 @@ public class Oas31IrComplianceTest {
                 desc.getBranches().get(0).getValidateParams().get("validation-boolean-value"),
                 Boolean.FALSE,
                 "boolean false value-schema must be surfaced");
+    }
+
+    @Test
+    public void duplicateBooleanValueSchemasRetainBranchCardinality() throws Exception {
+        Path workspace = java.nio.file.Files.createTempDirectory(
+                java.nio.file.Files.createDirectories(Path.of("target")),
+                "oas31-duplicate-boolean-branches");
+        Path spec = workspace.resolve("input.json");
+        java.nio.file.Files.writeString(spec,
+                "{\"openapi\":\"3.1.0\",\"info\":{\"title\":\"t\",\"version\":\"1\"},"
+              + "\"paths\":{},\"components\":{\"schemas\":{\"G0\":"
+              + "{\"oneOf\":[true,true,false]}}}}}");
+        File output = workspace.resolve("generated").toFile();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec(spec.toString())
+                .setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        String ir = java.nio.file.Files.readString(
+                output.toPath().resolve("model/schema_ir.generated.cpp"));
+        TestUtils.assertFileContains(
+                output.toPath().resolve("model/schema_ir.generated.cpp"),
+                "G0_branch_0", "G0_branch_1", "G0_branch_2");
+        Assert.assertTrue(ir.contains("BooleanValue::true_"));
+        Assert.assertTrue(ir.contains("BooleanValue::false_"));
     }
 
     // --- Strong review: additionalProperties false fail-closed ---

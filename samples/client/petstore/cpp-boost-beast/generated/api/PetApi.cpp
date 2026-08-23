@@ -33,7 +33,7 @@
 #include <boost/json.hpp>
 
 #include "ValidationTypes.h"
-#include "oas31_object_array.hpp"
+#include "Oas31ExactJson.h"
 
 #include "PetApi.h"
 
@@ -1195,8 +1195,9 @@ void deserializeJsonResponseBody(
     if (tolerateEmptyBody && responseBody.empty()) {
         return;
     }
-    oas31::ExactJsonValue exactResponse = oas31::parseExactJson(responseBody);
-    oas31::ExactInstanceScope exactScope(exactResponse);
+    org::openapitools::client::model::detail::schema_validation::ExactJsonValue exactResponse = org::openapitools::client::model::detail::schema_validation::parseExactJson(responseBody);
+    org::openapitools::client::model::detail::schema_validation::requireModelConvertibleJson(exactResponse);
+    org::openapitools::client::model::detail::schema_validation::ExactInstanceScope exactScope(exactResponse);
     convertedResponse = converter(exactResponse.value);
 }
 
@@ -1256,8 +1257,9 @@ template<typename EventVariant, typename Converter>
 void appendParsedEvent(std::vector<EventVariant>& events,
                        const std::string& eventData,
                        Converter&& converter) {
-    oas31::ExactJsonValue exactEvent = oas31::parseExactJson(eventData);
-    oas31::ExactInstanceScope exactScope(exactEvent);
+    org::openapitools::client::model::detail::schema_validation::ExactJsonValue exactEvent = org::openapitools::client::model::detail::schema_validation::parseExactJson(eventData);
+    org::openapitools::client::model::detail::schema_validation::requireModelConvertibleJson(exactEvent);
+    org::openapitools::client::model::detail::schema_validation::ExactInstanceScope exactScope(exactEvent);
     events.push_back(converter(exactEvent.value));
 }
 }

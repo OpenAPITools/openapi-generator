@@ -1,18 +1,18 @@
 // ============================================================================
-// oas31_validator.hpp - shared SchemaEvaluator and ValidationContext
+// Oas31Validator.h - shared SchemaEvaluator and ValidationContext
 // (ADR D2/D3/D5). Thin validate_<id> functions dispatch into this interpreter
-// over the densified IR in oas31_ir.hpp. It implements scalar, object, array,
+// over the densified IR in Oas31SchemaIr.h. It implements scalar, object, array,
 // applicator, reference, conditional, evaluated-coverage, and annotation logic
 // while preserving exact numeric lexemes through InstanceLexemeTable.
 //
 // HEADER-ONLY. Built under -Werror with g++ -std=c++17.
 // ============================================================================
-#ifndef OAS31_VALIDATOR_HPP_
-#define OAS31_VALIDATOR_HPP_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_VALIDATOR_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_VALIDATOR_H_
 
-#include "oas31_ir.hpp"
-#include "oas31_deep_equal.hpp"
-#include "oas31_object_array.hpp"
+#include "Oas31SchemaIr.h"
+#include "Oas31DeepEqual.h"
+#include "Oas31ExactJson.h"
 
 #include <boost/json.hpp>
 
@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 
-namespace oas31 {
+namespace org::openapitools::client::model::detail::schema_validation {
 
 // ============================================================================
 // ValidationPath - JSON-instance-path accumulator.
@@ -299,8 +299,8 @@ struct ValidationContext {
     // value pushes a fresh location, so a nested object's keys can never leak
     // into the parent's unevaluated* check (instance-location correctness:
     // unevaluatedProperties g41/g42/g43).
-    std::vector<std::set<std::string>> evaluatedPropertiesStack{{}};
-    std::vector<std::set<std::size_t>> evaluatedItemsStack{{}};
+    std::vector<std::set<std::string>> evaluatedPropertiesStack{std::set<std::string>{}};
+    std::vector<std::set<std::size_t>> evaluatedItemsStack{std::set<std::size_t>{}};
 
     std::set<std::string>& curProps() { return evaluatedPropertiesStack.back(); }
     std::set<std::size_t>& curItems() { return evaluatedItemsStack.back(); }
@@ -1264,6 +1264,6 @@ private:
     SchemaResourceRegistry const& registry_;
 };
 
-} // namespace oas31
+} // namespace org::openapitools::client::model::detail::schema_validation
 
-#endif // OAS31_VALIDATOR_HPP_
+#endif // ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_VALIDATOR_H_

@@ -12,12 +12,13 @@
 #include "model/AllNull.h"
 #include "model/DuplicateNull.h"
 #include "api/DefaultApi.cpp"
-#include "model/oas31_object_array.hpp"
-#include "model/oas31_validator.hpp"
-#include "model/schema_ir.generated.hpp"
+#include "model/Oas31ExactJson.h"
+#include "model/Oas31Validator.h"
+#include "model/Oas31SchemaRegistry.h"
 
 namespace api = org::openapitools::client::api;
 namespace model = org::openapitools::client::model;
+namespace schema_validation = model::detail::schema_validation;
 
 namespace {
 
@@ -29,13 +30,13 @@ void expect(bool condition, const char* message) {
 }
 
 bool validatesSchema(std::string const& schemaId, std::string const& payload) {
-    oas31::ExactJsonValue document = oas31::parseExactJson(payload);
-    oas31::RawInstance instance(&document.value);
-    oas31::ValidationPath path;
-    oas31::ValidationContext context;
-    oas31::SchemaIndex const node = oas31::schemaNodeFor(schemaId);
-    return node != oas31::kNoSchema
-        && oas31::sharedSchemaEvaluator().validate(node, instance, path, context).success;
+    schema_validation::ExactJsonValue document = schema_validation::parseExactJson(payload);
+    schema_validation::RawInstance instance(&document.value);
+    schema_validation::ValidationPath path;
+    schema_validation::ValidationContext context;
+    schema_validation::SchemaIndex const node = schema_validation::schemaNodeFor(schemaId);
+    return node != schema_validation::kNoSchema
+        && schema_validation::sharedSchemaEvaluator().validate(node, instance, path, context).success;
 }
 
 class FakeHttpClient final : public api::HttpClient {
@@ -79,6 +80,22 @@ int main() {
     }
     expect(rejectedDuplicateNull,
            "duplicate-null oneOf accepted a value matching both branches");
+
+    model::DuplicateNull taggedNull = model::makeDuplicateNullBranch0(nullptr);
+    expect(model::isDuplicateNullBranch0(taggedNull),
+           "model-qualified branch predicate did not identify branch zero");
+    expect(model::getDuplicateNullBranch0(taggedNull) == nullptr,
+           "model-qualified branch getter returned the wrong value");
+
+    bool rejectedUnrepresentableNumber = false;
+    try {
+        schema_validation::ExactJsonValue exactNumber = schema_validation::parseExactJson("1e9999999999");
+        schema_validation::requireModelConvertibleJson(exactNumber);
+    } catch (const std::invalid_argument&) {
+        rejectedUnrepresentableNumber = true;
+    }
+    expect(rejectedUnrepresentableNumber,
+           "public model conversion accepted an unrepresentable numeric DOM");
 
     expect(validatesSchema("nonAsciiPattern_branch_0", R"({"ármányos":1})"),
            "patternProperties failed to match a non-ASCII object key");

@@ -9,7 +9,7 @@ components:
     # oneOf-wrapped component schemas so the Wave-1 IR emitter
     # (CppBoostBeastClientCodegen::irNodeFromBranch) lowers each branch to a
     # densified SchemaNode and a thin generated validate_<id> dispatch
-    # (schema_ir.generated.hpp/.cpp + schema_validate.generated.cpp).
+    # (Oas31SchemaRegistry.h + schema_ir.generated.cpp + schema_validate.generated.cpp).
     # Each schema is a single-branch composition, so its IR node is
     # validate_<SchemaName>_branch_0.  Raw instances are fed to those GENERATED
     # dispatch functions in the integration driver (oas31-generated-path/).

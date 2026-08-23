@@ -91,6 +91,10 @@ mapping remains `double` for unconstrained OpenAPI `number` values and fixed-wid
 integers for `int32`/`int64`; conversion happens only after exact validation and
 rejects non-finite or out-of-range destinations. A model stored as `double` does
 not promise byte-for-byte numeric round-tripping after application mutation.
+If Boost.JSON cannot represent an input number (or would store it as a non-finite
+`double`), exact schema validation can still use the original token internally,
+but public model, response, and SSE conversion rejects the payload rather than
+exposing a surrogate or a non-JSON value.
 
 ### Architecture decision index
 
@@ -99,10 +103,10 @@ comments:
 
 | ID | Decision | Implementation |
 |----|----------|----------------|
-| D1 | Preserve JSON numbers as exact base-10 mantissa/exponent pairs | `oas31_exact_number.hpp`, `oas31_object_array.hpp` |
-| D2 | Validate through a raw-instance view before destination conversion | `oas31_validator.hpp` |
-| D3 | Make branch annotations and evaluated coverage transactional | `ValidationContext` in `oas31_validator.hpp` |
-| D5 | Densify schemas into one registry interpreted by a shared evaluator | `oas31_ir.hpp`, `schema_ir.generated.cpp` |
+| D1 | Preserve JSON numbers as exact base-10 mantissa/exponent pairs | `Oas31ExactNumber.h`, `Oas31ExactJson.h` |
+| D2 | Validate through a raw-instance view before destination conversion | `Oas31Validator.h` |
+| D3 | Make branch annotations and evaluated coverage transactional | `ValidationContext` in `Oas31Validator.h` |
+| D5 | Densify schemas into one registry interpreted by a shared evaluator | `Oas31SchemaIr.h`, `Oas31SchemaRegistry.h`, `schema_ir.generated.cpp` |
 
 ### OpenAPI → C++ type mapping
 
@@ -215,12 +219,12 @@ schemas are interpreted:
 
 | Mode | Behavior |
 |------|----------|
-| `representation` (default) | The response schema describes the `text/event-stream` media representation. Generate framed event types with raw `data` strings. Event fields (`event`, `id`, `retry`) are available but not JSON-decoded from `data` automatically. |
+| `representation` (default) | The response schema describes the `text/event-stream` media representation. Each complete event contributes one raw `data` string. Other SSE fields (`event`, `id`, `retry`) are not surfaced by the data-only callback. |
 | `jsonEventData` | The response schema describes each JSON `data:` field payload. Each event's data is decoded against the schema using generated `fromJsonValue_` converters. Supports `std::vector<EventType>` return and `oneOf` event unions. |
 
 #### Representation mode (strict, default)
 
-In `representation` mode, the typed event-data decoding is an explicit convention:
+In `representation` mode, data-only event framing is explicit:
 
 ```sh
 openapi-generator generate -g cpp-boost-beast-client \
@@ -228,25 +232,23 @@ openapi-generator generate -g cpp-boost-beast-client \
 ```
 
 Each SSE event is framed per WHATWG and delivered as a raw string `data` payload.
-The `event`, `id`, and `retry` fields are recognized during line parsing but are
-**not captured** by the SseEventFramer — the framer is data-only and delivers
-only concatenated `data:` content via the callback. The WHATWG framer
+The data-only `SseEventFramer` ignores `event`, `id`, `retry`, and unknown fields;
+it delivers only concatenated `data:` content via the callback. The framer
 (`SseEventFramer` in `HttpClientImpl.cpp`) is always independent of JSON
 conversion — it operates on raw bytes.
 
 WHATWG framing behavior:
 - **BOM**: Initial UTF-8 BOM (`EF BB BF`) is consumed silently.
-- **Field parsing**: `event`, `data`, `id`, and `retry` fields are recognized.
+- **Field parsing**: `data` fields are accumulated; all other fields are ignored.
 - **Comments**: Lines starting with `:` are ignored.
 - **Multi-line data**: Consecutive `data:` fields are joined by LF.
 - **Incomplete events**: Events without a terminating blank line at EOF are
   **discarded** (per WHATWG spec). This prevents partial event delivery.
 - **Body limits**: A configurable `responseBodyLimit` guards against
   memory exhaustion; the parser rejects oversize bodies with `HTTP 413` semantics.
-- **Event `type`/`id`/`retry`**: These fields are parsed but currently not
-  surfaced in the callback (framer is data-only). To capture full event metadata,
-  extend the `SseEventFramer` to accumulate `m_eventType`, `m_eventId`, and
-  `m_retry` members and include them in the dispatch payload.
+- **Event `type`/`id`/`retry`**: These fields are not surfaced by the data-only
+  callback. Supporting them would require a richer callback contract and the
+  corresponding state in `SseEventFramer`.
 
 In `representation` mode the generated return type is
 `std::vector<std::string>` — one raw data string per complete event. No JSON
@@ -332,9 +334,9 @@ events at EOF are discarded.
 | SSE field | Handling | Notes |
 |-----------|----------|-------|
 | `data:` | Concatenated with LF between consecutive lines. Delivered via callback. | The **only** field captured by the framer |
-| `event:` | Parsed during line processing but **not captured** | framer is data-only; extend SseEventFramer to surface |
-| `id:` | Parsed during line processing but **not captured** | framer is data-only |
-| `retry:` | Parsed during line processing but **not captured** | framer is data-only |
+| `event:` | Ignored | Not surfaced by the data-only callback |
+| `id:` | Ignored | Not surfaced by the data-only callback |
+| `retry:` | Ignored | Not surfaced by the data-only callback |
 | `:` (comment) | Ignored | Per WHATWG |
 | BOM | Consumed at stream start | UTF-8 BOM silently skipped |
 

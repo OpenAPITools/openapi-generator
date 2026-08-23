@@ -394,6 +394,10 @@ public class ModelApiSurfaceTest {
         Path apiSource = output.toPath().resolve("api/DefaultApi.cpp");
         TestUtils.assertFileExists(apiSource);
         String apiContent = java.nio.file.Files.readString(apiSource);
+        Assert.assertTrue(apiContent.contains(
+                "org::openapitools::client::model::detail::schema_validation"
+                        + "::requireModelConvertibleJson(exactResponse)"),
+                "Structured responses must reject numeric DOM surrogates before conversion");
 
         // The generated API MUST reference all three status codes — this is a distinct
         // assertion from "model files exist".  Current behaviour may only reference two.
@@ -1562,6 +1566,54 @@ public class ModelApiSurfaceTest {
                 "not schema validation must be advertised");
         Assert.assertFalse(globals.contains(GlobalFeature.XMLStructureDefinitions),
                 "XMLStructureDefinitions stays excluded");
+    }
+
+    @Test
+    public void callbacksAndResponseLinksArePreservedFromParsedModel() throws IOException {
+        Path workspace = Files.createTempDirectory(
+                Files.createDirectories(Path.of("target")),
+                "cpp-boost-beast-operation-metadata");
+        Path spec = workspace.resolve("input.yaml");
+        Files.writeString(spec,
+                "openapi: 3.1.0\n"
+              + "info: {title: metadata, version: 1.0.0}\n"
+              + "paths:\n"
+              + "  /jobs:\n"
+              + "    post:\n"
+              + "      operationId: startJob\n"
+              + "      callbacks:\n"
+              + "        onResult:\n"
+              + "          '{$request.body#/callbackUrl}':\n"
+              + "            post:\n"
+              + "              responses:\n"
+              + "                '204': {description: accepted}\n"
+              + "      responses:\n"
+              + "        '202':\n"
+              + "          description: accepted\n"
+              + "          links:\n"
+              + "            pollJob:\n"
+              + "              operationId: getJob\n"
+              + "  /jobs/{id}:\n"
+              + "    get:\n"
+              + "      operationId: getJob\n"
+              + "      parameters:\n"
+              + "        - {name: id, in: path, required: true, schema: {type: string}}\n"
+              + "      responses:\n"
+              + "        '200': {description: ok}\n");
+        File output = workspace.resolve("generated").toFile();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec(spec.toString())
+                .setOutputDir(output.getAbsolutePath());
+        List<File> files = new DefaultGenerator()
+                .opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path source = output.toPath().resolve("api/DefaultApi.cpp");
+        TestUtils.assertFileContains(source,
+                "Callback metadata preserved; no inbound listener is generated: onResult",
+                "Link metadata preserved; no automatic traversal is generated: pollJob");
     }
 
     @Test

@@ -1,25 +1,25 @@
 // ============================================================================
-// oas31_deep_equal.hpp - exact deep JSON equality.
+// Oas31DeepEqual.h - exact deep JSON equality.
 //
 // JSON Schema `const`, `enum`, and array `uniqueItems` all require DEEP
 // structural equality of the ENTIRE JSON value, not a scalar shortcut. Per the
 // ADR this must be EXACT and must never shortcut through Boost.JSON `double`:
-// every JSON number is compared via oas31::ExactNumber so 1 == 1.0 == 1e0
+// every JSON number is compared via ExactNumber so 1 == 1.0 == 1e0
 // while 0.1000000000000000001 != 0.1. Objects compare by unordered key set;
 // arrays compare positionally; null == null only.
 //
 // This header holds the self-contained stored-JSON-value comparator (both
 // sides are real boost::json::value). The instance-aware wrapper
-// `deepInstanceEqual` lives in oas31_validator.hpp because the instance side
+// `deepInstanceEqual` lives in Oas31Validator.h because the instance side
 // carries the authoritative numeric LEXEME; both share ExactNumber so numeric
 // equality is provably identical.
 //
 // HEADER-ONLY. Built under -Werror with g++ -std=c++17 -I/opt/homebrew/include.
 // ============================================================================
-#ifndef OAS31_DEEP_EQUAL_HPP_
-#define OAS31_DEEP_EQUAL_HPP_
+#ifndef {{schemaValidationHeaderGuardPrefix}}_OAS31_DEEP_EQUAL_H_
+#define {{schemaValidationHeaderGuardPrefix}}_OAS31_DEEP_EQUAL_H_
 
-#include "oas31_exact_number.hpp"
+#include "Oas31ExactNumber.h"
 
 #include <boost/json.hpp>
 
@@ -27,7 +27,7 @@
 #include <string>
 #include <vector>
 
-namespace oas31 {
+namespace {{schemaValidationNamespace}} {
 
 /// Convert a stored boost::json::value that IS a number into the EXACT
 /// mathematical value. Prefers integer kinds exactly; degrades to the
@@ -88,6 +88,6 @@ inline bool deepJsonValueEqual(boost::json::value const& a, boost::json::value c
     return false;
 }
 
-} // namespace oas31
+} // namespace {{schemaValidationNamespace}}
 
-#endif // OAS31_DEEP_EQUAL_HPP_
+#endif // {{schemaValidationHeaderGuardPrefix}}_OAS31_DEEP_EQUAL_H_

@@ -5,9 +5,11 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
@@ -63,7 +65,6 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
     /** Tracks model names resolved as oneOf/anyOf variant types for shared_ptr exclusion. */
     private Set<String> variantModels = new HashSet<>();
-    private Set<String> hasDuplicateTypesModels = new HashSet<>();
     /** Caches resolved C++ types for composed models so postProcessModels can
      *  transitively resolve $ref chains through model aliases (for example,
      *  ModelIds referencing ModelIdsShared, both ultimately std::string). */
@@ -88,62 +89,52 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         return op.getOperationId() == null ? "(no operationId)" : op.getOperationId();
     }
 
-    /** Per-path-item callback/link names captured from the raw spec because
-     *  swagger-models exposes callbacks but not links. Keys combine path and method. */
-    private Map<String, List<String>> rawOperationCallbacks = new HashMap<>();
-    private Map<String, List<String>> rawOperationLinks = new HashMap<>();
+    /** Callback and response-link names keyed by path and method. */
+    private Map<String, List<String>> operationCallbacks = new HashMap<>();
+    private Map<String, List<String>> operationLinks = new HashMap<>();
 
-    @SuppressWarnings("unchecked")
-    private void captureRawOperationMetadata(OpenAPI openAPI) {
-        rawOperationCallbacks.clear();
-        rawOperationLinks.clear();
-        String input = getInputSpec();
-        if (input == null || !new File(input).isFile()) {
+    private void captureOperationMetadata(OpenAPI openAPI) {
+        operationCallbacks.clear();
+        operationLinks.clear();
+        if (openAPI == null || openAPI.getPaths() == null) {
             return;
         }
-        Object raw;
-        try (java.io.Reader r = java.nio.file.Files.newBufferedReader(
-                java.nio.file.Path.of(input), java.nio.charset.StandardCharsets.UTF_8)) {
-            raw = new org.yaml.snakeyaml.Yaml().load(r);
-        } catch (Exception e) {
-            return;
-        }
-        if (!(raw instanceof Map)) {
-            return;
-        }
-        Map<?, ?> root = (Map<?, ?>) raw;
-        Object paths = root.get("paths");
-        if (!(paths instanceof Map)) {
-            return;
-        }
-        for (Map.Entry<?, ?> pe : ((Map<?, ?>) paths).entrySet()) {
-            String path = String.valueOf(pe.getKey());
-            if (!(pe.getValue() instanceof Map)) {
+        for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
+            PathItem pathItem = pathEntry.getValue();
+            if (pathItem == null || pathItem.readOperationsMap() == null) {
                 continue;
             }
-            for (Map.Entry<?, ?> me : ((Map<?, ?>) pe.getValue()).entrySet()) {
-                String method = String.valueOf(me.getKey()).toUpperCase(java.util.Locale.ROOT);
-                if (!(me.getValue() instanceof Map)) {
+            for (Map.Entry<PathItem.HttpMethod, Operation> operationEntry
+                    : pathItem.readOperationsMap().entrySet()) {
+                Operation operation = operationEntry.getValue();
+                if (operation == null) {
                     continue;
                 }
-                Map<?, ?> op = (Map<?, ?>) me.getValue();
-                Object cb = op.get("callbacks");
-                Object lk = op.get("links");
-                String key = path + '\0' + method;
-                rawOperationCallbacks.put(key, rawKeys(cb));
-                rawOperationLinks.put(key, rawKeys(lk));
+                String key = pathEntry.getKey() + '\0' + operationEntry.getKey().name();
+                List<String> callbackNames = operation.getCallbacks() == null
+                        ? Collections.emptyList()
+                        : new ArrayList<>(operation.getCallbacks().keySet());
+                operationCallbacks.put(key, callbackNames);
+
+                Set<String> linkNames = new LinkedHashSet<>();
+                if (operation.getResponses() != null) {
+                    for (ApiResponse candidate : operation.getResponses().values()) {
+                        if (candidate == null) {
+                            continue;
+                        }
+                        if (candidate.getLinks() != null) {
+                            linkNames.addAll(candidate.getLinks().keySet());
+                        }
+                        ApiResponse resolved = ModelUtils.getReferencedApiResponse(
+                                openAPI, candidate);
+                        if (resolved != null && resolved.getLinks() != null) {
+                            linkNames.addAll(resolved.getLinks().keySet());
+                        }
+                    }
+                }
+                operationLinks.put(key, new ArrayList<>(linkNames));
             }
         }
-    }
-
-    private static List<String> rawKeys(Object node) {
-        List<String> names = new ArrayList<>();
-        if (node instanceof Map) {
-            names.addAll(((Map<?, ?>) node).keySet().stream()
-                    .map(String::valueOf)
-                    .collect(Collectors.toList()));
-        }
-        return names;
     }
 
     /** Cached allOf intersections keyed by model name. Populated during
@@ -154,13 +145,12 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     private void beginGeneration(OpenAPI openApi) {
         sourceOpenApi = openApi;
         variantModels = new HashSet<>();
-        hasDuplicateTypesModels = new HashSet<>();
         resolvedAliasTypes = new HashMap<>();
         composedKeywordsByModel = new HashMap<>();
         compositionDescriptors = new LinkedHashMap<>();
         webhookPreservation = new ArrayList<>();
-        rawOperationCallbacks = new HashMap<>();
-        rawOperationLinks = new HashMap<>();
+        operationCallbacks = new HashMap<>();
+        operationLinks = new HashMap<>();
         allOfIntersections = new LinkedHashMap<>();
     }
 
@@ -221,8 +211,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
             openAPI.setWebhooks(null);
         }
-        // Capture callback/link names before model-layer gaps discard links.
-        captureRawOperationMetadata(openAPI);
+        // Capture callback and response-link names for generated API comments.
+        captureOperationMetadata(openAPI);
         // Recover prefixItems dropped when the shared OAS 3.1 normalizer
         // converts a type-array JsonSchema to ArraySchema. This must precede
         // descriptor scanning so child schemas retain the pristine value.
@@ -243,7 +233,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 Schema schema = entry.getValue();
                 CompositionDescriptor descriptor =
                         Oas31CompositionLowering.buildCompositionDescriptor(
-                                schemaName, schema, openAPI, schemas, new HashSet<>());
+                                schemaName, schema, openAPI, schemas);
                 if (descriptor != null) {
                     // Index by toModelName so lookups via cm.classname match.
                     compositionDescriptors.put(toModelName(schemaName), descriptor);
@@ -434,12 +424,12 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         CliOption sseSchemaModeOption = new CliOption("sseSchemaMode",
                 "SSE schema interpretation mode for text/event-stream responses."
                 + " 'representation' (default): the response schema describes the"
-                + " text/event-stream media representation; generate framed events"
-                + " with raw data strings, event type, id, and retry fields."
-                + " 'jsonEventData': the response schema describes each JSON data"
-                + " field; decode each event's data payload against the schema."
-                + " Use the x-sse-event-data-schema vendor extension for per-operation"
-                + " opt-in to typed event-data decoding.");
+                + " text/event-stream media representation; return one raw data"
+                + " string per framed event. Non-data fields such as event, id,"
+                + " and retry are not surfaced. 'jsonEventData': the response schema"
+                + " describes each JSON data field; decode each event's data payload"
+                + " against the schema. Use the x-sse-event-data-schema vendor"
+                + " extension for per-operation opt-in to typed event-data decoding.");
         sseSchemaModeOption.defaultValue(SSE_SCHEMA_MODE_REPRESENTATION);
         sseSchemaModeOption.addEnum(SSE_SCHEMA_MODE_REPRESENTATION,
                 "Strict mode — schema describes media representation");
@@ -466,16 +456,16 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("anytype-header.mustache", "model", "AnyType.h"));
         supportingFiles.add(new SupportingFile("MultipartWireTest.cpp.mustache", "test", "MultipartWireTest.cpp"));
 
-        // Static, header-only OAS 3.1 exact-number and schema-evaluation support.
-        // These files are copied verbatim into the generated model directory.
-        supportingFiles.add(new SupportingFile("oas31_exact_number.hpp", "model", "oas31_exact_number.hpp"));
-        supportingFiles.add(new SupportingFile("oas31_ir.hpp", "model", "oas31_ir.hpp"));
-        supportingFiles.add(new SupportingFile("oas31_deep_equal.hpp", "model", "oas31_deep_equal.hpp"));
-        supportingFiles.add(new SupportingFile("oas31_object_array.hpp", "model", "oas31_object_array.hpp"));
-        supportingFiles.add(new SupportingFile("oas31_validator.hpp", "model", "oas31_validator.hpp"));
+        // Header-only schema-validation support. The templates place their
+        // implementation types under the configured model namespace.
+        supportingFiles.add(new SupportingFile("oas31_exact_number.mustache", "model", "Oas31ExactNumber.h"));
+        supportingFiles.add(new SupportingFile("oas31_schema_ir.mustache", "model", "Oas31SchemaIr.h"));
+        supportingFiles.add(new SupportingFile("oas31_deep_equal.mustache", "model", "Oas31DeepEqual.h"));
+        supportingFiles.add(new SupportingFile("oas31_exact_json.mustache", "model", "Oas31ExactJson.h"));
+        supportingFiles.add(new SupportingFile("oas31_validator.mustache", "model", "Oas31Validator.h"));
         // Generation-time IR tables and thin validate_<id> dispatch.
         // Content is rendered once from postProcessSupportingFileData.
-        supportingFiles.add(new SupportingFile("oas31_schema_ir_header.mustache", "model", "schema_ir.generated.hpp"));
+        supportingFiles.add(new SupportingFile("oas31_schema_ir_header.mustache", "model", "Oas31SchemaRegistry.h"));
         supportingFiles.add(new SupportingFile("oas31_schema_ir_source.mustache", "model", "schema_ir.generated.cpp"));
         supportingFiles.add(new SupportingFile("oas31_schema_validate.mustache", "model", "schema_validate.generated.cpp"));
 
@@ -497,7 +487,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         typeMapping.put("UUID", "std::string");
         typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
-        
+
         super.importMapping = new HashMap<String, String>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
@@ -916,7 +906,6 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     cm.vendorExtensions.put("x-cpp-has-duplicate-types", true);
                     cm.vendorExtensions.put("x-cpp-composed-keyword", keyword);
                     composedKeywordsByModel.put(cm.classname, keyword);
-                    hasDuplicateTypesModels.add(cm.classname);
                     cm.vendorExtensions.put("x-cpp-branches",
                             new ArrayList<>(Collections.nCopies(
                                     branchCount, "std::nullptr_t")));
@@ -1083,9 +1072,48 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
         }
 
-
         return result;
     }
+
+    @SuppressWarnings("unchecked")
+    private void refreshCompositionStorageMetadata(
+            CodegenModel model, List<ComposedBranch> branches, String resolvedType) {
+        Object metadataObject = model.vendorExtensions.get("x-cpp-composition-branches");
+        if (!(metadataObject instanceof Map)) {
+            return;
+        }
+        Map<String, Object> metadata = (Map<String, Object>) metadataObject;
+        Object branchMapsObject = metadata.get("branches");
+        if (!(branchMapsObject instanceof List)) {
+            return;
+        }
+        List<Map<String, Object>> branchMaps = (List<Map<String, Object>>) branchMapsObject;
+        boolean wrapped = resolvedType.contains("CompositionBranchValue<");
+
+        for (ComposedBranch branch : branches) {
+            int index = branch.originalBranchIndex;
+            if (index < 0 || index >= branchMaps.size()) {
+                continue;
+            }
+            Map<String, Object> branchMap = branchMaps.get(index);
+            if (wrapped) {
+                branchMap.put("storage-cpp-type",
+                        "CompositionBranchValue<" + index + ", " + branch.cppType + ">");
+                branchMap.put("inner-cpp-type", branch.cppType);
+            } else {
+                branchMap.put("storage-cpp-type", branch.cppType);
+                branchMap.remove("inner-cpp-type");
+            }
+        }
+
+        metadata.put("has-duplicate-types", wrapped);
+        if (wrapped) {
+            model.vendorExtensions.put("x-cpp-has-duplicate-types", true);
+        } else {
+            model.vendorExtensions.remove("x-cpp-has-duplicate-types");
+        }
+    }
+
 
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
@@ -1123,6 +1151,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     }
                     String currentType = (String) cm.vendorExtensions.get("x-cpp-type");
                     String newType;
+                    List<ComposedBranch> branchesWithMeta = new ArrayList<>();
                     try {
                         // Reconstruct ComposedBranch objects using resolved C++ type
                         // strings and per-branch isEnum metadata.  Without isEnum, a
@@ -1145,7 +1174,6 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                         @SuppressWarnings("unchecked")
                         List<Integer> storedOriginalIndices = (List<Integer>) cm.vendorExtensions
                                 .get("x-cpp-branch-original-index");
-                        List<ComposedBranch> branchesWithMeta = new ArrayList<>();
                         for (int i = 0; i < resolved.size(); i++) {
                             int descIndex = (storedOriginalIndices != null && i < storedOriginalIndices.size())
                                     ? storedOriginalIndices.get(i) : i;
@@ -1166,7 +1194,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                         CompositionDescriptor descriptor =
                                 compositionDescriptors.get(cm.classname);
                         newType = Oas31CompositionLowering.lowerComposedTypes(
-                                branchesWithMeta, composedKeyword, descriptor);
+                                branchesWithMeta, composedKeyword, descriptor, LOGGER::warn);
                     } catch (RuntimeException e) {
                         throw new IllegalStateException(
                                 "Failed to resolve composed aliases for '" + cm.classname + "'", e);
@@ -1176,6 +1204,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                         // Keep original x-cpp-branches for import resolution.
                         cm.dataType = newType;
                         resolvedAliasTypes.put(cm.classname, newType);
+                        refreshCompositionStorageMetadata(cm, branchesWithMeta, newType);
                         // Self-reference filtering needs the final post-collapse type,
                         // not the value cached during the first lowering pass.
                         if (cm.discriminator != null) {
@@ -1465,7 +1494,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         String resolvedType;
         try {
             resolvedType = Oas31CompositionLowering.lowerComposedTypes(
-                    composedBranches, composedKeyword, descriptor);
+                    composedBranches, composedKeyword, descriptor, LOGGER::warn);
         } catch (RuntimeException e) {
             throw new IllegalStateException(
                     "Failed to lower composed model '" + cm.classname + "'", e);
@@ -1510,7 +1539,6 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             cm.vendorExtensions.put("x-cpp-composition-branches", templateMap);
             if (hasDuplicateTypes) {
                 cm.vendorExtensions.put("x-cpp-has-duplicate-types", true);
-                hasDuplicateTypesModels.add(cm.classname);
             }
         } else {
             // Fallback: build branch maps from the composed branches when no
@@ -1544,7 +1572,6 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             cm.vendorExtensions.put("x-cpp-composition-branches", fallbackMap);
             if (hasDuplicateTypes) {
                 cm.vendorExtensions.put("x-cpp-has-duplicate-types", true);
-                hasDuplicateTypesModels.add(cm.classname);
             }
         }
 
@@ -1649,7 +1676,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         String resolvedType;
         try {
             resolvedType = Oas31CompositionLowering.lowerComposedTypes(
-                    composedBranches, desc.getKeyword(), desc);
+                    composedBranches, desc.getKeyword(), desc, LOGGER::warn);
         } catch (RuntimeException e) {
             throw new IllegalStateException(
                     "Failed to lower descriptor-backed model '" + cm.classname + "'", e);
@@ -1694,7 +1721,6 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         cm.vendorExtensions.put("x-cpp-composition-branches", descTemplateMap);
         if (hasDuplicateTypes) {
             cm.vendorExtensions.put("x-cpp-has-duplicate-types", true);
-            hasDuplicateTypesModels.add(cm.classname);
         }
 
         // Preserve branch metadata for transitive alias resolution.
@@ -2186,8 +2212,13 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             throw new IllegalArgumentException("packageName must not be blank");
         }
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        String modelNamespace = modelPackage.replaceAll("\\.", "::");
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
-        additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
+        additionalProperties.put("modelNamespace", modelNamespace);
+        additionalProperties.put("schemaValidationNamespace",
+                modelNamespace + "::detail::schema_validation");
+        additionalProperties.put("schemaValidationHeaderGuardPrefix",
+                modelPackage.replaceAll("[^A-Za-z0-9]", "_").toUpperCase(Locale.ROOT));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
         additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
 
@@ -2551,8 +2582,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         return new CppBoostBeastTemplateModelAssembler(
                 sourceOpenApi,
                 webhookPreservation,
-                rawOperationCallbacks,
-                rawOperationLinks,
+                operationCallbacks,
+                operationLinks,
                 composedKeywordsByModel,
                 sseSchemaMode).assemble(objs, allModels);
     }
@@ -2693,7 +2724,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         // Deduplicate inside lowerComposedTypes so oneOf branch identity survives
         // identical lowered C++ types.
-        return Oas31CompositionLowering.lowerComposedTypes(composedBranches, composedKeyword, null);
+        return Oas31CompositionLowering.lowerComposedTypes(
+                composedBranches, composedKeyword, null, LOGGER::warn);
     }
 
     @Override

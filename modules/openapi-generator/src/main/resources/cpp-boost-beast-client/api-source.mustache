@@ -24,7 +24,7 @@
 #include <boost/json.hpp>
 
 #include "ValidationTypes.h"
-#include "oas31_object_array.hpp"
+#include "Oas31ExactJson.h"
 
 #include "{{classname}}.h"
 
@@ -1190,8 +1190,9 @@ void deserializeJsonResponseBody(
     if (tolerateEmptyBody && responseBody.empty()) {
         return;
     }
-    oas31::ExactJsonValue exactResponse = oas31::parseExactJson(responseBody);
-    oas31::ExactInstanceScope exactScope(exactResponse);
+    {{schemaValidationNamespace}}::ExactJsonValue exactResponse = {{schemaValidationNamespace}}::parseExactJson(responseBody);
+    {{schemaValidationNamespace}}::requireModelConvertibleJson(exactResponse);
+    {{schemaValidationNamespace}}::ExactInstanceScope exactScope(exactResponse);
     convertedResponse = converter(exactResponse.value);
 }
 
@@ -1251,8 +1252,9 @@ template<typename EventVariant, typename Converter>
 void appendParsedEvent(std::vector<EventVariant>& events,
                        const std::string& eventData,
                        Converter&& converter) {
-    oas31::ExactJsonValue exactEvent = oas31::parseExactJson(eventData);
-    oas31::ExactInstanceScope exactScope(exactEvent);
+    {{schemaValidationNamespace}}::ExactJsonValue exactEvent = {{schemaValidationNamespace}}::parseExactJson(eventData);
+    {{schemaValidationNamespace}}::requireModelConvertibleJson(exactEvent);
+    {{schemaValidationNamespace}}::ExactInstanceScope exactScope(exactEvent);
     events.push_back(converter(exactEvent.value));
 }
 }

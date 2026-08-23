@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import org.openapitools.codegen.CodegenMediaType;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
@@ -15,11 +16,13 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /** Assembles operation and response vendor extensions consumed by API templates. */
 final class CppBoostBeastTemplateModelAssembler {
@@ -45,22 +48,22 @@ final class CppBoostBeastTemplateModelAssembler {
 
     private final OpenAPI phaseOpenApi;
     private final List<String> webhookPreservation;
-    private final Map<String, List<String>> rawOperationCallbacks;
-    private final Map<String, List<String>> rawOperationLinks;
+    private final Map<String, List<String>> operationCallbacks;
+    private final Map<String, List<String>> operationLinks;
     private final Map<String, String> composedKeywordsByModel;
     private final String sseSchemaMode;
 
     CppBoostBeastTemplateModelAssembler(
             OpenAPI phaseOpenApi,
             List<String> webhookPreservation,
-            Map<String, List<String>> rawOperationCallbacks,
-            Map<String, List<String>> rawOperationLinks,
+            Map<String, List<String>> operationCallbacks,
+            Map<String, List<String>> operationLinks,
             Map<String, String> composedKeywordsByModel,
             String sseSchemaMode) {
         this.phaseOpenApi = phaseOpenApi;
         this.webhookPreservation = webhookPreservation;
-        this.rawOperationCallbacks = rawOperationCallbacks;
-        this.rawOperationLinks = rawOperationLinks;
+        this.operationCallbacks = operationCallbacks;
+        this.operationLinks = operationLinks;
         this.composedKeywordsByModel = composedKeywordsByModel;
         this.sseSchemaMode = sseSchemaMode;
     }
@@ -289,9 +292,10 @@ final class CppBoostBeastTemplateModelAssembler {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         List<CodegenOperation> newOpList = new ArrayList<>();
+        Set<String> nullDefaultModels = nullDefaultModelNames(allModels);
 
         for (CodegenOperation op : operationList) {
-            addApiResponseMetadata(op);
+            addApiResponseMetadata(op, nullDefaultModels);
             addResponseUnionMetadata(op);
             op.vendorExtensions.put(X_CODEGEN_OP_SERVER,
                     cppString(resolveEffectiveServerUrl(op)));
@@ -311,11 +315,11 @@ final class CppBoostBeastTemplateModelAssembler {
                     !securityGroups.isEmpty());
             String opKey = op.path + '\0' + op.httpMethod;
             op.vendorExtensions.put(X_CODEGEN_OP_CALLBACKS,
-                    rawOperationCallbacks.getOrDefault(opKey, new ArrayList<String>())
+                    operationCallbacks.getOrDefault(opKey, new ArrayList<String>())
                             .stream().map(CppBoostBeastTemplateModelAssembler::commentText)
                             .collect(java.util.stream.Collectors.toList()));
             op.vendorExtensions.put(X_CODEGEN_OP_LINKS,
-                    rawOperationLinks.getOrDefault(opKey, new ArrayList<String>())
+                    operationLinks.getOrDefault(opKey, new ArrayList<String>())
                             .stream().map(CppBoostBeastTemplateModelAssembler::commentText)
                             .collect(java.util.stream.Collectors.toList()));
             String path = op.path;
@@ -366,7 +370,56 @@ final class CppBoostBeastTemplateModelAssembler {
         return objs;
     }
 
-    private void addApiResponseMetadata(CodegenOperation operation) {
+    @SuppressWarnings("unchecked")
+    private static Set<String> nullDefaultModelNames(List<ModelMap> allModels) {
+        Set<String> result = new HashSet<>();
+        Map<String, String> aliases = new LinkedHashMap<>();
+        for (ModelMap modelMap : allModels) {
+            CodegenModel model = modelMap.getModel();
+            Object cppTypeValue = model.vendorExtensions.get("x-cpp-type");
+            String cppType = cppTypeValue instanceof String
+                    ? (String) cppTypeValue : model.dataType;
+            aliases.put(model.classname, stripSharedPtr(cppType));
+            if (cppType == null) {
+                continue;
+            }
+
+            // Preserve the prior empty-body behavior only when the default
+            // variant branch is null and anyOf therefore accepts that value.
+            Object metadataValue = model.vendorExtensions.get("x-cpp-composition-branches");
+            if (!cppType.startsWith("std::variant<")
+                    || !(metadataValue instanceof Map)) {
+                continue;
+            }
+            Map<String, Object> metadata = (Map<String, Object>) metadataValue;
+            if (!"anyOf".equals(metadata.get("keyword"))) {
+                continue;
+            }
+            Object branchesValue = metadata.get("branches");
+            if (!(branchesValue instanceof List) || ((List<?>) branchesValue).isEmpty()) {
+                continue;
+            }
+            Object firstBranch = ((List<?>) branchesValue).get(0);
+            if (firstBranch instanceof Map
+                    && "always".equals(((Map<?, ?>) firstBranch).get("null-capability"))) {
+                result.add(model.classname);
+            }
+        }
+
+        boolean changed;
+        do {
+            changed = false;
+            for (Map.Entry<String, String> alias : aliases.entrySet()) {
+                if (result.contains(alias.getValue()) && result.add(alias.getKey())) {
+                    changed = true;
+                }
+            }
+        } while (changed);
+        return result;
+    }
+
+    private void addApiResponseMetadata(
+            CodegenOperation operation, Set<String> nullDefaultModels) {
         boolean hasDefaultResponse = false;
         for (CodegenResponse response : operation.responses) {
             response.vendorExtensions.put("x-codegen-cpp-message", response.message);
@@ -374,8 +427,10 @@ final class CppBoostBeastTemplateModelAssembler {
                     Objects.equals(operation.returnType, response.dataType));
             response.vendorExtensions.put(X_CODEGEN_RESPONSE_IS_ONE_OF,
                     isOneOfResponse(response));
+            String responseType = stripSharedPtr(response.dataType);
             response.vendorExtensions.put(X_CODEGEN_EMPTY_BODY_TOLERANT,
-                    response.isMap || response.isFreeFormObject || response.isAnyType);
+                    response.isMap || response.isFreeFormObject || response.isAnyType
+                            || nullDefaultModels.contains(responseType));
             if (response.isRange()) {
                 response.vendorExtensions.put(
                         X_CODEGEN_RESPONSE_RANGE, response.code.substring(0, 1));

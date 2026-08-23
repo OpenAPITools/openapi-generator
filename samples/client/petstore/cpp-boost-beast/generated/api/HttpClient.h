@@ -57,8 +57,7 @@ public:
     ///
     /// WHATWG framing behavior:
     /// - BOM: Initial UTF-8 BOM (EF BB BF) is consumed silently.
-    /// - Field parsing: event, data, id, and retry fields are recognized;
-    ///   only data is accumulated (framer is data-only).
+    /// - Field parsing: data fields are accumulated; all other fields are ignored.
     /// - Comments: Lines starting with ':' are ignored.
     /// - Multi-line data: Consecutive data: fields are joined by LF.
     /// - Incomplete events at EOF are discarded.

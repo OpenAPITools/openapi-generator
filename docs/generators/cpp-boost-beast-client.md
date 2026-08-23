@@ -19,28 +19,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |apiPackage|C++ namespace for apis (convention: name.space.api).| |org.openapitools.client.api|
-|compileWithValidation|Enable decode-time oneOf/anyOf/discriminator branch validation. Representation checks such as finite numeric conversion, integer range, and required properties remain active when disabled.| |true|
-|formatAssertionPolicy|Schema `format` is annotation-only. The generator rejects unsupported assertion modes rather than changing branch match counts.|<dl><dt>**annotation**</dt><dd>Record format as an annotation</dd></dl>|annotation|
+|compileWithValidation|Emit kValidateOnDecode=true in generated ValidationTypes.h (default). Set to false to compile out oneOf/anyOf/discriminator branch validation on decode for high-throughput clients. Representation diagnostics (non-finite destinations, integer range, required properties) remain active on all paths.| |true|
+|formatAssertionPolicy|Format handling in composition branch matching. Only 'annotation' is supported: format metadata never affects match counts.|<dl><dt>**annotation**</dt><dd>Formats are annotations and do not affect validation</dd></dl>|annotation|
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.client.model|
 |packageName|C++ package and library name.| |CppBoostBeastOpenAPIClient|
-|sseSchemaMode|SSE schema interpretation mode for text/event-stream responses. 'representation' (default): the response schema describes the text/event-stream media representation; generate framed events with raw data strings, event type, id, and retry fields. 'jsonEventData': the response schema describes each JSON data field; decode each event's data payload against the schema. Use the x-sse-event-data-schema vendor extension for per-operation opt-in to typed event-data decoding.|<dl><dt>**representation**</dt><dd>Strict mode &mdash; schema describes media representation</dd><dt>**jsonEventData**</dt><dd>Schema describes each JSON event data payload</dd></dl>|representation|
-
-## OAS 3.1 EXACT NUMERIC VALIDATION
-
-Generated validators preserve each JSON number's original token and evaluate
-numeric bounds, mathematical-integer membership, numeric `enum`/`const`, and
-`multipleOf` with an arbitrary-precision decimal representation. Both the
-mantissa and base-10 exponent are arbitrary precision; tokens such as
-`1e2147483648` therefore remain valid inputs and never narrow through a
-fixed-width exponent or `double` during validation.
-
-One explicit resource limit applies: an individual JSON number token may be at
-most 4096 bytes. Longer tokens fail with `std::length_error`. The legacy
-`ExactNumber::add` and `divmod` helpers likewise reject decimal expansions over
-4096 places, while generated range and `multipleOf` validation use non-expanding
-algorithms. Public model storage is unchanged (`double`, `std::int32_t`, or
-`std::int64_t` as mapped below), so exact validation does not imply lossless
-round-tripping after a value has been converted into and mutated through a model.
+|sseSchemaMode|SSE schema interpretation mode for text/event-stream responses. 'representation' (default): the response schema describes the text/event-stream media representation; return one raw data string per framed event. Non-data fields such as event, id, and retry are not surfaced. 'jsonEventData': the response schema describes each JSON data field; decode each event's data payload against the schema. Use the x-sse-event-data-schema vendor extension for per-operation opt-in to typed event-data decoding.|<dl><dt>**representation**</dt><dd>Strict mode &mdash; schema describes media representation</dd><dt>**jsonEventData**</dt><dd>Schema describes each JSON event data payload</dd></dl>|representation|
 
 ## IMPORT MAPPING
 

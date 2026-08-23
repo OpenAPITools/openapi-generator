@@ -1,7 +1,7 @@
 #include <boost/json/src.hpp>
 
-#include "oas31_object_array.hpp"
-#include "oas31_validator.hpp"
+#include "Oas31ExactJson.h"
+#include "Oas31Validator.h"
 #include "ValidationTypes.h"
 
 #include <cmath>
@@ -12,6 +12,9 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+
+namespace schema_validation =
+    org::openapitools::client::model::detail::schema_validation;
 
 namespace {
 
@@ -31,18 +34,18 @@ void requireThrows(Function&& function, char const* message) {
     throw std::runtime_error(message);
 }
 
-bool validateNumber(oas31::SchemaEvaluator const& evaluator,
+bool validateNumber(schema_validation::SchemaEvaluator const& evaluator,
                     std::string const& payload) {
-    oas31::ExactJsonValue document = oas31::parseExactJson(payload);
-    oas31::ExactInstanceScope scope(document);
-    oas31::RawInstance instance(&document.value);
-    oas31::ValidationPath path;
-    oas31::ValidationContext context;
+    schema_validation::ExactJsonValue document = schema_validation::parseExactJson(payload);
+    schema_validation::ExactInstanceScope scope(document);
+    schema_validation::RawInstance instance(&document.value);
+    schema_validation::ValidationPath path;
+    schema_validation::ValidationContext context;
     return evaluator.validate(0, instance, path, context).success;
 }
 
 void testArbitraryExponentsAndMultipleOf() {
-    using oas31::ExactNumber;
+    using schema_validation::ExactNumber;
 
     ExactNumber const huge = ExactNumber::parseLexeme("1e2147483648");
     ExactNumber const equivalent = ExactNumber::parseLexeme("10e2147483647");
@@ -81,24 +84,24 @@ void testArbitraryExponentsAndMultipleOf() {
 void testDomLexemesAndEscapedNames() {
     std::string const payload =
             R"JSON({"quo\"te":90071992547409931234567891,"a/b":1e2147483648,"a~b":1e-2147483649,"\u03bb":0.30000000000000004})JSON";
-    oas31::ExactJsonValue document = oas31::parseExactJson(payload);
-    oas31::ExactInstanceScope scope(document);
-    oas31::RawInstance root(&document.value);
+    schema_validation::ExactJsonValue document = schema_validation::parseExactJson(payload);
+    schema_validation::ExactInstanceScope scope(document);
+    schema_validation::RawInstance root(&document.value);
 
     require(root.atMember("quo\"te").asExactNumber()
-                    == oas31::ExactNumber::parseLexeme(
+                    == schema_validation::ExactNumber::parseLexeme(
                             "90071992547409931234567891"),
             "large integer lexeme must survive DOM parsing");
     require(root.atMember("a/b").asExactNumber()
-                    == oas31::ExactNumber::parseLexeme("1e2147483648"),
+                    == schema_validation::ExactNumber::parseLexeme("1e2147483648"),
             "large exponent lexeme must survive DOM fallback parsing");
     require(root.atMember("a~b").asExactNumber()
-                    == oas31::ExactNumber::parseLexeme("1e-2147483649"),
+                    == schema_validation::ExactNumber::parseLexeme("1e-2147483649"),
             "small exponent lexeme must survive DOM fallback parsing");
 
     std::string const lambda = u8"\u03bb";
     require(root.atMember({lambda.data(), lambda.size()}).asExactNumber()
-                    == oas31::ExactNumber::parseLexeme(
+                    == schema_validation::ExactNumber::parseLexeme(
                             "0.30000000000000004"),
             "Unicode member name must resolve its numeric lexeme");
 
@@ -120,22 +123,22 @@ void testDeepEnumAndConstNumbers() {
     std::string const differentPayload =
             R"JSON({"nested":[90071992547409931234567892,1e2147483648]})JSON";
 
-    oas31::ExactJsonValue stored = oas31::parseExactJson(storedPayload);
-    oas31::ExactJsonValue matching = oas31::parseExactJson(matchingPayload);
-    oas31::ExactJsonValue different = oas31::parseExactJson(differentPayload);
+    schema_validation::ExactJsonValue stored = schema_validation::parseExactJson(storedPayload);
+    schema_validation::ExactJsonValue matching = schema_validation::parseExactJson(matchingPayload);
+    schema_validation::ExactJsonValue different = schema_validation::parseExactJson(differentPayload);
 
     {
-        oas31::ExactInstanceScope scope(matching);
-        oas31::RawInstance instance(&matching.value);
-        require(oas31::deepInstanceEqual(
+        schema_validation::ExactInstanceScope scope(matching);
+        schema_validation::RawInstance instance(&matching.value);
+        require(schema_validation::deepInstanceEqual(
                         instance, stored.value.as_array()[0],
                         &stored.lexemes, "/0"),
                 "deep enum/const numbers must compare by exact lexeme value");
     }
     {
-        oas31::ExactInstanceScope scope(different);
-        oas31::RawInstance instance(&different.value);
-        require(!oas31::deepInstanceEqual(
+        schema_validation::ExactInstanceScope scope(different);
+        schema_validation::RawInstance instance(&different.value);
+        require(!schema_validation::deepInstanceEqual(
                         instance, stored.value.as_array()[0],
                         &stored.lexemes, "/0"),
                 "deep equality must reject a distinct large integer");
@@ -143,15 +146,15 @@ void testDeepEnumAndConstNumbers() {
 }
 
 void testSharedCompositionEvaluator() {
-    oas31::SchemaResourceRegistry registry;
+    schema_validation::SchemaResourceRegistry registry;
     registry.nodes.resize(3);
     registry.nodes[0].oneOfChildren = {1, 2};
     registry.nodes[1].hasMultipleOf = true;
-    registry.nodes[1].multipleOf = oas31::ExactNumber::parseLexeme("0.1");
+    registry.nodes[1].multipleOf = schema_validation::ExactNumber::parseLexeme("0.1");
     registry.nodes[2].hasMultipleOf = true;
-    registry.nodes[2].multipleOf = oas31::ExactNumber::parseLexeme("0.2");
+    registry.nodes[2].multipleOf = schema_validation::ExactNumber::parseLexeme("0.2");
 
-    oas31::SchemaEvaluator const evaluator(registry);
+    schema_validation::SchemaEvaluator const evaluator(registry);
     require(validateNumber(evaluator, "0.3"),
             "oneOf must accept exactly one exact numeric match");
     require(!validateNumber(evaluator, "0.4"),
@@ -159,11 +162,11 @@ void testSharedCompositionEvaluator() {
     require(!validateNumber(evaluator, "0.25"),
             "oneOf must reject zero exact numeric matches");
 
-    oas31::SchemaResourceRegistry recursiveRegistry;
+    schema_validation::SchemaResourceRegistry recursiveRegistry;
     recursiveRegistry.nodes.resize(1);
-    recursiveRegistry.nodes[0].applicator = oas31::ApplicatorKind::ref;
+    recursiveRegistry.nodes[0].applicator = schema_validation::ApplicatorKind::ref;
     recursiveRegistry.nodes[0].children.push_back(0);
-    oas31::SchemaEvaluator const recursiveEvaluator(recursiveRegistry);
+    schema_validation::SchemaEvaluator const recursiveEvaluator(recursiveRegistry);
     require(validateNumber(recursiveEvaluator, "1e2147483648"),
             "recursive shared evaluation must terminate");
 }
@@ -203,18 +206,18 @@ void testNumericConversionBoundaries() {
 }
 
 void testFractionalBoundsAroundZero() {
-    oas31::ExactNumber const zero;
-    oas31::ExactNumber const half = oas31::ExactNumber::parseLexeme("0.5");
-    oas31::ExactNumber const negativeHalf =
-            oas31::ExactNumber::parseLexeme("-0.5");
+    schema_validation::ExactNumber const zero;
+    schema_validation::ExactNumber const half = schema_validation::ExactNumber::parseLexeme("0.5");
+    schema_validation::ExactNumber const negativeHalf =
+            schema_validation::ExactNumber::parseLexeme("-0.5");
     require(zero.compare(half) < 0 && half.compare(zero) > 0,
             "zero must sort below a positive fraction");
     require(negativeHalf.compare(zero) < 0 && zero.compare(negativeHalf) > 0,
             "zero must sort above a negative fraction");
 
-    oas31::SchemaResourceRegistry registry;
+    schema_validation::SchemaResourceRegistry registry;
     registry.nodes.resize(1);
-    oas31::SchemaEvaluator const evaluator(registry);
+    schema_validation::SchemaEvaluator const evaluator(registry);
 
     registry.nodes[0].hasMinimum = true;
     registry.nodes[0].minimum = half;
@@ -230,29 +233,29 @@ void testFractionalBoundsAroundZero() {
     registry.nodes[0].hasMaximum = false;
     registry.nodes[0].hasExclusiveMinimum = true;
     registry.nodes[0].exclusiveMinimum =
-            oas31::ExactNumber::parseLexeme("0.25");
+            schema_validation::ExactNumber::parseLexeme("0.25");
     require(!validateNumber(evaluator, "0"),
             "exclusiveMinimum 0.25 must reject zero");
 }
 
-oas31::Annotation const* annotationFor(
-        oas31::ValidationContext const& context,
+schema_validation::Annotation const* annotationFor(
+        schema_validation::ValidationContext const& context,
         std::string const& keyword) {
-    for (oas31::Annotation const& annotation : context.annotations.all()) {
+    for (schema_validation::Annotation const& annotation : context.annotations.all()) {
         if (annotation.keyword == keyword) return &annotation;
     }
     return nullptr;
 }
 
 void testAnnotationPayloadsLocationsAndRollback() {
-    oas31::SchemaResourceRegistry registry;
+    schema_validation::SchemaResourceRegistry registry;
     registry.nodes.resize(5);
     registry.nodes[0].anyOfChildren = {1, 3};
 
     registry.nodes[1].hasObjectSchema = true;
     registry.nodes[1].properties.push_back({"a/b", 2});
     registry.nodes[1].additionalProperties =
-            oas31::AdditionalPropertiesKind::reject;
+            schema_validation::AdditionalPropertiesKind::reject;
     registry.nodes[1].dynamicResource = 7;
     registry.nodes[2].annTitle = "\"discarded\"";
     registry.nodes[2].schemaPath =
@@ -273,17 +276,17 @@ void testAnnotationPayloadsLocationsAndRollback() {
     registry.nodes[4].absSchemaUri =
             "https://example.test/schema#/components/schemas/Kept/properties/a~1b";
 
-    oas31::ExactJsonValue document =
-            oas31::parseExactJson(R"JSON({"a/b":1,"extra":2})JSON");
-    oas31::ExactInstanceScope scope(document);
-    oas31::RawInstance instance(&document.value);
-    oas31::ValidationPath path;
-    oas31::ValidationContext context;
+    schema_validation::ExactJsonValue document =
+            schema_validation::parseExactJson(R"JSON({"a/b":1,"extra":2})JSON");
+    schema_validation::ExactInstanceScope scope(document);
+    schema_validation::RawInstance instance(&document.value);
+    schema_validation::ValidationPath path;
+    schema_validation::ValidationContext context;
     context.dynamicScope.push_back(42);
     context.currentValidationRes = 42;
     context.curProps().insert("preexisting");
 
-    oas31::SchemaEvaluator const evaluator(registry);
+    schema_validation::SchemaEvaluator const evaluator(registry);
     require(evaluator.validate(0, instance, path, context).success,
             "a successful anyOf branch must validate");
     require(annotationFor(context, "title") == nullptr,
@@ -297,7 +300,7 @@ void testAnnotationPayloadsLocationsAndRollback() {
     require(context.curProps().count("preexisting") == 1,
             "preexisting evaluated coverage must survive transactions");
 
-    oas31::Annotation const* description = annotationFor(context, "description");
+    schema_validation::Annotation const* description = annotationFor(context, "description");
     require(description != nullptr && description->value == "\"kept\"",
             "string annotations must retain complete JSON text");
     require(description->instancePath == "/a~1b",
@@ -309,29 +312,29 @@ void testAnnotationPayloadsLocationsAndRollback() {
                     == "https://example.test/schema#/components/schemas/Kept/properties/a~1b/description",
             "annotation absolute locations must retain the resource URI");
 
-    oas31::Annotation const* examples = annotationFor(context, "examples");
+    schema_validation::Annotation const* examples = annotationFor(context, "examples");
     require(examples != nullptr && examples->value == "[1,\"x\"]",
             "examples must be one JSON array annotation value");
-    oas31::Annotation const* contentSchema =
+    schema_validation::Annotation const* contentSchema =
             annotationFor(context, "contentSchema");
     require(contentSchema != nullptr
                     && contentSchema->value == "{\"type\":\"integer\"}",
             "contentSchema must preserve its schema JSON value");
-    oas31::Annotation const* extra = annotationFor(context, "x/a");
+    schema_validation::Annotation const* extra = annotationFor(context, "x/a");
     require(extra != nullptr
                     && extra->schemaPath
                             == "#/components/schemas/Kept/properties/a~1b/x~1a",
             "unknown annotation keyword locations must escape pointer tokens");
 
-    oas31::SchemaResourceRegistry invalidRegistry;
+    schema_validation::SchemaResourceRegistry invalidRegistry;
     invalidRegistry.nodes.resize(3);
     invalidRegistry.nodes[0].allOfChildren = {1, 2};
     invalidRegistry.nodes[1].annTitle = "\"transient\"";
     invalidRegistry.nodes[1].schemaPath = "#/allOf/0";
     invalidRegistry.nodes[1].absSchemaUri = "urn:test#/allOf/0";
-    invalidRegistry.nodes[2].booleanValue = oas31::BooleanValue::false_;
-    oas31::SchemaEvaluator const invalidEvaluator(invalidRegistry);
-    oas31::ValidationContext invalidContext;
+    invalidRegistry.nodes[2].booleanValue = schema_validation::BooleanValue::false_;
+    schema_validation::SchemaEvaluator const invalidEvaluator(invalidRegistry);
+    schema_validation::ValidationContext invalidContext;
     require(!invalidEvaluator.validate(0, instance, path, invalidContext).success,
             "the final failing allOf branch must reject the parent");
     require(invalidContext.annotations.all().empty(),

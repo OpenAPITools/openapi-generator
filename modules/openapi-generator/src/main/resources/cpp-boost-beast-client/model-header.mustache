@@ -25,6 +25,18 @@ using {{classname}} = {{{vendorExtensions.x-cpp-type}}};
 boost::json::value toJsonValue_{{classname}}({{classname}} const& value);
 {{classname}} fromJsonValue_{{classname}}(boost::json::value const& value);
 
+{{#vendorExtensions.x-cpp-has-duplicate-types}}
+{{#vendorExtensions.x-cpp-composition-branches}}
+{{#branches}}
+{{#storage-cpp-type}}
+bool is{{classname}}Branch{{branch-index}}({{classname}} const& value);
+{{{inner-cpp-type}}} get{{classname}}Branch{{branch-index}}({{classname}} const& value);
+{{classname}} make{{classname}}Branch{{branch-index}}({{{inner-cpp-type}}} value);
+{{/storage-cpp-type}}
+{{/branches}}
+{{/vendorExtensions.x-cpp-composition-branches}}
+{{/vendorExtensions.x-cpp-has-duplicate-types}}
+
 {{#modelNamespaceDeclarations}}
 }
 {{/modelNamespaceDeclarations}}

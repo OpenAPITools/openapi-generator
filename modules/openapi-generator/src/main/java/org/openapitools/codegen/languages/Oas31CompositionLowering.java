@@ -5,8 +5,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenDiscriminator;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -18,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -42,8 +41,6 @@ import java.util.stream.Collectors;
  * live on the generator and are referenced through it.
  */
 public final class Oas31CompositionLowering {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(Oas31CompositionLowering.class);
 
     private Oas31CompositionLowering() {
     }
@@ -302,13 +299,11 @@ public final class Oas31CompositionLowering {
     /**
      * Builds a CompositionDescriptor for a schema if it has oneOf, anyOf, or
      * allOf branches. Returns null for non-composed schemas.
-     * <p>
-     * Resolves $ref targets recursively with cycle detection via the visited
-     * set. Records JSON Pointer locations for diagnostic use.
+     * Records JSON Pointer locations for diagnostic use.
      */
     static CompositionDescriptor buildCompositionDescriptor(
             String schemaName, Schema schema, OpenAPI openAPI,
-            Map<String, Schema> schemas, Set<String> visited) {
+            Map<String, Schema> schemas) {
         if (schema == null) return null;
 
         List<Schema> branchSchemas = null;
@@ -359,8 +354,7 @@ public final class Oas31CompositionLowering {
                 // Detect null type via $ref to null schema
                 if ("null".equals(refName)) {
                     nullCap = CompositionBranchDescriptor.NullCapability.ALWAYS;
-                } else if (schemas.containsKey(refName) && !visited.contains(refName)) {
-                    visited.add(refName);
+                } else if (schemas.containsKey(refName)) {
                     Schema refTarget = schemas.get(refName);
                     if (ModelUtils.isNullTypeSchema(openAPI, refTarget)) {
                         nullCap = CompositionBranchDescriptor.NullCapability.ALWAYS;
@@ -406,7 +400,7 @@ public final class Oas31CompositionLowering {
                     // own keyword set apply (2020-12). Ref-node applicator stays
                     // branch-driven; sibling keywords are emitted inline.
                     Oas31SchemaIrEmitter.scanSurfaceAssertions(branchSchema, openAPI,
-                            supported, unsupported, validateParams, true);
+                            supported, unsupported, validateParams, false);
                 }
             }
 
@@ -641,7 +635,7 @@ public final class Oas31CompositionLowering {
                         rootEnumValues = new ArrayList<>(branchEnum);
                         rootEnumIntersected = false;
                     } else {
-                        rootEnumValues.retainAll(branchEnum);
+                        rootEnumValues = intersectJsonValues(rootEnumValues, branchEnum);
                         rootEnumIntersected = true;
                     }
                 }
@@ -652,7 +646,7 @@ public final class Oas31CompositionLowering {
                     hasRootScalarConstraints = true;
                     if (rootConstValue == null) {
                         rootConstValue = branchConst;
-                    } else if (!rootConstValue.equals(branchConst)) {
+                    } else if (!jsonValuesEqual(rootConstValue, branchConst)) {
                         satisfiable = false;
                         unsatisfiableReason = "Incompatible const values across allOf '"
                                 + schemaName + "' contributors: '"
@@ -899,8 +893,7 @@ public final class Oas31CompositionLowering {
         List<Object> incomingEnum = incoming.getEnum();
         List<Object> intersectedEnum = null;
         if (existingEnum != null && incomingEnum != null) {
-            intersectedEnum = new ArrayList<>(existingEnum);
-            intersectedEnum.retainAll(incomingEnum);
+            intersectedEnum = intersectJsonValues(existingEnum, incomingEnum);
             if (intersectedEnum.isEmpty()) {
                 typeCompatible = false; // No common enum values
             }
@@ -933,7 +926,7 @@ public final class Oas31CompositionLowering {
 
         // Intersect const values
         if (existing.getConst() != null && incoming.getConst() != null) {
-            if (existing.getConst().equals(incoming.getConst())) {
+            if (jsonValuesEqual(existing.getConst(), incoming.getConst())) {
                 intersected.setConst(existing.getConst());
             } else {
                 typeCompatible = false; // conflicting const values
@@ -1065,6 +1058,64 @@ public final class Oas31CompositionLowering {
         }
 
         return intersected;
+    }
+
+    private static List<Object> intersectJsonValues(
+            List<?> left, List<?> right) {
+        List<Object> intersection = new ArrayList<>();
+        for (Object candidate : left) {
+            for (Object value : right) {
+                if (jsonValuesEqual(candidate, value)) {
+                    intersection.add(candidate);
+                    break;
+                }
+            }
+        }
+        return intersection;
+    }
+
+    private static boolean jsonValuesEqual(Object left, Object right) {
+        if (left == right) {
+            return true;
+        }
+        if (left == null || right == null) {
+            return false;
+        }
+        if (left instanceof Number && right instanceof Number) {
+            try {
+                return new BigDecimal(left.toString())
+                        .compareTo(new BigDecimal(right.toString())) == 0;
+            } catch (NumberFormatException ignored) {
+                return left.equals(right);
+            }
+        }
+        if (left instanceof List && right instanceof List) {
+            List<?> leftList = (List<?>) left;
+            List<?> rightList = (List<?>) right;
+            if (leftList.size() != rightList.size()) {
+                return false;
+            }
+            for (int index = 0; index < leftList.size(); index++) {
+                if (!jsonValuesEqual(leftList.get(index), rightList.get(index))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        if (left instanceof Map && right instanceof Map) {
+            Map<?, ?> leftMap = (Map<?, ?>) left;
+            Map<?, ?> rightMap = (Map<?, ?>) right;
+            if (!leftMap.keySet().equals(rightMap.keySet())) {
+                return false;
+            }
+            for (Object key : leftMap.keySet()) {
+                if (!jsonValuesEqual(leftMap.get(key), rightMap.get(key))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return left.equals(right);
     }
 
     /**
@@ -1316,10 +1367,13 @@ public final class Oas31CompositionLowering {
      * When a non-null {@code descriptor} is provided, its branch metadata
      * (nullCapability, supportedAssertions) replaces C++ type-string heuristics
      * for Rules 1, 3, and 6.
+     * Warnings are routed through {@code warningSink} so this stateless helper
+     * does not retain a process-wide logger.
      */
     static String lowerComposedTypes(List<CppBoostBeastClientCodegen.ComposedBranch> branches,
                                      String composedKeyword,
-                                     CompositionDescriptor descriptor) {
+                                     CompositionDescriptor descriptor,
+                                     Consumer<String> warningSink) {
         if (branches == null || branches.isEmpty()) {
             return "boost::json::value";
         }
@@ -1579,7 +1633,7 @@ public final class Oas31CompositionLowering {
                         return b.isEnum;
                     });
             if (preDedupStringCount > postDedupStringCount && hasStringEnum) {
-                LOGGER.warn(
+                warningSink.accept(
                         "oneOf string branches erase to std::string; "
                                 + "emitting boost::json::value to avoid false exclusive-union fidelity");
                 return "boost::json::value";

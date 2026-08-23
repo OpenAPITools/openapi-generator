@@ -1,5 +1,5 @@
 // ============================================================================
-// oas31_exact_number.hpp - exact JSON Number domain (ADR D1).
+// Oas31ExactNumber.h - exact JSON Number domain (ADR D1).
 //
 // A finite base-10 arbitrary-precision decimal: value = mantissa * 10^exponent10.
 // Fully independent of Boost.JSON `double`. Keeps 1 == 1.0 == 1e0 under ==/compare.
@@ -7,8 +7,8 @@
 //
 // HEADER-ONLY. Built under -Werror with g++ -std=c++17.
 // ============================================================================
-#ifndef OAS31_EXACT_NUMBER_HPP_
-#define OAS31_EXACT_NUMBER_HPP_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_EXACT_NUMBER_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_EXACT_NUMBER_H_
 
 #include <boost/multiprecision/cpp_int.hpp>
 
@@ -23,7 +23,7 @@
 #include <string>
 #include <utility>
 
-namespace oas31 {
+namespace org::openapitools::client::model::detail::schema_validation {
 
 /// Finite base-10 arbitrary-precision decimal: value = mantissa * 10^exponent10.
 /// Both components are canonical: zero is (0, 0), and a non-zero mantissa has
@@ -363,6 +363,6 @@ inline bool isPositiveMultipleOf(ExactNumber const& m) {
     return !m.isZero() && m.mantissa() > 0;
 }
 
-} // namespace oas31
+} // namespace org::openapitools::client::model::detail::schema_validation
 
-#endif // OAS31_EXACT_NUMBER_HPP_
+#endif // ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_EXACT_NUMBER_H_
