@@ -20,6 +20,7 @@
 #include "model/NullableEnumBox.h"
 #include "model/StreamChunk.h"
 #include "model/TaggedUnionContainer.h"
+#include "model/Toggle.h"
 #include "api/DefaultApi.cpp"
 #include "model/Oas31ExactJson.h"
 #include "model/Oas31Validator.h"
@@ -244,6 +245,15 @@ int main() {
            "patternProperties failed to match a non-ASCII object key");
     expect(!validatesSchema("nonAsciiPattern_branch_0", R"({"élmény":1})"),
            "additionalProperties false accepted an unmatched object key");
+
+    model::Toggle disabled;
+    disabled.fromJsonValue(boost::json::parse(R"({"enabled":false})"));
+    expect(!disabled.isEnabled(),
+           "false JSON boolean did not overwrite the model property");
+    const boost::json::value disabledJson = disabled.toJsonValue();
+    expect(disabledJson.as_object().at("enabled").is_bool()
+               && !disabledJson.as_object().at("enabled").as_bool(),
+           "false model property did not round-trip as false");
 
     expect(validatesSchema("UnevaluatedAllOf_branch_0", R"({"extra":"ok"})"),
            "unevaluatedProperties allOf schema rejected a matching value");
