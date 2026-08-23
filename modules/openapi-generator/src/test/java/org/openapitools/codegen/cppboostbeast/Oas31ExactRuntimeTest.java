@@ -159,52 +159,7 @@ public class Oas31ExactRuntimeTest {
                         + "oas31-generated-runtime-regression.cpp");
         Path executable = output.resolve("oas31-generated-runtime-regression");
         String compiler = System.getenv().getOrDefault("CXX", "c++");
-        List<String> command = new ArrayList<>();
-        command.add(compiler);
-        command.add("-std=c++17");
-        command.add("-Wall");
-        command.add("-Wextra");
-        command.add("-Werror");
-        command.add("-I");
-        command.add(output.toString());
-        command.add("-I");
-        command.add(output.resolve("api").toString());
-        command.add("-I");
-        command.add(output.resolve("model").toString());
-        command.add(source.toString());
-        try (java.util.stream.Stream<Path> modelSources =
-                     Files.list(output.resolve("model"))) {
-            modelSources
-                    .filter(path -> path.getFileName().toString().endsWith(".cpp"))
-                    .sorted()
-                    .map(Path::toString)
-                    .forEach(command::add);
-        }
-        command.add("-o");
-        command.add(executable.toString());
-
-        Process compile;
-        try {
-            compile = new ProcessBuilder(command)
-                    .redirectErrorStream(true)
-                    .start();
-        } catch (IOException exception) {
-            throw new SkipException(
-                    "C++ compiler is unavailable; skipping generated runtime test: "
-                            + exception.getMessage());
-        }
-
-        Assert.assertTrue(compile.waitFor(180, TimeUnit.SECONDS),
-                "Generated C++ runtime test compilation timed out");
-        String compileOutput = new String(
-                compile.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-        if (compile.exitValue() != 0 && missingBoostHeaders(compileOutput)) {
-            throw new SkipException(
-                    "Boost headers are unavailable; skipping generated runtime test: "
-                            + compileOutput.trim());
-        }
-        Assert.assertEquals(compile.exitValue(), 0,
-                "Generated C++ runtime test must compile cleanly:\n" + compileOutput);
+        compileGeneratedRuntime(compiler, output, source, executable);
 
         Process run = new ProcessBuilder(executable.toString())
                 .redirectErrorStream(true)
@@ -318,6 +273,156 @@ public class Oas31ExactRuntimeTest {
         }
         Assert.assertEquals(compile.exitValue(), 0,
                 "Two generated clients must compile in one translation unit:\n" + compileOutput);
+    }
+
+    private static void compileGeneratedRuntime(
+            String compiler,
+            Path output,
+            Path driverSource,
+            Path executable) throws Exception {
+        List<Path> sources = new ArrayList<>();
+        sources.add(driverSource.toAbsolutePath());
+        try (java.util.stream.Stream<Path> modelSources =
+                     Files.list(output.resolve("model"))) {
+            modelSources
+                    .filter(path -> path.getFileName().toString().endsWith(".cpp"))
+                    .sorted()
+                    .map(Path::toAbsolutePath)
+                    .forEach(sources::add);
+        }
+
+        int workerCount = Math.min(
+                4,
+                Math.min(Runtime.getRuntime().availableProcessors(), sources.size()));
+        List<List<Path>> sourceGroups = new ArrayList<>(workerCount);
+        for (int worker = 0; worker < workerCount; worker++) {
+            sourceGroups.add(new ArrayList<>());
+        }
+
+        Path objectDirectory = Files.createDirectories(output.resolve("native-objects"));
+        List<Path> objectFiles = new ArrayList<>(sources.size());
+        for (int index = 0; index < sources.size(); index++) {
+            Path source = sources.get(index);
+            sourceGroups.get(index % workerCount).add(source);
+            String sourceName = source.getFileName().toString();
+            Assert.assertTrue(sourceName.endsWith(".cpp"),
+                    "Native runtime source must have a .cpp suffix: " + source);
+            objectFiles.add(objectDirectory.resolve(
+                    sourceName.substring(0, sourceName.length() - 4) + ".o").toAbsolutePath());
+        }
+
+        List<String> compilePrefix = List.of(
+                compiler,
+                "-std=c++17",
+                "-Wall",
+                "-Wextra",
+                "-Werror",
+                "-I",
+                output.toAbsolutePath().toString(),
+                "-I",
+                output.resolve("api").toAbsolutePath().toString(),
+                "-I",
+                output.resolve("model").toAbsolutePath().toString());
+        List<Process> compilers = new ArrayList<>(workerCount);
+        List<Path> compilerLogs = new ArrayList<>(workerCount);
+        for (int worker = 0; worker < workerCount; worker++) {
+            List<String> command = new ArrayList<>(compilePrefix);
+            command.add("-c");
+            sourceGroups.get(worker).stream()
+                    .map(Path::toString)
+                    .forEach(command::add);
+            Path compilerLog = objectDirectory.resolve("compile-" + worker + ".log");
+            compilerLogs.add(compilerLog);
+            try {
+                compilers.add(new ProcessBuilder(command)
+                        .directory(objectDirectory.toFile())
+                        .redirectErrorStream(true)
+                        .redirectOutput(compilerLog.toFile())
+                        .start());
+            } catch (IOException exception) {
+                terminateProcesses(compilers);
+                throw new SkipException(
+                        "C++ compiler is unavailable; skipping generated runtime test: "
+                                + exception.getMessage());
+            }
+        }
+
+        long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(240);
+        try {
+            for (Process process : compilers) {
+                long remaining = deadline - System.nanoTime();
+                if (remaining <= 0
+                        || !process.waitFor(remaining, TimeUnit.NANOSECONDS)) {
+                    terminateProcesses(compilers);
+                    Assert.fail("Generated C++ runtime object compilation timed out:\n"
+                            + readCompilerLogs(compilerLogs));
+                }
+            }
+        } catch (InterruptedException exception) {
+            terminateProcesses(compilers);
+            throw exception;
+        }
+
+        String compileOutput = readCompilerLogs(compilerLogs);
+        boolean compileFailed = compilers.stream().anyMatch(process -> process.exitValue() != 0);
+        if (compileFailed && missingBoostHeaders(compileOutput)) {
+            throw new SkipException(
+                    "Boost headers are unavailable; skipping generated runtime test: "
+                            + compileOutput.trim());
+        }
+        Assert.assertFalse(compileFailed,
+                "Generated C++ runtime objects must compile cleanly:\n" + compileOutput);
+
+        List<String> linkCommand = new ArrayList<>();
+        linkCommand.add(compiler);
+        objectFiles.stream().map(Path::toString).forEach(linkCommand::add);
+        linkCommand.add("-o");
+        linkCommand.add(executable.toAbsolutePath().toString());
+
+        Process linker = new ProcessBuilder(linkCommand)
+                .redirectErrorStream(true)
+                .start();
+        if (!linker.waitFor(120, TimeUnit.SECONDS)) {
+            linker.destroyForcibly().waitFor();
+            Assert.fail("Generated C++ runtime link timed out");
+        }
+        String linkOutput = new String(
+                linker.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        Assert.assertEquals(linker.exitValue(), 0,
+                "Generated C++ runtime must link cleanly:\n" + linkOutput);
+    }
+
+    private static String readCompilerLogs(List<Path> compilerLogs) throws IOException {
+        StringBuilder output = new StringBuilder();
+        for (Path compilerLog : compilerLogs) {
+            if (Files.exists(compilerLog)) {
+                String contents = Files.readString(compilerLog, StandardCharsets.UTF_8);
+                if (!contents.isEmpty()) {
+                    output.append(compilerLog.getFileName()).append(":\n")
+                            .append(contents);
+                }
+            }
+        }
+        return output.toString();
+    }
+
+    private static void terminateProcesses(List<Process> processes) {
+        for (Process process : processes) {
+            process.descendants().forEach(ProcessHandle::destroyForcibly);
+            if (process.isAlive()) {
+                process.destroyForcibly();
+            }
+        }
+        for (Process process : processes) {
+            if (process.isAlive()) {
+                try {
+                    process.waitFor(10, TimeUnit.SECONDS);
+                } catch (InterruptedException exception) {
+                    Thread.currentThread().interrupt();
+                    return;
+                }
+            }
+        }
     }
 
     private static void writeValidationSupportHeaders(
