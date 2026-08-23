@@ -336,6 +336,35 @@ public class Oas31IrComplianceTest {
                 "n.prefixItems.push_back(");
     }
 
+    @Test
+    public void preservesNestedSchemasThatShareATitleDuringRawRecovery() throws IOException {
+        File output = Files.createTempDirectory("cpp-boost-beast-title-collision").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/"
+                        + "raw-recovery-title-collision.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        List<File> files = new DefaultGenerator()
+                .opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path nestedHeader = output.toPath().resolve("model/Grammar_format.h");
+        Path enclosingHeader = output.toPath().resolve("model/Grammar_format_1.h");
+        TestUtils.assertFileContains(nestedHeader,
+                "m_Definition",
+                "m_Syntax");
+        TestUtils.assertFileNotContains(nestedHeader, "m_Grammar");
+        TestUtils.assertFileContains(enclosingHeader,
+                "std::string getType() const { return \"grammar\"; }",
+                "m_Grammar");
+        TestUtils.assertFileNotContains(enclosingHeader,
+                "m_Definition",
+                "m_Syntax");
+    }
+
 
     @Test
     public void recoversFloatCountBoundsFromJsonSpec() throws Exception {
