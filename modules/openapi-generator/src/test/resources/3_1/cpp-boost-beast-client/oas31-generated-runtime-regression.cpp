@@ -128,6 +128,17 @@ int main() {
     expect(api::toFormParameterValue(sharedText) == "json",
            "shared primitive form value serialized its pointer address");
 
+    std::vector<api::FormParameter> stringVariantParameters;
+    api::addVariantFormParameter(stringVariantParameters, "model", direct);
+    const std::string stringVariantWire = api::serializeMultipartFormData(
+        stringVariantParameters, "VARIANT-BOUNDARY");
+    expect(stringVariantWire.find(
+               "name=\"model\"\r\nContent-Type: text/plain\r\n\r\ntag\r\n")
+               != std::string::npos,
+           "tagged string variant did not use the text/plain multipart encoding");
+    expect(stringVariantWire.find("\"tag\"") == std::string::npos,
+           "tagged string variant was JSON-quoted on the multipart wire");
+
     using FormChoice = std::variant<std::string, model::Simple>;
     const std::optional<FormChoice> primitiveFormChoice =
         FormChoice(std::string("auto"));
@@ -140,6 +151,31 @@ int main() {
     expect(api::toFormParameterValue(objectFormChoice)
                == R"({"value":"choice"})",
            "model variant form value failed to serialize as JSON");
+
+    std::vector<api::FormParameter> objectVariantParameters;
+    api::addVariantFormParameter(
+        objectVariantParameters, "payload", objectFormChoice.value());
+    const std::string objectVariantWire = api::serializeMultipartFormData(
+        objectVariantParameters, "VARIANT-BOUNDARY");
+    expect(objectVariantWire.find(
+               "name=\"payload\"\r\nContent-Type: application/json\r\n\r\n"
+               "{\"value\":\"choice\"}\r\n")
+               != std::string::npos,
+           "object variant did not retain its application/json multipart encoding");
+
+    using ArrayFormChoice = std::variant<std::vector<std::string>, model::Simple>;
+    const ArrayFormChoice arrayFormChoice =
+        std::vector<std::string>{"alpha", "beta"};
+    std::vector<api::FormParameter> arrayVariantParameters;
+    api::addVariantFormParameter(
+        arrayVariantParameters, "labels", arrayFormChoice);
+    const std::string arrayVariantWire = api::serializeMultipartFormData(
+        arrayVariantParameters, "VARIANT-BOUNDARY");
+    expect(arrayVariantWire.find(
+               "name=\"labels\"\r\nContent-Type: text/plain\r\n\r\n"
+               "alpha,beta\r\n")
+               != std::string::npos,
+           "primitive-array variant did not use text/plain form serialization");
 
     const std::map<std::string, std::string> formMap{{"key", "value"}};
     expect(api::toFormParameterValue(formMap) == R"({"key":"value"})",
@@ -208,6 +244,16 @@ int main() {
            "patternProperties failed to match a non-ASCII object key");
     expect(!validatesSchema("nonAsciiPattern_branch_0", R"({"élmény":1})"),
            "additionalProperties false accepted an unmatched object key");
+
+    expect(validatesSchema("UnevaluatedAllOf_branch_0", R"({"extra":"ok"})"),
+           "unevaluatedProperties allOf schema rejected a matching value");
+    expect(!validatesSchema("UnevaluatedAllOf_branch_0", R"({"extra":"x"})"),
+           "unevaluatedProperties allOf schema accepted a failing value");
+    expect(!validatesSchema(
+               "UnevaluatedItemsOnly_branch_0", R"({"extra":[1]})"),
+           "nested unevaluatedItems-only schema was treated as an empty schema");
+    expect(validatesSchema("ValidationVocabularyInertUnique_branch_0", "[1,1]"),
+           "uniqueItems remained active when the validation vocabulary was inert");
 
     api::DefaultApi defaultApi(std::make_shared<FakeHttpClient>());
     const std::vector<model::StreamChunk> streamChunks = defaultApi.getStream();

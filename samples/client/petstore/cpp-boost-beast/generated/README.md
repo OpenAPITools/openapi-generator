@@ -198,6 +198,12 @@ Required form parameters retain their value types.
 Value-typed overloads preserve existing call sites by forwarding form values as
 engaged optionals.
 
+Variant-valued multipart fields follow the active branch's OpenAPI wire type.
+Primitive and primitive-array branches use `text/plain` form serialization, so
+string values are not JSON-quoted. Complex branches use `application/json`, and
+binary branches use raw `application/octet-stream` data. An explicit Encoding
+Object `contentType` overrides the default part content type.
+
 Each binary multipart method parameter has a companion `<parameter>Filename`
 argument. It defaults to the OpenAPI part name for source compatibility; pass
 any value, including an empty string, to control the `filename` parameter in

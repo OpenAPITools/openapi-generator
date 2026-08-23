@@ -168,3 +168,22 @@ components:
         ratio:
           type: number
           format: float
+    UnevaluatedAllOf:
+      oneOf:
+        - type: object
+          unevaluatedProperties:
+            allOf:
+              - type: string
+              - minLength: 2
+    UnevaluatedItemsOnly:
+      oneOf:
+        - type: object
+          unevaluatedProperties:
+            unevaluatedItems: false
+    ValidationVocabularyInertUnique:
+      oneOf:
+        - type: array
+          uniqueItems: true
+          x-oas31-res: 77
+          x-oas31-res-root: true
+          x-oas31-vocab-inert: true

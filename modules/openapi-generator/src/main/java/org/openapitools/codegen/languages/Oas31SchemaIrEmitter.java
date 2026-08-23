@@ -1933,8 +1933,6 @@ final class Oas31SchemaIrEmitter {
             Boolean bv = us.getBooleanSchemaValue();
             if (bv != null) {
                 n.unevaluatedPropertiesRejects = !Boolean.TRUE.equals(bv);
-            } else if (emptySchema(us)) {
-                n.unevaluatedPropertiesRejects = false;
             } else {
                 n.unevaluatedSchemaChild = irNodeFromRawSchema(us, n.childId("uneval"));
             }
@@ -1947,8 +1945,6 @@ final class Oas31SchemaIrEmitter {
             Boolean bv = us.getBooleanSchemaValue();
             if (bv != null) {
                 n.unevaluatedItemsRejects = !Boolean.TRUE.equals(bv);
-            } else if (emptySchema(us)) {
-                n.unevaluatedItemsRejects = false;
             } else {
                 n.unevaluatedItemsSchemaChild =
                         irNodeFromRawSchema(us, n.childId("uneval"));
@@ -2044,34 +2040,6 @@ final class Oas31SchemaIrEmitter {
         return java.util.Collections.emptyList();
     }
 
-    /** True when the schema carries no supported assertion (an empty {}). */
-    private static boolean emptySchema(Schema schema) {
-        return schema.getType() == null
-                && (schema.getTypes() == null || schema.getTypes().isEmpty())
-                && schema.getBooleanSchemaValue() == null
-                && schema.getConst() == null
-                && (schema.getEnum() == null || schema.getEnum().isEmpty())
-                && schema.get$ref() == null
-                && (schema.getProperties() == null || schema.getProperties().isEmpty())
-                && (schema.getRequired() == null || schema.getRequired().isEmpty())
-                && schema.getMinimum() == null && schema.getMaximum() == null
-                && schema.getExclusiveMinimumValue() == null
-                && schema.getExclusiveMaximumValue() == null
-                && schema.getMultipleOf() == null
-                && schema.getMinItems() == null && schema.getMaxItems() == null
-                && schema.getMinProperties() == null && schema.getMaxProperties() == null
-                && schema.getMinLength() == null && schema.getMaxLength() == null
-                && schema.getPattern() == null
-                && (schema.getPatternProperties() == null || schema.getPatternProperties().isEmpty())
-                && schema.getPropertyNames() == null
-                && schema.getUniqueItems() == null
-                && schema.getNot() == null
-                && schema.getAdditionalProperties() == null
-                && (schema.getPrefixItems() == null || schema.getPrefixItems().isEmpty())
-                && schema.getItems() == null
-                && (schema.getUnevaluatedProperties() == null
-                    || schema.getUnevaluatedProperties().getBooleanSchemaValue() != null);
-    }
 
     /** Builds a boolean value-schema node (OAS 3.1 true/false literal). */
     private IrNode booleanValueSchema(Boolean b, String validatorId) {

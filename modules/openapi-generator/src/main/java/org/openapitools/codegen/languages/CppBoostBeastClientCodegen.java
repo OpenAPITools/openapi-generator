@@ -494,6 +494,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         typeMapping.put("long", "std::int64_t");
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "std::vector");
+        // uniqueItems constrains JSON arrays; it does not change their ordered wire representation.
+        typeMapping.put("set", "std::vector");
         typeMapping.put("map", "std::map");
         typeMapping.put("file", "std::string");
         typeMapping.put("object", "boost::json::value");

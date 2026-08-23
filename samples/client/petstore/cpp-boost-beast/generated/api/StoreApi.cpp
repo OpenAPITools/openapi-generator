@@ -1014,36 +1014,69 @@ boost::json::value toRequestJsonValue(const std::map<std::string, T>& requestVal
 // header is emitted for the part.
 // ──────────────────────────────────────────────────────────────────────
 
+/// Classifies variant storage by the OAS multipart default for its schema type.
+/// CompositionBranchValue is transparent because its tag preserves schema
+/// identity, not a distinct wire representation.
+template<typename T>
+struct MultipartVariantBranchTraits {
+    static constexpr bool isBinary = false;
+    static constexpr bool usesTextPlain = std::is_arithmetic_v<T>
+        || std::is_enum_v<T>
+        || std::is_same_v<T, std::string>;
+};
+
+template<typename T>
+struct MultipartVariantBranchTraits<std::vector<T>> {
+    static constexpr bool isBinary = std::is_same_v<T, std::uint8_t>;
+    static constexpr bool usesTextPlain = !isBinary
+        && MultipartVariantBranchTraits<T>::usesTextPlain;
+};
+
+template<typename T>
+struct MultipartVariantBranchTraits<std::shared_ptr<T>>
+    : MultipartVariantBranchTraits<T> {};
+
+template<typename T>
+struct MultipartVariantBranchTraits<std::optional<T>>
+    : MultipartVariantBranchTraits<T> {};
+
+template<typename T>
+struct MultipartVariantBranchTraits<boost::optional<T>>
+    : MultipartVariantBranchTraits<T> {};
+
+template<std::size_t BranchIndex, typename ValueType>
+struct MultipartVariantBranchTraits<CompositionBranchValue<BranchIndex, ValueType>>
+    : MultipartVariantBranchTraits<ValueType> {};
+
 /// addVariantFormParameter definition (forward-declared above).
 /// Must be defined after toRequestJsonValue so lambdas can find it via ADL.
-/// When encodingContentType is non-empty, it overrides the per-branch default
-/// according to OAS Encoding Object contentType precedence (OAS 3.0 §10.4):
-///   1. Encoding Object contentType
-///   2. OAS default for the property type (octet-stream for binary, JSON for objects)
-///   OAS 3.1 contentMediaType may override per-type defaults in future.
+/// An Encoding Object contentType overrides the branch default. Otherwise,
+/// primitive branches and arrays of primitives use text/plain, complex values
+/// use application/json, and byte containers use application/octet-stream.
 template<typename VariantType>
 void addVariantFormParameter(
     std::vector<FormParameter>& formParameters,
     const std::string& name,
     const VariantType& value,
     const std::string& encodingContentType = "") {
-    const std::string resolvedContentType = encodingContentType;
     std::visit([&](auto const& branch) {
         using BranchType = std::decay_t<decltype(branch)>;
-        // Only explicit byte containers are treated as file/binary branches.
-        // std::string branches are serialized as JSON to correctly handle
-        // string|object variant unions (e.g., oneOf [string, DataObject]).
-        if constexpr (std::is_same_v<BranchType, std::vector<std::uint8_t>>) {
-            // Binary branch — send as file part with encoding or default content type
-            std::string partContentType = resolvedContentType.empty()
-                ? "application/octet-stream" : resolvedContentType;
+        using BranchTraits = MultipartVariantBranchTraits<BranchType>;
+        if constexpr (BranchTraits::isBinary) {
+            const std::string partContentType = encodingContentType.empty()
+                ? "application/octet-stream" : encodingContentType;
             formParameters.emplace_back(name, toFormParameterValue(branch), true,
                                         partContentType, name);
+        } else if constexpr (BranchTraits::usesTextPlain) {
+            const std::string partContentType = encodingContentType.empty()
+                ? "text/plain" : encodingContentType;
+            formParameters.emplace_back(
+                name, toFormParameterValue(branch), false, partContentType);
         } else {
-            // Object or string branch — serialize as JSON part
-            std::string partContentType = resolvedContentType.empty()
-                ? "application/json" : resolvedContentType;
-            std::string jsonValue = boost::json::serialize(toRequestJsonValue(branch));
+            const std::string partContentType = encodingContentType.empty()
+                ? "application/json" : encodingContentType;
+            const std::string jsonValue =
+                boost::json::serialize(toRequestJsonValue(branch));
             formParameters.emplace_back(name, jsonValue, false, partContentType);
         }
     }, value);
