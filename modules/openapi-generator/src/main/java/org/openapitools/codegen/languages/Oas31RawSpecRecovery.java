@@ -30,6 +30,7 @@ final class Oas31RawSpecRecovery {
     private static final String EMPTY_ENUM_EXT = "x-oas31-empty-enum";
     private static final String TYPE_NULL_EXT = "x-oas31-pristine-type-null";
     private static final String DEPENDENT_REQUIRED_EXT = "x-oas31-dependent-required";
+    static final String LEGACY_NULLABLE_EXT = "x-oas31-legacy-nullable";
     private static final List<String> COUNT_KEYWORDS = List.of(
             "minItems", "maxItems",
             "minProperties", "maxProperties",
@@ -458,6 +459,17 @@ final class Oas31RawSpecRecovery {
             OpenAPI api, JsonNode raw, Schema parsed, String location) {
         if (raw == null || !raw.isObject() || parsed == null) {
             return;
+        }
+
+        // OAS 3.1 parsers may discard the legacy OAS 3.0 nullable keyword.
+        // Restore it on the carrier, not the referenced target, because a $ref
+        // sibling applies only at this schema location.
+        JsonNode nullable = raw.get("nullable");
+        if (nullable != null && nullable.isBoolean()) {
+            parsed.setNullable(nullable.booleanValue());
+            if (nullable.booleanValue()) {
+                addExtension(parsed, LEGACY_NULLABLE_EXT, true);
+            }
         }
 
         // Inline-model extraction replaces an object schema with a synthetic

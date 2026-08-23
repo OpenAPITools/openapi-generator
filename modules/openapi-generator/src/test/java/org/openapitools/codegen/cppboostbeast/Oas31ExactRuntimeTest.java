@@ -116,7 +116,8 @@ public class Oas31ExactRuntimeTest {
                 .setInputSpec(
                         "src/test/resources/3_1/cpp-boost-beast-client/oas31-runtime-regression.yaml")
                 .setOutputDir(output.toString())
-                .addAdditionalProperty("validateOnDecode", true);
+                .addAdditionalProperty("validateOnDecode", true)
+                .addAdditionalProperty("sseSchemaMode", "jsonEventData");
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         String mixedModelSource = Files.readString(output.resolve("model/Mixed.cpp"));

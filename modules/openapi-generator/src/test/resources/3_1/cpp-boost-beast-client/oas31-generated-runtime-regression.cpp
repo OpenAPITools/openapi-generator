@@ -1,6 +1,7 @@
 #include <boost/json/src.hpp>
 
 #include <cstdlib>
+#include <functional>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -16,6 +17,7 @@
 #include "model/DuplicateNull.h"
 #include "model/OuterUnion.h"
 #include "model/Simple.h"
+#include "model/StreamChunk.h"
 #include "model/TaggedUnionContainer.h"
 #include "api/DefaultApi.cpp"
 #include "model/Oas31ExactJson.h"
@@ -56,6 +58,22 @@ public:
             return {boost::beast::http::status::ok, std::string()};
         }
         return {boost::beast::http::status::bad_request, R"({"kind":"b"})"};
+    }
+
+    boost::beast::http::status executeStream(
+        const std::string&,
+        const std::string& target,
+        const std::string&,
+        const std::map<std::string, std::string>&,
+        std::function<void(const std::string&)> onEvent) override {
+        if (target != "/stream") {
+            return boost::beast::http::status::bad_request;
+        }
+        onEvent(R"({"id":"nulls","inline_nullable":null,"referenced_nullable":null,"required_nullable":null,"required_referenced_nullable":null})");
+        onEvent(R"({"id":"values","inline_nullable":{"value":"inline"},"referenced_nullable":{"value":"reference"},"required_nullable":"required","required_referenced_nullable":{"value":"required reference"}})");
+        onEvent(R"({"id":"missing","required_nullable":null,"required_referenced_nullable":null})");
+        onEvent("[DONE]");
+        return boost::beast::http::status::ok;
     }
 };
 
@@ -158,6 +176,35 @@ int main() {
            "additionalProperties false accepted an unmatched object key");
 
     api::DefaultApi defaultApi(std::make_shared<FakeHttpClient>());
+    const std::vector<model::StreamChunk> streamChunks = defaultApi.getStream();
+    expect(streamChunks.size() == 3u,
+           "JSON event streaming did not discard the [DONE] terminator");
+    expect(streamChunks[0].getInlineNullable().isNull(),
+           "inline nullable object did not decode explicit null");
+    expect(streamChunks[0].getReferencedNullable().isNull(),
+           "nullable reference did not decode explicit null");
+    expect(!streamChunks[0].getRequiredNullable().has_value(),
+           "required nullable scalar did not decode explicit null");
+    expect(!streamChunks[0].getRequiredReferencedNullable().has_value(),
+           "required nullable reference did not decode explicit null");
+    expect(streamChunks[1].getInlineNullable().hasValue()
+               && streamChunks[1].getInlineNullable().value().getValue() == "inline",
+           "inline nullable object did not decode a value");
+    expect(streamChunks[1].getReferencedNullable().hasValue()
+               && streamChunks[1].getReferencedNullable().value().getValue() == "reference",
+           "nullable reference did not decode a value");
+    expect(streamChunks[1].getRequiredNullable().value() == "required",
+           "required nullable scalar did not decode a value");
+    expect(streamChunks[1].getRequiredReferencedNullable().has_value()
+               && streamChunks[1].getRequiredReferencedNullable().value().getValue()
+                      == "required reference",
+           "required nullable reference did not decode a value");
+    expect(streamChunks[2].getInlineNullable().isMissing(),
+           "missing inline nullable object lost its missing state");
+    expect(streamChunks[2].getReferencedNullable().isMissing(),
+           "missing nullable reference lost its missing state");
+    expect(!streamChunks[2].getRequiredReferencedNullable().has_value(),
+           "required nullable reference did not preserve explicit null");
     (void)defaultApi.getEmpty();
     const api::GetProbeResponse response = defaultApi.getProbe();
     const model::Fallback& fallback = std::get<model::Fallback>(response.body);

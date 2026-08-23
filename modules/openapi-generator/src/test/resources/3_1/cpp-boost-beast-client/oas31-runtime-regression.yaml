@@ -29,6 +29,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/allNull'
+  /stream:
+    get:
+      operationId: getStream
+      responses:
+        '200':
+          description: Nullable JSON event stream
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/StreamChunk'
 components:
   schemas:
     Base:
@@ -115,3 +125,24 @@ components:
               $ref: '#/components/schemas/Simple'
             second:
               $ref: '#/components/schemas/Zeta'
+    StreamChunk:
+      type: object
+      required: [id, required_nullable, required_referenced_nullable]
+      properties:
+        id:
+          type: string
+        inline_nullable:
+          type: object
+          nullable: true
+          properties:
+            value:
+              type: string
+        referenced_nullable:
+          $ref: '#/components/schemas/Simple'
+          nullable: true
+        required_nullable:
+          type: string
+          nullable: true
+        required_referenced_nullable:
+          $ref: '#/components/schemas/Simple'
+          nullable: true

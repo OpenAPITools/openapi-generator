@@ -270,6 +270,9 @@ For pure-SSE operations, the return type becomes `std::vector<EventType>` where
 operations (both `application/json` and `text/event-stream`), a dedicated
 `{operationId}Stream` method is generated alongside the normal JSON method.
 
+An event whose complete data payload is exactly `[DONE]` is consumed as a
+non-JSON stream terminator before decoding and is not included in the result.
+
 #### Per-operation opt-in: `x-sse-event-data-schema`
 
 The vendor extension `x-sse-event-data-schema` on an operation overrides the

@@ -936,29 +936,6 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             }
         }
 
-        // Upgrade optional nullable properties from std::optional<T> to
-        // NullableField<T> for missing/null/value round-tripping. Required
-        // nullable properties remain optional because missing keys are rejected.
-        for (ModelMap mo : result.getModels()) {
-            CodegenModel cm = mo.getModel();
-            boolean needsNullableFieldInclude = false;
-            for (CodegenProperty var : allVarsOf(cm)) {
-                if (var.isNullable && !var.required
-                        && var.dataType != null
-                        && var.dataType.startsWith("std::optional<")) {
-                    String innerType = extractOptionalInnerType(var.dataType);
-                    if (innerType != null) {
-                        var.dataType = "NullableField<" + innerType + ">";
-                        var.vendorExtensions.put("x-cpp-nullable-field", true);
-                        var.vendorExtensions.put("x-cpp-nullable-field-inner-type", innerType);
-                        needsNullableFieldInclude = true;
-                    }
-                }
-            }
-            if (needsNullableFieldInclude) {
-                cm.imports.add("#include \"NullableField.h\"");
-            }
-        }
 
         // Cross-model property tagging runs in postProcessAllModels, where the
         // complete model index is available.
@@ -1291,6 +1268,45 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     filtered.add(escapedMapping);
                 }
                 cm.discriminator.setMappedModels(filtered);
+            }
+        }
+
+        // Finalize nullable storage only after updateAllModels has identified
+        // cycles and removed shared_ptr from non-cyclic model references.
+        for (ModelsMap modelsMap : processed.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel cm = modelMap.getModel();
+                boolean needsNullableFieldInclude = false;
+                for (CodegenProperty var : allVarsOf(cm)) {
+                    if (!var.isNullable || var.dataType == null
+                            || Boolean.TRUE.equals(var.vendorExtensions.get("x-cpp-nullable-field"))) {
+                        continue;
+                    }
+                    String innerType = extractOptionalInnerType(var.dataType);
+                    if (innerType == null && !Boolean.TRUE.equals(var.vendorExtensions
+                            .get(Oas31RawSpecRecovery.LEGACY_NULLABLE_EXT))) {
+                        continue;
+                    }
+                    if (var.required) {
+                        if (innerType == null) {
+                            var.dataType = "std::optional<" + var.dataType + ">";
+                            cm.imports.add("#include <optional>");
+                            var.vendorExtensions.put("x-cpp-no-is-set", true);
+                        }
+                        continue;
+                    }
+                    if (innerType == null) {
+                        innerType = var.dataType;
+                        var.vendorExtensions.put("x-cpp-no-is-set", true);
+                    }
+                    var.dataType = "NullableField<" + innerType + ">";
+                    var.vendorExtensions.put("x-cpp-nullable-field", true);
+                    var.vendorExtensions.put("x-cpp-nullable-field-inner-type", innerType);
+                    needsNullableFieldInclude = true;
+                }
+                if (needsNullableFieldInclude) {
+                    cm.imports.add("#include \"NullableField.h\"");
+                }
             }
         }
 
