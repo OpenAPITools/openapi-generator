@@ -172,6 +172,38 @@ accept JSON `null` at the root level.  The model's `fromJsonValue` decodes
 `null` into a null-state instance; `toJsonValue` produces `null` when the
 model is in the null state.
 
+### Non-conforming response compatibility
+
+Response decoding is strict by default: an explicit JSON `null` for a property
+whose schema does not allow null is rejected. For APIs that occasionally send
+such non-conforming values, enable the compatibility mode at generation time:
+
+```sh
+openapi-generator generate -g cpp-boost-beast-client \
+  -o output --additional-properties=tolerateNonNullableNulls=true
+```
+
+In this mode, explicit `null` is ignored for non-nullable properties. Required
+keys must still be present, but a present null leaves their generated storage at
+its default value. Properties whose schemas allow null retain their normal null
+representation.
+
+---
+
+## Multipart form data
+
+Optional form parameters are generated as `boost::optional<T>` arguments. Pass
+`boost::none` to omit a part; an engaged empty string still emits an empty part.
+Required form parameters retain their value types.
+Value-typed overloads preserve existing call sites by forwarding form values as
+engaged optionals.
+
+Each binary multipart method parameter has a companion `<parameter>Filename`
+argument. It defaults to the OpenAPI part name for source compatibility; pass
+any value, including an empty string, to control the `filename` parameter in
+`Content-Disposition`. Carriage returns and line feeds are rejected in part
+names, filenames, and per-part content types.
+
 ---
 
 ## Compliance testing

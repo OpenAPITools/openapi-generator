@@ -51,6 +51,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     private static final String SSE_SCHEMA_MODE_JSON_EVENT_DATA = "jsonEventData";
     /** Controls composition-branch validation during model decoding. */
     private boolean validateOnDecode = true;
+    /** Opt-in compatibility mode for server responses that send undeclared nulls. */
+    private boolean tolerateNonNullableNulls = false;
 
     private static final String X_CODEGEN_IS_RAW_BODY = "x-codegen-is-raw-body";
     private static final String X_CODEGEN_IS_OPTIONAL_QUERY_PARAMETER =
@@ -62,6 +64,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             "x-codegen-param-allow-reserved";
     private static final String X_CODEGEN_PARAM_ALLOW_EMPTY_VALUE =
             "x-codegen-param-allow-empty-value";
+    private static final String X_CPP_TOLERATE_NONNULLABLE_NULL =
+            "x-cpp-tolerate-nonnullable-null";
     private final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
     /** Tracks model names resolved as oneOf/anyOf variant types for shared_ptr exclusion. */
     private Set<String> variantModels = new HashSet<>();
@@ -446,6 +450,15 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         compileWithValidationOption.defaultValue(Boolean.TRUE.toString());
         cliOptions.add(compileWithValidationOption);
+        CliOption tolerateNonNullableNullsOption = new CliOption(
+                "tolerateNonNullableNulls",
+                "Treat explicit JSON null values as absent for generated model properties"
+                + " whose schemas do not allow null. This opt-in compatibility mode"
+                + " tolerates non-conforming server responses while preserving required-key"
+                + " presence checks; non-null values remain fully validated.");
+        tolerateNonNullableNullsOption.defaultValue(Boolean.FALSE.toString());
+        cliOptions.add(tolerateNonNullableNullsOption);
+
 
         supportingFiles.add(new SupportingFile("validation-types.mustache", "model", "ValidationTypes.h"));
         supportingFiles.add(new SupportingFile("NullableField.h.mustache", "model", "NullableField.h"));
@@ -1279,6 +1292,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 CodegenModel cm = modelMap.getModel();
                 boolean needsNullableFieldInclude = false;
                 for (CodegenProperty var : allVarsOf(cm)) {
+                    if (tolerateNonNullableNulls && !var.isNullable) {
+                        var.vendorExtensions.put(X_CPP_TOLERATE_NONNULLABLE_NULL, true);
+                    }
                     if (!var.isNullable || var.dataType == null
                             || Boolean.TRUE.equals(var.vendorExtensions.get("x-cpp-nullable-field"))) {
                         continue;
@@ -2302,6 +2318,15 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         if (!validateOnDecode) {
             supportingFiles.removeIf(CppBoostBeastClientCodegen::isSchemaValidationSupportingFile);
         }
+        if (additionalProperties.containsKey("tolerateNonNullableNulls")) {
+            Object raw = additionalProperties.get("tolerateNonNullableNulls");
+            if (raw instanceof Boolean) {
+                tolerateNonNullableNulls = (Boolean) raw;
+            } else {
+                tolerateNonNullableNulls = Boolean.parseBoolean(raw.toString().trim());
+            }
+        }
+        additionalProperties.put("tolerateNonNullableNulls", tolerateNonNullableNulls);
     }
 
     /**

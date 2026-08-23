@@ -1585,6 +1585,9 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {
         const auto {{name}}It = object.find("{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}");
         if ({{name}}It != object.end()) {
+            {{#vendorExtensions.x-cpp-tolerate-nonnullable-null}}
+            if (!{{name}}It->value().is_null()) {
+            {{/vendorExtensions.x-cpp-tolerate-nonnullable-null}}
             try {
                 {{#vendorExtensions.x-cpp-nullable-field}}
                 if ({{name}}It->value().is_null()) {
@@ -1600,6 +1603,9 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
                 throw std::invalid_argument(
                     "Decode failed for '{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}' in {{classname}}: " + std::string(ex.what()));
             }
+            {{#vendorExtensions.x-cpp-tolerate-nonnullable-null}}
+            }
+            {{/vendorExtensions.x-cpp-tolerate-nonnullable-null}}
         }{{#required}} else {
             throw std::invalid_argument("Required field '{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}' not found in {{classname}}");
         }{{/required}}
@@ -1623,6 +1629,9 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
         }
         {{/required}}
         if (it != object.end()) {
+            {{#vendorExtensions.x-cpp-tolerate-nonnullable-null}}
+            if (!it->value().is_null()) {
+            {{/vendorExtensions.x-cpp-tolerate-nonnullable-null}}
             {{#vendorExtensions.x-cpp-const-is-string}}
             if (!it->value().is_string()) {
                 throw std::invalid_argument(
@@ -1660,6 +1669,9 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
             }
             {{/vendorExtensions.x-cpp-const-is-boolean}}
             {{/vendorExtensions.x-cpp-const-is-string}}
+            {{#vendorExtensions.x-cpp-tolerate-nonnullable-null}}
+            }
+            {{/vendorExtensions.x-cpp-tolerate-nonnullable-null}}
         }
     }
     {{/vendorExtensions.x-cpp-const-inline-value}}

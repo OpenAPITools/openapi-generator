@@ -161,10 +161,41 @@ public class CppBoostBeastClientApiCodegenTest {
         assertTrue(multipartMethod.contains("\"file\","));
         assertTrue(multipartMethod.contains("true,\n        \"application/octet-stream\""),
                 "Binary file must pass true and application/octet-stream as 4th arg");
+        assertTrue(generatedApiHeader.contains("const std::string& fileFilename = \"file\""),
+                "Binary multipart inputs must expose a caller-controlled filename");
+        assertTrue(generatedApiHeader.contains(
+                "const boost::optional<std::string>& description"),
+                "Optional multipart inputs must expose an omitted state");
+        assertTrue(generatedApiHeader.contains(
+                "const boost::optional<std::string>& file"),
+                "Optional binary multipart inputs must expose an omitted state");
+        assertTrue(generatedApiHeader.contains(
+                "const std::string& description, const std::string& file,"
+                + " const std::string& fileFilename = \"file\") {"),
+                "Value-typed multipart calls must remain source-compatible");
+        assertTrue(generatedApiHeader.contains(
+                "boost::optional<std::string>(description),"
+                + " boost::optional<std::string>(file), fileFilename);"),
+                "Value-typed multipart overloads must forward to omission-aware storage");
+        assertTrue(multipartMethod.contains(
+                "\"application/octet-stream\",\n        fileFilename)"),
+                "Binary multipart inputs must pass the caller-controlled filename");
+        assertTrue(multipartMethod.contains("if (hasFormParameterValue(description))"),
+                "Optional multipart inputs must be omitted when their storage is disengaged");
+        assertTrue(multipartMethod.contains("toFormParameterValue(*description)"),
+                "Engaged optional multipart values must serialize their contained value");
+        assertTrue(generatedApiSource.contains("std::string filename;"));
+        assertTrue(generatedApiSource.contains(
+                "escapeMultipartParameter(formParameter.filename)"));
+        assertTrue(generatedApiSource.contains("attempt < 16"),
+                "Multipart boundary collision retries must remain bounded");
+        assertTrue(generatedApiSource.contains(
+                "validateMultipartHeaderValue(formParameter.contentType)"),
+                "Multipart content types must reject header injection");
 
         String urlEncodedMethod = extractMethod(generatedApiSource, "RegressionApi::postUrlEncodedForm(");
         assertTrue(urlEncodedMethod.contains("serializeUrlEncodedFormData(formParameters)"));
-        assertTrue(urlEncodedMethod.contains("toFormParameterValue(enabled)"));
+        assertTrue(urlEncodedMethod.contains("toFormParameterValue(*enabled)"));
         assertTrue(generatedApiSource.contains(
                 "inline std::string toFormParameterValue(bool value)"));
 

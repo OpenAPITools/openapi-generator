@@ -160,7 +160,10 @@ public class ModelApiSurfaceTest {
                 "LIBRARY DESTINATION \"${CMAKE_INSTALL_LIBDIR}\"",
                 "ARCHIVE DESTINATION \"${CMAKE_INSTALL_LIBDIR}\"",
                 "install(DIRECTORY api model",
-                "DESTINATION \"${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}\"");
+                "DESTINATION \"${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}\"",
+                "enable_testing()",
+                "target_link_libraries(${PROJECT_NAME}_multipart_wire_test",
+                "PRIVATE Boost::boost");
     }
 
     @Test
@@ -585,59 +588,59 @@ public class ModelApiSurfaceTest {
 
         // 1. uploadWithEncoding: image/png and application/pdf as 4th emplace_back arg.
         String uploadWithEnc = CppBoostBeastTestSupport.extractMethod(apiContent, "uploadWithEncoding(");
-        Assert.assertTrue(uploadWithEnc.contains("\"image\",\n        toFormParameterValue(image),\n        true,\n        \"image/png\""),
+        Assert.assertTrue(uploadWithEnc.contains("\"image\",\n        toFormParameterValue(*image),\n        true,\n        \"image/png\""),
                 "uploadWithEncoding image must pass 'image/png' as 4th FormParameter arg. "
                 + "Method body: " + uploadWithEnc);
-        Assert.assertTrue(uploadWithEnc.contains("\"document\",\n        toFormParameterValue(document),\n        true,\n        \"application/pdf\""),
+        Assert.assertTrue(uploadWithEnc.contains("\"document\",\n        toFormParameterValue(*document),\n        true,\n        \"application/pdf\""),
                 "uploadWithEncoding document must pass 'application/pdf' as 4th FormParameter arg. "
                 + "Method body: " + uploadWithEnc);
         // description (string, no encoding) — OAS default text/plain.
-        Assert.assertTrue(uploadWithEnc.contains("\"description\",\n        toFormParameterValue(description),\n        false,\n        \"text/plain\""),
+        Assert.assertTrue(uploadWithEnc.contains("\"description\",\n        toFormParameterValue(*description),\n        false,\n        \"text/plain\""),
                 "uploadWithEncoding description (string, no encoding) must pass 'text/plain' as 4th FormParameter arg. "
                 + "Method body: " + uploadWithEnc);
 
         // 2. uploadTextWithEncoding: text/plain as 4th arg on textContent.
         String uploadText = CppBoostBeastTestSupport.extractMethod(apiContent, "uploadTextWithEncoding(");
-        Assert.assertTrue(uploadText.contains("\"textContent\",\n        toFormParameterValue(textContent),\n        false,\n        \"text/plain\""),
+        Assert.assertTrue(uploadText.contains("\"textContent\",\n        toFormParameterValue(*textContent),\n        false,\n        \"text/plain\""),
                 "uploadTextWithEncoding textContent must pass 'text/plain' as 4th FormParameter arg. "
                 + "Method body: " + uploadText);
         // notes is binary without encoding — OAS default octet-stream.
-        Assert.assertTrue(uploadText.contains("\"notes\",\n        toFormParameterValue(notes),\n        true,\n        \"application/octet-stream\""),
+        Assert.assertTrue(uploadText.contains("\"notes\",\n        toFormParameterValue(*notes),\n        true,\n        \"application/octet-stream\""),
                 "uploadTextWithEncoding notes (binary, no encoding) must pass 'application/octet-stream' as OAS default. "
                 + "Method body: " + uploadText);
 
         // 3. uploadBinaryDefault: rawData (binary, no encoding) gets OAS default.
         String uploadBinary = CppBoostBeastTestSupport.extractMethod(apiContent, "uploadBinaryDefault(");
-        Assert.assertTrue(uploadBinary.contains("\"rawData\",\n        toFormParameterValue(rawData),\n        true,\n        \"application/octet-stream\""),
+        Assert.assertTrue(uploadBinary.contains("\"rawData\",\n        toFormParameterValue(*rawData),\n        true,\n        \"application/octet-stream\""),
                 "uploadBinaryDefault rawData (binary, no encoding) must pass 'application/octet-stream' as OAS default. "
                 + "Method body: " + uploadBinary);
 
         // 4. uploadMixedEncoding: avatar and report get encoding; signature gets default.
         String uploadMixed = CppBoostBeastTestSupport.extractMethod(apiContent, "uploadMixedEncoding(");
-        Assert.assertTrue(uploadMixed.contains("\"avatar\",\n        toFormParameterValue(avatar),\n        true,\n        \"image/png\""),
+        Assert.assertTrue(uploadMixed.contains("\"avatar\",\n        toFormParameterValue(*avatar),\n        true,\n        \"image/png\""),
                 "uploadMixedEncoding avatar must pass 'image/png' as 4th arg. "
                 + "Method body: " + uploadMixed);
-        Assert.assertTrue(uploadMixed.contains("\"report\",\n        toFormParameterValue(report),\n        true,\n        \"application/pdf\""),
+        Assert.assertTrue(uploadMixed.contains("\"report\",\n        toFormParameterValue(*report),\n        true,\n        \"application/pdf\""),
                 "uploadMixedEncoding report must pass 'application/pdf' as 4th arg. "
                 + "Method body: " + uploadMixed);
         // signature without encoding — File with OAS default octet-stream.
-        Assert.assertTrue(uploadMixed.contains("\"signature\",\n        toFormParameterValue(signature),\n        true,\n        \"application/octet-stream\""),
+        Assert.assertTrue(uploadMixed.contains("\"signature\",\n        toFormParameterValue(*signature),\n        true,\n        \"application/octet-stream\""),
                 "uploadMixedEncoding signature (binary, no encoding) must pass 'application/octet-stream' as OAS default. "
                 + "Method body: " + uploadMixed);
 
         // 5. uploadJsonObject: payload (object, no encoding) — OAS default application/json.
         String uploadJson = CppBoostBeastTestSupport.extractMethod(apiContent, "uploadJsonObject(");
-        Assert.assertTrue(uploadJson.contains("\"payload\",\n        toFormParameterValue(payload),\n        false,\n        \"application/json\""),
+        Assert.assertTrue(uploadJson.contains("\"payload\",\n        toFormParameterValue(*payload),\n        false,\n        \"application/json\""),
                 "uploadJsonObject payload (object, no encoding) must pass 'application/json' as 4th FormParameter arg. "
                 + "Method body: " + uploadJson);
 
         // 6. uploadArrayPart: tags (primitive array, no encoding) — OAS default text/plain.
         String uploadArray = CppBoostBeastTestSupport.extractMethod(apiContent, "uploadArrayPart(");
-        Assert.assertTrue(uploadArray.contains("\"tags\",\n        toFormParameterValue(tags),\n        false,\n        \"text/plain\""),
+        Assert.assertTrue(uploadArray.contains("\"tags\",\n        toFormParameterValue(*tags),\n        false,\n        \"text/plain\""),
                 "uploadArrayPart tags (primitive array, no encoding) must pass 'text/plain' as 4th FormParameter arg. "
                 + "Method body: " + uploadArray);
         // file (binary, no encoding) gets OAS default octet-stream.
-        Assert.assertTrue(uploadArray.contains("\"file\",\n        toFormParameterValue(file),\n        true,\n        \"application/octet-stream\""),
+        Assert.assertTrue(uploadArray.contains("\"file\",\n        toFormParameterValue(*file),\n        true,\n        \"application/octet-stream\""),
                 "uploadArrayPart file (binary, no encoding) must pass 'application/octet-stream' as OAS default. "
                 + "Method body: " + uploadArray);
     }
@@ -1493,6 +1496,50 @@ public class ModelApiSurfaceTest {
         CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
         codegen.additionalProperties().put("formatAssertionPolicy", "strict");
         Assert.assertThrows(IllegalArgumentException.class, codegen::processOpts);
+    }
+
+    @Test
+    public void tolerateNonNullableNullsIsOptInAndSkipsPresentNullValues() throws IOException {
+        CppBoostBeastClientCodegen defaults = new CppBoostBeastClientCodegen();
+        defaults.processOpts();
+        Assert.assertEquals(defaults.additionalProperties().get("tolerateNonNullableNulls"),
+                false,
+                "Non-conforming null responses must remain strict by default");
+
+        Path strictOutput = Files.createTempDirectory(
+                Path.of("target"), "cpp-boost-beast-strict-null-");
+        strictOutput.toFile().deleteOnExit();
+        CodegenConfigurator strictConfigurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/model-generation-regression.yaml")
+                .setOutputDir(strictOutput.toString());
+        List<File> strictFiles = new DefaultGenerator()
+                .opts(strictConfigurator.toClientOptInput()).generate();
+        Assert.assertFalse(strictFiles.isEmpty(), "strict generation must produce files");
+        String strictSource = Files.readString(strictOutput.resolve("model/ContainerModel.cpp"));
+        Assert.assertFalse(strictSource.contains("if (!RequiredValueIt->value().is_null())"),
+                "Default decoding must not suppress a required non-nullable null");
+
+        Path output = Files.createTempDirectory(Path.of("target"), "cpp-boost-beast-null-tolerance-");
+        output.toFile().deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/model-generation-regression.yaml")
+                .addAdditionalProperty("tolerateNonNullableNulls", "true")
+                .setOutputDir(output.toString());
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Assert.assertFalse(files.isEmpty(), "generation must produce files");
+
+        String source = Files.readString(output.resolve("model/ContainerModel.cpp"));
+        Assert.assertTrue(source.contains("if (OptionalScalarIt != object.end())"));
+        Assert.assertTrue(source.contains("if (!OptionalScalarIt->value().is_null())"),
+                "Compatibility mode must treat an optional non-nullable null as absent");
+        Assert.assertTrue(source.contains("if (RequiredValueIt != object.end())"));
+        Assert.assertTrue(source.contains("if (!RequiredValueIt->value().is_null())"),
+                "A present required key with null must be tolerated in compatibility mode");
+        Assert.assertTrue(source.contains(
+                "Required field 'requiredValue' not found in ContainerModel"),
+                "Compatibility mode must still reject a missing required key");
     }
 
     @Test

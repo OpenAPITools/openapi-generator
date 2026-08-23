@@ -121,11 +121,14 @@ install(DIRECTORY api model
 # ──────────────────────────────────────────────────────────────────────
 option(MULTIPART_ENCODING_SELF_TEST "Enable multipart encoding wire-level self-test" OFF)
 if (MULTIPART_ENCODING_SELF_TEST)
+    enable_testing()
     add_executable(${PROJECT_NAME}_multipart_wire_test
         test/MultipartWireTest.cpp)
 
     set_property(TARGET ${PROJECT_NAME}_multipart_wire_test
         PROPERTY CXX_STANDARD 17)
+    target_link_libraries(${PROJECT_NAME}_multipart_wire_test
+        PRIVATE Boost::boost)
 
     add_test(NAME multipart-encoding-wire-test
         COMMAND ${PROJECT_NAME}_multipart_wire_test)

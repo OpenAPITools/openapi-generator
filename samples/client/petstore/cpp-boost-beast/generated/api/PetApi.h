@@ -119,7 +119,14 @@ public:
     /// </remarks>
     virtual void
     updatePetWithForm(
-        const std::int64_t& petId, const std::string& name, const std::string& status);
+        const std::int64_t& petId, const boost::optional<std::string>& name, const boost::optional<std::string>& status);
+    /// Backward-compatible overload preserving value-typed form arguments.
+    virtual void
+    updatePetWithForm(
+        const std::int64_t& petId, const std::string& name, const std::string& status) {
+        return updatePetWithForm(
+            petId, boost::optional<std::string>(name), boost::optional<std::string>(status));
+    }
     /// <summary>
     /// Finds Pets by status
     /// </summary>
@@ -148,7 +155,15 @@ public:
     /// </remarks>
     virtual std::shared_ptr<ApiResponse>
     uploadFile(
-        const std::int64_t& petId, const std::string& additionalMetadata, const std::string& file);
+        const std::int64_t& petId, const boost::optional<std::string>& additionalMetadata, const boost::optional<std::string>& file, const std::string& fileFilename = "file");
+    /// Backward-compatible overload preserving value-typed form arguments.
+    virtual std::shared_ptr<ApiResponse>
+    uploadFile(
+        const std::int64_t& petId, const std::string& additionalMetadata, const std::string& file, const std::string& fileFilename = "file") {
+        return uploadFile(
+            petId, boost::optional<std::string>(additionalMetadata), boost::optional<std::string>(file), fileFilename);
+    }
+
 
 
     /// Credential hook invoked before each operation with its effective security

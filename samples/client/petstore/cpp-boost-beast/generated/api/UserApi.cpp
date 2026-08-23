@@ -25,12 +25,14 @@
 #include <vector>
 #include <optional>
 #include <variant>
+#include <random>
 
 #include <boost/beast/http/status.hpp>
 #include <boost/version.hpp>
 #include <boost/beast/core/detail/base64.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/json.hpp>
+#include <boost/optional.hpp>
 
 #include "ValidationTypes.h"
 #include "Oas31ExactJson.h"
@@ -87,16 +89,38 @@ inline bool isJsonContentType(const std::string& contentType) {
 
 struct FormParameter {
     FormParameter(std::string parameterName, std::string parameterValue, bool file,
-                  std::string contentType = "")
+                  std::string contentType = "", std::string fileName = "")
         : name(std::move(parameterName)), value(std::move(parameterValue)),
-          isFile(file), contentType(std::move(contentType)) {
+          isFile(file), contentType(std::move(contentType)),
+          filename(std::move(fileName)) {
     }
 
     std::string name;
     std::string value;
     bool isFile;
     std::string contentType;
+    std::string filename;
 };
+
+template<typename T>
+bool hasFormParameterValue(const T&) noexcept {
+    return true;
+}
+
+template<typename T>
+bool hasFormParameterValue(const std::shared_ptr<T>& value) noexcept {
+    return value != nullptr;
+}
+
+template<typename T>
+bool hasFormParameterValue(const std::optional<T>& value) noexcept {
+    return value.has_value();
+}
+
+template<typename T>
+bool hasFormParameterValue(const boost::optional<T>& value) noexcept {
+    return value.has_value();
+}
 
 
 inline std::string toFormParameterValue(const std::string& value) {
@@ -793,8 +817,21 @@ inline std::string serializeUrlEncodedFormData(const std::vector<FormParameter>&
 }
 
 inline std::string selectMultipartBoundary(const std::vector<FormParameter>& formParameters) {
-    std::string boundary = "OpenAPIGeneratorBoundary";
-    for (;;) {
+    static const char hexDigits[] = "0123456789abcdef";
+    for (std::size_t attempt = 0; attempt < 16; ++attempt) {
+        std::string boundary = "OpenAPIGeneratorBoundary";
+        if (attempt != 0) {
+            std::random_device entropy;
+            boundary.reserve(57);
+            for (std::size_t wordIndex = 0; wordIndex < 4; ++wordIndex) {
+                std::uint32_t word = static_cast<std::uint32_t>(entropy());
+                for (std::size_t nibble = 0; nibble < 8; ++nibble) {
+                    boundary.push_back(hexDigits[word & 0x0FU]);
+                    word >>= 4U;
+                }
+            }
+            boundary.push_back(hexDigits[attempt & 0x0FU]);
+        }
         const auto collision = std::find_if(
             formParameters.cbegin(),
             formParameters.cend(),
@@ -804,11 +841,18 @@ inline std::string selectMultipartBoundary(const std::vector<FormParameter>& for
         if (collision == formParameters.cend()) {
             return boundary;
         }
-        boundary.push_back('X');
+    }
+    throw std::runtime_error("Unable to select a collision-free multipart boundary");
+}
+
+inline void validateMultipartHeaderValue(const std::string& value) {
+    if (value.find_first_of("\r\n") != std::string::npos) {
+        throw std::invalid_argument("Multipart header value contains CR or LF");
     }
 }
 
 inline std::string escapeMultipartParameter(const std::string& value) {
+    validateMultipartHeaderValue(value);
     std::string escapedValue;
     escapedValue.reserve(value.size());
     for (const char character : value) {
@@ -830,10 +874,11 @@ inline std::string serializeMultipartFormData(
                            << escapeMultipartParameter(formParameter.name) << '"';
         if (formParameter.isFile) {
             serializedFormData << "; filename=\""
-                               << escapeMultipartParameter(formParameter.name) << '"';
+                               << escapeMultipartParameter(formParameter.filename) << '"';
         }
         serializedFormData << "\r\n";
         if (!formParameter.contentType.empty()) {
+            validateMultipartHeaderValue(formParameter.contentType);
             serializedFormData << "Content-Type: " << formParameter.contentType << "\r\n";
         } else if (formParameter.isFile) {
             serializedFormData << "Content-Type: application/octet-stream\r\n";
@@ -960,6 +1005,7 @@ boost::json::value toRequestJsonValue(const std::map<std::string, T>& requestVal
 //   - value   : the serialized part body
 //   - isFile  : if true, adds filename and defaults to octet-stream
 //   - contentType : explicit Content-Type override (Encoding Object)
+//   - filename : caller-controlled file name (defaults to the part name)
 //
 // Content-Type precedence (OAS 3.0 §10.4):
 //   1. Encoding Object contentType on the property
@@ -992,7 +1038,7 @@ void addVariantFormParameter(
             std::string partContentType = resolvedContentType.empty()
                 ? "application/octet-stream" : resolvedContentType;
             formParameters.emplace_back(name, toFormParameterValue(branch), true,
-                                        partContentType);
+                                        partContentType, name);
         } else {
             // Object or string branch — serialize as JSON part
             std::string partContentType = resolvedContentType.empty()

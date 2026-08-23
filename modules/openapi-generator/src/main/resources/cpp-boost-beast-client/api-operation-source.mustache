@@ -1,6 +1,6 @@
 {{#vendorExtensions.x-codegen-response-union}}{{vendorExtensions.x-codegen-response-union}}{{/vendorExtensions.x-codegen-response-union}}{{^vendorExtensions.x-codegen-response-union}}{{#vendorExtensions.x-codegen-streaming-response}}std::vector<{{#vendorExtensions.x-codegen-sse-representation-mode}}std::string{{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}{{#vendorExtensions.x-codegen-stream-element-type}}{{{.}}}{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/vendorExtensions.x-codegen-stream-element-type}}{{/vendorExtensions.x-codegen-sse-representation-mode}}>{{/vendorExtensions.x-codegen-streaming-response}}{{^vendorExtensions.x-codegen-streaming-response}}{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/vendorExtensions.x-codegen-streaming-response}}{{/vendorExtensions.x-codegen-response-union}}
 {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
-    {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}>{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams}}{{#vendorExtensions.x-codegen-multipart-filename-param}}, const std::string& {{{vendorExtensions.x-codegen-multipart-filename-param-name}}}{{/vendorExtensions.x-codegen-multipart-filename-param}}{{/allParams}}) {
     std::string serializedRequestBody;
     std::string path = operationServerPrefix(m_context, "{{{vendorExtensions.x-codegen-op-server}}}") + "{{{vendorExtensions.x-codegen-cpp-path}}}";
     std::map<std::string, std::string> headers;
@@ -33,13 +33,16 @@
     std::vector<FormParameter> formParameters;
 {{#allParams}}
 {{#isFormParam}}
+{{^required}}
+    if (hasFormParameterValue({{{paramName}}})) {
+{{/required}}
 {{#vendorExtensions.x-codegen-is-variant-form-param}}
-    addVariantFormParameter(formParameters, "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}", {{{paramName}}}{{#contentType}}, "{{#lambda.cppStringLiteral}}{{contentType}}{{/lambda.cppStringLiteral}}"{{/contentType}});
+    addVariantFormParameter(formParameters, "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}", {{#vendorExtensions.x-codegen-is-optional-form-parameter}}*{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{{paramName}}}{{#contentType}}, "{{#lambda.cppStringLiteral}}{{contentType}}{{/lambda.cppStringLiteral}}"{{/contentType}});
 {{/vendorExtensions.x-codegen-is-variant-form-param}}
 {{^vendorExtensions.x-codegen-is-variant-form-param}}
     formParameters.emplace_back(
         "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}",
-        toFormParameterValue({{{paramName}}}),
+        toFormParameterValue({{#vendorExtensions.x-codegen-is-optional-form-parameter}}*{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{{paramName}}}),
         {{#isFile}}true{{/isFile}}{{^isFile}}{{#isBinary}}true{{/isBinary}}{{^isBinary}}false{{/isBinary}}{{/isFile}}{{#contentType}},
         "{{#lambda.cppStringLiteral}}{{contentType}}{{/lambda.cppStringLiteral}}"{{/contentType}}{{^contentType}}{{#isFile}},
         "application/octet-stream"{{/isFile}}{{^isFile}}{{#isBinary}},
@@ -48,8 +51,12 @@
         "application/json"{{/isMap}}{{/isFile}}{{^isFile}}{{#isModel}},
         "application/json"{{/isModel}}{{/isFile}}{{^isFile}}{{#isArray}}{{#items.isModel}},
         "application/json"{{/items.isModel}}{{^items.isModel}},
-        "text/plain"{{/items.isModel}}{{/isArray}}{{/isFile}}{{/contentType}});
+        "text/plain"{{/items.isModel}}{{/isArray}}{{/isFile}}{{/contentType}}{{#vendorExtensions.x-codegen-multipart-filename-param}},
+        {{{vendorExtensions.x-codegen-multipart-filename-param-name}}}{{/vendorExtensions.x-codegen-multipart-filename-param}});
 {{/vendorExtensions.x-codegen-is-variant-form-param}}
+{{^required}}
+    }
+{{/required}}
 {{/isFormParam}}
 {{/allParams}}
     if (normalizeMediaType(requestContentType) == "multipart/form-data") {
@@ -446,7 +453,7 @@
 {{#vendorExtensions.x-codegen-dual-content}}
  {{#vendorExtensions.x-codegen-sse-representation-mode}}std::vector<std::string>{{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}{{#vendorExtensions.x-codegen-dual-stream-element-type}}std::vector<{{{.}}}>{{/vendorExtensions.x-codegen-dual-stream-element-type}}{{^vendorExtensions.x-codegen-dual-stream-element-type}}std::vector<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>{{/vendorExtensions.x-codegen-dual-stream-element-type}}{{/vendorExtensions.x-codegen-sse-representation-mode}}
 {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}Stream(
-    {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}>{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams}}{{#vendorExtensions.x-codegen-multipart-filename-param}}, const std::string& {{{vendorExtensions.x-codegen-multipart-filename-param-name}}}{{/vendorExtensions.x-codegen-multipart-filename-param}}{{/allParams}}) {
     std::string serializedRequestBody;
     std::string path = operationServerPrefix(m_context, "{{{vendorExtensions.x-codegen-op-server}}}") + "{{{vendorExtensions.x-codegen-cpp-path}}}";
     std::map<std::string, std::string> headers;
@@ -479,13 +486,16 @@
     std::vector<FormParameter> formParameters;
 {{#allParams}}
 {{#isFormParam}}
+{{^required}}
+    if (hasFormParameterValue({{{paramName}}})) {
+{{/required}}
 {{#vendorExtensions.x-codegen-is-variant-form-param}}
-    addVariantFormParameter(formParameters, "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}", {{{paramName}}}{{#contentType}}, "{{#lambda.cppStringLiteral}}{{contentType}}{{/lambda.cppStringLiteral}}"{{/contentType}});
+    addVariantFormParameter(formParameters, "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}", {{#vendorExtensions.x-codegen-is-optional-form-parameter}}*{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{{paramName}}}{{#contentType}}, "{{#lambda.cppStringLiteral}}{{contentType}}{{/lambda.cppStringLiteral}}"{{/contentType}});
 {{/vendorExtensions.x-codegen-is-variant-form-param}}
 {{^vendorExtensions.x-codegen-is-variant-form-param}}
     formParameters.emplace_back(
         "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}",
-        toFormParameterValue({{{paramName}}}),
+        toFormParameterValue({{#vendorExtensions.x-codegen-is-optional-form-parameter}}*{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{{paramName}}}),
         {{#isFile}}true{{/isFile}}{{^isFile}}{{#isBinary}}true{{/isBinary}}{{^isBinary}}false{{/isBinary}}{{/isFile}}{{#contentType}},
         "{{#lambda.cppStringLiteral}}{{contentType}}{{/lambda.cppStringLiteral}}"{{/contentType}}{{^contentType}}{{#isFile}},
         "application/octet-stream"{{/isFile}}{{^isFile}}{{#isBinary}},
@@ -494,8 +504,12 @@
         "application/json"{{/isMap}}{{/isFile}}{{^isFile}}{{#isModel}},
         "application/json"{{/isModel}}{{/isFile}}{{^isFile}}{{#isArray}}{{#items.isModel}},
         "application/json"{{/items.isModel}}{{^items.isModel}},
-        "text/plain"{{/items.isModel}}{{/isArray}}{{/isFile}}{{/contentType}});
+        "text/plain"{{/items.isModel}}{{/isArray}}{{/isFile}}{{/contentType}}{{#vendorExtensions.x-codegen-multipart-filename-param}},
+        {{{vendorExtensions.x-codegen-multipart-filename-param-name}}}{{/vendorExtensions.x-codegen-multipart-filename-param}});
 {{/vendorExtensions.x-codegen-is-variant-form-param}}
+{{^required}}
+    }
+{{/required}}
 {{/isFormParam}}
 {{/allParams}}
     if (normalizeMediaType(requestContentType) == "multipart/form-data") {

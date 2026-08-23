@@ -45,6 +45,14 @@ final class CppBoostBeastTemplateModelAssembler {
     private static final String X_CODEGEN_RESPONSE_UNION = "x-codegen-response-union";
     private static final String X_CODEGEN_RESPONSE_UNION_BODY_TYPE =
             "x-codegen-response-union-body-type";
+    private static final String X_CODEGEN_MULTIPART_FILENAME_PARAM =
+            "x-codegen-multipart-filename-param";
+    private static final String X_CODEGEN_MULTIPART_FILENAME_PARAM_NAME =
+            "x-codegen-multipart-filename-param-name";
+    private static final String X_CODEGEN_IS_OPTIONAL_FORM_PARAMETER =
+            "x-codegen-is-optional-form-parameter";
+    private static final String X_CODEGEN_HAS_OPTIONAL_FORM_PARAMETER =
+            "x-codegen-has-optional-form-parameter";
 
     private final OpenAPI phaseOpenApi;
     private final List<String> webhookPreservation;
@@ -281,6 +289,33 @@ final class CppBoostBeastTemplateModelAssembler {
         return url;
     }
 
+    private static void addMultipartParameterMetadata(CodegenOperation operation) {
+        Set<String> occupiedNames = new HashSet<>();
+        for (CodegenParameter parameter : operation.allParams) {
+            occupiedNames.add(parameter.paramName);
+        }
+        boolean hasOptionalFormParameter = false;
+        for (CodegenParameter parameter : operation.allParams) {
+            if (parameter.isFormParam && !parameter.required) {
+                parameter.vendorExtensions.put(X_CODEGEN_IS_OPTIONAL_FORM_PARAMETER, true);
+                hasOptionalFormParameter = true;
+            }
+            if (!parameter.isFormParam || (!parameter.isFile && !parameter.isBinary)) {
+                continue;
+            }
+            String filenameParamName = parameter.paramName + "Filename";
+            while (!occupiedNames.add(filenameParamName)) {
+                filenameParamName += "_";
+            }
+            parameter.vendorExtensions.put(X_CODEGEN_MULTIPART_FILENAME_PARAM, true);
+            parameter.vendorExtensions.put(
+                    X_CODEGEN_MULTIPART_FILENAME_PARAM_NAME, filenameParamName);
+        }
+        if (hasOptionalFormParameter) {
+            operation.vendorExtensions.put(X_CODEGEN_HAS_OPTIONAL_FORM_PARAMETER, true);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     OperationsMap assemble(OperationsMap objs, List<ModelMap> allModels) {
         // API templates need to know whether a model namespace exists. Upstream
@@ -295,6 +330,7 @@ final class CppBoostBeastTemplateModelAssembler {
         Set<String> nullDefaultModels = nullDefaultModelNames(allModels);
 
         for (CodegenOperation op : operationList) {
+            addMultipartParameterMetadata(op);
             addApiResponseMetadata(op, nullDefaultModels);
             addResponseUnionMetadata(op);
             op.vendorExtensions.put(X_CODEGEN_OP_SERVER,

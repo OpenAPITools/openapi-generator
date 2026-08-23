@@ -24,6 +24,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.client.model|
 |packageName|C++ package and library name.| |CppBoostBeastOpenAPIClient|
 |sseSchemaMode|SSE schema interpretation mode for text/event-stream responses. 'representation' (default): the response schema describes the text/event-stream media representation; return one raw data string per framed event. Non-data fields such as event, id, and retry are not surfaced. 'jsonEventData': the response schema describes each JSON data field; decode each event's data payload against the schema. Use the x-sse-event-data-schema vendor extension for per-operation opt-in to typed event-data decoding.|<dl><dt>**representation**</dt><dd>Strict mode &mdash; schema describes media representation</dd><dt>**jsonEventData**</dt><dd>Schema describes each JSON event data payload</dd></dl>|representation|
+|tolerateNonNullableNulls|Treat explicit JSON null values as absent for generated model properties whose schemas do not allow null. This opt-in compatibility mode tolerates non-conforming server responses while preserving required-key presence checks; non-null values remain fully validated.| |false|
 
 ## IMPORT MAPPING
 
