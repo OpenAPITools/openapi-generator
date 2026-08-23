@@ -721,6 +721,16 @@ void validateEnumValues(
     const std::map<std::string, MappedValue>& values,
     const std::array<EnumValue, Size>& allowedValues);
 
+template<typename Value, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::optional<Value>& value,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename Value, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const NullableField<Value>& value,
+    const std::array<EnumValue, Size>& allowedValues);
+
 template<typename EnumValue, std::size_t Size>
 void validateEnumValues(
     const EnumValue& value,
@@ -752,6 +762,26 @@ void validateEnumValues(
 {
     for (const auto& value : values) {
         validateEnumValues(value.second, allowedValues);
+    }
+}
+
+template<typename Value, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::optional<Value>& value,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    if (value.has_value()) {
+        validateEnumValues(value.value(), allowedValues);
+    }
+}
+
+template<typename Value, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const NullableField<Value>& value,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    if (value.hasValue()) {
+        validateEnumValues(value.value(), allowedValues);
     }
 }
 {{/hasEnums}}
@@ -1662,14 +1692,14 @@ void {{classname}}::{{setter}}({{{dataType}}} value)
         {{#mostInnerItems}}{{#isString}}{{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}{{^isString}}{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}{{/mostInnerItems}}
     };
     validateEnumValues(value, allowedValues);
-    {{/isContainer}}{{^isContainer}}static const std::array<{{{dataType}}}, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> allowedValues = {
+    {{/isContainer}}{{^isContainer}}static const std::array<{{#vendorExtensions.x-cpp-enum-value-type}}{{{vendorExtensions.x-cpp-enum-value-type}}}{{/vendorExtensions.x-cpp-enum-value-type}}{{^vendorExtensions.x-cpp-enum-value-type}}{{{dataType}}}{{/vendorExtensions.x-cpp-enum-value-type}}, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> allowedValues = {
         {{#isString}}{{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}{{^isString}}{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{/isString}}
     };
-    if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
+    {{#vendorExtensions.x-cpp-enum-value-type}}validateEnumValues(value, allowedValues);{{/vendorExtensions.x-cpp-enum-value-type}}{{^vendorExtensions.x-cpp-enum-value-type}}if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
         std::ostringstream errorMessage;
         errorMessage << "Value not allowed";
         throw std::runtime_error(errorMessage.str());
-    }
+    }{{/vendorExtensions.x-cpp-enum-value-type}}
     {{/isContainer}}{{/isEnum}}
     {{#parent}}
     write{{name}}Property<{{{parent}}}>({{classname}}{{name}}PropertyIsInherited<{{{parent}}}>(), m_{{name}}, std::move(value));

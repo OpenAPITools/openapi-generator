@@ -1287,6 +1287,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                             .get(Oas31RawSpecRecovery.LEGACY_NULLABLE_EXT))) {
                         continue;
                     }
+                    if (var.isEnum) {
+                        var.vendorExtensions.put(
+                                "x-cpp-enum-value-type",
+                                innerType == null ? var.dataType : innerType);
+                    }
                     if (var.required) {
                         if (innerType == null) {
                             var.dataType = "std::optional<" + var.dataType + ">";

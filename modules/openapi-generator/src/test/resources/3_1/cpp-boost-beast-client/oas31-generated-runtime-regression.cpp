@@ -17,6 +17,7 @@
 #include "model/DuplicateNull.h"
 #include "model/OuterUnion.h"
 #include "model/Simple.h"
+#include "model/NullableEnumBox.h"
 #include "model/StreamChunk.h"
 #include "model/TaggedUnionContainer.h"
 #include "api/DefaultApi.cpp"
@@ -159,6 +160,39 @@ int main() {
            "model-qualified branch predicate did not identify branch zero");
     expect(model::getDuplicateNullBranch0(taggedNull) == nullptr,
            "model-qualified branch getter returned the wrong value");
+
+    model::NullableEnumBox nullableEnums;
+    expect(nullableEnums.getOptionalEnum().isMissing(),
+           "optional nullable enum did not default to missing");
+    nullableEnums.setOptionalEnum(NullableField<std::string>::makeNull());
+    expect(nullableEnums.getOptionalEnum().isNull(),
+           "optional nullable enum rejected null");
+    nullableEnums.setOptionalEnum(NullableField<std::string>("standard"));
+    expect(nullableEnums.getOptionalEnum().value() == "standard",
+           "optional nullable enum rejected an allowed value");
+    bool rejectedOptionalEnum = false;
+    try {
+        nullableEnums.setOptionalEnum(NullableField<std::string>("invalid"));
+    } catch (const std::runtime_error&) {
+        rejectedOptionalEnum = true;
+    }
+    expect(rejectedOptionalEnum,
+           "optional nullable enum accepted a disallowed value");
+
+    nullableEnums.setRequiredEnum(std::nullopt);
+    expect(!nullableEnums.getRequiredEnum().has_value(),
+           "required nullable enum rejected null");
+    nullableEnums.setRequiredEnum(std::optional<std::string>("auto"));
+    expect(nullableEnums.getRequiredEnum().value() == "auto",
+           "required nullable enum rejected an allowed value");
+    bool rejectedRequiredEnum = false;
+    try {
+        nullableEnums.setRequiredEnum(std::optional<std::string>("invalid"));
+    } catch (const std::runtime_error&) {
+        rejectedRequiredEnum = true;
+    }
+    expect(rejectedRequiredEnum,
+           "required nullable enum accepted a disallowed value");
 
     bool rejectedUnrepresentableNumber = false;
     try {

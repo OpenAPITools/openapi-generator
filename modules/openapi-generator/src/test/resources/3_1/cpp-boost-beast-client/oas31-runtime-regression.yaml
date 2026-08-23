@@ -146,3 +146,15 @@ components:
         required_referenced_nullable:
           $ref: '#/components/schemas/Simple'
           nullable: true
+    NullableEnumBox:
+      type: object
+      required: [required_enum]
+      properties:
+        optional_enum:
+          type: string
+          enum: [standard, hd]
+          nullable: true
+        required_enum:
+          type: string
+          enum: [auto, low]
+          nullable: true
