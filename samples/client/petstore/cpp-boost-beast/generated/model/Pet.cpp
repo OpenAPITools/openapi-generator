@@ -110,6 +110,16 @@ void validateEnumValues(
     const std::map<std::string, MappedValue>& values,
     const std::array<EnumValue, Size>& allowedValues);
 
+template<typename Value, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::optional<Value>& value,
+    const std::array<EnumValue, Size>& allowedValues);
+
+template<typename Value, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const NullableField<Value>& value,
+    const std::array<EnumValue, Size>& allowedValues);
+
 template<typename EnumValue, std::size_t Size>
 void validateEnumValues(
     const EnumValue& value,
@@ -141,6 +151,26 @@ void validateEnumValues(
 {
     for (const auto& value : values) {
         validateEnumValues(value.second, allowedValues);
+    }
+}
+
+template<typename Value, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const std::optional<Value>& value,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    if (value.has_value()) {
+        validateEnumValues(value.value(), allowedValues);
+    }
+}
+
+template<typename Value, typename EnumValue, std::size_t Size>
+void validateEnumValues(
+    const NullableField<Value>& value,
+    const std::array<EnumValue, Size>& allowedValues)
+{
+    if (value.hasValue()) {
+        validateEnumValues(value.value(), allowedValues);
     }
 }
 

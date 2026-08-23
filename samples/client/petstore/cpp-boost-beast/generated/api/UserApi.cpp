@@ -1333,6 +1333,10 @@ template<typename EventVariant, typename Converter>
 void appendParsedEvent(std::vector<EventVariant>& events,
                        const std::string& eventData,
                        Converter&& converter) {
+    // Data-only SSE APIs commonly use this non-JSON payload as an end marker.
+    if (eventData == "[DONE]") {
+        return;
+    }
     org::openapitools::client::model::detail::schema_validation::ExactJsonValue exactEvent = org::openapitools::client::model::detail::schema_validation::parseExactJson(eventData);
     org::openapitools::client::model::detail::schema_validation::requireModelConvertibleJson(exactEvent);
     org::openapitools::client::model::detail::schema_validation::ExactInstanceScope exactScope(exactEvent);

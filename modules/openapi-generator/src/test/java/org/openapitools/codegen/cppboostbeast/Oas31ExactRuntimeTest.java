@@ -196,6 +196,91 @@ public class Oas31ExactRuntimeTest {
     }
 
     @Test
+    public void compileWithValidationFalseStripsSchemaValidationAndKeepsRepresentationChecks()
+            throws Exception {
+        Path outputRoot = Files.createDirectories(Path.of("target"));
+        Path output = Files.createTempDirectory(outputRoot, "oas31-validation-disabled-");
+        output.toFile().deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec(
+                        "src/test/resources/3_1/cpp-boost-beast-client/oas31-runtime-regression.yaml")
+                .setOutputDir(output.toString())
+                .addAdditionalProperty("compileWithValidation", false);
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path modelDirectory = output.resolve("model");
+        for (String omittedFile : List.of(
+                "Oas31SchemaRegistry.h",
+                "schema_ir.generated.cpp",
+                "schema_validate.generated.cpp")) {
+            Assert.assertFalse(Files.exists(modelDirectory.resolve(omittedFile)),
+                    omittedFile + " must not be emitted when validation is disabled");
+        }
+        try (java.util.stream.Stream<Path> files = Files.list(modelDirectory)) {
+            Assert.assertFalse(files.anyMatch(path -> path.getFileName().toString()
+                            .startsWith("schema_ir.generated.chunk")),
+                    "Schema IR chunk translation units must not be emitted when validation is disabled");
+        }
+
+        for (String retainedHeader : List.of(
+                "Oas31ExactNumber.h",
+                "Oas31SchemaIr.h",
+                "Oas31Validator.h")) {
+            Assert.assertTrue(Files.exists(modelDirectory.resolve(retainedHeader)),
+                    retainedHeader + " must remain available as a header-only utility");
+        }
+        String validationTypes = Files.readString(modelDirectory.resolve("ValidationTypes.h"));
+        Assert.assertTrue(validationTypes.contains("kValidateOnDecode = false"),
+                "ValidationTypes.h must expose the disabled compile-time mode");
+
+        String cmakeLists = Files.readString(output.resolve("CMakeLists.txt"));
+        Assert.assertFalse(cmakeLists.contains("schema_ir.generated"),
+                "Generated CMake must not reference stripped schema IR sources");
+        Assert.assertFalse(cmakeLists.contains("schema_validate.generated.cpp"),
+                "Generated CMake must not reference the stripped validation source");
+        Assert.assertFalse(cmakeLists.contains("Oas31SchemaRegistry.h"),
+                "Generated CMake must not reference the stripped schema registry");
+
+        List<Path> modelSources;
+        try (java.util.stream.Stream<Path> sources = Files.list(modelDirectory)) {
+            modelSources = sources
+                    .filter(path -> path.getFileName().toString().endsWith(".cpp"))
+                    .collect(java.util.stream.Collectors.toList());
+        }
+        Assert.assertFalse(modelSources.isEmpty(), "Disabled client must still emit model sources");
+        for (Path modelSource : modelSources) {
+            String contents = Files.readString(modelSource);
+            Assert.assertFalse(contents.contains("bool validate_"),
+                    modelSource.getFileName() + " must not define per-branch validators");
+            Assert.assertFalse(contents.contains("#include \"Oas31SchemaRegistry.h\""),
+                    modelSource.getFileName() + " must not include the stripped schema registry");
+            Assert.assertFalse(contents.contains("#include \"Oas31Validator.h\""),
+                    modelSource.getFileName() + " must not include the schema evaluator");
+        }
+
+        Path driverSource = Path.of(
+                "src/test/resources/3_1/cpp-boost-beast-client/"
+                        + "oas31-validation-disabled-runtime.cpp");
+        Path executable = output.resolve("oas31-validation-disabled-runtime");
+        String compiler = System.getenv().getOrDefault("CXX", "c++");
+        compileGeneratedRuntime(compiler, output, driverSource, executable);
+
+        Process run = new ProcessBuilder(executable.toString())
+                .redirectErrorStream(true)
+                .start();
+        Assert.assertTrue(run.waitFor(30, TimeUnit.SECONDS),
+                "Validation-disabled runtime test execution timed out");
+        String runOutput = new String(
+                run.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        Assert.assertEquals(run.exitValue(), 0,
+                "Validation-disabled runtime test failed:\n" + runOutput);
+        Assert.assertTrue(runOutput.contains("validation-disabled runtime checks passed"),
+                "Validation-disabled runtime test did not report completion: " + runOutput);
+    }
+
+    @Test
     public void generatedValidationRuntimeDoesNotCollideAcrossClients() throws Exception {
         Path outputRoot = Files.createDirectories(Path.of("target"));
         Path output = Files.createTempDirectory(outputRoot, "oas31-multi-client-");

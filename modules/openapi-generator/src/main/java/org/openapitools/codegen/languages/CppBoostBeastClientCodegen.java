@@ -438,11 +438,12 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         cliOptions.add(sseSchemaModeOption);
 
         CliOption compileWithValidationOption = new CliOption("compileWithValidation",
-                "Emit kValidateOnDecode=true in generated ValidationTypes.h (default)."
-                + " Set to false to compile out oneOf/anyOf/discriminator"
-                + " branch validation on decode for high-throughput clients."
-                + " Representation diagnostics (non-finite destinations, integer"
-                + " range, required properties) remain active on all paths.");
+                "Emit schema-validation IR, per-model validate_* branch functions,"
+                + " and kValidateOnDecode=true in generated ValidationTypes.h (default)."
+                + " Set to false to omit the IR and validate_* functions for"
+                + " high-throughput clients. Representation diagnostics (non-finite"
+                + " destinations, integer range, required properties) remain active.");
+
         compileWithValidationOption.defaultValue(Boolean.TRUE.toString());
         cliOptions.add(compileWithValidationOption);
 
@@ -2231,6 +2232,15 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         return camelize(name);
     }
 
+    private static boolean isSchemaValidationSupportingFile(SupportingFile file) {
+        String destination = file.getDestinationFilename();
+        return "Oas31SchemaRegistry.h".equals(destination)
+                || "schema_ir.generated.cpp".equals(destination)
+                || "schema_validate.generated.cpp".equals(destination)
+                || (destination.startsWith("schema_ir.generated.chunk")
+                        && destination.endsWith(".cpp"));
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -2289,6 +2299,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         }
         additionalProperties.put("validateOnDecode", validateOnDecode);
         additionalProperties.put("compileWithValidation", validateOnDecode);
+        if (!validateOnDecode) {
+            supportingFiles.removeIf(CppBoostBeastClientCodegen::isSchemaValidationSupportingFile);
+        }
     }
 
     /**
@@ -3020,6 +3033,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         Map<String, Object> processed = super.postProcessSupportingFileData(objs);
+        if (!validateOnDecode) {
+            return processed;
+        }
         // Model processing can replace inline branch schema objects after the
         // initial recovery pass; refresh the emitted graph from the raw spec.
         Oas31RawSpecRecovery.recoverPristineLiterals(openAPI, getInputSpec());

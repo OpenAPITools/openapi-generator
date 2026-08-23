@@ -1531,6 +1531,44 @@ public class ModelApiSurfaceTest {
         String content = new String(Files.readAllBytes(validationTypes), java.nio.charset.StandardCharsets.UTF_8);
         Assert.assertTrue(content.contains("constexpr bool kValidateOnDecode = false;"),
                 "compileWithValidation=false must emit kValidateOnDecode = false");
+
+        Path modelDirectory = output.toPath().resolve("model");
+        for (String omittedFile : List.of(
+                "Oas31SchemaRegistry.h",
+                "schema_ir.generated.cpp",
+                "schema_validate.generated.cpp")) {
+            Assert.assertFalse(Files.exists(modelDirectory.resolve(omittedFile)),
+                    omittedFile + " must not be emitted when validation is disabled");
+        }
+        try (java.util.stream.Stream<Path> modelFiles = Files.list(modelDirectory)) {
+            Assert.assertFalse(modelFiles.anyMatch(path -> path.getFileName().toString()
+                            .startsWith("schema_ir.generated.chunk")),
+                    "Schema IR chunk translation units must not be emitted when validation is disabled");
+        }
+
+        String compositionSource = Files.readString(modelDirectory.resolve("AnyOfOverlapping.cpp"));
+        Assert.assertFalse(compositionSource.contains("bool validate_"),
+                "Validation-disabled model sources must not define per-branch validators");
+        Assert.assertFalse(compositionSource.contains("#include \"Oas31SchemaRegistry.h\""),
+                "Validation-disabled model sources must not include the stripped registry");
+        Assert.assertFalse(compositionSource.contains("#include \"Oas31Validator.h\""),
+                "Validation-disabled model sources must not include the schema evaluator");
+
+        String cmakeLists = Files.readString(output.toPath().resolve("CMakeLists.txt"));
+        Assert.assertFalse(cmakeLists.contains("schema_ir.generated"),
+                "Generated CMake must not reference stripped schema IR sources");
+        Assert.assertFalse(cmakeLists.contains("schema_validate.generated.cpp"),
+                "Generated CMake must not reference the stripped validation source");
+        Assert.assertFalse(cmakeLists.contains("Oas31SchemaRegistry.h"),
+                "Generated CMake must not reference the stripped schema registry");
+
+        for (String retainedHeader : List.of(
+                "Oas31ExactNumber.h",
+                "Oas31SchemaIr.h",
+                "Oas31Validator.h")) {
+            Assert.assertTrue(Files.exists(modelDirectory.resolve(retainedHeader)),
+                    retainedHeader + " must remain available as a header-only utility");
+        }
     }
 
     @Test

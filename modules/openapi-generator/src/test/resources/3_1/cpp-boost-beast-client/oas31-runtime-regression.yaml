@@ -158,3 +158,13 @@ components:
           type: string
           enum: [auto, low]
           nullable: true
+    RepresentationChecks:
+      type: object
+      required: [count]
+      properties:
+        count:
+          type: integer
+          format: int32
+        ratio:
+          type: number
+          format: float

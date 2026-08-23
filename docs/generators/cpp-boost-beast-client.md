@@ -19,7 +19,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |apiPackage|C++ namespace for apis (convention: name.space.api).| |org.openapitools.client.api|
-|compileWithValidation|Emit kValidateOnDecode=true in generated ValidationTypes.h (default). Set to false to compile out oneOf/anyOf/discriminator branch validation on decode for high-throughput clients. Representation diagnostics (non-finite destinations, integer range, required properties) remain active on all paths.| |true|
+|compileWithValidation|Emit schema-validation IR, per-model validate_* branch functions, and kValidateOnDecode=true in generated ValidationTypes.h (default). Set to false to omit the IR and validate_* functions for high-throughput clients. Representation diagnostics (non-finite destinations, integer range, required properties) remain active.| |true|
 |formatAssertionPolicy|Format handling in composition branch matching. Only 'annotation' is supported: format metadata never affects match counts.|<dl><dt>**annotation**</dt><dd>Formats are annotations and do not affect validation</dd></dl>|annotation|
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.client.model|
 |packageName|C++ package and library name.| |CppBoostBeastOpenAPIClient|

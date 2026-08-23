@@ -56,8 +56,10 @@
 
 #include "ValidationTypes.h"
 #include "Oas31ExactJson.h"
+{{#validateOnDecode}}
 #include "Oas31Validator.h"
 #include "Oas31SchemaRegistry.h"
+{{/validateOnDecode}}
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -363,6 +365,7 @@ std::size_t countVariantBranches(const boost::json::value& value, std::index_seq
 }
 }
 
+{{#validateOnDecode}}
 // Generated branch validators delegate to the shared SchemaEvaluator.
 {{#vendorExtensions.x-cpp-composition-branches}}
 {{#branches}}
@@ -391,6 +394,7 @@ ValidationResult validate_{{validator-id}}(
 {{/validator-id}}
 {{/branches}}
 {{/vendorExtensions.x-cpp-composition-branches}}
+{{/validateOnDecode}}
 
 {{classname}} fromJsonValue_{{classname}}(boost::json::value const& value)
 {
@@ -436,7 +440,9 @@ ValidationResult validate_{{validator-id}}(
     (void)matchedBranchIndex;
     bool foundMatch = false;
     (void)foundMatch;
+    {{#validateOnDecode}}
     ValidationPath vp;
+    {{/validateOnDecode}}
     {{#validateOnDecode}}
     // Branch membership alone is insufficient when a composed schema has
     // sibling assertions or multiple applicators. Validate the complete
@@ -516,7 +522,6 @@ ValidationResult validate_{{validator-id}}(
     {{#discriminator}}
     (void)discPreferredBranch;
     {{/discriminator}}
-    (void)vp;
     matchedBranchIndex = 0;
     foundMatch = true;
     validMatchCount = 1;
@@ -592,6 +597,7 @@ ValidationResult validate_{{validator-id}}(
         convertMatchedBranch();
     } else {
         // anyOf: at least one branch must pass its schema assertions
+        {{#validateOnDecode}}
         if (validMatchCount == 0) {
             // Collect per-branch error details from validator failure paths
             std::string failures;
@@ -618,6 +624,7 @@ ValidationResult validate_{{validator-id}}(
             throw std::invalid_argument(
                 "No matching branch for anyOf {{classname}}: " + failures);
         }
+        {{/validateOnDecode}}
         // anyOf: first-matching branch is sufficient for storage
         convertMatchedBranch();
     }
@@ -682,8 +689,10 @@ bool is{{classname}}Branch{{branch-index}}({{classname}} const& value) {
 
 #include "ValidationTypes.h"
 #include "Oas31ExactJson.h"
+{{#validateOnDecode}}
 #include "Oas31Validator.h"
 #include "Oas31SchemaRegistry.h"
+{{/validateOnDecode}}
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {

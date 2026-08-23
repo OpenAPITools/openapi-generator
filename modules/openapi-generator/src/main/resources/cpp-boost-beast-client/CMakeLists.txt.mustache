@@ -82,12 +82,14 @@ target_sources(${PROJECT_NAME} PRIVATE
     model/Oas31SchemaIr.h
     model/Oas31ExactJson.h
     model/Oas31Validator.h
+{{#validateOnDecode}}
     model/schema_ir.generated.cpp
 {{#oas31SchemaIrChunkFiles}}
     model/{{filename}}
 {{/oas31SchemaIrChunkFiles}}
     model/Oas31SchemaRegistry.h
     model/schema_validate.generated.cpp
+{{/validateOnDecode}}
 )
 
 
