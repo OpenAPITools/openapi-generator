@@ -341,6 +341,24 @@ struct JsonValueConverter
     }
 };
 
+// Composition tags preserve schema identity but do not appear on the wire.
+template <std::size_t BranchIndex, typename ValueType>
+struct JsonValueConverter<CompositionBranchValue<BranchIndex, ValueType>>
+{
+    static boost::json::value toJsonValue(
+        const CompositionBranchValue<BranchIndex, ValueType>& sourceValue)
+    {
+        return JsonValueConverter<ValueType>::toJsonValue(sourceValue.value);
+    }
+
+    static CompositionBranchValue<BranchIndex, ValueType> fromJsonValue(
+        const boost::json::value& jsonValue)
+    {
+        return CompositionBranchValue<BranchIndex, ValueType>{
+            JsonValueConverter<ValueType>::fromJsonValue(jsonValue)};
+    }
+};
+
 // Floating destinations must reject non-finite narrowing. Boost.JSON converts
 // out-of-range values to infinity, but that value is not representable under
 // the generated model's destination contract.

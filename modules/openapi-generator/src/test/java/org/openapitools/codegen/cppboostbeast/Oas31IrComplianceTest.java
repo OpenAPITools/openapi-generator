@@ -1843,12 +1843,134 @@ public class Oas31IrComplianceTest {
         Assert.assertTrue(dispatchContent.contains("validate_RefToPlain_branch_0"),
                 "RefToPlain must be dispatched");
     }
+
+    @Test
+    public void honorsConfiguredYamlCodePointLimitDuringRawRecovery() throws IOException {
+        io.swagger.v3.parser.util.DeserializationUtils.Options yamlOptions =
+                io.swagger.v3.parser.util.DeserializationUtils.getOptions();
+        synchronized (yamlOptions) {
+            int previousLimit = yamlOptions.getMaxYamlCodePoints();
+            try {
+                yamlOptions.setMaxYamlCodePoints(4 * 1024 * 1024);
+                Path root = Files.createTempDirectory("cpp-boost-beast-large-yaml");
+                root.toFile().deleteOnExit();
+                Path input = root.resolve("large-input.yaml");
+                String spec = "# " + "x".repeat(3 * 1024 * 1024) + "\n"
+                        + "openapi: 3.1.0\n"
+                        + "info:\n"
+                        + "  title: Large YAML recovery\n"
+                        + "  version: 1.0.0\n"
+                        + "paths: {}\n"
+                        + "components:\n"
+                        + "  schemas:\n"
+                        + "    LimitProbe:\n"
+                        + "      type: string\n";
+                Files.writeString(input, spec);
+
+                Path output = root.resolve("output");
+                CodegenConfigurator configurator = new CodegenConfigurator()
+                        .setGeneratorName("cpp-boost-beast-client")
+                        .setInputSpec(input.toString())
+                        .setOutputDir(output.toString());
+                List<File> files = new DefaultGenerator()
+                        .opts(configurator.toClientOptInput()).generate();
+                files.forEach(File::deleteOnExit);
+
+                TestUtils.assertFileExists(
+                        output.resolve("model/schema_ir.generated.cpp"));
+            } finally {
+                yamlOptions.setMaxYamlCodePoints(previousLimit);
+            }
+        }
+    }
+
+    @Test
+    public void partitionsLargeSchemaRegistriesIntoCompiledSources() throws IOException {
+        Path root = Files.createTempDirectory("cpp-boost-beast-ir-chunks");
+        root.toFile().deleteOnExit();
+        Path input = root.resolve("large-schema.yaml");
+        StringBuilder spec = new StringBuilder();
+        spec.append("openapi: 3.1.0\n")
+                .append("info:\n")
+                .append("  title: Large schema registry\n")
+                .append("  version: 1.0.0\n")
+                .append("paths: {}\n")
+                .append("components:\n")
+                .append("  schemas:\n")
+                .append("    LargeObject:\n")
+                .append("      type: object\n")
+                .append("      properties:\n");
+        for (int property = 0; property < 513; property++) {
+            spec.append("        property").append(property).append(":\n")
+                    .append("          type: string\n");
+        }
+        Files.writeString(input, spec.toString());
+
+        Path output = root.resolve("output");
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec(input.toString())
+                .setOutputDir(output.toString());
+        List<File> files = new DefaultGenerator()
+                .opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelDirectory = output.resolve("model");
+        Path coordinator = modelDirectory.resolve("schema_ir.generated.cpp");
+        List<Path> chunks;
+        try (java.util.stream.Stream<Path> entries = Files.list(modelDirectory)) {
+            chunks = entries
+                    .filter(path -> path.getFileName().toString()
+                            .startsWith("schema_ir.generated.chunk"))
+                    .sorted()
+                    .collect(java.util.stream.Collectors.toList());
+        }
+        Assert.assertTrue(chunks.size() > 1,
+                "a registry larger than one source partition must emit chunks");
+
+        String coordinatorSource = Files.readString(coordinator);
+        java.util.regex.Matcher reserve = java.util.regex.Pattern
+                .compile("reg\\.nodes\\.reserve\\((\\d+)\\);")
+                .matcher(coordinatorSource);
+        Assert.assertTrue(reserve.find(), "coordinator must reserve the complete registry");
+        int expectedNodes = Integer.parseInt(reserve.group(1));
+        int emittedNodes = 0;
+        String cmake = Files.readString(output.resolve("CMakeLists.txt"));
+        for (int chunk = 0; chunk < chunks.size(); chunk++) {
+            Path source = chunks.get(chunk);
+            String content = Files.readString(source);
+            int nodesInChunk = countOccurrences(
+                    content, "reg.nodes.push_back(std::move(n));");
+            Assert.assertTrue(nodesInChunk > 0 && nodesInChunk < expectedNodes,
+                    "each generated source must contain a proper node partition");
+            emittedNodes += nodesInChunk;
+            Assert.assertTrue(content.contains("void appendSchemaRegistryChunk" + chunk),
+                    "chunk must expose its registry append function");
+            Assert.assertTrue(content.contains("SchemaIndex schemaNodeForChunk" + chunk),
+                    "chunk must expose its node lookup function");
+            Assert.assertTrue(coordinatorSource.contains(
+                            "detail::appendSchemaRegistryChunk" + chunk + "(reg);"),
+                    "coordinator must append every emitted chunk");
+            Assert.assertTrue(cmake.contains("model/" + source.getFileName()),
+                    "CMake target must compile every emitted chunk");
+        }
+        String firstUnusedChunk = "schema_ir.generated.chunk" + chunks.size() + ".cpp";
+        Assert.assertFalse(Files.exists(modelDirectory.resolve(firstUnusedChunk)),
+                "generation must not leave empty source partitions");
+        Assert.assertFalse(cmake.contains("model/" + firstUnusedChunk),
+                "CMake must not reference an unused source partition");
+        Assert.assertEquals(emittedNodes, expectedNodes,
+                "source partitioning must emit every registry row exactly once");
+        Assert.assertFalse(coordinatorSource.contains("reg.nodes.push_back(std::move(n));"),
+                "the coordinator must not retain the monolithic initializer body");
+    }
+
     private static String schemaNodeBlock(String ir, String schemaPath) {
         String marker = "n.schemaPath = \"" + schemaPath + "\";";
         int pathIndex = ir.indexOf(marker);
         Assert.assertTrue(pathIndex >= 0, "missing generated schema row for " + schemaPath);
         int start = ir.lastIndexOf("{ // node ", pathIndex);
-        int end = ir.indexOf("reg.nodes.push_back(n);", pathIndex);
+        int end = ir.indexOf("reg.nodes.push_back(std::move(n));", pathIndex);
         Assert.assertTrue(start >= 0 && end > pathIndex,
                 "malformed generated schema row for " + schemaPath);
         return ir.substring(start, end);
@@ -1859,10 +1981,21 @@ public class Oas31IrComplianceTest {
         int sourceIndex = ir.indexOf(marker);
         Assert.assertTrue(sourceIndex >= 0, "missing generated schema row for " + sourceName);
         int start = ir.lastIndexOf("{ // node ", sourceIndex);
-        int end = ir.indexOf("reg.nodes.push_back(n);", sourceIndex);
+        int end = ir.indexOf("reg.nodes.push_back(std::move(n));", sourceIndex);
         Assert.assertTrue(start >= 0 && end > sourceIndex,
                 "malformed generated schema row for " + sourceName);
         return ir.substring(start, end);
     }
+
+    private static int countOccurrences(String text, String needle) {
+        int count = 0;
+        int offset = 0;
+        while ((offset = text.indexOf(needle, offset)) >= 0) {
+            count++;
+            offset += needle.length();
+        }
+        return count;
+    }
+
 
 }

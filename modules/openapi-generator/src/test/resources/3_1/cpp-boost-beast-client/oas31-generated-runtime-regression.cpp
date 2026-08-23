@@ -4,14 +4,19 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
+#include <variant>
+#include <vector>
 
 #include "model/Mixed.h"
 #include "model/AllNull.h"
 #include "model/DuplicateNull.h"
 #include "model/OuterUnion.h"
+#include "model/Simple.h"
+#include "model/TaggedUnionContainer.h"
 #include "api/DefaultApi.cpp"
 #include "model/Oas31ExactJson.h"
 #include "model/Oas31Validator.h"
@@ -76,12 +81,50 @@ int main() {
         const model::OuterUnion converted = model::fromJsonValue_OuterUnion(source);
         expect(model::toJsonValue_OuterUnion(converted) == source, message);
     };
-    expectOuterUnionRoundTrip("7",
-           "nested integer union branch failed to round-trip");
+    expectOuterUnionRoundTrip(R"("tag")",
+           "nested short-string union branch failed to round-trip");
     expectOuterUnionRoundTrip(R"("nested")",
-           "nested string union branch failed to round-trip");
+           "nested long-string union branch failed to round-trip");
     expectOuterUnionRoundTrip("true",
            "outer boolean union branch failed to round-trip");
+
+    const model::NestedUnion direct = model::makeNestedUnionBranch0("tag");
+    const model::NestedUnion nested = model::makeNestedUnionBranch1("nested");
+    model::TaggedUnionContainer taggedContainer;
+    taggedContainer.setDirect(direct);
+    taggedContainer.setNested(model::OuterUnion(nested));
+    const boost::json::value taggedContainerJson =
+        boost::json::parse(R"({"direct":"tag","nested":"nested"})");
+    expect(taggedContainer.toJsonValue() == taggedContainerJson,
+           "tagged variant properties failed to encode");
+
+    model::TaggedUnionContainer decodedTaggedContainer;
+    decodedTaggedContainer.fromJsonValue(taggedContainerJson);
+    expect(decodedTaggedContainer.toJsonValue() == taggedContainerJson,
+           "tagged variant properties failed to round-trip");
+
+    expect(api::toFormParameterValue(direct) == "tag",
+           "tagged composition form value exposed its storage wrapper");
+    const auto sharedText = std::make_shared<std::string>("json");
+    expect(api::toFormParameterValue(sharedText) == "json",
+           "shared primitive form value serialized its pointer address");
+
+    using FormChoice = std::variant<std::string, model::Simple>;
+    const std::optional<FormChoice> primitiveFormChoice =
+        FormChoice(std::string("auto"));
+    expect(api::toFormParameterValue(primitiveFormChoice) == "auto",
+           "primitive variant form value failed to serialize");
+    model::Simple simpleFormChoice;
+    simpleFormChoice.setValue("choice");
+    const std::optional<FormChoice> objectFormChoice =
+        FormChoice(std::move(simpleFormChoice));
+    expect(api::toFormParameterValue(objectFormChoice)
+               == R"({"value":"choice"})",
+           "model variant form value failed to serialize as JSON");
+
+    const std::map<std::string, std::string> formMap{{"key", "value"}};
+    expect(api::toFormParameterValue(formMap) == R"({"key":"value"})",
+           "map form value failed to serialize as JSON");
 
     (void)model::fromJsonValue_AllNull(boost::json::value(nullptr));
     bool rejectedDuplicateNull = false;
@@ -137,6 +180,27 @@ int main() {
         "deepObject", true, false, false);
     expect(deepObject.str() == "color[R]=100&color[G]=200",
            "deepObject did not use the OpenAPI bracket delimiters");
+
+    const std::optional<std::map<std::string, std::string>> optionalMetadata =
+        std::map<std::string, std::string>{{"key", "value"}};
+    std::stringstream metadataQuery;
+    const char* metadataSeparator = "";
+    api::appendParamQueryParameter(
+        metadataQuery, metadataSeparator, "metadata", optionalMetadata,
+        "form", true, false, false);
+    expect(metadataQuery.str() == "key=value",
+           "optional object query parameter lost form explode semantics");
+
+    const std::vector<std::shared_ptr<std::string>> pointerValues{
+        std::make_shared<std::string>("alpha"),
+        std::make_shared<std::string>("beta")};
+    std::stringstream pointerQuery;
+    const char* pointerSeparator = "";
+    api::appendParamQueryParameter(
+        pointerQuery, pointerSeparator, "value", pointerValues,
+        "form", true, false, false);
+    expect(pointerQuery.str() == "value=alpha&value=beta",
+           "shared primitive query values failed recursive conversion");
 
     std::stringstream reserved;
     const char* reservedSeparator = "";

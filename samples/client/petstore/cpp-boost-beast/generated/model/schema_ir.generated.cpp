@@ -4,6 +4,7 @@
 #include "Oas31ExactJson.h"
 #include "Oas31Validator.h"
 #include <string>
+#include <utility>
 
 namespace org::openapitools::client::model::detail::schema_validation {
 namespace {
@@ -14,11 +15,12 @@ namespace {
 
 SchemaResourceRegistry buildRegistry() {
     SchemaResourceRegistry reg;
+    reg.nodes.reserve(41);
     SchemaResource res;
     res.baseUri = "urn:openapi-generator:cpp-boost-beast:schema";
     res.dialect = "https://spec.openapis.org/oas/3.1/dialect/base";
     // No document-root anchor is declared.
-    reg.resources.push_back(res);
+    reg.resources.push_back(std::move(res));
 
     { // node 0
         SchemaNode n;
@@ -28,7 +30,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "ApiResponse_component_prop1";
         n.schemaPath = "#/components/schemas/ApiResponse/properties/code";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/ApiResponse/properties/code";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 1
@@ -38,7 +40,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "ApiResponse_component_prop2";
         n.schemaPath = "#/components/schemas/ApiResponse/properties/message";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/ApiResponse/properties/message";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 2
@@ -48,7 +50,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "ApiResponse_component_prop3";
         n.schemaPath = "#/components/schemas/ApiResponse/properties/type";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/ApiResponse/properties/type";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 3
@@ -59,7 +61,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Category_component_prop1";
         n.schemaPath = "#/components/schemas/Category/properties/id";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Category/properties/id";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 4
@@ -71,7 +73,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Category_component_prop2";
         n.schemaPath = "#/components/schemas/Category/properties/name";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Category/properties/name";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 5
@@ -82,7 +84,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Order_component_prop1";
         n.schemaPath = "#/components/schemas/Order/properties/complete";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Order/properties/complete";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 6
@@ -93,7 +95,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Order_component_prop2";
         n.schemaPath = "#/components/schemas/Order/properties/id";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Order/properties/id";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 7
@@ -104,7 +106,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Order_component_prop3";
         n.schemaPath = "#/components/schemas/Order/properties/petId";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Order/properties/petId";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 8
@@ -115,7 +117,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Order_component_prop4";
         n.schemaPath = "#/components/schemas/Order/properties/quantity";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Order/properties/quantity";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 9
@@ -126,7 +128,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Order_component_prop5";
         n.schemaPath = "#/components/schemas/Order/properties/shipDate";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Order/properties/shipDate";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 10
@@ -140,7 +142,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Order_component_prop6";
         n.schemaPath = "#/components/schemas/Order/properties/status";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Order/properties/status";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 11
@@ -151,7 +153,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Pet_component_prop1";
         n.schemaPath = "#/components/schemas/Pet/properties/category";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Pet/properties/category";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 12
@@ -162,7 +164,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Pet_component_prop2";
         n.schemaPath = "#/components/schemas/Pet/properties/id";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Pet/properties/id";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 13
@@ -172,7 +174,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Pet_component_prop3";
         n.schemaPath = "#/components/schemas/Pet/properties/name";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Pet/properties/name";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 14
@@ -183,7 +185,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Pet_component_prop4";
         n.schemaPath = "#/components/schemas/Pet/properties/photoUrls";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Pet/properties/photoUrls";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 15
@@ -198,7 +200,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Pet_component_prop5";
         n.schemaPath = "#/components/schemas/Pet/properties/status";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Pet/properties/status";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 16
@@ -209,7 +211,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Pet_component_prop6";
         n.schemaPath = "#/components/schemas/Pet/properties/tags";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Pet/properties/tags";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 17
@@ -220,7 +222,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Tag_component_prop1";
         n.schemaPath = "#/components/schemas/Tag/properties/id";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Tag/properties/id";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 18
@@ -230,7 +232,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Tag_component_prop2";
         n.schemaPath = "#/components/schemas/Tag/properties/name";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Tag/properties/name";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 19
@@ -240,7 +242,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "User_component_prop1";
         n.schemaPath = "#/components/schemas/User/properties/email";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/User/properties/email";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 20
@@ -250,7 +252,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "User_component_prop2";
         n.schemaPath = "#/components/schemas/User/properties/firstName";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/User/properties/firstName";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 21
@@ -261,7 +263,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "User_component_prop3";
         n.schemaPath = "#/components/schemas/User/properties/id";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/User/properties/id";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 22
@@ -271,7 +273,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "User_component_prop4";
         n.schemaPath = "#/components/schemas/User/properties/lastName";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/User/properties/lastName";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 23
@@ -281,7 +283,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "User_component_prop5";
         n.schemaPath = "#/components/schemas/User/properties/password";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/User/properties/password";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 24
@@ -291,7 +293,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "User_component_prop6";
         n.schemaPath = "#/components/schemas/User/properties/phone";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/User/properties/phone";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 25
@@ -303,7 +305,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "User_component_prop7";
         n.schemaPath = "#/components/schemas/User/properties/userStatus";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/User/properties/userStatus";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 26
@@ -313,7 +315,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "User_component_prop8";
         n.schemaPath = "#/components/schemas/User/properties/username";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/User/properties/username";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 27
@@ -324,7 +326,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "updatePetWithForm_request_component_prop1";
         n.schemaPath = "#/components/schemas/updatePetWithForm_request/properties/name";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/updatePetWithForm_request/properties/name";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 28
@@ -335,7 +337,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "updatePetWithForm_request_component_prop2";
         n.schemaPath = "#/components/schemas/updatePetWithForm_request/properties/status";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/updatePetWithForm_request/properties/status";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 29
@@ -346,7 +348,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "uploadFile_request_component_prop1";
         n.schemaPath = "#/components/schemas/uploadFile_request/properties/additionalMetadata";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/uploadFile_request/properties/additionalMetadata";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 30
@@ -358,7 +360,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "uploadFile_request_component_prop2";
         n.schemaPath = "#/components/schemas/uploadFile_request/properties/file";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/uploadFile_request/properties/file";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 31
@@ -368,7 +370,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Pet_component_prop4_items1";
         n.schemaPath = "#/components/schemas/Pet/properties/photoUrls/items";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Pet/properties/photoUrls/items";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 32
@@ -379,7 +381,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Pet_component_prop6_items1";
         n.schemaPath = "#/components/schemas/Pet/properties/tags/items";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Pet/properties/tags/items";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 33
@@ -395,7 +397,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "ApiResponse_component";
         n.schemaPath = "#/components/schemas/ApiResponse";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/ApiResponse";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 34
@@ -410,7 +412,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Category_component";
         n.schemaPath = "#/components/schemas/Category";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Category";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 35
@@ -429,7 +431,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Order_component";
         n.schemaPath = "#/components/schemas/Order";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Order";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 36
@@ -450,7 +452,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Pet_component";
         n.schemaPath = "#/components/schemas/Pet";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Pet";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 37
@@ -465,7 +467,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "Tag_component";
         n.schemaPath = "#/components/schemas/Tag";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/Tag";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 38
@@ -486,7 +488,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "User_component";
         n.schemaPath = "#/components/schemas/User";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/User";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 39
@@ -499,7 +501,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "updatePetWithForm_request_component";
         n.schemaPath = "#/components/schemas/updatePetWithForm_request";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/updatePetWithForm_request";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
 
     { // node 40
@@ -512,7 +514,7 @@ SchemaResourceRegistry buildRegistry() {
         n.sourceName = "uploadFile_request_component";
         n.schemaPath = "#/components/schemas/uploadFile_request";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/uploadFile_request";
-        reg.nodes.push_back(n);
+        reg.nodes.push_back(std::move(n));
     }
     reg.dynamicAnchorTables.resize(1);
 

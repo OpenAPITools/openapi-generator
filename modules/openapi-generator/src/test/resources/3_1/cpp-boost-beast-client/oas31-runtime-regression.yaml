@@ -76,12 +76,22 @@ components:
           additionalProperties: false
     NestedUnion:
       oneOf:
-        - type: integer
         - type: string
+          maxLength: 3
+        - type: string
+          minLength: 4
     OuterUnion:
       oneOf:
         - $ref: '#/components/schemas/NestedUnion'
         - type: boolean
+    TaggedUnionContainer:
+      type: object
+      required: [direct, nested]
+      properties:
+        direct:
+          $ref: '#/components/schemas/NestedUnion'
+        nested:
+          $ref: '#/components/schemas/OuterUnion'
     Simple:
       title: Simple
       type: object

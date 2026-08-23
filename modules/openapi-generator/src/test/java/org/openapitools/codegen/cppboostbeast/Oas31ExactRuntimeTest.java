@@ -137,8 +137,19 @@ public class Oas31ExactRuntimeTest {
         String outerUnionHeader = Files.readString(output.resolve("model/OuterUnion.h"));
         Assert.assertTrue(
                 outerUnionHeader.contains(
-                        "std::variant<std::variant<std::int32_t, std::string>, bool>"),
-                "nested compositions must retain an assignable outer branch type");
+                        "std::variant<std::variant<CompositionBranchValue<0, std::string>, "
+                                + "CompositionBranchValue<1, std::string>>, bool>"),
+                "nested tagged compositions must retain an assignable outer branch type");
+        String outerUnionSource = Files.readString(output.resolve("model/OuterUnion.cpp"));
+        Assert.assertFalse(
+                outerUnionSource.contains("OuterUnion(CompositionBranchValue<"),
+                "nested tags must not mark distinct outer alternatives as tagged");
+        String taggedContainerSource = Files.readString(
+                output.resolve("model/TaggedUnionContainer.cpp"));
+        Assert.assertTrue(
+                taggedContainerSource.contains(
+                        "struct JsonValueConverter<CompositionBranchValue<BranchIndex, ValueType>>"),
+                "property conversion must unwrap tagged composition alternatives");
         int patternNodeEnd = schemaIrSource.indexOf(
                 "n.sourceName = \"nonAsciiPattern_branch_0\"");
         Assert.assertTrue(patternNodeEnd >= 0,

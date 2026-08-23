@@ -168,7 +168,11 @@ final class Oas31RawSpecRecovery {
         JsonNode document;
         try {
             String text = readInputSpec(inputSpec);
-            document = new ObjectMapper(new YAMLFactory()).readTree(text);
+            YAMLFactory yamlFactory = YAMLFactory.builder()
+                    .loaderOptions(io.swagger.v3.parser.util.DeserializationUtils
+                            .buildLoaderOptions())
+                    .build();
+            document = new ObjectMapper(yamlFactory).readTree(text);
         } catch (Exception ex) {
             throw new IllegalStateException(
                     "Unable to read the raw OAS 3.1 document for exact schema recovery",

@@ -463,8 +463,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("oas31_deep_equal.mustache", "model", "Oas31DeepEqual.h"));
         supportingFiles.add(new SupportingFile("oas31_exact_json.mustache", "model", "Oas31ExactJson.h"));
         supportingFiles.add(new SupportingFile("oas31_validator.mustache", "model", "Oas31Validator.h"));
-        // Generation-time IR tables and thin validate_<id> dispatch.
-        // Content is rendered once from postProcessSupportingFileData.
+        // Generation-time IR tables, optional bounded source chunks, and thin
+        // validate_<id> dispatch. Content is rendered from supporting-file data.
         supportingFiles.add(new SupportingFile("oas31_schema_ir_header.mustache", "model", "Oas31SchemaRegistry.h"));
         supportingFiles.add(new SupportingFile("oas31_schema_ir_source.mustache", "model", "schema_ir.generated.cpp"));
         supportingFiles.add(new SupportingFile("oas31_schema_validate.mustache", "model", "schema_validate.generated.cpp"));
@@ -1075,6 +1075,13 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         return result;
     }
 
+    private static boolean hasTaggedCompositionBranches(String resolvedType) {
+        // Duplicate lowering wraps every outer alternative. A nested variant may
+        // contain the same tag text without changing the outer storage contract.
+        return resolvedType != null
+                && resolvedType.startsWith("std::variant<CompositionBranchValue<");
+    }
+
     @SuppressWarnings("unchecked")
     private void refreshCompositionStorageMetadata(
             CodegenModel model, List<ComposedBranch> branches, String resolvedType) {
@@ -1088,7 +1095,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             return;
         }
         List<Map<String, Object>> branchMaps = (List<Map<String, Object>>) branchMapsObject;
-        boolean wrapped = resolvedType.contains("CompositionBranchValue<");
+        boolean wrapped = hasTaggedCompositionBranches(resolvedType);
 
         for (ComposedBranch branch : branches) {
             int index = branch.originalBranchIndex;
@@ -1514,7 +1521,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         // Populate each descriptor branch's storage type and expose duplicate
         // alternatives so templates generate CompositionBranchValue accessors.
-        boolean hasDuplicateTypes = resolvedType.contains("CompositionBranchValue<");
+        boolean hasDuplicateTypes = hasTaggedCompositionBranches(resolvedType);
         if (descriptor != null) {
             Map<String, Object> templateMap = descriptor.toTemplateMap();
             @SuppressWarnings("unchecked")
@@ -1687,7 +1694,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         variantModels.add(cm.classname);
 
         // Populate descriptor storage types, including duplicate-type wrappers.
-        boolean hasDuplicateTypes = resolvedType.contains("CompositionBranchValue<");
+        boolean hasDuplicateTypes = hasTaggedCompositionBranches(resolvedType);
         Map<String, Object> descTemplateMap = desc.toTemplateMap();
         {
             @SuppressWarnings("unchecked")
@@ -2997,7 +3004,19 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         Oas31RawSpecRecovery.recoverPristineLiterals(openAPI, getInputSpec());
         Oas31SchemaIrEmitter emitter = new Oas31SchemaIrEmitter(
                 openAPI, compositionDescriptors, additionalProperties());
-        return emitter.produce(processed);
+        Map<String, Object> produced = emitter.produce(processed);
+        supportingFiles.removeIf(file -> {
+            String destination = file.getDestinationFilename();
+            return destination.startsWith("schema_ir.generated.chunk")
+                    && destination.endsWith(".cpp");
+        });
+        int chunkCount = ((Number) produced.get("oas31SchemaIrChunkCount")).intValue();
+        for (int chunk = 0; chunk < chunkCount; chunk++) {
+            supportingFiles.add(new SupportingFile(
+                    Oas31SchemaIrEmitter.schemaIrChunkTemplate(chunk),
+                    "model", Oas31SchemaIrEmitter.schemaIrChunkFilename(chunk)));
+        }
+        return produced;
     }
 
     }

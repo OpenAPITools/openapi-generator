@@ -19,8 +19,8 @@ import java.util.function.BiConsumer;
 
 /**
  * Emits the densified OAS 3.1 schema IR (Oas31SchemaRegistry.h,
- * schema_ir.generated.cpp, schema_validate.generated.cpp) for the
- * cpp-boost-beast client: every
+ * schema_ir.generated.cpp, optional schema_ir.generated.chunk*.cpp files,
+ * and schema_validate.generated.cpp) for the cpp-boost-beast client: every
  * composition branch, extracted component, and structural child is densified
  * into a flat SchemaNode registry against which the generated C++ evaluator
  * validates instances exactly (original numeric lexemes, deep JSON enum/const
@@ -35,6 +35,10 @@ import java.util.function.BiConsumer;
  * lexemes, pristine type-null markers, recovered dependentRequired maps).
  */
 final class Oas31SchemaIrEmitter {
+    // Spread large registries across a bounded number of compiler inputs.
+    private static final int TARGET_SCHEMA_IR_NODES_PER_SOURCE = 512;
+    private static final int MAX_SCHEMA_IR_CHUNKS = 16;
+
 
     /** OpenAPI document this emit pass densifies. */
     private final OpenAPI openAPI;
@@ -52,7 +56,7 @@ final class Oas31SchemaIrEmitter {
     // the correct ref-target row form.
     private final Map<String, Boolean> irComponentComposed = new HashMap<>();
     // Synthetic resource IDs whose dialect omits the validation vocabulary.
-    final Set<Integer> vocabInertResources = new TreeSet<>();
+    private final Set<Integer> vocabInertResources = new TreeSet<>();
 
     Oas31SchemaIrEmitter(
             OpenAPI openAPI,
@@ -628,11 +632,9 @@ final class Oas31SchemaIrEmitter {
     }
 
     /**
-     * Densify the current components map + branch descriptors into the
-     * combined SchemaNode registry and the three generated files
-     * (Oas31SchemaRegistry.h, schema_ir.generated.cpp,
-     * schema_validate.generated.cpp), stored on {@code objs} under
-     * oas31SchemaIrHeader / oas31SchemaIrSource / oas31SchemaIrValidateSource.
+     * Densify the current components map + branch descriptors into the combined
+     * SchemaNode registry and its generated header, coordinator, optional source
+     * chunks, and validation dispatch.
      */
     Map<String, Object> produce(Map<String, Object> objs) {
         // Snapshot post-extraction components so raw-schema rows can distinguish
@@ -843,10 +845,54 @@ final class Oas31SchemaIrEmitter {
             }
         }
 
+        vocabInertResources.clear();
+        for (IrNode node : allRows) {
+            if (node.dialectValidationInert) {
+                vocabInertResources.add(node.dynamicResource);
+            }
+        }
+
+        int chunkCount = schemaIrChunkCount(allRows.size());
+        java.util.List<java.util.Map<String, String>> chunkFiles = new ArrayList<>();
+        if (chunkCount == 0) {
+            objs.put("oas31SchemaIrSource",
+                    buildSchemaIrSource(allRows, mainNodes.size(), 0, allRows.size(), -1));
+        } else {
+            int chunkSize = (allRows.size() + chunkCount - 1) / chunkCount;
+            for (int chunk = 0; chunk < chunkCount; chunk++) {
+                int start = chunk * chunkSize;
+                int end = Math.min(allRows.size(), start + chunkSize);
+                objs.put("oas31SchemaIrChunk" + chunk + "Source",
+                        buildSchemaIrSource(allRows, mainNodes.size(), start, end, chunk));
+                java.util.Map<String, String> chunkFile = new LinkedHashMap<>();
+                chunkFile.put("filename", schemaIrChunkFilename(chunk));
+                chunkFiles.add(chunkFile);
+            }
+            objs.put("oas31SchemaIrSource",
+                    buildSchemaIrCoordinatorSource(allRows, mainNodes.size(), chunkCount));
+        }
+        objs.put("oas31SchemaIrChunkCount", chunkCount);
+        objs.put("oas31SchemaIrChunkFiles", chunkFiles);
         objs.put("oas31SchemaIrHeader", buildSchemaIrHeader(allRows));
-        objs.put("oas31SchemaIrSource", buildSchemaIrSource(allRows, mainNodes.size()));
         objs.put("oas31SchemaIrValidateSource", buildSchemaIrValidateSource(mainNodes));
         return objs;
+    }
+
+    private static int schemaIrChunkCount(int nodeCount) {
+        if (nodeCount <= TARGET_SCHEMA_IR_NODES_PER_SOURCE) {
+            return 0;
+        }
+        int required = (nodeCount + TARGET_SCHEMA_IR_NODES_PER_SOURCE - 1)
+                / TARGET_SCHEMA_IR_NODES_PER_SOURCE;
+        return Math.min(required, MAX_SCHEMA_IR_CHUNKS);
+    }
+
+    static String schemaIrChunkFilename(int chunk) {
+        return "schema_ir.generated.chunk" + chunk + ".cpp";
+    }
+
+    static String schemaIrChunkTemplate(int chunk) {
+        return "oas31_schema_ir_chunk" + chunk + ".mustache";
     }
 
     /** Ordered structural children of a node (BFS source, no duplicates). */
@@ -2227,37 +2273,51 @@ final class Oas31SchemaIrEmitter {
         }
     }
 
-    /** schema_ir.generated.cpp - densified rows + schemaNodeFor() map. */
-    private String buildSchemaIrSource(java.util.List<IrNode> nodes, int mainNodeCount) {
+    /** schema_ir.generated.cpp or one partitioned registry source. */
+    private String buildSchemaIrSource(
+            java.util.List<IrNode> nodes, int mainNodeCount,
+            int start, int end, int chunk) {
+        boolean isChunk = chunk >= 0;
         String namespaceName = schemaValidationNamespace();
         StringBuilder sb = new StringBuilder();
         sb.append("// Generated by CppBoostBeastClientCodegen (densified OAS 3.1 schema IR).\n");
         sb.append("// Numeric constraints are exact lexemes parsed by ExactNumber::parseLexeme.\n");
         sb.append("#include \"Oas31SchemaRegistry.h\"\n");
         sb.append("#include \"Oas31ExactJson.h\"\n");
-        sb.append("#include \"Oas31Validator.h\"\n");
-        sb.append("#include <string>\n\n");
+        if (!isChunk) {
+            sb.append("#include \"Oas31Validator.h\"\n");
+        }
+        sb.append("#include <string>\n");
+        sb.append("#include <utility>\n\n");
         sb.append("namespace ").append(namespaceName).append(" {\n");
+        if (isChunk) {
+            sb.append("namespace detail {\n");
+        }
         sb.append("namespace {\n\n");
         sb.append("[[maybe_unused]] void setExact(ExactNumber& out, bool& hasOut, std::string const& lexeme) {\n");
         sb.append("    if (!lexeme.empty()) { out = ExactNumber::parseLexeme(lexeme); hasOut = true; }\n");
         sb.append("}\n\n");
-        sb.append("SchemaResourceRegistry buildRegistry() {\n");
-        sb.append("    SchemaResourceRegistry reg;\n");
-        // One generated document resource owns the main validator rows. Child
-        // rows remain reachable through SchemaNode links rather than becoming
-        // independent resource roots.
-        sb.append("    SchemaResource res;\n");
-        sb.append("    res.baseUri = \"").append(CppBoostBeastClientCodegen.escapeCppStringContent(documentBaseUri())).append("\";\n");
-        sb.append("    res.dialect = \"").append(CppBoostBeastClientCodegen.escapeCppStringContent(documentDialectUri())).append("\";\n");
-        sb.append("    // No document-root anchor is declared.\n");
-        for (int i = 0; i < mainNodeCount; i++) {
-            sb.append("    res.rootNodes.push_back(").append(i).append(");\n");
+        if (isChunk) {
+            sb.append("} // namespace\n\n");
+            sb.append("void appendSchemaRegistryChunk").append(chunk)
+                    .append("(SchemaResourceRegistry& reg) {\n");
+        } else {
+            sb.append("SchemaResourceRegistry buildRegistry() {\n");
+            sb.append("    SchemaResourceRegistry reg;\n");
+            sb.append("    reg.nodes.reserve(").append(nodes.size()).append(");\n");
+            // One generated document resource owns the main validator rows.
+            sb.append("    SchemaResource res;\n");
+            sb.append("    res.baseUri = \"").append(CppBoostBeastClientCodegen.escapeCppStringContent(documentBaseUri())).append("\";\n");
+            sb.append("    res.dialect = \"").append(CppBoostBeastClientCodegen.escapeCppStringContent(documentDialectUri())).append("\";\n");
+            sb.append("    // No document-root anchor is declared.\n");
+            for (int i = 0; i < mainNodeCount; i++) {
+                sb.append("    res.rootNodes.push_back(").append(i).append(");\n");
+            }
+            sb.append("    reg.resources.push_back(std::move(res));\n");
         }
-        sb.append("    reg.resources.push_back(res);\n");
 
-        int index = 0;
-        for (IrNode node : nodes) {
+        for (int index = start; index < end; index++) {
+            IrNode node = nodes.get(index);
             boolean resolvedRef = node.isRef && node.refTargetIndex >= 0;
             sb.append("\n    { // node ").append(index).append("\n");
             sb.append("        SchemaNode n;\n");
@@ -2526,19 +2586,32 @@ final class Oas31SchemaIrEmitter {
                     .append(CppBoostBeastClientCodegen.escapeCppStringContent(
                             baseUri + node.schemaPath))
                     .append("\";\n");
-            sb.append("        reg.nodes.push_back(n);\n");
+            sb.append("        reg.nodes.push_back(std::move(n));\n");
             sb.append("    }\n");
-            if (node.dialectValidationInert) {
-                vocabInertResources.add(node.dynamicResource);
+        }
+
+        if (isChunk) {
+            sb.append("}\n\n");
+            sb.append("SchemaIndex schemaNodeForChunk").append(chunk)
+                    .append("(std::string const& id) {\n");
+            for (int index = start; index < end; index++) {
+                sb.append("    if (id == \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(
+                                nodes.get(index).validatorId))
+                        .append("\") return ").append(index).append(";\n");
             }
-            index++;
+            sb.append("    return kNoSchema;\n");
+            sb.append("}\n\n");
+            sb.append("} // namespace detail\n");
+            sb.append("} // namespace ").append(namespaceName).append("\n");
+            return sb.toString();
         }
 
         // Resources whose dialect omits the validation vocabulary treat those
         // keywords as inert annotations. Row identity follows dynamic scope so
         // unmarked rows inherit the enclosing resource.
         for (int rid : vocabInertResources) {
-            sb.append("        reg.vocabInertResources.insert(")
+            sb.append("    reg.vocabInertResources.insert(")
                     .append(rid).append(");\n");
         }
 
@@ -2571,12 +2644,97 @@ final class Oas31SchemaIrEmitter {
         sb.append("    return evaluator;\n");
         sb.append("}\n\n");
         sb.append("SchemaIndex schemaNodeFor(std::string const& id) {\n");
-        index = 0;
-        for (IrNode node : nodes) {
-            sb.append("    if (id == \"").append(node.validatorId).append("\") return ").append(index).append(";\n");
-            index++;
+        for (int index = 0; index < nodes.size(); index++) {
+            sb.append("    if (id == \"")
+                    .append(CppBoostBeastClientCodegen.escapeCppStringContent(
+                            nodes.get(index).validatorId))
+                    .append("\") return ").append(index).append(";\n");
         }
         sb.append("    (void)id;\n");
+        sb.append("    return kNoSchema;\n");
+        sb.append("}\n\n");
+        sb.append("} // namespace ").append(namespaceName).append("\n");
+        return sb.toString();
+    }
+
+    /** Small coordinator linking independently compiled registry partitions. */
+    private String buildSchemaIrCoordinatorSource(
+            java.util.List<IrNode> nodes, int mainNodeCount, int chunkCount) {
+        String namespaceName = schemaValidationNamespace();
+        StringBuilder sb = new StringBuilder();
+        sb.append("// Generated by CppBoostBeastClientCodegen (partitioned OAS 3.1 schema IR).\n");
+        sb.append("#include \"Oas31SchemaRegistry.h\"\n");
+        sb.append("#include \"Oas31Validator.h\"\n");
+        sb.append("#include <string>\n");
+        sb.append("#include <utility>\n\n");
+        sb.append("namespace ").append(namespaceName).append(" {\n");
+        sb.append("namespace detail {\n");
+        for (int chunk = 0; chunk < chunkCount; chunk++) {
+            sb.append("void appendSchemaRegistryChunk").append(chunk)
+                    .append("(SchemaResourceRegistry& reg);\n");
+            sb.append("SchemaIndex schemaNodeForChunk").append(chunk)
+                    .append("(std::string const& id);\n");
+        }
+        sb.append("} // namespace detail\n\n");
+        sb.append("namespace {\n\n");
+        sb.append("SchemaResourceRegistry buildRegistry() {\n");
+        sb.append("    SchemaResourceRegistry reg;\n");
+        sb.append("    reg.nodes.reserve(").append(nodes.size()).append(");\n");
+        sb.append("    SchemaResource res;\n");
+        sb.append("    res.baseUri = \"")
+                .append(CppBoostBeastClientCodegen.escapeCppStringContent(documentBaseUri()))
+                .append("\";\n");
+        sb.append("    res.dialect = \"")
+                .append(CppBoostBeastClientCodegen.escapeCppStringContent(documentDialectUri()))
+                .append("\";\n");
+        sb.append("    // No document-root anchor is declared.\n");
+        for (int i = 0; i < mainNodeCount; i++) {
+            sb.append("    res.rootNodes.push_back(").append(i).append(");\n");
+        }
+        sb.append("    reg.resources.push_back(std::move(res));\n");
+        for (int chunk = 0; chunk < chunkCount; chunk++) {
+            sb.append("    detail::appendSchemaRegistryChunk").append(chunk)
+                    .append("(reg);\n");
+        }
+        for (int rid : vocabInertResources) {
+            sb.append("    reg.vocabInertResources.insert(")
+                    .append(rid).append(");\n");
+        }
+
+        int maxRes = 0;
+        for (DynamicAnchorReg reg : dynamicAnchorRegs.values()) {
+            if (reg.row >= 0 && reg.resource > maxRes) {
+                maxRes = reg.resource;
+            }
+        }
+        sb.append("    reg.dynamicAnchorTables.resize(").append(maxRes + 1).append(");\n");
+        for (DynamicAnchorReg reg : dynamicAnchorRegs.values()) {
+            if (reg.row < 0) {
+                continue;
+            }
+            sb.append("    reg.dynamicAnchorTables[").append(reg.resource)
+                    .append("].push_back({\"")
+                    .append(CppBoostBeastClientCodegen.escapeCppStringContent(reg.name))
+                    .append("\", ").append(reg.row).append("});\n");
+        }
+        sb.append("\n    return reg;\n");
+        sb.append("}\n\n");
+        sb.append("} // namespace\n\n");
+        sb.append("SchemaResourceRegistry const& schemaRegistry() {\n");
+        sb.append("    static SchemaResourceRegistry const r = buildRegistry();\n");
+        sb.append("    return r;\n");
+        sb.append("}\n\n");
+        sb.append("SchemaEvaluator const& sharedSchemaEvaluator() {\n");
+        sb.append("    static SchemaEvaluator const evaluator(schemaRegistry());\n");
+        sb.append("    return evaluator;\n");
+        sb.append("}\n\n");
+        sb.append("SchemaIndex schemaNodeFor(std::string const& id) {\n");
+        sb.append("    SchemaIndex index = kNoSchema;\n");
+        for (int chunk = 0; chunk < chunkCount; chunk++) {
+            sb.append("    index = detail::schemaNodeForChunk").append(chunk)
+                    .append("(id);\n");
+            sb.append("    if (index != kNoSchema) return index;\n");
+        }
         sb.append("    return kNoSchema;\n");
         sb.append("}\n\n");
         sb.append("} // namespace ").append(namespaceName).append("\n");

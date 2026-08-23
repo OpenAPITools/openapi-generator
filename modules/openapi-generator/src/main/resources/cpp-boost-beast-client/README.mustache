@@ -106,7 +106,7 @@ comments:
 | D1 | Preserve JSON numbers as exact base-10 mantissa/exponent pairs | `Oas31ExactNumber.h`, `Oas31ExactJson.h` |
 | D2 | Validate through a raw-instance view before destination conversion | `Oas31Validator.h` |
 | D3 | Make branch annotations and evaluated coverage transactional | `ValidationContext` in `Oas31Validator.h` |
-| D5 | Densify schemas into one registry interpreted by a shared evaluator | `Oas31SchemaIr.h`, `Oas31SchemaRegistry.h`, `schema_ir.generated.cpp` |
+| D5 | Densify schemas into one registry interpreted by a shared evaluator; partition large registries into bounded translation units | `Oas31SchemaIr.h`, `Oas31SchemaRegistry.h`, `schema_ir.generated*.cpp` |
 
 ### OpenAPI → C++ type mapping
 

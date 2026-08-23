@@ -98,6 +98,7 @@ struct FormParameter {
     std::string contentType;
 };
 
+
 inline std::string toFormParameterValue(const std::string& value) {
     return value;
 }
@@ -140,16 +141,10 @@ struct FormParamSerializer {
     }
 };
 
-// Map types: serialize as JSON object via toRequestJsonValue.
+// Map types serialize as JSON after the request converter overloads are defined.
 template<typename T>
 struct FormParamSerializer<std::map<std::string, T>, void> {
-    static std::string serialize(const std::map<std::string, T>& mapValue) {
-        boost::json::object obj;
-        for (const auto& entry : mapValue) {
-            obj[entry.first] = toRequestJsonValue(entry.second);
-        }
-        return boost::json::serialize(obj);
-    }
+    static std::string serialize(const std::map<std::string, T>& mapValue);
 };
 
 // Detect types with toJsonValue() member — model classes.
@@ -159,6 +154,27 @@ struct HasFormToJsonValue : std::false_type {};
 template <typename T>
 struct HasFormToJsonValue<T, std::void_t<
     decltype(std::declval<const T&>().toJsonValue())>> : std::true_type {};
+
+template<typename T>
+std::string toFormParameterValue(const std::shared_ptr<T>& value);
+
+template<typename... Ts>
+std::string toFormParameterValue(const std::variant<Ts...>& value);
+
+template<std::size_t BranchIndex, typename ValueType>
+std::string toFormParameterValue(
+    const CompositionBranchValue<BranchIndex, ValueType>& value);
+
+template<typename T>
+std::string toFormParameterValue(const std::optional<T>& value);
+
+template<typename T>
+typename std::enable_if<HasFormToJsonValue<T>::value, std::string>::type
+toFormParameterValue(const std::vector<T>& values);
+
+template<typename T>
+typename std::enable_if<!HasFormToJsonValue<T>::value, std::string>::type
+toFormParameterValue(const std::vector<T>& values);
 
 // Model classes: serialize via toJsonValue() as JSON.
 template<typename T>
@@ -172,6 +188,24 @@ template<typename T>
 typename std::enable_if<!HasFormToJsonValue<T>::value, std::string>::type
 toFormParameterValue(const T& value) {
     return FormParamSerializer<T>::serialize(value);
+}
+
+template<typename T>
+std::string toFormParameterValue(const std::shared_ptr<T>& value) {
+    return value == nullptr ? "" : toFormParameterValue(*value);
+}
+
+template<typename... Ts>
+std::string toFormParameterValue(const std::variant<Ts...>& value) {
+    return std::visit([](const auto& alternative) -> std::string {
+        return toFormParameterValue(alternative);
+    }, value);
+}
+
+template<std::size_t BranchIndex, typename ValueType>
+std::string toFormParameterValue(
+    const CompositionBranchValue<BranchIndex, ValueType>& value) {
+    return toFormParameterValue(value.value);
 }
 
 template<typename T>
@@ -315,6 +349,28 @@ inline boost::json::value toJsonValue(std::int32_t v) { return boost::json::valu
 inline boost::json::value toJsonValue(std::int64_t v) { return boost::json::value(v); }
 inline boost::json::value toJsonValue(double v) { return boost::json::value(v); }
 template<typename T>
+boost::json::value toJsonValue(const std::vector<T>& value);
+
+template<typename ValueType>
+boost::json::value toJsonValue(const std::map<std::string, ValueType>& value);
+
+template<typename T>
+boost::json::value toJsonValue(const std::shared_ptr<T>& value);
+
+template<typename T>
+boost::json::value toJsonValue(const std::optional<T>& value);
+
+template<typename... Ts>
+boost::json::value toJsonValue(const std::variant<Ts...>& value);
+
+template<std::size_t BranchIndex, typename ValueType>
+boost::json::value toJsonValue(
+    const CompositionBranchValue<BranchIndex, ValueType>& value);
+
+template<typename T>
+boost::json::value toJsonValue(const T& value);
+
+template<typename T>
 boost::json::value toJsonValue(const std::vector<T>& v) {
     boost::json::array a;
     a.reserve(v.size());
@@ -328,15 +384,31 @@ boost::json::value toJsonValue(const std::map<std::string, V>& m) {
     return boost::json::value(std::move(o));
 }
 template<typename T>
-boost::json::value toJsonValue(const std::shared_ptr<T>& v) {
-    // Generated parameter/model classes expose toJsonValue().
-    if (!v) { return boost::json::value(nullptr); }
-    return v->toJsonValue();
+boost::json::value toJsonValue(const std::shared_ptr<T>& value) {
+    return value == nullptr ? boost::json::value(nullptr) : toJsonValue(*value);
 }
 template<typename T>
-boost::json::value toJsonValue(const T& v) {
+boost::json::value toJsonValue(const std::optional<T>& value) {
+    return value.has_value() ? toJsonValue(*value) : boost::json::value(nullptr);
+}
+template<typename... Ts>
+boost::json::value toJsonValue(const std::variant<Ts...>& value) {
+    return std::visit([](const auto& alternative) -> boost::json::value {
+        return toJsonValue(alternative);
+    }, value);
+}
+template<std::size_t BranchIndex, typename ValueType>
+boost::json::value toJsonValue(
+    const CompositionBranchValue<BranchIndex, ValueType>& value) {
+    return toJsonValue(value.value);
+}
+template<typename T>
+boost::json::value toJsonValue(const T& value) {
+    if constexpr (HasFormToJsonValue<T>::value) {
+        return value.toJsonValue();
+    }
     // Legacy/exotic types degrade to the ostringstream string form.
-    return boost::json::value(toFormParameterValue(v));
+    return boost::json::value(toFormParameterValue(value));
 }
 
 inline std::string jsonScalarText(const boost::json::value& v) {
@@ -812,7 +884,6 @@ template<typename T>
 boost::json::value toRequestJsonValue(const T& requestValue) {
     return toRequestJsonValueImpl(requestValue, HasRequestToJsonValue<T>{});
 }
-
 template<typename T>
 boost::json::value toRequestJsonValue(const std::shared_ptr<T>& requestValue);
 
@@ -828,12 +899,17 @@ boost::json::value toRequestJsonValue(const std::variant<Ts...>& requestValue);
 template<typename T>
 boost::json::value toRequestJsonValue(const std::optional<T>& requestValue);
 
-template<std::size_t Idx, typename Val>
-boost::json::value toRequestJsonValue(const CompositionBranchValue<Idx, Val>& v);
+template<std::size_t BranchIndex, typename ValueType>
+boost::json::value toRequestJsonValue(
+    const CompositionBranchValue<BranchIndex, ValueType>& value);
+
+
 
 template<typename T>
 boost::json::value toRequestJsonValue(const std::shared_ptr<T>& requestValue) {
-    return requestValue == nullptr ? boost::json::value(nullptr) : toRequestJsonValueImpl(*requestValue, HasRequestToJsonValue<T>{});
+    return requestValue == nullptr
+        ? boost::json::value(nullptr)
+        : toRequestJsonValue(*requestValue);
 }
 
 template<typename... Ts>
@@ -1263,6 +1339,16 @@ void appendParsedEvent(std::vector<EventVariant>& events,
     events.push_back(converter(exactEvent.value));
 }
 }
+template<typename T>
+std::string FormParamSerializer<std::map<std::string, T>, void>::serialize(
+    const std::map<std::string, T>& mapValue) {
+    boost::json::object object;
+    for (const auto& entry : mapValue) {
+        object[entry.first] = toRequestJsonValue(entry.second);
+    }
+    return boost::json::serialize(object);
+}
+
 
 PetApiException::PetApiException(boost::beast::http::status statusCode, std::string what)
   : m_status(statusCode),
