@@ -131,6 +131,14 @@ public class Oas31ExactRuntimeTest {
                         && schemaIrSource.contains("duplicateNull_branch_0")
                         && schemaIrSource.contains("duplicateNull_branch_1"),
                 "raw duplicate-null branches must each receive a schema IR row");
+        Assert.assertFalse(
+                schemaIrSource.contains("#/components/schemas/Zeta"),
+                "raw recovery must not resurrect a component ref removed by normalization");
+        String outerUnionHeader = Files.readString(output.resolve("model/OuterUnion.h"));
+        Assert.assertTrue(
+                outerUnionHeader.contains(
+                        "std::variant<std::variant<std::int32_t, std::string>, bool>"),
+                "nested compositions must retain an assignable outer branch type");
         int patternNodeEnd = schemaIrSource.indexOf(
                 "n.sourceName = \"nonAsciiPattern_branch_0\"");
         Assert.assertTrue(patternNodeEnd >= 0,

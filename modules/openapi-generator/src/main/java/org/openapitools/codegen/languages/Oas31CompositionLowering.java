@@ -1486,32 +1486,13 @@ public final class Oas31CompositionLowering {
                 .map(b -> b.cppType)
                 .collect(Collectors.toList());
 
-        // Rule 3b: Flatten nested variants
-        List<String> flattened = new ArrayList<>();
-        for (String bt : nonNullBranches) {
-            if (bt.startsWith("std::variant<") && bt.endsWith(">")) {
-                String inner = bt.substring(13, bt.length() - 1);
-                int depth = 0;
-                int start = 0;
-                for (int i = 0; i < inner.length(); i++) {
-                    char c = inner.charAt(i);
-                    if (c == '<') depth++;
-                    else if (c == '>') depth--;
-                    else if (c == ',' && depth == 0) {
-                        flattened.add(inner.substring(start, i).trim());
-                        start = i + 1;
-                    }
-                }
-                if (start < inner.length()) {
-                    flattened.add(inner.substring(start).trim());
-                }
-            } else {
-                flattened.add(bt);
-            }
-        }
+        // Rule 3b: Preserve nested variants as outer alternatives. Branch
+        // conversion parses each descriptor branch into its declared C++ type;
+        // flattening that type would make the converted value unassignable and
+        // would erase the nested composition's branch boundary.
 
         // Rule 4: All-null or empty → boost::json::value
-        if (flattened.isEmpty()) {
+        if (nonNullBranches.isEmpty()) {
             return "boost::json::value";
         }
 
@@ -1534,8 +1515,8 @@ public final class Oas31CompositionLowering {
 
         if (hasDuplicateTypes) {
             // Shortcut: wrap all branches in CompositionBranchValue to
-            // preserve identity. Skip flattening (nested variants only
-            // appear once in nonNullBranches so they won't collide here).
+            // preserve identity. Nested variants remain intact so the wrapper
+            // type exactly matches the descriptor branch conversion type.
             // Also skip Rule 6 (string exclusivity) since tagged branches
             // already preserve distinct membership.
             List<String> tagged = new ArrayList<>();
@@ -1544,31 +1525,8 @@ public final class Oas31CompositionLowering {
                 int origIdx = nonNullMeta.get(i).originalBranchIndex;
                 // For inline schemas (origIdx < 0), use flat position as tag.
                 int brIdx = origIdx >= 0 ? origIdx : i;
-                // Flatten nested variant types within tagged branches
-                if (rawType.startsWith("std::variant<") && rawType.endsWith(">")) {
-                    String inner = rawType.substring(13, rawType.length() - 1);
-                    int depth = 0;
-                    int start = 0;
-                    for (int ci = 0; ci < inner.length(); ci++) {
-                        char c = inner.charAt(ci);
-                        if (c == '<') depth++;
-                        else if (c == '>') depth--;
-                        else if (c == ',' && depth == 0) {
-                            String innerType = inner.substring(start, ci).trim();
-                            tagged.add("CompositionBranchValue<" + brIdx
-                                    + ", " + innerType + ">");
-                            start = ci + 1;
-                        }
-                    }
-                    if (start < inner.length()) {
-                        String innerType = inner.substring(start).trim();
-                        tagged.add("CompositionBranchValue<" + brIdx
-                                + ", " + innerType + ">");
-                    }
-                } else {
-                    tagged.add("CompositionBranchValue<" + brIdx
-                            + ", " + rawType + ">");
-                }
+                tagged.add("CompositionBranchValue<" + brIdx
+                        + ", " + rawType + ">");
             }
             // When hasDuplicateTypes, null branches must be wrapped in
             // CompositionBranchValue too — never bare std::nullptr_t.
@@ -1592,7 +1550,7 @@ public final class Oas31CompositionLowering {
         }
 
         // Rule 6: Deduplicate identical branch types (safe when no duplicates).
-        List<String> deduped = flattened.stream()
+        List<String> deduped = nonNullBranches.stream()
                 .distinct()
                 .collect(Collectors.toList());
 

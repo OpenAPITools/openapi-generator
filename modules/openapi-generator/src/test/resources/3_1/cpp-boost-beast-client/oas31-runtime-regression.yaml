@@ -74,3 +74,34 @@ components:
         - patternProperties:
             "^á": {}
           additionalProperties: false
+    NestedUnion:
+      oneOf:
+        - type: integer
+        - type: string
+    OuterUnion:
+      oneOf:
+        - $ref: '#/components/schemas/NestedUnion'
+        - type: boolean
+    Simple:
+      title: Simple
+      type: object
+      properties:
+        value:
+          type: string
+    Zeta:
+      title: Simple
+      type: object
+      properties:
+        value:
+          type: string
+    DeduplicatedRefContainer:
+      type: object
+      properties:
+        inner:
+          type: object
+          additionalProperties: false
+          properties:
+            first:
+              $ref: '#/components/schemas/Simple'
+            second:
+              $ref: '#/components/schemas/Zeta'

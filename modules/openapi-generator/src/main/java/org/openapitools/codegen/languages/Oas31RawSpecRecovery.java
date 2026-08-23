@@ -179,7 +179,7 @@ final class Oas31RawSpecRecovery {
         rawRootSchemaPositions(document).forEach((location, raw) -> {
             Schema parsed = parsedSchemas.get(location);
             if (parsed != null) {
-                restoreRawObjectKeywords(raw, parsed, location);
+                restoreRawObjectKeywords(api, raw, parsed, location);
                 recoverSchema(raw, recoveryTarget(api,
                         raw.isObject() && !raw.has("$ref"), parsed), location, api);
             }
@@ -451,14 +451,25 @@ final class Oas31RawSpecRecovery {
     }
 
     private static void restoreRawObjectKeywords(
-            JsonNode raw, Schema parsed, String location) {
+            OpenAPI api, JsonNode raw, Schema parsed, String location) {
         if (raw == null || !raw.isObject() || parsed == null) {
             return;
         }
+
+        // Inline-model extraction replaces an object schema with a synthetic
+        // ref. Reuse the normalized target's schema children so references
+        // rewritten by InlineModelResolver stay canonical during raw recovery.
+        Schema normalizedSource = parsed;
+        if (parsed.get$ref() != null && !raw.has("$ref")) {
+            normalizedSource = recoveryTarget(api, true, parsed);
+        }
+
         JsonNode additionalProperties = raw.get("additionalProperties");
         if (additionalProperties != null) {
             if (additionalProperties.isBoolean()) {
                 parsed.setAdditionalProperties(additionalProperties.booleanValue());
+            } else if (normalizedSource.getAdditionalProperties() instanceof Schema) {
+                parsed.setAdditionalProperties(normalizedSource.getAdditionalProperties());
             } else {
                 parsed.setAdditionalProperties(schemaFromRaw(
                         additionalProperties, location + "/additionalProperties"));
@@ -466,35 +477,46 @@ final class Oas31RawSpecRecovery {
         }
         JsonNode properties = raw.get("properties");
         if (parsed.get$ref() != null && properties != null && properties.isObject()) {
-            Map<String, Schema> recovered = new LinkedHashMap<>();
-            Iterator<Map.Entry<String, JsonNode>> fields = properties.fields();
-            while (fields.hasNext()) {
-                Map.Entry<String, JsonNode> field = fields.next();
-                recovered.put(field.getKey(), schemaFromRaw(
-                        field.getValue(), location + "/properties/"
-                                + pointerSegment(field.getKey())));
+            if (normalizedSource.getProperties() != null) {
+                parsed.setProperties(new LinkedHashMap<>(normalizedSource.getProperties()));
+            } else {
+                parsed.setProperties(schemaMapFromRaw(
+                        properties, location + "/properties"));
             }
-            parsed.setProperties(recovered);
         }
 
         JsonNode patternProperties = raw.get("patternProperties");
         if (patternProperties != null && patternProperties.isObject()) {
-            Map<String, Schema> recovered = new LinkedHashMap<>();
-            Iterator<Map.Entry<String, JsonNode>> fields = patternProperties.fields();
-            while (fields.hasNext()) {
-                Map.Entry<String, JsonNode> field = fields.next();
-                recovered.put(field.getKey(), schemaFromRaw(
-                        field.getValue(), location + "/patternProperties/"
-                                + pointerSegment(field.getKey())));
+            if (normalizedSource.getPatternProperties() != null) {
+                parsed.setPatternProperties(
+                        new LinkedHashMap<>(normalizedSource.getPatternProperties()));
+            } else {
+                parsed.setPatternProperties(schemaMapFromRaw(
+                        patternProperties, location + "/patternProperties"));
             }
-            parsed.setPatternProperties(recovered);
         }
 
         JsonNode propertyNames = raw.get("propertyNames");
         if (propertyNames != null) {
-            parsed.setPropertyNames(schemaFromRaw(
-                    propertyNames, location + "/propertyNames"));
+            if (normalizedSource.getPropertyNames() != null) {
+                parsed.setPropertyNames(normalizedSource.getPropertyNames());
+            } else {
+                parsed.setPropertyNames(schemaFromRaw(
+                        propertyNames, location + "/propertyNames"));
+            }
         }
+    }
+
+    private static Map<String, Schema> schemaMapFromRaw(
+            JsonNode raw, String location) {
+        Map<String, Schema> recovered = new LinkedHashMap<>();
+        Iterator<Map.Entry<String, JsonNode>> fields = raw.fields();
+        while (fields.hasNext()) {
+            Map.Entry<String, JsonNode> field = fields.next();
+            recovered.put(field.getKey(), schemaFromRaw(
+                    field.getValue(), location + "/" + pointerSegment(field.getKey())));
+        }
+        return recovered;
     }
 
     private static Schema schemaFromRaw(JsonNode raw, String location) {
@@ -621,7 +643,7 @@ final class Oas31RawSpecRecovery {
             Schema parsedSchema = (Schema) parsed;
             // Synthetic inline-model refs need the raw object surface on the
             // carrier so additionalProperties can recognize declared names.
-            restoreRawObjectKeywords(raw, parsedSchema, location);
+            restoreRawObjectKeywords(api, raw, parsedSchema, location);
             Schema target = recoveryTarget(api,
                     raw != null && raw.isObject() && !raw.has("$ref"), parsedSchema);
             recoverSchema(raw, target, location, api);

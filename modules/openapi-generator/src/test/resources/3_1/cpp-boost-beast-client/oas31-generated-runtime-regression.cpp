@@ -11,6 +11,7 @@
 #include "model/Mixed.h"
 #include "model/AllNull.h"
 #include "model/DuplicateNull.h"
+#include "model/OuterUnion.h"
 #include "api/DefaultApi.cpp"
 #include "model/Oas31ExactJson.h"
 #include "model/Oas31Validator.h"
@@ -70,6 +71,17 @@ int main() {
         boost::json::parse(R"({"base":"present","kind":"b"})"));
     expect(mixed.index() == 1,
            "composition conversion ignored the validator-selected branch");
+    auto expectOuterUnionRoundTrip = [](const char* payload, const char* message) {
+        const boost::json::value source = boost::json::parse(payload);
+        const model::OuterUnion converted = model::fromJsonValue_OuterUnion(source);
+        expect(model::toJsonValue_OuterUnion(converted) == source, message);
+    };
+    expectOuterUnionRoundTrip("7",
+           "nested integer union branch failed to round-trip");
+    expectOuterUnionRoundTrip(R"("nested")",
+           "nested string union branch failed to round-trip");
+    expectOuterUnionRoundTrip("true",
+           "outer boolean union branch failed to round-trip");
 
     (void)model::fromJsonValue_AllNull(boost::json::value(nullptr));
     bool rejectedDuplicateNull = false;
