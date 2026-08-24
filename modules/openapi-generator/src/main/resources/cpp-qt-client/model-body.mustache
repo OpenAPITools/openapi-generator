@@ -1,10 +1,11 @@
-{{>licenseInfo}}{{#models}}{{#model}}
+{{>licenseInfo}}{{#models}}{{#model}}{{#discriminator}}{{>model-oneof-body}}{{/discriminator}}{{^discriminator}}
 #include "{{classname}}.h"
 
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QObject>
+#include <QJsonValue>
 
 #include "{{prefix}}Helpers.h"
 
@@ -160,5 +161,5 @@ bool {{classname}}::isValid() const {
 {{#cppNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppNamespaceDeclarations}}
-{{/model}}
+{{/discriminator}}{{/model}}
 {{/models}}
