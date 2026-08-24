@@ -447,4 +447,47 @@ public class DartDioClientCodegenTest {
         TestUtils.assertFileNotContains(serializers,
                 "() => SetBuilder<String>(),");
     }
+
+    /**
+     * Regression test: path parameters whose type is an enum must use
+     * {@code encodeQueryParameter} (which calls the built_value serializer and
+     * returns the wire name) rather than a bare {@code .toString()} call (which
+     * returns the Dart identifier name and differs when the wire name contains
+     * underscores, e.g. {@code unknown_default_open_api} vs the Dart identifier
+     * {@code unknownDefaultOpenApi}).
+     *
+     * <p>Both required enum path params must emit
+     * {@code encodeQueryParameter(_serializers, param, const FullType(EnumType)).toString()},
+     * never {@code param.toString()} directly.
+     */
+    @Test
+    public void testEnumPathParamsUseSerializerNotToString() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/path_param_enum_encoding.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+
+        // Both enum path params must route through the serializer, which returns
+        // the wire name (e.g. "unknown_default_open_api"), not .toString() which
+        // returns the Dart identifier name (e.g. "unknownDefaultOpenApi").
+        TestUtils.assertFileContains(defaultApi,
+                "encodeQueryParameter(_serializers, status, const FullType(OrderStatus)).toString()");
+        TestUtils.assertFileContains(defaultApi,
+                "encodeQueryParameter(_serializers, category, const FullType(CategoryType)).toString()");
+
+        // No param should fall back to a bare .toString() call on the enum value.
+        TestUtils.assertFileNotContains(defaultApi,
+                "status.toString()",
+                "category.toString()");
+    }
 }
