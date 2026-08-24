@@ -48,7 +48,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   Foo.JSON_PROPERTY_REQUIRED_COLOR,
   Foo.JSON_PROPERTY_NULLABLE_COLOR
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Foo {
   public static final String JSON_PROPERTY_DT = "dt";
   
