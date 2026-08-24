@@ -457,7 +457,7 @@ public class DartDioClientCodegenTest {
      * {@code unknownDefaultOpenApi}).
      *
      * <p>Both required enum path params must emit
-     * {@code _encodePathParameter(_serializers, param, const FullType(EnumType))},
+     * {@code encodePathParameter(_serializers, param, const FullType(EnumType))},
      * never {@code param.toString()} directly.
      */
     @Test
@@ -481,9 +481,9 @@ public class DartDioClientCodegenTest {
         // the wire name (e.g. "unknown_default_open_api"), not .toString() which
         // returns the Dart identifier name (e.g. "unknownDefaultOpenApi").
         TestUtils.assertFileContains(defaultApi,
-                "_encodePathParameter(_serializers, status, const FullType(OrderStatus))");
+                "encodePathParameter(_serializers, status, const FullType(OrderStatus))");
         TestUtils.assertFileContains(defaultApi,
-                "_encodePathParameter(_serializers, category, const FullType(CategoryType))");
+                "encodePathParameter(_serializers, category, const FullType(CategoryType))");
 
         // No param should fall back to a bare .toString() call on the enum value.
         TestUtils.assertFileNotContains(defaultApi,

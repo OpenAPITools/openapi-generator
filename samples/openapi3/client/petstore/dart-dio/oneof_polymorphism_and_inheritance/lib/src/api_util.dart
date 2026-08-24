@@ -49,7 +49,7 @@ dynamic encodeParameter<T>(
   return serialized;
 }
 
-String _encodePathParameter(
+String encodePathParameter(
   Serializers serializers,
   dynamic value,
   FullType type, {
