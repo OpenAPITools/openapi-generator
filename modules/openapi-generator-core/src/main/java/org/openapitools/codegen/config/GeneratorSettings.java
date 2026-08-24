@@ -256,8 +256,8 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
-     * Gets the set of schema names that must be generated even when listed in schemaMappings or importMappings.
-     * Use {@code "*"} as a wildcard to force-generate all mapped schemas at once.
+     * Gets the mapping-suppressed schemas to emit as isolated shadow models.
+     * Use {@code "*"} as a wildcard to include all mapping-suppressed schemas.
      *
      * @return the forced generate schemas
      */
@@ -974,8 +974,8 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
-         * Sets the {@code forcedGenerateSchemas} (schemas to generate even when listed in schemaMappings or importMappings).
-         * Use {@code "*"} as a wildcard to force-generate all mapped schemas at once.
+         * Sets the mapping-suppressed schemas to emit as isolated shadow models.
+         * Use {@code "*"} as a wildcard to include all mapping-suppressed schemas.
          * and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param schemas the {@code forcedGenerateSchemas} to set
@@ -987,8 +987,8 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
-         * Adds a single schema name to {@code forcedGenerateSchemas} (schemas to generate even when listed in schemaMappings or importMappings).
-         * Use {@code "*"} as a wildcard to force-generate all mapped schemas at once.
+         * Adds a mapping-suppressed schema to emit as an isolated shadow model.
+         * Use {@code "*"} as a wildcard to include all mapping-suppressed schemas.
          * Returns a reference to this Builder so that the methods can be chained together.
          *
          * @param schema the schema name to add
@@ -1211,9 +1211,9 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
-         * Sets the {@code injectModelExtensions} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code injectModelVendorExtensions} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param injectModelExtensions the {@code injectModelExtensions} to set
+         * @param injectModelVendorExtensions the {@code injectModelVendorExtensions} to set
          * @return a reference to this Builder
          */
         public Builder withInjectModelVendorExtensions(Map<String, String> injectModelVendorExtensions) {

@@ -88,9 +88,9 @@ public class ForcedGenerateSchemasCSharpTest {
         for (String name : Arrays.asList("ApiWidget", "ApiGroup", "ApiCircle", "ApiSquare", "ApiContainer")) {
             assertTrue(new File(modelDir, name + ".cs").exists(), name + ".cs must be generated with the wildcard");
         }
-        // With the wildcard EVERY schema is force-generated, so Container references the stock class
-        // and no mapped FQN leaks.
-        assertFileContains(Paths.get(modelDir + File.separator + "ApiContainer.cs"), "ApiWidget");
-        assertFileNotContains(Paths.get(modelDir + File.separator + "ApiContainer.cs"), "Com.Example.Mapped.Widget");
+        // The wildcard selects only mapping-suppressed schemas. Container remains a normal model,
+        // so its reference continues to use the mapped production class.
+        assertFileContains(Paths.get(modelDir + File.separator + "ApiContainer.cs"), "Com.Example.Mapped.Widget");
+        assertFileNotContains(Paths.get(modelDir + File.separator + "ApiContainer.cs"), "ApiWidget");
     }
 }

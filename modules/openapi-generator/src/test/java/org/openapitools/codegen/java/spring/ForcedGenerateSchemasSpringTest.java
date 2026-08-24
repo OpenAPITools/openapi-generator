@@ -5,6 +5,7 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.SpringCodegen;
+import org.openapitools.codegen.model.ModelMap;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -12,7 +13,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
@@ -38,7 +42,10 @@ public class ForcedGenerateSchemasSpringTest {
     private static final String MODEL_DIR = "/src/main/java/org/openapitools/model/";
 
     private File generate(File output, String... forcedSchemas) {
-        final SpringCodegen codegen = new SpringCodegen();
+        return generate(output, new SpringCodegen(), false, forcedSchemas);
+    }
+
+    private File generate(File output, SpringCodegen codegen, boolean generateApis, String... forcedSchemas) {
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setModelNamePrefix("Api");
         codegen.setUseOneOfInterfaces(true);
@@ -55,7 +62,7 @@ public class ForcedGenerateSchemasSpringTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGenerateMetadata(false);
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, Boolean.toString(generateApis));
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
@@ -67,6 +74,18 @@ public class ForcedGenerateSchemasSpringTest {
                 .generate();
 
         return new File(output, MODEL_DIR);
+    }
+
+    private static class CapturingSpringCodegen extends SpringCodegen {
+        private List<ModelMap> supportingModels;
+
+        @Override
+        public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+            supportingModels = ((List<?>) objs.get("models")).stream()
+                    .map(ModelMap.class::cast)
+                    .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
+            return super.postProcessSupportingFileData(objs);
+        }
     }
 
     @Test
@@ -142,6 +161,26 @@ public class ForcedGenerateSchemasSpringTest {
     }
 
     @Test
+    public void forcedSchemasDoNotLeakIntoApisOrSupportingModelMetadata() throws IOException {
+        File output = Files.createTempDirectory("forced-gen-spring").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        CapturingSpringCodegen codegen = new CapturingSpringCodegen();
+
+        generate(output, codegen, true, "Widget", "Group", "Shape", "Circle", "Square", "Container");
+
+        Path api = Paths.get(output + "/src/main/java/org/openapitools/api/WidgetApi.java");
+        assertFileContains(api, "com.example.mapped.Widget");
+        assertFileNotContains(api, "ApiWidget");
+
+        List<String> supportingModelNames = codegen.supportingModels.stream()
+                .map(ModelMap::getModel)
+                .map(model -> model.classname)
+                .toList();
+        assertTrue(supportingModelNames.contains("ApiContainer"));
+        assertFalse(supportingModelNames.contains("ApiWidget"));
+    }
+
+    @Test
     public void wildcardForcesAllMappedSchemas() throws IOException {
         File output = Files.createTempDirectory("forced-gen-spring").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -151,9 +190,9 @@ public class ForcedGenerateSchemasSpringTest {
         for (String name : Arrays.asList("ApiWidget", "ApiGroup", "ApiShape", "ApiCircle", "ApiSquare")) {
             assertTrue(new File(modelDir, name + ".java").exists(), name + ".java must be generated with the wildcard");
         }
-        // With the wildcard, EVERY schema is force-generated — including the otherwise non-mapped
-        // Container — so all references resolve to stock names and none leaks the mapped FQN.
-        assertFileContains(Paths.get(modelDir + File.separator + "ApiContainer.java"), "ApiWidget");
-        assertFileNotContains(Paths.get(modelDir + File.separator + "ApiContainer.java"), "com.example.mapped.Widget");
+        // The wildcard selects only mapping-suppressed schemas. Container remains a normal model,
+        // so its reference continues to use the mapped production class.
+        assertFileContains(Paths.get(modelDir + File.separator + "ApiContainer.java"), "com.example.mapped.Widget");
+        assertFileNotContains(Paths.get(modelDir + File.separator + "ApiContainer.java"), "ApiWidget");
     }
 }

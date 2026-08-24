@@ -44,7 +44,8 @@ public class ForcedGenerateSchemasKotlinTest {
 
     private File generate(File output, String... forcedSchemas) {
         final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());        codegen.setModelNamePrefix("Api");
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setModelNamePrefix("Api");
         codegen.setUseOneOfInterfaces(true);
         codegen.setLegacyDiscriminatorBehavior(false);
 
@@ -156,9 +157,9 @@ public class ForcedGenerateSchemasKotlinTest {
         for (String name : Arrays.asList("ApiWidget", "ApiGroup", "ApiShape", "ApiCircle", "ApiSquare")) {
             assertTrue(new File(modelDir, name + ".kt").exists(), name + ".kt must be generated with the wildcard");
         }
-        // With the wildcard, EVERY schema is force-generated — including the otherwise non-mapped
-        // Container — so all references resolve to stock names and none leaks the mapped FQN.
-        assertFileContains(Paths.get(modelDir + File.separator + "ApiContainer.kt"), "ApiWidget");
-        assertFileNotContains(Paths.get(modelDir + File.separator + "ApiContainer.kt"), "com.example.mapped.Widget");
+        // The wildcard selects only mapping-suppressed schemas. Container remains a normal model,
+        // so its reference continues to use the mapped production class.
+        assertFileContains(Paths.get(modelDir + File.separator + "ApiContainer.kt"), "com.example.mapped.Widget");
+        assertFileNotContains(Paths.get(modelDir + File.separator + "ApiContainer.kt"), "ApiWidget");
     }
 }

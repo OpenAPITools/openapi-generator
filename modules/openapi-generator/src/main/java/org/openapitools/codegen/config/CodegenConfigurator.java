@@ -236,11 +236,11 @@ public class CodegenConfigurator {
 
     /**
      * Adds a single schema name to {@code forcedGenerateSchemas}.
-     * Schemas in this set are generated even when they appear in schemaMappings or importMappings,
-     * emitted under their stock (unmapped) model name. Non-forced references to a forced schema
-     * keep the mapped class; {@code typeMapping} is preserved.
+     * Mapping-suppressed schemas in this set are also emitted as isolated shadow models under their
+     * stock (unmapped) model names. APIs, ordinary models, and supporting-file metadata continue to
+     * use the mapped classes; {@code typeMapping} is preserved.
      * Use {@code "*"} ({@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS}) to force-generate
-     * all mapped schemas at once.
+     * all mapping-suppressed schemas at once. Unmapped schemas remain in normal generation.
      */
     public CodegenConfigurator addForcedGenerateSchema(String schema) {
         this.forcedGenerateSchemas.add(schema);
@@ -251,7 +251,7 @@ public class CodegenConfigurator {
     /**
      * Replaces the entire {@code forcedGenerateSchemas} set.
      * Use {@code "*"} ({@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS}) as a wildcard
-     * to force-generate all mapped schemas at once.
+     * to force-generate all mapping-suppressed schemas at once.
      */
     public CodegenConfigurator setForcedGenerateSchemas(Set<String> schemas) {
         this.forcedGenerateSchemas = schemas;

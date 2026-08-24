@@ -409,15 +409,21 @@ public class DefaultGenerator implements Generator {
         }
     }
 
-    /**
-     * Returns {@code true} if the named schema should be generated even when it appears in
-     * schemaMappings or importMappings. This is the case when the schema name is explicitly
-     * listed in {@code forcedGenerateSchemas} or when the wildcard
-     * {@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS} ({@code "*"}) is present.
-     */
-    private boolean isNotForcedGenerate(String schemaName) {
-        return !config.forcedGenerateSchemas().contains(CodegenConstants.FORCE_GENERATE_ALL_SCHEMAS)
-                && !config.forcedGenerateSchemas().contains(schemaName);
+    private boolean isForcedSchemaRequested(String schemaName) {
+        return config.forcedGenerateSchemas().contains(CodegenConstants.FORCE_GENERATE_ALL_SCHEMAS)
+                || config.forcedGenerateSchemas().contains(schemaName);
+    }
+
+    private boolean isModelSuppressedByMapping(String schemaName) {
+        if (config.schemaMapping().containsKey(schemaName)) {
+            return true;
+        }
+        String mappedTypeName = config.typeMapping().get(schemaName);
+        return mappedTypeName != null && config.importMapping().containsKey(mappedTypeName);
+    }
+
+    private boolean isForcedShadowSchema(String schemaName) {
+        return isForcedSchemaRequested(schemaName) && isModelSuppressedByMapping(schemaName);
     }
 
     private void generateModelDocumentation(List<File> files, Map<String, Object> models, String modelName) throws IOException {
@@ -482,9 +488,9 @@ public class DefaultGenerator implements Generator {
             return;
         }
 
-        // Every forced schema (deferred from Phase 1). Emitted here as stock models.
+        // Requested schemas that mappings suppressed in Phase 1. Emitted here as stock models.
         Set<String> forcedSet = modelKeys().stream()
-                .filter(name -> !isNotForcedGenerate(name))
+                .filter(this::isForcedShadowSchema)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
         if (forcedSet.isEmpty()) {
@@ -504,13 +510,17 @@ public class DefaultGenerator implements Generator {
             if (config.importMapping().containsKey(name)) {
                 savedImportMappings.put(name, config.importMapping().remove(name));
             }
+            String mappedTypeName = config.typeMapping().get(name);
+            if (mappedTypeName != null && config.importMapping().containsKey(mappedTypeName)) {
+                savedImportMappings.put(mappedTypeName, config.importMapping().remove(mappedTypeName));
+            }
         }
         config.clearModelNameCache();
 
         try {
             restrictModelEmissionTo = forcedSet;
-            // Throw-away aggregation lists: these models were already accounted for in Phase 1's
-            // supporting-file bundle; we only want their files (re-)emitted here.
+            // Throw-away aggregation lists: shadow models are intentionally excluded from APIs and
+            // supporting-file metadata; this pass only emits their model artifacts.
             generateModels(files, new ArrayList<>(), ModelUtils.getSchemasUsedOnlyInFormParam(openAPI), new ArrayList<>());
         } finally {
             restrictModelEmissionTo = null;
@@ -550,13 +560,13 @@ public class DefaultGenerator implements Generator {
                 // generated here with the mappings intact, so a non-forced reference to a forced
                 // schema keeps the mapped (FQN) class. During the forced pass restrictModelEmissionTo
                 // is non-null, so this guard is skipped and forced models are processed normally.
-                if (restrictModelEmissionTo == null && !isNotForcedGenerate(name)) {
+                if (restrictModelEmissionTo == null && isForcedShadowSchema(name)) {
                     LOGGER.info("Model {} deferred to the forced-schema generation pass", name);
                     continue;
                 }
 
-                //don't generate models that have an import mapping or are in the list of schemas to always generate
-                if (config.schemaMapping().containsKey(name) && isNotForcedGenerate(name)) {
+                // don't generate models that have a schema mapping
+                if (config.schemaMapping().containsKey(name)) {
                     LOGGER.info("Model {} not generated due to schema mapping", name);
                     continue;
                 }
@@ -642,8 +652,8 @@ public class DefaultGenerator implements Generator {
                 continue;
             }
             try {
-                //don't generate models that have a schema mapping or are in the list of schemas to always generate
-                if (config.schemaMapping().containsKey(modelName) && isNotForcedGenerate(modelName)) {
+                // don't generate models that have a schema mapping
+                if (config.schemaMapping().containsKey(modelName)) {
                     continue;
                 }
 

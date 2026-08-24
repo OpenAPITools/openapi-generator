@@ -10,6 +10,16 @@ info:
     is a string alias used to verify primitive/type resolution is preserved.
   version: 1.0.0
 paths:
+  /widget:
+    get:
+      operationId: getWidget
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Widget'
   /container:
     get:
       operationId: getContainer

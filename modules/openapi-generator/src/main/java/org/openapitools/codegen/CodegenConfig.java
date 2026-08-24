@@ -169,15 +169,15 @@ public interface CodegenConfig {
      * Returns the set of schema names that must be generated even when they appear in
      * schemaMappings or importMappings (which would normally suppress their generation).
      * <p>
-     * A force-generated schema is emitted under its <em>stock</em> (unmapped) model name — as if
-     * neither {@code schemaMapping} nor {@code importMapping} applied to it — while
-     * {@code typeMapping} is still honored. References <em>from a non-forced model</em> to a
-     * forced schema keep the mapped (hand-written) class, whereas references between forced schemas
-     * resolve to their stock names. This is implemented generator-agnostically by a dedicated
-     * forced-schema generation pass in {@code DefaultGenerator} (no per-generator code required).
+     * A force-generated schema is emitted as an isolated shadow model under its <em>stock</em>
+     * (unmapped) model name — as if neither {@code schemaMapping} nor {@code importMapping} applied
+     * to it — while {@code typeMapping} is still honored. Shadow models may reference one another
+     * by their stock names, but they are not added to generated APIs or the normal model metadata
+     * used by supporting files. Ordinary generated code continues to use the mapped classes.
      * <p>
      * Use {@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS} ({@code "*"}) as a wildcard
-     * to force-generate <em>all</em> mapped schemas at once.
+     * to force-generate all schemas that would otherwise be suppressed by mappings. Schemas without
+     * a suppressing mapping remain in the normal generation pass.
      */
     Set<String> forcedGenerateSchemas();
 

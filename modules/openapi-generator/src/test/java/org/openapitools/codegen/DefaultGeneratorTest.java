@@ -523,6 +523,36 @@ public class DefaultGeneratorTest {
         } finally {
             target3.toFile().deleteOnExit();
         }
+
+        // --- Part 4: typeMapping + importMapping suppression must also be bypassed ---
+        Path target4 = Files.createTempDirectory("test-forced-gen-type-import");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(target4.toAbsolutePath().toString())
+                    .addTypeMapping("Category", "ExternalCategory")
+                    .addImportMapping("ExternalCategory", "com.example.ExternalCategory")
+                    .addForcedGenerateSchema("Category");
+
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+            Assert.assertTrue(
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(originalModelRelPath)),
+                    "Category.java MUST be generated when forced generation overrides type/import mapping suppression");
+            Assert.assertTrue(
+                    new File(target4.toFile(), originalModelRelPath).exists(),
+                    "Category.java MUST exist when forced generation overrides type/import mapping suppression");
+        } finally {
+            target4.toFile().deleteOnExit();
+        }
     }
 
     @Test
