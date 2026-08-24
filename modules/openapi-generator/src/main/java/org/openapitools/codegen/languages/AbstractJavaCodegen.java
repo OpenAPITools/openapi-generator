@@ -301,6 +301,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 "Double",
                 "Integer",
                 "Long",
+                "BigInteger",
                 "Float",
                 "Object",
                 "byte[]"
@@ -2195,6 +2196,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // the response data types should not contain bean validation annotations.
         property.dataType = removeAnnotations(property.dataType);
         response.dataType = removeAnnotations(response.dataType);
+
+        if (typeMapping.get("long").equals(response.dataType)) {
+            response.isInteger = false;
+            response.isLong = true;
+        } else if (typeMapping.get("BigInteger").equals(response.dataType)) {
+            response.isInteger = false;
+            response.isLong = false;
+        }
     }
 
     /**

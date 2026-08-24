@@ -200,6 +200,29 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testResponseTypeInferredFromRangeKeepsIntegerFlagsInSync() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        ApiResponse exceedsIntegerResponse = new ApiResponse().content(new Content().addMediaType(
+                "application/json",
+                new MediaType().schema(new IntegerSchema().format(null).maximum(BigDecimal.valueOf(Integer.MAX_VALUE).add(BigDecimal.ONE)))
+        ));
+        CodegenResponse longResponse = codegen.fromResponse("200", exceedsIntegerResponse);
+        Assertions.assertEquals(longResponse.dataType, "Long");
+        Assertions.assertTrue(longResponse.isLong);
+        Assertions.assertFalse(longResponse.isInteger);
+
+        ApiResponse exceedsLongResponse = new ApiResponse().content(new Content().addMediaType(
+                "application/json",
+                new MediaType().schema(new IntegerSchema().format(null).maximum(BigDecimal.valueOf(Long.MAX_VALUE).add(BigDecimal.ONE)))
+        ));
+        CodegenResponse bigIntegerResponse = codegen.fromResponse("200", exceedsLongResponse);
+        Assertions.assertEquals(bigIntegerResponse.dataType, "BigInteger");
+        Assertions.assertFalse(bigIntegerResponse.isLong);
+        Assertions.assertFalse(bigIntegerResponse.isInteger);
+    }
+
+    @Test
     public void arraysInRequestBody() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final JavaClientCodegen codegen = new JavaClientCodegen();
