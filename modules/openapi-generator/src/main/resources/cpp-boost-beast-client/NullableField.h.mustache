@@ -2,14 +2,9 @@
 // ============================================================================
 // NullableField — tri-state nullable wrapper
 //
-// Represents three distinct states for optional nullable properties:
-//   Missing : property absent from JSON object (default state)
-//   Null   : property present with JSON null value
-//   Value  : property present with a valid JSON value
-//
-// This type preserves the full wire semantics required by OpenAPI tri-state
-// contracts where missing, explicit null, and present-value must round-trip
-// without information loss.
+// Tracks effective value and wire presence independently. A schema default can
+// supply an effective Null or Value while the property remains absent on the
+// wire; only an explicit setter or decoder input marks it present.
 //
 // Property mapping:
 //   Required, non-null   -> T
@@ -18,50 +13,67 @@
 //   Optional, nullable   -> NullableField<T>
 // ============================================================================
 
-#ifndef CPP_BOOST_BEAST_OPENAPI_CLIENT_NULLABLE_FIELD_H_
-#define CPP_BOOST_BEAST_OPENAPI_CLIENT_NULLABLE_FIELD_H_
+#ifndef {{schemaValidationHeaderGuardPrefix}}_NULLABLE_FIELD_H_
+#define {{schemaValidationHeaderGuardPrefix}}_NULLABLE_FIELD_H_
 
 #include <type_traits>
 #include <utility>
 #include <stdexcept>
 #include <boost/json.hpp>
 
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
 template <typename T>
 class NullableField {
 public:
     enum class State { Missing, Null, Value };
 
-    // Default: Missing state. T is value-initialized so the default-constructed
-    // field is trivially destructible when T allows it.
+    // Default: missing with no effective value.
     NullableField() = default;
 
-    // Construct from a value.
+    // Construct an explicitly present value.
     explicit NullableField(T v)
         : state_(State::Value)
         , value_(std::move(v))
+        , missing_(false)
     {
     }
 
-    // Factory: create a Null state field.
+    // Factories for explicitly present values.
     static NullableField makeNull() {
+        NullableField result;
+        result.state_ = State::Null;
+        result.missing_ = false;
+        return result;
+    }
+
+    static NullableField makeValue(T v) {
+        return NullableField(std::move(v));
+    }
+
+    // Schema defaults provide an effective value without wire presence.
+    static NullableField makeDefaultNull() {
         NullableField result;
         result.state_ = State::Null;
         return result;
     }
 
-    // Factory: create a Value state field.
-    static NullableField makeValue(T v) {
-        return NullableField(std::move(v));
+    static NullableField makeDefaultValue(T v) {
+        NullableField result;
+        result.state_ = State::Value;
+        result.value_ = std::move(v);
+        return result;
     }
 
-    // State query
-    bool isMissing() const noexcept { return state_ == State::Missing; }
+    // Effective-value and wire-presence queries are intentionally independent.
+    bool isMissing() const noexcept { return missing_; }
     bool isNull() const noexcept    { return state_ == State::Null; }
     bool hasValue() const noexcept  { return state_ == State::Value; }
 
-    /// Returns true when not in Missing state (Null or Value).
     /// Compatible with PropertyStorage hasOptionalValue() convention.
-    bool hasOptionalValue() const noexcept { return state_ != State::Missing; }
+    bool hasOptionalValue() const noexcept { return !missing_; }
 
     /// Resets to Missing state. Compatible with PropertyStorage
     /// resetOptionalValue() convention.
@@ -78,23 +90,25 @@ public:
         return value_;
     }
 
-    /// Transition to Null state. If previously in Value, the stored value is
-    /// reset to a default-constructed T.
+    /// Transition to an explicitly present Null state.
     void setNull() {
         state_ = State::Null;
         value_ = T();
+        missing_ = false;
     }
 
-    /// Transition to Missing state. If previously in Value, the stored value
-    /// is reset to a default-constructed T.
+    /// Reset to missing with no effective value. Generated model decoders
+    /// restore schema defaults with makeDefaultNull/makeDefaultValue instead.
     void resetMissing() {
         state_ = State::Missing;
         value_ = T();
+        missing_ = true;
     }
 
-    // Comparison
+    // Comparison includes presence because defaulted-missing and explicit values
+    // serialize differently even when their effective values are equal.
     bool operator==(NullableField const& other) const {
-        if (state_ != other.state_) return false;
+        if (missing_ != other.missing_ || state_ != other.state_) return false;
         if (state_ == State::Value) return value_ == other.value_;
         return true;
     }
@@ -121,18 +135,17 @@ public:
 
 private:
     void requireValueState() const {
-        if (state_ == State::Missing) {
+        if (state_ != State::Value) {
             throw std::logic_error(
-                "NullableField::value() called in Missing state");
-        }
-        if (state_ == State::Null) {
-            throw std::logic_error(
-                "NullableField::value() called in Null state");
+                state_ == State::Null
+                    ? "NullableField::value() called in Null state"
+                    : "NullableField::value() called without an effective value");
         }
     }
 
     State state_{State::Missing};
     T value_{};
+    bool missing_{true};
 };
 
 // ============================================================================
@@ -147,4 +160,8 @@ struct IsNullableField : std::false_type {};
 template <typename T>
 struct IsNullableField<NullableField<T>> : std::true_type {};
 
-#endif /* CPP_BOOST_BEAST_OPENAPI_CLIENT_NULLABLE_FIELD_H_ */
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{schemaValidationHeaderGuardPrefix}}_NULLABLE_FIELD_H_ */

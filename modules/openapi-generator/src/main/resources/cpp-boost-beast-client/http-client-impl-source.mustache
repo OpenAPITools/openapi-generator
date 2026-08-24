@@ -6,7 +6,7 @@
 #include <boost/beast/http.hpp>
 #include <boost/beast/http/message.hpp>
 #include <boost/beast/version.hpp>
-#include <boost/json/src.hpp>
+#include <boost/json.hpp>
 #include <boost/system/system_error.hpp>
 
 #include <openssl/err.h>
@@ -16,12 +16,13 @@
 #include <array>
 #include <chrono>
 #include <functional>
+#include <limits>
 #include <stdexcept>
 #include <string>
 #include <string_view>
 #include <utility>
 
-#include "api/HttpClientImpl.h"
+#include "HttpClientImpl.h"
 
 
 namespace {
@@ -220,35 +221,49 @@ void validateCallerHeader(const std::string &headerName,
     }
 }
 
-/// Incremental Server-Sent Events framer (WHATWG HTML SSE).
-/// Feeds raw body bytes and invokes onEvent once per complete event with the
-/// event's data payload (multi-line data joined by LF). Incomplete events at
-/// EOF are discarded. Comment lines and non-data fields are ignored for the
-/// callback payload.
+/// Incremental WHATWG Server-Sent Events framer with explicit per-line and
+/// per-event bounds. The callback receives owning event, data, id, and retry
+/// fields and may return false to stop the stream cooperatively.
 class SseEventFramer {
 public:
-    explicit SseEventFramer(std::function<void(const std::string &)> onEvent)
-        : m_onEvent(std::move(onEvent)) {}
+    using SseEvent = {{apiNamespace}}::SseEvent;
+    using SseEventCallback = {{apiNamespace}}::SseEventCallback;
+    using SseStreamOptions = {{apiNamespace}}::SseStreamOptions;
 
-    void feed(const std::string_view chunk) {
+    SseEventFramer(SseEventCallback onEvent, const SseStreamOptions &options)
+        : m_onEvent(std::move(onEvent)), m_options(options) {}
+
+    bool feed(const std::string_view chunk) {
+        if (m_cancelled) return false;
         m_pending.append(chunk.data(), chunk.size());
         if (!consumeInitialByteOrderMark()) {
-            return;
+            return true;
         }
         drain(false);
+        const std::size_t pendingLineSize = !m_pending.empty()
+                && m_pending.back() == '\r'
+            ? m_pending.size() - 1
+            : m_pending.size();
+        if (pendingLineSize > m_options.maxLineBytes) {
+            throw std::length_error("SSE line exceeds maxLineBytes");
+        }
+        return !m_cancelled;
     }
 
     void finish() {
-        drain(true);
+        if (!m_cancelled) {
+            drain(true);
+        }
+        // WHATWG discards an event that is not terminated by a blank line.
         m_pending.clear();
-        m_data.clear();
+        resetEvent();
     }
+
+    bool cancelled() const noexcept { return m_cancelled; }
 
 private:
     bool consumeInitialByteOrderMark() {
-        if (!m_atStreamStart) {
-            return true;
-        }
+        if (!m_atStreamStart) return true;
 
         static constexpr std::array<unsigned char, 3> utf8ByteOrderMark{
             0xef, 0xbb, 0xbf};
@@ -261,9 +276,7 @@ private:
                 return true;
             }
         }
-        if (m_pending.size() < utf8ByteOrderMark.size()) {
-            return false;
-        }
+        if (m_pending.size() < utf8ByteOrderMark.size()) return false;
 
         m_pending.erase(0, utf8ByteOrderMark.size());
         m_atStreamStart = false;
@@ -272,83 +285,132 @@ private:
 
     void drain(const bool endOfStream) {
         std::size_t cursor = 0;
-        while (cursor < m_pending.size()) {
+        while (cursor < m_pending.size() && !m_cancelled) {
             std::size_t lineEnd = cursor;
             bool foundEol = false;
             while (lineEnd < m_pending.size()) {
-                const char ch = m_pending[lineEnd];
-                if (ch == '\n') {
+                const char character = m_pending[lineEnd];
+                if (character == '\n') {
                     foundEol = true;
                     break;
                 }
-                if (ch == '\r') {
-                    // Hold a trailing CR until we know whether LF follows (CRLF).
-                    if (lineEnd + 1 == m_pending.size() && !endOfStream) {
-                        break;
-                    }
+                if (character == '\r') {
+                    if (lineEnd + 1 == m_pending.size() && !endOfStream) break;
                     foundEol = true;
                     break;
                 }
                 ++lineEnd;
             }
-            if (!foundEol) {
-                break;
-            }
+            if (!foundEol) break;
 
-            const std::string line = m_pending.substr(cursor, lineEnd - cursor);
+            const std::size_t lineSize = lineEnd - cursor;
+            if (lineSize > m_options.maxLineBytes) {
+                throw std::length_error("SSE line exceeds maxLineBytes");
+            }
+            const std::string_view line(m_pending.data() + cursor, lineSize);
             cursor = lineEnd + 1;
-            if (m_pending[lineEnd] == '\r' && cursor < m_pending.size() &&
-                m_pending[cursor] == '\n') {
+            if (m_pending[lineEnd] == '\r' && cursor < m_pending.size()
+                    && m_pending[cursor] == '\n') {
                 ++cursor;
             }
             processLine(line);
         }
         m_pending.erase(0, cursor);
+        if (m_cancelled) m_pending.clear();
     }
 
-    void processLine(const std::string &line) {
+    void ensureEventSize(std::size_t dataSize,
+                         std::size_t eventSize,
+                         std::size_t idSize) const {
+        const std::size_t limit = m_options.maxEventBytes;
+        if (dataSize > limit || eventSize > limit - dataSize
+                || idSize > limit - dataSize - eventSize) {
+            throw std::length_error("SSE event exceeds maxEventBytes");
+        }
+    }
+
+    void processLine(const std::string_view line) {
         if (line.empty()) {
             dispatchEvent();
             return;
         }
-        if (line[0] == ':') {
-            return;
-        }
+        if (line.front() == ':') return;
 
-        std::string field;
-        std::string value;
-        const auto colon = line.find(':');
-        if (colon == std::string::npos) {
-            field = line;
-        } else {
-            field = line.substr(0, colon);
-            value = line.substr(colon + 1);
-            if (!value.empty() && value[0] == ' ') {
-                value.erase(0, 1);
-            }
-        }
+        const std::size_t colon = line.find(':');
+        const std::string_view field = line.substr(0, colon);
+        std::string_view value = colon == std::string_view::npos
+                ? std::string_view() : line.substr(colon + 1);
+        if (!value.empty() && value.front() == ' ') value.remove_prefix(1);
 
         if (field == "data") {
-            m_data.append(value);
+            const std::size_t limit = m_options.maxEventBytes;
+            if (value.size() > limit || m_data.size() > limit - value.size()
+                    || m_data.size() + value.size() == limit) {
+                throw std::length_error("SSE event exceeds maxEventBytes");
+            }
+            const std::size_t newDataSize = m_data.size() + value.size() + 1;
+            ensureEventSize(newDataSize, m_eventType.size(), m_lastEventId.size());
+            m_data.append(value.data(), value.size());
             m_data.push_back('\n');
+            m_hasData = true;
+        } else if (field == "event") {
+            ensureEventSize(m_data.size(), value.size(), m_lastEventId.size());
+            m_eventType.assign(value.data(), value.size());
+        } else if (field == "id") {
+            if (value.find('\0') == std::string_view::npos) {
+                ensureEventSize(m_data.size(), m_eventType.size(), value.size());
+                m_lastEventId.assign(value.data(), value.size());
+            }
+        } else if (field == "retry") {
+            parseRetry(value);
         }
+    }
+
+    void parseRetry(const std::string_view value) {
+        if (value.empty()) return;
+        std::uint64_t parsed = 0;
+        for (const char character : value) {
+            if (character < '0' || character > '9') return;
+            const std::uint64_t digit = static_cast<std::uint64_t>(character - '0');
+            if (parsed > ((std::numeric_limits<std::uint64_t>::max)() - digit) / 10U) {
+                return;
+            }
+            parsed = parsed * 10U + digit;
+        }
+        m_retryMilliseconds = parsed;
     }
 
     void dispatchEvent() {
-        if (m_data.empty()) {
+        if (!m_hasData) {
+            resetEvent();
             return;
         }
-        if (m_data.back() == '\n') {
-            m_data.pop_back();
-        }
-        m_onEvent(m_data);
-        m_data.clear();
+        if (!m_data.empty() && m_data.back() == '\n') m_data.pop_back();
+        const std::string eventType = m_eventType.empty() ? "message" : m_eventType;
+        ensureEventSize(m_data.size(), eventType.size(), m_lastEventId.size());
+        SseEvent event{eventType, std::move(m_data), m_lastEventId,
+                       m_retryMilliseconds};
+        if (!m_onEvent(event)) m_cancelled = true;
+        resetEvent();
     }
 
-    std::function<void(const std::string &)> m_onEvent;
+    void resetEvent() {
+        m_data.clear();
+        m_eventType.clear();
+        m_retryMilliseconds.reset();
+        m_hasData = false;
+    }
+
+    SseEventCallback m_onEvent;
+    const SseStreamOptions &m_options;
     bool m_atStreamStart = true;
+    bool m_hasData = false;
+    bool m_cancelled = false;
     std::string m_pending;
     std::string m_data;
+    std::string m_eventType;
+    std::string m_lastEventId;
+    std::optional<std::uint64_t> m_retryMilliseconds;
 };
 
 void throwOperationError(const boost::beast::error_code &operationError,
@@ -453,6 +515,40 @@ boost::beast::error_code runTimedOperation(
     return operationError;
 }
 
+
+bool isEventStreamContentType(const std::string &value) {
+    std::size_t begin = 0;
+    while (begin < value.size()
+            && (value[begin] == ' ' || value[begin] == '\t')) {
+        ++begin;
+    }
+    std::size_t end = value.find(';', begin);
+    if (end == std::string::npos) end = value.size();
+    while (end > begin
+            && (value[end - 1] == ' ' || value[end - 1] == '\t')) {
+        --end;
+    }
+    static constexpr std::string_view expected("text/event-stream");
+    if (end - begin != expected.size()) return false;
+    for (std::size_t index = 0; index < expected.size(); ++index) {
+        unsigned char character = static_cast<unsigned char>(value[begin + index]);
+        if (character >= 'A' && character <= 'Z') {
+            character = static_cast<unsigned char>(character - 'A' + 'a');
+        }
+        if (character != static_cast<unsigned char>(expected[index])) return false;
+    }
+    return true;
+}
+
+void appendBoundedBody(std::string &body,
+                       const char *data,
+                       std::size_t size,
+                       std::uint64_t limit) {
+    if (size > limit || body.size() > limit - size) {
+        throw std::length_error("HTTP response body exceeds configured limit");
+    }
+    body.append(data, size);
+}
 } // namespace
 
 
@@ -462,90 +558,87 @@ streamBody(SyncReadStream &stream,
            boost::asio::io_context &ioContext,
            const std::chrono::milliseconds operationTimeout,
            const std::uint64_t responseBodyLimit,
-           std::function<void(const std::string &)> onEvent,
+           {{apiNamespace}}::SseEventCallback onEvent,
+           const {{apiNamespace}}::SseStreamOptions &options,
            Cancel cancel) {
-    boost::beast::flat_buffer readBuf;
+    boost::beast::flat_buffer readBuffer;
     boost::beast::http::response_parser<boost::beast::http::buffer_body> parser;
-    parser.body_limit(responseBodyLimit);
+    // Successful SSE has no aggregate limit. Non-SSE bodies are bounded
+    // manually after the status and Content-Type are known.
+    parser.body_limit((std::numeric_limits<std::uint64_t>::max)());
 
     throwOperationError(
         runTimedOperation(ioContext, operationTimeout, "read header",
-            [&stream, &readBuf, &parser](
+            [&stream, &readBuffer, &parser](
                 const OperationCompletion &completion) {
                 boost::beast::http::async_read_header(
-                    stream, readBuf, parser,
-                    [completion](
-                        const boost::beast::error_code &ec,
-                        std::size_t) {
-                        completion(ec);
-                    });
+                    stream, readBuffer, parser,
+                    [completion](const boost::beast::error_code &error,
+                                 std::size_t) { completion(error); });
             },
             cancel),
         "read header");
 
-    {{#apiNamespaceDeclarations}}{{this}}::{{/apiNamespaceDeclarations}}HttpResponseData responseData;
+    {{apiNamespace}}::HttpResponseData responseData;
     responseData.status = parser.get().result();
-    const bool isSuccessfulResponse =
-        static_cast<unsigned int>(responseData.status) / 100U == 2U;
-
-    std::array<char, 65536> bodyBuf;
-    SseEventFramer framer(std::move(onEvent));
-
-    while (!parser.is_done()) {
-        parser.get().body().data = bodyBuf.data();
-        parser.get().body().size = bodyBuf.size();
-        parser.get().body().more = true;
-
-        const boost::beast::error_code readError =
-            runTimedOperation(ioContext, operationTimeout, "read body chunk",
-                [&stream, &readBuf, &parser](
-                    const OperationCompletion &completion) {
-                    boost::beast::http::async_read_some(
-                        stream, readBuf, parser,
-                        [completion](
-                            const boost::beast::error_code &ec,
-                            std::size_t) {
-                            completion(ec);
-                        });
-                },
-                cancel);
-
-        // end_of_stream is expected when the body is delimited by
-        // connection close; the parser has consumed what was sent.
-        if (readError == boost::beast::http::error::end_of_stream) {
-            const std::size_t bytesRead =
-                bodyBuf.size() - parser.get().body().size;
-            if (bytesRead > 0) {
-                if (isSuccessfulResponse) {
-                    framer.feed(std::string_view(bodyBuf.data(), bytesRead));
-                } else {
-                    responseData.body.append(bodyBuf.data(), bytesRead);
-                }
-            }
-            break;
-        }
-        if (readError != boost::beast::http::error::need_buffer) {
-            throwOperationError(readError, "read body chunk");
-        }
-
-        const std::size_t bytesRead =
-            bodyBuf.size() - parser.get().body().size;
-        if (bytesRead > 0) {
-            if (isSuccessfulResponse) {
-                framer.feed(std::string_view(bodyBuf.data(), bytesRead));
-            } else {
-                responseData.body.append(bodyBuf.data(), bytesRead);
-            }
-        }
-    }
-
-    if (isSuccessfulResponse) {
-        framer.finish();
-    }
     for (const auto &field : parser.get().base()) {
         responseData.headers[std::string(field.name_string())] =
             std::string(field.value());
     }
+    const std::string contentType =
+        std::string(parser.get()[boost::beast::http::field::content_type]);
+    responseData.isEventStream = isEventStreamContentType(contentType);
+    const bool isSuccessfulResponse =
+        static_cast<unsigned int>(responseData.status) / 100U == 2U;
+    const bool frameEvents = isSuccessfulResponse && responseData.isEventStream;
+
+    std::array<char, 65536> bodyBuffer;
+    SseEventFramer framer(std::move(onEvent), options);
+
+    while (!parser.is_done()) {
+        if (options.isCancelled && options.isCancelled()) {
+            responseData.streamCancelled = true;
+            break;
+        }
+
+        parser.get().body().data = bodyBuffer.data();
+        parser.get().body().size = bodyBuffer.size();
+        parser.get().body().more = true;
+
+        const boost::beast::error_code readError =
+            runTimedOperation(ioContext, operationTimeout, "read body chunk",
+                [&stream, &readBuffer, &parser](
+                    const OperationCompletion &completion) {
+                    boost::beast::http::async_read_some(
+                        stream, readBuffer, parser,
+                        [completion](const boost::beast::error_code &error,
+                                     std::size_t) { completion(error); });
+                },
+                cancel);
+
+        const std::size_t bytesRead =
+            bodyBuffer.size() - parser.get().body().size;
+        if (bytesRead > 0) {
+            if (frameEvents) {
+                if (!framer.feed(std::string_view(bodyBuffer.data(), bytesRead))) {
+                    responseData.streamCancelled = true;
+                }
+            } else {
+                appendBoundedBody(responseData.body, bodyBuffer.data(), bytesRead,
+                                  responseBodyLimit);
+            }
+        }
+
+        if (responseData.streamCancelled) break;
+        if (readError == boost::beast::http::error::end_of_stream) break;
+        if (readError != boost::beast::http::error::need_buffer) {
+            throwOperationError(readError, "read body chunk");
+        }
+    }
+
+    if (frameEvents && !responseData.streamCancelled) framer.finish();
+    responseData.streamCancelled =
+        responseData.streamCancelled || framer.cancelled();
     return responseData;
 }
 
@@ -598,7 +691,11 @@ HttpClientImpl::execute(const std::string &verb,
                         const std::string &target,
                         const std::string &body,
                         const std::map<std::string, std::string> &headers) {
-    const std::lock_guard<std::mutex> executeLock(m_executeMutex);
+    const std::unique_lock<std::mutex> executeLock(
+        m_executeMutex, std::try_to_lock);
+    if (!executeLock.owns_lock()) {
+        throw std::logic_error("HttpClientImpl permits one in-flight request per instance");
+    }
     HttpRequest request = prepareRequest(verb, target, body, headers);
 
     if (m_transport == Transport::Https) {
@@ -660,7 +757,11 @@ HttpClientImpl::executeWithMetadata(const std::string &verb,
                                     const std::string &target,
                                     const std::string &body,
                                     const std::map<std::string, std::string> &headers) {
-    const std::lock_guard<std::mutex> executeLock(m_executeMutex);
+    const std::unique_lock<std::mutex> executeLock(
+        m_executeMutex, std::try_to_lock);
+    if (!executeLock.owns_lock()) {
+        throw std::logic_error("HttpClientImpl permits one in-flight request per instance");
+    }
     HttpRequest request = prepareRequest(verb, target, body, headers);
 
     if (m_transport == Transport::Https) {
@@ -768,34 +869,42 @@ HttpClientImpl::executeStream(
     const std::string &target,
     const std::string &body,
     const std::map<std::string, std::string> &headers,
-    std::function<void(const std::string &)> onEvent) {
+    SseEventCallback onEvent,
+    const SseStreamOptions &options) {
     if (!onEvent) {
         throw std::invalid_argument("onEvent callback must not be empty");
     }
+    if (options.maxLineBytes == 0 || options.maxEventBytes == 0) {
+        throw std::invalid_argument("SSE line and event limits must be greater than zero");
+    }
 
-    const std::lock_guard<std::mutex> executeLock(m_executeMutex);
+    const std::unique_lock<std::mutex> executeLock(
+        m_executeMutex, std::try_to_lock);
+    if (!executeLock.owns_lock()) {
+        throw std::logic_error("HttpClientImpl permits one in-flight request per instance");
+    }
     HttpRequest request = prepareRequest(verb, target, body, headers);
 
     if (m_transport == Transport::Https) {
-        return executeHttpsStream(request, std::move(onEvent));
+        return executeHttpsStream(request, std::move(onEvent), options);
     }
-
-    return executeHttpStream(request, std::move(onEvent));
+    return executeHttpStream(request, std::move(onEvent), options);
 }
 
 HttpResponseData
 HttpClientImpl::executeHttpStream(
     HttpRequest &request,
-    std::function<void(const std::string &)> onEvent) {
+    SseEventCallback onEvent,
+    const SseStreamOptions &options) {
     boost::asio::ip::tcp::socket socket = connectSocket();
     sendRequest(socket, request);
 
     HttpResponseData responseData = ::streamBody(
         socket, m_ioc, m_operationTimeout, m_responseBodyLimit,
-        std::move(onEvent),
+        std::move(onEvent), options,
         [&socket]() {
-            boost::beast::error_code ec;
-            socket.close(ec);
+            boost::beast::error_code error;
+            socket.close(error);
         });
 
     closeSocket(socket);
@@ -805,7 +914,8 @@ HttpClientImpl::executeHttpStream(
 HttpResponseData
 HttpClientImpl::executeHttpsStream(
     HttpRequest &request,
-    std::function<void(const std::string &)> onEvent) {
+    SseEventCallback onEvent,
+    const SseStreamOptions &options) {
     boost::asio::ssl::context tlsContext(
         boost::asio::ssl::context::tls_client);
     configureTlsContext(tlsContext);
@@ -881,10 +991,15 @@ HttpClientImpl::executeHttpsStream(
     tcpStream.expires_never();
     HttpResponseData responseData = ::streamBody(
         tlsStream, m_ioc, m_operationTimeout, m_responseBodyLimit,
-        std::move(onEvent),
+        std::move(onEvent), options,
         [&tcpStream]() {
             tcpStream.close();
         });
+
+    if (responseData.streamCancelled) {
+        tcpStream.close();
+        return responseData;
+    }
 
     tcpStream.expires_after(m_operationTimeout);
     const boost::beast::error_code shutdownError = runAsyncOperation(

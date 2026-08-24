@@ -44,15 +44,23 @@ public class Oas31ExactRuntimeTest {
         Path executable = output.resolve("oas31-exact-runtime-test");
         Path validationTemplate = Path.of(
                 "src/main/resources/cpp-boost-beast-client/validation-types.mustache");
+        String modelNamespace = "org::openapitools::client::model";
+        String validationNamespace = modelNamespace + "::detail::schema_validation";
+        String validationGuard =
+                "ORG_OPENAPITOOLS_CLIENT_MODEL_VALIDATION_TYPES";
         String validationHeader = Files.readString(validationTemplate, StandardCharsets.UTF_8)
                 .replace("{{>licenseInfo}}", "")
-                .replace("{{validateOnDecode}}", "true");
+                .replace("{{validateOnDecode}}", "true")
+                .replace("{{schemaValidationHeaderGuardPrefix}}", validationGuard)
+                .replace("{{#modelNamespaceDeclarations}}\nnamespace {{this}} {\n"
+                        + "{{/modelNamespaceDeclarations}}",
+                        "namespace " + modelNamespace + " {")
+                .replace("{{#modelNamespaceDeclarations}}\n}\n"
+                        + "{{/modelNamespaceDeclarations}}", "}");
         Files.writeString(output.resolve("ValidationTypes.h"),
                 validationHeader, StandardCharsets.UTF_8);
-        writeValidationSupportHeaders(
-                output,
-                "org::openapitools::client::model::detail::schema_validation",
-                "ORG_OPENAPITOOLS_CLIENT_MODEL_DETAIL_SCHEMA_VALIDATION");
+        writeValidationSupportHeaders(output, validationNamespace,
+                validationGuard + "_SCHEMA_VALIDATION");
 
         String compiler = System.getenv().getOrDefault("CXX", "c++");
         List<String> command = new ArrayList<>();
@@ -65,6 +73,7 @@ public class Oas31ExactRuntimeTest {
         command.add(output.toString());
         command.add("-I");
         command.add(includeDirectory.toString());
+        command.add(output.resolve("Oas31ExactNumber.cpp").toString());
         command.add(source.toString());
         command.add("-o");
         command.add(executable.toString());
@@ -124,6 +133,24 @@ public class Oas31ExactRuntimeTest {
         Assert.assertTrue(
                 mixedModelSource.contains("schemaNodeFor(\"mixed_component\")"),
                 "decode validation must use the raw component schema id");
+        String scalarDefaultsSource = Files.readString(
+                output.resolve("model/ScalarDefaults.cpp"));
+        String scalarDefaultsHeader = Files.readString(
+                output.resolve("model/ScalarDefaults.h"));
+        Assert.assertTrue(scalarDefaultsSource.contains(
+                        "NullableField<std::string>::makeDefaultNull()")
+                        && scalarDefaultsSource.contains(
+                        "NullableField<std::string>::makeDefaultValue(\"fallback\")")
+                        && scalarDefaultsHeader.contains(
+                        "m_Nullable_label = NullableField<std::string>::makeDefaultNull()")
+                        && scalarDefaultsHeader.contains(
+                        "m_Nullable_fallback = NullableField<std::string>::makeDefaultValue(\"fallback\")"),
+                "nullable schema defaults must initialize constructors and decode resets");
+        String nullableEnumHeader = Files.readString(
+                output.resolve("model/NullableEnumBox.h"));
+        Assert.assertTrue(nullableEnumHeader.contains(
+                        "std::optional<std::string> m_Required_enum;"),
+                "implicit primitive placeholders must not initialize nullable fields");
         String schemaIrSource = Files.readString(
                 output.resolve("model/schema_ir.generated.cpp"));
         Assert.assertTrue(
@@ -193,6 +220,28 @@ public class Oas31ExactRuntimeTest {
         Assert.assertTrue(
                 runOutput.contains("oas31 generated runtime regressions passed"),
                 "Generated C++ runtime test did not report completion: " + runOutput);
+
+        Path sseTransportSource = Path.of(
+                "src/test/resources/3_1/cpp-boost-beast-client/"
+                        + "oas31-generated-sse-transport-regression.cpp");
+        Path sseTransportExecutable = output.resolve(
+                "oas31-generated-sse-transport-regression");
+        compileGeneratedSseTransport(
+                compiler, output, sseTransportSource, sseTransportExecutable);
+
+        Process sseTransportRun = new ProcessBuilder(sseTransportExecutable.toString())
+                .redirectErrorStream(true)
+                .start();
+        Assert.assertTrue(sseTransportRun.waitFor(30, TimeUnit.SECONDS),
+                "Generated SSE transport test execution timed out");
+        String sseTransportOutput = new String(
+                sseTransportRun.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        Assert.assertEquals(sseTransportRun.exitValue(), 0,
+                "Generated SSE transport test failed:\n" + sseTransportOutput);
+        Assert.assertTrue(
+                sseTransportOutput.contains("oas31 SSE transport regressions passed"),
+                "Generated SSE transport test did not report completion: "
+                        + sseTransportOutput);
     }
 
     @Test
@@ -287,7 +336,7 @@ public class Oas31ExactRuntimeTest {
         output.toFile().deleteOnExit();
 
         String inputSpec = "src/test/resources/3_1/cpp-boost-beast-client/"
-                + "schema-ir-lexeme-regression.yaml";
+                + "oas31-runtime-regression.yaml";
         Path alphaOutput = output.resolve("alpha");
         Path betaOutput = output.resolve("beta");
 
@@ -295,66 +344,137 @@ public class Oas31ExactRuntimeTest {
                 .setGeneratorName("cpp-boost-beast-client")
                 .setInputSpec(inputSpec)
                 .setOutputDir(alphaOutput.toString())
-                .addAdditionalProperty("modelPackage", "alpha.client.model");
+                .addAdditionalProperty("packageName", "AlphaClient")
+                .addAdditionalProperty("modelPackage", "alpha.client.model")
+                .addAdditionalProperty("apiPackage", "alpha.client.api")
+                .addAdditionalProperty("compileWithValidation", true);
         CodegenConfigurator beta = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
                 .setInputSpec(inputSpec)
                 .setOutputDir(betaOutput.toString())
-                .addAdditionalProperty("modelPackage", "beta.client.model");
+                .addAdditionalProperty("packageName", "BetaClient")
+                .addAdditionalProperty("modelPackage", "beta.client.model")
+                .addAdditionalProperty("apiPackage", "beta.client.api")
+                .addAdditionalProperty("compileWithValidation", false);
         new DefaultGenerator().opts(alpha.toClientOptInput()).generate();
         new DefaultGenerator().opts(beta.toClientOptInput()).generate();
 
-        Path alphaValidator = alphaOutput.resolve("model/Oas31Validator.h");
-        Path betaValidator = betaOutput.resolve("model/Oas31Validator.h");
-        Assert.assertTrue(Files.exists(alphaValidator), "Alpha validation header must be emitted");
-        Assert.assertTrue(Files.exists(betaValidator), "Beta validation header must be emitted");
-        String alphaContent = Files.readString(alphaValidator, StandardCharsets.UTF_8);
-        String betaContent = Files.readString(betaValidator, StandardCharsets.UTF_8);
-        Assert.assertTrue(alphaContent.contains(
-                "namespace alpha::client::model::detail::schema_validation {"));
-        Assert.assertTrue(betaContent.contains(
-                "namespace beta::client::model::detail::schema_validation {"));
-        Assert.assertFalse(alphaContent.contains("namespace oas31"));
-        Assert.assertFalse(betaContent.contains("namespace oas31"));
+        String alphaValidationTypes = Files.readString(
+                alphaOutput.resolve("model/ValidationTypes.h"), StandardCharsets.UTF_8);
+        String betaValidationTypes = Files.readString(
+                betaOutput.resolve("model/ValidationTypes.h"), StandardCharsets.UTF_8);
+        Assert.assertTrue(alphaValidationTypes.contains("kValidateOnDecode = true"));
+        Assert.assertTrue(betaValidationTypes.contains("kValidateOnDecode = false"));
 
-        Path source = output.resolve("multi-client-validation.cpp");
+        Path source = output.resolve("multi-client-link.cpp");
         Files.writeString(source, String.join("\n",
-                "#include \"alpha/model/Oas31Validator.h\"",
-                "#include \"beta/model/Oas31Validator.h\"",
-                "",
+                "#include <boost/json.hpp>",
+                "#include <memory>",
+                "#include <string>",
                 "#include <type_traits>",
                 "",
-                "namespace alpha_validation =",
-                "    alpha::client::model::detail::schema_validation;",
-                "namespace beta_validation =",
-                "    beta::client::model::detail::schema_validation;",
+                "#include \"alpha/model/AnyType.h\"",
+                "#include \"alpha/model/NullableField.h\"",
+                "#include \"alpha/model/ValidationTypes.h\"",
+                "#include \"alpha/model/Oas31Validator.h\"",
+                "#include \"alpha/model/ScalarDefaults.h\"",
+                "#include \"alpha/api/DefaultApi.h\"",
+                "#include \"beta/model/AnyType.h\"",
+                "#include \"beta/model/NullableField.h\"",
+                "#include \"beta/model/ValidationTypes.h\"",
+                "#include \"beta/model/Oas31Validator.h\"",
+                "#include \"beta/model/ScalarDefaults.h\"",
+                "#include \"beta/api/DefaultApi.h\"",
+                "",
+                "namespace alpha_model = alpha::client::model;",
+                "namespace beta_model = beta::client::model;",
+                "namespace alpha_api = alpha::client::api;",
+                "namespace beta_api = beta::client::api;",
+                "namespace alpha_validation = alpha_model::detail::schema_validation;",
+                "namespace beta_validation = beta_model::detail::schema_validation;",
                 "",
                 "static_assert(!std::is_same_v<",
-                "    alpha_validation::ExactNumber,",
-                "    beta_validation::ExactNumber>);",
+                "    alpha_model::NullableField<std::string>,",
+                "    beta_model::NullableField<std::string>>);",
+                "static_assert(!std::is_same_v<",
+                "    alpha_model::ValidationResult, beta_model::ValidationResult>);",
+                "static_assert(!std::is_same_v<",
+                "    alpha_validation::ExactNumber, beta_validation::ExactNumber>);",
+                "static_assert(!std::is_same_v<alpha_api::HttpClient, beta_api::HttpClient>);",
                 "",
                 "int main() {",
-                "    auto const alphaNumber =",
-                "        alpha_validation::ExactNumber::parseLexeme(\"1.0\");",
-                "    auto const betaNumber =",
-                "        beta_validation::ExactNumber::parseLexeme(\"1e0\");",
-                "    return (alphaNumber == alpha_validation::ExactNumber::parseLexeme(\"1\")",
-                "            && betaNumber == beta_validation::ExactNumber::parseLexeme(\"1\"))",
-                "        ? 0 : 1;",
+                "    alpha_model::ScalarDefaults alphaDefaults;",
+                "    beta_model::ScalarDefaults betaDefaults;",
+                "    alpha_api::DefaultApi alphaClient{std::shared_ptr<alpha_api::HttpClient>()};",
+                "    beta_api::DefaultApi betaClient{std::shared_ptr<beta_api::HttpClient>()};",
+                "    (void)alphaClient;",
+                "    (void)betaClient;",
+                "    return (!alphaDefaults.isEnabled() && !betaDefaults.isEnabled()",
+                "            && alphaDefaults.getRetries() == -7",
+                "            && betaDefaults.getRetries() == -7) ? 0 : 1;",
                 "}",
                 ""), StandardCharsets.UTF_8);
 
         String compiler = System.getenv().getOrDefault("CXX", "c++");
-        List<String> command = List.of(
-                compiler,
-                "-std=c++17",
-                "-Wall",
-                "-Wextra",
-                "-Werror",
-                "-I",
-                output.toString(),
-                source.toString(),
-                "-fsyntax-only");
+        Path executable = output.resolve("multi-client-link");
+        compileAndLinkGeneratedClients(
+                compiler, List.of(alphaOutput, betaOutput), source, executable);
+
+        Process run = new ProcessBuilder(executable.toString())
+                .redirectErrorStream(true)
+                .start();
+        Assert.assertTrue(run.waitFor(30, TimeUnit.SECONDS),
+                "Multi-client executable timed out");
+        String runOutput = new String(
+                run.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        Assert.assertEquals(run.exitValue(), 0,
+                "Two generated clients must run in one executable:\n" + runOutput);
+    }
+
+    private static void compileAndLinkGeneratedClients(
+            String compiler,
+            List<Path> outputs,
+            Path driverSource,
+            Path executable) throws Exception {
+        List<String> command = new ArrayList<>();
+        command.add(compiler);
+        command.add("-std=c++17");
+        command.add("-Wall");
+        command.add("-Wextra");
+        command.add("-Werror");
+        command.add("-DBOOST_ERROR_CODE_HEADER_ONLY");
+        for (Path output : outputs) {
+            command.add("-I");
+            command.add(output.toString());
+            command.add("-I");
+            command.add(output.resolve("api").toString());
+            command.add("-I");
+            command.add(output.resolve("model").toString());
+        }
+        command.add(driverSource.toString());
+        for (Path output : outputs) {
+            try (java.util.stream.Stream<Path> modelSources =
+                         Files.list(output.resolve("model"));
+                 java.util.stream.Stream<Path> apiSources =
+                         Files.list(output.resolve("api"))) {
+                modelSources
+                        .filter(path -> path.getFileName().toString().endsWith(".cpp"))
+                        .sorted()
+                        .map(Path::toString)
+                        .forEach(command::add);
+                apiSources
+                        .filter(path -> path.getFileName().toString().endsWith(".cpp"))
+                        .sorted()
+                        .map(Path::toString)
+                        .forEach(command::add);
+            }
+        }
+        command.add("-o");
+        command.add(executable.toString());
+        command.add("-pthread");
+        command.add("-lboost_json");
+        command.add("-lssl");
+        command.add("-lcrypto");
 
         Process compile;
         try {
@@ -363,21 +483,21 @@ public class Oas31ExactRuntimeTest {
                     .start();
         } catch (IOException exception) {
             throw new SkipException(
-                    "C++ compiler is unavailable; skipping multi-client namespace test: "
+                    "C++ compiler is unavailable; skipping multi-client link test: "
                             + exception.getMessage());
         }
-
-        Assert.assertTrue(compile.waitFor(120, TimeUnit.SECONDS),
-                "Multi-client validation compile timed out");
+        Assert.assertTrue(compile.waitFor(240, TimeUnit.SECONDS),
+                "Multi-client compile and link timed out");
         String compileOutput = new String(
                 compile.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-        if (compile.exitValue() != 0 && missingBoostHeaders(compileOutput)) {
+        if (compile.exitValue() != 0
+                && missingSseTransportDependencies(compileOutput)) {
             throw new SkipException(
-                    "Boost headers are unavailable; skipping multi-client namespace test: "
-                            + compileOutput.trim());
+                    "Boost/OpenSSL development files are unavailable; "
+                            + "skipping multi-client link test: " + compileOutput.trim());
         }
         Assert.assertEquals(compile.exitValue(), 0,
-                "Two generated clients must compile in one translation unit:\n" + compileOutput);
+                "Two generated clients must compile and link cleanly:\n" + compileOutput);
     }
 
     private static void compileGeneratedRuntime(
@@ -497,6 +617,53 @@ public class Oas31ExactRuntimeTest {
                 "Generated C++ runtime must link cleanly:\n" + linkOutput);
     }
 
+    private static void compileGeneratedSseTransport(
+            String compiler,
+            Path output,
+            Path driverSource,
+            Path executable) throws Exception {
+        List<String> command = new ArrayList<>(List.of(
+                compiler,
+                "-std=c++17",
+                "-Wall",
+                "-Wextra",
+                "-Werror",
+                "-DBOOST_ERROR_CODE_HEADER_ONLY",
+                "-I",
+                output.toAbsolutePath().toString(),
+                driverSource.toAbsolutePath().toString(),
+                "-o",
+                executable.toAbsolutePath().toString(),
+                "-pthread",
+                "-lboost_json",
+                "-lssl",
+                "-lcrypto"));
+
+        Process compilerProcess;
+        try {
+            compilerProcess = new ProcessBuilder(command)
+                    .redirectErrorStream(true)
+                    .start();
+        } catch (IOException exception) {
+            throw new SkipException(
+                    "C++ compiler is unavailable; skipping SSE transport test: "
+                            + exception.getMessage());
+        }
+        Assert.assertTrue(compilerProcess.waitFor(180, TimeUnit.SECONDS),
+                "Generated SSE transport compilation timed out");
+        String compilerOutput = new String(
+                compilerProcess.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        if (compilerProcess.exitValue() != 0
+                && missingSseTransportDependencies(compilerOutput)) {
+            throw new SkipException(
+                    "Boost/OpenSSL development files are unavailable; "
+                            + "skipping SSE transport test: " + compilerOutput.trim());
+        }
+        Assert.assertEquals(compilerProcess.exitValue(), 0,
+                "Generated SSE transport must compile and link cleanly:\n"
+                        + compilerOutput);
+    }
+
     private static String readCompilerLogs(List<Path> compilerLogs) throws IOException {
         StringBuilder output = new StringBuilder();
         for (Path compilerLog : compilerLogs) {
@@ -549,6 +716,34 @@ public class Oas31ExactRuntimeTest {
                     .replace("{{schemaValidationHeaderGuardPrefix}}", guardPrefix);
             Files.writeString(output.resolve(header[1]), rendered, StandardCharsets.UTF_8);
         }
+        String exactNumberSource = Files.readString(
+                        templateDirectory.resolve("oas31_exact_number_source.mustache"),
+                        StandardCharsets.UTF_8)
+                .replace("{{schemaValidationNamespace}}", namespaceName);
+        Files.writeString(output.resolve("Oas31ExactNumber.cpp"),
+                exactNumberSource, StandardCharsets.UTF_8);
+    }
+
+    private static boolean missingSseTransportDependencies(String compilerOutput) {
+        String normalized = compilerOutput.toLowerCase(java.util.Locale.ROOT);
+        boolean missingOpenSslHeaders = normalized.contains("openssl/")
+                && (normalized.contains("not found")
+                || normalized.contains("no such file"));
+        boolean missingBoostJsonLibrary =
+                normalized.contains("cannot find -lboost_json")
+                || normalized.contains("library 'boost_json' not found")
+                || normalized.contains("library not found for -lboost_json");
+        boolean missingOpenSslLibraries =
+                normalized.contains("cannot find -lssl")
+                || normalized.contains("cannot find -lcrypto")
+                || normalized.contains("library 'ssl' not found")
+                || normalized.contains("library 'crypto' not found")
+                || normalized.contains("library not found for -lssl")
+                || normalized.contains("library not found for -lcrypto");
+        return missingBoostHeaders(compilerOutput)
+                || missingBoostJsonLibrary
+                || missingOpenSslHeaders
+                || missingOpenSslLibraries;
     }
 
     private static boolean missingBoostHeaders(String compilerOutput) {

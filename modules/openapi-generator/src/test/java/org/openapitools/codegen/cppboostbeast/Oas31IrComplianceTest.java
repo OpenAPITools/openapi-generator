@@ -95,12 +95,12 @@ public class Oas31IrComplianceTest {
                 "boost::property_tree",
                 "fromJsonValue(boost::json::parse");
         TestUtils.assertFileContains(cmakeLists,
-                "find_package(Boost 1.75 REQUIRED)",
+                "find_package(Boost 1.75 REQUIRED COMPONENTS json)",
                 "find_package(Threads REQUIRED)",
                 "find_package(OpenSSL 1.1.0 REQUIRED COMPONENTS SSL Crypto)",
                 "set_property(TARGET Threads::Threads PROPERTY IMPORTED_GLOBAL TRUE)",
                 "set_property(TARGET OpenSSL::SSL PROPERTY IMPORTED_GLOBAL TRUE)",
-                "PUBLIC Boost::boost OpenSSL::SSL Threads::Threads",
+                "PUBLIC Boost::boost Boost::json OpenSSL::SSL Threads::Threads",
                 "model/schema_ir.generated.cpp",
                 "model/schema_validate.generated.cpp",
                 "PATTERN \"*.h\" PATTERN \"*.hpp\"");
@@ -184,18 +184,17 @@ public class Oas31IrComplianceTest {
                 "Oas31Validator.h must be emitted into model/");
 
         String ir = java.nio.file.Files.readString(irSource);
-        // Numeric constraints must carry their ORIGINAL lexeme verbatim (the
-        // wrapped bounds go through setExact, enum/const through parseLexeme) —
-        // never a rounded double rendering, so ExactNumber reconstructs exactly.
+        // Numeric constraints and deep enum stores must carry their ORIGINAL
+        // lexemes verbatim: wrapped bounds go through setExact, const through
+        // parseLexeme, and pristine enum arrays through parseExactJson. Never
+        // permit a rounded double rendering; ExactNumber reconstructs exactly.
         TestUtils.assertFileContains(irSource,
                 "setExact(n.minimum, n.hasMinimum, \"0.3\")",
                 "setExact(n.multipleOf, n.hasMultipleOf, \"0.1\")",
                 "setExact(n.maximum, n.hasMaximum, \"1000\")",
                 "setExact(n.exclusiveMinimum, n.hasExclusiveMinimum, \"0\")",
                 "setExact(n.exclusiveMaximum, n.hasExclusiveMaximum, \"1.0\")",
-                "ExactNumber::parseLexeme(\"1.5\")",
-                "ExactNumber::parseLexeme(\"2.25\")",
-                "ExactNumber::parseLexeme(\"3.0\")",
+                "parseExactJson(R\"OAS0([1.5,2.25,3.0])OAS0\")",
                 "ExactNumber::parseLexeme(\"42\")");
         // A rounded double tie (e.g. 0.30000000000000004) must never leak in.
         Assert.assertFalse(ir.contains("0.30000000000000004"),
@@ -464,22 +463,21 @@ public class Oas31IrComplianceTest {
                 "Oas31SchemaRegistry.h must be emitted");
 
         // Each numeric/boolean keyword must survive as its ORIGINAL lexeme (the
-        // >2^53 const, decimal multipleOf, and huge/tiny exponent bounds) so
-        // ExactNumber::parseLexeme reconstructs the value exactly.  Note: scalar
-        // `const` is normalized by openapi-generator to a single-element `enum`
-        // (OpenAPINormalizer) before IR emission, which is semantically identical
-        // to const (single deep-equal value) and yields the same accept/reject
-        // verdicts; the values below therefore appear as ExactNumber::parseLexeme.
+        // >2^53 const, decimal multipleOf, huge/tiny exponent bounds, and exact
+        // enum arrays). Scalar constraints use ExactNumber::parseLexeme while
+        // pristine enums use the deep exact-JSON store. Scalar `const` may be
+        // normalized by OpenAPINormalizer to a single-element enum before IR
+        // emission; the exact accept/reject semantics remain unchanged.
         TestUtils.assertFileContains(irSource,
                 "ExactNumber::parseLexeme(\"1180591620717411303424\")",
                 "ExactNumber::parseLexeme(\"1\")",
                 "ExactNumber::parseLexeme(\"0\")",
-                "ExactNumber::parseLexeme(\"2.5\")",
+                "parseExactJson(R\"OAS0([1,2.5])OAS0\")",
                 "setExact(n.multipleOf, n.hasMultipleOf, \"0.1\")",
                 "setExact(n.multipleOf, n.hasMultipleOf, \"0.3\")",
                 "setExact(n.minimum, n.hasMinimum, \"5\")",
                 "setExact(n.maximum, n.hasMaximum, \"10\")",
-                "n.enumBooleans.push_back(true)");
+                "parseExactJson(R\"OAS0([true])OAS0\")");
         // A partner tell-tale of double rounding must never appear.
         Assert.assertFalse(
                 java.nio.file.Files.readString(irSource).contains("1180591620717411325952"),
@@ -1759,12 +1757,11 @@ public class Oas31IrComplianceTest {
                 "enum:[] must emit a ZERO-member exact deep enumJson literal");
 
         // -- Container-depth EXACT numeric lexemes (never a double round-trip) --
-        // The nested number lexemes survive VERBATIM (1.0 stays 1.0). Jackson's
-        // decimal renderer strips trailing zeros (2.500 -> 2.5), which is
-        // EXACT-EQUALITY-equivalent under JSON-Schema number semantics
-        // (1 == 1.0 == 1e0); a lossy double round-trip (e.g. 2.5000000000000004)
-        // would NOT be equivalent and must never appear.
-        Assert.assertTrue(ir.contains("[{\"amount\":1.0,\"tag\":\"x\"},[2.5,3]]"),
+        // Raw recovery preserves the original nested number spellings, including
+        // insignificant trailing zeroes. Although JSON Schema numeric equality
+        // treats 2.500 and 2.5 alike, retaining 2.500 proves that no lossy
+        // floating-point round-trip occurred.
+        Assert.assertTrue(ir.contains("[{\"amount\":1.0,\"tag\":\"x\"},[2.500,3]]"),
                 "nested numbers must survive verbatim inside the exact deep literal");
         Assert.assertTrue(ir.contains("n.enumJsonLexemes = std::move(_exact.lexemes);"),
                 "deep enum numbers must retain their exact lexeme table");

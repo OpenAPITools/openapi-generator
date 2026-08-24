@@ -49,6 +49,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     private String sseSchemaMode = "representation";
     private static final String SSE_SCHEMA_MODE_REPRESENTATION = "representation";
     private static final String SSE_SCHEMA_MODE_JSON_EVENT_DATA = "jsonEventData";
+    /** Explicit conditional-streaming contracts, keyed by operationId. */
+    private Set<String> sseOperationIds = Collections.emptySet();
+    private Map<String, String> sseRequestPropertyMappings = Collections.emptyMap();
+    private Map<String, String> sseEventTypeMappings = Collections.emptyMap();
+    private boolean inferConditionalSseOperations = true;
     /** Controls composition-branch validation during model decoding. */
     private boolean validateOnDecode = true;
     /** Compatibility mode for server responses that send undeclared nulls. */
@@ -428,18 +433,32 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         CliOption sseSchemaModeOption = new CliOption("sseSchemaMode",
                 "SSE schema interpretation mode for text/event-stream responses."
                 + " 'representation' (default): the response schema describes the"
-                + " text/event-stream media representation; return one raw data"
-                + " string per framed event. Non-data fields such as event, id,"
-                + " and retry are not surfaced. 'jsonEventData': the response schema"
-                + " describes each JSON data field; decode each event's data payload"
-                + " against the schema. Use the x-sse-event-data-schema vendor"
-                + " extension for per-operation opt-in to typed event-data decoding.");
+                + " media representation; callbacks receive an owning SseEvent with"
+                + " raw data, event, id, and retry metadata. 'jsonEventData': decode"
+                + " each complete event data payload against the response schema and"
+                + " pass both the typed value and SseEvent metadata to the callback."
+                + " Use x-sse-event-data-schema for per-operation typed decoding.");
         sseSchemaModeOption.defaultValue(SSE_SCHEMA_MODE_REPRESENTATION);
         sseSchemaModeOption.addEnum(SSE_SCHEMA_MODE_REPRESENTATION,
-                "Strict mode — schema describes media representation");
+                "Schema describes the media representation; callback receives SseEvent");
         sseSchemaModeOption.addEnum(SSE_SCHEMA_MODE_JSON_EVENT_DATA,
                 "Schema describes each JSON event data payload");
         cliOptions.add(sseSchemaModeOption);
+        cliOptions.add(new CliOption("sseOperationIds",
+                "Comma-separated operationIds whose JSON request body conditionally"
+                + " selects text/event-stream (default request property: stream)."));
+        cliOptions.add(new CliOption("sseRequestPropertyMappings",
+                "Comma-separated operationId=property mappings for the boolean request"
+                + " property that selects SSE."));
+        cliOptions.add(new CliOption("sseEventTypeMappings",
+                "Comma-separated operationId=Model mappings for the JSON schema of each"
+                + " SSE event data payload."));
+        CliOption inferConditionalSseOption = CliOption.newBoolean(
+                "inferConditionalSseOperations",
+                "Infer conditional SSE for dual JSON/SSE operations only when the"
+                + " request selector and event model are unambiguous. Enabled by default.");
+        inferConditionalSseOption.defaultValue(Boolean.TRUE.toString());
+        cliOptions.add(inferConditionalSseOption);
 
         CliOption compileWithValidationOption = new CliOption("compileWithValidation",
                 "Emit schema-validation IR, per-model validate_* branch functions,"
@@ -474,6 +493,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         // Header-only schema-validation support. The templates place their
         // implementation types under the configured model namespace.
         supportingFiles.add(new SupportingFile("oas31_exact_number.mustache", "model", "Oas31ExactNumber.h"));
+        supportingFiles.add(new SupportingFile(
+                "oas31_exact_number_source.mustache", "model", "Oas31ExactNumber.cpp"));
         supportingFiles.add(new SupportingFile("oas31_schema_ir.mustache", "model", "Oas31SchemaIr.h"));
         supportingFiles.add(new SupportingFile("oas31_deep_equal.mustache", "model", "Oas31DeepEqual.h"));
         supportingFiles.add(new SupportingFile("oas31_exact_json.mustache", "model", "Oas31ExactJson.h"));
@@ -1323,6 +1344,22 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                     if (innerType == null) {
                         innerType = var.dataType;
                         var.vendorExtensions.put("x-cpp-no-is-set", true);
+                    }
+                    if (Boolean.TRUE.equals(var.vendorExtensions.get(
+                            "x-cpp-has-explicit-default"))) {
+                        if (Boolean.TRUE.equals(var.vendorExtensions.get(
+                                "x-cpp-default-is-null"))) {
+                            var.defaultValue = "NullableField<" + innerType
+                                    + ">::makeDefaultNull()";
+                        } else {
+                            var.defaultValue = "NullableField<" + innerType
+                                    + ">::makeDefaultValue(" + var.defaultValue + ")";
+                        }
+                        var.vendorExtensions.put("x-cpp-member-default", true);
+                    } else {
+                        // DefaultCodegen seeds primitive placeholders even when the
+                        // schema has no default; they are not NullableField values.
+                        var.defaultValue = null;
                     }
                     var.dataType = "NullableField<" + innerType + ">";
                     var.vendorExtensions.put("x-cpp-nullable-field", true);
@@ -2260,6 +2297,64 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                         && destination.endsWith(".cpp"));
     }
 
+    private static Set<String> parseNameSet(Object rawValue, String optionName) {
+        if (rawValue == null || rawValue.toString().trim().isEmpty()) {
+            return Collections.emptySet();
+        }
+        Collection<?> values = rawValue instanceof Collection
+                ? (Collection<?>) rawValue
+                : Arrays.asList(rawValue.toString().split(",", -1));
+        Set<String> result = new LinkedHashSet<>();
+        for (Object value : values) {
+            String name = value == null ? "" : value.toString().trim();
+            if (name.isEmpty()) {
+                throw new IllegalArgumentException(optionName
+                        + " contains an empty operationId");
+            }
+            result.add(name);
+        }
+        return Collections.unmodifiableSet(result);
+    }
+
+    private static Map<String, String> parseNameMappings(
+            Object rawValue, String optionName) {
+        if (rawValue == null || rawValue.toString().trim().isEmpty()) {
+            return Collections.emptyMap();
+        }
+        Map<String, String> result = new LinkedHashMap<>();
+        if (rawValue instanceof Map) {
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) rawValue).entrySet()) {
+                putNameMapping(result, entry.getKey(), entry.getValue(), optionName);
+            }
+        } else {
+            for (String mapping : rawValue.toString().split(",", -1)) {
+                int separator = mapping.indexOf('=');
+                if (separator <= 0 || separator == mapping.length() - 1
+                        || mapping.indexOf('=', separator + 1) >= 0) {
+                    throw new IllegalArgumentException(optionName
+                            + " entries must use operationId=value syntax: " + mapping);
+                }
+                putNameMapping(result, mapping.substring(0, separator),
+                        mapping.substring(separator + 1), optionName);
+            }
+        }
+        return Collections.unmodifiableMap(result);
+    }
+
+    private static void putNameMapping(Map<String, String> target,
+            Object rawKey, Object rawValue, String optionName) {
+        String key = rawKey == null ? "" : rawKey.toString().trim();
+        String value = rawValue == null ? "" : rawValue.toString().trim();
+        if (key.isEmpty() || value.isEmpty()) {
+            throw new IllegalArgumentException(optionName
+                    + " entries require non-empty operationId and value");
+        }
+        if (target.putIfAbsent(key, value) != null) {
+            throw new IllegalArgumentException(optionName
+                    + " contains duplicate operationId: " + key);
+        }
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -2276,6 +2371,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 modelNamespace + "::detail::schema_validation");
         additionalProperties.put("schemaValidationHeaderGuardPrefix",
                 modelPackage.replaceAll("[^A-Za-z0-9]", "_").toUpperCase(Locale.ROOT));
+        additionalProperties.put("apiHeaderGuardPrefix",
+                apiPackage.replaceAll("[^A-Za-z0-9]", "_").toUpperCase(Locale.ROOT));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
         additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
 
@@ -2300,11 +2397,36 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             } else if (raw.equalsIgnoreCase(SSE_SCHEMA_MODE_REPRESENTATION)) {
                 sseSchemaMode = SSE_SCHEMA_MODE_REPRESENTATION;
             } else {
-                LOGGER.warn("sseSchemaMode: unknown value '{}'; falling back to '{}'",
-                        raw, SSE_SCHEMA_MODE_REPRESENTATION);
+                throw new IllegalArgumentException("sseSchemaMode must be '"
+                        + SSE_SCHEMA_MODE_REPRESENTATION + "' or '"
+                        + SSE_SCHEMA_MODE_JSON_EVENT_DATA + "': " + raw);
             }
         }
         additionalProperties.put("sseSchemaMode", sseSchemaMode);
+
+        sseOperationIds = parseNameSet(
+                additionalProperties.get("sseOperationIds"), "sseOperationIds");
+        sseRequestPropertyMappings = parseNameMappings(
+                additionalProperties.get("sseRequestPropertyMappings"),
+                "sseRequestPropertyMappings");
+        sseEventTypeMappings = parseNameMappings(
+                additionalProperties.get("sseEventTypeMappings"),
+                "sseEventTypeMappings");
+        if (additionalProperties.containsKey("inferConditionalSseOperations")) {
+            Object raw = additionalProperties.get("inferConditionalSseOperations");
+            if (raw instanceof Boolean) {
+                inferConditionalSseOperations = (Boolean) raw;
+            } else {
+                String value = raw.toString().trim();
+                if (!"true".equalsIgnoreCase(value) && !"false".equalsIgnoreCase(value)) {
+                    throw new IllegalArgumentException(
+                            "inferConditionalSseOperations must be true or false: " + value);
+                }
+                inferConditionalSseOperations = Boolean.parseBoolean(value);
+            }
+        }
+        additionalProperties.put("inferConditionalSseOperations",
+                inferConditionalSseOperations);
 
         // compileWithValidation controls decode-time composition-branch checks.
         // Representation safety checks remain active regardless of this option.
@@ -2654,7 +2776,11 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 operationCallbacks,
                 operationLinks,
                 composedKeywordsByModel,
-                sseSchemaMode).assemble(objs, allModels);
+                sseSchemaMode,
+                sseOperationIds,
+                sseRequestPropertyMappings,
+                sseEventTypeMappings,
+                inferConditionalSseOperations).assemble(objs, allModels);
     }
 
 
@@ -2814,7 +2940,131 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             prop.vendorExtensions.put("x-cpp-composed-keyword", "anyOf");
             prop.vendorExtensions.put("x-cpp-is-anyof", true);
         }
+        if (Oas31RawSpecRecovery.hasExplicitDefault(p)) {
+            String defaultValue = explicitScalarDefaultValue(prop, p);
+            if (defaultValue != null) {
+                prop.defaultValue = defaultValue;
+                prop.vendorExtensions.put("x-cpp-has-explicit-default", true);
+                prop.vendorExtensions.put("x-cpp-default-is-null",
+                        "null".equals(Oas31RawSpecRecovery.defaultJsonOf(p)));
+            }
+        }
         return prop;
+    }
+
+    private String explicitScalarDefaultValue(CodegenProperty property, Schema schema) {
+        String json = Oas31RawSpecRecovery.defaultJsonOf(schema);
+        if (json == null) {
+            return null;
+        }
+
+        com.fasterxml.jackson.databind.JsonNode value;
+        try {
+            value = io.swagger.v3.core.util.Json31.mapper().readTree(json);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException exception) {
+            throw new IllegalArgumentException(
+                    "Unable to parse default for property '" + property.baseName + "'", exception);
+        }
+        if (value == null || !value.isValueNode()) {
+            return null;
+        }
+
+        Object nullableInner = property.vendorExtensions.get(
+                "x-cpp-nullable-field-inner-type");
+        if (value.isNull()) {
+            if (nullableInner != null) {
+                return "NullableField<" + nullableInner + ">::makeDefaultNull()";
+            }
+            if (property.dataType != null
+                    && property.dataType.startsWith("std::optional<")) {
+                return "std::nullopt";
+            }
+            if ("std::nullptr_t".equals(property.dataType)) {
+                return "nullptr";
+            }
+            if ("boost::json::value".equals(property.dataType)) {
+                return "boost::json::value(nullptr)";
+            }
+            throw new IllegalArgumentException(
+                    "JSON null default is not representable by C++ property '"
+                            + property.baseName + "' of type " + property.dataType);
+        }
+
+        String expression;
+        if (value.isTextual()) {
+            expression = "\"" + escapeCppStringContent(value.textValue()) + "\"";
+        } else if (value.isBoolean()) {
+            expression = value.booleanValue() ? "true" : "false";
+        } else if (value.isNumber()) {
+            expression = explicitNumericDefault(property, value.decimalValue());
+        } else {
+            return null;
+        }
+
+        if (nullableInner != null) {
+            return "NullableField<" + nullableInner + ">::makeDefaultValue("
+                    + expression + ")";
+        }
+        return expression;
+    }
+
+    private static String explicitNumericDefault(
+            CodegenProperty property, java.math.BigDecimal value) {
+        if (property.isInteger || property.isLong) {
+            java.math.BigInteger integer;
+            try {
+                integer = value.toBigIntegerExact();
+            } catch (ArithmeticException exception) {
+                throw new IllegalArgumentException(
+                        "Non-integral default is not representable by integer property '"
+                                + property.baseName + "'", exception);
+            }
+            if (property.isLong || "std::int64_t".equals(property.dataType)) {
+                java.math.BigInteger min = java.math.BigInteger.valueOf(Long.MIN_VALUE);
+                java.math.BigInteger max = java.math.BigInteger.valueOf(Long.MAX_VALUE);
+                if (integer.compareTo(min) < 0 || integer.compareTo(max) > 0) {
+                    throw new IllegalArgumentException(
+                            "Default is outside int64 range for property '"
+                                    + property.baseName + "'");
+                }
+                if (integer.equals(min)) {
+                    return "std::int64_t{-9223372036854775807LL - 1LL}";
+                }
+                return "std::int64_t{" + integer + "LL}";
+            }
+            try {
+                return "std::int32_t{" + integer.intValueExact() + "}";
+            } catch (ArithmeticException exception) {
+                throw new IllegalArgumentException(
+                        "Default is outside int32 range for property '"
+                                + property.baseName + "'", exception);
+            }
+        }
+
+        String literal = value.toString();
+        boolean hasFloatingMarker = literal.indexOf('.') >= 0
+                || literal.indexOf('e') >= 0 || literal.indexOf('E') >= 0;
+        if (!hasFloatingMarker) {
+            literal += ".0";
+        }
+        if (property.isFloat || "float".equals(property.dataType)) {
+            float narrowed = value.floatValue();
+            if (!Float.isFinite(narrowed)
+                    || (value.signum() != 0 && narrowed == 0.0f)) {
+                throw new IllegalArgumentException(
+                        "Default is outside finite float range for property '"
+                                + property.baseName + "'");
+            }
+            return literal + "F";
+        }
+        double narrowed = value.doubleValue();
+        if (!Double.isFinite(narrowed)
+                || (value.signum() != 0 && narrowed == 0.0)) {
+            throw new IllegalArgumentException(
+                    "Default is outside finite double range for property '"
+                            + property.baseName + "'");
+        }
+        return literal;
     }
 
     @Override

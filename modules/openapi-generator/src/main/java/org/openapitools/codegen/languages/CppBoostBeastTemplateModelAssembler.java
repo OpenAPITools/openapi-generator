@@ -16,8 +16,10 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -28,6 +30,18 @@ import java.util.Set;
 final class CppBoostBeastTemplateModelAssembler {
     private static final String SSE_SCHEMA_MODE_JSON_EVENT_DATA = "jsonEventData";
     private static final String X_SSE_EVENT_DATA_SCHEMA = "x-sse-event-data-schema";
+    private static final String X_SSE_REQUEST_PROPERTY = "x-sse-request-property";
+    private static final String X_SSE_EVENT_TYPE = "x-sse-event-type";
+    private static final String X_CODEGEN_CONDITIONAL_SSE = "x-codegen-conditional-sse";
+    private static final String X_CODEGEN_SSE_REQUEST_PARAM = "x-codegen-sse-request-param";
+    private static final String X_CODEGEN_SSE_REQUEST_GETTER = "x-codegen-sse-request-getter";
+    private static final String X_CODEGEN_SSE_REQUEST_SETTER = "x-codegen-sse-request-setter";
+    private static final String X_CODEGEN_SSE_REQUEST_TYPE = "x-codegen-sse-request-type";
+    private static final String X_CODEGEN_SSE_REQUEST_SHARED_PTR =
+            "x-codegen-sse-request-shared-ptr";
+    private static final String X_CODEGEN_SSE_REQUEST_LOCAL = "x-codegen-sse-request-local";
+    private static final String X_CODEGEN_SSE_EVENT_TYPE_OVERRIDE =
+            "x-codegen-sse-event-type-override";
     private static final String X_CODEGEN_DEFAULT_RESPONSE_IS_RETURN_COMPATIBLE =
             "x-codegen-default-response-is-return-compatible";
     private static final String X_CODEGEN_EMPTY_BODY_TOLERANT = "x-codegen-empty-body-tolerant";
@@ -60,6 +74,10 @@ final class CppBoostBeastTemplateModelAssembler {
     private final Map<String, List<String>> operationLinks;
     private final Map<String, String> composedKeywordsByModel;
     private final String sseSchemaMode;
+    private final Set<String> sseOperationIds;
+    private final Map<String, String> sseRequestPropertyMappings;
+    private final Map<String, String> sseEventTypeMappings;
+    private final boolean inferConditionalSseOperations;
 
     CppBoostBeastTemplateModelAssembler(
             OpenAPI phaseOpenApi,
@@ -67,13 +85,23 @@ final class CppBoostBeastTemplateModelAssembler {
             Map<String, List<String>> operationCallbacks,
             Map<String, List<String>> operationLinks,
             Map<String, String> composedKeywordsByModel,
-            String sseSchemaMode) {
+            String sseSchemaMode,
+            Set<String> sseOperationIds,
+            Map<String, String> sseRequestPropertyMappings,
+            Map<String, String> sseEventTypeMappings,
+            boolean inferConditionalSseOperations) {
         this.phaseOpenApi = phaseOpenApi;
         this.webhookPreservation = webhookPreservation;
         this.operationCallbacks = operationCallbacks;
         this.operationLinks = operationLinks;
         this.composedKeywordsByModel = composedKeywordsByModel;
         this.sseSchemaMode = sseSchemaMode;
+        this.sseOperationIds = Collections.unmodifiableSet(new HashSet<>(sseOperationIds));
+        this.sseRequestPropertyMappings = Collections.unmodifiableMap(
+                new LinkedHashMap<>(sseRequestPropertyMappings));
+        this.sseEventTypeMappings = Collections.unmodifiableMap(
+                new LinkedHashMap<>(sseEventTypeMappings));
+        this.inferConditionalSseOperations = inferConditionalSseOperations;
     }
 
     private static String stripSharedPtr(String type) {
@@ -316,6 +344,326 @@ final class CppBoostBeastTemplateModelAssembler {
         }
     }
 
+    private static Map<String, CodegenModel> indexModels(List<ModelMap> allModels) {
+        Map<String, CodegenModel> result = new LinkedHashMap<>();
+        for (ModelMap modelMap : allModels) {
+            CodegenModel model = modelMap.getModel();
+            if (model.name != null) result.put(model.name, model);
+            if (model.schemaName != null) result.put(model.schemaName, model);
+            if (model.classname != null) result.put(model.classname, model);
+        }
+        return result;
+    }
+
+    private static String extensionString(CodegenOperation operation, String key) {
+        Object rawValue = operation.vendorExtensions.get(key);
+        if (rawValue == null) return null;
+        String value = rawValue.toString().trim();
+        if (value.isEmpty()) {
+            throw new IllegalArgumentException(operation.operationId + ": " + key
+                    + " must not be empty");
+        }
+        return value;
+    }
+
+    private static List<String> operationKeys(CodegenOperation operation) {
+        List<String> keys = new ArrayList<>();
+        if (operation.operationIdOriginal != null
+                && !operation.operationIdOriginal.isBlank()) {
+            keys.add(operation.operationIdOriginal);
+        }
+        if (operation.operationId != null && !operation.operationId.isBlank()
+                && !keys.contains(operation.operationId)) {
+            keys.add(operation.operationId);
+        }
+        return keys;
+    }
+
+    private static String configuredValue(CodegenOperation operation,
+            Map<String, String> configuredMappings, String optionName) {
+        String resolved = null;
+        for (String key : operationKeys(operation)) {
+            String candidate = configuredMappings.get(key);
+            if (candidate == null) continue;
+            if (resolved != null && !resolved.equals(candidate)) {
+                throw new IllegalArgumentException(operation.operationId + ": "
+                        + optionName + " maps the raw and generated operation names"
+                        + " to different values");
+            }
+            resolved = candidate;
+        }
+        return resolved;
+    }
+
+    private static boolean configuredOperation(CodegenOperation operation,
+            Set<String> configuredOperationIds) {
+        for (String key : operationKeys(operation)) {
+            if (configuredOperationIds.contains(key)) return true;
+        }
+        return false;
+    }
+
+    private static String resolveMapping(CodegenOperation operation, String extensionKey,
+            Map<String, String> configuredMappings, String optionName) {
+        String extensionValue = extensionString(operation, extensionKey);
+        String configured = configuredValue(operation, configuredMappings, optionName);
+        if (extensionValue != null && configured != null
+                && !extensionValue.equals(configured)) {
+            throw new IllegalArgumentException(operation.operationId + ": conflicting "
+                    + extensionKey + " and " + optionName);
+        }
+        return extensionValue != null ? extensionValue : configured;
+    }
+
+    private static boolean produces(CodegenOperation operation, String expectedMediaType) {
+        if (operation.produces == null) return false;
+        for (Map<String, String> media : operation.produces) {
+            String mediaType = media.get("mediaType");
+            if (mediaType != null && mediaType.equalsIgnoreCase(expectedMediaType)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static CodegenModel findRequestModel(CodegenOperation operation,
+            Map<String, CodegenModel> modelsByName) {
+        if (operation.bodyParam == null) return null;
+        String[] candidates = {operation.bodyParam.baseType, operation.bodyParam.dataType};
+        for (String candidate : candidates) {
+            if (candidate == null) continue;
+            String type = stripSharedPtr(candidate.trim());
+            CodegenModel model = modelsByName.get(type);
+            if (model != null) return model;
+            int namespace = type.lastIndexOf("::");
+            if (namespace >= 0) {
+                model = modelsByName.get(type.substring(namespace + 2));
+                if (model != null) return model;
+            }
+        }
+        return null;
+    }
+
+    private static boolean isBooleanProperty(CodegenProperty property) {
+        return property.isBoolean
+                || "bool".equals(property.dataType)
+                || "boolean".equalsIgnoreCase(property.baseType);
+    }
+
+    private static boolean propertyMatches(CodegenProperty property,
+            String propertyName) {
+        return propertyName.equals(property.baseName)
+                || propertyName.equals(property.name);
+    }
+
+    private static CodegenProperty findBooleanRequestProperty(CodegenOperation operation,
+            Map<String, CodegenModel> modelsByName, String propertyName,
+            boolean required) {
+        CodegenModel requestModel = findRequestModel(operation, modelsByName);
+        if (requestModel == null) {
+            if (required) {
+                throw new IllegalArgumentException(operation.operationId
+                        + ": conditional SSE requires an object request body");
+            }
+            return null;
+        }
+        List<CodegenProperty> matches = new ArrayList<>();
+        for (CodegenProperty property : requestModel.allVars) {
+            if (propertyMatches(property, propertyName)) matches.add(property);
+        }
+        if (matches.size() > 1) {
+            throw new IllegalArgumentException(operation.operationId + ": request property '"
+                    + propertyName + "' is ambiguous in model " + requestModel.classname);
+        }
+        if (matches.isEmpty() || !isBooleanProperty(matches.get(0))) {
+            if (required) {
+                throw new IllegalArgumentException(operation.operationId + ": request property '"
+                        + propertyName + "' must exist and have type boolean in model "
+                        + requestModel.classname);
+            }
+            return null;
+        }
+        return matches.get(0);
+    }
+
+    private static CodegenProperty inferBooleanRequestProperty(CodegenOperation operation,
+            Map<String, CodegenModel> modelsByName) {
+        CodegenModel requestModel = findRequestModel(operation, modelsByName);
+        if (requestModel == null) return null;
+        List<CodegenProperty> booleanProperties = new ArrayList<>();
+        for (CodegenProperty property : requestModel.allVars) {
+            if (isBooleanProperty(property)) booleanProperties.add(property);
+        }
+        if (booleanProperties.size() == 1) return booleanProperties.get(0);
+        List<CodegenProperty> conventional = new ArrayList<>();
+        for (CodegenProperty property : booleanProperties) {
+            String normalized = normalizeIdentifier(property.baseName != null
+                    ? property.baseName : property.name);
+            if ("stream".equals(normalized) || "streaming".equals(normalized)
+                    || "sse".equals(normalized)) {
+                conventional.add(property);
+            }
+        }
+        return conventional.size() == 1 ? conventional.get(0) : null;
+    }
+
+    private static String normalizeIdentifier(String value) {
+        return value == null ? "" : value.replaceAll("[^A-Za-z0-9]", "")
+                .toLowerCase(Locale.ROOT);
+    }
+
+    private static CodegenModel modelForType(String type,
+            Map<String, CodegenModel> modelsByName) {
+        if (type == null || type.isBlank()) return null;
+        String unwrapped = stripSharedPtr(type.trim());
+        CodegenModel model = modelsByName.get(unwrapped);
+        if (model != null) return model;
+        int namespace = unwrapped.lastIndexOf("::");
+        return namespace < 0 ? null : modelsByName.get(unwrapped.substring(namespace + 2));
+    }
+
+    private static CodegenModel inferSseEventModel(CodegenOperation operation,
+            Map<String, CodegenModel> modelsByName) {
+        Set<CodegenModel> candidates = new LinkedHashSet<>();
+        for (CodegenResponse response : operation.responses) {
+            if (!response.is2xx || response.getContent() == null) continue;
+            for (Map.Entry<String, CodegenMediaType> media : response.getContent().entrySet()) {
+                if (!"text/event-stream".equalsIgnoreCase(media.getKey())
+                        || media.getValue() == null
+                        || media.getValue().getSchema() == null) {
+                    continue;
+                }
+                CodegenProperty schema = media.getValue().getSchema();
+                String[] types = {schema.dataType, schema.baseType, schema.complexType};
+                for (String type : types) {
+                    CodegenModel model = modelForType(type, modelsByName);
+                    if (model != null) candidates.add(model);
+                }
+            }
+        }
+        if (candidates.size() > 1) {
+            throw new IllegalArgumentException(operation.operationId
+                    + ": multiple generated models match the SSE response; configure "
+                    + "sseEventTypeMappings explicitly");
+        }
+        return candidates.isEmpty() ? null : candidates.iterator().next();
+    }
+
+    private void addSseOperationMetadata(CodegenOperation operation,
+            Map<String, CodegenModel> modelsByName, Set<String> extraModelImports) {
+        boolean producesSse = produces(operation, "text/event-stream");
+        boolean producesJson = produces(operation, "application/json");
+        String requestProperty = resolveMapping(operation, X_SSE_REQUEST_PROPERTY,
+                sseRequestPropertyMappings, "sseRequestPropertyMappings");
+        boolean explicitlyConditional = requestProperty != null
+                || configuredOperation(operation, sseOperationIds);
+        if (explicitlyConditional && requestProperty == null) requestProperty = "stream";
+
+        CodegenProperty selector = null;
+        if (requestProperty != null) {
+            if (!producesSse || !producesJson) {
+                throw new IllegalArgumentException(operation.operationId
+                        + ": conditional SSE requires both application/json and"
+                        + " text/event-stream responses");
+            }
+            selector = findBooleanRequestProperty(
+                    operation, modelsByName, requestProperty, true);
+        } else if (inferConditionalSseOperations && producesSse && producesJson) {
+            selector = inferBooleanRequestProperty(operation, modelsByName);
+        }
+
+        if (selector != null) {
+            CodegenModel requestModel = findRequestModel(operation, modelsByName);
+            Set<String> parameterNames = new HashSet<>();
+            for (CodegenParameter parameter : operation.allParams) {
+                parameterNames.add(parameter.paramName);
+            }
+            String requestLocal = "conditionalSseRequestBody";
+            while (parameterNames.contains(requestLocal)) requestLocal += "_";
+            operation.vendorExtensions.put(X_CODEGEN_CONDITIONAL_SSE, true);
+            operation.vendorExtensions.put(
+                    X_CODEGEN_SSE_REQUEST_PARAM, operation.bodyParam.paramName);
+            operation.vendorExtensions.put(X_CODEGEN_SSE_REQUEST_GETTER, selector.getter);
+            operation.vendorExtensions.put(X_CODEGEN_SSE_REQUEST_SETTER, selector.setter);
+            operation.vendorExtensions.put(X_CODEGEN_SSE_REQUEST_TYPE,
+                    requestModel.classname);
+            operation.vendorExtensions.put(X_CODEGEN_SSE_REQUEST_SHARED_PTR,
+                    operation.bodyParam.dataType != null
+                            && operation.bodyParam.dataType.startsWith("std::shared_ptr<"));
+            operation.vendorExtensions.put(X_CODEGEN_SSE_REQUEST_LOCAL, requestLocal);
+            operation.bodyParam.vendorExtensions.put(X_CODEGEN_CONDITIONAL_SSE, true);
+            operation.bodyParam.vendorExtensions.put(X_CODEGEN_SSE_REQUEST_LOCAL,
+                    requestLocal);
+        }
+
+        String eventTypeName = resolveMapping(operation, X_SSE_EVENT_TYPE,
+                sseEventTypeMappings, "sseEventTypeMappings");
+        boolean explicitEventType = eventTypeName != null;
+        CodegenModel eventModel = eventTypeName == null ? null
+                : modelsByName.get(eventTypeName);
+        if (eventTypeName != null && eventModel == null) {
+            throw new IllegalArgumentException(operation.operationId
+                    + ": SSE event type does not name a generated model: " + eventTypeName);
+        }
+        if (eventModel == null && selector != null && inferConditionalSseOperations) {
+            eventModel = inferSseEventModel(operation, modelsByName);
+        }
+        if (eventModel == null) return;
+        if (!producesSse) {
+            throw new IllegalArgumentException(operation.operationId
+                    + ": an SSE event type requires a text/event-stream response");
+        }
+        operation.vendorExtensions.put(X_CODEGEN_SSE_EVENT_TYPE_OVERRIDE,
+                eventModel.classname);
+        if (explicitEventType) {
+            operation.vendorExtensions.put(X_SSE_EVENT_DATA_SCHEMA, true);
+        }
+        extraModelImports.add(eventModel.classname);
+    }
+
+    private void validateConfiguredOperationIds(Set<String> seenOperationIds) {
+        Set<String> configured = new HashSet<>(sseOperationIds);
+        configured.addAll(sseRequestPropertyMappings.keySet());
+        configured.addAll(sseEventTypeMappings.keySet());
+        configured.removeAll(seenOperationIds);
+        if (!configured.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "SSE configuration references unknown operationIds: " + configured);
+        }
+    }
+
+    private static void addModelImports(OperationsMap operations,
+            Set<String> modelNames) {
+        List<Map<String, String>> imports = operations.getImports();
+        if (imports == null) {
+            imports = new ArrayList<>();
+            operations.setImports(imports);
+        }
+
+        // API headers live beside api/HttpClient.h while model headers live in
+        // the sibling model directory. Relative imports prevent a second
+        // generated client's include roots from satisfying these dependencies.
+        Set<String> existing = new HashSet<>();
+        for (Map<String, String> item : imports) {
+            String include = item.get("import");
+            if (include != null && include.startsWith("#include \"")
+                    && include.endsWith(".h\"")
+                    && include.indexOf('/') < 0) {
+                include = "#include \"../model/" + include.substring(10);
+                item.put("import", include);
+            }
+            existing.add(include);
+        }
+        for (String modelName : modelNames) {
+            String include = "#include \"../model/" + modelName + ".h\"";
+            if (existing.add(include)) {
+                Map<String, String> item = new LinkedHashMap<>();
+                item.put("import", include);
+                imports.add(item);
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     OperationsMap assemble(OperationsMap objs, List<ModelMap> allModels) {
         // API templates need to know whether a model namespace exists. Upstream
@@ -328,8 +676,13 @@ final class CppBoostBeastTemplateModelAssembler {
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         List<CodegenOperation> newOpList = new ArrayList<>();
         Set<String> nullDefaultModels = nullDefaultModelNames(allModels);
+        Map<String, CodegenModel> modelsByName = indexModels(allModels);
+        Set<String> seenOperationIds = new HashSet<>();
+        Set<String> extraModelImports = new HashSet<>();
 
         for (CodegenOperation op : operationList) {
+            seenOperationIds.addAll(operationKeys(op));
+            addSseOperationMetadata(op, modelsByName, extraModelImports);
             addMultipartParameterMetadata(op);
             addApiResponseMetadata(op, nullDefaultModels);
             addResponseUnionMetadata(op);
@@ -402,6 +755,8 @@ final class CppBoostBeastTemplateModelAssembler {
                 newOpList.add(op);
             }
         }
+        validateConfiguredOperationIds(seenOperationIds);
+        addModelImports(objs, extraModelImports);
         operations.put("operation", newOpList);
         return objs;
     }
@@ -498,24 +853,11 @@ final class CppBoostBeastTemplateModelAssembler {
         // representation or each JSON event data payload. The operation vendor
         // extension can opt into typed event-data decoding.
         //
-        // Mode split:
-        //   representation (default): the WHATWG framer delivers raw event
-        //     data strings. No JSON conversion is applied. The return type
-        //     is std::vector<std::string>.
-        //   jsonEventData: each event data payload is parsed as JSON against
-        //     the response schema. The return type is std::vector<EventType>
-        //     with generated fromJsonValue_ converters.
-        //
-        // Dual-content operations always keep the normal JSON return type
-        // for the application/json path. A dedicated {operationId}Stream
-        // method is always emitted. In representation mode the stream method
-        // returns std::vector<std::string>; in jsonEventData mode it returns
-        // std::vector<EventType>.
-        //
-        // The WHATWG framer (SseEventFramer, in HttpClientImpl) is always
-        // independent from JSON conversion — it operates on raw bytes and
-        // fires string data payloads. JSON conversion is applied only in
-        // jsonEventData mode at the template (callback) level.
+        // representation (default) delivers structured SseEvent values without
+        // decoding data. jsonEventData parses each event's data as JSON against
+        // the response schema. A per-operation event type forces typed decoding.
+        // Dual-content operations expose a stream companion only when the
+        // operation was explicitly configured or safely inferred as conditional.
         if (operation.produces != null && !operation.produces.isEmpty()) {
             boolean hasEventStream = false;
             boolean hasJsonStream = false;
@@ -529,6 +871,8 @@ final class CppBoostBeastTemplateModelAssembler {
             }
             boolean isPureSse = hasEventStream && !hasJsonStream;
             boolean isDualContent = hasEventStream && hasJsonStream;
+            boolean isConditionalSse = isDualContent && Boolean.TRUE.equals(
+                    operation.vendorExtensions.get(X_CODEGEN_CONDITIONAL_SSE));
             operation.vendorExtensions.put("x-codegen-streaming-response", isPureSse);
             // Determine whether to apply typed event-data decoding.
             // jsonEventData mode or per-operation x-sse-event-data-schema
@@ -536,81 +880,65 @@ final class CppBoostBeastTemplateModelAssembler {
             boolean useJsonEventData = SSE_SCHEMA_MODE_JSON_EVENT_DATA.equals(sseSchemaMode)
                     || Boolean.TRUE.equals(
                         operation.vendorExtensions.get(X_SSE_EVENT_DATA_SCHEMA));
-            // Set the representation-mode flag so templates can emit the
-            // correct return type and callback body (raw push_back vs
-            // appendParsedEvent with JSON converter).
+            String eventTypeOverride = (String) operation.vendorExtensions.get(
+                    X_CODEGEN_SSE_EVENT_TYPE_OVERRIDE);
+            if (isPureSse && eventTypeOverride == null && operation.returnType == null) {
+                useJsonEventData = false;
+            }
+            // Representation mode forwards complete structured events directly.
             if (!useJsonEventData) {
                 operation.vendorExtensions.put("x-codegen-sse-representation-mode", true);
             }
-            // For pure SSE ops, flag all 2xx responses as streaming and
-            // set the stripped element type (without shared_ptr) for use in
-            // the event vector element and converter name.
-            // For dual-content ops, mark SSE responses (different datatype from returnType)
-            // as streaming so the stream method template can identify them.
-            // Also mark each response with x-codegen-return-compatible so the normal
-            // method template can skip responses whose dataType doesn't match the
-            // operation return type (avoids type mismatch in deserializedResponse).
+            // Mark pure SSE responses for the incremental callback path. For
+            // conditional operations, response metadata identifies typed SSE
+            // alternatives without changing the normal JSON return contract.
             for (CodegenResponse response : operation.responses) {
                 if (isPureSse) {
                     response.vendorExtensions.put("x-codegen-streaming-response", true);
                     if (useJsonEventData) {
-                        // Typed event-data mode: emit oneOf metadata for JSON conversion.
+                        String eventDataType = eventTypeOverride != null
+                                ? eventTypeOverride : stripSharedPtr(response.dataType);
                         if (isOneOfResponse(response)
-                                || isOneOfMediaType(response, "text/event-stream")) {
+                                || isOneOfMediaType(response, "text/event-stream")
+                                || isOneOfType(eventDataType)) {
                             operation.vendorExtensions.put(X_CODEGEN_STREAM_IS_ONE_OF, true);
                             operation.vendorExtensions.put(
                                     "x-codegen-sse-event-data-is-oneof", true);
                         }
-                        if (response.dataType != null) {
-                            String eventDataType = stripSharedPtr(response.dataType);
-                            // Only set element type for model types (uppercase first char).
-                            if (!eventDataType.startsWith("std::")
-                                    && !eventDataType.startsWith("boost::")
-                                    && Character.isUpperCase(eventDataType.charAt(0))) {
-                                response.vendorExtensions.put("x-codegen-stream-element-type",
-                                        eventDataType);
-                                operation.vendorExtensions.put("x-codegen-stream-element-type",
-                                        eventDataType);
-                                response.vendorExtensions.put("x-codegen-sse-event-data-type",
-                                        eventDataType);
-                                operation.vendorExtensions.put("x-codegen-sse-event-data-type",
-                                        eventDataType);
-                            }
+                        if (eventDataType != null && !eventDataType.isEmpty()
+                                && !eventDataType.startsWith("std::")
+                                && !eventDataType.startsWith("boost::")
+                                && Character.isUpperCase(eventDataType.charAt(0))) {
+                            response.vendorExtensions.put("x-codegen-stream-element-type",
+                                    eventDataType);
+                            operation.vendorExtensions.put("x-codegen-stream-element-type",
+                                    eventDataType);
+                            response.vendorExtensions.put("x-codegen-sse-event-data-type",
+                                    eventDataType);
+                            operation.vendorExtensions.put("x-codegen-sse-event-data-type",
+                                    eventDataType);
                         }
                     }
-                } else if (isDualContent && response.is2xx && response.dataType != null
+                } else if (isConditionalSse && response.is2xx
+                        && response.dataType != null
                         && !response.dataType.equals(operation.returnType)) {
                     response.vendorExtensions.put("x-codegen-streaming-response", true);
                     if (!useJsonEventData) {
                         response.vendorExtensions.put("x-codegen-sse-representation-mode", true);
                     }
-                    if (response.dataType != null) {
-                        String streamElementType = stripSharedPtr(response.dataType);
-                        response.vendorExtensions.put("x-codegen-stream-element-type",
+                    String streamElementType = eventTypeOverride != null
+                            ? eventTypeOverride : stripSharedPtr(response.dataType);
+                    response.vendorExtensions.put("x-codegen-stream-element-type",
+                            streamElementType);
+                    if (useJsonEventData) {
+                        response.vendorExtensions.put("x-codegen-sse-event-data-type",
                                 streamElementType);
-                        if (useJsonEventData) {
-                            response.vendorExtensions.put("x-codegen-sse-event-data-type",
-                                    streamElementType);
-                        }
                     }
                 }
             }
-            // If a pure SSE operation has no response schema (no data type
-            // on any 2xx response), returnType will be null and the
-            // mustache template would produce std::vector<void>, which
-            // is invalid C++. Clear the streaming flag so the normal
-            // non-streaming void path is used instead.
-            if (isPureSse && operation.returnType == null) {
-                operation.vendorExtensions.put("x-codegen-streaming-response", false);
-                for (CodegenResponse r : operation.responses) {
-                    r.vendorExtensions.put("x-codegen-streaming-response", false);
-                }
-            }
-            // Dual-content: generate stream method
-            // Only emit the stream method if we can resolve a concrete SSE
-            // element type from the response content. Without it, the template
-            // would produce an invalid std::vector<> with an empty parameter.
-            if (isDualContent) {
+            // Conditional dual-content operations get a dedicated stream method
+            // when a concrete event type can be resolved.
+            if (isConditionalSse) {
                 // Resolve SSE response type from the response content media-type map.
                 // Specs may expose a single 200 with both application/json and
                 // text/event-stream. Look for text/event-stream in any 2xx response.
@@ -659,6 +987,10 @@ final class CppBoostBeastTemplateModelAssembler {
                             break;
                         }
                     }
+                }
+                if (eventTypeOverride != null) {
+                    sseReturnType = eventTypeOverride;
+                    sseBaseModelName = eventTypeOverride;
                 }
                 if (sseReturnType != null && sseBaseModelName != null) {
                     if (useJsonEventData && isOneOfType(sseReturnType)) {

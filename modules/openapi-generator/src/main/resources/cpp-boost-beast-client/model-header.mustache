@@ -5,8 +5,8 @@
  * {{description}}
  */
 
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
-#define BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
+#ifndef {{schemaValidationHeaderGuardPrefix}}_{{classname}}_MODEL_H_
+#define {{schemaValidationHeaderGuardPrefix}}_{{classname}}_MODEL_H_
 
 {{#imports}}{{{this}}}
 {{/imports}}
@@ -41,7 +41,7 @@ bool is{{classname}}Branch{{branch-index}}({{classname}} const& value);
 }
 {{/modelNamespaceDeclarations}}
 
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_ */
+#endif /* {{schemaValidationHeaderGuardPrefix}}_{{classname}}_MODEL_H_ */
 {{/vendorExtensions.x-cpp-is-alias}}
 {{^vendorExtensions.x-cpp-is-alias}}/*
  * {{classname}}.h
@@ -49,8 +49,8 @@ bool is{{classname}}Branch{{branch-index}}({{classname}} const& value);
  * {{description}}
  */
 
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
-#define BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_
+#ifndef {{schemaValidationHeaderGuardPrefix}}_{{classname}}_MODEL_H_
+#define {{schemaValidationHeaderGuardPrefix}}_{{classname}}_MODEL_H_
 
 {{#imports}}{{{this}}}
 {{/imports}}
@@ -304,7 +304,8 @@ protected:
     {{^isContainer}}
     {{^isModel}}
     {{#vendorExtensions.x-cpp-no-is-set}}
-    {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}};
+    {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}}{{#vendorExtensions.x-cpp-member-default}} =
+        {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value>({{{defaultValue}}}){{/vendorExtensions.x-cpp-member-default}};
     {{/vendorExtensions.x-cpp-no-is-set}}
     {{^vendorExtensions.x-cpp-no-is-set}}
     {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}} =
@@ -312,29 +313,31 @@ protected:
     {{/vendorExtensions.x-cpp-no-is-set}}
     {{/isModel}}
     {{#isModel}}
-    {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}};
+    {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}}{{#vendorExtensions.x-cpp-member-default}} =
+        {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value>({{{defaultValue}}}){{/vendorExtensions.x-cpp-member-default}};
     {{/isModel}}
     {{/isContainer}}
     {{#isContainer}}
-    {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}};
+    {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value> m_{{name}}{{#vendorExtensions.x-cpp-member-default}} =
+        {{classname}}ModelPropertyStorage<{{{dataType}}}, {{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value>({{{defaultValue}}}){{/vendorExtensions.x-cpp-member-default}};
     {{/isContainer}}
     {{/parent}}
     {{^parent}}
     {{^isContainer}}
     {{^isModel}}
     {{#vendorExtensions.x-cpp-no-is-set}}
-    {{{dataType}}} m_{{name}};
+    {{{dataType}}} m_{{name}}{{#vendorExtensions.x-cpp-member-default}} = {{{defaultValue}}}{{/vendorExtensions.x-cpp-member-default}};
     {{/vendorExtensions.x-cpp-no-is-set}}
     {{^vendorExtensions.x-cpp-no-is-set}}
     {{{dataType}}} m_{{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
     {{/vendorExtensions.x-cpp-no-is-set}}
     {{/isModel}}
     {{#isModel}}
-    {{{dataType}}} m_{{name}};
+    {{{dataType}}} m_{{name}}{{#vendorExtensions.x-cpp-member-default}} = {{{defaultValue}}}{{/vendorExtensions.x-cpp-member-default}};
     {{/isModel}}
     {{/isContainer}}
     {{#isContainer}}
-    {{{dataType}}} m_{{name}};
+    {{{dataType}}} m_{{name}}{{#vendorExtensions.x-cpp-member-default}} = {{{defaultValue}}}{{/vendorExtensions.x-cpp-member-default}};
     {{/isContainer}}
     {{/parent}}
     {{^required}}
@@ -358,7 +361,7 @@ void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}
 {{#modelNamespaceDeclarations}}
 }
 {{/modelNamespaceDeclarations}}
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_MODEL_H_ */
+#endif /* {{schemaValidationHeaderGuardPrefix}}_{{classname}}_MODEL_H_ */
 {{/vendorExtensions.x-cpp-is-alias}}
 {{/model}}
 {{/models}}

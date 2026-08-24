@@ -1515,11 +1515,13 @@ boost::json::object {{classname}}::toJsonObject_internal() const
         }
         {{/vendorExtensions.x-cpp-no-is-set}}
         {{#vendorExtensions.x-cpp-nullable-field}}
-        // NullableField tri-state: hasValue → JSON value, isNull → null, isMissing → omit
-        if (m_{{name}}.hasValue()) {
-            {{#vendorExtensions.x-cpp-variant-alias}}object["{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"] = toJsonValue_{{vendorExtensions.x-cpp-variant-alias-name}}({{getter}}().value());{{/vendorExtensions.x-cpp-variant-alias}}{{^vendorExtensions.x-cpp-variant-alias}}object["{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"] = JsonValueConverter<{{{vendorExtensions.x-cpp-nullable-field-inner-type}}}>::toJsonValue({{getter}}().value());{{/vendorExtensions.x-cpp-variant-alias}}
-        } else if (m_{{name}}.isNull()) {
-            object["{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"] = nullptr;
+        // Schema defaults affect the getter but do not create wire presence.
+        if (!m_{{name}}.isMissing()) {
+            if (m_{{name}}.hasValue()) {
+                {{#vendorExtensions.x-cpp-variant-alias}}object["{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"] = toJsonValue_{{vendorExtensions.x-cpp-variant-alias-name}}({{getter}}().value());{{/vendorExtensions.x-cpp-variant-alias}}{{^vendorExtensions.x-cpp-variant-alias}}object["{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"] = JsonValueConverter<{{{vendorExtensions.x-cpp-nullable-field-inner-type}}}>::toJsonValue({{getter}}().value());{{/vendorExtensions.x-cpp-variant-alias}}
+            } else if (m_{{name}}.isNull()) {
+                object["{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"] = nullptr;
+            }
         }
         {{/vendorExtensions.x-cpp-nullable-field}}
         {{#vendorExtensions.x-cpp-no-is-set}}
@@ -1556,7 +1558,18 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{^vendorExtensions.x-cpp-no-is-set}}
     m_{{name}}IsSet = false;
     {{/vendorExtensions.x-cpp-no-is-set}}
-    {{#vendorExtensions.x-cpp-nullable-field}}
+    {{#vendorExtensions.x-cpp-has-explicit-default}}
+    {{#parent}}
+    if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
+        m_{{name}}.value = {{{defaultValue}}};
+    }
+    {{/parent}}
+    {{^parent}}
+    m_{{name}} = {{{defaultValue}}};
+    {{/parent}}
+    {{/vendorExtensions.x-cpp-has-explicit-default}}
+    {{^vendorExtensions.x-cpp-has-explicit-default}}
+        {{#vendorExtensions.x-cpp-nullable-field}}
     {{#parent}}
     if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
         m_{{name}}.resetMissing();
@@ -1578,6 +1591,7 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{/parent}}
     {{/vendorExtensions.x-cpp-nullable-field}}
     {{/vendorExtensions.x-cpp-no-is-set}}
+    {{/vendorExtensions.x-cpp-has-explicit-default}}
     {{/required}}
     {{/vendorExtensions.x-cpp-const}}
     {{/vendorExtensions.x-cpp-reject-if-present}}

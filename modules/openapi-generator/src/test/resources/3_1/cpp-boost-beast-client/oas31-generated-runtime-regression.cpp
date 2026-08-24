@@ -20,6 +20,7 @@
 #include "model/NullDriftEvent.h"
 #include "model/NullDriftResponse.h"
 #include "model/NullableEnumBox.h"
+#include "model/ScalarDefaults.h"
 #include "model/StreamChunk.h"
 #include "model/TaggedUnionContainer.h"
 #include "model/Toggle.h"
@@ -75,23 +76,36 @@ public:
         const std::string& target,
         const std::string&,
         const std::map<std::string, std::string>&,
-        std::function<void(const std::string&)> onEvent) override {
+        api::SseEventCallback onEvent,
+        const api::SseStreamOptions& options = {}) override {
         if (target == "/stream-error") {
             return {
                 boost::beast::http::status::bad_request,
                 {{"Content-Type", "application/json"}},
                 kErrorResponseBody};
         }
+        if (target == "/stream-wrong-content-type") {
+            return {
+                boost::beast::http::status::ok,
+                {{"Content-Type", "application/json"}},
+                R"({"kind":"b"})"};
+        }
         if (target != "/stream") {
             return {boost::beast::http::status::bad_request, {}};
         }
-        onEvent(R"({"id":"nulls","inline_nullable":null,"referenced_nullable":null,"required_nullable":null,"required_referenced_nullable":null})");
-        onEvent(R"({"id":"values","inline_nullable":{"value":"inline"},"referenced_nullable":{"value":"reference"},"required_nullable":"required","required_referenced_nullable":{"value":"required reference"}})");
-        onEvent(R"({"id":"missing","required_nullable":null,"required_referenced_nullable":null})");
-        onEvent("[DONE]");
-        return {
-            boost::beast::http::status::ok,
-            {{"Content-Type", "text/event-stream"}}};
+        const std::vector<api::SseEvent> events{
+            {"delta", R"({"id":"nulls","inline_nullable":null,"referenced_nullable":null,"required_nullable":null,"required_referenced_nullable":null})", "event-1", 250U},
+            {"message", R"({"id":"values","inline_nullable":{"value":"inline"},"referenced_nullable":{"value":"reference"},"required_nullable":"required","required_referenced_nullable":{"value":"required reference"}})", "event-2", std::nullopt},
+            {"message", R"({"id":"missing","required_nullable":null,"required_referenced_nullable":null})", "event-3", std::nullopt},
+            {"message", "[DONE]", "event-4", std::nullopt}};
+        for (const api::SseEvent& event : events) {
+            if ((options.isCancelled && options.isCancelled()) || !onEvent(event)) {
+                return {boost::beast::http::status::ok,
+                        {{"Content-Type", "text/event-stream"}}, {}, true, true};
+            }
+        }
+        return {boost::beast::http::status::ok,
+                {{"Content-Type", "text/event-stream"}}, {}, true, false};
     }
 };
 
@@ -138,6 +152,40 @@ int main() {
     decodedTaggedContainer.fromJsonValue(taggedContainerJson);
     expect(decodedTaggedContainer.toJsonValue() == taggedContainerJson,
            "tagged variant properties failed to round-trip");
+
+    model::ScalarDefaults defaults;
+    expect(!defaults.isEnabled() && defaults.getRetries() == -7,
+           "boolean or int32 schema default was not applied");
+    expect(defaults.getSequence() == std::numeric_limits<std::int64_t>::min(),
+           "int64 minimum schema default was not applied");
+    expect(defaults.getRatio() == 0.125 && defaults.getThreshold() == 1.5f,
+           "floating-point schema default was not applied");
+    expect(defaults.getLabel() == "quoted \"line\"\nnext"
+               && defaults.getMode() == "beta",
+           "string or enum schema default was not escaped and applied");
+    expect(defaults.getNullableLabel().isMissing()
+               && defaults.getNullableLabel().isNull(),
+           "null schema default did not preserve missing wire presence");
+    expect(defaults.getNullableFallback().isMissing()
+               && defaults.getNullableFallback().hasValue()
+               && defaults.getNullableFallback().value() == "fallback",
+           "nullable value default did not preserve missing wire presence");
+    expect(defaults.toJsonValue().as_object().empty(),
+           "unset schema defaults were serialized onto the wire");
+
+    defaults.setEnabled(true);
+    defaults.setNullableLabel(
+        model::NullableField<std::string>::makeNull());
+    const boost::json::object explicitDefaults = defaults.toJsonValue().as_object();
+    expect(explicitDefaults.at("enabled").as_bool()
+               && explicitDefaults.at("nullable_label").is_null(),
+           "explicit values did not become wire-present");
+    defaults.fromJsonString("{}");
+    expect(!defaults.isEnabled() && defaults.getRetries() == -7
+               && defaults.getNullableLabel().isMissing()
+               && defaults.getNullableLabel().isNull()
+               && defaults.toJsonValue().as_object().empty(),
+           "repeated deserialization did not restore default value and absence");
 
     expect(api::toFormParameterValue(direct) == "tag",
            "tagged composition form value exposed its storage wrapper");
@@ -217,15 +265,15 @@ int main() {
     model::NullableEnumBox nullableEnums;
     expect(nullableEnums.getOptionalEnum().isMissing(),
            "optional nullable enum did not default to missing");
-    nullableEnums.setOptionalEnum(NullableField<std::string>::makeNull());
+    nullableEnums.setOptionalEnum(model::NullableField<std::string>::makeNull());
     expect(nullableEnums.getOptionalEnum().isNull(),
            "optional nullable enum rejected null");
-    nullableEnums.setOptionalEnum(NullableField<std::string>("standard"));
+    nullableEnums.setOptionalEnum(model::NullableField<std::string>("standard"));
     expect(nullableEnums.getOptionalEnum().value() == "standard",
            "optional nullable enum rejected an allowed value");
     bool rejectedOptionalEnum = false;
     try {
-        nullableEnums.setOptionalEnum(NullableField<std::string>("invalid"));
+        nullableEnums.setOptionalEnum(model::NullableField<std::string>("invalid"));
     } catch (const std::runtime_error&) {
         rejectedOptionalEnum = true;
     }
@@ -313,11 +361,58 @@ int main() {
            "nested unevaluatedItems-only schema was treated as an empty schema");
     expect(validatesSchema("ValidationVocabularyInertUnique_branch_0", "[1,1]"),
            "uniqueItems remained active when the validation vocabulary was inert");
+    expect(validatesSchema("RefSiblingComposition_component", R"({"target":"ok"})"),
+           "$ref with an anyOf sibling rejected an instance matching both schemas");
+    expect(!validatesSchema("RefSiblingComposition_component", "{}"),
+           "$ref target constraints were skipped beside an anyOf sibling");
+    expect(!validatesSchema(
+               "RefAnnotationIsolation_component",
+               R"({"from_ref":"seen","from_branch":"seen"})"),
+           "an anyOf member observed evaluated-property annotations from an adjacent $ref");
+    expect(validatesSchema(
+               "RefAnnotationIsolation_component", R"({"from_branch":"seen"})"),
+           "$ref annotation isolation rejected a branch-local property");
+    expect(!validatesSchema(
+               "ConditionalAnnotationIsolation_component",
+               R"({"from_parent":"seen","from_then":"seen"})"),
+           "a then subschema observed annotations from an adjacent parent property");
+    expect(validatesSchema(
+               "ConditionalAnnotationIsolation_component", R"({"from_then":"seen"})"),
+           "conditional annotation isolation rejected a branch-local property");
+    expect(!validatesSchema(
+               "DependentAnnotationIsolation_component",
+               R"({"trigger":true,"from_dependency":"seen"})"),
+           "a dependentSchemas subschema observed annotations from an adjacent parent property");
+    expect(validatesSchema(
+               "DependentAnnotationIsolation_component",
+               R"({"from_dependency":"seen"})"),
+           "an inactive dependentSchemas entry constrained the instance");
+    expect(validatesSchema("MixedPrimitiveEnum_branch_0", "true")
+               && validatesSchema("MixedPrimitiveEnum_branch_0", R"("allowed")")
+               && validatesSchema("MixedPrimitiveEnum_branch_0", "null"),
+           "mixed-kind enum rejected one of its declared values");
+    expect(!validatesSchema("MixedPrimitiveEnum_branch_0", "false")
+               && !validatesSchema("MixedPrimitiveEnum_branch_0", R"("null")"),
+           "mixed-kind enum accepted an undeclared boolean or string");
 
     api::DefaultApi defaultApi(std::make_shared<FakeHttpClient>());
-    const std::vector<model::StreamChunk> streamChunks = defaultApi.getStream();
+    std::vector<model::StreamChunk> streamChunks;
+    std::vector<api::SseEvent> streamEvents;
+    const api::HttpResponseData streamResponse = defaultApi.getStream(
+        [&streamChunks, &streamEvents](const model::StreamChunk& chunk,
+                                      const api::SseEvent& event) {
+            streamChunks.push_back(chunk);
+            streamEvents.push_back(event);
+            return true;
+        });
+    expect(streamResponse.status == boost::beast::http::status::ok
+               && streamResponse.isEventStream && !streamResponse.streamCancelled,
+           "stream response metadata was not preserved");
     expect(streamChunks.size() == 3u,
            "JSON event streaming did not discard the [DONE] terminator");
+    expect(streamEvents[0].event == "delta" && streamEvents[0].id == "event-1"
+               && streamEvents[0].retryMilliseconds == 250U,
+           "typed stream callback discarded SSE wire metadata");
     expect(streamChunks[0].getInlineNullable().isNull(),
            "inline nullable object did not decode explicit null");
     expect(streamChunks[0].getReferencedNullable().isNull(),
@@ -344,6 +439,15 @@ int main() {
            "missing nullable reference lost its missing state");
     expect(!streamChunks[2].getRequiredReferencedNullable().has_value(),
            "required nullable reference did not preserve explicit null");
+    std::size_t cancelledEventCount = 0;
+    const api::HttpResponseData cancelledStream = defaultApi.getStream(
+        [&cancelledEventCount](const model::StreamChunk&,
+                               const api::SseEvent&) {
+            ++cancelledEventCount;
+            return false;
+        });
+    expect(cancelledEventCount == 1u && cancelledStream.streamCancelled,
+           "stream callback cancellation did not stop delivery");
     bool retainedErrorBody = false;
     try {
         defaultApi.getError();
@@ -355,9 +459,22 @@ int main() {
     expect(retainedErrorBody,
            "non-stream API exception discarded the HTTP response body");
 
+    bool rejectedWrongStreamContentType = false;
+    try {
+        (void)defaultApi.getWrongContentTypeStream(
+            [](const model::StreamChunk&, const api::SseEvent&) { return true; });
+    } catch (const api::DefaultApiException& exception) {
+        rejectedWrongStreamContentType =
+            exception.getStatus() == boost::beast::http::status::ok
+            && exception.getResponseBody() == R"({"kind":"b"})";
+    }
+    expect(rejectedWrongStreamContentType,
+           "successful non-SSE response was silently accepted as an event stream");
+
     bool retainedStreamErrorBody = false;
     try {
-        (void)defaultApi.getStreamError();
+        (void)defaultApi.getStreamError(
+            [](const model::StreamChunk&, const api::SseEvent&) { return true; });
     } catch (const api::DefaultApiException& exception) {
         retainedStreamErrorBody =
             exception.getStatus() == boost::beast::http::status::bad_request

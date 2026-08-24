@@ -1,8 +1,11 @@
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.cfg.JsonNodeFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import io.swagger.v3.core.util.Json31;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
@@ -28,6 +31,9 @@ import java.util.Map;
 final class Oas31RawSpecRecovery {
 
     private static final String EMPTY_ENUM_EXT = "x-oas31-empty-enum";
+    private static final String ENUM_JSON_EXT = "x-oas31-enum-json";
+    private static final String DEFAULT_PRESENT_EXT = "x-oas31-default-present";
+    private static final String DEFAULT_JSON_EXT = "x-oas31-default-json";
     private static final String TYPE_NULL_EXT = "x-oas31-pristine-type-null";
     private static final String DEPENDENT_REQUIRED_EXT = "x-oas31-dependent-required";
     static final String LEGACY_NULLABLE_EXT = "x-oas31-legacy-nullable";
@@ -158,8 +164,8 @@ final class Oas31RawSpecRecovery {
     }
 
     /**
-     * Recovers exact count bounds, empty enum, dependentRequired, and null type
-     * members from the raw document tree.
+     * Recovers exact count bounds, enum values, dependentRequired, and null
+     * type members from the raw document tree.
      */
     static void recoverPristineLiterals(OpenAPI api, String inputSpec) {
         if (!needsRawRecovery(api, inputSpec)) {
@@ -173,7 +179,12 @@ final class Oas31RawSpecRecovery {
                     .loaderOptions(io.swagger.v3.parser.util.DeserializationUtils
                             .buildLoaderOptions())
                     .build();
-            document = new ObjectMapper(yamlFactory).readTree(text);
+            ObjectMapper mapper = YAMLMapper.builder(yamlFactory)
+                    .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+                    .enable(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS)
+                    .disable(JsonNodeFeature.STRIP_TRAILING_BIGDECIMAL_ZEROES)
+                    .build();
+            document = mapper.readTree(text);
         } catch (Exception ex) {
             throw new IllegalStateException(
                     "Unable to read the raw OAS 3.1 document for exact schema recovery",
@@ -394,10 +405,17 @@ final class Oas31RawSpecRecovery {
         if (raw == null || parsed == null || !raw.isObject()) {
             return;
         }
+        if (raw.has("default")) {
+            addExtension(parsed, DEFAULT_PRESENT_EXT, true);
+            addExtension(parsed, DEFAULT_JSON_EXT, raw.get("default").toString());
+        }
 
         JsonNode rawEnum = raw.get("enum");
-        if (rawEnum != null && rawEnum.isArray() && rawEnum.isEmpty()) {
-            addExtension(parsed, EMPTY_ENUM_EXT, true);
+        if (rawEnum != null && rawEnum.isArray()) {
+            addExtension(parsed, ENUM_JSON_EXT, rawEnum.toString());
+            if (rawEnum.isEmpty()) {
+                addExtension(parsed, EMPTY_ENUM_EXT, true);
+            }
         }
 
         JsonNode rawType = raw.get("type");
@@ -666,11 +684,31 @@ final class Oas31RawSpecRecovery {
         }
     }
 
+    static boolean hasExplicitDefault(Schema schema) {
+        return hasTrueExtension(schema, DEFAULT_PRESENT_EXT);
+    }
+
+    static String defaultJsonOf(Schema schema) {
+        if (schema == null || schema.getExtensions() == null) {
+            return null;
+        }
+        Object value = schema.getExtensions().get(DEFAULT_JSON_EXT);
+        return value == null ? null : String.valueOf(value);
+    }
+
     private static void addExtension(Schema schema, String key, Object value) {
         if (schema.getExtensions() == null) {
             schema.setExtensions(new LinkedHashMap<>());
         }
         schema.addExtension(key, value);
+    }
+
+    static String enumJsonOf(Schema schema) {
+        if (schema == null || schema.getExtensions() == null) {
+            return null;
+        }
+        Object value = schema.getExtensions().get(ENUM_JSON_EXT);
+        return value == null ? null : String.valueOf(value);
     }
 
     static boolean isEmptyEnumMarked(Schema schema) {

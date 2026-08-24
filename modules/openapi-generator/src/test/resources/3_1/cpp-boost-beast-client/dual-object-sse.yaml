@@ -40,6 +40,27 @@ paths:
             text/event-stream:
               schema:
                 $ref: '#/components/schemas/StreamEvent'
+  /ambiguous:
+    post:
+      tags:
+        - Dual
+      operationId: createAmbiguous
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AmbiguousPayload'
+      responses:
+        '200':
+          description: JSON or SSE with ambiguous request selectors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NormalResponse'
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/StreamEvent'
 components:
   schemas:
     CreatePayload:
@@ -47,6 +68,18 @@ components:
       properties:
         name:
           type: string
+        stream:
+          type: boolean
+          default: false
+    AmbiguousPayload:
+      type: object
+      properties:
+        stream:
+          type: boolean
+          default: false
+        sse:
+          type: boolean
+          default: false
     NormalResponse:
       type: object
       properties:

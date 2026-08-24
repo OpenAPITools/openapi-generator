@@ -15,6 +15,7 @@
 
 namespace schema_validation =
     org::openapitools::client::model::detail::schema_validation;
+using namespace org::openapitools::client::model;
 
 namespace {
 

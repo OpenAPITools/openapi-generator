@@ -315,14 +315,16 @@ public class CompositionLoweringTest {
         // Verify include guards: each header has exactly one #ifndef and one #endif
         // (check the alias and non-alias paths)
         Assert.assertEquals(
-                TestUtils.countOccurrences(inputParamContent, "#ifndef BOOST_BEAST_OPENAPI_CLIENT_InputParam_MODEL_H_"),
+                TestUtils.countOccurrences(inputParamContent,
+                        "#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_InputParam_MODEL_H_"),
                 1, "InputParam header should have exactly one #ifndef");
         Assert.assertEquals(
                 TestUtils.countOccurrences(inputParamContent, "#endif"),
                 1, "InputParam header should have exactly one #endif");
         String catContent = java.nio.file.Files.readString(catHeader);
         Assert.assertEquals(
-                TestUtils.countOccurrences(catContent, "#ifndef BOOST_BEAST_OPENAPI_CLIENT_Cat_MODEL_H_"),
+                TestUtils.countOccurrences(catContent,
+                        "#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_Cat_MODEL_H_"),
                 1, "Cat (class model) header should have exactly one #ifndef");
         Assert.assertEquals(
                 TestUtils.countOccurrences(catContent, "#endif"),

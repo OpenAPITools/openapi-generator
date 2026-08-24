@@ -32,7 +32,7 @@ import java.util.function.BiConsumer;
  * validate_&lt;id&gt; dispatch; child and component rows are flattened after
  * them so main-node indices stay stable. The {@code x-oas31-*} recovery
  * extensions of {@link Oas31RawSpecRecovery} are honoured here (count-bound
- * lexemes, pristine type-null markers, recovered dependentRequired maps).
+ * lexemes, pristine enum JSON and type-null markers, dependentRequired maps).
  */
 final class Oas31SchemaIrEmitter {
     // Spread large registries across a bounded number of compiler inputs.
@@ -121,7 +121,10 @@ final class Oas31SchemaIrEmitter {
                 // keyword from the raw spec and marks the branch via the
                 // x-oas31-empty-enum vendor extension; the marker is treated as
                 // an empty enum here (a real, non-empty enum takes precedence).
-                if (surface.getEnum() != null || Oas31RawSpecRecovery.isEmptyEnumMarked(surface)) {
+                String pristineEnumJson = Oas31RawSpecRecovery.enumJsonOf(surface);
+                if (surface.getEnum() != null
+                        || Oas31RawSpecRecovery.isEmptyEnumMarked(surface)
+                        || pristineEnumJson != null) {
                     supported.add("enum");
                     // For a recovered `enum: []` the parser yields enum=null; use
                     // the empty list so the deep store emits ZERO members.
@@ -154,6 +157,9 @@ final class Oas31SchemaIrEmitter {
                     validateParams.put("has-validation-enum", true);
                     // Preserve raw deep JSON enum members for exact IR emission.
                     validateParams.put("validation-enum-raw", enumMembers);
+                    if (pristineEnumJson != null) {
+                        validateParams.put("validation-enum-json", pristineEnumJson);
+                    }
                 }
                 // Const: detect JSON kind for the validator template
                 if (surface.getConst() != null) {
@@ -206,17 +212,17 @@ final class Oas31SchemaIrEmitter {
                         || surface.getMaxLength() != null
                         || minLenLex != null || maxLenLex != null) {
                     supported.add("string-length");
-                    if (surface.getMinLength() != null) {
+                    if (minLenLex != null) {
+                        validateParams.put("validation-min-length", minLenLex);
+                    } else if (surface.getMinLength() != null) {
                         validateParams.put("validation-min-length",
                                 surface.getMinLength());
-                    } else if (minLenLex != null) {
-                        validateParams.put("validation-min-length", minLenLex);
                     }
-                    if (surface.getMaxLength() != null) {
+                    if (maxLenLex != null) {
+                        validateParams.put("validation-max-length", maxLenLex);
+                    } else if (surface.getMaxLength() != null) {
                         validateParams.put("validation-max-length",
                                 surface.getMaxLength());
-                    } else if (maxLenLex != null) {
-                        validateParams.put("validation-max-length", maxLenLex);
                     }
                     validateParams.put("has-validation-string-length", true);
                 }
@@ -243,17 +249,17 @@ final class Oas31SchemaIrEmitter {
                         || surface.getMaxItems() != null
                         || minItemsLex != null || maxItemsLex != null) {
                     supported.add("array-length");
-                    if (surface.getMinItems() != null) {
+                    if (minItemsLex != null) {
+                        validateParams.put("validation-min-items", minItemsLex);
+                    } else if (surface.getMinItems() != null) {
                         validateParams.put("validation-min-items",
                                 surface.getMinItems());
-                    } else if (minItemsLex != null) {
-                        validateParams.put("validation-min-items", minItemsLex);
                     }
-                    if (surface.getMaxItems() != null) {
+                    if (maxItemsLex != null) {
+                        validateParams.put("validation-max-items", maxItemsLex);
+                    } else if (surface.getMaxItems() != null) {
                         validateParams.put("validation-max-items",
                                 surface.getMaxItems());
-                    } else if (maxItemsLex != null) {
-                        validateParams.put("validation-max-items", maxItemsLex);
                     }
                     validateParams.put("has-validation-array-length", true);
                 }
@@ -306,14 +312,14 @@ final class Oas31SchemaIrEmitter {
                 if (surface.getMinProperties() != null || minPropsLex != null) {
                     supported.add("object-property-count");
                     validateParams.put("validation-min-properties",
-                            surface.getMinProperties() != null
-                                    ? surface.getMinProperties() : minPropsLex);
+                            minPropsLex != null
+                                    ? minPropsLex : surface.getMinProperties());
                 }
                 if (surface.getMaxProperties() != null || maxPropsLex != null) {
                     supported.add("object-property-count");
                     validateParams.put("validation-max-properties",
-                            surface.getMaxProperties() != null
-                                    ? surface.getMaxProperties() : maxPropsLex);
+                            maxPropsLex != null
+                                    ? maxPropsLex : surface.getMaxProperties());
                 }
                 // Nested allOf, anyOf, and oneOf each become applicator children;
                 // all three may coexist. A $ref branch excludes this inline scan
@@ -406,13 +412,11 @@ final class Oas31SchemaIrEmitter {
                     String maxC = Oas31RawSpecRecovery.countBoundLexemeOf(surface, "maxContains");
                     if (surface.getMinContains() != null || minC != null) {
                         validateParams.put("validation-min-contains",
-                                surface.getMinContains() != null
-                                        ? surface.getMinContains() : minC);
+                                minC != null ? minC : surface.getMinContains());
                     }
                     if (surface.getMaxContains() != null || maxC != null) {
                         validateParams.put("validation-max-contains",
-                                surface.getMaxContains() != null
-                                        ? surface.getMaxContains() : maxC);
+                                maxC != null ? maxC : surface.getMaxContains());
                     }
                 } else {
                     if (surface.getMinContains() != null
@@ -1263,7 +1267,15 @@ final class Oas31SchemaIrEmitter {
             n.constJson = toJsonLiteral(constRaw);
         }
         Object enumRaw = vp.get("validation-enum-raw");
-        if (enumRaw instanceof java.util.List) {
+        Object pristineEnumJson = vp.get("validation-enum-json");
+        if (pristineEnumJson instanceof String) {
+            n.enumJson = (String) pristineEnumJson;
+            // The pristine deep store is authoritative and preserves every kind
+            // and numeric lexeme, so discard parser-inferred scalar buckets.
+            n.enumNumbers = new ArrayList<>();
+            n.enumStrings = new ArrayList<>();
+            n.enumBooleans = new ArrayList<>();
+        } else if (enumRaw instanceof java.util.List) {
             java.util.List<?> list = (java.util.List<?>) enumRaw;
             if (!list.isEmpty()) {
                 n.enumJson = toJsonLiteral(list);
@@ -1272,18 +1284,31 @@ final class Oas31SchemaIrEmitter {
                 // empty deep store rather than treating the keyword as absent.
                 n.enumJson = "[]";
             }
-            // Exact numeric members (lexeme-first) go in the scalar bucket so
-            // huge numbers (beyond uint64/double) never lose precision through
-            // boost::json; structural members are handled by the deep enumJson
-            // store instead. Only genuine numbers enter enumNumbers, so the
-            // emitted parseLexeme is never fed a non-numeric string.
+            // Rebuild every scalar bucket from each member's actual JSON kind.
+            // The descriptor's predominant-kind view exists for legacy template
+            // metadata and cannot represent legal mixed-kind JSON Schema enums.
             n.enumNumbers = new ArrayList<>();
+            n.enumStrings = new ArrayList<>();
+            n.enumBooleans = new ArrayList<>();
             for (Object m : list) {
                 if (m instanceof Number) {
                     n.enumNumbers.add(m.toString());
-                } else if (m instanceof com.fasterxml.jackson.databind.JsonNode
-                        && ((com.fasterxml.jackson.databind.JsonNode) m).isNumber()) {
-                    n.enumNumbers.add(((com.fasterxml.jackson.databind.JsonNode) m).asText());
+                } else if (m instanceof Boolean) {
+                    n.enumBooleans.add(m.toString());
+                } else if (m instanceof String) {
+                    n.enumStrings.add(CppBoostBeastClientCodegen
+                            .escapeCppStringContent((String) m));
+                } else if (m instanceof com.fasterxml.jackson.databind.JsonNode) {
+                    com.fasterxml.jackson.databind.JsonNode jsonMember =
+                            (com.fasterxml.jackson.databind.JsonNode) m;
+                    if (jsonMember.isNumber()) {
+                        n.enumNumbers.add(jsonMember.asText());
+                    } else if (jsonMember.isBoolean()) {
+                        n.enumBooleans.add(Boolean.toString(jsonMember.asBoolean()));
+                    } else if (jsonMember.isTextual()) {
+                        n.enumStrings.add(CppBoostBeastClientCodegen
+                                .escapeCppStringContent(jsonMember.asText()));
+                    }
                 }
             }
         }
@@ -1700,7 +1725,10 @@ final class Oas31SchemaIrEmitter {
             n.hasConst = true;
             n.constJson = toJsonLiteral(schema.getConst());
         }
-        if (schema.getEnum() != null) {
+        String pristineEnumJson = Oas31RawSpecRecovery.enumJsonOf(schema);
+        if (pristineEnumJson != null) {
+            n.enumJson = pristineEnumJson;
+        } else if (schema.getEnum() != null) {
             // An EMPTY enum (enum: []) is a valid reject-all schema.
             n.enumJson = toJsonLiteral(schema.getEnum());
         }
@@ -1775,21 +1803,19 @@ final class Oas31SchemaIrEmitter {
                 }
             }
         }
-        if (schema.getMinProperties() != null) {
-            n.minPropertiesLexeme = String.valueOf(schema.getMinProperties());
-            n.minPropertiesPresent = true;
-            n.hasObjectSchema = true;
-        } else if (Oas31RawSpecRecovery.countBoundLexemeOf(schema, "minProperties") != null) {
-            n.minPropertiesLexeme = Oas31RawSpecRecovery.countBoundLexemeOf(schema, "minProperties");
+        String minPropertiesLexeme = Oas31RawSpecRecovery.countBoundLexemeOf(
+                schema, "minProperties");
+        if (minPropertiesLexeme != null || schema.getMinProperties() != null) {
+            n.minPropertiesLexeme = minPropertiesLexeme != null
+                    ? minPropertiesLexeme : String.valueOf(schema.getMinProperties());
             n.minPropertiesPresent = true;
             n.hasObjectSchema = true;
         }
-        if (schema.getMaxProperties() != null) {
-            n.maxPropertiesLexeme = String.valueOf(schema.getMaxProperties());
-            n.maxPropertiesPresent = true;
-            n.hasObjectSchema = true;
-        } else if (Oas31RawSpecRecovery.countBoundLexemeOf(schema, "maxProperties") != null) {
-            n.maxPropertiesLexeme = Oas31RawSpecRecovery.countBoundLexemeOf(schema, "maxProperties");
+        String maxPropertiesLexeme = Oas31RawSpecRecovery.countBoundLexemeOf(
+                schema, "maxProperties");
+        if (maxPropertiesLexeme != null || schema.getMaxProperties() != null) {
+            n.maxPropertiesLexeme = maxPropertiesLexeme != null
+                    ? maxPropertiesLexeme : String.valueOf(schema.getMaxProperties());
             n.maxPropertiesPresent = true;
             n.hasObjectSchema = true;
         }
@@ -1817,37 +1843,29 @@ final class Oas31SchemaIrEmitter {
             }
         }
         String mibl = Oas31RawSpecRecovery.countBoundLexemeOf(schema, "minItems");
-        if (schema.getMinItems() != null) {
-            n.minItemsLexeme = String.valueOf(schema.getMinItems());
-            n.minItemsPresent = true;
-        } else if (mibl != null) {
-            n.minItemsLexeme = mibl;
+        if (mibl != null || schema.getMinItems() != null) {
+            n.minItemsLexeme = mibl != null
+                    ? mibl : String.valueOf(schema.getMinItems());
             n.minItemsPresent = true;
         }
         String maxbl = Oas31RawSpecRecovery.countBoundLexemeOf(schema, "maxItems");
-        if (schema.getMaxItems() != null) {
-            n.maxItemsLexeme = String.valueOf(schema.getMaxItems());
-            n.maxItemsPresent = true;
-        } else if (maxbl != null) {
-            n.maxItemsLexeme = maxbl;
+        if (maxbl != null || schema.getMaxItems() != null) {
+            n.maxItemsLexeme = maxbl != null
+                    ? maxbl : String.valueOf(schema.getMaxItems());
             n.maxItemsPresent = true;
         }
 
         // ---- String constraints ----
         String minll = Oas31RawSpecRecovery.countBoundLexemeOf(schema, "minLength");
-        if (schema.getMinLength() != null) {
-            n.minLengthLexeme = String.valueOf(schema.getMinLength());
-            n.minLengthPresent = true;
-        } else if (minll != null) {
-            n.minLengthLexeme = minll;
+        if (minll != null || schema.getMinLength() != null) {
+            n.minLengthLexeme = minll != null
+                    ? minll : String.valueOf(schema.getMinLength());
             n.minLengthPresent = true;
         }
         String maxll = Oas31RawSpecRecovery.countBoundLexemeOf(schema, "maxLength");
-        if (schema.getMaxLength() != null) {
-            n.maxLengthLexeme = String.valueOf(schema.getMaxLength());
-            n.maxLengthPresent = true;
-        } else if (maxll != null) {
-            n.maxLengthLexeme = maxll;
+        if (maxll != null || schema.getMaxLength() != null) {
+            n.maxLengthLexeme = maxll != null
+                    ? maxll : String.valueOf(schema.getMaxLength());
             n.maxLengthPresent = true;
         }
         if (schema.getPattern() != null) {
@@ -1980,16 +1998,20 @@ final class Oas31SchemaIrEmitter {
             n.containsChild = irNodeFromRawSchema(schema.getContains(),
                     n.childId("contains"));
         }
-        String minCLex = schema.getMinContains() != null
-                ? String.valueOf(schema.getMinContains())
-                : Oas31RawSpecRecovery.countBoundLexemeOf(schema, "minContains");
+        String minCLex = Oas31RawSpecRecovery.countBoundLexemeOf(
+                schema, "minContains");
+        if (minCLex == null && schema.getMinContains() != null) {
+            minCLex = String.valueOf(schema.getMinContains());
+        }
         if (minCLex != null) {
             n.minContainsLexeme = minCLex;
             n.minContainsPresent = true;
         }
-        String maxCLex = schema.getMaxContains() != null
-                ? String.valueOf(schema.getMaxContains())
-                : Oas31RawSpecRecovery.countBoundLexemeOf(schema, "maxContains");
+        String maxCLex = Oas31RawSpecRecovery.countBoundLexemeOf(
+                schema, "maxContains");
+        if (maxCLex == null && schema.getMaxContains() != null) {
+            maxCLex = String.valueOf(schema.getMaxContains());
+        }
         if (maxCLex != null) {
             n.maxContainsLexeme = maxCLex;
             n.maxContainsPresent = true;
@@ -2311,7 +2333,7 @@ final class Oas31SchemaIrEmitter {
             // A local $ref applies its target alongside sibling keywords. The
             // target row retains its complete constraint surface, including all
             // composition applicators.
-            if (resolvedRef && node.applicatorKind == null) {
+            if (resolvedRef) {
                 sb.append("        n.applicator = ApplicatorKind::ref;\n");
                 sb.append("        n.children.push_back(").append(node.refTargetIndex).append(");\n");
             }

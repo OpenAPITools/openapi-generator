@@ -780,21 +780,18 @@ public class ModelApiSurfaceTest {
         Assert.assertTrue(generatedApiSource.contains("#include <variant>"),
                 "Generated API source must include <variant>");
 
-        // Verify SSE streaming endpoint uses executeStream + appendParsedEvent
-        String getStreamEventsMethod = CppBoostBeastTestSupport.extractMethod(generatedApiSource, "getStreamEvents(");
-        Assert.assertTrue(getStreamEventsMethod.contains("executeStream("),
-                "getStreamEvents must use executeStream for incremental SSE delivery");
-        Assert.assertTrue(getStreamEventsMethod.contains("appendParsedEvent(deserializedResponse, eventData, fromJsonValue_ResponseStreamEvent)"),
-                "getStreamEvents must appendParsedEvent with fromJsonValue_ResponseStreamEvent converter");
+        // Pure SSE uses an incremental typed callback and preserves wire metadata.
+        String getStreamEventsMethod = CppBoostBeastTestSupport.extractMethod(
+                generatedApiSource, "getStreamEvents(");
+        Assert.assertTrue(getStreamEventsMethod.contains("executeStream("));
         Assert.assertTrue(getStreamEventsMethod.contains(
-                "HttpResponseData responseData = m_client->executeStream("),
-                "streaming operations must retain response metadata");
+                "[onEvent = std::move(onEvent)](const SseEvent& event) mutable"));
         Assert.assertTrue(getStreamEventsMethod.contains(
-                "responseBody = std::move(responseData.body);"),
-                "streaming operations must preserve error response bodies");
-        Assert.assertTrue(generatedApiSource.contains("std::vector<ResponseStreamEvent>"),
-                "Generated API source must have std::vector<ResponseStreamEvent> for streaming endpoint");
-
+                "auto value = fromJsonValue_ResponseStreamEvent(exactEvent.value);"));
+        Assert.assertTrue(getStreamEventsMethod.contains("return onEvent(value, event);"));
+        Assert.assertTrue(getStreamEventsMethod.contains(
+                "HttpResponseData deserializedResponse;"));
+        Assert.assertFalse(generatedApiSource.contains("appendParsedEvent"));
         // Verify multipart form-data endpoint generates form parameter handling
         String uploadFileMethod = CppBoostBeastTestSupport.extractMethod(generatedApiSource, "uploadFile(");
         Assert.assertTrue(uploadFileMethod.contains("FormParameter"),
@@ -815,15 +812,13 @@ public class ModelApiSurfaceTest {
         Assert.assertTrue(java.nio.file.Files.exists(output.toPath().resolve("model/DataObject.h")),
                 "DataObject model should be generated");
 
-        // Verify streaming API header/source signature match
+        // Streaming API header/source signatures both expose response metadata.
         Path apiHeader = output.toPath().resolve("api/ComposedSchemaApi.h");
         String apiHeaderContent = Files.readString(apiHeader);
-        // Header must declare std::vector<ResponseStreamEvent> for streaming op
-        // (newline after return type in template)
-        Assert.assertTrue(apiHeaderContent.contains("std::vector<ResponseStreamEvent>"),
-                "ComposedSchemaApi.h must declare getStreamEvents returning std::vector<ResponseStreamEvent>");
-        Assert.assertTrue(apiHeaderContent.contains("getStreamEvents("),
-                "ComposedSchemaApi.h must declare getStreamEvents method");
+        Assert.assertTrue(apiHeaderContent.contains("virtual HttpResponseData"));
+        Assert.assertTrue(apiHeaderContent.contains(
+                "std::function<bool(const ResponseStreamEvent &, const SseEvent &)> onEvent"));
+        Assert.assertTrue(apiHeaderContent.contains("getStreamEvents("));
 
         // Variant headers use toJsonValue_/fromJsonValue_ (not ADL bridge — ADL would conflict)
         String inputParamHeaderContent = Files.readString(
@@ -913,17 +908,11 @@ public class ModelApiSurfaceTest {
         Assert.assertTrue(implHeaderContent.contains("override"),
                 "HttpClientImpl::executeStream must be declared with override");
 
-        // Verify dual-content operation generates stream method in header and source
-        Assert.assertTrue(apiHeaderContent.contains("getDualStream"),
-                "ComposedSchemaApi.h must declare getDualStream method");
-        Assert.assertTrue(apiHeaderContent.contains("getDualStreamStream"),
-                "ComposedSchemaApi.h must declare getDualStreamStream streaming overload for dual-content op");
-        Assert.assertTrue(generatedApiSource.contains("getDualStreamStream"),
-                "ComposedSchemaApi.cpp must implement getDualStreamStream for dual-content op");
-        Assert.assertTrue(generatedApiSource.contains("ResponseJsonValueConverter<ResponseStreamEvent>::convert"),
-                "Dual-content streaming must use the generic response converter");
-        Assert.assertTrue(generatedApiSource.contains("text/event-stream"),
-                "ComposedSchemaApi.cpp streaming path must set Accept header to text/event-stream");
+        // Dual media types alone are not enough to infer a conditional stream.
+        Assert.assertTrue(apiHeaderContent.contains("getDualStream("));
+        Assert.assertFalse(apiHeaderContent.contains("getDualStreamStream("),
+                "Unconfigured dual-content operations must not gain stream companions");
+        Assert.assertFalse(generatedApiSource.contains("getDualStreamStream("));
         // Verify converter name is a valid C++ identifier (no :: or < or shared_ptr)
         Assert.assertFalse(generatedApiSource.contains("fromJsonValue_std::shared_ptr<"),
                 "Converter name must not contain std::shared_ptr< (invalid C++ identifier)");
@@ -937,15 +926,11 @@ public class ModelApiSurfaceTest {
         Assert.assertFalse(inlineAnyOfMethod.contains("OneOfResponseBodyDeserializer"),
                 "Inline anyOf responses must not use exactly-one decoding");
 
-        String inlineOneOfStreamMethod = CppBoostBeastTestSupport.extractMethod(generatedApiSource, "getInlineOneOfEvents(");
+        String inlineOneOfStreamMethod = CppBoostBeastTestSupport.extractMethod(
+                generatedApiSource, "getInlineOneOfEvents(");
         Assert.assertTrue(inlineOneOfStreamMethod.contains(
-                "fromJsonValue_GetInlineOneOfEvents_200_response"),
-                "Inline oneOf SSE responses must use the generated exactly-one converter");
-
-        String dualPrimitiveMethod = CppBoostBeastTestSupport.extractMethod(generatedApiSource, "getDualPrimitiveStreamStream(");
-        Assert.assertTrue(dualPrimitiveMethod.contains(
-                "ResponseJsonValueConverter<std::string>::convert(value)"),
-                "Primitive dual-content SSE responses must use the generic response converter");
+                "fromJsonValue_GetInlineOneOfEvents_200_response(exactEvent.value)"));
+        Assert.assertFalse(generatedApiSource.contains("getDualPrimitiveStreamStream("));
 
         String noContentMethod = CppBoostBeastTestSupport.extractMethod(generatedApiSource, "deleteWithoutContent(");
         Assert.assertTrue(noContentMethod.contains("status(204)"),
@@ -961,22 +946,20 @@ public class ModelApiSurfaceTest {
         Assert.assertTrue(httpClientHeader.contains("virtual HttpResponseData"),
                 "executeStream must return response metadata for error reporting");
 
-        String httpClientSource = Files.readString(output.toPath().resolve("api/HttpClientImpl.cpp"));
-        Assert.assertTrue(httpClientSource.contains("consumeInitialByteOrderMark"),
-                "SSE framing must strip a split UTF-8 BOM at stream start");
-        Assert.assertTrue(httpClientSource.contains("http::error::need_buffer"),
-                "Incremental Beast reads must accept need_buffer as a refill signal");
-        Assert.assertTrue(httpClientSource.contains(
-                "responseData.body.append(bodyBuf.data(), bytesRead)"),
-                "stream transport must retain raw non-2xx response chunks");
-
-        Assert.assertTrue(httpClientSource.contains("tcpStream.expires_never()"),
-                "HTTPS streaming must disable the stale tcp_stream expiry");
+        String httpClientSource = Files.readString(
+                output.toPath().resolve("api/HttpClientImpl.cpp"));
+        Assert.assertTrue(httpClientSource.contains("consumeInitialByteOrderMark"));
+        Assert.assertTrue(httpClientSource.contains("http::error::need_buffer"));
+        Assert.assertTrue(httpClientSource.contains("appendBoundedBody("),
+                "non-SSE and error response bodies must retain the aggregate limit");
+        Assert.assertTrue(httpClientSource.contains("isEventStreamContentType"));
+        Assert.assertTrue(httpClientSource.contains("streamCancelled"));
+        Assert.assertTrue(httpClientSource.contains("tcpStream.expires_never()"));
     }
 
     @Test
     public void generatesPureSseObjectFixture() throws IOException {
-        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-pure-sse-object").toFile();
+        File output = Files.createTempDirectory("cpp-boost-beast-pure-sse-object").toFile();
         output.deleteOnExit();
 
         CodegenConfigurator configurator = new CodegenConfigurator()
@@ -984,197 +967,94 @@ public class ModelApiSurfaceTest {
                 .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/pure-sse-object.yaml")
                 .addAdditionalProperty("sseSchemaMode", "jsonEventData")
                 .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .forEach(File::deleteOnExit);
 
-        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
-
-        Path apiSource = output.toPath().resolve("api/SSEApi.cpp");
-        String generatedApiSource = Files.readString(apiSource);
-
-        // Verify the pure SSE endpoint uses executeStream + appendParsedEvent with fromJsonValue_Evt
-        // (not fromJsonValue_std::shared_ptr<Evt> or any invalid C++ identifier)
-        Assert.assertTrue(generatedApiSource.contains("executeStream("),
-                "Pure SSE must use executeStream for incremental delivery");
-        Assert.assertTrue(generatedApiSource.contains("appendParsedEvent(deserializedResponse, eventData, fromJsonValue_Evt)"),
-                "Pure SSE must appendParsedEvent with fromJsonValue_Evt (not shared_ptr wrapper)");
-        Assert.assertTrue(generatedApiSource.contains("fromJsonValue_Evt"),
-                "Pure SSE must use fromJsonValue_Evt converter (not fromJsonValue_std::...)");
-
-        // Verify NO invalid converter names in the entire source
-        Assert.assertFalse(generatedApiSource.contains("fromJsonValue_std::"),
-                "Pure SSE object must not contain fromJsonValue_std:: (invalid C++ identifier)");
-        Assert.assertFalse(generatedApiSource.contains("fromJsonValue_std::shared_ptr"),
-                "Pure SSE object must not contain fromJsonValue_std::shared_ptr");
-
-        // Verify the return type is std::vector<Evt> (vector of plain objects, not shared_ptr)
-        Assert.assertTrue(generatedApiSource.contains("std::vector<Evt>"),
-                "Pure SSE return type header must be std::vector<Evt>");
-
-        // Verify Evt model template generates both member and free fromJsonValue functions
-        Path evtHeader = output.toPath().resolve("model/Evt.h");
-        String evtHeaderContent = Files.readString(evtHeader);
-        Assert.assertTrue(evtHeaderContent.contains("fromJsonValue_Evt"),
-                "Evt model header must declare fromJsonValue_Evt free function");
-
-        Path evtSource = output.toPath().resolve("model/Evt.cpp");
-        String evtSourceContent = Files.readString(evtSource);
-        Assert.assertTrue(evtSourceContent.contains("fromJsonValue_Evt"),
-                "Evt model source must define fromJsonValue_Evt free function");
+        String source = Files.readString(output.toPath().resolve("api/SSEApi.cpp"));
+        String header = Files.readString(output.toPath().resolve("api/SSEApi.h"));
+        Assert.assertTrue(header.contains("virtual HttpResponseData"));
+        Assert.assertTrue(header.contains(
+                "std::function<bool(const Evt &, const SseEvent &)> onEvent"));
+        Assert.assertTrue(source.contains("fromJsonValue_Evt(exactEvent.value)"));
+        Assert.assertTrue(source.contains("return onEvent(value, event);"));
+        Assert.assertFalse(source.contains("appendParsedEvent"));
+        Assert.assertFalse(source.contains("std::vector<Evt>"));
+        Assert.assertTrue(Files.exists(output.toPath().resolve("model/Evt.h")));
     }
 
     @Test
     public void generatesDualObjectSseFixture() throws IOException {
-        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-dual-object-sse").toFile();
+        File output = Files.createTempDirectory("cpp-boost-beast-dual-object-sse").toFile();
         output.deleteOnExit();
 
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
                 .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/dual-object-sse.yaml")
-                .addAdditionalProperty("sseSchemaMode", "jsonEventData")
+                .addAdditionalProperty("sseRequestPropertyMappings", "createItem=stream")
+                .addAdditionalProperty("sseEventTypeMappings", "createItem=StreamEvent")
                 .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .forEach(File::deleteOnExit);
 
-        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
-
-        Path apiSource = output.toPath().resolve("api/DualApi.cpp");
-        String generatedApiSource = Files.readString(apiSource);
-
-        // Verify dual-content operation generates stream method
-        Assert.assertTrue(generatedApiSource.contains("createItemStream"),
-                "Dual-content op must generate createItemStream method");
-
-        Assert.assertTrue(generatedApiSource.contains("ResponseJsonValueConverter<StreamEvent>::convert"),
-                "Dual-content stream must use the generic typed response converter");
-        Assert.assertFalse(generatedApiSource.contains("fromJsonValue_std::"),
-                "Dual-content object stream must not contain fromJsonValue_std::");
-
-        // Verify the stream method uses executeStream + appendParsedEvent with StreamEvent conversion
-        Assert.assertTrue(generatedApiSource.contains("executeStream("),
-                "Dual-content stream must use executeStream for incremental delivery");
-        Assert.assertTrue(generatedApiSource.contains("ResponseJsonValueConverter<StreamEvent>::convert"),
-                "Dual-content must append parsed events through the typed converter");
-
-        // Verify the stream method returns std::vector<StreamEvent>
-        Assert.assertTrue(generatedApiSource.contains("std::vector<StreamEvent>"),
-                "Dual-content stream must return std::vector<StreamEvent>");
-
-        // Verify path params are present in the stream method
-        Assert.assertTrue(generatedApiSource.contains("replacePathParameter(path, \"id\""),
-                "Dual-content stream method must include path parameter replacement");
-
-        // Verify query params are present with optional guard
-        Assert.assertTrue(generatedApiSource.contains("if (verbose)"),
-                "Dual-content stream method must guard optional query param");
-
-        // Verify header params are present with serializeHeaderParameterValue
-        Assert.assertTrue(generatedApiSource.contains("serializeHeaderParameterValue"),
-                "Dual-content stream method must use serializeHeaderParameterValue for headers");
-
-        // Verify body params are present in the stream method
-        Assert.assertTrue(generatedApiSource.contains("toRequestJsonValue"),
-                "Dual-content stream method must include body serialization");
-
-        // Verify Accept header is forced to text/event-stream
-        Assert.assertTrue(generatedApiSource.contains("text/event-stream"),
-                "Dual-content stream method must force Accept to text/event-stream");
-
-        // Verify the header declares the stream method with correct return type
-        Path apiHeader = output.toPath().resolve("api/DualApi.h");
-        String apiHeaderContent = Files.readString(apiHeader);
-        Assert.assertTrue(apiHeaderContent.contains("createItemStream"),
-                "Dual-content API header must declare createItemStream");
-        Assert.assertTrue(apiHeaderContent.contains("std::vector<StreamEvent>"),
-                "Dual-content API header must declare stream method returning std::vector<StreamEvent>");
+        String source = Files.readString(output.toPath().resolve("api/DualApi.cpp"));
+        String header = Files.readString(output.toPath().resolve("api/DualApi.h"));
+        Assert.assertTrue(header.contains("createItemStream("));
+        Assert.assertTrue(header.contains(
+                "std::function<bool(const StreamEvent &, const SseEvent &)> onEvent"));
+        Assert.assertTrue(source.contains("conditionalSseRequestBody->setStream(false);"));
+        Assert.assertTrue(source.contains("conditionalSseRequestBody->setStream(true);"));
+        Assert.assertTrue(source.contains(
+                "toRequestJsonValue(conditionalSseRequestBody)"));
+        Assert.assertTrue(source.contains(
+                "ResponseJsonValueConverter<StreamEvent>::convert(exactEvent.value)"));
+        Assert.assertTrue(source.contains("headers[\"Accept\"] = \"text/event-stream\";"));
+        Assert.assertTrue(source.contains("streamOptions);"));
     }
 
     @Test
-    public void rejectsPureSseWithoutResponseSchema() throws IOException {
-        // A pure SSE operation with no response schema must NOT generate
-        // std::vector<void> (invalid C++). Instead, the streaming flag
-        // should be cleared and the return type should be void.
-        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-pure-sse-no-schema").toFile();
+    public void streamsPureSseWithoutResponseSchema() throws IOException {
+        File output = Files.createTempDirectory("cpp-boost-beast-pure-sse-no-schema").toFile();
         output.deleteOnExit();
 
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
                 .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/pure-sse-no-schema.yaml")
                 .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .forEach(File::deleteOnExit);
 
-        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
-
-        Path apiHeader = output.toPath().resolve("api/SSEApi.h");
-        String generatedApiHeader = Files.readString(apiHeader);
-
-        // Must NOT contain std::vector<void> — that would fail compilation
-        Assert.assertFalse(generatedApiHeader.contains("std::vector<void>"),
-                "Pure SSE with no schema must not generate std::vector<void>");
-
-        // The getEvents declaration must use void (not std::vector<...>)
-        int getEventsPos = generatedApiHeader.indexOf("getEvents(");
-        Assert.assertTrue(getEventsPos >= 0, "Pure SSE with no schema must declare getEvents method");
-        String beforeGetEvents = generatedApiHeader.substring(Math.max(0, getEventsPos - 60), getEventsPos);
-        Assert.assertFalse(beforeGetEvents.contains("std::vector<"),
-                "Pure SSE with no schema must not wrap getEvents return type in std::vector<>");
-
-        // Verify the source uses the non-streaming execute path
-        Path apiSource = output.toPath().resolve("api/SSEApi.cpp");
-        String generatedApiSource = Files.readString(apiSource);
-        Assert.assertTrue(generatedApiSource.contains("m_client->execute("),
-                "Pure SSE with no schema must use non-streaming execute");
+        String header = Files.readString(output.toPath().resolve("api/SSEApi.h"));
+        String source = Files.readString(output.toPath().resolve("api/SSEApi.cpp"));
+        Assert.assertTrue(header.contains("virtual HttpResponseData"));
+        Assert.assertTrue(header.contains("SseEventCallback onEvent"));
+        Assert.assertFalse(header.contains("std::vector<void>"));
+        Assert.assertTrue(source.contains("m_client->executeStream("));
     }
 
     @Test
-    public void pureSseObjectInRepresentationModeReturnsRawStrings() throws IOException {
-        // Default sseSchemaMode=representation: the return type is
-        // std::vector<std::string> and the callback does a simple
-        // push_back(eventData) without JSON conversion.
-        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-sse-repr").toFile();
+    public void pureSseObjectInRepresentationModeUsesStructuredCallback() throws IOException {
+        File output = Files.createTempDirectory("cpp-boost-beast-sse-repr").toFile();
         output.deleteOnExit();
 
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
                 .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/pure-sse-object.yaml")
                 .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .forEach(File::deleteOnExit);
 
-        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
-
-        Path apiSource = output.toPath().resolve("api/SSEApi.cpp");
-        String generatedApiSource = Files.readString(apiSource);
-
-        // In representation mode: return type is std::vector<std::string>
-        Assert.assertTrue(generatedApiSource.contains("std::vector<std::string>"),
-                "Representation mode must return std::vector<std::string>");
-
-        // Callback uses push_back, not appendParsedEvent or fromJsonValue
-        // The generated representation mode source may reference
-        // appendParsedEvent or fromJsonValue_ in template context.
-        Assert.assertTrue(generatedApiSource.contains("push_back(eventData)"),
-                "Representation mode callback must push_back raw event data");
-
-        // Still uses executeStream for incremental delivery
-        Assert.assertTrue(generatedApiSource.contains("executeStream("),
-                "Representation mode must use executeStream");
-
-        // Verify header return type matches source
-        Path apiHeader = output.toPath().resolve("api/SSEApi.h");
-        String generatedApiHeader = Files.readString(apiHeader);
-        Assert.assertTrue(generatedApiHeader.contains("std::vector<std::string>"),
-                "Representation mode header return type must be std::vector<std::string>");
-        int methodInHeader = generatedApiHeader.indexOf("getEvents(");
-        Assert.assertTrue(methodInHeader >= 0, "Header must declare getEvents");
-        String beforeMethod = generatedApiHeader.substring(Math.max(0, methodInHeader - 40), methodInHeader);
-        Assert.assertTrue(beforeMethod.contains("std::vector<std::string>"),
-                "Header return type for getEvents must be std::vector<std::string>");
+        String source = Files.readString(output.toPath().resolve("api/SSEApi.cpp"));
+        String header = Files.readString(output.toPath().resolve("api/SSEApi.h"));
+        Assert.assertTrue(header.contains("SseEventCallback onEvent"));
+        Assert.assertTrue(source.contains("std::move(onEvent),"));
+        Assert.assertTrue(source.contains("m_client->executeStream("));
+        Assert.assertFalse(source.contains("parseExactJson(event.data)"));
+        Assert.assertFalse(source.contains("std::vector<std::string> deserializedResponse"));
     }
 
     @Test
-    public void pureSseObjectInJsonEventDataModeReturnsTypedVector() throws IOException {
-        // Explicit sseSchemaMode=jsonEventData: the return type is
-        // std::vector<Evt> and the callback uses appendParsedEvent
-        // with fromJsonValue_Evt for JSON-per-data conversion.
-        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-sse-typed").toFile();
+    public void pureSseObjectInJsonEventDataModeUsesTypedCallback() throws IOException {
+        File output = Files.createTempDirectory("cpp-boost-beast-sse-typed").toFile();
         output.deleteOnExit();
 
         CodegenConfigurator configurator = new CodegenConfigurator()
@@ -1182,203 +1062,134 @@ public class ModelApiSurfaceTest {
                 .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/pure-sse-object.yaml")
                 .addAdditionalProperty("sseSchemaMode", "jsonEventData")
                 .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .forEach(File::deleteOnExit);
 
-        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
-
-        Path apiSource = output.toPath().resolve("api/SSEApi.cpp");
-        String generatedApiSource = Files.readString(apiSource);
-
-        // Return type must be std::vector<Evt> in source.
-        // The generated code may also reference std::vector<std::string> in
-        // the same file (e.g., in helper functions or template context).
-        Assert.assertTrue(generatedApiSource.contains("std::vector<Evt>"),
-                "jsonEventData mode source return type must be std::vector<Evt>");
-
-        // Callback uses appendParsedEvent with fromJsonValue_Evt
-        Assert.assertTrue(generatedApiSource.contains("appendParsedEvent("),
-                "jsonEventData mode must use appendParsedEvent");
-        Assert.assertTrue(generatedApiSource.contains("fromJsonValue_Evt"),
-                "jsonEventData mode must use fromJsonValue_Evt converter");
-
-        // Must NOT use raw push_back
-        Assert.assertFalse(generatedApiSource.contains("push_back(eventData)"),
-                "jsonEventData mode must NOT push_back raw event data");
-
-        // Still uses executeStream
-        Assert.assertTrue(generatedApiSource.contains("executeStream("),
-                "jsonEventData mode must use executeStream");
-
-        // Verify header return type matches source
-        Path apiHeader = output.toPath().resolve("api/SSEApi.h");
-        String generatedApiHeader = Files.readString(apiHeader);
-        Assert.assertTrue(generatedApiHeader.contains("std::vector<Evt>"),
-                "jsonEventData mode header return type must be std::vector<Evt>");
-        int methodInHeader = generatedApiHeader.indexOf("getEvents(");
-        Assert.assertTrue(methodInHeader >= 0, "Header must declare getEvents");
-        String beforeMethod = generatedApiHeader.substring(Math.max(0, methodInHeader - 40), methodInHeader);
-        Assert.assertTrue(beforeMethod.contains("std::vector<Evt>"),
-                "Header return type for getEvents must be std::vector<Evt>");
-
-        // Verify Evt model generated
-        Path evtHeader = output.toPath().resolve("model/Evt.h");
-        String evtHeaderContent = Files.readString(evtHeader);
-        Assert.assertTrue(evtHeaderContent.contains("fromJsonValue_Evt"),
-                "Evt model header must declare fromJsonValue_Evt free function");
+        String source = Files.readString(output.toPath().resolve("api/SSEApi.cpp"));
+        String header = Files.readString(output.toPath().resolve("api/SSEApi.h"));
+        Assert.assertTrue(header.contains(
+                "std::function<bool(const Evt &, const SseEvent &)> onEvent"));
+        Assert.assertTrue(source.contains("parseExactJson(event.data)"));
+        Assert.assertTrue(source.contains("fromJsonValue_Evt(exactEvent.value)"));
+        Assert.assertTrue(source.contains("if (event.data == \"[DONE]\") return true;"));
+        Assert.assertFalse(source.contains("appendParsedEvent"));
     }
 
     @Test
-    public void dualContentObjectInRepresentationModeReturnsRawStrings() throws IOException {
-        // Default sseSchemaMode=representation with dual-content: the stream
-        // method returns std::vector<std::string>, no JSON conversion.
-        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-dual-repr").toFile();
+    public void dualContentObjectInRepresentationModeUsesStructuredCallback()
+            throws IOException {
+        File output = Files.createTempDirectory("cpp-boost-beast-dual-repr").toFile();
         output.deleteOnExit();
 
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
                 .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/dual-object-sse.yaml")
+                .addAdditionalProperty("sseRequestPropertyMappings", "createItem=stream")
                 .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .forEach(File::deleteOnExit);
 
-        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
-
-        Path apiSource = output.toPath().resolve("api/DualApi.cpp");
-        String generatedApiSource = Files.readString(apiSource);
-
-        // Verify the stream method is generated
-        Assert.assertTrue(generatedApiSource.contains("createItemStream"),
-                "Dual-content must generate stream method");
-
-        // In representation mode: stream returns std::vector<std::string>
-        Assert.assertTrue(generatedApiSource.contains("std::vector<std::string>"),
-                "Dual-content representation mode source must return std::vector<std::string>");
-        Assert.assertFalse(generatedApiSource.contains("std::vector<StreamEvent>"),
-                "Dual-content representation mode source must NOT return std::vector<StreamEvent>");
-
-        // Callback uses push_back, not appendParsedEvent
-        Assert.assertTrue(generatedApiSource.contains("push_back(eventData)"),
-                "Dual-content representation mode must push_back raw event data");
-        Assert.assertFalse(generatedApiSource.contains("ResponseJsonValueConverter<StreamEvent>::convert"),
-                "Dual-content representation mode must NOT use typed converter");
-
-        // Still uses executeStream
-        Assert.assertTrue(generatedApiSource.contains("executeStream("),
-                "Dual-content representation mode must use executeStream");
-
-        // Verify Accept header is forced to text/event-stream
-        Assert.assertTrue(generatedApiSource.contains("text/event-stream"),
-                "Dual-content stream method must force Accept to text/event-stream");
-
-        // Verify path params are present
-        Assert.assertTrue(generatedApiSource.contains("replacePathParameter(path, \"id\""),
-                "Dual-content stream method must include path parameter replacement");
-
-        // Verify header return type matches source
-        Path apiHeader = output.toPath().resolve("api/DualApi.h");
-        String generatedApiHeader = Files.readString(apiHeader);
-        Assert.assertTrue(generatedApiHeader.contains("std::vector<std::string>"),
-                "Dual-content representation mode header return type must be std::vector<std::string>");
-        int methodInHeader = generatedApiHeader.indexOf("createItemStream");
-        Assert.assertTrue(methodInHeader >= 0, "Header must declare createItemStream");
-        String beforeMethod = generatedApiHeader.substring(Math.max(0, methodInHeader - 40), methodInHeader);
-        Assert.assertTrue(beforeMethod.contains("std::vector<std::string>"),
-                "Header return type for createItemStream must be std::vector<std::string>");
+        String source = Files.readString(output.toPath().resolve("api/DualApi.cpp"));
+        String header = Files.readString(output.toPath().resolve("api/DualApi.h"));
+        Assert.assertTrue(header.contains("createItemStream("));
+        Assert.assertTrue(header.contains("SseEventCallback onEvent"));
+        Assert.assertTrue(source.contains("conditionalSseRequestBody->setStream(true);"));
+        Assert.assertTrue(source.contains("std::move(onEvent),"));
+        Assert.assertFalse(source.contains("parseExactJson(event.data)"));
     }
 
     @Test
-    public void pureSseObjectWithPerOperationExtensionUsesTypedPath() throws IOException {
-        // Per-operation x-sse-event-data-schema should override default
-        // representation mode and enable typed JSON-per-data decoding.
-        // This test verifies the override by checking that the output
-        // contains typed conversion even without setting sseSchemaMode.
-        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-sse-ext").toFile();
+    public void explicitEventTypeMappingEnablesTypedPathUnderDefaultMode()
+            throws IOException {
+        File output = Files.createTempDirectory("cpp-boost-beast-sse-event-map").toFile();
         output.deleteOnExit();
 
-        // pure-sse-object.yaml does not have x-sse-event-data-schema,
-        // so this test verifies the default representation mode.
-        // The per-operation extension is tested at codegen level.
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
                 .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/pure-sse-object.yaml")
-                .addAdditionalProperty("sseSchemaMode", "jsonEventData")
+                .addAdditionalProperty("sseEventTypeMappings", "getEvents=Evt")
                 .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .forEach(File::deleteOnExit);
 
-        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
-
-        Path apiSource = output.toPath().resolve("api/SSEApi.cpp");
-        String generatedApiSource = Files.readString(apiSource);
-
-        // Explicit jsonEventData mode produces typed conversion
-        Assert.assertTrue(generatedApiSource.contains("fromJsonValue_Evt"),
-                "jsonEventData mode (per-op override) must use fromJsonValue_Evt");
-        Assert.assertTrue(generatedApiSource.contains("appendParsedEvent("),
-                "jsonEventData mode (per-op override) must use appendParsedEvent");
-
-        // Verify header return type matches source
-        Path apiHeader = output.toPath().resolve("api/SSEApi.h");
-        String generatedApiHeader = Files.readString(apiHeader);
-        Assert.assertTrue(generatedApiHeader.contains("std::vector<Evt>"),
-                "jsonEventData mode header must return std::vector<Evt>");
-        int methodInHeader = generatedApiHeader.indexOf("getEvents(");
-        Assert.assertTrue(methodInHeader >= 0, "Header must declare getEvents");
-        String beforeMethod = generatedApiHeader.substring(Math.max(0, methodInHeader - 40), methodInHeader);
-        Assert.assertTrue(beforeMethod.contains("std::vector<Evt>"),
-                "Header return type for getEvents must be std::vector<Evt> in jsonEventData mode");
+        String source = Files.readString(output.toPath().resolve("api/SSEApi.cpp"));
+        String header = Files.readString(output.toPath().resolve("api/SSEApi.h"));
+        Assert.assertTrue(header.contains(
+                "std::function<bool(const Evt &, const SseEvent &)> onEvent"));
+        Assert.assertTrue(source.contains("fromJsonValue_Evt(exactEvent.value)"));
     }
 
     @Test
-    public void pureSseWithPerOperationExtensionUsesTypedPathUnderDefaultRepr() throws IOException {
-        // x-sse-event-data-schema: true on the operation overrides the default
-        // sseSchemaMode=representation. Typed JSON-per-data decoding should be
-        // active without setting the global mode.
-        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-sse-perop").toFile();
+    public void perOperationEventDataExtensionUsesTypedCallback() throws IOException {
+        File output = Files.createTempDirectory("cpp-boost-beast-sse-perop").toFile();
         output.deleteOnExit();
 
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
                 .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/pure-sse-with-event-data-schema.yaml")
                 .setOutputDir(output.getAbsolutePath());
-        // NOTE: sseSchemaMode is NOT set; default is representation. The
-        // per-operation x-sse-event-data-schema must force typed conversion.
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .forEach(File::deleteOnExit);
 
-        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
+        String source = Files.readString(output.toPath().resolve("api/SSEApi.cpp"));
+        String header = Files.readString(output.toPath().resolve("api/SSEApi.h"));
+        Assert.assertTrue(header.contains(
+                "std::function<bool(const TypedEvent &, const SseEvent &)> onEvent"));
+        Assert.assertTrue(source.contains("fromJsonValue_TypedEvent(exactEvent.value)"));
+        Assert.assertTrue(Files.exists(output.toPath().resolve("model/TypedEvent.h")));
+    }
 
-        Path apiSource = output.toPath().resolve("api/SSEApi.cpp");
-        String generatedApiSource = Files.readString(apiSource);
+    @Test
+    public void infersUniqueSseRequestPropertyAndEventModel() throws IOException {
+        File output = Files.createTempDirectory("cpp-boost-beast-sse-inferred").toFile();
+        output.deleteOnExit();
 
-        // x-sse-event-data-schema override must enable typed conversion
-        Assert.assertTrue(generatedApiSource.contains("fromJsonValue_TypedEvent"),
-                "Per-operation x-sse-event-data-schema must enable fromJsonValue_TypedEvent");
-        Assert.assertTrue(generatedApiSource.contains("appendParsedEvent("),
-                "Per-operation x-sse-event-data-schema must use appendParsedEvent");
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/dual-object-sse.yaml")
+                .addAdditionalProperty("sseSchemaMode", "jsonEventData")
+                .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .forEach(File::deleteOnExit);
 
-        // Return type must be std::vector<TypedEvent>, not std::vector<std::string>
-        // The generated source may also reference std::vector<std::string>
-        // in helper or template context.
-        Assert.assertTrue(generatedApiSource.contains("std::vector<TypedEvent>"),
-                "Per-operation x-sse-event-data-schema source must return std::vector<TypedEvent>");
+        String source = Files.readString(output.toPath().resolve("api/DualApi.cpp"));
+        String header = Files.readString(output.toPath().resolve("api/DualApi.h"));
+        Assert.assertTrue(header.contains("createItemStream("));
+        Assert.assertTrue(header.contains(
+                "std::function<bool(const StreamEvent &, const SseEvent &)> onEvent"));
+        Assert.assertTrue(source.contains("conditionalSseRequestBody->setStream(true);"));
+        Assert.assertFalse(header.contains("createAmbiguousStream("));
+    }
 
-        // Still uses executeStream
-        Assert.assertTrue(generatedApiSource.contains("executeStream("),
-                "Per-operation extension must use executeStream");
+    @Test
+    public void rejectsMalformedSseMetadataMappings() {
+        for (String option : List.of(
+                "sseRequestPropertyMappings", "sseEventTypeMappings")) {
+            CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+            codegen.additionalProperties().put(option, "getEvents");
 
-        // Verify the model exists
-        Path modelHeader = output.toPath().resolve("model/TypedEvent.h");
-        Assert.assertTrue(java.nio.file.Files.exists(modelHeader),
-                "TypedEvent model must be generated");
+            IllegalArgumentException exception = Assert.expectThrows(
+                    IllegalArgumentException.class, codegen::processOpts);
+            Assert.assertTrue(exception.getMessage().contains(option));
+            Assert.assertTrue(exception.getMessage().contains("operationId=value"));
+        }
+    }
 
-        // Verify header return type matches source
-        Path apiHeader = output.toPath().resolve("api/SSEApi.h");
-        String generatedApiHeader = Files.readString(apiHeader);
-        Assert.assertTrue(generatedApiHeader.contains("std::vector<TypedEvent>"),
-                "x-sse-event-data-schema header must return std::vector<TypedEvent>");
-        int methodInHeader = generatedApiHeader.indexOf("getTypedEvents(");
-        Assert.assertTrue(methodInHeader >= 0, "Header must declare getTypedEvents");
-        String beforeMethod = generatedApiHeader.substring(Math.max(0, methodInHeader - 40), methodInHeader);
-        Assert.assertTrue(beforeMethod.contains("std::vector<TypedEvent>"),
-                "Header return type for getTypedEvents must be std::vector<TypedEvent>");
+    @Test
+    public void rejectsInvalidSseOptionValues() {
+        CppBoostBeastClientCodegen invalidMode = new CppBoostBeastClientCodegen();
+        invalidMode.additionalProperties().put("sseSchemaMode", "events");
+        IllegalArgumentException modeException = Assert.expectThrows(
+                IllegalArgumentException.class, invalidMode::processOpts);
+        Assert.assertTrue(modeException.getMessage().contains("sseSchemaMode"));
+
+        CppBoostBeastClientCodegen invalidInference = new CppBoostBeastClientCodegen();
+        invalidInference.additionalProperties().put(
+                "inferConditionalSseOperations", "sometimes");
+        IllegalArgumentException inferenceException = Assert.expectThrows(
+                IllegalArgumentException.class, invalidInference::processOpts);
+        Assert.assertTrue(inferenceException.getMessage().contains(
+                "inferConditionalSseOperations"));
     }
 
     @Test

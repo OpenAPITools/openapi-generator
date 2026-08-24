@@ -39,6 +39,16 @@ paths:
             text/event-stream:
               schema:
                 $ref: '#/components/schemas/StreamChunk'
+  /stream-wrong-content-type:
+    get:
+      operationId: getWrongContentTypeStream
+      responses:
+        '200':
+          description: Event stream returned with the wrong media type
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/StreamChunk'
   /error:
     get:
       operationId: getError
@@ -238,3 +248,88 @@ components:
           x-oas31-res: 77
           x-oas31-res-root: true
           x-oas31-vocab-inert: true
+    RefSiblingTarget:
+      type: object
+      required: [target]
+      properties:
+        target:
+          type: string
+    RefSiblingComposition:
+      $ref: '#/components/schemas/RefSiblingTarget'
+      anyOf:
+        - type: object
+    RefAnnotationTarget:
+      type: object
+      properties:
+        from_ref:
+          type: string
+    RefAnnotationIsolation:
+      $ref: '#/components/schemas/RefAnnotationTarget'
+      anyOf:
+        - type: object
+          properties:
+            from_branch:
+              type: string
+          unevaluatedProperties: false
+    ConditionalAnnotationIsolation:
+      type: object
+      properties:
+        from_parent:
+          type: string
+      if: {}
+      then:
+        type: object
+        properties:
+          from_then:
+            type: string
+        unevaluatedProperties: false
+    DependentAnnotationIsolation:
+      type: object
+      properties:
+        trigger:
+          type: boolean
+      dependentSchemas:
+        trigger:
+          type: object
+          properties:
+            from_dependency:
+              type: string
+          unevaluatedProperties: false
+    MixedPrimitiveEnum:
+      oneOf:
+        - enum: [true, "allowed", null]
+    ScalarDefaults:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        retries:
+          type: integer
+          format: int32
+          default: -7
+        sequence:
+          type: integer
+          format: int64
+          default: -9223372036854775808
+        ratio:
+          type: number
+          format: double
+          default: 0.125
+        threshold:
+          type: number
+          format: float
+          default: 1.5
+        label:
+          type: string
+          default: "quoted \"line\"\nnext"
+        mode:
+          type: string
+          enum: [alpha, beta]
+          default: beta
+        nullable_label:
+          type: [string, "null"]
+          default: null
+        nullable_fallback:
+          type: [string, "null"]
+          default: fallback

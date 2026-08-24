@@ -1,8 +1,11 @@
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_
-#define BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_
+#ifndef {{apiHeaderGuardPrefix}}_HTTP_CLIENT_H_
+#define {{apiHeaderGuardPrefix}}_HTTP_CLIENT_H_
 
+#include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <map>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -15,11 +18,34 @@
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
+/// One owning Server-Sent Event. event is "message" when the wire field is
+/// omitted; retryMilliseconds is set only when a valid retry field was present.
+struct SseEvent {
+    std::string event;
+    std::string data;
+    std::string id;
+    std::optional<std::uint64_t> retryMilliseconds;
+};
+
+using SseEventCallback = std::function<bool(const SseEvent &)>;
+
+/// Per-stream resource bounds and cooperative cancellation. Cancellation is
+/// checked between network reads and after callbacks; the transport remains
+/// synchronous and single-flight per HttpClientImpl instance.
+struct SseStreamOptions {
+    std::size_t maxLineBytes = 64U * 1024U;
+    std::size_t maxEventBytes = 1024U * 1024U;
+    std::function<bool()> isCancelled;
+};
+
+
 /// Rich HTTP response containing status, response headers, and body.
 struct HttpResponseData {
     boost::beast::http::status status;
     std::map<std::string, std::string> headers;
     std::string body;
+    bool isEventStream = false;
+    bool streamCancelled = false;
 };
 
 class HttpClient {
@@ -44,32 +70,22 @@ public:
                         const std::string &body,
                         const std::map<std::string, std::string> &headers) {
         auto [status, responseBody] = execute(verb, target, body, headers);
-        return HttpResponseData{status, {}, std::move(responseBody)};
+        return HttpResponseData{status, {}, std::move(responseBody), false, false};
     }
 
-    /// Execute an HTTP request and yield complete SSE events incrementally
-    /// via callback. Used by text/event-stream endpoints.
-    ///
-    /// The SseEventFramer (in HttpClientImpl) is data-only — each onEvent
-    /// invocation receives one event's data payload (multi-line data fields
-    /// joined by LF), framed per the WHATWG SSE specification.
-    ///
-    /// WHATWG framing behavior:
-    /// - BOM: Initial UTF-8 BOM (EF BB BF) is consumed silently.
-    /// - Field parsing: data fields are accumulated; all other fields are ignored.
-    /// - Comments: Lines starting with ':' are ignored.
-    /// - Multi-line data: Consecutive data: fields are joined by LF.
-    /// - Incomplete events at EOF are discarded.
-    /// - A configurable response body limit guards against memory exhaustion.
-    ///
-    /// Returns status, headers, and the raw body for non-2xx responses.
-    /// Throws std::invalid_argument if onEvent is empty.
+    /// Execute an HTTP request and yield complete structured SSE events.
+    /// Returning false from onEvent requests cooperative cancellation.
+    /// Successful event streams are bounded per line and event rather than by
+    /// aggregate response size. Non-2xx and wrong-content-type bodies retain
+    /// the configured aggregate response limit and are returned in body.
+    /// Throws std::invalid_argument for an empty callback or invalid bounds.
     virtual HttpResponseData
     executeStream(const std::string &,
                   const std::string &,
                   const std::string &,
                   const std::map<std::string, std::string> &,
-                  std::function<void(const std::string &)>) {
+                  SseEventCallback,
+                  const SseStreamOptions & = {}) {
         throw std::logic_error(
             "Streaming is not supported by this HttpClient implementation");
     }
@@ -98,4 +114,4 @@ struct SecurityRequirementGroup {
 }
 {{/apiNamespaceDeclarations}}
 
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_ */
+#endif /* {{apiHeaderGuardPrefix}}_HTTP_CLIENT_H_ */
