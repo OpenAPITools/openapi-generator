@@ -505,4 +505,26 @@ public class Swift6ClientCodegenTest {
         Assert.assertEquals(notNullableMap.getDataType(), "[String: String]");
         Assert.assertEquals(defaultMap.getDataType(), "[String: String]");
     }
+
+    @Test(description = "Issue #22355")
+    public void testNullableArrayItems() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/swift6/issue22355-nullable-array-items.yaml");
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("NullItemsNotNullItems");
+        CodegenModel cm1 = swiftCodegen.fromModel("NullItemsNotNullItems", test1);
+
+        // Assert the dataType properly generated
+        CodegenProperty nullableItems = cm1.vars.get(0);
+        CodegenProperty notNullableItems = cm1.vars.get(1);
+        CodegenProperty defaultItems = cm1.vars.get(2);
+        CodegenProperty nullableDoubleItems = cm1.vars.get(3);
+        CodegenProperty nullableItemsSet = cm1.vars.get(4);
+        CodegenProperty nestedNullableItems = cm1.vars.get(5);
+        Assert.assertEquals(nullableItems.getDataType(), "[String?]");
+        Assert.assertEquals(notNullableItems.getDataType(), "[String]");
+        Assert.assertEquals(defaultItems.getDataType(), "[String]");
+        Assert.assertEquals(nullableDoubleItems.getDataType(), "[Double?]");
+        Assert.assertEquals(nullableItemsSet.getDataType(), "Set<String?>");
+        Assert.assertEquals(nestedNullableItems.getDataType(), "[[String?]]");
+    }
 }
