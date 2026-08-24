@@ -265,7 +265,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <httpclient-version>5.2.1</httpclient-version>
+        <httpclient-version>5.6.3</httpclient-version>
         <jackson3-version>3.1.5</jackson3-version>
         <jackson-annotations-version>2.21</jackson-annotations-version>
         <jackson-databind-nullable-version>0.2.11</jackson-databind-nullable-version>

@@ -21,10 +21,10 @@ import jakarta.annotation.Generated;
  * NumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class NumberOnly {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private Optional<BigDecimal> justNumber = Optional.empty();
 
   public NumberOnly justNumber(BigDecimal justNumber) {

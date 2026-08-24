@@ -34,7 +34,10 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
+import org.openapitools.codegen.utils.JsonAnnotationPolicyUtils;
+import org.openapitools.codegen.utils.JsonIncludePolicy;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.TriStateBoolean;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -182,6 +185,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean useEnumValueInterface = false;
     private String valuedEnumClassName = "ValuedEnum";
     @Setter private boolean suspendFunctions = false;
+    @Getter @Setter private JsonIncludePolicy optionalNonNullPropertyJsonInclude = JsonIncludePolicy.NON_NULL;
+    @Getter @Setter private JsonAnnotationPolicyUtils.JsonSetterNullsMode optionalNonNullPropertyJsonSetterNulls = null;
+    @Getter @Setter private TriStateBoolean generateJsonIncludeAnnotations = TriStateBoolean.UNSET;
+    @Getter @Setter private TriStateBoolean generateJsonSetterNullsAnnotations = TriStateBoolean.UNSET;
     @Getter @Setter private boolean openApiNullable = false;
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
@@ -305,8 +312,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(SCHEMA_IMPLEMENTS, "A map of single interface or a list of interfaces per schema name that should be implemented (serves similar purpose as `x-kotlin-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map");
         addOption(SCHEMA_IMPLEMENTS_FIELDS, "A map of single field or a list of fields per schema name that should be prepended with `override` (serves similar purpose as `x-kotlin-implements-fields`, but is fully decoupled from the api spec). Example: yaml `schemaImplementsFields: {Pet: id, Category: [name, id], Dog: [bark, breed]}` marks fields to be prepended with `override` in schemas `Pet` (field `id`), `Category` (fields `name`, `id`) and `Dog` (fields `bark`, `breed`)", "empty map");
         addSwitch(AUTO_X_SPRING_PAGINATED, "Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.", autoXSpringPaginated);
-        addSwitch(GENERATE_SORT_VALIDATION, "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library=spring-boot.", generateSortValidation);
-        addSwitch(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library=spring-boot.", generatePageableConstraintValidation);
+        addSwitch(GENERATE_SORT_VALIDATION, "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generateSortValidation);
+        addSwitch(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generatePageableConstraintValidation);
         addSwitch(SUBSTITUTE_GENERIC_PAGED_MODEL,
                 "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
                 + "pagination-metadata property) and replace their generated references with "
@@ -315,6 +322,30 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 substituteGenericPagedModel);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         addSwitch(SUSPEND_FUNCTIONS, "Whether to generate suspend functions for API operations. Useful for Spring MVC with Kotlin coroutines without requiring the full reactive stack.", suspendFunctions);
+
+        CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
+                JsonAnnotationPolicyUtils.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE_DESC);
+        for (JsonIncludePolicy policy : JsonIncludePolicy.OPTIONAL_NON_NULL_POLICIES) {
+            optionalNonNullPropertyJsonIncludeOpt.addEnum(policy.name(), policy.getDescription());
+        }
+        optionalNonNullPropertyJsonIncludeOpt.setDefault(optionalNonNullPropertyJsonInclude.name());
+        cliOptions.add(optionalNonNullPropertyJsonIncludeOpt);
+
+        CliOption optionalNonNullPropertyJsonSetterNullsOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS,
+                JsonAnnotationPolicyUtils.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS_DESC);
+        optionalNonNullPropertyJsonSetterNullsOpt.addEnum(JsonAnnotationPolicyUtils.JsonSetterNullsMode.SKIP.name(),
+                "Emit @JsonSetter(nulls = Nulls.SKIP): silently ignore an explicit JSON null, keeping the field's default.");
+        optionalNonNullPropertyJsonSetterNullsOpt.addEnum(JsonAnnotationPolicyUtils.JsonSetterNullsMode.FAIL.name(),
+                "Emit @JsonSetter(nulls = Nulls.FAIL): reject an explicit JSON null.");
+        cliOptions.add(optionalNonNullPropertyJsonSetterNullsOpt);
+        addSwitch(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS,
+                JsonAnnotationPolicyUtils.GENERATE_JSON_INCLUDE_ANNOTATIONS_DESC, false);
+        addSwitch(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS,
+                "Whether to generate @JsonSetter(nulls = ...) annotations on optional non-nullable model properties. "
+                        + "When true, emits @JsonSetter (Nulls.FAIL when openApiNullable is true, otherwise Nulls.SKIP) so "
+                        + "an explicit null in the payload is handled explicitly. When false, none are generated and "
+                        + "deserialization null-handling defers to the global ObjectMapper. When left unset it defaults to "
+                        + "false (7.23.0-equivalent output) and logs a warning; set it explicitly to silence the warning.", false);
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
         addSwitch(CodegenConstants.USE_ENUM_VALUE_INTERFACE, CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC, useEnumValueInterface);
         addSwitch(CodegenConstants.OPENAPI_NULLABLE,
@@ -735,6 +766,26 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
         writePropertyBack(SUSPEND_FUNCTIONS, suspendFunctions);
 
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS)) {
+            this.generateJsonIncludeAnnotations = TriStateBoolean.fromNullableBoolean(convertPropertyToBoolean(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS));
+        }
+        writePropertyBack(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, generateJsonIncludeAnnotations.isTrue());
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS)) {
+            this.generateJsonSetterNullsAnnotations = TriStateBoolean.fromNullableBoolean(convertPropertyToBoolean(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS));
+        }
+        writePropertyBack(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, generateJsonSetterNullsAnnotations.isTrue());
+        this.optionalNonNullPropertyJsonInclude = JsonAnnotationPolicyUtils.resolveOptionalNonNullPropertyJsonInclude(
+                additionalProperties, optionalNonNullPropertyJsonInclude);
+        writePropertyBack(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, optionalNonNullPropertyJsonInclude.name());
+        this.optionalNonNullPropertyJsonSetterNulls = JsonAnnotationPolicyUtils.resolveOptionalNonNullPropertyJsonSetterNulls(
+                additionalProperties, optionalNonNullPropertyJsonSetterNulls);
+        if (optionalNonNullPropertyJsonSetterNulls != null) {
+            writePropertyBack(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, optionalNonNullPropertyJsonSetterNulls.name());
+        }
+        JsonAnnotationPolicyUtils.warnIfUnset(LOGGER, generateJsonIncludeAnnotations, generateJsonSetterNullsAnnotations);
+        JsonAnnotationPolicyUtils.warnIfJsonSetterNullsDefaultRisky(LOGGER, generateJsonSetterNullsAnnotations,
+                optionalNonNullPropertyJsonSetterNulls, openApiNullable, true);
+
         if (additionalProperties.containsKey(BEAN_QUALIFIERS) && library.equals(SPRING_BOOT)) {
             this.setBeanQualifiers(convertPropertyToBoolean(BEAN_QUALIFIERS));
         }
@@ -772,15 +823,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(USE_TAGS)) {
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
         }
-        if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED) && library.equals(SPRING_BOOT)) {
+        if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED) && isPageableSupported()) {
             this.setAutoXSpringPaginated(convertPropertyToBoolean(AUTO_X_SPRING_PAGINATED));
         }
         writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
-        if (additionalProperties.containsKey(GENERATE_SORT_VALIDATION) && library.equals(SPRING_BOOT)) {
+        if (additionalProperties.containsKey(GENERATE_SORT_VALIDATION) && isPageableSupported()) {
             this.setGenerateSortValidation(convertPropertyToBoolean(GENERATE_SORT_VALIDATION));
         }
         writePropertyBack(GENERATE_SORT_VALIDATION, generateSortValidation);
-        if (additionalProperties.containsKey(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION) && library.equals(SPRING_BOOT)) {
+        if (additionalProperties.containsKey(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION) && isPageableSupported()) {
             this.setGeneratePageableConstraintValidation(convertPropertyToBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION));
         }
         writePropertyBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, generatePageableConstraintValidation);
@@ -1039,6 +1090,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     /**
+     * Whether the current library supports the {@code x-spring-paginated} extension (i.e. a
+     * Spring Data {@code Pageable} parameter). Supported for the {@code spring-boot} server and
+     * the {@code spring-cloud} (Feign) client, which handles {@code Pageable} through
+     * {@code org.springframework.cloud.openfeign.support.PageableSpringEncoder}.
+     */
+    private boolean isPageableSupported() {
+        return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
+    }
+
+    /**
      * Processes operations to support the x-spring-paginated vendor extension.
      *
      * When x-spring-paginated is set to true on an operation, this method:
@@ -1050,16 +1111,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      * - Automatically detects operations with 'page', 'size', and 'sort' query parameters (case-sensitive)
      * - Applies x-spring-paginated behavior to these operations automatically
      * - Respects manual x-spring-paginated: false setting (manual override takes precedence)
-     * - Only applies when library is spring-boot
+     * - Only applies when library supports Pageable (spring-boot, spring-cloud)
      *
-     * Note: x-spring-paginated is ONLY applied for server-side libraries (spring-boot).
-     * Client libraries (spring-cloud, spring-declarative-http-interface) need actual query parameters
-     * to send over HTTP, so the extension is ignored for them.
+     * Note: x-spring-paginated is applied for spring-boot (server) and spring-cloud (Feign client).
+     * The spring-declarative-http-interface client needs actual query parameters to send over HTTP,
+     * so the extension is ignored for it.
      *
      * Parameter ordering in generated methods:
      * 1. Regular OpenAPI parameters (allParams)
      * 2. Optional HttpServletRequest/ServerWebExchange (if includeHttpRequestContext is enabled)
-     * 3. Pageable parameter (if x-spring-paginated is true and library is spring-boot)
+     * 3. Pageable parameter (if x-spring-paginated is true and library supports Pageable)
      *
      * This implementation mirrors the behavior in SpringCodegen for consistency.
      *
@@ -1074,30 +1135,31 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // Auto-detect pagination parameters and set x-spring-paginated if autoXSpringPaginated is enabled.
         // Must be done BEFORE super.fromOperation() so that the base codegen populates
         // codegenOperation.vendorExtensions from the extension we just set on 'operation'.
-        // Only for spring-boot library; respect manual x-spring-paginated: false override.
-        if (SPRING_BOOT.equals(library)) {
-            SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(operation, autoXSpringPaginated);
+        // Only for libraries that support Pageable; respect manual x-spring-paginated: false override.
+        if (isPageableSupported()) {
+            SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(
+                    openAPI, operation, autoXSpringPaginated);
         }
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
 
-        // For client libraries (spring-cloud, spring-declarative-http-interface) x-spring-paginated is not supported:
-        // they need explicit query parameters for HTTP calls, not a Pageable object.
-        // Strip the extension so the template does not render Pageable, and log it.
-        if (!SPRING_BOOT.equals(library) && codegenOperation.vendorExtensions.remove("x-spring-paginated") != null) {
-            LOGGER.debug("x-spring-paginated on operation '{}' is ignored for library '{}'; "
-                    + "Pageable is only supported for spring-boot. "
+        // For libraries that do not support Pageable (e.g. spring-declarative-http-interface)
+        // x-spring-paginated cannot be honored: they need explicit query parameters for HTTP calls,
+        // not a Pageable object. Strip the extension so the template does not render Pageable, and warn.
+        if (!isPageableSupported() && codegenOperation.vendorExtensions.remove("x-spring-paginated") != null) {
+            LOGGER.warn("x-spring-paginated on operation '{}' is ignored for library '{}'; "
+                    + "Pageable is only supported for spring-boot and spring-cloud. "
                     + "Individual page/size/sort query parameters will be used instead.",
                     codegenOperation.operationId, library);
         }
 
-        if (SPRING_BOOT.equals(library)
+        if (isPageableSupported()
                 && Boolean.TRUE.equals(SpringPageableScanUtils.getXSpringPaginated(operation))) {
-            // add Pageable import only if x-spring-paginated explicitly used AND it's a server library
+            // add Pageable import only if x-spring-paginated explicitly used AND the library supports it
             // this allows to use a custom Pageable schema without importing Spring Pageable.
             importMapping.putIfAbsent("Pageable", "org.springframework.data.domain.Pageable");
 
-            // add org.springframework.data.domain.Pageable import when needed (server libraries only)
+            // add org.springframework.data.domain.Pageable import when needed
             codegenOperation.imports.add("Pageable");
             SpringPageableScanUtils.applySpringDocPageableAnnotation(
                     codegenOperation,
@@ -1155,7 +1217,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.kt"));
         }
 
-        if (SPRING_BOOT.equals(library)) {
+        if (isPageableSupported()) {
             pageableUtils.scanAll(openAPI, autoXSpringPaginated);
 
             if (generateSortValidation && useBeanValidation && !pageableUtils.sortValidationEnums.isEmpty()) {
@@ -1281,21 +1343,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             property.example = null;
         }
 
-        // Scenario 3: optional + non-nullable → always emit @JsonSetter to handle explicit JSON nulls.
-        // When openApiNullable=true: Nulls.FAIL → reject explicit null (strict PATCH semantics).
-        // When openApiNullable=false: Nulls.SKIP → silently ignore explicit null (lenient, protects defaults).
-        // Always emit @JsonInclude(NON_NULL) so null fields are omitted from serialized output regardless
-        // of who is deserializing on the other end — closer to spec, avoids round-trip failures.
-        if (!property.required && !property.isNullable) {
-            if (openApiNullable) {
-                property.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
-            } else {
-                property.vendorExtensions.put("x-has-json-setter-nulls-skip", true);
-            }
-            model.imports.add("JsonSetter");
-            model.imports.add("Nulls");
-            model.imports.add("JsonInclude");
-        }
+        // Emit @JsonSetter(nulls = ...) for optional, non-nullable properties (and honor a per-property
+        // x-jackson-json-setter-nulls override) when enabled; see JsonAnnotationPolicyUtils#resolveJsonSetterNulls
+        // for the full precedence/SKIP/FAIL rules. kotlin-spring's default path supports both SKIP and FAIL
+        // (failModeSupported=true), unlike spring.
+        JsonAnnotationPolicyUtils.resolveJsonSetterNulls(model, property, generateJsonSetterNullsAnnotations,
+                optionalNonNullPropertyJsonSetterNulls, openApiNullable, true);
 
         // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T> = JsonNullable.undefined()
         // so callers can distinguish between a missing key and an explicitly provided null.
@@ -1303,6 +1356,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             property.vendorExtensions.put("x-is-jackson-optional-nullable", true);
             model.imports.add("JsonNullable");
         }
+
+        resolveJsonIncludePolicy(model, property);
 
         //Add imports for Jackson
         if (!model.isEnum) {
@@ -1321,6 +1376,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (model.discriminator != null && additionalProperties.containsKey("jackson")) {
             model.imports.addAll(Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties"));
         }
+    }
+
+    /**
+     * Resolve the {@code @JsonInclude} policy into the single universal
+     * {@code x-jackson-json-include-policy} vendor extension the template emits. See
+     * {@link JsonAnnotationPolicyUtils#resolveJsonIncludePolicy} for the full precedence rules; here, required
+     * properties (nullable or not) always resolve to {@code ALWAYS} since Kotlin's non-nullable types can
+     * never hold null.
+     */
+    private void resolveJsonIncludePolicy(CodegenModel model, CodegenProperty property) {
+        JsonAnnotationPolicyUtils.resolveJsonIncludePolicy(model, property, generateJsonIncludeAnnotations,
+                optionalNonNullPropertyJsonInclude, JsonIncludePolicy.ALWAYS, JsonIncludePolicy.ALWAYS);
     }
 
     @Override
@@ -1540,19 +1607,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
             for (CodegenProperty var : cm.optionalVars) {
-                // Scenario 3: optional + non-nullable → always emit @JsonSetter and @JsonInclude(NON_NULL).
-                // openApiNullable=true: Nulls.FAIL (strict). openApiNullable=false: Nulls.SKIP (lenient).
-                if (!var.required && !var.isNullable) {
-                    if (openApiNullable) {
-                        var.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
-                    } else {
-                        var.vendorExtensions.put("x-has-json-setter-nulls-skip", true);
-                    }
-                }
+                // Scenario 3: optional + non-nullable → emit @JsonSetter when generateJsonSetterNullsAnnotations is enabled,
+                // honoring any per-property x-jackson-json-setter-nulls override and the optionalNonNullPropertyJsonSetterNulls option.
+                JsonAnnotationPolicyUtils.resolveJsonSetterNulls(cm, var, generateJsonSetterNullsAnnotations,
+                        optionalNonNullPropertyJsonSetterNulls, openApiNullable, true);
                 // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T>
                 if (openApiNullable && !var.required && var.isNullable) {
                     var.vendorExtensions.put("x-is-jackson-optional-nullable", true);
                 }
+                resolveJsonIncludePolicy(cm, var);
+            }
+            for (CodegenProperty var : cm.requiredVars) {
+                // Honor a per-property x-jackson-json-setter-nulls override even on required properties
+                // (the automatic path emits nothing for required vars).
+                JsonAnnotationPolicyUtils.resolveJsonSetterNulls(cm, var, generateJsonSetterNullsAnnotations,
+                        optionalNonNullPropertyJsonSetterNulls, openApiNullable, true);
+                resolveJsonIncludePolicy(cm, var);
             }
         }
 
@@ -1886,6 +1956,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS);
         extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS);
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
+        extensions.add(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY);
+        extensions.add(VendorExtension.X_JACKSON_JSON_SETTER_NULLS);
         return extensions;
     }
 

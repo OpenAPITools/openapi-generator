@@ -1125,3 +1125,6 @@ components:
             - "object"
             - "null"
           $ref: '#/components/schemas/Pet'
+        second_property:
+          description: just null type
+          type: null

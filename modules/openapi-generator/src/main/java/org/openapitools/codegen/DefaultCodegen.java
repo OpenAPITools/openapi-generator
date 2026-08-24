@@ -63,6 +63,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.model.WebhooksMap;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
@@ -92,6 +93,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.model.EnumVarMap.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.DiscriminatorUtils.*;
 import static org.openapitools.codegen.utils.EnumUtils.*;
@@ -901,7 +903,7 @@ public class DefaultCodegen implements CodegenConfig {
             // for enum model
             if (cm.isEnum && cm.allowableValues != null) {
                 List<Object> values = getEnumValues(cm.allowableValues);
-                List<Map<String, Object>> enumVars = buildEnumVars(values, cm.dataType);
+                List<EnumVarMap> enumVars = buildEnumVars(values, cm.dataType);
                 postProcessEnumVars(enumVars);
                 // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
                 updateEnumVarsWithExtensions(enumVars, cm.getVendorExtensions(), cm.dataType);
@@ -4886,6 +4888,9 @@ public class DefaultCodegen implements CodegenConfig {
                     imports.add(r.baseType);
                 }
 
+                addImportMappedType(imports, r.dataType);
+                addImportMappedType(imports, r.baseType);
+
                 if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
                     op.uniqueItems = true;
                     imports.add(typeMapping.get(r.containerType));
@@ -5128,6 +5133,18 @@ public class DefaultCodegen implements CodegenConfig {
         op.nickname = op.operationId;
 
         return op;
+    }
+
+    /**
+     * Helper method to add an import for a data type if it exists in the importMapping.
+     *
+     * @param imports  The set of imports to add to.
+     * @param dataType The data type to check for a mapping.
+     */
+    protected void addImportMappedType(Set<String> imports, String dataType) {
+        if (imports != null && dataType != null && importMapping.containsKey(dataType)) {
+            imports.add(dataType);
+        }
     }
 
     public void SortParametersByRequiredFlag(List<CodegenParameter> parameters) {
@@ -5726,6 +5743,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenProperty.complexType != null) {
             imports.add(codegenProperty.complexType);
         }
+        addImportMappedType(imports, codegenParameter.dataType);
+        addImportMappedType(imports, codegenParameter.baseType);
 
         codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
 
@@ -7008,7 +7027,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Update codegen property's enum by adding {@value CodegenConstants#ENUM_VARS} (with name and value)
+     * Update codegen property's enum by adding {@value EnumVarMap#ENUM_VARS} (with name and value)
      *
      * @param var list of CodegenProperty
      */
@@ -7035,7 +7054,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .map(Map.Entry::getValue)
                 .findFirst();
         String dataType = (referencedSchema.isPresent()) ? getTypeDeclaration(referencedSchema.get()) : varDataType;
-        List<Map<String, Object>> enumVars = buildEnumVars(values, dataType);
+        List<EnumVarMap> enumVars = buildEnumVars(values, dataType);
         postProcessEnumVars(enumVars);
 
         // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
@@ -7051,9 +7070,9 @@ public class DefaultCodegen implements CodegenConfig {
             final String enumDefaultValue = getEnumDefaultValue(var.defaultValue, dataType);
 
             String enumName = null;
-            for (Map<String, Object> enumVar : enumVars) {
-                if (enumDefaultValue.equals(enumVar.get(ENUM_VALUE))) {
-                    enumName = (String) enumVar.get(ENUM_NAME);
+            for (EnumVarMap enumVar : enumVars) {
+                if (enumDefaultValue.equals(enumVar.getEnumValue())) {
+                    enumName = (String) enumVar.getEnumName();
                     break;
                 }
             }
@@ -7073,8 +7092,8 @@ public class DefaultCodegen implements CodegenConfig {
         return enumDefaultValue;
     }
 
-    protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
-        List<Map<String, Object>> enumVars = new ArrayList<>();
+    protected List<EnumVarMap> buildEnumVars(List<Object> values, String dataType) {
+        List<EnumVarMap> enumVars = new ArrayList<>();
         int truncateIdx = isRemoveEnumValuePrefix()
                 ? findCommonPrefixOfVars(values).length()
                 : 0;
@@ -7085,7 +7104,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // attributes, not actual enum values, so we remove them here
                 continue;
             }
-            Map<String, Object> enumVar = new HashMap<>();
+            EnumVarMap enumVar = new EnumVarMap();
             String enumName = truncateIdx == 0
                     ? String.valueOf(value)
                     : value.toString().substring(truncateIdx);
@@ -7096,9 +7115,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             final String finalEnumName = toEnumVarName(enumName, dataType);
 
-            enumVar.put(ENUM_NAME, finalEnumName);
-            enumVar.put(ENUM_VALUE, toEnumValue(String.valueOf(value), dataType));
-            enumVar.put(ENUM_IS_STRING, isDataTypeString(dataType));
+            enumVar.enumVar(finalEnumName, toEnumValue(String.valueOf(value), dataType), isDataTypeString(dataType));
             // TODO: add isNumeric
             enumVars.add(enumVar);
         }
@@ -7117,8 +7134,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @param enumVars the enumVars
      * @param dataType the data type of the enum parameter
      */
-    private void injectEnumUnknownDefaultCase(List<Map<String, Object>> enumVars, String dataType) {
-        Map<String, Object> enumVar = new HashMap<>();
+    private void injectEnumUnknownDefaultCase(List<EnumVarMap> enumVars, String dataType) {
+        EnumVarMap enumVar = new EnumVarMap();
         String enumName = enumUnknownDefaultCaseName;
 
         String enumValue = isDataTypeString(dataType)
@@ -7131,9 +7148,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // https://github.com/OpenAPITools/openapi-generator/pull/11013
                 String.valueOf(11184809);
 
-        enumVar.put(ENUM_NAME, toEnumVarName(enumName, dataType));
-        enumVar.put(ENUM_VALUE, toEnumValue(enumValue, dataType));
-        enumVar.put(ENUM_IS_STRING, isDataTypeString(dataType));
+        enumVar.enumVar(toEnumVarName(enumName, dataType), toEnumValue(enumValue, dataType), isDataTypeString(dataType));
         // TODO: add isNumeric
         enumVars.add(enumVar);
     }
@@ -7148,31 +7163,31 @@ public class DefaultCodegen implements CodegenConfig {
     protected void removeEnumUnknownDefaultCase(CodegenOperation operation) {
         for (CodegenParameter param : operation.allParams) {
             if (!param.isBodyParam && param.isEnum && hasEnumVars(param.allowableValues)) {
-                List<Map<String, Object>> enumVars = getEnumVars(param.allowableValues);
+                List<EnumVarMap> enumVars = getEnumVars(param.allowableValues);
                 if (enumVars != null) {
                     String unknownName = toEnumVarName(enumUnknownDefaultCaseName, param.dataType);
-                    enumVars.removeIf(ev -> unknownName.equals(ev.get(ENUM_NAME)));
+                    enumVars.removeIf(ev -> unknownName.equals(ev.getEnumName()));
                 }
             }
         }
     }
 
-    protected void postProcessEnumVars(List<Map<String, Object>> enumVars) {
+    protected void postProcessEnumVars(List<EnumVarMap> enumVars) {
         Collections.reverse(enumVars);
         enumVars.forEach(v -> {
-            String name = (String) v.get(ENUM_NAME);
-            long count = enumVars.stream().filter(v1 -> v1.get(ENUM_NAME).equals(name)).count();
+            String name = (String) v.getEnumName();
+            long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
             if (count > 1) {
                 String uniqueEnumName = getUniqueEnumName(name, enumVars);
-                LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.get(ENUM_NAME), uniqueEnumName);
-                v.put(ENUM_NAME, uniqueEnumName);
+                LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
+                v.setEnumName(uniqueEnumName);
             }
         });
         Collections.reverse(enumVars);
     }
 
-    private String getUniqueEnumName(String name, List<Map<String, Object>> enumVars) {
-        long count = enumVars.stream().filter(v -> v.get(ENUM_NAME).equals(name)).count();
+    private String getUniqueEnumName(String name, List<EnumVarMap> enumVars) {
+        long count = enumVars.stream().filter(v -> v.getEnumName().equals(name)).count();
         return count > 1
                 ? getUniqueEnumName(name + count, enumVars)
                 : name;
@@ -7185,7 +7200,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param vendorExtensions vendor extensions
      * @param dataType data type
      */
-    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
+    protected void updateEnumVarsWithExtensions(List<EnumVarMap> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
             updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_VARNAMES, ENUM_NAME, dataType);
             updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_DESCRIPTIONS, ENUM_DESCRIPTION, dataType);
@@ -7201,7 +7216,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param key key
      * @param dataType data type
      */
-    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key, String dataType) {
+    protected void updateEnumVarsWithExtensions(List<EnumVarMap> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key, String dataType) {
         updateEnumVarsWithExtensions(enumVars, vendorExtensions, extensionKey, key, dataType, (a, b) -> a);
     }
 
@@ -7214,7 +7229,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param dataType data type
      * @param enumDataTypeMapping functions that accepts 2 arguments
      */
-    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars,
+    protected void updateEnumVarsWithExtensions(List<EnumVarMap> enumVars,
                                                 Map<String, Object> vendorExtensions,
                                                 String extensionKey,
                                                 String key,
@@ -7230,8 +7245,8 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             } else if (extensionValue instanceof Map) {
                 Map<String, String> valueMap = (Map<String, String>) extensionValue;
-                for (Map<String, Object> enumVar : enumVars) {
-                    String enumValue = (String) enumVar.get(ENUM_VALUE);
+                for (EnumVarMap enumVar : enumVars) {
+                    String enumValue = (String) enumVar.getEnumValue();
                     for (Map.Entry<String, String> entry : valueMap.entrySet()) {
                         if (toEnumValue(entry.getKey(), dataType).equals(enumValue)) {
                             enumVar.put(key, enumDataTypeMapping.apply(entry.getValue(), dataType));

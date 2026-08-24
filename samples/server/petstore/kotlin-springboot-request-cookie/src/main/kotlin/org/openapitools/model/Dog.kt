@@ -26,7 +26,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Dog(
 
     @Schema(required = true, description = "")
-    @param:JsonProperty("className")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("className", required = true)
     @get:JsonProperty("className", required = true) override val className: kotlin.String,
 
     @Schema(description = "")

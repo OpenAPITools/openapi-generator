@@ -696,6 +696,34 @@ public class PythonClientCodegenTest {
         assertFileContains(initFilePath, "from openapi_client.models.user import User as User");
     }
 
+    @Test(description = "outputs __init__.py with fully qualified imports when apiPackage is customized")
+    public void testInitFileImportsExportsWithCustomApiPackage() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        PythonClientCodegen pythonClientCodegen = new PythonClientCodegen();
+        pythonClientCodegen.setOutputDir(output.getAbsolutePath());
+        pythonClientCodegen.additionalProperties().put(CodegenConstants.PACKAGE_NAME, "my_pkg");
+        pythonClientCodegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "my_api");
+        clientOptInput.config(pythonClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream().collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        // the api package is nested inside the main package, so its imports must be fully qualified
+        File packageInitFile = files.get(Paths.get(output.getAbsolutePath(), "my_pkg", "__init__.py").toString());
+        assertNotNull(packageInitFile);
+        assertFileContains(packageInitFile.toPath(), "from my_pkg.my_api.pet_api import PetApi as PetApi");
+        assertFileContains(packageInitFile.toPath(), "from my_pkg.models.pet import Pet as Pet");
+
+        File apiInitFile = files.get(Paths.get(output.getAbsolutePath(), "my_pkg", "my_api", "__init__.py").toString());
+        assertNotNull(apiInitFile);
+        assertFileContains(apiInitFile.toPath(), "from my_pkg.my_api.pet_api import PetApi");
+    }
+
     @Test(description = "Verify default license format uses object notation when poetry1 is false")
     public void testLicenseFormatInPyprojectToml() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

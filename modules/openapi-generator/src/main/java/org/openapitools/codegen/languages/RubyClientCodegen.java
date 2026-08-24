@@ -28,6 +28,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +38,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 
-import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
-import static org.openapitools.codegen.utils.EnumUtils.getEnumVarsAsString;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -784,8 +784,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 throw new RuntimeException("Invalid count when constructing example: " + count);
             }
         } else if (codegenModel.isEnum) {
-            List<Map<String, String>> enumVars = getEnumVarsAsString(codegenModel.allowableValues);
-            return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get(ENUM_NAME);
+            List<EnumVarMap> enumVars = getEnumVars(codegenModel.allowableValues);
+            return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).getEnumName();
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
             if (modelMaps.containsKey(subModel)) {

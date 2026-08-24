@@ -1204,6 +1204,8 @@ components:
       properties:
         first_property:
           $ref: "#/components/schemas/Pet"
+        second_property:
+          description: just null type
     updatePetWithForm_request:
       properties:
         name:

@@ -6,6 +6,9 @@ import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+{{#useSpringSecurityPreAuthorize}}
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+{{/useSpringSecurityPreAuthorize}}
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -18,6 +21,9 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
     basePackages = {"{{basePackage}}", "{{apiPackage}}" , "{{configPackage}}"},
     nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
+{{#useSpringSecurityPreAuthorize}}
+@EnableMethodSecurity
+{{/useSpringSecurityPreAuthorize}}
 public class OpenApiGeneratorApplication {
 
     public static void main(String[] args) {

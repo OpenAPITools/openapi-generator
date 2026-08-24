@@ -4,7 +4,7 @@ jspecify
 
 - API version: 1.0.0
 
-- Generator version: 7.25.0-SNAPSHOT
+- Generator version: 7.26.0-SNAPSHOT
 
 test fully qualified name and jspecify
 
@@ -87,7 +87,8 @@ public class FileApiExample {
         FileApi apiInstance = new FileApi(defaultClient);
         String id = "id_example"; // String | 
         try {
-            apiInstance.fileIdGet(id);
+            FileContent result = apiInstance.fileIdGet(id);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FileApi#fileIdGet");
             System.err.println("Status code: " + e.getCode());
@@ -110,6 +111,8 @@ Class | Method | HTTP request | Description
 *FileApi* | [**fileIdGetWithHttpInfo**](docs/FileApi.md#fileIdGetWithHttpInfo) | **GET** /file/{id} | 
 *FooApi* | [**fooDtParamGet**](docs/FooApi.md#fooDtParamGet) | **GET** /foo/{dtParam} | 
 *FooApi* | [**fooDtParamGetWithHttpInfo**](docs/FooApi.md#fooDtParamGetWithHttpInfo) | **GET** /foo/{dtParam} | 
+*RequiredAndNullableApi* | [**requiredAndNullablePost**](docs/RequiredAndNullableApi.md#requiredAndNullablePost) | **POST** /requiredAndNullable | 
+*RequiredAndNullableApi* | [**requiredAndNullablePostWithHttpInfo**](docs/RequiredAndNullableApi.md#requiredAndNullablePostWithHttpInfo) | **POST** /requiredAndNullable | 
 *UploadApi* | [**uploadFilesPost**](docs/UploadApi.md#uploadFilesPost) | **POST** /uploadFiles | 
 *UploadApi* | [**uploadFilesPostWithHttpInfo**](docs/UploadApi.md#uploadFilesPostWithHttpInfo) | **POST** /uploadFiles | 
 *UploadApi* | [**uploadPost**](docs/UploadApi.md#uploadPost) | **POST** /upload | 
@@ -118,7 +121,9 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [FileContent](docs/FileContent.md)
  - [Foo](docs/Foo.md)
+ - [RequiredAndNullable](docs/RequiredAndNullable.md)
 
 
 <a id="documentation-for-authorization"></a>

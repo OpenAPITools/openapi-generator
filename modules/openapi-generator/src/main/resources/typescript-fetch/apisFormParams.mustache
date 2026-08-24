@@ -37,9 +37,13 @@
         {{^isArray}}
         if (requestParameters['{{paramName}}'] != null) {
             {{#isDateTimeType}}
-            formParams.append('{{baseName}}', (requestParameters['{{paramName}}'] as any).toISOString());
+            formParams.append('{{baseName}}', runtime.serializeDateTime(requestParameters['{{paramName}}'] as any));
             {{/isDateTimeType}}
             {{^isDateTimeType}}
+            {{#isDateType}}
+            formParams.append('{{baseName}}', runtime.serializeDate(requestParameters['{{paramName}}'] as any));
+            {{/isDateType}}
+            {{^isDateType}}
             {{#isPrimitiveType}}
             formParams.append('{{baseName}}', requestParameters['{{paramName}}'] as any);
             {{/isPrimitiveType}}
@@ -50,7 +54,7 @@
             {{^isEnumRef}}
             {{^withoutRuntimeChecks}}
             {{^isContainer}}
-            formParams.append('{{baseName}}', new Blob([JSON.stringify({{#isFreeFormObject}}runtime.anyToJSON{{/isFreeFormObject}}{{^isFreeFormObject}}{{{dataType}}}ToJSON{{/isFreeFormObject}}(requestParameters['{{paramName}}']))], { type: "application/json", }));
+            formParams.append('{{baseName}}', new Blob([JSON.stringify({{#isFreeFormObject}}runtime.anyToJSON{{/isFreeFormObject}}{{^isFreeFormObject}}{{#isAnyType}}runtime.anyToJSON{{/isAnyType}}{{^isAnyType}}{{{dataType}}}ToJSON{{/isAnyType}}{{/isFreeFormObject}}(requestParameters['{{paramName}}']))], { type: "application/json", }));
             {{/isContainer}}
             {{#isContainer}}
             formParams.append('{{baseName}}', new Blob([JSON.stringify(requestParameters['{{paramName}}'])], { type: "application/json", }));
@@ -60,6 +64,7 @@
             {{/withoutRuntimeChecks}}
             {{/isEnumRef}}
             {{/isPrimitiveType}}
+            {{/isDateType}}
             {{/isDateTimeType}}
         }
 

@@ -1,3 +1,6 @@
+{{#isDateLibraryDate}}
+import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime{{importFileExtension}}';
+{{/isDateLibraryDate}}
 {{#hasImports}}
 {{#oneOfArrays}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
@@ -69,15 +72,15 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{#items}}
     {{#isDateType}}
     if (Array.isArray(json)) {
-        if (json.every(item => !(isNaN(new Date(item).getTime())))) {
-            return json.map(value => new Date(value));
+        if (json.every(item => !(isNaN(parseDate(item).getTime())))) {
+            return json.map(value => parseDate(value));
         }
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (Array.isArray(json)) {
-        if (json.every(item => !(isNaN(new Date(item).getTime())))) {
-            return json.map(value => new Date(value));
+        if (json.every(item => !(isNaN(parseDateTime(item).getTime())))) {
+            return json.map(value => parseDateTime(value));
         }
     }
     {{/isDateTimeType}}
@@ -115,14 +118,14 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{#oneOfPrimitives}}
     {{^isArray}}
     {{#isDateType}}
-    if (!(isNaN(new Date(json).getTime()))) {
-        return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}new Date(json));
+    if (!(isNaN(parseDate(json).getTime()))) {
+        return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}parseDate(json));
     }
     {{/isDateType}}
     {{^isDateType}}
     {{#isDateTimeType}}
-    if (!(isNaN(new Date(json).getTime()))) {
-        return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}new Date(json));
+    if (!(isNaN(parseDateTime(json).getTime()))) {
+        return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}parseDateTime(json));
     }
     {{/isDateTimeType}}
     {{/isDateType}}
@@ -195,14 +198,14 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{#isDateType}}
     if (Array.isArray(value)) {
         if (value.every(item => item instanceof Date)) {
-            return value.map(value => value.toISOString().substring(0,10));
+            return value.map(value => serializeDate(value));
         }
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (Array.isArray(value)) {
         if (value.every(item => item instanceof Date)) {
-            return value.map(item => item.toISOString());
+            return value.map(item => serializeDateTime(item));
         }
     }
     {{/isDateTimeType}}
@@ -241,12 +244,12 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{^isArray}}
     {{#isDateType}}
     if (value instanceof Date) {
-        return ((value{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toISOString().substring(0,10));
+        return (serializeDate(value{{#isNullable}} as any{{/isNullable}}));
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (value instanceof Date) {
-        return {{^required}}{{#isNullable}}value === null ? null : {{/isNullable}}{{^isNullable}}value == null ? undefined : {{/isNullable}}{{/required}}((value{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toISOString());
+        return {{^required}}{{#isNullable}}value === null ? null : {{/isNullable}}{{^isNullable}}value == null ? undefined : {{/isNullable}}{{/required}}(serializeDateTime(value{{#isNullable}} as any{{/isNullable}}));
     }
     {{/isDateTimeType}}
     {{#isNumeric}}

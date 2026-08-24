@@ -23,19 +23,20 @@ import jakarta.annotation.Generated;
  * NullableModel
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class NullableModel implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String requiredNonNullable;
 
+  @JsonInclude(JsonInclude.Include.ALWAYS)
   private JsonNullable<String> requiredNullable = JsonNullable.<String>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String optionalNonNullable;
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<String> optionalNullable = JsonNullable.<String>undefined();
 
   public NullableModel() {
@@ -79,7 +80,7 @@ public class NullableModel implements Serializable {
    * Get requiredNullable
    * @return requiredNullable
    */
-  @NotNull 
+  /* @Present */ 
   @JsonProperty("requiredNullable")
   public JsonNullable<String> getRequiredNullable() {
     return requiredNullable;

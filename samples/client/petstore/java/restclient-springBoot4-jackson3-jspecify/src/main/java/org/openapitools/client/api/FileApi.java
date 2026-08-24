@@ -2,6 +2,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
+import org.openapitools.client.model.FileContent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FileApi {
     private ApiClient apiClient;
 
@@ -48,6 +49,7 @@ public class FileApi {
      * 
      * <p><b>200</b> - ok
      * @param id The id parameter
+     * @return FileContent
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec fileIdGetRequestCreation(String id) throws RestClientResponseException {
@@ -66,14 +68,16 @@ public class FileApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        final String[] localVarAccepts = { };
+        final String[] localVarAccepts = { 
+            "application/json"
+        };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        ParameterizedTypeReference<FileContent> localVarReturnType = new ParameterizedTypeReference<>() {};
         return apiClient.invokeAPI("/file/{id}", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
@@ -82,11 +86,12 @@ public class FileApi {
      * 
      * <p><b>200</b> - ok
      * @param id The id parameter
+     * @return FileContent
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void fileIdGet(String id) throws RestClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        fileIdGetRequestCreation(id).body(localVarReturnType);
+    public FileContent fileIdGet(String id) throws RestClientResponseException {
+        ParameterizedTypeReference<FileContent> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return fileIdGetRequestCreation(id).body(localVarReturnType);
     }
 
     /**
@@ -94,10 +99,11 @@ public class FileApi {
      * 
      * <p><b>200</b> - ok
      * @param id The id parameter
+     * @return ResponseEntity&lt;FileContent&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> fileIdGetWithHttpInfo(String id) throws RestClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+    public ResponseEntity<FileContent> fileIdGetWithHttpInfo(String id) throws RestClientResponseException {
+        ParameterizedTypeReference<FileContent> localVarReturnType = new ParameterizedTypeReference<>() {};
         return fileIdGetRequestCreation(id).toEntity(localVarReturnType);
     }
 

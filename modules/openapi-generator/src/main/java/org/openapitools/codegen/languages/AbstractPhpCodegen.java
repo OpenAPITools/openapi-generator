@@ -24,6 +24,7 @@ import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -39,6 +40,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.model.EnumVarMap.ENUM_DESCRIPTION;
+import static org.openapitools.codegen.model.EnumVarMap.ENUM_NAME;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -822,7 +825,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
+    protected void updateEnumVarsWithExtensions(List<EnumVarMap> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
             updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_VARNAMES, ENUM_NAME, dataType, this::toEnumVarName);
             updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_DESCRIPTIONS, ENUM_DESCRIPTION, dataType);

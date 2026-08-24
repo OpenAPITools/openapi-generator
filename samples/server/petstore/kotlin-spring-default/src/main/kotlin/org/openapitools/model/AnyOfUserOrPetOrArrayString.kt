@@ -41,15 +41,18 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class AnyOfUserOrPetOrArrayString(
 
     @Schema(required = true, description = "")
-    @param:JsonProperty("username")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("username", required = true)
     @get:JsonProperty("username", required = true) val username: kotlin.String,
 
     @Schema(example = "doggie", required = true, description = "")
-    @param:JsonProperty("name")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("name", required = true)
     @get:JsonProperty("name", required = true) val name: kotlin.String,
 
     @Schema(required = true, description = "")
-    @param:JsonProperty("photoUrls")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("photoUrls", required = true)
     @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @Schema(description = "")
