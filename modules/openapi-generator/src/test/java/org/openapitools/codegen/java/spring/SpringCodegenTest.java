@@ -3264,11 +3264,11 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(output.get("Example.java"))
                 .fileContains(
-                        "  /**\n   * @deprecated\n   */\n  @Deprecated\n  public Example deprecatedProperty(",
-                        "  /**\n   * @deprecated\n   */\n  @Deprecated\n  public Example deprecatedValues(",
-                        "  /**\n   * @deprecated\n   */\n  @Deprecated\n  public Example addDeprecatedValuesItem(",
-                        "  /**\n   * @deprecated\n   */\n  @Deprecated\n  public Example deprecatedMap(",
-                        "  /**\n   * @deprecated\n   */\n  @Deprecated\n  public Example putDeprecatedMapItem("
+                        "  /**\n   * @deprecated deprecated\n   */\n  @Deprecated\n  public Example deprecatedProperty(",
+                        "  /**\n   * @deprecated deprecated\n   */\n  @Deprecated\n  public Example deprecatedValues(",
+                        "  /**\n   * @deprecated deprecated\n   */\n  @Deprecated\n  public Example addDeprecatedValuesItem(",
+                        "  /**\n   * @deprecated deprecated\n   */\n  @Deprecated\n  public Example deprecatedMap(",
+                        "  /**\n   * @deprecated deprecated\n   */\n  @Deprecated\n  public Example putDeprecatedMapItem("
                 )
                 .assertMethod("deprecatedProperty", "String")
                 .hasAnnotation("Deprecated")

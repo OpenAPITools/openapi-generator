@@ -162,7 +162,7 @@ public class Pet {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   public Pet photoUrls(List<String> photoUrls) {
@@ -171,7 +171,7 @@ public class Pet {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
@@ -196,7 +196,7 @@ public class Pet {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   @JsonProperty("photoUrls")

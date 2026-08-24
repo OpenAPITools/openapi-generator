@@ -152,7 +152,7 @@ public class Pet {
 
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   public Pet status(@Nullable StatusEnum status) {

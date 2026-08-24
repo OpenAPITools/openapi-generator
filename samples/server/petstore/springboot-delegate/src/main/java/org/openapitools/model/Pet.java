@@ -237,7 +237,7 @@ public class Pet {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   public Pet status(@Nullable StatusEnum status) {
@@ -259,7 +259,7 @@ public class Pet {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   @JsonProperty("status")

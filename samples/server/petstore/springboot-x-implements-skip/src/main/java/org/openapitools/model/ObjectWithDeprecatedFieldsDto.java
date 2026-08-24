@@ -67,7 +67,7 @@ public class ObjectWithDeprecatedFieldsDto {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   public ObjectWithDeprecatedFieldsDto id(@Nullable BigDecimal id) {
@@ -89,7 +89,7 @@ public class ObjectWithDeprecatedFieldsDto {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   @JsonProperty("id")
@@ -98,7 +98,7 @@ public class ObjectWithDeprecatedFieldsDto {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   public ObjectWithDeprecatedFieldsDto deprecatedRef(@Nullable DeprecatedObjectDto deprecatedRef) {
@@ -120,7 +120,7 @@ public class ObjectWithDeprecatedFieldsDto {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   @JsonProperty("deprecatedRef")
@@ -129,7 +129,7 @@ public class ObjectWithDeprecatedFieldsDto {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   public ObjectWithDeprecatedFieldsDto bars(List<String> bars) {
@@ -138,7 +138,7 @@ public class ObjectWithDeprecatedFieldsDto {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   public ObjectWithDeprecatedFieldsDto addBarsItem(String barsItem) {
@@ -163,7 +163,7 @@ public class ObjectWithDeprecatedFieldsDto {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   @JsonProperty("bars")
