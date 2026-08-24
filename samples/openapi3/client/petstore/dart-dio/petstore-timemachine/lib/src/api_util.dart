@@ -2,73 +2,32 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-/// Format the given form parameter object into something that Dio can handle.
-/// Returns primitive or String.
-/// Returns List/Map if the value is BuildList/BuiltMap.
-dynamic encodeFormParameter(Serializers serializers, dynamic value, FullType type) {
-  if (value == null) {
-    return '';
-  }
-  if (value is String || value is num || value is bool) {
-    return value;
-  }
-  final serialized = serializers.serialize(
-    value as Object,
-    specifiedType: type,
-  );
-  if (serialized is String) {
-    return serialized;
-  }
-  if (value is BuiltList || value is BuiltSet || value is BuiltMap) {
-    return serialized;
-  }
-  return json.encode(serialized);
-}
-
-dynamic encodeQueryParameter(
+/// Format normal parameters for query/form bodies.
+/// Returns primitive, String, or `ListParam` for collections when `asString`
+/// is false.
+dynamic encodeParameter<T>(
   Serializers serializers,
   dynamic value,
   FullType type,
-) {
+  {
+  ListFormat format = ListFormat.multi,
+  bool asString = false,
+  bool forMultipart = false,
+}) {
   if (value == null) {
-    return null;
+    return asString ? '' : null;
   }
   if (value is String || value is num || value is bool) {
     return value;
   }
   if (value is Uint8List) {
-    // Currently not sure how to serialize this
     return value;
-  }
-  final serialized = serializers.serialize(
-    value as Object,
-    specifiedType: type,
-  );
-  if (serialized == null) {
-    return null;
-  }
-  if (serialized is String) {
-    return serialized;
-  }
-  return serialized;
-}
-
-dynamic encodeCollectionParameter<T>(
-  Serializers serializers,
-  dynamic value,
-  FullType type, {
-  ListFormat format = ListFormat.multi,
-  bool asString = false,
-}) {
-  if (value == null) {
-    return asString ? '' : null;
   }
   final serialized = serializers.serialize(
     value as Object,
@@ -82,12 +41,20 @@ dynamic encodeCollectionParameter<T>(
     if (asString) {
       return _joinCollectionValues(values, format);
     }
+    if (forMultipart) {
+      return serialized;
+    }
     return ListParam(values, format);
   }
-  throw ArgumentError('Invalid value passed to encodeCollectionParameter');
+  return serialized;
 }
 
-String _encodeMapPathParameter(Serializers serializers, dynamic value, FullType type) {
+String _encodePathParameter(
+  Serializers serializers,
+  dynamic value,
+  FullType type, {
+  ListFormat format = ListFormat.multi,
+}) {
   if (value == null) {
     return '';
   }
@@ -98,8 +65,46 @@ String _encodeMapPathParameter(Serializers serializers, dynamic value, FullType 
   if (serialized == null) {
     return '';
   }
-  final jsonStr = json.encode(serialized);
-  return Uri.encodeComponent(jsonStr);
+  if (serialized is String || serialized is num || serialized is bool) {
+    return serialized.toString();
+  }
+  if (serialized is List) {
+    final values = serialized.map((item) => _encodePathValue(item, format)).toList();
+    return _joinCollectionValues(values, format);
+  }
+  if (serialized is Map) {
+    final pairs = <String>[];
+    serialized.forEach((k, v) {
+      final serializedKey = _encodePathValue(k, format);
+      final serializedValue = _encodePathValue(v, format);
+      pairs.add('$serializedKey,$serializedValue');
+    });
+    return pairs.join(',');
+  }
+  return serialized.toString();
+}
+
+String _encodePathValue(dynamic value, ListFormat format) {
+  if (value == null) {
+    return '';
+  }
+  if (value is String || value is num || value is bool) {
+    return value.toString();
+  }
+  if (value is List) {
+    final values = value.map((item) => _encodePathValue(item, format)).toList();
+    return _joinCollectionValues(values, format);
+  }
+  if (value is Map) {
+    final pairs = <String>[];
+    value.forEach((k, v) {
+      final serializedKey = _encodePathValue(k, format);
+      final serializedValue = _encodePathValue(v, format);
+      pairs.add('$serializedKey,$serializedValue');
+    });
+    return pairs.join(',');
+  }
+  return value.toString();
 }
 
 String _joinCollectionValues(List<Object?> values, ListFormat format) {

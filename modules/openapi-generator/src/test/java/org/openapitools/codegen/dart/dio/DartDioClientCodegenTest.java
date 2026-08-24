@@ -242,20 +242,20 @@ public class DartDioClientCodegenTest {
         // caller omitted the parameter, so the generated request must omit it.
         TestUtils.assertFileContains(defaultApi,
                 "if (activityId != null)",
-                "r'activity_id': encodeQueryParameter(_serializers, activityId, const FullType(int)),",
+                "r'activity_id': encodeParameter(_serializers, activityId, const FullType(int)),",
                 "if (categoryId != null)",
-                "r'category_id': encodeQueryParameter(_serializers, categoryId, const FullType(int)),");
+                "r'category_id': encodeParameter(_serializers, categoryId, const FullType(int)),");
 
         // Required query parameters are always emitted. If the schema is
         // nullable, null is an explicit supplied value rather than omission.
         TestUtils.assertFileContains(defaultApi,
-                "r'required_id': encodeQueryParameter(_serializers, requiredId, const FullType(int)),",
-                "r'required_nullable_id': encodeQueryParameter(_serializers, requiredNullableId, const FullType(int)),");
+                "r'required_id': encodeParameter(_serializers, requiredId, const FullType(int)),",
+                "r'required_nullable_id': encodeParameter(_serializers, requiredNullableId, const FullType(int)),");
         TestUtils.assertFileNotContains(defaultApi,
                 "if (requiredId != null)",
                 "if (requiredNullableId != null)",
-                "final _queryParameters = <String, dynamic>{\n      r'activity_id': encodeQueryParameter(_serializers, activityId, const FullType(int)),",
-                "final _queryParameters = <String, dynamic>{\n      r'category_id': encodeQueryParameter(_serializers, categoryId, const FullType(int)),");
+                "final _queryParameters = <String, dynamic>{\n      r'activity_id': encodeParameter(_serializers, activityId, const FullType(int)),",
+                "final _queryParameters = <String, dynamic>{\n      r'category_id': encodeParameter(_serializers, categoryId, const FullType(int)),");
     }
 
     /**
@@ -450,14 +450,14 @@ public class DartDioClientCodegenTest {
 
     /**
      * Regression test: path parameters whose type is an enum must use
-     * {@code encodeQueryParameter} (which calls the built_value serializer and
+     * {@code encodeParameter} (which calls the built_value serializer and
      * returns the wire name) rather than a bare {@code .toString()} call (which
      * returns the Dart identifier name and differs when the wire name contains
      * underscores, e.g. {@code unknown_default_open_api} vs the Dart identifier
      * {@code unknownDefaultOpenApi}).
      *
      * <p>Both required enum path params must emit
-     * {@code encodeQueryParameter(_serializers, param, const FullType(EnumType)).toString()},
+     * {@code _encodePathParameter(_serializers, param, const FullType(EnumType))},
      * never {@code param.toString()} directly.
      */
     @Test
@@ -481,9 +481,9 @@ public class DartDioClientCodegenTest {
         // the wire name (e.g. "unknown_default_open_api"), not .toString() which
         // returns the Dart identifier name (e.g. "unknownDefaultOpenApi").
         TestUtils.assertFileContains(defaultApi,
-                "encodeQueryParameter(_serializers, status, const FullType(OrderStatus)).toString()");
+                "_encodePathParameter(_serializers, status, const FullType(OrderStatus))");
         TestUtils.assertFileContains(defaultApi,
-                "encodeQueryParameter(_serializers, category, const FullType(CategoryType)).toString()");
+                "_encodePathParameter(_serializers, category, const FullType(CategoryType))");
 
         // No param should fall back to a bare .toString() call on the enum value.
         TestUtils.assertFileNotContains(defaultApi,
@@ -493,7 +493,7 @@ public class DartDioClientCodegenTest {
 
     /**
      * Regression test: built_value form array params need both the call site
-     * and helper definition. Without encodeCollectionFormParameter in api_util,
+     * and helper definition. Without encodeParameter in api_util,
      * generated APIs compile-fail on the form array path.
      */
     @Test
@@ -515,12 +515,13 @@ public class DartDioClientCodegenTest {
         Path fakeApi = output.toPath().resolve("lib/src/api/fake_api.dart");
 
         TestUtils.assertFileContains(apiUtil,
-                "dynamic encodeCollectionParameter<T>(",
+                "dynamic encodeParameter<T>(",
                 "bool asString = false,",
+                "bool forMultipart = false,",
                 "case ListFormat.multiCompatible:",
-                "throw ArgumentError('Invalid value passed to encodeCollectionParameter');");
+                "return ListParam(values, format);");
         TestUtils.assertFileContains(fakeApi,
-                "encodeCollectionParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]),",
+                "encodeParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]),",
                 "asString: true");
     }
 }
