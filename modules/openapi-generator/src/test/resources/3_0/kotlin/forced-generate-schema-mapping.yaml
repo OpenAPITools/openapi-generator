@@ -4,10 +4,11 @@ info:
   description: >
     A generic model graph that exercises forcedGenerateSchemas combined with fully-qualified
     schemaMappings. Widget/Group/Shape/Circle/Square are mapped to fully-qualified hand-written
-    classes via schemaMappings but are also force-generated, so the stock ApiXxx models must be
-    emitted "as if" the mappings did not apply. Container and ShapeBase are neither mapped nor
-    forced. Shape is a oneOf with a discriminator; Circle/Square inherit ShapeBase via allOf; Label
-    is a string alias used to verify primitive/type resolution is preserved.
+    classes via schemaMappings but are also emitted as isolated shadow models, so the stock ApiXxx
+    models must be generated "as if" the mappings did not apply. Container and ShapeBase are neither
+    mapped nor shadow models and continue to use mapped production references. Shape is a oneOf with
+    a discriminator; Circle/Square inherit ShapeBase via allOf; Label is a string alias used to
+    verify primitive/type resolution is preserved.
   version: 1.0.0
 paths:
   /widget:

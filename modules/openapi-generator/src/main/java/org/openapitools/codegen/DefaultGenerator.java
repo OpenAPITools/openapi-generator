@@ -469,19 +469,17 @@ public class DefaultGenerator implements Generator {
     /**
      * Forced-schema generation pass (Phase 2).
      *
-     * <p>Some schemas are excluded from normal model generation because they appear in
-     * {@code schemaMapping}/{@code importMapping} (they map to a hand-written / external class).
-     * When such a schema is also listed in {@code forcedGenerateSchemas} (or the {@code "*"}
-     * wildcard is set), the user wants a stock model generated for it <em>anyway</em>, under its
-     * unmapped model name.</p>
+     * <p>Some schemas are excluded from normal model generation because a {@code schemaMapping},
+     * or a {@code typeMapping} backed by an {@code importMapping}, replaces them with a hand-written
+     * external class. When such a schema is selected by {@code forcedGenerateSchemas}, this pass
+     * emits an isolated shadow model under its stock, unmapped name.</p>
      *
      * <p>This is done generator-agnostically: the forced schemas' own {@code schemaMapping}/
      * {@code importMapping} entries are temporarily removed and the model-name caches invalidated,
      * so every generator naturally resolves them to their stock names. The full model set is still
-     * processed (so parents/interfaces of the forced schemas wire up correctly) but only the forced
-     * schemas are emitted — everything else was already generated in Phase 1 with the mappings
-     * intact, which is what keeps non-forced references to a forced schema pointing at the mapped
-     * (FQN) class.</p>
+     * processed (so parents/interfaces of the forced schemas wire up correctly) but only shadow
+     * schemas are emitted. APIs, ordinary models, and supporting-file metadata were generated in
+     * Phase 1 with mappings intact, so they continue to reference the mapped FQN classes.</p>
      */
     void generateForcedModels(List<File> files) {
         if (!generateModels || config.forcedGenerateSchemas().isEmpty()) {

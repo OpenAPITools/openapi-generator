@@ -641,7 +641,10 @@ abstract class GenerateTask : DefaultTask() {
     abstract val schemaMappings: MapProperty<String, String>
 
     /**
-     * Specifies schema names that must be generated even when listed in schemaMappings or importMappings.
+     * Specifies mapping-suppressed schemas to emit as isolated shadow models.
+     *
+     * Use `"*"` to include all mapping-suppressed schemas. Unmapped schemas remain in normal
+     * generation, and generated APIs and supporting-file metadata continue to use mapped classes.
      */
     @get:Optional
     @get:Input
