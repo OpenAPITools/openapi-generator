@@ -93,6 +93,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Array|java.util.List|
 |ArrayList|java.util.ArrayList|
 |BigDecimal|java.math.BigDecimal|
+|BigInteger|java.math.BigInteger|
 |Date|java.util.Date|
 |DateTime|org.joda.time.*|
 |File|java.io.File|
@@ -122,6 +123,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>ArrayList</li>
+<li>BigInteger</li>
 <li>Boolean</li>
 <li>Date</li>
 <li>Double</li>
