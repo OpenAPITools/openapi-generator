@@ -146,6 +146,9 @@ public class Oas31ExactRuntimeTest {
                         && scalarDefaultsHeader.contains(
                         "m_Nullable_fallback = NullableField<std::string>::makeDefaultValue(\"fallback\")"),
                 "nullable schema defaults must initialize constructors and decode resets");
+        Assert.assertTrue(
+                Files.exists(output.resolve("model/ModelBranchNullDefault.h")),
+                "a null default on a model-valued anyOf branch must not abort generation");
         String nullableEnumHeader = Files.readString(
                 output.resolve("model/NullableEnumBox.h"));
         Assert.assertTrue(nullableEnumHeader.contains(

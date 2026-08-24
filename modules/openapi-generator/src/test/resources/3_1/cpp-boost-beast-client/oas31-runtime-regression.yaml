@@ -74,6 +74,14 @@ components:
       properties:
         base:
           type: string
+    ModelBranchNullDefault:
+      type: object
+      properties:
+        conversation:
+          anyOf:
+            - default: null
+              $ref: '#/components/schemas/Base'
+            - type: "null"
     A:
       type: object
       required: [kind]

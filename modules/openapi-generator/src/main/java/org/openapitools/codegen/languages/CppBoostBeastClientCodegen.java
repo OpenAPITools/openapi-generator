@@ -2985,6 +2985,13 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             if ("boost::json::value".equals(property.dataType)) {
                 return "boost::json::value(nullptr)";
             }
+            if (property.dataType != null
+                    && property.dataType.startsWith("std::shared_ptr<")) {
+                // A branch-local default:null is an annotation, not a model value.
+                // Ignore it rather than rejecting an otherwise legal schema.
+                return null;
+            }
+
             throw new IllegalArgumentException(
                     "JSON null default is not representable by C++ property '"
                             + property.baseName + "' of type " + property.dataType);
