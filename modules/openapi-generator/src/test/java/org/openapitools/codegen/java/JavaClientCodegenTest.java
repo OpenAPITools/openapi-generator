@@ -173,28 +173,28 @@ public class JavaClientCodegenTest {
 
         // small range with no format: stays the default Integer
         CodegenProperty smallRange = codegen.fromProperty("smallRange",
-                new IntegerSchema().minimum(BigDecimal.ZERO).maximum(BigDecimal.valueOf(255)));
+                new IntegerSchema().format(null).minimum(BigDecimal.ZERO).maximum(BigDecimal.valueOf(255)));
         Assertions.assertEquals(smallRange.dataType, "Integer");
         Assertions.assertTrue(smallRange.isInteger);
         Assertions.assertFalse(smallRange.isLong);
 
         // range exceeding Integer bounds with no format: widen to Long
         CodegenProperty exceedsInteger = codegen.fromProperty("exceedsInteger",
-                new IntegerSchema().maximum(BigDecimal.valueOf(Integer.MAX_VALUE).add(BigDecimal.ONE)));
+                new IntegerSchema().format(null).maximum(BigDecimal.valueOf(Integer.MAX_VALUE).add(BigDecimal.ONE)));
         Assertions.assertEquals(exceedsInteger.dataType, "Long");
         Assertions.assertTrue(exceedsInteger.isLong);
         Assertions.assertFalse(exceedsInteger.isInteger);
 
         // range exceeding Long bounds with no format: widen to BigInteger
         CodegenProperty exceedsLong = codegen.fromProperty("exceedsLong",
-                new IntegerSchema().maximum(BigDecimal.valueOf(Long.MAX_VALUE).add(BigDecimal.ONE)));
+                new IntegerSchema().format(null).maximum(BigDecimal.valueOf(Long.MAX_VALUE).add(BigDecimal.ONE)));
         Assertions.assertEquals(exceedsLong.dataType, "BigInteger");
         Assertions.assertFalse(exceedsLong.isLong);
         Assertions.assertFalse(exceedsLong.isInteger);
 
         // exclusiveMaximum pushes the effective bound just over the Integer limit
         CodegenProperty exclusiveMax = codegen.fromProperty("exclusiveMax",
-                new IntegerSchema().maximum(BigDecimal.valueOf(Integer.MAX_VALUE).add(BigDecimal.valueOf(2))).exclusiveMaximum(true));
+                new IntegerSchema().format(null).maximum(BigDecimal.valueOf(Integer.MAX_VALUE).add(BigDecimal.valueOf(2))).exclusiveMaximum(true));
         Assertions.assertEquals(exclusiveMax.dataType, "Long");
         Assertions.assertTrue(exclusiveMax.isLong);
     }
