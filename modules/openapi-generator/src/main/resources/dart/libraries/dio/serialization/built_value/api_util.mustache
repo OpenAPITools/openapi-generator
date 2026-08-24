@@ -76,12 +76,27 @@ dynamic encodeCollectionParameter<T>(
   }
   if (value is BuiltList<T> || value is BuiltSet<T>) {
     final values = List<Object?>.of((serialized as Iterable<Object?>).cast());
-    if (asString) {
+    if (asString && format != ListFormat.multi && format != ListFormat.multiCompatible) {
       return _joinCollectionValues(values, format);
     }
     return ListParam(values, format);
   }
   throw ArgumentError('Invalid value passed to encodeCollectionParameter');
+}
+
+String _encodeMapPathParameter(Serializers serializers, dynamic value, FullType type) {
+  if (value == null) {
+    return '';
+  }
+  final serialized = serializers.serialize(
+    value as Object,
+    specifiedType: type,
+  );
+  if (serialized == null) {
+    return '';
+  }
+  final jsonStr = json.encode(serialized);
+  return Uri.encodeComponent(jsonStr);
 }
 
 String _joinCollectionValues(List<Object?> values, ListFormat format) {
