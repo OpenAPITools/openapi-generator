@@ -71,6 +71,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             "x-codegen-param-allow-empty-value";
     private static final String X_CPP_TOLERATE_NONNULLABLE_NULL =
             "x-cpp-tolerate-nonnullable-null";
+    private static final String X_CPP_EXPLICIT_DEFAULT_SCALAR =
+            "x-cpp-explicit-default-scalar";
     private final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
     /** Tracks model names resolved as oneOf/anyOf variant types for shared_ptr exclusion. */
     private Set<String> variantModels = new HashSet<>();
@@ -1399,6 +1401,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                                 if (Boolean.TRUE.equals(targetModel.vendorExtensions.get("x-cpp-is-variant"))) {
                                     var.vendorExtensions.put("x-cpp-variant-alias", true);
                                     var.vendorExtensions.put("x-cpp-variant-alias-name", lookupType);
+                                    rewriteVariantAliasDefault(var, lookupType);
                                 }
                             }
                         }
@@ -1425,6 +1428,28 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         }
 
         return processed;
+    }
+
+    private static void rewriteVariantAliasDefault(
+            CodegenProperty property, String aliasName) {
+        Object scalarDefault = property.vendorExtensions.get(
+                X_CPP_EXPLICIT_DEFAULT_SCALAR);
+        if (!(scalarDefault instanceof String)
+                || Boolean.TRUE.equals(property.vendorExtensions.get(
+                "x-cpp-default-is-null"))) {
+            return;
+        }
+
+        String decodedDefault = "fromJsonValue_" + aliasName
+                + "(boost::json::value(" + scalarDefault + "))";
+        Object nullableInner = property.vendorExtensions.get(
+                "x-cpp-nullable-field-inner-type");
+        if (nullableInner != null) {
+            decodedDefault = "NullableField<" + nullableInner
+                    + ">::makeDefaultValue(" + decodedDefault + ")";
+        }
+        property.defaultValue = decodedDefault;
+        property.vendorExtensions.put("x-cpp-member-default", true);
     }
 
     /**
@@ -2945,6 +2970,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             if (defaultValue != null) {
                 prop.defaultValue = defaultValue;
                 prop.vendorExtensions.put("x-cpp-has-explicit-default", true);
+                prop.vendorExtensions.put(X_CPP_EXPLICIT_DEFAULT_SCALAR, defaultValue);
                 prop.vendorExtensions.put("x-cpp-default-is-null",
                         "null".equals(Oas31RawSpecRecovery.defaultJsonOf(p)));
             }

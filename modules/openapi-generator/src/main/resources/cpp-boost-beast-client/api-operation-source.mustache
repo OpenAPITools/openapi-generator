@@ -18,12 +18,12 @@
     auto {{{vendorExtensions.x-codegen-sse-request-local}}} =
         std::make_shared<{{{vendorExtensions.x-codegen-sse-request-type}}}>(
             *{{{vendorExtensions.x-codegen-sse-request-param}}});
-    {{{vendorExtensions.x-codegen-sse-request-local}}}->{{{vendorExtensions.x-codegen-sse-request-setter}}}(false);
+    {{{vendorExtensions.x-codegen-sse-request-local}}}->{{{vendorExtensions.x-codegen-sse-request-setter}}}({{{vendorExtensions.x-codegen-sse-request-false-value}}});
 {{/vendorExtensions.x-codegen-sse-request-shared-ptr}}
 {{^vendorExtensions.x-codegen-sse-request-shared-ptr}}
     auto {{{vendorExtensions.x-codegen-sse-request-local}}} =
         {{{vendorExtensions.x-codegen-sse-request-param}}};
-    {{{vendorExtensions.x-codegen-sse-request-local}}}.{{{vendorExtensions.x-codegen-sse-request-setter}}}(false);
+    {{{vendorExtensions.x-codegen-sse-request-local}}}.{{{vendorExtensions.x-codegen-sse-request-setter}}}({{{vendorExtensions.x-codegen-sse-request-false-value}}});
 {{/vendorExtensions.x-codegen-sse-request-shared-ptr}}
 {{/vendorExtensions.x-codegen-conditional-sse}}
 {{#hasConsumes}}
@@ -502,12 +502,12 @@ HttpResponseData
     auto {{{vendorExtensions.x-codegen-sse-request-local}}} =
         std::make_shared<{{{vendorExtensions.x-codegen-sse-request-type}}}>(
             *{{{vendorExtensions.x-codegen-sse-request-param}}});
-    {{{vendorExtensions.x-codegen-sse-request-local}}}->{{{vendorExtensions.x-codegen-sse-request-setter}}}(true);
+    {{{vendorExtensions.x-codegen-sse-request-local}}}->{{{vendorExtensions.x-codegen-sse-request-setter}}}({{{vendorExtensions.x-codegen-sse-request-true-value}}});
 {{/vendorExtensions.x-codegen-sse-request-shared-ptr}}
 {{^vendorExtensions.x-codegen-sse-request-shared-ptr}}
     auto {{{vendorExtensions.x-codegen-sse-request-local}}} =
         {{{vendorExtensions.x-codegen-sse-request-param}}};
-    {{{vendorExtensions.x-codegen-sse-request-local}}}.{{{vendorExtensions.x-codegen-sse-request-setter}}}(true);
+    {{{vendorExtensions.x-codegen-sse-request-local}}}.{{{vendorExtensions.x-codegen-sse-request-setter}}}({{{vendorExtensions.x-codegen-sse-request-true-value}}});
 {{/vendorExtensions.x-codegen-sse-request-shared-ptr}}
 {{#hasConsumes}}
     static const std::vector<std::string> contentTypes{ {{#consumes}}"{{{cppMediaType}}}",{{/consumes}} };

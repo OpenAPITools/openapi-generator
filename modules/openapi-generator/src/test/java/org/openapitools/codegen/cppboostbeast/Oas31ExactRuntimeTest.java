@@ -149,6 +149,17 @@ public class Oas31ExactRuntimeTest {
         Assert.assertTrue(
                 Files.exists(output.resolve("model/ModelBranchNullDefault.h")),
                 "a null default on a model-valued anyOf branch must not abort generation");
+        String composedDefaultSource = Files.readString(
+                output.resolve("model/ComposedDefaultContainer.cpp"));
+        String composedDefaultHeader = Files.readString(
+                output.resolve("model/ComposedDefaultContainer.h"));
+        String composedDefaultExpression =
+                "fromJsonValue_DefaultVoice(boost::json::value(\"alloy\"))";
+        Assert.assertTrue(
+                composedDefaultSource.contains("m_Voice = " + composedDefaultExpression)
+                        && composedDefaultHeader.contains(
+                        "DefaultVoice m_Voice = " + composedDefaultExpression),
+                "composed schema defaults must decode into the generated variant type");
         String nullableEnumHeader = Files.readString(
                 output.resolve("model/NullableEnumBox.h"));
         Assert.assertTrue(nullableEnumHeader.contains(
@@ -195,6 +206,10 @@ public class Oas31ExactRuntimeTest {
                 "raw patternProperties and additionalProperties must survive inline-model normalization");
 
         String apiSource = Files.readString(output.resolve("api/DefaultApi.cpp"));
+        Assert.assertTrue(
+                apiSource.contains("setStream(NullableField<bool>{false})")
+                        && apiSource.contains("setStream(NullableField<bool>{true})"),
+                "conditional SSE selectors must construct their nullable setter type explicitly");
         int emptyMethodStart = apiSource.indexOf("DefaultApi::getEmpty(");
         int emptyMethodEnd = apiSource.indexOf("DefaultApi::getProbe(", emptyMethodStart);
         Assert.assertTrue(emptyMethodStart >= 0 && emptyMethodEnd > emptyMethodStart,

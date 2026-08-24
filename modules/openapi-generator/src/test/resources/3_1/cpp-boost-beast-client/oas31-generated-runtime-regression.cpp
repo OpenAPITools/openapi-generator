@@ -21,6 +21,7 @@
 #include "model/NullDriftResponse.h"
 #include "model/NullableEnumBox.h"
 #include "model/ScalarDefaults.h"
+#include "model/ComposedDefaultContainer.h"
 #include "model/StreamChunk.h"
 #include "model/TaggedUnionContainer.h"
 #include "model/Toggle.h"
@@ -172,6 +173,17 @@ int main() {
            "nullable value default did not preserve missing wire presence");
     expect(defaults.toJsonValue().as_object().empty(),
            "unset schema defaults were serialized onto the wire");
+
+    model::ComposedDefaultContainer composedDefault;
+    expect(model::toJsonValue_DefaultVoice(composedDefault.getVoice()).as_string()
+               == "alloy",
+           "composed schema default did not initialize the variant branch");
+    expect(composedDefault.toJsonValue().as_object().empty(),
+           "composed schema default was serialized without wire presence");
+    composedDefault.fromJsonString("{}");
+    expect(model::toJsonValue_DefaultVoice(composedDefault.getVoice()).as_string()
+               == "alloy",
+           "missing composed property did not restore its schema default");
 
     defaults.setEnabled(true);
     defaults.setNullableLabel(

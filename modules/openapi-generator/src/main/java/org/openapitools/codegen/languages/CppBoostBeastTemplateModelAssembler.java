@@ -36,6 +36,10 @@ final class CppBoostBeastTemplateModelAssembler {
     private static final String X_CODEGEN_SSE_REQUEST_PARAM = "x-codegen-sse-request-param";
     private static final String X_CODEGEN_SSE_REQUEST_GETTER = "x-codegen-sse-request-getter";
     private static final String X_CODEGEN_SSE_REQUEST_SETTER = "x-codegen-sse-request-setter";
+    private static final String X_CODEGEN_SSE_REQUEST_FALSE_VALUE =
+            "x-codegen-sse-request-false-value";
+    private static final String X_CODEGEN_SSE_REQUEST_TRUE_VALUE =
+            "x-codegen-sse-request-true-value";
     private static final String X_CODEGEN_SSE_REQUEST_TYPE = "x-codegen-sse-request-type";
     private static final String X_CODEGEN_SSE_REQUEST_SHARED_PTR =
             "x-codegen-sse-request-shared-ptr";
@@ -585,6 +589,13 @@ final class CppBoostBeastTemplateModelAssembler {
                     X_CODEGEN_SSE_REQUEST_PARAM, operation.bodyParam.paramName);
             operation.vendorExtensions.put(X_CODEGEN_SSE_REQUEST_GETTER, selector.getter);
             operation.vendorExtensions.put(X_CODEGEN_SSE_REQUEST_SETTER, selector.setter);
+            String selectorType = selector.dataType == null ? "bool" : selector.dataType;
+            String falseValue = "bool".equals(selectorType)
+                    ? "false" : selectorType + "{false}";
+            String trueValue = "bool".equals(selectorType)
+                    ? "true" : selectorType + "{true}";
+            operation.vendorExtensions.put(X_CODEGEN_SSE_REQUEST_FALSE_VALUE, falseValue);
+            operation.vendorExtensions.put(X_CODEGEN_SSE_REQUEST_TRUE_VALUE, trueValue);
             operation.vendorExtensions.put(X_CODEGEN_SSE_REQUEST_TYPE,
                     requestModel.classname);
             operation.vendorExtensions.put(X_CODEGEN_SSE_REQUEST_SHARED_PTR,

@@ -66,6 +66,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/StreamChunk'
 
+  /conditional-stream:
+    post:
+      operationId: createConditionalStream
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConditionalStreamRequest'
+      responses:
+        '200':
+          description: JSON or SSE selected by the nullable stream property
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Simple'
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/StreamChunk'
+
 components:
   schemas:
     Base:
@@ -341,3 +361,31 @@ components:
         nullable_fallback:
           type: [string, "null"]
           default: fallback
+    ConditionalStreamRequest:
+      type: object
+      properties:
+        stream:
+          type: [boolean, "null"]
+          default: false
+    DefaultVoiceIds:
+      anyOf:
+        - type: string
+          enum: [alloy, ash]
+        - type: string
+          enum: [alloy, echo]
+    DefaultCustomVoice:
+      type: object
+      required: [id]
+      properties:
+        id:
+          type: string
+    DefaultVoice:
+      anyOf:
+        - $ref: '#/components/schemas/DefaultVoiceIds'
+        - $ref: '#/components/schemas/DefaultCustomVoice'
+    ComposedDefaultContainer:
+      type: object
+      properties:
+        voice:
+          $ref: '#/components/schemas/DefaultVoice'
+          default: alloy
