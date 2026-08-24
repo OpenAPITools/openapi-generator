@@ -52,6 +52,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -148,6 +149,55 @@ public class JavaClientCodegenTest {
                 .iterator();
     }
 
+
+    @Test
+    public void testUint32AndUint64Formats() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        CodegenProperty uint32Property = codegen.fromProperty("uint32Value", new IntegerSchema().format("uint32"));
+        Assertions.assertEquals(uint32Property.dataType, "Long");
+        Assertions.assertEquals(uint32Property.baseType, "Long");
+        Assertions.assertTrue(uint32Property.isLong);
+        Assertions.assertFalse(uint32Property.isInteger);
+
+        CodegenProperty uint64Property = codegen.fromProperty("uint64Value", new IntegerSchema().format("uint64"));
+        Assertions.assertEquals(uint64Property.dataType, "BigInteger");
+        Assertions.assertEquals(uint64Property.baseType, "BigInteger");
+        Assertions.assertFalse(uint64Property.isLong);
+        Assertions.assertFalse(uint64Property.isInteger);
+    }
+
+    @Test
+    public void testIntegerTypeInferredFromRangeWhenFormatIsMissing() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        // small range with no format: stays the default Integer
+        CodegenProperty smallRange = codegen.fromProperty("smallRange",
+                new IntegerSchema().minimum(BigDecimal.ZERO).maximum(BigDecimal.valueOf(255)));
+        Assertions.assertEquals(smallRange.dataType, "Integer");
+        Assertions.assertTrue(smallRange.isInteger);
+        Assertions.assertFalse(smallRange.isLong);
+
+        // range exceeding Integer bounds with no format: widen to Long
+        CodegenProperty exceedsInteger = codegen.fromProperty("exceedsInteger",
+                new IntegerSchema().maximum(BigDecimal.valueOf(Integer.MAX_VALUE).add(BigDecimal.ONE)));
+        Assertions.assertEquals(exceedsInteger.dataType, "Long");
+        Assertions.assertTrue(exceedsInteger.isLong);
+        Assertions.assertFalse(exceedsInteger.isInteger);
+
+        // range exceeding Long bounds with no format: widen to BigInteger
+        CodegenProperty exceedsLong = codegen.fromProperty("exceedsLong",
+                new IntegerSchema().maximum(BigDecimal.valueOf(Long.MAX_VALUE).add(BigDecimal.ONE)));
+        Assertions.assertEquals(exceedsLong.dataType, "BigInteger");
+        Assertions.assertFalse(exceedsLong.isLong);
+        Assertions.assertFalse(exceedsLong.isInteger);
+
+        // exclusiveMaximum pushes the effective bound just over the Integer limit
+        CodegenProperty exclusiveMax = codegen.fromProperty("exclusiveMax",
+                new IntegerSchema().maximum(BigDecimal.valueOf(Integer.MAX_VALUE).add(BigDecimal.valueOf(2))).exclusiveMaximum(true));
+        Assertions.assertEquals(exclusiveMax.dataType, "Long");
+        Assertions.assertTrue(exclusiveMax.isLong);
+    }
 
     @Test
     public void arraysInRequestBody() {
