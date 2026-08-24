@@ -398,10 +398,13 @@ public class DefaultGeneratorTest {
      * Verifies that a schema listed in schemaMappings is skipped by default, but is generated
      * when it also appears in forcedGenerateSchemas.
      *
-     * When a schema is in schemaMappings, the generator renames the model using the mapped value.
-     * For example, mapping "Category" -> "ExternalCategory" means the generated file is
-     * ExternalCategory.java. Part 2 verifies that this file IS written when forcedGenerateSchemas
-     * contains "Category", whereas Part 1 verifies that NO such file exists without it.
+     * A force-generated schema is emitted "as if" the schemaMapping did not exist, i.e. under its
+     * stock (unmapped) model name. For example, mapping "Category" -> "ExternalCategory" normally
+     * suppresses the model, but force-generating "Category" produces the stock Category.java (NOT
+     * ExternalCategory.java). This keeps the output valid even for fully-qualified mapping targets,
+     * whose dotted names could not be used as a class/file name. Part 2 verifies the stock file IS
+     * written when forcedGenerateSchemas contains "Category", whereas Part 1 verifies that NO model
+     * file exists without it.
      */
     @Test
     public void forcedGenerateSchemaOverridesSchemaMappingSkip() throws IOException {
@@ -439,8 +442,8 @@ public class DefaultGeneratorTest {
         }
 
         // --- Part 2: forcedGenerateSchemas must force generation despite schemaMapping ---
-        // The Java generator resolves the model name through schemaMapping (Category -> ExternalCategory),
-        // so the output file is ExternalCategory.java, not Category.java.
+        // A force-generated schema is emitted under its stock (unmapped) name, "as if" the mapping
+        // did not exist, so the output file is Category.java, not ExternalCategory.java.
         Path target2 = Files.createTempDirectory("test-forced-gen-force");
         try {
             final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -466,18 +469,22 @@ public class DefaultGeneratorTest {
             List<File> files = generator.opts(clientOptInput).generate();
 
             Assert.assertTrue(
-                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(mappedModelRelPath)),
-                    "ExternalCategory.java MUST be generated when Category is in both schemaMappings and forcedGenerateSchemas");
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(originalModelRelPath)),
+                    "Category.java (stock name) MUST be generated when Category is in both schemaMappings and forcedGenerateSchemas");
             Assert.assertTrue(
-                    new File(target2.toFile(), mappedModelRelPath).exists(),
-                    "ExternalCategory.java MUST exist on disk when forcedGenerateSchemas overrides schemaMappings");
+                    new File(target2.toFile(), originalModelRelPath).exists(),
+                    "Category.java MUST exist on disk when forcedGenerateSchemas overrides schemaMappings");
+            Assert.assertFalse(
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(mappedModelRelPath)),
+                    "ExternalCategory.java (mapped name) must NOT be generated: forced schemas bypass the mapping");
         } finally {
             target2.toFile().deleteOnExit();
         }
 
         // --- Part 3: wildcard "*" must force-generate ALL schemas suppressed by schemaMappings ---
         // Two schemas are mapped (Category->ExternalCategory, Tag->ExternalTag).
-        // Adding only "*" (FORCE_GENERATE_ALL_SCHEMAS) to forcedGenerateSchemas must cause both to be generated.
+        // Adding only "*" (FORCE_GENERATE_ALL_SCHEMAS) to forcedGenerateSchemas must cause both to be
+        // generated under their stock names (Category.java, Tag.java), bypassing the mapping.
         Path target3 = Files.createTempDirectory("test-forced-gen-wildcard");
         try {
             final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -498,21 +505,21 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            final String externalCategoryRelPath = "src/main/java/org/openapitools/client/model/ExternalCategory.java";
-            final String externalTagRelPath = "src/main/java/org/openapitools/client/model/ExternalTag.java";
+            final String categoryRelPath = "src/main/java/org/openapitools/client/model/Category.java";
+            final String tagRelPath = "src/main/java/org/openapitools/client/model/Tag.java";
 
             Assert.assertTrue(
-                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(externalCategoryRelPath)),
-                    "ExternalCategory.java MUST be generated when wildcard \"*\" is in forcedGenerateSchemas");
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(categoryRelPath)),
+                    "Category.java (stock name) MUST be generated when wildcard \"*\" is in forcedGenerateSchemas");
             Assert.assertTrue(
-                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(externalTagRelPath)),
-                    "ExternalTag.java MUST be generated when wildcard \"*\" is in forcedGenerateSchemas");
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(tagRelPath)),
+                    "Tag.java (stock name) MUST be generated when wildcard \"*\" is in forcedGenerateSchemas");
             Assert.assertTrue(
-                    new File(target3.toFile(), externalCategoryRelPath).exists(),
-                    "ExternalCategory.java MUST exist on disk when wildcard \"*\" is used");
+                    new File(target3.toFile(), categoryRelPath).exists(),
+                    "Category.java MUST exist on disk when wildcard \"*\" is used");
             Assert.assertTrue(
-                    new File(target3.toFile(), externalTagRelPath).exists(),
-                    "ExternalTag.java MUST exist on disk when wildcard \"*\" is used");
+                    new File(target3.toFile(), tagRelPath).exists(),
+                    "Tag.java MUST exist on disk when wildcard \"*\" is used");
         } finally {
             target3.toFile().deleteOnExit();
         }

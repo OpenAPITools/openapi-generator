@@ -1036,15 +1036,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return modelNameMapping.get(name);
         }
 
+        // When resolving a forced schema (see forcedGenerateSchemas), bypass schemaMapping and the
+        // name cache so the stock model name is produced "as if" that mapping did not exist.
+        // typeMapping and every other resolution rule are unaffected.
+        final boolean forcedResolution = isForcedModelNameResolution(name);
+
         // We need to check if schema-mapping has a different model for this class, so we use it
         // instead of the auto-generated one.
-        if (schemaMapping.containsKey(name)) {
+        if (!forcedResolution && schemaMapping.containsKey(name)) {
             return schemaMapping.get(name);
         }
 
-        // memoization
+        // memoization (skipped for forced resolution so the stock name is never cached under a key
+        // that non-forced references must still resolve to the mapped name)
         String origName = name;
-        if (schemaKeyToModelNameCache.containsKey(origName)) {
+        if (!forcedResolution && schemaKeyToModelNameCache.containsKey(origName)) {
             return schemaKeyToModelNameCache.get(origName);
         }
 
@@ -1068,7 +1074,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
-            schemaKeyToModelNameCache.put(origName, modelName);
+            if (!forcedResolution) {
+                schemaKeyToModelNameCache.put(origName, modelName);
+            }
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
             return modelName;
         }
@@ -1076,13 +1084,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // model name starts with number
         if (camelizedName.matches("^\\d.*")) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
-            schemaKeyToModelNameCache.put(origName, modelName);
+            if (!forcedResolution) {
+                schemaKeyToModelNameCache.put(origName, modelName);
+            }
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     modelName);
             return modelName;
         }
 
-        schemaKeyToModelNameCache.put(origName, camelizedName);
+        if (!forcedResolution) {
+            schemaKeyToModelNameCache.put(origName, camelizedName);
+        }
 
         return camelizedName;
     }

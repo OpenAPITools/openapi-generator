@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: forcedGenerateSchemas with FQN schemaMappings
+  description: >
+    A generic model graph that exercises forcedGenerateSchemas combined with fully-qualified
+    schemaMappings. Widget/Group/Shape/Circle/Square are mapped to fully-qualified hand-written
+    classes via schemaMappings but are also force-generated, so the stock ApiXxx models must be
+    emitted "as if" the mappings did not apply. Container and ShapeBase are neither mapped nor
+    forced. Shape is a oneOf with a discriminator; Circle/Square inherit ShapeBase via allOf; Label
+    is a string alias used to verify primitive/type resolution is preserved.
+  version: 1.0.0
+paths:
+  /container:
+    get:
+      operationId: getContainer
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Container'
+components:
+  schemas:
+    Container:
+      type: object
+      required: [ item ]
+      properties:
+        item:
+          $ref: '#/components/schemas/Widget'
+    Widget:
+      type: object
+      required: [ content ]
+      properties:
+        content:
+          $ref: '#/components/schemas/Group'
+    Group:
+      type: object
+      required: [ shapes ]
+      properties:
+        shapes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Shape'
+    Shape:
+      oneOf:
+        - $ref: '#/components/schemas/Circle'
+        - $ref: '#/components/schemas/Square'
+      discriminator:
+        propertyName: type
+        mapping:
+          circle: '#/components/schemas/Circle'
+          square: '#/components/schemas/Square'
+    ShapeBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+    Circle:
+      type: object
+      required: [ label ]
+      allOf:
+        - $ref: '#/components/schemas/ShapeBase'
+        - type: object
+          properties:
+            label:
+              $ref: '#/components/schemas/Label'
+    Square:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ShapeBase'
+    Label:
+      type: string

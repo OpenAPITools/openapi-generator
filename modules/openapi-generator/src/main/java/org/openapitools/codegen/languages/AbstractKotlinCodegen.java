@@ -797,8 +797,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return modelNameMapping.get(name);
         }
 
-        // memoization
-        if (schemaKeyToModelNameCache.containsKey(name)) {
+        // When resolving a forced schema (see forcedGenerateSchemas), bypass schemaMapping,
+        // importMapping and the name cache so the stock model name is produced "as if" those
+        // mappings did not exist. typeMapping and every other resolution rule are unaffected.
+        final boolean forcedResolution = isForcedModelNameResolution(name);
+
+        // memoization (skipped for forced resolution so the stock name is never cached under a key
+        // that non-forced references must still resolve to the mapped name)
+        if (!forcedResolution && schemaKeyToModelNameCache.containsKey(name)) {
             return schemaKeyToModelNameCache.get(name);
         }
 
@@ -808,13 +814,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // If schemaMapping contains name, assume this is a legitimate model name.
-        if (schemaMapping.containsKey(name)) {
+        if (!forcedResolution && schemaMapping.containsKey(name)) {
             return schemaMapping.get(name);
         }
 
         // TODO review importMapping below as we've added schema mapping support
         // If importMapping contains name, assume this is a legitimate model name.
-        if (importMapping.containsKey(name)) {
+        if (!forcedResolution && importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
 
@@ -849,8 +855,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return modelName;
         }
 
-        schemaKeyToModelNameCache.put(name, titleCase(modifiedName));
-        return schemaKeyToModelNameCache.get(name);
+        final String resolvedModelName = titleCase(modifiedName);
+        if (!forcedResolution) {
+            schemaKeyToModelNameCache.put(name, resolvedModelName);
+        }
+        return resolvedModelName;
     }
 
     /**

@@ -174,6 +174,19 @@ public interface CodegenConfig {
      */
     Set<String> forcedGenerateSchemas();
 
+    /**
+     * Signals whether the generator is currently building or emitting a model whose schema name
+     * is in {@link #forcedGenerateSchemas()}. While set, implementations should resolve forced
+     * schema names to their stock (unmapped) model names so the forced model and its references
+     * to other forced schemas are generated as if {@code schemaMappings}/{@code importMappings}
+     * did not apply. {@code typeMapping} and all other resolution are unaffected.
+     *
+     * @param generatingForcedModelContext {@code true} while a forced model is being processed.
+     */
+    default void setGeneratingForcedModelContext(boolean generatingForcedModelContext) {
+        // no-op by default; implemented by DefaultCodegen
+    }
+
     Map<String, String> inlineSchemaNameMapping();
 
     Map<String, String> inlineSchemaOption();

@@ -34,8 +34,62 @@ public class AbstractKotlinCodegenTest {
 
     private AbstractKotlinCodegen codegen;
 
+    @Test
+    public void forcedGenerateSchemaBypassesSchemaMappingForDeclarationAndCache() {
+        codegen.setModelNamePrefix("Api");
+        codegen.schemaMapping().put("Widget", "com.example.mapped.Widget");
+        codegen.forcedGenerateSchemas().add("Widget");
+
+        // Without the forced context (i.e. a reference from a non-forced model), the mapped FQN is
+        // returned so production references keep resolving to the hand-written class.
+        assertEquals(codegen.toModelName("Widget"), "com.example.mapped.Widget");
+
+        // While generating the forced model, the stock (prefixed) name is produced instead.
+        codegen.setGeneratingForcedModelContext(true);
+        assertEquals(codegen.toModelName("Widget"), "ApiWidget");
+
+        // Turning the context back off restores the mapped name: the forced resolution must not
+        // poison the name cache under the "Widget" key.
+        codegen.setGeneratingForcedModelContext(false);
+        assertEquals(codegen.toModelName("Widget"), "com.example.mapped.Widget");
+    }
+
+    @Test
+    public void forcedGenerateSchemaWildcardBypassesSchemaMapping() {
+        codegen.setModelNamePrefix("Api");
+        codegen.schemaMapping().put("Widget", "com.example.mapped.Widget");
+        codegen.forcedGenerateSchemas().add(CodegenConstants.FORCE_GENERATE_ALL_SCHEMAS);
+
+        codegen.setGeneratingForcedModelContext(true);
+        assertEquals(codegen.toModelName("Widget"), "ApiWidget");
+    }
+
+    @Test
+    public void forcedGenerateContextOnlyAffectsForcedSchemas() {
+        codegen.setModelNamePrefix("Api");
+        codegen.schemaMapping().put("Widget", "com.example.mapped.Widget");
+        codegen.schemaMapping().put("Other", "com.example.other.Other");
+        codegen.forcedGenerateSchemas().add("Widget");
+
+        codegen.setGeneratingForcedModelContext(true);
+        // Widget is forced -> stock name.
+        assertEquals(codegen.toModelName("Widget"), "ApiWidget");
+        // Other is mapped but NOT forced -> mapping still honored even inside a forced context.
+        assertEquals(codegen.toModelName("Other"), "com.example.other.Other");
+    }
+
+    @Test
+    public void forcedGeneratePreservesImportMappingBypass() {
+        codegen.setModelNamePrefix("Api");
+        codegen.importMapping().put("Widget", "com.example.mapped.Widget");
+        codegen.forcedGenerateSchemas().add("Widget");
+
+        assertEquals(codegen.toModelName("Widget"), "com.example.mapped.Widget");
+        codegen.setGeneratingForcedModelContext(true);
+        assertEquals(codegen.toModelName("Widget"), "ApiWidget");
+    }
+
     /**
-     * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
      * using @BeforeMethod to have a fresh codegen mock for each test
      */
     @BeforeMethod

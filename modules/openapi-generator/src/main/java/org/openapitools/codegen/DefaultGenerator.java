@@ -477,6 +477,10 @@ public class DefaultGenerator implements Generator {
         // process models only
         for (String name : modelKeys) {
             processedModels.add(name);
+            // resolve forced schema names to their stock (unmapped) model names while this model
+            // is being built, so a forced model and its references to other forced schemas ignore
+            // schemaMapping/importMapping. Non-forced models keep the mapping.
+            config.setGeneratingForcedModelContext(!isNotForcedGenerate(name));
             try {
                 //don't generate models that have an import mapping or are in the list of schemas to always generate
                 if (config.schemaMapping().containsKey(name) && isNotForcedGenerate(name)) {
@@ -525,9 +529,16 @@ public class DefaultGenerator implements Generator {
                 ModelsMap models = processModels(config, schemaMap);
                 models.put("classname", config.toModelName(name));
                 models.putAll(config.additionalProperties());
+                // Reset before inserting into allProcessedModels: that map is a TreeMap ordered by
+                // config.toModelName(), which is context-sensitive for forced schemas. Inserting
+                // (and later getting) must use the stable, non-forced naming or the tree ordering
+                // becomes inconsistent and lookups can miss keys.
+                config.setGeneratingForcedModelContext(false);
                 allProcessedModels.put(name, models);
             } catch (Exception e) {
                 throw new RuntimeException("Could not process model '" + name + "'" + ".Please make sure that your schema is correct!", e);
+            } finally {
+                config.setGeneratingForcedModelContext(false);
             }
         }
 
@@ -559,6 +570,9 @@ public class DefaultGenerator implements Generator {
         for (String modelName : allProcessedModels.keySet()) {
             ModelsMap models = allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
+            // keep forced schema names resolving to stock names while the file (and its filename)
+            // is emitted for a forced model.
+            config.setGeneratingForcedModelContext(!isNotForcedGenerate(modelName));
             try {
                 //don't generate models that have a schema mapping or are in the list of schemas to always generate
                 if (config.schemaMapping().containsKey(modelName) && isNotForcedGenerate(modelName)) {
@@ -606,6 +620,8 @@ public class DefaultGenerator implements Generator {
 
             } catch (Exception e) {
                 throw new RuntimeException("Could not generate model '" + modelName + "'", e);
+            } finally {
+                config.setGeneratingForcedModelContext(false);
             }
         }
         if (GlobalSettings.getProperty("debugModels") != null) {
