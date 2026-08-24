@@ -82,6 +82,13 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
+    @Override
+    public void clearModelNameCache() {
+        schemaKeyToModelNameCache.clear();
+        super.clearModelNameCache();
+    }
+
+
     public RubyClientCodegen() {
         super();
 

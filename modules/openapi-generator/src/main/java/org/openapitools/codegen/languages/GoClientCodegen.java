@@ -73,6 +73,13 @@ public class GoClientCodegen extends AbstractGoCodegen {
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
+    @Override
+    public void clearModelNameCache() {
+        schemaKeyToModelNameCache.clear();
+        super.clearModelNameCache();
+    }
+
+
     public GoClientCodegen() {
         super();
 

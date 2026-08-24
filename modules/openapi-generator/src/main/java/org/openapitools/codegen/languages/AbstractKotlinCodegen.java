@@ -124,6 +124,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected Set<String> propertyAdditionalKeywords = new HashSet<>(Arrays.asList("entries", "keys", "size", "values"));
 
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
+    @Override
+    public void clearModelNameCache() {
+        schemaKeyToModelNameCache.clear();
+        super.clearModelNameCache();
+    }
+
     @Getter @Setter
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
     @Getter
@@ -797,14 +804,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return modelNameMapping.get(name);
         }
 
-        // When resolving a forced schema (see forcedGenerateSchemas), bypass schemaMapping,
-        // importMapping and the name cache so the stock model name is produced "as if" those
-        // mappings did not exist. typeMapping and every other resolution rule are unaffected.
-        final boolean forcedResolution = isForcedModelNameResolution(name);
-
-        // memoization (skipped for forced resolution so the stock name is never cached under a key
-        // that non-forced references must still resolve to the mapped name)
-        if (!forcedResolution && schemaKeyToModelNameCache.containsKey(name)) {
+        // memoization
+        if (schemaKeyToModelNameCache.containsKey(name)) {
             return schemaKeyToModelNameCache.get(name);
         }
 
@@ -814,13 +815,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // If schemaMapping contains name, assume this is a legitimate model name.
-        if (!forcedResolution && schemaMapping.containsKey(name)) {
+        if (schemaMapping.containsKey(name)) {
             return schemaMapping.get(name);
         }
 
         // TODO review importMapping below as we've added schema mapping support
         // If importMapping contains name, assume this is a legitimate model name.
-        if (!forcedResolution && importMapping.containsKey(name)) {
+        if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
 
@@ -855,11 +856,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return modelName;
         }
 
-        final String resolvedModelName = titleCase(modifiedName);
-        if (!forcedResolution) {
-            schemaKeyToModelNameCache.put(name, resolvedModelName);
-        }
-        return resolvedModelName;
+        schemaKeyToModelNameCache.put(name, titleCase(modifiedName));
+        return schemaKeyToModelNameCache.get(name);
     }
 
     /**

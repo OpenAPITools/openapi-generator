@@ -54,6 +54,13 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
+    @Override
+    public void clearModelNameCache() {
+        schemaKeyToModelNameCache.clear();
+        super.clearModelNameCache();
+    }
+
+
     public PerlClientCodegen() {
         super();
 

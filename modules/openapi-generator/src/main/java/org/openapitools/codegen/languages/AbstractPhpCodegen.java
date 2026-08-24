@@ -77,6 +77,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
+    @Override
+    public void clearModelNameCache() {
+        schemaKeyToModelNameCache.clear();
+        super.clearModelNameCache();
+    }
+
+
     public AbstractPhpCodegen() {
         super();
 

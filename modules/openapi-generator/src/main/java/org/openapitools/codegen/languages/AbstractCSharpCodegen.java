@@ -125,6 +125,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
+    @Override
+    public void clearModelNameCache() {
+        schemaKeyToModelNameCache.clear();
+        super.clearModelNameCache();
+    }
+
+
     // A cache to efficiently lookup CodegenModel `fromModel(codegenModelName, parentModelSchema)` based on the pair of model name and schema
     private final Map<Map.Entry<String, Schema>, CodegenModel> codegenModelNameAndSchemaKeyToCodegenModelCache = new HashMap<>();
 

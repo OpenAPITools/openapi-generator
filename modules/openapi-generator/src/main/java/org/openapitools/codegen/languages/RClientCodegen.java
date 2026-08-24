@@ -86,6 +86,13 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     @Override
+    public void clearModelNameCache() {
+        schemaKeyToModelNameCache.clear();
+        super.clearModelNameCache();
+    }
+
+
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }

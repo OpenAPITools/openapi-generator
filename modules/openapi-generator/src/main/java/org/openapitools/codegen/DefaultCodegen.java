@@ -187,11 +187,6 @@ public class DefaultCodegen implements CodegenConfig {
     // a set of schema names that must be generated even when listed in schemaMappings or importMappings.
     // Use CodegenConstants.FORCE_GENERATE_ALL_SCHEMAS ("*") to force-generate all mapped schemas.
     protected Set<String> forcedGenerateSchemas = new HashSet<>();
-    // transient flag set by DefaultGenerator while it is building/emitting a model whose schema
-    // name is in forcedGenerateSchemas. When true, name resolution for forced schemas bypasses
-    // schemaMapping/importMapping so the stock model (and its references to other forced schemas)
-    // is generated "as if" those mappings did not exist. See toModelName overrides.
-    protected boolean generatingForcedModelContext = false;
     // a map to store the mapping between inline schema and the name provided by the user
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
@@ -648,12 +643,7 @@ public class DefaultCodegen implements CodegenConfig {
                 List<Map<String, String>> imports = modelsAttrs.getImports();
                 for (ModelMap implmo : modelsAttrs.getModels()) {
                     CodegenModel implcm = implmo.getModel();
-                    // Resolve the implementor's model name the same way the oneOf interface recorded
-                    // its members. A force-generated implementor was named under the forced context
-                    // (stock name), so it must be resolved that way here too; otherwise its stock
-                    // name would not match the FQN mapping and the oneOf interface would never be
-                    // attached to it.
-                    final String modelName = toModelNameInForcedContextIfForced(implcm.name);
+                    String modelName = toModelName(implcm.name);
                     if (additionalDataMap.containsKey(modelName)) {
                         additionalDataMap.get(modelName).addToImplementor(this, implcm, imports, addOneOfInterfaceImports);
                     }
@@ -704,7 +694,7 @@ public class DefaultCodegen implements CodegenConfig {
     public Map<String, CodegenModel> getAllModels(Map<String, ModelsMap> objs) {
         Map<String, CodegenModel> allModels = new LinkedHashMap<>();
         for (Entry<String, ModelsMap> entry : objs.entrySet()) {
-            String modelName = toModelNameInForcedContextIfForced(entry.getKey());
+            String modelName = toModelName(entry.getKey());
             List<ModelMap> models = entry.getValue().getModels();
             for (ModelMap mo : models) {
                 CodegenModel cm = mo.getModel();
@@ -1645,49 +1635,10 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public void setGeneratingForcedModelContext(boolean generatingForcedModelContext) {
-        this.generatingForcedModelContext = generatingForcedModelContext;
-    }
-
-    /**
-     * Returns {@code true} when {@code name} is force-generated, i.e. it is listed in
-     * {@link #forcedGenerateSchemas} or the {@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS}
-     * wildcard is present. Independent of {@link #generatingForcedModelContext}.
-     */
-    protected boolean isForcedSchema(String name) {
-        return forcedGenerateSchemas.contains(CodegenConstants.FORCE_GENERATE_ALL_SCHEMAS)
-                || forcedGenerateSchemas.contains(name);
-    }
-
-    /**
-     * Returns {@code true} when the named schema should be resolved to its stock (unmapped) model
-     * name. This is the case while {@link #generatingForcedModelContext} is set (i.e. we are
-     * building or emitting a forced model) and {@code name} is itself force-generated (either
-     * listed explicitly or via the {@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS} wildcard).
-     */
-    protected boolean isForcedModelNameResolution(String name) {
-        return generatingForcedModelContext && isForcedSchema(name);
-    }
-
-    /**
-     * Resolves {@code schemaName} to its model name, forcing the stock (unmapped) name when the
-     * schema is force-generated. Force-generated models are named under the forced context (so a
-     * mapped schema like {@code Content} becomes the stock {@code ApiContent} rather than its FQN
-     * mapping). Any code that indexes or looks models up by name must use the same resolution, so
-     * that stock-named references (e.g. {@code oneOf} members) match their model. Non-forced
-     * schemas resolve exactly as {@link #toModelName(String)} would.
-     */
-    protected String toModelNameInForcedContextIfForced(String schemaName) {
-        if (!isForcedSchema(schemaName)) {
-            return toModelName(schemaName);
-        }
-        final boolean prev = this.generatingForcedModelContext;
-        this.generatingForcedModelContext = true;
-        try {
-            return toModelName(schemaName);
-        } finally {
-            this.generatingForcedModelContext = prev;
-        }
+    public void clearModelNameCache() {
+        // reset the lazily-built model-name -> schema index so it is rebuilt with the current
+        // schemaMapping/importMapping state (used by the forced-schema generation pass).
+        modelNameToSchemaCache = null;
     }
 
     @Override

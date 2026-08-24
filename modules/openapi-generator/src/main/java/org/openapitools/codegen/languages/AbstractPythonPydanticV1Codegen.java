@@ -60,6 +60,13 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     protected Map<Character, String> regexModifiers;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
+    @Override
+    public void clearModelNameCache() {
+        schemaKeyToModelNameCache.clear();
+        super.clearModelNameCache();
+    }
+
     // map of set (model imports)
     private HashMap<String, HashSet<String>> circularImports = new HashMap<>();
     // map of codegen models

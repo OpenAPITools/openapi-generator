@@ -83,6 +83,11 @@ public class DefaultGenerator implements Generator {
     private Boolean generateModelTests = null;
     private Boolean generateModelDocumentation = null;
     private Boolean generateMetadata = true;
+    // While non-null, the model file-emission loop in generateModels(...) emits only the models
+    // whose schema name is contained here (all models are still processed for correct parent/
+    // interface wiring). Set by generateForcedModels(...) so the forced-schema pass re-emits only
+    // the forced schemas as their stock (unmapped) models.
+    private Set<String> restrictModelEmissionTo = null;
     private String basePath;
     private String basePathWithoutHost;
     private String contextPath;
@@ -455,6 +460,66 @@ public class DefaultGenerator implements Generator {
         generateModels(files, allModels, unusedModels, aliasModels, new ArrayList<>(), DefaultGenerator.this::modelKeys);
     }
 
+    /**
+     * Forced-schema generation pass (Phase 2).
+     *
+     * <p>Some schemas are excluded from normal model generation because they appear in
+     * {@code schemaMapping}/{@code importMapping} (they map to a hand-written / external class).
+     * When such a schema is also listed in {@code forcedGenerateSchemas} (or the {@code "*"}
+     * wildcard is set), the user wants a stock model generated for it <em>anyway</em>, under its
+     * unmapped model name.</p>
+     *
+     * <p>This is done generator-agnostically: the forced schemas' own {@code schemaMapping}/
+     * {@code importMapping} entries are temporarily removed and the model-name caches invalidated,
+     * so every generator naturally resolves them to their stock names. The full model set is still
+     * processed (so parents/interfaces of the forced schemas wire up correctly) but only the forced
+     * schemas are emitted — everything else was already generated in Phase 1 with the mappings
+     * intact, which is what keeps non-forced references to a forced schema pointing at the mapped
+     * (FQN) class.</p>
+     */
+    void generateForcedModels(List<File> files) {
+        if (!generateModels || config.forcedGenerateSchemas().isEmpty()) {
+            return;
+        }
+
+        // Every forced schema (deferred from Phase 1). Emitted here as stock models.
+        Set<String> forcedSet = modelKeys().stream()
+                .filter(name -> !isNotForcedGenerate(name))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        if (forcedSet.isEmpty()) {
+            return;
+        }
+
+        LOGGER.info("Forced-schema generation pass: regenerating stock models for {}", forcedSet);
+
+        // Of the forced schemas, those carrying a schema/import mapping need their entries removed
+        // so they (and forced->forced references) resolve to stock names during this pass.
+        Map<String, String> savedSchemaMappings = new HashMap<>();
+        Map<String, String> savedImportMappings = new HashMap<>();
+        for (String name : forcedSet) {
+            if (config.schemaMapping().containsKey(name)) {
+                savedSchemaMappings.put(name, config.schemaMapping().remove(name));
+            }
+            if (config.importMapping().containsKey(name)) {
+                savedImportMappings.put(name, config.importMapping().remove(name));
+            }
+        }
+        config.clearModelNameCache();
+
+        try {
+            restrictModelEmissionTo = forcedSet;
+            // Throw-away aggregation lists: these models were already accounted for in Phase 1's
+            // supporting-file bundle; we only want their files (re-)emitted here.
+            generateModels(files, new ArrayList<>(), ModelUtils.getSchemasUsedOnlyInFormParam(openAPI), new ArrayList<>());
+        } finally {
+            restrictModelEmissionTo = null;
+            config.schemaMapping().putAll(savedSchemaMappings);
+            config.importMapping().putAll(savedImportMappings);
+            config.clearModelNameCache();
+        }
+    }
+
     void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<ModelMap> aliasModels, List<String> processedModels, Supplier<Set<String>> modelKeysSupplier) {
         if (!generateModels) {
             // TODO: Process these anyway and add to dryRun info
@@ -477,11 +542,19 @@ public class DefaultGenerator implements Generator {
         // process models only
         for (String name : modelKeys) {
             processedModels.add(name);
-            // resolve forced schema names to their stock (unmapped) model names while this model
-            // is being built, so a forced model and its references to other forced schemas ignore
-            // schemaMapping/importMapping. Non-forced models keep the mapping.
-            config.setGeneratingForcedModelContext(!isNotForcedGenerate(name));
             try {
+                // Defer forced schemas to the dedicated forced-schema pass (generateForcedModels),
+                // which regenerates them with the forced schemas' schemaMapping/importMapping
+                // entries temporarily removed so every forced model — and every forced->forced
+                // reference — resolves to its stock (unmapped) name. Non-forced models are still
+                // generated here with the mappings intact, so a non-forced reference to a forced
+                // schema keeps the mapped (FQN) class. During the forced pass restrictModelEmissionTo
+                // is non-null, so this guard is skipped and forced models are processed normally.
+                if (restrictModelEmissionTo == null && !isNotForcedGenerate(name)) {
+                    LOGGER.info("Model {} deferred to the forced-schema generation pass", name);
+                    continue;
+                }
+
                 //don't generate models that have an import mapping or are in the list of schemas to always generate
                 if (config.schemaMapping().containsKey(name) && isNotForcedGenerate(name)) {
                     LOGGER.info("Model {} not generated due to schema mapping", name);
@@ -529,16 +602,9 @@ public class DefaultGenerator implements Generator {
                 ModelsMap models = processModels(config, schemaMap);
                 models.put("classname", config.toModelName(name));
                 models.putAll(config.additionalProperties());
-                // Reset before inserting into allProcessedModels: that map is a TreeMap ordered by
-                // config.toModelName(), which is context-sensitive for forced schemas. Inserting
-                // (and later getting) must use the stable, non-forced naming or the tree ordering
-                // becomes inconsistent and lookups can miss keys.
-                config.setGeneratingForcedModelContext(false);
                 allProcessedModels.put(name, models);
             } catch (Exception e) {
                 throw new RuntimeException("Could not process model '" + name + "'" + ".Please make sure that your schema is correct!", e);
-            } finally {
-                config.setGeneratingForcedModelContext(false);
             }
         }
 
@@ -548,7 +614,7 @@ public class DefaultGenerator implements Generator {
         // post process all processed models
         allProcessedModels = config.postProcessAllModels(allProcessedModels);
 
-        if (generateRecursiveDependentModels) {
+        if (generateRecursiveDependentModels && restrictModelEmissionTo == null) {
             for (ModelsMap modelsMap : allProcessedModels.values()) {
                 for (ModelMap mm : modelsMap.getModels()) {
                     CodegenModel cm = mm.getModel();
@@ -570,9 +636,11 @@ public class DefaultGenerator implements Generator {
         for (String modelName : allProcessedModels.keySet()) {
             ModelsMap models = allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
-            // keep forced schema names resolving to stock names while the file (and its filename)
-            // is emitted for a forced model.
-            config.setGeneratingForcedModelContext(!isNotForcedGenerate(modelName));
+            // During the forced-schema pass only the forced schemas are (re-)emitted; every model
+            // is still processed above so parent/interface wiring is correct.
+            if (restrictModelEmissionTo != null && !restrictModelEmissionTo.contains(modelName)) {
+                continue;
+            }
             try {
                 //don't generate models that have a schema mapping or are in the list of schemas to always generate
                 if (config.schemaMapping().containsKey(modelName) && isNotForcedGenerate(modelName)) {
@@ -620,8 +688,6 @@ public class DefaultGenerator implements Generator {
 
             } catch (Exception e) {
                 throw new RuntimeException("Could not generate model '" + modelName + "'", e);
-            } finally {
-                config.setGeneratingForcedModelContext(false);
             }
         }
         if (GlobalSettings.getProperty("debugModels") != null) {
@@ -1339,6 +1405,11 @@ public class DefaultGenerator implements Generator {
         // supporting files
         Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels, aliasModels, allWebhooks);
         generateSupportingFiles(files, bundle);
+
+        // forced-schema pass: regenerate stock models for forced schemas that carry a
+        // schema/import mapping (done last so apis and supporting files above use the intact,
+        // mapped references)
+        generateForcedModels(files);
 
         if (dryRun) {
             boolean verbose = Boolean.parseBoolean(GlobalSettings.getProperty("verbose"));

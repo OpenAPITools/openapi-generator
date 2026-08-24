@@ -77,6 +77,13 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
+    @Override
+    public void clearModelNameCache() {
+        schemaKeyToModelNameCache.clear();
+        super.clearModelNameCache();
+    }
+
+
     /**
      * Constructs an instance of `PowerShellClientCodegen`.
      */

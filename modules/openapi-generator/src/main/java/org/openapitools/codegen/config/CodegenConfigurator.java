@@ -236,7 +236,9 @@ public class CodegenConfigurator {
 
     /**
      * Adds a single schema name to {@code forcedGenerateSchemas}.
-     * Schemas in this set are generated even when they appear in schemaMappings or importMappings.
+     * Schemas in this set are generated even when they appear in schemaMappings or importMappings,
+     * emitted under their stock (unmapped) model name. Non-forced references to a forced schema
+     * keep the mapped class; {@code typeMapping} is preserved.
      * Use {@code "*"} ({@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS}) to force-generate
      * all mapped schemas at once.
      */

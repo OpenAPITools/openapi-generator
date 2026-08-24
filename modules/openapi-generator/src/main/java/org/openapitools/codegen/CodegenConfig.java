@@ -169,22 +169,30 @@ public interface CodegenConfig {
      * Returns the set of schema names that must be generated even when they appear in
      * schemaMappings or importMappings (which would normally suppress their generation).
      * <p>
+     * A force-generated schema is emitted under its <em>stock</em> (unmapped) model name — as if
+     * neither {@code schemaMapping} nor {@code importMapping} applied to it — while
+     * {@code typeMapping} is still honored. References <em>from a non-forced model</em> to a
+     * forced schema keep the mapped (hand-written) class, whereas references between forced schemas
+     * resolve to their stock names. This is implemented generator-agnostically by a dedicated
+     * forced-schema generation pass in {@code DefaultGenerator} (no per-generator code required).
+     * <p>
      * Use {@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS} ({@code "*"}) as a wildcard
      * to force-generate <em>all</em> mapped schemas at once.
      */
     Set<String> forcedGenerateSchemas();
 
     /**
-     * Signals whether the generator is currently building or emitting a model whose schema name
-     * is in {@link #forcedGenerateSchemas()}. While set, implementations should resolve forced
-     * schema names to their stock (unmapped) model names so the forced model and its references
-     * to other forced schemas are generated as if {@code schemaMappings}/{@code importMappings}
-     * did not apply. {@code typeMapping} and all other resolution are unaffected.
-     *
-     * @param generatingForcedModelContext {@code true} while a forced model is being processed.
+     * Clears any cached mapping from schema name to resolved model name (and related name caches).
+     * <p>
+     * The generator invokes this between the normal model-generation pass and the forced
+     * ({@link #forcedGenerateSchemas()}) pass, after the forced schemas' {@code schemaMapping}/
+     * {@code importMapping} entries have been temporarily removed, so that forced schema names are
+     * re-resolved to their stock (unmapped) model names instead of returning stale cached mapped
+     * names. Implementations that memoize {@link #toModelName(String)} results must override this
+     * to clear that cache.
      */
-    default void setGeneratingForcedModelContext(boolean generatingForcedModelContext) {
-        // no-op by default; implemented by DefaultCodegen
+    default void clearModelNameCache() {
+        // no-op by default; overridden by generators that memoize model-name resolution
     }
 
     Map<String, String> inlineSchemaNameMapping();
