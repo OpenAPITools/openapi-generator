@@ -1977,14 +1977,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             maximum = maximum.subtract(BigDecimal.ONE);
         }
 
-        if ((minimum == null || minimum.compareTo(INTEGER_MIN_VALUE) >= 0)
-                && (maximum == null || maximum.compareTo(INTEGER_MAX_VALUE) <= 0)) {
+        if (Optional.ofNullable(minimum).map(this::fitsInInt).orElse(true)
+                && Optional.ofNullable(maximum).map(this::fitsInInt).orElse(true)) {
             return typeMapping.get("integer");
-        } else if ((minimum == null || minimum.compareTo(LONG_MIN_VALUE) >= 0)
-                && (maximum == null || maximum.compareTo(LONG_MAX_VALUE) <= 0)) {
+        } else if (Optional.ofNullable(minimum).map(this::fitsInLong).orElse(true)
+                && Optional.ofNullable(maximum).map(this::fitsInLong).orElse(true)) {
             return typeMapping.get("long");
         }
         return typeMapping.get("BigInteger");
+    }
+
+    private Boolean fitsInInt(BigDecimal value) {
+        return value.compareTo(INTEGER_MIN_VALUE) >= 0 && value.compareTo(INTEGER_MAX_VALUE) <= 0;
+    }
+
+    private Boolean fitsInLong(BigDecimal value) {
+        return value.compareTo(LONG_MIN_VALUE) >= 0 && value.compareTo(LONG_MAX_VALUE) <= 0;
     }
 
     @Override
