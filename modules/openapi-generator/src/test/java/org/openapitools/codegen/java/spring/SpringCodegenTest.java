@@ -5833,6 +5833,24 @@ public class SpringCodegenTest {
                 .assertMethod("build")
                 .doesNotHaveAnnotation("Deprecated");
     }
+    /**
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/24704">#24704</a>
+     */
+    @Test
+    public void shouldGenerateDeprecatedAnnotationOnFluentSetter() {
+        final var tempDir = TestUtils.newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .addAdditionalProperty(GENERATE_BUILDERS, true)
+                .addGlobalProperty(CodegenConstants.MODELS, "Pet")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setGeneratorName("spring")
+                .setOutputDir(tempDir.toString());
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        JavaFileAssert.assertThat(tempDir.resolve("src/main/java/org/openapitools/model/Pet.java"))
+                .assertMethod("status", "StatusEnum").hasAnnotation("Deprecated");
+    }
 
     @Test
     public void shouldAnnotateNonRequiredFieldsAsNullable() throws IOException {
