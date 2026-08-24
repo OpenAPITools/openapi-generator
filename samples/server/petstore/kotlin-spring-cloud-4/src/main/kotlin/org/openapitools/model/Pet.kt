@@ -27,10 +27,10 @@ import jakarta.validation.Valid
  */
 data class Pet(
 
-    @param:JsonProperty("name")
+    @param:JsonProperty("name", required = true)
     @get:JsonProperty("name", required = true) val name: kotlin.String,
 
-    @param:JsonProperty("photoUrls")
+    @param:JsonProperty("photoUrls", required = true)
     @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @param:JsonProperty("id")

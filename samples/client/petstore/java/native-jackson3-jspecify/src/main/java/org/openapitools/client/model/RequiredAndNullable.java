@@ -44,7 +44,7 @@ import org.openapitools.client.ApiClient;
   RequiredAndNullable.JSON_PROPERTY_ONLY_REQUIRED,
   RequiredAndNullable.JSON_PROPERTY_LIST
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class RequiredAndNullable {
   public static final String JSON_PROPERTY_STR = "str";
   
