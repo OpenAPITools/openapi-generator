@@ -39,6 +39,23 @@ paths:
             text/event-stream:
               schema:
                 $ref: '#/components/schemas/StreamChunk'
+  /error:
+    get:
+      operationId: getError
+      responses:
+        '200':
+          description: Successful bodyless response
+  /stream-error:
+    get:
+      operationId: getStreamError
+      responses:
+        '200':
+          description: Successful event stream
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/StreamChunk'
+
 components:
   schemas:
     Base:

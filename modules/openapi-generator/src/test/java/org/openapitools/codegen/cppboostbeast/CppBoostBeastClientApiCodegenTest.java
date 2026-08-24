@@ -65,6 +65,16 @@ public class CppBoostBeastClientApiCodegenTest {
         assertTrue(generatedApiHeader.contains("#include <utility>"));
         assertTrue(generatedApiHeader.contains("std::shared_ptr<HttpClient> client,"));
         assertTrue(generatedApiHeader.contains("m_client(std::move(client))"));
+        assertTrue(generatedApiHeader.contains(
+                "RegressionApiException(boost::beast::http::status statusCode, std::string what,"
+                + " std::string responseBody);"));
+        assertTrue(generatedApiHeader.contains(
+                "const std::string& getResponseBody() const noexcept;"));
+        assertTrue(generatedApiHeader.contains("std::string m_responseBody;"));
+        assertTrue(generatedApiSource.contains(
+                "const std::string& RegressionApiException::getResponseBody() const noexcept"));
+        assertTrue(generatedApiSource.contains("m_responseBody(std::move(responseBody))"));
+
 
         String defaultOnlyMethod = extractMethod(generatedApiSource, "RegressionApi::getDefaultOnly(");
         assertTrue(defaultOnlyMethod.contains("ResponseBodyDeserializer<std::int32_t>::deserialize("));
@@ -269,14 +279,14 @@ public class CppBoostBeastClientApiCodegenTest {
         String unexpectedTypedMethod = extractMethod(
                 generatedApiSource, "RegressionApi::getUnexpectedTyped(");
         assertTrue(unexpectedTypedMethod.contains(
-                "throw RegressionApiException(statusCode, \"Unexpected HTTP status code\");"));
+                "throw RegressionApiException(statusCode, \"Unexpected HTTP status code\", responseBody);"));
         assertTrue(unexpectedTypedMethod.indexOf("boost::beast::http::status(200)")
                 < unexpectedTypedMethod.indexOf("Unexpected HTTP status code"));
 
         String unexpectedVoidMethod = extractMethod(
                 generatedApiSource, "RegressionApi::deleteUnexpectedVoid(");
         assertTrue(unexpectedVoidMethod.contains(
-                "throw RegressionApiException(statusCode, \"Unexpected HTTP status code\");"));
+                "throw RegressionApiException(statusCode, \"Unexpected HTTP status code\", responseBody);"));
         assertTrue(unexpectedVoidMethod.indexOf("boost::beast::http::status(204)")
                 < unexpectedVoidMethod.indexOf("Unexpected HTTP status code"));
 

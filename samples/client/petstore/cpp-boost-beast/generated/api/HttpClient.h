@@ -16,11 +16,11 @@ namespace openapitools {
 namespace client {
 namespace api {
 
-/// Rich HTTP response containing status, body, and response headers.
+/// Rich HTTP response containing status, response headers, and body.
 struct HttpResponseData {
     boost::beast::http::status status;
-    std::string body;
     std::map<std::string, std::string> headers;
+    std::string body;
 };
 
 class HttpClient {
@@ -35,7 +35,7 @@ public:
             const std::string &body,
             const std::map<std::string, std::string> &headers) = 0;
 
-    /// Execute an HTTP request and return status, body, and response headers.
+    /// Execute an HTTP request and return status, response headers, and body.
     /// Default implementation wraps execute() with empty headers to preserve
     /// compatibility with custom HttpClient implementations that do not
     /// override executeWithMetadata.
@@ -45,7 +45,7 @@ public:
                         const std::string &body,
                         const std::map<std::string, std::string> &headers) {
         auto [status, responseBody] = execute(verb, target, body, headers);
-        return HttpResponseData{status, std::move(responseBody), {}};
+        return HttpResponseData{status, {}, std::move(responseBody)};
     }
 
     /// Execute an HTTP request and yield complete SSE events incrementally
@@ -63,9 +63,9 @@ public:
     /// - Incomplete events at EOF are discarded.
     /// - A configurable response body limit guards against memory exhaustion.
     ///
-    /// Returns the HTTP status code.
+    /// Returns status, headers, and the raw body for non-2xx responses.
     /// Throws std::invalid_argument if onEvent is empty.
-    virtual boost::beast::http::status
+    virtual HttpResponseData
     executeStream(const std::string &,
                   const std::string &,
                   const std::string &,

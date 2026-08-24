@@ -1433,15 +1433,24 @@ std::string FormParamSerializer<std::map<std::string, T>, void>::serialize(
 }
 
 
-UserApiException::UserApiException(boost::beast::http::status statusCode, std::string what)
+UserApiException::UserApiException(
+    boost::beast::http::status statusCode,
+    std::string what,
+    std::string responseBody)
   : m_status(statusCode),
-    m_what(what)
+    m_what(std::move(what)),
+    m_responseBody(std::move(responseBody))
 {
 }
 
 boost::beast::http::status UserApiException::getStatus() const
 {
     return m_status;
+}
+
+const std::string& UserApiException::getResponseBody() const noexcept
+{
+    return m_responseBody;
 }
 
 const char* UserApiException::what() const noexcept
@@ -1620,12 +1629,12 @@ UserApi::deleteUser(
     }
 
     if (statusCode == boost::beast::http::status(400)) {
-        throw UserApiException(statusCode, "Invalid username supplied");
+        throw UserApiException(statusCode, "Invalid username supplied", responseBody);
     }
     if (statusCode == boost::beast::http::status(404)) {
-        throw UserApiException(statusCode, "User not found");
+        throw UserApiException(statusCode, "User not found", responseBody);
     }
-    throw UserApiException(statusCode, "Unexpected HTTP status code");
+    throw UserApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 std::shared_ptr<User>
@@ -1668,12 +1677,12 @@ UserApi::getUserByName(
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
-        throw UserApiException(statusCode, "Invalid username supplied");
+        throw UserApiException(statusCode, "Invalid username supplied", responseBody);
     }
     if (statusCode == boost::beast::http::status(404)) {
-        throw UserApiException(statusCode, "User not found");
+        throw UserApiException(statusCode, "User not found", responseBody);
     }
-    throw UserApiException(statusCode, "Unexpected HTTP status code");
+    throw UserApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 void
@@ -1721,12 +1730,12 @@ UserApi::updateUser(
     }
 
     if (statusCode == boost::beast::http::status(400)) {
-        throw UserApiException(statusCode, "Invalid user supplied");
+        throw UserApiException(statusCode, "Invalid user supplied", responseBody);
     }
     if (statusCode == boost::beast::http::status(404)) {
-        throw UserApiException(statusCode, "User not found");
+        throw UserApiException(statusCode, "User not found", responseBody);
     }
-    throw UserApiException(statusCode, "Unexpected HTTP status code");
+    throw UserApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 std::string
@@ -1789,9 +1798,9 @@ UserApi::loginUser(
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
-        throw UserApiException(statusCode, "Invalid username/password supplied");
+        throw UserApiException(statusCode, "Invalid username/password supplied", responseBody);
     }
-    throw UserApiException(statusCode, "Unexpected HTTP status code");
+    throw UserApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 void

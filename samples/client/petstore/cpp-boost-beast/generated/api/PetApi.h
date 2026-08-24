@@ -50,14 +50,16 @@ using namespace org::openapitools::client::model;
 class PetApiException: public std::exception
 {
 public:
-    PetApiException(boost::beast::http::status statusCode, std::string what);
+    PetApiException(boost::beast::http::status statusCode, std::string what, std::string responseBody);
 
     boost::beast::http::status getStatus() const;
+    const std::string& getResponseBody() const noexcept;
     const char* what() const noexcept override;
 
 private:
     boost::beast::http::status m_status;
     std::string m_what;
+    std::string m_responseBody;
 };
 
 

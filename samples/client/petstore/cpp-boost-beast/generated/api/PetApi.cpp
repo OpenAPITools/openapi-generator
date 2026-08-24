@@ -1433,15 +1433,24 @@ std::string FormParamSerializer<std::map<std::string, T>, void>::serialize(
 }
 
 
-PetApiException::PetApiException(boost::beast::http::status statusCode, std::string what)
+PetApiException::PetApiException(
+    boost::beast::http::status statusCode,
+    std::string what,
+    std::string responseBody)
   : m_status(statusCode),
-    m_what(what)
+    m_what(std::move(what)),
+    m_responseBody(std::move(responseBody))
 {
 }
 
 boost::beast::http::status PetApiException::getStatus() const
 {
     return m_status;
+}
+
+const std::string& PetApiException::getResponseBody() const noexcept
+{
+    return m_responseBody;
 }
 
 const char* PetApiException::what() const noexcept
@@ -1505,9 +1514,9 @@ PetApi::addPet(
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(405)) {
-        throw PetApiException(statusCode, "Invalid input");
+        throw PetApiException(statusCode, "Invalid input", responseBody);
     }
-    throw PetApiException(statusCode, "Unexpected HTTP status code");
+    throw PetApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 std::shared_ptr<Pet>
@@ -1566,15 +1575,15 @@ PetApi::updatePet(
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
-        throw PetApiException(statusCode, "Invalid ID supplied");
+        throw PetApiException(statusCode, "Invalid ID supplied", responseBody);
     }
     if (statusCode == boost::beast::http::status(404)) {
-        throw PetApiException(statusCode, "Pet not found");
+        throw PetApiException(statusCode, "Pet not found", responseBody);
     }
     if (statusCode == boost::beast::http::status(405)) {
-        throw PetApiException(statusCode, "Validation exception");
+        throw PetApiException(statusCode, "Validation exception", responseBody);
     }
-    throw PetApiException(statusCode, "Unexpected HTTP status code");
+    throw PetApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 void
@@ -1615,9 +1624,9 @@ PetApi::deletePet(
     }
 
     if (statusCode == boost::beast::http::status(400)) {
-        throw PetApiException(statusCode, "Invalid pet value");
+        throw PetApiException(statusCode, "Invalid pet value", responseBody);
     }
-    throw PetApiException(statusCode, "Unexpected HTTP status code");
+    throw PetApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 std::shared_ptr<Pet>
@@ -1669,12 +1678,12 @@ PetApi::getPetById(
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
-        throw PetApiException(statusCode, "Invalid ID supplied");
+        throw PetApiException(statusCode, "Invalid ID supplied", responseBody);
     }
     if (statusCode == boost::beast::http::status(404)) {
-        throw PetApiException(statusCode, "Pet not found");
+        throw PetApiException(statusCode, "Pet not found", responseBody);
     }
-    throw PetApiException(statusCode, "Unexpected HTTP status code");
+    throw PetApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 void
@@ -1739,9 +1748,9 @@ PetApi::updatePetWithForm(
     }
 
     if (statusCode == boost::beast::http::status(405)) {
-        throw PetApiException(statusCode, "Invalid input");
+        throw PetApiException(statusCode, "Invalid input", responseBody);
     }
-    throw PetApiException(statusCode, "Unexpected HTTP status code");
+    throw PetApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 std::vector<std::shared_ptr<Pet>>
@@ -1804,9 +1813,9 @@ PetApi::findPetsByStatus(
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
-        throw PetApiException(statusCode, "Invalid status value");
+        throw PetApiException(statusCode, "Invalid status value", responseBody);
     }
-    throw PetApiException(statusCode, "Unexpected HTTP status code");
+    throw PetApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 std::vector<std::shared_ptr<Pet>>
@@ -1869,9 +1878,9 @@ PetApi::findPetsByTags(
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
-        throw PetApiException(statusCode, "Invalid tag value");
+        throw PetApiException(statusCode, "Invalid tag value", responseBody);
     }
-    throw PetApiException(statusCode, "Unexpected HTTP status code");
+    throw PetApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 std::shared_ptr<ApiResponse>
@@ -1949,7 +1958,7 @@ PetApi::uploadFile(
             false);
         return deserializedResponse;
     }
-    throw PetApiException(statusCode, "Unexpected HTTP status code");
+    throw PetApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 

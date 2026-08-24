@@ -786,6 +786,12 @@ public class ModelApiSurfaceTest {
                 "getStreamEvents must use executeStream for incremental SSE delivery");
         Assert.assertTrue(getStreamEventsMethod.contains("appendParsedEvent(deserializedResponse, eventData, fromJsonValue_ResponseStreamEvent)"),
                 "getStreamEvents must appendParsedEvent with fromJsonValue_ResponseStreamEvent converter");
+        Assert.assertTrue(getStreamEventsMethod.contains(
+                "HttpResponseData responseData = m_client->executeStream("),
+                "streaming operations must retain response metadata");
+        Assert.assertTrue(getStreamEventsMethod.contains(
+                "responseBody = std::move(responseData.body);"),
+                "streaming operations must preserve error response bodies");
         Assert.assertTrue(generatedApiSource.contains("std::vector<ResponseStreamEvent>"),
                 "Generated API source must have std::vector<ResponseStreamEvent> for streaming endpoint");
 
@@ -952,12 +958,18 @@ public class ModelApiSurfaceTest {
                 "Custom HttpClient adapters must inherit a non-pure streaming fallback");
         Assert.assertFalse(httpClientHeader.contains("onEvent) = 0"),
                 "executeStream must not remain pure virtual");
+        Assert.assertTrue(httpClientHeader.contains("virtual HttpResponseData"),
+                "executeStream must return response metadata for error reporting");
 
         String httpClientSource = Files.readString(output.toPath().resolve("api/HttpClientImpl.cpp"));
         Assert.assertTrue(httpClientSource.contains("consumeInitialByteOrderMark"),
                 "SSE framing must strip a split UTF-8 BOM at stream start");
         Assert.assertTrue(httpClientSource.contains("http::error::need_buffer"),
                 "Incremental Beast reads must accept need_buffer as a refill signal");
+        Assert.assertTrue(httpClientSource.contains(
+                "responseData.body.append(bodyBuf.data(), bytesRead)"),
+                "stream transport must retain raw non-2xx response chunks");
+
         Assert.assertTrue(httpClientSource.contains("tcpStream.expires_never()"),
                 "HTTPS streaming must disable the stale tcp_stream expiry");
     }

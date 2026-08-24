@@ -1433,15 +1433,24 @@ std::string FormParamSerializer<std::map<std::string, T>, void>::serialize(
 }
 
 
-StoreApiException::StoreApiException(boost::beast::http::status statusCode, std::string what)
+StoreApiException::StoreApiException(
+    boost::beast::http::status statusCode,
+    std::string what,
+    std::string responseBody)
   : m_status(statusCode),
-    m_what(what)
+    m_what(std::move(what)),
+    m_responseBody(std::move(responseBody))
 {
 }
 
 boost::beast::http::status StoreApiException::getStatus() const
 {
     return m_status;
+}
+
+const std::string& StoreApiException::getResponseBody() const noexcept
+{
+    return m_responseBody;
 }
 
 const char* StoreApiException::what() const noexcept
@@ -1476,12 +1485,12 @@ StoreApi::deleteOrder(
     }
 
     if (statusCode == boost::beast::http::status(400)) {
-        throw StoreApiException(statusCode, "Invalid ID supplied");
+        throw StoreApiException(statusCode, "Invalid ID supplied", responseBody);
     }
     if (statusCode == boost::beast::http::status(404)) {
-        throw StoreApiException(statusCode, "Order not found");
+        throw StoreApiException(statusCode, "Order not found", responseBody);
     }
-    throw StoreApiException(statusCode, "Unexpected HTTP status code");
+    throw StoreApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 std::shared_ptr<Order>
@@ -1524,12 +1533,12 @@ StoreApi::getOrderById(
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
-        throw StoreApiException(statusCode, "Invalid ID supplied");
+        throw StoreApiException(statusCode, "Invalid ID supplied", responseBody);
     }
     if (statusCode == boost::beast::http::status(404)) {
-        throw StoreApiException(statusCode, "Order not found");
+        throw StoreApiException(statusCode, "Order not found", responseBody);
     }
-    throw StoreApiException(statusCode, "Unexpected HTTP status code");
+    throw StoreApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 std::map<std::string, std::int32_t>
@@ -1578,7 +1587,7 @@ StoreApi::getInventory(
             true);
         return deserializedResponse;
     }
-    throw StoreApiException(statusCode, "Unexpected HTTP status code");
+    throw StoreApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 std::shared_ptr<Order>
@@ -1628,9 +1637,9 @@ StoreApi::placeOrder(
         return deserializedResponse;
     }
     if (statusCode == boost::beast::http::status(400)) {
-        throw StoreApiException(statusCode, "Invalid Order");
+        throw StoreApiException(statusCode, "Invalid Order", responseBody);
     }
-    throw StoreApiException(statusCode, "Unexpected HTTP status code");
+    throw StoreApiException(statusCode, "Unexpected HTTP status code", responseBody);
 }
 
 

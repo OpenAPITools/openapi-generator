@@ -161,9 +161,10 @@
 {{/vendorExtensions.x-codegen-op-links}}
     auto statusCode = boost::beast::http::status::unknown;
 {{#vendorExtensions.x-codegen-streaming-response}}
+    std::string responseBody;
 {{#vendorExtensions.x-codegen-sse-representation-mode}}std::vector<std::string>{{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}{{#returnType}}    {{#vendorExtensions.x-codegen-stream-element-type}}std::vector<{{{.}}}>{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}std::vector<{{{returnType}}}>{{/vendorExtensions.x-codegen-stream-element-type}}{{/returnType}}{{/vendorExtensions.x-codegen-sse-representation-mode}} deserializedResponse;
     try {
-        statusCode = m_client->executeStream(
+        HttpResponseData responseData = m_client->executeStream(
             "{{httpMethod}}",
             path,
             serializedRequestBody,
@@ -189,6 +190,8 @@
                 (void)eventData;
 {{/returnType}}
             });
+        statusCode = responseData.status;
+        responseBody = std::move(responseData.body);
     }
     catch(const std::exception& exception) {
         handleStdException(exception);
@@ -376,7 +379,7 @@
 {{/vendorExtensions.x-codegen-response-union-body-type}}
 {{/is2xx}}
 {{^is2xx}}
-        throw {{classname}}Exception(statusCode, "{{{vendorExtensions.x-codegen-cpp-message}}}");
+        throw {{classname}}Exception(statusCode, "{{{vendorExtensions.x-codegen-cpp-message}}}", responseBody);
 {{/is2xx}}
     }
 {{/isDefault}}
@@ -431,7 +434,7 @@
 {{/vendorExtensions.x-codegen-streaming-response}}
 {{/vendorExtensions.x-codegen-default-response-is-return-compatible}}
 {{^vendorExtensions.x-codegen-default-response-is-return-compatible}}
-    throw {{classname}}Exception(statusCode, "{{{vendorExtensions.x-codegen-cpp-message}}}");
+    throw {{classname}}Exception(statusCode, "{{{vendorExtensions.x-codegen-cpp-message}}}", responseBody);
 {{/vendorExtensions.x-codegen-default-response-is-return-compatible}}
 {{/vendorExtensions.x-codegen-response-union-body-type}}
 {{/dataType}}
@@ -446,7 +449,7 @@
 {{/isDefault}}
 {{/responses}}
 {{^vendorExtensions.x-codegen-has-default-response}}
-    throw {{classname}}Exception(statusCode, "Unexpected HTTP status code");
+    throw {{classname}}Exception(statusCode, "Unexpected HTTP status code", responseBody);
 {{/vendorExtensions.x-codegen-has-default-response}}
 }
 
@@ -591,9 +594,10 @@
     // Link metadata preserved; no automatic traversal is generated: {{{.}}}
 {{/vendorExtensions.x-codegen-op-links}}
     auto statusCode = boost::beast::http::status::unknown;
+    std::string responseBody;
     {{#vendorExtensions.x-codegen-sse-representation-mode}}std::vector<std::string>{{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}{{#vendorExtensions.x-codegen-dual-stream-element-type}}std::vector<{{{.}}}>{{/vendorExtensions.x-codegen-dual-stream-element-type}}{{^vendorExtensions.x-codegen-dual-stream-element-type}}std::vector<{{{vendorExtensions.x-codegen-dual-stream-return-type}}}>{{/vendorExtensions.x-codegen-dual-stream-element-type}}{{/vendorExtensions.x-codegen-sse-representation-mode}} deserializedResponse;
     try {
-        statusCode = m_client->executeStream(
+        HttpResponseData responseData = m_client->executeStream(
             "{{httpMethod}}",
             path,
             serializedRequestBody,
@@ -611,6 +615,8 @@
                     });
                 {{/vendorExtensions.x-codegen-sse-representation-mode}}
             });
+        statusCode = responseData.status;
+        responseBody = std::move(responseData.body);
     }
     catch(const std::exception& exception) {
         handleStdException(exception);
@@ -626,11 +632,11 @@
         return deserializedResponse;
 {{/is2xx}}
 {{^is2xx}}
-        throw {{classname}}Exception(statusCode, "{{{message}}}");
+        throw {{classname}}Exception(statusCode, "{{{message}}}", responseBody);
 {{/is2xx}}
     }
 {{/isDefault}}
 {{/responses}}
-    throw {{classname}}Exception(statusCode, "Unexpected HTTP status code");
+    throw {{classname}}Exception(statusCode, "Unexpected HTTP status code", responseBody);
 }
 {{/vendorExtensions.x-codegen-dual-content}}

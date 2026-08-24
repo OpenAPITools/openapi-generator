@@ -457,7 +457,7 @@ boost::beast::error_code runTimedOperation(
 
 
 template <typename SyncReadStream, typename Cancel>
-boost::beast::http::status
+org::openapitools::client::api::HttpResponseData
 streamBody(SyncReadStream &stream,
            boost::asio::io_context &ioContext,
            const std::chrono::milliseconds operationTimeout,
@@ -483,7 +483,10 @@ streamBody(SyncReadStream &stream,
             cancel),
         "read header");
 
-    const boost::beast::http::status status = parser.get().result();
+    org::openapitools::client::api::HttpResponseData responseData;
+    responseData.status = parser.get().result();
+    const bool isSuccessfulResponse =
+        static_cast<unsigned int>(responseData.status) / 100U == 2U;
 
     std::array<char, 65536> bodyBuf;
     SseEventFramer framer(std::move(onEvent));
@@ -513,7 +516,11 @@ streamBody(SyncReadStream &stream,
             const std::size_t bytesRead =
                 bodyBuf.size() - parser.get().body().size;
             if (bytesRead > 0) {
-                framer.feed(std::string_view(bodyBuf.data(), bytesRead));
+                if (isSuccessfulResponse) {
+                    framer.feed(std::string_view(bodyBuf.data(), bytesRead));
+                } else {
+                    responseData.body.append(bodyBuf.data(), bytesRead);
+                }
             }
             break;
         }
@@ -524,12 +531,22 @@ streamBody(SyncReadStream &stream,
         const std::size_t bytesRead =
             bodyBuf.size() - parser.get().body().size;
         if (bytesRead > 0) {
-            framer.feed(std::string_view(bodyBuf.data(), bytesRead));
+            if (isSuccessfulResponse) {
+                framer.feed(std::string_view(bodyBuf.data(), bytesRead));
+            } else {
+                responseData.body.append(bodyBuf.data(), bytesRead);
+            }
         }
     }
 
-    framer.finish();
-    return status;
+    if (isSuccessfulResponse) {
+        framer.finish();
+    }
+    for (const auto &field : parser.get().base()) {
+        responseData.headers[std::string(field.name_string())] =
+            std::string(field.value());
+    }
+    return responseData;
 }
 
 
@@ -746,7 +763,7 @@ HttpClientImpl::executeWithMetadata(const std::string &verb,
     return result;
 }
 
-boost::beast::http::status
+HttpResponseData
 HttpClientImpl::executeStream(
     const std::string &verb,
     const std::string &target,
@@ -767,14 +784,14 @@ HttpClientImpl::executeStream(
     return executeHttpStream(request, std::move(onEvent));
 }
 
-boost::beast::http::status
+HttpResponseData
 HttpClientImpl::executeHttpStream(
     HttpRequest &request,
     std::function<void(const std::string &)> onEvent) {
     boost::asio::ip::tcp::socket socket = connectSocket();
     sendRequest(socket, request);
 
-    const boost::beast::http::status status = ::streamBody(
+    HttpResponseData responseData = ::streamBody(
         socket, m_ioc, m_operationTimeout, m_responseBodyLimit,
         std::move(onEvent),
         [&socket]() {
@@ -783,10 +800,10 @@ HttpClientImpl::executeHttpStream(
         });
 
     closeSocket(socket);
-    return status;
+    return responseData;
 }
 
-boost::beast::http::status
+HttpResponseData
 HttpClientImpl::executeHttpsStream(
     HttpRequest &request,
     std::function<void(const std::string &)> onEvent) {
@@ -863,7 +880,7 @@ HttpClientImpl::executeHttpsStream(
         "write");
 
     tcpStream.expires_never();
-    const boost::beast::http::status status = ::streamBody(
+    HttpResponseData responseData = ::streamBody(
         tlsStream, m_ioc, m_operationTimeout, m_responseBodyLimit,
         std::move(onEvent),
         [&tcpStream]() {
@@ -884,7 +901,7 @@ HttpClientImpl::executeHttpsStream(
         throwOperationError(shutdownError, "TLS shutdown");
     }
 
-    return status;
+    return responseData;
 }
 
 HttpClientImpl::HttpResponse

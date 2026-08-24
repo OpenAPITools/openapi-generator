@@ -31,6 +31,7 @@ namespace ssl = boost::asio::ssl;
 using tcp = boost::asio::ip::tcp;
 using org::openapitools::client::api::HttpClient;
 using org::openapitools::client::api::HttpClientImpl;
+using org::openapitools::client::api::HttpResponseData;
 
 class BufferedOnlyHttpClient final : public HttpClient {
 public:
@@ -931,7 +932,7 @@ BOOST_AUTO_TEST_CASE(http_stream_frames_sse_events_across_chunks) {
 
     std::vector<std::string> receivedEvents;
     std::mutex eventMutex;
-    const http::status status = httpClient.executeStream(
+    const HttpResponseData response = httpClient.executeStream(
         "GET", "/stream", "", {},
         [&receivedEvents, &eventMutex](const std::string &eventData) {
             std::lock_guard<std::mutex> lock(eventMutex);
@@ -940,7 +941,7 @@ BOOST_AUTO_TEST_CASE(http_stream_frames_sse_events_across_chunks) {
 
     server.waitForCompletion();
 
-    BOOST_REQUIRE_EQUAL(status, http::status::ok);
+    BOOST_REQUIRE_EQUAL(response.status, http::status::ok);
     BOOST_REQUIRE_EQUAL(receivedEvents.size(), 3U);
     BOOST_REQUIRE_EQUAL(receivedEvents[0], "{\"n\":1}");
     BOOST_REQUIRE_EQUAL(receivedEvents[1], "{\"n\":2}");
@@ -961,14 +962,14 @@ BOOST_AUTO_TEST_CASE(http_stream_strips_split_utf8_bom) {
         std::chrono::milliseconds(1000));
 
     std::vector<std::string> receivedEvents;
-    const http::status status = httpClient.executeStream(
+    const HttpResponseData response = httpClient.executeStream(
         "GET", "/bom", "", {},
         [&receivedEvents](const std::string &eventData) {
             receivedEvents.push_back(eventData);
         });
     server.waitForCompletion();
 
-    BOOST_REQUIRE_EQUAL(status, http::status::ok);
+    BOOST_REQUIRE_EQUAL(response.status, http::status::ok);
     BOOST_REQUIRE_EQUAL(receivedEvents.size(), 1U);
     BOOST_REQUIRE_EQUAL(receivedEvents.front(), "first-event");
 }
@@ -984,14 +985,14 @@ BOOST_AUTO_TEST_CASE(http_stream_refills_buffer_body_storage) {
         std::chrono::milliseconds(1000));
 
     std::vector<std::string> receivedEvents;
-    const http::status status = httpClient.executeStream(
+    const HttpResponseData response = httpClient.executeStream(
         "GET", "/large-event", "", {},
         [&receivedEvents](const std::string &eventData) {
             receivedEvents.push_back(eventData);
         });
     server.waitForCompletion();
 
-    BOOST_REQUIRE_EQUAL(status, http::status::ok);
+    BOOST_REQUIRE_EQUAL(response.status, http::status::ok);
     BOOST_REQUIRE_EQUAL(receivedEvents.size(), 1U);
     BOOST_REQUIRE_EQUAL(receivedEvents.front(), eventPayload);
 }
@@ -1006,7 +1007,7 @@ BOOST_AUTO_TEST_CASE(http_stream_empty_body) {
         std::chrono::milliseconds(1000));
 
     std::vector<std::string> receivedEvents;
-    const http::status status = httpClient.executeStream(
+    const HttpResponseData response = httpClient.executeStream(
         "GET", "/empty", "", {},
         [&receivedEvents](const std::string &eventData) {
             receivedEvents.push_back(eventData);
@@ -1014,7 +1015,7 @@ BOOST_AUTO_TEST_CASE(http_stream_empty_body) {
 
     server.waitForCompletion();
 
-    BOOST_REQUIRE_EQUAL(status, http::status::ok);
+    BOOST_REQUIRE_EQUAL(response.status, http::status::ok);
     BOOST_REQUIRE(receivedEvents.empty());
 }
 
@@ -1029,7 +1030,7 @@ BOOST_AUTO_TEST_CASE(http_stream_single_sse_event) {
         std::chrono::milliseconds(1000));
 
     std::vector<std::string> receivedEvents;
-    const http::status status = httpClient.executeStream(
+    const HttpResponseData response = httpClient.executeStream(
         "GET", "/single", "", {},
         [&receivedEvents](const std::string &eventData) {
             receivedEvents.push_back(eventData);
@@ -1037,7 +1038,7 @@ BOOST_AUTO_TEST_CASE(http_stream_single_sse_event) {
 
     server.waitForCompletion();
 
-    BOOST_REQUIRE_EQUAL(status, http::status::ok);
+    BOOST_REQUIRE_EQUAL(response.status, http::status::ok);
     BOOST_REQUIRE_EQUAL(receivedEvents.size(), 1U);
     BOOST_REQUIRE_EQUAL(receivedEvents[0], "{\"ok\":true}");
 }
@@ -1052,7 +1053,7 @@ BOOST_AUTO_TEST_CASE(http_stream_discards_incomplete_event_at_eof) {
         std::chrono::milliseconds(1000));
 
     std::vector<std::string> receivedEvents;
-    const http::status status = httpClient.executeStream(
+    const HttpResponseData response = httpClient.executeStream(
         "GET", "/incomplete", "", {},
         [&receivedEvents](const std::string &eventData) {
             receivedEvents.push_back(eventData);
@@ -1060,7 +1061,36 @@ BOOST_AUTO_TEST_CASE(http_stream_discards_incomplete_event_at_eof) {
 
     server.waitForCompletion();
 
-    BOOST_REQUIRE_EQUAL(status, http::status::ok);
+    BOOST_REQUIRE_EQUAL(response.status, http::status::ok);
+    BOOST_REQUIRE(receivedEvents.empty());
+}
+
+BOOST_AUTO_TEST_CASE(http_stream_preserves_non_success_body_and_headers) {
+    const std::string errorBody = "{\"error\":\"bad request\"}";
+    ChunkedStreamingServer server(
+        {"{\"error\":", "\"bad request\"}"},
+        std::chrono::milliseconds::zero(),
+        http::status::bad_request);
+    HttpClientImpl httpClient(
+        "127.0.0.1",
+        server.port(),
+        HttpClientImpl::Transport::Http,
+        11,
+        std::chrono::milliseconds(1000));
+
+    std::vector<std::string> receivedEvents;
+    const HttpResponseData response = httpClient.executeStream(
+        "GET", "/error", "", {},
+        [&receivedEvents](const std::string &eventData) {
+            receivedEvents.push_back(eventData);
+        });
+
+    server.waitForCompletion();
+
+    BOOST_REQUIRE_EQUAL(response.status, http::status::bad_request);
+    BOOST_REQUIRE_EQUAL(response.body, errorBody);
+    BOOST_REQUIRE_EQUAL(response.headers.at("Content-Type"),
+                        "text/event-stream");
     BOOST_REQUIRE(receivedEvents.empty());
 }
 

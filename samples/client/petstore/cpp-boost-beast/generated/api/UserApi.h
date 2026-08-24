@@ -49,14 +49,16 @@ using namespace org::openapitools::client::model;
 class UserApiException: public std::exception
 {
 public:
-    UserApiException(boost::beast::http::status statusCode, std::string what);
+    UserApiException(boost::beast::http::status statusCode, std::string what, std::string responseBody);
 
     boost::beast::http::status getStatus() const;
+    const std::string& getResponseBody() const noexcept;
     const char* what() const noexcept override;
 
 private:
     boost::beast::http::status m_status;
     std::string m_what;
+    std::string m_responseBody;
 };
 
 

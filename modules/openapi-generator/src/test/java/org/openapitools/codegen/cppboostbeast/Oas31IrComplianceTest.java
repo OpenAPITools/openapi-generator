@@ -140,7 +140,7 @@ public class Oas31IrComplianceTest {
                 "X-\\\"Token",
                 "read\\\"scope");
         TestUtils.assertFileContains(apiSource,
-                "throw DefaultApiException(statusCode, \"bad \\\"quoted\\\"\\nsecond line\");");
+                "throw DefaultApiException(statusCode, \"bad \\\"quoted\\\"\\nsecond line\", responseBody);");
         TestUtils.assertFileContains(modelSource,
                 "object[\"quo\\\"te\"]",
                 "object.find(\"quo\\\"te\")",

@@ -40,6 +40,9 @@ void expect(bool condition, const char* message) {
         std::exit(1);
     }
 }
+constexpr char kErrorResponseBody[] =
+    R"({"error":{"message":"invalid model ID"}})";
+
 
 bool validatesSchema(std::string const& schemaId, std::string const& payload) {
     schema_validation::ExactJsonValue document = schema_validation::parseExactJson(payload);
@@ -58,26 +61,37 @@ public:
         const std::string& target,
         const std::string&,
         const std::map<std::string, std::string>&) override {
+        if (target == "/error") {
+            return {boost::beast::http::status::bad_request, kErrorResponseBody};
+        }
         if (target == "/empty") {
             return {boost::beast::http::status::ok, std::string()};
         }
         return {boost::beast::http::status::bad_request, R"({"kind":"b"})"};
     }
 
-    boost::beast::http::status executeStream(
+    api::HttpResponseData executeStream(
         const std::string&,
         const std::string& target,
         const std::string&,
         const std::map<std::string, std::string>&,
         std::function<void(const std::string&)> onEvent) override {
+        if (target == "/stream-error") {
+            return {
+                boost::beast::http::status::bad_request,
+                {{"Content-Type", "application/json"}},
+                kErrorResponseBody};
+        }
         if (target != "/stream") {
-            return boost::beast::http::status::bad_request;
+            return {boost::beast::http::status::bad_request, {}};
         }
         onEvent(R"({"id":"nulls","inline_nullable":null,"referenced_nullable":null,"required_nullable":null,"required_referenced_nullable":null})");
         onEvent(R"({"id":"values","inline_nullable":{"value":"inline"},"referenced_nullable":{"value":"reference"},"required_nullable":"required","required_referenced_nullable":{"value":"required reference"}})");
         onEvent(R"({"id":"missing","required_nullable":null,"required_referenced_nullable":null})");
         onEvent("[DONE]");
-        return boost::beast::http::status::ok;
+        return {
+            boost::beast::http::status::ok,
+            {{"Content-Type", "text/event-stream"}}};
     }
 };
 
@@ -330,6 +344,28 @@ int main() {
            "missing nullable reference lost its missing state");
     expect(!streamChunks[2].getRequiredReferencedNullable().has_value(),
            "required nullable reference did not preserve explicit null");
+    bool retainedErrorBody = false;
+    try {
+        defaultApi.getError();
+    } catch (const api::DefaultApiException& exception) {
+        retainedErrorBody =
+            exception.getStatus() == boost::beast::http::status::bad_request
+            && exception.getResponseBody() == kErrorResponseBody;
+    }
+    expect(retainedErrorBody,
+           "non-stream API exception discarded the HTTP response body");
+
+    bool retainedStreamErrorBody = false;
+    try {
+        (void)defaultApi.getStreamError();
+    } catch (const api::DefaultApiException& exception) {
+        retainedStreamErrorBody =
+            exception.getStatus() == boost::beast::http::status::bad_request
+            && exception.getResponseBody() == kErrorResponseBody;
+    }
+    expect(retainedStreamErrorBody,
+           "stream API exception discarded the HTTP response body");
+
     (void)defaultApi.getEmpty();
     const api::GetProbeResponse response = defaultApi.getProbe();
     const model::Fallback& fallback = std::get<model::Fallback>(response.body);

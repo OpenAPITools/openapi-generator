@@ -74,7 +74,7 @@ public:
         return {boost::beast::http::status{500}, "this should not happen"};
     }
 
-    boost::beast::http::status
+    HttpResponseData
     executeStream(const std::string&,
                   const std::string&,
                   const std::string&,
@@ -107,7 +107,7 @@ public:
         return {m_responseStatus, m_responseBody};
     }
 
-    boost::beast::http::status
+    HttpResponseData
     executeStream(const std::string& verb,
                   const std::string& target,
                   const std::string& body,
@@ -115,7 +115,7 @@ public:
                   std::function<void(const std::string &)> onEvent) override {
         execute(verb, target, body, headers);
         onEvent(m_responseBody);
-        return m_responseStatus;
+        return HttpResponseData{m_responseStatus, {}, m_responseBody};
     }
 
     const std::string& target() const {
