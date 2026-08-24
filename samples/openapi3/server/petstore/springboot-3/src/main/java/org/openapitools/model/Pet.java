@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -41,7 +40,7 @@ public class Pet {
   private @Nullable Long id;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private @Nullable Category category;
+  private @Nullable com.example.mapped.Category category;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
@@ -110,7 +109,7 @@ public class Pet {
   /**
    * Constructor with all args parameters
    */
-  public Pet(@Nullable Long id, @Nullable Category category, String name, List<String> photoUrls, List<@Valid Tag> tags, @Nullable StatusEnum status) {
+  public Pet(@Nullable Long id, @Nullable com.example.mapped.Category category, String name, List<String> photoUrls, List<@Valid Tag> tags, @Nullable StatusEnum status) {
       this.id = id;
       this.category = category;
       this.name = name;
@@ -143,7 +142,7 @@ public class Pet {
     this.id = id;
   }
 
-  public Pet category(@Nullable Category category) {
+  public Pet category(@Nullable com.example.mapped.Category category) {
     this.category = category;
     return this;
   }
@@ -157,13 +156,13 @@ public class Pet {
   @JsonProperty("category")
   @JacksonXmlProperty(localName = "Category")
   @XmlElement(name = "Category")
-  public @Nullable Category getCategory() {
+  public @Nullable com.example.mapped.Category getCategory() {
     return category;
   }
 
   @JsonProperty("category")
   @JacksonXmlProperty(localName = "Category")
-  public void setCategory(@Nullable Category category) {
+  public void setCategory(@Nullable com.example.mapped.Category category) {
     this.category = category;
   }
 
@@ -362,7 +361,7 @@ public class Pet {
       return this;
     }
     
-    public Pet.Builder category(Category category) {
+    public Pet.Builder category(com.example.mapped.Category category) {
       this.instance.category(category);
       return this;
     }

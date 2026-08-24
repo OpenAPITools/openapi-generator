@@ -2,6 +2,10 @@ generatorName: spring
 outputDir: samples/openapi3/server/petstore/springboot-3
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+schemaMappings:
+  Category: com.example.mapped.Category
+forcedGenerateSchemas:
+  - Category
 additionalProperties:
   generateJsonIncludeAnnotations: "true"
   generateJsonSetterNullsAnnotations: "true"
