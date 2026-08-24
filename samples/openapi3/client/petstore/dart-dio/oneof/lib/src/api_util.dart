@@ -82,6 +82,28 @@ ListParam<Object?>? encodeCollectionQueryParameter<T>(
   throw ArgumentError('Invalid value passed to encodeCollectionQueryParameter');
 }
 
+ListParam<Object?>? encodeCollectionFormParameter<T>(
+  Serializers serializers,
+  dynamic value,
+  FullType type, {
+  ListFormat format = ListFormat.multi,
+}) {
+  if (value == null) {
+    return null;
+  }
+  final serialized = serializers.serialize(
+    value as Object,
+    specifiedType: type,
+  );
+  if (serialized == null) {
+    return null;
+  }
+  if (value is BuiltList<T> || value is BuiltSet<T>) {
+    return ListParam(List.of((serialized as Iterable<Object?>).cast()), format);
+  }
+  throw ArgumentError('Invalid value passed to encodeCollectionFormParameter');
+}
+
 void removeNullQueryParametersExcept(
   Map<String, dynamic> queryParameters,
   Set<String> requiredParameters,

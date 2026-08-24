@@ -490,4 +490,34 @@ public class DartDioClientCodegenTest {
                 "status.toString()",
                 "category.toString()");
     }
+
+    /**
+     * Regression test: built_value form array params need both the call site
+     * and helper definition. Without encodeCollectionFormParameter in api_util,
+     * generated APIs compile-fail on the form array path.
+     */
+    @Test
+    public void testCollectionFormParameterHelperIsGenerated() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiUtil = output.toPath().resolve("lib/src/api_util.dart");
+        Path fakeApi = output.toPath().resolve("lib/src/api/fake_api.dart");
+
+        TestUtils.assertFileContains(apiUtil,
+                "ListParam<Object?>? encodeCollectionFormParameter<T>(",
+                "throw ArgumentError('Invalid value passed to encodeCollectionFormParameter');");
+        TestUtils.assertFileContains(fakeApi,
+                "encodeCollectionFormParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,)");
+    }
 }
