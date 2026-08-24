@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  * Banana
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public final class Banana implements Fruit {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
