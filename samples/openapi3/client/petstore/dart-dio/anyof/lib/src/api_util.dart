@@ -79,7 +79,7 @@ dynamic encodeCollectionParameter<T>(
   }
   if (value is BuiltList<T> || value is BuiltSet<T>) {
     final values = List<Object?>.of((serialized as Iterable<Object?>).cast());
-    if (asString && format != ListFormat.multi && format != ListFormat.multiCompatible) {
+    if (asString) {
       return _joinCollectionValues(values, format);
     }
     return ListParam(values, format);
