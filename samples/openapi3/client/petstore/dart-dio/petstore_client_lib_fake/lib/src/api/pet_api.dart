@@ -191,7 +191,7 @@ class PetApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'status': encodeCollectionQueryParameter<String>(_serializers, status, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
+      r'status': encodeCollectionParameter<String>(_serializers, status, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
     };
     removeNullQueryParametersExcept(
       _queryParameters,
@@ -283,7 +283,7 @@ class PetApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'tags': encodeCollectionQueryParameter<String>(_serializers, tags, const FullType(BuiltSet, [FullType(String)]), format: ListFormat.csv,),
+      r'tags': encodeCollectionParameter<String>(_serializers, tags, const FullType(BuiltSet, [FullType(String)]), format: ListFormat.csv,),
     };
     removeNullQueryParametersExcept(
       _queryParameters,

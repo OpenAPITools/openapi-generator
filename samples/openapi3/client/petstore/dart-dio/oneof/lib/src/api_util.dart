@@ -60,48 +60,48 @@ dynamic encodeQueryParameter(
   return serialized;
 }
 
-ListParam<Object?>? encodeCollectionQueryParameter<T>(
+dynamic encodeCollectionParameter<T>(
   Serializers serializers,
   dynamic value,
   FullType type, {
   ListFormat format = ListFormat.multi,
+  bool asString = false,
 }) {
   if (value == null) {
-    return null;
+    return asString ? '' : null;
   }
   final serialized = serializers.serialize(
     value as Object,
     specifiedType: type,
   );
   if (serialized == null) {
-    return null;
+    return asString ? '' : null;
   }
   if (value is BuiltList<T> || value is BuiltSet<T>) {
-    return ListParam(List.of((serialized as Iterable<Object?>).cast()), format);
+    final values = List<Object?>.of((serialized as Iterable<Object?>).cast());
+    if (asString) {
+      return _joinCollectionValues(values, format);
+    }
+    return ListParam(values, format);
   }
-  throw ArgumentError('Invalid value passed to encodeCollectionQueryParameter');
+  throw ArgumentError('Invalid value passed to encodeCollectionParameter');
 }
 
-ListParam<Object?>? encodeCollectionFormParameter<T>(
-  Serializers serializers,
-  dynamic value,
-  FullType type, {
-  ListFormat format = ListFormat.multi,
-}) {
-  if (value == null) {
-    return null;
+String _joinCollectionValues(List<Object?> values, ListFormat format) {
+  switch (format) {
+    case ListFormat.csv:
+      return values.join(',');
+    case ListFormat.ssv:
+      return values.join(' ');
+    case ListFormat.tsv:
+      return values.join('\t');
+    case ListFormat.pipes:
+      return values.join('|');
+    case ListFormat.multi:
+      return values.join(',');
+    case ListFormat.multiCompatible:
+      return values.join(',');
   }
-  final serialized = serializers.serialize(
-    value as Object,
-    specifiedType: type,
-  );
-  if (serialized == null) {
-    return null;
-  }
-  if (value is BuiltList<T> || value is BuiltSet<T>) {
-    return ListParam(List.of((serialized as Iterable<Object?>).cast()), format);
-  }
-  throw ArgumentError('Invalid value passed to encodeCollectionFormParameter');
 }
 
 void removeNullQueryParametersExcept(

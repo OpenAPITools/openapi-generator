@@ -515,9 +515,12 @@ public class DartDioClientCodegenTest {
         Path fakeApi = output.toPath().resolve("lib/src/api/fake_api.dart");
 
         TestUtils.assertFileContains(apiUtil,
-                "ListParam<Object?>? encodeCollectionFormParameter<T>(",
-                "throw ArgumentError('Invalid value passed to encodeCollectionFormParameter');");
+                "dynamic encodeCollectionParameter<T>(",
+                "bool asString = false,",
+                "case ListFormat.multiCompatible:",
+                "throw ArgumentError('Invalid value passed to encodeCollectionParameter');");
         TestUtils.assertFileContains(fakeApi,
-                "encodeCollectionFormParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,)");
+                "encodeCollectionParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]),",
+                "asString: true");
     }
 }
