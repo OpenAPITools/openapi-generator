@@ -15,8 +15,8 @@
  * Describes the result of uploading an image resource
  */
 
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_ApiResponse_MODEL_H_
-#define BOOST_BEAST_OPENAPI_CLIENT_ApiResponse_MODEL_H_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_ApiResponse_MODEL_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_ApiResponse_MODEL_H_
 
 #include <string>
 #include <vector>
@@ -34,7 +34,7 @@ namespace model {
 /// <summary>
 /// Describes the result of uploading an image resource
 /// </summary>
-class  ApiResponse
+class ApiResponse
 {
 public:
     ApiResponse() = default;
@@ -95,4 +95,4 @@ ApiResponse fromJsonValue_ApiResponse(boost::json::value const& value);
 }
 }
 }
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_ApiResponse_MODEL_H_ */
+#endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_ApiResponse_MODEL_H_ */

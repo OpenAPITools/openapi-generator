@@ -19,8 +19,8 @@
 //  - Destination-bounded numeric conversion (convertJsonNumber)
 // ============================================================================
 
-#ifndef CPP_BOOST_BEAST_OPENAPI_CLIENT_VALIDATION_TYPES_H_
-#define CPP_BOOST_BEAST_OPENAPI_CLIENT_VALIDATION_TYPES_H_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_VALIDATION_TYPES_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_VALIDATION_TYPES_H_
 
 #include <boost/beast/http/status.hpp>
 
@@ -33,6 +33,11 @@
 #include <type_traits>
 #include <utility>
 #include <boost/json.hpp>
+
+namespace org {
+namespace openapitools {
+namespace client {
+namespace model {
 
 // ============================================================================
 // Decode-time composition validation knob.
@@ -411,4 +416,9 @@ struct StatusTaggedValue {
         : value(std::move(v)) {}
 };
 
-#endif /* CPP_BOOST_BEAST_OPENAPI_CLIENT_VALIDATION_TYPES_H_ */
+}
+}
+}
+}
+
+#endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_VALIDATION_TYPES_H_ */

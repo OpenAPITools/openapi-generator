@@ -13,6 +13,9 @@
 #include "Oas31SchemaIr.h"
 #include "Oas31DeepEqual.h"
 #include "Oas31ExactJson.h"
+{{#hasExportMacro}}
+#include "ApiExport.h"
+{{/hasExportMacro}}
 
 #include <boost/json.hpp>
 
@@ -431,7 +434,7 @@ struct ValidationContext {
 // ============================================================================
 // SchemaEvaluator - shared schema interpreter.
 // ============================================================================
-class SchemaEvaluator {
+class {{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}SchemaEvaluator {
 public:
     explicit SchemaEvaluator(SchemaResourceRegistry const& registry) : registry_(registry) {}
 

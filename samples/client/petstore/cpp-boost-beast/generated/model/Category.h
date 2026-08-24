@@ -15,8 +15,8 @@
  * A category for a pet
  */
 
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_Category_MODEL_H_
-#define BOOST_BEAST_OPENAPI_CLIENT_Category_MODEL_H_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_Category_MODEL_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_Category_MODEL_H_
 
 #include <string>
 #include <vector>
@@ -34,7 +34,7 @@ namespace model {
 /// <summary>
 /// A category for a pet
 /// </summary>
-class  Category
+class Category
 {
 public:
     Category() = default;
@@ -87,4 +87,4 @@ Category fromJsonValue_Category(boost::json::value const& value);
 }
 }
 }
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_Category_MODEL_H_ */
+#endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_Category_MODEL_H_ */

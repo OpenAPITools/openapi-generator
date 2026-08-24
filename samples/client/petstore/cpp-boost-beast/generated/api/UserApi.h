@@ -15,10 +15,11 @@
  * 
  */
 
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_UserApi_
-#define BOOST_BEAST_OPENAPI_CLIENT_UserApi_
+#ifndef ORG_OPENAPITOOLS_CLIENT_API_UserApi_H_
+#define ORG_OPENAPITOOLS_CLIENT_API_UserApi_H_
 
 #include <exception>
+#include <functional>
 #include <map>
 #include <memory>
 #include <string>
@@ -29,10 +30,10 @@
 #include <boost/beast/core.hpp>
 #include <boost/optional.hpp>
 
-#include "api/HttpClient.h"
-#include "ValidationTypes.h"
+#include "HttpClient.h"
+#include "../model/ValidationTypes.h"
 
-#include "User.h"
+#include "../model/User.h"
 #include <string>
 #include <vector>
 
@@ -187,4 +188,4 @@ protected:
 }
 
 
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_UserApi_ */
+#endif /* ORG_OPENAPITOOLS_CLIENT_API_UserApi_H_ */

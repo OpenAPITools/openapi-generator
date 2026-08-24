@@ -17,6 +17,9 @@
 #define {{schemaValidationHeaderGuardPrefix}}_OAS31_EXACT_JSON_H_
 
 #include "Oas31ExactNumber.h"
+{{#hasExportMacro}}
+#include "ApiExport.h"
+{{/hasExportMacro}}
 
 #include <boost/json.hpp>
 
@@ -351,7 +354,7 @@ inline void indexExactInstance(ActiveExactInstance& context,
 /// Installs one exact document as the current decode context. Generated model
 /// conversion remains API-compatible: RawInstance discovers the lexeme table
 /// and RFC 6901 path from the boost::json::value address it receives.
-class ExactInstanceScope {
+class {{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}ExactInstanceScope {
 public:
     explicit ExactInstanceScope(ExactJsonValue const& document)
         : previous_(detail::activeExactInstance) {

@@ -10,6 +10,9 @@
 #ifndef {{schemaValidationHeaderGuardPrefix}}_OAS31_EXACT_NUMBER_H_
 #define {{schemaValidationHeaderGuardPrefix}}_OAS31_EXACT_NUMBER_H_
 
+{{#hasExportMacro}}
+#include "ApiExport.h"
+{{/hasExportMacro}}
 #include <boost/multiprecision/cpp_int.hpp>
 
 #include <cstddef>
@@ -22,7 +25,7 @@ namespace {{schemaValidationNamespace}} {
 /// Both components are canonical: zero is (0, 0), and a non-zero mantissa has
 /// no trailing decimal zero. The exponent is arbitrary precision so valid JSON
 /// numbers such as 1e2147483648 do not overflow an implementation integer.
-class ExactNumber {
+class {{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}ExactNumber {
 public:
     using Integer = boost::multiprecision::cpp_int;
 
@@ -86,7 +89,7 @@ private:
 };
 
 /// JSON Schema requires multipleOf to be strictly positive.
-bool isPositiveMultipleOf(ExactNumber const& value);
+{{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}bool isPositiveMultipleOf(ExactNumber const& value);
 
 } // namespace {{schemaValidationNamespace}}
 

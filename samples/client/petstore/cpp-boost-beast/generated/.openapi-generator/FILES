@@ -17,6 +17,7 @@ model/Category.h
 model/NullableField.h
 model/Oas31DeepEqual.h
 model/Oas31ExactJson.h
+model/Oas31ExactNumber.cpp
 model/Oas31ExactNumber.h
 model/Oas31SchemaIr.h
 model/Oas31SchemaRegistry.h

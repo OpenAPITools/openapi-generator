@@ -15,8 +15,8 @@
  * A User who is purchasing from the pet store
  */
 
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_User_MODEL_H_
-#define BOOST_BEAST_OPENAPI_CLIENT_User_MODEL_H_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_User_MODEL_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_User_MODEL_H_
 
 #include <string>
 #include <vector>
@@ -34,7 +34,7 @@ namespace model {
 /// <summary>
 /// A User who is purchasing from the pet store
 /// </summary>
-class  User
+class User
 {
 public:
     User() = default;
@@ -135,4 +135,4 @@ User fromJsonValue_User(boost::json::value const& value);
 }
 }
 }
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_User_MODEL_H_ */
+#endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_User_MODEL_H_ */

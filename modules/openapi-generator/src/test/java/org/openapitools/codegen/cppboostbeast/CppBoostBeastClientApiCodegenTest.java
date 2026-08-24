@@ -439,4 +439,167 @@ public class CppBoostBeastClientApiCodegenTest {
                     "format-specific DataTypeFeature " + forbidden + " must NOT be declared");
         }
     }
+
+    @Test
+    public void generatesOptInWindowsDllExportSurface() throws IOException {
+        Path testOutputRoot = Files.createDirectories(Path.of("target"));
+        Path generatedClientDirectory = Files.createTempDirectory(
+                testOutputRoot, "cpp-boost-beast-export-macro");
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_0/cpp-boost-beast-client/"
+                        + "response-union-regression.yaml")
+                .setOutputDir(generatedClientDirectory.toString())
+                .addAdditionalProperty("packageName", "OpenAIClientGenerated")
+                .addAdditionalProperty(CppBoostBeastClientCodegen.EXPORT_MACRO,
+                        "OPENAI_GENERATED_API");
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path exportHeaderPath = generatedClientDirectory.resolve("api/ApiExport.h");
+        assertTrue(Files.exists(exportHeaderPath));
+        String exportHeader = Files.readString(exportHeaderPath);
+        assertTrue(exportHeader.contains("#  if defined(OpenAIClientGenerated_EXPORTS)"));
+        assertTrue(exportHeader.contains(
+                "#    define OPENAI_GENERATED_API __declspec(dllexport)"));
+        assertTrue(exportHeader.contains(
+                "#    define OPENAI_GENERATED_API __declspec(dllimport)"));
+        assertTrue(exportHeader.contains("#  define OPENAI_GENERATED_API\n"));
+
+        String modelHeader = Files.readString(
+                generatedClientDirectory.resolve("model/CreateRequest.h"));
+        assertTrue(modelHeader.contains("#include \"ApiExport.h\""));
+        assertTrue(modelHeader.contains("class OPENAI_GENERATED_API CreateRequest"));
+        assertTrue(modelHeader.contains(
+                "OPENAI_GENERATED_API std::string createJsonStringFromModelVector"));
+        assertTrue(modelHeader.contains(
+                "OPENAI_GENERATED_API void createModelVectorFromJsonString"));
+        assertTrue(modelHeader.contains(
+                "OPENAI_GENERATED_API CreateRequest fromJsonValue_CreateRequest"));
+
+        String apiHeader = Files.readString(
+                generatedClientDirectory.resolve("api/DefaultApi.h"));
+        assertTrue(apiHeader.contains("#include \"ApiExport.h\""));
+        assertTrue(apiHeader.contains("class OPENAI_GENERATED_API DefaultApiException"));
+        assertTrue(apiHeader.contains("class OPENAI_GENERATED_API DefaultApi"));
+
+        String httpClientHeader = Files.readString(
+                generatedClientDirectory.resolve("api/HttpClient.h"));
+        String httpClientImplHeader = Files.readString(
+                generatedClientDirectory.resolve("api/HttpClientImpl.h"));
+        assertTrue(httpClientHeader.contains("class OPENAI_GENERATED_API HttpClient"));
+        assertTrue(httpClientImplHeader.contains(
+                "class OPENAI_GENERATED_API HttpClientImpl"));
+
+        String exactNumberHeader = Files.readString(
+                generatedClientDirectory.resolve("model/Oas31ExactNumber.h"));
+        String exactJsonHeader = Files.readString(
+                generatedClientDirectory.resolve("model/Oas31ExactJson.h"));
+        String validatorHeader = Files.readString(
+                generatedClientDirectory.resolve("model/Oas31Validator.h"));
+        assertTrue(exactNumberHeader.contains("class OPENAI_GENERATED_API ExactNumber"));
+        assertTrue(exactJsonHeader.contains(
+                "class OPENAI_GENERATED_API ExactInstanceScope"));
+        assertTrue(validatorHeader.contains(
+                "class OPENAI_GENERATED_API SchemaEvaluator"));
+        assertTrue(exactNumberHeader.contains(
+                "OPENAI_GENERATED_API bool isPositiveMultipleOf"));
+
+        String nullableFieldHeader = Files.readString(
+                generatedClientDirectory.resolve("model/NullableField.h"));
+        assertFalse(nullableFieldHeader.contains("OPENAI_GENERATED_API"));
+
+        String cmakeLists = Files.readString(
+                generatedClientDirectory.resolve("CMakeLists.txt"));
+        assertTrue(cmakeLists.contains(
+                "PROPERTY DEFINE_SYMBOL \"OpenAIClientGenerated_EXPORTS\""));
+        assertTrue(cmakeLists.contains("api/ApiExport.h"));
+        String registryHeader = Files.readString(
+                generatedClientDirectory.resolve("model/Oas31SchemaRegistry.h"));
+        assertTrue(registryHeader.contains("#include \"ApiExport.h\""));
+        assertTrue(registryHeader.contains(
+                "class OPENAI_GENERATED_API SchemaEvaluator;"));
+        assertTrue(registryHeader.contains(
+                "OPENAI_GENERATED_API SchemaResourceRegistry const& schemaRegistry()"));
+        assertTrue(registryHeader.contains(
+                "OPENAI_GENERATED_API SchemaEvaluator const& sharedSchemaEvaluator()"));
+        assertTrue(registryHeader.contains(
+                "OPENAI_GENERATED_API SchemaIndex schemaNodeFor"));
+
+        Path aliasClientDirectory = Files.createTempDirectory(
+                testOutputRoot, "cpp-boost-beast-export-alias");
+        CodegenConfigurator aliasConfigurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/"
+                        + "composed-schema-lowering.yaml")
+                .setOutputDir(aliasClientDirectory.toString())
+                .addAdditionalProperty("packageName", "OpenAIClientGenerated")
+                .addAdditionalProperty(CppBoostBeastClientCodegen.EXPORT_MACRO,
+                        "OPENAI_GENERATED_API");
+        new DefaultGenerator().opts(aliasConfigurator.toClientOptInput()).generate();
+        String aliasHeader = Files.readString(
+                aliasClientDirectory.resolve("model/ModelIdsShared.h"));
+        assertTrue(aliasHeader.contains("#include \"ApiExport.h\""));
+        assertTrue(aliasHeader.contains(
+                "OPENAI_GENERATED_API boost::json::value toJsonValue_ModelIdsShared"));
+        assertTrue(aliasHeader.contains(
+                "OPENAI_GENERATED_API ModelIdsShared fromJsonValue_ModelIdsShared"));
+        assertTrue(aliasHeader.contains(
+                "OPENAI_GENERATED_API bool isModelIdsSharedBranch0"));
+        assertTrue(aliasHeader.contains(
+                "OPENAI_GENERATED_API std::string getModelIdsSharedBranch0"));
+        assertTrue(aliasHeader.contains(
+                "OPENAI_GENERATED_API ModelIdsShared makeModelIdsSharedBranch0"));
+
+        CppBoostBeastClientCodegen defaultCodegen =
+                new CppBoostBeastClientCodegen();
+        defaultCodegen.processOpts();
+        assertEquals(defaultCodegen.additionalProperties().get(
+                CppBoostBeastClientCodegen.EXPORT_MACRO), "");
+        assertFalse(defaultCodegen.supportingFiles().stream().anyMatch(
+                file -> "ApiExport.h".equals(file.getDestinationFilename())));
+    }
+
+    @Test
+    public void omitsWindowsDllExportSurfaceByDefault() throws IOException {
+        Path testOutputRoot = Files.createDirectories(Path.of("target"));
+        Path generatedClientDirectory = Files.createTempDirectory(
+                testOutputRoot, "cpp-boost-beast-no-export-macro");
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_0/cpp-boost-beast-client/"
+                        + "response-union-regression.yaml")
+                .setOutputDir(generatedClientDirectory.toString());
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertFalse(Files.exists(generatedClientDirectory.resolve("api/ApiExport.h")));
+        String modelHeader = Files.readString(
+                generatedClientDirectory.resolve("model/CreateRequest.h"));
+        assertFalse(modelHeader.contains("#include \"ApiExport.h\""));
+        assertTrue(modelHeader.contains("class CreateRequest"));
+        assertFalse(modelHeader.contains("class  CreateRequest"));
+        String registryHeader = Files.readString(
+                generatedClientDirectory.resolve("model/Oas31SchemaRegistry.h"));
+        assertFalse(registryHeader.contains("ApiExport.h"));
+        assertFalse(registryHeader.contains("OPENAI_GENERATED_API"));
+        String cmakeLists = Files.readString(
+                generatedClientDirectory.resolve("CMakeLists.txt"));
+        assertFalse(cmakeLists.contains("PROPERTY DEFINE_SYMBOL"));
+        assertFalse(cmakeLists.contains("api/ApiExport.h"));
+    }
+
+    @Test
+    public void rejectsInvalidExportMacro() {
+        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
+        codegen.additionalProperties().put(
+                CppBoostBeastClientCodegen.EXPORT_MACRO, "invalid macro");
+
+        IllegalArgumentException exception = org.testng.Assert.expectThrows(
+                IllegalArgumentException.class, codegen::processOpts);
+        assertTrue(exception.getMessage().contains("exportMacro"));
+        assertTrue(exception.getMessage().contains("valid C preprocessor identifier"));
+    }
+
 }

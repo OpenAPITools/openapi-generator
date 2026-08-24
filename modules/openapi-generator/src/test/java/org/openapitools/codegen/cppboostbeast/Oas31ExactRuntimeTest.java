@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.cppboostbeast;
 
+import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.testng.Assert;
@@ -454,22 +455,8 @@ public class Oas31ExactRuntimeTest {
             List<Path> outputs,
             Path driverSource,
             Path executable) throws Exception {
-        List<String> command = new ArrayList<>();
-        command.add(compiler);
-        command.add("-std=c++17");
-        command.add("-Wall");
-        command.add("-Wextra");
-        command.add("-Werror");
-        command.add("-DBOOST_ERROR_CODE_HEADER_ONLY");
-        for (Path output : outputs) {
-            command.add("-I");
-            command.add(output.toString());
-            command.add("-I");
-            command.add(output.resolve("api").toString());
-            command.add("-I");
-            command.add(output.resolve("model").toString());
-        }
-        command.add(driverSource.toString());
+        List<Path> sources = new ArrayList<>();
+        sources.add(driverSource.toAbsolutePath());
         for (Path output : outputs) {
             try (java.util.stream.Stream<Path> modelSources =
                          Files.list(output.resolve("model"));
@@ -478,44 +465,146 @@ public class Oas31ExactRuntimeTest {
                 modelSources
                         .filter(path -> path.getFileName().toString().endsWith(".cpp"))
                         .sorted()
-                        .map(Path::toString)
-                        .forEach(command::add);
+                        .map(Path::toAbsolutePath)
+                        .forEach(sources::add);
                 apiSources
                         .filter(path -> path.getFileName().toString().endsWith(".cpp"))
                         .sorted()
-                        .map(Path::toString)
-                        .forEach(command::add);
+                        .map(Path::toAbsolutePath)
+                        .forEach(sources::add);
             }
         }
-        command.add("-o");
-        command.add(executable.toString());
-        command.add("-pthread");
-        command.add("-lboost_json");
-        command.add("-lssl");
-        command.add("-lcrypto");
 
-        Process compile;
-        try {
-            compile = new ProcessBuilder(command)
-                    .redirectErrorStream(true)
-                    .start();
-        } catch (IOException exception) {
-            throw new SkipException(
-                    "C++ compiler is unavailable; skipping multi-client link test: "
-                            + exception.getMessage());
+        List<String> compilePrefix = new ArrayList<>(List.of(
+                compiler,
+                "-std=c++17",
+                "-Wall",
+                "-Wextra",
+                "-Werror",
+                "-DBOOST_ERROR_CODE_HEADER_ONLY",
+                "-pthread"));
+        for (Path output : outputs) {
+            compilePrefix.add("-I");
+            compilePrefix.add(output.toAbsolutePath().toString());
+            compilePrefix.add("-I");
+            compilePrefix.add(output.resolve("api").toAbsolutePath().toString());
+            compilePrefix.add("-I");
+            compilePrefix.add(output.resolve("model").toAbsolutePath().toString());
         }
-        Assert.assertTrue(compile.waitFor(240, TimeUnit.SECONDS),
-                "Multi-client compile and link timed out");
-        String compileOutput = new String(
-                compile.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-        if (compile.exitValue() != 0
-                && missingSseTransportDependencies(compileOutput)) {
+
+        Path objectDirectory = Files.createDirectories(
+                executable.getParent().resolve("multi-client-objects"));
+        List<Path> objectFiles = new ArrayList<>(sources.size());
+        List<Path> compilerLogs = new ArrayList<>(sources.size());
+        List<List<String>> compileCommands = new ArrayList<>(sources.size());
+        for (int index = 0; index < sources.size(); index++) {
+            Path source = sources.get(index);
+            String sourceName = source.getFileName().toString();
+            Assert.assertTrue(sourceName.endsWith(".cpp"),
+                    "Multi-client source must have a .cpp suffix: " + source);
+            Path objectFile = objectDirectory.resolve(
+                    index + "-" + sourceName.substring(0, sourceName.length() - 4)
+                            + ".o").toAbsolutePath();
+            objectFiles.add(objectFile);
+            compilerLogs.add(objectDirectory.resolve("compile-" + index + ".log"));
+
+            List<String> command = new ArrayList<>(compilePrefix);
+            command.add("-c");
+            command.add(source.toString());
+            command.add("-o");
+            command.add(objectFile.toString());
+            compileCommands.add(command);
+        }
+
+        boolean compiled = compileTranslationUnitsInParallel(
+                compileCommands, compilerLogs, 240);
+        String compileOutput = readCompilerLogs(compilerLogs);
+        if (!compiled && missingSseTransportDependencies(compileOutput)) {
             throw new SkipException(
                     "Boost/OpenSSL development files are unavailable; "
-                            + "skipping multi-client link test: " + compileOutput.trim());
+                            + "skipping multi-client link test: "
+                            + compileOutput.trim());
         }
-        Assert.assertEquals(compile.exitValue(), 0,
-                "Two generated clients must compile and link cleanly:\n" + compileOutput);
+        Assert.assertTrue(compiled,
+                "Two generated clients must compile cleanly:\n" + compileOutput);
+
+        List<String> linkCommand = new ArrayList<>();
+        linkCommand.add(compiler);
+        objectFiles.stream().map(Path::toString).forEach(linkCommand::add);
+        linkCommand.add("-o");
+        linkCommand.add(executable.toAbsolutePath().toString());
+        linkCommand.add("-pthread");
+        linkCommand.add("-lboost_json");
+        linkCommand.add("-lssl");
+        linkCommand.add("-lcrypto");
+
+        Process linker = new ProcessBuilder(linkCommand)
+                .redirectErrorStream(true)
+                .start();
+        if (!linker.waitFor(120, TimeUnit.SECONDS)) {
+            terminateProcesses(List.of(linker));
+            Assert.fail("Multi-client link timed out");
+        }
+        String linkOutput = new String(
+                linker.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        if (linker.exitValue() != 0
+                && missingSseTransportDependencies(linkOutput)) {
+            throw new SkipException(
+                    "Boost/OpenSSL development files are unavailable; "
+                            + "skipping multi-client link test: "
+                            + linkOutput.trim());
+        }
+        Assert.assertEquals(linker.exitValue(), 0,
+                "Two generated clients must link cleanly:\n" + linkOutput);
+    }
+
+    private static boolean compileTranslationUnitsInParallel(
+            List<List<String>> commands,
+            List<Path> compilerLogs,
+            long timeoutSeconds) throws Exception {
+        int workerCount = Math.min(
+                4,
+                Math.min(Runtime.getRuntime().availableProcessors(), commands.size()));
+        long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(timeoutSeconds);
+
+        for (int first = 0; first < commands.size(); first += workerCount) {
+            int last = Math.min(first + workerCount, commands.size());
+            List<Process> compilers = new ArrayList<>(last - first);
+            try {
+                for (int index = first; index < last; index++) {
+                    compilers.add(new ProcessBuilder(commands.get(index))
+                            .redirectErrorStream(true)
+                            .redirectOutput(compilerLogs.get(index).toFile())
+                            .start());
+                }
+            } catch (IOException exception) {
+                terminateProcesses(compilers);
+                throw new SkipException(
+                        "C++ compiler is unavailable; skipping generated C++ compilation: "
+                                + exception.getMessage());
+            }
+
+            try {
+                for (Process compilerProcess : compilers) {
+                    long remaining = deadline - System.nanoTime();
+                    if (remaining <= 0
+                            || !compilerProcess.waitFor(
+                                    remaining, TimeUnit.NANOSECONDS)) {
+                        terminateProcesses(compilers);
+                        Assert.fail("Generated C++ compilation timed out:\n"
+                                + readCompilerLogs(compilerLogs));
+                    }
+                }
+            } catch (InterruptedException exception) {
+                terminateProcesses(compilers);
+                throw exception;
+            }
+
+            if (compilers.stream().anyMatch(process -> process.exitValue() != 0)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private static void compileGeneratedRuntime(
@@ -534,26 +623,6 @@ public class Oas31ExactRuntimeTest {
                     .forEach(sources::add);
         }
 
-        int workerCount = Math.min(
-                4,
-                Math.min(Runtime.getRuntime().availableProcessors(), sources.size()));
-        List<List<Path>> sourceGroups = new ArrayList<>(workerCount);
-        for (int worker = 0; worker < workerCount; worker++) {
-            sourceGroups.add(new ArrayList<>());
-        }
-
-        Path objectDirectory = Files.createDirectories(output.resolve("native-objects"));
-        List<Path> objectFiles = new ArrayList<>(sources.size());
-        for (int index = 0; index < sources.size(); index++) {
-            Path source = sources.get(index);
-            sourceGroups.get(index % workerCount).add(source);
-            String sourceName = source.getFileName().toString();
-            Assert.assertTrue(sourceName.endsWith(".cpp"),
-                    "Native runtime source must have a .cpp suffix: " + source);
-            objectFiles.add(objectDirectory.resolve(
-                    sourceName.substring(0, sourceName.length() - 4) + ".o").toAbsolutePath());
-        }
-
         List<String> compilePrefix = List.of(
                 compiler,
                 "-std=c++17",
@@ -566,54 +635,39 @@ public class Oas31ExactRuntimeTest {
                 output.resolve("api").toAbsolutePath().toString(),
                 "-I",
                 output.resolve("model").toAbsolutePath().toString());
-        List<Process> compilers = new ArrayList<>(workerCount);
-        List<Path> compilerLogs = new ArrayList<>(workerCount);
-        for (int worker = 0; worker < workerCount; worker++) {
+
+        Path objectDirectory = Files.createDirectories(output.resolve("native-objects"));
+        List<Path> objectFiles = new ArrayList<>(sources.size());
+        List<Path> compilerLogs = new ArrayList<>(sources.size());
+        List<List<String>> compileCommands = new ArrayList<>(sources.size());
+        for (int index = 0; index < sources.size(); index++) {
+            Path source = sources.get(index);
+            String sourceName = source.getFileName().toString();
+            Assert.assertTrue(sourceName.endsWith(".cpp"),
+                    "Native runtime source must have a .cpp suffix: " + source);
+            Path objectFile = objectDirectory.resolve(
+                    index + "-" + sourceName.substring(0, sourceName.length() - 4)
+                            + ".o").toAbsolutePath();
+            objectFiles.add(objectFile);
+            compilerLogs.add(objectDirectory.resolve("compile-" + index + ".log"));
+
             List<String> command = new ArrayList<>(compilePrefix);
             command.add("-c");
-            sourceGroups.get(worker).stream()
-                    .map(Path::toString)
-                    .forEach(command::add);
-            Path compilerLog = objectDirectory.resolve("compile-" + worker + ".log");
-            compilerLogs.add(compilerLog);
-            try {
-                compilers.add(new ProcessBuilder(command)
-                        .directory(objectDirectory.toFile())
-                        .redirectErrorStream(true)
-                        .redirectOutput(compilerLog.toFile())
-                        .start());
-            } catch (IOException exception) {
-                terminateProcesses(compilers);
-                throw new SkipException(
-                        "C++ compiler is unavailable; skipping generated runtime test: "
-                                + exception.getMessage());
-            }
+            command.add(source.toString());
+            command.add("-o");
+            command.add(objectFile.toString());
+            compileCommands.add(command);
         }
 
-        long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(240);
-        try {
-            for (Process process : compilers) {
-                long remaining = deadline - System.nanoTime();
-                if (remaining <= 0
-                        || !process.waitFor(remaining, TimeUnit.NANOSECONDS)) {
-                    terminateProcesses(compilers);
-                    Assert.fail("Generated C++ runtime object compilation timed out:\n"
-                            + readCompilerLogs(compilerLogs));
-                }
-            }
-        } catch (InterruptedException exception) {
-            terminateProcesses(compilers);
-            throw exception;
-        }
-
+        boolean compiled = compileTranslationUnitsInParallel(
+                compileCommands, compilerLogs, 240);
         String compileOutput = readCompilerLogs(compilerLogs);
-        boolean compileFailed = compilers.stream().anyMatch(process -> process.exitValue() != 0);
-        if (compileFailed && missingBoostHeaders(compileOutput)) {
+        if (!compiled && missingBoostHeaders(compileOutput)) {
             throw new SkipException(
                     "Boost headers are unavailable; skipping generated runtime test: "
                             + compileOutput.trim());
         }
-        Assert.assertFalse(compileFailed,
+        Assert.assertTrue(compiled,
                 "Generated C++ runtime objects must compile cleanly:\n" + compileOutput);
 
         List<String> linkCommand = new ArrayList<>();
@@ -728,10 +782,14 @@ public class Oas31ExactRuntimeTest {
             {"oas31_validator.mustache", "Oas31Validator.h"}
         };
         for (String[] header : headers) {
-            String rendered = Files.readString(
-                            templateDirectory.resolve(header[0]), StandardCharsets.UTF_8)
-                    .replace("{{schemaValidationNamespace}}", namespaceName)
-                    .replace("{{schemaValidationHeaderGuardPrefix}}", guardPrefix);
+            String template = Files.readString(
+                    templateDirectory.resolve(header[0]), StandardCharsets.UTF_8);
+            String rendered = Mustache.compiler().compile(template).execute(
+                    java.util.Map.of(
+                            "schemaValidationNamespace", namespaceName,
+                            "schemaValidationHeaderGuardPrefix", guardPrefix,
+                            "hasExportMacro", false,
+                            "exportMacro", ""));
             Files.writeString(output.resolve(header[1]), rendered, StandardCharsets.UTF_8);
         }
         String exactNumberSource = Files.readString(

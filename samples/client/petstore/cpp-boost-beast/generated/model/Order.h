@@ -15,8 +15,8 @@
  * An order for a pets from the pet store
  */
 
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_Order_MODEL_H_
-#define BOOST_BEAST_OPENAPI_CLIENT_Order_MODEL_H_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_Order_MODEL_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_Order_MODEL_H_
 
 #include <string>
 #include <vector>
@@ -34,7 +34,7 @@ namespace model {
 /// <summary>
 /// An order for a pets from the pet store
 /// </summary>
-class  Order
+class Order
 {
 public:
     Order() = default;
@@ -119,4 +119,4 @@ Order fromJsonValue_Order(boost::json::value const& value);
 }
 }
 }
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_Order_MODEL_H_ */
+#endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_Order_MODEL_H_ */

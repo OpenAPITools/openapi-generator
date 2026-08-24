@@ -15,8 +15,8 @@
  * A pet for sale in the pet store
  */
 
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_Pet_MODEL_H_
-#define BOOST_BEAST_OPENAPI_CLIENT_Pet_MODEL_H_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_Pet_MODEL_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_Pet_MODEL_H_
 
 #include "Tag.h"
 #include <string>
@@ -36,7 +36,7 @@ namespace model {
 /// <summary>
 /// A pet for sale in the pet store
 /// </summary>
-class  Pet
+class Pet
 {
 public:
     Pet() = default;
@@ -119,4 +119,4 @@ Pet fromJsonValue_Pet(boost::json::value const& value);
 }
 }
 }
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_Pet_MODEL_H_ */
+#endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_Pet_MODEL_H_ */

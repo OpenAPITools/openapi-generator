@@ -15,8 +15,8 @@
  * A tag for a pet
  */
 
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_Tag_MODEL_H_
-#define BOOST_BEAST_OPENAPI_CLIENT_Tag_MODEL_H_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_Tag_MODEL_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_Tag_MODEL_H_
 
 #include <string>
 #include <vector>
@@ -34,7 +34,7 @@ namespace model {
 /// <summary>
 /// A tag for a pet
 /// </summary>
-class  Tag
+class Tag
 {
 public:
     Tag() = default;
@@ -87,4 +87,4 @@ Tag fromJsonValue_Tag(boost::json::value const& value);
 }
 }
 }
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_Tag_MODEL_H_ */
+#endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_Tag_MODEL_H_ */

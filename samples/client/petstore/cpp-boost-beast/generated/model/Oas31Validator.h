@@ -547,9 +547,12 @@ public:
             unevalItemsEntry = ctx.curItems();
         }
 
-        // A resolved ref target and the current row's sibling keywords both apply.
-        // Dynamic refs replace the static target when the active resource scope
-        // resolves an eligible anchor; otherwise the static target remains.
+        // Every in-place applicator evaluates against this row's entry coverage.
+        // Capture each keyword's successful additions and merge them only after
+        // every sibling has run; otherwise an inner unevaluated* keyword can see
+        // a sibling's annotations and make validation order-dependent.
+        std::set<std::string> inPlaceProps;
+        std::set<std::size_t> inPlaceItems;
         if (node.applicator == ApplicatorKind::ref && !node.children.empty()) {
             SchemaIndex target = node.children[0];
             if (!node.dynamicRefAnchor.empty()
@@ -558,12 +561,15 @@ public:
                     ctx.resolveDynamicAnchor(registry_, node.dynamicRefAnchor);
                 if (dyn != kNoSchema) target = dyn;
             }
-            ValidationResult rr = this->validate(target, instance, path, ctx);
+            ValidationResult rr = ctx.evaluateAndCaptureValid(
+                [&]() { return this->validate(target, instance, path, ctx); },
+                inPlaceProps, inPlaceItems);
             if (!rr.success) return rr;
         }
 
-        // Applicator walk (allOf/anyOf/oneOf) with transactional annotations.
-        ValidationResult appRes = this->walkApplicators(node, instance, path, ctx);
+        ValidationResult appRes = ctx.evaluateAndCaptureValid(
+            [&]() { return this->walkApplicators(node, instance, path, ctx); },
+            inPlaceProps, inPlaceItems);
         if (!appRes.success) return appRes;
 
         // Type flags (type / type-array). `number` matches any JSON number;
@@ -701,31 +707,27 @@ public:
             if (inner.success) return ValidationResult::invalidAt(path, "not subschema matched");
         }
 
-        // Object structural traversal.
+        // Conditional and dependent applicators also run against entry coverage.
+        // Their successful output joins the other in-place annotations only after
+        // all siblings have completed.
+        ValidationResult condRes = ctx.evaluateAndCaptureValid(
+            [&]() { return this->walkConditional(node, instance, path, ctx); },
+            inPlaceProps, inPlaceItems);
+        if (!condRes.success) return condRes;
+        ValidationResult depRes = ctx.evaluateAndCaptureValid(
+            [&]() { return this->walkDependentSchemas(node, instance, path, ctx); },
+            inPlaceProps, inPlaceItems);
+        if (!depRes.success) return depRes;
+        ctx.curProps().insert(inPlaceProps.begin(), inPlaceProps.end());
+        ctx.curItems().insert(inPlaceItems.begin(), inPlaceItems.end());
+
+        // Child-location applicators run after in-place annotation merging. Their
+        // child schemas use fresh location stacks, while this row retains the
+        // property/item coverage needed by its own unevaluated* exit checks.
         ValidationResult objRes = this->validateObjectTraversal(node, instance, path, ctx);
         if (!objRes.success) return objRes;
-
-        // Array structural traversal.
         ValidationResult arrRes = this->validateArrayTraversal(node, instance, path, ctx);
         if (!arrRes.success) return arrRes;
-
-        // if/then/else + dependentSchemas (annotations of the APPLIED branches
-        // count for unevaluated*; evaluated BEFORE the uneval check so the
-        // exit block sees them). Dependent triggers: the dependent schema
-        // validates in the current context whenever its key is present.
-        {
-            ValidationResult condRes = this->walkConditional(node, instance, path, ctx);
-            if (!condRes.success) return condRes;
-            if (instance.isObject()) {
-                for (auto const& dep : node.dependentSchemas) {
-                    if (instance.atMember({dep.first.data(), dep.first.size()}).value != nullptr) {
-                        ValidationResult r =
-                            this->validate(dep.second, instance, path, ctx);
-                        if (!r.success) return r;
-                    }
-                }
-            }
-        }
 
         // Best-effort unevaluatedProperties (bool false-form rejects; schema
         // form validates and then marks keys evaluated; boolean-true form
@@ -951,8 +953,8 @@ private:
     /// walk-entry coverage (a member's unevaluated* check never sees its
     /// SIBLINGS' coverage — "can't see inside cousins"), and only SUCCESSFUL
     /// branches contribute evaluated-property/item coverage and annotations —
-    /// the rule unevaluated* relies on. (The REF applicator hop lives in
-    /// validateSchemaNode; pure-ref nodes have empty member lists here.)
+    /// the rule unevaluated* relies on. The caller captures this group's merged
+    /// output against the same base as every other in-place applicator.
     ValidationResult walkApplicators(SchemaNode const& node, RawInstance const& instance,
                                      ValidationPath& path, ValidationContext& ctx) const {
         std::set<std::string> accProps;
@@ -1014,34 +1016,59 @@ private:
         return ValidationResult::valid();
     }
 
-    /// if/then/else: the `if` guard runs against a THROWAWAY capture; when it
-    /// SUCCEEDS its annotations are collected (applicable-subschema rule) and
-    /// `then` applies in the current context; when it FAILS, `else` applies.
-    /// Annotations of the not-applied branch never leak. Neither path fails
-    /// this node on its own.
+    /// if/then/else: the `if` guard and the selected branch evaluate independently
+    /// against the keyword-entry coverage. Successful annotations are merged only
+    /// after both have run; the not-applied branch never executes.
     ValidationResult walkConditional(SchemaNode const& node,
                                      RawInstance const& instance,
                                      ValidationPath& path,
                                      ValidationContext& ctx) const {
         if (!node.hasIf) return ValidationResult::valid();
-        std::set<std::string> ifProps;
-        std::set<std::size_t> ifItems;
-        ValidationResult ifRes = ctx.evaluateAndCapture(
+        std::set<std::string> accProps;
+        std::set<std::size_t> accItems;
+        ValidationResult ifRes = ctx.evaluateAndCaptureValid(
             [&] { return this->validate(node.ifSchema, instance, path, ctx); },
-            ifProps, ifItems);
-        if (ifRes.success) {
-            ctx.curProps().insert(ifProps.begin(), ifProps.end());
-            ctx.curItems().insert(ifItems.begin(), ifItems.end());
-            if (node.hasThen) {
-                ValidationResult r =
-                    this->validate(node.thenSchema, instance, path, ctx);
-                if (!r.success) return r;
-            }
-        } else if (node.hasElse) {
-            ValidationResult r =
-                this->validate(node.elseSchema, instance, path, ctx);
+            accProps, accItems);
+        if (ifRes.success && node.hasThen) {
+            ValidationResult r = ctx.evaluateAndCaptureValid(
+                [&] { return this->validate(node.thenSchema, instance, path, ctx); },
+                accProps, accItems);
+            if (!r.success) return r;
+        } else if (!ifRes.success && node.hasElse) {
+            ValidationResult r = ctx.evaluateAndCaptureValid(
+                [&] { return this->validate(node.elseSchema, instance, path, ctx); },
+                accProps, accItems);
             if (!r.success) return r;
         }
+        ctx.curProps().insert(accProps.begin(), accProps.end());
+        ctx.curItems().insert(accItems.begin(), accItems.end());
+        return ValidationResult::valid();
+    }
+
+    /// Each triggered dependentSchemas value is an independent in-place
+    /// subschema. Merge their successful coverage only after every trigger passes.
+    ValidationResult walkDependentSchemas(SchemaNode const& node,
+                                           RawInstance const& instance,
+                                           ValidationPath& path,
+                                           ValidationContext& ctx) const {
+        if (!instance.isObject()) return ValidationResult::valid();
+        std::set<std::string> accProps;
+        std::set<std::size_t> accItems;
+        for (auto const& dep : node.dependentSchemas) {
+            if (instance.atMember({dep.first.data(), dep.first.size()}).value == nullptr) {
+                continue;
+            }
+            ValidationContext::Branch b = ctx.beginBranch();
+            ValidationResult r = ctx.evaluateAndCaptureValid(
+                [&] { return this->validate(dep.second, instance, path, ctx); },
+                accProps, accItems);
+            if (!r.success) {
+                ctx.rollbackBranch(b);
+                return r;
+            }
+        }
+        ctx.curProps().insert(accProps.begin(), accProps.end());
+        ctx.curItems().insert(accItems.begin(), accItems.end());
         return ValidationResult::valid();
     }
 

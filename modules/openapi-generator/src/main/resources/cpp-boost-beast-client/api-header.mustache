@@ -22,6 +22,9 @@
 
 #include "HttpClient.h"
 #include "../model/ValidationTypes.h"
+{{#hasExportMacro}}
+#include "ApiExport.h"
+{{/hasExportMacro}}
 
 {{#imports}}{{{import}}}
 {{/imports}}
@@ -54,7 +57,7 @@ struct {{vendorExtensions.x-codegen-response-union}} {
 ///
 /// Exception to flag problems in the api's
 ///
-class {{classname}}Exception: public std::exception
+class {{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}{{classname}}Exception: public std::exception
 {
 public:
     {{classname}}Exception(boost::beast::http::status statusCode, std::string what, std::string responseBody);
@@ -70,7 +73,7 @@ private:
 };
 
 
-class {{classname}} {
+class {{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}{{classname}} {
 
 public:
     {{classname}}(

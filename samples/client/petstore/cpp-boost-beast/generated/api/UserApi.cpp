@@ -34,8 +34,8 @@
 #include <boost/json.hpp>
 #include <boost/optional.hpp>
 
-#include "ValidationTypes.h"
-#include "Oas31ExactJson.h"
+#include "../model/ValidationTypes.h"
+#include "../model/Oas31ExactJson.h"
 
 #include "UserApi.h"
 
@@ -80,7 +80,7 @@ inline std::string normalizeMediaType(const std::string& contentType) {
     return mediaType;
 }
 
-inline bool isJsonContentType(const std::string& contentType) {
+[[maybe_unused]] inline bool isJsonContentType(const std::string& contentType) {
     const std::string mediaType = normalizeMediaType(contentType);
     return mediaType == "application/json"
         || (mediaType.size() > 5 && mediaType.compare(mediaType.size() - 5, 5, "+json") == 0);
@@ -1407,20 +1407,6 @@ struct OneOfResponseBodyDeserializer<std::variant<Ts...>> {
     }
 };
 
-/// Parse one SSE event data payload (JSON) into a typed event and append it.
-template<typename EventVariant, typename Converter>
-void appendParsedEvent(std::vector<EventVariant>& events,
-                       const std::string& eventData,
-                       Converter&& converter) {
-    // Data-only SSE APIs commonly use this non-JSON payload as an end marker.
-    if (eventData == "[DONE]") {
-        return;
-    }
-    org::openapitools::client::model::detail::schema_validation::ExactJsonValue exactEvent = org::openapitools::client::model::detail::schema_validation::parseExactJson(eventData);
-    org::openapitools::client::model::detail::schema_validation::requireModelConvertibleJson(exactEvent);
-    org::openapitools::client::model::detail::schema_validation::ExactInstanceScope exactScope(exactEvent);
-    events.push_back(converter(exactEvent.value));
-}
 }
 template<typename T>
 std::string FormParamSerializer<std::map<std::string, T>, void>::serialize(

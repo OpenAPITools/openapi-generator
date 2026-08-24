@@ -7,7 +7,7 @@ if (POLICY CMP0167)
     cmake_policy(SET CMP0167 OLD)
 endif ()
 
-find_package(Boost 1.75 REQUIRED)
+find_package(Boost 1.75 REQUIRED COMPONENTS json)
 set(THREADS_TARGET_PREDEFINED FALSE)
 if (TARGET Threads::Threads)
     set(THREADS_TARGET_PREDEFINED TRUE)
@@ -82,6 +82,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     model/ValidationTypes.h
     model/NullableField.h
     model/Oas31DeepEqual.h
+    model/Oas31ExactNumber.cpp
     model/Oas31ExactNumber.h
     model/Oas31SchemaIr.h
     model/Oas31ExactJson.h
@@ -93,7 +94,7 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 
 target_link_libraries(${PROJECT_NAME}
-    PUBLIC Boost::boost OpenSSL::SSL Threads::Threads)
+    PUBLIC Boost::boost Boost::json OpenSSL::SSL Threads::Threads)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

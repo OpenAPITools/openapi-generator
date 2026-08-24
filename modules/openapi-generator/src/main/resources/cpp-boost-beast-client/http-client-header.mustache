@@ -12,6 +12,9 @@
 #include <vector>
 
 #include <boost/beast/http/status.hpp>
+{{#hasExportMacro}}
+#include "ApiExport.h"
+{{/hasExportMacro}}
 
 
 {{#apiNamespaceDeclarations}}
@@ -48,7 +51,7 @@ struct HttpResponseData {
     bool streamCancelled = false;
 };
 
-class HttpClient {
+class {{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}HttpClient {
 
 public:
     HttpClient() = default;

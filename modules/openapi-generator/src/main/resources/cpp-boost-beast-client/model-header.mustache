@@ -12,6 +12,9 @@
 {{/imports}}
 #include <boost/json.hpp>
 #include "ValidationTypes.h"
+{{#hasExportMacro}}
+#include "ApiExport.h"
+{{/hasExportMacro}}
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -22,16 +25,16 @@ namespace {{this}} {
 /// </summary>
 using {{classname}} = {{{vendorExtensions.x-cpp-type}}};
 
-boost::json::value toJsonValue_{{classname}}({{classname}} const& value);
-{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value);
+{{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}boost::json::value toJsonValue_{{classname}}({{classname}} const& value);
+{{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value);
 
 {{#vendorExtensions.x-cpp-has-duplicate-types}}
 {{#vendorExtensions.x-cpp-composition-branches}}
 {{#branches}}
 {{#storage-cpp-type}}
-bool is{{classname}}Branch{{branch-index}}({{classname}} const& value);
-{{{inner-cpp-type}}} get{{classname}}Branch{{branch-index}}({{classname}} const& value);
-{{classname}} make{{classname}}Branch{{branch-index}}({{{inner-cpp-type}}} value);
+{{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}bool is{{classname}}Branch{{branch-index}}({{classname}} const& value);
+{{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}{{{inner-cpp-type}}} get{{classname}}Branch{{branch-index}}({{classname}} const& value);
+{{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}{{classname}} make{{classname}}Branch{{branch-index}}({{{inner-cpp-type}}} value);
 {{/storage-cpp-type}}
 {{/branches}}
 {{/vendorExtensions.x-cpp-composition-branches}}
@@ -64,6 +67,9 @@ bool is{{classname}}Branch{{branch-index}}({{classname}} const& value);
 {{/parent}}
 #include <boost/json.hpp>
 #include "NullableField.h"
+{{#hasExportMacro}}
+#include "ApiExport.h"
+{{/hasExportMacro}}
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -216,7 +222,7 @@ struct {{classname}}{{name}}PropertyIsInherited<ParentType, {{classname}}ModelVo
 {{#circularReferences}}
 class {{{this}}};
 {{/circularReferences}}
-class {{declspec}} {{classname}}{{#parent}} : public {{{parent}}}{{/parent}}
+class {{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}{{classname}}{{#parent}} : public {{{parent}}}{{/parent}}
 {
 public:
     {{classname}}() = default;
@@ -352,11 +358,11 @@ protected:
 {{/vendorExtensions.x-cpp-is-optional}}
 };
 
-std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{classname}}>>& data);
+{{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}std::string createJsonStringFromModelVector(const std::vector<std::shared_ptr<{{classname}}>>& data);
 
-void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}>>& vec, const std::string& json);
+{{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}void createModelVectorFromJsonString(std::vector<std::shared_ptr<{{{classname}}}>>& vec, const std::string& json);
 
-{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value);
+{{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}{{classname}} fromJsonValue_{{classname}}(boost::json::value const& value);
 
 {{#modelNamespaceDeclarations}}
 }

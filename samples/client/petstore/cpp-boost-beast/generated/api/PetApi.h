@@ -15,10 +15,11 @@
  * 
  */
 
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_PetApi_
-#define BOOST_BEAST_OPENAPI_CLIENT_PetApi_
+#ifndef ORG_OPENAPITOOLS_CLIENT_API_PetApi_H_
+#define ORG_OPENAPITOOLS_CLIENT_API_PetApi_H_
 
 #include <exception>
+#include <functional>
 #include <map>
 #include <memory>
 #include <string>
@@ -29,11 +30,11 @@
 #include <boost/beast/core.hpp>
 #include <boost/optional.hpp>
 
-#include "api/HttpClient.h"
-#include "ValidationTypes.h"
+#include "HttpClient.h"
+#include "../model/ValidationTypes.h"
 
-#include "ApiResponse.h"
-#include "Pet.h"
+#include "../model/ApiResponse.h"
+#include "../model/Pet.h"
 #include <string>
 #include <vector>
 
@@ -167,7 +168,6 @@ public:
     }
 
 
-
     /// Credential hook invoked before each operation with its effective security
     /// requirements. Operation requirements override root requirements and an
     /// empty list clears them. Override this no-op to attach credentials;
@@ -202,4 +202,4 @@ protected:
 }
 
 
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_PetApi_ */
+#endif /* ORG_OPENAPITOOLS_CLIENT_API_PetApi_H_ */

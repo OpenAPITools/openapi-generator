@@ -1,5 +1,5 @@
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_IMPL_
-#define BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_IMPL_
+#ifndef ORG_OPENAPITOOLS_CLIENT_API_HTTP_CLIENT_IMPL_H_
+#define ORG_OPENAPITOOLS_CLIENT_API_HTTP_CLIENT_IMPL_H_
 
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
@@ -12,7 +12,7 @@
 #include <mutex>
 #include <string>
 
-#include "api/HttpClient.h"
+#include "HttpClient.h"
 
 
 namespace org {
@@ -61,7 +61,8 @@ public:
     executeStream(const std::string &verb, const std::string &target,
                   const std::string &body,
                   const std::map<std::string, std::string> &headers,
-                  std::function<void(const std::string &)> onEvent) override;
+                  SseEventCallback onEvent,
+                  const SseStreamOptions &options = {}) override;
 
 protected:
     using HttpRequest =
@@ -99,12 +100,14 @@ private:
     HttpResponseData
     executeHttpStream(
         HttpRequest &request,
-        std::function<void(const std::string &)> onEvent);
+        SseEventCallback onEvent,
+        const SseStreamOptions &options);
 
     HttpResponseData
     executeHttpsStream(
         HttpRequest &request,
-        std::function<void(const std::string &)> onEvent);
+        SseEventCallback onEvent,
+        const SseStreamOptions &options);
 
     const std::string m_host;
     const std::string m_port;
@@ -122,4 +125,4 @@ private:
 }
 }
 
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_IMPL_ */
+#endif /* ORG_OPENAPITOOLS_CLIENT_API_HTTP_CLIENT_IMPL_H_ */

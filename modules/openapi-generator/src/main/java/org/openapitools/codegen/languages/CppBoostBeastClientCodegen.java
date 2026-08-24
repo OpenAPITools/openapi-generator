@@ -37,6 +37,8 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
     public static final String DEFAULT_PACKAGE_NAME = "CppBoostBeastOpenAPIClient";
+    public static final String EXPORT_MACRO = "exportMacro";
+    private static final String HAS_EXPORT_MACRO = "hasExportMacro";
 
     /** Policy for format metadata in composition branch matching.
      *  Formats remain annotations and never affect branch match counts. */
@@ -180,6 +182,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         return Collections.unmodifiableMap(compositionDescriptors);
     }
     protected String packageName = DEFAULT_PACKAGE_NAME;
+    private String exportMacro = "";
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -420,6 +423,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         // CLI options
         addOption(CodegenConstants.PACKAGE_NAME, "C++ package and library name.", DEFAULT_PACKAGE_NAME);
+        addOption(EXPORT_MACRO,
+                "C++ export macro placed before public classes and functions. When non-empty,"
+                + " ApiExport.h is generated for Windows DLL export/import handling.",
+                exportMacro);
         addOption(CodegenConstants.MODEL_PACKAGE, "C++ namespace for models (convention: name.space.model).",
                 this.modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "C++ namespace for apis (convention: name.space.api).",
@@ -2031,6 +2038,14 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         return escaped.toString();
     }
 
+    private static String toPreprocessorIdentifier(String value) {
+        String sanitized = value.replaceAll("[^A-Za-z0-9_]", "_");
+        if (!sanitized.isEmpty() && Character.isDigit(sanitized.charAt(0))) {
+            return "_" + sanitized;
+        }
+        return sanitized.isEmpty() ? "_" : sanitized;
+    }
+
     /**
      * Converts an arbitrary schema name into a valid C++ identifier for use
      * in generated validator function names. Replaces non-alphanumeric
@@ -2389,6 +2404,30 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             throw new IllegalArgumentException("packageName must not be blank");
         }
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        Object configuredExportMacro = additionalProperties.get(EXPORT_MACRO);
+        exportMacro = configuredExportMacro == null
+                ? "" : configuredExportMacro.toString().trim();
+        if (!exportMacro.isEmpty()
+                && !exportMacro.matches("[A-Za-z_][A-Za-z0-9_]*")) {
+            throw new IllegalArgumentException(
+                    "exportMacro must be empty or a valid C preprocessor identifier: "
+                            + exportMacro);
+        }
+        additionalProperties.put(EXPORT_MACRO, exportMacro);
+        additionalProperties.put(HAS_EXPORT_MACRO, !exportMacro.isEmpty());
+        supportingFiles.removeIf(file -> "ApiExport.h".equals(
+                file.getDestinationFilename()));
+        if (!exportMacro.isEmpty()) {
+            String exportPrefix = toPreprocessorIdentifier(packageName);
+            additionalProperties.put("exportDefine", exportPrefix + "_EXPORTS");
+            additionalProperties.put("exportHeaderGuard",
+                    exportPrefix.toUpperCase(Locale.ROOT) + "_API_EXPORT_H_");
+            supportingFiles.add(new SupportingFile(
+                    "api-export.mustache", "api", "ApiExport.h"));
+        } else {
+            additionalProperties.remove("exportDefine");
+            additionalProperties.remove("exportHeaderGuard");
+        }
         String modelNamespace = modelPackage.replaceAll("\\.", "::");
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelNamespace);

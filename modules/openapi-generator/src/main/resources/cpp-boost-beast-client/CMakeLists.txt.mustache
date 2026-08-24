@@ -48,6 +48,9 @@ endif ()
 
 
 add_library(${PROJECT_NAME} SHARED)
+{{#hasExportMacro}}
+set_property(TARGET ${PROJECT_NAME} PROPERTY DEFINE_SYMBOL "{{exportDefine}}")
+{{/hasExportMacro}}
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
@@ -71,6 +74,9 @@ target_sources(${PROJECT_NAME} PRIVATE
 {{/apis}}
 {{/apiInfo}}
 # other
+{{#hasExportMacro}}
+    api/ApiExport.h
+{{/hasExportMacro}}
     api/HttpClient.h
     api/HttpClientImpl.cpp
     api/HttpClientImpl.h

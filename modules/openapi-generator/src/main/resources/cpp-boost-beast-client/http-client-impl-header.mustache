@@ -13,6 +13,9 @@
 #include <string>
 
 #include "HttpClient.h"
+{{#hasExportMacro}}
+#include "ApiExport.h"
+{{/hasExportMacro}}
 
 
 {{#apiNamespaceDeclarations}}
@@ -20,7 +23,7 @@ namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
 
-class HttpClientImpl : public HttpClient {
+class {{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}HttpClientImpl : public HttpClient {
 
 public:
     enum class Transport {
