@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   RequiredAndNullable.JSON_PROPERTY_ONLY_REQUIRED,
   RequiredAndNullable.JSON_PROPERTY_LIST
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class RequiredAndNullable {
   public static final String JSON_PROPERTY_STR = "str";
   
