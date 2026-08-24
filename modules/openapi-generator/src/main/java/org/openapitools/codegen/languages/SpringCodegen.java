@@ -1444,7 +1444,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Only for libraries that support Pageable (spring-boot, spring-cloud);
         // respect manual x-spring-paginated: false override.
         if (isPageableSupported()) {
-            SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(operation, autoXSpringPaginated);
+            SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(
+                    openAPI, operation, autoXSpringPaginated);
         }
 
         // add Pageable import only if x-spring-paginated explicitly used AND it's a pageable-supporting library.

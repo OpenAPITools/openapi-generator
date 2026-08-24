@@ -7463,6 +7463,38 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void autoXSpringPaginatedResolvesOas31ReferencedParameters() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+        props.put(SpringCodegen.GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/spring/issue_24719.yaml", SPRING_BOOT, props);
+
+        assertThat(files).containsKeys("ValidPageable.java", "ValidSort.java");
+        JavaFileAssert.assertThat(files.get("ItemsApi.java"))
+                .assertMethod("listItems")
+                .doesNotHaveParameter("page")
+                .doesNotHaveParameter("size")
+                .doesNotHaveParameter("sort")
+                .assertParameter("pageable")
+                .hasType("Pageable");
+        JavaFileAssert.assertThat(files.get("ItemsApi.java"))
+                .fileContains("@PageableDefault(page = 0, size = 20)")
+                .fileContains("@SortDefault.SortDefaults({@SortDefault(sort = {\"name\"}, direction = Sort.Direction.DESC)})")
+                .fileContains("@ValidPageable(")
+                .fileContains("maxSize = 100")
+                .fileContains("minSize = 1")
+                .fileContains("minPage = 0")
+                .fileContains("@ValidSort(allowedValues = {\"name,asc\", \"name,desc\"})");
+    }
+
+    @Test
     public void autoXSpringPaginatedManualFalseTakesPrecedence() throws IOException {
         Map<String, Object> props = new HashMap<>();
         props.put(INTERFACE_ONLY, "true");
