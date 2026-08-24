@@ -28,11 +28,11 @@ data class Truck(
 
     @field:Valid
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("vehicleType")
+    @param:JsonProperty("vehicleType", required = true)
     @get:JsonProperty("vehicleType", required = true) override val vehicleType: VehicleType = VehicleType.TRUCK,
 
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("payloadCapacity")
+    @param:JsonProperty("payloadCapacity", required = true)
     @get:JsonProperty("payloadCapacity", required = true) val payloadCapacity: java.math.BigDecimal
 ) : Vehicle {
 

@@ -5,5 +5,5 @@
     @field:JsonInclude(JsonInclude.Include.{{{vendorExtensions.x-jackson-json-include-policy}}}){{/vendorExtensions.x-jackson-json-include-policy}}{{#vendorExtensions.x-has-json-setter-nulls-skip}}
     @field:JsonSetter(nulls = Nulls.SKIP){{/vendorExtensions.x-has-json-setter-nulls-skip}}{{#vendorExtensions.x-has-json-setter-nulls-fail}}
     @field:JsonSetter(nulls = Nulls.FAIL){{/vendorExtensions.x-has-json-setter-nulls-fail}}
-    @param:JsonProperty("{{{baseName}}}")
+    @param:JsonProperty("{{{baseName}}}", required = true)
     @get:JsonProperty("{{{baseName}}}", required = true){{#isInherited}} override{{/isInherited}} {{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isArray}}{{baseType}}<{{/isArray}}{{classname}}.{{{nameInPascalCase}}}{{#isArray}}>{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}?{{/isNullable}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}

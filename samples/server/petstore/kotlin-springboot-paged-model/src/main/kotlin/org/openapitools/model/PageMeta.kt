@@ -23,19 +23,19 @@ import jakarta.validation.Valid
 data class PageMeta(
 
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("size")
+    @param:JsonProperty("size", required = true)
     @get:JsonProperty("size", required = true) val propertySize: kotlin.Long,
 
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("number")
+    @param:JsonProperty("number", required = true)
     @get:JsonProperty("number", required = true) val number: kotlin.Long,
 
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("totalElements")
+    @param:JsonProperty("totalElements", required = true)
     @get:JsonProperty("totalElements", required = true) val totalElements: kotlin.Long,
 
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("totalPages")
+    @param:JsonProperty("totalPages", required = true)
     @get:JsonProperty("totalPages", required = true) val totalPages: kotlin.Long
 ) : java.io.Serializable {
 
