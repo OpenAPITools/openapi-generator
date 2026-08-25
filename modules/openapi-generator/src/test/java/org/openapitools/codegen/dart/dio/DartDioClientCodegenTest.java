@@ -621,4 +621,38 @@ public class DartDioClientCodegenTest {
                 "removeNullParametersExcept(",
                 "r'requiredNullable',");
     }
+
+    /**
+     * Regression test: when enum collection path parameters (List/Map of enums)
+     * are encoded, each enum item must use .toString() to get the wire value,
+     * not .name which returns the Dart identifier.
+     */
+    @Test
+    public void testEnumCollectionPathParamsUseWireValues() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/path_param_enum_collection.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+
+        // Enum collection items must be encoded using _encodePathValue which
+        // calls .toString() on enum items to get wire values.
+        TestUtils.assertFileContains(defaultApi,
+                "_encodePathValue");
+
+        // Path should use encodePathParameter to handle collections.
+        TestUtils.assertFileContains(defaultApi,
+                "encodePathParameter(statuses",
+                "encodePathParameter(categories");
+    }
 }
+

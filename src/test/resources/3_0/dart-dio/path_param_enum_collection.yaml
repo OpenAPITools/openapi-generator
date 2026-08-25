@@ -1,0 +1,46 @@
+openapi: "3.0.0"
+info:
+  title: Path parameter enum collection encoding test
+  version: "1.0.0"
+paths:
+  /orders/{statuses}:
+    get:
+      operationId: getOrdersByStatuses
+      parameters:
+        - name: statuses
+          in: path
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/OrderStatus"
+      responses:
+        "200":
+          description: OK
+  /items/{categories}:
+    get:
+      operationId: getItemsByCategories
+      parameters:
+        - name: categories
+          in: path
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              $ref: "#/components/schemas/CategoryType"
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    OrderStatus:
+      type: string
+      enum:
+        - placed
+        - approved
+        - unknown_default_open_api
+    CategoryType:
+      type: string
+      enum:
+        - type_a
+        - type_b
