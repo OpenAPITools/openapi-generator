@@ -47,7 +47,7 @@ import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public abstract class AbstractPhpCodegen extends DefaultCodegen implements CodegenConfig {
+public abstract class AbstractPhpCodegen extends DefaultCodegen implements CodegenConfig, ForcedSchemaSupport {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPhpCodegen.class);
 
@@ -82,7 +82,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         schemaKeyToModelNameCache.clear();
         super.clearModelNameCache();
     }
-
 
     public AbstractPhpCodegen() {
         super();

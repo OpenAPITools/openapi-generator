@@ -46,7 +46,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 /**
  * <p>Mustache templates are located in {@code src/main/resources/powershell/}.
  */
-public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig, ForcedSchemaSupport {
     private final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
     @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
@@ -82,7 +82,6 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         schemaKeyToModelNameCache.clear();
         super.clearModelNameCache();
     }
-
 
     /**
      * Constructs an instance of `PowerShellClientCodegen`.

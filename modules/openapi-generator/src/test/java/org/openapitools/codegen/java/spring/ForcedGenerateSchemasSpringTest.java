@@ -6,6 +6,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -85,6 +86,18 @@ public class ForcedGenerateSchemasSpringTest {
                     .map(ModelMap.class::cast)
                     .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
             return super.postProcessSupportingFileData(objs);
+        }
+    }
+
+    private static class ShadowMutatingSpringCodegen extends SpringCodegen {
+        private int modelPasses;
+
+        @Override
+        public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+            if (++modelPasses > 1) {
+                additionalProperties.put("shadowPassLeak", true);
+            }
+            return super.postProcessAllModels(objs);
         }
     }
 
@@ -194,5 +207,16 @@ public class ForcedGenerateSchemasSpringTest {
         // so its reference continues to use the mapped production class.
         assertFileContains(Paths.get(modelDir + File.separator + "ApiContainer.java"), "com.example.mapped.Widget");
         assertFileNotContains(Paths.get(modelDir + File.separator + "ApiContainer.java"), "ApiWidget");
+    }
+
+    @Test
+    public void shadowPassRestoresMutableGeneratorProperties() throws IOException {
+        File output = Files.createTempDirectory("forced-gen-spring").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        ShadowMutatingSpringCodegen codegen = new ShadowMutatingSpringCodegen();
+
+        generate(output, codegen, false, "Widget");
+
+        assertFalse(codegen.additionalProperties().containsKey("shadowPassLeak"));
     }
 }

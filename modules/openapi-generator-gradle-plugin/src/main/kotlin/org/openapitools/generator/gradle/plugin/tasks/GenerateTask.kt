@@ -645,6 +645,8 @@ abstract class GenerateTask : DefaultTask() {
      *
      * Use `"*"` to include all mapping-suppressed schemas. Unmapped schemas remain in normal
      * generation, and generated APIs and supporting-file metadata continue to use mapped classes.
+     * Supported families are Java, Groovy, Kotlin, C#, Python, Python Pydantic v1, PHP, Go client, Perl,
+     * PowerShell, R, and Ruby; other generators fail before writing files.
      */
     @get:Optional
     @get:Input

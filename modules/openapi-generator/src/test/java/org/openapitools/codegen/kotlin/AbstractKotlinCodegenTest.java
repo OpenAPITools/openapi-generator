@@ -35,6 +35,7 @@ public class AbstractKotlinCodegenTest {
     private AbstractKotlinCodegen codegen;
 
     /**
+     * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
      * using @BeforeMethod to have a fresh codegen mock for each test
      */
     @BeforeMethod

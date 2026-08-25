@@ -81,7 +81,7 @@ import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
-public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig,
+public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig, ForcedSchemaSupport,
         DocumentationProviderFeatures {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
@@ -237,7 +237,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         schemaKeyToModelNameCache.clear();
         super.clearModelNameCache();
     }
-
 
     public AbstractJavaCodegen() {
         super();

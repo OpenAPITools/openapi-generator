@@ -207,6 +207,8 @@ public class Generate extends OpenApiGeneratorCommand {
             description = "comma-separated list of mapping-suppressed schemas to emit as isolated shadow models."
                     + " Example: MyEnum,OtherSchema."
                     + " Use the wildcard '*' to include all mapping-suppressed schemas."
+                    + " Supported families: Java, Groovy, Kotlin, C#, Python, Python Pydantic v1, PHP,"
+                    + " Go client, Perl, PowerShell, R, and Ruby; others fail before writing files."
                     + " You can also have multiple occurrences of this option.")
     private List<String> forcedGenerateSchemas = new ArrayList<>();
 

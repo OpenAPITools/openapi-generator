@@ -78,17 +78,24 @@ public final class PagedModelScanUtils {
      * names are identical.  When {@link #scanPagedModels(OpenAPI, UnaryOperator)} is used, they
      * may differ (e.g. {@code rawSchemaName="UserPage"}, {@code schemaName="UserPageDto"}).</p>
      *
+     * @param schemaName        Transformed model name of the detected paged schema.
+     * @param itemSchemaName    Raw item schema name (always raw; callers apply
+     *                          {@code toModelName()} at the point of use).
+     * @param metaSchemaName    Transformed model name of the pagination-metadata schema,
+     *                          or {@code null} if unresolved.
+     * @param rawSchemaName     Raw OpenAPI schema name of the paged schema (for {@code objs.remove}).
+     * @param rawMetaSchemaName Raw OpenAPI schema name of the pagination-metadata schema
+     *                          (for {@code objs.remove}), or {@code null} if unresolved.
      */
     public static final class DetectedPagedModel {
         /** Transformed model name — use for import removal / import-presence checks. */
         public final String schemaName;
-        /** Raw item schema name; callers apply {@code toModelName()} at the point of use. */
         public final String itemSchemaName;
-        /** Transformed meta model name for import checks, or {@code null} if unresolved. */
+        /** Transformed meta model name — use for import-presence checks. */
         public final String metaSchemaName;
         /** Raw OpenAPI schema name — use for {@code objs.remove()} in {@code postProcessAllModels}. */
         public final String rawSchemaName;
-        /** Raw OpenAPI meta schema name for {@code objs.remove()}, or {@code null} if unresolved. */
+        /** Raw OpenAPI meta schema name — use for {@code objs.remove()} in {@code postProcessAllModels}. */
         public final String rawMetaSchemaName;
 
         /**

@@ -83,11 +83,6 @@ public class DefaultGenerator implements Generator {
     private Boolean generateModelTests = null;
     private Boolean generateModelDocumentation = null;
     private Boolean generateMetadata = true;
-    // While non-null, the model file-emission loop in generateModels(...) emits only the models
-    // whose schema name is contained here (all models are still processed for correct parent/
-    // interface wiring). Set by generateForcedModels(...) so the forced-schema pass re-emits only
-    // the forced schemas as their stock (unmapped) models.
-    private Set<String> restrictModelEmissionTo = null;
     private String basePath;
     private String basePathWithoutHost;
     private String contextPath;
@@ -414,16 +409,28 @@ public class DefaultGenerator implements Generator {
                 || config.forcedGenerateSchemas().contains(schemaName);
     }
 
-    private boolean isModelSuppressedByMapping(String schemaName) {
-        if (config.schemaMapping().containsKey(schemaName)) {
-            return true;
-        }
+    private boolean isSuppressedByTypeAndImportMapping(String schemaName) {
         String mappedTypeName = config.typeMapping().get(schemaName);
         return mappedTypeName != null && config.importMapping().containsKey(mappedTypeName);
     }
 
+    private boolean isSuppressedByMapping(String schemaName) {
+        return config.schemaMapping().containsKey(schemaName)
+                || isSuppressedByTypeAndImportMapping(schemaName);
+    }
+
     private boolean isForcedShadowSchema(String schemaName) {
-        return isForcedSchemaRequested(schemaName) && isModelSuppressedByMapping(schemaName);
+        return isForcedSchemaRequested(schemaName) && isSuppressedByMapping(schemaName);
+    }
+
+    private ForcedSchemaSupport forcedSchemaSupport() {
+        if (config instanceof ForcedSchemaSupport) {
+            return (ForcedSchemaSupport) config;
+        }
+        throw new IllegalArgumentException(String.format(Locale.ROOT,
+                "Generator '%s' does not support forcedGenerateSchemas. "
+                        + "Use a supported generator family or remove forcedGenerateSchemas.",
+                config.getName()));
     }
 
     private void generateModelDocumentation(List<File> files, Map<String, Object> models, String modelName) throws IOException {
@@ -463,23 +470,21 @@ public class DefaultGenerator implements Generator {
     }
 
     void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<ModelMap> aliasModels) {
-        generateModels(files, allModels, unusedModels, aliasModels, new ArrayList<>(), DefaultGenerator.this::modelKeys);
+        generateModels(files, allModels, unusedModels, aliasModels, new ArrayList<>(), DefaultGenerator.this::modelKeys,
+                false, Collections.emptySet());
     }
 
     /**
      * Forced-schema generation pass (Phase 2).
      *
-     * <p>Some schemas are excluded from normal model generation because a {@code schemaMapping},
-     * or a {@code typeMapping} backed by an {@code importMapping}, replaces them with a hand-written
-     * external class. When such a schema is selected by {@code forcedGenerateSchemas}, this pass
-     * emits an isolated shadow model under its stock, unmapped name.</p>
-     *
-     * <p>This is done generator-agnostically: the forced schemas' own {@code schemaMapping}/
-     * {@code importMapping} entries are temporarily removed and the model-name caches invalidated,
-     * so every generator naturally resolves them to their stock names. The full model set is still
-     * processed (so parents/interfaces of the forced schemas wire up correctly) but only shadow
-     * schemas are emitted. APIs, ordinary models, and supporting-file metadata were generated in
-     * Phase 1 with mappings intact, so they continue to reference the mapped FQN classes.</p>
+     * <p>A schema suppressed from normal generation by a {@code schemaMapping} (or a
+     * {@code typeMapping} backed by an {@code importMapping}) but selected via
+     * {@code forcedGenerateSchemas} is emitted here as an isolated shadow model under its stock,
+     * unmapped name. The suppressing mappings are temporarily removed and the mapping-sensitive
+     * model-name caches invalidated so the schemas resolve to stock names; the full model set is
+     * still processed (so parents/interfaces wire up) but only the forced schemas are emitted.
+     * APIs, ordinary models, and supporting-file metadata were produced in Phase 1 with mappings
+     * intact and keep referencing the mapped classes.</p>
      */
     void generateForcedModels(List<File> files) {
         if (!generateModels || config.forcedGenerateSchemas().isEmpty()) {
@@ -497,38 +502,47 @@ public class DefaultGenerator implements Generator {
 
         LOGGER.info("Forced-schema generation pass: regenerating stock models for {}", forcedSet);
 
-        // Of the forced schemas, those carrying a schema/import mapping need their entries removed
-        // so they (and forced->forced references) resolve to stock names during this pass.
-        Map<String, String> savedSchemaMappings = new HashMap<>();
-        Map<String, String> savedImportMappings = new HashMap<>();
-        for (String name : forcedSet) {
-            if (config.schemaMapping().containsKey(name)) {
-                savedSchemaMappings.put(name, config.schemaMapping().remove(name));
-            }
-            if (config.importMapping().containsKey(name)) {
-                savedImportMappings.put(name, config.importMapping().remove(name));
-            }
-            String mappedTypeName = config.typeMapping().get(name);
-            if (mappedTypeName != null && config.importMapping().containsKey(mappedTypeName)) {
-                savedImportMappings.put(mappedTypeName, config.importMapping().remove(mappedTypeName));
-            }
-        }
-        config.clearModelNameCache();
+        Map<String, String> savedSchemaMappings = new LinkedHashMap<>(config.schemaMapping());
+        Map<String, String> savedImportMappings = new LinkedHashMap<>(config.importMapping());
+        Map<String, Object> savedAdditionalProperties = new LinkedHashMap<>(config.additionalProperties());
+        ForcedSchemaSupport support = forcedSchemaSupport();
 
         try {
-            restrictModelEmissionTo = forcedSet;
+            for (String schemaName : forcedSet) {
+                config.schemaMapping().remove(schemaName);
+                config.importMapping().remove(schemaName);
+                String mappedTypeName = config.typeMapping().get(schemaName);
+                if (mappedTypeName != null) {
+                    config.importMapping().remove(mappedTypeName);
+                }
+            }
+            support.clearModelNameCache();
+
             // Throw-away aggregation lists: shadow models are intentionally excluded from APIs and
             // supporting-file metadata; this pass only emits their model artifacts.
-            generateModels(files, new ArrayList<>(), ModelUtils.getSchemasUsedOnlyInFormParam(openAPI), new ArrayList<>());
+            generateModels(files, new ArrayList<>(), ModelUtils.getSchemasUsedOnlyInFormParam(openAPI),
+                    new ArrayList<>(), new ArrayList<>(), DefaultGenerator.this::modelKeys,
+                    true, forcedSet);
         } finally {
-            restrictModelEmissionTo = null;
+            config.schemaMapping().clear();
             config.schemaMapping().putAll(savedSchemaMappings);
+            config.importMapping().clear();
             config.importMapping().putAll(savedImportMappings);
-            config.clearModelNameCache();
+            config.additionalProperties().clear();
+            config.additionalProperties().putAll(savedAdditionalProperties);
+            support.clearModelNameCache();
         }
     }
 
     void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<ModelMap> aliasModels, List<String> processedModels, Supplier<Set<String>> modelKeysSupplier) {
+        generateModels(files, allModels, unusedModels, aliasModels, processedModels, modelKeysSupplier,
+                false, Collections.emptySet());
+    }
+
+    private void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels,
+                                List<ModelMap> aliasModels, List<String> processedModels,
+                                Supplier<Set<String>> modelKeysSupplier, boolean shadowPass,
+                                Set<String> modelsToEmit) {
         if (!generateModels) {
             // TODO: Process these anyway and add to dryRun info
             LOGGER.info("Skipping generation of models.");
@@ -551,19 +565,14 @@ public class DefaultGenerator implements Generator {
         for (String name : modelKeys) {
             processedModels.add(name);
             try {
-                // Defer forced schemas to the dedicated forced-schema pass (generateForcedModels),
-                // which regenerates them with the forced schemas' schemaMapping/importMapping
-                // entries temporarily removed so every forced model — and every forced->forced
-                // reference — resolves to its stock (unmapped) name. Non-forced models are still
-                // generated here with the mappings intact, so a non-forced reference to a forced
-                // schema keeps the mapped (FQN) class. During the forced pass restrictModelEmissionTo
-                // is non-null, so this guard is skipped and forced models are processed normally.
-                if (restrictModelEmissionTo == null && isForcedShadowSchema(name)) {
+                // Defer forced+mapping-suppressed schemas to generateForcedModels(), which re-emits
+                // them under their stock (unmapped) names. Non-forced models are generated here with
+                // mappings intact. During the shadow pass this guard is skipped.
+                if (!shadowPass && isForcedShadowSchema(name)) {
                     LOGGER.info("Model {} deferred to the forced-schema generation pass", name);
                     continue;
                 }
 
-                // don't generate models that have a schema mapping
                 if (config.schemaMapping().containsKey(name)) {
                     LOGGER.info("Model {} not generated due to schema mapping", name);
                     continue;
@@ -622,7 +631,7 @@ public class DefaultGenerator implements Generator {
         // post process all processed models
         allProcessedModels = config.postProcessAllModels(allProcessedModels);
 
-        if (generateRecursiveDependentModels && restrictModelEmissionTo == null) {
+        if (generateRecursiveDependentModels && !shadowPass) {
             for (ModelsMap modelsMap : allProcessedModels.values()) {
                 for (ModelMap mm : modelsMap.getModels()) {
                     CodegenModel cm = mm.getModel();
@@ -646,7 +655,7 @@ public class DefaultGenerator implements Generator {
             models.put("modelPackage", config.modelPackage());
             // During the forced-schema pass only the forced schemas are (re-)emitted; every model
             // is still processed above so parent/interface wiring is correct.
-            if (restrictModelEmissionTo != null && !restrictModelEmissionTo.contains(modelName)) {
+            if (shadowPass && !modelsToEmit.contains(modelName)) {
                 continue;
             }
             try {
@@ -677,12 +686,10 @@ public class DefaultGenerator implements Generator {
                 // external type (e.g. --type-mappings Address=CustomAddress
                 // --import-mappings CustomAddress=package:custom/address.dart).
                 // The model metadata is still kept in allModels for use by supporting file templates.
-                if (config.typeMapping().containsKey(modelName)) {
-                    String mappedTypeName = config.typeMapping().get(modelName);
-                    if (config.importMapping().containsKey(mappedTypeName)) {
-                        LOGGER.info("Model {} (type-mapped to {}) not generated due to import mapping", modelName, mappedTypeName);
-                        continue;
-                    }
+                if (isSuppressedByTypeAndImportMapping(modelName)) {
+                    LOGGER.info("Model {} (type-mapped to {}) not generated due to import mapping",
+                            modelName, config.typeMapping().get(modelName));
+                    continue;
                 }
 
                 // to generate model files
@@ -1369,6 +1376,10 @@ public class DefaultGenerator implements Generator {
 
         if (config == null) {
             throw new RuntimeException("missing config!");
+        }
+
+        if (!config.forcedGenerateSchemas().isEmpty()) {
+            forcedSchemaSupport();
         }
 
         if (config.getGeneratorMetadata() == null) {

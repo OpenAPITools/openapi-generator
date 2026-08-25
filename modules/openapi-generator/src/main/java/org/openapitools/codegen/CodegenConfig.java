@@ -166,8 +166,8 @@ public interface CodegenConfig {
     Map<String, String> schemaMapping();
 
     /**
-     * Returns the set of schema names that must be generated even when they appear in
-     * schemaMappings or importMappings (which would normally suppress their generation).
+     * Returns the set of schema names that must be generated even when suppressed by
+     * {@code schemaMapping}, or by a {@code typeMapping} with a matching {@code importMapping}.
      * <p>
      * A force-generated schema is emitted as an isolated shadow model under its <em>stock</em>
      * (unmapped) model name — as if neither {@code schemaMapping} nor {@code importMapping} applied
@@ -178,22 +178,12 @@ public interface CodegenConfig {
      * Use {@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS} ({@code "*"}) as a wildcard
      * to force-generate all schemas that would otherwise be suppressed by mappings. Schemas without
      * a suppressing mapping remain in the normal generation pass.
+     * <p>
+     * Supported generator families are Java, Groovy, Kotlin, C#, Python, Python Pydantic v1, PHP, Go
+     * client, Perl, PowerShell, R, and Ruby. Other generators reject this option before generating
+     * files.
      */
     Set<String> forcedGenerateSchemas();
-
-    /**
-     * Clears any cached mapping from schema name to resolved model name (and related name caches).
-     * <p>
-     * The generator invokes this between the normal model-generation pass and the forced
-     * ({@link #forcedGenerateSchemas()}) pass, after the forced schemas' {@code schemaMapping}/
-     * {@code importMapping} entries have been temporarily removed, so that forced schema names are
-     * re-resolved to their stock (unmapped) model names instead of returning stale cached mapped
-     * names. Implementations that memoize {@link #toModelName(String)} results must override this
-     * to clear that cache.
-     */
-    default void clearModelNameCache() {
-        // no-op by default; overridden by generators that memoize model-name resolution
-    }
 
     Map<String, String> inlineSchemaNameMapping();
 

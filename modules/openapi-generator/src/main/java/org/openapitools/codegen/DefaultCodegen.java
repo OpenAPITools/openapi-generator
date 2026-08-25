@@ -59,7 +59,11 @@ import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.model.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
@@ -1630,7 +1634,6 @@ public class DefaultCodegen implements CodegenConfig {
         return forcedGenerateSchemas;
     }
 
-    @Override
     public void clearModelNameCache() {
         // reset the lazily-built model-name -> schema index so it is rebuilt with the current
         // schemaMapping/importMapping state (used by the forced-schema generation pass).

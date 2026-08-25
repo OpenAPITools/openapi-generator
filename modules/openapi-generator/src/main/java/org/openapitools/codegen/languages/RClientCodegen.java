@@ -51,7 +51,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
  * {@code src/main/resources/r/libraries/} (library-specific overrides).
  * A library-specific template shadows a root-level template of the same name.
  */
-public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class RClientCodegen extends DefaultCodegen implements CodegenConfig, ForcedSchemaSupport {
     private final Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
 
     @Setter protected String packageName = "openapi";
@@ -90,7 +90,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         schemaKeyToModelNameCache.clear();
         super.clearModelNameCache();
     }
-
 
     @Override
     public CodegenType getTag() {

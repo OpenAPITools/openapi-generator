@@ -40,7 +40,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 /**
  * <p>Mustache templates are located in {@code src/main/resources/perl/}.
  */
-public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig, ForcedSchemaSupport {
     private final Logger LOGGER = LoggerFactory.getLogger(PerlClientCodegen.class);
 
     protected static int emptyFunctionNameCounter = 0;
@@ -59,7 +59,6 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         schemaKeyToModelNameCache.clear();
         super.clearModelNameCache();
     }
-
 
     public PerlClientCodegen() {
         super();

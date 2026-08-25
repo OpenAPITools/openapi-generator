@@ -258,6 +258,8 @@ public final class GeneratorSettings implements Serializable {
     /**
      * Gets the mapping-suppressed schemas to emit as isolated shadow models.
      * Use {@code "*"} as a wildcard to include all mapping-suppressed schemas.
+     * Supported families are Java, Groovy, Kotlin, C#, Python, Python Pydantic v1, PHP, Go client, Perl,
+     * PowerShell, R, and Ruby; other generators fail before writing files.
      *
      * @return the forced generate schemas
      */
@@ -976,7 +978,8 @@ public final class GeneratorSettings implements Serializable {
         /**
          * Sets the mapping-suppressed schemas to emit as isolated shadow models.
          * Use {@code "*"} as a wildcard to include all mapping-suppressed schemas.
-         * and returns a reference to this Builder so that the methods can be chained together.
+         * Unsupported generator families fail before writing files.
+         * Returns a reference to this Builder so that the methods can be chained together.
          *
          * @param schemas the {@code forcedGenerateSchemas} to set
          * @return a reference to this Builder
@@ -989,6 +992,7 @@ public final class GeneratorSettings implements Serializable {
         /**
          * Adds a mapping-suppressed schema to emit as an isolated shadow model.
          * Use {@code "*"} as a wildcard to include all mapping-suppressed schemas.
+         * Unsupported generator families fail before writing files.
          * Returns a reference to this Builder so that the methods can be chained together.
          *
          * @param schema the schema name to add
@@ -1211,9 +1215,9 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
-         * Sets the {@code injectModelVendorExtensions} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code injectModelExtensions} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param injectModelVendorExtensions the {@code injectModelVendorExtensions} to set
+         * @param injectModelExtensions the {@code injectModelExtensions} to set
          * @return a reference to this Builder
          */
         public Builder withInjectModelVendorExtensions(Map<String, String> injectModelVendorExtensions) {

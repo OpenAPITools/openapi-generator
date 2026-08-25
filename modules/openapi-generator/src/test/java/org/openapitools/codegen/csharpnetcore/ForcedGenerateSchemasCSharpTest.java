@@ -23,7 +23,7 @@ import static org.testng.Assert.assertTrue;
  * <p>
  * This mirrors {@code ForcedGenerateSchemasKotlinTest} on a different generator family to
  * demonstrate that the two-phase forced-schema generation in {@link DefaultGenerator} is
- * generator-agnostic — it works with no per-generator code. The same generic model graph is used
+ * supported across representative generator families. The same generic model graph is used
  * (Widget/Group/Shape/Circle/Square are mapped to hand-written classes but also force-generated).
  */
 public class ForcedGenerateSchemasCSharpTest {

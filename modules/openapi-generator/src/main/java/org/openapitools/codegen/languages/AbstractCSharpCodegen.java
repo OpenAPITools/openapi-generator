@@ -60,7 +60,7 @@ import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public abstract class AbstractCSharpCodegen extends DefaultCodegen {
+public abstract class AbstractCSharpCodegen extends DefaultCodegen implements ForcedSchemaSupport {
 
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalEmitDefaultValuesFlag = false;
@@ -130,7 +130,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         schemaKeyToModelNameCache.clear();
         super.clearModelNameCache();
     }
-
 
     // A cache to efficiently lookup CodegenModel `fromModel(codegenModelName, parentModelSchema)` based on the pair of model name and schema
     private final Map<Map.Entry<String, Schema>, CodegenModel> codegenModelNameAndSchemaKeyToCodegenModelCache = new HashMap<>();

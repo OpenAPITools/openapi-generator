@@ -556,6 +556,20 @@ public class DefaultGeneratorTest {
     }
 
     @Test
+    public void forcedGenerateSchemasFailsFastForUnsupportedGenerator() {
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("clojure")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .addForcedGenerateSchema("Category");
+
+        IllegalArgumentException exception = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> new DefaultGenerator(false).opts(configurator.toClientOptInput()).generate());
+
+        Assert.assertTrue(exception.getMessage().contains("Generator 'clojure' does not support forcedGenerateSchemas"));
+    }
+
+    @Test
     public void testNonStrictProcessPaths() throws Exception {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.setPaths(new Paths());

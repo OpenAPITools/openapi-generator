@@ -46,7 +46,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 /**
  * <p>Mustache templates are located in {@code src/main/resources/ruby-client/}.
  */
-public class RubyClientCodegen extends AbstractRubyCodegen {
+public class RubyClientCodegen extends AbstractRubyCodegen implements ForcedSchemaSupport {
     public static final String GEM_VERSION = "gemVersion";
     public static final String GEM_LICENSE = "gemLicense";
     public static final String GEM_REQUIRED_RUBY_VERSION = "gemRequiredRubyVersion";
@@ -87,7 +87,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         schemaKeyToModelNameCache.clear();
         super.clearModelNameCache();
     }
-
 
     public RubyClientCodegen() {
         super();

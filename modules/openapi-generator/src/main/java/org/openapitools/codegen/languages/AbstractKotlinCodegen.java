@@ -49,7 +49,7 @@ import java.util.stream.Stream;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
-public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
+public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig, ForcedSchemaSupport {
 
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
