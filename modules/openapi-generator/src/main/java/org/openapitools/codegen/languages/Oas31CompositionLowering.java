@@ -1009,6 +1009,12 @@ public final class Oas31CompositionLowering {
         return types;
     }
 
+    private static boolean allowsNull(Schema schema, Set<String> types) {
+        return Boolean.TRUE.equals(schema.getNullable())
+                || types.isEmpty()
+                || types.contains("null");
+    }
+
     private static Set<String> intersectDeclaredTypes(
             Set<String> existingTypes, Set<String> incomingTypes) {
         if (existingTypes.isEmpty()) {
@@ -1090,8 +1096,9 @@ public final class Oas31CompositionLowering {
                 intersected.setTypes(intersectedTypes);
             }
         }
-        if (Boolean.TRUE.equals(existing.getNullable())
-                || Boolean.TRUE.equals(incoming.getNullable())) {
+        boolean existingAllowsNull = allowsNull(existing, existingTypes);
+        boolean incomingAllowsNull = allowsNull(incoming, incomingTypes);
+        if (existingAllowsNull && incomingAllowsNull) {
             intersected.setNullable(true);
         }
 

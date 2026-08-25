@@ -199,6 +199,32 @@ public class Oas31CompositionLoweringTest {
                         "fromReference", "fromReferenceSibling", "fromOtherContributor")));
     }
 
+    @Test
+    public void allOfRequiresEveryPropertySchemaToAllowNull() {
+        ObjectSchema nullableProperty = new ObjectSchema();
+        nullableProperty.setNullable(true);
+        ObjectSchema nonNullableProperty = new ObjectSchema();
+        ObjectSchema first = new ObjectSchema();
+        first.addProperties("payload", nullableProperty);
+        ObjectSchema second = new ObjectSchema();
+        second.addProperties("payload", nonNullableProperty);
+        ComposedSchema schema = new ComposedSchema();
+        schema.addAllOfItem(first);
+        schema.addAllOfItem(second);
+
+        Oas31CompositionLowering.AllOfIntersection intersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "NullableIntersection", schema, new OpenAPI(),
+                        Collections.emptyMap(), new HashSet<>());
+        Schema<?> payload = intersection.getProperties().get("payload");
+        Assert.assertFalse(Boolean.TRUE.equals(payload.getNullable()));
+
+        Schema<?> syntheticPayload = (Schema<?>) Oas31CompositionLowering
+                .buildSyntheticAllOfSchema("NullableIntersection", intersection)
+                .getProperties().get("payload");
+        Assert.assertFalse(Boolean.TRUE.equals(syntheticPayload.getNullable()));
+    }
+
     private static Oas31CompositionLowering.CompositionBranchDescriptor branch(
             int index, Oas31CompositionLowering.CompositionBranchDescriptor.NullCapability nullCapability) {
         return new Oas31CompositionLowering.CompositionBranchDescriptor(
