@@ -35,7 +35,8 @@ import java.util.Set;
  */
 public final class Oas31KeywordScanner {
 
-    private static final int MAX_SCHEMA_NESTING = 1024;
+    // Bound recursion before a default JVM thread stack can be exhausted.
+    private static final int MAX_SCHEMA_NESTING = 256;
 
     private Oas31KeywordScanner() {
     }
