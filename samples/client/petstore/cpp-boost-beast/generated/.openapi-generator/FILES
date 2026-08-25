@@ -32,5 +32,4 @@ model/User.cpp
 model/User.h
 model/ValidationTypes.h
 model/schema_ir.generated.cpp
-model/schema_validate.generated.cpp
 test/MultipartWireTest.cpp

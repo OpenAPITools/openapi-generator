@@ -787,7 +787,7 @@ boost::json::object Pet::toJsonObject_internal() const
         object["name"] = JsonValueConverter<std::string>::toJsonValue(getName());
         object["photoUrls"] = JsonValueConverter<std::vector<std::string>>::toJsonValue(getPhotoUrls());
         if (m_TagsIsSet) {
-            object["tags"] = JsonValueConverter<std::vector<std::shared_ptr<Tag>>>::toJsonValue(getTags());
+            object["tags"] = JsonValueConverter<std::vector<Tag>>::toJsonValue(getTags());
         }
         if (m_StatusIsSet) {
             object["status"] = JsonValueConverter<std::string>::toJsonValue(getStatus());
@@ -862,7 +862,7 @@ void Pet::fromJsonObject_internal(boost::json::object const& object)
         if (TagsIt != object.end()) {
             if (!TagsIt->value().is_null()) {
             try {
-                setTags(JsonValueConverter<std::vector<std::shared_ptr<Tag>>>::fromJsonValue(TagsIt->value()));
+                setTags(JsonValueConverter<std::vector<Tag>>::fromJsonValue(TagsIt->value()));
             } catch (std::exception const& ex) {
                 throw std::invalid_argument(
                     "Decode failed for 'tags' in Pet: " + std::string(ex.what()));
@@ -927,12 +927,12 @@ void Pet::setPhotoUrls(std::vector<std::string> value)
     
     m_PhotoUrls = std::move(value);
 }
-std::vector<std::shared_ptr<Tag>> Pet::getTags() const
+std::vector<Tag> Pet::getTags() const
 {
     return m_Tags;
 }
 
-void Pet::setTags(std::vector<std::shared_ptr<Tag>> value)
+void Pet::setTags(std::vector<Tag> value)
 {
     
     m_Tags = std::move(value);

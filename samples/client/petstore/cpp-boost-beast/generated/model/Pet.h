@@ -78,8 +78,8 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::vector<std::shared_ptr<Tag>> getTags() const;
-    void setTags(std::vector<std::shared_ptr<Tag>> value);
+    std::vector<Tag> getTags() const;
+    void setTags(std::vector<Tag> value);
 
     /// <summary>
     /// pet status in the store
@@ -103,7 +103,7 @@ protected:
     bool m_CategoryIsSet = false;
     std::string m_Name = "";
     std::vector<std::string> m_PhotoUrls;
-    std::vector<std::shared_ptr<Tag>> m_Tags;
+    std::vector<Tag> m_Tags;
     bool m_TagsIsSet = false;
     std::string m_Status = "";
     bool m_StatusIsSet = false;
