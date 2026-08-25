@@ -112,6 +112,7 @@ public class Oas31CompositionLoweringTest {
         Assert.assertEquals(intersection.getRootConstJson(), "null");
         Schema<?> synthetic = Oas31CompositionLowering
                 .buildSyntheticAllOfSchema("NullConst", intersection);
+        Assert.assertEquals(synthetic.getType(), "null");
         Assert.assertTrue(Oas31RawSpecRecovery.hasExplicitConst(synthetic));
         Assert.assertEquals(Oas31RawSpecRecovery.constJsonOf(synthetic), "null");
     }
@@ -138,6 +139,118 @@ public class Oas31CompositionLoweringTest {
         Schema<?> value = intersection.getProperties().get("value");
         Assert.assertTrue(Oas31RawSpecRecovery.hasExplicitConst(value));
         Assert.assertEquals(Oas31RawSpecRecovery.constJsonOf(value), "null");
+    }
+
+    @Test
+    public void allOfRejectsNullConstExcludedByRootTypeOrEnum() {
+        Schema<?> nullConst = new Schema<>();
+        Oas31RawSpecRecovery.restoreExplicitConst(nullConst, "null");
+        StringSchema string = new StringSchema();
+        ComposedSchema typeSchema = new ComposedSchema();
+        typeSchema.addAllOfItem(nullConst);
+        typeSchema.addAllOfItem(string);
+
+        Oas31CompositionLowering.AllOfIntersection typeIntersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "NullConstType", typeSchema, new OpenAPI(),
+                        Collections.emptyMap(), new HashSet<>());
+        Assert.assertFalse(typeIntersection.isSatisfiable());
+
+        Schema<?> nullableNullConst = new Schema<>();
+        Oas31RawSpecRecovery.restoreExplicitConst(nullableNullConst, "null");
+        StringSchema nullableString = new StringSchema();
+        nullableString.setNullable(true);
+        ComposedSchema nullableSchema = new ComposedSchema();
+        nullableSchema.addAllOfItem(nullableNullConst);
+        nullableSchema.addAllOfItem(nullableString);
+
+        Oas31CompositionLowering.AllOfIntersection nullableIntersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "NullableNullConst", nullableSchema, new OpenAPI(),
+                        Collections.emptyMap(), new HashSet<>());
+        Assert.assertTrue(nullableIntersection.isSatisfiable());
+
+        Schema<?> enumNullConst = new Schema<>();
+        Oas31RawSpecRecovery.restoreExplicitConst(enumNullConst, "null");
+        Schema<Object> nonNullEnum = new Schema<>();
+        nonNullEnum.setEnum(Collections.singletonList("non-null"));
+        ComposedSchema enumSchema = new ComposedSchema();
+        enumSchema.addAllOfItem(enumNullConst);
+        enumSchema.addAllOfItem(nonNullEnum);
+
+        Oas31CompositionLowering.AllOfIntersection enumIntersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "NullConstEnum", enumSchema, new OpenAPI(),
+                        Collections.emptyMap(), new HashSet<>());
+        Assert.assertFalse(enumIntersection.isSatisfiable());
+    }
+
+    @Test
+    public void allOfMarksNullConstPropertyExcludedByTypeOrEnum() {
+        Schema<?> typeNullConst = new Schema<>();
+        Oas31RawSpecRecovery.restoreExplicitConst(typeNullConst, "null");
+        ObjectSchema typeConstContributor = new ObjectSchema();
+        typeConstContributor.addProperties("value", typeNullConst);
+        typeConstContributor.setRequired(Collections.singletonList("value"));
+        ObjectSchema typeContributor = new ObjectSchema();
+        typeContributor.addProperties("value", new StringSchema());
+        ComposedSchema typeSchema = new ComposedSchema();
+        typeSchema.addAllOfItem(typeConstContributor);
+        typeSchema.addAllOfItem(typeContributor);
+
+        Oas31CompositionLowering.AllOfIntersection typeIntersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "NullConstPropertyType", typeSchema, new OpenAPI(),
+                        Collections.emptyMap(), new HashSet<>());
+        Assert.assertFalse(typeIntersection.isSatisfiable());
+
+        Schema<?> enumNullConst = new Schema<>();
+        Oas31RawSpecRecovery.restoreExplicitConst(enumNullConst, "null");
+        ObjectSchema enumConstContributor = new ObjectSchema();
+        enumConstContributor.addProperties("value", enumNullConst);
+        enumConstContributor.setRequired(Collections.singletonList("value"));
+        Schema<Object> nonNullEnum = new Schema<>();
+        nonNullEnum.setEnum(Collections.singletonList("non-null"));
+        ObjectSchema enumContributor = new ObjectSchema();
+        enumContributor.addProperties("value", nonNullEnum);
+        ComposedSchema enumSchema = new ComposedSchema();
+        enumSchema.addAllOfItem(enumConstContributor);
+        enumSchema.addAllOfItem(enumContributor);
+
+        Oas31CompositionLowering.AllOfIntersection enumIntersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "NullConstPropertyEnum", enumSchema, new OpenAPI(),
+                        Collections.emptyMap(), new HashSet<>());
+        Assert.assertFalse(enumIntersection.isSatisfiable());
+    }
+
+    @Test
+    public void allOfPropagatesNestedNullConstAndDetectsConflicts() {
+        Schema<?> nestedNullConst = new Schema<>();
+        Oas31RawSpecRecovery.restoreExplicitConst(nestedNullConst, "null");
+        ComposedSchema nested = new ComposedSchema();
+        nested.addAllOfItem(nestedNullConst);
+        ComposedSchema outer = new ComposedSchema();
+        outer.addAllOfItem(nested);
+
+        Oas31CompositionLowering.AllOfIntersection intersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "NestedNullConst", outer, new OpenAPI(),
+                        Collections.emptyMap(), new HashSet<>());
+        Assert.assertTrue(intersection.hasRootConst());
+        Assert.assertEquals(intersection.getRootConstJson(), "null");
+
+        Schema<?> nonNullConst = new Schema<>();
+        nonNullConst.setConst("not-null");
+        ComposedSchema conflictingOuter = new ComposedSchema();
+        conflictingOuter.addAllOfItem(nested);
+        conflictingOuter.addAllOfItem(nonNullConst);
+
+        Oas31CompositionLowering.AllOfIntersection conflict =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "NestedNullConstConflict", conflictingOuter, new OpenAPI(),
+                        Collections.emptyMap(), new HashSet<>());
+        Assert.assertFalse(conflict.isSatisfiable());
     }
 
     @Test

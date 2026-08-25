@@ -232,6 +232,8 @@ public final class Oas31CompositionLowering {
         private final Object rootConstValue;
         /** Pristine JSON for an explicit const, including JSON null. */
         private final String rootConstJson;
+        /** Whether every root contributor permits JSON null. */
+        private final boolean rootAllowsNull;
         /** Minimum numeric value (intersection takes the larger). */
         private final BigDecimal rootMinimum;
         /** Maximum numeric value (intersection takes the smaller). */
@@ -276,7 +278,7 @@ public final class Oas31CompositionLowering {
                     rootConstValue != null, rootConstValue, null,
                     rootMinimum, rootMaximum, rootExclusiveMinimum, rootExclusiveMaximum,
                     rootMinLength, rootMaxLength, rootExclusiveMinimumValue,
-                    rootExclusiveMaximumValue, additionalProperties);
+                    rootExclusiveMaximumValue, additionalProperties, true);
         }
 
         public AllOfIntersection(Map<String, Schema> properties, Set<String> required,
@@ -290,7 +292,7 @@ public final class Oas31CompositionLowering {
                                  Integer rootMinLength, Integer rootMaxLength,
                                  BigDecimal rootExclusiveMinimumValue,
                                  BigDecimal rootExclusiveMaximumValue,
-                                 Object additionalProperties) {
+                                 Object additionalProperties, boolean rootAllowsNull) {
             this.properties = properties != null
                     ? Collections.unmodifiableMap(new LinkedHashMap<>(properties))
                     : Collections.emptyMap();
@@ -309,6 +311,7 @@ public final class Oas31CompositionLowering {
             this.rootHasConst = rootHasConst;
             this.rootConstValue = rootConstValue;
             this.rootConstJson = rootConstJson;
+            this.rootAllowsNull = rootAllowsNull;
             this.rootMinimum = rootMinimum;
             this.rootMaximum = rootMaximum;
             this.rootExclusiveMinimum = rootExclusiveMinimum;
@@ -330,6 +333,7 @@ public final class Oas31CompositionLowering {
         public boolean hasRootConst() { return rootHasConst; }
         public Object getRootConstValue() { return rootConstValue; }
         public String getRootConstJson() { return rootConstJson; }
+        public boolean allowsRootNull() { return rootAllowsNull; }
         public BigDecimal getRootMinimum() { return rootMinimum; }
         public BigDecimal getRootMaximum() { return rootMaximum; }
         public Boolean getRootExclusiveMinimum() { return rootExclusiveMinimum; }
@@ -647,17 +651,20 @@ public final class Oas31CompositionLowering {
         Integer rootMaxLength = null;
         boolean hasRootScalarConstraints = false;
         boolean rootEnumIntersected = false;
+        boolean rootAllowsNull = true;
 
         for (int bi = 0; bi < allOfBranches.size(); bi++) {
             Schema branch = allOfBranches.get(bi);
             Schema resolvedBranch = resolveAllOfBranch(branch, openAPI, schemas, visited);
             if (resolvedBranch == null) continue;
+            rootAllowsNull &= allowsNull(resolvedBranch, declaredTypes(resolvedBranch));
 
             // Detect nested allOf within the resolved branch and recurse.
             if (resolvedBranch.getAllOf() != null && !resolvedBranch.getAllOf().isEmpty()) {
                 AllOfIntersection nested = computeAllOfIntersection(
                         schemaName + "_nested_" + bi, resolvedBranch, openAPI, schemas, visited);
                 if (nested != null) {
+                    rootAllowsNull &= nested.allowsRootNull();
                     mergeIntersectionIntoResult(mergedProperties, mergedRequired,
                             optionalImpossibleProperties, nested, openAPI, schemas);
                     if (!nested.isSatisfiable()) {
@@ -669,6 +676,53 @@ public final class Oas31CompositionLowering {
                     additionalProperties = intersectAdditionalProperties(
                             additionalProperties, nested.getAdditionalProperties(),
                             openAPI, schemas);
+
+                    if (nested.getRootScalarType() != null) {
+                        hasRootScalarConstraints = true;
+                        String nestedRootType = nested.getRootScalarType();
+                        if (rootScalarType == null) {
+                            rootScalarType = nestedRootType;
+                        } else if (!rootScalarType.equals(nestedRootType)) {
+                            if (("integer".equals(nestedRootType)
+                                    && "number".equals(rootScalarType))
+                                    || ("number".equals(nestedRootType)
+                                    && "integer".equals(rootScalarType))) {
+                                rootScalarType = "integer";
+                            } else {
+                                satisfiable = false;
+                                unsatisfiableReason = "Incompatible root types across allOf '"
+                                        + schemaName + "' contributors: '" + rootScalarType
+                                        + "' vs '" + nestedRootType + "'";
+                            }
+                        }
+                    }
+                    if (nested.getRootEnumValues() != null) {
+                        hasRootScalarConstraints = true;
+                        if (rootEnumValues == null) {
+                            rootEnumValues = new ArrayList<>(nested.getRootEnumValues());
+                            rootEnumIntersected = false;
+                        } else {
+                            rootEnumValues = intersectJsonValues(
+                                    rootEnumValues, nested.getRootEnumValues());
+                            rootEnumIntersected = true;
+                        }
+                    }
+                    if (nested.hasRootConst()) {
+                        hasRootScalarConstraints = true;
+                        Object nestedConstValue = nested.getRootConstValue();
+                        String nestedConstJson = nested.getRootConstJson();
+                        if (!rootHasConst) {
+                            rootHasConst = true;
+                            rootConstValue = nestedConstValue;
+                            rootConstJson = nestedConstJson;
+                        } else if (!constValuesEqual(rootConstValue, rootConstJson,
+                                nestedConstValue, nestedConstJson)) {
+                            satisfiable = false;
+                            unsatisfiableReason = "Incompatible const values across allOf '"
+                                    + schemaName + "' contributors: '"
+                                    + rootConstJson + "' vs '" + nestedConstJson + "'";
+                        }
+                    }
                     if (nested.getRootMinimum() != null) {
                         lowerBound.mergeLower(nested.getRootMinimum(),
                                 Boolean.TRUE.equals(nested.getRootExclusiveMinimum()));
@@ -677,6 +731,14 @@ public final class Oas31CompositionLowering {
                     if (nested.getRootMaximum() != null) {
                         upperBound.mergeUpper(nested.getRootMaximum(),
                                 Boolean.TRUE.equals(nested.getRootExclusiveMaximum()));
+                        hasRootScalarConstraints = true;
+                    }
+                    if (nested.getRootMinLength() != null) {
+                        rootMinLength = tighterMinLen(rootMinLength, nested.getRootMinLength());
+                        hasRootScalarConstraints = true;
+                    }
+                    if (nested.getRootMaxLength() != null) {
+                        rootMaxLength = tighterMaxLen(rootMaxLength, nested.getRootMaxLength());
                         hasRootScalarConstraints = true;
                     }
                 }
@@ -821,6 +883,16 @@ public final class Oas31CompositionLowering {
                     + schemaName + "' contributors: no common enum values";
         }
 
+        if (rootHasConst && !constSatisfiesConstraints(
+                rootConstValue, rootConstJson,
+                rootScalarType != null
+                        ? Collections.singleton(rootScalarType) : Collections.emptySet(),
+                rootAllowsNull, rootEnumValues)) {
+            satisfiable = false;
+            unsatisfiableReason = "Root const value in allOf '" + schemaName
+                    + "' is excluded by a sibling type or enum constraint";
+        }
+
         // Required properties must have non-empty intersections. The property
         // intersection helper records unsatisfiable schemas with an extension
         // marker, which is converted to a model-level generation error below.
@@ -888,7 +960,7 @@ public final class Oas31CompositionLowering {
                 rootExclusiveMinimumObj, rootExclusiveMaximumObj,
                 rootMinLength, rootMaxLength,
                 rootExclusiveMinimumValue, rootExclusiveMaximumValue,
-                additionalProperties);
+                additionalProperties, rootAllowsNull);
     }
 
     /**
@@ -1185,6 +1257,13 @@ public final class Oas31CompositionLowering {
             copyConstConstraint(incoming, intersected);
         }
 
+        if (hasConstConstraint(intersected) && !constSatisfiesConstraints(
+                intersected.getConst(), Oas31RawSpecRecovery.constJsonOf(intersected),
+                intersectedTypes, Boolean.TRUE.equals(intersected.getNullable()),
+                intersected.getEnum())) {
+            typeCompatible = false;
+        }
+
         // Numeric bounds are compared as value/exclusivity pairs. A strict
         // bound matters only when it is the tightest bound at that endpoint.
         NumericBound lowerBound = new NumericBound();
@@ -1402,6 +1481,61 @@ public final class Oas31CompositionLowering {
         return jsonValuesEqual(left, right);
     }
 
+    private static boolean constSatisfiesConstraints(
+            Object constValue, String constJson, Set<String> types,
+            boolean nullable, List<Object> enumValues) {
+        String constType = jsonSchemaTypeOfConst(constValue, constJson);
+        if (constType != null && !types.isEmpty()) {
+            boolean typeAllowed;
+            if ("null".equals(constType)) {
+                typeAllowed = nullable || types.contains("null");
+            } else if ("integer".equals(constType)) {
+                typeAllowed = types.contains("integer") || types.contains("number");
+            } else {
+                typeAllowed = types.contains(constType);
+            }
+            if (!typeAllowed) {
+                return false;
+            }
+        }
+        if (enumValues == null) {
+            return true;
+        }
+        for (Object enumValue : enumValues) {
+            if (jsonValuesEqual(constValue, enumValue)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String jsonSchemaTypeOfConst(Object value, String json) {
+        if ("null".equals(json)) {
+            return "null";
+        }
+        if (value instanceof Boolean) {
+            return "boolean";
+        }
+        if (value instanceof Number) {
+            try {
+                return new BigDecimal(value.toString()).stripTrailingZeros().scale() <= 0
+                        ? "integer" : "number";
+            } catch (NumberFormatException ignored) {
+                return "number";
+            }
+        }
+        if (value instanceof String) {
+            return "string";
+        }
+        if (value instanceof List) {
+            return "array";
+        }
+        if (value instanceof Map) {
+            return "object";
+        }
+        return null;
+    }
+
     private static boolean hasConstConstraint(Schema schema) {
         return schema != null && (schema.getConst() != null
                 || Oas31RawSpecRecovery.hasExplicitConst(schema));
@@ -1449,11 +1583,14 @@ public final class Oas31CompositionLowering {
             String schemaName, AllOfIntersection intersection) {
         Schema synthetic = new Schema();
 
-        // Set root-level type from intersection, default to "object"
-        if (intersection.getRootScalarType() != null) {
-            synthetic.setType(intersection.getRootScalarType());
-        } else {
-            synthetic.setType("object");
+        String rootType = intersection.getRootScalarType();
+        if (rootType == null && intersection.hasRootConst()) {
+            rootType = jsonSchemaTypeOfConst(
+                    intersection.getRootConstValue(), intersection.getRootConstJson());
+        }
+        synthetic.setType(rootType != null ? rootType : "object");
+        if (!"null".equals(rootType) && intersection.allowsRootNull()) {
+            synthetic.setNullable(true);
         }
 
         // Apply intersected root-level enum values
