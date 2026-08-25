@@ -95,6 +95,52 @@ public class Oas31CompositionLoweringTest {
     }
 
     @Test
+    public void allOfPreservesAnExplicitNullConst() {
+        Schema<?> first = new Schema<>();
+        Schema<?> second = new Schema<>();
+        Oas31RawSpecRecovery.restoreExplicitConst(first, "null");
+        Oas31RawSpecRecovery.restoreExplicitConst(second, "null");
+        ComposedSchema schema = new ComposedSchema();
+        schema.addAllOfItem(first);
+        schema.addAllOfItem(second);
+
+        Oas31CompositionLowering.AllOfIntersection intersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "NullConst", schema, new OpenAPI(), Collections.emptyMap(), new HashSet<>());
+
+        Assert.assertTrue(intersection.hasRootConst());
+        Assert.assertEquals(intersection.getRootConstJson(), "null");
+        Schema<?> synthetic = Oas31CompositionLowering
+                .buildSyntheticAllOfSchema("NullConst", intersection);
+        Assert.assertTrue(Oas31RawSpecRecovery.hasExplicitConst(synthetic));
+        Assert.assertEquals(Oas31RawSpecRecovery.constJsonOf(synthetic), "null");
+    }
+
+    @Test
+    public void allOfPreservesAnExplicitNullConstOnIntersectedProperties() {
+        Schema<?> firstValue = new Schema<>();
+        Schema<?> secondValue = new Schema<>();
+        Oas31RawSpecRecovery.restoreExplicitConst(firstValue, "null");
+        Oas31RawSpecRecovery.restoreExplicitConst(secondValue, "null");
+        ObjectSchema first = new ObjectSchema();
+        ObjectSchema second = new ObjectSchema();
+        first.addProperties("value", firstValue);
+        second.addProperties("value", secondValue);
+        ComposedSchema schema = new ComposedSchema();
+        schema.addAllOfItem(first);
+        schema.addAllOfItem(second);
+
+        Oas31CompositionLowering.AllOfIntersection intersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "NullConstProperty", schema, new OpenAPI(),
+                        Collections.emptyMap(), new HashSet<>());
+
+        Schema<?> value = intersection.getProperties().get("value");
+        Assert.assertTrue(Oas31RawSpecRecovery.hasExplicitConst(value));
+        Assert.assertEquals(Oas31RawSpecRecovery.constJsonOf(value), "null");
+    }
+
+    @Test
     public void allOfClosesAdditionalPropertiesWhenAnyContributorDoes() {
         ComposedSchema schema = new ComposedSchema();
         ObjectSchema typedAdditionalProperties = new ObjectSchema();
@@ -149,6 +195,31 @@ public class Oas31CompositionLoweringTest {
 
         Assert.assertNotNull(Oas31CompositionLowering.computeAllOfIntersection(
                 "RecursiveAllOf", cyclicSchema, openAPI, schemas, new HashSet<>()));
+    }
+
+    @Test
+    public void allOfPreservesAnExplicitNullConstOnReferenceSiblings() {
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("Referenced", new Schema<>());
+        Schema<?> referenceWithConst = new Schema<>().$ref("#/components/schemas/Referenced");
+        Oas31RawSpecRecovery.restoreExplicitConst(referenceWithConst, "null");
+        ObjectSchema first = new ObjectSchema();
+        ObjectSchema second = new ObjectSchema();
+        first.addProperties("value", referenceWithConst);
+        second.addProperties("value", new Schema<>());
+        ComposedSchema schema = new ComposedSchema();
+        schema.addAllOfItem(first);
+        schema.addAllOfItem(second);
+
+        Oas31CompositionLowering.AllOfIntersection intersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "ReferenceConst", schema,
+                        new OpenAPI().components(new Components().schemas(schemas)),
+                        schemas, new HashSet<>());
+
+        Schema<?> value = intersection.getProperties().get("value");
+        Assert.assertTrue(Oas31RawSpecRecovery.hasExplicitConst(value));
+        Assert.assertEquals(Oas31RawSpecRecovery.constJsonOf(value), "null");
     }
 
     @Test

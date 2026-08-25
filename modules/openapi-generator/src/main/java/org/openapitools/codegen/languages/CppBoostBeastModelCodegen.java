@@ -59,6 +59,7 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
             "x-cpp-explicit-default-scalar";
     protected static final String X_CPP_TOLERATE_NONNULLABLE_NULL =
             "x-cpp-tolerate-nonnullable-null";
+    private static final String SHARED_PTR_PREFIX = "std::shared_ptr<";
     /** Compatibility mode for server responses that send undeclared nulls. */
     protected boolean tolerateNonNullableNulls = true;
     protected final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
@@ -209,17 +210,15 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
         }
 
         // Phase: Strip std::shared_ptr<X> from non-cyclic object refs.
-        // super.updateAllModels → DefaultCodegen.updateAllModels → setCircularReferences
-        // has now run, setting isCircularReference flags on properties correctly.
-        // Non-cyclic edges should use value semantics (plain X) rather than
-        // std::shared_ptr<X> to avoid unnecessary heap allocation.
+        // DefaultCodegen only records the immediate container item type, while
+        // nested containers can contain a recursive model reference farther down.
+        // Build the full model-reference graph before changing any C++ types.
+        Map<String, Set<String>> cyclicModelReferences = findCyclicModelReferences(allModels);
         for (CodegenModel cm : allModels.values()) {
+            Set<String> cyclicTargets = cyclicModelReferences.getOrDefault(
+                    cm.classname, Collections.emptySet());
             for (CodegenProperty var : allVarsOf(cm)) {
-                if (var == null) continue;
-                stripNonCyclicSharedPtr(var);
-                if (var.isContainer && var.items != null) {
-                    stripNonCyclicContainerItemSharedPtr(var);
-                }
+                stripNonCyclicSharedPtrs(var, cyclicTargets);
             }
         }
 
@@ -270,55 +269,143 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Strips std::shared_ptr<X> from a non-cyclic property, replacing it with
-     * bare value type X. Cyclic properties retain the shared_ptr wrapper.
+     * Finds model-reference edges that participate in a cycle, including model
+     * references nested inside array and map C++ types.
      */
-    private static void stripNonCyclicSharedPtr(CodegenProperty var) {
-        if (var.dataType != null && var.dataType.startsWith("std::shared_ptr<")
-                && !var.isCircularReference) {
-            String innerType = var.dataType.substring(16, var.dataType.length() - 1);
-            var.dataType = innerType;
-            var.defaultValue = null;
+    private static Map<String, Set<String>> findCyclicModelReferences(
+            Map<String, CodegenModel> allModels) {
+        Map<String, Set<String>> dependencies = new LinkedHashMap<>();
+        for (CodegenModel model : allModels.values()) {
+            dependencies.putIfAbsent(model.classname, new LinkedHashSet<>());
+        }
+
+        Set<String> modelNames = dependencies.keySet();
+        for (CodegenModel model : allModels.values()) {
+            Set<String> references = dependencies.get(model.classname);
+            for (CodegenProperty property : allVarsOf(model)) {
+                collectModelReferences(property == null ? null : property.dataType,
+                        modelNames, references);
+            }
+        }
+
+        Map<String, Set<String>> cyclicReferences = new LinkedHashMap<>();
+        for (Map.Entry<String, Set<String>> entry : dependencies.entrySet()) {
+            Set<String> cyclicTargets = new LinkedHashSet<>();
+            for (String target : entry.getValue()) {
+                if (hasModelPath(target, entry.getKey(), dependencies)) {
+                    cyclicTargets.add(target);
+                }
+            }
+            cyclicReferences.put(entry.getKey(), cyclicTargets);
+        }
+        return cyclicReferences;
+    }
+
+    private static void collectModelReferences(String dataType, Set<String> modelNames,
+                                               Set<String> references) {
+        if (dataType == null) {
+            return;
+        }
+        int cursor = 0;
+        while (cursor < dataType.length()) {
+            int pointerStart = dataType.indexOf(SHARED_PTR_PREFIX, cursor);
+            if (pointerStart < 0) {
+                return;
+            }
+            int contentStart = pointerStart + SHARED_PTR_PREFIX.length();
+            int pointerEnd = matchingTemplateEnd(dataType, contentStart);
+            if (pointerEnd < 0) {
+                return;
+            }
+            String pointedType = dataType.substring(contentStart, pointerEnd);
+            if (modelNames.contains(pointedType)) {
+                references.add(pointedType);
+            }
+            collectModelReferences(pointedType, modelNames, references);
+            cursor = pointerEnd + 1;
         }
     }
 
+    private static boolean hasModelPath(String start, String target,
+                                        Map<String, Set<String>> dependencies) {
+        Deque<String> pending = new ArrayDeque<>();
+        Set<String> visited = new HashSet<>();
+        pending.add(start);
+        while (!pending.isEmpty()) {
+            String current = pending.removeFirst();
+            if (!visited.add(current)) {
+                continue;
+            }
+            if (target.equals(current)) {
+                return true;
+            }
+            pending.addAll(dependencies.getOrDefault(current, Collections.emptySet()));
+        }
+        return false;
+    }
+
     /**
-     * Removes a direct container item shared_ptr when DefaultCodegen's
-     * container-level circular-reference flag says the edge is acyclic.
+     * Removes every shared_ptr wrapper whose referenced model is not on a
+     * recursive edge. The parser tracks nested container structure, but the
+     * rendered C++ dataType is authoritative for replacing every level.
      */
-    private static void stripNonCyclicContainerItemSharedPtr(CodegenProperty container) {
-        if (container.isCircularReference || container.dataType == null) {
+    private static void stripNonCyclicSharedPtrs(CodegenProperty property,
+                                                 Set<String> cyclicTargets) {
+        if (property == null) {
             return;
         }
-        final String sharedPtrPrefix = "std::shared_ptr<";
-        int pointerStart = container.dataType.indexOf(sharedPtrPrefix);
-        if (pointerStart < 0) {
-            return;
+        String strippedDataType = stripNonCyclicSharedPtrType(property.dataType, cyclicTargets);
+        if (!Objects.equals(property.dataType, strippedDataType)) {
+            property.dataType = strippedDataType;
+            property.defaultValue = null;
+        }
+        stripNonCyclicSharedPtrs(property.items, cyclicTargets);
+    }
+
+    private static String stripNonCyclicSharedPtrType(String dataType,
+                                                       Set<String> cyclicTargets) {
+        if (dataType == null) {
+            return null;
         }
 
-        int contentStart = pointerStart + sharedPtrPrefix.length();
-        int pointerEnd = contentStart;
+        StringBuilder result = new StringBuilder(dataType.length());
+        int cursor = 0;
+        while (cursor < dataType.length()) {
+            int pointerStart = dataType.indexOf(SHARED_PTR_PREFIX, cursor);
+            if (pointerStart < 0) {
+                result.append(dataType, cursor, dataType.length());
+                break;
+            }
+            result.append(dataType, cursor, pointerStart);
+            int contentStart = pointerStart + SHARED_PTR_PREFIX.length();
+            int pointerEnd = matchingTemplateEnd(dataType, contentStart);
+            if (pointerEnd < 0) {
+                return dataType;
+            }
+
+            String pointedType = dataType.substring(contentStart, pointerEnd);
+            String strippedPointedType = stripNonCyclicSharedPtrType(pointedType, cyclicTargets);
+            if (cyclicTargets.contains(pointedType)) {
+                result.append(SHARED_PTR_PREFIX).append(strippedPointedType).append('>');
+            } else {
+                result.append(strippedPointedType);
+            }
+            cursor = pointerEnd + 1;
+        }
+        return result.toString();
+    }
+
+    private static int matchingTemplateEnd(String dataType, int contentStart) {
         int depth = 1;
-        while (pointerEnd < container.dataType.length() && depth > 0) {
-            char character = container.dataType.charAt(pointerEnd++);
+        for (int index = contentStart; index < dataType.length(); index++) {
+            char character = dataType.charAt(index);
             if (character == '<') {
                 depth++;
-            } else if (character == '>') {
-                depth--;
+            } else if (character == '>' && --depth == 0) {
+                return index;
             }
         }
-        if (depth != 0) {
-            return;
-        }
-
-        String itemType = container.dataType.substring(contentStart, pointerEnd - 1);
-        container.dataType = container.dataType.substring(0, pointerStart)
-                + itemType + container.dataType.substring(pointerEnd);
-        if (container.items.dataType != null
-                && container.items.dataType.startsWith(sharedPtrPrefix)) {
-            container.items.dataType = itemType;
-        }
-        container.defaultValue = null;
+        return -1;
     }
 
     @Override

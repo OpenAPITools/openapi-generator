@@ -15,6 +15,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TreeNode'
+        nestedChildren:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/TreeNode'
 
     # Mutual cycle: RoundA → RoundB, RoundB → RoundA.
     RoundA:

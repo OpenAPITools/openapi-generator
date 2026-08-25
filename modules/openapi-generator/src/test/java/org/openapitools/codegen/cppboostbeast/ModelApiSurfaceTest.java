@@ -1264,6 +1264,8 @@ public class ModelApiSurfaceTest {
         // The array member is std::vector<std::shared_ptr<TreeNode>>, NOT std::vector<TreeNode>
         Assert.assertTrue(treeContent.contains("std::vector<std::shared_ptr<TreeNode>>"),
                 "TreeNode children vector should contain shared_ptr");
+        Assert.assertTrue(treeContent.contains("std::vector<std::vector<std::shared_ptr<TreeNode>>>"),
+                "Nested self-ref TreeNode items should retain shared_ptr");
 
         Path roundAHeader = output.toPath().resolve("model/RoundA.h");
         TestUtils.assertFileExists(roundAHeader);

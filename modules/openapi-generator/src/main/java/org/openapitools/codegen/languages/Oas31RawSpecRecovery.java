@@ -719,6 +719,16 @@ final class Oas31RawSpecRecovery {
         return value == null ? null : String.valueOf(value);
     }
 
+    static void restoreExplicitConst(Schema schema, String constJson) {
+        if (schema == null) {
+            return;
+        }
+        addExtension(schema, CONST_PRESENT_EXT, true);
+        if (constJson != null) {
+            addExtension(schema, CONST_JSON_EXT, constJson);
+        }
+    }
+
 
     private static void addExtension(Schema schema, String key, Object value) {
         if (schema.getExtensions() == null) {
