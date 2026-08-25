@@ -78,7 +78,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img align="left" src="https://openapi-generator.tech/img/companies/fbpostlikes.png" width="128" height="128">](https://fbpostlikes.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img align="left" src="https://openapi-generator.tech/img/companies/buyfans.png" width="128" height="128">](https://buy.fans/buy-tiktok-likes/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img align="left" src="https://openapi-generator.tech/img/companies/socialboom.png" width="128" height="128">](https://socialboom.io/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
-[<img align="left" src="https://openapi-generator.tech/img/companies/mediamister.png" width="128" height="128">](https://www.mediamister.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img align="left" src="https://openapi-generator.tech/img/companies/mediamister.jpg" width="128" height="128">](https://www.mediamister.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 
 <br clear="left">
 
@@ -87,7 +87,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img align="left" src="https://openapi-generator.tech/img/companies/godaddy.png" width="150">](https://www.godaddy.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img align="left" src="https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png" width="150">](https://www.linode.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img align="left" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRAhEYadUyZYzGUotZiSdXkVMqqLGuohyixLl4eUpUV6pAbUULL" width="150">](https://checklyhq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-[<img align="left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Gradle_logo.png/320px-Gradle_logo.png" width="150">](https://gradle.org?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img align="left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Gradle_logo.svg/330px-Gradle_logo.svg.png" width="150">](https://gradle.org?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 <br clear="left">
 
