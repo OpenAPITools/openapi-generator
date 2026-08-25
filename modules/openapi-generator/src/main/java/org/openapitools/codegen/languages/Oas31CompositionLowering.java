@@ -37,8 +37,9 @@ import java.util.stream.Collectors;
  * (processComposedModelFromDescriptor, fromModel, template maps) — those
  * mutate CodegenModel state and stay on the generator.
  *
- * <p>Branch surfaces are scanned by {@link Oas31SchemaIrEmitter#scanSurfaceAssertions};
- * exceptions (UnsupportedSchemaAssertionException, AllOfRequiredUnsatisfiableException)
+ * <p>Branch surfaces are scanned by
+ * {@link Oas31SchemaSurfaceAssertionScanner#scanSurfaceAssertions}; exceptions
+ * (UnsupportedSchemaAssertionException, AllOfRequiredUnsatisfiableException)
  * live on the generator and are referenced through it.
  */
 public final class Oas31CompositionLowering {
@@ -432,21 +433,21 @@ public final class Oas31CompositionLowering {
             // fail-closed diagnostics.
             boolean refBranch = referenceSchema != null;
             if (targetForAssertions != null) {
-                Oas31SchemaIrEmitter.scanSurfaceAssertions(targetForAssertions, openAPI,
+                Oas31SchemaSurfaceAssertionScanner.scanSurfaceAssertions(targetForAssertions, openAPI,
                         supported, unsupported, validateParams, refBranch);
             }
             if (refBranch && referenceSchema != targetForAssertions) {
                 // $ref with siblings: BOTH the resolved target and the ref's
                 // own keyword set apply (2020-12). Ref-node applicator stays
                 // branch-driven; sibling keywords are emitted inline.
-                Oas31SchemaIrEmitter.scanSurfaceAssertions(referenceSchema, openAPI,
+                Oas31SchemaSurfaceAssertionScanner.scanSurfaceAssertions(referenceSchema, openAPI,
                         supported, unsupported, validateParams, false);
             }
             if (normalizedRefWrapper) {
                 // OpenAPINormalizer moves a $ref beside annotations/assertions
                 // into a singleton allOf. Scan the outer siblings as adjacent
                 // keywords, then discard only that synthetic applicator.
-                Oas31SchemaIrEmitter.scanSurfaceAssertions(branchSchema, openAPI,
+                Oas31SchemaSurfaceAssertionScanner.scanSurfaceAssertions(branchSchema, openAPI,
                         supported, unsupported, validateParams, false);
                 validateParams.remove("validation-allof-schemas");
             }
