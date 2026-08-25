@@ -146,3 +146,4 @@ class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<Addit
   }
 }
 
+

@@ -36,52 +36,55 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class Cat(
 
-    @ApiModelProperty(example = "null", required = true, value = "")
-    @param:JsonProperty("name")
+    @ApiModelProperty(required = true, value = "")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("name", required = true)
     @get:JsonProperty("name", required = true) override val name: kotlin.String,
 
-    @ApiModelProperty(example = "null", required = true, value = "")
-    @param:JsonProperty("photoUrls")
+    @ApiModelProperty(required = true, value = "")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("photoUrls", required = true)
     @get:JsonProperty("photoUrls", required = true) override val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @ApiModelProperty(example = "null", required = true, value = "")
-    @param:JsonProperty("petType")
+    @ApiModelProperty(required = true, value = "")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("petType", required = true)
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String,
 
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("hunts")
     @get:JsonProperty("hunts") val hunts: kotlin.Boolean? = null,
 
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("age")
     @get:JsonProperty("age") val age: kotlin.Int? = null,
 
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("id")
     @get:JsonProperty("id") override val id: kotlin.Long? = null,
 
     @field:Valid
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("category")
     @get:JsonProperty("category") override val category: Category? = null,
 
     @field:Valid
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("tags")
     @get:JsonProperty("tags") override val tags: kotlin.collections.List<Tag>? = null,
 
     @field:Valid
-    @ApiModelProperty(example = "null", value = "")
+    @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("color")

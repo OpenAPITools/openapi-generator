@@ -55,7 +55,12 @@ import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.hasEnumValues;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 
 /**
  * <p>Mustache templates are located in
@@ -174,7 +179,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.COMPRESSION, Constants.COMPRESSION_DESC, getCompressionFeatureEnabled());
         addSwitch(Constants.RESOURCES, Constants.RESOURCES_DESC, getResourcesFeatureEnabled());
         addSwitch(Constants.METRICS, Constants.METRICS_DESC, getMetricsFeatureEnabled());
-        addSwitch(Constants.INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
+        addSwitch(INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
         addSwitch(USE_BEANVALIDATION, Constants.USE_BEANVALIDATION_DESC, useBeanValidation);
         addSwitch(USE_TAGS, Constants.USE_TAGS_DESC, useTags);
         addSwitch(Constants.USE_COROUTINES, Constants.USE_COROUTINES_DESC, useCoroutines);
@@ -217,10 +222,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
 
-        if (additionalProperties.containsKey(Constants.INTERFACE_ONLY)) {
-            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(Constants.INTERFACE_ONLY).toString());
+        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
+            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString());
             if (!interfaceOnly) {
-                additionalProperties.remove(Constants.INTERFACE_ONLY);
+                additionalProperties.remove(INTERFACE_ONLY);
             }
         }
 
@@ -417,7 +422,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public final static String RESOURCES_DESC = "Generates routes in a typed way, for both: constructing URLs and reading the parameters.";
         public final static String METRICS = "featureMetrics";
         public final static String METRICS_DESC = "Enables metrics feature.";
-        public static final String INTERFACE_ONLY = "interfaceOnly";
         public static final String INTERFACE_ONLY_DESC = "Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.";
         public static final String USE_BEANVALIDATION_DESC = "Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.";
         public static final String USE_COROUTINES = "useCoroutines";
@@ -479,9 +483,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                                         if (prop.getBaseName().equals(discriminatorPropBaseName) && prop.isEnum) {
                                             // If it's an enum with exactly one value, use that as the mapping name
                                             Map<String, Object> allowableValues = prop.getAllowableValues();
-                                            if (allowableValues != null && allowableValues.containsKey("values")) {
-                                                @SuppressWarnings("unchecked")
-                                                List<Object> values = (List<Object>) allowableValues.get("values");
+                                            if (hasEnumValues(allowableValues)) {
+                                                List<Object> values = getEnumValues(allowableValues);
                                                 if (values != null && values.size() == 1) {
                                                     mappedModel.setMappingName(String.valueOf(values.get(0)));
                                                 }
@@ -521,8 +524,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                         // For allOf pattern: if parent has properties, mark child's inherited properties
                         // Skip this for oneOf/anyOf patterns where parent properties are merged from children
                         boolean parentIsOneOfOrAnyOf = parentModel != null
-                                && ((parentModel.oneOf != null && !parentModel.oneOf.isEmpty())
-                                || (parentModel.anyOf != null && !parentModel.anyOf.isEmpty()));
+                                && (hasOneOf(parentModel) || (hasAnyOf(parentModel)));
 
                         if (parentModel != null && parentModel.getHasVars() && !parentIsOneOfOrAnyOf) {
                             Set<String> parentPropNames = new HashSet<>();
@@ -571,8 +573,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                 CodegenModel owner = allModelsMap.get(ownerName);
                 if (owner != null && owner.getDiscriminator() != null) {
                     String discriminatorPropBaseName = owner.getDiscriminator().getPropertyBaseName();
-                    boolean isOneOfOrAnyOfPattern = (owner.oneOf != null && !owner.oneOf.isEmpty())
-                            || (owner.anyOf != null && !owner.anyOf.isEmpty());
+                    boolean isOneOfOrAnyOfPattern = hasOneOf(owner) || hasAnyOf(owner);
 
                     // hasParentProperties controls whether the sealed class has properties in its constructor
                     // This should be false for oneOf/anyOf patterns (parent is a type union, no direct properties)
@@ -726,7 +727,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         if (!isQuietMode()) {
             System.out.println("################################################################################");
             System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                #");
             System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
             System.out.println("#                                                                              #");
             System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");

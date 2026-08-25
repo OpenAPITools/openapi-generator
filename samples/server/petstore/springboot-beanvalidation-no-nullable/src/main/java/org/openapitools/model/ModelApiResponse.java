@@ -23,16 +23,19 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ModelApiResponse {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Integer code;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String type;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String message;
 
   public ModelApiResponse code(@Nullable Integer code) {
@@ -51,7 +54,6 @@ public class ModelApiResponse {
     return code;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("code")
   public void setCode(@Nullable Integer code) {
     this.code = code;
@@ -73,7 +75,6 @@ public class ModelApiResponse {
     return type;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("type")
   public void setType(@Nullable String type) {
     this.type = type;
@@ -95,7 +96,6 @@ public class ModelApiResponse {
     return message;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("message")
   public void setMessage(@Nullable String message) {
     this.message = message;

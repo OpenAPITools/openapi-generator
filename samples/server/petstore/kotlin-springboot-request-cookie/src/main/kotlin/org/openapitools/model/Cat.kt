@@ -25,17 +25,18 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class Cat(
 
-    @Schema(example = "null", required = true, description = "")
-    @param:JsonProperty("className")
+    @Schema(required = true, description = "")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("className", required = true)
     @get:JsonProperty("className", required = true) override val className: kotlin.String,
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("declawed")
     @get:JsonProperty("declawed") val declawed: kotlin.Boolean? = null,
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("color")

@@ -1,0 +1,38 @@
+openapi: 3.0.1
+info:
+  title: required form parameter on the default content-type variant (issue 6708)
+  version: 1.0.0
+paths:
+  /convert:
+    post:
+      operationId: convert
+      tags: [files]
+      requestBody:
+        content:
+          # declared first: this variant is the default one, and its `file` parameter is required -
+          # but only for callers who actually send multipart
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+components:
+  schemas:
+    Receipt:
+      type: object
+      properties:
+        reference:
+          type: string

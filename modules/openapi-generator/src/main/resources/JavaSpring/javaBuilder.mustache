@@ -24,7 +24,7 @@
     {{#deprecated}}
     @Deprecated
     {{/deprecated}}
-    public {{classname}}.Builder {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) {
+    public {{classname}}.Builder {{name}}({{>nullableArgument_builder}} {{name}}) {
       this.instance.{{name}}({{name}});
       return this;
     }
@@ -37,7 +37,7 @@
 {{/vars}}
 {{#parentVars}}
     @Override
-    public {{classname}}.Builder {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) {
+    public {{classname}}.Builder {{name}}({{>nullableArgument_builder}} {{name}}) {
       this.instance.{{name}}({{name}});
       return this;
     }

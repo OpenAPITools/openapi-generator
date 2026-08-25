@@ -29,8 +29,6 @@ import {
 export interface ChildWithNullable extends ParentWithNullable {
     /**
      * 
-     * @type {string}
-     * @memberof ChildWithNullable
      */
     otherProperty?: string;
 }

@@ -23,10 +23,11 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Client")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ClientDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String client;
 
   public ClientDto client(@Nullable String client) {
@@ -44,7 +45,6 @@ public class ClientDto {
     return client;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("client")
   public void setClient(@Nullable String client) {
     this.client = client;

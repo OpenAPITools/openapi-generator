@@ -523,6 +523,17 @@ public class ApiClient {
         return this;
     }
 
+    /**
+     * <p>Set LocalDateTimeFormat.</p>
+     *
+     * @param dateFormat a {@link java.time.format.DateTimeFormatter} object
+     * @return a {@link {{invokerPackage}}.ApiClient} object
+     */
+    public ApiClient setLocalDateTimeFormat(DateTimeFormatter dateFormat) {
+        JSON.setLocalDateTimeFormat(dateFormat);
+        return this;
+    }
+
     {{/jsr310}}
     /**
      * <p>Set LenientOnJson.</p>

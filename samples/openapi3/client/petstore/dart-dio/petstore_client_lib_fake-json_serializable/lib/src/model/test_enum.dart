@@ -5,7 +5,6 @@
 // ignore_for_file: unused_element
 import 'package:json_annotation/json_annotation.dart';
 
-
 enum TestEnum {
       @JsonValue(r'')
       empty(r''),

@@ -156,6 +156,24 @@ public class CodegenConstants {
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS = "prependFormOrBodyParameters";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_DESC = "Add form or body parameters to the beginning of the parameter list.";
 
+    public static final String SPLIT_OPERATIONS_BY_CONTENT_TYPE = "splitOperationsByContentType";
+
+    /**
+     * Extensions set on every operation produced by {@code splitOperationsByContentType}, describing where
+     * the variant sits in the content-type matrix so that a generator can merge the variants back into a
+     * single construct instead of emitting one method per combination.
+     * <p>
+     * The {@code *-index} ones carry the 0-based rank of the variant's media-type in its axis, in the order
+     * the spec declares them, so a consumer never has to rely on the order operations happen to reach it in:
+     * rank 0 is that axis's default content-type, and the variant ranked 0 on both axes is the one a caller
+     * gets without asking. An axis that was not split has no media-type and ranks 0.
+     */
+    public static final String X_CONTENT_TYPE_VARIANT_GROUP = "x-content-type-variant-group";
+    public static final String X_CONTENT_TYPE_VARIANT_REQUEST = "x-content-type-variant-request";
+    public static final String X_CONTENT_TYPE_VARIANT_RESPONSE = "x-content-type-variant-response";
+    public static final String X_CONTENT_TYPE_VARIANT_REQUEST_INDEX = "x-content-type-variant-request-index";
+    public static final String X_CONTENT_TYPE_VARIANT_RESPONSE_INDEX = "x-content-type-variant-response-index";
+
     public static final String USE_DATETIME_OFFSET = "useDateTimeOffset";
     public static final String USE_DATETIME_OFFSET_DESC = "Use DateTimeOffset to model date-time properties";
 
@@ -210,6 +228,9 @@ public class CodegenConstants {
 
     public static final String INTERFACE_PREFIX = "interfacePrefix";
     public static final String INTERFACE_PREFIX_DESC = "Prefix interfaces with a community standard or widely accepted prefix.";
+
+    public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String INTERFACE_ONLY_DESC = "Whether to generate only API interface stubs without the server files.";
 
     public static final String RETURN_ICOLLECTION = "returnICollection";
     public static final String RETURN_ICOLLECTION_DESC = "Return ICollection<T> instead of the concrete type.";
@@ -415,6 +436,14 @@ public class CodegenConstants {
     public static final String USE_VERTX_5 = "useVertx5";
     public static final String USE_VERTX_5_DESC = "Setting this property to true will generate Vert.x 5 specific callbacks using Callables.";
 
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE = "optionalNonNullPropertyJsonInclude";
+
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS = "optionalNonNullPropertyJsonSetterNulls";
+
+    public static final String GENERATE_JSON_INCLUDE_ANNOTATIONS = "generateJsonIncludeAnnotations";
+
+    public static final String GENERATE_JSON_SETTER_NULLS_ANNOTATIONS = "generateJsonSetterNullsAnnotations";
+
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
             "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
@@ -468,6 +497,7 @@ public class CodegenConstants {
     public static final String DEFAULT_TO_EMPTY_CONTAINER_DESC = "Initialize containers (array/set/map) to empty containers instead of null by default. Usage: https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md#default-values";
 
     // Vendor extensions
+    public static final String X_EXAMPLE = "x-example";
     public static final String X_INTERNAL = "x-internal";
     public static final String X_PARENT = "x-parent";
     public static final String X_COMPOSED_DATA_TYPE = "x-composed-data-type";
@@ -494,6 +524,7 @@ public class CodegenConstants {
     public static final String X_MODIFIERS = "x-modifiers";
     public static final String X_MODIFIER_PREFIX = "x-modifier-";
     public static final String X_MODEL_IS_MUTABLE = "x-model-is-mutable";
+    public static final String X_MODEL_IS_OPERATION_INPUT = "x-model-is-operation-input";
     public static final String X_IMPLEMENTS = "x-implements";
     public static final String X_IS_ONE_OF_INTERFACE = "x-is-one-of-interface";
     public static final String USE_ENUM_VALUE_INTERFACE = "useEnumValueInterface";
@@ -515,11 +546,25 @@ public class CodegenConstants {
     public static final String X_NULLABLE = "x-nullable";
     public static final String X_ENUM_VARNAMES = "x-enum-varnames";
     public static final String X_ENUM_DESCRIPTIONS = "x-enum-descriptions";
+    public static final String X_ENUM_DEPRECATED = "x-enum-deprecated";
     public static final String X_PY_TYPING = "x-py-typing";
     public static final String X_PY_EXAMPLE = "x-py-example";
     public static final String X_PY_EXAMPLE_IMPORT = "x-py-example-import";
     public static final String X_PY_FASTAPI_EXAMPLE = "x-py-fastapi-example";
     public static final String X_PY_NAME = "x-py-name";
+    public static final String X_PY_EXPLICIT_PUBLIC_NAME = "x-py-explicit-public-name";
+    public static final String X_PY_LEGACY_PUBLIC_NAME = "x-py-legacy-public-name";
+    public static final String X_PY_HAS_PUBLIC_NAME_PROPERTIES = "x-py-has-public-name-properties";
+    public static final String X_PY_HIDDEN_STORAGE_NAMES = "x-py-hidden-storage-names";
+    public static final String X_PY_INPUT_NAME_PROPERTIES = "x-py-input-name-properties";
+    public static final String X_PY_PREPROCESSES_INPUT_NAMES = "x-py-preprocesses-input-names";
+    public static final String X_PY_VALIDATES_INPUT_NAMES = "x-py-validates-input-names";
+    public static final String X_PY_PUBLIC_NAME = "x-py-public-name";
+    public static final String X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE = "x-py-public-name-differs-from-storage";
+    public static final String X_PY_PUBLIC_NAME_DIFFERS_FROM_WIRE = "x-py-public-name-differs-from-wire";
+    public static final String X_PY_PUBLIC_NAME_LITERAL = "x-py-public-name-literal";
+    public static final String X_PY_PUBLIC_NAME_OVERRIDES_BASE_MODEL = "x-py-public-name-overrides-base-model";
+    public static final String X_PY_PUBLIC_NAME_TYPING = "x-py-public-name-typing";
     public static final String X_PY_WIRE_NAME_LITERAL = "x-py-wire-name-literal";
     public static final String X_PY_ENUM_TYPE = "x-py-enum-type";
     public static final String X_PY_READONLY = "x-py-readonly";

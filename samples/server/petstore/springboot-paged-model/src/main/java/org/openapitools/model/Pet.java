@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Pet implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -28,6 +28,7 @@ public class Pet implements Serializable {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Long id;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

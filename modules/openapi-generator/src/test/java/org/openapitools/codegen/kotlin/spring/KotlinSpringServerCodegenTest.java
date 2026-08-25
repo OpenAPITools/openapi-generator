@@ -5,6 +5,7 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
@@ -45,6 +46,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
 import static org.openapitools.codegen.CodegenConstants.USE_ENUM_VALUE_INTERFACE;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
@@ -55,6 +57,8 @@ import static org.openapitools.codegen.languages.features.DocumentationProviderF
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 
 public class KotlinSpringServerCodegenTest {
+
+    private static final String MULTIPART_SPEC = "src/test/resources/3_0/form-multipart-binary-array.yaml";
 
     @Test(description = "test embedded enum array")
     public void embeddedEnumArrayTest() throws Exception {
@@ -118,6 +122,39 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(
                 Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
                 "@RequestMapping(\"\\${api.base-path"
+        );
+    }
+
+    @Test
+    public void testOneOfInterfaceInheritedEnumDiscriminator() throws IOException {
+        // Cross-generator check for the DefaultCodegen discriminator-type fix: the kotlin-spring
+        // oneof_interface template emits the discriminator getter type too. Issue #22541: the
+        // inline-enum discriminator is inherited from a base schema via allOf, so the sealed
+        // interface must use the enum type rather than String.
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        generator.opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/oneOfDiscriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        assertFileContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/model/PetResponseEnumDisc.kt"),
+                "val petType: PetType"
         );
     }
 
@@ -373,13 +410,13 @@ public class KotlinSpringServerCodegenTest {
                 "ApiUtil");
 
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
-                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<List<kotlin.String>>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
                 "exchange");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
-                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+                "import kotlinx.coroutines.flow.Flow", "suspend fun", "ResponseEntity<List<kotlin.String>>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
-                "suspend fun", "ApiUtil");
+                "ApiUtil");
 
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3Api.kt"),
                 "import kotlinx.coroutines.flow.Flow", "requestBody: Flow<kotlin.Long>");
@@ -429,6 +466,26 @@ public class KotlinSpringServerCodegenTest {
                         + "    )");
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/NonNullableMultipartfileArrayApiController.kt"),
                 "files: Array<org.springframework.web.multipart.MultipartFile>"
+                        + "    )");
+    }
+
+    @Test
+    public void testNullableMultipartFileReactive() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/feat-multipartfile_nullable.yaml",
+                Map.of(KotlinSpringServerCodegen.REACTIVE, true));
+
+        assertFileContains(files.get("NullableMultipartfileApiController.kt").toPath(),
+                "file: org.springframework.http.codec.multipart.Part?"
+                        + "    )");
+        assertFileContains(files.get("NullableMultipartfileArrayApiController.kt").toPath(),
+                "files: reactor.core.publisher.Flux<org.springframework.http.codec.multipart.Part>?"
+                        + "    )");
+        assertFileContains(files.get("NonNullableMultipartfileApiController.kt").toPath(),
+                "file: org.springframework.http.codec.multipart.Part?"
+                        + "    )");
+        assertFileContains(files.get("NonNullableMultipartfileArrayApiController.kt").toPath(),
+                "files: reactor.core.publisher.Flux<org.springframework.http.codec.multipart.Part>"
                         + "    )");
     }
 
@@ -594,7 +651,7 @@ public class KotlinSpringServerCodegenTest {
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
@@ -616,7 +673,7 @@ public class KotlinSpringServerCodegenTest {
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
@@ -743,7 +800,7 @@ public class KotlinSpringServerCodegenTest {
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY,
+        codegen.additionalProperties().put(INTERFACE_ONLY,
                 isInterfaceOnly);
 
         new DefaultGenerator().opts(new ClientOptInput()
@@ -788,24 +845,31 @@ public class KotlinSpringServerCodegenTest {
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@Schema(example = \"null\", description = \"\")"
         );
-        assertFileContains(
+        assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@get:Schema(example = \"null\", description = \"\")"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:Schema(description = \"\")"
         );
         assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@Schema(example = \"null\", requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
         );
-        assertFileContains(
+        assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@get:Schema(example = \"null\", requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
         );
     }
 
     @Test(description = "use get Annotation use-site target on kotlin interface attributes (swagger1)")
     public void useTargetOnInterfaceAnnotationsWithSwagger1() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
@@ -823,17 +887,25 @@ public class KotlinSpringServerCodegenTest {
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@ApiModelProperty(example = \"null\", value = \"\")"
         );
-        assertFileContains(
+        assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@get:ApiModelProperty(example = \"null\", value = \"\")"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:ApiModelProperty(value = \"\")"
         );
         assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@ApiModelProperty(example = \"null\", required = true, value = \"\")"
         );
-        assertFileContains(
+        assertFileNotContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
                 "@get:ApiModelProperty(example = \"null\", required = true, value = \"\")"
+        );
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:ApiModelProperty(required = true, value = \"\")"
         );
     }
 
@@ -846,7 +918,7 @@ public class KotlinSpringServerCodegenTest {
                 .readLocation("src/test/resources/bugs/issue_13932.yml", null, new ParseOptions()).getOpenAPI();
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
@@ -969,35 +1041,102 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestPart() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        Map<String, File> files = generateFromContract(
+                MULTIPART_SPEC,
+                Map.of(
+                        KotlinSpringServerCodegen.REACTIVE, true,
+                        KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true));
 
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/petstore-with-tags.yaml");
-        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
+        assertReactiveMultipartParameters(files, "Controller.kt");
+        assertReactiveMultipartParameters(files, "Service.kt");
+        assertReactiveMultipartParameters(files, "ServiceImpl.kt");
+        assertReactiveMultipartParameters(files, "Test.kt");
+    }
 
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
+    @Test
+    public void givenMultipartForm_whenGenerateReactiveDelegate_thenParametersUseRequestPart() throws IOException {
+        Map<String, File> files = generateFromContract(
+                MULTIPART_SPEC,
+                Map.of(
+                        KotlinSpringServerCodegen.REACTIVE, true,
+                        KotlinSpringServerCodegen.DELEGATE_PATTERN, true));
 
-        DefaultGenerator generator = new DefaultGenerator();
+        assertReactiveMultipartParameters(files, ".kt");
+        assertReactiveMultipartParameters(files, "Delegate.kt");
+    }
 
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+    @Test
+    public void givenMultipartForm_whenGenerateBlockingServer_thenMultipartFileTypesRemain() throws IOException {
+        Map<String, File> files = generateFromContract(
+                MULTIPART_SPEC,
+                Map.of(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true));
 
-        generator.opts(input).generate();
+        assertBlockingMultipartParameters(files, "Controller.kt");
+        assertBlockingMultipartParameters(files, "Service.kt");
+        assertBlockingMultipartParameters(files, "ServiceImpl.kt");
+        assertBlockingMultipartParameters(files, "Test.kt");
+    }
 
-        Path outputFilepath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
+    @Test
+    public void givenMultipartForm_whenGenerateReactiveDeclarativeHttpInterface_thenMultipartFileTypesRemain() throws IOException {
+        Map<String, File> files = generateFromContract(
+                MULTIPART_SPEC,
+                Map.of(
+                        KotlinSpringServerCodegen.REACTIVE, true,
+                        KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
 
-        assertFileContains(outputFilepath,
-                "@Parameter(description = \"Additional data to pass to server\") @Valid @RequestParam(value = \"additionalMetadata\", required = false) additionalMetadata: kotlin.String?");
-        assertFileContains(outputFilepath,
-                "@Parameter(description = \"image to upload\") @Valid @RequestPart(\"image\", required = false) image: org.springframework.web.multipart.MultipartFile");
+        Path apiFile = files.get("MultipartApi.kt").toPath();
+        assertFileContains(apiFile,
+                "files: Array<org.springframework.web.multipart.MultipartFile>",
+                "file: org.springframework.web.multipart.MultipartFile",
+                "status: MultipartMixedStatus",
+                "marker: MultipartMixedRequestMarker?",
+                "statusArray: kotlin.collections.List<MultipartMixedStatus>?");
+        assertFileNotContains(apiFile, "org.springframework.http.codec.multipart.Part");
+    }
+
+    private void assertReactiveMultipartParameters(Map<String, File> files, String fileSuffix) {
+        Path arrayFile = files.get("MultipartArrayApi" + fileSuffix).toPath();
+        Path singleFile = files.get("MultipartSingleApi" + fileSuffix).toPath();
+        Path mixedFile = files.get("MultipartMixedApi" + fileSuffix).toPath();
+
+        assertFileContains(arrayFile,
+                "files: reactor.core.publisher.Flux<org.springframework.http.codec.multipart.Part>");
+        assertFileContains(singleFile,
+                "file: org.springframework.http.codec.multipart.Part?");
+        assertFileContains(mixedFile,
+                "status: MultipartMixedStatus",
+                "file: org.springframework.http.codec.multipart.Part",
+                "marker: MultipartMixedRequestMarker?",
+                "statusArray: kotlin.collections.List<MultipartMixedStatus>?");
+        assertFileNotContains(arrayFile,
+                "files: reactor.core.publisher.Flux<org.springframework.http.codec.multipart.Part>?");
+        assertFileNotContains(mixedFile,
+                "file: org.springframework.http.codec.multipart.Part?");
+        assertFileNotContains(arrayFile, "org.springframework.web.multipart.MultipartFile");
+        assertFileNotContains(singleFile, "org.springframework.web.multipart.MultipartFile");
+        assertFileNotContains(mixedFile, "org.springframework.web.multipart.MultipartFile");
+    }
+
+    private void assertBlockingMultipartParameters(Map<String, File> files, String fileSuffix) {
+        Path arrayFile = files.get("MultipartArrayApi" + fileSuffix).toPath();
+        Path singleFile = files.get("MultipartSingleApi" + fileSuffix).toPath();
+        Path mixedFile = files.get("MultipartMixedApi" + fileSuffix).toPath();
+
+        assertFileContains(arrayFile,
+                "files: Array<org.springframework.web.multipart.MultipartFile>");
+        assertFileContains(singleFile,
+                "file: org.springframework.web.multipart.MultipartFile");
+        assertFileContains(mixedFile,
+                "status: MultipartMixedStatus",
+                "file: org.springframework.web.multipart.MultipartFile",
+                "marker: MultipartMixedRequestMarker?",
+                "statusArray: kotlin.collections.List<MultipartMixedStatus>?");
+        assertFileNotContains(arrayFile, "org.springframework.http.codec.multipart.Part");
+        assertFileNotContains(singleFile, "org.springframework.http.codec.multipart.Part");
+        assertFileNotContains(mixedFile, "org.springframework.http.codec.multipart.Part");
 
     }
 
@@ -1279,8 +1418,7 @@ public class KotlinSpringServerCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
-                "import reactor.core.publisher.Flux\n"
-                        + "import reactor.core.publisher.Mono",
+                "import reactor.core.publisher.Mono",
                 "    @HttpExchange(\n"
                         + "        // \"/store/inventory\"\n"
                         + "        url = PATH_GET_INVENTORY,\n"
@@ -1317,6 +1455,49 @@ public class KotlinSpringServerCodegenTest {
                 path,
                 "suspend",
                 "@HttpExchange(BASE_PATH)" // this should not be present since "requestMappingMode" is set to "none"
+        );
+    }
+
+    @Test(description = "x-operation-extra-annotation should be rendered for spring-declarative-http-interface library (issue: extension unavailable in declarative interface mode)")
+    public void generateHttpInterfaceRendersOperationExtraAnnotation() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml");
+        Operation getInventory = openAPI.getPaths().get("/store/inventory").getGet();
+        getInventory.addExtension("x-operation-extra-annotation", "@Secured(\"ROLE_ADMIN\")");
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
+        codegen.additionalProperties().put(REACTIVE, false);
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, true);
+        codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
+        assertFileContains(
+                path,
+                "    @Secured(\"ROLE_ADMIN\")\n"
+                        + "    @HttpExchange(\n"
+                        + "        // \"/store/inventory\"\n"
+                        + "        url = PATH_GET_INVENTORY,\n"
+                        + "        method = \"GET\"\n"
+                        + "    )\n"
+                        + "    fun getInventory("
         );
     }
 
@@ -1393,8 +1574,7 @@ public class KotlinSpringServerCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
-                "import reactor.core.publisher.Flux\n"
-                        + "import reactor.core.publisher.Mono",
+                "import reactor.core.publisher.Mono",
                 "    fun getInventory(\n"
                         + "    ): Mono<Map<String, kotlin.Int>>",
                 "    fun deleteOrder(\n"
@@ -1627,7 +1807,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1661,7 +1841,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1695,7 +1875,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1729,7 +1909,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1761,7 +1941,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1795,7 +1975,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1829,7 +2009,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1863,7 +2043,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1895,7 +2075,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1929,7 +2109,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1963,7 +2143,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -1997,7 +2177,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2029,7 +2209,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2063,7 +2243,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2097,7 +2277,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2131,7 +2311,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2172,7 +2352,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2213,7 +2393,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2245,7 +2425,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2284,7 +2464,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2323,7 +2503,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2362,7 +2542,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2399,7 +2579,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2438,7 +2618,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2477,7 +2657,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2516,7 +2696,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                INTERFACE_ONLY, false,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2553,7 +2733,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2592,7 +2772,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2631,7 +2811,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2670,7 +2850,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2707,7 +2887,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2746,7 +2926,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2785,7 +2965,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2824,7 +3004,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.DELEGATE_PATTERN, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2860,7 +3040,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2898,7 +3078,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2944,7 +3124,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -2986,7 +3166,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -3033,7 +3213,7 @@ public class KotlinSpringServerCodegenTest {
         Path root = generateApiSources(Map.of(
                 KotlinSpringServerCodegen.REACTIVE, false,
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -3129,21 +3309,21 @@ public class KotlinSpringServerCodegenTest {
         );
 
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
-                "List<kotlin.String>");
+                "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
                 "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
                 "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
                 "Flow<kotlin.String>");
     }
 
@@ -3175,21 +3355,21 @@ public class KotlinSpringServerCodegenTest {
         );
 
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
-                "List<kotlin.String>");
+                "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
                 "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
                 "Flow<kotlin.String>");
 
-        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
-                "List<kotlin.String>");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiService.kt"),
                 "Flow<kotlin.String>");
     }
 
@@ -3609,6 +3789,56 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void testExclusiveMinimumAndMaximum_decimal() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/exclusive-min-max-validation.yaml");
+        KotlinFileAssert.assertThat(files.get("BoundsApiController.kt"))
+                .assertClass("BoundsApiController")
+                .assertMethod("checkBounds")
+                .assertParameter("exclusiveValue")
+                .assertParameterAnnotation("DecimalMin")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"0.0\"",
+                        "inclusive", "false"
+                ))
+                .toParameter()
+                .assertParameterAnnotation("DecimalMax")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"100.0\"",
+                        "inclusive", "false"
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("inclusiveValue")
+                .assertParameterAnnotation("DecimalMin")
+                .hasNotAttributes(List.of("inclusive"))
+                .toParameter()
+                .assertParameterAnnotation("DecimalMax")
+                .hasNotAttributes(List.of("inclusive"));
+        KotlinFileAssert.assertThat(files.get("Bounds.kt"))
+                .assertClass("Bounds")
+                .assertPrimaryConstructorParameter("exclusiveValue")
+                .assertParameterAnnotation("DecimalMin", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"0.0\"",
+                        "inclusive", "false"
+                ))
+                .toPrimaryConstructorParameter()
+                .assertParameterAnnotation("DecimalMax", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"100.0\"",
+                        "inclusive", "false"
+                ))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("inclusiveValue")
+                .assertParameterAnnotation("DecimalMin", "get")
+                .hasNotAttributes(List.of("inclusive"))
+                .toPrimaryConstructorParameter()
+                .assertParameterAnnotation("DecimalMax", "get")
+                .hasNotAttributes(List.of("inclusive"));
+    }
+
+    @Test
     public void testXMinimumMessageAndXMaximumMessage_integer() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml");
         KotlinFileAssert.assertThat(files.get("TestApiController.kt"))
@@ -3762,6 +3992,24 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
         assertFileContains(petApi.toPath(), "pageable: Pageable");
         assertFileContains(petApi.toPath(), "@Parameter(hidden = true) pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedIgnoredForDeclarativeHttpInterface_issue24720() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml",
+                additionalProperties, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        // spring-declarative-http-interface still does not support Pageable
+        File petApi = files.get("PetApi.kt");
+        assertFileNotContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileNotContains(petApi.toPath(), "pageable: Pageable");
     }
 
     @Test
@@ -4152,6 +4400,88 @@ public class KotlinSpringServerCodegenTest {
         }
     }
 
+    @Test(description = "reactive spring-boot: array-of-string returns List<String> with suspend, not Flow<String> (issue #22662)")
+    public void reactiveArrayOfStringReturnsListNotFlow() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
+
+        List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/bugs/issue_7118.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiPath = files.stream()
+                .filter(f -> f.getName().equals("UsersApi.kt"))
+                .findFirst()
+                .orElseThrow()
+                .toPath();
+
+        assertFileContains(apiPath, "suspend fun", "List<kotlin.String>", "Set<kotlin.String>");
+        // neither the list nor the uniqueItems (Set) operation must leak Flow<...> or a raw/nested container
+        assertFileNotContains(apiPath, "Flow<kotlin.String>", "Flow<kotlin.collections.Set", "kotlin.collections.Set<");
+    }
+
+    @Test(description = "declarative http interface reactor: array-of-string returns Mono<List<String>>, not Flux<String> (issue #22662)")
+    public void declarativeReactorArrayOfStringReturnsMono() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DECLARATIVE_INTERFACE_REACTIVE_MODE, "reactor");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/bugs/issue_7118.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiPath = files.stream()
+                .filter(f -> f.getName().equals("UsersApi.kt"))
+                .findFirst()
+                .orElseThrow()
+                .toPath();
+
+        assertFileContains(apiPath, "Mono<List<kotlin.String>>", "Mono<Set<kotlin.String>>");
+        assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux",
+                "kotlin.collections.Set<", "Mono<set<");
+    }
+
+    @Test(description = "declarative http interface reactor + ResponseEntity: array-of-string returns Mono<ResponseEntity<List<String>>> (issue #22662)")
+    public void declarativeReactorArrayOfStringReturnsMonoResponseEntity() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DECLARATIVE_INTERFACE_REACTIVE_MODE, "reactor");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/bugs/issue_7118.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiPath = files.stream()
+                .filter(f -> f.getName().equals("UsersApi.kt"))
+                .findFirst()
+                .orElseThrow()
+                .toPath();
+
+        assertFileContains(apiPath, "Mono<ResponseEntity<List<kotlin.String>>>", "Mono<ResponseEntity<Set<kotlin.String>>>");
+        assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux",
+                "kotlin.collections.Set<", "Mono<ResponseEntity<set<");
+    }
+
     private Map<String, File> generateFromContract(String url) throws IOException {
         return generateFromContract(url, new HashMap<>(), new HashMap<>());
     }
@@ -4304,6 +4634,38 @@ public class KotlinSpringServerCodegenTest {
     }
 
     // ========== AUTO X-SPRING-PAGINATED TESTS ==========
+
+    @Test
+    public void autoXSpringPaginatedResolvesOas31ReferencedParameters() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+        additionalProperties.put(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/spring/issue_24719.yaml", additionalProperties);
+
+        Assert.assertNotNull(files.get("ValidPageable.kt"));
+        Assert.assertNotNull(files.get("ValidSort.kt"));
+        File itemsApi = files.get("ItemsApi.kt");
+        assertFileContains(itemsApi.toPath(),
+                "pageable: Pageable",
+                "@PageableDefault(page = 0, size = 20)",
+                "@SortDefault.SortDefaults(SortDefault(sort = [\"name\"], direction = Sort.Direction.DESC))",
+                "@ValidPageable(",
+                "maxSize = 100",
+                "minSize = 1",
+                "minPage = 0",
+                "@ValidSort(allowedValues = [\"name,asc\", \"name,desc\"])");
+        assertFileNotContains(itemsApi.toPath(),
+                "@RequestParam(value = \"page\"",
+                "@RequestParam(value = \"size\"",
+                "@RequestParam(value = \"sort\"");
+    }
 
     @Test
     public void generatePageableConstraintValidationResolvesMaximumFromAllOfRef() throws Exception {
@@ -4886,13 +5248,15 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void autoXSpringPaginatedOnlyForSpringBoot() throws Exception {
+    public void autoXSpringPaginatedWorksForSpringCloud_issue24720() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(USE_TAGS, "true");
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
         additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
 
-        // Test with spring-cloud library (should NOT auto-detect)
+        // spring-cloud generates a Feign client — auto-detect must now apply there too (#24720)
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-auto-paginated.yaml",
                 additionalProperties,
@@ -4900,31 +5264,23 @@ public class KotlinSpringServerCodegenTest {
                 configurator -> configurator.setLibrary("spring-cloud")
         );
 
-        File petApi = files.get("PetApiClient.kt");
-        if (petApi != null) {
-            String content = Files.readString(petApi.toPath());
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
 
-            // For spring-cloud, should NOT have Pageable even with auto-detect enabled
-            Assert.assertFalse(content.contains("pageable: Pageable"),
-                    "spring-cloud library should NOT auto-detect pageable (needs actual query params for HTTP)");
+        int methodStart = content.indexOf("fun findPetsWithAutoDetect(");
+        int methodEnd = content.indexOf("): ", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
 
-            // Should have all three query params
-            int methodStart = content.indexOf("fun findPetsWithAutoDetect(");
-            if (methodStart >= 0) {
-                int methodEnd = content.indexOf("): ", methodStart);
-                String methodSignature = content.substring(methodStart, methodEnd);
-
-                Assert.assertTrue(methodSignature.contains("page") || methodSignature.contains("@Query"),
-                        "spring-cloud should keep query parameters");
-            }
-        }
+        Assert.assertTrue(methodSignature.contains("pageable: Pageable"),
+                "spring-cloud library should auto-detect pageable (#24720)");
     }
 
     @Test
-    public void explicitXSpringPaginatedIgnoredForSpringCloud() throws Exception {
-        // When x-spring-paginated: true is set explicitly in the spec but the library is spring-cloud,
-        // the extension must be stripped so the template does not emit "pageable: Pageable".
-        // Individual page/size/sort @RequestParam args from the spec should remain.
+    public void explicitXSpringPaginatedHonoredForSpringCloud_issue24720() throws Exception {
+        // Regression #24720: when x-spring-paginated: true is set explicitly in the spec and the
+        // library is spring-cloud, the extension must be honored so the interface emits
+        // "pageable: Pageable" (Feign supports it via PageableSpringEncoder), and the matching
+        // page/size/sort query params (#8315) are removed.
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(USE_TAGS, "true");
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
@@ -4941,17 +5297,18 @@ public class KotlinSpringServerCodegenTest {
         File petApi = files.get("PetApi.kt");
         Assert.assertNotNull(petApi, "PetApi.kt should be generated for spring-cloud library");
 
-        // No Pageable type or its import must appear for spring-cloud
-        assertFileNotContains(petApi.toPath(),
+        // Pageable and its import are now present for spring-cloud
+        assertFileContains(petApi.toPath(),
                 "import org.springframework.data.domain.Pageable",
                 "pageable: Pageable");
 
-        // findPetsByStatus must exist without a Pageable parameter
+        // findPetsByStatus must exist and now carry a Pageable parameter
         assertFileContains(petApi.toPath(), "fun findPetsByStatus(");
 
-        // findPetsByTags must retain all individual query params defined alongside x-spring-paginated
-        assertFileContains(petApi.toPath(), "@RequestParam(value = \"page\"");
-        assertFileContains(petApi.toPath(), "@RequestParam(value = \"sort\"");
+        // findPetsByTags: matching page/size/sort query params must be removed (#8315)
+        assertFileNotContains(petApi.toPath(),
+                "@RequestParam(value = \"page\"",
+                "@RequestParam(value = \"sort\"");
     }
 
     @Test
@@ -5248,7 +5605,7 @@ public class KotlinSpringServerCodegenTest {
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
                         .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/support-deprecated-api.yaml"))
@@ -5619,7 +5976,7 @@ public class KotlinSpringServerCodegenTest {
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
         codegen.additionalProperties().put(AbstractKotlinCodegen.IMPLICIT_HEADERS, "true");
@@ -6412,7 +6769,8 @@ public class KotlinSpringServerCodegenTest {
     public void requiredNullable_scenario3_optionalNonNullable() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                new HashMap<>());
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
 
         Path modelFile = files.get("TestModel.kt").toPath();
         String content = Files.readString(modelFile);
@@ -6442,7 +6800,9 @@ public class KotlinSpringServerCodegenTest {
     public void requiredNullable_scenario3_optionalNonNullable_withOpenApiNullable() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
 
         Path modelFile = files.get("TestModel.kt").toPath();
         String content = Files.readString(modelFile);
@@ -6470,7 +6830,8 @@ public class KotlinSpringServerCodegenTest {
     public void requiredNullable_scenario3_optionalNonNullable_withDefault() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
-                new HashMap<>());
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
 
         Path modelFile = files.get("TestModel.kt").toPath();
         String content = Files.readString(modelFile);
@@ -6490,9 +6851,163 @@ public class KotlinSpringServerCodegenTest {
     }
 
     /**
-     * Scenario 4 (openApiNullable=false, default): required=false, nullable=true
-     * Without openApiNullable, falls back to nullable type with null default (same as before this feature).
+     * Issue #24491: the {@code optionalNonNullPropertyJsonSetterNulls=SKIP} option decouples the
+     * SKIP/FAIL choice from {@code openApiNullable}. With {@code openApiNullable=true} the default would
+     * be FAIL, but the option forces the (previously unreachable) SKIP so an explicit null is tolerated.
      */
+    @Test(description = "optionalNonNullPropertyJsonSetterNulls=SKIP overrides the openApiNullable=true FAIL default")
+    public void jsonSetterNulls_option_skipOverridesOpenApiNullableTrue() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "SKIP"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNonNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNonNullable property must exist");
+        String context = content.substring(Math.max(0, idx - 200), idx);
+        Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.SKIP)"),
+                "optionalNonNullPropertyJsonSetterNulls=SKIP must win over the openApiNullable=true FAIL default");
+        Assert.assertFalse(context.contains("@field:JsonSetter(nulls = Nulls.FAIL)"),
+                "FAIL must not be emitted when the option forces SKIP");
+        // @JsonInclude is still emitted independently
+        Assert.assertTrue(context.contains("@field:JsonInclude(JsonInclude.Include.NON_NULL)"),
+                "@JsonInclude(NON_NULL) must still be emitted independently of the setter-nulls option");
+    }
+
+    /**
+     * Issue #24491: {@code optionalNonNullPropertyJsonSetterNulls=FAIL} keeps FAIL under
+     * {@code openApiNullable=true} (matches the default, but now explicit).
+     */
+    @Test(description = "optionalNonNullPropertyJsonSetterNulls=FAIL with openApiNullable=true")
+    public void jsonSetterNulls_option_failWithOpenApiNullableTrue() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "FAIL"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNonNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNonNullable property must exist");
+        String context = content.substring(Math.max(0, idx - 200), idx);
+        Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.FAIL)"),
+                "optionalNonNullPropertyJsonSetterNulls=FAIL must emit FAIL");
+    }
+
+    /**
+     * Issue #24491: {@code optionalNonNullPropertyJsonSetterNulls=FAIL} forces FAIL even with
+     * {@code openApiNullable=false}, where the default would be SKIP.
+     */
+    @Test(description = "optionalNonNullPropertyJsonSetterNulls=FAIL overrides the openApiNullable=false SKIP default")
+    public void jsonSetterNulls_option_failOverridesOpenApiNullableFalse() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "FAIL"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNonNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNonNullable property must exist");
+        String context = content.substring(Math.max(0, idx - 200), idx);
+        Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.FAIL)"),
+                "optionalNonNullPropertyJsonSetterNulls=FAIL must win over the openApiNullable=false SKIP default");
+        Assert.assertFalse(context.contains("@field:JsonSetter(nulls = Nulls.SKIP)"),
+                "SKIP must not be emitted when the option forces FAIL");
+    }
+
+    /**
+     * Issue #24491: an invalid {@code optionalNonNullPropertyJsonSetterNulls} value must fail fast with
+     * an actionable error message.
+     */
+    @Test(description = "invalid optionalNonNullPropertyJsonSetterNulls value fails fast")
+    public void jsonSetterNulls_option_invalidValueFailsFast() {
+        try {
+            generateFromContract(
+                    "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                    Map.of(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                            CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "BOGUS"));
+            Assert.fail("expected an IllegalArgumentException for an invalid optionalNonNullPropertyJsonSetterNulls value");
+        } catch (Exception e) {
+            Throwable root = e;
+            while (root.getCause() != null) {
+                root = root.getCause();
+            }
+            Assert.assertTrue(root instanceof IllegalArgumentException,
+                    "expected IllegalArgumentException but was " + root.getClass());
+            Assert.assertTrue(root.getMessage().contains("optionalNonNullPropertyJsonSetterNulls")
+                            && root.getMessage().contains("[SKIP, FAIL]"),
+                    "error message must name the option and allowed values, but was: " + root.getMessage());
+        }
+    }
+
+    /**
+     * Issue #24491: the per-property {@code x-jackson-json-setter-nulls} vendor extension precisely
+     * overrides the mode per field, winning over the option/openApiNullable default — including a NONE
+     * that emits no annotation, and a forced value on a required property.
+     */
+    @Test(description = "x-jackson-json-setter-nulls vendor extension overrides precisely per property")
+    public void jsonSetterNulls_perPropertyExtension() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/json-setter-nulls-override.yaml",
+                // openApiNullable=true (default FAIL) + option SKIP: per-property extension must still win
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS, "SKIP"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+
+        assertPropertyHasSetterNulls(content, "manualSkip", "SKIP");
+        assertPropertyHasSetterNulls(content, "manualFail", "FAIL");
+        assertPropertyHasNoSetterNulls(content, "manualNone");
+        assertPropertyHasSetterNulls(content, "requiredForcedFail", "FAIL");
+        // plainOptional has no extension: follows the option (SKIP)
+        assertPropertyHasSetterNulls(content, "plainOptional", "SKIP");
+    }
+
+    /**
+     * Issue #24491: an invalid {@code x-jackson-json-setter-nulls} vendor extension value must fail fast.
+     */
+    @Test(description = "invalid x-jackson-json-setter-nulls extension value fails fast")
+    public void jsonSetterNulls_perPropertyExtension_invalidValueFailsFast() {
+        try {
+            generateFromContract(
+                    "src/test/resources/3_0/kotlin/json-setter-nulls-override-invalid.yaml",
+                    Map.of(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
+            Assert.fail("expected an IllegalArgumentException for an invalid x-jackson-json-setter-nulls value");
+        } catch (Exception e) {
+            Throwable root = e;
+            while (root.getCause() != null) {
+                root = root.getCause();
+            }
+            Assert.assertTrue(root instanceof IllegalArgumentException,
+                    "expected IllegalArgumentException but was " + root.getClass());
+            Assert.assertTrue(root.getMessage().contains("x-jackson-json-setter-nulls"),
+                    "error message must name the extension, but was: " + root.getMessage());
+        }
+    }
+
+    private static void assertPropertyHasSetterNulls(String content, String property, String mode) {
+        int idx = content.indexOf("val " + property + ":");
+        Assert.assertTrue(idx >= 0, property + " property must exist");
+        String context = content.substring(Math.max(0, idx - 250), idx);
+        Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls." + mode + ")"),
+                property + " must have @field:JsonSetter(nulls = Nulls." + mode + "), context was: " + context);
+    }
+
+    private static void assertPropertyHasNoSetterNulls(String content, String property) {
+        int idx = content.indexOf("val " + property + ":");
+        Assert.assertTrue(idx >= 0, property + " property must exist");
+        String context = content.substring(Math.max(0, idx - 250), idx);
+        Assert.assertFalse(context.contains("@field:JsonSetter(nulls"),
+                property + " must not have any @field:JsonSetter(nulls), context was: " + context);
+    }
     @Test(description = "Scenario 4 – optional+nullable without openApiNullable: nullable type with null default (legacy fallback)")
     public void requiredNullable_scenario4_optionalNullable_withoutOpenApiNullable() throws IOException {
         Map<String, File> files = generateFromContract(
@@ -6546,6 +7061,7 @@ public class KotlinSpringServerCodegenTest {
         Map<String, Object> props = new HashMap<>();
         props.put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
         props.put(CodegenConstants.OPENAPI_NULLABLE, "true");
+        props.put(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true");
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml", props);
@@ -6559,6 +7075,268 @@ public class KotlinSpringServerCodegenTest {
                 "import com.fasterxml.jackson.annotation.Nulls");
         // Must be nullable type with null default
         assertFileContains(modelFile, "val optionalNonNullable: kotlin.String? = null");
+    }
+
+    /**
+     * Issue #24401: optional+nullable ({@code JsonNullable<T>}) fields must no longer carry
+     * {@code @field:JsonInclude(NON_ABSENT)} — the JsonNullable module already governs their inclusion.
+     */
+    @Test(description = "Issue #24401 – optional+nullable with openApiNullable=true: no @JsonInclude annotation")
+    public void requiredNullable_scenario4_optionalNullable_hasNoJsonIncludeAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // NON_ABSENT must no longer be emitted anywhere
+        assertFileNotContains(modelFile, "@field:JsonInclude(JsonInclude.Include.NON_ABSENT)");
+        // optionalNullable must still be a JsonNullable<T> wrapper
+        assertFileContains(modelFile, "JsonNullable<kotlin.String>");
+    }
+
+    /**
+     * Issue #24401 (safe-but-noisy): with no flags set, kotlin-spring defaults to weak/7.23.0 behavior —
+     * NO policy {@code @field:JsonInclude} or {@code @field:JsonSetter(nulls)} annotations are emitted.
+     */
+    @Test(description = "Issue #24401 – unset flags emit no policy annotations (kotlin-spring)")
+    public void jsonInclude_unset_emitsNoPolicyAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        assertFileNotContains(modelFile, "@field:JsonInclude(");
+        assertFileNotContains(modelFile, "@field:JsonSetter(");
+    }
+
+    /**
+     * Issue #24401: default matrix for kotlin-spring. required fields -> ALWAYS,
+     * optional non-nullable -> NON_NULL (default policy), optional nullable -> no annotation.
+     */
+    @Test(description = "Issue #24401 – default @JsonInclude matrix (kotlin-spring)")
+    public void jsonInclude_kotlinMatrix_default() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+
+        String content = Files.readString(files.get("TestModel.kt").toPath());
+        Assert.assertTrue(jsonIncludeBlockFor(content, "requiredNonNullable").contains("@field:JsonInclude(JsonInclude.Include.ALWAYS)"),
+                "required non-nullable must be ALWAYS");
+        Assert.assertTrue(jsonIncludeBlockFor(content, "requiredNullable").contains("@field:JsonInclude(JsonInclude.Include.ALWAYS)"),
+                "required nullable must be ALWAYS");
+        Assert.assertTrue(jsonIncludeBlockFor(content, "optionalNonNullable").contains("@field:JsonInclude(JsonInclude.Include.NON_NULL)"),
+                "optional non-nullable must be NON_NULL by default");
+        Assert.assertFalse(jsonIncludeBlockFor(content, "optionalNullable").contains("@field:JsonInclude"),
+                "optional nullable must have no @JsonInclude annotation");
+    }
+
+    /**
+     * Issue #24401: {@code optionalNonNullPropertyJsonInclude=NONE} omits the annotation on optional
+     * non-nullable properties while keeping the required-field protection.
+     */
+    @Test(description = "Issue #24401 – optionalNonNullPropertyJsonInclude=NONE (kotlin-spring)")
+    public void jsonInclude_optionalNonNullPolicy_none() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE, "NONE"));
+
+        String content = Files.readString(files.get("TestModel.kt").toPath());
+        Assert.assertFalse(jsonIncludeBlockFor(content, "optionalNonNullable").contains("@field:JsonInclude"),
+                "optional non-nullable must have no annotation when policy is NONE");
+        Assert.assertTrue(jsonIncludeBlockFor(content, "requiredNonNullable").contains("@field:JsonInclude(JsonInclude.Include.ALWAYS)"),
+                "required-field protection must still be present");
+    }
+
+    /**
+     * Issue #24401: {@code generateJsonIncludeAnnotations=false} removes ALL policy @JsonInclude
+     * annotations, including required-field protection.
+     */
+    @Test(description = "Issue #24401 – generateJsonIncludeAnnotations=false removes all policy annotations (kotlin-spring)")
+    public void jsonInclude_generateJsonIncludeAnnotations_false() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
+
+        assertFileNotContains(files.get("TestModel.kt").toPath(), "@field:JsonInclude(");
+    }
+
+    /**
+     * Issue #24401: a manual per-property {@code x-jackson-json-include-policy} vendor extension always
+     * overrides the automatic behavior, even when {@code generateJsonIncludeAnnotations=false}.
+     */
+    @Test(description = "Issue #24401 – manual vendor-extension override wins (kotlin-spring)")
+    public void jsonInclude_manualOverride_winsOverGenerateFlag() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_override.yaml",
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
+
+        String content = Files.readString(files.get("TestModel.kt").toPath());
+        Assert.assertTrue(jsonIncludeBlockFor(content, "overridden").contains("@field:JsonInclude(JsonInclude.Include.NON_EMPTY)"),
+                "manual override must be honored even with generateJsonIncludeAnnotations=false");
+        Assert.assertFalse(jsonIncludeBlockFor(content, "plain").contains("@field:JsonInclude"),
+                "non-overridden field must have no annotation when generateJsonIncludeAnnotations=false");
+    }
+
+    /**
+     * Returns the source region isolating a single property's annotations, bounded by the previous
+     * property's {@code @get:JsonProperty} marker, so @field:JsonInclude checks are property-specific.
+     */
+    private static String jsonIncludeBlockFor(String content, String propName) {
+        int end = content.indexOf("@get:JsonProperty(\"" + propName + "\"");
+        Assert.assertTrue(end >= 0, propName + " property must exist");
+        int prev = content.lastIndexOf("@get:JsonProperty(", end - 1);
+        return content.substring(Math.max(0, prev), end);
+    }
+
+    /**
+     * Issue #24401: with one property per schema, each generated model must import exactly the Jackson
+     * annotations its single property needs. openApiNullable=true so optional nullable uses JsonNullable.
+     */
+    @Test(description = "Issue #24401 – per-schema import isolation (kotlin-spring)")
+    public void jsonInclude_perSchemaImports() throws IOException {
+        final String jsonInclude = "import com.fasterxml.jackson.annotation.JsonInclude";
+        final String jsonSetter = "import com.fasterxml.jackson.annotation.JsonSetter";
+        final String nulls = "import com.fasterxml.jackson.annotation.Nulls";
+        final String jsonNullable = "import org.openapitools.jackson.nullable.JsonNullable";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true",
+                        CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true",
+                        CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true"));
+
+        // required non-nullable -> @field:JsonInclude(ALWAYS); no setter/nullable machinery
+        Path requiredNonNullable = files.get("RequiredNonNullable.kt").toPath();
+        assertFileContains(requiredNonNullable, jsonInclude);
+        assertFileNotContains(requiredNonNullable, jsonSetter, nulls, jsonNullable);
+        // required nullable -> @field:JsonInclude(ALWAYS)
+        Path requiredNullable = files.get("RequiredNullable.kt").toPath();
+        assertFileContains(requiredNullable, jsonInclude);
+        assertFileNotContains(requiredNullable, jsonSetter, nulls, jsonNullable);
+        // optional non-nullable -> @field:JsonInclude(NON_NULL) + @field:JsonSetter(Nulls.FAIL)
+        Path optionalNonNullable = files.get("OptionalNonNullable.kt").toPath();
+        assertFileContains(optionalNonNullable, jsonInclude, jsonSetter, nulls);
+        assertFileNotContains(optionalNonNullable, jsonNullable);
+        // optional nullable with openApiNullable=true -> JsonNullable<T>, NO @field:JsonInclude
+        Path optionalNullable = files.get("OptionalNullable.kt").toPath();
+        assertFileContains(optionalNullable, jsonNullable);
+        assertFileNotContains(optionalNullable, jsonInclude, jsonSetter, nulls);
+    }
+
+    /**
+     * Issue #24401: even with {@code generateJsonIncludeAnnotations=false}, a manual per-property vendor
+     * extension must still emit its annotation AND the JsonInclude import must be present.
+     */
+    @Test(description = "Issue #24401 – manual override emits import even when annotations disabled (kotlin-spring)")
+    public void jsonInclude_manualOverride_emitsImport_whenAnnotationsDisabled() throws IOException {
+        final String jsonInclude = "import com.fasterxml.jackson.annotation.JsonInclude";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "false"));
+
+        Path manualOverride = files.get("ManualOverride.kt").toPath();
+        assertFileContains(manualOverride, jsonInclude);
+        Assert.assertTrue(jsonIncludeBlockFor(Files.readString(manualOverride), "value")
+                        .contains("@field:JsonInclude(JsonInclude.Include.NON_EMPTY)"),
+                "manual override must be emitted even when generateJsonIncludeAnnotations=false");
+        // A schema without the override must not import JsonInclude when annotations are disabled
+        assertFileNotContains(files.get("OptionalNonNullable.kt").toPath(), jsonInclude);
+    }
+
+    /**
+     * Issue #24401: a forced override on an optional+nullable ({@code JsonNullable<T>}) property must be
+     * respected — the annotation is emitted and the JsonInclude import is added.
+     */
+    @Test(description = "Issue #24401 – forced override on JsonNullable emits annotation and import (kotlin-spring)")
+    public void jsonInclude_forcedOverride_onJsonNullable_emitsAnnotationAndImport() throws IOException {
+        final String jsonInclude = "import com.fasterxml.jackson.annotation.JsonInclude";
+        final String jsonNullable = "import org.openapitools.jackson.nullable.JsonNullable";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path forced = files.get("ForcedOnJsonNullable.kt").toPath();
+        assertFileContains(forced, jsonInclude, jsonNullable, "JsonNullable<kotlin.String>");
+        Assert.assertTrue(jsonIncludeBlockFor(Files.readString(forced), "value")
+                        .contains("@field:JsonInclude(JsonInclude.Include.NON_NULL)"),
+                "forced override on JsonNullable field must be emitted");
+    }
+
+    /**
+     * Issue #24401: a manual per-property override of {@code NONE} means "emit no annotation". Neither the
+     * {@code @field:JsonInclude} annotation nor its import may be generated, otherwise the output fails to compile.
+     */
+    @Test(description = "Issue #24401 – manual NONE override emits no annotation or import (kotlin-spring)")
+    public void jsonInclude_manualOverride_none_emitsNoAnnotationOrImport() throws IOException {
+        final String jsonInclude = "import com.fasterxml.jackson.annotation.JsonInclude";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+
+        Path manualNone = files.get("ManualNone.kt").toPath();
+        assertFileNotContains(manualNone, jsonInclude);
+        Assert.assertFalse(Files.readString(manualNone).contains("@field:JsonInclude"),
+                "manual NONE override must emit no @field:JsonInclude annotation");
+    }
+
+    /**
+     * Issue #24401: a whitespace-padded {@code NONE} override must be treated identically to a bare
+     * {@code NONE} — the sentinel comparison must trim before checking, otherwise it falls through to
+     * validation and generation fails for a value that should simply suppress the annotation.
+     */
+    @Test(description = "Issue #24401 – padded NONE override emits no annotation or import (kotlin-spring)")
+    public void jsonInclude_manualOverride_paddedNone_emitsNoAnnotationOrImport() throws IOException {
+        final String jsonInclude = "import com.fasterxml.jackson.annotation.JsonInclude";
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_per_schema.yaml",
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true"));
+
+        Path manualNonePadded = files.get("ManualNonePadded.kt").toPath();
+        assertFileNotContains(manualNonePadded, jsonInclude);
+        Assert.assertFalse(Files.readString(manualNonePadded).contains("@field:JsonInclude"),
+                "padded NONE override must emit no @field:JsonInclude annotation");
+    }
+
+    /**
+     * Issue #24401: an invalid manual per-property override must fail fast with an actionable error
+     * during generation rather than emitting uncompilable Kotlin.
+     */
+    @Test(description = "Issue #24401 – invalid manual override fails fast (kotlin-spring)")
+    public void jsonInclude_manualOverride_invalid_failsWithActionableError() {
+        Throwable thrown = Assert.expectThrows(Throwable.class, () -> generateFromContract(
+                "src/test/resources/3_0/spring/issue_24401_json_include_invalid_override.yaml",
+                Map.of(CodegenConstants.GENERATE_JSON_INCLUDE_ANNOTATIONS, "true")));
+
+        java.io.StringWriter sw = new java.io.StringWriter();
+        thrown.printStackTrace(new java.io.PrintWriter(sw));
+        String trace = sw.toString();
+        Assert.assertTrue(trace.contains("x-jackson-json-include-policy") && trace.contains("NOT_A_REAL_POLICY"),
+                "expected an actionable error naming the invalid policy, but got: " + trace);
+    }
+
+    /**
+     * Without openApiNullable the optional+nullable field is a plain {@code Type?} — no
+     * {@code @field:JsonInclude(NON_ABSENT)} should be emitted because {@code JsonNullable} is
+     * not used and the legacy nullable-type path doesn't need the annotation.
+     */
+    @Test(description = "Scenario 4 – optional+nullable without openApiNullable: no @JsonInclude(NON_ABSENT)")
+    public void requiredNullable_scenario4_optionalNullable_noNonAbsentWithoutOpenApiNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                new HashMap<>());
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNullable property must exist");
+        String context = content.substring(Math.max(0, idx - 200), idx);
+        Assert.assertFalse(context.contains("@field:JsonInclude(JsonInclude.Include.NON_ABSENT)"),
+                "optionalNullable must NOT have NON_ABSENT when openApiNullable=false (no JsonNullable wrapping)");
     }
 
     /**
@@ -6659,7 +7437,7 @@ public class KotlinSpringServerCodegenTest {
                 KotlinSpringServerCodegen.SUSPEND_FUNCTIONS, true,
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -6713,7 +7491,7 @@ public class KotlinSpringServerCodegenTest {
         Path root = generateApiSources(Map.of(
                 KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
                 KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
-                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                INTERFACE_ONLY, true,
                 KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
         ), Map.of(
                 CodegenConstants.MODELS, "false",
@@ -6793,7 +7571,25 @@ public class KotlinSpringServerCodegenTest {
         assertThat(itemFile).isNotNull();
         assertFileContains(
                 itemFile.toPath(),
-                "@param:JsonProperty(\"snake_case_value\")\n    @get:JsonProperty(\"snake_case_value\", required = true) val mappedValue"
+                "@param:JsonProperty(\"snake_case_value\", required = true)\n    @get:JsonProperty(\"snake_case_value\", required = true) val mappedValue"
+        );
+    }
+
+    @Test(description = "required vars: @param:JsonProperty must be marked required to keep missing-property failures")
+    public void requiredParamJsonPropertyAnnotationIsMarkedRequired() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/param-json-property.yaml"
+        );
+
+        File itemFile = files.get("Item.kt");
+        assertThat(itemFile).isNotNull();
+        assertFileContains(
+                itemFile.toPath(),
+                "@param:JsonProperty(\"snake_case_value\", required = true)\n    @get:JsonProperty(\"snake_case_value\", required = true) val snakeCaseValue"
+        );
+        assertFileContains(
+                itemFile.toPath(),
+                "@param:JsonProperty(\"2nd_field\")\n    @get:JsonProperty(\"2nd_field\") val `2ndField`"
         );
     }
 
@@ -6825,6 +7621,7 @@ public class KotlinSpringServerCodegenTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put("useBeanValidation", true);
         additionalProperties.put("openApiNullable", "true");
+        additionalProperties.put(CodegenConstants.GENERATE_JSON_SETTER_NULLS_ANNOTATIONS, "true");
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_1/issue_24139.yaml",
@@ -6844,5 +7641,163 @@ public class KotlinSpringServerCodegenTest {
                 content.contains("@field:JsonSetter(nulls = Nulls.FAIL)\n    @get:JsonProperty(\"nestedNullable\")"),
                 "nestedNullable ($ref to nullable schema) must not have @JsonSetter(nulls = Nulls.FAIL)"
         );
+    }
+
+    private static final String EXTRA_IMPORTS_SPEC = "src/test/resources/3_0/kotlin/kotlin-spring-extra-imports.yaml";
+
+    private String generateExtraImports(Consumer<KotlinSpringServerCodegen> configure, boolean apisOnly) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        FileUtils.forceDeleteOnExit(output);
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        configure.accept(codegen);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec(EXTRA_IMPORTS_SPEC))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, apisOnly ? "false" : "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, apisOnly ? "true" : "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        return outputPath;
+    }
+
+    private static long countOccurrences(Path path, String needle) throws IOException {
+        String content = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+        long count = 0;
+        int idx = 0;
+        while ((idx = content.indexOf(needle, idx)) != -1) {
+            count++;
+            idx += needle.length();
+        }
+        return count;
+    }
+
+    @Test(description = "x-extra-imports: model and property imports are added to the model file")
+    public void extraImportsOnModels() throws IOException {
+        String outputPath = generateExtraImports(codegen -> { }, false);
+        Path widget = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Widget.kt");
+
+        assertFileContains(widget,
+                "import com.example.model.MyClassAnn",
+                "import com.example.model.MyFieldAnn",
+                "import com.example.model.Dup",
+                "import com.example.other.Foo as Bar",
+                "@MyClassAnn",
+                "@MyFieldAnn");
+
+        // com.example.model.Dup is declared on the class and on a property but must be imported only once.
+        Assert.assertEquals(countOccurrences(widget, "import com.example.model.Dup"), 1L,
+                "Duplicate x-extra-imports directive must be emitted only once");
+    }
+
+    @Test(description = "x-extra-imports: operation/parameter imports are scoped per tag when useTags=true")
+    public void extraImportsOnApiWithTags() throws IOException {
+        String outputPath = generateExtraImports(codegen -> {
+            codegen.additionalProperties().put(INTERFACE_ONLY, true);
+            codegen.additionalProperties().put(USE_TAGS, true);
+        }, true);
+
+        Path accounts = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AccountsApi.kt");
+        Path orders = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/OrdersApi.kt");
+
+        // Accounts file: its own operation import, its parameter import, and the multi-tag operation import.
+        assertFileContains(accounts,
+                "import com.example.security.Audited",
+                "import com.example.security.TenantId",
+                "import com.example.shared.Traced");
+        // No leakage from the Orders group.
+        assertFileNotContains(accounts, "import com.example.security.RateLimited");
+
+        // Orders file: its own operation import plus the multi-tag operation import.
+        assertFileContains(orders,
+                "import com.example.security.RateLimited",
+                "import com.example.shared.Traced");
+        assertFileNotContains(orders,
+                "import com.example.security.Audited",
+                "import com.example.security.TenantId");
+    }
+
+    @Test(description = "x-extra-imports: operation imports follow first-path-segment groups when useTags=false")
+    public void extraImportsOnApiWithoutTags() throws IOException {
+        String outputPath = generateExtraImports(codegen -> {
+            codegen.additionalProperties().put(INTERFACE_ONLY, true);
+            codegen.additionalProperties().put(USE_TAGS, false);
+        }, true);
+
+        Path accounts = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AccountsApi.kt");
+        Path orders = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/OrdersApi.kt");
+        Path shared = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/SharedApi.kt");
+
+        // With path-segment grouping the shared operation is its own group, so Traced does not
+        // leak into the Accounts/Orders files.
+        assertFileContains(accounts,
+                "import com.example.security.Audited",
+                "import com.example.security.TenantId");
+        assertFileNotContains(accounts,
+                "import com.example.security.RateLimited",
+                "import com.example.shared.Traced");
+
+        assertFileContains(orders, "import com.example.security.RateLimited");
+        assertFileNotContains(orders, "import com.example.shared.Traced");
+
+        assertFileContains(shared, "import com.example.shared.Traced");
+    }
+
+    @Test(description = "x-extra-imports: only annotation-rendering files get imports (delegate/controller are excluded)")
+    public void extraImportsDelegateIsolation() throws IOException {
+        String outputPath = generateExtraImports(codegen -> {
+            codegen.additionalProperties().put(DELEGATE_PATTERN, true);
+            codegen.additionalProperties().put(USE_TAGS, true);
+        }, true);
+
+        Path apiInterface = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AccountsApi.kt");
+        Path controller = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AccountsApiController.kt");
+        Path delegate = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AccountsApiDelegate.kt");
+
+        // The interface renders the operation annotation, so it must carry the import.
+        assertFileContains(apiInterface, "import com.example.security.Audited");
+        // The delegate and controller wrapper do not render the annotation and must not carry the import.
+        assertFileNotContains(controller, "import com.example.security.Audited");
+        assertFileNotContains(delegate, "import com.example.security.Audited");
+    }
+
+    @Test(description = "x-extra-imports: parameter imports on implicit header params are not lost")
+    public void extraImportsImplicitHeaderParams() throws IOException {
+        String outputPath = generateExtraImports(codegen -> {
+            codegen.additionalProperties().put(INTERFACE_ONLY, true);
+            codegen.additionalProperties().put(USE_TAGS, true);
+            codegen.additionalProperties().put(KotlinSpringServerCodegen.IMPLICIT_HEADERS, true);
+        }, true);
+
+        Path audit = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/AuditApi.kt");
+
+        // With implicitHeaders=true the header param is moved out of allParams into
+        // implicitHeadersParams, but its declared import must still be emitted.
+        assertFileContains(audit, "import com.example.security.TraceHeader");
+    }
+
+    @Test(description = "x-extra-imports: an import already generated from a type is not duplicated")
+    public void extraImportsDedupAgainstGeneratedImports() throws IOException {
+        String outputPath = generateExtraImports(codegen -> {
+            codegen.additionalProperties().put(INTERFACE_ONLY, true);
+            codegen.additionalProperties().put(USE_TAGS, true);
+        }, true);
+
+        Path widgets = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/WidgetsApi.kt");
+
+        // getWidget both returns Widget (generating an import) and declares the same value via
+        // x-extra-imports, so the file must keep the once-per-file deduplication.
+        assertFileContains(widgets, "import org.openapitools.model.Widget", "@WidgetChecked");
+        Assert.assertEquals(countOccurrences(widgets, "import org.openapitools.model.Widget"), 1L,
+                "Extra import duplicating a generated type import must be emitted only once");
     }
 }

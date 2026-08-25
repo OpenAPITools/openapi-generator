@@ -60,102 +60,258 @@ import {
 } from '../models/User';
 
 export interface FakeHttpSignatureTestRequest {
+    /**
+     * 
+     */
     pet: Pet;
+    /**
+     * query parameter
+     */
     query1?: string;
+    /**
+     * header parameter
+     */
     header1?: string;
 }
 
 export interface FakeOuterBooleanSerializeRequest {
+    /**
+     * 
+     */
     body?: boolean;
 }
 
 export interface FakeOuterCompositeSerializeRequest {
+    /**
+     * 
+     */
     outerComposite?: OuterComposite;
 }
 
 export interface FakeOuterNumberSerializeRequest {
+    /**
+     * 
+     */
     body?: number;
 }
 
 export interface FakeOuterStringSerializeRequest {
+    /**
+     * 
+     */
     body?: string;
 }
 
 export interface FakePropertyEnumIntegerSerializeRequest {
+    /**
+     * 
+     */
     outerObjectWithEnumProperty: OuterObjectWithEnumProperty;
 }
 
 export interface TestBodyWithBinaryRequest {
+    /**
+     * 
+     */
     body: Blob | null;
 }
 
 export interface TestBodyWithFileSchemaRequest {
+    /**
+     * 
+     */
     fileSchemaTestClass: FileSchemaTestClass;
 }
 
 export interface TestBodyWithQueryParamsRequest {
+    /**
+     * 
+     */
     query: string;
+    /**
+     * 
+     */
     user: User;
 }
 
 export interface TestClientModelRequest {
+    /**
+     * 
+     */
     client: Client;
 }
 
 export interface TestEndpointParametersRequest {
+    /**
+     * None
+     */
     number: number;
+    /**
+     * None
+     */
     _double: number;
+    /**
+     * None
+     */
     patternWithoutDelimiter: string;
+    /**
+     * None
+     */
     _byte: string;
+    /**
+     * None
+     */
     integer?: number;
+    /**
+     * None
+     */
     int32?: number;
+    /**
+     * None
+     */
     int64?: number;
+    /**
+     * None
+     */
     _float?: number;
+    /**
+     * None
+     */
     string?: string;
+    /**
+     * None
+     */
     binary?: Blob;
+    /**
+     * None
+     */
     date?: Date;
+    /**
+     * None
+     */
     dateTime?: Date;
+    /**
+     * None
+     */
     password?: string;
+    /**
+     * None
+     */
     callback?: string;
 }
 
 export interface TestEnumParametersRequest {
+    /**
+     * Header parameter enum test (string array)
+     */
     enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>;
+    /**
+     * Header parameter enum test (string)
+     */
     enumHeaderString?: TestEnumParametersEnumHeaderStringEnum;
+    /**
+     * Query parameter enum test (string array)
+     */
     enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>;
+    /**
+     * Query parameter enum test (string)
+     */
     enumQueryString?: TestEnumParametersEnumQueryStringEnum;
+    /**
+     * Query parameter enum test (double)
+     */
     enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum;
+    /**
+     * Query parameter enum test (double)
+     */
     enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum;
+    /**
+     * 
+     */
     enumQueryModelArray?: Array<EnumClass>;
+    /**
+     * Form parameter enum test (string array)
+     */
     enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>;
+    /**
+     * Form parameter enum test (string)
+     */
     enumFormString?: TestEnumParametersEnumFormStringEnum;
 }
 
 export interface TestGroupParametersRequest {
+    /**
+     * Required String in group parameters
+     */
     requiredStringGroup: number;
+    /**
+     * Required Boolean in group parameters
+     */
     requiredBooleanGroup: boolean;
+    /**
+     * Required Integer in group parameters
+     */
     requiredInt64Group: number;
+    /**
+     * String in group parameters
+     */
     stringGroup?: number;
+    /**
+     * Boolean in group parameters
+     */
     booleanGroup?: boolean;
+    /**
+     * Integer in group parameters
+     */
     int64Group?: number;
 }
 
 export interface TestInlineAdditionalPropertiesRequest {
+    /**
+     * 
+     */
     requestBody: { [key: string]: string; };
 }
 
 export interface TestJsonFormDataRequest {
+    /**
+     * field1
+     */
     param: string;
+    /**
+     * field2
+     */
     param2: string;
 }
 
 export interface TestQueryParameterCollectionFormatRequest {
+    /**
+     * 
+     */
     pipe: Array<string>;
+    /**
+     * 
+     */
     ioutil: Array<string>;
+    /**
+     * 
+     */
     http: Array<string>;
+    /**
+     * 
+     */
     url: Array<string>;
+    /**
+     * 
+     */
     context: Array<string>;
+    /**
+     * 
+     */
     allowEmpty: string;
+    /**
+     * 
+     */
     language?: { [key: string]: string; };
 }
 
@@ -515,10 +671,10 @@ export class FakeApi extends runtime.BaseAPI {
      * Creates request options for testBodyWithBinary without sending the request
      */
     async testBodyWithBinaryRequestOpts(requestParameters: TestBodyWithBinaryRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['body'] == null) {
+        if (requestParameters['body'] === undefined) {
             throw new runtime.RequiredError(
                 'body',
-                'Required parameter "body" was null or undefined when calling testBodyWithBinary().'
+                'Required parameter "body" was undefined when calling testBodyWithBinary().'
             );
         }
 
@@ -803,11 +959,11 @@ export class FakeApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['date'] != null) {
-            formParams.append('date', requestParameters['date'] as any);
+            formParams.append('date', runtime.serializeDate(requestParameters['date'] as any));
         }
 
         if (requestParameters['dateTime'] != null) {
-            formParams.append('dateTime', (requestParameters['dateTime'] as any).toISOString());
+            formParams.append('dateTime', runtime.serializeDateTime(requestParameters['dateTime'] as any));
         }
 
         if (requestParameters['password'] != null) {
@@ -1267,7 +1423,7 @@ export class FakeApi extends runtime.BaseAPI {
  */
 export const TestEnumParametersEnumHeaderStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumHeaderStringArrayEnum = typeof TestEnumParametersEnumHeaderStringArrayEnum[keyof typeof TestEnumParametersEnumHeaderStringArrayEnum];
 /**
@@ -1276,7 +1432,7 @@ export type TestEnumParametersEnumHeaderStringArrayEnum = typeof TestEnumParamet
 export const TestEnumParametersEnumHeaderStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumHeaderStringEnum = typeof TestEnumParametersEnumHeaderStringEnum[keyof typeof TestEnumParametersEnumHeaderStringEnum];
 /**
@@ -1284,7 +1440,7 @@ export type TestEnumParametersEnumHeaderStringEnum = typeof TestEnumParametersEn
  */
 export const TestEnumParametersEnumQueryStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumQueryStringArrayEnum = typeof TestEnumParametersEnumQueryStringArrayEnum[keyof typeof TestEnumParametersEnumQueryStringArrayEnum];
 /**
@@ -1293,7 +1449,7 @@ export type TestEnumParametersEnumQueryStringArrayEnum = typeof TestEnumParamete
 export const TestEnumParametersEnumQueryStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumQueryStringEnum = typeof TestEnumParametersEnumQueryStringEnum[keyof typeof TestEnumParametersEnumQueryStringEnum];
 /**
@@ -1301,7 +1457,7 @@ export type TestEnumParametersEnumQueryStringEnum = typeof TestEnumParametersEnu
  */
 export const TestEnumParametersEnumQueryIntegerEnum = {
     NUMBER_1: 1,
-    NUMBER_MINUS_2: -2
+    NUMBER_MINUS_2: -2,
 } as const;
 export type TestEnumParametersEnumQueryIntegerEnum = typeof TestEnumParametersEnumQueryIntegerEnum[keyof typeof TestEnumParametersEnumQueryIntegerEnum];
 /**
@@ -1309,7 +1465,7 @@ export type TestEnumParametersEnumQueryIntegerEnum = typeof TestEnumParametersEn
  */
 export const TestEnumParametersEnumQueryDoubleEnum = {
     NUMBER_1_DOT_1: 1.1,
-    NUMBER_MINUS_1_DOT_2: -1.2
+    NUMBER_MINUS_1_DOT_2: -1.2,
 } as const;
 export type TestEnumParametersEnumQueryDoubleEnum = typeof TestEnumParametersEnumQueryDoubleEnum[keyof typeof TestEnumParametersEnumQueryDoubleEnum];
 /**
@@ -1317,7 +1473,7 @@ export type TestEnumParametersEnumQueryDoubleEnum = typeof TestEnumParametersEnu
  */
 export const TestEnumParametersEnumFormStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumFormStringArrayEnum = typeof TestEnumParametersEnumFormStringArrayEnum[keyof typeof TestEnumParametersEnumFormStringArrayEnum];
 /**
@@ -1326,6 +1482,6 @@ export type TestEnumParametersEnumFormStringArrayEnum = typeof TestEnumParameter
 export const TestEnumParametersEnumFormStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];

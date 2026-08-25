@@ -107,3 +107,4 @@ class _$SpecialModelNameSerializer implements PrimitiveSerializer<SpecialModelNa
   }
 }
 
+

@@ -35,7 +35,7 @@ import jakarta.validation.Valid;
 
 
 @Tag(description = "the user API", name = "")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class UserApi  {
 
    private final UserApiService delegate;
@@ -67,7 +67,7 @@ public class UserApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "user", }) 
-    public Response createUser(@Schema(description = "Created user object", required = true) @NotNull @Valid  User user,@Context SecurityContext securityContext)
+    public Response createUser(@Schema(description = "Created user object", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  User user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUser(user, securityContext);
     }
@@ -79,7 +79,7 @@ public class UserApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "user", }) 
-    public Response createUsersWithArrayInput(@Schema(description = "List of user object", required = true) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
+    public Response createUsersWithArrayInput(@Schema(description = "List of user object", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithArrayInput(user, securityContext);
     }
@@ -91,7 +91,7 @@ public class UserApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "user", }) 
-    public Response createUsersWithListInput(@Schema(description = "List of user object", required = true) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
+    public Response createUsersWithListInput(@Schema(description = "List of user object", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithListInput(user, securityContext);
     }
@@ -104,7 +104,7 @@ public class UserApi  {
             @ApiResponse(responseCode = "404", description = "User not found", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "user", }) 
-    public Response deleteUser(@Schema(description= "The name that needs to be deleted", required = true) @PathParam("username") @NotNull  String username,@Context SecurityContext securityContext)
+    public Response deleteUser(@Schema(description= "The name that needs to be deleted", requiredMode = Schema.RequiredMode.REQUIRED) @PathParam("username") @NotNull  String username,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.deleteUser(username, securityContext);
     }
@@ -120,7 +120,7 @@ public class UserApi  {
             @ApiResponse(responseCode = "404", description = "User not found", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "user", }) 
-    public Response getUserByName(@Schema(description= "The name that needs to be fetched. Use user1 for testing.", required = true) @PathParam("username") @NotNull  String username,@Context SecurityContext securityContext)
+    public Response getUserByName(@Schema(description= "The name that needs to be fetched. Use user1 for testing.", requiredMode = Schema.RequiredMode.REQUIRED) @PathParam("username") @NotNull  String username,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getUserByName(username, securityContext);
     }
@@ -159,7 +159,7 @@ public class UserApi  {
             @ApiResponse(responseCode = "404", description = "User not found", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "user", }) 
-    public Response updateUser(@Schema(description= "name that need to be deleted", required = true) @PathParam("username") @NotNull  String username,@Schema(description = "Updated user object", required = true) @NotNull @Valid  User user,@Context SecurityContext securityContext)
+    public Response updateUser(@Schema(description= "name that need to be deleted", requiredMode = Schema.RequiredMode.REQUIRED) @PathParam("username") @NotNull  String username,@Schema(description = "Updated user object", requiredMode = Schema.RequiredMode.REQUIRED) @NotNull @Valid  User user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updateUser(username, user, securityContext);
     }

@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -189,7 +190,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
             for (CodegenProperty var : cm.vars) {
                 if (var.isEnum) {
-                    List<Object> enumValues = (List<Object>) var.allowableValues.get("values");
+                    List<Object> enumValues = getEnumValues(var.allowableValues);
 
                     for (final ListIterator<Object> i = enumValues.listIterator(); i.hasNext(); ) {
                         final String element = String.valueOf(i.next());

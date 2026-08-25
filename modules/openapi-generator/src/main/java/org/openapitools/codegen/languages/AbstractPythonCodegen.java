@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.DataTypeFeature;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -45,6 +46,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
+import static org.openapitools.codegen.utils.ModelUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 
@@ -55,6 +58,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     public static final String PYDANTIC = "pydantic";
     public static final Set<String> SUPPORTED_NUMBER_MAPPINGS =
             Set.of("Union[StrictFloat, StrictInt]", "StrictFloat", "float", "Decimal");
+    // https://docs.python.org/3/reference/lexical_analysis.html#keywords
+    protected static final Set<String> PYTHON_KEYWORDS = Set.of(
+            "False", "None", "True", "and", "as", "assert", "async", "await",
+            "break", "class", "continue", "def", "del", "elif", "else", "except",
+            "finally", "for", "from", "global", "if", "import", "in", "is",
+            "lambda", "nonlocal", "not", "or", "pass", "raise", "return", "try",
+            "while", "with", "yield");
 
     protected String packageName = "openapi_client";
     @Setter protected String packageVersion = "1.0.0";
@@ -81,25 +91,21 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 DataTypeFeature.Uuid
         ));
 
-        // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        // pydantic
-                        "field",
-                        // local variable name used in API methods (endpoints)
-                        "all_params", "resource_path", "path_params", "query_params",
-                        "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
-                        // @property
-                        "property",
-                        // typing keywords
-                        "schema", "base64", "json",
-                        "date", "float",
-                        // python reserved words
-                        "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
-                        "assert", "else", "if", "pass", "yield", "break", "except", "import",
-                        "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True",
-                        "False", "async", "await"));
+        List<String> reservedWords = new ArrayList<>(PYTHON_KEYWORDS);
+        reservedWords.addAll(Arrays.asList(
+                // pydantic
+                "field",
+                // local variable name used in API methods (endpoints)
+                "all_params", "resource_path", "path_params", "query_params",
+                "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
+                // @property
+                "property",
+                // typing keywords
+                "schema", "base64", "json",
+                "date", "float",
+                // Python 2 keywords and method receivers
+                "print", "exec", "self"));
+        setReservedWordsLowerCase(reservedWords);
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
@@ -216,6 +222,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (p.getDefault() != null) {
                 String defaultValue = String.valueOf(p.getDefault());
                 if (defaultValue != null) {
+                    // String enums (type: string + enum) must be quoted: templates embed defaultValue
+                    // directly into Query()/Header()/Cookie() calls (e.g. Query('B', ...)). Without
+                    // quotes, values like uploadTime or desc become bare identifiers and cause NameError.
+                    // See https://github.com/OpenAPITools/openapi-generator/issues/23774
+                    if (ModelUtils.isStringSchema(p)) {
+                        return formatPythonStringLiteral(defaultValue);
+                    }
                     return defaultValue;
                 }
             }
@@ -223,13 +236,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (p.getDefault() != null) {
                 String defaultValue = String.valueOf(p.getDefault());
                 if (defaultValue != null) {
-                    defaultValue = defaultValue.replace("\\", "\\\\")
-                            .replace("'", "\\'");
-                    if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
-                        return "'''" + defaultValue + "'''";
-                    } else {
-                        return "'" + defaultValue + "'";
-                    }
+                    return formatPythonStringLiteral(defaultValue);
                 }
             }
         } else if (ModelUtils.isArraySchema(p)) {
@@ -242,6 +249,59 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return null;
     }
 
+    /**
+     * Format a string as a Python string literal (single-quoted).
+     * Shared by plain string and string-enum default value paths in {@link #toDefaultValue(Schema)}.
+     */
+    protected String formatPythonStringLiteral(String defaultValue) {
+        defaultValue = defaultValue.replace("\\", "\\\\")
+                .replace("'", "\\'");
+        if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
+            return "'''" + defaultValue + "'''";
+        }
+        return "'" + defaultValue + "'";
+    }
+
+    /**
+     * If {@code value} is already a Python string literal, return the unescaped inner content.
+     * Used when reconciling quoted defaults from {@link #toDefaultValue(Schema)} with enum-var
+     * matching in {@link #getEnumDefaultValue(String, String)}.
+     */
+    protected String unwrapPythonStringLiteral(String value) {
+        if (value == null) {
+            return null;
+        }
+        if (value.length() >= 6 && value.startsWith("'''") && value.endsWith("'''")) {
+            // formatPythonStringLiteral() escapes \ and ' for both single- and triple-quoted
+            // forms; unwrap must reverse those escapes so enum-member matching still works.
+            return value.substring(3, value.length() - 3)
+                    .replace("\\'", "'")
+                    .replace("\\\\", "\\");
+        }
+        if (value.length() >= 2 && value.startsWith("'") && value.endsWith("'")) {
+            return value.substring(1, value.length() - 1)
+                    .replace("\\'", "'")
+                    .replace("\\\\", "\\");
+        }
+        return null;
+    }
+
+    /**
+     * Normalize enum default values before matching against enum member literals.
+     * {@link #toDefaultValue(Schema)} now quotes string-enum defaults (e.g. {@code 'B'}), but
+     * {@code updateCodegenPropertyEnum} compares against unquoted enum values via
+     * {@code toEnumValue}. Unwrap first so model properties still resolve to EnumClass.MEMBER.
+     */
+    @Override
+    protected String getEnumDefaultValue(String defaultValue, String dataType) {
+        if (isDataTypeString(dataType)) {
+            String unquoted = unwrapPythonStringLiteral(defaultValue);
+            if (unquoted != null) {
+                defaultValue = unquoted;
+            }
+        }
+        return super.getEnumDefaultValue(defaultValue, dataType);
+    }
 
     @Override
     public String toVarName(String name) {
@@ -253,7 +313,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return toVarNameWithoutNameMapping(name);
     }
 
-    private String toVarNameWithoutNameMapping(String name) {
+    protected String toVarNameWithoutNameMapping(String name) {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
@@ -967,6 +1027,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             PythonImports moduleImports = new PythonImports();
             CodegenModel model = m.getModel();
 
+            if (model.vendorExtensions.containsKey(X_PY_PREPROCESSES_INPUT_NAMES)) {
+                moduleImports.add("collections.abc", "Mapping as _Mapping");
+                moduleImports.add("typing", "cast as _cast");
+            }
+            if (model.vendorExtensions.containsKey(X_PY_VALIDATES_INPUT_NAMES)) {
+                moduleImports.add(PYDANTIC, "model_validator as _model_validator");
+                moduleImports.add(PYDANTIC,
+                        "ModelWrapValidatorHandler as _ModelWrapValidatorHandler");
+            }
+
             PydanticType pydantic = new PydanticType(
                     modelImports,
                     exampleImports,
@@ -991,7 +1061,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
 
             List<CodegenProperty> codegenProperties = null;
-            if (!model.oneOf.isEmpty()) { // oneOfValidationError
+            if (hasOneOf(model)) {
                 codegenProperties = model.getComposedSchemas().getOneOf();
                 moduleImports.add("typing", "Any");
                 moduleImports.add("typing", "List");
@@ -999,7 +1069,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 moduleImports.add(PYDANTIC, "StrictStr");
                 moduleImports.add(PYDANTIC, "ValidationError");
                 moduleImports.add(PYDANTIC, "field_validator");
-            } else if (!model.anyOf.isEmpty()) { // anyOF
+            } else if (hasAnyOf(model)) {
                 codegenProperties = model.getComposedSchemas().getAnyOf();
                 moduleImports.add(PYDANTIC, "Field");
                 moduleImports.add(PYDANTIC, "StrictStr");
@@ -1015,7 +1085,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            if (!model.allOf.isEmpty()) { // allOf
+            if (hasAllOf(model)) {
                 for (CodegenProperty cp : model.allVars) {
                     if (!cp.isPrimitiveType || cp.isModel) {
                         if (cp.isArray || cp.isMap) { // if array or map
@@ -1053,9 +1123,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 cp.vendorExtensions.put(X_PY_TYPING, typing);
 
                 // setup x-py-name for each oneOf/anyOf schema
-                if (!model.oneOf.isEmpty()) { // oneOf
+                if (hasOneOf(model)) {
                     cp.vendorExtensions.put(X_PY_NAME, String.format(Locale.ROOT, "oneof_schema_%d_validator", property_count++));
-                } else if (!model.anyOf.isEmpty()) { // anyOf
+                } else if (hasAnyOf(model)) {
                     cp.vendorExtensions.put(X_PY_NAME, String.format(Locale.ROOT, "anyof_schema_%d_validator", property_count++));
                 }
             }
@@ -1069,18 +1139,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             // set enum type in extensions and update `name` in enumVars
             if (model.isEnum) {
-                for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
-                    if ((Boolean) enumVars.get("isString")) {
+                for (EnumVarMap enumVars : getEnumVars(model.getAllowableValues())) {
+                    if (enumVars.isString()) {
                         model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "str");
                         // Do not overwrite the variable name if already set through x-enum-varnames
                         if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
-                            enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
+                            enumVars.setEnumName(toEnumVariableName((String) enumVars.getEnumValue(), "str"));
                         }
                     } else {
                         model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "int");
                         // Do not overwrite the variable name if already set through x-enum-varnames
                         if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
-                            enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
+                            enumVars.setEnumName(toEnumVariableName((String) enumVars.getEnumValue(), "int"));
                         }
                     }
                 }
@@ -1233,9 +1303,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         List<CodegenProperty> codegenProperties = null;
-        if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOf
+        if (hasOneOf(cm)) {
             codegenProperties = cm.getComposedSchemas().getOneOf();
-        } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
+        } else if (hasAnyOf(cm)) {
             codegenProperties = cm.getComposedSchemas().getAnyOf();
         } else { // typical model
             codegenProperties = cm.vars;
@@ -1284,9 +1354,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         List<CodegenProperty> codegenProperties = null;
-        if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOfValidationError
+        if (hasOneOf(cm)) {
             codegenProperties = cm.getComposedSchemas().getOneOf();
-        } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
+        } else if (hasAnyOf(cm)) {
             codegenProperties = cm.getComposedSchemas().getAnyOf();
         } else { // typical model
             codegenProperties = cm.vars;
@@ -2142,6 +2212,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         public String generatePythonType(CodegenProperty cp) {
             PythonType pt = this.getType(cp);
+            if (!cp.required || cp.isNullable) {
+                moduleImports.add(TYPING, "Optional");
+                PythonType opt = new PythonType("Optional");
+                opt.addTypeParam(pt);
+                pt = opt;
+            }
+            if (cp.vendorExtensions.containsKey(X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE)) {
+                cp.vendorExtensions.put(X_PY_PUBLIC_NAME_TYPING,
+                        pt.asTypeConstraint(moduleImports));
+            }
             return this.finalizeType(cp, pt);
         }
 
@@ -2200,19 +2280,27 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         private String finalizeType(CodegenProperty cp, PythonType pt) {
-            if (!cp.required || cp.isNullable) {
-                moduleImports.add(TYPING, "Optional");
-                PythonType opt = new PythonType("Optional");
-                opt.addTypeParam(pt);
-                pt = opt;
-            }
-
             if (!StringUtils.isEmpty(cp.description)) { // has description
                 pt.annotate("description", cp.description);
             }
 
             // field
-            if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
+            String publicName = (String) cp.vendorExtensions.get(X_PY_PUBLIC_NAME);
+            if (publicName != null) {
+                String aliasName = cp.vendorExtensions.containsKey(X_PY_EXPLICIT_PUBLIC_NAME)
+                        || cp.vendorExtensions.containsKey(X_PY_LEGACY_PUBLIC_NAME)
+                        ? publicName
+                        : cp.baseName;
+                if (!aliasName.equals(cp.name)) {
+                    pt.annotate("alias", toPythonStringLiteral(aliasName), false);
+                }
+                if (!publicName.equals(cp.baseName)) {
+                    moduleImports.add(PYDANTIC, "AliasChoices");
+                    pt.annotate("validation_alias", String.format(Locale.ROOT, "AliasChoices(%s, %s)",
+                            toPythonStringLiteral(cp.baseName), toPythonStringLiteral(publicName)), false);
+                    pt.annotate("serialization_alias", toPythonStringLiteral(cp.baseName), false);
+                }
+            } else if (cp.baseName != null && !cp.baseName.equals(cp.name)) {
                 pt.annotate("alias", toPythonStringLiteral(cp.baseName), false);
             }
 

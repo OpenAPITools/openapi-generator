@@ -4,6 +4,8 @@ library: spring-cloud
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   groupId: org.openapitools.openapi3
   documentationProvider: springdoc
   async: "true"

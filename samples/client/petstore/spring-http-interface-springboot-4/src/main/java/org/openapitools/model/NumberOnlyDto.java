@@ -24,10 +24,11 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("NumberOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class NumberOnlyDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable BigDecimal justNumber;
 
   public NumberOnlyDto justNumber(@Nullable BigDecimal justNumber) {
@@ -45,7 +46,6 @@ public class NumberOnlyDto {
     return justNumber;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("JustNumber")
   public void setJustNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;

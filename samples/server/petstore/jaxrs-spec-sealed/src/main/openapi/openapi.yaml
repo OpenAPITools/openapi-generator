@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  description: |
+    A oneOf interface whose subtypes inherit shared properties from a base schema (acyclic pattern). The discriminator property is declared on the oneOf container and on the shared base the subtypes inherit via allOf, so the interface getter type resolves to the enum from the container's own properties.
+  title: oneOf interface
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PetRequest"
+        required: true
+      responses:
+        "201":
+          description: created
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    PetType:
+      description: Discriminator value identifying the type of pet
+      enum:
+      - CAT
+      - DOG
+      type: string
+    PetRequest:
+      discriminator:
+        mapping:
+          CAT: "#/components/schemas/CatRequest"
+          DOG: "#/components/schemas/DogRequest"
+        propertyName: petType
+      example:
+        petType: CAT
+      oneOf:
+      - $ref: "#/components/schemas/CatRequest"
+      - $ref: "#/components/schemas/DogRequest"
+      properties:
+        petType:
+          $ref: "#/components/schemas/PetType"
+      type: object
+      x-one-of-name: PetRequest
+    PetBase:
+      properties:
+        petType:
+          $ref: "#/components/schemas/PetType"
+        name:
+          type: string
+      required:
+      - name
+      - petType
+      type: object
+    CatRequest:
+      allOf:
+      - $ref: "#/components/schemas/PetBase"
+      - properties:
+          indoor:
+            type: boolean
+        required:
+        - indoor
+        type: object
+      type: object
+    DogRequest:
+      allOf:
+      - $ref: "#/components/schemas/PetBase"
+      - properties:
+          trained:
+            type: boolean
+        required:
+        - trained
+        type: object
+      type: object

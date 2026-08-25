@@ -646,6 +646,18 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/required-properties.yaml -o /tmp/java-okhttp/ --openapi-normalizer NORMALIZER_CLASS=org.openapitools.codegen.OpenAPINormalizerTest$RemoveRequiredNormalizer
 ```
 
+The class must be resolvable on the generation runtime classpath. When using the
+[Gradle plugin](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin),
+a custom `NORMALIZER_CLASS` that isn't already on the plugin's own classpath must be added via the
+`openApiGeneratorExtra` dependency configuration (or the `generatorClasspath` property) so it is forwarded to the
+code generation worker in both `workerIsolation` modes (`process` and `classloader`) - see the plugin's README for
+details.
+
+Similarly, a custom generator selected by name or fully qualified class name must be resolvable on the generation
+runtime classpath. With the Gradle plugin, add its jar or project output to `openApiGeneratorExtra` (preferred) or
+`generatorClasspath` so it is forwarded to the code generation worker in both `process` and `classloader`
+`workerIsolation` modes.
+
 - `LOOSE_NULL_DEFINITIONS`: When set to true, allow more schema definitions in OpenAPI 3.0 spec to be the same as `null` in OpenAPI 3.1 spec by setting ModelUtils.looseNullDefinitions to true.
 
 Example:

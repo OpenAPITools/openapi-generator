@@ -11,18 +11,18 @@
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus-plugin.version>3.0.1.Final</quarkus-plugin.version>
-    <quarkus.platform.version>3.0.1.Final</quarkus.platform.version>
-    <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
+    <quarkus-plugin.version>3.27.4.1</quarkus-plugin.version>
+    <quarkus.platform.version>3.27.4.1</quarkus.platform.version>
+    <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
     <jakarta.ws.rs-version>3.1.0</jakarta.ws.rs-version>
     <jakarta.annotation-api-version>2.1.1</jakarta.annotation-api-version>
-    <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
+    <jackson-databind-nullable-version>0.2.11</jackson-databind-nullable-version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -38,7 +38,12 @@
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy</artifactId>
+      <artifactId>quarkus-rest</artifactId>
+    </dependency>
+    <!-- quarkus-rest does not pull in bean validation transitively, unlike quarkus-resteasy -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-validator</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

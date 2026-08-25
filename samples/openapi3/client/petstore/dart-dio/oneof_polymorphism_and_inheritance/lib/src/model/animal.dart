@@ -71,3 +71,4 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
   }
 }
 
+

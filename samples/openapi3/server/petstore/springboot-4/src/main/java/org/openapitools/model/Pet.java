@@ -36,25 +36,32 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "Pet")
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Pet {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Long id;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Category category;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> photoUrls = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
+   * @deprecated deprecated
    */
+  @Deprecated
   public enum StatusEnum implements ValuedEnum<String> {
     AVAILABLE("available"),
     
@@ -90,6 +97,7 @@ public class Pet {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   @Deprecated
   private @Nullable StatusEnum status;
 
@@ -135,7 +143,6 @@ public class Pet {
     return id;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   public void setId(@Nullable Long id) {
@@ -160,7 +167,6 @@ public class Pet {
     return category;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("category")
   @JacksonXmlProperty(localName = "Category")
   public void setCategory(@Nullable Category category) {
@@ -254,7 +260,6 @@ public class Pet {
     return tags;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "Tag")
   @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
@@ -285,7 +290,6 @@ public class Pet {
   /**
    * @deprecated
    */
-  @JsonSetter(nulls = Nulls.SKIP)
   @Deprecated
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")

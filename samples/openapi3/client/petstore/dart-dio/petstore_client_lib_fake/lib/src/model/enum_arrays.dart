@@ -129,6 +129,7 @@ class _$EnumArraysSerializer implements PrimitiveSerializer<EnumArrays> {
   }
 }
 
+
 class EnumArraysJustSymbolEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'>=')

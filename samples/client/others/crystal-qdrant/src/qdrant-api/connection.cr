@@ -46,6 +46,10 @@ module Qdrant::Api
       body_str : String? = body.nil? ? nil : body.to_json
       headers["Content-Type"] = content_type.first if body_str && !content_type.empty?
 
+      # Request-signing seam: runs after apply_auth!, sees the final method/URL/body so a
+      # consumer can compute a per-request signature (OVH, AWS SigV4, ...).
+      config.sign_request.try &.call(method, config.base_url + path, body_str, headers, q)
+
       crest_form : Hash(String, Crest::ParamsValue) | String | Nil =
         if body_str
           body_str

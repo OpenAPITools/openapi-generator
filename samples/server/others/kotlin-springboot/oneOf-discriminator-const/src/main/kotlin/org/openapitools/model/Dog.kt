@@ -1,6 +1,7 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
@@ -25,11 +26,13 @@ import jakarta.validation.Valid
 data class Dog(
 
     @field:Valid
-    @param:JsonProperty("petType")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("petType", required = true)
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String = "dog",
 
     @get:Min(value=0)
-    @param:JsonProperty("packSize")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("packSize", required = true)
     @get:JsonProperty("packSize", required = true) val packSize: kotlin.Int = 0
 ) : Pet {
 

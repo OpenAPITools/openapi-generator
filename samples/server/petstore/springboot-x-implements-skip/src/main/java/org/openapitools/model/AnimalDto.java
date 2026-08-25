@@ -34,9 +34,10 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = DogDto.class, name = "DOG")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class AnimalDto implements com.custompackage.InterfaceToKeep, com.custompackage.WithColor {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String className;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

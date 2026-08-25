@@ -18,10 +18,14 @@ package org.openapitools.codegen.php;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.PhpNextgenClientCodegen;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
@@ -447,6 +451,136 @@ public class PhpNextgenClientCodegenTest {
     }
 
     @Test
+    public void testAnyOfPolymorphism() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // anyOf models get their own dedicated interface, separate from oneOf.
+        Assert.assertTrue(files.containsKey("AnyOfInterface.php"), "Expected AnyOfInterface.php to be generated.");
+
+        // An anyOf without a discriminator becomes a dispatcher exposing its member types.
+        List<String> smoothie = Files.readAllLines(files.get("Smoothie.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+        Assert.assertListContains(smoothie, a -> a.equals("class Smoothie implements AnyOfInterface"),
+                "Smoothie must implement AnyOfInterface");
+        Assert.assertListContains(smoothie, a -> a.equals("public const DISCRIMINATOR = null;"),
+                "Smoothie has no discriminator");
+        Assert.assertListContains(smoothie, a -> a.equals("'\\OpenAPI\\Client\\Model\\Apple',"),
+                "Smoothie lists Apple as a member type");
+        Assert.assertListContains(smoothie, a -> a.equals("'\\OpenAPI\\Client\\Model\\Banana'"),
+                "Smoothie lists Banana as a member type");
+
+        // An anyOf with a discriminator exposes its property name and value mapping.
+        List<String> reptile = Files.readAllLines(files.get("Reptile.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+        Assert.assertListContains(reptile, a -> a.equals("class Reptile implements AnyOfInterface"),
+                "Reptile must implement AnyOfInterface");
+        Assert.assertListContains(reptile, a -> a.equals("public const DISCRIMINATOR = 'reptileType';"),
+                "Reptile exposes its discriminator property by its wire (base) name");
+        Assert.assertListContains(reptile, a -> a.equals("'lizard' => '\\OpenAPI\\Client\\Model\\Lizard',"),
+                "Reptile maps the lizard discriminator value");
+        Assert.assertListContains(reptile, a -> a.equals("'snake' => '\\OpenAPI\\Client\\Model\\Snake'"),
+                "Reptile maps the snake discriminator value");
+
+        // The anyOf model doc documents its concrete member types, not the umbrella's flattened
+        // properties.
+        List<String> reptileDoc = Files.readAllLines(files.get("Reptile.md").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+        Assert.assertListContains(reptileDoc,
+                a -> a.contains("[**\\OpenAPI\\Client\\Model\\Lizard**](Lizard.md)"),
+                "Reptile doc links to its Lizard member");
+        Assert.assertListContains(reptileDoc,
+                a -> a.contains("[**\\OpenAPI\\Client\\Model\\Snake**](Snake.md)"),
+                "Reptile doc links to its Snake member");
+    }
+
+    @Test
+    public void testAnyOfAsPropertyType() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Zoo references the anyOf schemas Reptile (with discriminator) and Smoothie (without) as
+        // property types, so the accessors must be hinted with the PHP union of the member types.
+        List<String> zoo = Files.readAllLines(files.get("Zoo.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+
+        // A required anyOf property is hinted as the bare union (no `|null`).
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function getFavoriteReptile(): \\OpenAPI\\Client\\Model\\Lizard|\\OpenAPI\\Client\\Model\\Snake"),
+                "required Reptile property getter is hinted as the member union");
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function setFavoriteReptile(\\OpenAPI\\Client\\Model\\Lizard|\\OpenAPI\\Client\\Model\\Snake $favorite_reptile): static"),
+                "required Reptile property setter is hinted as the member union");
+
+        // PHP forbids `?` on unions, so an optional anyOf property gains an explicit `|null` member.
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function getDrink(): \\OpenAPI\\Client\\Model\\Apple|\\OpenAPI\\Client\\Model\\Banana|null"),
+                "optional Smoothie property getter appends |null to the union");
+        Assert.assertListNotContains(zoo,
+                a -> a.contains("?\\OpenAPI\\Client\\Model\\Lizard") || a.contains("?\\OpenAPI\\Client\\Model\\Apple"),
+                "a union type must never use the nullable shorthand `?`");
+    }
+
+    @Test
+    public void testNestedComposedPropertyTypeIsFlattenedToLeaves() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Zoo.featuredCreature references Creature = anyOf(Mammal, Reptile), and BOTH members are
+        // themselves composed (Mammal oneOf Whale/Zebra, Reptile anyOf Lizard/Snake).
+        // deserializeComposed unwraps to the leaf instance, so the property union must flatten the
+        // intermediate composed types to their leaves: Whale|Zebra|Lizard|Snake.
+        List<String> zoo = Files.readAllLines(files.get("Zoo.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function getFeaturedCreature(): \\OpenAPI\\Client\\Model\\Whale|\\OpenAPI\\Client\\Model\\Zebra|\\OpenAPI\\Client\\Model\\Lizard|\\OpenAPI\\Client\\Model\\Snake|null"),
+                "nested composed property union flattens intermediate composed members to their leaves");
+        Assert.assertListNotContains(zoo,
+                a -> a.contains("FeaturedCreature") && (a.contains("\\OpenAPI\\Client\\Model\\Mammal") || a.contains("\\OpenAPI\\Client\\Model\\Reptile")),
+                "intermediate composed types (Mammal, Reptile) must not appear in the flattened union");
+    }
+
+    @Test
     public void testOneOfAsPropertyType() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -572,5 +706,32 @@ public class PhpNextgenClientCodegenTest {
             next = content.indexOf("\n    protected function ", start + 1);
         }
         return next < 0 ? content.substring(start) : content.substring(start, next);
+    }
+    @Test
+    public void testDateTimeLengthValidationIsNotGenerated() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        ObjectSchema model = new ObjectSchema();
+        model.addProperties("startsAt", new DateTimeSchema().minLength(20).maxLength(25));
+        model.addProperties("title", new StringSchema().minLength(2).maxLength(10));
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("ProductDeal", model);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        String modelPhp = String.join("\n", Files.readAllLines(files.get("ProductDeal.php").toPath()));
+
+        Assert.assertFalse(modelPhp.contains("mb_strlen($this->container['starts_at'])"), modelPhp);
+        Assert.assertFalse(modelPhp.contains("mb_strlen($starts_at)"), modelPhp);
+        Assert.assertTrue(modelPhp.contains("mb_strlen($this->container['title']) > 10"), modelPhp);
+        Assert.assertTrue(modelPhp.contains("mb_strlen($title) > 10"), modelPhp);
     }
 }

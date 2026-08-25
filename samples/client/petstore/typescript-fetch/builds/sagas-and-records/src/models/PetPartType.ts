@@ -20,7 +20,7 @@
 export const PetPartType = {
     Curved: 'Curved',
     Smooth: 'Smooth',
-    Long: 'Long'
+    Long: 'Long',
 } as const;
 export type PetPartType = typeof PetPartType[keyof typeof PetPartType];
 

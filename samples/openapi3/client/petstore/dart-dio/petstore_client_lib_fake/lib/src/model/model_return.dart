@@ -107,3 +107,4 @@ class _$ModelReturnSerializer implements PrimitiveSerializer<ModelReturn> {
   }
 }
 
+

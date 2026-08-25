@@ -2,7 +2,9 @@
 
 # flake8: noqa
 
+from collections import UserDict
 from datetime import date
+from typing import Any
 import json
 import os
 import time
@@ -14,6 +16,7 @@ import pytest
 
 import petstore_api
 from petstore_api import InnerDictWithProperty
+from typing_extensions import assert_type
 
 
 class ModelTests(unittest.TestCase):
@@ -31,8 +34,8 @@ class ModelTests(unittest.TestCase):
         self.pet.tags = [tag]
 
     def test_cat(self):
-        self.cat = petstore_api.Cat(className="cat")
-        self.assertEqual("cat", self.cat.class_name)
+        self.cat = petstore_api.Cat(_class_name="cat")
+        self.assertEqual("cat", self.cat._class_name)
         self.assertEqual("red", self.cat.color)
         cat_str = ("{'additional_properties': {},\n"
                   " 'className': 'cat',\n"
@@ -354,15 +357,34 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(p.to_json(), wire_json)
 
     def test_inheritance(self):
-        dog = petstore_api.Dog(breed="bulldog", className="dog", color="white")
+        dog = petstore_api.Dog(breed="bulldog", _class_name="dog", color="white")
         self.assertEqual(dog.to_json(), '{"className": "dog", "color": "white", "breed": "bulldog"}')
         self.assertEqual(dog.to_dict(), {'breed': 'bulldog', 'className':
             'dog', 'color': 'white'})
         dog2 = petstore_api.Dog.from_json(dog.to_json())
         assert dog2 is not None
         self.assertEqual(dog2.breed, 'bulldog')
-        self.assertEqual(dog2.class_name, "dog")
+        self.assertEqual(dog2._class_name, "dog")
         self.assertEqual(dog2.color, 'white')
+
+        public_animal = petstore_api.Animal.from_dict({
+            "_class_name": "Dog",
+            "breed": "bulldog",
+            "color": "white",
+        })
+        assert isinstance(public_animal, petstore_api.Dog)
+        self.assertEqual(public_animal._class_name, "Dog")
+
+        with self.assertRaisesRegex(
+            ValueError,
+            "Animal received both 'className' and '_class_name'",
+        ):
+            petstore_api.Animal.from_dict({
+                "className": "Dog",
+                "_class_name": "Cat",
+                "breed": "bulldog",
+                "color": "white",
+            })
     
     def test_inheritance_discriminators(self):
         mapping_value = """sub'"\\kind\nvalue"""
@@ -712,3 +734,93 @@ class TestUnnamedDictWithAdditionalModelListProperties:
         value = {"b": [petstore_api.CreatureInfo(name="creature_name")]}
         a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dictProperty=value)
         assert a.to_dict() == {"dictProperty": {"b": [{"name": "creature_name"}]}}
+
+
+class TestModelNameMappings:
+    def test_public_name_is_typed_and_serialized(self):
+        model = petstore_api.ModelReturn(AliasChoices=1)
+        assert_type(model.AliasChoices, int | None)
+        assert model.AliasChoices == 1
+
+        model.AliasChoices = 2
+        model_dump = model.model_dump(by_alias=True)
+        assert model_dump["return"] == 2
+        assert "AliasChoices" not in model_dump
+        assert model.to_dict() == {"return": 2}
+
+        round_trip = petstore_api.ModelReturn.from_dict(model.to_dict())
+        assert round_trip is not None
+        assert round_trip.AliasChoices == 2
+
+    def test_wire_and_public_names_are_inputs(self):
+        wire_model = petstore_api.ModelReturn.model_validate({"return": 3})
+        assert wire_model.AliasChoices == 3
+
+        public_model = petstore_api.ModelReturn.from_dict({"AliasChoices": 4})
+        assert public_model is not None
+        assert public_model.AliasChoices == 4
+        assert public_model.additional_properties == {}
+
+    def test_storage_name_is_not_an_input(self):
+        storage_model = petstore_api.ModelReturn.from_dict({"alias_choices": 7})
+        assert storage_model is not None
+        assert storage_model.AliasChoices is None
+        assert storage_model.additional_properties == {}
+        assert storage_model.to_dict() == {}
+
+    def test_wire_and_public_names_are_ambiguous(self):
+        ambiguous_names: dict[str, Any] = {"return": 5, "AliasChoices": 6}
+
+        with pytest.raises(
+            ValidationError,
+            match="ModelReturn received both 'return' and 'AliasChoices'",
+        ):
+            petstore_api.ModelReturn(**ambiguous_names)
+
+        with pytest.raises(
+            ValidationError,
+            match="ModelReturn received both 'return' and 'AliasChoices'",
+        ):
+            petstore_api.ModelReturn.model_validate(UserDict(ambiguous_names))
+
+        with pytest.raises(
+            ValueError,
+            match="ModelReturn received both 'return' and 'AliasChoices'",
+        ):
+            petstore_api.ModelReturn.from_dict(ambiguous_names)
+
+    def test_nested_wire_and_public_names_are_ambiguous(self):
+        with pytest.raises(
+            ValidationError,
+            match="SecondRef received both 'circular_ref' and '_circular_ref'",
+        ):
+            petstore_api.FirstRef.model_validate({
+                "self_ref": {
+                    "circular_ref": {"size": 1},
+                    "_circular_ref": {"size": 2},
+                },
+            })
+
+    def test_deferred_model_completion_installs_public_property(self):
+        circular = petstore_api.CircularReferenceModel(size=1)
+        model = petstore_api.SecondRef(_circular_ref=circular)
+
+        assert petstore_api.SecondRef.__pydantic_complete__
+        assert model._circular_ref is circular
+        with pytest.raises(ValidationError):
+            model._circular_ref = 1  # type: ignore[assignment]
+
+    def test_schema_public_name_overrides_deprecated_method(self):
+        model = petstore_api.SpecialName(schema="available")
+        assert_type(model.schema, str | None)
+        assert model.schema == "available"
+
+        model.schema = "pending"
+        assert model.to_dict()["schema"] == "pending"
+
+        storage_model = petstore_api.SpecialName.from_dict({
+            "var_schema": "sold",
+        })
+        assert storage_model is not None
+        assert storage_model.schema is None
+        assert storage_model.additional_properties == {}

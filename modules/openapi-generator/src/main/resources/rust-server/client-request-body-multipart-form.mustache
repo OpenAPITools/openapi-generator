@@ -21,7 +21,6 @@
             multipart.add_stream("{{{paramName}}}",  {{{paramName}}}_cursor,  None as Option<&str>, Some({{{paramName}}}_mime));
           {{/jsonSchema}}
         {{/isByteArray}}
-
         {{#isByteArray}}
             let {{{paramName}}}_vec = param_{{{paramName}}}.to_vec();
 

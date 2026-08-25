@@ -41,7 +41,7 @@ import jakarta.validation.Valid;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Pet   {
   public static final String JSON_PROPERTY_ID = "id";
   @JsonProperty(JSON_PROPERTY_ID)
@@ -154,7 +154,7 @@ public class Pet   {
    * @return name
    **/
   @JsonProperty(value = "name")
-  @Schema(example = "doggie", required = true, description = "")
+  @Schema(example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull 
   public String getName() {
     return name;
@@ -182,7 +182,7 @@ public class Pet   {
    * @return photoUrls
    **/
   @JsonProperty(value = "photoUrls")
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @NotNull 
   public Set<String> getPhotoUrls() {
     return photoUrls;

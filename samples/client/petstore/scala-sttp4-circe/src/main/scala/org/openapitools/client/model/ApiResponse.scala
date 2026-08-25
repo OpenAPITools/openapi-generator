@@ -24,8 +24,25 @@ case class ApiResponse(
 object ApiResponse {
   import io.circe._
   import io.circe.syntax._
-  import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[ApiResponse] = deriveEncoder
-  implicit val decoder: Decoder[ApiResponse] = deriveDecoder
+  implicit val encoder: Encoder[ApiResponse] = Encoder.instance { t =>
+    Json.fromFields(
+      Seq(
+        t.code.map(v => "code" -> v.asJson),
+        t.`type`.map(v => "type" -> v.asJson),
+        t.message.map(v => "message" -> v.asJson)
+      ).flatten
+    )
+  }
+  implicit val decoder: Decoder[ApiResponse] = Decoder.instance { c =>
+    for {
+      code <- c.downField("code").as[Option[Int]]
+      `type` <- c.downField("type").as[Option[String]]
+      message <- c.downField("message").as[Option[String]]
+    } yield ApiResponse(
+      code = code,
+      `type` = `type`,
+      message = message
+    )
+  }
 }

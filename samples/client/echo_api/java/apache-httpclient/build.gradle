@@ -78,8 +78,10 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     publishing {
         publications {
@@ -92,7 +94,7 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
+       mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
 
@@ -118,12 +120,12 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.6.6"
-    jackson_version = "2.21.1"
+    jackson_version = "2.21.5"
     jackson_annotations_version = "2.21"
-    jackson_databind_version = "2.21.1"
-    jackson_databind_nullable_version = "0.2.10"
+    jackson_databind_version = "2.21.5"
+    jackson_databind_nullable_version = "0.2.11"
     jakarta_annotation_version = "1.3.5"
-    httpclient_version = "5.1.3"
+    httpclient_version = "5.6.3"
     jodatime_version = "2.9.9"
     junit_version = "5.10.2"
 }

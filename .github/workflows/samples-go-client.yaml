@@ -9,6 +9,7 @@ on:
       - samples/client/others/go/allof_multiple_ref_and_discriminator/**
       - samples/client/others/go/oneof-anyof-required/**
       - samples/client/others/go/oneof-discriminator-lookup/**
+      - samples/client/others/go/issue_20079_go_regex_wrongly_translated/**
   pull_request:
     paths:
       - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
@@ -17,6 +18,7 @@ on:
       - samples/client/others/go/allof_multiple_ref_and_discriminator/**
       - samples/client/others/go/oneof-anyof-required/**
       - samples/client/others/go/oneof-discriminator-lookup/**
+      - samples/client/others/go/issue_20079_go_regex_wrongly_translated/**
 jobs:
   build:
     name: Build Go
@@ -31,9 +33,10 @@ jobs:
           - samples/client/others/go/allof_multiple_ref_and_discriminator/
           - samples/client/others/go/oneof-anyof-required/
           - samples/client/others/go/oneof-discriminator-lookup/
+          - samples/client/others/go/issue_20079_go_regex_wrongly_translated/
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-go@v6
+      - uses: actions/setup-go@v7
       - run: go version
       - name: Install Dependencies
         working-directory: ${{ matrix.sample }}

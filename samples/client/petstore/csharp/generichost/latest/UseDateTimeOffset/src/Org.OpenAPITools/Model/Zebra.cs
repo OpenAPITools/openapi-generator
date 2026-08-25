@@ -232,7 +232,12 @@ namespace Org.OpenAPITools.Model
                         case "type":
                             string? typeRawValue = utf8JsonReader.GetString();
                             if (typeRawValue != null)
-                                type = new Option<Zebra.TypeEnum?>(Zebra.TypeEnumFromStringOrDefault(typeRawValue));
+                            {
+                                Zebra.TypeEnum? typeValue = Zebra.TypeEnumFromStringOrDefault(typeRawValue);
+                                if (typeValue == null)
+                                    throw new JsonException();
+                                type = new Option<Zebra.TypeEnum?>(typeValue);
+                            }
                             break;
                         default:
                             break;

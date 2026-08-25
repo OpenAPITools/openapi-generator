@@ -107,3 +107,4 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
   }
 }
 
+

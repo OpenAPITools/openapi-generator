@@ -24,7 +24,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @Schema(description="")
 @JsonTypeName("Pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Pet  implements Serializable {
   private Long id;
   private Category category;
@@ -147,7 +147,7 @@ public class Pet  implements Serializable {
   }
 
   
-  @Schema(example = "doggie", required = true, description = "")
+  @Schema(example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(required = true, value = "name")
   @NotNull public String getName() {
     return name;
@@ -166,7 +166,7 @@ public class Pet  implements Serializable {
   }
 
   
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(required = true, value = "photoUrls")
   @NotNull public Set<String> getPhotoUrls() {
     return photoUrls;

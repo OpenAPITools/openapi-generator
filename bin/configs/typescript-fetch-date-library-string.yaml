@@ -1,0 +1,6 @@
+generatorName: typescript-fetch
+outputDir: samples/client/petstore/typescript-fetch/builds/date-library-string
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-fetch/date-handling.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
+additionalProperties:
+  dateLibrary: string

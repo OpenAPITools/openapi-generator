@@ -23,19 +23,23 @@ import jakarta.annotation.Generated;
  * An order for a pets from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Order {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Long id;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Long petId;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Integer quantity;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime shipDate;
 
@@ -77,9 +81,11 @@ public class Order {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private StatusEnum status;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Boolean complete = false;
 
   public Order id(Long id) {
@@ -97,7 +103,6 @@ public class Order {
     return id;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
@@ -118,7 +123,6 @@ public class Order {
     return petId;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("petId")
   public void setPetId(Long petId) {
     this.petId = petId;
@@ -139,7 +143,6 @@ public class Order {
     return quantity;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("quantity")
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
@@ -160,7 +163,6 @@ public class Order {
     return shipDate;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("shipDate")
   public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
@@ -181,7 +183,6 @@ public class Order {
     return status;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("status")
   public void setStatus(StatusEnum status) {
     this.status = status;
@@ -202,7 +203,6 @@ public class Order {
     return complete;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("complete")
   public void setComplete(Boolean complete) {
     this.complete = complete;
@@ -248,7 +248,7 @@ public class Order {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }

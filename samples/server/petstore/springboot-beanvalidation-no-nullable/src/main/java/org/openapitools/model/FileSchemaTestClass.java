@@ -25,13 +25,15 @@ import jakarta.annotation.Generated;
  * FileSchemaTestClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable File file;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<@Valid File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(@Nullable File file) {
@@ -50,7 +52,6 @@ public class FileSchemaTestClass {
     return file;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("file")
   public void setFile(@Nullable File file) {
     this.file = file;
@@ -80,7 +81,6 @@ public class FileSchemaTestClass {
     return files;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("files")
   public void setFiles(List<@Valid File> files) {
     this.files = files;

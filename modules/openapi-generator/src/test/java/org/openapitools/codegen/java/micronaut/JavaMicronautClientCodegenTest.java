@@ -48,6 +48,21 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
     }
 
     @Test
+    public void testOneOfInterfaceInheritedEnumDiscriminator() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+        String outputPath = generateFiles(codegen, "src/test/resources/3_0/oneOfDiscriminator.yaml",
+                CodegenConstants.MODELS);
+
+        // Issue #22541: the inline-enum discriminator is inherited from a base schema via allOf, so
+        // the oneOf interface getter must resolve to the enum type, not String
+        // (DefaultCodegen.getDiscriminatorPropertyType).
+        assertFileContains(outputPath + "src/main/java/org/openapitools/model/PetResponseEnumDisc.java",
+                "public PetTypeEnum getPetType();");
+    }
+
+    @Test
     public void testApiAndModelFilesPresent() {
         JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "org.test.test");

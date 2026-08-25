@@ -126,6 +126,18 @@ pub enum MultipleAuthSchemeGetResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+pub enum MultipleResponseContentTypesResponse {
+    /// Created
+    Created
+    (models::AnyOfObject)
+    ,
+    /// Forbidden
+    Forbidden
+    (swagger::OneOf2::<String, models::AnyOfObject>)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum OneOfGetResponse {
     /// Success
     Success
@@ -383,6 +395,12 @@ pub trait Api<C: Send + Sync> {
         &self,
         context: &C) -> Result<MultipleAuthSchemeGetResponse, ApiError>;
 
+    /// Test multiple content types in a single response
+    async fn multiple_response_content_types(
+        &self,
+        object_param: models::ObjectParam,
+        context: &C) -> Result<MultipleResponseContentTypesResponse, ApiError>;
+
     async fn one_of_get(
         &self,
         context: &C) -> Result<OneOfGetResponse, ApiError>;
@@ -564,6 +582,12 @@ pub trait ApiNoContext<C: Send + Sync> {
     async fn multiple_auth_scheme_get(
         &self,
         ) -> Result<MultipleAuthSchemeGetResponse, ApiError>;
+
+    /// Test multiple content types in a single response
+    async fn multiple_response_content_types(
+        &self,
+        object_param: models::ObjectParam,
+        ) -> Result<MultipleResponseContentTypesResponse, ApiError>;
 
     async fn one_of_get(
         &self,
@@ -796,6 +820,16 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().multiple_auth_scheme_get(&context).await
+    }
+
+    /// Test multiple content types in a single response
+    async fn multiple_response_content_types(
+        &self,
+        object_param: models::ObjectParam,
+        ) -> Result<MultipleResponseContentTypesResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().multiple_response_content_types(object_param, &context).await
     }
 
     async fn one_of_get(

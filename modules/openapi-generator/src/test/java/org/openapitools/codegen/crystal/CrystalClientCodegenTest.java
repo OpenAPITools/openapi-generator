@@ -726,4 +726,144 @@ public class CrystalClientCodegenTest {
         assertTrue(src.contains("\"multi_ids\" => multi_ids,") || src.contains("\"multi_ids\" => multi_ids "),
             "multi array param must stay an array (no join)");
     }
+
+    @Test
+    public void testConfigurationExposesSignRequestSeam() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/crystal/petstore.yaml");
+        CodegenConfig codegen = new CrystalClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        List<File> files = new DefaultGenerator()
+            .opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
+
+        boolean configSeen = false, connSeen = false;
+        for (File f : files) {
+            if (f.getName().equals("configuration.cr")) {
+                configSeen = true;
+                String c = FileUtils.readFileToString(f, StandardCharsets.UTF_8);
+                assertTrue(c.contains("property sign_request"), "Configuration must expose sign_request seam");
+            }
+            if (f.getName().equals("connection.cr")) {
+                connSeen = true;
+                String c = FileUtils.readFileToString(f, StandardCharsets.UTF_8);
+                assertTrue(c.contains("config.sign_request.try"), "Connection must invoke the sign_request hook");
+            }
+        }
+        assertTrue(configSeen && connSeen, "configuration.cr and connection.cr must be generated");
+    }
+
+    /**
+     * OpenAPI 3.1 / JSON Schema 2020-12 spells "T or null" as a composition holding an explicit
+     * `{"type": "null"}` member. The null branch must survive as a nullable Crystal type, and it
+     * must stay independent of `required`: a property that is both required and nullable is
+     * mandatory-but-nullable (`T?`), not optional and not `T`.
+     */
+    @Test
+    public void testNullableCompositionIsNullableInCrystal() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+        // parseSpec (not parseFlattenSpec): DefaultGenerator runs the inline model resolver itself,
+        // so this matches exactly what the CLI feeds the generator.
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/crystal/nullable-composition.yaml");
+        CodegenConfig codegen = new CrystalClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        List<File> files = new DefaultGenerator().opts(
+            new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
+
+        File model = files.stream()
+            .filter(f -> f.getName().equals("message.cr") &&
+                f.getPath().replace(File.separatorChar, '/').contains("/models/"))
+            .findFirst().orElseThrow(() -> new AssertionError("models/message.cr missing"));
+        String src = FileUtils.readFileToString(model, StandardCharsets.UTF_8);
+
+        // required + non-nullable stays mandatory and non-nullable
+        assertTrue(src.contains("property id : String\n"),
+            "required non-nullable property must stay `String`, got:\n" + src);
+
+        // required + nullable (anyOf composition) -> mandatory but nullable
+        assertTrue(src.contains("property stop_sequence : String?"),
+            "required nullable anyOf property must be `String?`, got:\n" + src);
+        // required + nullable (type-as-array form) -> mandatory but nullable
+        assertTrue(src.contains("property tag : String?"),
+            "required nullable type-as-array property must be `String?`, got:\n" + src);
+        // required + nullable over a $ref -> mandatory but nullable
+        assertTrue(src.contains("property usage : Usage?"),
+            "required nullable $ref property must be `Usage?`, got:\n" + src);
+
+        // nullable required properties stay in the mandatory (positional) part of the constructor
+        assertTrue(src.contains("def initialize(@id : String, @stop_sequence : String?, " +
+                "@tag : String?, @usage : Usage?,"),
+            "nullable required properties must remain positional constructor arguments, got:\n" + src);
+
+        // optional + nullable is still optional and nullable (no double `??`)
+        assertTrue(src.contains("property note : String?"), "optional nullable property must be `String?`");
+        assertTrue(src.contains("property count : Int32?"), "optional nullable oneOf property must be `Int32?`");
+        Assert.assertFalse(src.contains("??"), "must never emit a doubled nullable marker `??`");
+
+        // a genuine multi-member union keeps its wrapper class
+        assertTrue(src.contains("property payload : Payload?"), "union-typed property must reference the wrapper");
+        File union = files.stream()
+            .filter(f -> f.getName().equals("payload.cr") &&
+                f.getPath().replace(File.separatorChar, '/').contains("/models/"))
+            .findFirst().orElseThrow(() -> new AssertionError("models/payload.cr missing"));
+        String unionSrc = FileUtils.readFileToString(union, StandardCharsets.UTF_8);
+        assertTrue(unionSrc.contains("def self.openapi_one_of"),
+            "a multi-member oneOf must keep generating the union wrapper class, got:\n" + unionSrc);
+        assertTrue(unionSrc.contains("TextBlock") && unionSrc.contains("ImageBlock"),
+            "the union wrapper must list both members");
+    }
+
+    /**
+     * OpenAPI 3.1 declares webhooks in a top-level `webhooks` object. They are routed through
+     * postProcessWebhooksWithModels, not postProcessOperationsWithModels, so the Crystal-specific
+     * vendor extensions the api template relies on (class name, parameter types, spec helper path)
+     * have to be computed on that path too — otherwise the generated api class has no name, its
+     * parameters have no type, and its spec requires the empty string.
+     */
+    @Test
+    public void testWebhooksGenerateValidApiClasses() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/crystal/webhooks.yaml");
+        CodegenConfig codegen = new CrystalClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        List<File> files = new DefaultGenerator().opts(
+            new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
+
+        File webhookApi = files.stream()
+            .filter(f -> f.getName().equals("thing_created.cr") &&
+                f.getPath().replace(File.separatorChar, '/').contains("/api/"))
+            .findFirst().orElseThrow(() -> new AssertionError("api/thing_created.cr missing"));
+        String src = FileUtils.readFileToString(webhookApi, StandardCharsets.UTF_8);
+
+        // the class must actually be named
+        Assert.assertFalse(src.contains("class \n") || src.contains("class  "),
+            "webhook api class must have a name, got:\n" + src);
+        assertTrue(src.contains("module Api") && src.contains("class ThingCreated"),
+            "expected `module Api` + `class ThingCreated`, got:\n" + src);
+
+        // the body parameter must be typed, and qualified so it resolves to the model
+        Assert.assertFalse(src.contains(" : )"), "webhook parameter must have a type, got:\n" + src);
+        assertTrue(src.contains("thing_created_event : OpenAPIClient::ThingCreatedEvent"),
+            "webhook body parameter must be typed and module-qualified, got:\n" + src);
+
+        // the shard entrypoint must load the webhook api file, else its class is undefined
+        File entrypoint = files.stream()
+            .filter(f -> f.getName().equals("openapi_client.cr"))
+            .findFirst().orElseThrow(() -> new AssertionError("shard entrypoint missing"));
+        assertTrue(FileUtils.readFileToString(entrypoint, StandardCharsets.UTF_8)
+                .contains("require \"./openapi_client/api/thing_created\""),
+            "the shard entrypoint must require the webhook api file");
+
+        // the generated spec must require a real path, not ""
+        File webhookSpec = files.stream()
+            .filter(f -> f.getName().equals("thing_created_spec.cr"))
+            .findFirst().orElseThrow(() -> new AssertionError("thing_created_spec.cr missing"));
+        String specSrc = FileUtils.readFileToString(webhookSpec, StandardCharsets.UTF_8);
+        Assert.assertFalse(specSrc.contains("require \"\""),
+            "webhook spec must not require the empty string, got:\n" + specSrc);
+        assertTrue(specSrc.contains("require \"../spec_helper\""),
+            "webhook spec must require the spec helper, got:\n" + specSrc);
+    }
 }

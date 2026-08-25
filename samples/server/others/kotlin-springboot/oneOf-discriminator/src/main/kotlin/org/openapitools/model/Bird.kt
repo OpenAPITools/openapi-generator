@@ -27,10 +27,12 @@ import jakarta.validation.Valid
  */
 data class Bird(
 
-    @param:JsonProperty("discriminator")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("discriminator", required = true)
     @get:JsonProperty("discriminator", required = true) override val discriminator: kotlin.String = "BIRD",
 
-    @param:JsonProperty("another_discriminator")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("another_discriminator", required = true)
     @get:JsonProperty("another_discriminator", required = true) override val anotherDiscriminator: kotlin.String = "ANOTHER_BIRD",
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)

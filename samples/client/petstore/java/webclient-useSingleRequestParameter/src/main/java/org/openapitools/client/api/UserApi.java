@@ -27,7 +27,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -458,6 +458,24 @@ public class UserApi {
         public int hashCode() {
             return Objects.hash(username, password);
         }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class LoginUserRequest {\n");
+            sb.append("    username: ").append(toIndentedString(username)).append("\n");
+            sb.append("    password: ").append(toIndentedString(password)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
+        }
     }
 
     /**
@@ -691,6 +709,24 @@ public class UserApi {
         @Override
         public int hashCode() {
             return Objects.hash(username, user);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class UpdateUserRequest {\n");
+            sb.append("    username: ").append(toIndentedString(username)).append("\n");
+            sb.append("    user: ").append(toIndentedString(user)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
         }
     }
 

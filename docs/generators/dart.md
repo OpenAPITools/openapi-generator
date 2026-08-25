@@ -39,6 +39,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
 |useEnumExtension|Allow the 'x-enum-values' extension for enums| |false|
+|useFinalProperties|Add 'final' to class properties, thus making them immutable| |false|
 |useOptional|Use Optional&lt;T&gt; to distinguish absent, null, and present for optional fields (Dart 3+)| |false|
 
 ## IMPORT MAPPING

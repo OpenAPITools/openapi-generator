@@ -203,3 +203,4 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
   }
 }
 
+

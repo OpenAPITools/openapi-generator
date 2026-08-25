@@ -23,10 +23,11 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ListDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String _123list;
 
   public ListDto _123list(@Nullable String _123list) {
@@ -44,7 +45,6 @@ public class ListDto {
     return _123list;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("123-list")
   public void set123list(@Nullable String _123list) {
     this._123list = _123list;

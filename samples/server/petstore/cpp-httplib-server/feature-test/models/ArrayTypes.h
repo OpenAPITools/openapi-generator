@@ -21,6 +21,7 @@ class ArrayTypes
 {
 public:
     enum class EnumArrayEnum {
+        UNSPECIFIED,
         RED,
         GREEN,
         BLUE

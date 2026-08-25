@@ -4,6 +4,8 @@ outputDir: samples/openapi3/client/petstore/spring-cloud-3-with-optional
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   groupId: org.openapitools.openapi3
   artifactId: spring-cloud-oas3
   useSpringBoot3: "true"

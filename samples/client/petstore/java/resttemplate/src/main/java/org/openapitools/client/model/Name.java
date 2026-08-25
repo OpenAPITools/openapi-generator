@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nonnull
@@ -69,7 +69,7 @@ public class Name {
   /**
    * Constructor with all args parameters
    */
-  public Name(@JsonProperty(JSON_PROPERTY_NAME) Integer name, @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, @JsonProperty(JSON_PROPERTY_PROPERTY) String property, @JsonProperty(JSON_PROPERTY_123NUMBER) Integer _123number) {
+  public Name(@JsonProperty(JSON_PROPERTY_NAME) @javax.annotation.Nonnull Integer name, @JsonProperty(JSON_PROPERTY_SNAKE_CASE) @javax.annotation.Nullable Integer snakeCase, @JsonProperty(JSON_PROPERTY_PROPERTY) @javax.annotation.Nullable String property, @JsonProperty(JSON_PROPERTY_123NUMBER) @javax.annotation.Nullable Integer _123number) {
     this.name = name;
     this.snakeCase = snakeCase;
     this.property = property;

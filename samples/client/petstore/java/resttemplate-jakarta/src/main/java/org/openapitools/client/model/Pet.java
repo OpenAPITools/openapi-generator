@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   @jakarta.annotation.Nullable
@@ -109,7 +109,7 @@ public class Pet {
   /**
    * Constructor with all args parameters
    */
-  public Pet(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_CATEGORY) Category category, @JsonProperty(JSON_PROPERTY_NAME) String name, @JsonProperty(JSON_PROPERTY_PHOTO_URLS) List<String> photoUrls, @JsonProperty(JSON_PROPERTY_TAGS) List<Tag> tags, @JsonProperty(JSON_PROPERTY_STATUS) StatusEnum status) {
+  public Pet(@JsonProperty(JSON_PROPERTY_ID) @jakarta.annotation.Nullable Long id, @JsonProperty(JSON_PROPERTY_CATEGORY) @jakarta.annotation.Nullable Category category, @JsonProperty(JSON_PROPERTY_NAME) @jakarta.annotation.Nonnull String name, @JsonProperty(JSON_PROPERTY_PHOTO_URLS) @jakarta.annotation.Nonnull List<String> photoUrls, @JsonProperty(JSON_PROPERTY_TAGS) @jakarta.annotation.Nullable List<Tag> tags, @JsonProperty(JSON_PROPERTY_STATUS) @jakarta.annotation.Nullable StatusEnum status) {
     this.id = id;
     this.category = category;
     this.name = name;

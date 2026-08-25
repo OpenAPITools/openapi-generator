@@ -1,12 +1,16 @@
 package org.openapitools.api
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
+import org.openapitools.jackson.nullable.JsonNullable
+import org.openapitools.model.NullableModel
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
+import org.assertj.core.api.Assertions.assertThat
 
 /**
  * Verifies the runtime behaviour of the openApiNullable annotations generated onto [NullableApi]:
@@ -29,6 +33,9 @@ class NullableApiValidationTest {
 
     @Autowired
     lateinit var mockMvc: MockMvc
+
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
 
     // ── checkRequiredOnly — positive cases ───────────────────────────────────
     // Endpoint: POST /nullable/check-required-only
@@ -119,5 +126,45 @@ class NullableApiValidationTest {
                 }
             """.trimIndent()
         }.andExpect { status { isBadRequest() } }
+    }
+
+    // ── @JsonInclude(NON_ABSENT) serialization behaviour ─────────────────────
+    // These tests verify that the @field:JsonInclude(JsonInclude.Include.NON_ABSENT)
+    // annotation on NullableModel.optionalNullable controls serialization correctly:
+    //   - JsonNullable.undefined()  → key must be ABSENT from the JSON output
+    //   - JsonNullable.of(null)     → key must be PRESENT with a null value
+    //   - JsonNullable.of("value")  → key must be PRESENT with the given value
+
+    @Test
+    fun `serialization - optionalNullable undefined is absent from JSON output`() {
+        val model = NullableModel(
+            requiredNonNullable = "req",
+            requiredNullable = "req-null",
+            optionalNullable = JsonNullable.undefined()
+        )
+        val json = objectMapper.writeValueAsString(model)
+        assertThat(json).doesNotContain("optionalNullable")
+    }
+
+    @Test
+    fun `serialization - optionalNullable of(null) is present as null in JSON output`() {
+        val model = NullableModel(
+            requiredNonNullable = "req",
+            requiredNullable = "req-null",
+            optionalNullable = JsonNullable.of(null)
+        )
+        val json = objectMapper.writeValueAsString(model)
+        assertThat(json).contains("\"optionalNullable\":null")
+    }
+
+    @Test
+    fun `serialization - optionalNullable of(value) is present with value in JSON output`() {
+        val model = NullableModel(
+            requiredNonNullable = "req",
+            requiredNullable = "req-null",
+            optionalNullable = JsonNullable.of("hello")
+        )
+        val json = objectMapper.writeValueAsString(model)
+        assertThat(json).contains("\"optionalNullable\":\"hello\"")
     }
 }

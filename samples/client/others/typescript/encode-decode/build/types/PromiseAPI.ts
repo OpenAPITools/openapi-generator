@@ -132,7 +132,7 @@ export class PromiseDefaultApi {
 
     /**
      */
-    public testDecodeMapOfObjectsGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<{ [key: string]: ComplexObject | null; }>> {
+    public testDecodeMapOfObjectsGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<{ [key: string]: ComplexObject; }>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeMapOfObjectsGetWithHttpInfo(observableOptions);
         return result.toPromise();
@@ -140,7 +140,7 @@ export class PromiseDefaultApi {
 
     /**
      */
-    public testDecodeMapOfObjectsGet(_options?: PromiseConfigurationOptions): Promise<{ [key: string]: ComplexObject | null; }> {
+    public testDecodeMapOfObjectsGet(_options?: PromiseConfigurationOptions): Promise<{ [key: string]: ComplexObject; }> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeMapOfObjectsGet(observableOptions);
         return result.toPromise();
@@ -403,7 +403,7 @@ export class PromiseDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | null; }, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+    public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject; }, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeMapOfObjectsPostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
@@ -412,7 +412,7 @@ export class PromiseDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: PromiseConfigurationOptions): Promise<void> {
+    public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject; }, _options?: PromiseConfigurationOptions): Promise<void> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeMapOfObjectsPost(requestBody, observableOptions);
         return result.toPromise();

@@ -98,7 +98,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "7.23.0"
+  id "org.openapi.generator" version "7.25.0"
 }
 ----
 
@@ -114,7 +114,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:7.23.0"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:7.25.0"
   }
 }
 
@@ -162,8 +162,18 @@ apply plugin: 'org.openapi.generator'
 
 |mergedFileName
 |String / Provider<String>
-|None
-|Name of the file that will contain all merged specs
+|`merged`
+|Name of the output file that will contain all merged specs (used with `inputSpecRootDirectory`)
+
+|mergeMode
+|String / Provider<String>
+|`REF`
+|How multiple spec files are merged. `REF` (default) preserves the original behaviour: generates a lightweight index spec where each path is a `$ref` pointing back to its source file — identical to the master behaviour. `DEEP` fully parses and inlines all paths and components into a single self-contained spec, with component deduplication and conflict detection controlled by `mergeConflictStrategy`.
+
+|mergeConflictStrategy
+|String / Provider<String>
+|`WARN`
+|How to handle name conflicts when `mergeMode` is `DEEP` and two specs define the same component (schema, response, etc.) or the same path+method with different definitions. `WARN` (default) keeps the first definition and logs a warning. `FAIL` throws an exception and aborts the build.
 
 |remoteInputSpec
 |String / Provider<String>
@@ -248,7 +258,7 @@ apply plugin: 'org.openapi.generator'
 |forcedGenerateSchemas
 |List / Provider<List>
 |None
-|Forces generation of the named schemas even when they are listed in `schemaMappings` or `importMappings` (which would normally suppress their generation). The primary use case is producing a *reference copy* of a hand-written class — for example, a custom enum that replaces a generated one — so you can assert in a test that the hand-written version has not diverged from what the generator would produce. List of schema names, e.g. `["MyEnum", "OtherSchema"]`. Use `["*"]` as a wildcard to force-generate *all* schemas that would otherwise be suppressed by a mapping.
+|Forces generation of the named schemas even when they are listed in `schemaMappings` or `importMappings` (which would normally suppress their generation). The primary use case is producing a *reference copy* of a hand-written class — for example, a custom enum that replaces a generated one — so you can assert in a test that the hand-written version has not diverged from what the generator would produce. List of schema names, e.g. `["MyEnum", "OtherSchema"]`. Use `["\*"]` as a wildcard to force-generate *all* schemas that would otherwise be suppressed by a mapping.
 
 |nameMappings
 |Map / Provider<Map>
@@ -452,7 +462,7 @@ file states is output.
 
 |workerIsolation
 |String / Provider<String>
-|`process`
+|`classloader`
 a|Controls how the code-generation work action is isolated from the Gradle daemon.
 
 `classloader` (default):: Runs generation inside the Gradle daemon JVM using a separate `ClassLoader`. Avoids the per-task JVM
@@ -470,7 +480,55 @@ warning].
 |Gradle default (~512 MiB)
 |Maximum heap size for the forked worker JVM when `workerIsolation` is `process` (e.g. `"512m"`, `"1g"`).
 Has no effect when `workerIsolation` is `classloader`.
+
+|generatorClasspath
+|ConfigurableFileCollection
+|(empty)
+a|Additional classpath entries (jars, class directories, project outputs) forwarded to the code generation worker
+in *both* `workerIsolation` modes (`process` and `classloader`). Required for any custom class referenced by name
+in generator options - most notably a custom `NORMALIZER_CLASS` (see `openapiNormalizer`) or custom generator
+selected by `generatorName`/FQCN - to be resolvable by the worker, since such classes are not on the plugin's own
+runtime classpath.
+
+For dependencies from a repository or another project, prefer adding them to the `openApiGeneratorExtra`
+configuration created by this plugin (see below); `generatorClasspath` is a lower-level escape hatch for ad hoc
+files/directories:
+
+[source,groovy]
+----
+openApiGenerate {
+    generatorClasspath.from(files("libs/my-normalizer.jar", "libs/my-custom-generator.jar"))
+}
+----
 |===
+
+[NOTE]
+====
+The plugin creates an `openApiGeneratorExtra` dependency configuration (resolvable, not published) whose entries
+are automatically forwarded into `generatorClasspath` for both `workerIsolation` modes. Use it to declare a
+custom `NORMALIZER_CLASS`, custom generator selected by `generatorName`/FQCN, or any other class referenced by name
+in generator options as a normal Gradle dependency - a published artifact, a local jar, or another project in the
+same build:
+
+[source,groovy]
+----
+dependencies {
+    openApiGeneratorExtra("com.acme:my-normalizer:1.0.0")           // custom NORMALIZER_CLASS
+    openApiGeneratorExtra("com.acme:my-custom-generator:1.0.0")    // custom generator
+    openApiGeneratorExtra(project(":my-generator-module"))          // project dependency; built automatically
+    openApiGeneratorExtra(files("libs/my-normalizer.jar"))          // local normalizer jar/class directory
+    openApiGeneratorExtra(files("libs/my-custom-generator.jar"))    // local generator jar/class directory
+}
+
+openApiGenerate {
+    generatorName = "com.acme.MyGenerator"
+    openapiNormalizer = ["NORMALIZER_CLASS": "com.acme.MyNormalizer"]
+}
+----
+
+Without a corresponding entry in `openApiGeneratorExtra` or `generatorClasspath`, a custom `NORMALIZER_CLASS` or
+custom generator selected by name/FQCN will fail to load with a clear error, regardless of `workerIsolation` mode.
+====
 
 [NOTE]
 ====
@@ -940,7 +998,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:7.23.0') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:7.25.0') {
             exclude group: 'com.google.guava'
         }
     }

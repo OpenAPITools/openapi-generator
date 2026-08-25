@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface DashedOptionTwo {
     /**
      * 
-     * @type {DashedOptionTwoDiscriminatorFieldEnum}
-     * @memberof DashedOptionTwo
      */
     discriminatorField: DashedOptionTwoDiscriminatorFieldEnum;
     /**
      * 
-     * @type {string}
-     * @memberof DashedOptionTwo
      */
     someProperty: string;
 }
@@ -38,7 +34,7 @@ export interface DashedOptionTwo {
  * @export
  */
 export const DashedOptionTwoDiscriminatorFieldEnum = {
-    DashedOptionTwo: 'dashedOptionTwo'
+    DashedOptionTwo: 'dashedOptionTwo',
 } as const;
 export type DashedOptionTwoDiscriminatorFieldEnum = typeof DashedOptionTwoDiscriminatorFieldEnum[keyof typeof DashedOptionTwoDiscriminatorFieldEnum];
 

@@ -122,10 +122,10 @@ export interface DefaultApiTestEncodeMapOfMapsOfObjectsPostRequest {
 export interface DefaultApiTestEncodeMapOfObjectsPostRequest {
     /**
      * 
-     * @type { [key: string]: ComplexObject | null; }
+     * @type { [key: string]: ComplexObject; }
      * @memberof DefaultApitestEncodeMapOfObjectsPost
      */
-    requestBody: { [key: string]: ComplexObject | null; }
+    requestBody: { [key: string]: ComplexObject; }
 }
 
 export interface DefaultApiTestEncodeMapOfPrimitivePostRequest {
@@ -308,14 +308,14 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeMapOfObjectsGetWithHttpInfo(param: DefaultApiTestDecodeMapOfObjectsGetRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<{ [key: string]: ComplexObject | null; }>> {
+    public testDecodeMapOfObjectsGetWithHttpInfo(param: DefaultApiTestDecodeMapOfObjectsGetRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<{ [key: string]: ComplexObject; }>> {
         return this.api.testDecodeMapOfObjectsGetWithHttpInfo( options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public testDecodeMapOfObjectsGet(param: DefaultApiTestDecodeMapOfObjectsGetRequest = {}, options?: ConfigurationOptions): Promise<{ [key: string]: ComplexObject | null; }> {
+    public testDecodeMapOfObjectsGet(param: DefaultApiTestDecodeMapOfObjectsGetRequest = {}, options?: ConfigurationOptions): Promise<{ [key: string]: ComplexObject; }> {
         return this.api.testDecodeMapOfObjectsGet( options).toPromise();
     }
 

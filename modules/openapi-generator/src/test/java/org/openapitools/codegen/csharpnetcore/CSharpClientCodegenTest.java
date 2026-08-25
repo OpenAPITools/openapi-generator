@@ -17,9 +17,15 @@
 package org.openapitools.codegen.csharpnetcore;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.openapitools.codegen.languages.JavaCXFClientCodegen;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -28,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -41,11 +48,46 @@ import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 public class CSharpClientCodegenTest {
 
     @Test
-    public void testGenericHostNullableEnumDeserializesPresentNull() throws IOException {
-        // For a required + nullable enum, the generated generichost JsonConverter must assign
-        // the backing Option even when the JSON value is null; otherwise the required-property
-        // check rejects a present-but-null value with "Property is required". Non-nullable enums
-        // keep the original non-null guard, so their generated output is unchanged.
+    public void testGenericHostOneOfConstructorsRespectApiVisibility() throws IOException {
+        Map<String, File> publicModels = generateIssue23046Models(false);
+        File publicModel = publicModels.get("DynamicMetadataValue");
+        assertFileContains(publicModel.toPath(),
+                "public DynamicMetadataValue(string @string)",
+                "public DynamicMetadataValue(decimal @decimal)",
+                "public DynamicMetadataValue(bool @bool)",
+                "public DynamicMetadataValue(DateTime dateTime)");
+        assertFileNotContains(publicModel.toPath(), "internal DynamicMetadataValue(");
+        assertFileContains(publicModels.get("ResponseOnlyValue").toPath(),
+                "internal ResponseOnlyValue(string @string)",
+                "internal ResponseOnlyValue(int @int)");
+        assertFileNotContains(publicModels.get("ResponseOnlyValue").toPath(), "public ResponseOnlyValue(");
+        assertFileContains(publicModels.get("QueryParameterValue").toPath(),
+                "public QueryParameterValue(string @string)",
+                "public QueryParameterValue(int @int)");
+        assertFileNotContains(publicModels.get("QueryParameterValue").toPath(), "internal QueryParameterValue(");
+        assertFileContains(publicModels.get("ReadOnlyValue").toPath(),
+                "internal ReadOnlyValue(string @string)",
+                "internal ReadOnlyValue(int @int)");
+        assertFileNotContains(publicModels.get("ReadOnlyValue").toPath(), "public ReadOnlyValue(");
+        assertFileContains(publicModels.get("ForbiddenValue").toPath(),
+                "internal ForbiddenValue(string @string)",
+                "internal ForbiddenValue(int @int)");
+        assertFileNotContains(publicModels.get("ForbiddenValue").toPath(), "public ForbiddenValue(");
+
+        File internalModel = generateIssue23046Models(true).get("DynamicMetadataValue");
+        assertFileContains(internalModel.toPath(), 
+                "internal DynamicMetadataValue(string @string)",
+                "internal DynamicMetadataValue(decimal @decimal)",
+                "internal DynamicMetadataValue(bool @bool)",
+                "internal DynamicMetadataValue(DateTime dateTime)");
+        assertFileNotContains(internalModel.toPath(), "public DynamicMetadataValue(");
+    }
+
+    @Test
+    public void testGenericHostInnerStringEnumUnknownHandlingPreservesNullBehavior() throws IOException {
+        // Unknown enum values must throw for both nullable and non-nullable properties.
+        // Preserve the existing null-token behavior: nullable properties record a present
+        // null, while non-nullable string properties retain their existing null guard.
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec(
@@ -65,12 +107,23 @@ public class CSharpClientCodegenTest {
         File requiredClass = files.get(Paths.get(output.getAbsolutePath(),
                 "src", "Org.OpenAPITools", "Model", "RequiredClass.cs").toString());
         assertNotNull(requiredClass);
-        // required + nullable enum: a null raw value still sets the Option (mapped to null)
-        assertFileContains(requiredClass.toPath(),
-                "requiredNullableEnumString = new Option<RequiredClass.RequiredNullableEnumStringEnum?>(requiredNullableEnumStringRawValue == null ? null :");
-        // required + non-nullable enum: keeps the original guard (unchanged behavior)
-        assertFileContains(requiredClass.toPath(),
-                "if (requiredNotnullableEnumStringRawValue != null)");
+        String requiredClassContents = Files.readString(requiredClass.toPath());
+        assertThat(requiredClassContents)
+                .containsPattern(
+                        "if \\(requiredNullableEnumStringRawValue == null\\)\\s+" +
+                                "requiredNullableEnumString = new Option<RequiredClass.RequiredNullableEnumStringEnum\\?>\\(null\\);")
+                .containsPattern(
+                        "if \\(requiredNotnullableEnumStringRawValue != null\\)\\s+\\{");
+        assertThat(requiredClassContents).contains(
+                "if (requiredNullableEnumStringValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (requiredNotnullableEnumStringValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (!requiredNullableEnumString.IsSet)\n" +
+                        "                throw new ArgumentException(\"Property is required for class RequiredClass.\", nameof(requiredNullableEnumString));",
+                "if (!requiredNotnullableEnumString.IsSet)\n" +
+                        "                throw new ArgumentException(\"Property is required for class RequiredClass.\", nameof(requiredNotnullableEnumString));"
+        );
     }
 
     @Test
@@ -292,5 +345,267 @@ public class CSharpClientCodegenTest {
     private List<String> getNames(List<CodegenProperty> props) {
         if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
+    }
+
+    @Test
+    public void testNumericEnumJsonConverterUsesNumericOperations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/csharp/integer-enum.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        // Verify integer enum uses numeric JSON reader with validation
+        File intEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "IntegerEnum.cs")
+                .toString()
+        );
+        assertNotNull(intEnumFile, "Could not find file for model: IntegerEnum");
+        assertFileContains(intEnumFile.toPath(),
+                "reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "FromStringOrDefault(rawValue)",
+                "throw new JsonException()",
+                "writer.WriteNumberValue(",
+                "public static int ToJsonValue(IntegerEnum value)"
+        );
+        assertFileNotContains(intEnumFile.toPath(),
+                "reader.GetString()",
+                "writer.WriteStringValue(",
+                ": long",
+                ": byte"
+        );
+
+        File modelWithEnumPropertiesFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "ModelWithEnumProperties.cs")
+                .toString()
+        );
+        assertNotNull(modelWithEnumPropertiesFile, "Could not find file for model: ModelWithEnumProperties");
+        String modelWithEnumProperties = Files.readString(modelWithEnumPropertiesFile.toPath());
+
+        // Unknown non-null enum values are rejected consistently for nullable and non-nullable
+        // string, numeric, and byte-backed inner enums.
+        assertThat(modelWithEnumProperties).contains(
+                "if (inlineIntEnumValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (nullableInlineIntEnumValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (inlineStringEnumValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (nullableInlineStringEnumValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (inlineByteEnumValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "if (nullableInlineByteEnumValue == null)\n" +
+                        "                                    throw new JsonException();",
+                "inlineIntEnum = new Option<ModelWithEnumProperties.InlineIntEnumEnum?>(inlineIntEnumValue);",
+                "ModelWithEnumProperties.NullableInlineIntEnumEnum? nullableInlineIntEnumValue = " +
+                        "ModelWithEnumProperties.NullableInlineIntEnumEnumFromStringOrDefault(nullableInlineIntEnumRawValue);",
+                "nullableInlineIntEnum = new Option<ModelWithEnumProperties.NullableInlineIntEnumEnum?>(" +
+                        "nullableInlineIntEnumValue);",
+                "inlineStringEnum = new Option<ModelWithEnumProperties.InlineStringEnumEnum?>(inlineStringEnumValue);",
+                "nullableInlineStringEnum = new Option<ModelWithEnumProperties.NullableInlineStringEnumEnum?>(" +
+                        "nullableInlineStringEnumValue);"
+        );
+
+        // Numeric and byte-backed enums record an explicit JSON null as present so existing
+        // nullability validation can distinguish it from a missing property.
+        assertThat(modelWithEnumProperties)
+                .containsPattern(
+                        "if \\(utf8JsonReader.TokenType == JsonTokenType.Null\\)\\s+" +
+                                "inlineIntEnum = new Option<ModelWithEnumProperties.InlineIntEnumEnum\\?>\\(null\\);")
+                .containsPattern(
+                        "if \\(utf8JsonReader.TokenType == JsonTokenType.Null\\)\\s+" +
+                                "nullableInlineIntEnum = new Option<ModelWithEnumProperties.NullableInlineIntEnumEnum\\?>\\(null\\);")
+                .containsPattern(
+                        "if \\(inlineStringEnumRawValue != null\\)\\s+\\{")
+                .containsPattern(
+                        "if \\(nullableInlineStringEnumRawValue == null\\)\\s+" +
+                                "nullableInlineStringEnum = new Option<ModelWithEnumProperties.NullableInlineStringEnumEnum\\?>\\(null\\);")
+                .containsPattern(
+                        "if \\(utf8JsonReader.TokenType == JsonTokenType.Null\\)\\s+" +
+                                "inlineByteEnum = new Option<ModelWithEnumProperties.InlineByteEnumEnum\\?>\\(null\\);")
+                .containsPattern(
+                        "if \\(utf8JsonReader.TokenType == JsonTokenType.Null\\)\\s+" +
+                                "nullableInlineByteEnum = new Option<ModelWithEnumProperties.NullableInlineByteEnumEnum\\?>\\(null\\);");
+
+        // Required numeric checks distinguish a missing property from a present null.
+        assertThat(modelWithEnumProperties).contains(
+                "if (!requiredInlineIntEnum.IsSet)\n" +
+                        "                throw new ArgumentException(\"Property is required for class ModelWithEnumProperties.\", nameof(requiredInlineIntEnum));",
+                "if (requiredInlineIntEnum.IsSet && requiredInlineIntEnum.Value == null)\n" +
+                        "                throw new ArgumentNullException(nameof(requiredInlineIntEnum), \"Property is not nullable for class ModelWithEnumProperties.\");"
+        );
+
+        // Verify long enum uses int64 reader with validation and actual int64 values
+        File longEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "LongEnum.cs")
+                .toString()
+        );
+        assertNotNull(longEnumFile, "Could not find file for model: LongEnum");
+        assertFileContains(longEnumFile.toPath(),
+                "enum LongEnum : long",
+                "reader.GetInt64().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "FromStringOrDefault(rawValue)",
+                "throw new JsonException()",
+                "writer.WriteNumberValue(",
+                "public static long ToJsonValue(LongEnum value)",
+                "AboveInt32Max = 2147483648",
+                "Int64Max = 9223372036854775807"
+        );
+        assertFileNotContains(longEnumFile.toPath(),
+                "reader.GetString()",
+                "writer.WriteStringValue("
+        );
+
+        // Verify floating-point enums match using invariant culture and write the original numeric values
+        File doubleEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "DoubleEnum.cs")
+                .toString()
+        );
+        assertNotNull(doubleEnumFile, "Could not find file for model: DoubleEnum");
+        assertFileContains(doubleEnumFile.toPath(),
+                "reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "(1.1d).ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "writer.WriteNumberValue(",
+                "public static double ToJsonValue(DoubleEnum value)",
+                "return 1.1d;",
+                "return -1.2d;"
+        );
+        assertFileNotContains(doubleEnumFile.toPath(),
+                "reader.GetString()",
+                "writer.WriteStringValue(",
+                "return (double) value"
+        );
+
+        File floatEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "FloatEnum.cs")
+                .toString()
+        );
+        assertNotNull(floatEnumFile, "Could not find file for model: FloatEnum");
+        assertFileContains(floatEnumFile.toPath(),
+                "reader.GetSingle().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "(1.1f).ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "public static float ToJsonValue(FloatEnum value)",
+                "return 1.1f;",
+                "return -1.2f;"
+        );
+
+        File decimalEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "DecimalEnum.cs")
+                .toString()
+        );
+        assertNotNull(decimalEnumFile, "Could not find file for model: DecimalEnum");
+        assertFileContains(decimalEnumFile.toPath(),
+                "reader.GetDecimal().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "(1.1m).ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "public static decimal ToJsonValue(DecimalEnum value)",
+                "return 1.1m;",
+                "return -1.2m;"
+        );
+
+        File byteEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "ByteEnum.cs")
+                .toString()
+        );
+        assertNotNull(byteEnumFile, "Could not find file for model: ByteEnum");
+        assertFileContains(byteEnumFile.toPath(),
+                "reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "public static int ToJsonValue(ByteEnum value)",
+                "writer.WriteNumberValue("
+        );
+
+        // Referenced enums use their registered converters; inline enums keep their value-mapping helpers.
+        File modelFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "ModelWithEnumProperties.cs")
+                .toString()
+        );
+        assertNotNull(modelFile, "Could not find file for model: ModelWithEnumProperties");
+        assertFileContains(modelFile.toPath(),
+                "JsonSerializer.Deserialize<IntegerEnum?>",
+                "JsonSerializer.Deserialize<LongEnum?>",
+                "JsonSerializer.Deserialize<DoubleEnum?>",
+                "JsonSerializer.Deserialize<FloatEnum?>",
+                "JsonSerializer.Deserialize<DecimalEnum?>",
+                "JsonSerializer.Deserialize<ByteEnum?>",
+                "inlineIntEnumRawValue = utf8JsonReader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "inlineLongEnumRawValue = utf8JsonReader.GetInt64().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "inlineDoubleEnumRawValue = utf8JsonReader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "inlineByteEnumRawValue = utf8JsonReader.GetByte().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "nullableInlineByteEnumRawValue = utf8JsonReader.GetByte().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "inlineStringEnumRawValue = utf8JsonReader.GetString()",
+                "nullableInlineStringEnumRawValue = utf8JsonReader.GetString()",
+                "InlineLongEnumEnum : long",
+                "InlineByteEnumEnum : byte",
+                "return 1.1d;",
+                "return -1.2d;"
+        );
+    }
+
+    @Test
+    public void testMapResponse() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        Operation operation = openAPI.getPaths().get("/store/inventory").getGet();
+        final CodegenOperation co = codegen.fromOperation("getInventory", "GET", operation, null);
+
+        OperationMap operationMap = new OperationMap();
+        operationMap.setOperation(co);
+
+        OperationsMap objs = new OperationsMap();
+        objs.setOperation(operationMap);
+        objs.setImports(Collections.emptyList());
+        codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
+
+        Assert.assertEquals(co.responses.size(), 1);
+        CodegenResponse cr1 = co.responses.get(0);
+        Assert.assertEquals(cr1.code, "200");
+        Assert.assertEquals(cr1.baseType, "Integer");
+        Assert.assertEquals(cr1.dataType, "Map<string, Integer>");
+        Assert.assertFalse(cr1.isArray);
+        Assert.assertFalse(cr1.isModel);
+        Assert.assertTrue(cr1.isMap);
+    }
+
+    private Map<String, File> generateIssue23046Models(boolean nonPublicApi) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/csharp/issue_23046.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setNonPublicApi(nonPublicApi);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        Map<String, File> models = Map.of(
+                "DynamicMetadataValue", getGeneratedModel(files, output, "DynamicMetadataValue"),
+                "ResponseOnlyValue", getGeneratedModel(files, output, "ResponseOnlyValue"),
+                "QueryParameterValue", getGeneratedModel(files, output, "QueryParameterValue"),
+                "ReadOnlyValue", getGeneratedModel(files, output, "ReadOnlyValue"),
+                "ForbiddenValue", getGeneratedModel(files, output, "ForbiddenValue"));
+        return models;
+    }
+
+    private File getGeneratedModel(Map<String, File> files, File output, String modelName) {
+        String path = Paths.get(output.getAbsolutePath(),
+                "src", "Org.OpenAPITools", "Model", modelName + ".cs").toString();
+        File model = files.get(path);
+        assertNotNull(model, "Could not find generated model: " + path);
+        return model;
     }
 }

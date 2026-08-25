@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 /**
  * 
  * @export
@@ -22,74 +22,50 @@ export interface NullableClass {
     [key: string]: object | any;
     /**
      * 
-     * @type {number}
-     * @memberof NullableClass
      */
     integerProp?: number | null;
     /**
      * 
-     * @type {number}
-     * @memberof NullableClass
      */
     numberProp?: number | null;
     /**
      * 
-     * @type {boolean}
-     * @memberof NullableClass
      */
     booleanProp?: boolean | null;
     /**
      * 
-     * @type {string}
-     * @memberof NullableClass
      */
     stringProp?: string | null;
     /**
      * 
-     * @type {Date}
-     * @memberof NullableClass
      */
     dateProp?: Date | null;
     /**
      * 
-     * @type {Date}
-     * @memberof NullableClass
      */
     datetimeProp?: Date | null;
     /**
      * 
-     * @type {Array<object>}
-     * @memberof NullableClass
      */
     arrayNullableProp?: Array<object> | null;
     /**
      * 
-     * @type {Array<object | null>}
-     * @memberof NullableClass
      */
     arrayAndItemsNullableProp?: Array<object | null> | null;
     /**
      * 
-     * @type {Array<object | null>}
-     * @memberof NullableClass
      */
     arrayItemsNullable?: Array<object | null>;
     /**
      * 
-     * @type {{ [key: string]: object; }}
-     * @memberof NullableClass
      */
     objectNullableProp?: { [key: string]: object; } | null;
     /**
      * 
-     * @type {{ [key: string]: object | null; }}
-     * @memberof NullableClass
      */
     objectAndItemsNullableProp?: { [key: string]: object | null; } | null;
     /**
      * 
-     * @type {{ [key: string]: object | null; }}
-     * @memberof NullableClass
      */
     objectItemsNullable?: { [key: string]: object | null; };
 }
@@ -112,17 +88,17 @@ export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
             ...json,
-        'integerProp': json['integer_prop'] == null ? undefined : json['integer_prop'],
-        'numberProp': json['number_prop'] == null ? undefined : json['number_prop'],
-        'booleanProp': json['boolean_prop'] == null ? undefined : json['boolean_prop'],
-        'stringProp': json['string_prop'] == null ? undefined : json['string_prop'],
-        'dateProp': json['date_prop'] == null ? undefined : (new Date(json['date_prop'])),
-        'datetimeProp': json['datetime_prop'] == null ? undefined : (new Date(json['datetime_prop'])),
-        'arrayNullableProp': json['array_nullable_prop'] == null ? undefined : json['array_nullable_prop'],
-        'arrayAndItemsNullableProp': json['array_and_items_nullable_prop'] == null ? undefined : json['array_and_items_nullable_prop'],
+        'integerProp': json['integer_prop'] === undefined ? undefined : json['integer_prop'] === null ? null : json['integer_prop'],
+        'numberProp': json['number_prop'] === undefined ? undefined : json['number_prop'] === null ? null : json['number_prop'],
+        'booleanProp': json['boolean_prop'] === undefined ? undefined : json['boolean_prop'] === null ? null : json['boolean_prop'],
+        'stringProp': json['string_prop'] === undefined ? undefined : json['string_prop'] === null ? null : json['string_prop'],
+        'dateProp': json['date_prop'] === undefined ? undefined : json['date_prop'] === null ? null : (parseDate(json['date_prop'])),
+        'datetimeProp': json['datetime_prop'] === undefined ? undefined : json['datetime_prop'] === null ? null : (parseDateTime(json['datetime_prop'])),
+        'arrayNullableProp': json['array_nullable_prop'] === undefined ? undefined : json['array_nullable_prop'] === null ? null : json['array_nullable_prop'],
+        'arrayAndItemsNullableProp': json['array_and_items_nullable_prop'] === undefined ? undefined : json['array_and_items_nullable_prop'] === null ? null : json['array_and_items_nullable_prop'],
         'arrayItemsNullable': json['array_items_nullable'] == null ? undefined : json['array_items_nullable'],
-        'objectNullableProp': json['object_nullable_prop'] == null ? undefined : json['object_nullable_prop'],
-        'objectAndItemsNullableProp': json['object_and_items_nullable_prop'] == null ? undefined : json['object_and_items_nullable_prop'],
+        'objectNullableProp': json['object_nullable_prop'] === undefined ? undefined : json['object_nullable_prop'] === null ? null : json['object_nullable_prop'],
+        'objectAndItemsNullableProp': json['object_and_items_nullable_prop'] === undefined ? undefined : json['object_and_items_nullable_prop'] === null ? null : json['object_and_items_nullable_prop'],
         'objectItemsNullable': json['object_items_nullable'] == null ? undefined : json['object_items_nullable'],
     };
 }
@@ -143,8 +119,8 @@ export function NullableClassToJSONTyped(value?: NullableClass | null, ignoreDis
         'number_prop': value['numberProp'],
         'boolean_prop': value['booleanProp'],
         'string_prop': value['stringProp'],
-        'date_prop': value['dateProp'] == null ? value['dateProp'] : value['dateProp'].toISOString().substring(0,10),
-        'datetime_prop': value['datetimeProp'] == null ? value['datetimeProp'] : value['datetimeProp'].toISOString(),
+        'date_prop': value['dateProp'] == null ? value['dateProp'] : serializeDate(value['dateProp']),
+        'datetime_prop': value['datetimeProp'] == null ? value['datetimeProp'] : serializeDateTime(value['datetimeProp']),
         'array_nullable_prop': value['arrayNullableProp'],
         'array_and_items_nullable_prop': value['arrayAndItemsNullableProp'],
         'array_items_nullable': value['arrayItemsNullable'],

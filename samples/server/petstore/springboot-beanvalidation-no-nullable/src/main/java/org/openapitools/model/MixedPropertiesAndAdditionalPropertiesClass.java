@@ -27,17 +27,20 @@ import jakarta.annotation.Generated;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable UUID uuid;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dateTime;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(@Nullable UUID uuid) {
@@ -56,7 +59,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return uuid;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("uuid")
   public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
@@ -78,7 +80,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return dateTime;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("dateTime")
   public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
@@ -108,7 +109,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return map;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("map")
   public void setMap(Map<String, Animal> map) {
     this.map = map;

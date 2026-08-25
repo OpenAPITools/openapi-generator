@@ -1,3 +1,6 @@
+{{#description}}
+/// {{{description}}}
+{{/description}}
 {{#isDeprecated}}
 @Deprecated('{{{enumName}}} has been deprecated')
 {{/isDeprecated}}
@@ -5,9 +8,9 @@ class {{{enumName}}} extends EnumClass {
 
   {{#allowableValues}}
     {{#enumVars}}
-      {{#description}}
+      {{#enumDescription}}
   /// {{{.}}}
-      {{/description}}
+      {{/enumDescription}}
   @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{#isLong}}wireNumber: {{{value}}}{{/isLong}}{{^isInteger}}{{^isLong}}wireName: r{{{value}}}{{/isLong}}{{/isInteger}}{{#enumUnknownDefaultCase}}{{#-last}}, fallback: true{{/-last}}{{/enumUnknownDefaultCase}})
   static const {{{enumName}}} {{name}} = _${{#lambda.camelcase}}{{{enumName}}}{{/lambda.camelcase}}_{{name}};
     {{/enumVars}}

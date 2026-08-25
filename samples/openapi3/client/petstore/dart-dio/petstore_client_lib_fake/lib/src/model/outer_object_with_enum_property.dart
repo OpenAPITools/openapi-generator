@@ -106,3 +106,4 @@ class _$OuterObjectWithEnumPropertySerializer implements PrimitiveSerializer<Out
   }
 }
 
+

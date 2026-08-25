@@ -28,6 +28,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -41,6 +42,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.model.EnumVarMap.ENUM_VALUES;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -219,11 +223,11 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                     enrichPropertiesWithEnumDefaultValues(cm.getParentVars());
                 }
 
-                if (!cm.oneOf.isEmpty()) {
+                if (hasOneOf(cm)) {
                     // Add a boolean if it is a `oneOf`, because Mustache does not let us check if a list is non-empty
                     cm.getVendorExtensions().put("x-ocaml-isOneOf", true);
                 }
-                if (!cm.anyOf.isEmpty()) {
+                if (hasAnyOf(cm)) {
                     // Add a boolean if it is a `anyOf`, because Mustache does not let us check if a list is non-empty
                     cm.getVendorExtensions().put("x-ocaml-isAnyOf", true);
                 }
@@ -804,17 +808,17 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     private Map<String, Object> allowableValues(String valueString) {
         Map<String, Object> result = new HashMap<>();
-        result.put("values", buildEnumValues(valueString));
+        result.put(ENUM_VALUES, buildEnumValues(valueString));
         return result;
     }
 
-    private List<Map<String, Object>> buildEnumValues(String valueString) {
-        List<Map<String, Object>> result = new ArrayList<>();
+    private List<EnumVarMap> buildEnumValues(String valueString) {
+        List<EnumVarMap> result = new ArrayList<>();
 
         for (String v : valueString.split(",")) {
-            Map<String, Object> m = new HashMap<>();
+            EnumVarMap m = new EnumVarMap();
             String value = v.isEmpty() ? "empty" : v;
-            m.put("name", value);
+            m.setEnumName(value);
             m.put("camlEnumValueName", ocamlizeEnumValue(value));
             result.add(m);
         }

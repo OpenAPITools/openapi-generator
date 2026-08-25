@@ -762,7 +762,11 @@ use {{invokerPackage}}\ObjectSerializer;
         if (isset(${{paramName}})) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
-                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization(${{paramName}}));
+                try {
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization(${{paramName}}), JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
             } else {
                 $httpBody = ${{paramName}};
             }
@@ -787,7 +791,11 @@ use {{invokerPackage}}\ObjectSerializer;
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams);
@@ -842,17 +850,21 @@ use {{invokerPackage}}\ObjectSerializer;
         );
 
         {{#servers.0}}
-        # Preserve the original behavior of server indexing.
-        if ($hostIndex === null) {
-            $hostIndex = $this->hostIndex;
-        }
+        if ($this->config->getIgnoreOperationHosts()) {
+            $operationHost = $this->config->getHost();
+        } else {
+            # Preserve the original behavior of server indexing.
+            if ($hostIndex === null) {
+                $hostIndex = $this->hostIndex;
+            }
 
-        $hostSettings = $this->getHostSettingsFor{{operationId}}();
+            $hostSettings = $this->getHostSettingsFor{{operationId}}();
 
-        if ($hostIndex < 0 || $hostIndex >= count($hostSettings)) {
-            throw new InvalidArgumentException("Invalid index {$hostIndex} when selecting the host. Must be less than ".count($hostSettings));
+            if ($hostIndex < 0 || $hostIndex >= count($hostSettings)) {
+                throw new InvalidArgumentException("Invalid index {$hostIndex} when selecting the host. Must be less than ".count($hostSettings));
+            }
+            $operationHost = Configuration::getHostString($hostSettings, $hostIndex, $variables);
         }
-        $operationHost = Configuration::getHostString($hostSettings, $hostIndex, $variables);
         {{/servers.0}}
         {{^servers.0}}
         $operationHost = $this->config->getHost();

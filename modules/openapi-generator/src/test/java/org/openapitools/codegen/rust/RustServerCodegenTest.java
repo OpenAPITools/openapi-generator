@@ -3,6 +3,7 @@ package org.openapitools.codegen.rust;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -114,6 +115,79 @@ public class RustServerCodegenTest {
     }
 
     /**
+     * Test that the /multiple-response-content-types operation in openapi-v3.yaml still
+     * produces the classic x-produces-json vendor extension for its single-content-type
+     * 201 response (no OneOf wrapper), and produces a swagger::OneOf2 return type with
+     * Content-Type dispatch code for its two-content-type 403 response, as required by
+     * issue #24097.
+     */
+    @Test
+    public void testMultipleResponseContentTypes() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/3_0/rust-server/openapi-v3.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path clientModPath = Path.of(target.toString(), "/src/client/mod.rs");
+        TestUtils.assertFileExists(clientModPath);
+
+        // Single-type 201 response must deserialize directly into the model, with no
+        // OneOf wrapper, i.e. the classic x-produces-json behavior.
+        TestUtils.assertFileContains(clientModPath,
+                "let body = serde_json::from_str::<models::AnyOfObject>(body)\n" +
+                "                    .map_err(|e| ApiError(format!(\"Response body did not match the schema: {e}\")))?;\n\n" +
+                "                Ok(MultipleResponseContentTypesResponse::Created\n" +
+                "                    (body)\n" +
+                "                )");
+
+        // Two-content-type 403 response must use a OneOf2 return type.
+        TestUtils.assertFileContains(clientModPath, "swagger::OneOf2::<");
+        // Both variant content types must appear as case-insensitive match arms in the dispatch
+        // code (HTTP media types are case-insensitive per RFC 7231).
+        TestUtils.assertFileContains(clientModPath, "ct.eq_ignore_ascii_case(\"text/plain\")");
+        TestUtils.assertFileContains(clientModPath, "ct.eq_ignore_ascii_case(\"application/json\")");
+        // Content-Type header must be read for dispatch.
+        TestUtils.assertFileContains(clientModPath, "CONTENT_TYPE");
+
+        target.toFile().deleteOnExit();
+    }
+
+    /**
+     * Test that enum items inside an array-typed form parameter are serialized using their
+     * Display impl (i.e. "{}") rather than Debug (i.e. "{:?}"). Both required and optional
+     * array-of-enum form params must use Display so the wire value matches the OpenAPI enum
+     * string, not the Rust variant debug representation.
+     */
+    @Test
+    public void testFormEnumArrayUsesDisplay() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/3_0/rust-server/form-enum-array.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path clientModPath = Path.of(target.toString(), "/src/client/mod.rs");
+        TestUtils.assertFileExists(clientModPath);
+
+        // Both the required and optional array-of-enum params must use "{}" (Display),
+        // not "{:?}" (Debug), so the serialized string matches the OpenAPI enum value.
+        TestUtils.assertFileContains(clientModPath, "format!(\"{}\", param_required_enum_array)");
+        TestUtils.assertFileContains(clientModPath, "format!(\"{}\", param_optional_enum_array)");
+        TestUtils.assertFileNotContains(clientModPath, "format!(\"{:?}\", param_required_enum_array)");
+        TestUtils.assertFileNotContains(clientModPath, "format!(\"{:?}\", param_optional_enum_array)");
+
+        // Clean up
+        target.toFile().deleteOnExit();
+    }
+
+    /**
      * Test that binary/byte request bodies are passed through as raw bytes rather than being
      * coerced to UTF-8, which panics on any non-UTF-8 payload (see issue #24094).
      */
@@ -137,6 +211,111 @@ public class RustServerCodegenTest {
         TestUtils.assertFileContains(clientModPath, "fn body_from_bytes(b: Vec<u8>) -> BoxBody<Bytes, Infallible> {");
         // The request body must no longer be coerced to UTF-8 (would panic on non-UTF-8 payloads).
         TestUtils.assertFileNotContains(clientModPath, "let body = String::from_utf8(param_body.0).expect(\"Body was not valid UTF8\");");
+
+        // Clean up
+        target.toFile().deleteOnExit();
+    }
+
+    /**
+     * Test that each generated security scheme block in context.rs only matches the auth
+     * scheme it was generated for (see issue #24095).
+     *
+     * Since swagger-rs 7, swagger::auth::from_headers is no longer scheme-typed: it returns
+     * Option<AuthData> and matches either a Basic or a Bearer Authorization header. Because
+     * each generated block returns early on a match, an unrestricted block captures requests
+     * belonging to a different scheme and makes every later security scheme block
+     * unreachable - including in-header apiKey blocks, which is an authorization bypass.
+     */
+    @Test
+    public void testAuthSchemeBlocksOnlyMatchTheirOwnScheme() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/2_0/rust-server/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path contextPath = Path.of(target.toString(), "/src/context.rs");
+        TestUtils.assertFileExists(contextPath);
+
+        // The oauth2 (petstore_auth) block must only accept a Bearer header.
+        TestUtils.assertFileContains(contextPath,
+                "if let Some(bearer @ AuthData::Bearer(..)) = swagger::auth::from_headers(headers) {");
+        // The basic (http_basic_test) block must only accept a Basic header.
+        TestUtils.assertFileContains(contextPath,
+                "if let Some(auth @ AuthData::Basic(..)) = swagger::auth::from_headers(headers) {");
+        // No block may accept any Authorization header regardless of scheme, which would
+        // short-circuit the api_key / api_key_query blocks that follow it.
+        TestUtils.assertFileNotContains(contextPath,
+                "if let Some(bearer) = swagger::auth::from_headers(headers) {");
+        TestUtils.assertFileNotContains(contextPath,
+                "if let Some(auth) = swagger::auth::from_headers(headers) {");
+
+        // The in-header apiKey block must still be generated and reachable.
+        TestUtils.assertFileContains(contextPath,
+                "if let Some(header) = api_key_from_header(headers, \"api_key\") {");
+
+        // Clean up
+        target.toFile().deleteOnExit();
+    }
+
+    /**
+     * Companion to {@link #testAuthSchemeBlocksOnlyMatchTheirOwnScheme()} covering the
+     * scheme combinations the petstore fixture cannot express.
+     *
+     * The petstore fixture pairs `isOAuth` with `isBasicBasic`, and declares HTTP Basic
+     * last so its block is generated after the apiKey blocks and cannot shadow them.
+     * This spec instead declares HTTP Basic, then an in-header apiKey scheme, then HTTP
+     * Bearer. That covers the `isBasicBasic` / `isBasicBearer` pairing - two HTTP schemes
+     * that both read the Authorization header, and so are the pair most able to swallow
+     * each other - and interleaves an apiKey block between them, which is the ordering
+     * that turns an unrestricted block into an authorization bypass: the Basic block
+     * claims credentials for a scheme it does not handle, returns early, and the apiKey
+     * block below it never runs.
+     *
+     * The same sample is generated into
+     * `samples/server/petstore/rust-server/output/overlapping-auth-schemes`, where
+     * `tests/auth_scheme_precedence.rs` asserts the same property at request level.
+     */
+    @Test
+    public void testOverlappingAuthSchemeBlocksDoNotShadowEachOther() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/3_0/rust-server/overlapping-auth-schemes.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path contextPath = Path.of(target.toString(), "/src/context.rs");
+        TestUtils.assertFileExists(contextPath);
+
+        String context = Files.readString(contextPath);
+
+        String basicBlock = "if let Some(auth @ AuthData::Basic(..)) = swagger::auth::from_headers(headers) {";
+        String bearerBlock = "if let Some(bearer @ AuthData::Bearer(..)) = swagger::auth::from_headers(headers) {";
+        String apiKeyBlock = "if let Some(header) = api_key_from_header(headers, \"x-api-key\") {";
+
+        // Each Authorization-based block must be restricted to its own scheme...
+        TestUtils.assertFileContains(contextPath, basicBlock);
+        TestUtils.assertFileContains(contextPath, bearerBlock);
+        TestUtils.assertFileNotContains(contextPath,
+                "if let Some(auth) = swagger::auth::from_headers(headers) {");
+        TestUtils.assertFileNotContains(contextPath,
+                "if let Some(bearer) = swagger::auth::from_headers(headers) {");
+        // ...and the apiKey block sitting between them must still be generated.
+        TestUtils.assertFileContains(contextPath, apiKeyBlock);
+
+        // Guard the premise of this test: if the generator ever emits these blocks in a
+        // different order then this spec no longer exercises the shadowing case, and the
+        // assertions above would silently stop proving anything.
+        Assert.assertTrue(context.indexOf(basicBlock) < context.indexOf(apiKeyBlock),
+                "expected the Basic auth block to be generated before the apiKey block");
+        Assert.assertTrue(context.indexOf(apiKeyBlock) < context.indexOf(bearerBlock),
+                "expected the apiKey block to be generated between the two HTTP auth blocks");
 
         // Clean up
         target.toFile().deleteOnExit();

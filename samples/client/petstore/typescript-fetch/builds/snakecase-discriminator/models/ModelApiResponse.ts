@@ -21,20 +21,14 @@ import { mapValues } from '../runtime';
 export interface ModelApiResponse {
     /**
      * 
-     * @type {number}
-     * @memberof ModelApiResponse
      */
     code?: number;
     /**
      * 
-     * @type {string}
-     * @memberof ModelApiResponse
      */
     type?: string;
     /**
      * 
-     * @type {string}
-     * @memberof ModelApiResponse
      */
     message?: string;
 }

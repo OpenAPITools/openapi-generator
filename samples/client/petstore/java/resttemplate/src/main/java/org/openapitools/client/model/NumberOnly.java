@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @JsonPropertyOrder({
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
   @javax.annotation.Nullable
@@ -43,7 +43,7 @@ public class NumberOnly {
   /**
    * Constructor with all args parameters
    */
-  public NumberOnly(@JsonProperty(JSON_PROPERTY_JUST_NUMBER) BigDecimal justNumber) {
+  public NumberOnly(@JsonProperty(JSON_PROPERTY_JUST_NUMBER) @javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 

@@ -104,3 +104,4 @@ class _$BananaSerializer implements PrimitiveSerializer<Banana> {
   }
 }
 
+

@@ -190,6 +190,7 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
   }
 }
 
+
 /// a concrete implementation of [Entity], since [Entity] is not instantiable
 @BuiltValue(instantiable: true)
 abstract class $Entity implements Entity, Built<$Entity, $EntityBuilder> {
