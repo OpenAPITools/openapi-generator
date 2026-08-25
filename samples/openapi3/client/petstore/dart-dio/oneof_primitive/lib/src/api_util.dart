@@ -88,13 +88,7 @@ String _encodePathValue(dynamic value, ListFormat format) {
   if (value == null) {
     return '';
   }
-  if (value is String) {
-    return Uri.encodeComponent(value);
-  }
-  if (value is num || value is bool) {
-    return Uri.encodeComponent(value.toString());
-  }
-  if (value is Enum) {
+  if (value is String || value is num || value is bool || value is Enum) {
     return Uri.encodeComponent(value.toString());
   }
   if (value is List) {
