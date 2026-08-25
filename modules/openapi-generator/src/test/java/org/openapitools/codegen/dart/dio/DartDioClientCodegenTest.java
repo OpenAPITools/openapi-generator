@@ -524,4 +524,28 @@ public class DartDioClientCodegenTest {
                 "encodeParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]),",
                 "asString: true");
     }
+
+    @Test
+    public void testDefaultMultiFormArrayUsesCollectionEncoding() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/issue_10865_default_values.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+
+        TestUtils.assertFileContains(defaultApi,
+                "r'fn4': encodeParameter",
+                "const FullType(BuiltList, [FullType(String)])");
+        TestUtils.assertFileNotContains(defaultApi,
+                "asString: true");
+    }
 }

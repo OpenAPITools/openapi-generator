@@ -91,6 +91,9 @@ String _encodePathValue(dynamic value, ListFormat format) {
   if (value is String || value is num || value is bool) {
     return value.toString();
   }
+  if (value is Enum) {
+    return value.name;
+  }
   if (value is List) {
     final values = value.map((item) => _encodePathValue(item, format)).toList();
     return _joinCollectionValues(values, format);

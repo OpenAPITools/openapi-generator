@@ -1,37 +1,3 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-
-
-String encodePathParameter(
-  dynamic value, {
-  ListFormat format = ListFormat.multi,
-}) {
-  if (value == null) {
-    return '';
-  }
-  if (value is String || value is num || value is bool) {
-    return value.toString();
-  }
-  if (value is Enum) {
-    return value.name;
-  }
-  if (value is List) {
-    final values = value.map((item) => _encodePathValue(item, format)).toList();
-    return _joinCollectionValues(values, format);
-  }
-  if (value is Map) {
-    final pairs = <String>[];
-    value.forEach((k, v) {
-      final serializedKey = _encodePathValue(k, format);
-      final serializedValue = _encodePathValue(v, format);
-      pairs.add('$serializedKey,$serializedValue');
-    });
-    return pairs.join(',');
-  }
-  return value.toString();
-}
-
 String _encodePathValue(dynamic value, ListFormat format) {
   if (value == null) {
     return '';
@@ -73,11 +39,4 @@ String _joinCollectionValues(List<Object?> values, ListFormat format) {
     case ListFormat.multiCompatible:
       return values.join(',');
   }
-}
-
-void removeNullQueryParametersExcept(
-  Map<String, dynamic> queryParameters,
-  Set<String> requiredParameters,
-) {
-  queryParameters.removeWhere((key, value) => value == null && !requiredParameters.contains(key));
 }
