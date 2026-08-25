@@ -69,7 +69,7 @@ public class ForcedGenerateSchemasSupportedFamiliesTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGenerateMetadata(false);
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
@@ -115,6 +115,29 @@ public class ForcedGenerateSchemasSupportedFamiliesTest {
         if (fqnMappingFamilies.contains(codegen.getName())) {
             assertTrue(containerContents.contains(mappedName),
                     codegen.getName() + " must keep the mapped reference in the non-forced Container model");
+        }
+
+        // API artifacts are non-forced consumers as well: the getWidget operation returns the
+        // mapped Widget, so for families that carry the dotted FQN the generated API must reference
+        // the mapped production class and must never be rewritten to the forced stock shadow name.
+        File apiFolder = new File(codegen.apiFileFolder()).getCanonicalFile();
+        boolean anyApiFile = false;
+        boolean anyApiReferencesMapped = false;
+        for (File file : generatedFiles) {
+            File parent = file.getParentFile();
+            if (parent == null
+                    || !parent.getCanonicalPath().startsWith(apiFolder.getCanonicalPath())) {
+                continue;
+            }
+            anyApiFile = true;
+            if (Files.readString(Path.of(file.toURI())).contains(mappedName)) {
+                anyApiReferencesMapped = true;
+            }
+        }
+        assertTrue(anyApiFile, codegen.getName() + " must emit API artifacts");
+        if (fqnMappingFamilies.contains(codegen.getName())) {
+            assertTrue(anyApiReferencesMapped,
+                    codegen.getName() + " API artifacts must reference the mapped class, not the stock shadow");
         }
 
         assertEquals(codegen.schemaMapping().get("Widget"), mappedName,

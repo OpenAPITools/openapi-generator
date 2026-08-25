@@ -1638,6 +1638,10 @@ public class DefaultCodegen implements CodegenConfig {
         // reset the lazily-built model-name -> schema index so it is rebuilt with the current
         // schemaMapping/importMapping state (used by the forced-schema generation pass).
         modelNameToSchemaCache = null;
+        // drop cached CodegenProperty instances so property data types are rebuilt with the current
+        // mappings; otherwise a property resolved earlier (e.g. while generating apis) with the
+        // mapping intact would be reused during the forced shadow pass and leak the mapped name.
+        schemaCodegenPropertyCache.clear();
     }
 
     @Override
