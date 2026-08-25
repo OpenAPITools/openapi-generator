@@ -15,7 +15,7 @@ String encodePathParameter(
     return Uri.encodeComponent(value.toString());
   }
   if (value is Enum) {
-    return Uri.encodeComponent(value.name);
+    return Uri.encodeComponent(value.toString());
   }
   if (value is List) {
     final values = value.map((item) => _encodePathValue(item, format)).toList();
@@ -44,7 +44,7 @@ String _encodePathValue(dynamic value, ListFormat format) {
     return Uri.encodeComponent(value.toString());
   }
   if (value is Enum) {
-    return Uri.encodeComponent(value.name);
+    return Uri.encodeComponent(value.toString());
   }
   if (value is List) {
     final values = value.map((item) => _encodePathValue(item, format)).toList();
