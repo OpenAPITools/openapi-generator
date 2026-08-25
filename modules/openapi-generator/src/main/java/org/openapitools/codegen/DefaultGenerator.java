@@ -83,6 +83,12 @@ public class DefaultGenerator implements Generator {
     private Boolean generateModelTests = null;
     private Boolean generateModelDocumentation = null;
     private Boolean generateMetadata = true;
+    /**
+     * Model keys emitted during the primary (non-shadow) model pass. Used by the forced-schema
+     * shadow pass to avoid re-emitting (and thereby overwriting with stock-name references) a
+     * recursive dependent that was already generated with its mapped references in the primary pass.
+     */
+    private final Set<String> primaryPassEmittedModels = new HashSet<>();
     private String basePath;
     private String basePathWithoutHost;
     private String contextPath;
@@ -470,6 +476,7 @@ public class DefaultGenerator implements Generator {
     }
 
     void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<ModelMap> aliasModels) {
+        primaryPassEmittedModels.clear();
         generateModels(files, allModels, unusedModels, aliasModels, new ArrayList<>(), DefaultGenerator.this::modelKeys,
                 false, Collections.emptySet());
     }
@@ -511,10 +518,6 @@ public class DefaultGenerator implements Generator {
             for (String schemaName : forcedSet) {
                 config.schemaMapping().remove(schemaName);
                 config.importMapping().remove(schemaName);
-                String mappedTypeName = config.typeMapping().get(schemaName);
-                if (mappedTypeName != null) {
-                    config.importMapping().remove(mappedTypeName);
-                }
             }
             support.clearModelNameCache();
 
@@ -661,8 +664,10 @@ public class DefaultGenerator implements Generator {
             ModelsMap models = allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
             // During the forced-schema pass only the forced schemas are (re-)emitted; every model
-            // is still processed above so parent/interface wiring is correct.
-            if (shadowPass && !modelsToEmit.contains(modelName)) {
+            // is still processed above so parent/interface wiring is correct. A recursive dependent
+            // already emitted in the primary pass (with its mapped references) is left untouched so
+            // the shadow pass does not overwrite it with stock-name references.
+            if (shadowPass && (!modelsToEmit.contains(modelName) || primaryPassEmittedModels.contains(modelName))) {
                 continue;
             }
             try {
@@ -693,10 +698,17 @@ public class DefaultGenerator implements Generator {
                 // external type (e.g. --type-mappings Address=CustomAddress
                 // --import-mappings CustomAddress=package:custom/address.dart).
                 // The model metadata is still kept in allModels for use by supporting file templates.
-                if (isSuppressedByTypeAndImportMapping(modelName)) {
+                // A forced schema emitted during the shadow pass bypasses this suppression so its
+                // stock model file is produced; the import mapping itself is kept intact so any
+                // reference to the mapped type in the emitted source still resolves to an import.
+                if (!(shadowPass && modelsToEmit.contains(modelName)) && isSuppressedByTypeAndImportMapping(modelName)) {
                     LOGGER.info("Model {} (type-mapped to {}) not generated due to import mapping",
                             modelName, config.typeMapping().get(modelName));
                     continue;
+                }
+
+                if (!shadowPass) {
+                    primaryPassEmittedModels.add(modelName);
                 }
 
                 // to generate model files

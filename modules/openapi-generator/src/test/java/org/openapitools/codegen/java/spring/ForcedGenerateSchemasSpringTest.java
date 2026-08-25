@@ -41,7 +41,7 @@ import static org.testng.Assert.assertTrue;
 public class ForcedGenerateSchemasSpringTest {
 
     private static final String SPEC = "src/test/resources/3_0/kotlin/forced-generate-schema-mapping.yaml";
-    private static final String MODEL_DIR = "/src/main/java/org/openapitools/model/";
+    private static final String MODEL_DIR = "src/main/java/org/openapitools/model/";
 
     private File generate(File output, String... forcedSchemas) {
         return generate(output, new SpringCodegen(), false, forcedSchemas);

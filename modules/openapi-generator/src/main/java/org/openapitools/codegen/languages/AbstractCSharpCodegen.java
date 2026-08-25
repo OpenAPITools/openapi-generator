@@ -128,6 +128,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Fo
     @Override
     public void clearModelNameCache() {
         schemaKeyToModelNameCache.clear();
+        codegenModelNameAndSchemaKeyToCodegenModelCache.clear();
         super.clearModelNameCache();
     }
 
