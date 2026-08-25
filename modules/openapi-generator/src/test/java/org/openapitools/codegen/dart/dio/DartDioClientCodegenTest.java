@@ -556,7 +556,7 @@ public class DartDioClientCodegenTest {
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("dart-dio")
-                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setInputSpec("src/test/resources/3_0/dart-dio/non_multipart_form_cleanup.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         ClientOptInput opts = configurator.toClientOptInput();
@@ -564,9 +564,12 @@ public class DartDioClientCodegenTest {
         List<File> files = generator.generate();
         files.forEach(File::deleteOnExit);
 
-        Path petApi = output.toPath().resolve("lib/src/api/pet_api.dart");
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
 
-        TestUtils.assertFileContains(petApi,
+        // Non-multipart form cleanup must call removeNullParametersExcept on _bodyData.
+        // Uses spec with form-only operations (no query params) so assertions cannot
+        // be satisfied by query param cleanup; they verify form cleanup specifically.
+        TestUtils.assertFileContains(defaultApi,
                 "contentType: 'application/x-www-form-urlencoded',",
                 "removeNullParametersExcept(",
                 "_bodyData,");

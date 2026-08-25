@@ -1,0 +1,46 @@
+openapi: "3.0.0"
+info:
+  title: Non-multipart form parameter cleanup test
+  version: "1.0.0"
+paths:
+  /submit-form:
+    post:
+      operationId: submitForm
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                requiredField:
+                  type: string
+                optionalField:
+                  type: string
+              required:
+                - requiredField
+      responses:
+        "200":
+          description: OK
+  /update-form:
+    post:
+      operationId: updateForm
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                    - active
+                    - inactive
+                tags:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - status
+      responses:
+        "200":
+          description: OK
