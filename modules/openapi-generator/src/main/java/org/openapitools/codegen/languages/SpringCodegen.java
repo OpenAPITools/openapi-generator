@@ -1033,9 +1033,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 });
 
+                prepareVersioningParameters(originalOps);
                 handleImplicitHeaders(operation);
             }
-            prepareVersioningParameters(originalOps);
 
             final List<CodegenOperation> ops = expandOperationsByResponseType(originalOps);
             operations.setOperation(ops);
