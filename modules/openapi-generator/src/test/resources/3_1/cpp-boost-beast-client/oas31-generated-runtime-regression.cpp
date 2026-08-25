@@ -418,8 +418,8 @@ int main() {
             return true;
         });
     expect(streamResponse.status == boost::beast::http::status::ok
-               && streamResponse.isEventStream && !streamResponse.streamCancelled,
-           "stream response metadata was not preserved");
+               && streamResponse.isEventStream && streamResponse.streamCancelled,
+           "the [DONE] terminator did not cancel the event stream");
     expect(streamChunks.size() == 3u,
            "JSON event streaming did not discard the [DONE] terminator");
     expect(streamEvents[0].event == "delta" && streamEvents[0].id == "event-1"

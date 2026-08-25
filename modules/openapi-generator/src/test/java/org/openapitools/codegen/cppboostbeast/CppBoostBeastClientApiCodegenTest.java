@@ -211,6 +211,11 @@ public class CppBoostBeastClientApiCodegenTest {
         assertTrue(urlEncodedMethod.contains("serializeUrlEncodedFormData(formParameters)"));
         assertTrue(urlEncodedMethod.contains("toFormParameterValue(*enabled)"));
         assertTrue(generatedApiSource.contains(
+                "template<typename T>\n"
+                        + "typename std::enable_if<HasFormToJsonValue<T>::value, std::string>::type\n"
+                        + "toFormParameterValue(const T& value) {"),
+                "The model form serializer overload must be a function template");
+        assertTrue(generatedApiSource.contains(
                 "inline std::string toFormParameterValue(bool value)"));
 
         String queryEncodingMethod = extractMethod(generatedApiSource, "RegressionApi::getQueryEncoding(");

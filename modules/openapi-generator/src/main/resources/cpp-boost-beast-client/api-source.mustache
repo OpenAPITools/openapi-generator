@@ -182,6 +182,7 @@ typename std::enable_if<!HasFormToJsonValue<T>::value, std::string>::type
 toFormParameterValue(const std::vector<T>& values);
 
 // Model classes: serialize via toJsonValue() as JSON.
+template<typename T>
 typename std::enable_if<HasFormToJsonValue<T>::value, std::string>::type
 toFormParameterValue(const T& value) {
     return boost::json::serialize(value.toJsonValue());

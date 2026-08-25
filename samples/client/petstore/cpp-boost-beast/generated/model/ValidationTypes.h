@@ -143,6 +143,7 @@ inline bool isJsonNumber(boost::json::value const& v) {
     switch (v.kind()) {
         case boost::json::kind::int64:
         case boost::json::kind::uint64:
+            return true;
         case boost::json::kind::double_:
             return std::isfinite(v.as_double());
         default:

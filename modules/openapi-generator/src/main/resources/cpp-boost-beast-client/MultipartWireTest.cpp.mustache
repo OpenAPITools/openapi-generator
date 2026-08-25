@@ -216,6 +216,11 @@ void testHeaderInjectionRejected() {
 }
 
 void testBoundarySelectionAndWireStructure() {
+    std::vector<FormParameter> ordinaryParameters;
+    ordinaryParameters.emplace_back("data", "value", false);
+    require(selectMultipartBoundary(ordinaryParameters) == "OpenAPIGeneratorBoundary",
+            "a non-colliding payload must retain the stable default boundary");
+
     std::vector<FormParameter> collidingParameters;
     collidingParameters.emplace_back("data", "OpenAPIGeneratorBoundary", true, "", "data");
     const std::string selectedBoundary = selectMultipartBoundary(collidingParameters);

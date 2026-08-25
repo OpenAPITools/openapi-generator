@@ -1176,6 +1176,7 @@ public class ModelApiSurfaceTest {
         Assert.assertTrue(header.contains(
                 "std::function<bool(const StreamEvent &, const SseEvent &)> onEvent"));
         Assert.assertTrue(source.contains("conditionalSseRequestBody->setStream(true);"));
+        Assert.assertTrue(source.contains("if (event.data == \"[DONE]\") return false;"));
         Assert.assertFalse(header.contains("createAmbiguousStream("));
     }
 

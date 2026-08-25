@@ -213,6 +213,15 @@ void testNumericConversionBoundaries() {
             "fractional values must not truncate into integer destinations");
 }
 
+void testJsonNumberKinds() {
+    require(isJsonNumber(boost::json::value(std::int64_t{1})),
+            "int64 JSON values must satisfy the number predicate");
+    require(isJsonNumber(boost::json::value(std::uint64_t{1})),
+            "uint64 JSON values must satisfy the number predicate");
+    require(isJsonNumber(boost::json::value(1.5)),
+            "finite double JSON values must satisfy the number predicate");
+}
+
 void testFractionalBoundsAroundZero() {
     schema_validation::ExactNumber const zero;
     schema_validation::ExactNumber const half = schema_validation::ExactNumber::parseLexeme("0.5");
@@ -434,6 +443,7 @@ int main() {
         testDeepEnumAndConstNumbers();
         testSharedCompositionEvaluator();
         testNumericConversionBoundaries();
+        testJsonNumberKinds();
         testFractionalBoundsAroundZero();
         testConditionalGuardOutputsDoNotLeak();
         testDynamicAnchorChainsAreNotDepthLimited();

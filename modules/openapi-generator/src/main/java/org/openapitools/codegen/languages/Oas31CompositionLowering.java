@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -958,7 +959,8 @@ public final class Oas31CompositionLowering {
      * decode-time rejection (if optional).
      */
     private static Schema resolveReferenceWithSiblings(
-            Schema source, OpenAPI openAPI, Map<String, Schema> schemas, Set<String> visited) {
+            Schema source, OpenAPI openAPI, Map<String, Schema> schemas, Set<String> visited,
+            IdentityHashMap<Schema, Set<Schema>> activePairs) {
         if (source == null || source.get$ref() == null) {
             return source;
         }
@@ -970,7 +972,7 @@ public final class Oas31CompositionLowering {
         String reference = source.get$ref();
         source.set$ref(null);
         try {
-            return intersectPropertySchemas(target, source, openAPI, schemas, visited);
+            return intersectPropertySchemas(target, source, openAPI, schemas, visited, activePairs);
         } finally {
             source.set$ref(reference);
         }
@@ -992,62 +994,114 @@ public final class Oas31CompositionLowering {
                 || schema.getAdditionalProperties() != null || schema.getNullable() != null;
     }
 
+    private static Set<String> declaredTypes(Schema schema) {
+        Set<String> types = new LinkedHashSet<>();
+        if (schema.getType() != null) {
+            types.add(schema.getType());
+        }
+        if (schema.getTypes() != null) {
+            for (Object type : schema.getTypes()) {
+                if (type != null) {
+                    types.add(String.valueOf(type));
+                }
+            }
+        }
+        return types;
+    }
+
+    private static Set<String> intersectDeclaredTypes(
+            Set<String> existingTypes, Set<String> incomingTypes) {
+        if (existingTypes.isEmpty()) {
+            return new LinkedHashSet<>(incomingTypes);
+        }
+        if (incomingTypes.isEmpty()) {
+            return new LinkedHashSet<>(existingTypes);
+        }
+
+        Set<String> intersection = new LinkedHashSet<>();
+        for (String existingType : existingTypes) {
+            for (String incomingType : incomingTypes) {
+                if (existingType.equals(incomingType)) {
+                    intersection.add(existingType);
+                } else if (("integer".equals(existingType) && "number".equals(incomingType))
+                        || ("number".equals(existingType) && "integer".equals(incomingType))) {
+                    intersection.add("integer");
+                }
+            }
+        }
+        return intersection;
+    }
+
     private static Schema intersectPropertySchemas(
             Schema existing, Schema incoming,
             OpenAPI openAPI, Map<String, Schema> schemas, Set<String> visited) {
+        return intersectPropertySchemas(existing, incoming, openAPI, schemas, visited,
+                new IdentityHashMap<>());
+    }
+
+    private static Schema intersectPropertySchemas(
+            Schema existing, Schema incoming,
+            OpenAPI openAPI, Map<String, Schema> schemas, Set<String> visited,
+            IdentityHashMap<Schema, Set<Schema>> activePairs) {
         if (existing == null) return incoming;
         if (incoming == null) return existing;
 
-        String recursionKey = "<cpp-property-intersection>"
-                + System.identityHashCode(existing) + ':' + System.identityHashCode(incoming);
-        if (!visited.add(recursionKey)) {
+        // Track the active pair by object identity, not a collision-prone hash.
+        Set<Schema> activeIncoming = activePairs.computeIfAbsent(existing,
+                ignored -> Collections.newSetFromMap(new IdentityHashMap<Schema, Boolean>()));
+        if (!activeIncoming.add(incoming)) {
             return existing;
         }
-
-        // Resolve $ref targets without discarding constraints attached to a
-        // 2020-12 reference node.
-        existing = resolveReferenceWithSiblings(existing, openAPI, schemas, visited);
-        incoming = resolveReferenceWithSiblings(incoming, openAPI, schemas, visited);
-
-        // Both non-null: compute intersection
-        String existingType = existing.getType();
-        String incomingType = incoming.getType();
-        boolean typeCompatible = true;
-
-        // Check type compatibility
-        if (existingType != null && incomingType != null
-                && !existingType.equals(incomingType)) {
-            // Special case: integer ⊂ number
-            if (!("integer".equals(existingType) && "number".equals(incomingType))
-                    && !("number".equals(existingType) && "integer".equals(incomingType))) {
-                typeCompatible = false;
+        try {
+            return intersectPropertySchemaConstraints(
+                    existing, incoming, openAPI, schemas, visited, activePairs);
+        } finally {
+            activeIncoming.remove(incoming);
+            if (activeIncoming.isEmpty()) {
+                activePairs.remove(existing);
             }
         }
+    }
 
-        // Check enum compatibility
+    private static Schema intersectPropertySchemaConstraints(
+            Schema existing, Schema incoming,
+            OpenAPI openAPI, Map<String, Schema> schemas, Set<String> visited,
+            IdentityHashMap<Schema, Set<Schema>> activePairs) {
+        // Resolve $ref targets without discarding constraints attached to a
+        // 2020-12 reference node.
+        existing = resolveReferenceWithSiblings(
+                existing, openAPI, schemas, visited, activePairs);
+        incoming = resolveReferenceWithSiblings(
+                incoming, openAPI, schemas, visited, activePairs);
+
+        // Both non-null: compute intersection.
+        Set<String> existingTypes = declaredTypes(existing);
+        Set<String> incomingTypes = declaredTypes(incoming);
+        Set<String> intersectedTypes = intersectDeclaredTypes(existingTypes, incomingTypes);
+        boolean typeCompatible = existingTypes.isEmpty() || incomingTypes.isEmpty()
+                || !intersectedTypes.isEmpty();
+
+        // Build the intersected schema.
+        Schema intersected = new Schema();
+        if (!intersectedTypes.isEmpty()) {
+            if (intersectedTypes.size() == 1 && !intersectedTypes.contains("null")) {
+                intersected.setType(intersectedTypes.iterator().next());
+            } else {
+                intersected.setTypes(intersectedTypes);
+            }
+        }
+        if (Boolean.TRUE.equals(existing.getNullable())
+                || Boolean.TRUE.equals(incoming.getNullable())) {
+            intersected.setNullable(true);
+        }
+
         List<Object> existingEnum = existing.getEnum();
         List<Object> incomingEnum = incoming.getEnum();
         List<Object> intersectedEnum = null;
         if (existingEnum != null && incomingEnum != null) {
             intersectedEnum = intersectJsonValues(existingEnum, incomingEnum);
             if (intersectedEnum.isEmpty()) {
-                typeCompatible = false; // No common enum values
-            }
-        }
-
-        // Build the intersected schema
-        Schema intersected = new Schema();
-
-        // Intersect type: if compatible, keep the more specific type (integer over number)
-        if (typeCompatible) {
-            if (existingType != null && "integer".equals(existingType)) {
-                intersected.setType("integer");
-            } else if (incomingType != null && "integer".equals(incomingType)) {
-                intersected.setType("integer");
-            } else if (existingType != null) {
-                intersected.setType(existingType);
-            } else {
-                intersected.setType(incomingType);
+                typeCompatible = false;
             }
         }
 
@@ -1162,6 +1216,19 @@ public final class Oas31CompositionLowering {
         intersected.setMaxProperties(tighterMaxLen(
                 existing.getMaxProperties(), incoming.getMaxProperties()));
 
+        if (existing.getRequired() != null || incoming.getRequired() != null) {
+            Set<String> required = new LinkedHashSet<>();
+            if (existing.getRequired() != null) {
+                required.addAll(existing.getRequired());
+            }
+            if (incoming.getRequired() != null) {
+                required.addAll(incoming.getRequired());
+            }
+            if (!required.isEmpty()) {
+                intersected.setRequired(new ArrayList<>(required));
+            }
+        }
+
         Object additionalProperties = intersectAdditionalProperties(
                 existing.getAdditionalProperties(), incoming.getAdditionalProperties(),
                 openAPI, schemas);
@@ -1182,7 +1249,7 @@ public final class Oas31CompositionLowering {
                     Schema val = entry.getValue();
                     if (merged.containsKey(key)) {
                         merged.put(key, intersectPropertySchemas(
-                                merged.get(key), val, openAPI, schemas, visited));
+                                merged.get(key), val, openAPI, schemas, visited, activePairs));
                     } else {
                         merged.put(key, val);
                     }
@@ -1205,7 +1272,6 @@ public final class Oas31CompositionLowering {
             extensions.put("x-cpp-unsatisfiable", true);
         }
 
-        visited.remove(recursionKey);
         return intersected;
     }
 

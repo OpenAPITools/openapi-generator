@@ -27,6 +27,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -149,6 +150,55 @@ public class Oas31CompositionLoweringTest {
         Assert.assertNotNull(Oas31CompositionLowering.computeAllOfIntersection(
                 "RecursiveAllOf", cyclicSchema, openAPI, schemas, new HashSet<>()));
     }
+
+    @Test
+    public void allOfPreservesReferenceTypeArrayNullableAndRequiredSiblings() {
+        Schema<?> target = new Schema<>();
+        target.setRequired(Arrays.asList("fromReference"));
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("Referenced", target);
+
+        Schema<?> referenceWithSiblings = new Schema<>().$ref("#/components/schemas/Referenced");
+        referenceWithSiblings.addType("object");
+        referenceWithSiblings.addType("null");
+        referenceWithSiblings.setNullable(true);
+        referenceWithSiblings.setRequired(Arrays.asList("fromReferenceSibling"));
+        ObjectSchema first = new ObjectSchema();
+        first.addProperties("payload", referenceWithSiblings);
+
+        Schema<?> nestedConstraint = new Schema<>();
+        nestedConstraint.setRequired(Arrays.asList("fromOtherContributor"));
+        ObjectSchema second = new ObjectSchema();
+        second.addProperties("payload", nestedConstraint);
+
+        ComposedSchema schema = new ComposedSchema();
+        schema.addAllOfItem(first);
+        schema.addAllOfItem(second);
+        Oas31CompositionLowering.AllOfIntersection intersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "ReferenceSiblingTypes", schema,
+                        new OpenAPI().components(new Components().schemas(schemas)),
+                        schemas, new HashSet<>());
+
+        Schema<?> payload = intersection.getProperties().get("payload");
+        Assert.assertEquals(new HashSet<>(payload.getTypes()),
+                new HashSet<>(Arrays.asList("object", "null")));
+        Assert.assertTrue(Boolean.TRUE.equals(payload.getNullable()));
+        Assert.assertEquals(new HashSet<>(payload.getRequired()),
+                new HashSet<>(Arrays.asList(
+                        "fromReference", "fromReferenceSibling", "fromOtherContributor")));
+
+        Schema<?> syntheticPayload = (Schema<?>) Oas31CompositionLowering
+                .buildSyntheticAllOfSchema("ReferenceSiblingTypes", intersection)
+                .getProperties().get("payload");
+        Assert.assertEquals(new HashSet<>(syntheticPayload.getTypes()),
+                new HashSet<>(Arrays.asList("object", "null")));
+        Assert.assertTrue(Boolean.TRUE.equals(syntheticPayload.getNullable()));
+        Assert.assertEquals(new HashSet<>(syntheticPayload.getRequired()),
+                new HashSet<>(Arrays.asList(
+                        "fromReference", "fromReferenceSibling", "fromOtherContributor")));
+    }
+
     private static Oas31CompositionLowering.CompositionBranchDescriptor branch(
             int index, Oas31CompositionLowering.CompositionBranchDescriptor.NullCapability nullCapability) {
         return new Oas31CompositionLowering.CompositionBranchDescriptor(
