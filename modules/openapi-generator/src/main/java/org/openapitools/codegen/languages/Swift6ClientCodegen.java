@@ -826,7 +826,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     private String getItemsTypeDeclaration(Schema items) {
         String itemsTypeDeclaration = getTypeDeclaration(items);
-        String nullable = items.getNullable() != null && items.getNullable() && !itemsTypeDeclaration.endsWith("?") ? "?" : "";
+        String nullable = ModelUtils.isNullable(unaliasSchema(items)) && !itemsTypeDeclaration.endsWith("?") ? "?" : "";
         return itemsTypeDeclaration + nullable;
     }
 
