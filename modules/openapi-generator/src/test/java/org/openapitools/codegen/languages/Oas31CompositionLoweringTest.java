@@ -225,6 +225,50 @@ public class Oas31CompositionLoweringTest {
         Assert.assertFalse(Boolean.TRUE.equals(syntheticPayload.getNullable()));
     }
 
+    @Test
+    public void allOfNullabilityRespectsEnumAndConst() {
+        Schema<?> nullableProperty = new Schema<>();
+        nullableProperty.setNullable(true);
+
+        Schema<Object> enumProperty = new Schema<>();
+        enumProperty.setEnum(Collections.singletonList("non-null"));
+        ObjectSchema enumFirst = new ObjectSchema();
+        enumFirst.addProperties("payload", nullableProperty);
+        ObjectSchema enumSecond = new ObjectSchema();
+        enumSecond.addProperties("payload", enumProperty);
+        ComposedSchema enumSchema = new ComposedSchema();
+        enumSchema.addAllOfItem(enumFirst);
+        enumSchema.addAllOfItem(enumSecond);
+
+        Oas31CompositionLowering.AllOfIntersection enumIntersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "EnumIntersection", enumSchema, new OpenAPI(),
+                        Collections.emptyMap(), new HashSet<>());
+        Schema<?> enumPayload = (Schema<?>) Oas31CompositionLowering
+                .buildSyntheticAllOfSchema("EnumIntersection", enumIntersection)
+                .getProperties().get("payload");
+        Assert.assertFalse(Boolean.TRUE.equals(enumPayload.getNullable()));
+
+        Schema<?> constProperty = new Schema<>();
+        constProperty.setConst("non-null");
+        ObjectSchema constFirst = new ObjectSchema();
+        constFirst.addProperties("payload", nullableProperty);
+        ObjectSchema constSecond = new ObjectSchema();
+        constSecond.addProperties("payload", constProperty);
+        ComposedSchema constSchema = new ComposedSchema();
+        constSchema.addAllOfItem(constFirst);
+        constSchema.addAllOfItem(constSecond);
+
+        Oas31CompositionLowering.AllOfIntersection constIntersection =
+                Oas31CompositionLowering.computeAllOfIntersection(
+                        "ConstIntersection", constSchema, new OpenAPI(),
+                        Collections.emptyMap(), new HashSet<>());
+        Schema<?> constPayload = (Schema<?>) Oas31CompositionLowering
+                .buildSyntheticAllOfSchema("ConstIntersection", constIntersection)
+                .getProperties().get("payload");
+        Assert.assertFalse(Boolean.TRUE.equals(constPayload.getNullable()));
+    }
+
     private static Oas31CompositionLowering.CompositionBranchDescriptor branch(
             int index, Oas31CompositionLowering.CompositionBranchDescriptor.NullCapability nullCapability) {
         return new Oas31CompositionLowering.CompositionBranchDescriptor(

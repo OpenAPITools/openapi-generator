@@ -1010,9 +1010,15 @@ public final class Oas31CompositionLowering {
     }
 
     private static boolean allowsNull(Schema schema, Set<String> types) {
-        return Boolean.TRUE.equals(schema.getNullable())
-                || types.isEmpty()
-                || types.contains("null");
+        if (!Boolean.TRUE.equals(schema.getNullable())
+                && !types.isEmpty() && !types.contains("null")) {
+            return false;
+        }
+        if (schema.getConst() != null) {
+            return false;
+        }
+        List<Object> enumValues = schema.getEnum();
+        return enumValues == null || enumValues.contains(null);
     }
 
     private static Set<String> intersectDeclaredTypes(
