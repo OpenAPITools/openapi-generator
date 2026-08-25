@@ -1,11 +1,14 @@
 package com.example.mapped;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.lang.Nullable;
 
 /**
  * Handwritten production model used through the Category schema mapping.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Category {
     private @Nullable Long id;
     private @Nullable String name;
@@ -28,6 +31,7 @@ public class Category {
     }
 
     @JsonProperty("name")
+    @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")
     public @Nullable String getName() {
         return name;
     }

@@ -69,10 +69,15 @@ public class ForcedGenerateSchemasCSharpTest {
         File modelDir = generate(output, "Widget", "Group", "Shape", "Circle", "Square");
 
         // The forced+mapped schemas are emitted as stock ApiXxx classes despite the FQN mapping.
-        for (String name : Arrays.asList("ApiWidget", "ApiGroup", "ApiCircle", "ApiSquare")) {
+        for (String name : Arrays.asList("ApiWidget", "ApiGroup", "ApiShape", "ApiCircle", "ApiSquare")) {
             assertTrue(new File(modelDir, name + ".cs").exists(), name + ".cs must be generated");
         }
         assertFileContains(Paths.get(modelDir + File.separator + "ApiWidget.cs"), "class ApiWidget");
+
+        // No forced model declaration or reference leaks the mapped FQN.
+        for (String name : Arrays.asList("ApiWidget", "ApiGroup", "ApiShape", "ApiCircle", "ApiSquare")) {
+            assertFileNotContains(Paths.get(modelDir + File.separator + name + ".cs"), "Com.Example.Mapped.");
+        }
 
         // Container is neither mapped nor forced: its reference to Widget keeps the mapped class.
         assertFileContains(Paths.get(modelDir + File.separator + "ApiContainer.cs"), "Com.Example.Mapped.Widget");

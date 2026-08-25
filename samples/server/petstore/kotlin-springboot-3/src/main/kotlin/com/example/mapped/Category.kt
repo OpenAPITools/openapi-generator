@@ -11,4 +11,9 @@ data class Category(
     val id: Long? = null,
     @get:JsonProperty("name")
     val name: String? = null
-) : Serializable
+) : Serializable {
+
+    companion object {
+        private const val serialVersionUID: Long = 1
+    }
+}

@@ -631,18 +631,25 @@ public class DefaultGenerator implements Generator {
         // post process all processed models
         allProcessedModels = config.postProcessAllModels(allProcessedModels);
 
-        if (generateRecursiveDependentModels && !shadowPass) {
-            for (ModelsMap modelsMap : allProcessedModels.values()) {
-                for (ModelMap mm : modelsMap.getModels()) {
+        if (generateRecursiveDependentModels) {
+            for (Map.Entry<String, ModelsMap> entry : allProcessedModels.entrySet()) {
+                // During the shadow pass only walk the forced schemas: their dependents that live
+                // outside the (constrained) model set must still be emitted, whereas non-forced
+                // models already had their dependents resolved in the normal pass.
+                if (shadowPass && !modelsToEmit.contains(entry.getKey())) {
+                    continue;
+                }
+                for (ModelMap mm : entry.getValue().getModels()) {
                     CodegenModel cm = mm.getModel();
                     if (cm != null) {
                         for (CodegenProperty variable : cm.getVars()) {
-                            generateModelsForVariable(files, allModels, unusedModels, aliasModels, processedModels, variable);
+                            generateModelsForVariable(files, allModels, unusedModels, aliasModels, processedModels, variable, shadowPass);
                         }
                         //TODO:  handle interfaces
                         String parentSchema = cm.getParentSchema();
                         if (parentSchema != null && !processedModels.contains(parentSchema) && ModelUtils.getSchemas(this.openAPI).containsKey(parentSchema)) {
-                            generateModels(files, allModels, unusedModels, aliasModels, processedModels, () -> Set.of(parentSchema));
+                            generateModels(files, allModels, unusedModels, aliasModels, processedModels, () -> Set.of(parentSchema),
+                                    shadowPass, shadowPass ? Set.of(parentSchema) : Collections.emptySet());
                         }
                     }
                 }
@@ -714,7 +721,7 @@ public class DefaultGenerator implements Generator {
     /**
      * this method guesses the schema type of in parent model used variable and if the schema type is available it let the generate the model for the type of this variable
      */
-    private void generateModelsForVariable(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<ModelMap> aliasModels, List<String> processedModels, CodegenProperty variable) {
+    private void generateModelsForVariable(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<ModelMap> aliasModels, List<String> processedModels, CodegenProperty variable, boolean shadowPass) {
         if (variable == null) {
             return;
         }
@@ -722,12 +729,14 @@ public class DefaultGenerator implements Generator {
         final String schemaKey = calculateModelKey(variable.getOpenApiType(), variable.getRef());
         Map<String, Schema> allSchemas = ModelUtils.getSchemas(this.openAPI);
         if (!processedModels.contains(schemaKey) && allSchemas.containsKey(schemaKey)) {
-            generateModels(files, allModels, unusedModels, aliasModels, processedModels, () -> Set.of(schemaKey));
+            generateModels(files, allModels, unusedModels, aliasModels, processedModels, () -> Set.of(schemaKey),
+                    shadowPass, shadowPass ? Set.of(schemaKey) : Collections.emptySet());
         } else if (variable.getComplexType() != null && variable.getComposedSchemas() == null) {
             String ref = variable.getHasItems() ? variable.getItems().getRef() : variable.getRef();
             final String key = calculateModelKey(variable.getComplexType(), ref);
             if (!processedModels.contains(key) && allSchemas.containsKey(key)) {
-                generateModels(files, allModels, unusedModels, aliasModels, processedModels, () -> Set.of(key));
+                generateModels(files, allModels, unusedModels, aliasModels, processedModels, () -> Set.of(key),
+                        shadowPass, shadowPass ? Set.of(key) : Collections.emptySet());
             } else {
                 LOGGER.info("Type {} of variable {} could not be resolve because it is not declared as a model.", variable.getComplexType(), variable.getName());
             }
