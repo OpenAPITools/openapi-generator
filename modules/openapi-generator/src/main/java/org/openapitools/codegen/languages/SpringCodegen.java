@@ -1033,7 +1033,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 });
 
-                prepareVersioningParameters(originalOps);
+                prepareVersioningParameters(operation);
                 handleImplicitHeaders(operation);
             }
 
@@ -1331,34 +1331,32 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
-    private void prepareVersioningParameters(List<CodegenOperation> operations) {
+    private void prepareVersioningParameters(CodegenOperation operation) {
         Object apiVersion = additionalProperties.get(SPRING_API_VERSION);
         boolean hasApiVersion = apiVersion != null;
-        for (CodegenOperation operation : operations) {
-            if (operation.getHasHeaderParams()) {
-                List<CodegenParameter> versionParams = operation.headerParams.stream()
-                        .filter(param -> {
-                            String xVersionParam = Objects.toString(param.vendorExtensions.get(VendorExtension.X_VERSION_PARAM.getName()), "false");
-                            return Boolean.parseBoolean(xVersionParam);
-                        })
-                        .collect(Collectors.toList());
-                operation.hasVersionHeaders = !versionParams.isEmpty();
-                operation.vendorExtensions.put("versionHeaderParamsList", versionParams);
-            }
+        if (operation.getHasHeaderParams()) {
+            List<CodegenParameter> versionParams = operation.headerParams.stream()
+                    .filter(param -> {
+                        String xVersionParam = Objects.toString(param.vendorExtensions.get(VendorExtension.X_VERSION_PARAM.getName()), "false");
+                        return Boolean.parseBoolean(xVersionParam);
+                    })
+                    .collect(Collectors.toList());
+            operation.hasVersionHeaders = !versionParams.isEmpty();
+            operation.vendorExtensions.put("versionHeaderParamsList", versionParams);
+        }
 
-            if (operation.getHasQueryParams()) {
-                List<CodegenParameter> versionParams = operation.queryParams.stream()
-                        .filter(param -> {
-                            String xVersionParam = Objects.toString(param.vendorExtensions.get(VendorExtension.X_VERSION_PARAM.getName()), "false");
-                            return Boolean.parseBoolean(xVersionParam);
-                        })
-                        .collect(Collectors.toList());
-                operation.hasVersionQueryParams = !versionParams.isEmpty();
-                operation.vendorExtensions.put("versionQueryParamsList", versionParams);
-            }
-            if (hasApiVersion) {
-                operation.vendorExtensions.putIfAbsent(VendorExtension.X_SPRING_API_VERSION.getName(), apiVersion);
-            }
+        if (operation.getHasQueryParams()) {
+            List<CodegenParameter> versionParams = operation.queryParams.stream()
+                    .filter(param -> {
+                        String xVersionParam = Objects.toString(param.vendorExtensions.get(VendorExtension.X_VERSION_PARAM.getName()), "false");
+                        return Boolean.parseBoolean(xVersionParam);
+                    })
+                    .collect(Collectors.toList());
+            operation.hasVersionQueryParams = !versionParams.isEmpty();
+            operation.vendorExtensions.put("versionQueryParamsList", versionParams);
+        }
+        if (hasApiVersion) {
+            operation.vendorExtensions.putIfAbsent(VendorExtension.X_SPRING_API_VERSION.getName(), apiVersion);
         }
     }
 

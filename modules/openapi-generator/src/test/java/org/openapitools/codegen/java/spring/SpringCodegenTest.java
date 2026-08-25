@@ -23,6 +23,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.HeaderParameter;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.lang3.StringUtils;
@@ -157,6 +159,36 @@ public class SpringCodegenTest {
         assertFileContains(fooApi,
                 "ResponseEntity<org.springframework.core.io.Resource> getFooApplicationOctetStream",
                 "produces = { \"application/octet-stream\" }");
+    }
+
+    @Test
+    public void shouldPreserveVersionHeadersWhenImplicitHeadersAreRemoved() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-with-spring-pageable.yaml", null, new ParseOptions()).getOpenAPI();
+        openAPI.getPaths().get("/versioning/headers").getPost()
+                .addParametersItem(new HeaderParameter().name("X-Request-Id").schema(new StringSchema()));
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(IMPLICIT_HEADERS_REGEX, "^Version.*");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        assertFileContains(files.get("VersioningApi.java").toPath(),
+                "headers = { \"VersionWithDefaultValue=V1\", \"VersionNoDefaultValue\" }");
     }
 
     @Test
