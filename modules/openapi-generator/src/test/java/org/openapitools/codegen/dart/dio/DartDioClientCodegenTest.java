@@ -548,4 +548,77 @@ public class DartDioClientCodegenTest {
         TestUtils.assertFileNotContains(defaultApi,
                 "asString: true");
     }
+
+    @Test
+    public void testNonMultipartFormParametersDropNulls() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path petApi = output.toPath().resolve("lib/src/api/pet_api.dart");
+
+        TestUtils.assertFileContains(petApi,
+                "contentType: 'application/x-www-form-urlencoded',",
+                "removeNullParametersExcept(",
+                "_bodyData,");
+    }
+
+    @Test
+    public void testRequiredNullableFormParametersArePreserved() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Path spec = Files.createTempFile("dart-dio-required-nullable-form", ".yaml");
+        Files.writeString(spec,
+                "swagger: '2.0'\n"
+                        + "info:\n"
+                        + "  title: Form nullability\n"
+                        + "  version: 1.0.0\n"
+                        + "consumes:\n"
+                        + "  - application/x-www-form-urlencoded\n"
+                        + "paths:\n"
+                        + "  /test:\n"
+                        + "    post:\n"
+                        + "      operationId: testForm\n"
+                        + "      parameters:\n"
+                        + "        - name: requiredNullable\n"
+                        + "          in: formData\n"
+                        + "          required: true\n"
+                        + "          type: string\n"
+                        + "          x-nullable: true\n"
+                        + "        - name: optionalNullable\n"
+                        + "          in: formData\n"
+                        + "          required: false\n"
+                        + "          type: string\n"
+                        + "          x-nullable: true\n"
+                        + "      responses:\n"
+                        + "        '200':\n"
+                        + "          description: ok\n");
+        spec.toFile().deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec(spec.toAbsolutePath().toString())
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+
+        TestUtils.assertFileContains(defaultApi,
+                "removeNullParametersExcept(",
+                "r'requiredNullable',");
+    }
 }

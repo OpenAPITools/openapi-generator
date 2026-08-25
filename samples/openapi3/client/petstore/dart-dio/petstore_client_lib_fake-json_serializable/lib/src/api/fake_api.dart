@@ -290,7 +290,12 @@ _responseData = rawData == null ? null : deserialize<HealthCheckResult, HealthCh
     final _queryParameters = <String, dynamic>{
       if (query1 != null) r'query_1': query1,
     };
-    
+    removeNullParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     dynamic _bodyData;
 
@@ -1018,7 +1023,12 @@ _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty
     final _queryParameters = <String, dynamic>{
       r'query': query,
     };
-    
+    removeNullParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     dynamic _bodyData;
 
@@ -1230,6 +1240,12 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
         if (password != null) r'password': password,
         if (callback != null) r'callback': callback,
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1317,7 +1333,12 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
       if (enumQueryDouble != null) r'enum_query_double': enumQueryDouble,
       if (enumQueryModelArray != null) r'enum_query_model_array': enumQueryModelArray,
     };
-    
+    removeNullParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     dynamic _bodyData;
 
@@ -1326,6 +1347,12 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
         if (enumFormStringArray != null) r'enum_form_string_array': enumFormStringArray,
         if (enumFormString != null) r'enum_form_string': enumFormString,
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1413,7 +1440,12 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
       if (stringGroup != null) r'string_group': stringGroup,
       if (int64Group != null) r'int64_group': int64Group,
     };
-    
+    removeNullParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     final _response = await _dio.request<Object>(
       _path,
@@ -1605,6 +1637,12 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
         r'param': param,
         r'param2': param2,
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1753,7 +1791,12 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
       if (language != null) r'language': language,
       r'allowEmpty': allowEmpty,
     };
-    
+    removeNullParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     final _response = await _dio.request<Object>(
       _path,

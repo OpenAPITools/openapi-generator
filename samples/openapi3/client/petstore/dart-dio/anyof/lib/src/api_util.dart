@@ -38,7 +38,7 @@ dynamic encodeParameter<T>(
   }
   if (value is BuiltList<T> || value is BuiltSet<T>) {
     final values = List<Object?>.of((serialized as Iterable<Object?>).cast());
-    if (asString) {
+    if (asString && format != ListFormat.multi && format != ListFormat.multiCompatible) {
       return _joinCollectionValues(values, format);
     }
     if (forMultipart) {
@@ -127,9 +127,9 @@ String _joinCollectionValues(List<Object?> values, ListFormat format) {
   }
 }
 
-void removeNullQueryParametersExcept(
-  Map<String, dynamic> queryParameters,
+void removeNullParametersExcept(
+  Map<String, dynamic> parameters,
   Set<String> requiredParameters,
 ) {
-  queryParameters.removeWhere((key, value) => value == null && !requiredParameters.contains(key));
+  parameters.removeWhere((key, value) => value == null && !requiredParameters.contains(key));
 }

@@ -379,7 +379,12 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
       r'username': username,
       r'password': password,
     };
-    
+    removeNullParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     final _response = await _dio.request<Object>(
       _path,

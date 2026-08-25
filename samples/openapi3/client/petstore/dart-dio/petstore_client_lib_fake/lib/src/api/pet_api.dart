@@ -192,7 +192,7 @@ class PetApi {
     final _queryParameters = <String, dynamic>{
       r'status': encodeParameter<String>(_serializers, status, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
     };
-    removeNullQueryParametersExcept(
+    removeNullParametersExcept(
       _queryParameters,
       <String>{
         
@@ -284,7 +284,7 @@ class PetApi {
     final _queryParameters = <String, dynamic>{
       r'tags': encodeParameter<String>(_serializers, tags, const FullType(BuiltSet, [FullType(String)]), format: ListFormat.csv),
     };
-    removeNullQueryParametersExcept(
+    removeNullParametersExcept(
       _queryParameters,
       <String>{
         
@@ -538,6 +538,12 @@ class PetApi {
         if (name != null) r'name': encodeParameter(_serializers, name, const FullType(String), asString: true),
         if (status != null) r'status': encodeParameter(_serializers, status, const FullType(String), asString: true),
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(

@@ -12,6 +12,13 @@
         {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{>serialization/built_value/api/form_param}},
         {{/formParams}}
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          {{#formParams}}{{#required}}{{#isNullable}}r'{{{baseName}}}',
+          {{/isNullable}}{{/required}}{{/formParams}}
+        },
+      );
       {{/isMultipart}}
       {{/hasFormParams}}
       {{#bodyParam}}

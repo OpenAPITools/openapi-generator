@@ -414,7 +414,7 @@ class UserApi {
       r'username': encodeParameter(_serializers, username, const FullType(String)),
       r'password': encodeParameter(_serializers, password, const FullType(String)),
     };
-    removeNullQueryParametersExcept(
+    removeNullParametersExcept(
       _queryParameters,
       <String>{
         

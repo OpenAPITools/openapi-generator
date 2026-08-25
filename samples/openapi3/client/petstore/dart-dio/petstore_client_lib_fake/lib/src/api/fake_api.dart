@@ -304,7 +304,7 @@ class FakeApi {
     final _queryParameters = <String, dynamic>{
       if (query1 != null) r'query_1': encodeParameter(_serializers, query1, const FullType(String)),
     };
-    removeNullQueryParametersExcept(
+    removeNullParametersExcept(
       _queryParameters,
       <String>{
         
@@ -1048,7 +1048,7 @@ class FakeApi {
     final _queryParameters = <String, dynamic>{
       r'query': encodeParameter(_serializers, query, const FullType(String)),
     };
-    removeNullQueryParametersExcept(
+    removeNullParametersExcept(
       _queryParameters,
       <String>{
         
@@ -1270,6 +1270,12 @@ class FakeApi {
         if (password != null) r'password': encodeParameter(_serializers, password, const FullType(String), asString: true),
         if (callback != null) r'callback': encodeParameter(_serializers, callback, const FullType(String), asString: true),
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1357,7 +1363,7 @@ class FakeApi {
       if (enumQueryDouble != null) r'enum_query_double': encodeParameter(_serializers, enumQueryDouble, const FullType(double)),
       if (enumQueryModelArray != null) r'enum_query_model_array': encodeParameter<ModelEnumClass>(_serializers, enumQueryModelArray, const FullType(BuiltList, [FullType(ModelEnumClass)]), format: ListFormat.multi),
     };
-    removeNullQueryParametersExcept(
+    removeNullParametersExcept(
       _queryParameters,
       <String>{
         
@@ -1371,6 +1377,12 @@ class FakeApi {
         if (enumFormStringArray != null) r'enum_form_string_array': encodeParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]), asString: true, format: ListFormat.csv),
         if (enumFormString != null) r'enum_form_string': encodeParameter(_serializers, enumFormString, const FullType(String), asString: true),
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1458,7 +1470,7 @@ class FakeApi {
       if (stringGroup != null) r'string_group': encodeParameter(_serializers, stringGroup, const FullType(int)),
       if (int64Group != null) r'int64_group': encodeParameter(_serializers, int64Group, const FullType(int)),
     };
-    removeNullQueryParametersExcept(
+    removeNullParametersExcept(
       _queryParameters,
       <String>{
         
@@ -1657,6 +1669,12 @@ class FakeApi {
         r'param': encodeParameter(_serializers, param, const FullType(String), asString: true),
         r'param2': encodeParameter(_serializers, param2, const FullType(String), asString: true),
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1806,7 +1824,7 @@ class FakeApi {
       if (language != null) r'language': encodeParameter(_serializers, language, const FullType(BuiltMap, [FullType(String), FullType(String)])),
       r'allowEmpty': encodeParameter(_serializers, allowEmpty, const FullType(String)),
     };
-    removeNullQueryParametersExcept(
+    removeNullParametersExcept(
       _queryParameters,
       <String>{
         

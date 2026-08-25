@@ -190,7 +190,12 @@ class PetApi {
     final _queryParameters = <String, dynamic>{
       r'status': status,
     };
-    
+    removeNullParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     final _response = await _dio.request<Object>(
       _path,
@@ -274,7 +279,12 @@ _responseData = rawData == null ? null : deserialize<List<Pet>, Pet>(rawData, 'L
     final _queryParameters = <String, dynamic>{
       r'tags': tags,
     };
-    
+    removeNullParametersExcept(
+      _queryParameters,
+      <String>{
+        
+      },
+    );
 
     final _response = await _dio.request<Object>(
       _path,
@@ -518,6 +528,12 @@ _responseData = rawData == null ? null : deserialize<Pet, Pet>(rawData, 'Pet', g
         if (name != null) r'name': name,
         if (status != null) r'status': status,
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
