@@ -69,19 +69,44 @@ String encodePathParameter(
     return Uri.encodeComponent(serialized.toString());
   }
   if (serialized is List) {
-    final values = serialized.map((item) => _encodePathValue(item, format)).toList();
+    final values = serialized.map((item) => _encodeBuiltValuePathValue(serializers, item, format)).toList();
     return _joinCollectionValues(values, format);
   }
   if (serialized is Map) {
     final pairs = <String>[];
     serialized.forEach((k, v) {
-      final serializedKey = _encodePathValue(k, format);
-      final serializedValue = _encodePathValue(v, format);
+      final serializedKey = _encodeBuiltValuePathValue(serializers, k, format);
+      final serializedValue = _encodeBuiltValuePathValue(serializers, v, format);
       pairs.add('$serializedKey,$serializedValue');
     });
     return pairs.join(',');
   }
   return Uri.encodeComponent(serialized.toString());
+}
+
+String _encodeBuiltValuePathValue(
+  Serializers serializers,
+  dynamic value,
+  ListFormat format,
+) {
+  if (value == null || value is String || value is num || value is bool) {
+    return _encodePathValue(value, format);
+  }
+  if (value is List) {
+    final values = value.map((item) => _encodeBuiltValuePathValue(serializers, item, format)).toList();
+    return _joinCollectionValues(values, format);
+  }
+  if (value is Map) {
+    final pairs = <String>[];
+    value.forEach((k, v) {
+      final serializedKey = _encodeBuiltValuePathValue(serializers, k, format);
+      final serializedValue = _encodeBuiltValuePathValue(serializers, v, format);
+      pairs.add('$serializedKey,$serializedValue');
+    });
+    return pairs.join(',');
+  }
+  final serialized = serializers.serialize(value as Object);
+  return _encodeBuiltValuePathValue(serializers, serialized, format);
 }
 
 String _encodePathValue(dynamic value, ListFormat format) {
