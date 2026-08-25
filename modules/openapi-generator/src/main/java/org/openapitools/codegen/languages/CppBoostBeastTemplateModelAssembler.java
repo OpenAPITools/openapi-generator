@@ -63,6 +63,8 @@ final class CppBoostBeastTemplateModelAssembler {
     private static final String X_CODEGEN_RESPONSE_UNION = "x-codegen-response-union";
     private static final String X_CODEGEN_RESPONSE_UNION_BODY_TYPE =
             "x-codegen-response-union-body-type";
+    private static final String X_CODEGEN_RESPONSE_UNION_MEMBERS =
+            "x-codegen-response-union-members";
     private static final String X_CODEGEN_MULTIPART_FILENAME_PARAM =
             "x-codegen-multipart-filename-param";
     private static final String X_CODEGEN_MULTIPART_FILENAME_PARAM_NAME =
@@ -82,6 +84,8 @@ final class CppBoostBeastTemplateModelAssembler {
     private final Map<String, String> sseRequestPropertyMappings;
     private final Map<String, String> sseEventTypeMappings;
     private final boolean inferConditionalSseOperations;
+    private final boolean hasExplicitRootServers;
+
 
     CppBoostBeastTemplateModelAssembler(
             OpenAPI phaseOpenApi,
@@ -93,7 +97,8 @@ final class CppBoostBeastTemplateModelAssembler {
             Set<String> sseOperationIds,
             Map<String, String> sseRequestPropertyMappings,
             Map<String, String> sseEventTypeMappings,
-            boolean inferConditionalSseOperations) {
+            boolean inferConditionalSseOperations,
+            boolean hasExplicitRootServers) {
         this.phaseOpenApi = phaseOpenApi;
         this.webhookPreservation = webhookPreservation;
         this.operationCallbacks = operationCallbacks;
@@ -106,6 +111,7 @@ final class CppBoostBeastTemplateModelAssembler {
         this.sseEventTypeMappings = Collections.unmodifiableMap(
                 new LinkedHashMap<>(sseEventTypeMappings));
         this.inferConditionalSseOperations = inferConditionalSseOperations;
+        this.hasExplicitRootServers = hasExplicitRootServers;
     }
 
     private static String stripSharedPtr(String type) {
@@ -161,9 +167,8 @@ final class CppBoostBeastTemplateModelAssembler {
                 .replace('\u2029', ' ');
     }
 
-    /** True when the list is exactly the swagger-parser's implicit default
-     *  (a single Server with url "/") — i.e. the spec declared no servers
-     *  at that level. */
+    /** True when the list is exactly swagger-parser's implicit root default
+     *  (a single Server with url "/") and the raw source omitted `servers`. */
     private static boolean isParserDefaultServerList(List<Server> servers) {
         return servers != null && servers.size() == 1
                 && "/".equals(servers.get(0).getUrl());
@@ -273,30 +278,23 @@ final class CppBoostBeastTemplateModelAssembler {
         io.swagger.v3.oas.models.Operation raw = operationFor(op);
         if (raw != null && raw.getServers() != null
                 && !raw.getServers().isEmpty()) {
+            // Operation-level lists are present only when the source declared
+            // them, including the meaningful explicit root URL "/".
             servers = raw.getServers();
-        }
-        // swagger-parser injects a DEFAULT Server("/") on operations and
-        // path items that declare no servers; per OAS that means "no server
-        // override" (the enclosing level applies). Treat it as absent so the
-        // precedence falls through.
-        if (isParserDefaultServerList(servers)) {
-            servers = null;
         }
         if (servers == null || servers.isEmpty()) {
             if (phaseOpenApi != null && phaseOpenApi.getPaths() != null
                     && phaseOpenApi.getPaths().get(op.path) != null) {
                 PathItem item = phaseOpenApi.getPaths().get(op.path);
                 if (item.getServers() != null && !item.getServers().isEmpty()) {
+                    // Path-level lists likewise preserve an explicit root URL.
                     servers = item.getServers();
-                    if (isParserDefaultServerList(servers)) {
-                        servers = null;
-                    }
                 }
                 if ((servers == null || servers.isEmpty())
                         && phaseOpenApi.getServers() != null
                         && !phaseOpenApi.getServers().isEmpty()) {
                     servers = phaseOpenApi.getServers();
-                    if (isParserDefaultServerList(servers)) {
+                    if (!hasExplicitRootServers && isParserDefaultServerList(servers)) {
                         servers = null;
                     }
                 }
@@ -1049,15 +1047,15 @@ final class CppBoostBeastTemplateModelAssembler {
      * them for response-union generation. A heterogeneous operation has multiple
      * 2xx responses with different body types, or a mix of body/no-body responses.
      *
-     * <p>Sets on the operation:
      *   x-codegen-response-union: the generated union struct name
+     *   x-codegen-response-union-members: filtered variant-member rows with
+     *     a terminal marker for comma rendering
      * Sets on each response used in the union:
      *   x-codegen-response-union: the union struct name (same as operation-level)
      *   x-codegen-response-union-body-type: the variant alternative body type
      *     (e.g., {@code std::shared_ptr<FullResource>} or {@code std::monostate}).
      *     Duplicate C++ body types are wrapped in
      *     {@code StatusTaggedValue<boost::beast::http::status(N), T>}.
-     *
      * <p>Single-shape operations (one success type) are left unchanged so the
      * existing simple-signature path is used.
      */
@@ -1158,6 +1156,16 @@ final class CppBoostBeastTemplateModelAssembler {
             response.vendorExtensions.put(
                     X_CODEGEN_RESPONSE_UNION_BODY_TYPE, finalBodyType);
         }
+
+        List<Map<String, Object>> unionMembers = new ArrayList<>();
+        for (CodegenResponse response : unionEligible) {
+            Map<String, Object> member = new LinkedHashMap<>();
+            member.put("bodyType", response.vendorExtensions.get(
+                    X_CODEGEN_RESPONSE_UNION_BODY_TYPE));
+            unionMembers.add(member);
+        }
+        unionMembers.get(unionMembers.size() - 1).put("last", true);
+        operation.vendorExtensions.put(X_CODEGEN_RESPONSE_UNION_MEMBERS, unionMembers);
 
     }
 

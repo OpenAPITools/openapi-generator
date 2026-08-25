@@ -116,6 +116,13 @@ void testDomLexemesAndEscapedNames() {
             "Unicode path bytes must be preserved");
 }
 
+void testMalformedNumbersDoNotReachExactFallback() {
+    requireThrows(
+            []() { (void)schema_validation::parseExactJson("{\"value\":1.2.3}"); },
+            "malformed number syntax must not be sanitized into valid JSON");
+}
+
+
 void testDeepEnumAndConstNumbers() {
     std::string const storedPayload =
             R"JSON([{"nested":[90071992547409931234567891,1e2147483648]}])JSON";
@@ -247,6 +254,81 @@ schema_validation::Annotation const* annotationFor(
     }
     return nullptr;
 }
+void testConditionalGuardOutputsDoNotLeak() {
+    schema_validation::SchemaResourceRegistry registry;
+    registry.nodes.resize(4);
+    registry.nodes[0].hasIf = true;
+    registry.nodes[0].ifSchema = 1;
+    registry.nodes[0].hasThen = true;
+    registry.nodes[0].thenSchema = 2;
+    registry.nodes[1].annTitle = "\"guard\"";
+    registry.nodes[1].properties.push_back({"guard", 3});
+    registry.nodes[2].annDescription = "\"then\"";
+    registry.nodes[3].booleanValue = schema_validation::BooleanValue::true_;
+
+    schema_validation::ExactJsonValue document =
+            schema_validation::parseExactJson(R"JSON({"guard":true})JSON");
+    schema_validation::ExactInstanceScope scope(document);
+    schema_validation::RawInstance instance(&document.value);
+    schema_validation::ValidationPath path;
+    schema_validation::SchemaEvaluator const evaluator(registry);
+    schema_validation::ValidationContext annotationsContext;
+    require(evaluator.validate(0, instance, path, annotationsContext).success,
+            "a successful conditional must validate");
+    require(annotationFor(annotationsContext, "title") == nullptr,
+            "if guard annotations must not propagate");
+    require(annotationFor(annotationsContext, "description") != nullptr,
+            "the selected then branch must retain its annotations");
+    require(annotationsContext.curProps().count("guard") == 0,
+            "if guard coverage must not propagate");
+
+    registry.nodes[0].hasUnevaluatedProperties = true;
+    registry.nodes[0].unevaluatedPropertiesRejects = true;
+    schema_validation::ValidationContext coverageContext;
+    require(!evaluator.validate(0, instance, path, coverageContext).success,
+            "if guard coverage must not satisfy unevaluatedProperties");
+}
+
+void testDynamicAnchorChainsAreNotDepthLimited() {
+    constexpr std::size_t chainLength = 18;
+    constexpr schema_validation::SchemaIndex dynamicTarget =
+            static_cast<schema_validation::SchemaIndex>(2 * chainLength + 1);
+    schema_validation::SchemaResourceRegistry registry;
+    registry.nodes.resize(static_cast<std::size_t>(dynamicTarget) + 1);
+    registry.nodes[0].applicator = schema_validation::ApplicatorKind::ref;
+    registry.nodes[0].children = {1};
+    registry.nodes[0].dynamicRefAnchor = "recursive";
+    for (std::size_t index = 0; index < chainLength; ++index) {
+        const schema_validation::SchemaIndex wrapper =
+                static_cast<schema_validation::SchemaIndex>(1 + 2 * index);
+        const schema_validation::SchemaIndex content =
+                static_cast<schema_validation::SchemaIndex>(wrapper + 1);
+        registry.nodes[wrapper].oneOfChildren = {content};
+        if (index + 1 == chainLength) {
+            registry.nodes[content].dynamicAnchorName = "recursive";
+            registry.nodes[content].booleanValue =
+                    schema_validation::BooleanValue::false_;
+        } else {
+            registry.nodes[content].applicator = schema_validation::ApplicatorKind::ref;
+            registry.nodes[content].children = {static_cast<schema_validation::SchemaIndex>(
+                    wrapper + 2)};
+        }
+    }
+    registry.nodes[dynamicTarget].booleanValue = schema_validation::BooleanValue::true_;
+    registry.dynamicAnchorTables.resize(1);
+    registry.dynamicAnchorTables[0].push_back({"recursive", dynamicTarget});
+
+    schema_validation::ExactJsonValue document = schema_validation::parseExactJson("null");
+    schema_validation::ExactInstanceScope scope(document);
+    schema_validation::RawInstance instance(&document.value);
+    schema_validation::ValidationPath path;
+    schema_validation::ValidationContext context;
+    context.dynamicScope.push_back(0);
+    schema_validation::SchemaEvaluator const evaluator(registry);
+    require(evaluator.validate(0, instance, path, context).success,
+            "dynamic anchor discovery must traverse pure ref chains beyond 16 hops");
+}
+
 
 void testAnnotationPayloadsLocationsAndRollback() {
     schema_validation::SchemaResourceRegistry registry;
@@ -348,10 +430,13 @@ int main() {
     try {
         testArbitraryExponentsAndMultipleOf();
         testDomLexemesAndEscapedNames();
+        testMalformedNumbersDoNotReachExactFallback();
         testDeepEnumAndConstNumbers();
         testSharedCompositionEvaluator();
         testNumericConversionBoundaries();
         testFractionalBoundsAroundZero();
+        testConditionalGuardOutputsDoNotLeak();
+        testDynamicAnchorChainsAreNotDepthLimited();
         testAnnotationPayloadsLocationsAndRollback();
         std::cout << "oas31 exact runtime tests passed\n";
         return EXIT_SUCCESS;

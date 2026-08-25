@@ -85,8 +85,7 @@ final class Oas31RawSpecRecovery {
 
     private static boolean needsRawRecovery(OpenAPI api, String inputSpec) {
         return api != null
-                && api.getOpenapi() != null
-                && api.getOpenapi().startsWith("3.1")
+                && Oas31KeywordScanner.isOas31(api)
                 && inputSpec != null;
     }
 
@@ -95,8 +94,7 @@ final class Oas31RawSpecRecovery {
         if (pristine == null || mutated == null) {
             return;
         }
-        if (isArrayish(pristine)
-                && pristine.getPrefixItems() != null
+        if (pristine.getPrefixItems() != null
                 && !pristine.getPrefixItems().isEmpty()
                 && (mutated.getPrefixItems() == null
                         || mutated.getPrefixItems().isEmpty())) {
@@ -152,16 +150,6 @@ final class Oas31RawSpecRecovery {
         }
     }
 
-    private static boolean isArrayish(Schema schema) {
-        if (schema == null) {
-            return false;
-        }
-        if (ModelUtils.isArraySchema(schema)) {
-            return true;
-        }
-        java.util.Set<String> types = schema.getTypes();
-        return types != null && types.contains("array");
-    }
 
     /**
      * Recovers exact count bounds, enum values, dependentRequired, and null
@@ -174,17 +162,7 @@ final class Oas31RawSpecRecovery {
 
         JsonNode document;
         try {
-            String text = readInputSpec(inputSpec);
-            YAMLFactory yamlFactory = YAMLFactory.builder()
-                    .loaderOptions(io.swagger.v3.parser.util.DeserializationUtils
-                            .buildLoaderOptions())
-                    .build();
-            ObjectMapper mapper = YAMLMapper.builder(yamlFactory)
-                    .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
-                    .enable(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS)
-                    .disable(JsonNodeFeature.STRIP_TRAILING_BIGDECIMAL_ZEROES)
-                    .build();
-            document = mapper.readTree(text);
+            document = readRawDocument(inputSpec);
         } catch (Exception ex) {
             throw new IllegalStateException(
                     "Unable to read the raw OAS 3.1 document for exact schema recovery",
@@ -202,7 +180,22 @@ final class Oas31RawSpecRecovery {
         });
     }
 
-    private static String readInputSpec(String inputSpec) throws Exception {
+    /** Reads the input document with swagger-parser's configured YAML limits. */
+    static JsonNode readRawDocument(String inputSpec) throws Exception {
+        String text = readInputSpec(inputSpec);
+        YAMLFactory yamlFactory = YAMLFactory.builder()
+                .loaderOptions(io.swagger.v3.parser.util.DeserializationUtils
+                        .buildLoaderOptions())
+                .build();
+        ObjectMapper mapper = YAMLMapper.builder(yamlFactory)
+                .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+                .enable(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS)
+                .disable(JsonNodeFeature.STRIP_TRAILING_BIGDECIMAL_ZEROES)
+                .build();
+        return mapper.readTree(text);
+    }
+
+    static String readInputSpec(String inputSpec) throws Exception {
         boolean windowsDrivePath = inputSpec.matches("^[A-Za-z]:[\\\\/].*");
         if (!windowsDrivePath) {
             try {

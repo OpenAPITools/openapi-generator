@@ -7,7 +7,25 @@ if (POLICY CMP0167)
     cmake_policy(SET CMP0167 OLD)
 endif ()
 
+set(BOOST_BOOST_TARGET_PREDEFINED FALSE)
+set(BOOST_JSON_TARGET_PREDEFINED FALSE)
+if (TARGET Boost::boost)
+    set(BOOST_BOOST_TARGET_PREDEFINED TRUE)
+endif ()
+if (TARGET Boost::json)
+    set(BOOST_JSON_TARGET_PREDEFINED TRUE)
+endif ()
+
 find_package(Boost 1.75 REQUIRED COMPONENTS json)
+
+# Imported targets created in this subdirectory are otherwise invisible to
+# sibling consumers when this project is included with add_subdirectory().
+if (NOT BOOST_BOOST_TARGET_PREDEFINED)
+    set_property(TARGET Boost::boost PROPERTY IMPORTED_GLOBAL TRUE)
+endif ()
+if (NOT BOOST_JSON_TARGET_PREDEFINED)
+    set_property(TARGET Boost::json PROPERTY IMPORTED_GLOBAL TRUE)
+endif ()
 set(THREADS_TARGET_PREDEFINED FALSE)
 if (TARGET Threads::Threads)
     set(THREADS_TARGET_PREDEFINED TRUE)

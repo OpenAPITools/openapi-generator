@@ -283,6 +283,11 @@ inline bool containsNonFiniteNumber(boost::json::value const& value) {
     return false;
 }
 
+inline bool isNumericRepresentationOverflow(
+        const boost::system::error_code& error) {
+    return error == boost::json::error::exponent_overflow;
+}
+
 } // namespace detail
 
 inline void captureInstanceLexemes(std::string const& payload,
@@ -301,6 +306,11 @@ inline ExactJsonValue parseExactJson(std::string const& payload) {
         result.requiresExactNumberConversion =
             detail::containsNonFiniteNumber(result.value);
         return result;
+    }
+
+    if (!detail::isNumericRepresentationOverflow(originalError)) {
+        throw std::invalid_argument(
+            "invalid JSON payload: " + originalError.message());
     }
 
     boost::system::error_code sanitizedError;

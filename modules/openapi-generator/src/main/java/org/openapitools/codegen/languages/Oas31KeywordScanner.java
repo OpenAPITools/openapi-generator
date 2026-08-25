@@ -35,6 +35,8 @@ import java.util.Set;
  */
 public final class Oas31KeywordScanner {
 
+    private static final int MAX_SCHEMA_NESTING = 1024;
+
     private Oas31KeywordScanner() {
     }
 
@@ -152,7 +154,8 @@ public final class Oas31KeywordScanner {
             return false;
         }
         String version = api.getOpenapi();
-        return version != null && version.startsWith("3.1");
+        return version != null
+                && version.matches("3\\.1(?:\\.[0-9]+)?(?:[-+][0-9A-Za-z.-]+)?");
     }
 
     // ========================================================================
@@ -526,8 +529,13 @@ public final class Oas31KeywordScanner {
 
     private static void scanSchemaNode(Schema<?> schema, String location,
                                        KeywordOccurrenceLedger ledger, int depth) {
-        if (schema == null || depth > 1024) {
+        if (schema == null) {
             return;
+        }
+        if (depth > MAX_SCHEMA_NESTING) {
+            throw new IllegalArgumentException(
+                    "Schema nesting exceeds maximum depth of "
+                            + MAX_SCHEMA_NESTING + " at " + location);
         }
 
         // ---- Core / identifier keywords ----
@@ -586,7 +594,7 @@ public final class Oas31KeywordScanner {
             record(ledger, "type", location, VOCAB_VALIDATION, KeywordOccurrenceStatus.EMITTED,
                     "validation-type / validation-type-array");
         }
-        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+        if (schema.getEnum() != null) {
             record(ledger, "enum", location, VOCAB_VALIDATION, KeywordOccurrenceStatus.EMITTED,
                     "validation-enum-values");
         }

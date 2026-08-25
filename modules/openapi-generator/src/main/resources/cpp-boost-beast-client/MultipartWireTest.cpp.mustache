@@ -1,316 +1,257 @@
-// ──────────────────────────────────────────────────────────────────────
-// Wire-level multipart encoding test executable.
-// Compiles as a standalone C++ test that exercises
-// serializeMultipartFormData and asserts per-part Content-Type + payload
-// for every encoding scenario. Run via CTest:
+// -----------------------------------------------------------------------------
+// Wire-level multipart encoding regression executable.
+// Exercises the shared serializer used by generated API implementations. Run via
+// CTest:
 //   cmake -DMULTIPART_ENCODING_SELF_TEST=ON -B build
 //   cmake --build build --parallel
 //   ctest --test-dir build --output-on-failure
-// ──────────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------------------
 
-#include <algorithm>
-#include <cassert>
-#include <cstdlib>
 #include <cstdint>
+#include <cstdlib>
+#include <exception>
+#include <iostream>
 #include <memory>
 #include <optional>
-#include <random>
 #include <stdexcept>
-#include <sstream>
 #include <string>
 #include <vector>
+
 #include <boost/optional.hpp>
+
+#include "../api/HttpClient.h"
 
 {{#apiNamespaceDeclarations}}
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
-// --- Inlined form parameter types (identical to generated API source) ---
-struct FormParameter {
-    FormParameter(std::string parameterName, std::string parameterValue, bool file,
-                  std::string contentType = "", std::string fileName = "")
-        : name(std::move(parameterName)), value(std::move(parameterValue)),
-          isFile(file), contentType(std::move(contentType)),
-          filename(std::move(fileName)) {}
-    std::string name;
-    std::string value;
-    bool isFile;
+namespace {
+
+[[noreturn]] void fail(const std::string& message) {
+    throw std::runtime_error(message);
+}
+
+void require(bool condition, const std::string& message) {
+    if (!condition) {
+        fail(message);
+    }
+}
+
+struct MultipartPart {
+    std::string contentDisposition;
     std::string contentType;
-    std::string filename;
+    std::string payload;
 };
 
-template<typename T>
-bool hasFormParameterValue(const T&) noexcept {
-    return true;
-}
+std::vector<MultipartPart> parseMultipartBody(
+        const std::string& wire, const std::string& boundary) {
+    const std::string delimiter = "--" + boundary;
+    std::vector<MultipartPart> parts;
+    std::size_t offset = 0;
 
-template<typename T>
-bool hasFormParameterValue(const std::shared_ptr<T>& value) noexcept {
-    return value != nullptr;
-}
-
-template<typename T>
-bool hasFormParameterValue(const std::optional<T>& value) noexcept {
-    return value.has_value();
-}
-
-template<typename T>
-bool hasFormParameterValue(const boost::optional<T>& value) noexcept {
-    return value.has_value();
-}
-
-inline void validateMultipartHeaderValue(const std::string& value) {
-    if (value.find_first_of("\r\n") != std::string::npos) {
-        throw std::invalid_argument("Multipart header value contains CR or LF");
-    }
-}
-
-inline std::string escapeMultipartParameter(const std::string& value) {
-    validateMultipartHeaderValue(value);
-    std::string escapedValue;
-    escapedValue.reserve(value.size());
-    for (const char character : value) {
-        if (character == '\\' || character == '"') {
-            escapedValue.push_back('\\');
+    while (true) {
+        require(wire.compare(offset, delimiter.size(), delimiter) == 0,
+                "multipart part must begin with its boundary delimiter");
+        offset += delimiter.size();
+        if (wire.compare(offset, 4, "--\r\n") == 0) {
+            offset += 4;
+            require(offset == wire.size(), "multipart data must end after closing boundary");
+            return parts;
         }
-        escapedValue.push_back(character);
-    }
-    return escapedValue;
-}
+        require(wire.compare(offset, 2, "\r\n") == 0,
+                "multipart boundary must be followed by CRLF");
+        offset += 2;
 
-inline std::string serializeMultipartFormData(
-    const std::vector<FormParameter>& formParameters,
-    const std::string& boundary) {
-    std::stringstream serializedFormData;
-    for (const auto& formParameter : formParameters) {
-        serializedFormData << "--" << boundary << "\r\n"
-                           << "Content-Disposition: form-data; name=\""
-                           << escapeMultipartParameter(formParameter.name) << '"';
-        if (formParameter.isFile) {
-            serializedFormData << "; filename=\""
-                               << escapeMultipartParameter(formParameter.filename) << '"';
-        }
-        serializedFormData << "\r\n";
-        if (!formParameter.contentType.empty()) {
-            validateMultipartHeaderValue(formParameter.contentType);
-            serializedFormData << "Content-Type: " << formParameter.contentType << "\r\n";
-        } else if (formParameter.isFile) {
-            serializedFormData << "Content-Type: application/octet-stream\r\n";
-        }
-        serializedFormData << "\r\n" << formParameter.value << "\r\n";
-    }
-    serializedFormData << "--" << boundary << "--\r\n";
-    return serializedFormData.str();
-}
-
-inline std::string selectMultipartBoundary(const std::vector<FormParameter>& formParameters) {
-    static const char hexDigits[] = "0123456789abcdef";
-    for (std::size_t attempt = 0; attempt < 16; ++attempt) {
-        std::string boundary = "OpenAPIGeneratorBoundary";
-        if (attempt != 0) {
-            std::random_device entropy;
-            boundary.reserve(57);
-            for (std::size_t wordIndex = 0; wordIndex < 4; ++wordIndex) {
-                std::uint32_t word = static_cast<std::uint32_t>(entropy());
-                for (std::size_t nibble = 0; nibble < 8; ++nibble) {
-                    boundary.push_back(hexDigits[word & 0x0FU]);
-                    word >>= 4U;
-                }
+        const std::size_t headerEnd = wire.find("\r\n\r\n", offset);
+        require(headerEnd != std::string::npos, "multipart part must terminate headers");
+        MultipartPart part;
+        std::size_t headerOffset = offset;
+        while (headerOffset < headerEnd) {
+            const std::size_t lineEnd = wire.find("\r\n", headerOffset);
+            require(lineEnd != std::string::npos && lineEnd <= headerEnd,
+                    "multipart header line must terminate with CRLF");
+            const std::size_t colon = wire.find(':', headerOffset);
+            require(colon != std::string::npos && colon < lineEnd,
+                    "multipart header must have a name and value");
+            const std::string headerName = wire.substr(headerOffset, colon - headerOffset);
+            const std::string headerValue = wire.substr(colon + 1, lineEnd - colon - 1);
+            require(!headerValue.empty() && headerValue.front() == ' ',
+                    "multipart header values must have one leading space");
+            if (headerName == "Content-Disposition") {
+                part.contentDisposition = headerValue.substr(1);
+            } else if (headerName == "Content-Type") {
+                part.contentType = headerValue.substr(1);
             }
-            boundary.push_back(hexDigits[attempt & 0x0FU]);
+            headerOffset = lineEnd + 2;
         }
-        const auto collision = std::find_if(
-            formParameters.cbegin(), formParameters.cend(),
-            [&boundary](const FormParameter& fp) {
-                return fp.value.find(boundary) != std::string::npos;
-            });
-        if (collision == formParameters.cend()) return boundary;
+        require(!part.contentDisposition.empty(),
+                "multipart part must have Content-Disposition");
+
+        const std::size_t payloadOffset = headerEnd + 4;
+        const std::size_t nextBoundary = wire.find("\r\n" + delimiter, payloadOffset);
+        require(nextBoundary != std::string::npos,
+                "multipart part payload must be followed by a boundary delimiter");
+        part.payload = wire.substr(payloadOffset, nextBoundary - payloadOffset);
+        parts.emplace_back(std::move(part));
+        offset = nextBoundary + 2;
     }
-    throw std::runtime_error("Unable to select a collision-free multipart boundary");
 }
 
-// ──────────────────────────────────────────────────────────────────────
-// Wire-level assertions
-// ──────────────────────────────────────────────────────────────────────
-static void testExplicitEncoding() {
-    // 1. Encoding Object contentType overrides defaults.
-    std::vector<FormParameter> params;
-    params.emplace_back("avatar", "\x89PNG\r\n\x1a\n", true, "image/png", "avatar");
-    params.emplace_back("report", "%PDF-1.4", true, "application/pdf", "report");
-    std::string wire = serializeMultipartFormData(params, "==BOUNDARY==");
-    assert(wire.find("Content-Type: image/png") != std::string::npos);
-    assert(wire.find("\x89PNG") != std::string::npos);
-    assert(wire.find("Content-Type: application/pdf") != std::string::npos);
-    assert(wire.find("PDF-1.4") != std::string::npos);
-    // String part without contentType: no Content-Type at wire level
-    // (the template injects "text/plain" as the OAS default before
-    // calling emplace_back; serializeMultipartFormData only emits
-    // Content-Type when the struct field is non-empty).
-    params.clear();
-    params.emplace_back("description", "A description", false);
-    wire = serializeMultipartFormData(params, "==BOUNDARY==");
-    assert(wire.find("Content-Type:") == std::string::npos);
-    assert(wire.find("A description") != std::string::npos);
+void requirePart(const std::vector<MultipartPart>& parts, std::size_t index,
+                 const std::string& disposition, const std::string& contentType,
+                 const std::string& payload) {
+    require(index < parts.size(), "multipart part index must exist");
+    const MultipartPart& part = parts[index];
+    require(part.contentDisposition == disposition,
+            "multipart Content-Disposition must match the encoded field");
+    require(part.contentType == contentType,
+            "multipart Content-Type must match the encoded field");
+    require(part.payload == payload, "multipart payload must match the encoded field");
 }
 
-static void testTextPlainDefault() {
-    // 2. String part without encoding defaults to text/plain.
-    // NOTE: The OAS default for string form params is text/plain.
-    // In generated code the template emits "text/plain" as the 4th arg
-    // when isString=true and no Encoding Object contentType is present.
-    std::vector<FormParameter> params;
-    params.emplace_back("textContent", "Hello", false, "text/plain");
-    std::string wire = serializeMultipartFormData(params, "==BOUNDARY==");
-    assert(wire.find("Content-Type: text/plain") != std::string::npos);
-    assert(wire.find("Hello") != std::string::npos);
+void testExplicitEncoding() {
+    const std::string boundary = "==BOUNDARY==";
+    std::vector<FormParameter> parameters;
+    parameters.emplace_back("avatar", "\x89PNG\r\n\x1a\n", true, "image/png", "avatar");
+    parameters.emplace_back("report", "%PDF-1.4", true, "application/pdf", "report");
+
+    const std::vector<MultipartPart> parts = parseMultipartBody(
+            serializeMultipartFormData(parameters, boundary), boundary);
+    require(parts.size() == 2, "explicit encoding must produce both parts");
+    requirePart(parts, 0, "form-data; name=\"avatar\"; filename=\"avatar\"",
+                "image/png", "\x89PNG\r\n\x1a\n");
+    requirePart(parts, 1, "form-data; name=\"report\"; filename=\"report\"",
+                "application/pdf", "%PDF-1.4");
+
+    parameters.clear();
+    parameters.emplace_back("description", "A description", false);
+    const std::vector<MultipartPart> stringParts = parseMultipartBody(
+            serializeMultipartFormData(parameters, boundary), boundary);
+    require(stringParts.size() == 1, "a text field must produce one part");
+    requirePart(stringParts, 0, "form-data; name=\"description\"", "", "A description");
 }
 
-static void testTextPlainArrayDefault() {
-    // 3. Primitive array part without encoding defaults to text/plain.
-    // OAS 3.0 §10.4: arrays of primitives use text/plain with form-style
-    // comma-delimited serialization.
-    std::vector<FormParameter> params;
-    params.emplace_back("tags", "a,b,c", false, "text/plain");
-    std::string wire = serializeMultipartFormData(params, "==BOUNDARY==");
-    assert(wire.find("Content-Type: text/plain") != std::string::npos);
-    assert(wire.find("a,b,c") != std::string::npos);
+void testDefaultContentTypes() {
+    const std::string boundary = "==BOUNDARY==";
+
+    std::vector<FormParameter> textParameters;
+    textParameters.emplace_back("textContent", "Hello", false, "text/plain");
+    const std::vector<MultipartPart> textParts = parseMultipartBody(
+            serializeMultipartFormData(textParameters, boundary), boundary);
+    requirePart(textParts, 0, "form-data; name=\"textContent\"", "text/plain", "Hello");
+
+    std::vector<FormParameter> arrayParameters;
+    arrayParameters.emplace_back("tags", "a,b,c", false, "text/plain");
+    const std::vector<MultipartPart> arrayParts = parseMultipartBody(
+            serializeMultipartFormData(arrayParameters, boundary), boundary);
+    requirePart(arrayParts, 0, "form-data; name=\"tags\"", "text/plain", "a,b,c");
+
+    std::vector<FormParameter> jsonParameters;
+    jsonParameters.emplace_back("payload", "{\"key\":\"value\"}", false,
+                                "application/json");
+    jsonParameters.emplace_back("items", "[{\"id\":1},{\"id\":2}]", false,
+                                "application/json");
+    const std::vector<MultipartPart> jsonParts = parseMultipartBody(
+            serializeMultipartFormData(jsonParameters, boundary), boundary);
+    require(jsonParts.size() == 2, "JSON fields must produce both parts");
+    requirePart(jsonParts, 0, "form-data; name=\"payload\"", "application/json",
+                "{\"key\":\"value\"}");
+    requirePart(jsonParts, 1, "form-data; name=\"items\"", "application/json",
+                "[{\"id\":1},{\"id\":2}]");
+
+    std::vector<FormParameter> binaryParameters;
+    binaryParameters.emplace_back("rawData", "binary-payload", true,
+                                  "application/octet-stream", "rawData");
+    const std::vector<MultipartPart> binaryParts = parseMultipartBody(
+            serializeMultipartFormData(binaryParameters, boundary), boundary);
+    requirePart(binaryParts, 0, "form-data; name=\"rawData\"; filename=\"rawData\"",
+                "application/octet-stream", "binary-payload");
 }
 
-static void testJsonDefault() {
-    // 4. Object/array part without encoding defaults to application/json.
-    std::vector<FormParameter> params;
-    params.emplace_back("payload", "{\"key\":\"value\"}", false, "application/json");
-    std::string wire = serializeMultipartFormData(params, "==BOUNDARY==");
-    assert(wire.find("Content-Type: application/json") != std::string::npos);
-    assert(wire.find("{\"key\":\"value\"}") != std::string::npos);
-    // Array with model-type elements: JSON array serialization.
-    params.clear();
-    params.emplace_back("items", "[{\"id\":1},{\"id\":2}]", false, "application/json");
-    wire = serializeMultipartFormData(params, "==BOUNDARY==");
-    assert(wire.find("Content-Type: application/json") != std::string::npos);
-    assert(wire.find("[{\"id\":1},{\"id\":2}]") != std::string::npos);
+void testContentDispositionAndMixedEncoding() {
+    const std::string boundary = "==BOUNDARY==";
+    std::vector<FormParameter> parameters;
+    parameters.emplace_back("fieldA", "valueA", false);
+    parameters.emplace_back("fieldB", "valueB", true, "image/png", "photo.png");
+    parameters.emplace_back("fieldC", "valueC", true, "image/png", "fieldC");
+    parameters.emplace_back("fieldD", "valueD", true, "image/png", "");
+    parameters.emplace_back("signature", "sig", true, "application/octet-stream", "signature");
+
+    const std::vector<MultipartPart> parts = parseMultipartBody(
+            serializeMultipartFormData(parameters, boundary), boundary);
+    require(parts.size() == 5, "mixed encoding must preserve all field parts");
+    requirePart(parts, 0, "form-data; name=\"fieldA\"", "", "valueA");
+    requirePart(parts, 1, "form-data; name=\"fieldB\"; filename=\"photo.png\"",
+                "image/png", "valueB");
+    requirePart(parts, 2, "form-data; name=\"fieldC\"; filename=\"fieldC\"",
+                "image/png", "valueC");
+    requirePart(parts, 3, "form-data; name=\"fieldD\"; filename=\"\"",
+                "image/png", "valueD");
+    requirePart(parts, 4, "form-data; name=\"signature\"; filename=\"signature\"",
+                "application/octet-stream", "sig");
 }
 
-static void testBinaryDefault() {
-    // 5. Binary part without encoding: OAS default application/octet-stream.
-    std::vector<FormParameter> params;
-    params.emplace_back(
-        "rawData", "binary-payload", true, "application/octet-stream", "rawData");
-    std::string wire = serializeMultipartFormData(params, "==BOUNDARY==");
-    assert(wire.find("Content-Type: application/octet-stream") != std::string::npos);
-    assert(wire.find("binary-payload") != std::string::npos);
-}
-
-static void testMixedEncoding() {
-    // 6. Mixed: avatar (explicit), report (explicit), signature (default octet-stream).
-    std::vector<FormParameter> params;
-    params.emplace_back("avatar", "\x89PNG", true, "image/png", "avatar");
-    params.emplace_back("report", "%PDF", true, "application/pdf", "report");
-    params.emplace_back(
-        "signature", "sig", true, "application/octet-stream", "signature");
-    std::string wire = serializeMultipartFormData(params, "==BOUNDARY==");
-    assert(wire.find("Content-Type: image/png") != std::string::npos);
-    assert(wire.find("Content-Type: application/pdf") != std::string::npos);
-    assert(wire.find("Content-Type: application/octet-stream") != std::string::npos);
-}
-
-static void testContentDisposition() {
-    // 7. Content-Disposition header structure for file and non-file parts.
-    std::vector<FormParameter> params;
-    params.emplace_back("fieldA", "valueA", false);
-    params.emplace_back("fieldB", "valueB", true, "image/png", "photo.png");
-    params.emplace_back("fieldC", "valueC", true, "image/png", "fieldC");
-    params.emplace_back("fieldD", "valueD", true, "image/png", "");
-    std::string wire = serializeMultipartFormData(params, "==BOUNDARY==");
-    assert(wire.find("name=\"fieldA\"") != std::string::npos);
-    assert(wire.find("name=\"fieldB\"") != std::string::npos);
-    // File parts preserve caller-provided custom, defaulted, and empty names.
-    assert(wire.find("filename=\"photo.png\"") != std::string::npos);
-    assert(wire.find("filename=\"fieldC\"") != std::string::npos);
-    assert(wire.find("filename=\"\"") != std::string::npos);
-    assert(wire.find("filename=\"fieldB\"") == std::string::npos);
-    assert(wire.find("filename=\"fieldA\"") == std::string::npos);
-}
-
-static void testOptionalPartPresence() {
-    std::shared_ptr<std::string> sharedMissing;
-    std::optional<std::string> optionalMissing;
-    boost::optional<std::string> boostMissing;
-    assert(!hasFormParameterValue(sharedMissing));
-    assert(!hasFormParameterValue(optionalMissing));
-    assert(!hasFormParameterValue(boostMissing));
-    assert(hasFormParameterValue(std::string()));
-}
-
-static void testHeaderInjectionRejected() {
-    std::vector<FormParameter> filenameParams;
-    filenameParams.emplace_back(
-        "file", "value", true, "application/octet-stream", "bad\r\nname");
+void testHeaderInjectionRejected() {
+    std::vector<FormParameter> filenameParameters;
+    filenameParameters.emplace_back(
+            "file", "value", true, "application/octet-stream", "bad\r\nname");
     bool filenameRejected = false;
     try {
-        (void)serializeMultipartFormData(filenameParams, "==BOUNDARY==");
+        (void)serializeMultipartFormData(filenameParameters, "==BOUNDARY==");
     } catch (const std::invalid_argument&) {
         filenameRejected = true;
     }
-    assert(filenameRejected);
+    require(filenameRejected, "multipart serializer must reject CRLF in filenames");
 
-    std::vector<FormParameter> contentTypeParams;
-    contentTypeParams.emplace_back(
-        "file", "value", true, "text/plain\r\nX-Evil: yes", "file");
+    std::vector<FormParameter> contentTypeParameters;
+    contentTypeParameters.emplace_back(
+            "file", "value", true, "text/plain\r\nX-Evil: yes", "file");
     bool contentTypeRejected = false;
     try {
-        (void)serializeMultipartFormData(contentTypeParams, "==BOUNDARY==");
+        (void)serializeMultipartFormData(contentTypeParameters, "==BOUNDARY==");
     } catch (const std::invalid_argument&) {
         contentTypeRejected = true;
     }
-    assert(contentTypeRejected);
+    require(contentTypeRejected, "multipart serializer must reject CRLF in content types");
 }
 
-static void testBoundaryCollision() {
-    // 8. Boundary collision avoidance stays within RFC 2046's 70-character cap.
-    std::vector<FormParameter> params;
-    params.emplace_back("data", "OpenAPIGeneratorBoundary", true, "", "data");
-    const std::string boundary = selectMultipartBoundary(params);
-    assert(boundary != "OpenAPIGeneratorBoundary");
-    assert(boundary.find("OpenAPIGeneratorBoundary") == 0);
-    assert(boundary.size() <= 70);
-    assert(params.front().value.find(boundary) == std::string::npos);
+void testBoundarySelectionAndWireStructure() {
+    std::vector<FormParameter> collidingParameters;
+    collidingParameters.emplace_back("data", "OpenAPIGeneratorBoundary", true, "", "data");
+    const std::string selectedBoundary = selectMultipartBoundary(collidingParameters);
+    require(selectedBoundary != "OpenAPIGeneratorBoundary",
+            "multipart boundary must not appear in a payload");
+    require(selectedBoundary.find("OpenAPIGeneratorBoundary") == 0,
+            "replacement multipart boundary must retain its stable prefix");
+    require(selectedBoundary.size() <= 70,
+            "multipart boundary must respect the RFC 2046 length limit");
 
-    std::vector<FormParameter> ordinaryParams;
-    ordinaryParams.emplace_back("data", "ordinary content", false);
-    assert(selectMultipartBoundary(ordinaryParams) == "OpenAPIGeneratorBoundary");
-}
-
-static void testWireFormatStructure() {
-    // 9. Wire format structure: boundary delimitation, CRLF, closing.
-    std::vector<FormParameter> params;
-    params.emplace_back("field", "value", false);
     const std::string boundary = "TESTBOUNDARY";
-    std::string wire = serializeMultipartFormData(params, boundary);
-    // Each part starts with --boundary\r\n
-    assert(wire.find("--TESTBOUNDARY\r\n") == 0);
-    // Closing: --boundary--\r\n
-    assert(wire.rfind("--TESTBOUNDARY--\r\n") == wire.size() - 18);
-    // CRLF before value
-    assert(wire.find("\r\n\r\nvalue\r\n") != std::string::npos);
+    std::vector<FormParameter> parameters;
+    parameters.emplace_back("field", "value", false);
+    const std::string wire = serializeMultipartFormData(parameters, boundary);
+    const std::vector<MultipartPart> parts = parseMultipartBody(wire, boundary);
+    require(parts.size() == 1, "wire structure must contain one parsed part");
+    requirePart(parts, 0, "form-data; name=\"field\"", "", "value");
 }
+
+} // namespace
 
 {{#apiNamespaceDeclarations}}
 } // namespace {{this}}
 {{/apiNamespaceDeclarations}}
 
 int main() {
-    using namespace {{apiNamespace}};
-    testExplicitEncoding();
-    testTextPlainDefault();
-    testTextPlainArrayDefault();
-    testJsonDefault();
-    testBinaryDefault();
-    testMixedEncoding();
-    testContentDisposition();
-    testOptionalPartPresence();
-    testHeaderInjectionRejected();
-    testBoundaryCollision();
-    testWireFormatStructure();
-    return 0;
+    try {
+        using namespace {{apiNamespace}};
+        testExplicitEncoding();
+        testDefaultContentTypes();
+        testContentDispositionAndMixedEncoding();
+        testHeaderInjectionRejected();
+        testBoundarySelectionAndWireStructure();
+        return EXIT_SUCCESS;
+    } catch (const std::exception& exception) {
+        std::cerr << "multipart wire test failed: " << exception.what() << '\n';
+        return EXIT_FAILURE;
+    }
 }

@@ -1103,6 +1103,13 @@ public class Oas31IrComplianceTest {
         Assert.assertEquals(
                 CppBoostBeastClientCodegen.OasDialect.UNRECOGNIZED,
                 CppBoostBeastClientCodegen.resolveDocumentDialect(custom));
+
+        io.swagger.v3.oas.models.OpenAPI oas310 = new io.swagger.v3.oas.models.OpenAPI();
+        oas310.setOpenapi("3.10.0");
+        Assert.assertEquals(
+                CppBoostBeastClientCodegen.OasDialect.UNSPECIFIED,
+                CppBoostBeastClientCodegen.resolveDocumentDialect(oas310),
+                "3.10.x must not be treated as OAS 3.1");
     }
 
     @Test
@@ -1184,6 +1191,23 @@ public class Oas31IrComplianceTest {
     }
 
     @Test
+    public void scannerRejectsSchemasBeyondMaximumNesting() {
+        Schema root = new ObjectSchema();
+        Schema current = root;
+        for (int depth = 0; depth <= 1024; depth++) {
+            Schema child = new ObjectSchema();
+            current.setProperties(Collections.singletonMap("child", child));
+            current = child;
+        }
+
+        IllegalArgumentException exception = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> Oas31KeywordScanner.scanSchemaKeywordOccurrences(
+                        openApiWithSchemas("3.1.0", Collections.singletonMap("Root", root))));
+        Assert.assertTrue(exception.getMessage().contains("Schema nesting exceeds maximum depth"));
+    }
+
+    @Test
     public void exhaustiveScannerIndexesNestedSchemaValuedPositions() {
         CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
         codegen.processOpts();
@@ -1255,6 +1279,18 @@ public class Oas31IrComplianceTest {
         boolean propPatternWalked = ledger.getOccurrences().stream()
                 .anyMatch(o -> o.getLocation().contains("/patternProperties/"));
         Assert.assertTrue(propPatternWalked, "patternProperties child schema must be walked");
+    }
+
+    @Test
+    public void scannerRecordsEmptyEnumOccurrences() {
+        Schema schema = new Schema();
+        schema.setEnum(Collections.emptyList());
+
+        Oas31KeywordScanner.KeywordOccurrenceLedger ledger =
+                Oas31KeywordScanner.scanSchemaKeywordOccurrences(
+                        openApiWithSchemas("3.1.0", Collections.singletonMap("Empty", schema)));
+        Assert.assertTrue(ledger.hasKeyword("enum"),
+                "an empty enum is a reject-all assertion and must be recorded");
     }
 
     @Test
@@ -1936,7 +1972,7 @@ public class Oas31IrComplianceTest {
         for (int chunk = 0; chunk < chunks.size(); chunk++) {
             Path source = chunks.get(chunk);
             String content = Files.readString(source);
-            int nodesInChunk = countOccurrences(
+            int nodesInChunk = CppBoostBeastTestSupport.countOccurrences(
                     content, "reg.nodes.push_back(std::move(n));");
             Assert.assertTrue(nodesInChunk > 0 && nodesInChunk < expectedNodes,
                     "each generated source must contain a proper node partition");
@@ -1984,15 +2020,6 @@ public class Oas31IrComplianceTest {
         return ir.substring(start, end);
     }
 
-    private static int countOccurrences(String text, String needle) {
-        int count = 0;
-        int offset = 0;
-        while ((offset = text.indexOf(needle, offset)) >= 0) {
-            count++;
-            offset += needle.length();
-        }
-        return count;
-    }
 
 
 }

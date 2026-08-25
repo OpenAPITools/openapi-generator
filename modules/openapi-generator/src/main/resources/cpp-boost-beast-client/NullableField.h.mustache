@@ -97,6 +97,14 @@ public:
         missing_ = false;
     }
 
+    /// Marks an effective default as explicitly present without changing its value.
+    /// Missing fields without an effective value remain missing.
+    void promotePresent() noexcept {
+        if (state_ != State::Missing) {
+            missing_ = false;
+        }
+    }
+
     /// Reset to missing with no effective value. Generated model decoders
     /// restore schema defaults with makeDefaultNull/makeDefaultValue instead.
     void resetMissing() {

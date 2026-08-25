@@ -14,6 +14,8 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import static org.openapitools.codegen.cppboostbeast.CppBoostBeastTestSupport.countOccurrences;
+import static org.openapitools.codegen.cppboostbeast.CppBoostBeastTestSupport.extractMethod;
 
 public class CppBoostBeastClientApiCodegenTest {
 
@@ -58,8 +60,10 @@ public class CppBoostBeastClientApiCodegenTest {
 
         Path generatedApiPath = generatedClientDirectory.resolve(Path.of("api", "RegressionApi.cpp"));
         Path generatedApiHeaderPath = generatedClientDirectory.resolve(Path.of("api", "RegressionApi.h"));
+        Path generatedHttpClientHeaderPath = generatedClientDirectory.resolve(Path.of("api", "HttpClient.h"));
         String generatedApiSource = Files.readString(generatedApiPath);
         String generatedApiHeader = Files.readString(generatedApiHeaderPath);
+        String generatedHttpClientHeader = Files.readString(generatedHttpClientHeaderPath);
 
         assertTrue(generatedApiHeader.contains("#include <boost/optional.hpp>"));
         assertTrue(generatedApiHeader.contains("#include <utility>"));
@@ -194,12 +198,12 @@ public class CppBoostBeastClientApiCodegenTest {
                 "Optional multipart inputs must be omitted when their storage is disengaged");
         assertTrue(multipartMethod.contains("toFormParameterValue(*description)"),
                 "Engaged optional multipart values must serialize their contained value");
-        assertTrue(generatedApiSource.contains("std::string filename;"));
-        assertTrue(generatedApiSource.contains(
+        assertTrue(generatedHttpClientHeader.contains("std::string filename;"));
+        assertTrue(generatedHttpClientHeader.contains(
                 "escapeMultipartParameter(formParameter.filename)"));
-        assertTrue(generatedApiSource.contains("attempt < 16"),
+        assertTrue(generatedHttpClientHeader.contains("attempt < 16"),
                 "Multipart boundary collision retries must remain bounded");
-        assertTrue(generatedApiSource.contains(
+        assertTrue(generatedHttpClientHeader.contains(
                 "validateMultipartHeaderValue(formParameter.contentType)"),
                 "Multipart content types must reject header injection");
 
@@ -308,23 +312,32 @@ public class CppBoostBeastClientApiCodegenTest {
         assertTrue(postSamePathMethod.contains("m_client->execute(\"POST\""));
     }
 
-    private static String extractMethod(String generatedApiSource, String methodSignature) {
-        int methodStart = generatedApiSource.indexOf(methodSignature);
-        assertTrue(methodStart >= 0, "Missing generated method: " + methodSignature);
-        int methodEnd = generatedApiSource.indexOf("\n}", methodStart);
-        assertTrue(methodEnd > methodStart, "Missing closing brace for generated method: " + methodSignature);
-        return generatedApiSource.substring(methodStart, methodEnd);
+    @Test
+    public void preservesExplicitRootServerOverrides() throws IOException {
+        Path testOutputRoot = Files.createDirectories(Path.of("target"));
+        Path generatedClientDirectory = Files.createTempDirectory(
+                testOutputRoot, "cpp-boost-beast-server-override");
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_0/cpp-boost-beast-client/"
+                        + "server-override-regression.yaml")
+                .setOutputDir(generatedClientDirectory.toString());
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        String generatedApiSource = Files.readString(
+                generatedClientDirectory.resolve(Path.of("api", "ServerOverrideApi.cpp")));
+        assertTrue(extractMethod(generatedApiSource, "ServerOverrideApi::getRoot(").contains(
+                "operationServerPrefix(m_context, \"/\") + \"/root\""));
+        assertTrue(extractMethod(generatedApiSource, "ServerOverrideApi::getPathRoot(").contains(
+                "operationServerPrefix(m_context, \"/\") + \"/path-root\""));
+        assertTrue(extractMethod(generatedApiSource, "ServerOverrideApi::getOperationRoot(").contains(
+                "operationServerPrefix(m_context, \"/\") + \"/operation-root\""));
+        assertTrue(extractMethod(generatedApiSource, "ServerOverrideApi::getRelative(").contains(
+                "operationServerPrefix(m_context, \"api\") + \"/relative\""));
     }
 
-    private static int countOccurrences(String source, String expectedText) {
-        int occurrenceCount = 0;
-        int searchPosition = 0;
-        while ((searchPosition = source.indexOf(expectedText, searchPosition)) >= 0) {
-            occurrenceCount++;
-            searchPosition += expectedText.length();
-        }
-        return occurrenceCount;
-    }
 
     @Test
     public void mProfileDestinationDomainsAndFeatureSet() throws IOException {

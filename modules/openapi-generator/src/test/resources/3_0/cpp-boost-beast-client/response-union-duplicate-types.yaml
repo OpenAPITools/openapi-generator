@@ -33,6 +33,8 @@ paths:
                 $ref: '#/components/schemas/FullResource'
         '204':
           description: No Content — bodyless success
+        '400':
+          description: Non-union client error after successful responses
 components:
   schemas:
     CreateRequest:

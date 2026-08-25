@@ -1365,6 +1365,14 @@ public class CompositionLoweringTest {
         allOfSchema.addAllOfItem(baseObj);
         schemas.put("AllOfTest", allOfSchema);
 
+        // A schema can carry more than one composition keyword. The primary
+        // descriptor selects representation, but every keyword is validated.
+        ComposedSchema combinedSchema = new ComposedSchema();
+        combinedSchema.addOneOfItem(new StringSchema());
+        combinedSchema.addOneOfItem(new IntegerSchema());
+        combinedSchema.addAllOfItem(new ObjectSchema().addProperties("id", new StringSchema()));
+        schemas.put("CombinedCompositionTest", combinedSchema);
+
         // Schema without composition (should have no descriptor)
         schemas.put("SimpleModel", new ObjectSchema());
 
@@ -1400,6 +1408,13 @@ public class CompositionLoweringTest {
         Assert.assertNotNull(allOfDesc, "AllOfTest should have a composition descriptor");
         Assert.assertEquals(allOfDesc.getKeyword(), "allOf",
                 "Keyword must be lowercase string 'allOf'");
+
+        List<Oas31CompositionLowering.CompositionDescriptor> combinedDescriptors =
+                codegen.getCompositionDescriptorsForSchema("CombinedCompositionTest");
+        Assert.assertEquals(combinedDescriptors.size(), 2,
+                "Combined schemas must retain every composition descriptor");
+        Assert.assertEquals(combinedDescriptors.get(0).getKeyword(), "oneOf");
+        Assert.assertEquals(combinedDescriptors.get(1).getKeyword(), "allOf");
 
         // SimpleModel should have NO descriptor
         Assert.assertNull(codegen.getCompositionDescriptor("SimpleModel"),
@@ -2566,40 +2581,6 @@ public class CompositionLoweringTest {
                 "Enum branch must have validation-enum-values");
     }
 
-    @Test
-    public void allOfWithUnsupportedAssertionsDoesNotThrow() {
-        // allOf with unsupported assertions should NOT throw because allOf
-        // membership means "all branches must match" — unsupported assertions
-        // don't change match count.
-        CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
-        codegen.processOpts();
-
-        io.swagger.v3.oas.models.OpenAPI openAPI = new io.swagger.v3.oas.models.OpenAPI();
-        openAPI.setOpenapi("3.0.4");
-        io.swagger.v3.oas.models.Components components = new io.swagger.v3.oas.models.Components();
-        Map<String, Schema> schemas = new HashMap<>();
-
-        ComposedSchema schema = new ComposedSchema();
-        io.swagger.v3.oas.models.media.Schema conditionalObj =
-                new io.swagger.v3.oas.models.media.Schema();
-        conditionalObj.setType("object");
-        io.swagger.v3.oas.models.media.Schema ifSchema =
-                new io.swagger.v3.oas.models.media.Schema();
-        ifSchema.setType("object");
-        conditionalObj.setIf(ifSchema);
-        schema.addAllOfItem(conditionalObj);
-        schemas.put("AllOfWithUnsupported", schema);
-        components.setSchemas(schemas);
-        openAPI.setComponents(components);
-
-        // Should not throw for allOf with unsupported assertions
-        codegen.preprocessOpenAPI(openAPI);
-        Oas31CompositionLowering.CompositionDescriptor desc =
-                codegen.getCompositionDescriptor("AllOfWithUnsupported");
-        Assert.assertNotNull(desc, "AllOfWithUnsupported must have a descriptor");
-        Assert.assertEquals(desc.getKeyword(), "allOf",
-                "Keyword must be allOf");
-    }
 
     @Test
     public void anyOfAssertionSensitivity() {

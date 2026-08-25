@@ -22,12 +22,11 @@ public class DynamicRefParserRetentionTest {
             + "  \"components\": {\"schemas\": {\n"
             + "    \"S\": {\n"
             + "      \"type\": \"array\",\n"
+            + "      \"$dynamicAnchor\": \"items\",\n"
+            + "      \"$anchor\": \"plain\",\n"
+            + "      \"$id\": \"urn:embedded\",\n"
             + "      \"items\": {\"$dynamicRef\": \"#items\"},\n"
-            + "      \"x-oas31-resource\": 7,\n"
-            + "      \"$defs\": {\n"
-            + "        \"foo\": {\"$dynamicAnchor\": \"items\", \"type\": \"string\"},\n"
-            + "        \"bar\": {\"$anchor\": \"plain\", \"$id\": \"urn:embedded\", \"type\": \"number\"}\n"
-            + "      }\n"
+            + "      \"x-oas31-resource\": 7\n"
             + "    }\n"
             + "  }}\n"
             + "}";
@@ -43,6 +42,12 @@ public class DynamicRefParserRetentionTest {
         Assert.assertNotNull(items, "items must parse");
         Assert.assertEquals(items.get$dynamicRef(), "#items",
                 "$dynamicRef must be retained verbatim, not resolved/dropped");
+        Assert.assertEquals(s.get$dynamicAnchor(), "items",
+                "$dynamicAnchor must be retained for dynamic-scope registration");
+        Assert.assertEquals(s.get$anchor(), "plain",
+                "$anchor must be retained verbatim");
+        Assert.assertEquals(s.get$id(), "urn:embedded",
+                "embedded $id must be retained verbatim");
         Object resExt = s.getExtensions() == null ? null : s.getExtensions().get("x-oas31-resource");
         Assert.assertEquals(String.valueOf(resExt), "7",
                 "x-oas31 extension marker must survive parsing");

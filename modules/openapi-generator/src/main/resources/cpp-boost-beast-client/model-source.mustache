@@ -46,6 +46,7 @@
 {{#imports}}{{{this}}}
 {{/imports}}
 #include <map>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -112,6 +113,15 @@ struct VariantJsonHelper<std::map<std::string, MappedValue>> {
             result[entry.first] = VariantJsonHelper<MappedValue>::toJsonValue(entry.second);
         }
         return result;
+    }
+};
+
+// Specialization for cyclic model branches stored through shared ownership.
+template <typename Element>
+struct VariantJsonHelper<std::shared_ptr<Element>> {
+    static boost::json::value toJsonValue(const std::shared_ptr<Element>& v) {
+        return v == nullptr ? boost::json::value(nullptr)
+                            : VariantJsonHelper<Element>::toJsonValue(*v);
     }
 };
 
@@ -240,6 +250,16 @@ bool tryParseBranch(boost::json::value const& value, T& result, std::string* err
             Inner converted;
             if (!tryParseBranch(value, converted, errorPath)) return false;
             result = std::move(converted);
+            return true;
+        } else if constexpr (IsSpecialization<T, std::shared_ptr>{}) {
+            if (value.is_null()) {
+                result.reset();
+                return true;
+            }
+            using Element = typename T::element_type;
+            Element converted;
+            if (!tryParseBranch(value, converted, errorPath)) return false;
+            result = std::make_shared<Element>(std::move(converted));
             return true;
         } else if constexpr (IsSpecialization<T, std::variant>{}) {
             // Nested variant — dispatch through tryVariantBranches, which
@@ -538,6 +558,7 @@ ValidationResult validate_{{validator-id}}(
     // order must never override the validator's decision.
     auto convertMatchedBranch = [&]() -> void {
         {{#vendorExtensions.x-cpp-has-duplicate-types}}
+        {{#validateOnDecode}}
         {{#vendorExtensions.x-cpp-composition-branches}}
         {{#branches}}
         {{#inner-cpp-type}}
@@ -553,6 +574,28 @@ ValidationResult validate_{{validator-id}}(
         {{/inner-cpp-type}}
         {{/branches}}
         {{/vendorExtensions.x-cpp-composition-branches}}
+        {{/validateOnDecode}}
+        {{^validateOnDecode}}
+        // Validation is disabled, so duplicate storage tags cannot be selected
+        // by schema identity. Retain the non-duplicate variant behavior and
+        // choose the first representation that can decode the value.
+        {{#vendorExtensions.x-cpp-composition-branches}}
+        {{#branches}}
+        {{#inner-cpp-type}}
+        {
+            {{{inner-cpp-type}}} converted;
+            if (tryParseBranch(value, converted, &errorPath)) {
+                result = {{classname}}({{{storage-cpp-type}}}{std::move(converted)});
+                return;
+            }
+        }
+        {{/inner-cpp-type}}
+        {{/branches}}
+        {{/vendorExtensions.x-cpp-composition-branches}}
+        throw std::invalid_argument(
+            "No matching branch for {{classname}} from JSON value at '"
+            + errorPath + "'");
+        {{/validateOnDecode}}
         {{/vendorExtensions.x-cpp-has-duplicate-types}}
         {{^vendorExtensions.x-cpp-has-duplicate-types}}
         {{#validateOnDecode}}
@@ -1497,9 +1540,11 @@ boost::json::object {{classname}}::toJsonObject_internal() const
     {{#vars}}
     {{^vendorExtensions.x-cpp-reject-if-present}}
     {{#vendorExtensions.x-cpp-const}}
+    {{#required}}
     {{#vendorExtensions.x-cpp-const-inline-value}}
     object["{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"] = JsonValueConverter<{{{dataType}}}>::toJsonValue({{{vendorExtensions.x-cpp-const-inline-value}}});
     {{/vendorExtensions.x-cpp-const-inline-value}}
+    {{/required}}
     {{/vendorExtensions.x-cpp-const}}
     {{^vendorExtensions.x-cpp-const}}
     {{#parent}}
@@ -1748,6 +1793,9 @@ void {{classname}}::{{setter}}({{{dataType}}} value)
         throw std::runtime_error(errorMessage.str());
     }{{/vendorExtensions.x-cpp-enum-value-type}}
     {{/isContainer}}{{/isEnum}}
+    {{#vendorExtensions.x-cpp-nullable-field}}
+    value.promotePresent();
+    {{/vendorExtensions.x-cpp-nullable-field}}
     {{#parent}}
     write{{name}}Property<{{{parent}}}>({{classname}}{{name}}PropertyIsInherited<{{{parent}}}>(), m_{{name}}, std::move(value));
     {{/parent}}

@@ -234,6 +234,12 @@ public final class Oas31CompositionLowering {
         private final Boolean rootExclusiveMinimum;
         /** Exclusive maximum flag. */
         private final Boolean rootExclusiveMaximum;
+        /** Numeric exclusive minimum selected for the synthetic schema. */
+        private final BigDecimal rootExclusiveMinimumValue;
+        /** Numeric exclusive maximum selected for the synthetic schema. */
+        private final BigDecimal rootExclusiveMaximumValue;
+        /** Strictest additionalProperties constraint across contributors. */
+        private final Object additionalProperties;
         /** Minimum string length (intersection takes the larger). */
         private final Integer rootMinLength;
         /** Maximum string length (intersection takes the smaller). */
@@ -245,7 +251,7 @@ public final class Oas31CompositionLowering {
             this(properties, required, isSatisfiable, unsatisfiableReason,
                     optionalImpossibleProperties,
                     null, null, null, null, null, null, null,
-                    null, null);
+                    null, null, null, null, null);
         }
 
         public AllOfIntersection(Map<String, Schema> properties, Set<String> required,
@@ -255,7 +261,10 @@ public final class Oas31CompositionLowering {
                                  Object rootConstValue,
                                  BigDecimal rootMinimum, BigDecimal rootMaximum,
                                  Boolean rootExclusiveMinimum, Boolean rootExclusiveMaximum,
-                                 Integer rootMinLength, Integer rootMaxLength) {
+                                 Integer rootMinLength, Integer rootMaxLength,
+                                 BigDecimal rootExclusiveMinimumValue,
+                                 BigDecimal rootExclusiveMaximumValue,
+                                 Object additionalProperties) {
             this.properties = properties != null
                     ? Collections.unmodifiableMap(new LinkedHashMap<>(properties))
                     : Collections.emptyMap();
@@ -278,6 +287,9 @@ public final class Oas31CompositionLowering {
             this.rootExclusiveMaximum = rootExclusiveMaximum;
             this.rootMinLength = rootMinLength;
             this.rootMaxLength = rootMaxLength;
+            this.rootExclusiveMinimumValue = rootExclusiveMinimumValue;
+            this.rootExclusiveMaximumValue = rootExclusiveMaximumValue;
+            this.additionalProperties = additionalProperties;
         }
 
         public Map<String, Schema> getProperties() { return properties; }
@@ -294,6 +306,13 @@ public final class Oas31CompositionLowering {
         public Boolean getRootExclusiveMaximum() { return rootExclusiveMaximum; }
         public Integer getRootMinLength() { return rootMinLength; }
         public Integer getRootMaxLength() { return rootMaxLength; }
+        public BigDecimal getRootExclusiveMinimumValue() {
+            return rootExclusiveMinimumValue;
+        }
+        public BigDecimal getRootExclusiveMaximumValue() {
+            return rootExclusiveMaximumValue;
+        }
+        public Object getAdditionalProperties() { return additionalProperties; }
     }
 
     /**
@@ -301,26 +320,42 @@ public final class Oas31CompositionLowering {
      * allOf branches. Returns null for non-composed schemas.
      * Records JSON Pointer locations for diagnostic use.
      */
+    static List<CompositionDescriptor> buildCompositionDescriptors(
+            String schemaName, Schema schema, OpenAPI openAPI,
+            Map<String, Schema> schemas) {
+        if (schema == null) return Collections.emptyList();
+
+        List<CompositionDescriptor> descriptors = new ArrayList<>();
+        addCompositionDescriptor(descriptors, schemaName, schema, openAPI, schemas,
+                "oneOf", schema.getOneOf());
+        addCompositionDescriptor(descriptors, schemaName, schema, openAPI, schemas,
+                "anyOf", schema.getAnyOf());
+        addCompositionDescriptor(descriptors, schemaName, schema, openAPI, schemas,
+                "allOf", schema.getAllOf());
+        return descriptors;
+    }
+
+    private static void addCompositionDescriptor(
+            List<CompositionDescriptor> descriptors, String schemaName, Schema schema,
+            OpenAPI openAPI, Map<String, Schema> schemas, String keyword,
+            List<Schema> branchSchemas) {
+        if (branchSchemas != null && !branchSchemas.isEmpty()) {
+            descriptors.add(buildCompositionDescriptor(
+                    schemaName, schema, openAPI, schemas, keyword, branchSchemas));
+        }
+    }
+
     static CompositionDescriptor buildCompositionDescriptor(
             String schemaName, Schema schema, OpenAPI openAPI,
             Map<String, Schema> schemas) {
-        if (schema == null) return null;
+        List<CompositionDescriptor> descriptors =
+                buildCompositionDescriptors(schemaName, schema, openAPI, schemas);
+        return descriptors.isEmpty() ? null : descriptors.get(0);
+    }
 
-        List<Schema> branchSchemas = null;
-        String keyword = null;
-
-        if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
-            branchSchemas = schema.getOneOf();
-            keyword = "oneOf";
-        } else if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
-            branchSchemas = schema.getAnyOf();
-            keyword = "anyOf";
-        } else if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
-            branchSchemas = schema.getAllOf();
-            keyword = "allOf";
-        }
-
-        if (branchSchemas == null) return null;
+    private static CompositionDescriptor buildCompositionDescriptor(
+            String schemaName, Schema schema, OpenAPI openAPI,
+            Map<String, Schema> schemas, String keyword, List<Schema> branchSchemas) {
 
         String schemaLocation = "#/components/schemas/" + schemaName;
         List<CompositionBranchDescriptor> branches = new ArrayList<>();
@@ -477,30 +512,39 @@ public final class Oas31CompositionLowering {
     }
 
     /**
-     * Checks a composition descriptor for unsupported branch assertions that
-     * can affect membership. Throws UnsupportedSchemaAssertionException when
-     * a branch has unsupportedAssertions that overlap with supportedAssertions
-     * in a way that changes membership fidelity.
+     * Fails generation when a composition branch has an assertion without a
+     * membership-preserving implementation.
      */
     static void validateDescriptorAssertions(CompositionDescriptor desc) {
         if (desc == null) return;
         for (CompositionBranchDescriptor branch : desc.getBranches()) {
             for (String unsupported : branch.getUnsupportedAssertions()) {
-                // `not` is always fail-closed: it flips membership, so every
-                // composition keyword must have explicit support.
-                // All other unsupported assertion categories stop generation
-                // for oneOf/anyOf only, since they can change membership count
-                // without a generated validator.
-                // allOf models are exempted from the non-not check because allOf
-                // membership means "all branches must match" — unsupported
-                // assertions don't change match count.
-                if ("not".equals(unsupported)) {
-                    // `not` always fails generation regardless of keyword
-                } else if ("allOf".equals(desc.getKeyword())) {
-                    continue; // non-not unsupported assertions exempted for allOf
-                }
                 throw new CppBoostBeastClientCodegen.UnsupportedSchemaAssertionException(
                         desc.getSchemaLocation(), unsupported);
+            }
+        }
+    }
+
+    /** Tracks the strictest bound at one end of a numeric allOf range. */
+    private static final class NumericBound {
+        private BigDecimal value;
+        private boolean exclusive;
+
+        private void mergeLower(BigDecimal candidate, boolean candidateExclusive) {
+            if (candidate == null) return;
+            if (value == null || candidate.compareTo(value) > 0
+                    || (candidate.compareTo(value) == 0 && candidateExclusive && !exclusive)) {
+                value = candidate;
+                exclusive = candidateExclusive;
+            }
+        }
+
+        private void mergeUpper(BigDecimal candidate, boolean candidateExclusive) {
+            if (candidate == null) return;
+            if (value == null || candidate.compareTo(value) < 0
+                    || (candidate.compareTo(value) == 0 && candidateExclusive && !exclusive)) {
+                value = candidate;
+                exclusive = candidateExclusive;
             }
         }
     }
@@ -562,6 +606,11 @@ public final class Oas31CompositionLowering {
         BigDecimal rootMaximum = null;
         Boolean rootExclusiveMinimumObj = null;
         Boolean rootExclusiveMaximumObj = null;
+        BigDecimal rootExclusiveMinimumValue = null;
+        BigDecimal rootExclusiveMaximumValue = null;
+        Object additionalProperties = null;
+        NumericBound lowerBound = new NumericBound();
+        NumericBound upperBound = new NumericBound();
         Integer rootMinLength = null;
         Integer rootMaxLength = null;
         boolean hasRootScalarConstraints = false;
@@ -585,6 +634,19 @@ public final class Oas31CompositionLowering {
                     }
                     // Propagate optional-impossible entries from nested
                     optionalImpossibleProperties.addAll(nested.getOptionalImpossibleProperties());
+                    additionalProperties = intersectAdditionalProperties(
+                            additionalProperties, nested.getAdditionalProperties(),
+                            openAPI, schemas);
+                    if (nested.getRootMinimum() != null) {
+                        lowerBound.mergeLower(nested.getRootMinimum(),
+                                Boolean.TRUE.equals(nested.getRootExclusiveMinimum()));
+                        hasRootScalarConstraints = true;
+                    }
+                    if (nested.getRootMaximum() != null) {
+                        upperBound.mergeUpper(nested.getRootMaximum(),
+                                Boolean.TRUE.equals(nested.getRootExclusiveMaximum()));
+                        hasRootScalarConstraints = true;
+                    }
                 }
             }
 
@@ -603,7 +665,7 @@ public final class Oas31CompositionLowering {
                     if (mergedProperties.containsKey(propName)) {
                         Schema existing = mergedProperties.get(propName);
                         Schema intersected = intersectPropertySchemas(
-                                existing, propSchema, openAPI, schemas, visited);
+                                existing, propSchema, openAPI, schemas, new HashSet<>());
                         mergedProperties.put(propName, intersected);
                     } else {
                         mergedProperties.put(propName, propSchema);
@@ -616,16 +678,11 @@ public final class Oas31CompositionLowering {
                 mergedRequired.addAll(resolvedBranch.getRequired());
             }
 
-            // Handle additionalProperties / closed-object semantics:
-            // If any contributor sets additionalProperties to false, the
-            // result is closed. If multiple contributors constrain the
-            // additional properties schema, use the stricter intersection.
-            // Preserve the strictest additionalProperties constraint available.
-            Object branchAddProps = resolvedBranch.getAdditionalProperties();
-            if (branchAddProps != null) {
-                // Track the constraint — but we don't currently produce a
-                // synthetic additionalProperties; we just note the constraint.
-            }
+            // A false constraint closes the object; schema constraints are
+            // intersected for the remaining open contributors.
+            additionalProperties = intersectAdditionalProperties(
+                    additionalProperties, resolvedBranch.getAdditionalProperties(),
+                    openAPI, schemas);
 
             // Accumulate root-level scalar constraints from non-object branches
             // (branches that contribute no properties).
@@ -679,42 +736,25 @@ public final class Oas31CompositionLowering {
                     }
                 }
 
-                // Intersect numeric bounds: minimum/maximum take tighter range
+                // Merge numeric bounds as value/exclusivity pairs so a smaller
+                // exclusive bound cannot make a larger inclusive bound strict.
                 if (resolvedBranch.getMinimum() != null) {
                     hasRootScalarConstraints = true;
-                    BigDecimal branchMin = resolvedBranch.getMinimum();
-                    if (rootMinimum == null || branchMin.compareTo(rootMinimum) > 0) {
-                        rootMinimum = branchMin;
-                    }
-                    // ExclusiveMinimum: take the more restrictive (larger value)
-                    if (Boolean.TRUE.equals(resolvedBranch.getExclusiveMinimum())
-                            || (resolvedBranch.getExclusiveMinimumValue() != null
-                            && resolvedBranch.getExclusiveMinimumValue().compareTo(BigDecimal.ZERO) > 0)) {
-                        rootExclusiveMinimumObj = Boolean.TRUE;
-                    } else if (rootExclusiveMinimumObj == null && !Boolean.FALSE.equals(resolvedBranch.getExclusiveMinimum())) {
-                        // OpenAPI 3.0 style: exclusiveMinimum is a boolean
-                        Object rawExclusiveMin = resolvedBranch.getExclusiveMinimum();
-                        if (rawExclusiveMin instanceof Boolean && Boolean.TRUE.equals(rawExclusiveMin)) {
-                            rootExclusiveMinimumObj = Boolean.TRUE;
-                        }
-                    }
+                    lowerBound.mergeLower(resolvedBranch.getMinimum(),
+                            Boolean.TRUE.equals(resolvedBranch.getExclusiveMinimum()));
+                }
+                if (resolvedBranch.getExclusiveMinimumValue() != null) {
+                    hasRootScalarConstraints = true;
+                    lowerBound.mergeLower(resolvedBranch.getExclusiveMinimumValue(), true);
                 }
                 if (resolvedBranch.getMaximum() != null) {
                     hasRootScalarConstraints = true;
-                    BigDecimal branchMax = resolvedBranch.getMaximum();
-                    if (rootMaximum == null || branchMax.compareTo(rootMaximum) < 0) {
-                        rootMaximum = branchMax;
-                    }
-                    if (Boolean.TRUE.equals(resolvedBranch.getExclusiveMaximum())
-                            || (resolvedBranch.getExclusiveMaximumValue() != null
-                            && resolvedBranch.getExclusiveMaximumValue().compareTo(BigDecimal.ZERO) > 0)) {
-                        rootExclusiveMaximumObj = Boolean.TRUE;
-                    } else if (rootExclusiveMaximumObj == null && !Boolean.FALSE.equals(resolvedBranch.getExclusiveMaximum())) {
-                        Object rawExclusiveMax = resolvedBranch.getExclusiveMaximum();
-                        if (rawExclusiveMax instanceof Boolean && Boolean.TRUE.equals(rawExclusiveMax)) {
-                            rootExclusiveMaximumObj = Boolean.TRUE;
-                        }
-                    }
+                    upperBound.mergeUpper(resolvedBranch.getMaximum(),
+                            Boolean.TRUE.equals(resolvedBranch.getExclusiveMaximum()));
+                }
+                if (resolvedBranch.getExclusiveMaximumValue() != null) {
+                    hasRootScalarConstraints = true;
+                    upperBound.mergeUpper(resolvedBranch.getExclusiveMaximumValue(), true);
                 }
 
                 // Intersect minLength / maxLength: tighter wins
@@ -778,6 +818,13 @@ public final class Oas31CompositionLowering {
             }
         }
 
+        rootMinimum = lowerBound.value;
+        rootMaximum = upperBound.value;
+        rootExclusiveMinimumObj = lowerBound.exclusive ? Boolean.TRUE : null;
+        rootExclusiveMaximumObj = upperBound.exclusive ? Boolean.TRUE : null;
+        rootExclusiveMinimumValue = lowerBound.exclusive ? lowerBound.value : null;
+        rootExclusiveMaximumValue = upperBound.exclusive ? upperBound.value : null;
+
         // If no scalar constraints were accumulated but properties exist, null out root fields
         if (!hasRootScalarConstraints) {
             rootScalarType = null;
@@ -789,6 +836,8 @@ public final class Oas31CompositionLowering {
             rootExclusiveMaximumObj = null;
             rootMinLength = null;
             rootMaxLength = null;
+            rootExclusiveMinimumValue = null;
+            rootExclusiveMaximumValue = null;
         }
 
         return new AllOfIntersection(
@@ -797,7 +846,9 @@ public final class Oas31CompositionLowering {
                 rootScalarType, rootEnumValues, rootConstValue,
                 rootMinimum, rootMaximum,
                 rootExclusiveMinimumObj, rootExclusiveMaximumObj,
-                rootMinLength, rootMaxLength);
+                rootMinLength, rootMaxLength,
+                rootExclusiveMinimumValue, rootExclusiveMaximumValue,
+                additionalProperties);
     }
 
     /**
@@ -823,6 +874,25 @@ public final class Oas31CompositionLowering {
         }
         mergedRequired.addAll(nested.getRequired());
         optionalImpossibleProperties.addAll(nested.getOptionalImpossibleProperties());
+    }
+
+    private static Object intersectAdditionalProperties(
+            Object existing, Object incoming, OpenAPI openAPI, Map<String, Schema> schemas) {
+        if (Boolean.FALSE.equals(existing) || Boolean.FALSE.equals(incoming)) {
+            return Boolean.FALSE;
+        }
+        if (existing instanceof Schema && incoming instanceof Schema) {
+            return intersectPropertySchemas((Schema) existing, (Schema) incoming,
+                    openAPI, schemas, new HashSet<>());
+        }
+        if (existing instanceof Schema) {
+            return existing;
+        }
+        if (incoming instanceof Schema) {
+            return incoming;
+        }
+        // true and an omitted constraint both leave additional values open.
+        return null;
     }
 
     /**
@@ -887,16 +957,57 @@ public final class Oas31CompositionLowering {
      * and the property should either fail generation (if required) or generate
      * decode-time rejection (if optional).
      */
+    private static Schema resolveReferenceWithSiblings(
+            Schema source, OpenAPI openAPI, Map<String, Schema> schemas, Set<String> visited) {
+        if (source == null || source.get$ref() == null) {
+            return source;
+        }
+        Schema target = ModelUtils.getReferencedSchema(openAPI, source);
+        if (target == null || target == source || !hasReferenceSiblings(source)) {
+            return target == null ? source : target;
+        }
+
+        String reference = source.get$ref();
+        source.set$ref(null);
+        try {
+            return intersectPropertySchemas(target, source, openAPI, schemas, visited);
+        } finally {
+            source.set$ref(reference);
+        }
+    }
+
+    private static boolean hasReferenceSiblings(Schema schema) {
+        return schema.getType() != null || schema.getTypes() != null
+                || schema.getEnum() != null || schema.getConst() != null
+                || schema.getMinimum() != null || schema.getMaximum() != null
+                || schema.getExclusiveMinimumValue() != null
+                || schema.getExclusiveMaximumValue() != null
+                || Boolean.TRUE.equals(schema.getExclusiveMinimum())
+                || Boolean.TRUE.equals(schema.getExclusiveMaximum())
+                || schema.getMultipleOf() != null || schema.getPattern() != null
+                || schema.getMinLength() != null || schema.getMaxLength() != null
+                || schema.getMinItems() != null || schema.getMaxItems() != null
+                || schema.getMinProperties() != null || schema.getMaxProperties() != null
+                || schema.getProperties() != null || schema.getRequired() != null
+                || schema.getAdditionalProperties() != null || schema.getNullable() != null;
+    }
+
     private static Schema intersectPropertySchemas(
             Schema existing, Schema incoming,
             OpenAPI openAPI, Map<String, Schema> schemas, Set<String> visited) {
         if (existing == null) return incoming;
         if (incoming == null) return existing;
 
-        // Resolve $ref on both sides before intersecting
-        // Property schemas may be unresolved $ref references to component schemas
-        existing = ModelUtils.getReferencedSchema(openAPI, existing);
-        incoming = ModelUtils.getReferencedSchema(openAPI, incoming);
+        String recursionKey = "<cpp-property-intersection>"
+                + System.identityHashCode(existing) + ':' + System.identityHashCode(incoming);
+        if (!visited.add(recursionKey)) {
+            return existing;
+        }
+
+        // Resolve $ref targets without discarding constraints attached to a
+        // 2020-12 reference node.
+        existing = resolveReferenceWithSiblings(existing, openAPI, schemas, visited);
+        incoming = resolveReferenceWithSiblings(incoming, openAPI, schemas, visited);
 
         // Both non-null: compute intersection
         String existingType = existing.getType();
@@ -962,45 +1073,50 @@ public final class Oas31CompositionLowering {
             intersected.setConst(incoming.getConst());
         }
 
-        // Numeric bounds: take the tighter bound (higher min, lower max)
-        if (existing.getMinimum() != null || incoming.getMinimum() != null) {
-            java.math.BigDecimal existingMin = existing.getMinimum();
-            java.math.BigDecimal incomingMin = incoming.getMinimum();
-            if (existingMin == null) {
-                intersected.setMinimum(incomingMin);
-                intersected.setExclusiveMinimum(incoming.getExclusiveMinimum());
-            } else if (incomingMin == null) {
-                intersected.setMinimum(existingMin);
-                intersected.setExclusiveMinimum(existing.getExclusiveMinimum());
-            } else {
-                // Compare: take the larger (tighter) minimum
-                if (existingMin.compareTo(incomingMin) >= 0) {
-                    intersected.setMinimum(existingMin);
-                    intersected.setExclusiveMinimum(existing.getExclusiveMinimum());
-                } else {
-                    intersected.setMinimum(incomingMin);
-                    intersected.setExclusiveMinimum(incoming.getExclusiveMinimum());
-                }
+        // Numeric bounds are compared as value/exclusivity pairs. A strict
+        // bound matters only when it is the tightest bound at that endpoint.
+        NumericBound lowerBound = new NumericBound();
+        NumericBound upperBound = new NumericBound();
+        if (existing.getMinimum() != null) {
+            lowerBound.mergeLower(existing.getMinimum(),
+                    Boolean.TRUE.equals(existing.getExclusiveMinimum()));
+        }
+        if (existing.getExclusiveMinimumValue() != null) {
+            lowerBound.mergeLower(existing.getExclusiveMinimumValue(), true);
+        }
+        if (incoming.getMinimum() != null) {
+            lowerBound.mergeLower(incoming.getMinimum(),
+                    Boolean.TRUE.equals(incoming.getExclusiveMinimum()));
+        }
+        if (incoming.getExclusiveMinimumValue() != null) {
+            lowerBound.mergeLower(incoming.getExclusiveMinimumValue(), true);
+        }
+        if (lowerBound.value != null) {
+            intersected.setMinimum(lowerBound.value);
+            if (lowerBound.exclusive) {
+                intersected.setExclusiveMinimum(true);
+                intersected.setExclusiveMinimumValue(lowerBound.value);
             }
         }
-        if (existing.getMaximum() != null || incoming.getMaximum() != null) {
-            java.math.BigDecimal existingMax = existing.getMaximum();
-            java.math.BigDecimal incomingMax = incoming.getMaximum();
-            if (existingMax == null) {
-                intersected.setMaximum(incomingMax);
-                intersected.setExclusiveMaximum(incoming.getExclusiveMaximum());
-            } else if (incomingMax == null) {
-                intersected.setMaximum(existingMax);
-                intersected.setExclusiveMaximum(existing.getExclusiveMaximum());
-            } else {
-                // Compare: take the smaller (tighter) maximum
-                if (existingMax.compareTo(incomingMax) <= 0) {
-                    intersected.setMaximum(existingMax);
-                    intersected.setExclusiveMaximum(existing.getExclusiveMaximum());
-                } else {
-                    intersected.setMaximum(incomingMax);
-                    intersected.setExclusiveMaximum(incoming.getExclusiveMaximum());
-                }
+        if (existing.getMaximum() != null) {
+            upperBound.mergeUpper(existing.getMaximum(),
+                    Boolean.TRUE.equals(existing.getExclusiveMaximum()));
+        }
+        if (existing.getExclusiveMaximumValue() != null) {
+            upperBound.mergeUpper(existing.getExclusiveMaximumValue(), true);
+        }
+        if (incoming.getMaximum() != null) {
+            upperBound.mergeUpper(incoming.getMaximum(),
+                    Boolean.TRUE.equals(incoming.getExclusiveMaximum()));
+        }
+        if (incoming.getExclusiveMaximumValue() != null) {
+            upperBound.mergeUpper(incoming.getExclusiveMaximumValue(), true);
+        }
+        if (upperBound.value != null) {
+            intersected.setMaximum(upperBound.value);
+            if (upperBound.exclusive) {
+                intersected.setExclusiveMaximum(true);
+                intersected.setExclusiveMaximumValue(upperBound.value);
             }
         }
         if (existing.getMultipleOf() != null || incoming.getMultipleOf() != null) {
@@ -1046,6 +1162,13 @@ public final class Oas31CompositionLowering {
         intersected.setMaxProperties(tighterMaxLen(
                 existing.getMaxProperties(), incoming.getMaxProperties()));
 
+        Object additionalProperties = intersectAdditionalProperties(
+                existing.getAdditionalProperties(), incoming.getAdditionalProperties(),
+                openAPI, schemas);
+        if (additionalProperties != null) {
+            intersected.setAdditionalProperties(additionalProperties);
+        }
+
         // Recursive property intersection for nested object schemas
         // (properties on properties)
         Map<String, Schema> existingProperties = existing.getProperties();
@@ -1082,6 +1205,7 @@ public final class Oas31CompositionLowering {
             extensions.put("x-cpp-unsatisfiable", true);
         }
 
+        visited.remove(recursionKey);
         return intersected;
     }
 
@@ -1206,6 +1330,12 @@ public final class Oas31CompositionLowering {
         if (intersection.getRootExclusiveMaximum() != null) {
             synthetic.setExclusiveMaximum(intersection.getRootExclusiveMaximum());
         }
+        if (intersection.getRootExclusiveMinimumValue() != null) {
+            synthetic.setExclusiveMinimumValue(intersection.getRootExclusiveMinimumValue());
+        }
+        if (intersection.getRootExclusiveMaximumValue() != null) {
+            synthetic.setExclusiveMaximumValue(intersection.getRootExclusiveMaximumValue());
+        }
 
         // Apply intersected string length bounds
         if (intersection.getRootMinLength() != null) {
@@ -1250,6 +1380,10 @@ public final class Oas31CompositionLowering {
                 }
             }
             synthetic.setProperties(syntheticProps);
+        }
+
+        if (intersection.getAdditionalProperties() != null) {
+            synthetic.setAdditionalProperties(intersection.getAdditionalProperties());
         }
 
         // Set required as the union of required from all contributors
@@ -1623,9 +1757,18 @@ public final class Oas31CompositionLowering {
             }
         }
 
-        // Rule 7: Single branch after dedup (including oneOf alias chains that
-        // resolve to the same underlying C++ type without enum/open-string mix).
+        // Rule 7: A single non-null type can still be nullable after the
+        // duplicate null branches were removed. anyOf can use optional storage;
+        // oneOf retains an explicit null alternative so validation can reject
+        // duplicate-null matches before accepting a value.
         if (deduped.size() == 1) {
+            boolean hasNull = branchTypes.stream().anyMatch("std::nullptr_t"::equals);
+            if (hasNull) {
+                if ("anyOf".equals(composedKeyword)) {
+                    return "std::optional<" + deduped.get(0) + ">";
+                }
+                return "std::variant<" + deduped.get(0) + ", std::nullptr_t>";
+            }
             return deduped.get(0);
         }
 

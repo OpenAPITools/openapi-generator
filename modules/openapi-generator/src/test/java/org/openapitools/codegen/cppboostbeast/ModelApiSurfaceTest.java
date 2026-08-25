@@ -297,11 +297,27 @@ public class ModelApiSurfaceTest {
     }
 
     @Test
+    public void generatesAdditionalNullableObjectRegressionFixture() throws IOException {
+        File output = Files.createTempDirectory("cpp-boost-beast-nullable-object-fixture").toFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/"
+                        + "nullable-object-regression.yaml")
+                .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path nullableRootHeader = output.toPath().resolve("model/NullableObjectRoot.h");
+        TestUtils.assertFileExists(nullableRootHeader);
+        Assert.assertTrue(Files.readString(nullableRootHeader).contains("hasOptionalValue()"),
+                "nullable object roots from the regression fixture must expose null state");
+    }
+
+    @Test
     public void generatesOptionalNullableTriState() throws IOException {
-        // Optional nullable property must preserve missing, null, and value.
+        // Optional nullable properties must preserve missing, null, and value.
         // The tri-state requires a Nullable<T>-like field wrapper, not just an IsSet bool.
-        // CURRENT BROKEN BEHAVIOUR: the generator emits only an IsSet flag, which cannot
-        // distinguish missing from explicit null.  This test locks the tri-state gap.
         File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-tri-state").toFile();
         output.deleteOnExit();
 
@@ -391,9 +407,8 @@ public class ModelApiSurfaceTest {
         TestUtils.assertFileExists(output.toPath().resolve("model/SummaryResource.h"));
         TestUtils.assertFileExists(output.toPath().resolve("model/CreateRequest.h"));
 
-        // The API source must contain status-branch dispatch for 200, 201, and 204.
-        // Currently the generator does NOT produce a status-aware response union —
-        // this locks the failing behaviour.  The API should reference all three statuses.
+        // The API source must dispatch the declared 200, 201, and 204 responses
+        // through its status-aware response union.
         Path apiSource = output.toPath().resolve("api/DefaultApi.cpp");
         TestUtils.assertFileExists(apiSource);
         String apiContent = java.nio.file.Files.readString(apiSource);
@@ -520,6 +535,9 @@ public class ModelApiSurfaceTest {
         // The variant must also include std::monostate for the 204 no-content branch.
         Assert.assertTrue(headerContent.contains("std::monostate"),
                 "Response union must include std::monostate for 204 no-content");
+
+        Assert.assertFalse(headerContent.contains("std::monostate,\n    > body"),
+                "Only union-eligible responses may determine variant commas");
 
         // The body type must be the SAME shared_ptr<FullResource> unwrapped type.
         String statusTaggedPattern200
@@ -1071,7 +1089,7 @@ public class ModelApiSurfaceTest {
                 "std::function<bool(const Evt &, const SseEvent &)> onEvent"));
         Assert.assertTrue(source.contains("parseExactJson(event.data)"));
         Assert.assertTrue(source.contains("fromJsonValue_Evt(exactEvent.value)"));
-        Assert.assertTrue(source.contains("if (event.data == \"[DONE]\") return true;"));
+        Assert.assertTrue(source.contains("if (event.data == \"[DONE]\") return false;"));
         Assert.assertFalse(source.contains("appendParsedEvent"));
     }
 
@@ -1329,7 +1347,8 @@ public class ModelApiSurfaceTest {
                 true,
                 "Generated clients must tolerate non-conforming null responses by default");
 
-        Path output = Files.createTempDirectory(Path.of("target"), "cpp-boost-beast-null-tolerance-");
+        Path testOutputRoot = Files.createDirectories(Path.of("target"));
+        Path output = Files.createTempDirectory(testOutputRoot, "cpp-boost-beast-null-tolerance-");
         output.toFile().deleteOnExit();
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")
@@ -1350,7 +1369,7 @@ public class ModelApiSurfaceTest {
                 "Compatibility mode must still reject a missing required key");
 
         Path strictOutput = Files.createTempDirectory(
-                Path.of("target"), "cpp-boost-beast-strict-null-");
+                testOutputRoot, "cpp-boost-beast-strict-null-");
         strictOutput.toFile().deleteOnExit();
         CodegenConfigurator strictConfigurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-client")

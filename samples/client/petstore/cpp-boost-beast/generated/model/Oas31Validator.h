@@ -804,11 +804,12 @@ private:
 
     /// Dynamic replacement applies only when the initial target declares the
     /// same dynamic anchor. Pure refs between the wrapper and declaration are
-    /// followed, with a bounded guard against malformed cycles.
+    /// followed until the chain ends or repeats.
     bool dynamicAnchorEligible(SchemaIndex wrapperIndex,
                                std::string const& name) const {
         SchemaIndex cur = wrapperIndex;
-        for (int hop = 0; hop < 16 && cur != kNoSchema; ++hop) {
+        std::set<SchemaIndex> visited;
+        while (cur != kNoSchema && visited.insert(cur).second) {
             SchemaNode const& w = registry_.node(cur);
             if (w.dynamicAnchorName == name) return true;
             // wrapper rows carry the anchored content as their oneOf child
@@ -1016,9 +1017,9 @@ private:
         return ValidationResult::valid();
     }
 
-    /// if/then/else: the `if` guard and the selected branch evaluate independently
-    /// against the keyword-entry coverage. Successful annotations are merged only
-    /// after both have run; the not-applied branch never executes.
+    /// if/then/else: the `if` guard selects the branch but contributes neither
+    /// annotations nor evaluated coverage. The selected branch evaluates against
+    /// the keyword-entry coverage; only its successful output is merged.
     ValidationResult walkConditional(SchemaNode const& node,
                                      RawInstance const& instance,
                                      ValidationPath& path,
@@ -1026,9 +1027,15 @@ private:
         if (!node.hasIf) return ValidationResult::valid();
         std::set<std::string> accProps;
         std::set<std::size_t> accItems;
-        ValidationResult ifRes = ctx.evaluateAndCaptureValid(
-            [&] { return this->validate(node.ifSchema, instance, path, ctx); },
-            accProps, accItems);
+        ValidationContext::Branch guard = ctx.beginBranch();
+        ValidationResult ifRes;
+        try {
+            ifRes = this->validate(node.ifSchema, instance, path, ctx);
+        } catch (...) {
+            ctx.rollbackBranch(guard);
+            throw;
+        }
+        ctx.rollbackBranch(guard);
         if (ifRes.success && node.hasThen) {
             ValidationResult r = ctx.evaluateAndCaptureValid(
                 [&] { return this->validate(node.thenSchema, instance, path, ctx); },

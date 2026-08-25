@@ -87,20 +87,6 @@ inline std::string normalizeMediaType(const std::string& contentType) {
 }
 }
 
-struct FormParameter {
-    FormParameter(std::string parameterName, std::string parameterValue, bool file,
-                  std::string contentType = "", std::string fileName = "")
-        : name(std::move(parameterName)), value(std::move(parameterValue)),
-          isFile(file), contentType(std::move(contentType)),
-          filename(std::move(fileName)) {
-    }
-
-    std::string name;
-    std::string value;
-    bool isFile;
-    std::string contentType;
-    std::string filename;
-};
 
 template<typename T>
 bool hasFormParameterValue(const T&) noexcept {
@@ -201,7 +187,6 @@ typename std::enable_if<!HasFormToJsonValue<T>::value, std::string>::type
 toFormParameterValue(const std::vector<T>& values);
 
 // Model classes: serialize via toJsonValue() as JSON.
-template<typename T>
 typename std::enable_if<HasFormToJsonValue<T>::value, std::string>::type
 toFormParameterValue(const T& value) {
     return boost::json::serialize(value.toJsonValue());
@@ -446,13 +431,16 @@ inline std::string serverPathPrefix(const std::string& serverUrl) {
     // layer always passes origin-form targets. An absolute server URL
     // contributes only its PATH prefix; a server host different from the
     // caller's HttpClient configuration must be pointed at by the caller
-    // (documented seam). Relative server URLs pass through unchanged.
+    // (documented seam). Relative server URLs are normalized to origin form.
     std::string s = serverUrl;
     const std::string authoritySeparator = "://";
     const std::size_t authority = s.find(authoritySeparator);
     if (authority != std::string::npos) {
         const std::size_t slash = s.find('/', authority + authoritySeparator.size());
         s = slash == std::string::npos ? std::string() : s.substr(slash);
+    }
+    if (!s.empty() && s.front() != '/') {
+        s.insert(s.begin(), '/');
     }
     // drop trailing slashes (the request path always begins with '/'),
     // including the lone root slash ('' is the correct empty prefix)
@@ -816,78 +804,6 @@ inline std::string serializeUrlEncodedFormData(const std::vector<FormParameter>&
     return serializedFormData.str();
 }
 
-inline std::string selectMultipartBoundary(const std::vector<FormParameter>& formParameters) {
-    static const char hexDigits[] = "0123456789abcdef";
-    for (std::size_t attempt = 0; attempt < 16; ++attempt) {
-        std::string boundary = "OpenAPIGeneratorBoundary";
-        if (attempt != 0) {
-            std::random_device entropy;
-            boundary.reserve(57);
-            for (std::size_t wordIndex = 0; wordIndex < 4; ++wordIndex) {
-                std::uint32_t word = static_cast<std::uint32_t>(entropy());
-                for (std::size_t nibble = 0; nibble < 8; ++nibble) {
-                    boundary.push_back(hexDigits[word & 0x0FU]);
-                    word >>= 4U;
-                }
-            }
-            boundary.push_back(hexDigits[attempt & 0x0FU]);
-        }
-        const auto collision = std::find_if(
-            formParameters.cbegin(),
-            formParameters.cend(),
-            [&boundary](const FormParameter& formParameter) {
-                return formParameter.value.find(boundary) != std::string::npos;
-            });
-        if (collision == formParameters.cend()) {
-            return boundary;
-        }
-    }
-    throw std::runtime_error("Unable to select a collision-free multipart boundary");
-}
-
-inline void validateMultipartHeaderValue(const std::string& value) {
-    if (value.find_first_of("\r\n") != std::string::npos) {
-        throw std::invalid_argument("Multipart header value contains CR or LF");
-    }
-}
-
-inline std::string escapeMultipartParameter(const std::string& value) {
-    validateMultipartHeaderValue(value);
-    std::string escapedValue;
-    escapedValue.reserve(value.size());
-    for (const char character : value) {
-        if (character == '\\' || character == '"') {
-            escapedValue.push_back('\\');
-        }
-        escapedValue.push_back(character);
-    }
-    return escapedValue;
-}
-
-inline std::string serializeMultipartFormData(
-    const std::vector<FormParameter>& formParameters,
-    const std::string& boundary) {
-    std::stringstream serializedFormData;
-    for (const auto& formParameter : formParameters) {
-        serializedFormData << "--" << boundary << "\r\n"
-                           << "Content-Disposition: form-data; name=\""
-                           << escapeMultipartParameter(formParameter.name) << '"';
-        if (formParameter.isFile) {
-            serializedFormData << "; filename=\""
-                               << escapeMultipartParameter(formParameter.filename) << '"';
-        }
-        serializedFormData << "\r\n";
-        if (!formParameter.contentType.empty()) {
-            validateMultipartHeaderValue(formParameter.contentType);
-            serializedFormData << "Content-Type: " << formParameter.contentType << "\r\n";
-        } else if (formParameter.isFile) {
-            serializedFormData << "Content-Type: application/octet-stream\r\n";
-        }
-        serializedFormData << "\r\n" << formParameter.value << "\r\n";
-    }
-    serializedFormData << "--" << boundary << "--\r\n";
-    return serializedFormData.str();
-}
 
 namespace {
 
@@ -1201,6 +1117,16 @@ bool tryParseBranch(const boost::json::value& value, T& result) {
             if (value.is_int64()) { result = static_cast<double>(value.as_int64()); return true; }
             if (value.is_uint64()) { result = static_cast<double>(value.as_uint64()); return true; }
             return false;
+        } else if constexpr (std::is_same_v<T, float>) {
+            double converted;
+            if (!tryParseBranch(value, converted)
+                    || !std::isfinite(converted)
+                    || converted < static_cast<double>((std::numeric_limits<float>::lowest)())
+                    || converted > static_cast<double>((std::numeric_limits<float>::max)())) {
+                return false;
+            }
+            result = static_cast<float>(converted);
+            return true;
         } else if constexpr (std::is_same_v<T, boost::json::value>) {
             result = value;
             return true;

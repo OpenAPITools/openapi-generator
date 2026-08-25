@@ -42,25 +42,22 @@ public class DependentRequiredParserRetentionTest {
         Map<String, List<String>> m = member.getDependentRequired();
         assertNotNull(m, "dependentRequired must be read");
         assertEquals(2, m.size(), "both triggers must survive");
-        // Exotic keys survive; the REQUIRED LISTS are the corruption (merged).
-        // 1) first trigger's list claims the second trigger's member too;
-        // 2) both triggers share the SAME list object.
+        // The first trigger originally requires only the carriage-return
+        // member. Its parsed list additionally containing the quoted member
+        // is the signature of swagger-parser's merged-list corruption.
         List<String> first = null;
-        boolean seenCr = false;
-        boolean seenQuote = false;
-        for (Map.Entry<String, List<String>> e : m.entrySet()) {
-            if (e.getKey().indexOf('\n') >= 0) {
-                first = e.getValue();
-            }
-            for (String r : e.getValue()) {
-                if (r.indexOf('\r') >= 0) seenCr = true;
-                if (r.indexOf('\'') >= 0) seenQuote = true;
+        for (Map.Entry<String, List<String>> entry : m.entrySet()) {
+            if (entry.getKey().indexOf('\n') >= 0) {
+                first = entry.getValue();
+                break;
             }
         }
         assertNotNull(first, "CRLF trigger must be present");
-        assertTrue(seenCr && seenQuote,
-                "parsed lists are the MERGED union (cr+quote member both "
-                + "listed); if this fails the parser was fixed — switch the "
-                + "generator back to getDependentRequired()");
+        assertTrue(first.stream().anyMatch(memberName -> memberName.indexOf('\r') >= 0),
+                "first trigger must retain its original carriage-return member");
+        assertTrue(first.stream().anyMatch(memberName -> memberName.indexOf('\'') >= 0),
+                "first trigger's list must contain the second trigger's quoted member; "
+                        + "if this fails the parser was fixed — switch the generator back to "
+                        + "getDependentRequired()");
     }
 }

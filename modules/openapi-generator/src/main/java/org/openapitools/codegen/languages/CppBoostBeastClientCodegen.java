@@ -1,5 +1,7 @@
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import com.google.common.collect.ImmutableMap;
 
 import com.samskivert.mustache.Mustache.Lambda;
@@ -88,8 +90,14 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
      *  in preprocessOpenAPI after inline model flattening. Replaces raw schema
      *  inspection as the semantic source for branch lowering. */
     private Map<String, CompositionDescriptor> compositionDescriptors = new LinkedHashMap<>();
+    /** All descriptors indexed for schemas that combine composition keywords. */
+    private Map<String, List<CompositionDescriptor>> compositionDescriptorSets =
+            new LinkedHashMap<>();
     /** OpenAPI document retained for operation and model post-processing. */
     private OpenAPI sourceOpenApi;
+    /** Whether the source document explicitly declares its root servers field. */
+    private boolean hasExplicitRootServers;
+
     /** Preserved inbound-only webhook metadata. Webhooks are removed from
      *  outbound API generation so upstream folding cannot replace path APIs. */
     private List<String> webhookPreservation = new ArrayList<>();
@@ -161,10 +169,31 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         resolvedAliasTypes = new HashMap<>();
         composedKeywordsByModel = new HashMap<>();
         compositionDescriptors = new LinkedHashMap<>();
+        compositionDescriptorSets = new LinkedHashMap<>();
         webhookPreservation = new ArrayList<>();
         operationCallbacks = new HashMap<>();
         operationLinks = new HashMap<>();
         allOfIntersections = new LinkedHashMap<>();
+    }
+
+    /**
+     * swagger-parser materializes the implicit root server as {@code /}, which
+     * is indistinguishable from a source-level {@code servers: [{url: /}]} in
+     * the model. Consult the raw document before server-precedence assembly.
+     */
+    private boolean detectExplicitRootServers() {
+        String inputSpec = getInputSpec();
+        if (inputSpec == null || inputSpec.isEmpty()) {
+            // Programmatic OpenAPI instances have no parser-injected source.
+            return true;
+        }
+        try {
+            JsonNode document = Oas31RawSpecRecovery.readRawDocument(inputSpec);
+            return document != null && document.isObject() && document.has("servers");
+        } catch (Exception exception) {
+            throw new IllegalStateException(
+                    "Unable to inspect the source OpenAPI document for root servers", exception);
+        }
     }
 
     /**
@@ -181,6 +210,15 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     public Map<String, CompositionDescriptor> getCompositionDescriptors() {
         return Collections.unmodifiableMap(compositionDescriptors);
     }
+
+    /**
+     * Returns every composition descriptor present on a schema, in keyword
+     * order: oneOf, anyOf, then allOf.
+     */
+    public List<CompositionDescriptor> getCompositionDescriptorsForSchema(String schemaName) {
+        return compositionDescriptorSets.getOrDefault(schemaName, Collections.emptyList());
+    }
+
     protected String packageName = DEFAULT_PACKAGE_NAME;
     private String exportMacro = "";
 
@@ -199,6 +237,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         beginGeneration(openAPI);
+        hasExplicitRootServers = detectExplicitRootServers();
+
         List<String> policyDiagnostics = validateDialectPolicy(openAPI);
         if (!policyDiagnostics.isEmpty()) {
             throw new IllegalArgumentException(String.join("; ", policyDiagnostics));
@@ -245,26 +285,28 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
                 String schemaName = entry.getKey();
                 Schema schema = entry.getValue();
-                CompositionDescriptor descriptor =
-                        Oas31CompositionLowering.buildCompositionDescriptor(
+                List<CompositionDescriptor> descriptors =
+                        Oas31CompositionLowering.buildCompositionDescriptors(
                                 schemaName, schema, openAPI, schemas);
-                if (descriptor != null) {
-                    // Index by toModelName so lookups via cm.classname match.
-                    compositionDescriptors.put(toModelName(schemaName), descriptor);
-                    // Every detectable branch assertion that can affect
-                    // membership must have an implementation.
-                    Oas31CompositionLowering.validateDescriptorAssertions(descriptor);
-
-                    // Precompute recursive allOf intersections for storage modeling.
-                    // fromModel consumes the synthetic schema instead of a shallow
-                    // property-conflict scan.
-                    if ("allOf".equals(descriptor.getKeyword())) {
-                        AllOfIntersection intersection =
-                                Oas31CompositionLowering.computeAllOfIntersection(
-                                        schemaName, schema, openAPI, schemas, new HashSet<>());
-                        if (intersection != null) {
-                            allOfIntersections.put(toModelName(schemaName), intersection);
-                        }
+                if (!descriptors.isEmpty()) {
+                    String modelName = toModelName(schemaName);
+                    // The primary descriptor drives representation lowering;
+                    // retain and validate every composition keyword separately.
+                    compositionDescriptors.put(modelName, descriptors.get(0));
+                    compositionDescriptorSets.put(modelName, Collections.unmodifiableList(
+                            new ArrayList<>(descriptors)));
+                    for (CompositionDescriptor descriptor : descriptors) {
+                        Oas31CompositionLowering.validateDescriptorAssertions(descriptor);
+                    }
+                }
+                // allOf affects object storage even when oneOf or anyOf selects
+                // the public representation.
+                if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+                    AllOfIntersection intersection =
+                            Oas31CompositionLowering.computeAllOfIntersection(
+                                    schemaName, schema, openAPI, schemas, new HashSet<>());
+                    if (intersection != null) {
+                        allOfIntersections.put(toModelName(schemaName), intersection);
                     }
                 }
                 if ((schema.getOneOf() != null && !schema.getOneOf().isEmpty())
@@ -2844,7 +2886,8 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 sseOperationIds,
                 sseRequestPropertyMappings,
                 sseEventTypeMappings,
-                inferConditionalSseOperations).assemble(objs, allModels);
+                inferConditionalSseOperations,
+                hasExplicitRootServers).assemble(objs, allModels);
     }
 
 

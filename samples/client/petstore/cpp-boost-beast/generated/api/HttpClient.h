@@ -1,12 +1,15 @@
 #ifndef ORG_OPENAPITOOLS_CLIENT_API_HTTP_CLIENT_H_
 #define ORG_OPENAPITOOLS_CLIENT_API_HTTP_CLIENT_H_
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <map>
 #include <optional>
 #include <stdexcept>
+#include <random>
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
@@ -42,12 +45,101 @@ struct SseStreamOptions {
 
 /// Rich HTTP response containing status, response headers, and body.
 struct HttpResponseData {
-    boost::beast::http::status status;
+    boost::beast::http::status status = boost::beast::http::status::unknown;
     std::map<std::string, std::string> headers;
     std::string body;
     bool isEventStream = false;
     bool streamCancelled = false;
 };
+
+/// One serialized form field used by urlencoded and multipart request bodies.
+struct FormParameter {
+    FormParameter(std::string parameterName, std::string parameterValue, bool file,
+                  std::string contentType = "", std::string fileName = "")
+        : name(std::move(parameterName)), value(std::move(parameterValue)),
+          isFile(file), contentType(std::move(contentType)),
+          filename(std::move(fileName)) {
+    }
+
+    std::string name;
+    std::string value;
+    bool isFile;
+    std::string contentType;
+    std::string filename;
+};
+
+inline void validateMultipartHeaderValue(const std::string& value) {
+    if (value.find_first_of("\r\n") != std::string::npos) {
+        throw std::invalid_argument("Multipart header value contains CR or LF");
+    }
+}
+
+inline std::string escapeMultipartParameter(const std::string& value) {
+    validateMultipartHeaderValue(value);
+    std::string escapedValue;
+    escapedValue.reserve(value.size());
+    for (const char character : value) {
+        if (character == '\\' || character == '"') {
+            escapedValue.push_back('\\');
+        }
+        escapedValue.push_back(character);
+    }
+    return escapedValue;
+}
+
+inline std::string selectMultipartBoundary(
+        const std::vector<FormParameter>& formParameters) {
+    static const char hexDigits[] = "0123456789abcdef";
+    for (std::size_t attempt = 0; attempt < 16; ++attempt) {
+        std::string boundary = "OpenAPIGeneratorBoundary";
+        if (attempt != 0) {
+            std::random_device entropy;
+            boundary.reserve(57);
+            for (std::size_t wordIndex = 0; wordIndex < 4; ++wordIndex) {
+                std::uint32_t word = static_cast<std::uint32_t>(entropy());
+                for (std::size_t nibble = 0; nibble < 8; ++nibble) {
+                    boundary.push_back(hexDigits[word & 0x0FU]);
+                    word >>= 4U;
+                }
+            }
+            boundary.push_back(hexDigits[attempt & 0x0FU]);
+        }
+        const auto collision = std::find_if(
+            formParameters.cbegin(), formParameters.cend(),
+            [&boundary](const FormParameter& formParameter) {
+                return formParameter.value.find(boundary) != std::string::npos;
+            });
+        if (collision == formParameters.cend()) {
+            return boundary;
+        }
+    }
+    throw std::runtime_error("Unable to select a collision-free multipart boundary");
+}
+
+inline std::string serializeMultipartFormData(
+        const std::vector<FormParameter>& formParameters,
+        const std::string& boundary) {
+    std::stringstream serializedFormData;
+    for (const auto& formParameter : formParameters) {
+        serializedFormData << "--" << boundary << "\r\n"
+                           << "Content-Disposition: form-data; name=\""
+                           << escapeMultipartParameter(formParameter.name) << '"';
+        if (formParameter.isFile) {
+            serializedFormData << "; filename=\""
+                               << escapeMultipartParameter(formParameter.filename) << '"';
+        }
+        serializedFormData << "\r\n";
+        if (!formParameter.contentType.empty()) {
+            validateMultipartHeaderValue(formParameter.contentType);
+            serializedFormData << "Content-Type: " << formParameter.contentType << "\r\n";
+        } else if (formParameter.isFile) {
+            serializedFormData << "Content-Type: application/octet-stream\r\n";
+        }
+        serializedFormData << "\r\n" << formParameter.value << "\r\n";
+    }
+    serializedFormData << "--" << boundary << "--\r\n";
+    return serializedFormData.str();
+}
 
 class HttpClient {
 

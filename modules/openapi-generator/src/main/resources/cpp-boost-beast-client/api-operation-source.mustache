@@ -196,7 +196,7 @@
 {{/vendorExtensions.x-codegen-sse-representation-mode}}
 {{^vendorExtensions.x-codegen-sse-representation-mode}}
             [onEvent = std::move(onEvent)](const SseEvent& event) mutable {
-                if (event.data == "[DONE]") return true;
+                if (event.data == "[DONE]") return false;
                 {{schemaValidationNamespace}}::ExactJsonValue exactEvent =
                     {{schemaValidationNamespace}}::parseExactJson(event.data);
                 {{schemaValidationNamespace}}::requireModelConvertibleJson(exactEvent);

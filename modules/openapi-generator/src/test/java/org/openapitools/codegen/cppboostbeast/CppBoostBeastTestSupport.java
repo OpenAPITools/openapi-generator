@@ -16,11 +16,13 @@
 
 package org.openapitools.codegen.cppboostbeast;
 
+import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.regex.Pattern;
 
 /**
  * Shared helpers for the C++ Boost.Beast client generator test classes.
@@ -70,12 +72,6 @@ public final class CppBoostBeastTestSupport {
     }
 
     static int countOccurrences(String source, String expectedText) {
-        int occurrenceCount = 0;
-        int searchPosition = 0;
-        while ((searchPosition = source.indexOf(expectedText, searchPosition)) >= 0) {
-            occurrenceCount++;
-            searchPosition += expectedText.length();
-        }
-        return occurrenceCount;
+        return TestUtils.countOccurrences(source, Pattern.quote(expectedText));
     }
 }

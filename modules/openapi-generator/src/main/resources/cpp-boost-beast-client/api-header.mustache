@@ -44,11 +44,9 @@ struct {{vendorExtensions.x-codegen-response-union}} {
     std::string contentType;
     std::map<std::string, std::string> headers;
     std::variant<
-    {{#responses}}
-    {{#vendorExtensions.x-codegen-response-union}}
-        {{{vendorExtensions.x-codegen-response-union-body-type}}}{{^-last}},{{/-last}}
-    {{/vendorExtensions.x-codegen-response-union}}
-    {{/responses}}
+    {{#vendorExtensions.x-codegen-response-union-members}}
+        {{{bodyType}}}{{^last}},{{/last}}
+    {{/vendorExtensions.x-codegen-response-union-members}}
     > body;
 };
 

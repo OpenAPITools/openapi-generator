@@ -144,7 +144,7 @@ inline bool isJsonNumber(boost::json::value const& v) {
         case boost::json::kind::int64:
         case boost::json::kind::uint64:
         case boost::json::kind::double_:
-            return true;
+            return std::isfinite(v.as_double());
         default:
             return false;
     }
@@ -351,7 +351,7 @@ inline bool validatePattern(boost::json::value const& instance,
     std::string input(instance.as_string().data(), instance.as_string().size());
     try {
         std::regex re(pattern, std::regex::ECMAScript);
-        return std::regex_match(input, re);
+        return std::regex_search(input, re);
     } catch (std::regex_error const&) {
         // Pattern uses constructs outside the supported ECMA-262 subset.
         // Fail closed: reject the value rather than accepting silently.
