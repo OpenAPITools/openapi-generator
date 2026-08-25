@@ -729,6 +729,12 @@ final class Oas31RawSpecRecovery {
         }
     }
 
+    static void restorePristineTypeNull(Schema schema) {
+        if (schema != null) {
+            addExtension(schema, TYPE_NULL_EXT, true);
+        }
+    }
+
 
     private static void addExtension(Schema schema, String key, Object value) {
         if (schema.getExtensions() == null) {

@@ -159,7 +159,7 @@ public class Oas31CompositionLoweringTest {
         Schema<?> nullableNullConst = new Schema<>();
         Oas31RawSpecRecovery.restoreExplicitConst(nullableNullConst, "null");
         StringSchema nullableString = new StringSchema();
-        nullableString.setNullable(true);
+        Oas31RawSpecRecovery.restorePristineTypeNull(nullableString);
         ComposedSchema nullableSchema = new ComposedSchema();
         nullableSchema.addAllOfItem(nullableNullConst);
         nullableSchema.addAllOfItem(nullableString);
@@ -169,10 +169,14 @@ public class Oas31CompositionLoweringTest {
                         "NullableNullConst", nullableSchema, new OpenAPI(),
                         Collections.emptyMap(), new HashSet<>());
         Assert.assertTrue(nullableIntersection.isSatisfiable());
+        Schema<?> nullableSynthetic = Oas31CompositionLowering
+                .buildSyntheticAllOfSchema("NullableNullConst", nullableIntersection);
+        Assert.assertTrue(Boolean.TRUE.equals(nullableSynthetic.getNullable()));
 
         Schema<?> enumNullConst = new Schema<>();
         Oas31RawSpecRecovery.restoreExplicitConst(enumNullConst, "null");
-        Schema<Object> nonNullEnum = new Schema<>();
+        StringSchema nonNullEnum = new StringSchema();
+        Oas31RawSpecRecovery.restorePristineTypeNull(nonNullEnum);
         nonNullEnum.setEnum(Collections.singletonList("non-null"));
         ComposedSchema enumSchema = new ComposedSchema();
         enumSchema.addAllOfItem(enumNullConst);

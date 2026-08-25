@@ -1122,6 +1122,7 @@ public final class Oas31CompositionLowering {
 
     private static boolean allowsNull(Schema schema, Set<String> types) {
         if (!Boolean.TRUE.equals(schema.getNullable())
+                && !Oas31RawSpecRecovery.pristineTypeHasNull(schema)
                 && !types.isEmpty() && !types.contains("null")) {
             return false;
         }
