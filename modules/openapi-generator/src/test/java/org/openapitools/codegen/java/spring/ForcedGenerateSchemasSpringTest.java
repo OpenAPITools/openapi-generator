@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
@@ -188,7 +189,7 @@ public class ForcedGenerateSchemasSpringTest {
         List<String> supportingModelNames = codegen.supportingModels.stream()
                 .map(ModelMap::getModel)
                 .map(model -> model.classname)
-                .toList();
+                .collect(Collectors.toList());
         assertTrue(supportingModelNames.contains("ApiContainer"));
         assertFalse(supportingModelNames.contains("ApiWidget"));
     }
