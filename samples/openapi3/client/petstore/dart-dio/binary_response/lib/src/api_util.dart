@@ -2,6 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+import 'package:dio/dio.dart';
 
 String encodePathParameter(
   dynamic value, {
