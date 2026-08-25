@@ -30,7 +30,7 @@ commands: # a reusable command with parameters
           command: |
             if [ -n "${CIRCLE_PULL_REQUEST:-}" ]; then
               ref="refs/pull/${CIRCLE_PULL_REQUEST##*/}/head"
-            elif [[ "${CIRCLE_BRANCH:-}" == pull/* ]]; then
+            elif [[ "${CIRCLE_BRANCH:-}" =~ ^pull/[0-9]+$ ]]; then
               ref="refs/${CIRCLE_BRANCH}/head"
             else
               ref="$CIRCLE_SHA1"
