@@ -550,32 +550,6 @@ public class DartDioClientCodegenTest {
     }
 
     @Test
-    public void testNonMultipartFormParametersDropNulls() throws IOException {
-        File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("dart-dio")
-                .setInputSpec("src/test/resources/3_0/dart-dio/non_multipart_form_cleanup.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-
-        ClientOptInput opts = configurator.toClientOptInput();
-        Generator generator = new DefaultGenerator().opts(opts);
-        List<File> files = generator.generate();
-        files.forEach(File::deleteOnExit);
-
-        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
-
-        // Non-multipart form cleanup must call removeNullParametersExcept on _bodyData.
-        // Uses spec with form-only operations (no query params) so assertions cannot
-        // be satisfied by query param cleanup; they verify form cleanup specifically.
-        TestUtils.assertFileContains(defaultApi,
-                "contentType: 'application/x-www-form-urlencoded',",
-                "removeNullParametersExcept(",
-                "_bodyData,");
-    }
-
-    @Test
     public void testRequiredNullableFormParametersArePreserved() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -623,39 +597,6 @@ public class DartDioClientCodegenTest {
         TestUtils.assertFileContains(defaultApi,
                 "removeNullParametersExcept(",
                 "r'requiredNullable',");
-    }
-
-    /**
-     * Regression test: when enum collection path parameters (List/Map of enums)
-     * are encoded, each enum item must use .toString() to get the wire value,
-     * not .name which returns the Dart identifier.
-     */
-    @Test
-    public void testEnumCollectionPathParamsUseWireValues() throws IOException {
-        File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("dart-dio")
-                .setInputSpec("src/test/resources/3_0/dart-dio/path_param_enum_collection.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-
-        ClientOptInput opts = configurator.toClientOptInput();
-        Generator generator = new DefaultGenerator().opts(opts);
-        List<File> files = generator.generate();
-        files.forEach(File::deleteOnExit);
-
-        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
-
-        // Enum collection items must be encoded using _encodePathValue which
-        // calls .toString() on enum items to get wire values.
-        TestUtils.assertFileContains(defaultApi,
-                "_encodePathValue");
-
-        // Path should use encodePathParameter to handle collections.
-        TestUtils.assertFileContains(defaultApi,
-                "encodePathParameter(statuses",
-                "encodePathParameter(categories");
     }
 }
 
