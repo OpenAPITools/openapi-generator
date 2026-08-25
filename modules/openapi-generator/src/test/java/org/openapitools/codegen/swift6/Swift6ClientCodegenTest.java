@@ -524,6 +524,7 @@ public class Swift6ClientCodegenTest {
         CodegenProperty aliasedNullableItems = cm1.vars.get(5);
         CodegenProperty nullableItemsSet = cm1.vars.get(6);
         CodegenProperty nestedNullableItems = cm1.vars.get(7);
+        CodegenProperty modelRefNullableItems = cm1.vars.get(8);
         Assert.assertEquals(nullableItems.getDataType(), "[String?]");
         Assert.assertEquals(notNullableItems.getDataType(), "[String]");
         Assert.assertEquals(defaultItems.getDataType(), "[String]");
@@ -532,5 +533,6 @@ public class Swift6ClientCodegenTest {
         Assert.assertEquals(aliasedNullableItems.getDataType(), "[String?]");
         Assert.assertEquals(nullableItemsSet.getDataType(), "Set<String?>");
         Assert.assertEquals(nestedNullableItems.getDataType(), "[[String?]]");
+        Assert.assertEquals(modelRefNullableItems.getDataType(), "[NullablePet?]");
     }
 }

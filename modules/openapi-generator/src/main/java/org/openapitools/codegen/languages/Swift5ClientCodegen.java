@@ -780,7 +780,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     private String getItemsTypeDeclaration(Schema items) {
         String itemsTypeDeclaration = getTypeDeclaration(items);
-        String nullable = ModelUtils.isNullable(unaliasSchema(items)) && !itemsTypeDeclaration.endsWith("?") ? "?" : "";
+        Schema itemsSchema = ModelUtils.getReferencedSchema(openAPI, unaliasSchema(items));
+        String nullable = ModelUtils.isNullable(itemsSchema) && !itemsTypeDeclaration.endsWith("?") ? "?" : "";
         return itemsTypeDeclaration + nullable;
     }
 

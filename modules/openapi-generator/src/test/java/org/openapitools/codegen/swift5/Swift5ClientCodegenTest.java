@@ -418,7 +418,7 @@ public class Swift5ClientCodegenTest {
         final String model = "NullItemsNotNullItems";
         final CodegenModel cm = codegen.fromModel(model, openAPI.getComponents().getSchemas().get(model));
 
-        Assert.assertEquals(cm.vars.size(), 8);
+        Assert.assertEquals(cm.vars.size(), 9);
 
         Assert.assertEquals(cm.vars.get(0).baseName, "nullableItems");
         Assert.assertEquals(cm.vars.get(1).baseName, "notNullableItems");
@@ -428,6 +428,7 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(cm.vars.get(5).baseName, "aliasedNullableItems");
         Assert.assertEquals(cm.vars.get(6).baseName, "nullableItemsSet");
         Assert.assertEquals(cm.vars.get(7).baseName, "nestedNullableItems");
+        Assert.assertEquals(cm.vars.get(8).baseName, "modelRefNullableItems");
 
         Assert.assertEquals(cm.vars.get(0).dataType, "[String?]");
         Assert.assertEquals(cm.vars.get(1).dataType, "[String]");
@@ -437,6 +438,7 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(cm.vars.get(5).dataType, "[String?]");
         Assert.assertEquals(cm.vars.get(6).dataType, "Set<String?>");
         Assert.assertEquals(cm.vars.get(7).dataType, "[[String?]]");
+        Assert.assertEquals(cm.vars.get(8).dataType, "[NullablePet?]");
     }
 
 }
