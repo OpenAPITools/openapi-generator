@@ -63,7 +63,7 @@ String encodePathParameter(
     return '';
   }
   if (serialized is String || serialized is num || serialized is bool) {
-    return serialized.toString();
+    return Uri.encodeComponent(serialized.toString());
   }
   if (serialized is List) {
     final values = serialized.map((item) => _encodePathValue(item, format)).toList();
@@ -78,7 +78,7 @@ String encodePathParameter(
     });
     return pairs.join(',');
   }
-  return serialized.toString();
+  return Uri.encodeComponent(serialized.toString());
 }
 
 {{>serialization/common/encode_path_parameter}}

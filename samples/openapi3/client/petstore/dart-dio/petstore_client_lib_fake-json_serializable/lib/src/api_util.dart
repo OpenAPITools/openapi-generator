@@ -11,10 +11,10 @@ String encodePathParameter(
     return '';
   }
   if (value is String || value is num || value is bool) {
-    return value.toString();
+    return Uri.encodeComponent(value.toString());
   }
   if (value is Enum) {
-    return value.name;
+    return Uri.encodeComponent(value.name);
   }
   if (value is List) {
     final values = value.map((item) => _encodePathValue(item, format)).toList();
@@ -29,18 +29,21 @@ String encodePathParameter(
     });
     return pairs.join(',');
   }
-  return value.toString();
+  return Uri.encodeComponent(value.toString());
 }
 
 String _encodePathValue(dynamic value, ListFormat format) {
   if (value == null) {
     return '';
   }
-  if (value is String || value is num || value is bool) {
-    return value.toString();
+  if (value is String) {
+    return Uri.encodeComponent(value);
+  }
+  if (value is num || value is bool) {
+    return Uri.encodeComponent(value.toString());
   }
   if (value is Enum) {
-    return value.name;
+    return Uri.encodeComponent(value.name);
   }
   if (value is List) {
     final values = value.map((item) => _encodePathValue(item, format)).toList();
@@ -55,7 +58,7 @@ String _encodePathValue(dynamic value, ListFormat format) {
     });
     return pairs.join(',');
   }
-  return value.toString();
+  return Uri.encodeComponent(value.toString());
 }
 
 String _joinCollectionValues(List<Object?> values, ListFormat format) {
