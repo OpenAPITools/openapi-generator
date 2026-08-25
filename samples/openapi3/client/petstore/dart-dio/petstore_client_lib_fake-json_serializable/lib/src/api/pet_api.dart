@@ -115,8 +115,7 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodePathParameter(petId)
-);
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodePathParameter(petId));
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -346,8 +345,7 @@ _responseData = rawData == null ? null : deserialize<Set<Pet>, Pet>(rawData, 'Se
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodePathParameter(petId)
-);
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodePathParameter(petId));
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -501,8 +499,7 @@ _responseData = rawData == null ? null : deserialize<Pet, Pet>(rawData, 'Pet', g
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodePathParameter(petId)
-);
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodePathParameter(petId));
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -586,8 +583,7 @@ _responseData = rawData == null ? null : deserialize<Pet, Pet>(rawData, 'Pet', g
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', encodePathParameter(petId)
-);
+    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', encodePathParameter(petId));
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -690,8 +686,7 @@ _responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(r
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', encodePathParameter(petId)
-);
+    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', encodePathParameter(petId));
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
