@@ -107,7 +107,6 @@ target_sources(${PROJECT_NAME} PRIVATE
     model/Oas31Validator.h
     model/schema_ir.generated.cpp
     model/Oas31SchemaRegistry.h
-    model/schema_validate.generated.cpp
 )
 
 

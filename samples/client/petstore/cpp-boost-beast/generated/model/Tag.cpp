@@ -16,8 +16,8 @@
 // ensure wire-format correctness, but is NOT a full JSON Schema meta-schema
 // validator:
 //
-//   ✓ oneOf exactly-one match enforcement (validate_* per branch)
-//   ✓ anyOf at-least-one match enforcement (validate_* per branch)
+//   ✓ oneOf exactly-one match enforcement (shared schema evaluator per branch)
+//   ✓ anyOf at-least-one match enforcement (shared schema evaluator per branch)
 //   ✓ discriminator value enforcement (unknown → fall through to structural)
 //   ✓ type validation, incl. type arrays with a literal "null" member
 //   ✓ mathematical integer semantics (1 and 1.0 both accepted as integer)
