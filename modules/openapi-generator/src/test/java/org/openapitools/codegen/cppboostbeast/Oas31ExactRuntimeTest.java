@@ -281,8 +281,7 @@ public class Oas31ExactRuntimeTest {
         Path modelDirectory = output.resolve("model");
         for (String omittedFile : List.of(
                 "Oas31SchemaRegistry.h",
-                "schema_ir.generated.cpp",
-                "schema_validate.generated.cpp")) {
+                "schema_ir.generated.cpp")) {
             Assert.assertFalse(Files.exists(modelDirectory.resolve(omittedFile)),
                     omittedFile + " must not be emitted when validation is disabled");
         }
@@ -306,8 +305,6 @@ public class Oas31ExactRuntimeTest {
         String cmakeLists = Files.readString(output.resolve("CMakeLists.txt"));
         Assert.assertFalse(cmakeLists.contains("schema_ir.generated"),
                 "Generated CMake must not reference stripped schema IR sources");
-        Assert.assertFalse(cmakeLists.contains("schema_validate.generated.cpp"),
-                "Generated CMake must not reference the stripped validation source");
         Assert.assertFalse(cmakeLists.contains("Oas31SchemaRegistry.h"),
                 "Generated CMake must not reference the stripped schema registry");
 

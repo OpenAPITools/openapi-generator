@@ -6,8 +6,8 @@
 // ensure wire-format correctness, but is NOT a full JSON Schema meta-schema
 // validator:
 //
-//   ✓ oneOf exactly-one match enforcement (validate_* per branch)
-//   ✓ anyOf at-least-one match enforcement (validate_* per branch)
+//   ✓ oneOf exactly-one match enforcement (shared schema evaluator per branch)
+//   ✓ anyOf at-least-one match enforcement (shared schema evaluator per branch)
 //   ✓ discriminator value enforcement (unknown → fall through to structural)
 //   ✓ type validation, incl. type arrays with a literal "null" member
 //   ✓ mathematical integer semantics (1 and 1.0 both accepted as integer)
@@ -1407,6 +1407,29 @@ void writePrettyJson(std::ostream& output, boost::json::value const& value, std:
     {{#vendorExtensions.x-cpp-type-erased-oneof-branches}}
     {
         bool branchMatches = false;
+        {{#validateOnDecode}}
+        {{#has-validator-id}}
+        {
+            {{schemaValidationNamespace}}::SchemaIndex const branchIndex =
+                {{schemaValidationNamespace}}::schemaNodeFor("{{#lambda.cppStringLiteral}}{{validator-id}}{{/lambda.cppStringLiteral}}");
+            if (branchIndex != {{schemaValidationNamespace}}::kNoSchema) {
+                {{schemaValidationNamespace}}::RawInstance branchInstance(&value);
+                {{schemaValidationNamespace}}::ValidationPath branchPath;
+                {{schemaValidationNamespace}}::ValidationContext branchContext;
+                {{#tolerateNonNullableNulls}}
+                branchContext.tolerateNonNullablePropertyNulls = true;
+                {{/tolerateNonNullableNulls}}
+                branchMatches = {{schemaValidationNamespace}}::sharedSchemaEvaluator().validate(
+                    branchIndex, branchInstance, branchPath, branchContext).success;
+            }
+        }
+        {{/has-validator-id}}
+        {{^has-validator-id}}
+        // Fail closed when the branch IR is unavailable rather than accepting
+        // an instance from a representation-only JSON type check.
+        {{/has-validator-id}}
+        {{/validateOnDecode}}
+        {{^validateOnDecode}}
         {{#is-string}}
         if (value.is_string()) {
             {{#has-enum-values}}
@@ -1432,6 +1455,7 @@ void writePrettyJson(std::ostream& output, boost::json::value const& value, std:
         {{#is-array}}branchMatches = value.is_array();{{/is-array}}
         {{#is-object}}branchMatches = value.is_object();{{/is-object}}
         {{#is-any}}branchMatches = true;{{/is-any}}
+        {{/validateOnDecode}}
         if (branchMatches) {
             ++matchingBranches;
         }

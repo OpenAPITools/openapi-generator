@@ -111,24 +111,33 @@ final class Oas31SchemaSurfaceAssertionScanner {
                         validateParams.put("validation-enum-json", pristineEnumJson);
                     }
                 }
-                // Const: detect JSON kind for the validator template
-                if (surface.getConst() != null) {
+                // Const: use raw recovery to distinguish an explicit JSON null
+                // from the parser's absent-const sentinel.
+                Object constVal = surface.getConst();
+                String pristineConstJson = Oas31RawSpecRecovery.constJsonOf(surface);
+                if (constVal != null || Oas31RawSpecRecovery.hasExplicitConst(surface)) {
                     supported.add("const");
-                    Object constVal = surface.getConst();
                     if (constVal instanceof Number) {
                         validateParams.put("validation-const-type", "number");
                         validateParams.put("validation-const-value", constVal.toString());
                     } else if (constVal instanceof Boolean) {
                         validateParams.put("validation-const-type", "boolean");
                         validateParams.put("validation-const-value", constVal.toString());
+                    } else if (constVal == null || "null".equals(pristineConstJson)) {
+                        validateParams.put("validation-const-type", "null");
+                        validateParams.put("validation-const-value", "null");
                     } else {
                         validateParams.put("validation-const-type", "string");
                         validateParams.put("validation-const-value",
                                 CppBoostBeastClientCodegen.escapeCppStringContent(constVal.toString()));
                     }
                     validateParams.put("has-validation-const", true);
-                    // Preserve the raw const value for exact deep-equality emission.
-                    validateParams.put("validation-const-raw", surface.getConst());
+                    if (constVal != null) {
+                        validateParams.put("validation-const-raw", constVal);
+                    }
+                    if (pristineConstJson != null) {
+                        validateParams.put("validation-const-json", pristineConstJson);
+                    }
                 }
                 // Use ModelUtils.resolveMinimumBound / resolveMaximumBound for
                 // proper OAS 3.0→3.1 resolution (boolean → numeric conversion,
@@ -447,10 +456,16 @@ final class Oas31SchemaSurfaceAssertionScanner {
         if (schema.getDescription() != null) {
             sink.accept("description", toJsonLiteral(schema.getDescription()));
         }
-        if (schema.getDefault() != null) {
+        String pristineDefaultJson = Oas31RawSpecRecovery.defaultJsonOf(schema);
+        if (pristineDefaultJson != null) {
+            sink.accept("default", pristineDefaultJson);
+        } else if (schema.getDefault() != null) {
             sink.accept("default", toJsonLiteral(schema.getDefault()));
         }
-        if (schema.getExamples() != null && !schema.getExamples().isEmpty()) {
+        String pristineExamplesJson = Oas31RawSpecRecovery.examplesJsonOf(schema);
+        if (pristineExamplesJson != null) {
+            sink.accept("examples", pristineExamplesJson);
+        } else if (schema.getExamples() != null) {
             sink.accept("examples", toJsonLiteral(schema.getExamples()));
         }
         if (schema.getDeprecated() != null) {

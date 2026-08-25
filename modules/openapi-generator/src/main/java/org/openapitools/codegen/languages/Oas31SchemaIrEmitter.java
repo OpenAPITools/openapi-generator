@@ -18,17 +18,18 @@ import java.util.TreeSet;
 
 /**
  * Emits the densified OAS 3.1 schema IR (Oas31SchemaRegistry.h,
- * schema_ir.generated.cpp, optional schema_ir.generated.chunk*.cpp files,
- * and schema_validate.generated.cpp) for the cpp-boost-beast client: every
- * composition branch, extracted component, and structural child is densified
- * into a flat SchemaNode registry against which the generated C++ evaluator
- * validates instances exactly (original numeric lexemes, deep JSON enum/const
- * stores, dynamic-scope markers, annotation keywords).
+ * schema_ir.generated.cpp, and optional schema_ir.generated.chunk*.cpp files)
+ * for the cpp-boost-beast client: every composition branch, extracted component,
+ * and structural child is densified into a flat SchemaNode registry against which
+ * the generated C++ evaluator validates instances exactly (original numeric
+ * lexemes, deep JSON enum/const stores, dynamic-scope markers, annotation
+ * keywords).
  *
- * <p>All facts were collected earlier into {@link Oas31CompositionLowering.CompositionDescriptor}s
- * (per-branch validateParams) and the post-model-extraction components map;
- * this emitter never re-parses the spec. Main rows (one per branch) own
- * validate_&lt;id&gt; dispatch; child and component rows are flattened after
+ * <p>All facts were collected earlier into
+ * {@link Oas31CompositionLowering.CompositionDescriptor}s (per-branch
+ * validateParams) and the post-model-extraction components map; this emitter
+ * never re-parses the spec. Main rows (one per branch) use direct
+ * {@code SchemaEvaluator} lookup; child and component rows are flattened after
  * them so main-node indices stay stable. The {@code x-oas31-*} recovery
  * extensions of {@link Oas31RawSpecRecovery} are honoured here (count-bound
  * lexemes, pristine enum JSON and type-null markers, dependentRequired maps).
@@ -50,6 +51,9 @@ final class Oas31SchemaIrEmitter {
     private final Set<String> oasComponentNames = new HashSet<>();
     /** Codegen model access (reads the oas31BaseUri option). */
     private final Map<String, Object> additionalProperties;
+    /** Component validator IDs finalized after inline-model extraction. */
+    private final Map<String, String> componentSchemaIds;
+
 
     // Component composition snapshot captured after model extraction to select
     // the correct ref-target row form.
@@ -60,10 +64,13 @@ final class Oas31SchemaIrEmitter {
     Oas31SchemaIrEmitter(
             OpenAPI openAPI,
             Map<String, Oas31CompositionLowering.CompositionDescriptor> compositionDescriptors,
-            Map<String, Object> additionalProperties) {
+            Map<String, Object> additionalProperties,
+            Map<String, String> componentSchemaIds) {
         this.openAPI = openAPI;
         this.compositionDescriptors = compositionDescriptors;
         this.additionalProperties = additionalProperties;
+        this.componentSchemaIds = componentSchemaIds == null
+                ? Collections.emptyMap() : componentSchemaIds;
     }
 
     /** Materializes annotation fields from branch validation parameters. */
@@ -230,7 +237,8 @@ final class Oas31SchemaIrEmitter {
                 Schema compSchema = openAPI.getComponents().getSchemas().get(name);
                 if (compSchema == null) continue;
                 IrNode row = irNodeFromRawSchema(
-                        compSchema, CppBoostBeastClientCodegen.componentSchemaId(name));
+                        compSchema, CppBoostBeastModelCodegen.componentSchemaId(
+                                name, componentSchemaIds));
                 if (row != null) {
                     assignSchemaPaths(row, "#/components/schemas/" + jsonPointerToken(name));
                     componentRows.add(row);
@@ -403,7 +411,6 @@ final class Oas31SchemaIrEmitter {
         objs.put("oas31SchemaIrChunkCount", chunkCount);
         objs.put("oas31SchemaIrChunkFiles", chunkFiles);
         objs.put("oas31SchemaIrHeader", renderer.buildSchemaIrHeader(allRows));
-        objs.put("oas31SchemaIrValidateSource", renderer.buildSchemaIrValidateSource(mainNodes));
         return objs;
     }
 
@@ -783,13 +790,19 @@ final class Oas31SchemaIrEmitter {
         }
 
         // Preserve full JSON const and enum values captured by the assertion scan
-        // so deep equality works across every JSON kind.
-        Object constRaw = vp.get("validation-const-raw");
-        // Non-number consts use the deep JSON store. Numbers stay on the exact
-        // scalar path so values beyond uint64/double never lose precision.
-        if (constRaw != null && !(constRaw instanceof Number)) {
+        // so deep equality works across every JSON kind, including explicit null.
+        Object pristineConstJson = vp.get("validation-const-json");
+        if (pristineConstJson instanceof String) {
             n.hasConst = true;
-            n.constJson = toJsonLiteral(constRaw);
+            n.constJson = (String) pristineConstJson;
+        } else {
+            Object constRaw = vp.get("validation-const-raw");
+            // Non-number consts use the deep JSON store. Numbers stay on the exact
+            // scalar path so values beyond uint64/double never lose precision.
+            if (constRaw != null && !(constRaw instanceof Number)) {
+                n.hasConst = true;
+                n.constJson = toJsonLiteral(constRaw);
+            }
         }
         Object enumRaw = vp.get("validation-enum-raw");
         Object pristineEnumJson = vp.get("validation-enum-json");
@@ -1246,7 +1259,11 @@ final class Oas31SchemaIrEmitter {
             n.booleanValue = Boolean.TRUE.equals(schema.getBooleanSchemaValue())
                     ? BooleanValueKind.TRUE : BooleanValueKind.FALSE;
         }
-        if (schema.getConst() != null) {
+        String pristineConstJson = Oas31RawSpecRecovery.constJsonOf(schema);
+        if (pristineConstJson != null) {
+            n.hasConst = true;
+            n.constJson = pristineConstJson;
+        } else if (schema.getConst() != null) {
             n.hasConst = true;
             n.constJson = toJsonLiteral(schema.getConst());
         }
@@ -1605,7 +1622,7 @@ final class Oas31SchemaIrEmitter {
         String name = refSimpleName(refStr);
         // Every component has a wrapper row, so refs resolve to the complete
         // composition rather than an accidental first-branch alias.
-        return CppBoostBeastClientCodegen.componentSchemaId(name);
+        return CppBoostBeastModelCodegen.componentSchemaId(name, componentSchemaIds);
     }
 
     /** Extracts the referenced component or final URI-path name. */

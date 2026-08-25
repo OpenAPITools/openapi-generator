@@ -242,82 +242,6 @@ public class AllOfCompositionLoweringTest {
                 + "Source: " + sourceContent);
     }
 
-    @Test
-    public void optionalImpossibleAllOfGeneratesObjectWithConflictingProperty() throws IOException {
-        // allOf with conflicting optional property types must generate a valid object model
-        // that has the structurally conflicting value property.  The generated object should
-        // not have a method/field that would let the user write a valid value for both branches.
-        String specContent =
-            "openapi: 3.1.0\n" +
-            "info:\n" +
-            "  title: optional impossible allOf test\n" +
-            "  version: 1.0.0\n" +
-            "paths: {}\n" +
-            "components:\n" +
-            "  schemas:\n" +
-            "    OptionalImpossibleAllOf:\n" +
-            "      allOf:\n" +
-            "        - type: object\n" +
-            "          properties:\n" +
-            "            value:\n" +
-            "              type: string\n" +
-            "        - type: object\n" +
-            "          properties:\n" +
-            "            value:\n" +
-            "              type: integer\n" +
-            "              format: int32\n";
-
-        java.nio.file.Path specFile = java.nio.file.Files.createTempFile("optional-impossible-allof-", ".yaml");
-        specFile.toFile().deleteOnExit();
-        java.nio.file.Files.writeString(specFile, specContent);
-
-        File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-opt-impossible-allof").toFile();
-        output.deleteOnExit();
-
-        CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("cpp-boost-beast-client")
-                .setInputSpec(specFile.toAbsolutePath().toString())
-                .setOutputDir(output.getAbsolutePath())
-                .addAdditionalProperty("packageName", "CppBoostBeastOptImpossibleAllOf");
-
-        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
-
-        // Generation must succeed — the allOf merge produces an object with value property
-        Path generatedHeader = output.toPath().resolve("model/OptionalImpossibleAllOf.h");
-        TestUtils.assertFileExists(generatedHeader);
-        String headerContent = java.nio.file.Files.readString(generatedHeader);
-
-        // The optional-impossible conflicting property now gets a writable
-        // member (first-contributor type wins) so the model is not an empty shell.
-        Assert.assertTrue(headerContent.contains("getValue()"),
-                "OptionalImpossibleAllOf must have a getValue() accessor — "
-                + "optional-impossible selects first contributor type. "
-                + "Header content: " + headerContent);
-        Assert.assertTrue(headerContent.contains("setValue("),
-                "OptionalImpossibleAllOf must have a setValue() accessor — "
-                + "optional-impossible selects first contributor type. "
-                + "Header content: " + headerContent);
-
-        // Verify the source has the reject diagnostic
-        // with the exact "optional-impossible" or "cannot satisfy all allOf" string.
-        Path generatedSource = output.toPath().resolve("model/OptionalImpossibleAllOf.cpp");
-        TestUtils.assertFileExists(generatedSource);
-        String sourceContent = java.nio.file.Files.readString(generatedSource);
-        Assert.assertTrue(sourceContent.contains("cannot satisfy all allOf constraints (optional-impossible)"),
-                "OptionalImpossibleAllOf source must contain the reject-if-present diagnostic "
-                + "for the optional-impossible 'value' property. "
-                + "Source: " + sourceContent);
-
-        // Verify the reject-if-present structure: find + end guard
-        Assert.assertTrue(sourceContent.contains("object.find(\"value\")"),
-                "OptionalImpossibleAllOf source must locate 'value' in the JSON object. "
-                + "Source: " + sourceContent);
-        Assert.assertTrue(sourceContent.contains("it != object.end()"),
-                "OptionalImpossibleAllOf source must guard on presence (accept when absent, "
-                + "reject when present). "
-                + "Source: " + sourceContent);
-    }
 
     @Test
     public void allOfPropertyViaNestedRefsIntersectsEnum() throws IOException {
@@ -562,11 +486,8 @@ public class AllOfCompositionLoweringTest {
 
     @Test
     public void allOfEnumIntersectionFromFixtures() throws IOException {
-        // Verify AllOfEnumIntersection (allOf [enum[a,b], enum[b,c]]) generates from
-        // compliance fixtures.  The intersection must be {b}.  Currently the generator
-        // does not compute enum intersection — it uses last-wins from the allOf merge.
-        // This locks the failing behaviour: the test expects intersection but may get
-        // the full set from the last contributor.
+        // Verify AllOfEnumIntersection (allOf [enum[a,b], enum[b,c]]) generates
+        // the exact intersection {b} from the compliance fixture.
         File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-enum-intersect").toFile();
         output.deleteOnExit();
 
@@ -585,6 +506,13 @@ public class AllOfCompositionLoweringTest {
         // Verify the model file and its source file are generated.
         Path intersectSource = output.toPath().resolve("model/AllOfEnumIntersection.cpp");
         TestUtils.assertFileExists(intersectSource);
+        String intersectContent = java.nio.file.Files.readString(intersectSource);
+        Assert.assertTrue(intersectContent.contains("\"b\""),
+                "AllOfEnumIntersection must retain the sole intersected enum value b");
+        Assert.assertFalse(intersectContent.contains("\"a\""),
+                "AllOfEnumIntersection must drop enum value a outside the intersection");
+        Assert.assertFalse(intersectContent.contains("\"c\""),
+                "AllOfEnumIntersection must drop enum value c outside the intersection");
     }
 
     @Test

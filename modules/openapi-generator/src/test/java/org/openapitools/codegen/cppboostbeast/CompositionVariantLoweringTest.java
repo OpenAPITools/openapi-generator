@@ -423,17 +423,13 @@ public class CompositionVariantLoweringTest {
                 "InputParam oneOf source should contain isOneOf compile-time flag");
         // The anyOf path comment is also present (both branches emitted textually by if constexpr)
 
-        // DedupTest is now CompositionBranchValue variant — source uses
-        // JsonValueConverter which dispatches through model conversion helpers
-        // for model-containing types (e.g., std::optional<SomeObject>) and falls
-        // back to value_to/value_from for plain types.
+        // DedupTest must serialize through the concrete variant helper; merely
+        // mentioning the model name would not prove its conversion path.
         Path dedupSource = output.toPath().resolve("model/DedupTest.cpp");
         String dedupSourceContent = java.nio.file.Files.readString(dedupSource);
-        // DedupTest alias source should use JsonValueConverter or toJson/fromJson for serialization
-        boolean hasJsonConverter = dedupSourceContent.contains("JsonValueConverter<DedupTest>")
-                || dedupSourceContent.contains("DedupTest");
-        Assert.assertTrue(hasJsonConverter,
-                "DedupTest alias source should reference DedupTest type");
+        Assert.assertTrue(dedupSourceContent.contains(
+                        "VariantJsonHelper<std::decay_t<decltype(v)>>::toJsonValue(v)"),
+                "DedupTest must serialize each tagged branch through VariantJsonHelper");
 
         // VariantPayload (oneOf variant) source must also contain exactly-one checking
         Path variantPayloadSource = output.toPath().resolve("model/VariantPayload.cpp");

@@ -203,7 +203,7 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
                 if (var == null) continue;
                 restoreSavedSharedPtr(var, cm.classname, modelSaves);
                 if (var.isContainer && var.items != null) {
-                    restoreSavedSharedPtr(var.items, cm.classname + ".items", modelSaves);
+                    restoreSavedSharedPtr(var.items, cm.classname, modelSaves);
                 }
             }
         }
@@ -218,7 +218,7 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
                 if (var == null) continue;
                 stripNonCyclicSharedPtr(var);
                 if (var.isContainer && var.items != null) {
-                    stripNonCyclicSharedPtr(var.items);
+                    stripNonCyclicContainerItemSharedPtr(var);
                 }
             }
         }
@@ -280,6 +280,45 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
             var.dataType = innerType;
             var.defaultValue = null;
         }
+    }
+
+    /**
+     * Removes a direct container item shared_ptr when DefaultCodegen's
+     * container-level circular-reference flag says the edge is acyclic.
+     */
+    private static void stripNonCyclicContainerItemSharedPtr(CodegenProperty container) {
+        if (container.isCircularReference || container.dataType == null) {
+            return;
+        }
+        final String sharedPtrPrefix = "std::shared_ptr<";
+        int pointerStart = container.dataType.indexOf(sharedPtrPrefix);
+        if (pointerStart < 0) {
+            return;
+        }
+
+        int contentStart = pointerStart + sharedPtrPrefix.length();
+        int pointerEnd = contentStart;
+        int depth = 1;
+        while (pointerEnd < container.dataType.length() && depth > 0) {
+            char character = container.dataType.charAt(pointerEnd++);
+            if (character == '<') {
+                depth++;
+            } else if (character == '>') {
+                depth--;
+            }
+        }
+        if (depth != 0) {
+            return;
+        }
+
+        String itemType = container.dataType.substring(contentStart, pointerEnd - 1);
+        container.dataType = container.dataType.substring(0, pointerStart)
+                + itemType + container.dataType.substring(pointerEnd);
+        if (container.items.dataType != null
+                && container.items.dataType.startsWith(sharedPtrPrefix)) {
+            container.items.dataType = itemType;
+        }
+        container.defaultValue = null;
     }
 
     @Override
@@ -1441,6 +1480,11 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
     private List<Map<String, Object>> buildTypeErasedOneOfBranches(
             CodegenModel codegenModel, Map<String, CodegenModel> allModels) {
         List<Map<String, Object>> validationBranches = new ArrayList<>();
+        Object branchMetadata = codegenModel.vendorExtensions.get(
+                "x-cpp-composition-branches");
+        Object templateBranches = branchMetadata instanceof Map
+                ? ((Map<?, ?>) branchMetadata).get("branches") : null;
+        int branchIndex = 0;
         for (CodegenProperty branch : codegenModel.getComposedSchemas().getOneOf()) {
             String originalType = stripSharedPtr(branch.dataType);
             CodegenModel referencedModel = allModels.get(originalType);
@@ -1451,6 +1495,13 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
             resolvedType = resolveOpenApiTypeName(resolvedType);
 
             Map<String, Object> validationBranch = new LinkedHashMap<>();
+            String validatorId = validatorIdAt(templateBranches, branchIndex);
+            if (validatorId != null) {
+                // Type erasure is safe only when the original branch validator
+                // remains available to distinguish its full assertion surface.
+                validationBranch.put("validator-id", validatorId);
+                validationBranch.put("has-validator-id", true);
+            }
             if ("std::string".equals(resolvedType)) {
                 validationBranch.put("is-string", true);
                 List<Object> enumValues = getEnumValues(branch, referencedModel);
@@ -1484,8 +1535,23 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
                 validationBranch.put("is-any", true);
             }
             validationBranches.add(validationBranch);
+            branchIndex++;
         }
         return validationBranches;
+    }
+
+    private static String validatorIdAt(Object templateBranches, int branchIndex) {
+        if (!(templateBranches instanceof List) || branchIndex < 0
+                || branchIndex >= ((List<?>) templateBranches).size()) {
+            return null;
+        }
+        Object branch = ((List<?>) templateBranches).get(branchIndex);
+        if (!(branch instanceof Map)) {
+            return null;
+        }
+        Object validatorId = ((Map<?, ?>) branch).get("validator-id");
+        return validatorId instanceof String && !((String) validatorId).isEmpty()
+                ? (String) validatorId : null;
     }
 
     @SuppressWarnings("unchecked")
@@ -1598,9 +1664,35 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
         return result.isEmpty() ? "schema" : result;
     }
 
+    /** Returns unique schema IR ids for raw component schema names. */
+    static Map<String, String> componentSchemaIds(Collection<String> schemaNames) {
+        List<String> names = new ArrayList<>(schemaNames);
+        Collections.sort(names);
+        Map<String, List<String>> namesByBase = new LinkedHashMap<>();
+        for (String name : names) {
+            namesByBase.computeIfAbsent(toValidIdentifier(name), ignored -> new ArrayList<>())
+                    .add(name);
+        }
+
+        Map<String, String> ids = new LinkedHashMap<>();
+        for (Map.Entry<String, List<String>> entry : namesByBase.entrySet()) {
+            String base = entry.getKey() + "_component";
+            List<String> collidingNames = entry.getValue();
+            if (collidingNames.size() == 1) {
+                ids.put(collidingNames.get(0), base);
+                continue;
+            }
+            for (int index = 0; index < collidingNames.size(); index++) {
+                ids.put(collidingNames.get(index), base + "_" + (index + 1));
+            }
+        }
+        return ids;
+    }
+
     /** Returns the schema IR id for a raw component schema name. */
-    static String componentSchemaId(String schemaName) {
-        return toValidIdentifier(schemaName) + "_component";
+    static String componentSchemaId(String schemaName, Map<String, String> ids) {
+        String id = ids.get(schemaName);
+        return id != null ? id : toValidIdentifier(schemaName) + "_component";
     }
 
     /**

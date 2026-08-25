@@ -86,11 +86,12 @@ public class ModelApiSurfaceTest {
                 "bool m_ModelArrayIsSet = false;",
                 "bool m_FreeFormValueIsSet = false;",
                 "bool m_NullValueIsSet = false;");
-        // Non-cyclic object refs use value semantics (no shared_ptr wrapping)
+        // Non-cyclic object refs and their container items use value semantics.
         TestUtils.assertFileContains(containerHeader,
                 "m_ReferencedEnum");
         TestUtils.assertFileNotContains(containerHeader,
-                "shared_ptr<ReferencedEnum>");
+                "shared_ptr<ReferencedEnum>",
+                "shared_ptr<ChildModel>");
         TestUtils.assertFileNotContains(containerHeader,
                 "bool m_RequiredValueIsSet",
                 "std::array<");
@@ -130,10 +131,10 @@ public class ModelApiSurfaceTest {
                 "setBooleanChoice(JsonValueConverter<bool>::fromJsonValue(BooleanChoiceIt->value()));",
                 "std::ostringstream errorMessage;",
                 "errorMessage << \"Value not allowed\";",
-                "JsonValueConverter<std::vector<std::vector<std::shared_ptr<ChildModel>>>>::fromJsonValue",
-                "JsonValueConverter<std::map<std::string, std::map<std::string, std::shared_ptr<ChildModel>>>>::fromJsonValue",
-                "JsonValueConverter<std::vector<std::map<std::string, std::shared_ptr<ChildModel>>>>::fromJsonValue",
-                "JsonValueConverter<std::map<std::string, std::vector<std::shared_ptr<ChildModel>>>>::fromJsonValue",
+                "JsonValueConverter<std::vector<std::vector<ChildModel>>>::fromJsonValue",
+                "JsonValueConverter<std::map<std::string, std::map<std::string, ChildModel>>>::fromJsonValue",
+                "JsonValueConverter<std::vector<std::map<std::string, ChildModel>>>::fromJsonValue",
+                "JsonValueConverter<std::map<std::string, std::vector<ChildModel>>>::fromJsonValue",
                 "vec = JsonValueConverter<std::vector<std::shared_ptr<ContainerModel>>>::fromJsonValue");
         // Required field validation — missing required key throws with descriptive message
         TestUtils.assertFileContains(containerSource,
@@ -1431,8 +1432,7 @@ public class ModelApiSurfaceTest {
         Path modelDirectory = output.toPath().resolve("model");
         for (String omittedFile : List.of(
                 "Oas31SchemaRegistry.h",
-                "schema_ir.generated.cpp",
-                "schema_validate.generated.cpp")) {
+                "schema_ir.generated.cpp")) {
             Assert.assertFalse(Files.exists(modelDirectory.resolve(omittedFile)),
                     omittedFile + " must not be emitted when validation is disabled");
         }
@@ -1453,8 +1453,6 @@ public class ModelApiSurfaceTest {
         String cmakeLists = Files.readString(output.toPath().resolve("CMakeLists.txt"));
         Assert.assertFalse(cmakeLists.contains("schema_ir.generated"),
                 "Generated CMake must not reference stripped schema IR sources");
-        Assert.assertFalse(cmakeLists.contains("schema_validate.generated.cpp"),
-                "Generated CMake must not reference the stripped validation source");
         Assert.assertFalse(cmakeLists.contains("Oas31SchemaRegistry.h"),
                 "Generated CMake must not reference the stripped schema registry");
 

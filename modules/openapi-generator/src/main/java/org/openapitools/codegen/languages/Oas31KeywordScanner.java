@@ -599,7 +599,7 @@ public final class Oas31KeywordScanner {
             record(ledger, "enum", location, VOCAB_VALIDATION, KeywordOccurrenceStatus.EMITTED,
                     "validation-enum-values");
         }
-        if (schema.getConst() != null) {
+        if (schema.getConst() != null || Oas31RawSpecRecovery.hasExplicitConst(schema)) {
             record(ledger, "const", location, VOCAB_VALIDATION, KeywordOccurrenceStatus.EMITTED,
                     "validation-const; exact-math caveat follows");
         }

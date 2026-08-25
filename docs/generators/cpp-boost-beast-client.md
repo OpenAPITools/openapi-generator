@@ -19,7 +19,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |apiPackage|C++ namespace for apis (convention: name.space.api).| |org.openapitools.client.api|
-|compileWithValidation|Emit schema-validation IR, per-model validate_* branch functions, and kValidateOnDecode=true in generated ValidationTypes.h (default). Set to false to omit the IR and validate_* functions for high-throughput clients. Representation diagnostics (non-finite destinations, integer range, required properties) remain active.| |true|
+|compileWithValidation|Emit schema-validation IR and set kValidateOnDecode=true in generated ValidationTypes.h (default). Set to false to omit the IR for high-throughput clients. Representation diagnostics (non-finite destinations, integer range, required properties) remain active.| |true|
 |exportMacro|C++ export macro placed before public classes and functions. When non-empty, ApiExport.h is generated for Windows DLL export/import handling.| ||
 |formatAssertionPolicy|Format handling in composition branch matching. Only 'annotation' is supported: format metadata never affects match counts.|<dl><dt>**annotation**</dt><dd>Formats are annotations and do not affect validation</dd></dl>|annotation|
 |inferConditionalSseOperations|Infer conditional SSE for dual JSON/SSE operations only when the request selector and event model are unambiguous. Enabled by default.| |true|

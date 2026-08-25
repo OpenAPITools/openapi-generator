@@ -99,7 +99,6 @@ public class Oas31GeneratedIrTest extends Oas31IrTestSupport {
                 "set_property(TARGET OpenSSL::SSL PROPERTY IMPORTED_GLOBAL TRUE)",
                 "PUBLIC Boost::boost Boost::json OpenSSL::SSL Threads::Threads",
                 "model/schema_ir.generated.cpp",
-                "model/schema_validate.generated.cpp",
                 "PATTERN \"*.h\" PATTERN \"*.hpp\"");
         TestUtils.assertFileNotContains(cmakeLists, "api/HttpClient.cpp");
         TestUtils.assertFileContains(httpClientSource,
@@ -161,7 +160,6 @@ public class Oas31GeneratedIrTest extends Oas31IrTestSupport {
 
         Path irHeader = output.toPath().resolve("model/Oas31SchemaRegistry.h");
         Path irSource = output.toPath().resolve("model/schema_ir.generated.cpp");
-        Path dispatch = output.toPath().resolve("model/schema_validate.generated.cpp");
         Path exactHeader = output.toPath().resolve("model/Oas31ExactNumber.h");
         Path irStructs = output.toPath().resolve("model/Oas31SchemaIr.h");
         Path validatorHeader = output.toPath().resolve("model/Oas31Validator.h");
@@ -170,8 +168,9 @@ public class Oas31GeneratedIrTest extends Oas31IrTestSupport {
                 "Oas31SchemaRegistry.h must be emitted");
         Assert.assertTrue(java.nio.file.Files.exists(irSource),
                 "schema_ir.generated.cpp must be emitted");
-        Assert.assertTrue(java.nio.file.Files.exists(dispatch),
-                "schema_validate.generated.cpp must be emitted");
+        Assert.assertFalse(java.nio.file.Files.exists(
+                        output.toPath().resolve("model/schema_validate.generated.cpp")),
+                "obsolete schema_validate.generated.cpp must not be emitted");
         // Runtime-support headers are rendered into model/.
         Assert.assertTrue(java.nio.file.Files.exists(exactHeader),
                 "Oas31ExactNumber.h must be emitted into model/");
@@ -200,18 +199,11 @@ public class Oas31GeneratedIrTest extends Oas31IrTestSupport {
         Assert.assertTrue(ir.contains("\"0.3\"") && ir.contains("\"0.1\""),
                 "decimal lexemes must appear verbatim in the IR source");
 
-        // validate_<id> thin dispatch delegates to SchemaEvaluator over the node.
-        String dispatchContent = java.nio.file.Files.readString(dispatch);
-        Assert.assertTrue(dispatchContent.contains("validate_Amount_branch_0"),
-                "thin dispatch must emit validate_Amount_branch_0");
-        Assert.assertTrue(dispatchContent.contains("validate_Amount_branch_2"),
-                "thin dispatch must emit validate_Amount_branch_2");
-        TestUtils.assertFileContains(dispatch,
-                "namespace " + VALIDATION_NAMESPACE + " {",
-                "sharedSchemaEvaluator().validate",
-                "schemaNodeFor");
-        TestUtils.assertFileNotContains(dispatch,
-                "static SchemaEvaluator const evaluator");
+        // Main branches are resolved by their registry IDs and decoded through
+        // the shared SchemaEvaluator directly, without an unused wrapper TU.
+        TestUtils.assertFileContains(irSource,
+                "if (id == \"Amount_branch_0\")",
+                "if (id == \"Amount_branch_2\")");
 
         // The generated registry owns exactly one process-wide evaluator, and
         // model decode adapters route through that same instance.
@@ -429,14 +421,12 @@ public class Oas31GeneratedIrTest extends Oas31IrTestSupport {
     }
 
     @Test
-    public void generatedPathEmitsFullNumericBooleanDispatch() throws IOException {
+    public void generatedPathEmitsFullNumericBooleanIr() throws IOException {
         // End-to-end wire pass: the REAL generator must emit the full
-        // numeric/boolean keyword set as densified IR + a thin validate_<id>
-        // dispatch from a single committed OAS 3.1 doc
-        // (oas31-generated-path-regression.yaml). This is the JVM-side guard
-        // that keeps the generated path green; the C++ side (compile + run
-        // verdicts through the emitted dispatch) is covered by the committed
-        // oas-compliance gate script.
+        // numeric/boolean keyword set as densified IR from a single committed
+        // OAS 3.1 document (oas31-generated-path-regression.yaml). This is the
+        // JVM-side guard that keeps the generated path green; the C++ side
+        // exercises the shared evaluator through generated model adapters.
         File output = java.nio.file.Files.createTempDirectory("cpp-boost-beast-wire").toFile();
         output.deleteOnExit();
 
@@ -449,13 +439,13 @@ public class Oas31GeneratedIrTest extends Oas31IrTestSupport {
         files.forEach(File::deleteOnExit);
 
         Path irSource = output.toPath().resolve("model/schema_ir.generated.cpp");
-        Path dispatch = output.toPath().resolve("model/schema_validate.generated.cpp");
         Path irHeader = output.toPath().resolve("model/Oas31SchemaRegistry.h");
 
         Assert.assertTrue(java.nio.file.Files.exists(irSource),
                 "schema_ir.generated.cpp must be emitted");
-        Assert.assertTrue(java.nio.file.Files.exists(dispatch),
-                "schema_validate.generated.cpp must be emitted");
+        Assert.assertFalse(java.nio.file.Files.exists(
+                        output.toPath().resolve("model/schema_validate.generated.cpp")),
+                "obsolete schema_validate.generated.cpp must not be emitted");
         Assert.assertTrue(java.nio.file.Files.exists(irHeader),
                 "Oas31SchemaRegistry.h must be emitted");
 
@@ -480,24 +470,20 @@ public class Oas31GeneratedIrTest extends Oas31IrTestSupport {
                 java.nio.file.Files.readString(irSource).contains("1180591620717411325952"),
                 "IR must not contain a rounded double rendering of 2^70");
 
-        // The thin dispatch must expose validate_<id> for every schema in the doc.
-        TestUtils.assertFileContains(dispatch,
-                "validate_ExactEqualsOne_branch_0",
-                "validate_ExactIntegerType_branch_0",
-                "validate_MulTenth_branch_0",
-                "validate_MulThird_branch_0",
-                "validate_RangeMinMax_branch_0",
-                "validate_ZeroConst_branch_0",
-                "validate_BigConst_branch_0",
-                "validate_HugeMax_branch_0",
-                "validate_TinyMin_branch_0",
-                "validate_BoolConstTrue_branch_0",
-                "validate_BoolEnumTrue_branch_0",
-                "validate_NumberEnumSpellings_branch_0");
-        TestUtils.assertFileContains(dispatch,
-                "namespace " + VALIDATION_NAMESPACE + " {",
-                "sharedSchemaEvaluator().validate",
-                "schemaNodeFor");
+        // Each schema must be addressable by a direct registry lookup.
+        TestUtils.assertFileContains(irSource,
+                "if (id == \"ExactEqualsOne_branch_0\")",
+                "if (id == \"ExactIntegerType_branch_0\")",
+                "if (id == \"MulTenth_branch_0\")",
+                "if (id == \"MulThird_branch_0\")",
+                "if (id == \"RangeMinMax_branch_0\")",
+                "if (id == \"ZeroConst_branch_0\")",
+                "if (id == \"BigConst_branch_0\")",
+                "if (id == \"HugeMax_branch_0\")",
+                "if (id == \"TinyMin_branch_0\")",
+                "if (id == \"BoolConstTrue_branch_0\")",
+                "if (id == \"BoolEnumTrue_branch_0\")",
+                "if (id == \"NumberEnumSpellings_branch_0\")");
     }
 
     @Test
@@ -523,7 +509,6 @@ public class Oas31GeneratedIrTest extends Oas31IrTestSupport {
         files.forEach(File::deleteOnExit);
 
         Path irSource = output.toPath().resolve("model/schema_ir.generated.cpp");
-        Path dispatch = output.toPath().resolve("model/schema_validate.generated.cpp");
         Assert.assertTrue(java.nio.file.Files.exists(irSource),
                 "schema_ir.generated.cpp must be emitted");
 
@@ -604,10 +589,10 @@ public class Oas31GeneratedIrTest extends Oas31IrTestSupport {
         Assert.assertTrue(ir.contains("n.resourceIdentity = 0;"),
                 "every densified node must carry a resourceIdentity");
 
-        // Every schema still gets a thin validate_<id> dispatch.
-        TestUtils.assertFileContains(dispatch,
-                "validate_NotString_branch_0",
-                "validate_AlwaysTrueSchema_branch_0",
-                "validate_RefToThing_branch_0");
+        // Main schemas remain directly addressable through the registry.
+        TestUtils.assertFileContains(irSource,
+                "if (id == \"NotString_branch_0\")",
+                "if (id == \"AlwaysTrueSchema_branch_0\")",
+                "if (id == \"RefToThing_branch_0\")");
     }
 }

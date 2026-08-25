@@ -34,6 +34,9 @@ final class Oas31RawSpecRecovery {
     private static final String ENUM_JSON_EXT = "x-oas31-enum-json";
     private static final String DEFAULT_PRESENT_EXT = "x-oas31-default-present";
     private static final String DEFAULT_JSON_EXT = "x-oas31-default-json";
+    private static final String EXAMPLES_JSON_EXT = "x-oas31-examples-json";
+    private static final String CONST_PRESENT_EXT = "x-oas31-const-present";
+    private static final String CONST_JSON_EXT = "x-oas31-const-json";
     private static final String TYPE_NULL_EXT = "x-oas31-pristine-type-null";
     private static final String DEPENDENT_REQUIRED_EXT = "x-oas31-dependent-required";
     static final String LEGACY_NULLABLE_EXT = "x-oas31-legacy-nullable";
@@ -402,6 +405,14 @@ final class Oas31RawSpecRecovery {
             addExtension(parsed, DEFAULT_PRESENT_EXT, true);
             addExtension(parsed, DEFAULT_JSON_EXT, raw.get("default").toString());
         }
+        if (raw.has("const")) {
+            addExtension(parsed, CONST_PRESENT_EXT, true);
+            addExtension(parsed, CONST_JSON_EXT, raw.get("const").toString());
+        }
+        if (raw.has("examples")) {
+            addExtension(parsed, EXAMPLES_JSON_EXT, raw.get("examples").toString());
+        }
+
 
         JsonNode rawEnum = raw.get("enum");
         if (rawEnum != null && rawEnum.isArray()) {
@@ -688,6 +699,26 @@ final class Oas31RawSpecRecovery {
         Object value = schema.getExtensions().get(DEFAULT_JSON_EXT);
         return value == null ? null : String.valueOf(value);
     }
+
+    static String examplesJsonOf(Schema schema) {
+        if (schema == null || schema.getExtensions() == null) {
+            return null;
+        }
+        Object value = schema.getExtensions().get(EXAMPLES_JSON_EXT);
+        return value == null ? null : String.valueOf(value);
+    }
+    static boolean hasExplicitConst(Schema schema) {
+        return hasTrueExtension(schema, CONST_PRESENT_EXT);
+    }
+
+    static String constJsonOf(Schema schema) {
+        if (schema == null || schema.getExtensions() == null) {
+            return null;
+        }
+        Object value = schema.getExtensions().get(CONST_JSON_EXT);
+        return value == null ? null : String.valueOf(value);
+    }
+
 
     private static void addExtension(Schema schema, String key, Object value) {
         if (schema.getExtensions() == null) {

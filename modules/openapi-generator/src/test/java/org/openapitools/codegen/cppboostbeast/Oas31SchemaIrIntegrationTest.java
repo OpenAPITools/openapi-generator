@@ -87,11 +87,11 @@ public class Oas31SchemaIrIntegrationTest extends Oas31IrTestSupport {
         files.forEach(File::deleteOnExit);
 
         Path irSource = output.toPath().resolve("model/schema_ir.generated.cpp");
-        Path dispatch = output.toPath().resolve("model/schema_validate.generated.cpp");
         Assert.assertTrue(java.nio.file.Files.exists(irSource),
                 "schema_ir.generated.cpp must be emitted");
-        Assert.assertTrue(java.nio.file.Files.exists(dispatch),
-                "schema_validate.generated.cpp must be emitted");
+        Assert.assertFalse(java.nio.file.Files.exists(
+                        output.toPath().resolve("model/schema_validate.generated.cpp")),
+                "obsolete schema_validate.generated.cpp must not be emitted");
 
         String ir = java.nio.file.Files.readString(irSource);
 
@@ -160,12 +160,12 @@ public class Oas31SchemaIrIntegrationTest extends Oas31IrTestSupport {
         long prefixCount = java.util.regex.Pattern.compile("n\\.prefixItems\\.push_back").matcher(ir)
                 .results().count();
         Assert.assertTrue(prefixCount >= 2, "prefixItems must emit at least 2 indexed child refs");
-        // uniqueItems:false must still materialise a dispatch (never BLOCKED-at-emission).
-        String dispatchContent = java.nio.file.Files.readString(dispatch);
-        TestUtils.assertFileContains(dispatch,
-                "validate_UniqueItemsFalse_branch_0",
-                "validate_ObjectBranch_branch_0",
-                "validate_ArrayBranch_branch_0");
+        // uniqueItems:false still materializes a registry node (never BLOCKED-at-emission).
+        // Every branch is directly addressable through the registry.
+        TestUtils.assertFileContains(irSource,
+                "if (id == \"UniqueItemsFalse_branch_0\")",
+                "if (id == \"ObjectBranch_branch_0\")",
+                "if (id == \"ArrayBranch_branch_0\")");
 
         // -- enum: [] reject-all --
         Assert.assertTrue(ir.contains("n.hasEnumJson = true;"),
@@ -192,8 +192,8 @@ public class Oas31SchemaIrIntegrationTest extends Oas31IrTestSupport {
                 "13 composed components => last main root index 12");
         Assert.assertFalse(ir.contains("res.rootNodes.push_back(13);"),
                 "component/helper rows must not be resource roots");
-        Assert.assertTrue(dispatchContent.contains("validate_DefsNestedProperty_branch_0"),
-                "DefsNestedProperty must be dispatched");
+        TestUtils.assertFileContains(irSource,
+                "if (id == \"DefsNestedProperty_branch_0\")");
     }
 
     @Test
@@ -219,26 +219,23 @@ public class Oas31SchemaIrIntegrationTest extends Oas31IrTestSupport {
         files.forEach(File::deleteOnExit);
 
         Path irSource = output.toPath().resolve("model/schema_ir.generated.cpp");
-        Path dispatch = output.toPath().resolve("model/schema_validate.generated.cpp");
         String ir = java.nio.file.Files.readString(irSource);
-        String dispatchContent = java.nio.file.Files.readString(dispatch);
 
         // (a) $ref + siblings: RefWithSibling node is a ref applicator AND
         // carries the sibling minProperties inline (both apply, 2020-12).
         TestUtils.assertFileContains(irSource,
                 "n.applicator = ApplicatorKind::ref;",
                 "setExact(n.minProperties, n.hasMinProperties, \"2\")");
-        Assert.assertTrue(dispatchContent.contains("validate_RefWithSibling_branch_0"),
-                "RefWithSibling must be dispatched");
+        TestUtils.assertFileContains(irSource,
+                "if (id == \"RefWithSibling_branch_0\")");
 
         // (b) $defs-scope ref: DefsRef resolves to the hoisted hoistedDef
         // component row (densified, enum members a/b).
         Assert.assertTrue(ir.contains("hoistedDef_component"),
                 "defs-scope target must be surfaced as a densified component row");
-        Assert.assertTrue(dispatchContent.contains("validate_DefsRef_branch_0"),
-                "DefsRef must be dispatched");
-        Assert.assertTrue(dispatchContent.contains("validate_DefsNestedProperty_branch_0"),
-                "DefsNestedProperty must be dispatched");
+        TestUtils.assertFileContains(irSource,
+                "if (id == \"DefsRef_branch_0\")",
+                "if (id == \"DefsNestedProperty_branch_0\")");
         // The nested #/$defs/% property child must be bound to a densified row
         // (its ref maps to the hoisted component row, not an inert -1).
         Assert.assertTrue(java.util.regex.Pattern.compile(
@@ -254,8 +251,8 @@ public class Oas31SchemaIrIntegrationTest extends Oas31IrTestSupport {
         TestUtils.assertFileContains(irSource,
                 "n.hasObjectSchema = true;",
                 "n.required.push_back(\"id\");");
-        Assert.assertTrue(dispatchContent.contains("validate_RefToPlain_branch_0"),
-                "RefToPlain must be dispatched");
+        TestUtils.assertFileContains(irSource,
+                "if (id == \"RefToPlain_branch_0\")");
     }
 
     @Test
@@ -296,6 +293,115 @@ public class Oas31SchemaIrIntegrationTest extends Oas31IrTestSupport {
                 yamlOptions.setMaxYamlCodePoints(previousLimit);
             }
         }
+    }
+
+    @Test
+    public void preservesNullLiteralsAndDisambiguatesComponentIds() throws IOException {
+        Path root = Files.createTempDirectory("cpp-boost-beast-raw-literals");
+        root.toFile().deleteOnExit();
+        Path input = root.resolve("raw-literals.yaml");
+        String spec = "openapi: 3.1.0\n"
+                + "info:\n"
+                + "  title: Raw literal recovery\n"
+                + "  version: 1.0.0\n"
+                + "paths: {}\n"
+                + "components:\n"
+                + "  schemas:\n"
+                + "    NullConst:\n"
+                + "      oneOf:\n"
+                + "        - const: null\n"
+                + "    NullAnnotations:\n"
+                + "      type: object\n"
+                + "      default: null\n"
+                + "      const: null\n"
+                + "      examples: []\n"
+                + "    Item:\n"
+                + "      type: object\n"
+                + "      properties:\n"
+                + "        id:\n"
+                + "          type: string\n"
+                + "    Container:\n"
+                + "      type: object\n"
+                + "      properties:\n"
+                + "        entries:\n"
+                + "          type: array\n"
+                + "          items:\n"
+                + "            $ref: '#/components/schemas/Item'\n"
+                + "    schema-name:\n"
+                + "      type: string\n"
+                + "    schema.name:\n"
+                + "      type: integer\n";
+        Files.writeString(input, spec);
+
+        Path output = root.resolve("output");
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec(input.toString())
+                .setOutputDir(output.toString());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path irSource = output.resolve("model/schema_ir.generated.cpp");
+        String ir = Files.readString(irSource);
+        String nullConst = schemaNodeBlock(ir, "#/components/schemas/NullConst/oneOf/0");
+        Assert.assertTrue(nullConst.contains("n.hasConst = true;")
+                        && nullConst.contains("null"),
+                "const: null must remain an exact deep const constraint");
+        String nullAnnotations = schemaNodeBlock(ir, "#/components/schemas/NullAnnotations");
+        Assert.assertTrue(nullAnnotations.contains("n.annDefaultJson = \"null\";"),
+                "default: null must remain an annotation");
+        Assert.assertTrue(nullAnnotations.contains("n.annExamplesJson = \"[]\";"),
+                "examples: [] must remain an annotation");
+        Assert.assertTrue(ir.contains("schema_name_component_1")
+                        && ir.contains("schema_name_component_2"),
+                "component names that sanitize identically must receive distinct IDs");
+
+        Path containerHeader = output.resolve("model/Container.h");
+        TestUtils.assertFileContains(containerHeader, "std::vector<Item>");
+        TestUtils.assertFileNotContains(containerHeader, "std::shared_ptr<Item>");
+    }
+
+    @Test
+    public void typeErasedOneOfUsesBranchSchemaValidators() throws IOException {
+        Path root = Files.createTempDirectory("cpp-boost-beast-type-erased-oneof");
+        root.toFile().deleteOnExit();
+        Path input = root.resolve("type-erased-oneof.yaml");
+        String spec = "openapi: 3.1.0\n"
+                + "info:\n"
+                + "  title: Type-erased oneOf\n"
+                + "  version: 1.0.0\n"
+                + "paths: {}\n"
+                + "components:\n"
+                + "  schemas:\n"
+                + "    ConstrainedStringUnion:\n"
+                + "      oneOf:\n"
+                + "        - minLength: 4\n";
+        Files.writeString(input, spec);
+
+        Path output = root.resolve("output");
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec(input.toString())
+                .setOutputDir(output.toString());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path header = output.resolve("model/ConstrainedStringUnion.h");
+        String headerContent = Files.readString(header);
+        Assert.assertTrue(headerContent.contains(
+                        "using ConstrainedStringUnion = boost::json::value;"),
+                "type-erased oneOf must use a JSON value alias; header: " + headerContent);
+        Path source = output.resolve("model/ConstrainedStringUnion.cpp");
+        TestUtils.assertFileContains(source,
+                "schemaNodeFor(\"ConstrainedStringUnion_branch_0\")",
+                "sharedSchemaEvaluator().validate(");
+        Assert.assertFalse(Files.readString(source).contains("branchMatches = true;"),
+                "type-erased oneOf must not degrade constrained schemas to broad type checks");
+
+        String ir = Files.readString(output.resolve("model/schema_ir.generated.cpp"));
+        String constrainedBranch = schemaNodeBlock(
+                ir, "#/components/schemas/ConstrainedStringUnion/oneOf/0");
+        Assert.assertTrue(constrainedBranch.contains(
+                        "setExact(n.minLength, n.hasMinLength, \"4\")"),
+                "the branch validator must retain the semantic minLength assertion");
     }
 
     @Test

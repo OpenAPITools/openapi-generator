@@ -395,13 +395,16 @@ public class CompositionDescriptorTest extends CppBoostBeastNormalizerTestSuppor
                 "OptionalScore must lower to std::optional<double>; content: "
                         + optionalScoreContent.substring(0, Math.min(500, optionalScoreContent.length())));
 
-        // ModelIdsShared (anyOf string + string-enum) → std::string
+        // ModelIdsShared keeps both anyOf string branches tagged because the
+        // enum branch has different validation semantics from plain string.
         Path modelIds = output.toPath().resolve("model/ModelIdsShared.h");
         Assert.assertTrue(java.nio.file.Files.exists(modelIds),
                 "ModelIdsShared (anyOf) must generate a model header");
         String modelIdsContent = java.nio.file.Files.readString(modelIds);
-        Assert.assertTrue(modelIdsContent.contains("using ModelIdsShared") || modelIdsContent.contains("std::string"),
-                "ModelIdsShared must lower to string alias; content: "
+        Assert.assertTrue(modelIdsContent.contains(
+                        "std::variant<CompositionBranchValue<0, std::string>, "
+                                + "CompositionBranchValue<1, std::string>>"),
+                "ModelIdsShared must preserve each anyOf branch identity; content: "
                         + modelIdsContent.substring(0, Math.min(500, modelIdsContent.length())));
 
         // PetByType (oneOf with discriminator) → std::variant<Cat, Dog> or similar
@@ -467,12 +470,15 @@ public class CompositionDescriptorTest extends CppBoostBeastNormalizerTestSuppor
                         + "std::string> from the converted branch value; content: "
                         + dedupSourceContent.substring(0, Math.min(500, dedupSourceContent.length())));
 
-        // RefHolder must reference OptionalScore and InputParam models
+        // RefHolder must use the aliases referenced by its two properties.
         Path refHolder = output.toPath().resolve("model/RefHolder.h");
         Assert.assertTrue(java.nio.file.Files.exists(refHolder),
                 "RefHolder must generate a model header");
-        // If RefHolder includes OptionalScore and InputParam, the pipeline
-        // resolved their types correctly
+        String refHolderContent = java.nio.file.Files.readString(refHolder);
+        Assert.assertTrue(refHolderContent.contains("ModelIdsResponses"),
+                "RefHolder must reference ModelIdsResponses for ids");
+        Assert.assertTrue(refHolderContent.contains("InputParam"),
+                "RefHolder must reference InputParam for param");
     }
 
     @Test
@@ -706,14 +712,11 @@ public class CompositionDescriptorTest extends CppBoostBeastNormalizerTestSuppor
         Assert.assertEquals(desc.getDiscriminator().getPropertyName(), "type",
                 "Discriminator property name must be captured");
 
-        // Branch must have assertion metadata
+        // Branch 0 is an inline StringSchema and must retain its type assertion.
         Oas31CompositionLowering.CompositionBranchDescriptor stringBranchDesc =
                 desc.getBranches().get(0);
-        // The string branch resolved schema is the NullModel; but branch 0
-        // is a StringSchema inline, which has type -> "type" assertion
-        Assert.assertTrue(stringBranchDesc.getSupportedAssertions().isEmpty()
-                        || stringBranchDesc.getSupportedAssertions().contains("type"),
-                "String branch should have 'type' in supported assertions");
+        Assert.assertTrue(stringBranchDesc.getSupportedAssertions().contains("type"),
+                "Inline string branch must have a type assertion in supported assertions");
 
         // Null branch must not have unsupported assertions (simple nullable ref)
         Assert.assertTrue(nullBranchDesc.getUnsupportedAssertions().isEmpty(),

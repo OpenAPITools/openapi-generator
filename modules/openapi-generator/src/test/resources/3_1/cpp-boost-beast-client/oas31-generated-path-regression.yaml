@@ -5,14 +5,12 @@ info:
 paths: {}
 components:
   schemas:
-    # The numeric/boolean keyword slice (ADR D1 / Option B) expressed as
+    # The numeric/boolean keyword slice (ADR D1 / Option B) is expressed as
     # oneOf-wrapped component schemas so the Wave-1 IR emitter
     # (CppBoostBeastClientCodegen::irNodeFromBranch) lowers each branch to a
-    # densified SchemaNode and a thin generated validate_<id> dispatch
-    # (Oas31SchemaRegistry.h + schema_ir.generated.cpp + schema_validate.generated.cpp).
-    # Each schema is a single-branch composition, so its IR node is
-    # validate_<SchemaName>_branch_0.  Raw instances are fed to those GENERATED
-    # dispatch functions in the integration driver (oas31-generated-path/).
+    # densified SchemaNode. Generated model adapters look up these rows through
+    # Oas31SchemaRegistry.h and schema_ir.generated.cpp, then invoke the shared
+    # SchemaEvaluator directly.
     ExactEqualsOne:
       oneOf:
         - type: number

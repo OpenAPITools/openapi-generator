@@ -220,10 +220,7 @@ public class Oas31CompositionComplianceTest extends Oas31IrTestSupport {
     // --- Strong review: properties/additionalProperties fail-closed ---
 
     @Test
-    public void propertiesOnOneOfBranchNoLongerFailsGeneration() {
-        // Properties on a composition branch no longer fail generation
-        // because 'properties' was removed from unsupported assertions.
-        // The branch descriptor should have object-properties in supported.
+    public void propertiesOnOneOfBranchAreEmitted() {
         CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
         codegen.processOpts();
 
@@ -235,13 +232,11 @@ public class Oas31CompositionComplianceTest extends Oas31IrTestSupport {
         ComposedSchema schema = new ComposedSchema();
         ObjectSchema objBranch = new ObjectSchema();
         objBranch.addProperties("name", new StringSchema());
-        // No required — only properties, no required
         schema.addOneOfItem(objBranch);
         schemas.put("SchemaWithProperties", schema);
         components.setSchemas(schemas);
         openAPI.setComponents(components);
 
-        // Must not throw
         codegen.preprocessOpenAPI(openAPI);
 
         Oas31CompositionLowering.CompositionDescriptor desc =
@@ -249,11 +244,10 @@ public class Oas31CompositionComplianceTest extends Oas31IrTestSupport {
         Assert.assertNotNull(desc, "SchemaWithProperties must have a descriptor");
         Assert.assertEquals(desc.getBranches().size(), 1);
         Oas31CompositionLowering.CompositionBranchDescriptor branch = desc.getBranches().get(0);
-        // Properties on branches may not produce "object-properties" in the
-        // supported set. Verify the branch is present and carries the type
-        // assertion.
-        Assert.assertTrue(branch.getSupportedAssertions().contains("type"),
-                "Branch with properties must have type assertion in supported");
+        Assert.assertTrue(branch.getSupportedAssertions().contains("object-properties"),
+                "Object branch properties must be emitted to the schema IR");
+        Assert.assertFalse(branch.getUnsupportedAssertions().contains("properties"),
+                "Object branch properties must not be fail-closed");
     }
 
     @Test

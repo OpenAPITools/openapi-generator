@@ -71,6 +71,8 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
             "x-codegen-param-allow-reserved";
     private static final String X_CODEGEN_PARAM_ALLOW_EMPTY_VALUE =
             "x-codegen-param-allow-empty-value";
+    private Map<String, String> componentSchemaIdsByName = Collections.emptyMap();
+
 
 
     /** Starts an isolated state set for one generator invocation. */
@@ -85,6 +87,8 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
         operationCallbacks = new HashMap<>();
         operationLinks = new HashMap<>();
         allOfIntersections = new LinkedHashMap<>();
+        refreshComponentSchemaIds(openApi);
+
     }
 
     /**
@@ -423,9 +427,8 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
         cliOptions.add(inferConditionalSseOption);
 
         CliOption compileWithValidationOption = new CliOption("compileWithValidation",
-                "Emit schema-validation IR, per-model validate_* branch functions,"
-                + " and kValidateOnDecode=true in generated ValidationTypes.h (default)."
-                + " Set to false to omit the IR and validate_* functions for"
+                "Emit schema-validation IR and kValidateOnDecode=true in generated"
+                + " ValidationTypes.h (default). Set to false to omit the IR for"
                 + " high-throughput clients. Representation diagnostics (non-finite"
                 + " destinations, integer range, required properties) remain active.");
 
@@ -461,11 +464,10 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
         supportingFiles.add(new SupportingFile("oas31_deep_equal.mustache", "model", "Oas31DeepEqual.h"));
         supportingFiles.add(new SupportingFile("oas31_exact_json.mustache", "model", "Oas31ExactJson.h"));
         supportingFiles.add(new SupportingFile("oas31_validator.mustache", "model", "Oas31Validator.h"));
-        // Generation-time IR tables, optional bounded source chunks, and thin
-        // validate_<id> dispatch. Content is rendered from supporting-file data.
+        // Generation-time IR tables and optional bounded source chunks. Content
+        // is rendered from supporting-file data.
         supportingFiles.add(new SupportingFile("oas31_schema_ir_header.mustache", "model", "Oas31SchemaRegistry.h"));
         supportingFiles.add(new SupportingFile("oas31_schema_ir_source.mustache", "model", "schema_ir.generated.cpp"));
-        supportingFiles.add(new SupportingFile("oas31_schema_validate.mustache", "model", "schema_validate.generated.cpp"));
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "std::int32_t", "std::int64_t"));
@@ -597,7 +599,6 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
         String destination = file.getDestinationFilename();
         return "Oas31SchemaRegistry.h".equals(destination)
                 || "schema_ir.generated.cpp".equals(destination)
-                || "schema_validate.generated.cpp".equals(destination)
                 || (destination.startsWith("schema_ir.generated.chunk")
                         && destination.endsWith(".cpp"));
     }
@@ -899,7 +900,8 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
         }
 
         codegenModel.vendorExtensions.put(
-                "x-cpp-component-schema-id", componentSchemaId(name));
+                "x-cpp-component-schema-id",
+                componentSchemaId(name, componentSchemaIdsByName));
 
         // Post-check: Apply the pre-computed null union type if the default
         // pipeline consumed the composed schemas.
@@ -1654,6 +1656,31 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
         super.updateCodegenPropertyEnum(var);
         var.defaultValue = originalDefaultValue;
     }
+    @Override
+    public Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> updatedModels = super.updateAllModels(objs);
+        refreshComponentSchemaIds(openAPI);
+        for (Map.Entry<String, ModelsMap> entry : updatedModels.entrySet()) {
+            for (ModelMap modelMap : entry.getValue().getModels()) {
+                CodegenModel model = modelMap.getModel();
+                String schemaName = model.schemaName != null ? model.schemaName : entry.getKey();
+                model.vendorExtensions.put("x-cpp-component-schema-id",
+                        componentSchemaId(schemaName, componentSchemaIdsByName));
+            }
+        }
+        return updatedModels;
+    }
+
+    private void refreshComponentSchemaIds(OpenAPI openApi) {
+        if (openApi == null || openApi.getComponents() == null
+                || openApi.getComponents().getSchemas() == null) {
+            componentSchemaIdsByName = Collections.emptyMap();
+            return;
+        }
+        componentSchemaIdsByName = componentSchemaIds(
+                openApi.getComponents().getSchemas().keySet());
+    }
+
 
 
     @Override
@@ -1665,8 +1692,9 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
         // Model processing can replace inline branch schema objects after the
         // initial recovery pass; refresh the emitted graph from the raw spec.
         Oas31RawSpecRecovery.recoverPristineLiterals(openAPI, getInputSpec());
+        refreshComponentSchemaIds(openAPI);
         Oas31SchemaIrEmitter emitter = new Oas31SchemaIrEmitter(
-                openAPI, compositionDescriptors, additionalProperties());
+                openAPI, compositionDescriptors, additionalProperties(), componentSchemaIdsByName);
         Map<String, Object> produced = emitter.produce(processed);
         supportingFiles.removeIf(file -> {
             String destination = file.getDestinationFilename();

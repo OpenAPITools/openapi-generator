@@ -436,6 +436,7 @@ public class Oas31DialectAndScannerTest extends Oas31IrTestSupport {
         root.setType("object");
         root.setMinProperties(1);
         root.setPatternProperties(Collections.singletonMap(".", new StringSchema()));
+        root.setPropertyNames(new StringSchema());
         root.setNot(new StringSchema());
         root.setContains(new StringSchema());
         root.setContentEncoding("base64");
@@ -449,9 +450,9 @@ public class Oas31DialectAndScannerTest extends Oas31IrTestSupport {
         java.util.Set<String> fc = codegen.failClosedKeywords(openAPI);
         // Generated+run keywords must NOT be fail-closed (the ledger records
         // them EMITTED; runtime: not.json 40/0/0, min/maxProperties 10/0/0,
-        // patternProperties + propertyNames suites green through the GENERATED
-        // dispatch, contains family green). contentEncoding/contentMediaType/
-        // contentSchema are annotation-only per 2020-12 §8.2.6.
+        // patternProperties + propertyNames suites use the shared evaluator,
+        // contains family green). contentEncoding/contentMediaType/contentSchema
+        // are annotation-only per 2020-12 §8.2.6.
         Assert.assertFalse(fc.contains("minProperties"), "minProperties is emitted (object-property-count)");
         Assert.assertFalse(fc.contains("not"), "not is emitted (shared evaluator)");
         Assert.assertFalse(fc.contains("patternProperties"), "patternProperties is emitted (pattern-engine pass)");
@@ -467,6 +468,12 @@ public class Oas31DialectAndScannerTest extends Oas31IrTestSupport {
                 "contentSchema must be ANNOTATION, not fail-closed");
         Oas31KeywordScanner.KeywordOccurrenceLedger ledger =
                 codegen.scanSchemaKeywordOccurrences(openAPI);
+        Assert.assertTrue(ledger.hasKeyword("propertyNames"),
+                "propertyNames must be present in this exercised schema");
+        Assert.assertTrue(ledger.forKeyword("propertyNames").stream().allMatch(
+                        occurrence -> occurrence.getStatus()
+                                == Oas31KeywordScanner.KeywordOccurrenceStatus.EMITTED),
+                "propertyNames must be emitted rather than silently skipped");
         Assert.assertFalse(ledger.failClosed().contains("contains"),
                 "contains must be EMITTED in the ledger");
         Assert.assertFalse(ledger.failClosed().contains("patternProperties"));
