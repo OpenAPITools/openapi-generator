@@ -1032,28 +1032,30 @@ public class CodeGenMojo extends AbstractMojo {
                 applyInlineSchemaOptionsKvpList(inlineSchemaOptions, configurator);
             }
 
-            // Apply Name Mappings
-            if (nameMappings != null && (configOptions == null || !configOptions.containsKey("name-mappings"))) {
+            // Apply Name Mappings.
+            // These *-name-mappings options are not generator CliOptions and have no configOptions
+            // compatibility reader above, so a configOptions guard would protect nothing.
+            if (nameMappings != null) {
                 applyNameMappingsKvpList(nameMappings, configurator);
             }
 
             // Apply Parameter Name Mappings
-            if (parameterNameMappings != null && (configOptions == null || !configOptions.containsKey("parameter-name-mappings"))) {
+            if (parameterNameMappings != null) {
                 applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
             }
 
             // Apply Model Name Mappings
-            if (modelNameMappings != null && (configOptions == null || !configOptions.containsKey("model-name-mappings"))) {
+            if (modelNameMappings != null) {
                 applyModelNameMappingsKvpList(modelNameMappings, configurator);
             }
 
             // Apply Enum Name Mappings
-            if (enumNameMappings != null && (configOptions == null || !configOptions.containsKey("enum-name-mappings"))) {
+            if (enumNameMappings != null) {
                 applyEnumNameMappingsKvpList(enumNameMappings, configurator);
             }
 
             // Apply Operation ID Name Mappings
-            if (operationIdNameMappings != null && (configOptions == null || !configOptions.containsKey("operation-id-name-mappings"))) {
+            if (operationIdNameMappings != null) {
                 applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
             }
 
