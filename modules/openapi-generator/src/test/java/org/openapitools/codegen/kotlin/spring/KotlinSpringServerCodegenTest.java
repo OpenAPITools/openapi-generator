@@ -4482,6 +4482,43 @@ public class KotlinSpringServerCodegenTest {
                 "kotlin.collections.Set<", "Mono<ResponseEntity<set<");
     }
 
+    @Test
+    public void testParameterFieldExtraAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/kotlin-spring-param-extra-annotation.yaml",
+                Map.of(INTERFACE_ONLY, true));
+
+        Path locationApi = files.get("OrgsApi.kt").toPath();
+        // path param (single value), path param (list value -> both render), query param
+        assertFileContains(locationApi,
+                "@com.example.ValidOrgId ",
+                "@com.example.ValidLocId @com.example.Trimmed ",
+                "@com.example.ValidFilter ");
+
+        // form param
+        assertFileContains(files.get("DevicesApi.kt").toPath(), "@com.example.ValidDeviceId ");
+    }
+
+    @Test
+    public void testRequestBodyExtraAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/request-body-extra-annotation.yaml",
+                Map.of(INTERFACE_ONLY, true));
+
+        Path employeeApi = files.get("EmployeesApi.kt").toPath();
+        // single string value and list value both render before the body binding
+        assertFileContains(employeeApi,
+                "@com.example.MyValidation ",
+                "@com.example.AuditLogged ");
+
+        // selectivity: the annotation is applied per-operation only, even though all three
+        // operations reference the same shared Employee model. It must render exactly twice
+        // (createEmployee + createEmployeeBulk), never for createEmployeePlain.
+        String content = Files.readString(employeeApi);
+        int myValidationCount = content.split("@com.example.MyValidation", -1).length - 1;
+        assertThat(myValidationCount).isEqualTo(2);
+    }
+
     private Map<String, File> generateFromContract(String url) throws IOException {
         return generateFromContract(url, new HashMap<>(), new HashMap<>());
     }

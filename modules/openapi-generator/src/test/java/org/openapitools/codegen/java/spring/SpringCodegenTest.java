@@ -3963,6 +3963,51 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testRequestBodyExtraAnnotation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/request-body-extra-annotation.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("EmployeesApi.java"))
+                // single string value renders before the body param
+                .assertMethod("createEmployee")
+                .assertParameter("employee")
+                .assertParameterAnnotations()
+                .containsWithName("com.example.MyValidation")
+                .containsWithName("RequestBody")
+                .toParameter().toMethod().toFileAssert()
+                // list value renders all annotations before the body param
+                .assertMethod("createEmployeeBulk")
+                .assertParameter("employee")
+                .assertParameterAnnotations()
+                .containsWithName("com.example.MyValidation")
+                .containsWithName("com.example.AuditLogged")
+                .toParameter().toMethod().toFileAssert()
+                // selectivity: operation without the extension referencing the same model is unaffected
+                .assertMethod("createEmployeePlain")
+                .assertParameter("employee")
+                .assertParameterAnnotations()
+                .doesNotContainWithName("com.example.MyValidation")
+                .doesNotContainWithName("com.example.AuditLogged");
+    }
+
+    @Test
     public void testModelHasParameterExtraAnnotations_issue19953() {
         Path output = TestUtils.newTempFolder();
 

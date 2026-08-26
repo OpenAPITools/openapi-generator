@@ -1700,12 +1700,50 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return objs;
     }
 
+    /**
+     * Normalizes a vendor extension across all of an operation's parameter collections into a mutable
+     * {@code List<String>}. Mirrors {@code AbstractJavaCodegen.normalizeOperationParameterVendorExtensions}
+     * (which this Kotlin generator does not inherit) so parameter annotation extensions such as
+     * {@code x-field-extra-annotation} have a single, predictable shape for templates and downstream code.
+     * The same parameter can appear in several collections, so they are de-duplicated by identity.
+     *
+     * @param operation operation whose parameters should be updated
+     * @param name      vendor extension name
+     */
+    private void normalizeParameterVendorExtensionWithStringList(CodegenOperation operation, String name) {
+        Set<CodegenParameter> parameters = Collections.newSetFromMap(new IdentityHashMap<>());
+        parameters.addAll(operation.allParams);
+        parameters.addAll(operation.bodyParams);
+        parameters.addAll(operation.pathParams);
+        parameters.addAll(operation.queryParams);
+        parameters.addAll(operation.headerParams);
+        parameters.addAll(operation.implicitHeadersParams);
+        parameters.addAll(operation.constantParams);
+        parameters.addAll(operation.formParams);
+        parameters.addAll(operation.cookieParams);
+        parameters.addAll(operation.requiredParams);
+        parameters.addAll(operation.optionalParams);
+        parameters.addAll(operation.requiredAndNotNullableParams);
+        parameters.addAll(operation.notNullableParams);
+        for (CodegenParameter parameter : parameters) {
+            normalizeVendorExtensionWithStringList(parameter.vendorExtensions, name);
+        }
+    }
+
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
             ops.forEach(operation -> {
+                // Normalize x-field-extra-annotation on each parameter (incl. body) to a mutable
+                // List<String> so templates iterate a single shape and code can append annotations.
+                normalizeParameterVendorExtensionWithStringList(operation, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
+                // x-request-body-extra-annotation is authored on the operation (the request body usually
+                // $refs a shared model, so it cannot be placed next to the $ref). Merge its values into the
+                // body parameter's x-field-extra-annotation so it renders through the same template path.
+                normalizeVendorExtensionWithStringList(operation.vendorExtensions, VendorExtension.X_REQUEST_BODY_EXTRA_ANNOTATION.getName());
+                mergeOperationVendorExtensionIntoBodyParams(operation, VendorExtension.X_REQUEST_BODY_EXTRA_ANNOTATION.getName(), VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
                 List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
                     responses.forEach(resp -> {
@@ -1948,6 +1986,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_OPERATION_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_REQUEST_BODY_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_EXTRA_IMPORTS);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         extensions.add(VendorExtension.X_SIZE_MESSAGE);

@@ -7399,6 +7399,43 @@ public class DefaultCodegen implements CodegenConfig {
         vendorExtensions.put(name, new ArrayList<>(getObjectAsStringList(vendorExtensions.get(name))));
     }
 
+    /**
+     * Merges the values of an operation-level vendor extension into a list-valued vendor extension of
+     * each request body parameter. This lets an operation-level annotation extension (for example
+     * {@code x-request-body-extra-annotation}) be rendered through the same template path as the
+     * per-parameter {@code x-field-extra-annotation}. It is required because a request body typically
+     * {@code $ref}s a shared model, so the annotation cannot be placed next to the {@code $ref} and
+     * must instead be authored on the operation. Any annotations already present on the body parameter
+     * are preserved (they appear first), then the operation-level values are appended. This is a no-op
+     * when the source extension is absent or empty, leaving existing body-parameter extensions untouched.
+     *
+     * @param operation  operation whose {@code bodyParams} should receive the merged values
+     * @param sourceName operation-level vendor extension name to read the values from
+     * @param targetName body-parameter vendor extension name to merge the values into
+     */
+    public static void mergeOperationVendorExtensionIntoBodyParams(CodegenOperation operation, String sourceName, String targetName) {
+        List<String> sourceValues = getObjectAsStringList(operation.vendorExtensions.get(sourceName));
+        if (sourceValues.isEmpty()) {
+            return;
+        }
+        // The body parameter can be represented by distinct CodegenParameter instances across the
+        // operation's collections (e.g. allParams vs bodyParams), and templates may iterate either;
+        // de-duplicate by identity and update every body-parameter instance so the merge is visible
+        // regardless of which collection the template renders.
+        Set<CodegenParameter> bodyParameters = Collections.newSetFromMap(new IdentityHashMap<>());
+        bodyParameters.addAll(operation.bodyParams);
+        for (CodegenParameter param : operation.allParams) {
+            if (param.isBodyParam) {
+                bodyParameters.add(param);
+            }
+        }
+        for (CodegenParameter bodyParam : bodyParameters) {
+            List<String> merged = new ArrayList<>(getObjectAsStringList(bodyParam.vendorExtensions.get(targetName)));
+            merged.addAll(sourceValues);
+            bodyParam.vendorExtensions.put(targetName, merged);
+        }
+    }
+
     public Map<String, String> getPropertyAsStringMap(String propertyKey) {
         final Object value = additionalProperties.get(propertyKey);
         return getObjectAsStringMap(value);

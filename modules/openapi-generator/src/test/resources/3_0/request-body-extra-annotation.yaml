@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: request body extra annotation
+  version: 1.0.0
+paths:
+  /employees:
+    post:
+      tags:
+        - employee
+      operationId: createEmployee
+      x-request-body-extra-annotation: "@com.example.MyValidation"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: created
+  /employees/bulk:
+    post:
+      tags:
+        - employee
+      operationId: createEmployeeBulk
+      x-request-body-extra-annotation:
+        - "@com.example.MyValidation"
+        - "@com.example.AuditLogged"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: created
+  /employees/plain:
+    post:
+      tags:
+        - employee
+      operationId: createEmployeePlain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: created
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        name:
+          type: string

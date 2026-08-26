@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: kotlin-spring param extra annotation
+  version: 1.0.0
+paths:
+  /orgs/{orgId}/locations/{locId}:
+    get:
+      tags:
+        - location
+      operationId: getLocation
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          x-field-extra-annotation: "@com.example.ValidOrgId"
+          schema:
+            $ref: '#/components/schemas/OrgId'
+        - name: locId
+          in: path
+          required: true
+          x-field-extra-annotation:
+            - "@com.example.ValidLocId"
+            - "@com.example.Trimmed"
+          schema:
+            $ref: '#/components/schemas/LocId'
+        - name: filter
+          in: query
+          required: false
+          x-field-extra-annotation: "@com.example.ValidFilter"
+          schema:
+            $ref: '#/components/schemas/Filter'
+      responses:
+        '200':
+          description: ok
+  /devices:
+    post:
+      tags:
+        - device
+      operationId: registerDevice
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - deviceId
+              properties:
+                deviceId:
+                  x-field-extra-annotation: "@com.example.ValidDeviceId"
+                  allOf:
+                    - $ref: '#/components/schemas/DeviceId'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    OrgId:
+      type: string
+      format: uuid
+    LocId:
+      type: string
+    DeviceId:
+      type: string
+    Filter:
+      type: string
