@@ -62,7 +62,7 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
     private static final String SHARED_PTR_PREFIX = "std::shared_ptr<";
     /** Compatibility mode for server responses that send undeclared nulls. */
     protected boolean tolerateNonNullableNulls = true;
-    protected final Logger LOGGER = LoggerFactory.getLogger(CppBoostBeastClientCodegen.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
     /** Tracks model names resolved as oneOf/anyOf variant types for shared_ptr exclusion. */
     protected Set<String> variantModels = new HashSet<>();
     /** Caches resolved C++ types for composed models so postProcessModels can

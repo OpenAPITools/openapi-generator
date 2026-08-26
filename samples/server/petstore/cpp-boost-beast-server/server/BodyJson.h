@@ -24,7 +24,9 @@
 #include <map>
 #include <memory>
 #include <limits>
+#include <optional>
 #include <stdexcept>
+#include <variant>
 #include <vector>
 
 namespace org::openapitools::server::api {
@@ -106,6 +108,31 @@ boost::json::value bodyLeaf(std::map<std::string, T> const& values) {
         object[entry.first] = bodyLeaf(entry.second);
     }
     return object;
+}
+
+// Composition unions (oneOf/anyOf responses) arrive as std::variant; the
+// active branch alone is serializable, so std::visit dispatches to the
+// overload set above. monostate (present-null branches) serializes as null;
+// std::optional serializes its value or null when disengaged.
+
+inline boost::json::value bodyLeaf(std::monostate) {
+    return nullptr;
+}
+
+template <typename... Alternatives>
+boost::json::value bodyLeaf(
+        std::variant<Alternatives...> const& value) {
+    return std::visit([](auto const& active) {
+        return bodyLeaf(active);
+    }, value);
+}
+
+template <typename T>
+boost::json::value bodyLeaf(std::optional<T> const& value) {
+    if (!value.has_value()) {
+        return nullptr;
+    }
+    return bodyLeaf(*value);
 }
 
 template <typename T>
