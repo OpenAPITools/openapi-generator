@@ -102,6 +102,32 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testInjectOperationVendorExtensions() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        codegen.setOpenAPI(openApi);
+        codegen.injectOperationVendorExtensions().put("createEmployee.x-request-body-extra-annotation", "@com.example.MyValidation");
+        codegen.injectOperationVendorExtensions().put("createEmployee.orgId.x-field-extra-annotation", "@com.example.ValidOrgId");
+        // non-matching operationId is a no-op
+        codegen.injectOperationVendorExtensions().put("noSuchOperation.x-foo", "bar");
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees");
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees", "post", path.getPost(), path.getServers());
+
+        // operation-level extension landed on the operation
+        assertEquals(operation.vendorExtensions.get("x-request-body-extra-annotation"), "@com.example.MyValidation");
+        assertNull(operation.vendorExtensions.get("x-foo"));
+
+        // parameter-level extension landed on the matching parameter across collections
+        CodegenParameter orgId = operation.allParams.stream()
+                .filter(p -> "orgId".equals(p.baseName)).findFirst().orElseThrow();
+        assertEquals(orgId.vendorExtensions.get("x-field-extra-annotation"), "@com.example.ValidOrgId");
+        CodegenParameter orgIdPath = operation.pathParams.stream()
+                .filter(p -> "orgId".equals(p.baseName)).findFirst().orElseThrow();
+        assertEquals(orgIdPath.vendorExtensions.get("x-field-extra-annotation"), "@com.example.ValidOrgId");
+    }
+
+    @Test
     public void testHasBodyParameter() {
         final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
         Operation pingOperation = new Operation()

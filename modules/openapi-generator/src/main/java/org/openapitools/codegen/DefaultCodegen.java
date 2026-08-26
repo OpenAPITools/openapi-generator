@@ -203,6 +203,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> operationIdNameMapping = new HashMap<>();
     // a map to inject vendor extensions into model classes or their properties: key=ModelName.x-extension-name or ModelName.propertyBaseName.x-extension-name, value=extensionValue
     protected Map<String, String> injectModelVendorExtensions = new HashMap<>();
+    // a map to inject vendor extensions into operations or their parameters: key=operationId.x-extension-name or operationId.paramName.x-extension-name, value=extensionValue
+    protected Map<String, String> injectOperationVendorExtensions = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
     @Setter
@@ -556,7 +558,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        // Inject vendor extensions from --inject-property-extensions into matching schema properties
+        // Inject vendor extensions from --inject-model-vendor-extensions into matching schema properties
         if (!injectModelVendorExtensions.isEmpty()) {
             for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
                 CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
@@ -1672,6 +1674,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> injectModelVendorExtensions() {
         return injectModelVendorExtensions;
+    }
+
+    @Override
+    public Map<String, String> injectOperationVendorExtensions() {
+        return injectOperationVendorExtensions;
     }
 
     @Override
@@ -5132,7 +5139,53 @@ public class DefaultCodegen implements CodegenConfig {
         // legacy support
         op.nickname = op.operationId;
 
+        injectOperationVendorExtensions(op);
+
         return op;
+    }
+
+    /**
+     * Injects vendor extensions supplied via {@code injectOperationVendorExtensions} onto the given
+     * operation or its parameters. Keys are dotted: {@code operationId.x-extension-name} targets the
+     * operation, while {@code operationId.paramName.x-extension-name} targets a parameter matched by
+     * its spec name ({@code baseName}). This runs during operation construction, before
+     * {@code postProcessOperationsWithModels}, so an injected operation-level extension is available
+     * to any later normalization of that extension (for example, request-body annotation handling in
+     * the Spring generators). A parameter is represented by more than one object across the
+     * operation's collections, so the value is set on every matching instance.
+     *
+     * @param op the operation to update
+     */
+    private void injectOperationVendorExtensions(CodegenOperation op) {
+        if (injectOperationVendorExtensions.isEmpty() || op.operationId == null) {
+            return;
+        }
+        for (Map.Entry<String, String> extEntry : injectOperationVendorExtensions.entrySet()) {
+            String[] parts = extEntry.getKey().split("\\.", 3);
+            if (parts.length < 2) continue;
+            if (!parts[0].equals(op.operationId)) continue;
+            String extensionValue = extEntry.getValue();
+
+            if (parts.length == 2) {
+                // operation-level extension: operationId.x-extension-name
+                op.vendorExtensions.put(parts[1], extensionValue);
+            } else {
+                // parameter-level extension: operationId.paramName.x-extension-name
+                String paramBaseName = parts[1];
+                String extensionName = parts[2];
+                List<List<CodegenParameter>> allParameterLists = Arrays.asList(
+                        op.allParams, op.bodyParams, op.pathParams, op.queryParams, op.headerParams,
+                        op.cookieParams, op.formParams, op.requiredParams, op.optionalParams,
+                        op.requiredAndNotNullableParams, op.notNullableParams);
+                for (List<CodegenParameter> parameters : allParameterLists) {
+                    for (CodegenParameter parameter : parameters) {
+                        if (paramBaseName.equals(parameter.baseName)) {
+                            parameter.vendorExtensions.put(extensionName, extensionValue);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**

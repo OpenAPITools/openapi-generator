@@ -190,6 +190,8 @@ public interface CodegenConfig {
 
     Map<String, String> injectModelVendorExtensions();
 
+    Map<String, String> injectOperationVendorExtensions();
+
     Map<String, String> openapiNormalizer();
 
     Map<String, String> apiTemplateFiles();

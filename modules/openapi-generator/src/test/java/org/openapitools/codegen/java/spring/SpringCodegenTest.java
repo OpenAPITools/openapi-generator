@@ -4013,6 +4013,55 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testInjectOperationVendorExtensions() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        // operation-level injection drives the request-body annotation; parameter-level injection
+        // annotates the path param, both without editing the spec
+        codegen.injectOperationVendorExtensions().put("createEmployee.x-request-body-extra-annotation", "@com.example.MyValidation");
+        codegen.injectOperationVendorExtensions().put("createEmployee.orgId.x-field-extra-annotation", "@com.example.ValidOrgId");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("OrgsApi.java"))
+                .assertMethod("createEmployee")
+                .assertParameter("employee")
+                .assertParameterAnnotations()
+                .containsWithName("com.example.MyValidation")
+                .containsWithName("RequestBody")
+                .toParameter().toMethod()
+                .assertParameter("orgId")
+                .assertParameterAnnotations()
+                .containsWithName("com.example.ValidOrgId")
+                .toParameter().toMethod().toFileAssert()
+                // selectivity: the second operation referencing the same model/param is unaffected
+                .assertMethod("createEmployeePlain")
+                .assertParameter("employee")
+                .assertParameterAnnotations()
+                .doesNotContainWithName("com.example.MyValidation")
+                .toParameter().toMethod()
+                .assertParameter("orgId")
+                .assertParameterAnnotations()
+                .doesNotContainWithName("com.example.ValidOrgId");
+    }
+
+    @Test
     public void testModelHasParameterExtraAnnotations_issue19953() {
         Path output = TestUtils.newTempFolder();
 

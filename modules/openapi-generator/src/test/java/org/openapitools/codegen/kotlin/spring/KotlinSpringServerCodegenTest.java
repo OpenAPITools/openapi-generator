@@ -4522,6 +4522,33 @@ public class KotlinSpringServerCodegenTest {
         assertThat(myValidationCount).isEqualTo(2);
     }
 
+    @Test
+    public void testInjectOperationVendorExtensions() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/inject-operation-vendor-extensions.yaml",
+                Map.of(INTERFACE_ONLY, true),
+                new HashMap<>(),
+                configurator -> {
+                    // operation-level injection drives the request-body annotation; parameter-level
+                    // injection annotates the path param, both without editing the spec
+                    configurator.addInjectOperationVendorExtension(
+                            "createEmployee.x-request-body-extra-annotation", "@com.example.MyValidation");
+                    configurator.addInjectOperationVendorExtension(
+                            "createEmployee.orgId.x-field-extra-annotation", "@com.example.ValidOrgId");
+                });
+
+        Path employeesApi = files.get("OrgsApi.kt").toPath();
+        assertFileContains(employeesApi,
+                "@com.example.MyValidation ",
+                "@com.example.ValidOrgId ");
+
+        // selectivity: only createEmployee is annotated, not createEmployeePlain, even though
+        // both reference the same shared Employee model and OrgId parameter schema
+        String content = Files.readString(employeesApi);
+        assertThat(content.split("@com.example.MyValidation", -1).length - 1).isEqualTo(1);
+        assertThat(content.split("@com.example.ValidOrgId", -1).length - 1).isEqualTo(1);
+    }
+
     private Map<String, File> generateFromContract(String url) throws IOException {
         return generateFromContract(url, new HashMap<>(), new HashMap<>());
     }

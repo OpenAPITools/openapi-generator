@@ -269,6 +269,15 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> injectModelVendorExtensions = new ArrayList<>();
 
     @Option(
+            name = {"--inject-operation-vendor-extensions"},
+            title = "inject operation vendor extensions",
+            description = "injects vendor extensions into operations or their parameters."
+                    + " Operation-level format: operationId.x-extension-name=value."
+                    + " Parameter-level format: operationId.paramName.x-extension-name=value."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> injectOperationVendorExtensions = new ArrayList<>();
+
+    @Option(
             name = {"--openapi-normalizer"},
             title = "OpenAPI normalizer rules",
             description = "specifies the rules to be enabled in OpenAPI normalizer in the form of RULE_1=true,RULE_2=original."
@@ -616,6 +625,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applyEnumNameMappingsKvpList(enumNameMappings, configurator);
         applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
         applyInjectModelVendorExtensionsKvpList(injectModelVendorExtensions, configurator);
+        applyInjectOperationVendorExtensionsKvpList(injectOperationVendorExtensions, configurator);
         applyOpenapiNormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
