@@ -1,0 +1,55 @@
+name: Samples cpp boost beast server
+
+on:
+  push:
+    paths:
+      - "samples/server/petstore/cpp-boost-beast-server/**"
+      - ".github/workflows/samples-cpp-boost-beast-server.yaml"
+  pull_request:
+    paths:
+      - "samples/server/petstore/cpp-boost-beast-server/**"
+      - ".github/workflows/samples-cpp-boost-beast-server.yaml"
+
+jobs:
+  build:
+    name: Build cpp boost beast server
+    strategy:
+      matrix:
+        sample:
+          - samples/server/petstore/cpp-boost-beast-server
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install dependencies (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake libboost-dev libboost-json-dev libboost-url-dev
+
+      - name: Install dependencies (macOS)
+        if: matrix.os == 'macOS-latest'
+        run: |
+          brew install boost cmake
+
+      - name: Install dependencies (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          vcpkg install boost-json:x64-windows boost-url:x64-windows
+        shell: cmd
+        timeout-minutes: 20
+
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: |
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+          else
+            cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+          fi
+          cmake --build build
+        shell: bash

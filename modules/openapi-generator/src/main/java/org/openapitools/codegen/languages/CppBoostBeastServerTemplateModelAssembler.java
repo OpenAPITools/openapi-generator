@@ -26,9 +26,11 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Template-model assembly for the Boost.Beast server generator: converts each
@@ -79,6 +81,29 @@ final class CppBoostBeastServerTemplateModelAssembler {
             op.vendorExtensions.put("x-server-security-groups",
                     CppBoostBeastOperationFacts.effectiveSecurityGroups(sourceOpenApi, op));
         }
+        Set<String> modelClassNames = new HashSet<>();
+        for (ModelMap modelMap : allModels) {
+            if (modelMap != null && modelMap.getModel() != null
+                    && modelMap.getModel().classname != null) {
+                modelClassNames.add(modelMap.getModel().classname);
+            }
+        }
+        boolean anyModelUse = false;
+        for (CodegenOperation op : objs.getOperations().getOperation()) {
+            if (op == null || op.imports == null) {
+                continue;
+            }
+            for (String imported : op.imports) {
+                if (imported != null && modelClassNames.contains(imported)) {
+                    anyModelUse = true;
+                    break;
+                }
+            }
+            if (anyModelUse) {
+                break;
+            }
+        }
+        objs.put("x-server-has-model-use", anyModelUse);
         return objs;
     }
 

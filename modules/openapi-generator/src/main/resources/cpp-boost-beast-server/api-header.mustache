@@ -26,9 +26,8 @@
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
-{{#imports}}
-using namespace {{modelNamespace}};
-{{/imports}}
+{{#x-server-has-model-use}}using namespace {{modelNamespace}};
+{{/x-server-has-model-use}}
 
 {{#operation}}
 // ---------------------------------------------------------------------------
