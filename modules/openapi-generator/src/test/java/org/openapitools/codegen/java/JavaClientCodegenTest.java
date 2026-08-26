@@ -5003,4 +5003,47 @@ public class JavaClientCodegenTest {
         codegen.additionalProperties().putAll(properties);
         return codegen;
     }
+
+    @DataProvider(name = "jerseyLibraries")
+    public static Object[][] jerseyLibraries() {
+        return new Object[][]{{JavaClientCodegen.JERSEY2}, {JavaClientCodegen.JERSEY3}};
+    }
+
+    @Test(dataProvider = "jerseyLibraries")
+    public void testInsecureTlsHookGeneratedByDefault(String library) {
+        Path output = generateJerseyClient(library, null);
+
+        JavaFileAssert.assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java").toFile())
+                .assertMethod("disableCertificateValidation");
+    }
+
+    @Test(dataProvider = "jerseyLibraries")
+    public void testInsecureTlsHookOmittedWhenDisabled(String library) {
+        Path output = generateJerseyClient(library, false);
+
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
+                .doesNotContain("disableCertificateValidation")
+                .doesNotContain("X509TrustManager")
+                .doesNotContain("import javax.net.ssl.SSLContext;")
+                .doesNotContain("import java.security.SecureRandom;")
+                .doesNotContain("import java.security.KeyManagementException;")
+                .doesNotContain("import java.security.NoSuchAlgorithmException;")
+                .doesNotContain("import java.security.cert.X509Certificate;");
+    }
+
+    private static Path generateJerseyClient(String library, Boolean generateInsecureTlsHook) {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+        if (generateInsecureTlsHook != null) {
+            configurator.addAdditionalProperty(GENERATE_INSECURE_TLS_HOOK, generateInsecureTlsHook);
+        }
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return output;
+    }
 }
