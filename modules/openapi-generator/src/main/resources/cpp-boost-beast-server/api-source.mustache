@@ -74,7 +74,7 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                     }
 {{#stringKind}}{{#hasEnum}}
                     if (!invalid) {
-                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{.}}, {{/enumValues}} };
+                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
                         if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
                             problem.withError("{{baseName}}", "value is not one of the allowed enum members");
                             invalid = true;
@@ -166,7 +166,7 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                     }
 {{#stringKind}}{{#hasEnum}}
                     if (!invalid && present) {
-                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{.}}, {{/enumValues}} };
+                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
                         if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
                             problem.withError("{{baseName}}", "value is not one of the allowed enum members");
                             invalid = true;
@@ -261,7 +261,7 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
 {{/isQuery}}
 {{#isHeader}}
 {{^isContainer}}
-                    auto values = ctx.headers.equal_range("{{baseName}}");
+                    auto values = ctx.headers.equal_range(lowercaseHeaderName("{{baseName}}"));
                     bool present = values.first != values.second;
                     if (!present) {
 {{#required}}
@@ -277,7 +277,7 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                     }
 {{/isContainer}}
 {{#isContainer}}
-                    auto values = ctx.headers.equal_range("{{baseName}}");
+                    auto values = ctx.headers.equal_range(lowercaseHeaderName("{{baseName}}"));
                     bool present = values.first != values.second;
                     if (!present) {
 {{#required}}

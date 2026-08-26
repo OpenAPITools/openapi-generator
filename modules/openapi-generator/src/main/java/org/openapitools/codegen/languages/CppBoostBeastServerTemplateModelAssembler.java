@@ -89,7 +89,7 @@ final class CppBoostBeastServerTemplateModelAssembler {
     private List<Map<String, Object>> serverParams(CodegenOperation op, Operation raw) {
         List<Map<String, Object>> params = new ArrayList<>();
         for (CodegenParameter param : op.allParams) {
-            if (param == null) {
+            if (param == null || param.isBodyParam) {
                 continue;
             }
             Map<String, Object> facts = new LinkedHashMap<>();

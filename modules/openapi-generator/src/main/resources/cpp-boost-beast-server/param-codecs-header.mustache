@@ -19,6 +19,14 @@
 
 namespace {{apiNamespace}} {
 
+/// Lowercases an HTTP field name for RequestContext header lookups.
+inline std::string lowercaseHeaderName(std::string name) {
+    for (char& c : name) {
+        c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
+    return name;
+}
+
 /// Percent-decodes a URI component (%XX sequences). Invalid escapes pass
 /// through unchanged; '+' is NOT translated to space (that is form encoding).
 inline std::string percentDecode(std::string_view encoded) {

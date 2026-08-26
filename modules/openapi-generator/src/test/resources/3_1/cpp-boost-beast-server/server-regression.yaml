@@ -1,0 +1,218 @@
+openapi: 3.1.0
+info:
+  title: cpp-boost-beast-server regression
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+security:
+  - api_key: []
+paths:
+  /pets/{petId}:
+    get:
+      operationId: getPetById
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          description: Pet identifier
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: The pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '404':
+          description: No such pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security: []
+    put:
+      operationId: updatePet
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: Updated pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+    delete:
+      operationId: deletePet
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: X-API-KEY
+          in: header
+          required: true
+          description: API key header array (simple style)
+          schema:
+            type: array
+            items:
+              type: string
+          style: simple
+      responses:
+        '204':
+          description: Deleted
+  /pets:
+    get:
+      operationId: listPets
+      parameters:
+        - name: status
+          in: query
+          description: Filter by status enum
+          schema:
+            type: string
+            enum: [available, sold]
+        - name: tags
+          in: query
+          description: Pipe-delimited tag filter
+          schema:
+            type: array
+            items:
+              type: string
+          style: pipeDelimited
+          explode: false
+        - name: limit
+          in: query
+          description: Page size
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+      responses:
+        '200':
+          description: Pet collection
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      security: []
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '201':
+          description: Created pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearer: []
+  /reports/{reportId}:
+    get:
+      operationId: getReport
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[A-Z]{2}-[0-9]+$'
+          style: label
+        - name: lang
+          in: cookie
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearer: []
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-API-KEY
+      in: header
+    bearer:
+      type: http
+      scheme: bearer
+  schemas:
+    Pet:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: string
+          enum: [available, sold]
+        tag:
+          type: [string, 'null']
+        photoUrls:
+          type: array
+          items:
+            type: string
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    Report:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+        createdAt:
+          type: [string, 'null']
