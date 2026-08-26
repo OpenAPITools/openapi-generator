@@ -20,7 +20,6 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
@@ -310,11 +309,19 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
      * on. These warn instead of failing the build because the repository
      * contract (AllGeneratorsTest) requires every registered generator to
      * generate from the canonical petstore spec, which declares XML, form,
-     * and multipart payloads plus an oauth2 scheme. Degrade semantics:
-     * the assembler filters declared request media types to JSON (a body
-     * with no JSON media type loses its typed body; mixed bodies accept
-     * JSON only and answer 415 to the rest), and security schemes the
-     * runtime has no credential extractor for deny all requests with 401.
+     * and multipart payloads plus an oauth2 scheme, and because real-world
+     * corpora (the OpenAI spec) declare parameter and body shapes the JSON
+     * runtime cannot decode. Degrade semantics:
+     * <ul>
+     *   <li>request media types are filtered to JSON; an operation left with
+     *       no JSON media type loses its typed body and mixed bodies answer
+     *       415 to non-JSON content types;</li>
+     *   <li>parameters the runtime cannot decode from a raw string are
+     *       dropped from the generated handler (the assembler applies the
+     *       equivalent dataType-level rule);</li>
+     *   <li>security schemes without a credential extractor deny all
+     *       requests with 401.</li>
+     * </ul>
      */
     List<String> collectSurfaceWarnings(OpenAPI openAPI) {
         List<String> warnings = new ArrayList<>();
@@ -363,6 +370,10 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                                 + " (415 for the rest)");
                     }
                 }
+                // Parameter-shape drops (content-style, objects, arrays with
+                // non-scalar items, unsupported styles, heterogeneous enums,
+                // empty types) are classified and warned by the assembler,
+                // which emits the field and sees the resolved dataType.
                 if (operation.getResponses() != null) {
                     for (Map.Entry<String, ApiResponse> respEntry
                             : operation.getResponses().entrySet()) {
@@ -395,17 +406,18 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
     @Override
     public OperationsMap postProcessOperationsWithModels(
             OperationsMap objs, List<ModelMap> allModels) {
-        return new CppBoostBeastServerTemplateModelAssembler(sourceOpenApi)
-                .assemble(objs, allModels);
+        String modelNamespace = String.valueOf(
+                additionalProperties.getOrDefault("modelNamespace", ""));
+        return new CppBoostBeastServerTemplateModelAssembler(
+                sourceOpenApi, modelNamespace, this::toModelImport).assemble(objs, allModels);
     }
-
     /**
-     * Generation-time rejection gate for surfaces whose generated code
-     * would not compile or not route deterministically. Fails closed with
-     * precise diagnostics instead of emitting silent stubs. Media types and
-     * security scheme types are NOT rejected here (they degrade; see
-     * {@link #collectSurfaceWarnings}) because the repository harness
-     * requires every generator to accept the canonical petstore spec.
+     * Generation-time rejection gate for shapes whose generated code could
+     * not route deterministically: ambiguous path templates and ranged
+     * status codes. Parameter and body shapes the runtime cannot decode
+     * DEGRADE instead (dropped with a warning; see
+     * {@link #collectSurfaceWarnings} and the assembler's dataType rule) so
+     * real-world corpora still generate compileable code.
      */
     List<String> validateServerSupportSurface(OpenAPI openAPI) {
         List<String> diagnostics = new ArrayList<>();
@@ -450,12 +462,6 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                         }
                     }
                 }
-                appendParameterRejections(
-                        openAPI, operation.getParameters(),
-                        pathEntry.getKey() + ":" + opEntry.getKey(), diagnostics);
-                appendParameterRejections(
-                        openAPI, item.getParameters(),
-                        pathEntry.getKey() + ":pathItem", diagnostics);
             }
         }
         return diagnostics;
@@ -497,121 +503,42 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                 || "*/*".equals(normalized);
     }
 
-    private static void appendParameterRejections(
-            OpenAPI openAPI, List<Parameter> parameters, String location,
-            List<String> diagnostics) {
-        if (parameters == null) {
-            return;
-        }
-        for (Parameter parameter : parameters) {
-            if (parameter == null) {
-                continue;
-            }
-            String label = parameter.getName() != null
-                    ? parameter.getName() : "(unnamed)";
-            if (parameter.getContent() != null) {
-                diagnostics.add("parameter '" + label + "' at " + location
-                        + " uses content-style serialization; only schema"
-                        + " parameters are supported");
-                continue;
-            }
-            String in = parameter.getIn() == null ? "" : parameter.getIn();
-            Schema<?> schema = resolvedParameterSchema(openAPI, parameter);
-            if (schema != null) {
-                String type = schema.getType();
-                if ("array".equals(type)) {
-                    if ("cookie".equals(in)) {
-                        diagnostics.add("parameter '" + label + "' at " + location
-                                + " must have a scalar schema; array and object"
-                                + " cookie parameters are not supported");
-                    } else {
-                        Schema<?> items = schema.getItems() == null
-                                ? null
-                                : ModelUtils.getReferencedSchema(openAPI, schema.getItems());
-                        String itemType = items == null ? null : items.getType();
-                        if (itemType != null && !isScalarType(itemType)) {
-                            diagnostics.add("array parameter '" + label + "' at "
-                                    + location + " must have scalar items"
-                                    + " (string, integer, number, or boolean)");
-                        }
-                    }
-                } else if ("object".equals(type)) {
-                    String styleForShape = parameter.getStyle() == null
-                            ? null : parameter.getStyle().toString();
-                    boolean deepObjectStringMap = "query".equals(in)
-                            && "deepObject".equals(styleForShape)
-                            && schema.getAdditionalProperties() instanceof Schema
-                            && "string".equals(ModelUtils.getReferencedSchema(
-                                    openAPI, (Schema<?>) schema.getAdditionalProperties())
-                                    .getType());
-                    if (!deepObjectStringMap) {
-                        diagnostics.add("object-typed parameter '" + label + "' at "
-                                + location + " is not supported; only query"
-                                + " deepObject parameters mapping to string values"
-                                + " are supported");
-                    }
-                }
-                appendEnumRejections(schema, label, location, diagnostics);
-            }
-            String style = parameter.getStyle() == null
-                    ? null : parameter.getStyle().toString();
-            if (style == null) {
-                continue;   // location default is allowed
-            }
-            boolean allowed;
-            switch (in) {
-                case "header":
-                    allowed = "simple".equals(style);
-                    break;
-                case "cookie":
-                    allowed = "form".equals(style);
-                    break;
-                case "query":
-                    allowed = "form".equals(style) || "spaceDelimited".equals(style)
-                            || "pipeDelimited".equals(style) || "deepObject".equals(style);
-                    break;
-                case "path":
-                    allowed = "simple".equals(style) || "label".equals(style)
-                            || "matrix".equals(style);
-                    break;
-                default:
-                    allowed = true;
-                    break;
-            }
-            if (!allowed) {
-                diagnostics.add("parameter '" + label + "' at " + location
-                        + " uses unsupported style '" + style + "' for in='" + in + "'");
-            }
+    /** Styles whose wire format the generated codecs reproduce exactly. */
+    static boolean isStyleAllowedForLocation(String in, String style) {
+        switch (in) {
+            case "header":
+                return "simple".equals(style);
+            case "cookie":
+                return "form".equals(style);
+            case "query":
+                return "form".equals(style) || "spaceDelimited".equals(style)
+                        || "pipeDelimited".equals(style) || "deepObject".equals(style);
+            case "path":
+                return "simple".equals(style) || "label".equals(style)
+                        || "matrix".equals(style);
+            default:
+                return true;
         }
     }
 
-    /** Resolves a parameter's schema through $ref (parameter and schema level). */
-    private static Schema<?> resolvedParameterSchema(
-            OpenAPI openAPI, Parameter parameter) {
-        Parameter resolved = parameter.get$ref() != null
-                ? ModelUtils.getReferencedParameter(openAPI, parameter)
-                : parameter;
-        if (resolved == null || resolved.getSchema() == null) {
+    /** Whether a C++ dataType is one of the plain scalar parseScalar
+     *  overloads (nullable and optional wrappers are NOT: the codec decodes
+     *  into plain scalars and models carry nulls through their own field
+     *  decoders instead). */
+    static boolean isPlainScalarDataType(String dataType) {
+        return "std::string".equals(dataType) || "bool".equals(dataType)
+                || "std::int32_t".equals(dataType) || "std::int64_t".equals(dataType)
+                || "float".equals(dataType) || "double".equals(dataType);
+    }
+
+    /** Names enums the constraint templates cannot render faithfully: null
+     *  members and mixes of string with numeric/boolean members (integer +
+     *  number mixes stay valid; both render into the long double
+     *  allow-list). Returns a short reason (grammar: "<verb phrase>") or
+     *  null for uniform enums. Shared with the assembler. */
+    static String heterogeneousEnumIssue(Schema<?> schema) {
+        if (schema == null || schema.getEnum() == null || schema.getEnum().isEmpty()) {
             return null;
-        }
-        return ModelUtils.getReferencedSchema(openAPI, resolved.getSchema());
-    }
-
-    /** Whether a schema type maps to a runtime scalar parseScalar overload. */
-    private static boolean isScalarType(String type) {
-        return "string".equals(type) || "integer".equals(type)
-                || "number".equals(type) || "boolean".equals(type);
-    }
-
-    /** Rejects enums the parameter constraint templates cannot render
-     *  faithfully: null members and mixes of string with numeric/boolean
-     *  members (integer+number mixes stay valid; both render into the
-     *  generated long double allow-list). */
-    private static void appendEnumRejections(
-            Schema<?> schema, String label, String location,
-            List<String> diagnostics) {
-        if (schema.getEnum() == null || schema.getEnum().isEmpty()) {
-            return;
         }
         boolean hasNull = false;
         boolean hasString = false;
@@ -631,10 +558,10 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         if (hasNull
                 || (hasString && (hasNumber || hasBoolean))
                 || (hasBoolean && (hasString || hasNumber))) {
-            diagnostics.add("parameter '" + label + "' at " + location
-                    + " has heterogeneous enum members; only uniform string,"
-                    + " numeric, or boolean enums are supported");
+            return "has heterogeneous enum members; the generated allow-list"
+                    + " renders uniform string, numeric, or boolean enums only";
         }
+        return null;
     }
 
     /** Canonical routing shape: literal vs placeholder per path segment.

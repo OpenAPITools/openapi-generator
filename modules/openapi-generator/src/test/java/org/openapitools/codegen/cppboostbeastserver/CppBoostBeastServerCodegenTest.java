@@ -259,8 +259,8 @@ public class CppBoostBeastServerCodegenTest {
                 "SSE declaration must degrade to a plain JSON sender");
     }
     @Test
-    public void rejectsContentStyleParameter() throws IOException {
-        Path spec = writeTempSpec(spec(
+    public void degradesContentStyleParameterToDroppedField() throws IOException {
+        Path output = generate(writeTempSpec(spec(
                 "  /p:",
                 "    get:",
                 "      operationId: op",
@@ -271,16 +271,18 @@ public class CppBoostBeastServerCodegenTest {
                 "            application/json:",
                 "              schema: {type: string}",
                 "      responses:",
-                "        '200': {description: ok}"));
-        IllegalArgumentException error = Assert.expectThrows(
-                IllegalArgumentException.class,
-                () -> generate(spec.toString(), java.util.Map.of()));
-        Assert.assertTrue(error.getMessage().contains("content-style"));
+                "        '200': {description: ok}")).toString(),
+                java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("struct OpRequest"),
+                "operation must still generate its request contract");
+        Assert.assertFalse(apiHeader.contains("token{}"),
+                "a content-style parameter must be dropped from the handler");
     }
 
     @Test
-    public void rejectsCookieMatrixStyle() throws IOException {
-        Path spec = writeTempSpec(spec(
+    public void degradesCookieMatrixStyleParameter() throws IOException {
+        Path output = generate(writeTempSpec(spec(
                 "  /c:",
                 "    get:",
                 "      operationId: op",
@@ -290,16 +292,18 @@ public class CppBoostBeastServerCodegenTest {
                 "          style: matrix",
                 "          schema: {type: string}",
                 "      responses:",
-                "        '200': {description: ok}"));
-        IllegalArgumentException error = Assert.expectThrows(
-                IllegalArgumentException.class,
-                () -> generate(spec.toString(), java.util.Map.of()));
-        Assert.assertTrue(error.getMessage().contains("matrix"));
+                "        '200': {description: ok}")).toString(),
+                java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("struct OpRequest"),
+                "operation must still generate its request contract");
+        Assert.assertFalse(apiHeader.contains("session{}"),
+                "a cookie parameter with an unsupported style must be dropped");
     }
 
     @Test
-    public void rejectsCookieArrayParameters() throws IOException {
-        Path spec = writeTempSpec(spec(
+    public void degradesCookieArrayParameter() throws IOException {
+        Path output = generate(writeTempSpec(spec(
                 "  /c:",
                 "    get:",
                 "      operationId: op",
@@ -308,17 +312,18 @@ public class CppBoostBeastServerCodegenTest {
                 "          in: cookie",
                 "          schema: {type: array, items: {type: string}}",
                 "      responses:",
-                "        '200': {description: ok}"));
-        IllegalArgumentException error = Assert.expectThrows(
-                IllegalArgumentException.class,
-                () -> generate(spec.toString(), java.util.Map.of()));
-        Assert.assertTrue(error.getMessage().contains("scalar"),
-                "diagnostic must explain cookies must be scalar");
+                "        '200': {description: ok}")).toString(),
+                java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("struct OpRequest"),
+                "operation must still generate its request contract");
+        Assert.assertFalse(apiHeader.contains("session{}"),
+                "an array cookie parameter must be dropped; the codec is scalar-only");
     }
 
     @Test
-    public void rejectsObjectQueryParametersWithoutDeepObjectStringMap() throws IOException {
-        Path spec = writeTempSpec(spec(
+    public void degradesObjectQueryParameterWithoutDeepObject() throws IOException {
+        Path output = generate(writeTempSpec(spec(
                 "  /q:",
                 "    get:",
                 "      operationId: op",
@@ -327,12 +332,13 @@ public class CppBoostBeastServerCodegenTest {
                 "          in: query",
                 "          schema: {type: object, additionalProperties: {type: string}}",
                 "      responses:",
-                "        '200': {description: ok}"));
-        IllegalArgumentException error = Assert.expectThrows(
-                IllegalArgumentException.class,
-                () -> generate(spec.toString(), java.util.Map.of()));
-        Assert.assertTrue(error.getMessage().contains("deepObject"),
-                "diagnostic must name the only supported object encoding");
+                "        '200': {description: ok}")).toString(),
+                java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("struct OpRequest"),
+                "operation must still generate its request contract");
+        Assert.assertFalse(apiHeader.contains("filter{}"),
+                "an object query parameter outside deepObject must be dropped");
     }
 
     @Test
@@ -355,8 +361,8 @@ public class CppBoostBeastServerCodegenTest {
     }
 
     @Test
-    public void rejectsNonScalarArrayParameterItems() throws IOException {
-        Path spec = writeTempSpec(spec(
+    public void degradesNonScalarArrayParameterItems() throws IOException {
+        Path output = generate(writeTempSpec(spec(
                 "  /q:",
                 "    get:",
                 "      operationId: op",
@@ -365,17 +371,18 @@ public class CppBoostBeastServerCodegenTest {
                 "          in: query",
                 "          schema: {type: array, items: {type: object}}",
                 "      responses:",
-                "        '200': {description: ok}"));
-        IllegalArgumentException error = Assert.expectThrows(
-                IllegalArgumentException.class,
-                () -> generate(spec.toString(), java.util.Map.of()));
-        Assert.assertTrue(error.getMessage().contains("scalar items"),
-                "diagnostic must explain array items must be scalar");
+                "        '200': {description: ok}")).toString(),
+                java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("struct OpRequest"),
+                "operation must still generate its request contract");
+        Assert.assertFalse(apiHeader.contains("things{}"),
+                "an array parameter with non-scalar items must be dropped");
     }
 
     @Test
-    public void rejectsHeterogeneousParameterEnums() throws IOException {
-        Path spec = writeTempSpec(spec(
+    public void degradesHeterogeneousParameterEnum() throws IOException {
+        Path output = generate(writeTempSpec(spec(
                 "  /q:",
                 "    get:",
                 "      operationId: op",
@@ -384,13 +391,13 @@ public class CppBoostBeastServerCodegenTest {
                 "          in: query",
                 "          schema: {type: string, enum: [alpha, 1]}",
                 "      responses:",
-                "        '200': {description: ok}"));
-        IllegalArgumentException error = Assert.expectThrows(
-                IllegalArgumentException.class,
-                () -> generate(spec.toString(), java.util.Map.of()));
-        Assert.assertTrue(error.getMessage().contains("heterogeneous"),
-                "diagnostic must reject mixed string/numeric enums; was: "
-                        + error.getMessage());
+                "        '200': {description: ok}")).toString(),
+                java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("struct OpRequest"),
+                "operation must still generate its request contract");
+        Assert.assertFalse(apiHeader.contains("mixed{}"),
+                "a parameter with a mixed string/numeric enum must be dropped");
     }
 
     @Test
@@ -603,5 +610,134 @@ public class CppBoostBeastServerCodegenTest {
                 "the base AnyType placeholder must never reach generated sources");
         Assert.assertTrue(wrapper.contains("boost::json::value"),
                 "the freeform branch must resolve to boost::json::value");
+    }
+
+    @Test
+    public void qualifiesBodyModelCollidingWithRequestStruct() throws IOException {
+        // operationId 'echo' yields struct EchoRequest; a body model of the
+        // same name would be re-declared inside it (injected-class-name), so
+        // the field type must be namespace-qualified.
+        Path output = generate(writeTempSpec(spec(
+                "  /echo:",
+                "    post:",
+                "      operationId: echo",
+                "      requestBody:",
+                "        required: true",
+                "        content:",
+                "          application/json:",
+                "            schema: { $ref: '#/components/schemas/EchoRequest' }",
+                "      responses:",
+                "        '200': {description: ok}",
+                "components:",
+                "  schemas:",
+                "    EchoRequest:",
+                "      type: object",
+                "      properties:",
+                "        text: {type: string}")).toString(), java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains(
+                        "org.openapitools.server.model::EchoRequest body{};")
+                        || apiHeader.contains(
+                        "org::openapitools::server::model::EchoRequest body{};"),
+                "a colliding body model must be qualified, not shadowed");
+    }
+
+    @Test
+    public void recoversTypedBodyAndIncludeForMixedJsonMember() throws IOException {
+        // multipart + JSON: DefaultCodegen flattens the form fields and never
+        // imports the JSON member's model. The assembler must both type the
+        // body from the recovered $ref and append its #include.
+        Path output = generate(writeTempSpec(spec(
+                "  /edit:",
+                "    post:",
+                "      operationId: edit",
+                "      requestBody:",
+                "        required: true",
+                "        content:",
+                "          multipart/form-data:",
+                "            schema:",
+                "              type: object",
+                "              properties:",
+                "                image: {type: string, format: binary}",
+                "          application/json:",
+                "            schema: { $ref: '#/components/schemas/EditBody' }",
+                "      responses:",
+                "        '200': {description: ok}",
+                "components:",
+                "  schemas:",
+                "    EditBody:",
+                "      type: object",
+                "      properties:",
+                "        prompt: {type: string}")).toString(), java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("#include \"EditBody.h\""),
+                "the recovered body model's header must be included");
+        Assert.assertTrue(apiHeader.contains("EditBody body{};"),
+                "the JSON member's model must type the body field");
+        Assert.assertFalse(apiHeader.contains("image{}"),
+                "form-field parameters must not appear as handler fields");
+    }
+
+    @Test
+    public void degradesBodyModelAliasedToVariant() throws IOException {
+        // A named oneOf component is a model, so it passes the model-name
+        // check; but its C++ type is std::variant, which fromJsonLeaf cannot
+        // decode. The handler must receive no typed body.
+        Path output = generate(writeTempSpec(spec(
+                "  /union:",
+                "    post:",
+                "      operationId: sendUnion",
+                "      requestBody:",
+                "        required: true",
+                "        content:",
+                "          application/json:",
+                "            schema: { $ref: '#/components/schemas/UnionBody' }",
+                "      responses:",
+                "        '200': {description: ok}",
+                "components:",
+                "  schemas:",
+                "    UnionBody:",
+                "      oneOf:",
+                "        - { $ref: '#/components/schemas/Alpha' }",
+                "        - { $ref: '#/components/schemas/Beta' }",
+                "    Alpha:",
+                "      type: object",
+                "      properties: {a: {type: string}}",
+                "    Beta:",
+                "      type: object",
+                "      properties: {b: {type: string}}")).toString(),
+                java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("struct SendUnionRequest"),
+                "operation must still generate its request contract");
+        Assert.assertFalse(apiHeader.contains("body{}"),
+                "a union body must degrade to no typed body field");
+    }
+
+    @Test
+    public void degradesEnumClassTypedQueryParameter() throws IOException {
+        // A $ref'd string-enum component gives the parameter the enum class
+        // as dataType; parseScalar has no overload for it, so the parameter
+        // degrades rather than failing to compile.
+        Path output = generate(writeTempSpec(spec(
+                "  /colored:",
+                "    get:",
+                "      operationId: colored",
+                "      parameters:",
+                "        - name: color",
+                "          in: query",
+                "          schema: { $ref: '#/components/schemas/Color' }",
+                "      responses:",
+                "        '200': {description: ok}",
+                "components:",
+                "  schemas:",
+                "    Color:",
+                "      type: string",
+                "      enum: [red, green, blue]")).toString(), java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("struct ColoredRequest"),
+                "operation must still generate its request contract");
+        Assert.assertFalse(apiHeader.contains("color{}"),
+                "an enum-class-typed parameter must be dropped");
     }
 }

@@ -38,7 +38,12 @@ struct {{vendorExtensions.x-server-operation-pascal}}Request {
     {{{dataType}}} {{cppName}}{};
 {{/vendorExtensions.x-server-params}}
 {{#vendorExtensions.x-server-has-request-body}}
+{{#vendorExtensions.x-server-request-model-collides}}
+    {{modelNamespace}}::{{{vendorExtensions.x-server-request-model}}} body{};
+{{/vendorExtensions.x-server-request-model-collides}}
+{{^vendorExtensions.x-server-request-model-collides}}
     {{{vendorExtensions.x-server-request-model}}} body{};
+{{/vendorExtensions.x-server-request-model-collides}}
 {{/vendorExtensions.x-server-has-request-body}}
 };
 
@@ -53,7 +58,7 @@ public:
 {{#vendorExtensions.x-server-responses}}
 {{#isDefault}}
 {{#hasModel}}
-    void sendDefault({{{cppType}}} value, unsigned status) const {
+    void sendDefault({{{sendType}}} value, unsigned status) const {
         core_->sendJson(status, value, "application/json");
     }
 {{/hasModel}}
@@ -65,7 +70,7 @@ public:
 {{/isDefault}}
 {{^isDefault}}
 {{#hasModel}}
-    void {{sendMethod}}({{{cppType}}} value) const {
+    void {{sendMethod}}({{{sendType}}} value) const {
         core_->sendJson({{code}}, value, "application/json");
     }
 {{/hasModel}}

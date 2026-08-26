@@ -17,6 +17,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.openapitools.codegen.CodegenOperation;
@@ -27,11 +28,13 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * Template-model assembly for the Boost.Beast server generator: converts each
@@ -41,15 +44,41 @@ import java.util.Set;
  */
 final class CppBoostBeastServerTemplateModelAssembler {
 
-    private final OpenAPI sourceOpenApi;
+    private static final org.slf4j.Logger LOGGER =
+            org.slf4j.LoggerFactory.getLogger(
+                    CppBoostBeastServerTemplateModelAssembler.class);
 
-    CppBoostBeastServerTemplateModelAssembler(OpenAPI sourceOpenApi) {
+    private final OpenAPI sourceOpenApi;
+    private final String modelNamespace;
+    private final Function<String, String> modelImportFunction;
+
+    CppBoostBeastServerTemplateModelAssembler(
+            OpenAPI sourceOpenApi, String modelNamespace,
+            Function<String, String> modelImportFunction) {
         this.sourceOpenApi = sourceOpenApi;
+        this.modelNamespace = modelNamespace;
+        this.modelImportFunction = modelImportFunction;
     }
 
     OperationsMap assemble(OperationsMap objs, List<ModelMap> allModels) {
         if (objs == null || objs.getOperations() == null) {
             return objs;
+        }
+        Set<String> modelClassNames = new HashSet<>();
+        Map<String, String> modelDataTypes = new HashMap<>();
+        for (ModelMap modelMap : allModels) {
+            if (modelMap != null && modelMap.getModel() != null
+                    && modelMap.getModel().classname != null) {
+                modelClassNames.add(modelMap.getModel().classname);
+                modelDataTypes.put(modelMap.getModel().classname,
+                        modelMap.getModel().dataType);
+            }
+        }
+        Set<String> emittedModelImports = new HashSet<>();
+        for (Map<String, String> existing : objs.getImports()) {
+            if (existing != null && existing.get("classname") != null) {
+                emittedModelImports.add(existing.get("classname"));
+            }
         }
         for (CodegenOperation op : objs.getOperations().getOperation()) {
             if (op == null) {
@@ -57,39 +86,62 @@ final class CppBoostBeastServerTemplateModelAssembler {
             }
             Operation raw = CppBoostBeastOperationFacts.operationFor(sourceOpenApi, op);
 
-            op.vendorExtensions.put("x-server-operation-pascal",
-                    pascalCase(op.operationId != null ? op.operationId : op.operationIdLowerCase));
+            String pascal = pascalCase(
+                    op.operationId != null ? op.operationId : op.operationIdLowerCase);
+            op.vendorExtensions.put("x-server-operation-pascal", pascal);
 
             op.vendorExtensions.put("x-server-params",
                     serverParams(op, raw));
 
-            Map<String, Object> body = requestBodyFacts(op, raw);
+            Map<String, Object> body =
+                    requestBodyFacts(op, raw, pascal, modelClassNames, modelDataTypes);
             op.vendorExtensions.put("x-server-has-request-body", body.get("hasBody"));
             op.vendorExtensions.put("x-server-request-model", body.get("model"));
+            op.vendorExtensions.put("x-server-request-model-collides",
+                    body.get("modelCollides"));
             op.vendorExtensions.put("x-server-request-media-types",
                     body.get("mediaTypes"));
+            // Mixed bodies (multipart + JSON): the JSON member's model is not in
+            // DefaultCodegen's op.imports (it flattened the form payload instead),
+            // so the recovered typed field would reference an un-included header.
+            // Append its include to the frozen operations import list.
+            String bodyModel = (String) body.get("model");
+            if (Boolean.TRUE.equals(body.get("hasBody")) && bodyModel != null
+                    && modelClassNames.contains(bodyModel)
+                    && emittedModelImports.add(bodyModel)) {
+                Map<String, String> im = new LinkedHashMap<>();
+                im.put("import", modelImportFunction.apply(bodyModel));
+                im.put("classname", bodyModel);
+                objs.getImports().add(im);
+            }
 
-            op.vendorExtensions.put("x-server-responses", serverResponses(op));
+            op.vendorExtensions.put("x-server-responses", serverResponses(op, pascal));
 
             op.vendorExtensions.put("x-server-security-groups",
                     CppBoostBeastOperationFacts.effectiveSecurityGroups(sourceOpenApi, op));
         }
-        Set<String> modelClassNames = new HashSet<>();
-        for (ModelMap modelMap : allModels) {
-            if (modelMap != null && modelMap.getModel() != null
-                    && modelMap.getModel().classname != null) {
-                modelClassNames.add(modelMap.getModel().classname);
-            }
-        }
         boolean anyModelUse = false;
         for (CodegenOperation op : objs.getOperations().getOperation()) {
-            if (op == null || op.imports == null) {
+            if (op == null) {
                 continue;
             }
-            for (String imported : op.imports) {
-                if (imported != null && modelClassNames.contains(imported)) {
+            if (op.imports != null) {
+                for (String imported : op.imports) {
+                    if (imported != null && modelClassNames.contains(imported)) {
+                        anyModelUse = true;
+                        break;
+                    }
+                }
+            }
+            // A recovered mixed-body model (JSON member of a multipart body) is
+            // not in op.imports; its unqualified field still needs the model
+            // using-directive unless it was namespace-qualified for a collision.
+            if (Boolean.TRUE.equals(op.vendorExtensions.get("x-server-has-request-body"))
+                    && !Boolean.TRUE.equals(
+                            op.vendorExtensions.get("x-server-request-model-collides"))) {
+                String model = (String) op.vendorExtensions.get("x-server-request-model");
+                if (model != null && modelClassNames.contains(model)) {
                     anyModelUse = true;
-                    break;
                 }
             }
             if (anyModelUse) {
@@ -110,24 +162,48 @@ final class CppBoostBeastServerTemplateModelAssembler {
             if (param == null || param.isBodyParam) {
                 continue;
             }
-            Map<String, Object> facts = new LinkedHashMap<>();
-            facts.put("cppName", param.paramName != null ? param.paramName : param.baseName);
-            facts.put("baseName", param.baseName);
             String in = param.isPathParam ? "path"
                     : param.isQueryParam ? "query"
                     : param.isHeaderParam ? "header"
                     : param.isCookieParam ? "cookie" : "body";
-            facts.put("in", in);
-            facts.put("isPath", "path".equals(in));
-            facts.put("isQuery", "query".equals(in));
-            facts.put("isHeader", "header".equals(in));
-            facts.put("isCookie", "cookie".equals(in));
             Object style = param.vendorExtensions.get("x-codegen-param-style");
             String styleText = style == null ? "" : style.toString();
             if (styleText.isEmpty()) {
                 styleText = "query".equals(in) || "cookie".equals(in)
                         ? "form" : "simple";
             }
+            String dataType = param.dataType == null ? "" : param.dataType;
+            if (dataType.startsWith("std::shared_ptr<") && dataType.endsWith(">")) {
+                dataType = dataType.substring(
+                        "std::shared_ptr<".length(), dataType.length() - 1).trim();
+            }
+            boolean isContainer = Boolean.TRUE.equals(param.isContainer)
+                    || Boolean.TRUE.equals(param.isArray);
+
+            Parameter rawParam = findRawParameter(op, raw, param.baseName, in);
+            Schema<?> rawSchema = rawParam == null || rawParam.getSchema() == null
+                    ? null
+                    : ModelUtils.getReferencedSchema(sourceOpenApi, rawParam.getSchema());
+
+            String issue = parameterDecodeIssue(
+                    param, in, styleText, dataType, isContainer, rawSchema);
+            if (issue != null) {
+                LOGGER.warn("cpp-boost-beast-server: operation '{}' parameter"
+                                + " '{}' (in {}) {}; it is dropped from the"
+                                + " generated handler and will not reach the"
+                                + " service code",
+                        op.operationId, param.baseName, in, issue);
+                continue;
+            }
+
+            Map<String, Object> facts = new LinkedHashMap<>();
+            facts.put("cppName", param.paramName != null ? param.paramName : param.baseName);
+            facts.put("baseName", param.baseName);
+            facts.put("in", in);
+            facts.put("isPath", "path".equals(in));
+            facts.put("isQuery", "query".equals(in));
+            facts.put("isHeader", "header".equals(in));
+            facts.put("isCookie", "cookie".equals(in));
             Object explode = param.vendorExtensions.get("x-codegen-param-explode");
             boolean explodeFlag = Boolean.TRUE.equals(explode);
             if (explode == null) {
@@ -143,13 +219,7 @@ final class CppBoostBeastServerTemplateModelAssembler {
             facts.put("styleDeepObject", "deepObject".equals(styleText));
             facts.put("explode", explodeFlag);
             facts.put("required", param.required);
-            facts.put("isContainer", Boolean.TRUE.equals(param.isContainer)
-                    || Boolean.TRUE.equals(param.isArray));
-            String dataType = param.dataType == null ? "" : param.dataType;
-            if (dataType.startsWith("std::shared_ptr<") && dataType.endsWith(">")) {
-                dataType = dataType.substring(
-                        "std::shared_ptr<".length(), dataType.length() - 1).trim();
-            }
+            facts.put("isContainer", isContainer);
             facts.put("dataType", dataType);
             facts.put("innerType", innerTemplateArg(dataType));
             facts.put("stringKind", "std::string".equals(dataType));
@@ -158,13 +228,72 @@ final class CppBoostBeastServerTemplateModelAssembler {
             facts.put("numberKind", "float".equals(dataType)
                     || "double".equals(dataType));
             facts.put("boolKind", "bool".equals(dataType));
-
-            Parameter rawParam = findRawParameter(op, raw, param.baseName, in);
-            applySchemaConstraints(facts, rawParam == null ? null : rawParam.getSchema());
+            applySchemaConstraints(facts, rawSchema);
 
             params.add(facts);
         }
         return params;
+    }
+
+    /**
+     * Single owner of parameter degradation: returns a short reason (grammar:
+     * "<verb phrase>") why the codecs cannot faithfully decode this parameter,
+     * or null when they can. Rules mirror the generated decode paths exactly:
+     * content-style and flattened form fields never decode; scalars need a
+     * plain-scalar dataType (parseScalar has six overloads and no optional or
+     * nullable wrappers); containers need vector-of-plain-scalar, or — with
+     * style=deepObject — map<string,string>; cookie containers have no codec;
+     * styles outside the per-location allow-list have no serializer; mixed
+     * enums have no renderable allow-list.
+     */
+    private static String parameterDecodeIssue(
+            CodegenParameter param, String in, String styleText,
+            String dataType, boolean isContainer, Schema<?> schema) {
+        if (param.getContent() != null) {
+            return "uses content-style serialization, which the JSON runtime"
+                    + " cannot decode from a raw string";
+        }
+        if ("body".equals(in)) {
+            return "is a form-field parameter; the runtime decodes JSON"
+                    + " bodies, not form-encoded fields";
+        }
+        if (dataType.isEmpty()) {
+            return "does not map to a generated C++ type";
+        }
+        String enumIssue = CppBoostBeastServerCodegen.heterogeneousEnumIssue(schema);
+        if (enumIssue != null) {
+            return enumIssue;
+        }
+        if (!CppBoostBeastServerCodegen.isStyleAllowedForLocation(in, styleText)) {
+            return "uses style '" + styleText + "' for in='" + in
+                    + "', which the runtime does not serialize";
+        }
+        if (isContainer) {
+            if ("cookie".equals(in)) {
+                return "is an array cookie parameter; the cookie codec decodes"
+                        + " scalars only";
+            }
+            if (dataType.startsWith("std::map<")) {
+                if (!"deepObject".equals(styleText)
+                        || !"std::string".equals(innerTemplateArg(dataType))) {
+                    return "is a map-typed parameter; only query deepObject"
+                            + " string maps are decoded";
+                }
+            } else if (dataType.startsWith("std::vector<")) {
+                if (!CppBoostBeastServerCodegen.isPlainScalarDataType(
+                        innerTemplateArg(dataType))) {
+                    return "is an array with non-scalar items; the query codec"
+                            + " splits plain scalar values only";
+                }
+            } else {
+                return "is a container the codecs cannot build from dataType"
+                        + " '" + dataType + "'";
+            }
+        } else if (!CppBoostBeastServerCodegen.isPlainScalarDataType(dataType)) {
+            return "has dataType '" + dataType + "', which no parseScalar"
+                    + " overload accepts";
+        }
+        return null;
     }
 
     private Parameter findRawParameter(
@@ -251,12 +380,15 @@ final class CppBoostBeastServerTemplateModelAssembler {
     // Request body
     // ------------------------------------------------------------------
 
-    private Map<String, Object> requestBodyFacts(CodegenOperation op, Operation raw) {
+    private Map<String, Object> requestBodyFacts(
+            CodegenOperation op, Operation raw, String pascal,
+            Set<String> modelClassNames, Map<String, String> modelDataTypes) {
         Map<String, Object> facts = new LinkedHashMap<>();
         List<String> mediaTypes = new ArrayList<>();
         RequestBody body = raw != null
                 ? ModelUtils.getReferencedRequestBody(sourceOpenApi, raw.getRequestBody())
                 : null;
+        String jsonModelRef = null;
         if (body != null && body.getContent() != null) {
             for (String mediaType : body.getContent().keySet()) {
                 // Degrade policy: the runtime parses request bodies as JSON
@@ -266,6 +398,11 @@ final class CppBoostBeastServerTemplateModelAssembler {
                 // body entirely rather than promising bytes it cannot parse.
                 if (!CppBoostBeastServerCodegen.isSupportedMediaType(mediaType)) {
                     continue;
+                }
+                if (jsonModelRef == null && body.getContent().get(mediaType) != null) {
+                    jsonModelRef = body.getContent().get(mediaType)
+                            .getSchema() == null
+                            ? "" : body.getContent().get(mediaType).getSchema().get$ref();
                 }
                 String normalized = mediaType == null ? "" : mediaType.trim();
                 int semicolon = normalized.indexOf(';');
@@ -286,8 +423,6 @@ final class CppBoostBeastServerTemplateModelAssembler {
             rendered += "\"" + CppBoostBeastModelCodegen.escapeCppStringContent(mediaType)
                     + "\"";
         }
-        facts.put("hasBody", !mediaTypes.isEmpty());
-        facts.put("mediaTypes", rendered);
 
         String dataType = op.bodyParam != null && op.bodyParam.dataType != null
                 ? op.bodyParam.dataType : "";
@@ -295,15 +430,70 @@ final class CppBoostBeastServerTemplateModelAssembler {
             dataType = dataType.substring(
                     "std::shared_ptr<".length(), dataType.length() - 1).trim();
         }
+        if (dataType.isEmpty() && jsonModelRef != null) {
+            // Mixed bodies (e.g. multipart + JSON): DefaultCodegen flattens the
+            // form payload into parameters and leaves no body model, yet the
+            // JSON member still declares a schema. When that member names a
+            // generated model, the handler can type the JSON body exactly;
+            // anything else (inline objects, unions) degrades to no body.
+            String simple = ModelUtils.getSimpleRef(jsonModelRef);
+            dataType = simple != null && modelClassNames.contains(simple) ? simple : "";
+        }
+        if (isUntypableBodyDataType(dataType, modelDataTypes)) {
+            // Composition unions arrive as std::variant, either directly or
+            // through a model that is an alias to one. Deserializing JSON into
+            // the right branch needs the schema-driven matcher, which the
+            // request path does not run, and fromJsonLeaf only reaches types
+            // that expose a member fromJsonValue (generated classes). Degrade
+            // rather than emit a call that cannot compile.
+            dataType = "";
+        }
+        boolean hasBody = !mediaTypes.isEmpty() && !dataType.isEmpty();
+        if (!mediaTypes.isEmpty() && dataType.isEmpty()) {
+            LOGGER.warn("cpp-boost-beast-server: operation '{}' declares a JSON"
+                            + " request body whose schema the runtime cannot type"
+                            + "; the handler receives no typed body",
+                    op.operationId);
+        }
+        facts.put("hasBody", hasBody);
+        facts.put("mediaTypes", hasBody ? rendered : "");
         facts.put("model", dataType);
+        facts.put("modelCollides", hasBody && dataType.equals(pascal + "Request"));
         return facts;
     }
+
+    /**
+     * A request body is typable only when {@code fromJsonLeaf} has an overload
+     * for its C++ type: a generated class (member fromJsonValue), a concrete
+     * scalar, boost::json::value, or a shared_ptr/vector/map thereof. Union
+     * bodies (std::variant) and optionals have no such overload, and neither
+     * does a model that is merely an alias to one, so those degrade to no body.
+     */
+    private static boolean isUntypableBodyDataType(
+            String dataType, Map<String, String> modelDataTypes) {
+        String current = dataType;
+        // A body model may alias through a couple of names before reaching the
+        // concrete variant; bound the walk so a pathological cycle can't hang.
+        for (int hop = 0; hop < 4 && current != null && !current.isEmpty(); hop++) {
+            if (current.startsWith("std::variant<") || current.startsWith("std::optional<")) {
+                return true;
+            }
+            String resolved = modelDataTypes.get(current);
+            if (resolved == null || resolved.equals(current)) {
+                break;
+            }
+            current = resolved;
+        }
+        return false;
+    }
+
 
     // ------------------------------------------------------------------
     // Responses
     // ------------------------------------------------------------------
 
-    private List<Map<String, Object>> serverResponses(CodegenOperation op) {
+    private List<Map<String, Object>> serverResponses(
+            CodegenOperation op, String pascal) {
         List<Map<String, Object>> responses = new ArrayList<>();
         if (op.responses == null) {
             return responses;
@@ -326,7 +516,15 @@ final class CppBoostBeastServerTemplateModelAssembler {
                         "std::shared_ptr<".length(), dataType.length() - 1).trim();
             }
             facts.put("hasModel", !dataType.isEmpty());
-            facts.put("cppType", dataType);
+            // A model class named exactly like this operation's generated
+            // Request/Responder type would shadow it as an injected-class-name
+            // inside its own declaration; qualify that reference with the
+            // model namespace so the parameter type resolves to the model.
+            boolean collides = dataType.equals(pascal + "Responder")
+                    || dataType.equals(pascal + "Request");
+            facts.put("sendType",
+                    collides && !modelNamespace.isEmpty()
+                            ? modelNamespace + "::" + dataType : dataType);
             responses.add(facts);
         }
         return responses;
