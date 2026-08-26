@@ -49,7 +49,54 @@ paths:
       responses:
         '201':
           description: created
+  /employees/inline-annotation:
+    post:
+      tags:
+        - employee
+      operationId: createEmployeeInlineAnnotation
+      # annotation placed directly on the requestBody object (per-operation, selective)
+      requestBody:
+        x-field-extra-annotation: "@com.example.InlineBodyValidation"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: created
+  /employees/reusable-a:
+    post:
+      tags:
+        - employee
+      operationId: createEmployeeReusableA
+      requestBody:
+        $ref: '#/components/requestBodies/AnnotatedEmployeeBody'
+      responses:
+        '201':
+          description: created
+  /employees/reusable-b:
+    post:
+      tags:
+        - employee
+      operationId: createEmployeeReusableB
+      requestBody:
+        $ref: '#/components/requestBodies/AnnotatedEmployeeBody'
+      responses:
+        '201':
+          description: created
 components:
+  requestBodies:
+    # reusable request body: the annotation applies to every operation that $refs it
+    AnnotatedEmployeeBody:
+      x-field-extra-annotation:
+        - "@com.example.ReusableBodyValidation"
+        - "@com.example.ReusableAuditLogged"
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Employee'
   schemas:
     Employee:
       type: object

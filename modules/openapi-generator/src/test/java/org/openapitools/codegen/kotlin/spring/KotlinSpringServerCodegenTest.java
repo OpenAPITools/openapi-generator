@@ -4520,6 +4520,14 @@ public class KotlinSpringServerCodegenTest {
         String content = Files.readString(employeeApi);
         int myValidationCount = content.split("@com.example.MyValidation", -1).length - 1;
         assertThat(myValidationCount).isEqualTo(2);
+
+        // annotation placed directly on the inline requestBody object renders before the body binding
+        assertFileContains(employeeApi, "@com.example.InlineBodyValidation ");
+        // reusable components.requestBodies annotation applies to every operation that refs it (2 ops)
+        assertFileContains(employeeApi,
+                "@com.example.ReusableBodyValidation ",
+                "@com.example.ReusableAuditLogged ");
+        assertThat(content.split("@com.example.ReusableBodyValidation", -1).length - 1).isEqualTo(2);
     }
 
     @Test

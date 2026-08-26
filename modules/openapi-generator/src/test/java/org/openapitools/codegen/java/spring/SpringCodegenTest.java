@@ -4009,7 +4009,27 @@ public class SpringCodegenTest {
                 .assertParameter("employee")
                 .assertParameterAnnotations()
                 .doesNotContainWithName("com.example.MyValidation")
-                .doesNotContainWithName("com.example.AuditLogged");
+                .doesNotContainWithName("com.example.AuditLogged")
+                .toParameter().toMethod().toFileAssert()
+                // annotation placed directly on the inline requestBody object renders before the body param
+                .assertMethod("createEmployeeInlineAnnotation")
+                .assertParameter("employee")
+                .assertParameterAnnotations()
+                .containsWithName("com.example.InlineBodyValidation")
+                .containsWithName("RequestBody")
+                .toParameter().toMethod().toFileAssert()
+                // reusable components.requestBodies annotation applies to every operation that refs it
+                .assertMethod("createEmployeeReusableA")
+                .assertParameter("employee")
+                .assertParameterAnnotations()
+                .containsWithName("com.example.ReusableBodyValidation")
+                .containsWithName("com.example.ReusableAuditLogged")
+                .toParameter().toMethod().toFileAssert()
+                .assertMethod("createEmployeeReusableB")
+                .assertParameter("employee")
+                .assertParameterAnnotations()
+                .containsWithName("com.example.ReusableBodyValidation")
+                .containsWithName("com.example.ReusableAuditLogged");
     }
 
     @Test
