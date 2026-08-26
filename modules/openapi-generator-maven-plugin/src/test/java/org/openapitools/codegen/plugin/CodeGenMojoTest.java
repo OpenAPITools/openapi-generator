@@ -117,27 +117,63 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertEquals(1, injected.size());
         assertEquals("addPet.x-request-body-extra-annotation=@com.example.MyValidation", injected.get(0));
 
-        // The injected request-body annotation is merged into the body parameter and rendered
-        // on the generated Spring API interface (verifies the full inject -> merge -> render path).
+        // The injected request-body annotation is merged into the body parameter and rendered on the
+        // generated Spring API interface. Assert it lands specifically on addPet's body parameter and
+        // is NOT applied to a control operation (updatePet) that also has a request body but no
+        // injection, so the test fails if the merge became non-selective or targeted the wrong method.
         final Path generatedDir = tempDir.resolve("target/generated-sources/inject-vendor-extensions");
-        String allSources;
+        final Path petApi;
         try (Stream<Path> files = Files.walk(generatedDir)) {
-            allSources = files
+            petApi = files
                     .filter(Files::isRegularFile)
-                    .filter(path -> path.getFileName().toString().endsWith(".java"))
-                    .map(path -> {
-                        try {
-                            return Files.readString(path);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    })
-                    .collect(Collectors.joining("\n"));
+                    .filter(path -> path.getFileName().toString().equals("PetApi.java"))
+                    .findFirst()
+                    .orElseThrow(() -> new AssertionError("PetApi.java was not generated under " + generatedDir));
         }
+        final String petApiSource = Files.readString(petApi);
+
+        final String addPetSignature = extractMethodSignature(petApiSource, "addPet");
         assertTrue(
-                "Injected request-body annotation '@com.example.MyValidation' should appear in the generated sources",
-                allSources.contains("@com.example.MyValidation")
+                "Injected annotation should be rendered on addPet's request body parameter",
+                addPetSignature.contains("@com.example.MyValidation")
+                        && addPetSignature.contains("@RequestBody")
         );
+
+        final String updatePetSignature = extractMethodSignature(petApiSource, "updatePet");
+        assertFalse(
+                "Injected annotation must not leak onto the control operation updatePet",
+                updatePetSignature.contains("@com.example.MyValidation")
+        );
+
+        // Belt and suspenders: the injected annotation must appear exactly once in the whole
+        // interface, proving it was not applied to every operation.
+        int occurrences = petApiSource.split("@com.example.MyValidation", -1).length - 1;
+        assertEquals("Injected annotation should appear exactly once (only on addPet)", 1, occurrences);
+    }
+
+    /**
+     * Extracts a method's declaration up to and including its balanced parameter-list parentheses,
+     * so parameter annotations can be asserted per-method. Assumes {@code methodName(} appears only
+     * at the method declaration (true for the generated Spring interface).
+     */
+    private static String extractMethodSignature(String source, String methodName) {
+        int start = source.indexOf(methodName + "(");
+        assertTrue("Method '" + methodName + "' not found in generated source", start >= 0);
+        int depth = 0;
+        int i = start + methodName.length();
+        for (; i < source.length(); i++) {
+            char c = source.charAt(i);
+            if (c == '(') {
+                depth++;
+            } else if (c == ')') {
+                depth--;
+                if (depth == 0) {
+                    i++;
+                    break;
+                }
+            }
+        }
+        return source.substring(start, i);
     }
 
     public void testHashGenerationFileContainsExecutionId() throws Exception {
