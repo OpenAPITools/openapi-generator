@@ -238,8 +238,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Query|✓|OAS2,OAS3
 |Header|✓|OAS2,OAS3
 |Body|✓|OAS2
-|FormUnencoded|✓|OAS2
-|FormMultipart|✓|OAS2
+|FormUnencoded|✗|OAS2
+|FormMultipart|✗|OAS2
 |Cookie|✓|OAS3
 
 ### Schema Support Feature

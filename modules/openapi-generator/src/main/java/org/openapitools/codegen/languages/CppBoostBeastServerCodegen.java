@@ -108,6 +108,13 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                         GlobalFeature.Callbacks,
                         GlobalFeature.LinkObjects
                 )
+                .excludeParameterFeatures(
+                        // Non-JSON request bodies degrade to "no typed body"
+                        // (see collectSurfaceWarnings): the runtime never
+                        // parses urlencoded or multipart payloads.
+                        ParameterFeature.FormUnencoded,
+                        ParameterFeature.FormMultipart
+                )
                 .includeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism,
                         SchemaSupportFeature.Composite,
