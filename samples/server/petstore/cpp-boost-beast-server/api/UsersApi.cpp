@@ -22,6 +22,7 @@
 #include "Router.h"
 
 #include <algorithm>
+#include <cctype>
 #include <regex>
 #include <stdexcept>
 #include <string>
@@ -64,6 +65,7 @@ void UsersApi::attach(HttpServer& server, std::shared_ptr<UsersApi> impl) {
                         problem.withError("username", "path parameter is not a valid std::string");
                         invalid = true;
                     }
+
 
 
 

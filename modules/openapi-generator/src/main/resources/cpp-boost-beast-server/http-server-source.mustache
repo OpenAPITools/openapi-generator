@@ -161,12 +161,18 @@ private:
             return do_close();
         }
         if (ec == http::error::body_limit) {
+            // The unread remainder of the oversized body cannot be skipped
+            // safely: answer 413 and close the connection.
+            forceClose_ = true;
             return send_response(
                 toProblemResponse(Problem::payloadTooLarge()));
         }
         if (ec) {
             return failLog(ec, "read");
         }
+        requestVersion_ = static_cast<unsigned>(parser_->get().version());
+        requestKeepAlive_ = parser_->get().keep_alive();
+        forceClose_ = false;
         handle_request(parser_->release());
     }
 
@@ -213,15 +219,41 @@ private:
         ctx.pathParams = match.pathParams;
         ctx.operationId = match.operationId;
 
-        if (!match.security.empty()) {
+        // Skip the security gate entirely when any declared OR-alternative
+        // is anonymous (empty group, including `security: []`): anonymous
+        // access is a valid alternative and needs no credentials or authorizer.
+        bool anonymousAllowed = false;
+        for (std::vector<SchemeRequirement> const& group : match.security) {
+            if (group.empty()) {
+                anonymousAllowed = true;
+                break;
+            }
+        }
+        if (!match.security.empty() && !anonymousAllowed) {
             AuthCredentials credentials =
                 collectCredentials(ctx, match.security);
             bool allowed = structurallySatisfied(match.security, credentials)
                 && options_.authorizer
                 && options_.authorizer->authorize(ctx.operationId, credentials);
             if (!allowed) {
-                return send_response(
-                    toProblemResponse(Problem::unauthorized()));
+                http::response<http::string_body> res =
+                    toProblemResponse(Problem::unauthorized());
+                // RFC 9110 11.6.1: 401 MUST carry a WWW-Authenticate
+                // challenge. http-scheme requirements yield the scheme
+                // name; API keys have no standardized challenge form.
+                for (std::vector<SchemeRequirement> const& group : match.security) {
+                    for (SchemeRequirement const& scheme : group) {
+                        if (scheme.type == "http" && !scheme.httpScheme.empty()) {
+                            res.set(http::field::www_authenticate,
+                                    scheme.httpScheme + " realm=\"api\"");
+                            break;
+                        }
+                    }
+                    if (res.count(http::field::www_authenticate) != 0) {
+                        break;
+                    }
+                }
+                return send_response(std::move(res));
             }
         }
 
@@ -239,15 +271,20 @@ private:
         } catch (std::exception const& error) {
             std::cerr << "cpp-boost-beast-server: handler exception for "
                       << ctx.operationId << ": " << error.what() << "\n";
-            if (!responder->completed()) {
-                send_response(toProblemResponse(Problem::internal()));
-            }
+            // Route through the core so the single-completion guard applies
+            // even when the handler had already queued an async completion.
+            responder->sendProblem(Problem::internal());
         }
     }
 
 
     void send_response(http::response<http::string_body>&& response) {
-        bool keepAlive = response.keep_alive();
+        // Mirror the request's HTTP version and keep-alive preference
+        // (RFC 9110 6.7): responses must not keep a 1.0 connection alive
+        // that did not opt in, and version should not exceed the request's.
+        response.version(requestVersion_);
+        bool keepAlive = forceClose_ ? false : requestKeepAlive_;
+        response.keep_alive(keepAlive);
         auto message = std::make_shared<http::message_generator>(
             std::move(response));
         boost::beast::async_write(
@@ -277,6 +314,9 @@ private:
         stream_.socket().shutdown(tcp::socket::shutdown_send, ec);
     }
 
+    unsigned requestVersion_ = 11;
+    bool requestKeepAlive_ = false;
+    bool forceClose_ = false;
     boost::beast::tcp_stream stream_;
     boost::beast::flat_buffer buffer_;
     std::shared_ptr<Router> router_;
@@ -332,8 +372,13 @@ tcp::endpoint HttpServer::localEndpoint() const {
 }
 
 void HttpServer::stop() {
-    boost::beast::error_code ec;
-    listener_->acceptor.close(ec);
+    // The acceptor lives on a strand with a pending async_accept: close it
+    // there so stop() is safe to call from any thread.
+    net::post(listener_->acceptor.get_executor(),
+              [self = shared_from_this()] {
+                  boost::beast::error_code ec;
+                  self->listener_->acceptor.close(ec);
+              });
 }
 
 void HttpServer::acceptNext() {

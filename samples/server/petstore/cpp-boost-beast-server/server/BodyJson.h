@@ -80,6 +80,9 @@ bodyLeaf(T const& value) {
     return value.toJsonValue();
 }
 
+inline boost::json::value bodyLeaf(boost::json::value value) {
+    return value;
+}
 template <typename T>
 boost::json::value bodyLeaf(std::shared_ptr<T> const& value) {
     if (!value) return boost::json::value(nullptr);
@@ -173,8 +176,14 @@ inline void fromJsonLeaf(boost::json::value const& json, float& out) {
         out = static_cast<float>(json.as_double());
         return;
     }
-    if (json.is_int64() || json.is_uint64()) {
-        out = static_cast<float>(json.to_number<std::int64_t>());
+    if (json.is_int64()) {
+        out = static_cast<float>(json.as_int64());
+        return;
+    }
+    if (json.is_uint64()) {
+        // as_uint64 + cast: to_number<int64_t> throws (not system_error-
+        // catchable as invalid_argument) for values above INT64_MAX.
+        out = static_cast<float>(json.as_uint64());
         return;
     }
     throw std::invalid_argument("expected a JSON number");
@@ -185,8 +194,12 @@ inline void fromJsonLeaf(boost::json::value const& json, double& out) {
         out = json.as_double();
         return;
     }
-    if (json.is_int64() || json.is_uint64()) {
-        out = static_cast<double>(json.to_number<std::int64_t>());
+    if (json.is_int64()) {
+        out = static_cast<double>(json.as_int64());
+        return;
+    }
+    if (json.is_uint64()) {
+        out = static_cast<double>(json.as_uint64());
         return;
     }
     throw std::invalid_argument("expected a JSON number");
@@ -197,6 +210,11 @@ std::enable_if_t<HasFromJsonValue<T>::value, void>
 fromJsonLeaf(boost::json::value const& json, T& out) {
     out.fromJsonValue(json);
 }
+
+inline void fromJsonLeaf(boost::json::value const& json, boost::json::value& out) {
+    out = json;
+}
+
 
 template <typename T>
 void fromJsonLeaf(boost::json::value const& json, std::shared_ptr<T>& out) {

@@ -17,8 +17,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <utility>
-
+#include <atomic>
+#include <functional>
 namespace {{apiNamespace}} {
 
 /// Type-erased single-shot response completion. The write is posted to the
@@ -33,12 +33,11 @@ public:
     /// Completes the request with an already-built response. Second and
     /// later completions are rejected; the response is discarded.
     void complete(boost::beast::http::response<boost::beast::http::string_body>&& response) {
-        if (completed_) {
+        if (completed_.exchange(true)) {
             std::cerr << "cpp-boost-beast-server: duplicate responder completion for "
                       << operationId_ << " ignored\n";
             return;
         }
-        completed_ = true;
         if (sink_) {
             sink_(std::move(response));
         }
@@ -80,11 +79,11 @@ public:
         operationId_ = std::move(operationId);
     }
 
-    bool completed() const { return completed_; }
+    bool completed() const { return completed_.load(); }
 
 private:
     Sink sink_;
-    bool completed_ = false;
+    std::atomic<bool> completed_{false};
     std::string operationId_;
 };
 

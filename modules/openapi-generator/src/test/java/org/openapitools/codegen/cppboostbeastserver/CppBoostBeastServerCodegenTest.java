@@ -300,6 +300,109 @@ public class CppBoostBeastServerCodegenTest {
     }
 
     @Test
+    public void rejectsRangedResponseCodes() throws IOException {
+        Path spec = writeTempSpec(spec(
+                "  /r:",
+                "    get:",
+                "      operationId: ranged",
+                "      responses:",
+                "        '2XX':",
+                "          description: any success",
+                "          content:",
+                "            application/json:",
+                "              schema: {type: string}"));
+        IllegalArgumentException error = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> generate(spec.toString(), java.util.Map.of()));
+        Assert.assertTrue(error.getMessage().contains("2XX"),
+                "diagnostic must name the ranged code");
+    }
+
+    @Test
+    public void rejectsUnsupportedSecuritySchemes() throws IOException {
+        Path spec = writeTempSpec(
+                "openapi: 3.1.0",
+                "info: {title: t, version: '1'}",
+                "security:",
+                "  - oauth:",
+                "paths:",
+                "  /o:",
+                "    get:",
+                "      operationId: needsOauth",
+                "      responses:",
+                "        '200': {description: ok}",
+                "components:",
+                "  securitySchemes:",
+                "    oauth:",
+                "      type: oauth2",
+                "      flows: {}");
+        IllegalArgumentException error = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> generate(spec.toString(), java.util.Map.of()));
+        Assert.assertTrue(error.getMessage().contains("oauth"),
+                "diagnostic must name the unsupported scheme");
+    }
+
+    @Test
+    public void normalizesMediaTypeParametersInFacts() throws IOException {
+        Path spec = writeTempSpec(spec(
+                "  /m:",
+                "    post:",
+                "      operationId: mediaParams",
+                "      requestBody:",
+                "        content:",
+                "          'application/json; charset=utf-8':",
+                "            schema: {type: string}",
+                "      responses:",
+                "        '200': {description: ok}"));
+        Path output = generate(spec.toString(), java.util.Map.of());
+        String apiSource = Files.readString(output.resolve("api/DefaultApi.cpp"));
+        Assert.assertTrue(apiSource.contains("\"application/json\""),
+                "declared media-type parameters must be stripped in kMediaTypes");
+        Assert.assertFalse(apiSource.contains("charset"),
+                "charset must not survive into the generated match list");
+    }
+
+    @Test
+    public void resolvesRefRequestBodiesAndParameters() throws IOException {
+        Path spec = writeTempSpec(
+                "openapi: 3.1.0",
+                "info: {title: t, version: '1'}",
+                "paths:",
+                "  /ref:",
+                "    post:",
+                "      operationId: refBody",
+                "      requestBody:",
+                "        $ref: '#/components/requestBodies/PetBody'",
+                "      parameters:",
+                "        - $ref: '#/components/parameters/Tier'",
+                "      responses:",
+                "        '200': {description: ok}",
+                "components:",
+                "  requestBodies:",
+                "    PetBody:",
+                "      content:",
+                "        application/json:",
+                "          schema: {type: string}",
+                "  parameters:",
+                "    Tier:",
+                "      name: tier",
+                "      in: query",
+                "      schema:",
+                "        type: integer",
+                "        enum: [10, 20]");
+        Path output = generate(spec.toString(), java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("RefBodyRequest"),
+                "request struct must exist for the $ref-body operation");
+        String apiSource = Files.readString(output.resolve("api/DefaultApi.cpp"));
+        Assert.assertTrue(apiSource.contains("fromJsonBody"),
+                "$ref request body must still be decoded");
+        Assert.assertTrue(apiSource.contains("kAllowed"),
+                "$ref parameter constraints must survive");
+    }
+
+    @Test
     public void generatesFromOas30Spec() throws IOException {
         // The shared pipeline must keep 3.0 documents working (JSON-only).
         Path spec = writeTempSpec(

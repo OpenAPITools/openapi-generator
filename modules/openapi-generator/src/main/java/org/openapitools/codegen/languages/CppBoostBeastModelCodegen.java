@@ -1252,10 +1252,11 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
             throw new IllegalArgumentException(String.join("; ", policyDiagnostics));
         }
         super.preprocessOpenAPI(openAPI);
-        // Webhooks are inbound-only metadata for a client generator. Upstream
-        // folds them into the API map under the same fallback classname as path
-        // operations, which can replace the path API. Preserve their metadata,
-        // then remove them so outbound paths still generate; no listener is emitted.
+        // Webhooks are inbound-only metadata for client and server
+        // generators. Upstream folds them into the API map under the same
+        // fallback classname as path operations, which can replace the path
+        // API. Preserve their metadata, then remove them so outbound paths
+        // still generate; no listener is emitted.
         if (openAPI.getWebhooks() != null && !openAPI.getWebhooks().isEmpty()) {
             for (Map.Entry<String, PathItem> e : openAPI.getWebhooks().entrySet()) {
                 PathItem item = e.getValue();

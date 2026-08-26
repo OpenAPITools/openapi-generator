@@ -93,14 +93,18 @@ public:
 
 class RegressionAuthorizer : public api::Authorizer {
 public:
-    bool authorize(std::string const&, api::AuthCredentials const& credentials) override {
-        return credentials.httpAuthorization != "Bearer deny";
+    bool authorize(std::string const& operationId,
+                   api::AuthCredentials const& credentials) override {
+        // Deny the anonymous op outright: it must still succeed because
+        // `security: []` bypasses the gate entirely.
+        if (operationId == "getPetById") {
+            return false;
+        }
+        return credentials.httpAuthorization == "Bearer ok"
+            || credentials.apiKeyValues.count("header:X-API-KEY") != 0;
     }
 };
 
-// ---------------------------------------------------------------------------
-// Raw-socket HTTP client helpers.
-// ---------------------------------------------------------------------------
 struct RawResponse {
     unsigned status = 0;
     std::string allow;
@@ -242,6 +246,14 @@ int main() {
         "GET /pets?limit=0 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
     expect(badLimit.status == 400, "limit below minimum should be 400");
 
+    // 400 on a numeric enum member outside the allowed set; 200 inside it.
+    RawResponse badTier = roundtrip(ioc, port,
+        "GET /pets?tier=15 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(badTier.status == 400, "tier outside the integer enum should be 400");
+    RawResponse goodTier = roundtrip(ioc, port,
+        "GET /pets?tier=20 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(goodTier.status == 200, "tier inside the integer enum should be 200");
+
     // 404 on unknown path.
     RawResponse missing = roundtrip(ioc, port,
         "GET /nope HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
@@ -334,7 +346,7 @@ int main() {
     // Label-style pattern path parameter: valid then invalid.
     RawResponse labelOk = roundtrip(ioc, port,
         "GET /reports/.AB-12 HTTP/1.1\r\nHost: t\r\n"
-        "Authorization: Bearer ok\r\nCookie: lang=en\r\n"
+        "Authorization: Bearer ok\r\nCookie: session=x; lang=en\r\n"
         "Connection: close\r\n\r\n");
     expect(labelOk.status == 200, "label path with valid pattern should be 200");
 

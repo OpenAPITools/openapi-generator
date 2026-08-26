@@ -18,12 +18,14 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -56,12 +58,6 @@ final class CppBoostBeastServerTemplateModelAssembler {
             }
             Operation raw = CppBoostBeastOperationFacts.operationFor(sourceOpenApi, op);
 
-            Map<String, Object> route = new LinkedHashMap<>();
-            route.put("method", op.httpMethod);
-            route.put("pathTemplate", op.path);
-            route.put("hasBody", !op.bodyParams.isEmpty());
-            op.vendorExtensions.put("x-server-route", route);
-
             op.vendorExtensions.put("x-server-operation-pascal",
                     pascalCase(op.operationId != null ? op.operationId : op.operationIdLowerCase));
 
@@ -71,8 +67,6 @@ final class CppBoostBeastServerTemplateModelAssembler {
             Map<String, Object> body = requestBodyFacts(op, raw);
             op.vendorExtensions.put("x-server-has-request-body", body.get("hasBody"));
             op.vendorExtensions.put("x-server-request-model", body.get("model"));
-            op.vendorExtensions.put("x-server-request-kind", body.get("kind"));
-            op.vendorExtensions.put("x-server-request-inner", body.get("inner"));
             op.vendorExtensions.put("x-server-request-media-types",
                     body.get("mediaTypes"));
 
@@ -179,9 +173,17 @@ final class CppBoostBeastServerTemplateModelAssembler {
             CodegenOperation op, Operation raw, String baseName, String in) {
         if (raw != null && raw.getParameters() != null) {
             for (Parameter candidate : raw.getParameters()) {
-                if (candidate != null && baseName.equals(candidate.getName())
-                        && (candidate.getIn() == null || candidate.getIn().equals(in))) {
-                    return candidate;
+                if (candidate == null) {
+                    continue;
+                }
+                // $ref parameters carry null name/in in the raw document;
+                // resolve to the target before comparing.
+                Parameter resolved =
+                        ModelUtils.getReferencedParameter(sourceOpenApi, candidate);
+                Parameter effective = resolved != null ? resolved : candidate;
+                if (baseName.equals(effective.getName())
+                        && (effective.getIn() == null || effective.getIn().equals(in))) {
+                    return effective;
                 }
             }
         }
@@ -254,9 +256,25 @@ final class CppBoostBeastServerTemplateModelAssembler {
     private Map<String, Object> requestBodyFacts(CodegenOperation op, Operation raw) {
         Map<String, Object> facts = new LinkedHashMap<>();
         List<String> mediaTypes = new ArrayList<>();
-        if (raw != null && raw.getRequestBody() != null
-                && raw.getRequestBody().getContent() != null) {
-            mediaTypes.addAll(raw.getRequestBody().getContent().keySet());
+        RequestBody body = raw != null
+                ? ModelUtils.getReferencedRequestBody(sourceOpenApi, raw.getRequestBody())
+                : null;
+        if (body != null && body.getContent() != null) {
+            for (String mediaType : body.getContent().keySet()) {
+                // The runtime strips parameters and lowercases the received
+                // Content-Type before comparing; emit the same normalized
+                // form so a declared "application/json; charset=utf-8" key
+                // still matches plain "application/json" requests.
+                String normalized = mediaType == null ? "" : mediaType.trim();
+                int semicolon = normalized.indexOf(';');
+                if (semicolon >= 0) {
+                    normalized = normalized.substring(0, semicolon).trim();
+                }
+                normalized = normalized.toLowerCase(java.util.Locale.ROOT);
+                if (!normalized.isEmpty() && !mediaTypes.contains(normalized)) {
+                    mediaTypes.add(normalized);
+                }
+            }
         }
         String rendered = "";
         for (String mediaType : mediaTypes) {
@@ -276,8 +294,6 @@ final class CppBoostBeastServerTemplateModelAssembler {
                     "std::shared_ptr<".length(), dataType.length() - 1).trim();
         }
         facts.put("model", dataType);
-        facts.put("kind", bodyKind(dataType));
-        facts.put("inner", innerTemplateArg(dataType));
         return facts;
     }
 
@@ -309,29 +325,11 @@ final class CppBoostBeastServerTemplateModelAssembler {
             }
             facts.put("hasModel", !dataType.isEmpty());
             facts.put("cppType", dataType);
-            facts.put("kind", bodyKind(dataType));
-            facts.put("inner", innerTemplateArg(dataType));
             responses.add(facts);
         }
         return responses;
     }
 
-    /** Response/body serialization kind derived from the C++ type. */
-    static String bodyKind(String dataType) {
-        if (dataType == null || dataType.isEmpty()) {
-            return "none";
-        }
-        if (dataType.startsWith("std::vector<")) {
-            return "vector";
-        }
-        if (dataType.startsWith("std::map<")) {
-            return "map";
-        }
-        if ("boost::json::value".equals(dataType)) {
-            return "any";
-        }
-        return "model";
-    }
 
     /** Inner template argument for containers ("" for scalars). */
     static String innerTemplateArg(String dataType) {

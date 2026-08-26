@@ -22,6 +22,7 @@
 #include "Router.h"
 
 #include <algorithm>
+#include <cctype>
 #include <regex>
 #include <stdexcept>
 #include <string>
@@ -60,6 +61,11 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
                     std::size_t semicolon = contentType.find(';');
                     if (semicolon != std::string::npos) {
                         contentType.resize(semicolon);
+                    }
+                    // Media types are case-insensitive (RFC 9110 8.3.1).
+                    for (char& c : contentType) {
+                        c = static_cast<char>(std::tolower(
+                            static_cast<unsigned char>(c)));
                     }
                     while (!contentType.empty() && contentType.back() == ' ') {
                         contentType.pop_back();
@@ -128,6 +134,7 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
 
 
 
+
                 }
 
 
@@ -168,6 +175,9 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
                         problem.withError("limit", "query parameter is not a valid std::int32_t");
                         invalid = true;
                     }
+
+
+
 
 
 
@@ -226,6 +236,7 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
                         problem.withError("petId", "path parameter is not a valid std::int64_t");
                         invalid = true;
                     }
+
 
 
 

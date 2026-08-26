@@ -103,6 +103,13 @@ paths:
             format: int32
             minimum: 1
             maximum: 100
+        - name: tier
+          in: query
+          description: Numeric tier selector
+          schema:
+            type: integer
+            format: int32
+            enum: [10, 20]
       responses:
         '200':
           description: Pet collection

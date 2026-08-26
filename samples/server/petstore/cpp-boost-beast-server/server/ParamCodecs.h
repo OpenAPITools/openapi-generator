@@ -17,13 +17,16 @@
 #ifndef ORG_OPENAPITOOLS_SERVER_API_SERVER_PARAM_CODECS_H_
 #define ORG_OPENAPITOOLS_SERVER_API_SERVER_PARAM_CODECS_H_
 
+#include <cctype>
+#include <cerrno>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
-#include <limits>
-#include <cerrno>
 #include <cstring>
+#include <limits>
 #include <map>
+#include <string>
 #include <string_view>
 #include <vector>
 
@@ -124,6 +127,10 @@ inline void parseCookieHeader(
         std::size_t semi = header.find(';', start);
         std::string_view pair = semi == std::string_view::npos
                 ? header.substr(start) : header.substr(start, semi - start);
+        // RFC 6265 4.2 allows optional whitespace after the ';' separator.
+        while (!pair.empty() && (pair.front() == ' ' || pair.front() == '\t')) {
+            pair.remove_prefix(1);
+        }
         std::size_t eq = pair.find('=');
         if (eq != std::string_view::npos) {
             std::string key = percentDecode(pair.substr(0, eq));
@@ -167,7 +174,13 @@ inline bool parseIntegerScalar(std::string_view text, T& out) {
     char* end = nullptr;
     errno = 0;
     long long parsed = std::strtoll(storage.c_str(), &end, 10);
-    if (end == nullptr || *end != '\0' || errno == ERANGE) return false;
+    // Whole-input match: strtoll stops at NUL or junk; compare the consumed
+    // length so embedded NULs (via %00) cannot smuggle trailing bytes.
+    if (end == nullptr
+            || static_cast<std::size_t>(end - storage.data()) != storage.size()
+            || errno == ERANGE) {
+        return false;
+    }
     if (parsed < static_cast<long long>(std::numeric_limits<T>::min())
             || parsed > static_cast<long long>(std::numeric_limits<T>::max())) {
         return false;
@@ -191,7 +204,14 @@ inline bool parseFloatScalar(std::string_view text, T& out) {
     char* end = nullptr;
     errno = 0;
     double parsed = std::strtod(storage.c_str(), &end);
-    if (end == nullptr || *end != '\0' || errno == ERANGE) return false;
+    if (end == nullptr
+            || static_cast<std::size_t>(end - storage.data()) != storage.size()
+            || errno == ERANGE) {
+        return false;
+    }
+    // JSON numbers are finite; reject strtod extensions like "inf"/"nan"
+    // and hex-floats would already fail the whole-input length check.
+    if (!std::isfinite(parsed)) return false;
     out = static_cast<T>(parsed);
     return true;
 }

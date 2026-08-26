@@ -113,16 +113,22 @@ toProblemResponse(Problem const& problem) {
                 case '\n': out += "\\n"; break;
                 case '\r': out += "\\r"; break;
                 case '\t': out += "\\t"; break;
-                default:
-                    if (static_cast<unsigned char>(c) < 0x20) {
-                        char buffer[7];
+                case '\b': out += "\\b"; break;
+                case '\f': out += "\\f"; break;
+                default: {
+                    unsigned char byte = static_cast<unsigned char>(c);
+                    if (byte < 0x20 || byte >= 0x7f) {
+                        // Escape as \u00XX so header-sourced obs-text can
+                        // never produce invalid UTF-8 (invalid JSON).
+                        char buffer[8];
                         std::snprintf(buffer, sizeof(buffer), "\\u%04x",
-                                      static_cast<unsigned>(static_cast<unsigned char>(c)));
+                                      static_cast<unsigned>(byte));
                         out += buffer;
                     } else {
                         out.push_back(c);
                     }
                     break;
+                }
             }
         }
         return out;

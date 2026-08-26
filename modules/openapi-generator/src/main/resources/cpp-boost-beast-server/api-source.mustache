@@ -12,6 +12,7 @@
 #include "Router.h"
 
 #include <algorithm>
+#include <cctype>
 #include <regex>
 #include <stdexcept>
 #include <string>
@@ -99,7 +100,24 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                         invalid = true;
                     }
 {{/hasMaxLength}}{{/stringKind}}
-{{#integerKind}}{{#hasMinimum}}
+{{#boolKind}}{{#hasEnum}}
+                    if (!invalid) {
+                        static std::vector<bool> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{/boolKind}}
+{{#integerKind}}{{#hasEnum}}
+                    if (!invalid) {
+                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{#hasMinimum}}
                     if (!invalid && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
                         problem.withError("{{baseName}}", "value is below the minimum");
                         invalid = true;
@@ -110,7 +128,15 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                         invalid = true;
                     }
 {{/hasMaximum}}{{/integerKind}}
-{{#numberKind}}{{#hasMinimum}}
+{{#numberKind}}{{#hasEnum}}
+                    if (!invalid) {
+                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{#hasMinimum}}
                     if (!invalid && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
                         problem.withError("{{baseName}}", "value is below the minimum");
                         invalid = true;
@@ -173,6 +199,33 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                         }
                     }
 {{/hasEnum}}{{/stringKind}}
+{{#boolKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<bool> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{/boolKind}}
+{{#integerKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{/integerKind}}
+{{#numberKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{/numberKind}}
 {{#stringKind}}{{#hasPattern}}
                     if (!invalid && present) {
                         static std::regex const kPattern("{{{pattern}}}");
@@ -253,7 +306,10 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                                 && entry.first.back() == ']') {
                             std::string key = entry.first.substr(
                                 prefix.size(), entry.first.size() - prefix.size() - 1);
-                            request.{{cppName}}[percentDecode(key)] = percentDecode(entry.second);
+                            // ctx.query keys/values are already decoded by
+                            // Boost.URL; decoding again would corrupt values
+                            // containing literal percent escapes.
+                            request.{{cppName}}[key] = entry.second;
                         }
                     }
 {{/styleDeepObject}}
@@ -275,6 +331,24 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                         problem.withError("{{baseName}}", "header parameter is not a valid {{{dataType}}}");
                         invalid = true;
                     }
+{{#stringKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{/stringKind}}
+{{#integerKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{/integerKind}}
 {{/isContainer}}
 {{#isContainer}}
                     auto values = ctx.headers.equal_range(lowercaseHeaderName("{{baseName}}"));
@@ -312,6 +386,15 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                         problem.withError("{{baseName}}", "cookie parameter is not a valid {{{dataType}}}");
                         invalid = true;
                     }
+{{#stringKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{/stringKind}}
 {{/isCookie}}
                 }
 {{/vendorExtensions.x-server-params}}
@@ -326,6 +409,11 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                     std::size_t semicolon = contentType.find(';');
                     if (semicolon != std::string::npos) {
                         contentType.resize(semicolon);
+                    }
+                    // Media types are case-insensitive (RFC 9110 8.3.1).
+                    for (char& c : contentType) {
+                        c = static_cast<char>(std::tolower(
+                            static_cast<unsigned char>(c)));
                     }
                     while (!contentType.empty() && contentType.back() == ' ') {
                         contentType.pop_back();

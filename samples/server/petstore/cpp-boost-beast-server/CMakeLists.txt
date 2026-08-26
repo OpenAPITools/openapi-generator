@@ -42,7 +42,7 @@ if (NOT THREADS_TARGET_PREDEFINED)
     set_property(TARGET Threads::Threads PROPERTY IMPORTED_GLOBAL TRUE)
 endif ()
 
-# Boost.URL is consumed in header-only mode from HttpServer.cpp.
+# Boost.URL is linked as a compiled component (Boost 1.81+).
 if (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 else ()

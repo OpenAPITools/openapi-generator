@@ -22,6 +22,7 @@
 #include "Router.h"
 
 #include <algorithm>
+#include <cctype>
 #include <regex>
 #include <stdexcept>
 #include <string>

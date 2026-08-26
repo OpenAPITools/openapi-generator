@@ -21,7 +21,10 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -43,6 +46,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -300,6 +304,7 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         if (openAPI == null || openAPI.getPaths() == null) {
             return diagnostics;
         }
+        Set<String> unsupportedSchemes = collectUnsupportedSecuritySchemes(openAPI);
         Map<String, String> shapeOwners = new LinkedHashMap<>();
         for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
             String pathTemplate = pathEntry.getKey();
@@ -322,15 +327,28 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                 String operationId = operation.getOperationId() != null
                         ? operation.getOperationId()
                         : opEntry.getKey() + " " + pathTemplate;
-                if (operation.getRequestBody() != null
-                        && operation.getRequestBody().getContent() != null) {
+                RequestBody body = operation.getRequestBody() != null
+                        ? ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody())
+                        : null;
+                if (body != null && body.getContent() != null) {
                     collectMediaTypeRejections(
-                            operation.getRequestBody().getContent(),
-                            operationId, diagnostics);
+                            body.getContent(), operationId, diagnostics);
                 }
                 if (operation.getResponses() != null) {
-                    for (ApiResponse response : operation.getResponses().values()) {
-                        if (response != null && response.getContent() != null) {
+                    for (Map.Entry<String, ApiResponse> respEntry
+                            : operation.getResponses().entrySet()) {
+                        ApiResponse response = respEntry.getValue();
+                        if (response == null) {
+                            continue;
+                        }
+                        if (respEntry.getKey() != null
+                                && respEntry.getKey().matches("[1-5]XX")) {
+                            diagnostics.add("operation '" + operationId
+                                    + "' declares ranged status code '"
+                                    + respEntry.getKey()
+                                    + "'; only concrete codes are supported");
+                        }
+                        if (response.getContent() != null) {
                             collectMediaTypeRejections(
                                     response.getContent(), operationId, diagnostics);
                         }
@@ -342,7 +360,34 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                         pathEntry.getKey() + ":pathItem", diagnostics);
             }
         }
+        for (String scheme : unsupportedSchemes) {
+            diagnostics.add("security scheme '" + scheme
+                    + "' uses a type the runtime cannot extract credentials for"
+                    + " (only apiKey and http are supported)");
+        }
         return diagnostics;
+    }
+
+    /** Security scheme names whose type is not apiKey/http (always-401 stubs). */
+    private static Set<String> collectUnsupportedSecuritySchemes(OpenAPI openAPI) {
+        Set<String> unsupported = new LinkedHashSet<>();
+        if (openAPI.getComponents() == null
+                || openAPI.getComponents().getSecuritySchemes() == null) {
+            return unsupported;
+        }
+        for (Map.Entry<String, SecurityScheme> entry
+                : openAPI.getComponents().getSecuritySchemes().entrySet()) {
+            SecurityScheme scheme = entry.getValue();
+            if (scheme == null || scheme.getType() == null) {
+                continue;
+            }
+            SecurityScheme.Type type = scheme.getType();
+            if (type != SecurityScheme.Type.APIKEY && type != SecurityScheme.Type.HTTP) {
+                unsupported.add(entry.getKey() + "' ("
+                        + type + ")");
+            }
+        }
+        return unsupported;
     }
 
     private static void collectMediaTypeRejections(
@@ -417,13 +462,25 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         }
     }
 
-    /** Canonical routing shape: literal vs placeholder per path segment. */
+    /** Canonical routing shape: literal vs placeholder per path segment.
+     *  Mirrors Router::splitPath (one leading empty segment skipped,
+     *  interior and trailing empty segments preserved) so `/pets` and
+     *  `/pets/` produce distinct keys exactly when the router treats them
+     *  as distinct routes. */
     private static String routeShapeKey(String pathTemplate) {
         StringBuilder key = new StringBuilder();
-        for (String segment : pathTemplate.split("/")) {
-            if (segment.isEmpty()) {
-                continue;
+        List<String> segments = new ArrayList<>();
+        int start = pathTemplate.startsWith("/") ? 1 : 0;
+        while (start <= pathTemplate.length()) {
+            int slash = pathTemplate.indexOf('/', start);
+            if (slash < 0) {
+                segments.add(pathTemplate.substring(start));
+                break;
             }
+            segments.add(pathTemplate.substring(start, slash));
+            start = slash + 1;
+        }
+        for (String segment : segments) {
             if (segment.startsWith("{") && segment.endsWith("}")) {
                 key.append("/{");
             } else {
