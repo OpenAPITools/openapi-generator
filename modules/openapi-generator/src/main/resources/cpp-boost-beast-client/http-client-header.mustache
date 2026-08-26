@@ -41,6 +41,9 @@ using SseEventCallback = std::function<bool(const SseEvent &)>;
 struct SseStreamOptions {
     std::size_t maxLineBytes = 64U * 1024U;
     std::size_t maxEventBytes = 1024U * 1024U;
+    /// Compatibility mode for non-conforming servers that omit the final blank
+    /// line. Default false follows WHATWG framing and discards an incomplete event.
+    bool dispatchUnterminatedEventAtEof = false;
     std::function<bool()> isCancelled;
 };
 

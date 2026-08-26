@@ -406,6 +406,9 @@ ValidationResult validate_{{validator-id}}(
     {{#tolerateNonNullableNulls}}
     context.tolerateNonNullablePropertyNulls = true;
     {{/tolerateNonNullableNulls}}
+    {{#preserveAdditionalProperties}}
+    context.tolerateAdditionalProperties = true;
+    {{/preserveAdditionalProperties}}
     {{schemaValidationNamespace}}::ValidationResult const result =
         {{schemaValidationNamespace}}::sharedSchemaEvaluator().validate(
             index, rawInstance, evaluatorPath, context);
@@ -480,6 +483,9 @@ ValidationResult validate_{{validator-id}}(
             {{#tolerateNonNullableNulls}}
             rootContext.tolerateNonNullablePropertyNulls = true;
             {{/tolerateNonNullableNulls}}
+            {{#preserveAdditionalProperties}}
+            rootContext.tolerateAdditionalProperties = true;
+            {{/preserveAdditionalProperties}}
             {{schemaValidationNamespace}}::ValidationResult const rootResult =
                 {{schemaValidationNamespace}}::sharedSchemaEvaluator().validate(
                     rootIndex, rootInstance, rootPath, rootContext);
@@ -1419,6 +1425,9 @@ void writePrettyJson(std::ostream& output, boost::json::value const& value, std:
                 {{#tolerateNonNullableNulls}}
                 branchContext.tolerateNonNullablePropertyNulls = true;
                 {{/tolerateNonNullableNulls}}
+                {{#preserveAdditionalProperties}}
+                branchContext.tolerateAdditionalProperties = true;
+                {{/preserveAdditionalProperties}}
                 branchMatches = {{schemaValidationNamespace}}::sharedSchemaEvaluator().validate(
                     branchIndex, branchInstance, branchPath, branchContext).success;
             }
@@ -1533,6 +1542,9 @@ boost::json::value {{classname}}::toJsonValue() const
 
 void {{classname}}::fromJsonValue(boost::json::value const& value)
 {
+    {{#preserveAdditionalProperties}}
+    m_extraJsonProperties.clear();
+    {{/preserveAdditionalProperties}}
     {{#vendorExtensions.x-cpp-is-optional}}
     if (value.is_null()) {
         m_{{classname}}IsNull = true;
@@ -1543,7 +1555,19 @@ void {{classname}}::fromJsonValue(boost::json::value const& value)
     if (!value.is_object()) {
         throw std::invalid_argument("Expected a JSON object for {{classname}}");
     }
+    {{#preserveAdditionalProperties}}
+    boost::json::object const& object = value.as_object();
+    fromJsonObject_internal(object);
+    for (auto const& member : object) {
+        if (!isKnownJsonProperty(member.key())) {
+            m_extraJsonProperties.emplace(
+                std::string(member.key().data(), member.key().size()), member.value());
+        }
+    }
+    {{/preserveAdditionalProperties}}
+    {{^preserveAdditionalProperties}}
     fromJsonObject_internal(value.as_object());
+    {{/preserveAdditionalProperties}}
 }
 
 {{classname}} fromJsonValue_{{classname}}(boost::json::value const& value)
@@ -1552,7 +1576,24 @@ void {{classname}}::fromJsonValue(boost::json::value const& value)
     result.fromJsonValue(value);
     return result;
 }
+{{^preserveAdditionalProperties}}
 
+{{/preserveAdditionalProperties}}
+{{#preserveAdditionalProperties}}
+
+bool {{classname}}::isKnownJsonProperty(boost::json::string_view name) const
+{
+    {{#parent}}
+    if ({{{parent}}}::isKnownJsonProperty(name)) return true;
+    {{/parent}}
+    return false
+        {{#vars}}
+        || name == "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"
+        {{/vars}}
+        ;
+}
+
+{{/preserveAdditionalProperties}}
 boost::json::object {{classname}}::toJsonObject_internal() const
 {
     {{#parent}}
@@ -1561,6 +1602,16 @@ boost::json::object {{classname}}::toJsonObject_internal() const
     {{^parent}}
     boost::json::object object;
     {{/parent}}
+    {{#preserveAdditionalProperties}}
+    for (auto const& extraJsonProperty : m_extraJsonProperties) {
+        boost::json::string_view const name(
+            extraJsonProperty.first.data(), extraJsonProperty.first.size());
+        if (!isKnownJsonProperty(name)) {
+            object[name] = extraJsonProperty.second;
+        }
+    }
+
+    {{/preserveAdditionalProperties}}
     {{#vars}}
     {{^vendorExtensions.x-cpp-reject-if-present}}
     {{#vendorExtensions.x-cpp-const}}

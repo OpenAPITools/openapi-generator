@@ -253,8 +253,14 @@ public:
     void finish() {
         if (!m_cancelled) {
             drain(true);
+            if (m_options.dispatchUnterminatedEventAtEof && !m_pending.empty()) {
+                processLine(std::string_view(m_pending.data(), m_pending.size()));
+                m_pending.clear();
+            }
+            if (m_options.dispatchUnterminatedEventAtEof) dispatchEvent();
         }
-        // WHATWG discards an event that is not terminated by a blank line.
+        // Without the compatibility option, WHATWG discards an event lacking
+        // a blank line.
         m_pending.clear();
         resetEvent();
     }

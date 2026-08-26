@@ -233,6 +233,19 @@ public:
     void fromJsonString(std::string const& jsonString);
     boost::json::value toJsonValue() const;
     void fromJsonValue(boost::json::value const& value);
+{{#preserveAdditionalProperties}}
+    using ExtraJsonProperties = std::map<std::string, boost::json::value>;
+
+    ExtraJsonProperties const& getExtraJsonProperties() const noexcept
+    {
+        return m_extraJsonProperties;
+    }
+
+    void setExtraJsonProperties(ExtraJsonProperties extraJsonProperties)
+    {
+        m_extraJsonProperties = std::move(extraJsonProperties);
+    }
+{{/preserveAdditionalProperties}}
 
     /////////////////////////////////////////////
     /// {{classname}} members
@@ -273,6 +286,9 @@ protected:
 
     virtual boost::json::object toJsonObject_internal() const;
     virtual void fromJsonObject_internal(boost::json::object const& object);
+{{#preserveAdditionalProperties}}
+    virtual bool isKnownJsonProperty(boost::json::string_view name) const;
+{{/preserveAdditionalProperties}}
 
     {{#parent}}
     {{#vars}}
@@ -353,6 +369,9 @@ protected:
     {{/required}}
     {{/vendorExtensions.x-cpp-const}}
     {{/vars}}
+{{#preserveAdditionalProperties}}
+    ExtraJsonProperties m_extraJsonProperties;
+{{/preserveAdditionalProperties}}
 {{#vendorExtensions.x-cpp-is-optional}}
     bool m_{{classname}}IsNull = false;
 {{/vendorExtensions.x-cpp-is-optional}}

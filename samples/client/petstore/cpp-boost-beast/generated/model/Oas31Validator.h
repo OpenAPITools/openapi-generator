@@ -285,6 +285,9 @@ struct ValidationContext {
     AnnotationStore annotations;
     // Decode-only compatibility policy; standalone schema validation stays strict.
     bool tolerateNonNullablePropertyNulls = false;
+    // Decode-only compatibility policy; unrecognized object members bypass
+    // additionalProperties and unevaluatedProperties enforcement.
+    bool tolerateAdditionalProperties = false;
     struct ActiveEvaluation {
         SchemaIndex node;
         boost::json::value const* instance;
@@ -1188,8 +1191,12 @@ private:
             if (isListedProperty(node, k)) return true;
             return patternMatched.count(k) != 0;
         };
-        if (node.additionalProperties == AdditionalPropertiesKind::reject ||
-            node.additionalProperties == AdditionalPropertiesKind::schema) {
+        if (ctx.tolerateAdditionalProperties) {
+            for (std::string const& k : instance.objectKeys()) {
+                if (!isCovered(k)) ctx.curProps().insert(k);
+            }
+        } else if (node.additionalProperties == AdditionalPropertiesKind::reject ||
+                   node.additionalProperties == AdditionalPropertiesKind::schema) {
             for (std::string const& k : instance.objectKeys()) {
                 if (isCovered(k)) continue;
                 RawInstance m = instance.atMember({k.data(), k.size()});

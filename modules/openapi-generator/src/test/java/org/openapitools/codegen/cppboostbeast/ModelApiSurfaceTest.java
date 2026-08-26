@@ -1393,6 +1393,86 @@ public class ModelApiSurfaceTest {
                         "tolerateNonNullablePropertyNulls = true"),
                 "Explicit strict decoding must not relax composition validation");
     }
+    @Test
+    public void preserveAdditionalPropertiesDefaultsOffAndEmitsExtrasStorage() throws IOException {
+        CppBoostBeastClientCodegen defaults = new CppBoostBeastClientCodegen();
+        defaults.processOpts();
+        Assert.assertEquals(defaults.additionalProperties().get("preserveAdditionalProperties"),
+                false,
+                "Generated models must discard undeclared fields unless preservation is enabled");
+
+        CppBoostBeastClientCodegen invalid = new CppBoostBeastClientCodegen();
+        invalid.additionalProperties().put("preserveAdditionalProperties", "sometimes");
+        Assert.assertThrows(IllegalArgumentException.class, invalid::processOpts);
+
+        Path outputRoot = Files.createDirectories(Path.of("target"));
+        Path output = Files.createTempDirectory(
+                outputRoot, "cpp-boost-beast-preserve-additional-properties-");
+        output.toFile().deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/"
+                        + "preserve-additional-properties.yaml")
+                .setOutputDir(output.toString())
+                .addAdditionalProperty("preserveAdditionalProperties", true);
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Assert.assertFalse(files.isEmpty(), "generation must produce files");
+
+        String header = Files.readString(output.resolve("model/ExtraFields.h"));
+        String source = Files.readString(output.resolve("model/ExtraFields.cpp"));
+        Assert.assertTrue(header.contains(
+                        "using ExtraJsonProperties = std::map<std::string, boost::json::value>;"),
+                "Enabled preservation must expose the extra JSON property storage type");
+        Assert.assertTrue(header.contains("getExtraJsonProperties() const noexcept")
+                        && header.contains("setExtraJsonProperties(ExtraJsonProperties extraJsonProperties)"),
+                "Enabled preservation must expose map accessors");
+        Assert.assertTrue(source.contains("m_extraJsonProperties.clear()")
+                        && source.contains("isKnownJsonProperty(member.key())")
+                        && source.contains("object[name] = extraJsonProperty.second"),
+                "Enabled preservation must capture only unknown fields and re-emit them");
+
+        String variantSource = Files.readString(output.resolve("model/ExtraFieldsVariant.cpp"));
+        Assert.assertTrue(variantSource.contains("tolerateAdditionalProperties = true"),
+                "Enabled preservation must relax composition validation before model decoding");
+
+        Path strictOutput = Files.createTempDirectory(
+                outputRoot, "cpp-boost-beast-discard-additional-properties-");
+        strictOutput.toFile().deleteOnExit();
+        CodegenConfigurator strictConfigurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/"
+                        + "preserve-additional-properties.yaml")
+                .setOutputDir(strictOutput.toString());
+        new DefaultGenerator().opts(strictConfigurator.toClientOptInput()).generate();
+        String strictHeader = Files.readString(strictOutput.resolve("model/ExtraFields.h"));
+        Assert.assertFalse(strictHeader.contains("ExtraJsonProperties"),
+                "Default generation must not add extra JSON property storage");
+    }
+
+    @Test
+    public void emitsOptInSseEofCompatibilityPolicy() throws IOException {
+        Path outputRoot = Files.createDirectories(Path.of("target"));
+        Path output = Files.createTempDirectory(outputRoot, "cpp-boost-beast-sse-eof-");
+        output.toFile().deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/"
+                        + "preserve-additional-properties.yaml")
+                .setOutputDir(output.toString());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        String header = Files.readString(output.resolve("api/HttpClient.h"));
+        String source = Files.readString(output.resolve("api/HttpClientImpl.cpp"));
+        Assert.assertTrue(header.contains("bool dispatchUnterminatedEventAtEof = false;"),
+                "SSE EOF compatibility must default to strict WHATWG framing");
+        Assert.assertTrue(source.contains(
+                        "if (m_options.dispatchUnterminatedEventAtEof && !m_pending.empty())")
+                        && source.contains(
+                        "processLine(std::string_view(m_pending.data(), m_pending.size()))")
+                        && source.contains(
+                        "if (m_options.dispatchUnterminatedEventAtEof) dispatchEvent();"),
+                "Enabled SSE EOF compatibility must parse and dispatch the final partial event");
+    }
 
     @Test
     public void compileWithValidationDefaultsToTrue() throws IOException {

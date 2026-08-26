@@ -208,6 +208,24 @@ openapi-generator generate -g cpp-boost-beast-client \
   -o output --additional-properties=tolerateNonNullableNulls=false
 ```
 
+### Forward-compatible object members
+
+Generated object models discard undeclared JSON members by default. To preserve
+them for APIs that can add response fields independently of client regeneration,
+enable `preserveAdditionalProperties`:
+
+```sh
+openapi-generator generate -g cpp-boost-beast-client \
+  -o output --additional-properties=preserveAdditionalProperties=true
+```
+
+Enabled object models expose `ExtraJsonProperties`, `getExtraJsonProperties()`,
+and `setExtraJsonProperties()`. Unknown members are retained as
+`boost::json::value` instances and re-emitted on serialization. Typed model
+properties take precedence if an extra member uses the same name. This
+compatibility policy relaxes additional-property validation only while decoding
+generated models; standalone schema validation remains strict.
+
 ---
 
 ## Multipart form data
@@ -351,6 +369,7 @@ configured aggregate `responseBodyLimit` (8 MiB by default) for diagnostics.
 |--------|---------|----------|
 | `maxLineBytes` | 64 KiB | Maximum decoded SSE line length. |
 | `maxEventBytes` | 1 MiB | Maximum combined event data, type, and last-event ID storage. |
+| `dispatchUnterminatedEventAtEof` | false | Compatibility mode: dispatch a final event missing its blank-line terminator at EOF. |
 | `isCancelled` | empty | Optional cooperative cancellation predicate, checked between reads. |
 
 Returning `false` from the event callback also cancels the stream. The
@@ -370,7 +389,7 @@ duration.
 | `id:` | Preserved across events; values containing NUL are ignored. |
 | `retry:` | Preserved when the value contains decimal digits only and fits `uint64_t`. |
 | `:` comment / unknown field | Ignored. |
-| Event without a final blank line | Discarded at EOF. |
+| Event without a final blank line | Discarded at EOF by default; dispatched only when `dispatchUnterminatedEventAtEof=true`. |
 
 Framing operates on raw bytes before optional JSON conversion. Line and event
 limits are enforced across arbitrary network chunk boundaries.

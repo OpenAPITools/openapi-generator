@@ -25,6 +25,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |inferConditionalSseOperations|Infer conditional SSE for dual JSON/SSE operations only when the request selector and event model are unambiguous. Enabled by default.| |true|
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.client.model|
 |packageName|C++ package and library name.| |CppBoostBeastOpenAPIClient|
+|preserveAdditionalProperties|Retain undeclared JSON object members in generated object models and re-emit them. Composition validation accepts such members while decoding; set to false for strict additionalProperties handling.| |false|
 |sseEventTypeMappings|Comma-separated operationId=Model mappings for the JSON schema of each SSE event data payload.| |null|
 |sseOperationIds|Comma-separated operationIds whose JSON request body conditionally selects text/event-stream (default request property: stream).| |null|
 |sseRequestPropertyMappings|Comma-separated operationId=property mappings for the boolean request property that selects SSE.| |null|

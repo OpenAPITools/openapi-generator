@@ -264,6 +264,43 @@ public class Oas31ExactRuntimeTest {
     }
 
     @Test
+    public void generatedClientPreservesAdditionalPropertiesWhenEnabled() throws Exception {
+        Path outputRoot = Files.createDirectories(Path.of("target"));
+        Path output = Files.createTempDirectory(
+                outputRoot, "cpp-boost-beast-preserve-additional-properties-runtime-");
+        output.toFile().deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/"
+                        + "preserve-additional-properties.yaml")
+                .setOutputDir(output.toString())
+                .addAdditionalProperty("validateOnDecode", true)
+                .addAdditionalProperty("preserveAdditionalProperties", true);
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path source = Path.of("src/test/resources/3_1/cpp-boost-beast-client/"
+                + "preserve-additional-properties-runtime-regression.cpp");
+        Path executable = output.resolve("preserve-additional-properties-runtime-regression");
+        String compiler = System.getenv().getOrDefault("CXX", "c++");
+        compileGeneratedRuntime(compiler, output, source, executable);
+
+        Process run = new ProcessBuilder(executable.toString())
+                .redirectErrorStream(true)
+                .start();
+        Assert.assertTrue(run.waitFor(30, TimeUnit.SECONDS),
+                "Additional-property preservation runtime execution timed out");
+        String runOutput = new String(
+                run.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        Assert.assertEquals(run.exitValue(), 0,
+                "Additional-property preservation runtime failed:\n" + runOutput);
+        Assert.assertTrue(
+                runOutput.contains("preserve additional properties runtime regressions passed"),
+                "Additional-property preservation runtime did not report completion: "
+                        + runOutput);
+    }
+
+    @Test
     public void compileWithValidationFalseStripsSchemaValidationAndKeepsRepresentationChecks()
             throws Exception {
         Path outputRoot = Files.createDirectories(Path.of("target"));

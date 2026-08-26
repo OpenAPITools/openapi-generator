@@ -60,6 +60,8 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
     private boolean inferConditionalSseOperations = true;
     /** Controls composition-branch validation during model decoding. */
     private boolean validateOnDecode = true;
+    /** Retains undeclared JSON object members in generated object models. */
+    private boolean preserveAdditionalProperties = false;
 
     private static final String X_CODEGEN_IS_RAW_BODY = "x-codegen-is-raw-body";
     private static final String X_CODEGEN_IS_OPTIONAL_QUERY_PARAMETER =
@@ -443,6 +445,13 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
                 + " Non-null values remain fully validated.");
         tolerateNonNullableNullsOption.defaultValue(Boolean.TRUE.toString());
         cliOptions.add(tolerateNonNullableNullsOption);
+        CliOption preserveAdditionalPropertiesOption = new CliOption(
+                "preserveAdditionalProperties",
+                "Retain undeclared JSON object members in generated object models and"
+                + " re-emit them. Composition validation accepts such members while"
+                + " decoding; set to false for strict additionalProperties handling.");
+        preserveAdditionalPropertiesOption.defaultValue(Boolean.FALSE.toString());
+        cliOptions.add(preserveAdditionalPropertiesOption);
 
 
         supportingFiles.add(new SupportingFile("validation-types.mustache", "model", "ValidationTypes.h"));
@@ -773,6 +782,21 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
         if (!validateOnDecode) {
             supportingFiles.removeIf(CppBoostBeastClientCodegen::isSchemaValidationSupportingFile);
         }
+        preserveAdditionalProperties = false;
+        if (additionalProperties.containsKey("preserveAdditionalProperties")) {
+            Object raw = additionalProperties.get("preserveAdditionalProperties");
+            if (raw instanceof Boolean) {
+                preserveAdditionalProperties = (Boolean) raw;
+            } else {
+                String value = raw.toString().trim();
+                if (!"true".equalsIgnoreCase(value) && !"false".equalsIgnoreCase(value)) {
+                    throw new IllegalArgumentException(
+                            "preserveAdditionalProperties must be true or false: " + value);
+                }
+                preserveAdditionalProperties = Boolean.parseBoolean(value);
+            }
+        }
+        additionalProperties.put("preserveAdditionalProperties", preserveAdditionalProperties);
         if (additionalProperties.containsKey("tolerateNonNullableNulls")) {
             Object raw = additionalProperties.get("tolerateNonNullableNulls");
             if (raw instanceof Boolean) {
@@ -942,6 +966,11 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
         }
         // Every model header declares vector conversion helpers.
         codegenModel.imports.add("#include <vector>");
+        if (preserveAdditionalProperties) {
+            codegenModel.imports.add("#include <map>");
+            codegenModel.imports.add("#include <string>");
+            codegenModel.imports.add("#include <utility>");
+        }
 
         // Fixed-const properties: OAS 3.1 `const`, single-value `enum`, or optional
         // vendor extension `x-stainless-const`. Portable path is OAS `const` / single enum —

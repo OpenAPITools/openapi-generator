@@ -84,6 +84,22 @@ void testFraming() {
                && !events[1].retryMilliseconds.has_value(),
            "SSE framing mishandled empty data, persistent id, or invalid retry");
 
+    api::SseStreamOptions eofOptions;
+    eofOptions.dispatchUnterminatedEventAtEof = true;
+    std::vector<api::SseEvent> eofEvents;
+    SseEventFramer eofFramer(
+        [&eofEvents](const api::SseEvent& event) {
+            eofEvents.push_back(event);
+            return true;
+        },
+        eofOptions);
+    expect(eofFramer.feed("event: terminal\ndata: final"),
+           "unterminated compatibility event cancelled the stream");
+    eofFramer.finish();
+    expect(eofEvents.size() == 1U && eofEvents[0].event == "terminal"
+               && eofEvents[0].data == "final",
+           "EOF compatibility did not dispatch the final unterminated event");
+
     api::SseStreamOptions exactLineOptions;
     exactLineOptions.maxLineBytes = 7;
     exactLineOptions.maxEventBytes = 64;
@@ -195,12 +211,14 @@ void testLoopbackTransport() {
         api::HttpClientImpl client(
             "127.0.0.1", port, api::HttpClientImpl::Transport::Http, 11,
             std::chrono::seconds(2), 1024);
+        api::SseStreamOptions options;
+        options.dispatchUnterminatedEventAtEof = true;
         response = client.executeStream(
             "GET", "/events", "", {},
             [&events](const api::SseEvent& event) {
                 events.push_back(event);
                 return true;
-            });
+            }, options);
     } catch (...) {
         clientFailure = std::current_exception();
     }
@@ -213,10 +231,13 @@ void testLoopbackTransport() {
                && response.isEventStream && response.body.empty()
                && !response.streamCancelled,
            "streaming transport lost successful response metadata");
-    expect(events.size() == 1U && events[0].event == "delta"
+    expect(events.size() == 2U && events[0].event == "delta"
                && events[0].data == "one\ntwo" && events[0].id == "wire-1"
-               && events[0].retryMilliseconds == 9U,
-           "streaming transport did not frame incremental chunked SSE");
+               && events[0].retryMilliseconds == 9U
+               && events[1].event == "message" && events[1].data == "unfinished"
+               && events[1].id == "wire-1"
+               && !events[1].retryMilliseconds.has_value(),
+           "streaming transport did not apply EOF dispatch compatibility");
 }
 
 } // namespace
