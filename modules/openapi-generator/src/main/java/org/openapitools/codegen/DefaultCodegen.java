@@ -5162,12 +5162,12 @@ public class DefaultCodegen implements CodegenConfig {
         if (injectOperationVendorExtensions.isEmpty()) {
             return;
         }
+        // The operation always has a non-blank operationId at this point: getOrGenerateOperationId
+        // synthesizes one from the path and HTTP method when the spec omits or blanks it.
+        Objects.requireNonNull(op.operationId, "operationId must be set before injecting operation vendor extensions");
         // Prefer the spec-authored operationId; only fall back to the generated one when the spec
         // omits operationId (in which case operationIdOriginal is null or blank).
         String matchOperationId = StringUtils.isNotBlank(op.operationIdOriginal) ? op.operationIdOriginal : op.operationId;
-        if (StringUtils.isBlank(matchOperationId)) {
-            return;
-        }
         for (Map.Entry<String, String> extEntry : injectOperationVendorExtensions.entrySet()) {
             String[] parts = extEntry.getKey().split("\\.", 3);
             if (parts.length < 2) continue;
