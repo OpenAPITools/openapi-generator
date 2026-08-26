@@ -16,7 +16,9 @@
 
 package org.openapitools.codegen.templating;
 
+import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.CppBoostBeastClientCodegen;
+import org.openapitools.codegen.languages.CppBoostBeastServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import java.io.File;
@@ -70,5 +72,26 @@ public class GeneratorTemplateContentLocatorAdditionalDirsTest {
 
         Assert.assertEquals(codegen.additionalEmbeddedTemplateDirs(),
                 List.of("cpp-boost-beast-common"));
+    }
+
+    @Test
+    public void schemaIrChunkTemplatesResolveForBothGenerators() {
+        // The chunked IR path (large specs, e.g. the OpenAI corpus) is only
+        // reachable when every chunk template resolves from the shared
+        // common dir: the server's own embedded dir does not carry them.
+        for (CodegenConfig config : List.<CodegenConfig>of(
+                new CppBoostBeastClientCodegen(), new CppBoostBeastServerCodegen())) {
+            GeneratorTemplateContentLocator locator =
+                    new GeneratorTemplateContentLocator(config);
+            for (int chunk = 0; chunk <= 15; chunk++) {
+                String resolved = locator.getFullTemplatePath(
+                        "oas31_schema_ir_chunk" + chunk + ".mustache");
+                Assert.assertNotNull(resolved,
+                        config.getName() + " must resolve chunk " + chunk);
+                Assert.assertEquals(normalized(resolved),
+                        "cpp-boost-beast-common/oas31_schema_ir_chunk" + chunk + ".mustache",
+                        config.getName() + " chunk " + chunk + " must come from the common dir");
+            }
+        }
     }
 }

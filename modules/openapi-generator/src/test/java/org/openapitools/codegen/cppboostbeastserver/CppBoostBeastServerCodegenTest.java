@@ -566,4 +566,42 @@ public class CppBoostBeastServerCodegenTest {
         Assert.assertTrue(Files.exists(output.resolve("model/ValidationTypes.h")),
                 "3.0 spec must generate the shared validation runtime");
     }
+
+    @Test
+    public void untypedFreeFormSchemasResolveWithoutBaseSentinel() throws IOException {
+        // DefaultCodegen seeds AnyType -> oas_any_type_not_mapped, a header
+        // placeholder this generator family never provides. The OpenAI
+        // corpus (FunctionToolParam_output_schema) reaches it through an
+        // anyOf of a freeform object and null; the server must resolve the
+        // branch to boost::json::value exactly like the client, which wipes
+        // the inherited map.
+        Path output = generate(writeTempSpec(spec(
+                "  /hold:",
+                "    post:",
+                "      operationId: hold",
+                "      requestBody:",
+                "        required: true",
+                "        content:",
+                "          application/json:",
+                "            schema: { $ref: '#/components/schemas/Holder' }",
+                "      responses:",
+                "        '200': {description: ok}",
+                "components:",
+                "  schemas:",
+                "    Holder:",
+                "      type: object",
+                "      properties:",
+                "        output_schema:",
+                "          anyOf:",
+                "            - additionalProperties: {}",
+                "              type: object",
+                "            - type: \"null\"")).toString(),
+                java.util.Map.of());
+        String wrapper = Files.readString(
+                output.resolve("model/Holder_output_schema.h"));
+        Assert.assertFalse(wrapper.contains("oas_any_type_not_mapped"),
+                "the base AnyType placeholder must never reach generated sources");
+        Assert.assertTrue(wrapper.contains("boost::json::value"),
+                "the freeform branch must resolve to boost::json::value");
+    }
 }

@@ -44,6 +44,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -231,6 +232,13 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                 Arrays.asList("int", "char", "bool", "long", "float", "double",
                         "std::int32_t", "std::int64_t"));
 
+        // Replace (do not inherit) the base maps: DefaultCodegen seeds
+        // AnyType -> oas_any_type_not_mapped, a placeholder header that no
+        // C++ template provides. Untyped schemas resolve through the model
+        // pipeline's isAnyType branch (boost::json::value); mirroring the
+        // client's wiped-map initialization keeps both generators on one
+        // convention.
+        super.typeMapping = new HashMap<String, String>();
         typeMapping.put("date", "std::string");
         typeMapping.put("DateTime", "std::string");
         typeMapping.put("string", "std::string");
