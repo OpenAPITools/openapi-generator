@@ -73,7 +73,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Void> addPet(
-        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true)@org.springframework.lang.NonNull  @Valid @RequestBody Pet pet
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @org.springframework.lang.NonNull @Valid @RequestBody Pet pet
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

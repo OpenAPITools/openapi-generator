@@ -73,7 +73,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default Mono<ResponseEntity<Void>> addPet(
-        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true)@org.springframework.lang.NonNull  @Valid @RequestBody Mono<Pet> pet,
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @org.springframework.lang.NonNull @Valid @RequestBody Mono<Pet> pet,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().addPet(pet, exchange);
