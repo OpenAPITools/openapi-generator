@@ -1701,11 +1701,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     /**
-     * Normalizes a vendor extension across all of an operation's parameter collections into a mutable
-     * {@code List<String>}. Mirrors {@code AbstractJavaCodegen.normalizeOperationParameterVendorExtensions}
-     * (which this Kotlin generator does not inherit) so parameter annotation extensions such as
-     * {@code x-field-extra-annotation} have a single, predictable shape for templates and downstream code.
-     * The same parameter can appear in several collections, so they are de-duplicated by identity.
+     * Normalizes a vendor extension on all of an operation's parameters into a mutable
+     * {@code List<String>}, so that a value authored as either a single string or a list is
+     * handled uniformly and further values can be appended. The same parameter can appear in
+     * several of the operation's parameter collections, so they are de-duplicated by identity.
      *
      * @param operation operation whose parameters should be updated
      * @param name      vendor extension name
@@ -1736,8 +1735,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
             ops.forEach(operation -> {
-                // Normalize x-field-extra-annotation on each parameter (incl. body) to a mutable
-                // List<String> so templates iterate a single shape and code can append annotations.
+                // Normalize x-field-extra-annotation on each parameter (including the body) so a
+                // string or list value is handled uniformly and further values can be appended.
                 normalizeParameterVendorExtensionWithStringList(operation, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
                 // x-request-body-extra-annotation is authored on the operation (the request body usually
                 // $refs a shared model, so it cannot be placed next to the $ref). Merge its values into the

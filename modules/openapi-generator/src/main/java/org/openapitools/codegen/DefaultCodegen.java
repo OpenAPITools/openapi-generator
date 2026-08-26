@@ -7400,12 +7400,10 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Merges the values of an operation-level vendor extension into a list-valued vendor extension of
-     * each request body parameter. This lets an operation-level annotation extension (for example
-     * {@code x-request-body-extra-annotation}) be rendered through the same template path as the
-     * per-parameter {@code x-field-extra-annotation}. It is required because a request body typically
-     * {@code $ref}s a shared model, so the annotation cannot be placed next to the {@code $ref} and
-     * must instead be authored on the operation. Any annotations already present on the body parameter
+     * Merges the values of an operation-level vendor extension into a list-valued vendor extension on
+     * each request body parameter. This lets an annotation authored on the operation be applied to the
+     * request body parameter, which is needed because a request body typically {@code $ref}s a shared
+     * model and so cannot carry the annotation itself. Any values already present on the body parameter
      * are preserved (they appear first), then the operation-level values are appended. This is a no-op
      * when the source extension is absent or empty, leaving existing body-parameter extensions untouched.
      *
@@ -7418,10 +7416,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (sourceValues.isEmpty()) {
             return;
         }
-        // The body parameter can be represented by distinct CodegenParameter instances across the
-        // operation's collections (e.g. allParams vs bodyParams), and templates may iterate either;
-        // de-duplicate by identity and update every body-parameter instance so the merge is visible
-        // regardless of which collection the template renders.
+        // A request body parameter may be represented by more than one object; update every
+        // instance so the merged values are applied consistently.
         Set<CodegenParameter> bodyParameters = Collections.newSetFromMap(new IdentityHashMap<>());
         bodyParameters.addAll(operation.bodyParams);
         for (CodegenParameter param : operation.allParams) {
