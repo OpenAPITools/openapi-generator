@@ -44,7 +44,7 @@ import java.util.function.Function;
  */
 final class CppBoostBeastServerTemplateModelAssembler {
 
-    private static final org.slf4j.Logger LOGGER =
+    private final org.slf4j.Logger LOGGER =
             org.slf4j.LoggerFactory.getLogger(
                     CppBoostBeastServerTemplateModelAssembler.class);
 
