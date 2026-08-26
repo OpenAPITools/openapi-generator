@@ -29,6 +29,20 @@ paths:
           x-field-extra-annotation: "@com.example.ValidFilter"
           schema:
             $ref: '#/components/schemas/Filter'
+        - name: X-Trace-Id
+          in: header
+          required: true
+          x-field-extra-annotation: "@com.example.ValidTrace"
+          schema:
+            $ref: '#/components/schemas/TraceId'
+        - name: session
+          in: cookie
+          required: true
+          x-field-extra-annotation:
+            - "@com.example.ValidSession"
+            - "@com.example.Trimmed"
+          schema:
+            $ref: '#/components/schemas/SessionId'
       responses:
         '200':
           description: ok
@@ -62,4 +76,8 @@ components:
     DeviceId:
       type: string
     Filter:
+      type: string
+    TraceId:
+      type: string
+    SessionId:
       type: string

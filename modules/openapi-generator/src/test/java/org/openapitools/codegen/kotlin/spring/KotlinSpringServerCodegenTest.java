@@ -4489,11 +4489,14 @@ public class KotlinSpringServerCodegenTest {
                 Map.of(INTERFACE_ONLY, true));
 
         Path locationApi = files.get("OrgsApi.kt").toPath();
-        // path param (single value), path param (list value -> both render), query param
+        // path param (single value), path param (list value -> both render), query param,
+        // header param (single value), cookie param (list value -> both render)
         assertFileContains(locationApi,
                 "@com.example.ValidOrgId ",
                 "@com.example.ValidLocId @com.example.Trimmed ",
-                "@com.example.ValidFilter ");
+                "@com.example.ValidFilter ",
+                "@com.example.ValidTrace ",
+                "@com.example.ValidSession @com.example.Trimmed ");
 
         // form param
         assertFileContains(files.get("DevicesApi.kt").toPath(), "@com.example.ValidDeviceId ");

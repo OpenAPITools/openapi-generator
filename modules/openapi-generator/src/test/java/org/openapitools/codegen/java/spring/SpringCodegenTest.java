@@ -3959,7 +3959,12 @@ public class SpringCodegenTest {
                 .toMethod()
                 .assertParameter("clientId")
                 .assertParameterAnnotations()
-                .containsWithName("com.test.MyAnnotationInHeader");
+                .containsWithName("com.test.MyAnnotationInHeader")
+                .toParameter()
+                .toMethod()
+                .assertParameter("sessionId")
+                .assertParameterAnnotations()
+                .containsWithName("com.test.MyAnnotationInCookie");
     }
 
     @Test
