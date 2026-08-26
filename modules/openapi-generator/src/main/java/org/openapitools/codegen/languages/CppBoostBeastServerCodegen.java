@@ -280,11 +280,101 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
+        for (String warning : collectSurfaceWarnings(openAPI)) {
+            LOGGER.warn("cpp-boost-beast-server: {}", warning);
+        }
         List<String> rejections = validateServerSupportSurface(openAPI);
         if (!rejections.isEmpty()) {
             throw new IllegalArgumentException(
                     "cpp-boost-beast-server: " + String.join("; ", rejections));
         }
+    }
+
+    /**
+     * Surfaces the runtime cannot faithfully serve but CAN degrade safely
+     * on. These warn instead of failing the build because the repository
+     * contract (AllGeneratorsTest) requires every registered generator to
+     * generate from the canonical petstore spec, which declares XML, form,
+     * and multipart payloads plus an oauth2 scheme. Degrade semantics:
+     * the assembler filters declared request media types to JSON (a body
+     * with no JSON media type loses its typed body; mixed bodies accept
+     * JSON only and answer 415 to the rest), and security schemes the
+     * runtime has no credential extractor for deny all requests with 401.
+     */
+    List<String> collectSurfaceWarnings(OpenAPI openAPI) {
+        List<String> warnings = new ArrayList<>();
+        if (openAPI == null || openAPI.getPaths() == null) {
+            return warnings;
+        }
+        for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
+            PathItem item = pathEntry.getValue();
+            if (item == null || item.readOperationsMap() == null) {
+                continue;
+            }
+            for (Map.Entry<PathItem.HttpMethod, Operation> opEntry
+                    : item.readOperationsMap().entrySet()) {
+                Operation operation = opEntry.getValue();
+                if (operation == null) {
+                    continue;
+                }
+                String operationId = operation.getOperationId() != null
+                        ? operation.getOperationId()
+                        : opEntry.getKey() + " " + pathEntry.getKey();
+                RequestBody body = operation.getRequestBody() != null
+                        ? ModelUtils.getReferencedRequestBody(
+                                openAPI, operation.getRequestBody())
+                        : null;
+                if (body != null && body.getContent() != null
+                        && !body.getContent().isEmpty()) {
+                    boolean hasJson = false;
+                    List<String> nonJson = new ArrayList<>();
+                    for (String mediaType : body.getContent().keySet()) {
+                        if (isSupportedMediaType(mediaType)) {
+                            hasJson = true;
+                        } else {
+                            nonJson.add(mediaType);
+                        }
+                    }
+                    if (!hasJson) {
+                        warnings.add("operation '" + operationId
+                                + "' declares only non-JSON request media types ("
+                                + String.join(", ", nonJson)
+                                + "); the generated handler receives no typed body");
+                    } else if (!nonJson.isEmpty()) {
+                        warnings.add("operation '" + operationId
+                                + "' also declares non-JSON request media types ("
+                                + String.join(", ", nonJson)
+                                + "); only JSON is accepted at runtime"
+                                + " (415 for the rest)");
+                    }
+                }
+                if (operation.getResponses() != null) {
+                    for (Map.Entry<String, ApiResponse> respEntry
+                            : operation.getResponses().entrySet()) {
+                        ApiResponse response = respEntry.getValue();
+                        if (response == null || response.getContent() == null) {
+                            continue;
+                        }
+                        for (String mediaType : response.getContent().keySet()) {
+                            if (!isSupportedMediaType(mediaType)) {
+                                warnings.add("operation '" + operationId
+                                        + "' response '" + respEntry.getKey()
+                                        + "' declares media type '" + mediaType
+                                        + "'; the generated responder serializes"
+                                        + " responses as JSON");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (String scheme : collectUnsupportedSecuritySchemes(openAPI)) {
+            warnings.add("security scheme '" + scheme
+                    + "' uses a type the runtime cannot extract credentials for"
+                    + " (only apiKey and http are supported); operations"
+                    + " requiring it deny all requests with 401");
+        }
+        return warnings;
     }
 
     @Override
@@ -295,16 +385,18 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
     }
 
     /**
-     * Generation-time rejection gate for surfaces the initial server runtime
-     * does not implement. Fails closed with precise diagnostics instead of
-     * emitting silent stubs.
+     * Generation-time rejection gate for surfaces whose generated code
+     * would not compile or not route deterministically. Fails closed with
+     * precise diagnostics instead of emitting silent stubs. Media types and
+     * security scheme types are NOT rejected here (they degrade; see
+     * {@link #collectSurfaceWarnings}) because the repository harness
+     * requires every generator to accept the canonical petstore spec.
      */
     List<String> validateServerSupportSurface(OpenAPI openAPI) {
         List<String> diagnostics = new ArrayList<>();
         if (openAPI == null || openAPI.getPaths() == null) {
             return diagnostics;
         }
-        Set<String> unsupportedSchemes = collectUnsupportedSecuritySchemes(openAPI);
         Map<String, String> shapeOwners = new LinkedHashMap<>();
         for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
             String pathTemplate = pathEntry.getKey();
@@ -327,13 +419,6 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                 String operationId = operation.getOperationId() != null
                         ? operation.getOperationId()
                         : opEntry.getKey() + " " + pathTemplate;
-                RequestBody body = operation.getRequestBody() != null
-                        ? ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody())
-                        : null;
-                if (body != null && body.getContent() != null) {
-                    collectMediaTypeRejections(
-                            body.getContent(), operationId, diagnostics);
-                }
                 if (operation.getResponses() != null) {
                     for (Map.Entry<String, ApiResponse> respEntry
                             : operation.getResponses().entrySet()) {
@@ -348,10 +433,6 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                                     + respEntry.getKey()
                                     + "'; only concrete codes are supported");
                         }
-                        if (response.getContent() != null) {
-                            collectMediaTypeRejections(
-                                    response.getContent(), operationId, diagnostics);
-                        }
                     }
                 }
                 appendParameterRejections(
@@ -361,11 +442,6 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                         openAPI, item.getParameters(),
                         pathEntry.getKey() + ":pathItem", diagnostics);
             }
-        }
-        for (String scheme : unsupportedSchemes) {
-            diagnostics.add("security scheme '" + scheme
-                    + "' uses a type the runtime cannot extract credentials for"
-                    + " (only apiKey and http are supported)");
         }
         return diagnostics;
     }
@@ -392,18 +468,10 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         return unsupported;
     }
 
-    private static void collectMediaTypeRejections(
-            Content content, String operationId, List<String> diagnostics) {
-        for (String mediaType : content.keySet()) {
-            if (!isSupportedMediaType(mediaType)) {
-                diagnostics.add("operation '" + operationId
-                        + "' uses unsupported media type '" + mediaType
-                        + "'; only JSON bodies are supported");
-            }
-        }
-    }
-
-    private static boolean isSupportedMediaType(String mediaType) {
+    /** Media types the generated runtime can serve: JSON, {+json} suffixes,
+     *  and the wildcard. Shared with the assembler, which filters declared
+     *  request media types down to this set. */
+    static boolean isSupportedMediaType(String mediaType) {
         String normalized = mediaType == null ? "" : mediaType.trim().toLowerCase(Locale.ROOT);
         int semicolon = normalized.indexOf(';');
         if (semicolon >= 0) {

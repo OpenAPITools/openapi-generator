@@ -157,8 +157,8 @@ public class CppBoostBeastServerCodegenTest {
     }
 
     @Test
-    public void rejectsMultipartRequestBody() throws IOException {
-        Path spec = writeTempSpec(spec(
+    public void degradesMultipartOnlyBodyToNoTypedBody() throws IOException {
+        Path output = generate(writeTempSpec(spec(
                 "  /upload:",
                 "    post:",
                 "      operationId: upload",
@@ -168,18 +168,18 @@ public class CppBoostBeastServerCodegenTest {
                 "            schema:",
                 "              type: object",
                 "      responses:",
-                "        '200': {description: ok}"));
-        IllegalArgumentException error = Assert.expectThrows(
-                IllegalArgumentException.class,
-                () -> generate(spec.toString(), java.util.Map.of()));
-        Assert.assertTrue(error.getMessage().contains("multipart/form-data"),
-                "diagnostic must name the media type: " + error.getMessage());
-        Assert.assertTrue(error.getMessage().startsWith("cpp-boost-beast-server: "));
+                "        '200': {description: ok}")).toString(),
+                java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("struct UploadRequest"),
+                "operation must still generate its request contract");
+        Assert.assertFalse(apiHeader.contains("body{};"),
+                "a multipart-only body must degrade to no typed body field");
     }
 
     @Test
-    public void rejectsFormUrlencodedBody() throws IOException {
-        Path spec = writeTempSpec(spec(
+    public void degradesFormUrlencodedBodyToNoTypedBody() throws IOException {
+        Path output = generate(writeTempSpec(spec(
                 "  /form:",
                 "    post:",
                 "      operationId: submit",
@@ -189,16 +189,42 @@ public class CppBoostBeastServerCodegenTest {
                 "            schema:",
                 "              type: object",
                 "      responses:",
-                "        '200': {description: ok}"));
-        IllegalArgumentException error = Assert.expectThrows(
-                IllegalArgumentException.class,
-                () -> generate(spec.toString(), java.util.Map.of()));
-        Assert.assertTrue(error.getMessage().contains("application/x-www-form-urlencoded"));
+                "        '200': {description: ok}")).toString(),
+                java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("struct SubmitRequest"),
+                "operation must still generate its request contract");
+        Assert.assertFalse(apiHeader.contains("body{};"),
+                "a form-urlencoded-only body must degrade to no typed body");
     }
 
     @Test
-    public void rejectsPlainTextResponse() throws IOException {
-        Path spec = writeTempSpec(spec(
+    public void keepsJsonMemberAndDropsXmlMemberFromMixedBody() throws IOException {
+        Path output = generate(writeTempSpec(spec(
+                "  /mixed:",
+                "    post:",
+                "      operationId: mixed",
+                "      requestBody:",
+                "        required: true",
+                "        content:",
+                "          application/json:",
+                "            schema: {type: object}",
+                "          application/xml:",
+                "            schema: {type: object}",
+                "      responses:",
+                "        '200': {description: ok}")).toString(),
+                java.util.Map.of());
+        String apiSource = Files.readString(output.resolve("api/DefaultApi.cpp"));
+        Assert.assertTrue(
+                apiSource.contains("\"application/json\" };"),
+                "declared media types must be filtered to the JSON member");
+        Assert.assertFalse(apiSource.contains("application/xml"),
+                "the XML member must not appear in the accepted list");
+    }
+
+    @Test
+    public void textPlainResponseDegradesToJsonSerialization() throws IOException {
+        Path output = generate(writeTempSpec(spec(
                 "  /text:",
                 "    get:",
                 "      operationId: getText",
@@ -207,16 +233,17 @@ public class CppBoostBeastServerCodegenTest {
                 "          description: ok",
                 "          content:",
                 "            text/plain:",
-                "              schema: {type: string}"));
-        IllegalArgumentException error = Assert.expectThrows(
-                IllegalArgumentException.class,
-                () -> generate(spec.toString(), java.util.Map.of()));
-        Assert.assertTrue(error.getMessage().contains("text/plain"));
+                "              schema: {type: string}")).toString(),
+                java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("void send200(std::string value) const"),
+                "response model must serialize as JSON regardless of "
+                        + "the declared text media type");
     }
 
     @Test
-    public void rejectsEventStreamResponse() throws IOException {
-        Path spec = writeTempSpec(spec(
+    public void eventStreamResponseDegradesToJsonSerialization() throws IOException {
+        Path output = generate(writeTempSpec(spec(
                 "  /stream:",
                 "    get:",
                 "      operationId: stream",
@@ -225,13 +252,12 @@ public class CppBoostBeastServerCodegenTest {
                 "          description: events",
                 "          content:",
                 "            text/event-stream:",
-                "              schema: {type: string}"));
-        IllegalArgumentException error = Assert.expectThrows(
-                IllegalArgumentException.class,
-                () -> generate(spec.toString(), java.util.Map.of()));
-        Assert.assertTrue(error.getMessage().contains("text/event-stream"));
+                "              schema: {type: string}")).toString(),
+                java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("void send200(std::string value) const"),
+                "SSE declaration must degrade to a plain JSON sender");
     }
-
     @Test
     public void rejectsContentStyleParameter() throws IOException {
         Path spec = writeTempSpec(spec(
@@ -415,12 +441,12 @@ public class CppBoostBeastServerCodegenTest {
     }
 
     @Test
-    public void rejectsUnsupportedSecuritySchemes() throws IOException {
-        Path spec = writeTempSpec(
+    public void unsupportedSecuritySchemeDegradesToRuntimeDenial() throws IOException {
+        Path output = generate(writeTempSpec(
                 "openapi: 3.1.0",
                 "info: {title: t, version: '1'}",
                 "security:",
-                "  - oauth:",
+                "  - oauth: []",
                 "paths:",
                 "  /o:",
                 "    get:",
@@ -431,12 +457,27 @@ public class CppBoostBeastServerCodegenTest {
                 "  securitySchemes:",
                 "    oauth:",
                 "      type: oauth2",
-                "      flows: {}");
-        IllegalArgumentException error = Assert.expectThrows(
-                IllegalArgumentException.class,
-                () -> generate(spec.toString(), java.util.Map.of()));
-        Assert.assertTrue(error.getMessage().contains("oauth"),
-                "diagnostic must name the unsupported scheme");
+                "      flows: {}").toString(), java.util.Map.of());
+        String apiSource = Files.readString(output.resolve("api/DefaultApi.cpp"));
+        // The requirement survives into the route table with its declared
+        // type; the runtime has no credential extractor for oauth2, so
+        // structurallySatisfied() denies every request (401) rather than
+        // silently allowing it.
+        Assert.assertTrue(apiSource.contains("\"oauth\", \"oauth2\""),
+                "the oauth requirement must stay in the route table as type oauth2");
+    }
+
+    @Test
+    public void generatesFromCanonicalPetstore() throws IOException {
+        // The repository harness (AllGeneratorsTest) requires every
+        // registered generator to accept src/test/resources/3_0/petstore.yaml,
+        // which mixes XML/form/multipart payloads with an oauth2 scheme.
+        // This pins the degrade contract for the canonical spec.
+        Path output = generate("src/test/resources/3_0/petstore.yaml",
+                java.util.Map.of());
+        Assert.assertTrue(Files.exists(output.resolve("api/PetApi.cpp"))
+                || Files.exists(output.resolve("api/PetsApi.cpp")),
+                "the canonical petstore must generate API sources");
     }
 
     @Test

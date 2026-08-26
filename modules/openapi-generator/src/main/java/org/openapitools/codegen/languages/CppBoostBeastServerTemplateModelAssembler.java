@@ -259,10 +259,14 @@ final class CppBoostBeastServerTemplateModelAssembler {
                 : null;
         if (body != null && body.getContent() != null) {
             for (String mediaType : body.getContent().keySet()) {
-                // The runtime strips parameters and lowercases the received
-                // Content-Type before comparing; emit the same normalized
-                // form so a declared "application/json; charset=utf-8" key
-                // still matches plain "application/json" requests.
+                // Degrade policy: the runtime parses request bodies as JSON
+                // only. Non-JSON declarations (XML, form, multipart) are
+                // dropped here and reported as warnings at preprocess time;
+                // an operation left with no JSON media type loses its typed
+                // body entirely rather than promising bytes it cannot parse.
+                if (!CppBoostBeastServerCodegen.isSupportedMediaType(mediaType)) {
+                    continue;
+                }
                 String normalized = mediaType == null ? "" : mediaType.trim();
                 int semicolon = normalized.indexOf(';');
                 if (semicolon >= 0) {
