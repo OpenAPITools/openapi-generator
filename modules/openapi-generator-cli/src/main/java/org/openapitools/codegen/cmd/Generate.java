@@ -265,6 +265,9 @@ public class Generate extends OpenApiGeneratorCommand {
             description = "injects vendor extensions into model classes or their properties."
                     + " Class-level format: ModelName.x-extension-name=value."
                     + " Property-level format: ModelName.propertyBaseName.x-extension-name=value."
+                    + " To supply multiple annotations in a single value, separate them with spaces"
+                    + " (e.g. ModelName.x-class-extra-annotation=@Foo @Bar), not commas, since an"
+                    + " unquoted comma is treated as a separator between different injection targets."
                     + " You can also have multiple occurrences of this option.")
     private List<String> injectModelVendorExtensions = new ArrayList<>();
 
@@ -274,6 +277,9 @@ public class Generate extends OpenApiGeneratorCommand {
             description = "injects vendor extensions into operations or their parameters."
                     + " Operation-level format: operationId.x-extension-name=value."
                     + " Parameter-level format: operationId.paramBaseName.x-extension-name=value."
+                    + " To supply multiple annotations in a single value, separate them with spaces"
+                    + " (e.g. operationId.x-operation-extra-annotation=@Foo @Bar), not commas, since an"
+                    + " unquoted comma is treated as a separator between different injection targets."
                     + " You can also have multiple occurrences of this option.")
     private List<String> injectOperationVendorExtensions = new ArrayList<>();
 

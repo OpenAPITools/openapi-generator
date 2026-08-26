@@ -164,6 +164,24 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val globalProperties = project.objects.mapProperty<String, String>()
 
     /**
+     * Injects vendor extensions into models or their properties without editing the input spec.
+     *
+     * Keys use the form {@code modelName.x-extension-name} for a model or
+     * {@code modelName.propertyBaseName.x-extension-name} for a model property; the value is the
+     * extension value.
+     */
+    val injectModelVendorExtensions = project.objects.mapProperty<String, String>()
+
+    /**
+     * Injects vendor extensions into operations or their parameters without editing the input spec.
+     *
+     * Keys use the form {@code operationId.x-extension-name} for an operation or
+     * {@code operationId.paramBaseName.x-extension-name} for a parameter (matched by its raw spec
+     * name); the value is the extension value.
+     */
+    val injectOperationVendorExtensions = project.objects.mapProperty<String, String>()
+
+    /**
      * Path to json configuration file.
      * File content should be in a json format { "optionKey":"optionValue", "optionKey1":"optionValue1"...}
      * Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.

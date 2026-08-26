@@ -101,6 +101,45 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertEquals(Boolean.TRUE, getVariableValueFromObject(mojo, "minimalUpdate"));
     }
 
+    @SuppressWarnings("unchecked")
+    public void testInjectOperationVendorExtensions() throws Exception {
+        // GIVEN
+        final Path tempDir = newTempFolder();
+        CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/inject-vendor-extensions", null, "executionId");
+
+        // WHEN
+        mojo.execute();
+
+        // THEN
+        // The configured parameter is bound onto the mojo.
+        List<String> injected = (List<String>) getVariableValueFromObject(mojo, "injectOperationVendorExtensions");
+        assertNotNull(injected);
+        assertEquals(1, injected.size());
+        assertEquals("addPet.x-request-body-extra-annotation=@com.example.MyValidation", injected.get(0));
+
+        // The injected request-body annotation is merged into the body parameter and rendered
+        // on the generated Spring API interface (verifies the full inject -> merge -> render path).
+        final Path generatedDir = tempDir.resolve("target/generated-sources/inject-vendor-extensions");
+        String allSources;
+        try (Stream<Path> files = Files.walk(generatedDir)) {
+            allSources = files
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().endsWith(".java"))
+                    .map(path -> {
+                        try {
+                            return Files.readString(path);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
+                    .collect(Collectors.joining("\n"));
+        }
+        assertTrue(
+                "Injected request-body annotation '@com.example.MyValidation' should appear in the generated sources",
+                allSources.contains("@com.example.MyValidation")
+        );
+    }
+
     public void testHashGenerationFileContainsExecutionId() throws Exception {
         // GIVEN
         final Path tempDir = newTempFolder();

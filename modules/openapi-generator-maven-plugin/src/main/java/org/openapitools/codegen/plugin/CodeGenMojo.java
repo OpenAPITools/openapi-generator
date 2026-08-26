@@ -447,6 +447,23 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> operationIdNameMappings;
 
     /**
+     * A map of vendor extensions to inject into models or their properties, without editing the input
+     * spec. Each entry is of the form {@code modelName.x-extension-name=value} for a model or
+     * {@code modelName.propertyBaseName.x-extension-name=value} for a model property.
+     */
+    @Parameter(name = "injectModelVendorExtensions", property = "openapi.generator.maven.plugin.injectModelVendorExtensions")
+    private List<String> injectModelVendorExtensions;
+
+    /**
+     * A map of vendor extensions to inject into operations or their parameters, without editing the
+     * input spec. Each entry is of the form {@code operationId.x-extension-name=value} for an operation
+     * or {@code operationId.paramBaseName.x-extension-name=value} for a parameter (matched by its raw
+     * spec name).
+     */
+    @Parameter(name = "injectOperationVendorExtensions", property = "openapi.generator.maven.plugin.injectOperationVendorExtensions")
+    private List<String> injectOperationVendorExtensions;
+
+    /**
      * A set of rules for OpenAPI normalizer
      */
     @Parameter(name = "openapiNormalizer", property = "openapi.generator.maven.plugin.openapiNormalizer")
@@ -1038,6 +1055,16 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Operation ID Name Mappings
             if (operationIdNameMappings != null && (configOptions == null || !configOptions.containsKey("operation-id-name-mappings"))) {
                 applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
+            }
+
+            // Apply Inject Model Vendor Extensions
+            if (injectModelVendorExtensions != null && (configOptions == null || !configOptions.containsKey("inject-model-vendor-extensions"))) {
+                applyInjectModelVendorExtensionsKvpList(injectModelVendorExtensions, configurator);
+            }
+
+            // Apply Inject Operation Vendor Extensions
+            if (injectOperationVendorExtensions != null && (configOptions == null || !configOptions.containsKey("inject-operation-vendor-extensions"))) {
+                applyInjectOperationVendorExtensionsKvpList(injectOperationVendorExtensions, configurator);
             }
 
             // Apply OpenAPI normalizer rules

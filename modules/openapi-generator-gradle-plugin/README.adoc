@@ -200,6 +200,16 @@ apply plugin: 'org.openapi.generator'
 |None
 |Sets specified global properties.
 
+|injectModelVendorExtensions
+|Map / Provider<Map>
+|None
+|Injects vendor extensions into models or their properties without editing the input spec. Keys use the form `modelName.x-extension-name` (model) or `modelName.propertyBaseName.x-extension-name` (model property). To supply multiple annotations in a single value, separate them with spaces (e.g. `@Foo @Bar`).
+
+|injectOperationVendorExtensions
+|Map / Provider<Map>
+|None
+|Injects vendor extensions into operations or their parameters without editing the input spec. Keys use the form `operationId.x-extension-name` (operation) or `operationId.paramBaseName.x-extension-name` (parameter, matched by its raw spec name). To supply multiple annotations in a single value, separate them with spaces (e.g. `@Foo @Bar`).
+
 |configFile
 |String / Provider<RegularFile>
 |None
