@@ -98,7 +98,7 @@ interface StoreApi {
         produces = ["application/xml", "application/json"]
     )
     fun getOrderById(
-        @Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long
+        @org.springframework.lang.NonNull @Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long
     ): ResponseEntity<Order> {
         return getDelegate().getOrderById(orderId)
     }
@@ -121,7 +121,7 @@ interface StoreApi {
         consumes = ["application/json"]
     )
     fun placeOrder(
-        @Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody order: Order
+        @Parameter(description = "order placed for purchasing the pet", required = true) @org.springframework.lang.NonNull @Valid @RequestBody order: Order
     ): ResponseEntity<Order> {
         return getDelegate().placeOrder(order)
     }
