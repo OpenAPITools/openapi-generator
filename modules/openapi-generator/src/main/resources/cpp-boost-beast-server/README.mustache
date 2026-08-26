@@ -1,0 +1,80 @@
+{{>licenseInfo}}
+# {{packageName}} — Boost.Beast server
+
+{{#appDescription}}
+{{{appDescription}}}
+{{/appDescription}}
+
+Generated from an OpenAPI document by **openapi-generator** (`cpp-boost-beast-server`).
+
+## Requirements
+
+- C++17 compiler
+- CMake ≥ 3.14
+- Boost ≥ 1.81 (headers, `json`, and URL — Beast/Asio are header-only)
+
+## Layout
+
+- `api/` — generated service interfaces, typed request structs, per-operation
+  responders, and route registration (`<Class>Api::attach`)
+- `model/` — generated model types plus the shared OAS 3.1 exact-validation
+  runtime (`Oas31*`) and schema registry
+- `server/` — HTTP/1.1 runtime: `HttpServer`, `Router`, `Responder`,
+  `Problem` (RFC 9457), `Authorizer`, parameter codecs, JSON body conversion
+
+## Building
+
+```sh
+cmake -S . -B build
+cmake --build build
+```
+
+## Using
+
+Implement the generated `Api` service interfaces and attach them:
+
+```cpp
+namespace api = {{apiNamespace}};
+namespace model = {{modelNamespace}};
+
+class MyDefaultApi : public api::DefaultApi {
+    void getPetById(api::GetPetByIdRequest request,
+                    api::RequestContext& context,
+                    api::GetPetByIdResponder responder) override {
+        model::Pet pet;
+        pet.setId(request.petId);
+        responder.send200(std::move(pet));
+    }
+};
+
+int main() {
+    boost::asio::io_context ioc;
+    auto router = std::make_shared<api::Router>();
+    api::ServerOptions options;
+    options.authorizer = std::make_shared<MyAuthorizer>();
+    auto server = std::make_shared<api::HttpServer>(
+        ioc, router, options);
+    api::DefaultApi::attach(*server,
+        std::make_shared<MyDefaultApi>());
+    server->listen(boost::asio::ip::tcp::endpoint{
+        boost::asio::ip::make_address("0.0.0.0"), 8080});
+    ioc.run();
+}
+```
+
+Requests are fully decoded and schema-validated before the service method
+runs; serialization failures, malformed input, unknown routes (404), wrong
+methods (405 + `Allow`), unsupported media types (415), oversized bodies
+(413), and security denials (401) produce RFC 9457 `application/problem+json`
+responses without application code.
+
+With `addApiImplStubs=true` a `main.cpp` and stub services (501 responses)
+are generated for quick start.
+
+## Security
+
+Declared OpenAPI security requirements are enforced before dispatch:
+credentials are extracted per scheme (API keys by location, raw
+`Authorization` for HTTP schemes) and handed to your `Authorizer`. Without
+an authorizer, secured operations deny by default. Credential values are
+never logged.

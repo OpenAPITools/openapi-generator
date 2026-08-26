@@ -1,0 +1,373 @@
+{{>licenseInfo}}
+{{#operations}}/*
+ * {{classname}}.cpp
+ */
+
+#include "{{classname}}.h"
+
+#include "BodyJson.h"
+#include "ParamCodecs.h"
+#include "Problem.h"
+#include "Responder.h"
+#include "Router.h"
+
+#include <algorithm>
+#include <regex>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> impl) {
+    auto router = server.routerPtr();
+
+{{#operation}}
+    // ------------------------------------------------------------------
+    // {{httpMethod}} {{path}} ({{operationId}})
+    // ------------------------------------------------------------------
+    {
+        SecurityGroups security;
+{{#vendorExtensions.x-server-security-groups}}
+        {
+            std::vector<SchemeRequirement> group;
+{{#.}}
+            group.push_back(SchemeRequirement{
+                "{{name}}", "{{type}}", "{{in}}", "{{paramName}}", "{{httpScheme}}"});
+{{/.}}
+            security.push_back(std::move(group));
+        }
+{{/vendorExtensions.x-server-security-groups}}
+
+        router->add(
+            "{{httpMethod}}",
+            "{{path}}",
+            [impl](RequestContext& ctx, std::shared_ptr<ResponderCore> responderCore) {
+                {{vendorExtensions.x-server-operation-pascal}}Request request;
+                Problem problem;
+                bool invalid = false;
+
+{{#vendorExtensions.x-server-params}}
+                // ---- parameter {{baseName}} ({{in}}, {{style}}) ----
+                {
+{{#isPath}}
+{{^isContainer}}
+                    auto rawSegment = ctx.pathParams.find("{{baseName}}");
+                    std::string encoded =
+                        rawSegment != ctx.pathParams.end() ? rawSegment->second : std::string();
+                    std::string text;
+{{#styleSimple}}                    text = percentDecode(encoded);
+{{/styleSimple}}
+{{#styleLabel}}                    text = percentDecode(stripLabelPrefix(encoded));
+{{/styleLabel}}
+{{#styleMatrix}}                    text = percentDecode(stripMatrixPrefix(encoded, "{{baseName}}"));
+{{/styleMatrix}}
+                    if (text.empty()) {
+                        problem.withError("{{baseName}}", "path parameter is missing or empty");
+                        invalid = true;
+                    } else if (!parseScalar(text, request.{{cppName}})) {
+                        problem.withError("{{baseName}}", "path parameter is not a valid {{{dataType}}}");
+                        invalid = true;
+                    }
+{{#stringKind}}{{#hasEnum}}
+                    if (!invalid) {
+                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{.}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{#hasPattern}}
+                    if (!invalid) {
+                        static std::regex const kPattern("{{{pattern}}}");
+                        if (!std::regex_match(request.{{cppName}}, kPattern)) {
+                            problem.withError("{{baseName}}", "value does not match the required pattern");
+                            invalid = true;
+                        }
+                    }
+{{/hasPattern}}{{#hasMinLength}}
+                    if (!invalid && request.{{cppName}}.size() < {{minLength}}) {
+                        problem.withError("{{baseName}}", "value is shorter than minLength");
+                        invalid = true;
+                    }
+{{/hasMinLength}}{{#hasMaxLength}}
+                    if (!invalid && request.{{cppName}}.size() > {{maxLength}}) {
+                        problem.withError("{{baseName}}", "value is longer than maxLength");
+                        invalid = true;
+                    }
+{{/hasMaxLength}}{{/stringKind}}
+{{#integerKind}}{{#hasMinimum}}
+                    if (!invalid && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
+                        problem.withError("{{baseName}}", "value is below the minimum");
+                        invalid = true;
+                    }
+{{/hasMinimum}}{{#hasMaximum}}
+                    if (!invalid && static_cast<long double>(request.{{cppName}}) > {{maximum}}L) {
+                        problem.withError("{{baseName}}", "value is above the maximum");
+                        invalid = true;
+                    }
+{{/hasMaximum}}{{/integerKind}}
+{{#numberKind}}{{#hasMinimum}}
+                    if (!invalid && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
+                        problem.withError("{{baseName}}", "value is below the minimum");
+                        invalid = true;
+                    }
+{{/hasMinimum}}{{#hasMaximum}}
+                    if (!invalid && static_cast<long double>(request.{{cppName}}) > {{maximum}}L) {
+                        problem.withError("{{baseName}}", "value is above the maximum");
+                        invalid = true;
+                    }
+{{/hasMaximum}}{{/numberKind}}
+{{/isContainer}}
+{{#isContainer}}
+                    auto rawSegment = ctx.pathParams.find("{{baseName}}");
+                    std::string encoded =
+                        rawSegment != ctx.pathParams.end() ? rawSegment->second : std::string();
+                    std::vector<std::string> elements;
+{{#styleSimple}}                    elements = splitSimple(encoded);
+{{/styleSimple}}
+{{#styleLabel}}{{#explode}}                    elements = splitOn(stripLabelPrefix(encoded), '.');
+{{/explode}}{{^explode}}                    elements = splitSimple(stripLabelPrefix(encoded));
+{{/explode}}{{/styleLabel}}
+{{#styleMatrix}}{{#explode}}
+                    elements = splitOn(stripMatrixPrefix(encoded, "{{baseName}}"), ';');
+{{/explode}}{{^explode}}
+                    elements = splitSimple(stripMatrixPrefix(encoded, "{{baseName}}"));
+{{/explode}}{{/styleMatrix}}
+                    for (std::string& element : elements) {
+                        {{{innerType}}} value;
+                        if (!parseScalar(percentDecode(element), value)) {
+                            problem.withError("{{baseName}}", "path parameter element is not a valid {{{innerType}}}");
+                            invalid = true;
+                            break;
+                        }
+                        request.{{cppName}}.push_back(std::move(value));
+                    }
+{{/isContainer}}
+{{/isPath}}
+{{#isQuery}}
+{{^isContainer}}
+                    auto values = ctx.query.equal_range("{{baseName}}");
+                    bool present = values.first != values.second;
+                    if (!present) {
+{{#required}}
+                        problem.withError("{{baseName}}", "required query parameter is missing");
+                        invalid = true;
+{{/required}}
+{{^required}}
+                        // absent optional query parameter keeps its default value
+{{/required}}
+                    } else if (!parseScalar(values.first->second, request.{{cppName}})) {
+                        problem.withError("{{baseName}}", "query parameter is not a valid {{{dataType}}}");
+                        invalid = true;
+                    }
+{{#stringKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{.}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{/stringKind}}
+{{#stringKind}}{{#hasPattern}}
+                    if (!invalid && present) {
+                        static std::regex const kPattern("{{{pattern}}}");
+                        if (!std::regex_match(request.{{cppName}}, kPattern)) {
+                            problem.withError("{{baseName}}", "value does not match the required pattern");
+                            invalid = true;
+                        }
+                    }
+{{/hasPattern}}{{/stringKind}}
+{{#integerKind}}{{#hasMinimum}}
+                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
+                        problem.withError("{{baseName}}", "value is below the minimum");
+                        invalid = true;
+                    }
+{{/hasMinimum}}{{#hasMaximum}}
+                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) > {{maximum}}L) {
+                        problem.withError("{{baseName}}", "value is above the maximum");
+                        invalid = true;
+                    }
+{{/hasMaximum}}{{/integerKind}}
+{{#numberKind}}{{#hasMinimum}}
+                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
+                        problem.withError("{{baseName}}", "value is below the minimum");
+                        invalid = true;
+                    }
+{{/hasMinimum}}{{#hasMaximum}}
+                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) > {{maximum}}L) {
+                        problem.withError("{{baseName}}", "value is above the maximum");
+                        invalid = true;
+                    }
+{{/hasMaximum}}{{/numberKind}}
+{{/isContainer}}
+{{#isContainer}}
+{{^styleDeepObject}}
+                    auto values = ctx.query.equal_range("{{baseName}}");
+                    bool present = values.first != values.second;
+                    std::vector<std::string> elements;
+                    if (present) {
+{{#styleForm}}{{#explode}}
+                        for (auto it = values.first; it != values.second; ++it) {
+                            elements.push_back(it->second);
+                        }
+{{/explode}}{{^explode}}
+                        elements = splitSimple(values.first->second);
+{{/explode}}{{/styleForm}}
+{{#stylePipeDelimited}}
+                        elements = splitOn(values.first->second, '|');
+{{/stylePipeDelimited}}
+{{#styleSpaceDelimited}}
+                        elements = splitOn(values.first->second, ' ');
+{{/styleSpaceDelimited}}
+                    }
+                    if (!present) {
+{{#required}}
+                        problem.withError("{{baseName}}", "required query parameter is missing");
+                        invalid = true;
+{{/required}}
+{{^required}}
+                        // absent optional query parameter keeps its default value
+{{/required}}
+                    } else {
+                        for (std::string& element : elements) {
+                            {{{innerType}}} value;
+                            if (!parseScalar(element, value)) {
+                                problem.withError("{{baseName}}", "query parameter element is not a valid {{{innerType}}}");
+                                invalid = true;
+                                break;
+                            }
+                            request.{{cppName}}.push_back(std::move(value));
+                        }
+                    }
+{{/styleDeepObject}}
+{{#styleDeepObject}}
+                    for (auto const& entry : ctx.query) {
+                        std::string const prefix = "{{baseName}}[";
+                        if (entry.first.size() > prefix.size()
+                                && entry.first.compare(0, prefix.size(), prefix) == 0
+                                && entry.first.back() == ']') {
+                            std::string key = entry.first.substr(
+                                prefix.size(), entry.first.size() - prefix.size() - 1);
+                            request.{{cppName}}[percentDecode(key)] = percentDecode(entry.second);
+                        }
+                    }
+{{/styleDeepObject}}
+{{/isContainer}}
+{{/isQuery}}
+{{#isHeader}}
+{{^isContainer}}
+                    auto values = ctx.headers.equal_range("{{baseName}}");
+                    bool present = values.first != values.second;
+                    if (!present) {
+{{#required}}
+                        problem.withError("{{baseName}}", "required header parameter is missing");
+                        invalid = true;
+{{/required}}
+{{^required}}
+                        // absent optional header parameter keeps its default value
+{{/required}}
+                    } else if (!parseScalar(values.first->second, request.{{cppName}})) {
+                        problem.withError("{{baseName}}", "header parameter is not a valid {{{dataType}}}");
+                        invalid = true;
+                    }
+{{/isContainer}}
+{{#isContainer}}
+                    auto values = ctx.headers.equal_range("{{baseName}}");
+                    bool present = values.first != values.second;
+                    if (!present) {
+{{#required}}
+                        problem.withError("{{baseName}}", "required header parameter is missing");
+                        invalid = true;
+{{/required}}
+                    } else {
+                        for (std::string& element : splitSimple(values.first->second)) {
+                            {{{innerType}}} value;
+                            if (!parseScalar(element, value)) {
+                                problem.withError("{{baseName}}", "header parameter element is not a valid {{{innerType}}}");
+                                invalid = true;
+                                break;
+                            }
+                            request.{{cppName}}.push_back(std::move(value));
+                        }
+                    }
+{{/isContainer}}
+{{/isHeader}}
+{{#isCookie}}
+                    auto values = ctx.cookies.equal_range("{{baseName}}");
+                    bool present = values.first != values.second;
+                    if (!present) {
+{{#required}}
+                        problem.withError("{{baseName}}", "required cookie parameter is missing");
+                        invalid = true;
+{{/required}}
+{{^required}}
+                        // absent optional cookie parameter keeps its default value
+{{/required}}
+                    } else if (!parseScalar(values.first->second, request.{{cppName}})) {
+                        problem.withError("{{baseName}}", "cookie parameter is not a valid {{{dataType}}}");
+                        invalid = true;
+                    }
+{{/isCookie}}
+                }
+{{/vendorExtensions.x-server-params}}
+
+{{#vendorExtensions.x-server-has-request-body}}
+                // ---- request body ({{vendorExtensions.x-server-request-model}}) ----
+                {
+                    auto contentTypeEntry = ctx.headers.find("content-type");
+                    std::string contentType =
+                        contentTypeEntry != ctx.headers.end()
+                            ? contentTypeEntry->second : std::string();
+                    std::size_t semicolon = contentType.find(';');
+                    if (semicolon != std::string::npos) {
+                        contentType.resize(semicolon);
+                    }
+                    while (!contentType.empty() && contentType.back() == ' ') {
+                        contentType.pop_back();
+                    }
+                    static std::vector<std::string> const kMediaTypes = {
+                        {{{vendorExtensions.x-server-request-media-types}}} };
+                    bool supported = !contentType.empty()
+                        ? std::find(kMediaTypes.begin(), kMediaTypes.end(), contentType) != kMediaTypes.end()
+                          || std::find(kMediaTypes.begin(), kMediaTypes.end(), "*/*") != kMediaTypes.end()
+                        : kMediaTypes.size() == 1;
+                    if (!supported) {
+                        responderCore->sendProblem(Problem::unsupportedMediaType(contentType));
+                        return;
+                    }
+                    try {
+                        fromJsonBody(ctx.body, request.body);
+                    } catch (std::invalid_argument const& error) {
+                        Problem parseProblem = Problem::badRequest(error.what());
+                        parseProblem.withError("body", error.what());
+                        responderCore->sendProblem(std::move(parseProblem));
+                        return;
+                    }
+                }
+{{/vendorExtensions.x-server-has-request-body}}
+
+                if (invalid) {
+                    problem.status = 400;
+                    problem.title = "Bad Request";
+                    responderCore->sendProblem(std::move(problem));
+                    return;
+                }
+
+                {{vendorExtensions.x-server-operation-pascal}}Responder responder(responderCore);
+                impl->{{nickname}}(std::move(request), ctx, std::move(responder));
+            },
+            std::move(security),
+            "{{operationId}}");
+    }
+{{/operation}}
+}
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+{{/operations}}

@@ -1,0 +1,245 @@
+{{>licenseInfo}}
+// ============================================================================
+// BodyJson.h - generic typed body conversion between generated model types
+// and JSON bodies. Uses the generated models' toJsonValue/fromJsonValue
+// member API, so models, containers, maps, shared_ptrs, and primitives all
+// convert without per-operation code. Header-only.
+// ============================================================================
+#ifndef {{apiHeaderGuardPrefix}}_SERVER_BODY_JSON_H_
+#define {{apiHeaderGuardPrefix}}_SERVER_BODY_JSON_H_
+
+#include <boost/json.hpp>
+
+#include <cstdint>
+#include <map>
+#include <memory>
+#include <limits>
+#include <stdexcept>
+#include <vector>
+
+namespace {{apiNamespace}} {
+
+template <typename T, typename = void>
+struct HasToJsonValue : std::false_type {};
+template <typename T>
+struct HasToJsonValue<T, std::void_t<decltype(
+        std::declval<T const&>().toJsonValue())>> : std::true_type {};
+
+template <typename T, typename = void>
+struct HasFromJsonValue : std::false_type {};
+template <typename T>
+struct HasFromJsonValue<T, std::void_t<decltype(
+        std::declval<T&>().fromJsonValue(std::declval<boost::json::value const&>()))>>
+    : std::true_type {};
+
+// ---------------------------------------------------------------------------
+// Serialization: typed value -> JSON body string.
+// ---------------------------------------------------------------------------
+
+inline boost::json::value bodyLeaf(std::string const& value) {
+    return boost::json::value(value);
+}
+
+inline boost::json::value bodyLeaf(const char* value) {
+    return boost::json::value(std::string(value == nullptr ? "" : value));
+}
+
+inline boost::json::value bodyLeaf(bool value) {
+    return boost::json::value(value);
+}
+
+inline boost::json::value bodyLeaf(std::int32_t value) {
+    return boost::json::value(value);
+}
+
+inline boost::json::value bodyLeaf(std::int64_t value) {
+    return boost::json::value(value);
+}
+
+inline boost::json::value bodyLeaf(float value) {
+    return boost::json::value(static_cast<double>(value));
+}
+
+inline boost::json::value bodyLeaf(double value) {
+    return boost::json::value(value);
+}
+
+template <typename T>
+std::enable_if_t<HasToJsonValue<T>::value, boost::json::value>
+bodyLeaf(T const& value) {
+    return value.toJsonValue();
+}
+
+template <typename T>
+boost::json::value bodyLeaf(std::shared_ptr<T> const& value) {
+    if (!value) return boost::json::value(nullptr);
+    return bodyLeaf(*value);
+}
+
+template <typename T>
+boost::json::value bodyLeaf(std::vector<T> const& values) {
+    boost::json::array array;
+    array.reserve(values.size());
+    for (T const& value : values) {
+        array.push_back(bodyLeaf(value));
+    }
+    return array;
+}
+
+template <typename T>
+boost::json::value bodyLeaf(std::map<std::string, T> const& values) {
+    boost::json::object object;
+    for (auto const& entry : values) {
+        object[entry.first] = bodyLeaf(entry.second);
+    }
+    return object;
+}
+
+template <typename T>
+std::string toJsonBody(T const& value) {
+    return boost::json::serialize(bodyLeaf(value));
+}
+
+// ---------------------------------------------------------------------------
+// Deserialization: parsed JSON document -> typed value. Throws
+// std::invalid_argument on shape mismatches.
+// ---------------------------------------------------------------------------
+
+inline void fromJsonLeaf(boost::json::value const& json, std::string& out) {
+    if (!json.is_string()) {
+        throw std::invalid_argument("expected a JSON string");
+    }
+    out.assign(json.as_string().data(), json.as_string().size());
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, bool& out) {
+    if (!json.is_bool()) {
+        throw std::invalid_argument("expected a JSON boolean");
+    }
+    out = json.as_bool();
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, std::int32_t& out) {
+    if (json.is_int64()) {
+        std::int64_t value = json.as_int64();
+        if (value < std::numeric_limits<std::int32_t>::min()
+                || value > std::numeric_limits<std::int32_t>::max()) {
+            throw std::invalid_argument("integer out of int32 range");
+        }
+        out = static_cast<std::int32_t>(value);
+        return;
+    }
+    if (json.is_uint64()) {
+        std::uint64_t value = json.as_uint64();
+        if (value > static_cast<std::uint64_t>(
+                std::numeric_limits<std::int32_t>::max())) {
+            throw std::invalid_argument("integer out of int32 range");
+        }
+        out = static_cast<std::int32_t>(value);
+        return;
+    }
+    throw std::invalid_argument("expected a JSON integer");
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, std::int64_t& out) {
+    if (json.is_int64()) {
+        out = json.as_int64();
+        return;
+    }
+    if (json.is_uint64()) {
+        std::uint64_t value = json.as_uint64();
+        if (value > static_cast<std::uint64_t>(
+                std::numeric_limits<std::int64_t>::max())) {
+            throw std::invalid_argument("integer out of int64 range");
+        }
+        out = static_cast<std::int64_t>(value);
+        return;
+    }
+    throw std::invalid_argument("expected a JSON integer");
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, float& out) {
+    if (json.is_double()) {
+        out = static_cast<float>(json.as_double());
+        return;
+    }
+    if (json.is_int64() || json.is_uint64()) {
+        out = static_cast<float>(json.to_number<std::int64_t>());
+        return;
+    }
+    throw std::invalid_argument("expected a JSON number");
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, double& out) {
+    if (json.is_double()) {
+        out = json.as_double();
+        return;
+    }
+    if (json.is_int64() || json.is_uint64()) {
+        out = static_cast<double>(json.to_number<std::int64_t>());
+        return;
+    }
+    throw std::invalid_argument("expected a JSON number");
+}
+
+template <typename T>
+std::enable_if_t<HasFromJsonValue<T>::value, void>
+fromJsonLeaf(boost::json::value const& json, T& out) {
+    out.fromJsonValue(json);
+}
+
+template <typename T>
+void fromJsonLeaf(boost::json::value const& json, std::shared_ptr<T>& out) {
+    if (json.is_null()) {
+        out.reset();
+        return;
+    }
+    if (!out) {
+        out = std::make_shared<T>();
+    }
+    fromJsonLeaf(json, *out);
+}
+
+template <typename T>
+void fromJsonLeaf(boost::json::value const& json, std::vector<T>& out) {
+    if (!json.is_array()) {
+        throw std::invalid_argument("expected a JSON array");
+    }
+    out.clear();
+    out.reserve(json.as_array().size());
+    for (boost::json::value const& element : json.as_array()) {
+        T value;
+        fromJsonLeaf(element, value);
+        out.push_back(std::move(value));
+    }
+}
+
+template <typename T>
+void fromJsonLeaf(boost::json::value const& json, std::map<std::string, T>& out) {
+    if (!json.is_object()) {
+        throw std::invalid_argument("expected a JSON object");
+    }
+    out.clear();
+    for (auto const& member : json.as_object()) {
+        T value;
+        fromJsonLeaf(member.value(), value);
+        out.emplace(std::string(member.key().data(), member.key().size()),
+                    std::move(value));
+    }
+}
+
+/// Parses a JSON request body and decodes it into a typed value.
+/// Throws std::invalid_argument on malformed JSON or shape mismatch.
+template <typename T>
+void fromJsonBody(std::string const& body, T& out) {
+    boost::system::error_code error;
+    boost::json::value parsed = boost::json::parse(body, error);
+    if (error) {
+        throw std::invalid_argument("malformed JSON body: " + error.message());
+    }
+    fromJsonLeaf(parsed, out);
+}
+
+} // namespace {{apiNamespace}}
+
+#endif // {{apiHeaderGuardPrefix}}_SERVER_BODY_JSON_H_

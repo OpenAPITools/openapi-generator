@@ -1,0 +1,138 @@
+{{>licenseInfo}}
+{{#operations}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{apiHeaderGuardPrefix}}_{{classname}}_H_
+#define {{apiHeaderGuardPrefix}}_{{classname}}_H_
+
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "HttpServer.h"
+#include "Problem.h"
+#include "Responder.h"
+#include "Router.h"
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+{{#imports}}
+using namespace {{modelNamespace}};
+{{/imports}}
+
+{{#operation}}
+// ---------------------------------------------------------------------------
+
+/// Fully decoded request data for {{operationId}}.
+struct {{vendorExtensions.x-server-operation-pascal}}Request {
+{{#vendorExtensions.x-server-params}}
+    {{{dataType}}} {{cppName}}{};
+{{/vendorExtensions.x-server-params}}
+{{#vendorExtensions.x-server-has-request-body}}
+    {{{vendorExtensions.x-server-request-model}}} body{};
+{{/vendorExtensions.x-server-has-request-body}}
+};
+
+/// Single-shot responder for {{operationId}}. Movable, thread-safe value
+/// type; the second and later completions are ignored.
+class {{vendorExtensions.x-server-operation-pascal}}Responder {
+public:
+    explicit {{vendorExtensions.x-server-operation-pascal}}Responder(
+            std::shared_ptr<ResponderCore> core)
+        : core_(std::move(core)) {}
+
+{{#vendorExtensions.x-server-responses}}
+{{#isDefault}}
+{{#hasModel}}
+    void sendDefault({{{cppType}}} value, unsigned status) const {
+        core_->sendJson(status, value, "application/json");
+    }
+{{/hasModel}}
+{{^hasModel}}
+    void sendDefault(unsigned status) const {
+        core_->sendEmpty(status);
+    }
+{{/hasModel}}
+{{/isDefault}}
+{{^isDefault}}
+{{#hasModel}}
+    void {{sendMethod}}({{{cppType}}} value) const {
+        core_->sendJson({{code}}, value, "application/json");
+    }
+{{/hasModel}}
+{{^hasModel}}
+    void {{sendMethod}}() const {
+        core_->sendEmpty({{code}});
+    }
+{{/hasModel}}
+{{/isDefault}}
+{{/vendorExtensions.x-server-responses}}
+
+    void sendProblem(Problem problem) const {
+        core_->sendProblem(std::move(problem));
+    }
+
+    void sendNotImplemented(std::string const& operationId) const {
+        core_->sendNotImplemented(operationId);
+    }
+
+private:
+    std::shared_ptr<ResponderCore> core_;
+};
+
+{{/operation}}
+/**
+ * Service interface for {{description}}. Implementations receive fully
+ * decoded, validated requests and own their response completion.
+ */
+class {{classname}} {
+public:
+    virtual ~{{classname}}() = default;
+
+{{#operation}}
+    virtual void {{nickname}}(
+            {{vendorExtensions.x-server-operation-pascal}}Request request,
+            RequestContext& context,
+            {{vendorExtensions.x-server-operation-pascal}}Responder responder) = 0;
+{{/operation}}
+
+    /// Registers every {{classname}} route on the server.
+    static void attach(HttpServer& server, std::shared_ptr<{{classname}}> impl);
+};
+
+{{#addApiImplStubs}}
+/**
+ * Quick-start stub service: every operation answers 501 problem+json.
+ */
+class {{classname}}Stub : public {{classname}} {
+public:
+{{#operation}}
+    void {{nickname}}(
+            {{vendorExtensions.x-server-operation-pascal}}Request request,
+            RequestContext& context,
+            {{vendorExtensions.x-server-operation-pascal}}Responder responder) override {
+        (void)request;
+        (void)context;
+        responder.sendNotImplemented("{{operationId}}");
+    }
+{{/operation}}
+};
+{{/addApiImplStubs}}
+
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+#endif // {{apiHeaderGuardPrefix}}_{{classname}}_H_
+{{/operations}}

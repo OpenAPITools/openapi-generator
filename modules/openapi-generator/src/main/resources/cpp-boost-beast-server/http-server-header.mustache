@@ -1,0 +1,59 @@
+{{>licenseInfo}}
+// ============================================================================
+// HttpServer.h - asynchronous HTTP/1.1 listener and connection sessions on
+// Boost.Beast + Boost.Asio. The caller owns the io_context; the server owns
+// its acceptor and stops gracefully on demand.
+// ============================================================================
+#ifndef {{apiHeaderGuardPrefix}}_SERVER_HTTP_SERVER_H_
+#define {{apiHeaderGuardPrefix}}_SERVER_HTTP_SERVER_H_
+
+#include "Authorizer.h"
+#include "Router.h"
+
+#include <boost/asio.hpp>
+#include <boost/beast/core.hpp>
+
+#include <cstddef>
+#include <memory>
+#include <string>
+
+namespace {{apiNamespace}} {
+
+struct ServerOptions {
+    unsigned readTimeoutSeconds = 30;
+    std::size_t bodyLimitBytes = 8u * 1024 * 1024;
+    std::shared_ptr<Authorizer> authorizer;
+};
+
+class HttpServer : public std::enable_shared_from_this<HttpServer> {
+public:
+    HttpServer(boost::asio::io_context& ioc,
+               std::shared_ptr<Router> router,
+               ServerOptions options = {});
+
+    /// Opens, binds (SO_REUSEADDR), and listens. Throws on failure.
+    void listen(boost::asio::ip::tcp::endpoint endpoint);
+
+    /// The bound endpoint (useful after listening on port 0).
+    boost::asio::ip::tcp::endpoint localEndpoint() const;
+
+    /// Graceful stop: closes the acceptor. Open sessions finish their
+    /// current exchange or terminate with the io_context.
+    void stop();
+
+    Router& router() { return *router_; }
+    std::shared_ptr<Router> routerPtr() const { return router_; }
+
+private:
+    struct ListenerState;
+    void acceptNext();
+
+    boost::asio::io_context& ioc_;
+    std::shared_ptr<Router> router_;
+    ServerOptions options_;
+    std::shared_ptr<ListenerState> listener_;
+};
+
+} // namespace {{apiNamespace}}
+
+#endif // {{apiHeaderGuardPrefix}}_SERVER_HTTP_SERVER_H_

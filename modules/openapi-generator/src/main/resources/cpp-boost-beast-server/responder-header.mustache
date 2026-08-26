@@ -1,0 +1,93 @@
+{{>licenseInfo}}
+// ============================================================================
+// Responder.h - completion port for one request. Generated per-operation
+// responders wrap a shared ResponderCore; completion posts the response
+// onto the connection strand exactly once — later completions are rejected
+// and logged, the response discarded.
+// ============================================================================
+#ifndef {{apiHeaderGuardPrefix}}_SERVER_RESPONDER_H_
+#define {{apiHeaderGuardPrefix}}_SERVER_RESPONDER_H_
+
+#include "BodyJson.h"
+#include "Problem.h"
+
+#include <boost/beast/http.hpp>
+
+#include <functional>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <utility>
+
+namespace {{apiNamespace}} {
+
+/// Type-erased single-shot response completion. The write is posted to the
+/// connection's executor; the strand serializes it against other I/O.
+class ResponderCore {
+public:
+    using Sink = std::function<void(
+            boost::beast::http::response<boost::beast::http::string_body>&&)>;
+
+    explicit ResponderCore(Sink sink) : sink_(std::move(sink)) {}
+
+    /// Completes the request with an already-built response. Second and
+    /// later completions are rejected; the response is discarded.
+    void complete(boost::beast::http::response<boost::beast::http::string_body>&& response) {
+        if (completed_) {
+            std::cerr << "cpp-boost-beast-server: duplicate responder completion for "
+                      << operationId_ << " ignored\n";
+            return;
+        }
+        completed_ = true;
+        if (sink_) {
+            sink_(std::move(response));
+        }
+    }
+
+    /// Completes the request with a problem response.
+    void sendProblem(Problem problem) {
+        complete(toProblemResponse(std::move(problem)));
+    }
+
+    /// Completes the request with a JSON body and status.
+    template <typename T>
+    void sendJson(unsigned status, T const& value, std::string const& contentType) {
+        namespace http = boost::beast::http;
+        http::response<http::string_body> res{
+            static_cast<http::status>(status), 11};
+        res.set(http::field::server, "openapi-generator-cpp-boost-beast-server");
+        res.set(http::field::content_type, contentType);
+        res.body() = toJsonBody(value);
+        res.prepare_payload();
+        complete(std::move(res));
+    }
+
+    /// Completes the request with an empty body and status.
+    void sendEmpty(unsigned status) {
+        namespace http = boost::beast::http;
+        http::response<http::string_body> res{
+            static_cast<http::status>(status), 11};
+        res.set(http::field::server, "openapi-generator-cpp-boost-beast-server");
+        res.prepare_payload();
+        complete(std::move(res));
+    }
+
+    void sendNotImplemented(std::string const& operationId) {
+        complete(toProblemResponse(Problem::notImplemented(operationId)));
+    }
+
+    void setOperationId(std::string operationId) {
+        operationId_ = std::move(operationId);
+    }
+
+    bool completed() const { return completed_; }
+
+private:
+    Sink sink_;
+    bool completed_ = false;
+    std::string operationId_;
+};
+
+} // namespace {{apiNamespace}}
+
+#endif // {{apiHeaderGuardPrefix}}_SERVER_RESPONDER_H_

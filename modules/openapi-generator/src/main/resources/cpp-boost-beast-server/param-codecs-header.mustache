@@ -1,0 +1,191 @@
+{{>licenseInfo}}
+// ============================================================================
+// ParamCodecs.h - OAS parameter deserialization primitives: percent
+// decoding, strict scalar parsing, simple/label/matrix and form-style
+// splitting, and cookie parsing. Header-only.
+// ============================================================================
+#ifndef {{apiHeaderGuardPrefix}}_SERVER_PARAM_CODECS_H_
+#define {{apiHeaderGuardPrefix}}_SERVER_PARAM_CODECS_H_
+
+#include <cstddef>
+#include <cstdint>
+#include <cstdlib>
+#include <limits>
+#include <cerrno>
+#include <cstring>
+#include <map>
+#include <string_view>
+#include <vector>
+
+namespace {{apiNamespace}} {
+
+/// Percent-decodes a URI component (%XX sequences). Invalid escapes pass
+/// through unchanged; '+' is NOT translated to space (that is form encoding).
+inline std::string percentDecode(std::string_view encoded) {
+    std::string out;
+    out.reserve(encoded.size());
+    for (std::size_t i = 0; i < encoded.size(); ++i) {
+        if (encoded[i] == '%' && i + 2 < encoded.size()) {
+            auto hexValue = [](char c) -> int {
+                if (c >= '0' && c <= '9') return c - '0';
+                if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+                if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+                return -1;
+            };
+            int high = hexValue(encoded[i + 1]);
+            int low = hexValue(encoded[i + 2]);
+            if (high >= 0 && low >= 0) {
+                out.push_back(static_cast<char>((high << 4) | low));
+                i += 2;
+                continue;
+            }
+        }
+        out.push_back(encoded[i]);
+    }
+    return out;
+}
+
+/// Splits a simple-style (comma-delimited) list into raw elements.
+inline std::vector<std::string> splitSimple(std::string_view value) {
+    std::vector<std::string> parts;
+    std::size_t start = 0;
+    while (true) {
+        std::size_t comma = value.find(',', start);
+        if (comma == std::string_view::npos) {
+            parts.emplace_back(value.substr(start));
+            break;
+        }
+        parts.emplace_back(value.substr(start, comma - start));
+        start = comma + 1;
+    }
+    return parts;
+}
+
+/// Splits on an arbitrary single-character delimiter (pipe/space styles).
+inline std::vector<std::string> splitOn(std::string_view value, char delimiter) {
+    std::vector<std::string> parts;
+    std::size_t start = 0;
+    while (true) {
+        std::size_t hit = value.find(delimiter, start);
+        if (hit == std::string_view::npos) {
+            parts.emplace_back(value.substr(start));
+            break;
+        }
+        parts.emplace_back(value.substr(start, hit - start));
+        start = hit + 1;
+    }
+    return parts;
+}
+
+/// Strips a label-style "." prefix from one raw path-segment value.
+inline std::string stripLabelPrefix(std::string_view segment) {
+    if (!segment.empty() && segment.front() == '.') {
+        segment.remove_prefix(1);
+    }
+    return std::string(segment);
+}
+
+/// Strips a matrix-style ";name=" prefix from one raw path-segment value.
+inline std::string stripMatrixPrefix(std::string_view segment, std::string const& name) {
+    if (!segment.empty() && segment.front() == ';') {
+        segment.remove_prefix(1);
+        std::string prefix = name + "=";
+        if (segment.substr(0, prefix.size()) == prefix) {
+            segment.remove_prefix(prefix.size());
+        }
+    }
+    return std::string(segment);
+}
+
+/// Parses a Cookie header value ("k=v; k2=v2") into decoded pairs.
+inline void parseCookieHeader(
+        std::string_view header,
+        std::multimap<std::string, std::string>& out) {
+    std::size_t start = 0;
+    while (start < header.size()) {
+        std::size_t semi = header.find(';', start);
+        std::string_view pair = semi == std::string_view::npos
+                ? header.substr(start) : header.substr(start, semi - start);
+        std::size_t eq = pair.find('=');
+        if (eq != std::string_view::npos) {
+            std::string key = percentDecode(pair.substr(0, eq));
+            while (!key.empty() && (key.back() == ' ' || key.back() == '\t')) {
+                key.pop_back();
+            }
+            std::string value = percentDecode(pair.substr(eq + 1));
+            while (!value.empty() && value.front() == ' ') {
+                value.erase(value.begin());
+            }
+            if (!key.empty()) {
+                out.emplace(std::move(key), std::move(value));
+            }
+        }
+        if (semi == std::string_view::npos) {
+            break;
+        }
+        start = semi + 1;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Strict scalar parsing: whole-input match, range-checked, no trailing junk.
+// ---------------------------------------------------------------------------
+
+inline bool parseScalar(std::string_view text, std::string& out) {
+    out.assign(text);
+    return true;
+}
+
+inline bool parseScalar(std::string_view text, bool& out) {
+    if (text == "true") { out = true; return true; }
+    if (text == "false") { out = false; return true; }
+    return false;
+}
+
+template <typename T>
+inline bool parseIntegerScalar(std::string_view text, T& out) {
+    if (text.empty()) return false;
+    std::string storage(text);
+    char* end = nullptr;
+    errno = 0;
+    long long parsed = std::strtoll(storage.c_str(), &end, 10);
+    if (end == nullptr || *end != '\0' || errno == ERANGE) return false;
+    if (parsed < static_cast<long long>(std::numeric_limits<T>::min())
+            || parsed > static_cast<long long>(std::numeric_limits<T>::max())) {
+        return false;
+    }
+    out = static_cast<T>(parsed);
+    return true;
+}
+
+inline bool parseScalar(std::string_view text, std::int32_t& out) {
+    return parseIntegerScalar(text, out);
+}
+
+inline bool parseScalar(std::string_view text, std::int64_t& out) {
+    return parseIntegerScalar(text, out);
+}
+
+template <typename T>
+inline bool parseFloatScalar(std::string_view text, T& out) {
+    if (text.empty()) return false;
+    std::string storage(text);
+    char* end = nullptr;
+    errno = 0;
+    double parsed = std::strtod(storage.c_str(), &end);
+    if (end == nullptr || *end != '\0' || errno == ERANGE) return false;
+    out = static_cast<T>(parsed);
+    return true;
+}
+
+inline bool parseScalar(std::string_view text, float& out) {
+    return parseFloatScalar(text, out);
+}
+
+inline bool parseScalar(std::string_view text, double& out) {
+    return parseFloatScalar(text, out);
+}
+
+} // namespace {{apiNamespace}}
+
+#endif // {{apiHeaderGuardPrefix}}_SERVER_PARAM_CODECS_H_
