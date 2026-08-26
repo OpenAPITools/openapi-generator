@@ -1,6 +1,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.Order
+import org.springframework.lang.NonNull
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
 import io.swagger.v3.oas.annotations.media.*
@@ -87,7 +88,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         produces = ["application/xml", "application/json"]
     )
     suspend fun getOrderById(
-        @org.springframework.lang.NonNull @Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long
+        @NonNull @Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long
     ): ResponseEntity<Order> {
         return ResponseEntity(service.getOrderById(orderId), HttpStatus.valueOf(200))
     }
@@ -108,7 +109,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         consumes = ["application/json"]
     )
     suspend fun placeOrder(
-        @Parameter(description = "order placed for purchasing the pet", required = true) @org.springframework.lang.NonNull @Valid @RequestBody order: Order
+        @Parameter(description = "order placed for purchasing the pet", required = true) @NonNull @Valid @RequestBody order: Order
     ): ResponseEntity<Order> {
         return ResponseEntity(service.placeOrder(order), HttpStatus.valueOf(200))
     }
