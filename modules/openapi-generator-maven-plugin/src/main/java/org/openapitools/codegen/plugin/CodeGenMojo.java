@@ -1057,13 +1057,16 @@ public class CodeGenMojo extends AbstractMojo {
                 applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
             }
 
-            // Apply Inject Model Vendor Extensions
-            if (injectModelVendorExtensions != null && (configOptions == null || !configOptions.containsKey("inject-model-vendor-extensions"))) {
+            // Apply Inject Model Vendor Extensions.
+            // Unlike the legacy mapping options above, there is no configOptions compatibility path
+            // for this setting (it is not a generator CliOption), so no configOptions guard is needed.
+            if (injectModelVendorExtensions != null) {
                 applyInjectModelVendorExtensionsKvpList(injectModelVendorExtensions, configurator);
             }
 
-            // Apply Inject Operation Vendor Extensions
-            if (injectOperationVendorExtensions != null && (configOptions == null || !configOptions.containsKey("inject-operation-vendor-extensions"))) {
+            // Apply Inject Operation Vendor Extensions.
+            // No configOptions compatibility path exists for this setting either, so no guard is needed.
+            if (injectOperationVendorExtensions != null) {
                 applyInjectOperationVendorExtensionsKvpList(injectOperationVendorExtensions, configurator);
             }
 
