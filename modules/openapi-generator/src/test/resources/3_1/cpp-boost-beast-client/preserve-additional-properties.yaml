@@ -14,6 +14,8 @@ components:
           type: string
         count:
           type: integer
+        extraJsonProperties:
+          type: string
     ExtraFieldsVariant:
       oneOf:
         - type: object

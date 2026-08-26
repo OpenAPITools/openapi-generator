@@ -26,24 +26,26 @@ void expect(bool condition, const char* message) {
 
 int main() {
     const boost::json::value source = boost::json::parse(
-            R"({"name":"known","count":7,"future":{"nested":[1,true]},"flag":false})");
+            R"({"name":"known","count":7,"extraJsonProperties":"declared","future":{"nested":[1,true]},"flag":false})");
     model::ExtraFields extraFields;
     extraFields.fromJsonValue(source);
 
     const model::ExtraFields::ExtraJsonProperties& extras =
-            extraFields.getExtraJsonProperties();
+            extraFields.getExtraJsonProperties2();
     expect(extras.size() == 2, "model decoding did not retain every unknown field");
     expect(extras.at("future") == boost::json::parse(R"({"nested":[1,true]})"),
             "model decoding changed an unknown object field");
     expect(extras.at("flag").is_bool() && !extras.at("flag").as_bool(),
             "model decoding changed an unknown scalar field");
+    expect(extraFields.getExtraJsonProperties() == "declared",
+            "declared property sharing the preservation API name did not decode");
     expect(extraFields.toJsonValue() == source,
             "model unknown fields did not survive a decode/encode round trip");
 
     model::ExtraFields::ExtraJsonProperties conflictingExtras;
     conflictingExtras.emplace("name", boost::json::value("stale"));
     conflictingExtras.emplace("future", boost::json::value("retained"));
-    extraFields.setExtraJsonProperties(std::move(conflictingExtras));
+    extraFields.setExtraJsonProperties2(std::move(conflictingExtras));
     extraFields.setName("typed");
     const boost::json::object& conflictOutput = extraFields.toJsonValue().as_object();
     expect(conflictOutput.at("name") == "typed",
@@ -52,7 +54,7 @@ int main() {
             "a non-conflicting extra field was not serialized");
 
     extraFields.fromJsonValue(boost::json::parse(R"({"name":"fresh"})"));
-    expect(extraFields.getExtraJsonProperties().empty(),
+    expect(extraFields.getExtraJsonProperties2().empty(),
             "repeated decoding retained stale unknown fields");
 
     const boost::json::value variantSource = boost::json::parse(

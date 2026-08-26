@@ -1543,7 +1543,7 @@ boost::json::value {{classname}}::toJsonValue() const
 void {{classname}}::fromJsonValue(boost::json::value const& value)
 {
     {{#preserveAdditionalProperties}}
-    m_extraJsonProperties.clear();
+    {{{vendorExtensions.x-cpp-extra-json-properties-member}}}.clear();
     {{/preserveAdditionalProperties}}
     {{#vendorExtensions.x-cpp-is-optional}}
     if (value.is_null()) {
@@ -1560,7 +1560,7 @@ void {{classname}}::fromJsonValue(boost::json::value const& value)
     fromJsonObject_internal(object);
     for (auto const& member : object) {
         if (!isKnownJsonProperty(member.key())) {
-            m_extraJsonProperties.emplace(
+            {{{vendorExtensions.x-cpp-extra-json-properties-member}}}.emplace(
                 std::string(member.key().data(), member.key().size()), member.value());
         }
     }
@@ -1603,7 +1603,7 @@ boost::json::object {{classname}}::toJsonObject_internal() const
     boost::json::object object;
     {{/parent}}
     {{#preserveAdditionalProperties}}
-    for (auto const& extraJsonProperty : m_extraJsonProperties) {
+    for (auto const& extraJsonProperty : {{{vendorExtensions.x-cpp-extra-json-properties-member}}}) {
         boost::json::string_view const name(
             extraJsonProperty.first.data(), extraJsonProperty.first.size());
         if (!isKnownJsonProperty(name)) {

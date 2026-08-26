@@ -970,6 +970,7 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
             codegenModel.imports.add("#include <map>");
             codegenModel.imports.add("#include <string>");
             codegenModel.imports.add("#include <utility>");
+            reserveExtraJsonPropertyIdentifiers(codegenModel);
         }
 
         // Fixed-const properties: OAS 3.1 `const`, single-value `enum`, or optional
@@ -1115,6 +1116,41 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
                 item = item.items;
             }
         }
+    }
+
+    private void reserveExtraJsonPropertyIdentifiers(CodegenModel codegenModel) {
+        Set<String> propertyAccessors = new HashSet<>();
+        Set<String> propertyMembers = new HashSet<>();
+        if (codegenModel.allVars != null) {
+            for (CodegenProperty property : codegenModel.allVars) {
+                if (property.getter != null) {
+                    propertyAccessors.add(property.getter);
+                }
+                if (property.setter != null) {
+                    propertyAccessors.add(property.setter);
+                }
+                if (property.name != null) {
+                    propertyMembers.add("m_" + property.name);
+                }
+            }
+        }
+
+        int maxSuffix = propertyAccessors.size() + propertyMembers.size() + 2;
+        for (int suffix = 1; suffix <= maxSuffix; suffix++) {
+            String suffixText = suffix == 1 ? "" : Integer.toString(suffix);
+            String getter = "getExtraJsonProperties" + suffixText;
+            String setter = "setExtraJsonProperties" + suffixText;
+            String member = "m_extraJsonProperties" + suffixText;
+            if (propertyAccessors.contains(getter) || propertyAccessors.contains(setter)
+                    || propertyMembers.contains(member)) {
+                continue;
+            }
+            codegenModel.vendorExtensions.put("x-cpp-extra-json-properties-getter", getter);
+            codegenModel.vendorExtensions.put("x-cpp-extra-json-properties-setter", setter);
+            codegenModel.vendorExtensions.put("x-cpp-extra-json-properties-member", member);
+            return;
+        }
+        throw new IllegalStateException("Unable to reserve C++ extra JSON property identifiers");
     }
 
     @Override

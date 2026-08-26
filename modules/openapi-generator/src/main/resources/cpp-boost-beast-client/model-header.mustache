@@ -236,14 +236,14 @@ public:
 {{#preserveAdditionalProperties}}
     using ExtraJsonProperties = std::map<std::string, boost::json::value>;
 
-    ExtraJsonProperties const& getExtraJsonProperties() const noexcept
+    ExtraJsonProperties const& {{{vendorExtensions.x-cpp-extra-json-properties-getter}}}() const noexcept
     {
-        return m_extraJsonProperties;
+        return {{{vendorExtensions.x-cpp-extra-json-properties-member}}};
     }
 
-    void setExtraJsonProperties(ExtraJsonProperties extraJsonProperties)
+    void {{{vendorExtensions.x-cpp-extra-json-properties-setter}}}(ExtraJsonProperties extraJsonProperties)
     {
-        m_extraJsonProperties = std::move(extraJsonProperties);
+        {{{vendorExtensions.x-cpp-extra-json-properties-member}}} = std::move(extraJsonProperties);
     }
 {{/preserveAdditionalProperties}}
 
@@ -370,7 +370,7 @@ protected:
     {{/vendorExtensions.x-cpp-const}}
     {{/vars}}
 {{#preserveAdditionalProperties}}
-    ExtraJsonProperties m_extraJsonProperties;
+    ExtraJsonProperties {{{vendorExtensions.x-cpp-extra-json-properties-member}}};
 {{/preserveAdditionalProperties}}
 {{#vendorExtensions.x-cpp-is-optional}}
     bool m_{{classname}}IsNull = false;

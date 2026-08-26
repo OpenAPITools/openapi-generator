@@ -1423,10 +1423,12 @@ public class ModelApiSurfaceTest {
         Assert.assertTrue(header.contains(
                         "using ExtraJsonProperties = std::map<std::string, boost::json::value>;"),
                 "Enabled preservation must expose the extra JSON property storage type");
-        Assert.assertTrue(header.contains("getExtraJsonProperties() const noexcept")
-                        && header.contains("setExtraJsonProperties(ExtraJsonProperties extraJsonProperties)"),
-                "Enabled preservation must expose map accessors");
-        Assert.assertTrue(source.contains("m_extraJsonProperties.clear()")
+        Assert.assertTrue(header.contains("getExtraJsonProperties2() const noexcept")
+                        && header.contains("setExtraJsonProperties2(ExtraJsonProperties extraJsonProperties)"),
+                "Preservation map accessors must avoid generated property accessors");
+        Assert.assertTrue(header.contains("std::string getExtraJsonProperties() const;"),
+                "A declared property must retain its original accessor name");
+        Assert.assertTrue(source.contains("m_extraJsonProperties2.clear()")
                         && source.contains("isKnownJsonProperty(member.key())")
                         && source.contains("object[name] = extraJsonProperty.second"),
                 "Enabled preservation must capture only unknown fields and re-emit them");
@@ -1445,7 +1447,8 @@ public class ModelApiSurfaceTest {
                 .setOutputDir(strictOutput.toString());
         new DefaultGenerator().opts(strictConfigurator.toClientOptInput()).generate();
         String strictHeader = Files.readString(strictOutput.resolve("model/ExtraFields.h"));
-        Assert.assertFalse(strictHeader.contains("ExtraJsonProperties"),
+        Assert.assertFalse(strictHeader.contains(
+                        "using ExtraJsonProperties = std::map<std::string, boost::json::value>;"),
                 "Default generation must not add extra JSON property storage");
     }
 
