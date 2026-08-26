@@ -128,6 +128,24 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testInjectOperationVendorExtensionsMatchesSpecOperationId() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        codegen.setOpenAPI(openApi);
+        // key uses the spec-authored (snake_case) operationId, not the generated/camelized one
+        codegen.injectOperationVendorExtensions().put("create_employee_snake.x-request-body-extra-annotation", "@com.example.MyValidation");
+        // the generated/camelized operationId must not match when the spec provides an operationId
+        codegen.injectOperationVendorExtensions().put("createEmployeeSnake.x-foo", "bar");
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees/snake");
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees/snake", "post", path.getPost(), path.getServers());
+
+        assertEquals(operation.operationIdOriginal, "create_employee_snake");
+        assertEquals(operation.vendorExtensions.get("x-request-body-extra-annotation"), "@com.example.MyValidation");
+        assertNull(operation.vendorExtensions.get("x-foo"));
+    }
+
+    @Test
     public void testHasBodyParameter() {
         final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
         Operation pingOperation = new Operation()

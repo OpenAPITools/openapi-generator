@@ -43,6 +43,26 @@ paths:
       responses:
         '201':
           description: created
+  /orgs/{orgId}/employees/snake:
+    post:
+      tags:
+        - employee
+      operationId: create_employee_snake
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/OrgId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: created
 components:
   schemas:
     OrgId:

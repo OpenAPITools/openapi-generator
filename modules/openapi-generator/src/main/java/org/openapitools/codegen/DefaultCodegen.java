@@ -5147,8 +5147,10 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Injects vendor extensions supplied via {@code injectOperationVendorExtensions} onto the given
      * operation or its parameters. Keys are dotted: {@code operationId.x-extension-name} targets the
-     * operation, while {@code operationId.paramName.x-extension-name} targets a parameter matched by
-     * its spec name ({@code baseName}). This runs during operation construction, before
+     * operation, while {@code operationId.paramBaseName.x-extension-name} targets a parameter matched
+     * by its spec name ({@code baseName}). The {@code operationId} segment is matched against the
+     * spec-authored operationId when present, falling back to the generated operationId only when the
+     * spec omits one. This runs during operation construction, before
      * {@code postProcessOperationsWithModels}, so an injected operation-level extension is available
      * to any later normalization of that extension (for example, request-body annotation handling in
      * the Spring generators). A parameter is represented by more than one object across the
@@ -5157,20 +5159,26 @@ public class DefaultCodegen implements CodegenConfig {
      * @param op the operation to update
      */
     private void injectOperationVendorExtensions(CodegenOperation op) {
-        if (injectOperationVendorExtensions.isEmpty() || op.operationId == null) {
+        if (injectOperationVendorExtensions.isEmpty()) {
+            return;
+        }
+        // Prefer the spec-authored operationId; only fall back to the generated one when the spec
+        // omits operationId (in which case operationIdOriginal is null).
+        String matchOperationId = op.operationIdOriginal != null ? op.operationIdOriginal : op.operationId;
+        if (matchOperationId == null) {
             return;
         }
         for (Map.Entry<String, String> extEntry : injectOperationVendorExtensions.entrySet()) {
             String[] parts = extEntry.getKey().split("\\.", 3);
             if (parts.length < 2) continue;
-            if (!parts[0].equals(op.operationId)) continue;
+            if (!parts[0].equals(matchOperationId)) continue;
             String extensionValue = extEntry.getValue();
 
             if (parts.length == 2) {
                 // operation-level extension: operationId.x-extension-name
                 op.vendorExtensions.put(parts[1], extensionValue);
             } else {
-                // parameter-level extension: operationId.paramName.x-extension-name
+                // parameter-level extension: operationId.paramBaseName.x-extension-name
                 String paramBaseName = parts[1];
                 String extensionName = parts[2];
                 List<List<CodegenParameter>> allParameterLists = Arrays.asList(
@@ -7450,6 +7458,35 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public static void normalizeVendorExtensionWithStringList(Map<String, Object> vendorExtensions, String name) {
         vendorExtensions.put(name, new ArrayList<>(getObjectAsStringList(vendorExtensions.get(name))));
+    }
+
+    /**
+     * Normalizes a vendor extension across all of an operation's parameter collections into a mutable
+     * {@code List<String>}, so that a value authored as either a single string or a list is handled
+     * uniformly and further values can be appended. The same parameter can appear in several of the
+     * operation's parameter collections, so they are de-duplicated by identity before being updated.
+     *
+     * @param operation operation whose parameters should be updated
+     * @param name      vendor extension name
+     */
+    protected void normalizeOperationParameterVendorExtensions(CodegenOperation operation, String name) {
+        Set<CodegenParameter> parameters = Collections.newSetFromMap(new IdentityHashMap<>());
+        parameters.addAll(operation.allParams);
+        parameters.addAll(operation.bodyParams);
+        parameters.addAll(operation.pathParams);
+        parameters.addAll(operation.queryParams);
+        parameters.addAll(operation.headerParams);
+        parameters.addAll(operation.implicitHeadersParams);
+        parameters.addAll(operation.constantParams);
+        parameters.addAll(operation.formParams);
+        parameters.addAll(operation.cookieParams);
+        parameters.addAll(operation.requiredParams);
+        parameters.addAll(operation.optionalParams);
+        parameters.addAll(operation.requiredAndNotNullableParams);
+        parameters.addAll(operation.notNullableParams);
+        for (CodegenParameter parameter : parameters) {
+            normalizeVendorExtensionWithStringList(parameter.vendorExtensions, name);
+        }
     }
 
     /**

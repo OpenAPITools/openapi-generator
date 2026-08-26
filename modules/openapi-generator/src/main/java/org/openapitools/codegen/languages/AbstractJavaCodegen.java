@@ -2303,36 +2303,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
-    /**
-     * Normalizes an operation parameter vendor extension across all parameter collections.
-     * In this context, normalization means converting a missing value, a single string, or a list value
-     * into a predictable mutable {@code List<String>} on each parameter. The same parameter can appear in
-     * several operation collections, so the collections are de-duplicated before updating the extension map.
-     *
-     * @param operation operation whose parameters should be updated
-     * @param name      vendor extension name
-     */
-    protected void normalizeOperationParameterVendorExtensions(CodegenOperation operation, String name) {
-        Set<CodegenParameter> parameters = Collections.newSetFromMap(new IdentityHashMap<>());
-        parameters.addAll(operation.allParams);
-        parameters.addAll(operation.bodyParams);
-        parameters.addAll(operation.pathParams);
-        parameters.addAll(operation.queryParams);
-        parameters.addAll(operation.headerParams);
-        parameters.addAll(operation.implicitHeadersParams);
-        parameters.addAll(operation.constantParams);
-        parameters.addAll(operation.formParams);
-        parameters.addAll(operation.cookieParams);
-        parameters.addAll(operation.requiredParams);
-        parameters.addAll(operation.optionalParams);
-        parameters.addAll(operation.requiredAndNotNullableParams);
-        parameters.addAll(operation.notNullableParams);
-
-        for (CodegenParameter parameter : parameters) {
-            normalizeVendorExtensionWithStringList(parameter.vendorExtensions, name);
-        }
-    }
-
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);

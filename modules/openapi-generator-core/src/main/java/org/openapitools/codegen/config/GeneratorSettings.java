@@ -341,7 +341,7 @@ public final class GeneratorSettings implements Serializable {
     /**
      * Gets inject operation vendor extensions.
      *
-     * @return a map of operationId.x-extension-name or operationId.paramName.x-extension-name to extension value
+     * @return a map of operationId.x-extension-name or operationId.paramBaseName.x-extension-name to extension value
      */
     public Map<String, String> getInjectOperationVendorExtensions() {
         return injectOperationVendorExtensions;
@@ -1267,7 +1267,7 @@ public final class GeneratorSettings implements Serializable {
         /**
          * Sets a single {@code injectOperationVendorExtension} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param key   A key in the format operationId.x-extension-name or operationId.paramName.x-extension-name
+         * @param key   A key in the format operationId.x-extension-name or operationId.paramBaseName.x-extension-name
          * @param value The extension value
          * @return a reference to this Builder
          */
@@ -1525,6 +1525,8 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getModelNameMappings(), that.getModelNameMappings()) &&
                 Objects.equals(getEnumNameMappings(), that.getEnumNameMappings()) &&
                 Objects.equals(getOperationIdNameMappings(), that.getOperationIdNameMappings()) &&
+                Objects.equals(getInjectModelVendorExtensions(), that.getInjectModelVendorExtensions()) &&
+                Objects.equals(getInjectOperationVendorExtensions(), that.getInjectOperationVendorExtensions()) &&
                 Objects.equals(getOpenapiNormalizer(), that.getOpenapiNormalizer()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
                 Objects.equals(getOpenapiGeneratorIgnoreList(), that.getOpenapiGeneratorIgnoreList()) &&
@@ -1564,6 +1566,8 @@ public final class GeneratorSettings implements Serializable {
                 getModelNameMappings(),
                 getEnumNameMappings(),
                 getOperationIdNameMappings(),
+                getInjectModelVendorExtensions(),
+                getInjectOperationVendorExtensions(),
                 getOpenapiNormalizer(),
                 getLanguageSpecificPrimitives(),
                 getOpenapiGeneratorIgnoreList(),

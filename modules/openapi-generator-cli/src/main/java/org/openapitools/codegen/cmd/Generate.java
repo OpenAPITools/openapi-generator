@@ -273,7 +273,7 @@ public class Generate extends OpenApiGeneratorCommand {
             title = "inject operation vendor extensions",
             description = "injects vendor extensions into operations or their parameters."
                     + " Operation-level format: operationId.x-extension-name=value."
-                    + " Parameter-level format: operationId.paramName.x-extension-name=value."
+                    + " Parameter-level format: operationId.paramBaseName.x-extension-name=value."
                     + " You can also have multiple occurrences of this option.")
     private List<String> injectOperationVendorExtensions = new ArrayList<>();
 
