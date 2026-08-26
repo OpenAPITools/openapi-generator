@@ -1,0 +1,394 @@
+// ============================================================================
+// Oas31ExactJson.h - exact JSON document parsing and numeric lexeme paths.
+//
+// Boost.JSON stores numbers as int64, uint64, or double and Boost 1.75 rejects
+// exponent magnitudes outside int32. JSON Schema numeric equality instead uses
+// the original decimal value. ExactJsonValue therefore owns both a Boost.JSON
+// DOM and every raw numeric token keyed by RFC 6901 instance location.
+//
+// parseExactJson first asks Boost.JSON to parse the untouched payload. If that
+// fails only because a syntactically valid number exceeds Boost's numeric
+// representation, it retries a copy where number tokens are replaced by zero;
+// the exact token table remains authoritative for validation.
+//
+// HEADER-ONLY. Built under -Werror with g++ -std=c++17.
+// ============================================================================
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_EXACT_JSON_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_EXACT_JSON_H_
+
+#include "Oas31ExactNumber.h"
+
+#include <boost/json.hpp>
+
+#include <cmath>
+#include <cstddef>
+#include <map>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <unordered_map>
+#include <vector>
+
+namespace org::openapitools::client::model::detail::schema_validation {
+
+/// RFC 6901 escaping. The length-aware view preserves embedded NUL bytes in
+/// decoded JSON member names.
+inline std::string jsonPointerEscape(boost::json::string_view value) {
+    std::string out;
+    out.reserve(value.size());
+    for (char c : value) {
+        if (c == '~') out += "~0";
+        else if (c == '/') out += "~1";
+        else out.push_back(c);
+    }
+    return out;
+}
+
+struct InstanceLexemeTable {
+    std::map<std::string, std::string> entries;
+
+    std::string const* lexemeAt(std::string const& path) const {
+        auto const it = entries.find(path);
+        return it == entries.end() ? nullptr : &it->second;
+    }
+};
+
+struct ExactJsonValue {
+    boost::json::value value;
+    InstanceLexemeTable lexemes;
+    // Validation can use lexemes when Boost.JSON cannot represent a number,
+    // but generated public model types cannot safely consume the surrogate DOM.
+    bool requiresExactNumberConversion = false;
+};
+
+namespace detail {
+
+inline bool isJsonWhitespace(char c) {
+    return c == ' ' || c == '\t' || c == '\n' || c == '\r';
+}
+
+inline bool isJsonValueDelimiter(std::string const& input, std::size_t offset) {
+    if (offset == input.size()) return true;
+    char const c = input[offset];
+    return isJsonWhitespace(c) || c == ',' || c == ']' || c == '}';
+}
+
+/// Scan one JSON string token without decoding it. Boost.JSON performs the
+/// actual UTF-8, escape, and surrogate-pair validation when a key is decoded.
+inline bool scanJsonString(std::string const& input, std::size_t& offset) {
+    if (offset >= input.size() || input[offset] != '"') return false;
+    ++offset;
+    while (offset < input.size()) {
+        char const c = input[offset++];
+        if (c == '"') return true;
+        if (c == '\\') {
+            if (offset >= input.size()) return false;
+            ++offset;
+        }
+    }
+    return false;
+}
+
+inline std::string decodeJsonString(std::string const& input,
+                                    std::size_t begin,
+                                    std::size_t end) {
+    boost::system::error_code error;
+    boost::json::value decoded = boost::json::parse(
+        boost::json::string_view(input.data() + begin, end - begin), error);
+    if (error || !decoded.is_string()) {
+        throw std::invalid_argument("invalid JSON object member name");
+    }
+    boost::json::string const& text = decoded.as_string();
+    return std::string(text.data(), text.size());
+}
+
+/// Parse RFC 8259 number syntax without converting its magnitude. On success,
+/// offset is one past the token and lexeme receives the untouched bytes.
+inline bool readJsonNumber(std::string const& input,
+                           std::size_t& offset,
+                           std::string& lexeme) {
+    std::size_t const start = offset;
+    if (offset < input.size() && input[offset] == '-') ++offset;
+    if (offset >= input.size()) {
+        offset = start;
+        return false;
+    }
+
+    if (input[offset] == '0') {
+        ++offset;
+        if (offset < input.size()
+                && input[offset] >= '0' && input[offset] <= '9') {
+            offset = start;
+            return false;
+        }
+    } else if (input[offset] >= '1' && input[offset] <= '9') {
+        do {
+            ++offset;
+        } while (offset < input.size()
+                && input[offset] >= '0' && input[offset] <= '9');
+    } else {
+        offset = start;
+        return false;
+    }
+
+    if (offset < input.size() && input[offset] == '.') {
+        ++offset;
+        std::size_t const fractionStart = offset;
+        while (offset < input.size()
+                && input[offset] >= '0' && input[offset] <= '9') {
+            ++offset;
+        }
+        if (offset == fractionStart) {
+            offset = start;
+            return false;
+        }
+    }
+
+    if (offset < input.size()
+            && (input[offset] == 'e' || input[offset] == 'E')) {
+        ++offset;
+        if (offset < input.size()
+                && (input[offset] == '+' || input[offset] == '-')) {
+            ++offset;
+        }
+        std::size_t const exponentStart = offset;
+        while (offset < input.size()
+                && input[offset] >= '0' && input[offset] <= '9') {
+            ++offset;
+        }
+        if (offset == exponentStart) {
+            offset = start;
+            return false;
+        }
+    }
+
+    if (!isJsonValueDelimiter(input, offset)) {
+        offset = start;
+        return false;
+    }
+    lexeme.assign(input, start, offset - start);
+    return true;
+}
+
+inline std::string captureAndSanitizeNumbers(
+        std::string const& payload, InstanceLexemeTable& table) {
+    struct Frame {
+        bool isArray;
+        std::size_t index;
+        std::string pendingKey;
+    };
+
+    table.entries.clear();
+    std::vector<Frame> stack;
+    std::string sanitized;
+    sanitized.reserve(payload.size());
+    std::size_t copiedThrough = 0;
+    std::size_t offset = 0;
+
+    auto skipWhitespace = [&]() {
+        while (offset < payload.size() && isJsonWhitespace(payload[offset])) {
+            ++offset;
+        }
+    };
+
+    while (offset < payload.size()) {
+        skipWhitespace();
+        if (offset >= payload.size()) break;
+        char const c = payload[offset];
+
+        if (c == '{') {
+            stack.push_back(Frame{false, 0, std::string()});
+            ++offset;
+        } else if (c == '[') {
+            stack.push_back(Frame{true, 0, std::string()});
+            ++offset;
+        } else if (c == '}' || c == ']') {
+            if (!stack.empty()) stack.pop_back();
+            ++offset;
+        } else if (c == ',') {
+            if (!stack.empty() && stack.back().isArray) ++stack.back().index;
+            ++offset;
+        } else if (c == ':') {
+            ++offset;
+        } else if (c == '"') {
+            std::size_t const tokenStart = offset;
+            if (!scanJsonString(payload, offset)) {
+                throw std::invalid_argument("unterminated JSON string");
+            }
+            std::size_t const tokenEnd = offset;
+            std::size_t lookahead = offset;
+            while (lookahead < payload.size()
+                    && isJsonWhitespace(payload[lookahead])) {
+                ++lookahead;
+            }
+            if (lookahead < payload.size() && payload[lookahead] == ':'
+                    && !stack.empty() && !stack.back().isArray) {
+                stack.back().pendingKey = decodeJsonString(
+                    payload, tokenStart, tokenEnd);
+            }
+        } else if (c == 't' && payload.compare(offset, 4, "true") == 0) {
+            offset += 4;
+        } else if (c == 'f' && payload.compare(offset, 5, "false") == 0) {
+            offset += 5;
+        } else if (c == 'n' && payload.compare(offset, 4, "null") == 0) {
+            offset += 4;
+        } else if (c == '-' || (c >= '0' && c <= '9')) {
+            std::size_t const numberStart = offset;
+            std::string lexeme;
+            if (!readJsonNumber(payload, offset, lexeme)) {
+                ++offset;
+                continue;
+            }
+            if (lexeme.size() > ExactNumber::kMaxLexemeLength) {
+                throw std::length_error(
+                    "JSON numeric token exceeds implementation limit");
+            }
+
+            std::string path;
+            for (Frame const& frame : stack) {
+                path.push_back('/');
+                if (frame.isArray) path.append(std::to_string(frame.index));
+                else path.append(jsonPointerEscape(frame.pendingKey));
+            }
+            table.entries[path] = lexeme;
+
+            sanitized.append(payload, copiedThrough, numberStart - copiedThrough);
+            sanitized.push_back('0');
+            copiedThrough = offset;
+        } else {
+            ++offset;
+        }
+    }
+
+    sanitized.append(payload, copiedThrough, payload.size() - copiedThrough);
+    return sanitized;
+}
+
+inline bool containsNonFiniteNumber(boost::json::value const& value) {
+    if (value.is_double()) {
+        return !std::isfinite(value.as_double());
+    }
+    if (value.is_array()) {
+        for (boost::json::value const& element : value.as_array()) {
+            if (containsNonFiniteNumber(element)) return true;
+        }
+    } else if (value.is_object()) {
+        for (auto const& member : value.as_object()) {
+            if (containsNonFiniteNumber(member.value())) return true;
+        }
+    }
+    return false;
+}
+
+inline bool isNumericRepresentationOverflow(
+        const boost::system::error_code& error) {
+    return error == boost::json::error::exponent_overflow;
+}
+
+} // namespace detail
+
+inline void captureInstanceLexemes(std::string const& payload,
+                                   InstanceLexemeTable& table) {
+    (void)detail::captureAndSanitizeNumbers(payload, table);
+}
+
+inline ExactJsonValue parseExactJson(std::string const& payload) {
+    ExactJsonValue result;
+    std::string const sanitized =
+        detail::captureAndSanitizeNumbers(payload, result.lexemes);
+
+    boost::system::error_code originalError;
+    result.value = boost::json::parse(payload, originalError);
+    if (!originalError) {
+        result.requiresExactNumberConversion =
+            detail::containsNonFiniteNumber(result.value);
+        return result;
+    }
+
+    if (!detail::isNumericRepresentationOverflow(originalError)) {
+        throw std::invalid_argument(
+            "invalid JSON payload: " + originalError.message());
+    }
+
+    boost::system::error_code sanitizedError;
+    result.value = boost::json::parse(sanitized, sanitizedError);
+    if (sanitizedError) {
+        throw std::invalid_argument(
+            "invalid JSON payload: " + sanitizedError.message());
+    }
+    result.requiresExactNumberConversion = true;
+    return result;
+}
+
+inline void requireModelConvertibleJson(ExactJsonValue const& document) {
+    if (document.requiresExactNumberConversion) {
+        throw std::invalid_argument(
+            "JSON payload contains a number that cannot be represented "
+            "by the generated public model");
+    }
+}
+
+namespace detail {
+
+struct ActiveExactInstance {
+    InstanceLexemeTable const* lexemes = nullptr;
+    std::unordered_map<boost::json::value const*, std::string> paths;
+};
+
+inline thread_local ActiveExactInstance const* activeExactInstance = nullptr;
+
+inline void indexExactInstance(ActiveExactInstance& context,
+                               boost::json::value const& value,
+                               std::string const& path) {
+    context.paths.emplace(&value, path);
+    if (value.is_object()) {
+        for (auto const& member : value.as_object()) {
+            indexExactInstance(context, member.value(),
+                path + "/" + jsonPointerEscape(member.key()));
+        }
+    } else if (value.is_array()) {
+        std::size_t index = 0;
+        for (auto const& element : value.as_array()) {
+            indexExactInstance(context, element,
+                path + "/" + std::to_string(index));
+            ++index;
+        }
+    }
+}
+
+} // namespace detail
+
+/// Installs one exact document as the current decode context. Generated model
+/// conversion remains API-compatible: RawInstance discovers the lexeme table
+/// and RFC 6901 path from the boost::json::value address it receives.
+class ExactInstanceScope {
+public:
+    explicit ExactInstanceScope(ExactJsonValue const& document)
+        : previous_(detail::activeExactInstance) {
+        context_.lexemes = &document.lexemes;
+        detail::indexExactInstance(context_, document.value, std::string());
+        detail::activeExactInstance = &context_;
+    }
+
+    ~ExactInstanceScope() { detail::activeExactInstance = previous_; }
+
+    ExactInstanceScope(ExactInstanceScope const&) = delete;
+    ExactInstanceScope& operator=(ExactInstanceScope const&) = delete;
+
+private:
+    detail::ActiveExactInstance context_;
+    detail::ActiveExactInstance const* previous_;
+};
+
+inline InstanceLexemeTable const* activeInstanceLexemes(
+        boost::json::value const* value, std::string& path) {
+    detail::ActiveExactInstance const* context = detail::activeExactInstance;
+    if (context == nullptr || value == nullptr) return nullptr;
+    auto const found = context->paths.find(value);
+    if (found == context->paths.end()) return nullptr;
+    path = found->second;
+    return context->lexemes;
+}
+} // namespace org::openapitools::client::model::detail::schema_validation
+
+#endif // ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_EXACT_JSON_H_

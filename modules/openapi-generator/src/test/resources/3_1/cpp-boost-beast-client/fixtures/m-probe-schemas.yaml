@@ -1,0 +1,209 @@
+openapi: 3.1.0
+info:
+  title: M profile taxonomy probe
+  version: 1.0.0
+paths:
+  /int32Box:
+    get:
+      operationId: getInt32Box
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Int32Box"
+  /int64Box:
+    get:
+      operationId: getInt64Box
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Int64Box"
+  /floatBox:
+    get:
+      operationId: getFloatBox
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FloatBox"
+  /doubleBox:
+    get:
+      operationId: getDoubleBox
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DoubleBox"
+  /stringBox:
+    get:
+      operationId: getStringBox
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StringBox"
+  /boolBox:
+    get:
+      operationId: getBoolBox
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BoolBox"
+  /enumBox:
+    get:
+      operationId: getEnumBox
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnumBox"
+  /nullableBox:
+    get:
+      operationId: getNullableBox
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NullableBox"
+  /anyRoot:
+    get:
+      operationId: getAnyRoot
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyRoot"
+  /polyBox:
+    get:
+      operationId: getPolyBox
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PolyBox"
+  /collectionBox:
+    get:
+      operationId: getCollectionBox
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CollectionBox"
+components:
+  schemas:
+    Int32Box:
+      type: object
+      properties:
+        v:
+          type: integer
+          format: int32
+    Int64Box:
+      type: object
+      properties:
+        v:
+          type: integer
+          format: int64
+    FloatBox:
+      type: object
+      properties:
+        v:
+          type: number
+          format: float
+    DoubleBox:
+      type: object
+      properties:
+        v:
+          type: number
+          format: double
+    StringBox:
+      type: object
+      properties:
+        v:
+          type: string
+    BoolBox:
+      type: object
+      properties:
+        v:
+          type: boolean
+    EnumBox:
+      type: object
+      properties:
+        v:
+          type: string
+          enum: [red, green, blue]
+    NullableBox:
+      type: object
+      properties:
+        label:
+          type: string
+        v:
+          type: [string, "null"]
+    AnyRoot:
+      type: object
+      additionalProperties: true
+    PolyBox:
+      type: object
+      oneOf:
+        - $ref: "#/components/schemas/Cat"
+        - $ref: "#/components/schemas/Dog"
+      discriminator:
+        propertyName: kind
+        mapping:
+          cat: "#/components/schemas/Cat"
+          dog: "#/components/schemas/Dog"
+    Cat:
+      type: object
+      required: [kind, meow]
+      properties:
+        kind: { type: string }
+        meow: { type: boolean }
+    Dog:
+      type: object
+      required: [kind, bark]
+      properties:
+        kind: { type: string }
+        bark: { type: boolean }
+    CollectionBox:
+      type: object
+      properties:
+        tags:
+          type: array
+          items: { type: string }
+        meta:
+          type: object
+          additionalProperties: { type: string }
+        children:
+          type: array
+          items:
+            $ref: "#/components/schemas/Child"
+    Child:
+      type: object
+      properties:
+        name: { type: string }
+        n:
+          type: integer
+          format: int32

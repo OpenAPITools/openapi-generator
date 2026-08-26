@@ -401,6 +401,40 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void resolveNestedDifferentSchemasWithSameTitleWithoutSelfReference() {
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+
+        Schema nestedGrammar = new ObjectSchema()
+                .title("Grammar format")
+                .addProperty("definition", new StringSchema())
+                .addProperty("syntax", new StringSchema());
+        Schema enclosingGrammar = new ObjectSchema()
+                .title("Grammar format")
+                .addProperty("type", new StringSchema())
+                .addProperty("grammar", nestedGrammar);
+        Schema format = new ComposedSchema().addOneOfItem(enclosingGrammar);
+        openapi.getComponents().addSchemas("CustomToolParam",
+                new ObjectSchema().addProperty("format", format));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+        Schema nestedComponent = schemas.get("Grammar_format");
+        Schema enclosingComponent = schemas.get("Grammar_format_1");
+        assertNotNull("Nested schema must keep the unsuffixed title", nestedComponent);
+        assertNotNull("Enclosing schema with the same title must be suffixed", enclosingComponent);
+        assertNotNull(nestedComponent.getProperties().get("definition"));
+        assertNotNull(nestedComponent.getProperties().get("syntax"));
+        assertNull(nestedComponent.getProperties().get("grammar"));
+        assertNotNull(enclosingComponent.getProperties().get("type"));
+        Schema grammarProperty = (Schema) enclosingComponent.getProperties().get("grammar");
+        assertEquals("#/components/schemas/Grammar_format", grammarProperty.get$ref());
+        Assert.assertNotSame(enclosingComponent, nestedComponent,
+                "Schemas with the same title must retain distinct identities");
+    }
+
+    @Test
     public void testInlineResponseModel() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());

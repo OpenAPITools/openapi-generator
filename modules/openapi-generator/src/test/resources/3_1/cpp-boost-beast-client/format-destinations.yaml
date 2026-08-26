@@ -1,0 +1,49 @@
+openapi: 3.1.0
+info:
+  title: Format destinations mapping probe
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    DateTimeBox:
+      type: object
+      properties:
+        v:
+          type: string
+          format: date-time
+    DateBox:
+      type: object
+      properties:
+        v:
+          type: string
+          format: date
+    UuidBox:
+      type: object
+      properties:
+        v:
+          type: string
+          format: uuid
+    ByteBox:
+      type: object
+      properties:
+        v:
+          type: string
+          format: byte
+    BinaryBox:
+      type: object
+      properties:
+        v:
+          type: string
+          format: binary
+    PasswordBox:
+      type: object
+      properties:
+        v:
+          type: string
+          format: password
+    DecimalBox:
+      type: object
+      properties:
+        v:
+          type: number
+          format: decimal
