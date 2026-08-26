@@ -1,6 +1,6 @@
 generatorName: spring
 outputDir: samples/server/petstore/springboot-reactive
-inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-extra-annotation.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
   generateJsonIncludeAnnotations: "true"

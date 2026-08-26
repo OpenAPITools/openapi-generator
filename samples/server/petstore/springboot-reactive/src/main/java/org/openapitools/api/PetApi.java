@@ -73,7 +73,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default Mono<ResponseEntity<Void>> addPet(
-        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true)@org.springframework.lang.NonNull  @Valid @RequestBody Mono<Pet> pet,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().addPet(pet, exchange);
@@ -147,7 +147,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(
-        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) List<String> status,
+        @org.springframework.lang.NonNull @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) List<String> status,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().findPetsByStatus(status, exchange);
@@ -228,7 +228,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<Pet>> getPetById(
-        @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
+        @org.springframework.lang.NonNull @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().getPetById(petId, exchange);
