@@ -203,12 +203,12 @@ apply plugin: 'org.openapi.generator'
 |injectModelVendorExtensions
 |Map / Provider<Map>
 |None
-|Injects vendor extensions into models or their properties without editing the input spec. Keys use the form `modelName.x-extension-name` (model) or `modelName.propertyBaseName.x-extension-name` (model property). To supply multiple annotations in a single value, separate them with spaces (e.g. `@Foo @Bar`).
+|Injects vendor extensions into models or their properties without editing the input spec. Keys use the form `modelName.x-extension-name` (model) or `modelName.propertyBaseName.x-extension-name` (model property). See the note below on supplying multiple annotations in a single value.
 
 |injectOperationVendorExtensions
 |Map / Provider<Map>
 |None
-|Injects vendor extensions into operations or their parameters without editing the input spec. Keys use the form `operationId.x-extension-name` (operation) or `operationId.paramBaseName.x-extension-name` (parameter, matched by its raw spec name). To supply multiple annotations in a single value, separate them with spaces (e.g. `@Foo @Bar`).
+|Injects vendor extensions into operations or their parameters without editing the input spec. Keys use the form `operationId.x-extension-name` (operation) or `operationId.paramBaseName.x-extension-name` (parameter, matched by its raw spec name). See the note below on supplying multiple annotations in a single value.
 
 |configFile
 |String / Provider<RegularFile>
@@ -572,6 +572,33 @@ models: "User:Pet"
 ])
 }
 ----
+====
+
+[NOTE]
+====
+`injectModelVendorExtensions` and `injectOperationVendorExtensions` let you attach vendor extensions
+(for example the Spring extra-annotation extensions) to models, properties, operations, or parameters
+without editing the input spec. The map value is emitted verbatim, so when the extension renders
+annotations you write them exactly as they appear in source.
+
+To attach *multiple* annotations to the same target, put them in a single value separated by *spaces*
+(that is how annotations are written in Java/Kotlin), not by commas. Spaces are safe anywhere in the
+value, including inside parentheses, so annotations with arguments work as-is:
+[source,groovy]
+----
+openApiGenerate {
+// other settings omitted
+injectOperationVendorExtensions.set([
+    // two annotations on one request body: space-separated, emitted verbatim
+    "addPet.x-request-body-extra-annotation": "@com.example.MyValidation @io.swagger.v3.oas.annotations.media.Schema(description = \"a pet\")",
+    // annotation on a single path/query parameter (matched by its raw spec name)
+    "getPetById.petId.x-field-extra-annotation": "@com.example.ValidPetId"
+])
+}
+----
+Because each map entry is a separate `key: value` pair, there is no need to escape commas that appear
+*inside* a single value here (unlike the comma-separated CLI/Maven form). A value such as
+`@Size(min = 0, max = 10)` therefore works directly from Gradle.
 ====
 
 === openApiValidate
