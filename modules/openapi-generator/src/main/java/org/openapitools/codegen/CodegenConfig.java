@@ -77,6 +77,16 @@ public interface CodegenConfig {
 
     String embeddedTemplateDir();
 
+    /**
+     * Additional embedded (classpath) template directories searched after the
+     * generator's own embedded template directory. Directories are probed in
+     * order; the first containing the template wins. Used to share templates
+     * between related generators.
+     */
+    default java.util.List<String> additionalEmbeddedTemplateDirs() {
+        return java.util.Collections.emptyList();
+    }
+
     String modelFileFolder();
 
     String modelTestFileFolder();

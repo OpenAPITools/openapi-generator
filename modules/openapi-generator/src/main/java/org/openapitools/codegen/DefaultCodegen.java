@@ -233,6 +233,9 @@ public class DefaultCodegen implements CodegenConfig {
     @Setter
     protected String templateDir;
     protected String embeddedTemplateDir;
+    /** Additional embedded (classpath) template directories searched after
+     *  {@link #embeddedTemplateDir}; see {@link #additionalEmbeddedTemplateDirs()}. */
+    protected List<String> additionalEmbeddedTemplateDirs = new ArrayList<>();
     protected Map<String, Object> additionalProperties = new HashMap<>();
     protected Map<String, String> serverVariables = new HashMap<>();
     protected Map<String, Object> vendorExtensions = new HashMap<>();
@@ -1711,6 +1714,11 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             return templateDir;
         }
+    }
+
+    @Override
+    public List<String> additionalEmbeddedTemplateDirs() {
+        return additionalEmbeddedTemplateDirs;
     }
 
     @Override

@@ -119,6 +119,18 @@ public class GeneratorTemplateContentLocator implements TemplatePathLocator {
             return loc;
         }
 
+        // Finally, probe additional shared embedded template directories (in
+        // order) so related generators can reuse a common template root.
+        for (String additionalDir : config.additionalEmbeddedTemplateDirs()) {
+            if (additionalDir == null || additionalDir.isEmpty()) {
+                continue;
+            }
+            final String additional = additionalDir + File.separator + relativeTemplateFile;
+            if (embeddedTemplateExists(additional)) {
+                return additional;
+            }
+        }
+
         return null;
     }
 }
