@@ -63,6 +63,26 @@ paths:
       responses:
         '201':
           description: created
+  /orgs/{orgId}/employees/blank:
+    post:
+      tags:
+        - employee
+      operationId: ""
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/OrgId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: created
 components:
   schemas:
     OrgId:

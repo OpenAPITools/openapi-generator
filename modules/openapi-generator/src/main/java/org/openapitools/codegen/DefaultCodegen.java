@@ -5163,9 +5163,9 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
         // Prefer the spec-authored operationId; only fall back to the generated one when the spec
-        // omits operationId (in which case operationIdOriginal is null).
-        String matchOperationId = op.operationIdOriginal != null ? op.operationIdOriginal : op.operationId;
-        if (matchOperationId == null) {
+        // omits operationId (in which case operationIdOriginal is null or blank).
+        String matchOperationId = StringUtils.isNotBlank(op.operationIdOriginal) ? op.operationIdOriginal : op.operationId;
+        if (StringUtils.isBlank(matchOperationId)) {
             return;
         }
         for (Map.Entry<String, String> extEntry : injectOperationVendorExtensions.entrySet()) {
