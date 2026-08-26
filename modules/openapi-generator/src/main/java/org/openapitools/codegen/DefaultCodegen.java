@@ -6032,7 +6032,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param operation  the operation object
      * @param path       the path of the operation
      * @param httpMethod the HTTP method of the operation
-     * @return the (generated) operationId
+     * @return the (generated) operationId; never null or blank
      */
     protected String getOrGenerateOperationId(Operation operation, String path, String httpMethod) {
         String operationId = operation.getOperationId();
