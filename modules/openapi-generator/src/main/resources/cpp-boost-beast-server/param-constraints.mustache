@@ -1,0 +1,80 @@
+{{! Shared scalar-parameter constraint ladder for query/header/cookie scalar
+    branches. Requires C++ locals `present` (parameter seen on the wire) and
+    `invalid`/`problem`, plus the assembler facts stringKind/boolKind/
+    integerKind/numberKind, hasEnum/enumValues, hasPattern/pattern,
+    hasMinLength/minLength, hasMaxLength/maxLength, hasMinimum/minimum,
+    hasMaximum/maximum. }}
+{{#stringKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{#hasPattern}}
+                    if (!invalid && present) {
+                        static std::regex const kPattern("{{{pattern}}}");
+                        if (!std::regex_match(request.{{cppName}}, kPattern)) {
+                            problem.withError("{{baseName}}", "value does not match the required pattern");
+                            invalid = true;
+                        }
+                    }
+{{/hasPattern}}{{#hasMinLength}}
+                    if (!invalid && present && request.{{cppName}}.size() < {{minLength}}) {
+                        problem.withError("{{baseName}}", "value is shorter than minLength");
+                        invalid = true;
+                    }
+{{/hasMinLength}}{{#hasMaxLength}}
+                    if (!invalid && present && request.{{cppName}}.size() > {{maxLength}}) {
+                        problem.withError("{{baseName}}", "value is longer than maxLength");
+                        invalid = true;
+                    }
+{{/hasMaxLength}}{{/stringKind}}
+{{#boolKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<bool> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{/boolKind}}
+{{#integerKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{#hasMinimum}}
+                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
+                        problem.withError("{{baseName}}", "value is below the minimum");
+                        invalid = true;
+                    }
+{{/hasMinimum}}{{#hasMaximum}}
+                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) > {{maximum}}L) {
+                        problem.withError("{{baseName}}", "value is above the maximum");
+                        invalid = true;
+                    }
+{{/hasMaximum}}{{/integerKind}}
+{{#numberKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
+                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{#hasMinimum}}
+                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
+                        problem.withError("{{baseName}}", "value is below the minimum");
+                        invalid = true;
+                    }
+{{/hasMinimum}}{{#hasMaximum}}
+                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) > {{maximum}}L) {
+                        problem.withError("{{baseName}}", "value is above the maximum");
+                        invalid = true;
+                    }
+{{/hasMaximum}}{{/numberKind}}

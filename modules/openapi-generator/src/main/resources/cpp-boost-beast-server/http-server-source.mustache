@@ -162,7 +162,11 @@ private:
         }
         if (ec == http::error::body_limit) {
             // The unread remainder of the oversized body cannot be skipped
-            // safely: answer 413 and close the connection.
+            // safely: answer 413 and close the connection. The parser head
+            // was fully read before the body overflowed, so mirror its
+            // version/keep-alive (RFC 9110 6.7) before responding.
+            requestVersion_ = static_cast<unsigned>(parser_->get().version());
+            requestKeepAlive_ = parser_->get().keep_alive();
             forceClose_ = true;
             return send_response(
                 toProblemResponse(Problem::payloadTooLarge()));
@@ -279,6 +283,12 @@ private:
 
 
     void send_response(http::response<http::string_body>&& response) {
+        // Arm a fresh response deadline before writing. Handlers may complete
+        // asynchronously (after the read timer has already expired); an
+        // expired Beast stream timer would abort this async_write instantly
+        // with operation_aborted and no response would ever reach the client.
+        stream_.expires_after(
+            std::chrono::seconds(options_.readTimeoutSeconds));
         // Mirror the request's HTTP version and keep-alive preference
         // (RFC 9110 6.7): responses must not keep a 1.0 connection alive
         // that did not opt in, and version should not exceed the request's.

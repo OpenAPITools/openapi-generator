@@ -159,7 +159,7 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
 {{/explode}}{{^explode}}                    elements = splitSimple(stripLabelPrefix(encoded));
 {{/explode}}{{/styleLabel}}
 {{#styleMatrix}}{{#explode}}
-                    elements = splitOn(stripMatrixPrefix(encoded, "{{baseName}}"), ';');
+                    elements = splitMatrixExploded(encoded, "{{baseName}}");
 {{/explode}}{{^explode}}
                     elements = splitSimple(stripMatrixPrefix(encoded, "{{baseName}}"));
 {{/explode}}{{/styleMatrix}}
@@ -190,73 +190,7 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                         problem.withError("{{baseName}}", "query parameter is not a valid {{{dataType}}}");
                         invalid = true;
                     }
-{{#stringKind}}{{#hasEnum}}
-                    if (!invalid && present) {
-                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
-                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
-                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
-                            invalid = true;
-                        }
-                    }
-{{/hasEnum}}{{/stringKind}}
-{{#boolKind}}{{#hasEnum}}
-                    if (!invalid && present) {
-                        static std::vector<bool> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
-                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
-                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
-                            invalid = true;
-                        }
-                    }
-{{/hasEnum}}{{/boolKind}}
-{{#integerKind}}{{#hasEnum}}
-                    if (!invalid && present) {
-                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
-                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
-                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
-                            invalid = true;
-                        }
-                    }
-{{/hasEnum}}{{/integerKind}}
-{{#numberKind}}{{#hasEnum}}
-                    if (!invalid && present) {
-                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
-                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
-                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
-                            invalid = true;
-                        }
-                    }
-{{/hasEnum}}{{/numberKind}}
-{{#stringKind}}{{#hasPattern}}
-                    if (!invalid && present) {
-                        static std::regex const kPattern("{{{pattern}}}");
-                        if (!std::regex_match(request.{{cppName}}, kPattern)) {
-                            problem.withError("{{baseName}}", "value does not match the required pattern");
-                            invalid = true;
-                        }
-                    }
-{{/hasPattern}}{{/stringKind}}
-{{#integerKind}}{{#hasMinimum}}
-                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
-                        problem.withError("{{baseName}}", "value is below the minimum");
-                        invalid = true;
-                    }
-{{/hasMinimum}}{{#hasMaximum}}
-                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) > {{maximum}}L) {
-                        problem.withError("{{baseName}}", "value is above the maximum");
-                        invalid = true;
-                    }
-{{/hasMaximum}}{{/integerKind}}
-{{#numberKind}}{{#hasMinimum}}
-                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
-                        problem.withError("{{baseName}}", "value is below the minimum");
-                        invalid = true;
-                    }
-{{/hasMinimum}}{{#hasMaximum}}
-                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) > {{maximum}}L) {
-                        problem.withError("{{baseName}}", "value is above the maximum");
-                        invalid = true;
-                    }
-{{/hasMaximum}}{{/numberKind}}
+{{>param-constraints}}
 {{/isContainer}}
 {{#isContainer}}
 {{^styleDeepObject}}
@@ -299,11 +233,13 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                     }
 {{/styleDeepObject}}
 {{#styleDeepObject}}
+                    bool present = false;
                     for (auto const& entry : ctx.query) {
                         std::string const prefix = "{{baseName}}[";
                         if (entry.first.size() > prefix.size()
                                 && entry.first.compare(0, prefix.size(), prefix) == 0
                                 && entry.first.back() == ']') {
+                            present = true;
                             std::string key = entry.first.substr(
                                 prefix.size(), entry.first.size() - prefix.size() - 1);
                             // ctx.query keys/values are already decoded by
@@ -311,6 +247,14 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                             // containing literal percent escapes.
                             request.{{cppName}}[key] = entry.second;
                         }
+                    }
+                    if (!present) {
+{{#required}}
+                        problem.withError("{{baseName}}", "required query parameter is missing");
+                        invalid = true;
+{{/required}}{{^required}}
+                        // absent optional query parameter keeps its default value
+{{/required}}
                     }
 {{/styleDeepObject}}
 {{/isContainer}}
@@ -331,24 +275,7 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                         problem.withError("{{baseName}}", "header parameter is not a valid {{{dataType}}}");
                         invalid = true;
                     }
-{{#stringKind}}{{#hasEnum}}
-                    if (!invalid && present) {
-                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
-                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
-                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
-                            invalid = true;
-                        }
-                    }
-{{/hasEnum}}{{/stringKind}}
-{{#integerKind}}{{#hasEnum}}
-                    if (!invalid && present) {
-                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
-                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
-                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
-                            invalid = true;
-                        }
-                    }
-{{/hasEnum}}{{/integerKind}}
+{{>param-constraints}}
 {{/isContainer}}
 {{#isContainer}}
                     auto values = ctx.headers.equal_range(lowercaseHeaderName("{{baseName}}"));
@@ -386,15 +313,7 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                         problem.withError("{{baseName}}", "cookie parameter is not a valid {{{dataType}}}");
                         invalid = true;
                     }
-{{#stringKind}}{{#hasEnum}}
-                    if (!invalid && present) {
-                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
-                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
-                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
-                            invalid = true;
-                        }
-                    }
-{{/hasEnum}}{{/stringKind}}
+{{>param-constraints}}
 {{/isCookie}}
                 }
 {{/vendorExtensions.x-server-params}}

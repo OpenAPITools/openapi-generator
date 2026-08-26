@@ -19,7 +19,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -354,9 +354,11 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                         }
                     }
                 }
-                appendParameterRejections(operation.getParameters(),
+                appendParameterRejections(
+                        openAPI, operation.getParameters(),
                         pathEntry.getKey() + ":" + opEntry.getKey(), diagnostics);
-                appendParameterRejections(item.getParameters(),
+                appendParameterRejections(
+                        openAPI, item.getParameters(),
                         pathEntry.getKey() + ":pathItem", diagnostics);
             }
         }
@@ -382,9 +384,9 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                 continue;
             }
             SecurityScheme.Type type = scheme.getType();
-            if (type != SecurityScheme.Type.APIKEY && type != SecurityScheme.Type.HTTP) {
-                unsupported.add(entry.getKey() + "' ("
-                        + type + ")");
+            if (type != SecurityScheme.Type.APIKEY
+                    && type != SecurityScheme.Type.HTTP) {
+                unsupported.add(entry.getKey() + " (" + type + ")");
             }
         }
         return unsupported;
@@ -413,7 +415,8 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
     }
 
     private static void appendParameterRejections(
-            List<Parameter> parameters, String location, List<String> diagnostics) {
+            OpenAPI openAPI, List<Parameter> parameters, String location,
+            List<String> diagnostics) {
         if (parameters == null) {
             return;
         }
@@ -429,12 +432,49 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                         + " parameters are supported");
                 continue;
             }
+            String in = parameter.getIn() == null ? "" : parameter.getIn();
+            Schema<?> schema = resolvedParameterSchema(openAPI, parameter);
+            if (schema != null) {
+                String type = schema.getType();
+                if ("array".equals(type)) {
+                    if ("cookie".equals(in)) {
+                        diagnostics.add("parameter '" + label + "' at " + location
+                                + " must have a scalar schema; array and object"
+                                + " cookie parameters are not supported");
+                    } else {
+                        Schema<?> items = schema.getItems() == null
+                                ? null
+                                : ModelUtils.getReferencedSchema(openAPI, schema.getItems());
+                        String itemType = items == null ? null : items.getType();
+                        if (itemType != null && !isScalarType(itemType)) {
+                            diagnostics.add("array parameter '" + label + "' at "
+                                    + location + " must have scalar items"
+                                    + " (string, integer, number, or boolean)");
+                        }
+                    }
+                } else if ("object".equals(type)) {
+                    String styleForShape = parameter.getStyle() == null
+                            ? null : parameter.getStyle().toString();
+                    boolean deepObjectStringMap = "query".equals(in)
+                            && "deepObject".equals(styleForShape)
+                            && schema.getAdditionalProperties() instanceof Schema
+                            && "string".equals(ModelUtils.getReferencedSchema(
+                                    openAPI, (Schema<?>) schema.getAdditionalProperties())
+                                    .getType());
+                    if (!deepObjectStringMap) {
+                        diagnostics.add("object-typed parameter '" + label + "' at "
+                                + location + " is not supported; only query"
+                                + " deepObject parameters mapping to string values"
+                                + " are supported");
+                    }
+                }
+                appendEnumRejections(schema, label, location, diagnostics);
+            }
             String style = parameter.getStyle() == null
                     ? null : parameter.getStyle().toString();
             if (style == null) {
                 continue;   // location default is allowed
             }
-            String in = parameter.getIn() == null ? "" : parameter.getIn();
             boolean allowed;
             switch (in) {
                 case "header":
@@ -459,6 +499,58 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                 diagnostics.add("parameter '" + label + "' at " + location
                         + " uses unsupported style '" + style + "' for in='" + in + "'");
             }
+        }
+    }
+
+    /** Resolves a parameter's schema through $ref (parameter and schema level). */
+    private static Schema<?> resolvedParameterSchema(
+            OpenAPI openAPI, Parameter parameter) {
+        Parameter resolved = parameter.get$ref() != null
+                ? ModelUtils.getReferencedParameter(openAPI, parameter)
+                : parameter;
+        if (resolved == null || resolved.getSchema() == null) {
+            return null;
+        }
+        return ModelUtils.getReferencedSchema(openAPI, resolved.getSchema());
+    }
+
+    /** Whether a schema type maps to a runtime scalar parseScalar overload. */
+    private static boolean isScalarType(String type) {
+        return "string".equals(type) || "integer".equals(type)
+                || "number".equals(type) || "boolean".equals(type);
+    }
+
+    /** Rejects enums the parameter constraint templates cannot render
+     *  faithfully: null members and mixes of string with numeric/boolean
+     *  members (integer+number mixes stay valid; both render into the
+     *  generated long double allow-list). */
+    private static void appendEnumRejections(
+            Schema<?> schema, String label, String location,
+            List<String> diagnostics) {
+        if (schema.getEnum() == null || schema.getEnum().isEmpty()) {
+            return;
+        }
+        boolean hasNull = false;
+        boolean hasString = false;
+        boolean hasNumber = false;
+        boolean hasBoolean = false;
+        for (Object value : schema.getEnum()) {
+            if (value == null) {
+                hasNull = true;
+            } else if (value instanceof String) {
+                hasString = true;
+            } else if (value instanceof Number) {
+                hasNumber = true;
+            } else if (value instanceof Boolean) {
+                hasBoolean = true;
+            }
+        }
+        if (hasNull
+                || (hasString && (hasNumber || hasBoolean))
+                || (hasBoolean && (hasString || hasNumber))) {
+            diagnostics.add("parameter '" + label + "' at " + location
+                    + " has heterogeneous enum members; only uniform string,"
+                    + " numeric, or boolean enums are supported");
         }
     }
 

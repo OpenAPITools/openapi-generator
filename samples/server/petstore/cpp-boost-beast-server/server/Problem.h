@@ -127,9 +127,12 @@ toProblemResponse(Problem const& problem) {
                 case '\f': out += "\\f"; break;
                 default: {
                     unsigned char byte = static_cast<unsigned char>(c);
-                    if (byte < 0x20 || byte >= 0x7f) {
-                        // Escape as \u00XX so header-sourced obs-text can
-                        // never produce invalid UTF-8 (invalid JSON).
+                    if (byte < 0x20 || byte == 0x7f) {
+                        // Escape C0 controls and DEL as \u00XX. Bytes >= 0x80
+                        // pass through unchanged so that valid UTF-8 (accented
+                        // text, CJK, emoji) in echoed header/path values stays
+                        // human-readable; escaping every high byte would
+                        // corrupt it into Latin-1 mojibake via \u00XX.
                         char buffer[8];
                         std::snprintf(buffer, sizeof(buffer), "\\u%04x",
                                       static_cast<unsigned>(byte));

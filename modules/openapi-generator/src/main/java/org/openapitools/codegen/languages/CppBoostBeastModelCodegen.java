@@ -104,7 +104,6 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
         // client and server generators resolve them from a single source.
         additionalEmbeddedTemplateDirs = new ArrayList<>(List.of("cpp-boost-beast-common"));
     }
-    public static final String EXPORT_MACRO = "exportMacro";
     /** Policy for format metadata in composition branch matching.
      *  Formats remain annotations and never affect branch match counts. */
     protected String formatAssertionPolicy = "annotation";
@@ -1340,17 +1339,7 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
         additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
 
-        if (additionalProperties.containsKey("formatAssertionPolicy")) {
-            String policy = additionalProperties.get("formatAssertionPolicy")
-                    .toString().trim().toLowerCase(Locale.ROOT);
-            if (!FORMAT_ASSERTION_POLICY_ANNOTATION.equals(policy)) {
-                throw new IllegalArgumentException(
-                        "formatAssertionPolicy supports only 'annotation'; "
-                                + "format assertions are not implemented");
-            }
-        }
-        formatAssertionPolicy = FORMAT_ASSERTION_POLICY_ANNOTATION;
-        additionalProperties.put("formatAssertionPolicy", formatAssertionPolicy);
+        validateFormatAssertionPolicyOption();
 
         if (additionalProperties.containsKey("compileWithValidation")) {
             Object raw = additionalProperties.get("compileWithValidation");
@@ -1389,6 +1378,23 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
             }
         }
         additionalProperties.put("tolerateNonNullableNulls", tolerateNonNullableNulls);
+    }
+
+    /** Validates the optional formatAssertionPolicy knob and pins the
+     *  supported policy. Extracted so the client generator can preserve its
+     *  historical validation precedence (format before sseSchemaMode). */
+    protected void validateFormatAssertionPolicyOption() {
+        if (additionalProperties.containsKey("formatAssertionPolicy")) {
+            String policy = additionalProperties.get("formatAssertionPolicy")
+                    .toString().trim().toLowerCase(Locale.ROOT);
+            if (!FORMAT_ASSERTION_POLICY_ANNOTATION.equals(policy)) {
+                throw new IllegalArgumentException(
+                        "formatAssertionPolicy supports only 'annotation'; "
+                                + "format assertions are not implemented");
+            }
+        }
+        formatAssertionPolicy = FORMAT_ASSERTION_POLICY_ANNOTATION;
+        additionalProperties.put("formatAssertionPolicy", formatAssertionPolicy);
     }
 
 

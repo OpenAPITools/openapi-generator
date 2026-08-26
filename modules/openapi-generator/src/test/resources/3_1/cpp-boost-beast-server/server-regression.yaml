@@ -179,6 +179,71 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
         - bearer: []
+  /batch/{ids}:
+    get:
+      operationId: getBatch
+      parameters:
+        - name: ids
+          in: path
+          required: true
+          description: Matrix-exploded identifier list
+          schema:
+            type: array
+            items:
+              type: string
+          style: matrix
+          explode: true
+      responses:
+        '200':
+          description: Batch echo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+      security: []
+  /pets/bulk:
+    get:
+      operationId: getBulkPets
+      description: Literal route declared after /pets/{petId} (ranking probe)
+      responses:
+        '200':
+          description: Bulk pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+      security: []
+  /search:
+    get:
+      operationId: search
+      parameters:
+        - name: filter
+          in: query
+          required: true
+          description: Deep-object string map filter
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+          style: deepObject
+          explode: true
+        - name: sort
+          in: query
+          description: Space-delimited sort fields
+          schema:
+            type: array
+            items:
+              type: string
+          style: spaceDelimited
+          explode: false
+      responses:
+        '200':
+          description: Search echo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+      security: []
 components:
   securitySchemes:
     api_key:

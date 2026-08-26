@@ -272,6 +272,102 @@ public class CppBoostBeastServerCodegenTest {
     }
 
     @Test
+    public void rejectsCookieArrayParameters() throws IOException {
+        Path spec = writeTempSpec(spec(
+                "  /c:",
+                "    get:",
+                "      operationId: op",
+                "      parameters:",
+                "        - name: session",
+                "          in: cookie",
+                "          schema: {type: array, items: {type: string}}",
+                "      responses:",
+                "        '200': {description: ok}"));
+        IllegalArgumentException error = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> generate(spec.toString(), java.util.Map.of()));
+        Assert.assertTrue(error.getMessage().contains("scalar"),
+                "diagnostic must explain cookies must be scalar");
+    }
+
+    @Test
+    public void rejectsObjectQueryParametersWithoutDeepObjectStringMap() throws IOException {
+        Path spec = writeTempSpec(spec(
+                "  /q:",
+                "    get:",
+                "      operationId: op",
+                "      parameters:",
+                "        - name: filter",
+                "          in: query",
+                "          schema: {type: object, additionalProperties: {type: string}}",
+                "      responses:",
+                "        '200': {description: ok}"));
+        IllegalArgumentException error = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> generate(spec.toString(), java.util.Map.of()));
+        Assert.assertTrue(error.getMessage().contains("deepObject"),
+                "diagnostic must name the only supported object encoding");
+    }
+
+    @Test
+    public void acceptsDeepObjectStringMapQueryParameter() throws IOException {
+        Path output = generate(writeTempSpec(spec(
+                "  /q:",
+                "    get:",
+                "      operationId: op",
+                "      parameters:",
+                "        - name: filter",
+                "          in: query",
+                "          style: deepObject",
+                "          schema: {type: object, additionalProperties: {type: string}}",
+                "      responses:",
+                "        '200': {description: ok}")).toString(), java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(
+                apiHeader.contains("std::map<std::string, std::string> filter{}"),
+                "deepObject string map must generate as a std::map field");
+    }
+
+    @Test
+    public void rejectsNonScalarArrayParameterItems() throws IOException {
+        Path spec = writeTempSpec(spec(
+                "  /q:",
+                "    get:",
+                "      operationId: op",
+                "      parameters:",
+                "        - name: things",
+                "          in: query",
+                "          schema: {type: array, items: {type: object}}",
+                "      responses:",
+                "        '200': {description: ok}"));
+        IllegalArgumentException error = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> generate(spec.toString(), java.util.Map.of()));
+        Assert.assertTrue(error.getMessage().contains("scalar items"),
+                "diagnostic must explain array items must be scalar");
+    }
+
+    @Test
+    public void rejectsHeterogeneousParameterEnums() throws IOException {
+        Path spec = writeTempSpec(spec(
+                "  /q:",
+                "    get:",
+                "      operationId: op",
+                "      parameters:",
+                "        - name: mixed",
+                "          in: query",
+                "          schema: {type: string, enum: [alpha, 1]}",
+                "      responses:",
+                "        '200': {description: ok}"));
+        IllegalArgumentException error = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> generate(spec.toString(), java.util.Map.of()));
+        Assert.assertTrue(error.getMessage().contains("heterogeneous"),
+                "diagnostic must reject mixed string/numeric enums; was: "
+                        + error.getMessage());
+    }
+
+    @Test
     public void rejectsAmbiguousRouteShapes() throws IOException {
         Path spec = writeTempSpec(spec(
                 "  /a/{x}/c:",

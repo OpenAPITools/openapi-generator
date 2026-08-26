@@ -108,6 +108,22 @@ inline std::string stripMatrixPrefix(std::string_view segment, std::string const
     return std::string(segment);
 }
 
+/// Splits an exploded matrix segment (";id=3;id=4") into percent-decoded-
+/// ready elements, stripping the repeated "name=" prefix from every element
+/// (OAS 3.x style=matrix explode=true repeats the name per value).
+inline std::vector<std::string> splitMatrixExploded(
+        std::string_view segment, std::string const& name) {
+    std::vector<std::string> elements =
+        splitOn(stripMatrixPrefix(segment, name), ';');
+    std::string const prefix = name + "=";
+    for (std::string& element : elements) {
+        if (element.compare(0, prefix.size(), prefix) == 0) {
+            element.erase(0, prefix.size());
+        }
+    }
+    return elements;
+}
+
 /// Parses a Cookie header value ("k=v; k2=v2") into decoded pairs.
 inline void parseCookieHeader(
         std::string_view header,

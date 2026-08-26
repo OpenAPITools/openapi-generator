@@ -19,6 +19,7 @@ package org.openapitools.codegen.cppboostbeastserver;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -28,36 +29,63 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
  * Generates a server from the OAS 3.1 regression spec, compiles it together
  * with the loopback driver, runs it against real sockets, and asserts the
  * sentinel output. This is the end-to-end behavior proof for the generator:
- * routing, parameter codecs, body decoding, security, and error mapping all
- * execute in the produced C++ binary.
+ * routing (including literal-over-parameter ranking), parameter codecs
+ * (matrix explode, spaceDelimited, deepObject), body decoding, security
+ * challenges, version mirroring, deferred-response timers, and error mapping
+ * all execute in the produced C++ binary.
  */
 public class CppBoostBeastServerRuntimeTest {
 
+    private static final String SPEC =
+            "src/test/resources/3_1/cpp-boost-beast-server/server-regression.yaml";
+    private static final String DRIVER =
+            "src/test/resources/3_1/cpp-boost-beast-server/"
+                    + "server-runtime-regression.cpp";
+
     @Test
     public void generatedServerServesLoopbackRegressions() throws Exception {
+        Path output = generateServer(Map.of());
+        Assert.assertTrue(
+                compileAndRunDriver(output).contains(
+                        "cpp-boost-beast-server runtime regressions passed"),
+                "server runtime test did not report completion");
+    }
+
+    @Test
+    public void validationDisabledOutputCompilesAndServesLoopbackRegressions()
+            throws Exception {
+        Path output = generateServer(
+                Map.of("compileWithValidation", Boolean.FALSE));
+        Assert.assertTrue(
+                compileAndRunDriver(output).contains(
+                        "cpp-boost-beast-server runtime regressions passed"),
+                "validation-disabled server runtime test did not complete");
+    }
+
+    private static Path generateServer(Map<String, Object> properties)
+            throws IOException {
         Path outputRoot = Files.createDirectories(Path.of("target"));
         Path output = Files.createTempDirectory(
                 outputRoot, "cpp-boost-beast-server-runtime-");
         output.toFile().deleteOnExit();
-
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("cpp-boost-beast-server")
-                .setInputSpec(
-                        "src/test/resources/3_1/cpp-boost-beast-server/server-regression.yaml")
+                .setInputSpec(SPEC)
                 .setOutputDir(output.toString());
+        properties.forEach(configurator::addAdditionalProperty);
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return output;
+    }
 
-        Path driver = Path.of(
-                "src/test/resources/3_1/cpp-boost-beast-server/"
-                        + "server-runtime-regression.cpp");
+    private static String compileAndRunDriver(Path output) throws Exception {
         Path executable = output.resolve("server-runtime-regression");
         String compiler = System.getenv().getOrDefault("CXX", "c++");
 
@@ -81,7 +109,7 @@ public class CppBoostBeastServerRuntimeTest {
                 command.add("-L" + lib);
             }
         }
-        command.add(driver.toString());
+        command.add(Path.of(DRIVER).toString());
         try (Stream<Path> sources = Files.list(output.resolve("model"))) {
             sources.filter(path -> path.getFileName().toString().endsWith(".cpp"))
                     .map(Path::toString)
@@ -101,16 +129,29 @@ public class CppBoostBeastServerRuntimeTest {
         command.add("-o");
         command.add(executable.toString());
 
-        Process compile = new ProcessBuilder(command)
-                .redirectErrorStream(true)
-                .directory(new File("."))
-                .start();
-        Assert.assertTrue(compile.waitFor(10, TimeUnit.MINUTES),
-                "server runtime compile timed out");
-        String compileOutput = new String(
-                compile.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        // Redirect to files instead of pipes: a chatty compiler would
+        // otherwise deadlock the pipe buffer while waitFor() blocks.
+        Path compileLog = output.resolve("compile.log");
+        Process compile;
+        try {
+            compile = new ProcessBuilder(command)
+                    .redirectErrorStream(true)
+                    .redirectOutput(compileLog.toFile())
+                    .directory(new File("."))
+                    .start();
+        } catch (IOException unavailable) {
+            throw new SkipException("C++ compiler is unavailable ("
+                    + compiler + "); skipping server runtime test: "
+                    + unavailable.getMessage());
+        }
+        if (!compile.waitFor(10, TimeUnit.MINUTES)) {
+            terminate(compile);
+            Assert.fail("server runtime compile timed out:\n"
+                    + readQuietly(compileLog));
+        }
+        String compileOutput = readQuietly(compileLog);
         if (compile.exitValue() != 0 && missingBoost(compileOutput)) {
-            throw new org.testng.SkipException(
+            throw new SkipException(
                     "Boost development files are unavailable; "
                             + "skipping server runtime test: "
                             + compileOutput.trim());
@@ -118,18 +159,39 @@ public class CppBoostBeastServerRuntimeTest {
         Assert.assertEquals(compile.exitValue(), 0,
                 "server runtime compile failed:\n" + compileOutput);
 
-        Process run = new ProcessBuilder(executable.toString())
-                .redirectErrorStream(true)
-                .start();
-        Assert.assertTrue(run.waitFor(120, TimeUnit.SECONDS),
-                "server runtime execution timed out");
-        String runOutput = new String(
-                run.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        Path runLog = output.resolve("run.log");
+        Process run;
+        try {
+            run = new ProcessBuilder(executable.toString())
+                    .redirectErrorStream(true)
+                    .redirectOutput(runLog.toFile())
+                    .start();
+        } catch (IOException unavailable) {
+            throw new SkipException("compiled binary could not start: "
+                    + unavailable.getMessage());
+        }
+        if (!run.waitFor(120, TimeUnit.SECONDS)) {
+            terminate(run);
+            Assert.fail("server runtime execution timed out:\n"
+                    + readQuietly(runLog));
+        }
+        String runOutput = readQuietly(runLog);
         Assert.assertEquals(run.exitValue(), 0,
                 "server runtime test failed:\n" + runOutput);
-        Assert.assertTrue(
-                runOutput.contains("cpp-boost-beast-server runtime regressions passed"),
-                "server runtime test did not report completion: " + runOutput);
+        return runOutput;
+    }
+
+    private static void terminate(Process process) {
+        process.descendants().forEach(ProcessHandle::destroyForcibly);
+        process.destroyForcibly();
+    }
+
+    private static String readQuietly(Path log) {
+        try {
+            return Files.readString(log, StandardCharsets.UTF_8);
+        } catch (IOException missing) {
+            return "<no log captured: " + missing.getMessage() + ">";
+        }
     }
 
     private static boolean missingBoost(String compilerOutput) {

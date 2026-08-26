@@ -178,15 +178,12 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
 
 
 
-
-
-
-                    if (!invalid && present && static_cast<long double>(request.limit) < 1L) {
+                    if (!invalid && present && static_cast<long double>(request.limit) < 1.0L) {
                         problem.withError("limit", "value is below the minimum");
                         invalid = true;
                     }
 
-                    if (!invalid && present && static_cast<long double>(request.limit) > 100L) {
+                    if (!invalid && present && static_cast<long double>(request.limit) > 100.0L) {
                         problem.withError("limit", "value is above the maximum");
                         invalid = true;
                     }

@@ -43,16 +43,16 @@ public class GeneratorTemplateContentLocatorAdditionalDirsTest {
     @Test
     public void primaryEmbeddedDirWinsOverAdditionalDirs() {
         CppBoostBeastClientCodegen codegen = new CppBoostBeastClientCodegen();
-        // api-header.mustache exists in both cpp-boost-beast-client and (would)
-        // shadow-check: it only exists in the client dir, so assert the client
-        // dir is probed first by resolving a client-only template.
+        // licenseInfo.mustache exists in BOTH cpp-boost-beast-client (primary)
+        // and cpp-boost-beast-common (additional): only a template present in
+        // both directories can detect an inverted probe order.
         GeneratorTemplateContentLocator locator =
                 new GeneratorTemplateContentLocator(codegen);
 
-        String resolved = locator.getFullTemplatePath("api-header.mustache");
+        String resolved = locator.getFullTemplatePath("licenseInfo.mustache");
 
         Assert.assertNotNull(resolved);
-        Assert.assertEquals(normalized(resolved), "cpp-boost-beast-client/api-header.mustache");
+        Assert.assertEquals(normalized(resolved), "cpp-boost-beast-client/licenseInfo.mustache");
     }
 
     @Test

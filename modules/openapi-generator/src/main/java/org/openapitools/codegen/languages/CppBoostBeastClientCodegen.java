@@ -1,44 +1,23 @@
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
-import com.google.common.collect.ImmutableMap;
-
-import com.samskivert.mustache.Mustache.Lambda;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.Oas31CompositionLowering.AllOfIntersection;
-import org.openapitools.codegen.languages.Oas31CompositionLowering.CompositionBranchDescriptor;
-import org.openapitools.codegen.languages.Oas31CompositionLowering.CompositionDescriptor;
-import org.openapitools.codegen.languages.Oas31CompositionLowering.DiscriminatorDescriptor;
 
 import java.io.File;
 import java.util.*;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
 
     public static final String DEFAULT_PACKAGE_NAME = "CppBoostBeastOpenAPIClient";
+    public static final String EXPORT_MACRO = "exportMacro";
     private static final String HAS_EXPORT_MACRO = "hasExportMacro";
 
 
@@ -294,14 +273,6 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
 
 
 
-    /**
-     * Camelize the method name of the getter and setter, but keep underscores at the front
-     *
-     * @param name string to be camelized
-     * @return Camelized string
-     */
-
-
     private static Set<String> parseNameSet(Object rawValue, String optionName) {
         if (rawValue == null || rawValue.toString().trim().isEmpty()) {
             return Collections.emptySet();
@@ -393,8 +364,9 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
             additionalProperties.remove("exportDefine");
             additionalProperties.remove("exportHeaderGuard");
         }
-        applySharedCppOptions();
-
+        // Preserve the historical validation precedence: formatAssertion,
+        // then sseSchemaMode, then the remaining shared options.
+        validateFormatAssertionPolicyOption();
         // Configure whether SSE schemas describe the wire representation or the
         // parsed JSON event data. Unknown values use the documented default.
         if (additionalProperties.containsKey("sseSchemaMode")) {
@@ -410,6 +382,7 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
             }
         }
         additionalProperties.put("sseSchemaMode", sseSchemaMode);
+        applySharedCppOptions();
 
         sseOperationIds = parseNameSet(
                 additionalProperties.get("sseOperationIds"), "sseOperationIds");
@@ -453,30 +426,4 @@ public class CppBoostBeastClientCodegen extends CppBoostBeastModelCodegen {
                 inferConditionalSseOperations,
                 hasExplicitRootServers).assemble(objs, allModels);
     }
-
-
-    /**
-     * Optional - type declaration. This is a String which is used by the
-     * templates to instantiate your types. There is typically special handling
-     * for different property types
-     *
-     * @return a string value used as the `dataType` field for model templates,
-     * `returnType` for api templates
-     */
-
-
-
-    /**
-     * Optional - OpenAPI type conversion. This is used to map OpenAPI types in
-     * a `Schema` into either language specific types via `typeMapping` or
-     * into complex models if there is not a mapping.
-     *
-     * @return a string value of the type or complex model for this property
-     */
-
-
-
-
-
-
-    }
+}

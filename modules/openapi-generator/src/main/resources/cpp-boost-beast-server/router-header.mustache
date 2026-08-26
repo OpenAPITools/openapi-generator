@@ -155,20 +155,44 @@ inline bool Router::matches(Route const& route,
 inline RouteMatch Router::match(
         std::string const& method, std::string const& encodedTarget) const {
     std::vector<std::string> segments = splitPath(encodedTarget);
+    // Literal-over-parameter ranking: among routes whose method and shape
+    // match, the one with the most literal (non-placeholder) segments wins;
+    // ties keep registration order. This makes dispatch independent of
+    // declaration order, so /pets/bulk beats an earlier /pets/{petId}.
+    Route const* best = nullptr;
+    std::map<std::string, std::string> bestParams;
+    std::size_t bestLiterals = 0;
     for (Route const& route : routes_) {
+        if (route.method != method) {
+            continue;
+        }
         std::map<std::string, std::string> pathParams;
-        if (route.method == method && matches(route, segments, pathParams)) {
-            RouteMatch result;
-            result.handler = route.handler;
-            result.security = route.security;
-            result.operationId = route.operationId;
-            result.pathParams = std::move(pathParams);
-            return result;
+        if (!matches(route, segments, pathParams)) {
+            continue;
+        }
+        std::size_t literals = 0;
+        for (std::string const& segment : route.segments) {
+            if (segment != "{}") {
+                ++literals;
+            }
+        }
+        if (best == nullptr || literals > bestLiterals) {
+            best = &route;
+            bestLiterals = literals;
+            bestParams = std::move(pathParams);
         }
     }
-    RouteMatch none;
-    none.handler = nullptr;
-    return none;
+    if (best == nullptr) {
+        RouteMatch none;
+        none.handler = nullptr;
+        return none;
+    }
+    RouteMatch result;
+    result.handler = best->handler;
+    result.security = best->security;
+    result.operationId = best->operationId;
+    result.pathParams = std::move(bestParams);
+    return result;
 }
 
 inline std::string Router::allowedMethods(

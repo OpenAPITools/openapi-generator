@@ -39,9 +39,9 @@ jobs:
       - name: Install dependencies (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          vcpkg install boost-json:x64-windows boost-url:x64-windows
+          vcpkg install boost-asio:x64-windows boost-beast:x64-windows boost-json:x64-windows boost-url:x64-windows boost-multiprecision:x64-windows
         shell: cmd
-        timeout-minutes: 20
+        timeout-minutes: 30
 
       - name: Build
         working-directory: ${{ matrix.sample }}

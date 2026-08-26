@@ -21,7 +21,6 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
@@ -153,7 +152,6 @@ final class CppBoostBeastServerTemplateModelAssembler {
             }
             facts.put("dataType", dataType);
             facts.put("innerType", innerTemplateArg(dataType));
-            facts.put("defaultValue", param.defaultValue == null ? "" : param.defaultValue);
             facts.put("stringKind", "std::string".equals(dataType));
             facts.put("integerKind", "std::int32_t".equals(dataType)
                     || "std::int64_t".equals(dataType));
@@ -232,11 +230,11 @@ final class CppBoostBeastServerTemplateModelAssembler {
         facts.put("pattern", pattern);
         facts.put("hasPattern", !pattern.isEmpty());
         String minimum = schema != null && schema.getMinimum() != null
-                ? schema.getMinimum().toString() : "";
+                ? toLongDoubleLiteral(schema.getMinimum()) : "";
         facts.put("minimum", minimum);
         facts.put("hasMinimum", !minimum.isEmpty());
         String maximum = schema != null && schema.getMaximum() != null
-                ? schema.getMaximum().toString() : "";
+                ? toLongDoubleLiteral(schema.getMaximum()) : "";
         facts.put("maximum", maximum);
         facts.put("hasMaximum", !maximum.isEmpty());
         String minLength = schema != null && schema.getMinLength() != null
@@ -354,6 +352,16 @@ final class CppBoostBeastServerTemplateModelAssembler {
             }
         }
         return "";
+    }
+
+    /** Renders a numeric bound so the template's `{{minimum}}L` composes a
+     *  valid long double literal: plain integers get a `.0` fraction, since
+     *  `-9223372036854775808L` is not a literal (unary minus overflows the
+     *  positive form) while `-9223372036854775808.0L` is well-formed. */
+    private static String toLongDoubleLiteral(java.math.BigDecimal value) {
+        String text = value.toString();
+        return text.indexOf('.') < 0 && text.indexOf('e') < 0 && text.indexOf('E') < 0
+                ? text + ".0" : text;
     }
 
     private static String sanitizeCode(String code) {

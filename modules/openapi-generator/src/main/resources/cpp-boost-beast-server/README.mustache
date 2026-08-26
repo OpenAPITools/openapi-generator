@@ -62,6 +62,14 @@ int main() {
 }
 ```
 
+`ServerOptions` tuning:
+
+| Option | Default | Behavior |
+| --- | --- | --- |
+| `readTimeoutSeconds` | 30 | Read deadline per request AND response-write deadline. Re-armed when each response is written, so handlers may complete asynchronously (e.g. from a worker thread) long after the read deadline expired. |
+| `bodyLimitBytes` | 8 MiB | Request bodies larger than this are rejected with 413 and the connection is closed (the unread remainder cannot be skipped safely on a keep-alive stream). |
+| `authorizer` | none | Deny-by-default gate for declared security requirements (see below). |
+
 Requests are fully decoded and schema-validated before the service method
 runs; serialization failures, malformed input, unknown routes (404), wrong
 methods (405 + `Allow`), unsupported media types (415), oversized bodies
