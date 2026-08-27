@@ -68,7 +68,8 @@ jobs:
       - name: Run server runtime regression (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          ./mvnw -pl modules/openapi-generator test \
+          ./mvnw -pl modules/openapi-generator -am test \
             -Dtest=CppBoostBeastServerRuntimeTest \
+            -Dsurefire.failIfNoSpecifiedTests=false \
             -Dcpp.boost.beast.require=true -q
         shell: bash
