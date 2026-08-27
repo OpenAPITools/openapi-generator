@@ -274,15 +274,18 @@ public class CppHttplibServerCodegenModelTest {
 
         final CodegenModel model = codegen.fromModel("Status", enumSchema);
 
-        // Note: The C++ httplib server generator may not process enum-only models
-        // in the same way as regular object models. The model might be null or empty.
-        if (model != null) {
-            Assert.assertEquals(model.name, "Status");
-            // Check if it's marked as an enum in vendor extensions
-            if (model.vendorExtensions.containsKey("x-is-enum")) {
-                Assert.assertEquals(model.vendorExtensions.get("x-is-enum"), true);
-            }
-        }
+        Assert.assertNotNull(model);
+        Assert.assertEquals(model.name, "Status");
+        Assert.assertTrue(model.isEnum, "top-level enum schemas must remain enum models");
+        Assert.assertNotNull(model.allowableValues);
+        Assert.assertEquals(model.allowableValues.get("values"),
+                java.util.Arrays.asList("ACTIVE", "INACTIVE", "PENDING"));
+
+        final CodegenModel processedModel = codegen.postProcessAllModels(
+                wrapForPostProcessAllModels("Status", model))
+                .get("Status").getModels().get(0).getModel();
+        Assert.assertNotNull(processedModel.vendorExtensions.get("modelClassName"));
+        Assert.assertEquals(((List<?>) processedModel.allowableValues.get("enumVars")).size(), 3);
     }
 
     @Test(description = "convert model with nullable property")

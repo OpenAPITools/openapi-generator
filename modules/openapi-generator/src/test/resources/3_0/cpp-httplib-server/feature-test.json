@@ -1006,6 +1006,10 @@
           }
         }
       },
+      "TopLevelStatus": {
+        "type": "string",
+        "enum": ["active", "inactive", "pending"]
+      },
       "SimpleObject": {
         "type": "object",
         "required": ["id", "name"],
