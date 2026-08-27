@@ -151,7 +151,7 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 	}
 
 	reqb, _ := httputil.DumpRequest(r.Request, true)
-	if !strings.Contains((string)(reqb), "Api_key: TEST123") {
+	if !strings.Contains((string)(reqb), "api_key: TEST123") {
 		t.Errorf("APIKey Authentication is missing")
 	}
 
@@ -186,7 +186,7 @@ func TestAPIKeyWithPrefix(t *testing.T) {
 	}
 
 	reqb, _ := httputil.DumpRequest(r.Request, true)
-	if !strings.Contains((string)(reqb), "Api_key: Bearer TEST123") {
+	if !strings.Contains((string)(reqb), "api_key: Bearer TEST123") {
 		t.Errorf("APIKey Authentication is missing")
 	}
 
