@@ -250,9 +250,9 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
                                                     Set<String> postponedExampleImports,
                                                     PythonImports moduleImports,
                                                     String classname) {
-        // Path/query/header values always arrive as strings on the wire and rely on Pydantic
+        // Path/query/header/cookie values always arrive as strings on the wire and rely on Pydantic
         // coercion, so they must not use strict types. Body params keep the strict default.
-        if (parameter.isQueryParam || parameter.isPathParam || parameter.isHeaderParam) {
+        if (parameter.isQueryParam || parameter.isPathParam || parameter.isHeaderParam || parameter.isCookieParam) {
             return new PydanticCoercibleType(
                     modelImports,
                     exampleImports,

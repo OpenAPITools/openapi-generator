@@ -2495,7 +2495,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     /**
      * Pydantic type generator for values that arrive over the wire as strings — server-bound request
-     * parameters in path, query, and header position. These rely on Pydantic's automatic coercion
+     * parameters in path, query, header, and cookie position. These rely on Pydantic's automatic coercion
      * (e.g. {@code "3" -> 3}); the strict types emitted by the base {@link PydanticType}
      * ({@code StrictInt}/{@code StrictStr}/{@code StrictFloat}, {@code strict=True}) disable that
      * coercion and make FastAPI reject otherwise-valid requests with a 422. See issue #21905.
