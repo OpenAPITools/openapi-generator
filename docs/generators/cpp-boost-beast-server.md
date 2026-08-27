@@ -215,8 +215,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Global Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|Host|✓|OAS2,OAS3
-|BasePath|✓|OAS2,OAS3
+|Host|✗|OAS2,OAS3
+|BasePath|✗|OAS2,OAS3
 |Info|✓|OAS2,OAS3
 |Schemes|✗|OAS2,OAS3
 |PartialSchemes|✓|OAS2,OAS3

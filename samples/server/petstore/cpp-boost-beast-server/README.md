@@ -58,7 +58,7 @@ class MyPetsApi : public api::PetsApi {
                       CreatePetResponder responder) override {
         (void)context;   // heap-owned; keep the shared_ptr to read it later
 
-        Pet value{};
+        model::Pet value{};
         responder.send201(std::move(value));
 
     }

@@ -21,6 +21,7 @@
 #include <boost/json.hpp>
 
 #include <cstdint>
+#include <cstddef>
 #include <type_traits>
 #include <memory>
 #include <limits>
@@ -28,6 +29,11 @@
 #include <stdexcept>
 #include <variant>
 #include <vector>
+
+// CompositionBranchValue lives here; the response path unwraps it below.
+// The include is directory-qualified so a generated model header cannot
+// hijack it through the model/ search path (same policy as api-header).
+#include "model/ValidationTypes.h"
 
 namespace org::openapitools::server::api {
 
@@ -113,7 +119,17 @@ boost::json::value bodyLeaf(std::map<std::string, T> const& values) {
 // Composition unions (oneOf/anyOf responses) arrive as std::variant; the
 // active branch alone is serializable, so std::visit dispatches to the
 // overload set above. monostate (present-null branches) serializes as null;
-// std::optional serializes its value or null when disengaged.
+// std::optional serializes its value or null when disengaged. Duplicate
+// C++ branch types are preserved as tagged CompositionBranchValue wrappers
+// (model namespace, found by ADL on the dependent call below); unwrapping
+// serializes exactly the branch's value.
+
+template <std::size_t BranchIndex, typename ValueType>
+boost::json::value bodyLeaf(
+        org::openapitools::server::model::CompositionBranchValue<
+                BranchIndex, ValueType> const& value) {
+    return bodyLeaf(value.value);
+}
 
 inline boost::json::value bodyLeaf(std::monostate) {
     return nullptr;
