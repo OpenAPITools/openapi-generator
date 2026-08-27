@@ -1,6 +1,6 @@
 module github.com/OpenAPITools/openapi-generator/samples/openapi3/server/petstore/go
 
-go 1.25
+go 1.22
 
 require (
 	github.com/stretchr/testify v1.8.4
