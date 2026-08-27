@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: forced recursive dependent that is itself forced and mapped
+  description: >
+    Root and RecursiveDependent are both mapped via schemaMappings and both force-generated. When
+    the top-level model set is constrained to Root only, RecursiveDependent is reachable exclusively
+    as a recursive dependent of Root and lies outside the constrained set. The forced-schema pass
+    must still remove RecursiveDependent's mapping so it is emitted under its stock name and Root's
+    reference resolves to the stock shadow rather than the mapped class.
+  version: 1.0.0
+paths:
+  /root:
+    get:
+      operationId: getRoot
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Root'
+components:
+  schemas:
+    Root:
+      type: object
+      properties:
+        dependent:
+          $ref: '#/components/schemas/RecursiveDependent'
+    RecursiveDependent:
+      type: object
+      properties:
+        value:
+          type: string

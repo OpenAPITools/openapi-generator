@@ -638,6 +638,73 @@ public class DefaultGeneratorTest {
         }
     }
 
+    /**
+     * Regression test: when the top-level model set is constrained and a forced+mapped schema
+     * depends on another forced+mapped schema that lies outside the constrained set (reachable only
+     * as a recursive dependent), the forced-schema pass must still remove the dependent's mapping so
+     * it is emitted under its stock name and the forced-to-forced reference resolves to the stock
+     * shadow. Previously the mapping-removal set was derived from the constrained top-level keys, so
+     * the dependent kept its mapping, was skipped, and the reference pointed at the mapped class.
+     */
+    @Test
+    public void forcedGenerateSchemaEmitsForcedRecursiveDependentOutsideConstrainedModelSet() throws IOException {
+        final String rootRelPath = "src/main/java/org/openapitools/client/model/Root.java";
+        final String dependentRelPath = "src/main/java/org/openapitools/client/model/RecursiveDependent.java";
+        final String mappedRootRelPath = "src/main/java/org/openapitools/client/model/ExternalRoot.java";
+        final String mappedDependentRelPath = "src/main/java/org/openapitools/client/model/ExternalDependent.java";
+
+        Path target = Files.createTempDirectory("test-forced-gen-recursive-forced");
+        String oldModelsProp = GlobalSettings.getProperty(CodegenConstants.MODELS);
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/forced-recursive-dependent-forced.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString())
+                    .addSchemaMapping("Root", "ExternalRoot")
+                    .addSchemaMapping("RecursiveDependent", "ExternalDependent")
+                    .addForcedGenerateSchema("Root")
+                    .addForcedGenerateSchema("RecursiveDependent");
+
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, "true");
+            // Constrain the top-level model set to Root only; RecursiveDependent (itself forced and
+            // mapped) is reachable only through Root and lies outside the constrained set.
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "Root");
+
+            generator.opts(configurator.toClientOptInput()).generate();
+
+            File rootFile = new File(target.toFile(), rootRelPath);
+            Assert.assertTrue(rootFile.exists(),
+                    "Root.java (stock name) MUST be generated for the forced+mapped schema");
+            Assert.assertTrue(
+                    new File(target.toFile(), dependentRelPath).exists(),
+                    "RecursiveDependent.java (stock name) MUST be generated for the forced+mapped recursive dependent");
+            Assert.assertFalse(
+                    new File(target.toFile(), mappedRootRelPath).exists(),
+                    "ExternalRoot.java (mapped name) must NOT be generated: the forced schema bypasses the mapping");
+            Assert.assertFalse(
+                    new File(target.toFile(), mappedDependentRelPath).exists(),
+                    "ExternalDependent.java (mapped name) must NOT be generated: the forced dependent bypasses the mapping");
+
+            String rootContents = new String(Files.readAllBytes(rootFile.toPath()));
+            Assert.assertTrue(rootContents.contains("RecursiveDependent"),
+                    "Root must reference the stock shadow dependent name");
+            Assert.assertFalse(rootContents.contains("ExternalDependent"),
+                    "Root must not reference the mapped dependent name in the forced shadow pass");
+        } finally {
+            if (oldModelsProp != null) {
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModelsProp);
+            } else {
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
+            }
+            target.toFile().deleteOnExit();
+        }
+    }
+
     @Test
     public void forcedGenerateSchemasFailsFastForUnsupportedGenerator() {
         final CodegenConfigurator configurator = new CodegenConfigurator()

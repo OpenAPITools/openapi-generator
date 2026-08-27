@@ -507,6 +507,16 @@ public class DefaultGenerator implements Generator {
             return;
         }
 
+        // Every forced+mapping-suppressed schema must have its mapping removed for the shadow pass,
+        // not just those in the (possibly MODELS-constrained) top-level set: a forced schema can
+        // depend on another forced, mapping-suppressed schema that lies outside the constrained set
+        // and is pulled in only as a recursive dependent. If its mapping stayed in place the
+        // dependent would be skipped and the forced-to-forced reference would resolve to the mapped
+        // name instead of the stock shadow. Top-level emission still uses the constrained forcedSet.
+        Set<String> forcedShadowSchemas = ModelUtils.getSchemas(this.openAPI).keySet().stream()
+                .filter(this::isForcedShadowSchema)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
         LOGGER.info("Forced-schema generation pass: regenerating stock models for {}", forcedSet);
 
         Map<String, String> savedSchemaMappings = new LinkedHashMap<>(config.schemaMapping());
@@ -515,7 +525,7 @@ public class DefaultGenerator implements Generator {
         ForcedSchemaSupport support = forcedSchemaSupport();
 
         try {
-            for (String schemaName : forcedSet) {
+            for (String schemaName : forcedShadowSchemas) {
                 config.schemaMapping().remove(schemaName);
                 config.importMapping().remove(schemaName);
             }

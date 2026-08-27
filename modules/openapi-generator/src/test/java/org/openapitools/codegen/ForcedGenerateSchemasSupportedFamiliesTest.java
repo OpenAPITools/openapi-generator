@@ -19,7 +19,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -101,25 +101,39 @@ public class ForcedGenerateSchemasSupportedFamiliesTest {
                         codegen.getName() + " must emit the non-forced Container model"));
         String containerContents = Files.readString(Path.of(containerFile.toURI()));
 
+        // Rendered form of a reference to the mapped Widget in non-forced consumers. Families whose
+        // type system carries the dotted, fully-qualified schemaMapping keep it verbatim;
+        // python-pydantic-v1 sanitizes it to a camelCase token (ComExampleMappedWidget) but still
+        // keeps it distinct from the stock shadow name, so the isolation contract is observable for
+        // it too. Families absent from this map render the mapped reference identically to the stock
+        // name (or omit it), so the mapped/stock distinction is not observable and only Container/API
+        // emission is verified for them.
+        Map<String, String> mappedReferenceByFamily = Map.of(
+                "java", mappedName,
+                "groovy", mappedName,
+                "kotlin", mappedName,
+                "csharp", mappedName,
+                "python", mappedName,
+                "perl", mappedName,
+                "r", mappedName,
+                "ruby", mappedName,
+                "python-pydantic-v1", "ComExampleMappedWidget");
+        String mappedReference = mappedReferenceByFamily.get(codegen.getName());
+
         // The forced shadow Widget must never reference the mapped Widget name: the mapped
         // reference belongs exclusively to non-forced consumers such as Container.
         assertFalse(widgetContents.contains(mappedName),
                 codegen.getName() + " must not leak the mapped name into the forced shadow model");
-
-        // Families whose type system can carry a dotted, fully-qualified schemaMapping verbatim keep
-        // the mapped reference in the non-forced Container. The remaining families cannot represent a
-        // dotted name and sanitize it to a stock-like reference, so the mapped/stock distinction is
-        // not observable in their output; for those we only require that Container was emitted.
-        Set<String> fqnMappingFamilies = Set.of(
-                "java", "groovy", "kotlin", "csharp", "python", "perl", "r", "ruby");
-        if (fqnMappingFamilies.contains(codegen.getName())) {
-            assertTrue(containerContents.contains(mappedName),
+        if (mappedReference != null) {
+            assertFalse(widgetContents.contains(mappedReference),
+                    codegen.getName() + " must not leak the mapped reference into the forced shadow model");
+            assertTrue(containerContents.contains(mappedReference),
                     codegen.getName() + " must keep the mapped reference in the non-forced Container model");
         }
 
         // API artifacts are non-forced consumers as well: the getWidget operation returns the
-        // mapped Widget, so for families that carry the dotted FQN the generated API must reference
-        // the mapped production class and must never be rewritten to the forced stock shadow name.
+        // mapped Widget, so for families whose mapped reference is observable the generated API must
+        // reference the mapped production class and must never be rewritten to the forced stock name.
         File apiFolder = new File(codegen.apiFileFolder()).getCanonicalFile();
         boolean anyApiFile = false;
         boolean anyApiReferencesMapped = false;
@@ -130,12 +144,13 @@ public class ForcedGenerateSchemasSupportedFamiliesTest {
                 continue;
             }
             anyApiFile = true;
-            if (Files.readString(Path.of(file.toURI())).contains(mappedName)) {
+            if (mappedReference != null
+                    && Files.readString(Path.of(file.toURI())).contains(mappedReference)) {
                 anyApiReferencesMapped = true;
             }
         }
         assertTrue(anyApiFile, codegen.getName() + " must emit API artifacts");
-        if (fqnMappingFamilies.contains(codegen.getName())) {
+        if (mappedReference != null) {
             assertTrue(anyApiReferencesMapped,
                     codegen.getName() + " API artifacts must reference the mapped class, not the stock shadow");
         }
