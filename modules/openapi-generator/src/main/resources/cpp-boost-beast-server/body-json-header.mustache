@@ -11,7 +11,7 @@
 #include <boost/json.hpp>
 
 #include <cstdint>
-#include <map>
+#include <type_traits>
 #include <memory>
 #include <limits>
 #include <optional>
@@ -270,6 +270,63 @@ void fromJsonLeaf(boost::json::value const& json, std::map<std::string, T>& out)
         fromJsonLeaf(member.value(), value);
         out.emplace(std::string(member.key().data(), member.key().size()),
                     std::move(value));
+    }
+}
+
+inline void fromJsonLeaf(boost::json::value const& json, std::nullptr_t& /*out*/) {
+    if (!json.is_null()) {
+        throw std::invalid_argument("expected JSON null");
+    }
+}
+
+// std::optional decodes null as "absent" and any other value as "present".
+// This collapses the JSON null-vs-missing distinction for body members;
+// models needing the difference use NullableField, which decodes both.
+template <typename T>
+void fromJsonLeaf(boost::json::value const& json, std::optional<T>& out) {
+    if (json.is_null()) {
+        out.reset();
+        return;
+    }
+    T value;
+    fromJsonLeaf(json, value);
+    out = std::move(value);
+}
+
+// Composition unions (oneOf/anyOf bodies) decode structurally: branches are
+// tried in declaration order and the first that parses wins. monostate
+// matches JSON null. When no branch matches, the value is rejected. A union
+// with structurally overlapping branches (e.g. two plain objects) is
+// inherently ambiguous; the first orderally-matching branch wins
+// deterministically.
+template <std::size_t Index = 0, typename Union>
+bool decodeVariantAlternative(boost::json::value const& json, Union& out) {
+    if constexpr (Index < std::variant_size_v<Union>) {
+        using Alternative = std::variant_alternative_t<Index, Union>;
+        if constexpr (std::is_same_v<Alternative, std::monostate>) {
+            if (json.is_null()) {
+                out = Alternative{};
+                return true;
+            }
+        } else {
+            Alternative candidate;
+            try {
+                fromJsonLeaf(json, candidate);
+                out = std::move(candidate);
+                return true;
+            } catch (std::exception const&) {
+                // branch mismatch: try the next one
+            }
+        }
+        return decodeVariantAlternative<Index + 1>(json, out);
+    }
+    return false;
+}
+
+template <typename... Alternatives>
+void fromJsonLeaf(boost::json::value const& json, std::variant<Alternatives...>& out) {
+    if (!decodeVariantAlternative<>(json, out)) {
+        throw std::invalid_argument("JSON value matches no union branch");
     }
 }
 

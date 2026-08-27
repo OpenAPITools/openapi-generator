@@ -83,6 +83,14 @@ struct Problem {
         return p;
     }
 
+    static Problem requestHeaderFieldsTooLarge() {
+        Problem p;
+        p.status = 431;
+        p.title = "Request Header Fields Too Large";
+        p.detail = "Request headers exceed the configured limit";
+        return p;
+    }
+
     static Problem internal() {
         Problem p;
         p.status = 500;
@@ -106,33 +114,71 @@ toProblemResponse(Problem const& problem) {
     auto jsonEscape = [](std::string const& text) {
         std::string out;
         out.reserve(text.size());
-        for (char c : text) {
-            switch (c) {
-                case '"': out += "\\\""; break;
-                case '\\': out += "\\\\"; break;
-                case '\n': out += "\\n"; break;
-                case '\r': out += "\\r"; break;
-                case '\t': out += "\\t"; break;
-                case '\b': out += "\\b"; break;
-                case '\f': out += "\\f"; break;
-                default: {
-                    unsigned char byte = static_cast<unsigned char>(c);
-                    if (byte < 0x20 || byte == 0x7f) {
-                        // Escape C0 controls and DEL as \u00XX. Bytes >= 0x80
-                        // pass through unchanged so that valid UTF-8 (accented
-                        // text, CJK, emoji) in echoed header/path values stays
-                        // human-readable; escaping every high byte would
-                        // corrupt it into Latin-1 mojibake via \u00XX.
-                        char buffer[8];
-                        std::snprintf(buffer, sizeof(buffer), "\\u%04x",
-                                      static_cast<unsigned>(byte));
-                        out += buffer;
-                    } else {
-                        out.push_back(c);
-                    }
+        std::size_t i = 0;
+        while (i < text.size()) {
+            unsigned char byte = static_cast<unsigned char>(text[i]);
+            if (byte < 0x80) {
+                switch (byte) {
+                    case '"': out += "\\\""; break;
+                    case '\\': out += "\\\\"; break;
+                    case '\n': out += "\\n"; break;
+                    case '\r': out += "\\r"; break;
+                    case '\t': out += "\\t"; break;
+                    case '\b': out += "\\b"; break;
+                    case '\f': out += "\\f"; break;
+                    default:
+                        if (byte < 0x20 || byte == 0x7f) {
+                            // Escape C0 controls and DEL as \u00XX.
+                            char buffer[8];
+                            std::snprintf(buffer, sizeof(buffer), "\\u%04x",
+                                          static_cast<unsigned>(byte));
+                            out += buffer;
+                        } else {
+                            out.push_back(static_cast<char>(byte));
+                        }
+                        break;
+                }
+                i += 1;
+                continue;
+            }
+            // A UTF-8 lead byte and its continuation bytes pass through
+            // verbatim (accented text, CJK, emoji in echoed values stay
+            // human-readable). An invalid sequence — C1/overlong lead,
+            // truncated tail, bad continuation, surrogate, or out-of-range
+            // codepoint — is replaced with \ufffd one byte at a time so the
+            // problem document is always valid JSON (RFC 8259 requires it).
+            std::size_t extra = 0;
+            unsigned int codepoint = 0;
+            if (byte >= 0xC2 && byte <= 0xDF) {
+                extra = 1;
+                codepoint = byte & 0x1FU;
+            } else if (byte >= 0xE0 && byte <= 0xEF) {
+                extra = 2;
+                codepoint = byte & 0x0FU;
+            } else if (byte >= 0xF0 && byte <= 0xF4) {
+                extra = 3;
+                codepoint = byte & 0x07U;
+            }
+            bool valid = extra > 0 && i + extra + 1 <= text.size();
+            for (std::size_t k = 1; valid && k <= extra; ++k) {
+                unsigned char next = static_cast<unsigned char>(text[i + k]);
+                if (next < 0x80 || next > 0xBF) {
+                    valid = false;
                     break;
                 }
+                codepoint = (codepoint << 6) | (next & 0x3FU);
             }
+            if (valid && (codepoint < 0x80 || codepoint > 0x10FFFF
+                    || (codepoint >= 0xD800 && codepoint <= 0xDFFF))) {
+                valid = false;
+            }
+            if (!valid) {
+                out += "\\ufffd";
+                i += 1;
+                continue;
+            }
+            out.append(text, i, extra + 1);
+            i += extra + 1;
         }
         return out;
     };

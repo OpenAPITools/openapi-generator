@@ -100,13 +100,17 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                         SecurityFeature.BearerToken))
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .includeGlobalFeatures(
-                        GlobalFeature.ParameterStyling,
-                        GlobalFeature.MultiServer
+                        GlobalFeature.ParameterStyling
                 )
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects
+                        GlobalFeature.LinkObjects,
+                        // The generated Router registers operation paths
+                        // verbatim: the document's server URLs (including any
+                        // base path) are not mounted, so multi-server or
+                        // base-path routing is not implemented.
+                        GlobalFeature.MultiServer
                 )
                 .excludeParameterFeatures(
                         // Non-JSON request bodies degrade to "no typed body"
@@ -349,25 +353,28 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                 if (body != null && body.getContent() != null
                         && !body.getContent().isEmpty()) {
                     boolean hasJson = false;
-                    List<String> nonJson = new ArrayList<>();
+                    List<String> dropped = new ArrayList<>();
                     for (String mediaType : body.getContent().keySet()) {
-                        if (isSupportedMediaType(mediaType)) {
+                        // Mirrors the assembler's requestBodyFacts filter:
+                        // only JSON family decodes; the wildcard and every
+                        // other type is dropped (and warned here).
+                        if (isSupportedRequestMediaType(mediaType)) {
                             hasJson = true;
                         } else {
-                            nonJson.add(mediaType);
+                            dropped.add(mediaType);
                         }
                     }
                     if (!hasJson) {
                         warnings.add("operation '" + operationId
-                                + "' declares only non-JSON request media types ("
-                                + String.join(", ", nonJson)
+                                + "' declares no JSON request media type ("
+                                + String.join(", ", dropped)
                                 + "); the generated handler receives no typed body");
-                    } else if (!nonJson.isEmpty()) {
+                    } else if (!dropped.isEmpty()) {
                         warnings.add("operation '" + operationId
-                                + "' also declares non-JSON request media types ("
-                                + String.join(", ", nonJson)
-                                + "); only JSON is accepted at runtime"
-                                + " (415 for the rest)");
+                                + "' also declares request media types the JSON"
+                                + " decoder cannot parse (" + String.join(", ", dropped)
+                                + "); only the JSON declarations are accepted at"
+                                + " runtime (415 for the rest)");
                     }
                 }
                 // Parameter-shape drops (content-style, objects, arrays with
@@ -427,6 +434,11 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         Map<String, String> shapeOwners = new LinkedHashMap<>();
         for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
             String pathTemplate = pathEntry.getKey();
+            String malformed = pathTemplateIssue(pathTemplate);
+            if (malformed != null) {
+                diagnostics.add("path template '" + pathTemplate + "' has "
+                        + malformed + "; the router cannot extract its parameters");
+            }
             String previous = shapeOwners.putIfAbsent(
                     routeShapeKey(pathTemplate), pathTemplate);
             if (previous != null && !previous.equals(pathTemplate)) {
@@ -489,18 +501,38 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         return unsupported;
     }
 
-    /** Media types the generated runtime can serve: JSON, {+json} suffixes,
-     *  and the wildcard. Shared with the assembler, which filters declared
-     *  request media types down to this set. */
+    /** Media types the generated runtime can serve as JSON: exact JSON,
+     *  {+json} structured suffixes, and the wildcard. */
     static boolean isSupportedMediaType(String mediaType) {
+        String normalized = normalizeMediaType(mediaType);
+        return isJsonMediaType(normalized) || "*/*".equals(normalized);
+    }
+
+    /** Media types the generated runtime can DECODE a request body from.
+     *  Unlike responses (where everything is serialized as JSON anyway), a
+     *  request body must be parsed, and the wildcard {@code *\/​*} declares no
+     *  JSON-specific representation: admitting it would make the handler
+     *  answer a JSON parse error (400) to every non-JSON representation it
+     *  cannot decode. Request media types are therefore narrowed to JSON
+     *  (with a warning); everything else gets a clean 415. */
+    static boolean isSupportedRequestMediaType(String mediaType) {
+        return isJsonMediaType(normalizeMediaType(mediaType));
+    }
+
+    /** True for exact application/json and {+json} structured suffixes. */
+    static boolean isJsonMediaType(String normalizedMediaType) {
+        return "application/json".equals(normalizedMediaType)
+                || normalizedMediaType.endsWith("+json");
+    }
+
+    /** Lowercase the media type and strip {@code ;parameter} suffixes. */
+    static String normalizeMediaType(String mediaType) {
         String normalized = mediaType == null ? "" : mediaType.trim().toLowerCase(Locale.ROOT);
         int semicolon = normalized.indexOf(';');
         if (semicolon >= 0) {
             normalized = normalized.substring(0, semicolon).trim();
         }
-        return "application/json".equals(normalized)
-                || normalized.endsWith("+json")
-                || "*/*".equals(normalized);
+        return normalized;
     }
 
     /** Styles whose wire format the generated codecs reproduce exactly. */
@@ -564,31 +596,97 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         return null;
     }
 
-    /** Canonical routing shape: literal vs placeholder per path segment.
-     *  Mirrors Router::splitPath (one leading empty segment skipped,
-     *  interior and trailing empty segments preserved) so `/pets` and
-     *  `/pets/` produce distinct keys exactly when the router treats them
-     *  as distinct routes. */
+    /** Routing-shape diagnostics for one path template, or null when the
+     *  template is well-formed. Mirrors Router::tokenizeSegment: expressions
+     *  must be balanced, non-nested, and non-empty; everything else (a stray
+     *  '{', a nested '{', an empty '{}') would be treated as literal text by
+     *  the router while the parameter extraction expects an expression, so
+     *  the route could never fill its parameters. */
+    static String pathTemplateIssue(String pathTemplate) {
+        int start = 0;
+        while (true) {
+            int open = pathTemplate.indexOf('{', start);
+            if (open < 0) {
+                int stray = pathTemplate.indexOf('}', start);
+                return stray < 0 ? null
+                        : "unbalanced '}' outside an expression";
+            }
+            int close = pathTemplate.indexOf('}', open + 1);
+            if (close < 0) {
+                return "unclosed '{'";
+            }
+            int inner = pathTemplate.indexOf('{', open + 1);
+            if (inner >= 0 && inner < close) {
+                return "nested '{' inside an expression";
+            }
+            if (close == open + 1) {
+                return "empty '{}' expression";
+            }
+            start = close + 1;
+        }
+    }
+
+    /** Canonical routing shape: per segment, literal text stays, each
+     *  expression contributes a "{}" marker. Mirrors Router::splitPath +
+     *  Router::tokenizeSegment so templates the router can confuse (two
+     *  token streams that match the same inputs, e.g. '/a/{x}-{y}' vs
+     *  '/a/{z}-{w}' ordering ambiguities and '/x/{a}' vs '/x/{b}') are
+     *  detected at generation time. Whole-segment and embedded expressions
+     *  share one shape space: '/pets/{id}' and '/pets/p{id}' differ (extra
+     *  literal), '/reports/{y}-{m}' and '/reports/{a}-{b}' collide. */
     private static String routeShapeKey(String pathTemplate) {
         StringBuilder key = new StringBuilder();
-        List<String> segments = new ArrayList<>();
         int start = pathTemplate.startsWith("/") ? 1 : 0;
         while (start <= pathTemplate.length()) {
             int slash = pathTemplate.indexOf('/', start);
+            String segment = slash < 0
+                    ? pathTemplate.substring(start)
+                    : pathTemplate.substring(start, slash);
+            int cursor = 0;
+            while (cursor < segment.length()) {
+                int open = segment.indexOf('{', cursor);
+                if (open < 0) {
+                    key.append(segment, cursor, segment.length());
+                    break;
+                }
+                key.append(segment, cursor, open);
+                int close = segment.indexOf('}', open);
+                int inner = segment.indexOf('{', open + 1);
+                if (close < 0 || (inner >= 0 && inner < close) || close == open + 1) {
+                    // Malformed remainder: literal, exactly as the router does.
+                    key.append(segment, open, segment.length());
+                    break;
+                }
+                key.append("{}");
+                cursor = close + 1;
+            }
+            key.append('/');
             if (slash < 0) {
-                segments.add(pathTemplate.substring(start));
                 break;
             }
-            segments.add(pathTemplate.substring(start, slash));
             start = slash + 1;
         }
-        for (String segment : segments) {
-            if (segment.startsWith("{") && segment.endsWith("}")) {
-                key.append("/{");
-            } else {
-                key.append('/').append(segment);
-            }
-        }
         return key.length() == 0 ? "/" : key.toString();
+    }
+
+    /** True when the `{baseName}` expression is the whole path segment (the
+     *  only place label/matrix styles can appear per the OAS grammar). */
+    static boolean isWholeSegmentPathParameter(String pathTemplate, String baseName) {
+        String token = "{" + baseName + "}";
+        int start = 0;
+        while (start <= pathTemplate.length()) {
+            int slash = pathTemplate.indexOf('/', start);
+            String segment = slash < 0
+                    ? pathTemplate.substring(start)
+                    : pathTemplate.substring(start, slash);
+            if (segment.equals(token)) {
+                return true;
+            }
+            if (slash < 0) {
+                return false;
+            }
+            start = slash + 1;
+        }
+        return false;
     }
 }

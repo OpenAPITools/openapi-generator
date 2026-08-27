@@ -53,3 +53,22 @@ jobs:
           fi
           cmake --build build
         shell: bash
+
+      - name: Set up JDK 17
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # The loopback runtime regression compiles the generated contract code
+      # against the Boost installed above and asserts wire behavior. With the
+      # require flag set, missing Boost/compilers fail the job instead of
+      # silently skipping — this leg is the guaranteed execution of that suite.
+      - name: Run server runtime regression (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          ./mvnw -pl modules/openapi-generator test \
+            -Dtest=CppBoostBeastServerRuntimeTest \
+            -Dcpp.boost.beast.require=true -q
+        shell: bash

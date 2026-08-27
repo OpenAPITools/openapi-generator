@@ -168,7 +168,7 @@ paths:
         '200':
           description: The report
           content:
-            application/json:
+            application/vnd.report+json:
               schema:
                 $ref: '#/components/schemas/Report'
         '401':
@@ -243,6 +243,92 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Report'
+      security: []
+  /defaults:
+    get:
+      operationId: getDefaults
+      description: Declared defaults, exclusive bounds, collection constraints
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
+            default: five
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 7
+        - name: score
+          in: query
+          schema:
+            type: number
+            format: double
+            exclusiveMinimum: 1.5
+            exclusiveMaximum: 3
+        - name: ids
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              minLength: 2
+            minItems: 2
+            uniqueItems: true
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: Echo of declared defaults
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+      security: []
+  /periods/{year}-{month}/summary:
+    get:
+      operationId: getPeriod
+      description: Embedded path expressions in one segment
+      parameters:
+        - name: year
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: month
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Period echo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+      security: []
+  /echo:
+    post:
+      operationId: postEcho
+      description: Optional JSON body (decodes only when bytes arrive)
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: Echoed body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
       security: []
 components:
   securitySchemes:

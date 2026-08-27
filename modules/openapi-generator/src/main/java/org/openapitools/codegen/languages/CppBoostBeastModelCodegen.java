@@ -1138,7 +1138,7 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
         // are representable in multipart/form-data. Only form-style is supported
         // for multipart (space-delimited, pipe-delimited, and deep-object styles
         // are not representable). Fail closed with a targeted diagnostic.
-        if (parameter.isFormParam) {
+        if (parameter.isFormParam && rejectsUnsupportedFormEncodingStyles()) {
             if (Boolean.TRUE.equals(parameter.isSpaceDelimited)) {
                 throw new UnsupportedSchemaAssertionException(
                         parameter.baseName,
@@ -1179,6 +1179,18 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
             parameter.vendorExtensions.put("x-codegen-is-variant-form-param", true);
         }
     }
+    /**
+     * Whether {@link #postProcessParameter(CodegenParameter)} must fail closed
+     * on form parameters using space-delimited, pipe-delimited, or deep-object
+     * encodings. The client rejects them because its multipart writer cannot
+     * serialize them; generators whose runtime never parses form bodies at all
+     * (the server) override this to {@code false} so such fields follow the
+     * documented warn-and-drop degradation instead of aborting generation.
+     */
+    protected boolean rejectsUnsupportedFormEncodingStyles() {
+        return true;
+    }
+
     @Override
     public String getSchemaType(Schema p) {
         // Non-standard format (NOT core OAS vocabulary). Documented generator

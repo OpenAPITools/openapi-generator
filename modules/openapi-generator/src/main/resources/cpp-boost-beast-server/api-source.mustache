@@ -5,11 +5,11 @@
 
 #include "{{classname}}.h"
 
-#include "BodyJson.h"
-#include "ParamCodecs.h"
-#include "Problem.h"
-#include "Responder.h"
-#include "Router.h"
+#include "server/BodyJson.h"
+#include "server/ParamCodecs.h"
+#include "server/Problem.h"
+#include "server/Responder.h"
+#include "server/Router.h"
 
 #include <algorithm>
 #include <cctype>
@@ -23,7 +23,7 @@
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
-void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> impl) {
+void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_ptr<{{classname}}> impl) {
     auto router = server.routerPtr();
 
 {{#operation}}
@@ -31,12 +31,12 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
     // {{httpMethod}} {{path}} ({{operationId}})
     // ------------------------------------------------------------------
     {
-        SecurityGroups security;
+        {{{apiNsQualified}}}SecurityGroups security;
 {{#vendorExtensions.x-server-security-groups}}
         {
-            std::vector<SchemeRequirement> group;
+            std::vector<{{{apiNsQualified}}}SchemeRequirement> group;
 {{#.}}
-            group.push_back(SchemeRequirement{
+            group.push_back({{{apiNsQualified}}}SchemeRequirement{
                 "{{name}}", "{{type}}", "{{in}}", "{{paramName}}", "{{httpScheme}}"});
 {{/.}}
             security.push_back(std::move(group));
@@ -46,9 +46,10 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
         router->add(
             "{{httpMethod}}",
             "{{path}}",
-            [impl](RequestContext& ctx, std::shared_ptr<ResponderCore> responderCore) {
+            [impl](std::shared_ptr<{{{apiNsQualified}}}RequestContext> ctx,
+                    std::shared_ptr<{{{apiNsQualified}}}ResponderCore> responderCore) {
                 {{vendorExtensions.x-server-operation-pascal}}Request request;
-                Problem problem;
+                {{{apiNsQualified}}}Problem problem;
                 bool invalid = false;
 
 {{#vendorExtensions.x-server-params}}
@@ -56,127 +57,80 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                 {
 {{#isPath}}
 {{^isContainer}}
-                    auto rawSegment = ctx.pathParams.find("{{baseName}}");
+                    auto rawSegment = ctx->pathParams.find("{{baseName}}");
                     std::string encoded =
-                        rawSegment != ctx.pathParams.end() ? rawSegment->second : std::string();
+                        rawSegment != ctx->pathParams.end() ? rawSegment->second : std::string();
+{{#hasScalarConstraints}}                    bool present = true;
+{{/hasScalarConstraints}}
+                    bool malformed = false;
                     std::string text;
 {{#styleSimple}}                    text = percentDecode(encoded);
 {{/styleSimple}}
-{{#styleLabel}}                    text = percentDecode(stripLabelPrefix(encoded));
+{{#styleLabel}}                    malformed = !decodeLabel(encoded, text);
+                    if (!malformed) {
+                        text = percentDecode(text);
+                    }
 {{/styleLabel}}
-{{#styleMatrix}}                    text = percentDecode(stripMatrixPrefix(encoded, "{{baseName}}"));
+{{#styleMatrix}}                    malformed = !decodeMatrix(encoded, "{{baseName}}", text);
+                    if (!malformed) {
+                        text = percentDecode(text);
+                    }
 {{/styleMatrix}}
-                    if (text.empty()) {
+                    if (malformed) {
+                        problem.withError("{{baseName}}", "path parameter is not {{style}}-encoded");
+                        invalid = true;
+                    } else if (text.empty()) {
                         problem.withError("{{baseName}}", "path parameter is missing or empty");
                         invalid = true;
                     } else if (!parseScalar(text, request.{{cppName}})) {
                         problem.withError("{{baseName}}", "path parameter is not a valid {{{dataType}}}");
                         invalid = true;
                     }
-{{#stringKind}}{{#hasEnum}}
-                    if (!invalid) {
-                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
-                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
-                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
-                            invalid = true;
-                        }
-                    }
-{{/hasEnum}}{{#hasPattern}}
-                    if (!invalid) {
-                        static std::regex const kPattern("{{{pattern}}}");
-                        if (!std::regex_match(request.{{cppName}}, kPattern)) {
-                            problem.withError("{{baseName}}", "value does not match the required pattern");
-                            invalid = true;
-                        }
-                    }
-{{/hasPattern}}{{#hasMinLength}}
-                    if (!invalid && request.{{cppName}}.size() < {{minLength}}) {
-                        problem.withError("{{baseName}}", "value is shorter than minLength");
-                        invalid = true;
-                    }
-{{/hasMinLength}}{{#hasMaxLength}}
-                    if (!invalid && request.{{cppName}}.size() > {{maxLength}}) {
-                        problem.withError("{{baseName}}", "value is longer than maxLength");
-                        invalid = true;
-                    }
-{{/hasMaxLength}}{{/stringKind}}
-{{#boolKind}}{{#hasEnum}}
-                    if (!invalid) {
-                        static std::vector<bool> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
-                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
-                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
-                            invalid = true;
-                        }
-                    }
-{{/hasEnum}}{{/boolKind}}
-{{#integerKind}}{{#hasEnum}}
-                    if (!invalid) {
-                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
-                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
-                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
-                            invalid = true;
-                        }
-                    }
-{{/hasEnum}}{{#hasMinimum}}
-                    if (!invalid && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
-                        problem.withError("{{baseName}}", "value is below the minimum");
-                        invalid = true;
-                    }
-{{/hasMinimum}}{{#hasMaximum}}
-                    if (!invalid && static_cast<long double>(request.{{cppName}}) > {{maximum}}L) {
-                        problem.withError("{{baseName}}", "value is above the maximum");
-                        invalid = true;
-                    }
-{{/hasMaximum}}{{/integerKind}}
-{{#numberKind}}{{#hasEnum}}
-                    if (!invalid) {
-                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
-                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
-                            problem.withError("{{baseName}}", "value is not one of the allowed enum members");
-                            invalid = true;
-                        }
-                    }
-{{/hasEnum}}{{#hasMinimum}}
-                    if (!invalid && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
-                        problem.withError("{{baseName}}", "value is below the minimum");
-                        invalid = true;
-                    }
-{{/hasMinimum}}{{#hasMaximum}}
-                    if (!invalid && static_cast<long double>(request.{{cppName}}) > {{maximum}}L) {
-                        problem.withError("{{baseName}}", "value is above the maximum");
-                        invalid = true;
-                    }
-{{/hasMaximum}}{{/numberKind}}
+{{>param-constraints}}
 {{/isContainer}}
 {{#isContainer}}
-                    auto rawSegment = ctx.pathParams.find("{{baseName}}");
+                    auto rawSegment = ctx->pathParams.find("{{baseName}}");
                     std::string encoded =
-                        rawSegment != ctx.pathParams.end() ? rawSegment->second : std::string();
+                        rawSegment != ctx->pathParams.end() ? rawSegment->second : std::string();
+                    bool malformed = false;
+                    std::string segmentValue;
                     std::vector<std::string> elements;
 {{#styleSimple}}                    elements = splitSimple(encoded);
 {{/styleSimple}}
-{{#styleLabel}}{{#explode}}                    elements = splitOn(stripLabelPrefix(encoded), '.');
-{{/explode}}{{^explode}}                    elements = splitSimple(stripLabelPrefix(encoded));
-{{/explode}}{{/styleLabel}}
-{{#styleMatrix}}{{#explode}}
-                    elements = splitMatrixExploded(encoded, "{{baseName}}");
-{{/explode}}{{^explode}}
-                    elements = splitSimple(stripMatrixPrefix(encoded, "{{baseName}}"));
-{{/explode}}{{/styleMatrix}}
-                    for (std::string& element : elements) {
-                        {{{innerType}}} value;
-                        if (!parseScalar(percentDecode(element), value)) {
-                            problem.withError("{{baseName}}", "path parameter element is not a valid {{{innerType}}}");
-                            invalid = true;
-                            break;
-                        }
-                        request.{{cppName}}.push_back(std::move(value));
+{{#styleLabel}}                    malformed = !decodeLabel(encoded, segmentValue);
+{{#explode}}                    if (!malformed) {
+                        elements = splitOn(segmentValue, '.');
                     }
+{{/explode}}{{^explode}}                    if (!malformed) {
+                        elements = splitSimple(segmentValue);
+                    }
+{{/explode}}{{/styleLabel}}
+{{#styleMatrix}}{{#explode}}                    malformed = !splitMatrixExploded(encoded, "{{baseName}}", elements);
+{{/explode}}{{^explode}}                    malformed = !decodeMatrix(encoded, "{{baseName}}", segmentValue);
+                    if (!malformed) {
+                        elements = splitSimple(segmentValue);
+                    }
+{{/explode}}{{/styleMatrix}}
+                    if (malformed) {
+                        problem.withError("{{baseName}}", "path parameter is not {{style}}-encoded");
+                        invalid = true;
+                    } else {
+                        for (std::string& element : elements) {
+                            {{{innerType}}} value;
+                            if (!parseScalar(percentDecode(element), value)) {
+                                problem.withError("{{baseName}}", "path parameter element is not a valid {{{innerType}}}");
+                                invalid = true;
+                                break;
+                            }
+                            request.{{cppName}}.push_back(std::move(value));
+                        }
+                    }
+{{>param-container-constraints}}
 {{/isContainer}}
 {{/isPath}}
 {{#isQuery}}
 {{^isContainer}}
-                    auto values = ctx.query.equal_range("{{baseName}}");
+                    auto values = ctx->query.equal_range("{{baseName}}");
                     bool present = values.first != values.second;
                     if (!present) {
 {{#required}}
@@ -194,7 +148,7 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
 {{/isContainer}}
 {{#isContainer}}
 {{^styleDeepObject}}
-                    auto values = ctx.query.equal_range("{{baseName}}");
+                    auto values = ctx->query.equal_range("{{baseName}}");
                     bool present = values.first != values.second;
                     std::vector<std::string> elements;
                     if (present) {
@@ -231,10 +185,11 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                             request.{{cppName}}.push_back(std::move(value));
                         }
                     }
+{{>param-container-constraints}}
 {{/styleDeepObject}}
 {{#styleDeepObject}}
                     bool present = false;
-                    for (auto const& entry : ctx.query) {
+                    for (auto const& entry : ctx->query) {
                         std::string const prefix = "{{baseName}}[";
                         if (entry.first.size() > prefix.size()
                                 && entry.first.compare(0, prefix.size(), prefix) == 0
@@ -242,7 +197,7 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                             present = true;
                             std::string key = entry.first.substr(
                                 prefix.size(), entry.first.size() - prefix.size() - 1);
-                            // ctx.query keys/values are already decoded by
+                            // ctx->query keys/values are already decoded by
                             // Boost.URL; decoding again would corrupt values
                             // containing literal percent escapes.
                             request.{{cppName}}[key] = entry.second;
@@ -261,7 +216,7 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
 {{/isQuery}}
 {{#isHeader}}
 {{^isContainer}}
-                    auto values = ctx.headers.equal_range(lowercaseHeaderName("{{baseName}}"));
+                    auto values = ctx->headers.equal_range(lowercaseHeaderName("{{baseName}}"));
                     bool present = values.first != values.second;
                     if (!present) {
 {{#required}}
@@ -278,7 +233,7 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
 {{>param-constraints}}
 {{/isContainer}}
 {{#isContainer}}
-                    auto values = ctx.headers.equal_range(lowercaseHeaderName("{{baseName}}"));
+                    auto values = ctx->headers.equal_range(lowercaseHeaderName("{{baseName}}"));
                     bool present = values.first != values.second;
                     if (!present) {
 {{#required}}
@@ -296,10 +251,11 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                             request.{{cppName}}.push_back(std::move(value));
                         }
                     }
+{{>param-container-constraints}}
 {{/isContainer}}
 {{/isHeader}}
 {{#isCookie}}
-                    auto values = ctx.cookies.equal_range("{{baseName}}");
+                    auto values = ctx->cookies.equal_range("{{baseName}}");
                     bool present = values.first != values.second;
                     if (!present) {
 {{#required}}
@@ -321,9 +277,15 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
 {{#vendorExtensions.x-server-has-request-body}}
                 // ---- request body ({{vendorExtensions.x-server-request-model}}) ----
                 {
-                    auto contentTypeEntry = ctx.headers.find("content-type");
+{{^vendorExtensions.x-server-request-body-required}}
+                    // An optional body decodes only when bytes arrive; an
+                    // empty body leaves the default-constructed value.
+                    bool skipOptionalEmptyBody = ctx->body.empty();
+                    if (!skipOptionalEmptyBody) {
+{{/vendorExtensions.x-server-request-body-required}}
+                    auto contentTypeEntry = ctx->headers.find("content-type");
                     std::string contentType =
-                        contentTypeEntry != ctx.headers.end()
+                        contentTypeEntry != ctx->headers.end()
                             ? contentTypeEntry->second : std::string();
                     std::size_t semicolon = contentType.find(';');
                     if (semicolon != std::string::npos) {
@@ -341,20 +303,22 @@ void {{classname}}::attach(HttpServer& server, std::shared_ptr<{{classname}}> im
                         {{{vendorExtensions.x-server-request-media-types}}} };
                     bool supported = !contentType.empty()
                         ? std::find(kMediaTypes.begin(), kMediaTypes.end(), contentType) != kMediaTypes.end()
-                          || std::find(kMediaTypes.begin(), kMediaTypes.end(), "*/*") != kMediaTypes.end()
                         : kMediaTypes.size() == 1;
                     if (!supported) {
-                        responderCore->sendProblem(Problem::unsupportedMediaType(contentType));
+                        responderCore->sendProblem({{{apiNsQualified}}}Problem::unsupportedMediaType(contentType));
                         return;
                     }
                     try {
-                        fromJsonBody(ctx.body, request.body);
+                        fromJsonBody(ctx->body, request.body);
                     } catch (std::invalid_argument const& error) {
-                        Problem parseProblem = Problem::badRequest(error.what());
+                        {{{apiNsQualified}}}Problem parseProblem = {{{apiNsQualified}}}Problem::badRequest(error.what());
                         parseProblem.withError("body", error.what());
                         responderCore->sendProblem(std::move(parseProblem));
                         return;
                     }
+{{^vendorExtensions.x-server-request-body-required}}
+                    }
+{{/vendorExtensions.x-server-request-body-required}}
                 }
 {{/vendorExtensions.x-server-has-request-body}}
 

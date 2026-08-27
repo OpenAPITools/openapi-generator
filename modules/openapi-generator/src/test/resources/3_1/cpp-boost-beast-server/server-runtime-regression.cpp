@@ -37,40 +37,43 @@ static void expect(bool condition, std::string const& what) {
 // ---------------------------------------------------------------------------
 class RegressionApi : public api::DefaultApi {
 public:
-    void getPetById(api::GetPetByIdRequest request,
-                    api::RequestContext&,
-                    api::GetPetByIdResponder responder) override {
+    void getPetById(GetPetByIdRequest request,
+                    std::shared_ptr<api::RequestContext> context,
+                    GetPetByIdResponder responder) override {
         model::Pet pet;
         pet.setId(request.petId);
         pet.setName("pet-" + std::to_string(request.petId));
         pet.setStatus(std::string("available"));
+        // The context is heap-owned; reading it here proves the handler kept
+        // it alive for the service.
+        expect(!context->operationId.empty(), "context should carry operationId");
         // Complete twice: the single-completion guard must ignore the
         // second call, so the client still sees exactly one clean 200.
         responder.send200(pet);
         responder.send200(std::move(pet));
     }
 
-    void updatePet(api::UpdatePetRequest request,
-                   api::RequestContext&,
-                   api::UpdatePetResponder responder) override {
+    void updatePet(UpdatePetRequest request,
+                   std::shared_ptr<api::RequestContext>,
+                   UpdatePetResponder responder) override {
         responder.send200(request.body);
     }
 
-    void deletePet(api::DeletePetRequest,
-                   api::RequestContext&,
-                   api::DeletePetResponder responder) override {
+    void deletePet(DeletePetRequest,
+                   std::shared_ptr<api::RequestContext>,
+                   DeletePetResponder responder) override {
         responder.send204();
     }
 
-    void createPet(api::CreatePetRequest request,
-                   api::RequestContext&,
-                   api::CreatePetResponder responder) override {
+    void createPet(CreatePetRequest request,
+                   std::shared_ptr<api::RequestContext>,
+                   CreatePetResponder responder) override {
         responder.send201(request.body);
     }
 
-    void listPets(api::ListPetsRequest request,
-                  api::RequestContext&,
-                  api::ListPetsResponder responder) override {
+    void listPets(ListPetsRequest request,
+                  std::shared_ptr<api::RequestContext>,
+                  ListPetsResponder responder) override {
         std::vector<std::shared_ptr<model::Pet>> pets;
         int count = request.limit > 0 ? static_cast<int>(request.limit) : 2;
         for (int i = 1; i <= count; ++i) {
@@ -85,9 +88,9 @@ public:
         responder.send200(std::move(pets));
     }
 
-    void getReport(api::GetReportRequest request,
-                   api::RequestContext&,
-                   api::GetReportResponder responder) override {
+    void getReport(GetReportRequest request,
+                   std::shared_ptr<api::RequestContext>,
+                   GetReportResponder responder) override {
         model::Report report;
         // Echo the decoded cookie so the test can prove cookie parsing
         // (including optional whitespace after ';') end to end.
@@ -95,9 +98,9 @@ public:
         responder.send200(std::move(report));
     }
 
-    void getBatch(api::GetBatchRequest request,
-                  api::RequestContext&,
-                  api::GetBatchResponder responder) override {
+    void getBatch(GetBatchRequest request,
+                  std::shared_ptr<api::RequestContext>,
+                  GetBatchResponder responder) override {
         std::string joined;
         for (std::size_t i = 0; i < request.ids.size(); ++i) {
             if (i != 0) {
@@ -110,18 +113,18 @@ public:
         responder.send200(std::move(report));
     }
 
-    void getBulkPets(api::GetBulkPetsRequest,
-                     api::RequestContext&,
-                     api::GetBulkPetsResponder responder) override {
+    void getBulkPets(GetBulkPetsRequest,
+                     std::shared_ptr<api::RequestContext>,
+                     GetBulkPetsResponder responder) override {
         model::Pet pet;
         pet.setId(999);
         pet.setName("bulk");
         responder.send200(std::move(pet));
     }
 
-    void search(api::SearchRequest request,
-                api::RequestContext&,
-                api::SearchResponder responder) override {
+    void search(SearchRequest request,
+                std::shared_ptr<api::RequestContext>,
+                SearchResponder responder) override {
         // Deferred completion: the responder outlives the read deadline
         // (readTimeoutSeconds is 1s), proving send_response re-arms the
         // stream timer before writing. Responder is a movable, thread-safe
@@ -136,6 +139,34 @@ public:
                 + std::to_string(sortSize));
             responder.send200(std::move(report));
         }).detach();
+    }
+
+    void getDefaults(GetDefaultsRequest request,
+                     std::shared_ptr<api::RequestContext>,
+                     GetDefaultsResponder responder) override {
+        // Echoes the values the wire produced: declared defaults for absent
+        // optional parameters, decoded values for present ones.
+        model::Report report;
+        report.setTitle(request.name + "|" + std::to_string(request.limit)
+            + "|" + std::to_string(request.ids.size()));
+        responder.send200(std::move(report));
+    }
+
+    void getPeriod(GetPeriodRequest request,
+                   std::shared_ptr<api::RequestContext>,
+                   GetPeriodResponder responder) override {
+        model::Report report;
+        report.setTitle(std::to_string(request.year) + "-"
+            + std::to_string(request.month));
+        responder.send200(std::move(report));
+    }
+
+    void postEcho(PostEchoRequest request,
+                  std::shared_ptr<api::RequestContext>,
+                  PostEchoResponder responder) override {
+        // An absent optional body keeps the default-constructed Pet (id 0,
+        // no name); a present one echoes the decoded model.
+        responder.send200(request.body);
     }
 };
 
@@ -520,6 +551,94 @@ int main() {
         "GET /search HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
     expect(searchMissing.status == 400,
         "required deepObject filter missing should be 400");
+
+    // ---- declared defaults + presence ----
+    // Absent optional parameters keep their OpenAPI defaults, not zero values.
+    RawResponse defaultsAbsent = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(defaultsAbsent.status == 200, "defaults with valid ids should be 200");
+    expect(defaultsAbsent.body.find("\"title\":\"five|7|2\"") != std::string::npos,
+        "absent name/limit should carry declared defaults (five, 7)");
+
+    RawResponse defaultsPresent = roundtrip(ioc, port,
+        "GET /defaults?name=hi&limit=3&ids=aa,bb HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(defaultsPresent.status == 200, "explicit values should be 200");
+    expect(defaultsPresent.body.find("\"title\":\"hi|3|2\"") != std::string::npos,
+        "present name/limit should override declared defaults");
+
+    // Exclusive bounds: score must be >1.5 and <3 (JSON Schema semantics).
+    RawResponse scoreLow = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb&score=1.5 HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(scoreLow.status == 400, "score == exclusiveMinimum should be 400");
+    RawResponse scoreOk = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb&score=1.75 HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(scoreOk.status == 200, "score above exclusiveMinimum should be 200");
+    RawResponse scoreHigh = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb&score=3 HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(scoreHigh.status == 400, "score == exclusiveMaximum should be 400");
+
+    // Collection + item constraints: minItems=2, uniqueItems, item minLength=2.
+    RawResponse fewItems = roundtrip(ioc, port,
+        "GET /defaults?ids=aa HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(fewItems.status == 400, "ids below minItems should be 400");
+    RawResponse dupItems = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,aa HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(dupItems.status == 400, "duplicate ids should violate uniqueItems");
+    RawResponse shortItem = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,b HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(shortItem.status == 400, "item below item minLength should be 400");
+
+    // ---- embedded path expressions ----
+    RawResponse period = roundtrip(ioc, port,
+        "GET /periods/2026-8/summary HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(period.status == 200, "embedded path expressions should route");
+    expect(period.body.find("\"title\":\"2026-8\"") != std::string::npos,
+        "embedded expressions should capture year and month separately");
+    RawResponse periodBad = roundtrip(ioc, port,
+        "GET /periods/20x6-8/summary HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(periodBad.status == 400, "non-numeric embedded capture should be 400");
+
+    // ---- strict style codecs ----
+    // Label without the leading dot is malformed (the dot is part of the
+    // label serialization), even though the bare value matches the pattern.
+    RawResponse labelNoDot = roundtrip(ioc, port,
+        "GET /reports/AB-12 HTTP/1.1\r\nHost: t\r\n"
+        "Authorization: Bearer ok\r\nConnection: close\r\n\r\n");
+    expect(labelNoDot.status == 400, "label segment without dot should be 400");
+    // Matrix segment with the wrong parameter name is malformed.
+    RawResponse batchWrongName = roundtrip(ioc, port,
+        "GET /batch/;x=3;x=4 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(batchWrongName.status == 400, "matrix segment with wrong name should be 400");
+    // Matrix element missing the repeated name= prefix is malformed.
+    RawResponse batchLoose = roundtrip(ioc, port,
+        "GET /batch/;ids=3;4 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(batchLoose.status == 400, "matrix element without name= should be 400");
+
+    // ---- declared JSON response media type ----
+    expect(labelOk.contentType.find("application/vnd.report+json") != std::string::npos,
+        "getReport should serve its declared +json media type");
+
+    // ---- optional request body ----
+    RawResponse echoEmpty = roundtrip(ioc, port,
+        "POST /echo HTTP/1.1\r\nHost: t\r\nContent-Length: 0\r\n"
+        "Connection: close\r\n\r\n");
+    expect(echoEmpty.status == 200, "optional body may be absent");
+    expect(echoEmpty.body.find("\"id\":0") != std::string::npos,
+        "absent optional body should decode to the default model");
+    RawResponse echoBad = roundtrip(ioc, port, request("POST /echo",
+        "Content-Type: application/json\r\nConnection: close\r\n", "{oops}}"));
+    expect(echoBad.status == 400, "present-but-malformed optional body should be 400");
+    RawResponse echoGood = roundtrip(ioc, port, request("POST /echo",
+        "Content-Type: application/json\r\nConnection: close\r\n",
+        "{\"id\":5,\"name\":\"echoed\"}"));
+    expect(echoGood.status == 200 && echoGood.body.find("echoed") != std::string::npos,
+        "present optional body should decode and echo");
 
     ioc.stop();
     serverThread.join();

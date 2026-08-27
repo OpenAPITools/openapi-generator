@@ -171,7 +171,28 @@ private:
             return send_response(
                 toProblemResponse(Problem::payloadTooLarge()));
         }
+        if (ec == http::error::header_limit) {
+            // The head overflowed its limits; nothing usable was parsed.
+            // Answer 431 and close (the remainder cannot be skipped safely).
+            forceClose_ = true;
+            return send_response(
+                toProblemResponse(Problem::requestHeaderFieldsTooLarge()));
+        }
         if (ec) {
+            // HTTP parser errors (bad Content-Length/Transfer-Encoding,
+            // malformed request line) live in the beast.http category and
+            // answer 400 before closing. Timeouts and transport failures
+            // carry no usable framing; log those quietly and drop. The
+            // category is probed through a representative error code —
+            // Beast exposes no error_category() accessor for http::error.
+            static boost::beast::error_code const httpSample =
+                http::make_error_code(http::error::end_of_stream);
+            if (ec.category() == httpSample.category()) {
+                forceClose_ = true;
+                return send_response(toProblemResponse(
+                    Problem::badRequest("malformed HTTP request: "
+                                        + ec.message())));
+            }
             return failLog(ec, "read");
         }
         requestVersion_ = static_cast<unsigned>(parser_->get().version());
@@ -181,10 +202,14 @@ private:
     }
 
     void handle_request(http::request<http::string_body>&& request) {
-        RequestContext ctx;
-        ctx.method = std::string(request.method_string());
-        ctx.target = std::string(request.target());
-        ctx.body = request.body();
+        // The context is heap-owned and shared with the handler: responders
+        // may legitimately complete from a worker thread after this function
+        // returns, and a service implementation that defers work must be able
+        // to read the request data it was handed.
+        auto ctx = std::make_shared<RequestContext>();
+        ctx->method = std::string(request.method_string());
+        ctx->target = std::string(request.target());
+        ctx->body = request.body();
 
         boost::system::result<boost::urls::url_view> parsedUrl =
             boost::urls::parse_origin_form(request.target());
@@ -195,21 +220,21 @@ private:
         for (auto const& param : parsedUrl->params()) {
             std::string key(param.key.data(), param.key.size());
             std::string value(param.value.data(), param.value.size());
-            ctx.query.emplace(std::move(key), std::move(value));
+            ctx->query.emplace(std::move(key), std::move(value));
         }
 
         for (auto const& field : request) {
             std::string name = lowercased(std::string(field.name_string()));
             std::string value(field.value().data(), field.value().size());
             if (name == "cookie") {
-                parseCookieHeader(value, ctx.cookies);
+                parseCookieHeader(value, ctx->cookies);
             }
-            ctx.headers.emplace(std::move(name), std::move(value));
+            ctx->headers.emplace(std::move(name), std::move(value));
         }
 
-        RouteMatch match = router_->match(ctx.method, ctx.target);
+        RouteMatch match = router_->match(ctx->method, ctx->target);
         if (!match.handler) {
-            std::string allowed = router_->allowedMethods(ctx.target);
+            std::string allowed = router_->allowedMethods(ctx->target);
             if (!allowed.empty()) {
                 http::response<http::string_body> res =
                     toProblemResponse(Problem::methodNotAllowed(allowed));
@@ -220,46 +245,8 @@ private:
                 Problem::notFound(std::string(request.target()))));
         }
 
-        ctx.pathParams = match.pathParams;
-        ctx.operationId = match.operationId;
-
-        // Skip the security gate entirely when any declared OR-alternative
-        // is anonymous (empty group, including `security: []`): anonymous
-        // access is a valid alternative and needs no credentials or authorizer.
-        bool anonymousAllowed = false;
-        for (std::vector<SchemeRequirement> const& group : match.security) {
-            if (group.empty()) {
-                anonymousAllowed = true;
-                break;
-            }
-        }
-        if (!match.security.empty() && !anonymousAllowed) {
-            AuthCredentials credentials =
-                collectCredentials(ctx, match.security);
-            bool allowed = structurallySatisfied(match.security, credentials)
-                && options_.authorizer
-                && options_.authorizer->authorize(ctx.operationId, credentials);
-            if (!allowed) {
-                http::response<http::string_body> res =
-                    toProblemResponse(Problem::unauthorized());
-                // RFC 9110 11.6.1: 401 MUST carry a WWW-Authenticate
-                // challenge. http-scheme requirements yield the scheme
-                // name; API keys have no standardized challenge form.
-                for (std::vector<SchemeRequirement> const& group : match.security) {
-                    for (SchemeRequirement const& scheme : group) {
-                        if (scheme.type == "http" && !scheme.httpScheme.empty()) {
-                            res.set(http::field::www_authenticate,
-                                    scheme.httpScheme + " realm=\"api\"");
-                            break;
-                        }
-                    }
-                    if (res.count(http::field::www_authenticate) != 0) {
-                        break;
-                    }
-                }
-                return send_response(std::move(res));
-            }
-        }
+        ctx->pathParams = match.pathParams;
+        ctx->operationId = match.operationId;
 
         auto responder = std::make_shared<ResponderCore>(
             [self = shared_from_this()](
@@ -269,12 +256,53 @@ private:
                               self->send_response(std::move(response));
                           });
             });
-        responder->setOperationId(ctx.operationId);
+        responder->setOperationId(ctx->operationId);
+
         try {
+            // Skip the security gate entirely when any declared
+            // OR-alternative is anonymous (empty group, including
+            // `security: []`): anonymous access is a valid alternative and
+            // needs no credentials or authorizer. Authorization runs inside
+            // the same exception boundary as dispatch: an application
+            // authorizer that throws must answer 500, not unwind ioc.run().
+            bool anonymousAllowed = false;
+            for (std::vector<SchemeRequirement> const& group : match.security) {
+                if (group.empty()) {
+                    anonymousAllowed = true;
+                    break;
+                }
+            }
+            if (!match.security.empty() && !anonymousAllowed) {
+                AuthCredentials credentials =
+                    collectCredentials(*ctx, match.security);
+                bool allowed = structurallySatisfied(match.security, credentials)
+                    && options_.authorizer
+                    && options_.authorizer->authorize(ctx->operationId, credentials);
+                if (!allowed) {
+                    http::response<http::string_body> res =
+                        toProblemResponse(Problem::unauthorized());
+                    // RFC 9110 11.6.1: 401 MUST carry a WWW-Authenticate
+                    // challenge. http-scheme requirements yield the scheme
+                    // name; API keys have no standardized challenge form.
+                    for (std::vector<SchemeRequirement> const& group : match.security) {
+                        for (SchemeRequirement const& scheme : group) {
+                            if (scheme.type == "http" && !scheme.httpScheme.empty()) {
+                                res.set(http::field::www_authenticate,
+                                        scheme.httpScheme + " realm=\"api\"");
+                                break;
+                            }
+                        }
+                        if (res.count(http::field::www_authenticate) != 0) {
+                            break;
+                        }
+                    }
+                    return send_response(std::move(res));
+                }
+            }
             match.handler(ctx, responder);
         } catch (std::exception const& error) {
             std::cerr << "cpp-boost-beast-server: handler exception for "
-                      << ctx.operationId << ": " << error.what() << "\n";
+                      << ctx->operationId << ": " << error.what() << "\n";
             // Route through the core so the single-completion guard applies
             // even when the handler had already queued an async completion.
             responder->sendProblem(Problem::internal());
@@ -397,10 +425,25 @@ void HttpServer::acceptNext() {
         net::make_strand(ioc_),
         [self](boost::beast::error_code ec, tcp::socket socket) {
             if (ec == net::error::operation_aborted) {
-                return;
+                return;   // the acceptor was closed by stop()
             }
             if (ec) {
-                return failLog(ec, "accept");
+                // Transient OS errors (EMFILE, connection_aborted, ...) must
+                // not permanently stop the listener: log and retry after a
+                // short backoff. The retry runs on the acceptor's own
+                // executor and checks is_open(), so stop() ends the loop.
+                failLog(ec, "accept");
+                auto timer = std::make_shared<net::steady_timer>(
+                    self->listener_->acceptor.get_executor());
+                timer->expires_after(std::chrono::seconds(1));
+                timer->async_wait([self, timer](boost::beast::error_code waitEc) {
+                    if (waitEc == net::error::operation_aborted
+                            || !self->listener_->acceptor.is_open()) {
+                        return;   // server stopped
+                    }
+                    self->acceptNext();
+                });
+                return;
             }
             std::make_shared<session>(
                 std::move(socket), self->router_, self->options_)->run();

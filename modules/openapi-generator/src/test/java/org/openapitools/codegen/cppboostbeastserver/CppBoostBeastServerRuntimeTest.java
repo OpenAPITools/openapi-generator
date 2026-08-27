@@ -140,9 +140,8 @@ public class CppBoostBeastServerRuntimeTest {
                     .directory(new File("."))
                     .start();
         } catch (IOException unavailable) {
-            throw new SkipException("C++ compiler is unavailable ("
-                    + compiler + "); skipping server runtime test: "
-                    + unavailable.getMessage());
+            throw unavailableDependency("C++ compiler is unavailable (" + compiler + ")",
+                    unavailable.getMessage());
         }
         if (!compile.waitFor(10, TimeUnit.MINUTES)) {
             terminate(compile);
@@ -151,10 +150,8 @@ public class CppBoostBeastServerRuntimeTest {
         }
         String compileOutput = readQuietly(compileLog);
         if (compile.exitValue() != 0 && missingBoost(compileOutput)) {
-            throw new SkipException(
-                    "Boost development files are unavailable; "
-                            + "skipping server runtime test: "
-                            + compileOutput.trim());
+            throw unavailableDependency("Boost development files are unavailable",
+                    compileOutput.trim());
         }
         Assert.assertEquals(compile.exitValue(), 0,
                 "server runtime compile failed:\n" + compileOutput);
@@ -167,8 +164,8 @@ public class CppBoostBeastServerRuntimeTest {
                     .redirectOutput(runLog.toFile())
                     .start();
         } catch (IOException unavailable) {
-            throw new SkipException("compiled binary could not start: "
-                    + unavailable.getMessage());
+            throw unavailableDependency("compiled binary could not start",
+                    unavailable.getMessage());
         }
         if (!run.waitFor(120, TimeUnit.SECONDS)) {
             terminate(run);
@@ -203,5 +200,16 @@ public class CppBoostBeastServerRuntimeTest {
                 || normalized.contains("library 'boost_")
                 || normalized.contains("library not found for -lboost_");
         return missingHeaders || missingLibraries;
+    }
+
+    /** Builds the skip (or, when the build declared Boost mandatory via
+     *  -Dcpp.boost.beast.require=true — the sample CI leg where a silently
+     *  skipped runtime suite would hide regressions — a failure) for a
+     *  missing native dependency. */
+    private static RuntimeException unavailableDependency(String what, String detail) {
+        if (Boolean.getBoolean("cpp.boost.beast.require")) {
+            Assert.fail(what + " but was required for this run: " + detail);
+        }
+        return new SkipException(what + "; skipping server runtime test: " + detail);
     }
 }

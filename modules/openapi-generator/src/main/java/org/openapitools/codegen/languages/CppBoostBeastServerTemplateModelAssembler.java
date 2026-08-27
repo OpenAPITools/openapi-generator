@@ -20,6 +20,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenResponse;
@@ -48,6 +49,16 @@ final class CppBoostBeastServerTemplateModelAssembler {
             org.slf4j.LoggerFactory.getLogger(
                     CppBoostBeastServerTemplateModelAssembler.class);
 
+    /** Types the generated runtime declares in the API namespace. A model
+     *  with one of these names would shadow the runtime type wherever the
+     *  generated code references it unqualified, so those references get an
+     *  explicit api-namespace prefix and the model references get a
+     *  model-namespace prefix. */
+    static final Set<String> RUNTIME_TYPE_NAMES = Set.of(
+            "HttpServer", "Problem", "ProblemError", "ResponderCore", "Responder",
+            "RequestContext", "Router", "RouteMatch", "Handler", "SecurityGroups",
+            "SchemeRequirement", "Authorizer", "AuthCredentials", "ServerOptions",
+            "ParamCodecs");
     private final OpenAPI sourceOpenApi;
     private final String modelNamespace;
     private final Function<String, String> modelImportFunction;
@@ -74,6 +85,22 @@ final class CppBoostBeastServerTemplateModelAssembler {
                         modelMap.getModel().dataType);
             }
         }
+        // The API classes live in the same namespace as the runtime types
+        // (Router/Problem/HttpServer/...). The api header emits
+        // `using namespace <model>;`, so a generated MODEL named like a
+        // runtime type makes every unqualified mention of that name
+        // ambiguous. Fix both sides explicitly: templates prefix runtime
+        // references with `{{apiNsQualified}}` (the api namespace), and model
+        // references (field/body/response types) are rewritten to their
+        // model-namespace spelling here. With no collision the prefix is
+        // empty and generated code stays readable.
+        Set<String> collidingModels = new HashSet<>(modelClassNames);
+        collidingModels.retainAll(RUNTIME_TYPE_NAMES);
+        Object apiNamespaceValue = objs.get("apiNamespace");
+        String apiNamespace = apiNamespaceValue == null ? "" : apiNamespaceValue.toString();
+        objs.put("apiNsQualified",
+                !collidingModels.isEmpty() && !apiNamespace.isEmpty()
+                        ? apiNamespace + "::" : "");
         Set<String> emittedModelImports = new HashSet<>();
         for (Map<String, String> existing : objs.getImports()) {
             if (existing != null && existing.get("classname") != null) {
@@ -86,6 +113,10 @@ final class CppBoostBeastServerTemplateModelAssembler {
             }
             Operation raw = CppBoostBeastOperationFacts.operationFor(sourceOpenApi, op);
 
+            // Contract types are declared INSIDE the API class (see
+            // api-header.mustache), so the same operation shared across two
+            // tags yields two independently-scoped definitions instead of
+            // duplicate namespace-scope types.
             String pascal = pascalCase(
                     op.operationId != null ? op.operationId : op.operationIdLowerCase);
             op.vendorExtensions.put("x-server-operation-pascal", pascal);
@@ -93,14 +124,16 @@ final class CppBoostBeastServerTemplateModelAssembler {
             op.vendorExtensions.put("x-server-params",
                     serverParams(op, raw));
 
-            Map<String, Object> body =
-                    requestBodyFacts(op, raw, pascal, modelClassNames, modelDataTypes);
+            Map<String, Object> body = requestBodyFacts(
+                    op, raw, pascal, modelClassNames, modelDataTypes, collidingModels);
             op.vendorExtensions.put("x-server-has-request-body", body.get("hasBody"));
             op.vendorExtensions.put("x-server-request-model", body.get("model"));
             op.vendorExtensions.put("x-server-request-model-collides",
                     body.get("modelCollides"));
             op.vendorExtensions.put("x-server-request-media-types",
                     body.get("mediaTypes"));
+            op.vendorExtensions.put("x-server-request-body-required",
+                    body.get("required"));
             // Mixed bodies (multipart + JSON): the JSON member's model is not in
             // DefaultCodegen's op.imports (it flattened the form payload instead),
             // so the recovered typed field would reference an un-included header.
@@ -115,7 +148,8 @@ final class CppBoostBeastServerTemplateModelAssembler {
                 objs.getImports().add(im);
             }
 
-            op.vendorExtensions.put("x-server-responses", serverResponses(op, pascal));
+            op.vendorExtensions.put("x-server-responses",
+                    serverResponses(op, raw, pascal, collidingModels));
 
             op.vendorExtensions.put("x-server-security-groups",
                     CppBoostBeastOperationFacts.effectiveSecurityGroups(sourceOpenApi, op));
@@ -184,9 +218,20 @@ final class CppBoostBeastServerTemplateModelAssembler {
             Schema<?> rawSchema = rawParam == null || rawParam.getSchema() == null
                     ? null
                     : ModelUtils.getReferencedSchema(sourceOpenApi, rawParam.getSchema());
-
             String issue = parameterDecodeIssue(
                     param, in, styleText, dataType, isContainer, rawSchema);
+            if (issue == null && "path".equals(in)
+                    && ("label".equals(styleText) || "matrix".equals(styleText))
+                    && !CppBoostBeastServerCodegen.isWholeSegmentPathParameter(
+                            op.path, param.baseName)) {
+                // Label/matrix serialization prefixes the WHOLE segment with
+                // '.' or ';name='; when the template also has literal text in
+                // that segment, the prefix cannot be both at segment start and
+                // after the literal. The capture is the expression text only,
+                // indistinguishable from a simple-style value: drop it.
+                issue = "uses style=" + styleText + " inside a segment that also"
+                        + " has literal text; the segment prefix cannot decode";
+            }
             if (issue != null) {
                 LOGGER.warn("cpp-boost-beast-server: operation '{}' parameter"
                                 + " '{}' (in {}) {}; it is dropped from the"
@@ -228,7 +273,36 @@ final class CppBoostBeastServerTemplateModelAssembler {
             facts.put("numberKind", "float".equals(dataType)
                     || "double".equals(dataType));
             facts.put("boolKind", "bool".equals(dataType));
-            applySchemaConstraints(facts, rawSchema);
+            facts.put("mapKind", dataType.startsWith("std::map<"));
+            facts.put("vectorKind", dataType.startsWith("std::vector<"));
+            // A plain-scalar default renders as a member initializer so an
+            // absent optional parameter reaches the service as the declared
+            // default, not the zero value. Containers/complex defaults stay
+            // brace-initialized (the codecs write them only when present).
+            String defaultValue = param.defaultValue;
+            boolean plainScalarDefault = !isContainer
+                    && (CppBoostBeastServerCodegen.isPlainScalarDataType(dataType)
+                        || "std::string".equals(dataType))
+                    && defaultValue != null && !defaultValue.isEmpty()
+                    && !defaultValue.startsWith("std::");
+            facts.put("hasDefaultInit", plainScalarDefault);
+            facts.put("defaultInit", plainScalarDefault ? defaultValue : "");
+            Schema<?> itemSchema = isContainer && rawSchema != null
+                    ? ModelUtils.getReferencedSchema(sourceOpenApi, rawSchema.getItems())
+                    : null;
+            applySchemaConstraints(facts, rawSchema, itemSchema, dataType);
+            // The path-scalar branch declares `present` only when the shared
+            // constraint ladder actually reads it (a POD bool with no uses
+            // would trip -Wunused-variable under the generated -Werror).
+            facts.put("hasScalarConstraints",
+                    Boolean.TRUE.equals(facts.get("hasEnum"))
+                            || Boolean.TRUE.equals(facts.get("hasPattern"))
+                            || Boolean.TRUE.equals(facts.get("hasMinLength"))
+                            || Boolean.TRUE.equals(facts.get("hasMaxLength"))
+                            || Boolean.TRUE.equals(facts.get("hasMinimum"))
+                            || Boolean.TRUE.equals(facts.get("hasMaximum"))
+                            || Boolean.TRUE.equals(facts.get("minimumAlwaysInvalid"))
+                            || Boolean.TRUE.equals(facts.get("maximumAlwaysInvalid")));
 
             params.add(facts);
         }
@@ -317,8 +391,43 @@ final class CppBoostBeastServerTemplateModelAssembler {
         return null;
     }
 
+    /** Applies scalar validation facts for a parameter schema (prefix ""),
+     *  its item schema (prefix "item"), and the collection-level bounds.
+     *  Bounds are resolved through ModelUtils so OAS 3.0 boolean
+     *  exclusiveMinimum/Maximum and OAS 3.1 numeric forms agree. For integer
+     *  kinds the comparison runs in the parameter's exact integer type: the
+     *  bound is folded to the nearest violated integer (exclusive) or the
+     *  ceiling/floor (fractional inclusive), so no value above 2^53 can be
+     *  smuggled through a lossy long double conversion. */
     private void applySchemaConstraints(
-            Map<String, Object> facts, io.swagger.v3.oas.models.media.Schema schema) {
+            Map<String, Object> facts,
+            io.swagger.v3.oas.models.media.Schema schema,
+            io.swagger.v3.oas.models.media.Schema itemSchema,
+            String dataType) {
+        applyScalarConstraints(facts, schema, dataType, "");
+        String innerType = innerTemplateArg(dataType);
+        if (itemSchema != null && !innerType.isEmpty()) {
+            applyScalarConstraints(facts, itemSchema, innerType, "item");
+        }
+        String minItems = schema != null && schema.getMinItems() != null
+                ? schema.getMinItems().toString() : "";
+        facts.put("minItems", minItems);
+        facts.put("hasMinItems", !minItems.isEmpty());
+        String maxItems = schema != null && schema.getMaxItems() != null
+                ? schema.getMaxItems().toString() : "";
+        facts.put("maxItems", maxItems);
+        facts.put("hasMaxItems", !maxItems.isEmpty());
+        facts.put("uniqueItems", schema != null
+                && Boolean.TRUE.equals(schema.getUniqueItems()));
+    }
+
+    private void applyScalarConstraints(
+            Map<String, Object> facts,
+            io.swagger.v3.oas.models.media.Schema schema,
+            String dataType,
+            String prefix) {
+        boolean integerKind = "std::int32_t".equals(dataType)
+                || "std::int64_t".equals(dataType);
         List<String> enumValues = new ArrayList<>();
         String enumKind = "";
         if (schema != null && schema.getEnum() != null && !schema.getEnum().isEmpty()) {
@@ -330,12 +439,29 @@ final class CppBoostBeastServerTemplateModelAssembler {
                     }
                 } else if (value instanceof Integer || value instanceof Long
                         || value instanceof Short || value instanceof Byte) {
-                    enumValues.add(value.toString());
+                    enumValues.add(integerKind ? longLongLiteral(value.toString()) : value.toString());
                     if (enumKind.isEmpty() || "bool".equals(enumKind)) {
                         enumKind = "integer";
                     }
                 } else if (value instanceof Double || value instanceof Float
                         || value instanceof java.math.BigDecimal) {
+                    java.math.BigDecimal decimal = new java.math.BigDecimal(value.toString());
+                    if (integerKind) {
+                        // An integer parameter can only match an integer-valued
+                        // member; fractional members are unreachable values,
+                        // and members outside the long long range can never
+                        // arrive through parseScalar. Keep the list exact.
+                        java.math.BigDecimal integral = decimal.setScale(0, java.math.RoundingMode.DOWN);
+                        if (integral.compareTo(decimal) == 0
+                                && integral.compareTo(INT64_MIN) >= 0
+                                && integral.compareTo(INT64_MAX) <= 0) {
+                            enumValues.add(longLongLiteral(integral.toPlainString()));
+                        }
+                        if (enumKind.isEmpty()) {
+                            enumKind = "integer";
+                        }
+                        continue;
+                    }
                     enumValues.add(value.toString());
                     if (enumKind.isEmpty() || "bool".equals(enumKind)) {
                         enumKind = "number";
@@ -351,30 +477,121 @@ final class CppBoostBeastServerTemplateModelAssembler {
                 }
             }
         }
-        facts.put("enumValues", enumValues);
-        facts.put("enumKind", enumKind);
-        facts.put("hasEnum", !enumValues.isEmpty());
+        boolean stringKind = "std::string".equals(dataType);
+        boolean boolKind = "bool".equals(dataType);
+        boolean numberKind = "float".equals(dataType) || "double".equals(dataType);
+        emit(facts, prefix, "stringKind", stringKind);
+        emit(facts, prefix, "boolKind", boolKind);
+        emit(facts, prefix, "integerKind", integerKind);
+        emit(facts, prefix, "numberKind", numberKind);
+        emit(facts, prefix, "enumValues", enumValues);
+        emit(facts, prefix, "enumKind", enumKind);
+        emit(facts, prefix, "hasEnum", !enumValues.isEmpty());
         String pattern = schema != null && schema.getPattern() != null
                 ? CppBoostBeastModelCodegen.escapeCppStringContent(schema.getPattern()) : "";
-        facts.put("pattern", pattern);
-        facts.put("hasPattern", !pattern.isEmpty());
-        String minimum = schema != null && schema.getMinimum() != null
-                ? toLongDoubleLiteral(schema.getMinimum()) : "";
-        facts.put("minimum", minimum);
-        facts.put("hasMinimum", !minimum.isEmpty());
-        String maximum = schema != null && schema.getMaximum() != null
-                ? toLongDoubleLiteral(schema.getMaximum()) : "";
-        facts.put("maximum", maximum);
-        facts.put("hasMaximum", !maximum.isEmpty());
+        emit(facts, prefix, "pattern", pattern);
+        emit(facts, prefix, "hasPattern", !pattern.isEmpty());
         String minLength = schema != null && schema.getMinLength() != null
                 ? schema.getMinLength().toString() : "";
-        facts.put("minLength", minLength);
-        facts.put("hasMinLength", !minLength.isEmpty());
+        emit(facts, prefix, "minLength", minLength);
+        emit(facts, prefix, "hasMinLength", !minLength.isEmpty());
         String maxLength = schema != null && schema.getMaxLength() != null
                 ? schema.getMaxLength().toString() : "";
-        facts.put("maxLength", maxLength);
-        facts.put("hasMaxLength", !maxLength.isEmpty());
+        emit(facts, prefix, "maxLength", maxLength);
+        emit(facts, prefix, "hasMaxLength", !maxLength.isEmpty());
+
+        ModelUtils.ResolvedMinBound min = schema == null ? null
+                : ModelUtils.resolveMinimumBound(sourceOpenApi, schema);
+        ModelUtils.ResolvedMaxBound max = schema == null ? null
+                : ModelUtils.resolveMaximumBound(sourceOpenApi, schema);
+        if (integerKind) {
+            // Fold to an exclusive-integer threshold: reject x < t. The fold
+            // clamps at the PARAMETER's own range (parseScalar already rejects
+            // values outside it), so the generated comparison can never be
+            // provably constant (which -Wtype-limits would flag under -Werror).
+            java.math.BigDecimal typeMin = "std::int64_t".equals(dataType)
+                    ? INT64_MIN : INT32_MIN;
+            java.math.BigDecimal typeMax = "std::int64_t".equals(dataType)
+                    ? INT64_MAX : INT32_MAX;
+            java.math.BigDecimal minThreshold = null;
+            boolean minAlways = false;
+            if (min != null) {
+                minThreshold = min.exclusive
+                        ? min.minBound.add(java.math.BigDecimal.ONE)
+                                .setScale(0, java.math.RoundingMode.FLOOR)
+                        : min.minBound.setScale(0, java.math.RoundingMode.CEILING);
+                if (minThreshold.compareTo(typeMax) > 0) {
+                    minAlways = true;   // no representable value satisfies it
+                    minThreshold = null;
+                } else if (minThreshold.compareTo(typeMin) <= 0) {
+                    minThreshold = null;   // every value satisfies it
+                }
+            }
+            java.math.BigDecimal maxThreshold = null;   // reject x > t
+            boolean maxAlways = false;
+            if (max != null) {
+                maxThreshold = max.exclusive
+                        ? max.maxBound.subtract(java.math.BigDecimal.ONE)
+                                .setScale(0, java.math.RoundingMode.CEILING)
+                        : max.maxBound.setScale(0, java.math.RoundingMode.FLOOR);
+                if (maxThreshold.compareTo(typeMin) < 0) {
+                    maxAlways = true;
+                    maxThreshold = null;
+                } else if (maxThreshold.compareTo(typeMax) >= 0) {
+                    maxThreshold = null;
+                }
+            }
+            emit(facts, prefix, "minimum",
+                    minThreshold == null ? "" : longLongLiteral(minThreshold.toPlainString()));
+            emit(facts, prefix, "hasMinimum", minThreshold != null);
+            emit(facts, prefix, "maximum",
+                    maxThreshold == null ? "" : longLongLiteral(maxThreshold.toPlainString()));
+            emit(facts, prefix, "hasMaximum", maxThreshold != null);
+            emit(facts, prefix, "minimumAlwaysInvalid", minAlways);
+            emit(facts, prefix, "maximumAlwaysInvalid", maxAlways);
+        } else {
+            emit(facts, prefix, "minimum",
+                    min == null ? "" : toLongDoubleLiteral(min.minBound));
+            emit(facts, prefix, "hasMinimum", min != null);
+            emit(facts, prefix, "minimumExclusive", min != null && min.exclusive);
+            emit(facts, prefix, "maximum",
+                    max == null ? "" : toLongDoubleLiteral(max.maxBound));
+            emit(facts, prefix, "hasMaximum", max != null);
+            emit(facts, prefix, "maximumExclusive", max != null && max.exclusive);
+            emit(facts, prefix, "minimumAlwaysInvalid", false);
+            emit(facts, prefix, "maximumAlwaysInvalid", false);
+        }
     }
+
+    /** Stores a constraint fact under its plain key (empty prefix) or a
+     *  prefixed, camel-cased key (e.g. "item" -> itemMinimum). */
+    private static void emit(
+            Map<String, Object> facts, String prefix, String name, Object value) {
+        if (prefix.isEmpty()) {
+            facts.put(name, value);
+        } else {
+            facts.put(prefix + Character.toUpperCase(name.charAt(0)) + name.substring(1), value);
+        }
+    }
+
+
+    /** Renders an integer (plain digits) as a long long literal that is also
+     *  valid for INT64_MIN and negative bounds. */
+    private static String longLongLiteral(String digits) {
+        if ("-9223372036854775808".equals(digits)) {
+            return "(-9223372036854775807LL - 1)";
+        }
+        return "(" + digits + "LL)";
+    }
+
+    private static final java.math.BigDecimal INT64_MAX =
+            new java.math.BigDecimal(Long.MAX_VALUE);
+    private static final java.math.BigDecimal INT64_MIN =
+            new java.math.BigDecimal(Long.MIN_VALUE);
+    private static final java.math.BigDecimal INT32_MAX =
+            new java.math.BigDecimal(Integer.MAX_VALUE);
+    private static final java.math.BigDecimal INT32_MIN =
+            new java.math.BigDecimal(Integer.MIN_VALUE);
 
     // ------------------------------------------------------------------
     // Request body
@@ -382,7 +599,8 @@ final class CppBoostBeastServerTemplateModelAssembler {
 
     private Map<String, Object> requestBodyFacts(
             CodegenOperation op, Operation raw, String pascal,
-            Set<String> modelClassNames, Map<String, String> modelDataTypes) {
+            Set<String> modelClassNames, Map<String, String> modelDataTypes,
+            Set<String> collidingModels) {
         Map<String, Object> facts = new LinkedHashMap<>();
         List<String> mediaTypes = new ArrayList<>();
         RequestBody body = raw != null
@@ -392,24 +610,35 @@ final class CppBoostBeastServerTemplateModelAssembler {
         if (body != null && body.getContent() != null) {
             for (String mediaType : body.getContent().keySet()) {
                 // Degrade policy: the runtime parses request bodies as JSON
-                // only. Non-JSON declarations (XML, form, multipart) are
-                // dropped here and reported as warnings at preprocess time;
-                // an operation left with no JSON media type loses its typed
-                // body entirely rather than promising bytes it cannot parse.
-                if (!CppBoostBeastServerCodegen.isSupportedMediaType(mediaType)) {
+                // only. Non-JSON declarations (XML, form, multipart) and the
+                // wildcard (which declares no JSON-specific representation)
+                // are dropped here and reported as warnings at preprocess
+                // time; an operation left with no JSON media type loses its
+                // typed body entirely rather than promising bytes it cannot
+                // parse.
+                if (!CppBoostBeastServerCodegen.isSupportedRequestMediaType(mediaType)) {
                     continue;
                 }
-                if (jsonModelRef == null && body.getContent().get(mediaType) != null) {
-                    jsonModelRef = body.getContent().get(mediaType)
-                            .getSchema() == null
-                            ? "" : body.getContent().get(mediaType).getSchema().get$ref();
+                Schema<?> declared = body.getContent().get(mediaType) == null
+                        ? null : body.getContent().get(mediaType).getSchema();
+                String ref = declared == null ? "" : declared.get$ref();
+                if (jsonModelRef == null) {
+                    jsonModelRef = ref;
+                } else if (!equivalentBodySchema(ref, jsonModelRef)) {
+                    // One typed body per operation: a second JSON media type
+                    // declaring a DIFFERENT schema would be decoded into the
+                    // first one's type, silently misreading one valid
+                    // representation. Accept only the selected representation
+                    // and let the rest answer 415.
+                    LOGGER.warn("cpp-boost-beast-server: operation '{}' declares"
+                                    + " media type '{}' with a schema that differs"
+                                    + " from the selected request representation;"
+                                    + " the generated handler accepts only '{}'",
+                            op.operationId, mediaType, mediaTypes.isEmpty()
+                                    ? "the first JSON media type" : mediaTypes.get(0));
+                    continue;
                 }
-                String normalized = mediaType == null ? "" : mediaType.trim();
-                int semicolon = normalized.indexOf(';');
-                if (semicolon >= 0) {
-                    normalized = normalized.substring(0, semicolon).trim();
-                }
-                normalized = normalized.toLowerCase(java.util.Locale.ROOT);
+                String normalized = CppBoostBeastServerCodegen.normalizeMediaType(mediaType);
                 if (!normalized.isEmpty() && !mediaTypes.contains(normalized)) {
                     mediaTypes.add(normalized);
                 }
@@ -458,10 +687,31 @@ final class CppBoostBeastServerTemplateModelAssembler {
         facts.put("hasBody", hasBody);
         facts.put("mediaTypes", hasBody ? rendered : "");
         facts.put("model", dataType);
-        facts.put("modelCollides", hasBody && dataType.equals(pascal + "Request"));
+        // The field reference is model-namespace qualified when the model is
+        // named like this operation's Request type (injected-class-name
+        // shadowing) or like a runtime type (ambiguous under the model
+        // using-directive).
+        facts.put("modelCollides", hasBody && (dataType.equals(pascal + "Request")
+                || collidingModels.contains(dataType)));
+        // OpenAPI request bodies are optional unless required: true. The
+        // handler must not reject an absent optional body as malformed JSON.
+        facts.put("required", body != null && Boolean.TRUE.equals(body.getRequired()));
         return facts;
     }
 
+    /**
+     * Whether two JSON request media types declare the same body schema: both
+     * must be refs to the same component. Inline schemas are never treated as
+     * equivalent (structurally different objects read identically by name).
+     */
+    private static boolean equivalentBodySchema(String ref, String selectedRef) {
+        if (ref == null || selectedRef == null) {
+            return false;
+        }
+        String left = ModelUtils.getSimpleRef(ref);
+        String right = ModelUtils.getSimpleRef(selectedRef);
+        return left != null && left.equals(right);
+    }
     /**
      * A request body is typable only when {@code fromJsonLeaf} has an overload
      * for its C++ type: a generated class (member fromJsonValue), a concrete
@@ -493,7 +743,7 @@ final class CppBoostBeastServerTemplateModelAssembler {
     // ------------------------------------------------------------------
 
     private List<Map<String, Object>> serverResponses(
-            CodegenOperation op, String pascal) {
+            CodegenOperation op, Operation raw, String pascal, Set<String> collidingModels) {
         List<Map<String, Object>> responses = new ArrayList<>();
         if (op.responses == null) {
             return responses;
@@ -510,26 +760,92 @@ final class CppBoostBeastServerTemplateModelAssembler {
             facts.put("isDefault", isDefault);
             facts.put("sendMethod", isDefault
                     ? "sendDefault" : "send" + sanitizeCode(code));
+            // Serialize every modeled response as JSON and label it with the
+            // media type the document actually declares: prefer an exact JSON
+            // type, then a +json suffix, then a wildcard, then the first
+            // declared type. Responses are always JSON-serialized, so a
+            // non-JSON declaration here is a documented degrade (warned at
+            // preprocess time by collectSurfaceWarnings).
+            facts.put("contentType", responseContentType(raw, response));
             String dataType = response.dataType == null ? "" : response.dataType;
             if (dataType.startsWith("std::shared_ptr<") && dataType.endsWith(">")) {
                 dataType = dataType.substring(
                         "std::shared_ptr<".length(), dataType.length() - 1).trim();
             }
             facts.put("hasModel", !dataType.isEmpty());
-            // A model class named exactly like this operation's generated
-            // Request/Responder type would shadow it as an injected-class-name
-            // inside its own declaration; qualify that reference with the
-            // model namespace so the parameter type resolves to the model.
-            boolean collides = dataType.equals(pascal + "Responder")
+            // Qualify model references that would otherwise be ambiguous or
+            // shadowed: a model named like this operation's nested Request/
+            // Responder type (injected-class-name shadowing) or like a
+            // runtime type (ambiguous under the model using-directive).
+            boolean pascalCollision = dataType.equals(pascal + "Responder")
                     || dataType.equals(pascal + "Request");
-            facts.put("sendType",
-                    collides && !modelNamespace.isEmpty()
-                            ? modelNamespace + "::" + dataType : dataType);
+            String rendered = pascalCollision && !modelNamespace.isEmpty()
+                    ? modelNamespace + "::" + dataType
+                    : qualifyCollidingModels(dataType, collidingModels);
+            facts.put("sendType", rendered);
             responses.add(facts);
         }
         return responses;
     }
 
+    /** Rewrites whole identifier tokens that name a colliding model to a
+     *  model-namespace-qualified spelling (handles containers such as
+     *  std::vector&lt;Problem&gt;). Container keywords never collide with a
+     *  model name, so the rewrite is safe inside template arguments. */
+    String qualifyCollidingModels(String dataType, Set<String> collidingModels) {
+        if (dataType.isEmpty() || collidingModels.isEmpty()) {
+            return dataType;
+        }
+        StringBuilder out = new StringBuilder(dataType.length());
+        int i = 0;
+        while (i < dataType.length()) {
+            char c = dataType.charAt(i);
+            if (Character.isJavaIdentifierStart(c)) {
+                int j = i + 1;
+                while (j < dataType.length() && Character.isJavaIdentifierPart(dataType.charAt(j))) {
+                    j++;
+                }
+                String token = dataType.substring(i, j);
+                if (collidingModels.contains(token)) {
+                    out.append(modelNamespace.isEmpty() ? "" : modelNamespace + "::").append(token);
+                } else {
+                    out.append(token);
+                }
+                i = j;
+            } else {
+                out.append(c);
+                i++;
+            }
+        }
+        return out.toString();
+    }
+
+    /** The Content-Type the generated responder labels this response with.
+     *  The runtime always serializes the model as JSON, so a declared JSON
+     *  family type is honored verbatim (exact application/json wins, then a
+     *  {+json} suffix); a wildcard or a non-JSON declaration is served as
+     *  application/json, which collectSurfaceWarnings has already reported. */
+    private String responseContentType(Operation raw, CodegenResponse response) {
+        String code = response.code == null ? "default" : response.code;
+        ApiResponse apiResponse = raw != null && raw.getResponses() != null
+                ? raw.getResponses().get(code) : null;
+        if (apiResponse != null && apiResponse.getContent() != null) {
+            String plusJson = "";
+            for (String mediaType : apiResponse.getContent().keySet()) {
+                String normalized = CppBoostBeastServerCodegen.normalizeMediaType(mediaType);
+                if ("application/json".equals(normalized)) {
+                    return "application/json";
+                }
+                if (plusJson.isEmpty() && normalized.endsWith("+json")) {
+                    plusJson = normalized;
+                }
+            }
+            if (!plusJson.isEmpty()) {
+                return plusJson;
+            }
+        }
+        return "application/json";
+    }
 
     /** Inner template argument for containers ("" for scalars). */
     static String innerTemplateArg(String dataType) {

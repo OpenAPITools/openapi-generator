@@ -88,40 +88,50 @@ inline std::vector<std::string> splitOn(std::string_view value, char delimiter) 
     return parts;
 }
 
-/// Strips a label-style "." prefix from one raw path-segment value.
-inline std::string stripLabelPrefix(std::string_view segment) {
-    if (!segment.empty() && segment.front() == '.') {
-        segment.remove_prefix(1);
+/// Decodes a label-style path segment: the OAS grammar makes the leading
+/// "." part of the parameter serialization, so a segment without it is
+/// malformed input (400), not a value. `out` receives the remainder after
+/// the "." (possibly empty for explode lists; callers check element shape).
+inline bool decodeLabel(std::string_view segment, std::string& out) {
+    if (segment.empty() || segment.front() != '.') {
+        return false;
     }
-    return std::string(segment);
+    out.assign(segment.substr(1));
+    return true;
 }
 
-/// Strips a matrix-style ";name=" prefix from one raw path-segment value.
-inline std::string stripMatrixPrefix(std::string_view segment, std::string const& name) {
-    if (!segment.empty() && segment.front() == ';') {
-        segment.remove_prefix(1);
-        std::string prefix = name + "=";
-        if (segment.substr(0, prefix.size()) == prefix) {
-            segment.remove_prefix(prefix.size());
-        }
+/// Decodes a matrix-style path segment: it must start with ";name=" (the
+/// parameter name is part of the serialization). `out` receives the value
+/// text after the prefix.
+inline bool decodeMatrix(std::string_view segment, std::string const& name,
+        std::string& out) {
+    std::string prefix = ";" + name + "=";
+    if (segment.size() < prefix.size()
+            || segment.compare(0, prefix.size(), prefix) != 0) {
+        return false;
     }
-    return std::string(segment);
+    out.assign(segment.substr(prefix.size()));
+    return true;
 }
 
-/// Splits an exploded matrix segment (";id=3;id=4") into percent-decoded-
-/// ready elements, stripping the repeated "name=" prefix from every element
-/// (OAS 3.x style=matrix explode=true repeats the name per value).
-inline std::vector<std::string> splitMatrixExploded(
-        std::string_view segment, std::string const& name) {
-    std::vector<std::string> elements =
-        splitOn(stripMatrixPrefix(segment, name), ';');
+/// Splits an exploded matrix segment (";id=3;id=4") into elements. Every
+/// element must carry the repeated "name=" prefix (OAS 3.x style=matrix
+/// explode=true); a segment or element without it is malformed (400).
+inline bool splitMatrixExploded(std::string_view segment, std::string const& name,
+        std::vector<std::string>& elements) {
+    std::string value;
+    if (!decodeMatrix(segment, name, value)) {
+        return false;
+    }
+    elements = splitOn(value, ';');
     std::string const prefix = name + "=";
-    for (std::string& element : elements) {
-        if (element.compare(0, prefix.size(), prefix) == 0) {
-            element.erase(0, prefix.size());
+    for (std::size_t i = 1; i < elements.size(); ++i) {
+        if (elements[i].compare(0, prefix.size(), prefix) != 0) {
+            return false;
         }
+        elements[i].erase(0, prefix.size());
     }
-    return elements;
+    return true;
 }
 
 /// Parses a Cookie header value ("k=v; k2=v2") into decoded pairs.
@@ -218,6 +228,16 @@ inline bool parseFloatScalar(std::string_view text, T& out) {
     // JSON numbers are finite; reject strtod extensions like "inf"/"nan"
     // and hex-floats would already fail the whole-input length check.
     if (!std::isfinite(parsed)) return false;
+    // A float parameter rejects values outside float range: casting 1e40 to
+    // float yields infinity, which would hand the service a non-finite
+    // number the schema never allows. Underflow to denormal/zero stays
+    // accepted (ordinary narrowing, not a wire-level error).
+    if constexpr (sizeof(T) < sizeof(double)) {
+        if (parsed > static_cast<double>(std::numeric_limits<T>::max())
+                || parsed < -static_cast<double>(std::numeric_limits<T>::max())) {
+            return false;
+        }
+    }
     out = static_cast<T>(parsed);
     return true;
 }

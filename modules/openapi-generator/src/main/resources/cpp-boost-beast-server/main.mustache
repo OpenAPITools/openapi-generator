@@ -10,13 +10,13 @@
 #include <iostream>
 #include <memory>
 
-#include "HttpServer.h"
-#include "Router.h"
+#include "server/HttpServer.h"
+#include "server/Router.h"
 
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
-#include "{{classname}}.h"
+#include "api/{{classname}}.h"
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}

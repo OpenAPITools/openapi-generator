@@ -1,9 +1,14 @@
-{{! Shared scalar-parameter constraint ladder for query/header/cookie scalar
-    branches. Requires C++ locals `present` (parameter seen on the wire) and
-    `invalid`/`problem`, plus the assembler facts stringKind/boolKind/
-    integerKind/numberKind, hasEnum/enumValues, hasPattern/pattern,
-    hasMinLength/minLength, hasMaxLength/maxLength, hasMinimum/minimum,
-    hasMaximum/maximum. }}
+{{! Shared scalar-parameter constraint ladder for the path/query/header/cookie
+    scalar branches. Requires C++ locals `present` (parameter seen on the wire;
+    path sets it true), `invalid`, and `problem`, plus the assembler facts
+    stringKind/boolKind/integerKind/numberKind and the constraint ladder:
+    hasEnum/enumValues, hasPattern/pattern, hasMinLength/minLength,
+    hasMaxLength/maxLength, hasMinimum/minimum, hasMaximum/maximum,
+    minimumExclusive/maximumExclusive, minimumAlwaysInvalid/maximumAlwaysInvalid.
+    Integer kinds compare in their exact integer type against assembler-folded
+    thresholds (minimum is already the strict reject floor, maximum the strict
+    reject ceiling), so a value above 2^53 cannot slip through a lossy
+    floating-point conversion. }}
 {{#stringKind}}{{#hasEnum}}
                     if (!invalid && present) {
                         static std::vector<std::string> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
@@ -40,25 +45,35 @@
                         }
                     }
 {{/hasEnum}}{{/boolKind}}
-{{#integerKind}}{{#hasEnum}}
+{{#integerKind}}{{#minimumAlwaysInvalid}}
                     if (!invalid && present) {
-                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
-                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
+                        problem.withError("{{baseName}}", "value can never satisfy the declared minimum");
+                        invalid = true;
+                    }
+{{/minimumAlwaysInvalid}}{{#maximumAlwaysInvalid}}
+                    if (!invalid && present) {
+                        problem.withError("{{baseName}}", "value can never satisfy the declared maximum");
+                        invalid = true;
+                    }
+{{/maximumAlwaysInvalid}}{{^minimumAlwaysInvalid}}{{^maximumAlwaysInvalid}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<long long> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long long>(request.{{cppName}})) == kAllowed.end()) {
                             problem.withError("{{baseName}}", "value is not one of the allowed enum members");
                             invalid = true;
                         }
                     }
 {{/hasEnum}}{{#hasMinimum}}
-                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
+                    if (!invalid && present && request.{{cppName}} < {{minimum}}) {
                         problem.withError("{{baseName}}", "value is below the minimum");
                         invalid = true;
                     }
 {{/hasMinimum}}{{#hasMaximum}}
-                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) > {{maximum}}L) {
+                    if (!invalid && present && request.{{cppName}} > {{maximum}}) {
                         problem.withError("{{baseName}}", "value is above the maximum");
                         invalid = true;
                     }
-{{/hasMaximum}}{{/integerKind}}
+{{/hasMaximum}}{{/maximumAlwaysInvalid}}{{/minimumAlwaysInvalid}}{{/integerKind}}
 {{#numberKind}}{{#hasEnum}}
                     if (!invalid && present) {
                         static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
@@ -68,13 +83,13 @@
                         }
                     }
 {{/hasEnum}}{{#hasMinimum}}
-                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) < {{minimum}}L) {
-                        problem.withError("{{baseName}}", "value is below the minimum");
+                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) {{#minimumExclusive}}<={{/minimumExclusive}}{{^minimumExclusive}}<{{/minimumExclusive}} {{minimum}}L) {
+                        problem.withError("{{baseName}}", "value is out of the allowed range");
                         invalid = true;
                     }
 {{/hasMinimum}}{{#hasMaximum}}
-                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) > {{maximum}}L) {
-                        problem.withError("{{baseName}}", "value is above the maximum");
+                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) {{#maximumExclusive}}>={{/maximumExclusive}}{{^maximumExclusive}}>{{/maximumExclusive}} {{maximum}}L) {
+                        problem.withError("{{baseName}}", "value is out of the allowed range");
                         invalid = true;
                     }
 {{/hasMaximum}}{{/numberKind}}
