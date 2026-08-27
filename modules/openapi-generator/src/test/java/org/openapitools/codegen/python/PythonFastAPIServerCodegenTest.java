@@ -238,4 +238,34 @@ public class PythonFastAPIServerCodegenTest {
         // JSON body model properties keep strict typing (real JSON types, no wire-string coercion)
         assertFileContains(model, "count: Optional[StrictInt] = None");
     }
+
+    /**
+     * Verifies that endpoint argument commas stay at the end of the parameter line instead of
+     * being wrapped onto a line of their own. The {@code endpoint_argument_definition} partial
+     * is included inline (followed by {@code ,}) in api.mustache, so a trailing newline in the
+     * partial leaks into the output and produces the broken ")\n," style (#22494).
+     */
+    @Test(description = "endpoint argument commas stay at end of line, no newline before comma (#22494)")
+    public void testEndpointArgumentCommaStaysOnSameLine() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/bugs/issue_21905.yaml");
+        final Path api = Paths.get(outputPath + "src/openapi_server/apis/item_api.py");
+
+        assertFileExists(api);
+
+        // NOTE: assertFileContains linearizes away newlines, so raw content checks are required here
+        final String content = Files.readString(api);
+
+        // commas terminate the parameter line
+        Assert.assertTrue(content.contains("itemId: int = Path(..., description=\"\"),\n"),
+                "parameter line should end with a comma: " + api);
+        Assert.assertTrue(content.contains("session_id: Optional[int] = Cookie(None, description=\"\"),\n"),
+                "parameter line should end with a comma: " + api);
+        Assert.assertTrue(content.contains("dark_mode: Optional[bool] = Cookie(None, description=\"\"),\n"),
+                "parameter line should end with a comma: " + api);
+
+        // the comma must never be wrapped onto its own line
+        Assert.assertFalse(content.contains("\n,\n"),
+                "comma wrapped onto its own line in: " + api);
+    }
 }
