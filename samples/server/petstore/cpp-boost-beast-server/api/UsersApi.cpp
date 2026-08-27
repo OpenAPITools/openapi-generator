@@ -15,11 +15,11 @@
 
 #include "UsersApi.h"
 
-#include "BodyJson.h"
-#include "ParamCodecs.h"
-#include "Problem.h"
-#include "Responder.h"
-#include "Router.h"
+#include "server/BodyJson.h"
+#include "server/ParamCodecs.h"
+#include "server/Problem.h"
+#include "server/Responder.h"
+#include "server/Router.h"
 
 #include <algorithm>
 #include <cctype>
@@ -46,19 +46,24 @@ void UsersApi::attach(HttpServer& server, std::shared_ptr<UsersApi> impl) {
         router->add(
             "GET",
             "/users/{username}",
-            [impl](RequestContext& ctx, std::shared_ptr<ResponderCore> responderCore) {
+            [impl](std::shared_ptr<RequestContext> ctx,
+                    std::shared_ptr<ResponderCore> responderCore) {
                 GetUserByNameRequest request;
                 Problem problem;
                 bool invalid = false;
 
                 // ---- parameter username (path, simple) ----
                 {
-                    auto rawSegment = ctx.pathParams.find("username");
+                    auto rawSegment = ctx->pathParams.find("username");
                     std::string encoded =
-                        rawSegment != ctx.pathParams.end() ? rawSegment->second : std::string();
+                        rawSegment != ctx->pathParams.end() ? rawSegment->second : std::string();
+                    bool malformed = false;
                     std::string text;
                     text = percentDecode(encoded);
-                    if (text.empty()) {
+                    if (malformed) {
+                        problem.withError("username", "path parameter is not simple-encoded");
+                        invalid = true;
+                    } else if (text.empty()) {
                         problem.withError("username", "path parameter is missing or empty");
                         invalid = true;
                     } else if (!parseScalar(text, request.username)) {

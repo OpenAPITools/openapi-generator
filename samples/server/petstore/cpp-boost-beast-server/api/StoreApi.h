@@ -24,60 +24,66 @@
 #include <utility>
 #include <vector>
 
-#include "HttpServer.h"
-#include "Problem.h"
-#include "Responder.h"
-#include "Router.h"
+#include "server/HttpServer.h"
+#include "server/Problem.h"
+#include "server/Responder.h"
+#include "server/Router.h"
 
 #include <map>
-
 namespace org {
 namespace openapitools {
 namespace server {
 namespace api {
 
 
-// ---------------------------------------------------------------------------
-
-/// Fully decoded request data for getInventory.
-struct GetInventoryRequest {
-};
-
-/// Single-shot responder for getInventory. Movable, thread-safe value
-/// type; the second and later completions are ignored.
-class GetInventoryResponder {
-public:
-    explicit GetInventoryResponder(
-            std::shared_ptr<ResponderCore> core)
-        : core_(std::move(core)) {}
-
-    void send200(std::map<std::string, std::int32_t> value) const {
-        core_->sendJson(200, value, "application/json");
-    }
-
-    void sendProblem(Problem problem) const {
-        core_->sendProblem(std::move(problem));
-    }
-
-    void sendNotImplemented(std::string const& operationId) const {
-        core_->sendNotImplemented(operationId);
-    }
-
-private:
-    std::shared_ptr<ResponderCore> core_;
-};
 
 /**
  * Service interface for . Implementations receive fully
- * decoded, validated requests and own their response completion.
+ * decoded, validated requests and own their response completion. The
+ * request context is heap-owned: implementations may keep the shared_ptr
+ * and read the request data after this call returns.
+ *
+ * The per-operation contract types are nested inside this class so an
+ * operation tagged under several groups produces one definition per API
+ * class instead of duplicate namespace-scope types.
  */
 class StoreApi {
 public:
+    // ------------------------------------------------------------------
+
+    /// Fully decoded request data for getInventory.
+    struct GetInventoryRequest {
+    };
+
+    /// Single-shot responder for getInventory. Movable, thread-safe value
+    /// type; the second and later completions are ignored.
+    class GetInventoryResponder {
+    public:
+        explicit GetInventoryResponder(
+                std::shared_ptr<ResponderCore> core)
+            : core_(std::move(core)) {}
+
+        void send200(std::map<std::string, std::int32_t> value) const {
+            core_->sendJson(200, value, "application/json");
+        }
+
+        void sendProblem(Problem problem) const {
+            core_->sendProblem(std::move(problem));
+        }
+
+        void sendNotImplemented(std::string const& operationId) const {
+            core_->sendNotImplemented(operationId);
+        }
+
+    private:
+        std::shared_ptr<ResponderCore> core_;
+    };
+
     virtual ~StoreApi() = default;
 
     virtual void getInventory(
             GetInventoryRequest request,
-            RequestContext& context,
+            std::shared_ptr<RequestContext> context,
             GetInventoryResponder responder) = 0;
 
     /// Registers every StoreApi route on the server.
@@ -91,7 +97,7 @@ class StoreApiStub : public StoreApi {
 public:
     void getInventory(
             GetInventoryRequest request,
-            RequestContext& context,
+            std::shared_ptr<RequestContext> context,
             GetInventoryResponder responder) override {
         (void)request;
         (void)context;

@@ -11,18 +11,22 @@
 
 // ============================================================================
 // Router.h - deterministic route table with encoded-segment matching.
-// Literal segments match exactly; {param} segments capture the whole raw
-// (still percent-encoded) segment so %2F stays inside one path parameter.
+// Each path segment is tokenized into the literal/expression parts OpenAPI
+// allows, so `{petId}` captures a whole segment and `report-{year}` captures
+// just the expression part. Captures keep the raw (still percent-encoded)
+// text, so %2F stays inside one path parameter.
 // ============================================================================
 #ifndef ORG_OPENAPITOOLS_SERVER_API_SERVER_ROUTER_H_
 #define ORG_OPENAPITOOLS_SERVER_API_SERVER_ROUTER_H_
 
 #include "Responder.h"
 
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace org::openapitools::server::api {
@@ -44,7 +48,7 @@ struct RequestContext {
     std::string method;
     std::string target;                                   // origin-form, encoded
     std::multimap<std::string, std::string> query;        // decoded key/value pairs
-    std::map<std::string, std::string> pathParams;        // ENCODED raw segments
+    std::map<std::string, std::string> pathParams;        // ENCODED raw captures
     std::multimap<std::string, std::string> headers;      // lowercased names
     std::multimap<std::string, std::string> cookies;      // decoded
     std::string body;
@@ -52,7 +56,7 @@ struct RequestContext {
 };
 
 using Handler = std::function<void(
-        RequestContext&, std::shared_ptr<ResponderCore>)>;
+        std::shared_ptr<RequestContext>, std::shared_ptr<ResponderCore>)>;
 
 /// Successful route match.
 struct RouteMatch {
@@ -81,16 +85,25 @@ public:
     bool empty() const { return routes_.empty(); }
 
 private:
+    /// One piece of a path segment: literal text, or a capture under a
+    /// parameter name (non-empty name = expression part).
+    struct Token {
+        std::string literal;
+        std::string param;
+        bool isParam() const { return !param.empty(); }
+    };
+
     struct Route {
         std::string method;
-        std::vector<std::string> segments;   // literal text or "{}" placeholder
-        std::vector<std::string> paramNames;
+        std::vector<std::vector<Token>> segments;  // per-segment tokens
+        std::size_t literalTokens = 0;             // ranking weight
         Handler handler;
         SecurityGroups security;
         std::string operationId;
     };
 
     static std::vector<std::string> splitPath(std::string const& target);
+    static std::vector<Token> tokenizeSegment(std::string const& segment);
     static bool matches(Route const& route,
                         std::vector<std::string> const& segments,
                         std::map<std::string, std::string>& pathParams);
@@ -106,13 +119,13 @@ inline void Router::add(std::string const& method,
     Route route;
     route.method = method;
     for (std::string const& segment : splitPath(pathTemplate)) {
-        if (!segment.empty() && segment.front() == '{' && segment.back() == '}') {
-            route.segments.push_back("{}");
-            route.paramNames.push_back(segment.substr(1, segment.size() - 2));
-        } else {
-            route.segments.push_back(segment);
-            route.paramNames.push_back("");
+        std::vector<Token> tokens = tokenizeSegment(segment);
+        for (Token const& token : tokens) {
+            if (!token.isParam()) {
+                ++route.literalTokens;
+            }
         }
+        route.segments.push_back(std::move(tokens));
     }
     route.handler = std::move(handler);
     route.security = std::move(security);
@@ -143,21 +156,94 @@ inline std::vector<std::string> Router::splitPath(std::string const& target) {
     return segments;
 }
 
+/// Splits one template segment into literal and `{name}` expression tokens.
+/// Well-formed templates (the generation gate rejects the rest) contain
+/// balanced, non-nested, non-empty expressions; malformed remainders stay
+/// literal text.
+inline std::vector<Router::Token> Router::tokenizeSegment(
+        std::string const& segment) {
+    std::vector<Token> tokens;
+    std::size_t start = 0;
+    while (start < segment.size()) {
+        std::size_t open = segment.find('{', start);
+        if (open == std::string::npos) {
+            tokens.push_back(Token{segment.substr(start), ""});
+            break;
+        }
+        std::size_t close = segment.find('}', open);
+        if (close == std::string::npos
+                || segment.find('{', open + 1) < close
+                || close == open + 1) {
+            // Unbalanced/nested/empty expression: keep the remainder literal.
+            tokens.push_back(Token{segment.substr(start), ""});
+            break;
+        }
+        if (open > start) {
+            tokens.push_back(Token{segment.substr(start, open - start), ""});
+        }
+        tokens.push_back(Token{"", segment.substr(open + 1, close - open - 1)});
+        start = close + 1;
+    }
+    return tokens;
+}
+
 inline bool Router::matches(Route const& route,
                             std::vector<std::string> const& segments,
                             std::map<std::string, std::string>& pathParams) {
     if (route.segments.size() != segments.size()) {
         return false;
     }
+    std::map<std::string, std::string> captures;
     for (std::size_t i = 0; i < segments.size(); ++i) {
-        if (route.segments[i] == "{}") {
-            if (segments[i].empty()) {
+        std::string const& text = segments[i];
+        std::vector<Token> const& tokens = route.segments[i];
+        if (tokens.empty()) {
+            if (!text.empty()) {
                 return false;
             }
-            pathParams[route.paramNames[i]] = segments[i];
-        } else if (route.segments[i] != segments[i]) {
+            continue;
+        }
+        // Walk tokens left to right: literal tokens must match at the cursor;
+        // expression tokens capture up to the next literal anchor (or to the
+        // segment end for a trailing expression). A whole-segment {param}
+        // may not capture an empty value.
+        std::size_t position = 0;
+        bool matched = true;
+        for (std::size_t t = 0; matched && t < tokens.size(); ++t) {
+            Token const& token = tokens[t];
+            if (!token.isParam()) {
+                if (text.compare(position, token.literal.size(), token.literal) != 0) {
+                    matched = false;
+                    break;
+                }
+                position += token.literal.size();
+                continue;
+            }
+            std::size_t begin = position;
+            std::size_t end = text.size();
+            bool anchored = false;
+            if (t + 1 < tokens.size()) {
+                anchored = true;
+                std::size_t hit = text.find(tokens[t + 1].literal, begin);
+                if (hit == std::string::npos) {
+                    matched = false;
+                    break;
+                }
+                end = hit;
+            }
+            if (tokens.size() == 1 && begin == end) {
+                matched = false;   // a whole-segment {param} may not be empty
+                break;
+            }
+            captures[token.param] = text.substr(begin, end - begin);
+            position = anchored ? end : text.size();
+        }
+        if (!matched || position != text.size()) {
             return false;
         }
+    }
+    for (auto const& capture : captures) {
+        pathParams[capture.first] = capture.second;
     }
     return true;
 }
@@ -166,7 +252,7 @@ inline RouteMatch Router::match(
         std::string const& method, std::string const& encodedTarget) const {
     std::vector<std::string> segments = splitPath(encodedTarget);
     // Literal-over-parameter ranking: among routes whose method and shape
-    // match, the one with the most literal (non-placeholder) segments wins;
+    // match, the one with the most literal (non-expression) tokens wins;
     // ties keep registration order. This makes dispatch independent of
     // declaration order, so /pets/bulk beats an earlier /pets/{petId}.
     Route const* best = nullptr;
@@ -180,15 +266,9 @@ inline RouteMatch Router::match(
         if (!matches(route, segments, pathParams)) {
             continue;
         }
-        std::size_t literals = 0;
-        for (std::string const& segment : route.segments) {
-            if (segment != "{}") {
-                ++literals;
-            }
-        }
-        if (best == nullptr || literals > bestLiterals) {
+        if (best == nullptr || route.literalTokens > bestLiterals) {
             best = &route;
-            bestLiterals = literals;
+            bestLiterals = route.literalTokens;
             bestParams = std::move(pathParams);
         }
     }

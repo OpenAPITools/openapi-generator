@@ -20,6 +20,7 @@ if (TARGET Boost::url)
     set(BOOST_URL_TARGET_PREDEFINED TRUE)
 endif ()
 
+# Boost.URL is linked as a compiled component (Boost 1.81+).
 find_package(Boost 1.81 REQUIRED COMPONENTS json url)
 # Imported targets created in this subdirectory are otherwise invisible to
 # sibling consumers when this project is included with add_subdirectory().
@@ -42,11 +43,19 @@ if (NOT THREADS_TARGET_PREDEFINED)
     set_property(TARGET Threads::Threads PROPERTY IMPORTED_GLOBAL TRUE)
 endif ()
 
-# Boost.URL is linked as a compiled component (Boost 1.81+).
+# Generated code is held warning-clean. Warnings are fatal by default on
+# GCC/Clang (Boost headers arrive through SYSTEM include directories, so the
+# flag only bites the generated sources). MSVC keeps /W4 without /WX because
+# vcpkg-propagated Boost headers are not reliably marked external; set
+# -DCPP_BOOST_BEAST_SERVER_WERROR=OFF to relax the non-MSVC default.
+option(CPP_BOOST_BEAST_SERVER_WERROR "Treat compiler warnings as errors" ON)
 if (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 else ()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra")
+    if (CPP_BOOST_BEAST_SERVER_WERROR)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+    endif ()
 endif ()
 
 

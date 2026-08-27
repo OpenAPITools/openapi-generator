@@ -15,11 +15,11 @@
 
 #include "PetsApi.h"
 
-#include "BodyJson.h"
-#include "ParamCodecs.h"
-#include "Problem.h"
-#include "Responder.h"
-#include "Router.h"
+#include "server/BodyJson.h"
+#include "server/ParamCodecs.h"
+#include "server/Problem.h"
+#include "server/Responder.h"
+#include "server/Router.h"
 
 #include <algorithm>
 #include <cctype>
@@ -46,7 +46,8 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
         router->add(
             "POST",
             "/pets",
-            [impl](RequestContext& ctx, std::shared_ptr<ResponderCore> responderCore) {
+            [impl](std::shared_ptr<RequestContext> ctx,
+                    std::shared_ptr<ResponderCore> responderCore) {
                 CreatePetRequest request;
                 Problem problem;
                 bool invalid = false;
@@ -54,9 +55,9 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
 
                 // ---- request body (Pet) ----
                 {
-                    auto contentTypeEntry = ctx.headers.find("content-type");
+                    auto contentTypeEntry = ctx->headers.find("content-type");
                     std::string contentType =
-                        contentTypeEntry != ctx.headers.end()
+                        contentTypeEntry != ctx->headers.end()
                             ? contentTypeEntry->second : std::string();
                     std::size_t semicolon = contentType.find(';');
                     if (semicolon != std::string::npos) {
@@ -74,14 +75,13 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
                         "application/json" };
                     bool supported = !contentType.empty()
                         ? std::find(kMediaTypes.begin(), kMediaTypes.end(), contentType) != kMediaTypes.end()
-                          || std::find(kMediaTypes.begin(), kMediaTypes.end(), "*/*") != kMediaTypes.end()
                         : kMediaTypes.size() == 1;
                     if (!supported) {
                         responderCore->sendProblem(Problem::unsupportedMediaType(contentType));
                         return;
                     }
                     try {
-                        fromJsonBody(ctx.body, request.body);
+                        fromJsonBody(ctx->body, request.body);
                     } catch (std::invalid_argument const& error) {
                         Problem parseProblem = Problem::badRequest(error.what());
                         parseProblem.withError("body", error.what());
@@ -112,19 +112,24 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
         router->add(
             "DELETE",
             "/pets/{petId}",
-            [impl](RequestContext& ctx, std::shared_ptr<ResponderCore> responderCore) {
+            [impl](std::shared_ptr<RequestContext> ctx,
+                    std::shared_ptr<ResponderCore> responderCore) {
                 DeletePetByIdRequest request;
                 Problem problem;
                 bool invalid = false;
 
                 // ---- parameter petId (path, simple) ----
                 {
-                    auto rawSegment = ctx.pathParams.find("petId");
+                    auto rawSegment = ctx->pathParams.find("petId");
                     std::string encoded =
-                        rawSegment != ctx.pathParams.end() ? rawSegment->second : std::string();
+                        rawSegment != ctx->pathParams.end() ? rawSegment->second : std::string();
+                    bool malformed = false;
                     std::string text;
                     text = percentDecode(encoded);
-                    if (text.empty()) {
+                    if (malformed) {
+                        problem.withError("petId", "path parameter is not simple-encoded");
+                        invalid = true;
+                    } else if (text.empty()) {
                         problem.withError("petId", "path parameter is missing or empty");
                         invalid = true;
                     } else if (!parseScalar(text, request.petId)) {
@@ -160,14 +165,15 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
         router->add(
             "GET",
             "/pets",
-            [impl](RequestContext& ctx, std::shared_ptr<ResponderCore> responderCore) {
+            [impl](std::shared_ptr<RequestContext> ctx,
+                    std::shared_ptr<ResponderCore> responderCore) {
                 ListPetsRequest request;
                 Problem problem;
                 bool invalid = false;
 
                 // ---- parameter limit (query, form) ----
                 {
-                    auto values = ctx.query.equal_range("limit");
+                    auto values = ctx->query.equal_range("limit");
                     bool present = values.first != values.second;
                     if (!present) {
                         // absent optional query parameter keeps its default value
@@ -178,12 +184,12 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
 
 
 
-                    if (!invalid && present && static_cast<long double>(request.limit) < 1.0L) {
+                    if (!invalid && present && request.limit < (1LL)) {
                         problem.withError("limit", "value is below the minimum");
                         invalid = true;
                     }
 
-                    if (!invalid && present && static_cast<long double>(request.limit) > 100.0L) {
+                    if (!invalid && present && request.limit > (100LL)) {
                         problem.withError("limit", "value is above the maximum");
                         invalid = true;
                     }
@@ -214,19 +220,24 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
         router->add(
             "GET",
             "/pets/{petId}",
-            [impl](RequestContext& ctx, std::shared_ptr<ResponderCore> responderCore) {
+            [impl](std::shared_ptr<RequestContext> ctx,
+                    std::shared_ptr<ResponderCore> responderCore) {
                 ShowPetByIdRequest request;
                 Problem problem;
                 bool invalid = false;
 
                 // ---- parameter petId (path, simple) ----
                 {
-                    auto rawSegment = ctx.pathParams.find("petId");
+                    auto rawSegment = ctx->pathParams.find("petId");
                     std::string encoded =
-                        rawSegment != ctx.pathParams.end() ? rawSegment->second : std::string();
+                        rawSegment != ctx->pathParams.end() ? rawSegment->second : std::string();
+                    bool malformed = false;
                     std::string text;
                     text = percentDecode(encoded);
-                    if (text.empty()) {
+                    if (malformed) {
+                        problem.withError("petId", "path parameter is not simple-encoded");
+                        invalid = true;
+                    } else if (text.empty()) {
                         problem.withError("petId", "path parameter is missing or empty");
                         invalid = true;
                     } else if (!parseScalar(text, request.petId)) {

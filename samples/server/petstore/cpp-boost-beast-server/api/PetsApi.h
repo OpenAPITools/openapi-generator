@@ -24,172 +24,178 @@
 #include <utility>
 #include <vector>
 
-#include "HttpServer.h"
-#include "Problem.h"
-#include "Responder.h"
-#include "Router.h"
+#include "server/HttpServer.h"
+#include "server/Problem.h"
+#include "server/Responder.h"
+#include "server/Router.h"
 
 #include "Error.h"
 #include "Pet.h"
 #include <vector>
-
 namespace org {
 namespace openapitools {
 namespace server {
 namespace api {
 
+
 using namespace org::openapitools::server::model;
-
-// ---------------------------------------------------------------------------
-
-/// Fully decoded request data for createPet.
-struct CreatePetRequest {
-    Pet body{};
-};
-
-/// Single-shot responder for createPet. Movable, thread-safe value
-/// type; the second and later completions are ignored.
-class CreatePetResponder {
-public:
-    explicit CreatePetResponder(
-            std::shared_ptr<ResponderCore> core)
-        : core_(std::move(core)) {}
-
-    void send201(Pet value) const {
-        core_->sendJson(201, value, "application/json");
-    }
-
-    void sendProblem(Problem problem) const {
-        core_->sendProblem(std::move(problem));
-    }
-
-    void sendNotImplemented(std::string const& operationId) const {
-        core_->sendNotImplemented(operationId);
-    }
-
-private:
-    std::shared_ptr<ResponderCore> core_;
-};
-
-// ---------------------------------------------------------------------------
-
-/// Fully decoded request data for deletePetById.
-struct DeletePetByIdRequest {
-    std::int64_t petId{};
-};
-
-/// Single-shot responder for deletePetById. Movable, thread-safe value
-/// type; the second and later completions are ignored.
-class DeletePetByIdResponder {
-public:
-    explicit DeletePetByIdResponder(
-            std::shared_ptr<ResponderCore> core)
-        : core_(std::move(core)) {}
-
-    void send204() const {
-        core_->sendEmpty(204);
-    }
-
-    void sendProblem(Problem problem) const {
-        core_->sendProblem(std::move(problem));
-    }
-
-    void sendNotImplemented(std::string const& operationId) const {
-        core_->sendNotImplemented(operationId);
-    }
-
-private:
-    std::shared_ptr<ResponderCore> core_;
-};
-
-// ---------------------------------------------------------------------------
-
-/// Fully decoded request data for listPets.
-struct ListPetsRequest {
-    std::int32_t limit{};
-};
-
-/// Single-shot responder for listPets. Movable, thread-safe value
-/// type; the second and later completions are ignored.
-class ListPetsResponder {
-public:
-    explicit ListPetsResponder(
-            std::shared_ptr<ResponderCore> core)
-        : core_(std::move(core)) {}
-
-    void send200(std::vector<std::shared_ptr<Pet>> value) const {
-        core_->sendJson(200, value, "application/json");
-    }
-
-    void sendProblem(Problem problem) const {
-        core_->sendProblem(std::move(problem));
-    }
-
-    void sendNotImplemented(std::string const& operationId) const {
-        core_->sendNotImplemented(operationId);
-    }
-
-private:
-    std::shared_ptr<ResponderCore> core_;
-};
-
-// ---------------------------------------------------------------------------
-
-/// Fully decoded request data for showPetById.
-struct ShowPetByIdRequest {
-    std::int64_t petId{};
-};
-
-/// Single-shot responder for showPetById. Movable, thread-safe value
-/// type; the second and later completions are ignored.
-class ShowPetByIdResponder {
-public:
-    explicit ShowPetByIdResponder(
-            std::shared_ptr<ResponderCore> core)
-        : core_(std::move(core)) {}
-
-    void send200(Pet value) const {
-        core_->sendJson(200, value, "application/json");
-    }
-    void send404(Error value) const {
-        core_->sendJson(404, value, "application/json");
-    }
-
-    void sendProblem(Problem problem) const {
-        core_->sendProblem(std::move(problem));
-    }
-
-    void sendNotImplemented(std::string const& operationId) const {
-        core_->sendNotImplemented(operationId);
-    }
-
-private:
-    std::shared_ptr<ResponderCore> core_;
-};
 
 /**
  * Service interface for . Implementations receive fully
- * decoded, validated requests and own their response completion.
+ * decoded, validated requests and own their response completion. The
+ * request context is heap-owned: implementations may keep the shared_ptr
+ * and read the request data after this call returns.
+ *
+ * The per-operation contract types are nested inside this class so an
+ * operation tagged under several groups produces one definition per API
+ * class instead of duplicate namespace-scope types.
  */
 class PetsApi {
 public:
+    // ------------------------------------------------------------------
+
+    /// Fully decoded request data for createPet.
+    struct CreatePetRequest {
+        Pet body{};
+    };
+
+    /// Single-shot responder for createPet. Movable, thread-safe value
+    /// type; the second and later completions are ignored.
+    class CreatePetResponder {
+    public:
+        explicit CreatePetResponder(
+                std::shared_ptr<ResponderCore> core)
+            : core_(std::move(core)) {}
+
+        void send201(Pet value) const {
+            core_->sendJson(201, value, "application/json");
+        }
+
+        void sendProblem(Problem problem) const {
+            core_->sendProblem(std::move(problem));
+        }
+
+        void sendNotImplemented(std::string const& operationId) const {
+            core_->sendNotImplemented(operationId);
+        }
+
+    private:
+        std::shared_ptr<ResponderCore> core_;
+    };
+
+    // ------------------------------------------------------------------
+
+    /// Fully decoded request data for deletePetById.
+    struct DeletePetByIdRequest {
+        std::int64_t petId = 0L;
+    };
+
+    /// Single-shot responder for deletePetById. Movable, thread-safe value
+    /// type; the second and later completions are ignored.
+    class DeletePetByIdResponder {
+    public:
+        explicit DeletePetByIdResponder(
+                std::shared_ptr<ResponderCore> core)
+            : core_(std::move(core)) {}
+
+        void send204() const {
+            core_->sendEmpty(204);
+        }
+
+        void sendProblem(Problem problem) const {
+            core_->sendProblem(std::move(problem));
+        }
+
+        void sendNotImplemented(std::string const& operationId) const {
+            core_->sendNotImplemented(operationId);
+        }
+
+    private:
+        std::shared_ptr<ResponderCore> core_;
+    };
+
+    // ------------------------------------------------------------------
+
+    /// Fully decoded request data for listPets.
+    struct ListPetsRequest {
+        std::int32_t limit = 0;
+    };
+
+    /// Single-shot responder for listPets. Movable, thread-safe value
+    /// type; the second and later completions are ignored.
+    class ListPetsResponder {
+    public:
+        explicit ListPetsResponder(
+                std::shared_ptr<ResponderCore> core)
+            : core_(std::move(core)) {}
+
+        void send200(std::vector<std::shared_ptr<Pet>> value) const {
+            core_->sendJson(200, value, "application/json");
+        }
+
+        void sendProblem(Problem problem) const {
+            core_->sendProblem(std::move(problem));
+        }
+
+        void sendNotImplemented(std::string const& operationId) const {
+            core_->sendNotImplemented(operationId);
+        }
+
+    private:
+        std::shared_ptr<ResponderCore> core_;
+    };
+
+    // ------------------------------------------------------------------
+
+    /// Fully decoded request data for showPetById.
+    struct ShowPetByIdRequest {
+        std::int64_t petId = 0L;
+    };
+
+    /// Single-shot responder for showPetById. Movable, thread-safe value
+    /// type; the second and later completions are ignored.
+    class ShowPetByIdResponder {
+    public:
+        explicit ShowPetByIdResponder(
+                std::shared_ptr<ResponderCore> core)
+            : core_(std::move(core)) {}
+
+        void send200(Pet value) const {
+            core_->sendJson(200, value, "application/json");
+        }
+        void send404(Error value) const {
+            core_->sendJson(404, value, "application/json");
+        }
+
+        void sendProblem(Problem problem) const {
+            core_->sendProblem(std::move(problem));
+        }
+
+        void sendNotImplemented(std::string const& operationId) const {
+            core_->sendNotImplemented(operationId);
+        }
+
+    private:
+        std::shared_ptr<ResponderCore> core_;
+    };
+
     virtual ~PetsApi() = default;
 
     virtual void createPet(
             CreatePetRequest request,
-            RequestContext& context,
+            std::shared_ptr<RequestContext> context,
             CreatePetResponder responder) = 0;
     virtual void deletePetById(
             DeletePetByIdRequest request,
-            RequestContext& context,
+            std::shared_ptr<RequestContext> context,
             DeletePetByIdResponder responder) = 0;
     virtual void listPets(
             ListPetsRequest request,
-            RequestContext& context,
+            std::shared_ptr<RequestContext> context,
             ListPetsResponder responder) = 0;
     virtual void showPetById(
             ShowPetByIdRequest request,
-            RequestContext& context,
+            std::shared_ptr<RequestContext> context,
             ShowPetByIdResponder responder) = 0;
 
     /// Registers every PetsApi route on the server.
@@ -203,7 +209,7 @@ class PetsApiStub : public PetsApi {
 public:
     void createPet(
             CreatePetRequest request,
-            RequestContext& context,
+            std::shared_ptr<RequestContext> context,
             CreatePetResponder responder) override {
         (void)request;
         (void)context;
@@ -211,7 +217,7 @@ public:
     }
     void deletePetById(
             DeletePetByIdRequest request,
-            RequestContext& context,
+            std::shared_ptr<RequestContext> context,
             DeletePetByIdResponder responder) override {
         (void)request;
         (void)context;
@@ -219,7 +225,7 @@ public:
     }
     void listPets(
             ListPetsRequest request,
-            RequestContext& context,
+            std::shared_ptr<RequestContext> context,
             ListPetsResponder responder) override {
         (void)request;
         (void)context;
@@ -227,7 +233,7 @@ public:
     }
     void showPetById(
             ShowPetByIdRequest request,
-            RequestContext& context,
+            std::shared_ptr<RequestContext> context,
             ShowPetByIdResponder responder) override {
         (void)request;
         (void)context;

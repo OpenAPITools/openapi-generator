@@ -15,11 +15,11 @@
 
 #include "StoreApi.h"
 
-#include "BodyJson.h"
-#include "ParamCodecs.h"
-#include "Problem.h"
-#include "Responder.h"
-#include "Router.h"
+#include "server/BodyJson.h"
+#include "server/ParamCodecs.h"
+#include "server/Problem.h"
+#include "server/Responder.h"
+#include "server/Router.h"
 
 #include <algorithm>
 #include <cctype>
@@ -46,7 +46,8 @@ void StoreApi::attach(HttpServer& server, std::shared_ptr<StoreApi> impl) {
         router->add(
             "GET",
             "/store/inventory",
-            [impl](RequestContext& ctx, std::shared_ptr<ResponderCore> responderCore) {
+            [impl](std::shared_ptr<RequestContext> ctx,
+                    std::shared_ptr<ResponderCore> responderCore) {
                 GetInventoryRequest request;
                 Problem problem;
                 bool invalid = false;

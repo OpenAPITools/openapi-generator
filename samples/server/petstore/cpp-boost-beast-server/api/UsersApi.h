@@ -24,67 +24,73 @@
 #include <utility>
 #include <vector>
 
-#include "HttpServer.h"
-#include "Problem.h"
-#include "Responder.h"
-#include "Router.h"
+#include "server/HttpServer.h"
+#include "server/Problem.h"
+#include "server/Responder.h"
+#include "server/Router.h"
 
 #include "Error.h"
 #include "User.h"
 #include <string>
-
 namespace org {
 namespace openapitools {
 namespace server {
 namespace api {
 
+
 using namespace org::openapitools::server::model;
-
-// ---------------------------------------------------------------------------
-
-/// Fully decoded request data for getUserByName.
-struct GetUserByNameRequest {
-    std::string username{};
-};
-
-/// Single-shot responder for getUserByName. Movable, thread-safe value
-/// type; the second and later completions are ignored.
-class GetUserByNameResponder {
-public:
-    explicit GetUserByNameResponder(
-            std::shared_ptr<ResponderCore> core)
-        : core_(std::move(core)) {}
-
-    void send200(User value) const {
-        core_->sendJson(200, value, "application/json");
-    }
-    void send404(Error value) const {
-        core_->sendJson(404, value, "application/json");
-    }
-
-    void sendProblem(Problem problem) const {
-        core_->sendProblem(std::move(problem));
-    }
-
-    void sendNotImplemented(std::string const& operationId) const {
-        core_->sendNotImplemented(operationId);
-    }
-
-private:
-    std::shared_ptr<ResponderCore> core_;
-};
 
 /**
  * Service interface for . Implementations receive fully
- * decoded, validated requests and own their response completion.
+ * decoded, validated requests and own their response completion. The
+ * request context is heap-owned: implementations may keep the shared_ptr
+ * and read the request data after this call returns.
+ *
+ * The per-operation contract types are nested inside this class so an
+ * operation tagged under several groups produces one definition per API
+ * class instead of duplicate namespace-scope types.
  */
 class UsersApi {
 public:
+    // ------------------------------------------------------------------
+
+    /// Fully decoded request data for getUserByName.
+    struct GetUserByNameRequest {
+        std::string username = "";
+    };
+
+    /// Single-shot responder for getUserByName. Movable, thread-safe value
+    /// type; the second and later completions are ignored.
+    class GetUserByNameResponder {
+    public:
+        explicit GetUserByNameResponder(
+                std::shared_ptr<ResponderCore> core)
+            : core_(std::move(core)) {}
+
+        void send200(User value) const {
+            core_->sendJson(200, value, "application/json");
+        }
+        void send404(Error value) const {
+            core_->sendJson(404, value, "application/json");
+        }
+
+        void sendProblem(Problem problem) const {
+            core_->sendProblem(std::move(problem));
+        }
+
+        void sendNotImplemented(std::string const& operationId) const {
+            core_->sendNotImplemented(operationId);
+        }
+
+    private:
+        std::shared_ptr<ResponderCore> core_;
+    };
+
     virtual ~UsersApi() = default;
 
     virtual void getUserByName(
             GetUserByNameRequest request,
-            RequestContext& context,
+            std::shared_ptr<RequestContext> context,
             GetUserByNameResponder responder) = 0;
 
     /// Registers every UsersApi route on the server.
@@ -98,7 +104,7 @@ class UsersApiStub : public UsersApi {
 public:
     void getUserByName(
             GetUserByNameRequest request,
-            RequestContext& context,
+            std::shared_ptr<RequestContext> context,
             GetUserByNameResponder responder) override {
         (void)request;
         (void)context;

@@ -37,24 +37,39 @@ cmake -S . -B build
 cmake --build build
 ```
 
+Warnings are errors by default (GCC/Clang `-Wall -Wextra -Werror`, MSVC
+`/W4`); configure with `-DCPP_BOOST_BEAST_SERVER_WERROR=OFF` to relax this.
+
 ## Using
 
-Implement the generated `Api` service interfaces and attach them:
+Each API class declares its per-operation contract types (the Request struct
+and the Responder) as nested types. Implement the interface — the nested types
+resolve unqualified inside the derived class — and attach it:
+
 
 ```cpp
 namespace api = org::openapitools::server::api;
 namespace model = org::openapitools::server::model;
 
-class MyDefaultApi : public api::DefaultApi {
-    void getPetById(api::GetPetByIdRequest request,
-                    api::RequestContext& context,
-                    api::GetPetByIdResponder responder) override {
-        model::Pet pet;
-        pet.setId(request.petId);
-        responder.send200(std::move(pet));
-    }
-};
+class MyPetsApi : public api::PetsApi {
 
+    void createPet(CreatePetRequest request,
+                      std::shared_ptr<api::RequestContext> context,
+                      CreatePetResponder responder) override {
+        (void)context;   // heap-owned; keep the shared_ptr to read it later
+
+        Pet value{};
+        responder.send201(std::move(value));
+
+    }
+
+};
+```
+
+Define one implementation per API class the same way.
+
+
+```cpp
 int main() {
     boost::asio::io_context ioc;
     auto router = std::make_shared<api::Router>();
@@ -62,8 +77,13 @@ int main() {
     options.authorizer = std::make_shared<MyAuthorizer>();
     auto server = std::make_shared<api::HttpServer>(
         ioc, router, options);
-    api::DefaultApi::attach(*server,
-        std::make_shared<MyDefaultApi>());
+
+    api::PetsApi::attach(*server, std::make_shared<MyPetsApi>());
+
+    api::StoreApi::attach(*server, std::make_shared<MyStoreApi>());
+
+    api::UsersApi::attach(*server, std::make_shared<MyUsersApi>());
+
     server->listen(boost::asio::ip::tcp::endpoint{
         boost::asio::ip::make_address("0.0.0.0"), 8080});
     ioc.run();
@@ -82,7 +102,10 @@ Requests are fully decoded and schema-validated before the service method
 runs; serialization failures, malformed input, unknown routes (404), wrong
 methods (405 + `Allow`), unsupported media types (415), oversized bodies
 (413), and security denials (401) produce RFC 9457 `application/problem+json`
-responses without application code.
+responses without application code. An absent optional query/header/cookie
+parameter reaches the service as its declared OpenAPI `default` (or the type
+zero value when none is declared); an optional request body is decoded only
+when bytes arrive.
 
 With `addApiImplStubs=true` a `main.cpp` and stub services (501 responses)
 are generated for quick start.

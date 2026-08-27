@@ -20,12 +20,12 @@
 #include <iostream>
 #include <memory>
 
-#include "HttpServer.h"
-#include "Router.h"
+#include "server/HttpServer.h"
+#include "server/Router.h"
 
-#include "PetsApi.h"
-#include "StoreApi.h"
-#include "UsersApi.h"
+#include "api/PetsApi.h"
+#include "api/StoreApi.h"
+#include "api/UsersApi.h"
 using namespace org;
 using namespace openapitools;
 using namespace server;
