@@ -24,6 +24,8 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 /**
  * <p>Mustache templates are located in {@code src/main/resources/julia-server/}.
@@ -99,8 +101,10 @@ public class JuliaServerCodegen extends AbstractJuliaCodegen {
         }
         additionalProperties.put("exportModels", exportModels);
 
+        additionalProperties.put("packageUUID", UUID.nameUUIDFromBytes(("openapi-generator-julia-server-" + packageName).getBytes(StandardCharsets.UTF_8)).toString());
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+        supportingFiles.add(new SupportingFile("Project.mustache", "", "Project.toml"));
         supportingFiles.add(new SupportingFile("server.mustache", srcPath, packageName + ".jl"));
         supportingFiles.add(new SupportingFile("modelincludes.mustache", srcPath, "modelincludes.jl"));
     }
