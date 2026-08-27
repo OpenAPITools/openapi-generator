@@ -51,7 +51,7 @@ class My{{classname}} : public api::{{classname}} {
         (void)context;   // heap-owned; keep the shared_ptr to read it later
 {{#vendorExtensions.x-server-responses}}{{#-first}}
 {{#hasModel}}
-        {{{sendType}}} value{};
+        {{{readmeSendType}}} value{};
 {{#isDefault}}
         responder.{{sendMethod}}(std::move(value), 200);
 {{/isDefault}}

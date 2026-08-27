@@ -5,10 +5,18 @@ on:
     paths:
       - "samples/server/petstore/cpp-boost-beast-server/**"
       - ".github/workflows/samples-cpp-boost-beast-server.yaml"
+      - "modules/openapi-generator/src/main/resources/cpp-boost-beast-server/**"
+      - "modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CppBoostBeastServer*.java"
+      - "modules/openapi-generator/src/test/resources/3_1/cpp-boost-beast-server/**"
+      - "modules/openapi-generator/src/test/java/org/openapitools/codegen/cppboostbeastserver/**"
   pull_request:
     paths:
       - "samples/server/petstore/cpp-boost-beast-server/**"
       - ".github/workflows/samples-cpp-boost-beast-server.yaml"
+      - "modules/openapi-generator/src/main/resources/cpp-boost-beast-server/**"
+      - "modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CppBoostBeastServer*.java"
+      - "modules/openapi-generator/src/test/resources/3_1/cpp-boost-beast-server/**"
+      - "modules/openapi-generator/src/test/java/org/openapitools/codegen/cppboostbeastserver/**"
 
 jobs:
   build:

@@ -19,10 +19,31 @@
                     }
 {{/hasEnum}}{{#hasPattern}}
                     if (!invalid && present) {
-                        static std::regex const kPattern("{{{pattern}}}");
-                        if (!std::regex_match(request.{{cppName}}, kPattern)) {
-                            problem.withError("{{baseName}}", "value does not match the required pattern");
+                        // A pattern outside the std::regex ECMAScript subset
+                        // (unicode property escapes, named groups, lookbehind)
+                        // throws at construction. Guard the function-local
+                        // static so a failed initialization cannot retry-throw
+                        // on every request (which would answer 500 forever);
+                        // fail closed with 400, matching the model path's
+                        // validatePattern policy.
+                        static bool const kPatternOk = [] {
+                            try {
+                                std::regex trial("{{{pattern}}}");
+                                (void)trial;
+                                return true;
+                            } catch (std::regex_error const&) {
+                                return false;
+                            }
+                        }();
+                        if (!kPatternOk) {
+                            problem.withError("{{baseName}}", "the declared pattern is outside the supported regex grammar");
                             invalid = true;
+                        } else {
+                            static std::regex const kPattern("{{{pattern}}}");
+                            if (!std::regex_match(request.{{cppName}}, kPattern)) {
+                                problem.withError("{{baseName}}", "value does not match the required pattern");
+                                invalid = true;
+                            }
                         }
                     }
 {{/hasPattern}}{{#hasMinLength}}

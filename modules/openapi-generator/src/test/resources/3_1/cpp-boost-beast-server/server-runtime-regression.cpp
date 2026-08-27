@@ -168,6 +168,27 @@ public:
         // no name); a present one echoes the decoded model.
         responder.send200(request.body);
     }
+
+    void codec(CodecRequest request,
+               std::shared_ptr<api::RequestContext>,
+               CodecResponder responder) override {
+        // Echo the decoded float so the driver can prove the wire grammar
+        // gates: hex forms and float overflow are rejected pre-handler,
+        // underflow arrives as zero (ordinary IEEE rounding).
+        model::Report report;
+        report.setTitle(std::to_string(request.w));
+        responder.send200(std::move(report));
+    }
+
+    void getPick(GetPickRequest,
+                 std::shared_ptr<api::RequestContext>,
+                 GetPickResponder responder) override {
+        // oneOf of two string branches shares one C++ type, so the generated
+        // variant holds tagged CompositionBranchValue members. Serializing it
+        // exercises the response-side unwrap (bodyLeaf overload).
+        responder.send200(model::Pick{
+            model::CompositionBranchValue<0, std::string>(std::string("Alpha"))});
+    }
 };
 
 class RegressionAuthorizer : public api::Authorizer {
@@ -639,6 +660,60 @@ int main() {
         "{\"id\":5,\"name\":\"echoed\"}"));
     expect(echoGood.status == 200 && echoGood.body.find("echoed") != std::string::npos,
         "present optional body should decode and echo");
+    // ---- float wire grammar (parseScalar gates) ----
+    // Plain decimal parses and reaches the handler.
+    RawResponse floatOk = roundtrip(ioc, port,
+        "GET /codec?w=1.5 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(floatOk.status == 200, "decimal float query should be 200");
+    expect(floatOk.body.find("\"title\":\"1.500000\"") != std::string::npos,
+        "decimal float should decode to 1.5");
+    // C99 hex floats are not JSON numbers even though strtod consumes them.
+    RawResponse floatHex = roundtrip(ioc, port,
+        "GET /codec?w=0x10 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(floatHex.status == 400, "hex float text should be 400");
+    // Values outside float range must not reach the service as infinity.
+    RawResponse floatBig = roundtrip(ioc, port,
+        "GET /codec?w=1e40 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(floatBig.status == 400, "float overflow should be 400");
+    // Underflow (ERANGE to zero) is ordinary IEEE rounding: accepted.
+    RawResponse floatTiny = roundtrip(ioc, port,
+        "GET /codec?w=1e-400 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(floatTiny.status == 200, "float underflow should be accepted");
+    expect(floatTiny.body.find("\"title\":\"0.000000\"") != std::string::npos,
+        "underflowed float should arrive as zero");
+    // strtod's inf/nan spellings are not JSON numbers.
+    RawResponse floatInf = roundtrip(ioc, port,
+        "GET /codec?w=inf HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(floatInf.status == 400, "inf text should be 400");
+
+    // ---- fail-closed regex patterns ----
+    // '(?i)' is outside std::regex's ECMAScript subset: construction throws,
+    // so the gate answers 400 for every present value instead of retry-
+    // throwing 500 on each request.
+    RawResponse patternHit = roundtrip(ioc, port,
+        "GET /codec?code=abc HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(patternHit.status == 400, "uncompilable scalar pattern should fail closed 400");
+    expect(patternHit.body.find("supported regex grammar") != std::string::npos,
+        "fail-closed problem should explain the pattern grammar");
+    // An absent optional parameter skips the (broken) pattern entirely.
+    RawResponse patternAbsent = roundtrip(ioc, port,
+        "GET /codec HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(patternAbsent.status == 200, "absent pattern parameter should be 200");
+    // Item patterns fail closed the same way.
+    RawResponse itemPatternHit = roundtrip(ioc, port,
+        "GET /codec?codes=aa,bb HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(itemPatternHit.status == 400, "uncompilable item pattern should fail closed 400");
+
+    // ---- tagged variant (oneOf) response ----
+    // Pick is a oneOf of two string branches sharing one C++ type, so the
+    // generated model is std::variant<CompositionBranchValue<0,std::string>,
+    // CompositionBranchValue<1,std::string>>. Serving it exercises the
+    // response-side bodyLeaf unwrap.
+    RawResponse picked = roundtrip(ioc, port,
+        "GET /pick HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(picked.status == 200, "tagged variant response should be 200");
+    expect(picked.body.find("\"Alpha\"") != std::string::npos,
+        "variant response should serialize the selected branch as its value");
 
     ioc.stop();
     serverThread.join();

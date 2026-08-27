@@ -330,6 +330,53 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
       security: []
+  /codec:
+    get:
+      operationId: codec
+      description: Float wire-grammar gates and fail-closed regex patterns
+      parameters:
+        - name: w
+          in: query
+          description: Unbounded float parameter for range/grammar probes
+          schema:
+            type: number
+            format: float
+        - name: code
+          in: query
+          description: Pattern outside the std::regex ECMAScript subset
+          schema:
+            type: string
+            pattern: '^(?i)abc$'
+        - name: codes
+          in: query
+          description: Item pattern with a dangling quantifier
+          schema:
+            type: array
+            items:
+              type: string
+              pattern: '*oops'
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: Echo of the decoded float
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+      security: []
+  /pick:
+    get:
+      operationId: getPick
+      description: oneOf response model (std::variant of tagged branches)
+      responses:
+        '200':
+          description: One selected branch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pick'
+      security: []
 components:
   securitySchemes:
     api_key:
@@ -366,6 +413,10 @@ components:
           format: int32
         message:
           type: string
+    Pick:
+      oneOf:
+        - {type: string, pattern: '^A'}
+        - {type: string, pattern: '^B'}
     Report:
       type: object
       required: [title]

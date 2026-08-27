@@ -740,4 +740,63 @@ public class CppBoostBeastServerCodegenTest {
         Assert.assertFalse(apiHeader.contains("color{}"),
                 "an enum-class-typed parameter must be dropped");
     }
+
+    @Test
+    public void typesJsonBodyWhenXmlDeclaredFirst() throws IOException {
+        // DefaultCodegen types the body parameter from the FIRST content
+        // entry. When that entry is a media type the runtime cannot parse
+        // (XML here) but a JSON member names a model, the handler must be
+        // typed from the JSON representation, not the dropped one.
+        Path output = generate(writeTempSpec(spec(
+                "  /switch:",
+                "    post:",
+                "      operationId: switch",
+                "      requestBody:",
+                "        required: true",
+                "        content:",
+                "          application/xml:",
+                "            schema: { $ref: '#/components/schemas/XmlBody' }",
+                "          application/json:",
+                "            schema: { $ref: '#/components/schemas/JsonBody' }",
+                "      responses:",
+                "        '200': {description: ok}",
+                "components:",
+                "  schemas:",
+                "    XmlBody:",
+                "      type: object",
+                "      properties: {xml: {type: string}}",
+                "    JsonBody:",
+                "      type: object",
+                "      properties: {json: {type: string}}")).toString(),
+                java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("JsonBody body{};"),
+                "the JSON member's model must type the body when XML came first");
+        Assert.assertFalse(apiHeader.contains("XmlBody body{};"),
+                "the dropped XML representation must not type the body field");
+    }
+
+    @Test
+    public void qualifiesReadmeSendTypeForModelResponses() throws IOException {
+        // The README quick-start class lives outside the generated api
+        // namespace, where the header's `using namespace <model>;` is not in
+        // effect, so model response types must carry the `model::` alias.
+        Path output = generate(SERVER_REGRESSION_SPEC, java.util.Map.of());
+        String readme = Files.readString(output.resolve("README.md"));
+        // Operations render alphabetically; the first one (codec) responds
+        // with the Report model, which must carry the `model::` alias.
+        Assert.assertTrue(readme.contains("model::Report value{};"),
+                "the quick-start must qualify the model response type");
+    }
+
+    @Test
+    public void servesTaggedVariantResponseTyped() throws IOException {
+        // A oneOf whose branches share a C++ type is a std::variant of tagged
+        // CompositionBranchValue members. Responses serialize by visiting the
+        // active branch (bodyLeaf unwrap), so the sender stays typed.
+        Path output = generate(SERVER_REGRESSION_SPEC, java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("void send200(Pick value) const"),
+                "the variant response must generate a typed sender");
+    }
 }

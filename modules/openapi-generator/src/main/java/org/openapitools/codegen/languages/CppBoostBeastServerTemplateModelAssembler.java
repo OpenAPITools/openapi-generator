@@ -61,13 +61,15 @@ final class CppBoostBeastServerTemplateModelAssembler {
             "ParamCodecs");
     private final OpenAPI sourceOpenApi;
     private final String modelNamespace;
+    private final String apiNamespace;
     private final Function<String, String> modelImportFunction;
 
     CppBoostBeastServerTemplateModelAssembler(
-            OpenAPI sourceOpenApi, String modelNamespace,
+            OpenAPI sourceOpenApi, String modelNamespace, String apiNamespace,
             Function<String, String> modelImportFunction) {
         this.sourceOpenApi = sourceOpenApi;
         this.modelNamespace = modelNamespace;
+        this.apiNamespace = apiNamespace;
         this.modelImportFunction = modelImportFunction;
     }
 
@@ -96,8 +98,10 @@ final class CppBoostBeastServerTemplateModelAssembler {
         // empty and generated code stays readable.
         Set<String> collidingModels = new HashSet<>(modelClassNames);
         collidingModels.retainAll(RUNTIME_TYPE_NAMES);
-        Object apiNamespaceValue = objs.get("apiNamespace");
-        String apiNamespace = apiNamespaceValue == null ? "" : apiNamespaceValue.toString();
+        // apiNamespace is constructor-injected: DefaultGenerator merges
+        // additionalProperties into the operations map only AFTER
+        // postProcessOperationsWithModels runs, so reading it from objs here
+        // would always yield null and make this guard inert.
         objs.put("apiNsQualified",
                 !collidingModels.isEmpty() && !apiNamespace.isEmpty()
                         ? apiNamespace + "::" : "");
@@ -149,7 +153,7 @@ final class CppBoostBeastServerTemplateModelAssembler {
             }
 
             op.vendorExtensions.put("x-server-responses",
-                    serverResponses(op, raw, pascal, collidingModels));
+                    serverResponses(op, raw, pascal, collidingModels, modelClassNames));
 
             op.vendorExtensions.put("x-server-security-groups",
                     CppBoostBeastOperationFacts.effectiveSecurityGroups(sourceOpenApi, op));
@@ -607,6 +611,8 @@ final class CppBoostBeastServerTemplateModelAssembler {
                 ? ModelUtils.getReferencedRequestBody(sourceOpenApi, raw.getRequestBody())
                 : null;
         String jsonModelRef = null;
+        boolean firstContentAccepted = true;
+        boolean firstContent = true;
         if (body != null && body.getContent() != null) {
             for (String mediaType : body.getContent().keySet()) {
                 // Degrade policy: the runtime parses request bodies as JSON
@@ -616,7 +622,13 @@ final class CppBoostBeastServerTemplateModelAssembler {
                 // time; an operation left with no JSON media type loses its
                 // typed body entirely rather than promising bytes it cannot
                 // parse.
-                if (!CppBoostBeastServerCodegen.isSupportedRequestMediaType(mediaType)) {
+                boolean accepted =
+                        CppBoostBeastServerCodegen.isSupportedRequestMediaType(mediaType);
+                if (firstContent) {
+                    firstContentAccepted = accepted;
+                    firstContent = false;
+                }
+                if (!accepted) {
                     continue;
                 }
                 Schema<?> declared = body.getContent().get(mediaType) == null
@@ -659,7 +671,17 @@ final class CppBoostBeastServerTemplateModelAssembler {
             dataType = dataType.substring(
                     "std::shared_ptr<".length(), dataType.length() - 1).trim();
         }
-        if (dataType.isEmpty() && jsonModelRef != null) {
+        if (!firstContentAccepted && jsonModelRef != null) {
+            // DefaultCodegen derived the body parameter from the FIRST content
+            // entry, which this runtime cannot parse (XML, form, multipart, or
+            // wildcard). When a JSON member exists, type the handler from THAT
+            // representation instead of the dropped one — otherwise the JSON
+            // wire bytes would be decoded into the other schema's model, the
+            // silent misread equivalentBodySchema guards against inside JSON.
+            // Anything not naming a generated model degrades to no body.
+            String simple = ModelUtils.getSimpleRef(jsonModelRef);
+            dataType = simple != null && modelClassNames.contains(simple) ? simple : "";
+        } else if (dataType.isEmpty() && jsonModelRef != null) {
             // Mixed bodies (e.g. multipart + JSON): DefaultCodegen flattens the
             // form payload into parameters and leaves no body model, yet the
             // JSON member still declares a schema. When that member names a
@@ -743,7 +765,8 @@ final class CppBoostBeastServerTemplateModelAssembler {
     // ------------------------------------------------------------------
 
     private List<Map<String, Object>> serverResponses(
-            CodegenOperation op, Operation raw, String pascal, Set<String> collidingModels) {
+            CodegenOperation op, Operation raw, String pascal,
+            Set<String> collidingModels, Set<String> modelClassNames) {
         List<Map<String, Object>> responses = new ArrayList<>();
         if (op.responses == null) {
             return responses;
@@ -783,6 +806,14 @@ final class CppBoostBeastServerTemplateModelAssembler {
                     ? modelNamespace + "::" + dataType
                     : qualifyCollidingModels(dataType, collidingModels);
             facts.put("sendType", rendered);
+            // The README quick-start declares the response value OUTSIDE the
+            // generated api header, so the header's `using namespace <model>;`
+            // is not in effect: rewrite whole tokens that name a generated
+            // model to the `model::` alias spelling the snippet declares.
+            // Tokens already preceded by ':' are qualified (or enum-scoped)
+            // and left alone.
+            facts.put("readmeSendType",
+                    qualifyModelTokensForAlias(rendered, modelClassNames));
             responses.add(facts);
         }
         return responses;
@@ -811,6 +842,40 @@ final class CppBoostBeastServerTemplateModelAssembler {
                 } else {
                     out.append(token);
                 }
+                i = j;
+            } else {
+                out.append(c);
+                i++;
+            }
+        }
+        return out.toString();
+    }
+
+    /** Rewrites whole tokens that name a generated model to the `model::`
+     *  alias spelling (the README quick-start declares
+     *  `namespace model = {{modelNamespace}};` and its example class lives
+     *  outside the generated api namespace, where the header's
+     *  `using namespace <model>;` is not in effect). Tokens already preceded
+     *  by ':' are qualified or enum-scoped and stay untouched. */
+    String qualifyModelTokensForAlias(String dataType, Set<String> modelClassNames) {
+        if (dataType.isEmpty() || modelClassNames.isEmpty()) {
+            return dataType;
+        }
+        StringBuilder out = new StringBuilder(dataType.length());
+        int i = 0;
+        while (i < dataType.length()) {
+            char c = dataType.charAt(i);
+            if (Character.isJavaIdentifierStart(c)) {
+                int j = i + 1;
+                while (j < dataType.length() && Character.isJavaIdentifierPart(dataType.charAt(j))) {
+                    j++;
+                }
+                String token = dataType.substring(i, j);
+                boolean alreadyQualified = i >= 2 && dataType.startsWith("::", i - 2);
+                if (!alreadyQualified && modelClassNames.contains(token)) {
+                    out.append("model::");
+                }
+                out.append(token);
                 i = j;
             } else {
                 out.append(c);

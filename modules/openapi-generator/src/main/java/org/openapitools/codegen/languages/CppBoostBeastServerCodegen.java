@@ -107,9 +107,13 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                         GlobalFeature.Callbacks,
                         GlobalFeature.LinkObjects,
                         // The generated Router registers operation paths
-                        // verbatim: the document's server URLs (including any
-                        // base path) are not mounted, so multi-server or
-                        // base-path routing is not implemented.
+                        // verbatim and the server binds the endpoint the
+                        // caller passes to listen(): the document's server
+                        // URLs (host and any base path) are not mounted, so
+                        // host, base-path, and multi-server routing are not
+                        // implemented.
+                        GlobalFeature.Host,
+                        GlobalFeature.BasePath,
                         GlobalFeature.MultiServer
                 )
                 .excludeParameterFeatures(
@@ -415,8 +419,24 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
             OperationsMap objs, List<ModelMap> allModels) {
         String modelNamespace = String.valueOf(
                 additionalProperties.getOrDefault("modelNamespace", ""));
+        String apiNamespace = String.valueOf(
+                additionalProperties.getOrDefault("apiNamespace", ""));
         return new CppBoostBeastServerTemplateModelAssembler(
-                sourceOpenApi, modelNamespace, this::toModelImport).assemble(objs, allModels);
+                sourceOpenApi, modelNamespace, apiNamespace,
+                this::toModelImport).assemble(objs, allModels);
+    }
+
+    /**
+     * The server runtime decodes JSON bodies only and never parses a
+     * form-encoded payload, so flattened form fields (including their
+     * spaceDelimited/pipeDelimited/deepObject encodings) are dropped by the
+     * assembler with a warning rather than aborting generation. The shared
+     * model pipeline's fail-closed reject exists for the client's multipart
+     * writer, which does not apply here.
+     */
+    @Override
+    protected boolean rejectsUnsupportedFormEncodingStyles() {
+        return false;
     }
     /**
      * Generation-time rejection gate for shapes whose generated code could

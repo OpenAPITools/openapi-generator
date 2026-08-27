@@ -52,13 +52,32 @@
                         }
                     }
 {{/itemHasEnum}}{{#itemHasPattern}}
-                    if (!invalid) {
-                        static std::regex const kItemPattern("{{{itemPattern}}}");
-                        for ({{{innerType}}} const& item : request.{{cppName}}) {
-                            if (!std::regex_match(item, kItemPattern)) {
-                                problem.withError("{{baseName}}", "item value does not match the required pattern");
-                                invalid = true;
-                                break;
+                    if (!invalid && !request.{{cppName}}.empty()) {
+                        // Same fail-closed policy as the scalar ladder: a
+                        // pattern outside the std::regex ECMAScript subset
+                        // answers 400 instead of retry-throwing 500. Empty
+                        // (absent) containers skip the gate, matching the
+                        // no-op loop semantics of the decodable case.
+                        static bool const kItemPatternOk = [] {
+                            try {
+                                std::regex trial("{{{itemPattern}}}");
+                                (void)trial;
+                                return true;
+                            } catch (std::regex_error const&) {
+                                return false;
+                            }
+                        }();
+                        if (!kItemPatternOk) {
+                            problem.withError("{{baseName}}", "the declared item pattern is outside the supported regex grammar");
+                            invalid = true;
+                        } else {
+                            static std::regex const kItemPattern("{{{itemPattern}}}");
+                            for ({{{innerType}}} const& item : request.{{cppName}}) {
+                                if (!std::regex_match(item, kItemPattern)) {
+                                    problem.withError("{{baseName}}", "item value does not match the required pattern");
+                                    invalid = true;
+                                    break;
+                                }
                             }
                         }
                     }

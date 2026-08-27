@@ -216,17 +216,32 @@ inline bool parseScalar(std::string_view text, std::int64_t& out) {
 template <typename T>
 inline bool parseFloatScalar(std::string_view text, T& out) {
     if (text.empty()) return false;
+    // strtod also accepts C99 hex floats ("0x1p3", and even the hex integer
+    // "0x10", which consumes the whole input). JSON/OAS number text never
+    // does; reject the form explicitly instead of relying on the length
+    // check below, which hex floats sail through.
+    {
+        std::string_view digits =
+            (text.front() == '-' || text.front() == '+') ? text.substr(1) : text;
+        if (digits.size() >= 2 && digits[0] == '0'
+                && (digits[1] == 'x' || digits[1] == 'X')) {
+            return false;
+        }
+    }
     std::string storage(text);
     char* end = nullptr;
-    errno = 0;
     double parsed = std::strtod(storage.c_str(), &end);
+    // Whole-input match: strtod stops at NUL or junk; compare the consumed
+    // length so embedded NULs (via %00) cannot smuggle trailing bytes.
     if (end == nullptr
-            || static_cast<std::size_t>(end - storage.data()) != storage.size()
-            || errno == ERANGE) {
+            || static_cast<std::size_t>(end - storage.data()) != storage.size()) {
         return false;
     }
-    // JSON numbers are finite; reject strtod extensions like "inf"/"nan"
-    // and hex-floats would already fail the whole-input length check.
+    // ERANGE means overflow (result saturates to HUGE_VAL) or underflow
+    // (result rounds to a denormal or zero). Overflow is non-finite and dies
+    // on the isfinite gate; underflow is ordinary IEEE rounding of a legal
+    // JSON number like "1e-400", so it is accepted, not a wire error.
+    // JSON numbers are finite; reject strtod extensions like "inf"/"nan".
     if (!std::isfinite(parsed)) return false;
     // A float parameter rejects values outside float range: casting 1e40 to
     // float yields infinity, which would hand the service a non-finite
