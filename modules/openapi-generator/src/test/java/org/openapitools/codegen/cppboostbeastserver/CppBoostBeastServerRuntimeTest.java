@@ -37,10 +37,11 @@ import java.util.stream.Stream;
  * Generates a server from the OAS 3.1 regression spec, compiles it together
  * with the loopback driver, runs it against real sockets, and asserts the
  * sentinel output. This is the end-to-end behavior proof for the generator:
- * routing (including literal-over-parameter ranking), parameter codecs
- * (matrix explode, spaceDelimited, deepObject), body decoding, security
- * challenges, version mirroring, deferred-response timers, and error mapping
- * all execute in the produced C++ binary.
+ * routing and request-target normalization, Host/HEAD HTTP semantics,
+ * parameter codecs (encoded delimiters, form plus decoding, deepObject),
+ * exact multipleOf checks, body decoding, security challenges, version
+ * mirroring, deferred-response timers, and error mapping all execute in the
+ * produced C++ binary.
  */
 public class CppBoostBeastServerRuntimeTest {
 

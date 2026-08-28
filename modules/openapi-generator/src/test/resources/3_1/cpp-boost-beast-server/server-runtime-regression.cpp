@@ -42,7 +42,8 @@ public:
                     GetPetByIdResponder responder) override {
         model::Pet pet;
         pet.setId(request.petId);
-        pet.setName("pet-" + std::to_string(request.petId));
+        pet.setName(request.tag.empty()
+            ? "pet-" + std::to_string(request.petId) : request.tag);
         pet.setStatus(std::string("available"));
         // The context is heap-owned; reading it here proves the handler kept
         // it alive for the service.
@@ -50,6 +51,16 @@ public:
         // Complete twice: the single-completion guard must ignore the
         // second call, so the client still sees exactly one clean 200.
         responder.send200(pet);
+        responder.send200(std::move(pet));
+    }
+
+    void headPet(HeadPetRequest request,
+                 std::shared_ptr<api::RequestContext>,
+                 HeadPetResponder responder) override {
+        model::Pet pet;
+        pet.setId(request.petId);
+        pet.setName("head-" + std::to_string(request.petId));
+        pet.setStatus(std::string("available"));
         responder.send200(std::move(pet));
     }
 
@@ -516,6 +527,69 @@ int main() {
     expect(versionOk.status == 200,
         "path-item parameter satisfying its constraint should be 200");
 
+    // HTTP/1.1 Host is a framing requirement: exactly one syntactically
+    // valid authority is required. HTTP/1.0 retains the legacy optional form.
+    RawResponse missingHost = roundtrip(ioc, port,
+        "GET /pets/3 HTTP/1.1\r\nConnection: close\r\n\r\n");
+    expect(missingHost.status == 400,
+        "HTTP/1.1 request without Host should be 400");
+    RawResponse duplicateHost = roundtrip(ioc, port,
+        "GET /pets/3 HTTP/1.1\r\nHost: one\r\nHost: two\r\n"
+        "Connection: close\r\n\r\n");
+    expect(duplicateHost.status == 400,
+        "HTTP/1.1 request with duplicate Host should be 400");
+    RawResponse invalidHost = roundtrip(ioc, port,
+        "GET /pets/3 HTTP/1.1\r\nHost: user@example.test\r\n"
+        "Connection: close\r\n\r\n");
+    expect(invalidHost.status == 400,
+        "Host with userinfo should be rejected as an invalid authority");
+    RawResponse noHost10 = roundtrip(ioc, port,
+        "GET /pets/3 HTTP/1.0\r\nConnection: close\r\n\r\n");
+    expect(noHost10.status == 200,
+        "HTTP/1.0 request may omit Host");
+
+    RawResponse absoluteTarget = roundtrip(ioc, port,
+        "GET http://upstream.example/pets/3?version=9 HTTP/1.1\r\n"
+        "Host: proxy.example\r\nConnection: close\r\n\r\n");
+    expect(absoluteTarget.status == 200,
+        "absolute-form HTTP target should normalize and route");
+
+    // HEAD carries the GET-equivalent Content-Length but no content octets.
+    // Reusing the connection for a GET proves no hidden HEAD body remains to
+    // desynchronize the next response parser.
+    {
+        boost::asio::ip::tcp::socket persistent(ioc);
+        persistent.connect(boost::asio::ip::tcp::endpoint{
+            boost::asio::ip::make_address("127.0.0.1"),
+            static_cast<unsigned short>(port)});
+        boost::beast::flat_buffer carry;
+        std::string const headRequest =
+            "HEAD /pets/3 HTTP/1.1\r\nHost: t\r\n\r\n";
+        boost::asio::write(persistent, boost::asio::buffer(headRequest));
+        boost::beast::http::response_parser<
+            boost::beast::http::string_body> headParser;
+        headParser.skip(true);
+        boost::system::error_code headEc;
+        boost::beast::http::read(persistent, carry, headParser, headEc);
+        expect(!headEc && headParser.get().result_int() == 200,
+            "HEAD should receive a valid 200 response head");
+        expect(headParser.content_length().value_or(0) > 0,
+            "HEAD should retain GET-equivalent Content-Length metadata");
+        expect(headParser.get().body().empty(),
+            "HEAD response must not contain body bytes");
+
+        std::string const getAfterHead =
+            "GET /pets/8 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n";
+        boost::asio::write(persistent, boost::asio::buffer(getAfterHead));
+        boost::beast::http::response<boost::beast::http::string_body> afterHead;
+        boost::system::error_code afterHeadEc;
+        boost::beast::http::read(persistent, carry, afterHead, afterHeadEc);
+        expect(!afterHeadEc && afterHead.result_int() == 200,
+            "GET after HEAD should remain response-aligned");
+        expect(afterHead.body().find("\"id\":8") != std::string::npos,
+            "GET after HEAD should return the second request body");
+    }
+
     // 413 on a body over the configured limit.
     std::string big(2048, 'x');
     RawResponse tooBig = roundtrip(ioc, port, request("POST /pets",
@@ -739,6 +813,27 @@ int main() {
     expect(defaultsPresent.body.find("\"title\":\"hi|3|2|\"") != std::string::npos,
         "present name/limit should override declared defaults");
 
+    // Form query decoding converts '+' only for query values and splits a
+    // CSV delimiter before percent-decoding, so an escaped comma stays data.
+    RawResponse plusAsSpace = roundtrip(ioc, port,
+        "GET /defaults?name=a+b&ids=aa,bb HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(plusAsSpace.body.find("\"title\":\"a b|7|2|\"")
+            != std::string::npos,
+        "query plus should decode as a space");
+    RawResponse escapedPlus = roundtrip(ioc, port,
+        "GET /defaults?name=a%2Bb&ids=aa,bb HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(escapedPlus.body.find("\"title\":\"a+b|7|2|\"")
+            != std::string::npos,
+        "percent-encoded plus should remain literal data");
+    RawResponse escapedComma = roundtrip(ioc, port,
+        "GET /defaults?ids=a%2Cb,cc HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(escapedComma.body.find("\"title\":\"five|7|2|\"")
+            != std::string::npos,
+        "escaped CSV comma should remain inside one array element");
+
     // Exclusive bounds: score must be >1.5 and <3 (JSON Schema semantics).
     RawResponse scoreLow = roundtrip(ioc, port,
         "GET /defaults?ids=aa,bb&score=1.5 HTTP/1.1\r\nHost: t\r\n"
@@ -752,6 +847,36 @@ int main() {
         "GET /defaults?ids=aa,bb&score=3 HTTP/1.1\r\nHost: t\r\n"
         "Connection: close\r\n\r\n");
     expect(scoreHigh.status == 400, "score == exclusiveMaximum should be 400");
+
+    // JSON Schema multipleOf uses exact decimal arithmetic over the wire
+    // lexeme, not a binary floating-point tolerance.
+    RawResponse exactStep = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb&step=0.3 HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(exactStep.status == 200, "0.3 should be a multiple of 0.1");
+    RawResponse inexactStep = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb&step=0.30000000000000004 HTTP/1.1\r\n"
+        "Host: t\r\nConnection: close\r\n\r\n");
+    expect(inexactStep.status == 400,
+        "0.30000000000000004 should not be a multiple of 0.1");
+    RawResponse strideOk = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb&stride=6 HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(strideOk.status == 200, "integer multipleOf should accept 6 / 3");
+    RawResponse strideBad = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb&stride=7 HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(strideBad.status == 400, "integer multipleOf should reject 7 / 3");
+    RawResponse ticksOk = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb&ticks=2,4 HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(ticksOk.status == 200,
+        "array item multipleOf should accept all valid elements");
+    RawResponse ticksBad = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb&ticks=2,3 HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(ticksBad.status == 400,
+        "array item multipleOf should reject one invalid element");
 
     // Collection + item constraints: minItems=2, uniqueItems, item minLength=2.
     RawResponse fewItems = roundtrip(ioc, port,
@@ -771,6 +896,11 @@ int main() {
     expect(period.status == 200, "embedded path expressions should route");
     expect(period.body.find("\"title\":\"2026-8\"") != std::string::npos,
         "embedded expressions should capture year and month separately");
+    RawResponse oddMonth = roundtrip(ioc, port,
+        "GET /periods/2026-7/summary HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(oddMonth.status == 400,
+        "path scalar multipleOf should reject an odd month");
     // Header code-point length probe: two CJK characters are TWO code
     // points and pass maxLength 2 despite six bytes; an overlong three-byte
     // encoding of 'A' is malformed UTF-8 whose strict count is three bytes,

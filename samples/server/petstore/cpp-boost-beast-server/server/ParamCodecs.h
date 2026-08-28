@@ -17,6 +17,7 @@
 #ifndef ORG_OPENAPITOOLS_SERVER_API_SERVER_PARAM_CODECS_H_
 #define ORG_OPENAPITOOLS_SERVER_API_SERVER_PARAM_CODECS_H_
 
+#include <boost/multiprecision/cpp_int.hpp>
 #include <cctype>
 #include <cerrno>
 #include <cmath>
@@ -40,21 +41,29 @@ inline std::string lowercaseHeaderName(std::string name) {
     return name;
 }
 
+/// Returns the numeric value of one hexadecimal digit, or -1.
+inline int hexDigitValue(char c) {
+    if (c >= '0' && c <= '9') return c - '0';
+    if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+    if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+    return -1;
+}
+
 /// Percent-decodes a URI component (%XX sequences). Invalid escapes pass
-/// through unchanged; '+' is NOT translated to space (that is form encoding).
-inline std::string percentDecode(std::string_view encoded) {
+/// through unchanged. `plusAsSpace` implements application/x-www-form-urlencoded
+/// query decoding; path and cookie callers leave it false.
+inline std::string percentDecode(
+        std::string_view encoded, bool plusAsSpace = false) {
     std::string out;
     out.reserve(encoded.size());
     for (std::size_t i = 0; i < encoded.size(); ++i) {
+        if (plusAsSpace && encoded[i] == '+') {
+            out.push_back(' ');
+            continue;
+        }
         if (encoded[i] == '%' && i + 2 < encoded.size()) {
-            auto hexValue = [](char c) -> int {
-                if (c >= '0' && c <= '9') return c - '0';
-                if (c >= 'a' && c <= 'f') return c - 'a' + 10;
-                if (c >= 'A' && c <= 'F') return c - 'A' + 10;
-                return -1;
-            };
-            int high = hexValue(encoded[i + 1]);
-            int low = hexValue(encoded[i + 2]);
+            int const high = hexDigitValue(encoded[i + 1]);
+            int const low = hexDigitValue(encoded[i + 2]);
             if (high >= 0 && low >= 0) {
                 out.push_back(static_cast<char>((high << 4) | low));
                 i += 2;
@@ -64,6 +73,10 @@ inline std::string percentDecode(std::string_view encoded) {
         out.push_back(encoded[i]);
     }
     return out;
+}
+
+inline std::string percentDecodeQuery(std::string_view encoded) {
+    return percentDecode(encoded, true);
 }
 
 /// Splits a simple-style (comma-delimited) list into raw elements.
@@ -95,6 +108,41 @@ inline std::vector<std::string> splitOn(std::string_view value, char delimiter) 
         parts.emplace_back(value.substr(start, hit - start));
         start = hit + 1;
     }
+    return parts;
+}
+
+/// Splits an encoded query value on its style delimiter, then form-decodes
+/// each element. Form commas are structural only when literal, so `%2C`
+/// remains data. Pipe/space-delimited styles also accept their percent-encoded
+/// delimiter spellings used by RFC 6570 clients; `+` is a space delimiter.
+inline std::vector<std::string> splitQueryParameter(
+        std::string_view encoded, char delimiter) {
+    std::vector<std::string> parts;
+    std::size_t start = 0;
+    std::size_t i = 0;
+    while (i < encoded.size()) {
+        std::size_t width = 0;
+        if (encoded[i] == delimiter
+                || (delimiter == ' ' && encoded[i] == '+')) {
+            width = 1;
+        } else if (delimiter != ',' && encoded[i] == '%'
+                && i + 2 < encoded.size()) {
+            int const high = hexDigitValue(encoded[i + 1]);
+            int const low = hexDigitValue(encoded[i + 2]);
+            if (high >= 0 && low >= 0
+                    && static_cast<char>((high << 4) | low) == delimiter) {
+                width = 3;
+            }
+        }
+        if (width == 0) {
+            ++i;
+            continue;
+        }
+        parts.push_back(percentDecodeQuery(encoded.substr(start, i - start)));
+        i += width;
+        start = i;
+    }
+    parts.push_back(percentDecodeQuery(encoded.substr(start)));
     return parts;
 }
 
@@ -366,6 +414,117 @@ inline bool isJsonNumberGrammar(std::string_view text) {
         if (i == digits) return false;        // exponent requires digits
     }
     return i == text.size();
+}
+
+struct ExactDecimal {
+    boost::multiprecision::cpp_int coefficient;
+    boost::multiprecision::cpp_int exponent10;
+    bool zero = false;
+};
+
+/// Parses a JSON number into an exact decimal coefficient and base-10
+/// exponent. Trailing coefficient zeroes are folded into the exponent so a
+/// negative exponent difference proves non-divisibility without constructing
+/// an enormous power of ten.
+inline bool parseExactDecimal(std::string_view text, ExactDecimal& out) {
+    if (!isJsonNumberGrammar(text)) return false;
+    std::size_t i = (!text.empty() && text.front() == '-') ? 1 : 0;
+    std::string digits;
+    digits.reserve(text.size());
+    while (i < text.size() && text[i] >= '0' && text[i] <= '9') {
+        digits.push_back(text[i++]);
+    }
+    std::size_t fractionalDigits = 0;
+    if (i < text.size() && text[i] == '.') {
+        ++i;
+        while (i < text.size() && text[i] >= '0' && text[i] <= '9') {
+            digits.push_back(text[i++]);
+            ++fractionalDigits;
+        }
+    }
+
+    boost::multiprecision::cpp_int exponent = 0;
+    if (i < text.size()) {
+        ++i; // e/E
+        bool const negativeExponent = i < text.size() && text[i] == '-';
+        if (i < text.size() && (text[i] == '+' || text[i] == '-')) ++i;
+        for (; i < text.size(); ++i) {
+            exponent *= 10;
+            exponent += text[i] - '0';
+        }
+        if (negativeExponent) exponent = -exponent;
+    }
+    exponent -= fractionalDigits;
+
+    std::size_t first = digits.find_first_not_of('0');
+    if (first == std::string::npos) {
+        out = ExactDecimal{};
+        out.zero = true;
+        return true;
+    }
+    digits.erase(0, first);
+    while (digits.size() > 1 && digits.back() == '0') {
+        digits.pop_back();
+        ++exponent;
+    }
+    boost::multiprecision::cpp_int coefficient = 0;
+    for (char digit : digits) {
+        coefficient *= 10;
+        coefficient += digit - '0';
+    }
+    out.coefficient = std::move(coefficient);
+    out.exponent10 = std::move(exponent);
+    out.zero = false;
+    return true;
+}
+
+/// JSON Schema `multipleOf` is exact decimal arithmetic, not a tolerance test
+/// over the rounded float/double destination. The wire lexeme is therefore
+/// checked before its typed value is used. Arbitrarily large exponents remain
+/// bounded by modular exponentiation rather than materializing 10^exponent.
+inline bool isExactMultipleOf(
+        std::string_view valueText, std::string_view divisorText) {
+    ExactDecimal value;
+    ExactDecimal divisor;
+    if (!parseExactDecimal(valueText, value)
+            || !parseExactDecimal(divisorText, divisor)
+            || divisor.zero
+            || (!divisorText.empty() && divisorText.front() == '-')) {
+        return false;
+    }
+    if (value.zero) return true;
+    boost::multiprecision::cpp_int const shift =
+        value.exponent10 - divisor.exponent10;
+    if (shift < 0) {
+        // Both coefficients have no trailing decimal zero. Multiplying the
+        // divisor by at least one 10 therefore cannot divide the value.
+        return false;
+    }
+    if (divisor.coefficient == 1) return true;
+
+    // Once 10^shift supplies every factor of 2 and 5 in the divisor,
+    // additional powers of ten are invertible modulo the remaining factor
+    // and cannot change divisibility. Cap the modular exponent accordingly,
+    // so a wire exponent with thousands of digits cannot amplify CPU work.
+    auto residual = divisor.coefficient;
+    std::size_t twos = 0;
+    std::size_t fives = 0;
+    while ((residual % 2) == 0) {
+        residual /= 2;
+        ++twos;
+    }
+    while ((residual % 5) == 0) {
+        residual /= 5;
+        ++fives;
+    }
+    std::size_t const cap = twos > fives ? twos : fives;
+    boost::multiprecision::cpp_int const effectiveShift =
+        shift > cap ? boost::multiprecision::cpp_int(cap) : shift;
+    auto const factor = boost::multiprecision::powm(
+        boost::multiprecision::cpp_int(10),
+        effectiveShift, divisor.coefficient);
+    return ((value.coefficient % divisor.coefficient) * factor)
+            % divisor.coefficient == 0;
 }
 
 

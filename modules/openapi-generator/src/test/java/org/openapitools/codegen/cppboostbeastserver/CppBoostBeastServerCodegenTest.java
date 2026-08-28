@@ -109,18 +109,35 @@ public class CppBoostBeastServerCodegenTest {
         String apiSource = Files.readString(output.resolve("api/DefaultApi.cpp"));
         Assert.assertTrue(apiSource.contains("router->add("),
                 "route registration must be emitted");
-        Assert.assertTrue(apiSource.contains("splitOn(values.first->second, '|')"),
-                "pipe-delimited query collection must split on '|'");
+        Assert.assertTrue(apiSource.contains("splitQueryParameter(values.first->second, '|')"),
+                "pipe-delimited query collection must split before decoding");
         Assert.assertTrue(apiSource.contains("std::regex"),
                 "pattern constraints must emit a regex check");
         Assert.assertTrue(apiSource.contains("kAllowed"),
                 "enum constraints must emit an allow-list check");
+        Assert.assertTrue(apiSource.contains("isExactMultipleOf(text, \"0.1\")"),
+                "number multipleOf must be checked against the exact wire lexeme");
+        Assert.assertTrue(apiSource.contains("isExactMultipleOf(element, \"2\")"),
+                "array-item multipleOf must be emitted");
 
         Assert.assertTrue(Files.exists(output.resolve("server/HttpServer.h")));
         Assert.assertTrue(Files.exists(output.resolve("server/Router.h")));
         Assert.assertTrue(Files.exists(output.resolve("server/Responder.h")));
         Assert.assertTrue(Files.exists(output.resolve("server/Problem.h")));
         Assert.assertTrue(Files.exists(output.resolve("server/ParamCodecs.h")));
+        String paramCodecs = Files.readString(output.resolve("server/ParamCodecs.h"));
+        Assert.assertTrue(paramCodecs.contains("percentDecode(encoded, true)"),
+                "query form decoding must translate plus to space");
+        Assert.assertTrue(paramCodecs.contains("boost::multiprecision::powm"),
+                "exact multipleOf must support large decimal exponents");
+        String httpServer = Files.readString(output.resolve("server/HttpServer.cpp"));
+        Assert.assertTrue(httpServer.contains("parse_absolute_uri"),
+                "absolute-form request targets must be accepted and normalized");
+        Assert.assertTrue(httpServer.contains("requestIsHead_"),
+                "HEAD responses must suppress body bytes");
+        String cmake = Files.readString(output.resolve("CMakeLists.txt"));
+        Assert.assertTrue(cmake.contains("add_compile_options(/WX)"),
+                "MSVC warnings must be errors when WERROR is enabled");
         Assert.assertTrue(Files.exists(output.resolve("server/BodyJson.h")));
         Assert.assertTrue(Files.exists(output.resolve("model/Pet.h")),
                 "models must be generated");

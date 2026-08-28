@@ -370,6 +370,7 @@ final class CppBoostBeastServerTemplateModelAssembler {
                             || Boolean.TRUE.equals(facts.get("hasMaxLength"))
                             || Boolean.TRUE.equals(facts.get("hasMinimum"))
                             || Boolean.TRUE.equals(facts.get("hasMaximum"))
+                            || Boolean.TRUE.equals(facts.get("hasMultipleOf"))
                             || Boolean.TRUE.equals(facts.get("minimumAlwaysInvalid"))
                             || Boolean.TRUE.equals(facts.get("maximumAlwaysInvalid")));
             // The container-constraints partial reads `present` for the
@@ -386,7 +387,8 @@ final class CppBoostBeastServerTemplateModelAssembler {
                             || Boolean.TRUE.equals(facts.get("itemHasMinLength"))
                             || Boolean.TRUE.equals(facts.get("itemHasMaxLength"))
                             || Boolean.TRUE.equals(facts.get("itemHasMinimum"))
-                            || Boolean.TRUE.equals(facts.get("itemHasMaximum")));
+                            || Boolean.TRUE.equals(facts.get("itemHasMaximum"))
+                            || Boolean.TRUE.equals(facts.get("itemHasMultipleOf")));
 
             params.add(facts);
         }
@@ -633,6 +635,10 @@ final class CppBoostBeastServerTemplateModelAssembler {
                 ? schema.getMaxLength().toString() : "";
         emit(facts, prefix, "maxLength", maxLength);
         emit(facts, prefix, "hasMaxLength", !maxLength.isEmpty());
+        java.math.BigDecimal multipleOf = schema == null ? null : schema.getMultipleOf();
+        emit(facts, prefix, "multipleOf", multipleOf == null ? "" : multipleOf.toString());
+        emit(facts, prefix, "hasMultipleOf",
+                (integerKind || numberKind) && multipleOf != null);
 
         ModelUtils.ResolvedMinBound min = schema == null ? null
                 : ModelUtils.resolveMinimumBound(sourceOpenApi, schema);

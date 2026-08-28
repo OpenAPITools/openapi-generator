@@ -30,6 +30,11 @@ paths:
             type: integer
             format: int64
             minimum: 1
+        - name: tag
+          in: query
+          description: Form-decoded scalar echo probe
+          schema:
+            type: string
       responses:
         '200':
           description: The pet
@@ -43,6 +48,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      security: []
+    head:
+      operationId: headPet
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Pet metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
       security: []
     put:
       operationId: updatePet
@@ -290,6 +313,31 @@ paths:
             format: double
             exclusiveMinimum: 1.5
             exclusiveMaximum: 3
+        - name: step
+          in: query
+          description: Exact-decimal multipleOf probe
+          schema:
+            type: number
+            format: double
+            multipleOf: 0.1
+        - name: stride
+          in: query
+          description: Integer multipleOf probe
+          schema:
+            type: integer
+            format: int32
+            multipleOf: 3
+        - name: ticks
+          in: query
+          description: Array-item multipleOf probe
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+              multipleOf: 2
+          style: form
+          explode: false
         - name: ids
           in: query
           required: true
@@ -327,6 +375,7 @@ paths:
           schema:
             type: integer
             format: int32
+            multipleOf: 2
       responses:
         '200':
           description: Period echo

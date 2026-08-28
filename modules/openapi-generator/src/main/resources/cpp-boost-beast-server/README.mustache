@@ -111,6 +111,13 @@ parameter reaches the service as its declared OpenAPI `default` (or the type
 zero value when none is declared); an optional request body is decoded only
 when bytes arrive.
 
+HTTP/1.1 requests must carry exactly one syntactically valid `Host` field;
+HTTP/1.0 keeps `Host` optional. Both origin-form and absolute-form HTTP(S)
+targets are accepted (the absolute URI authority is authoritative), then
+normalized to origin-form before routing. `HEAD` handlers produce the same
+status and headers, including the GET-equivalent `Content-Length`, but never
+write response body bytes.
+
 With `addApiImplStubs=true` a `main.cpp` and stub services (501 responses)
 are generated for quick start.
 
@@ -149,6 +156,13 @@ Parameter and body validation follows these documented rules:
 - **Numeric grammar** is strict and locale-independent: parameters must be
   exact JSON number text (`1.5` yes; `+1.5`, `.5`, `1.`, `1,5`, `0x10`,
   leading/trailing space, `inf`, `nan` no).
+- **Query form decoding** translates `+` to space. Array style delimiters are
+  identified on the encoded value before element decoding, so an escaped
+  comma (`%2C`) remains data inside one form-array element while literal `,`
+  separates elements.
+- **`multipleOf`** uses exact decimal arithmetic over the parameter wire
+  lexeme for both scalar numbers/integers and array items; it does not apply
+  a binary floating-point tolerance.
 - **Request bodies** are validated against their declared component schema
   BEFORE decoding, so an invalid payload answers 400 instead of reaching the
   service with silently defaulted fields. The exact-number-preserving parser

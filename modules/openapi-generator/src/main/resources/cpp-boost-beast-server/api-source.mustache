@@ -126,13 +126,19 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                         invalid = true;
                     } else {
                         for (std::string& element : elements) {
+                            std::string text = percentDecode(element);
                             {{{innerType}}} value;
-                            if (!parseScalar(percentDecode(element), value)) {
+                            if (!parseScalar(text, value)) {
                                 problem.withError("{{{baseNameLiteral}}}", "path parameter element is not a valid {{{innerType}}}");
                                 invalid = true;
                                 break;
                             }
-                            request.{{cppName}}.push_back(std::move(value));
+{{#itemHasMultipleOf}}                            if (!isExactMultipleOf(text, "{{{itemMultipleOf}}}")) {
+                                problem.withError("{{{baseNameLiteral}}}", "path parameter element is not a multiple of {{{itemMultipleOf}}}");
+                                invalid = true;
+                                break;
+                            }
+{{/itemHasMultipleOf}}                            request.{{cppName}}.push_back(std::move(value));
                         }
                     }
 {{#hasContainerConstraints}}                    bool present = true;
@@ -142,8 +148,9 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
 {{/isPath}}
 {{#isQuery}}
 {{^isContainer}}
-                    auto values = ctx->query.equal_range("{{{baseNameLiteral}}}");
+                    auto values = ctx->encodedQuery.equal_range("{{{baseNameLiteral}}}");
                     bool present = values.first != values.second;
+                    std::string text;
                     if (!present) {
 {{#required}}
                         problem.withError("{{{baseNameLiteral}}}", "required query parameter is missing");
@@ -152,30 +159,33 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
 {{^required}}
                         // absent optional query parameter keeps its default value
 {{/required}}
-                    } else if (!parseScalar(values.first->second, request.{{cppName}})) {
-                        problem.withError("{{{baseNameLiteral}}}", "query parameter is not a valid {{{dataType}}}");
-                        invalid = true;
+                    } else {
+                        text = percentDecodeQuery(values.first->second);
+                        if (!parseScalar(text, request.{{cppName}})) {
+                            problem.withError("{{{baseNameLiteral}}}", "query parameter is not a valid {{{dataType}}}");
+                            invalid = true;
+                        }
                     }
 {{>param-constraints}}
 {{/isContainer}}
 {{#isContainer}}
 {{^styleDeepObject}}
-                    auto values = ctx->query.equal_range("{{{baseNameLiteral}}}");
+                    auto values = ctx->encodedQuery.equal_range("{{{baseNameLiteral}}}");
                     bool present = values.first != values.second;
                     std::vector<std::string> elements;
                     if (present) {
 {{#styleForm}}{{#explode}}
                         for (auto it = values.first; it != values.second; ++it) {
-                            elements.push_back(it->second);
+                            elements.push_back(percentDecodeQuery(it->second));
                         }
 {{/explode}}{{^explode}}
-                        elements = splitSimple(values.first->second);
+                        elements = splitQueryParameter(values.first->second, ',');
 {{/explode}}{{/styleForm}}
 {{#stylePipeDelimited}}
-                        elements = splitOn(values.first->second, '|');
+                        elements = splitQueryParameter(values.first->second, '|');
 {{/stylePipeDelimited}}
 {{#styleSpaceDelimited}}
-                        elements = splitOn(values.first->second, ' ');
+                        elements = splitQueryParameter(values.first->second, ' ');
 {{/styleSpaceDelimited}}
                     }
                     if (!present) {
@@ -187,21 +197,26 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                         // absent optional query parameter keeps its default value
 {{/required}}
                     } else {
-                        for (std::string& element : elements) {
+                        for (std::string const& element : elements) {
                             {{{innerType}}} value;
                             if (!parseScalar(element, value)) {
                                 problem.withError("{{{baseNameLiteral}}}", "query parameter element is not a valid {{{innerType}}}");
                                 invalid = true;
                                 break;
                             }
-                            request.{{cppName}}.push_back(std::move(value));
+{{#itemHasMultipleOf}}                            if (!isExactMultipleOf(element, "{{{itemMultipleOf}}}")) {
+                                problem.withError("{{{baseNameLiteral}}}", "query parameter element is not a multiple of {{{itemMultipleOf}}}");
+                                invalid = true;
+                                break;
+                            }
+{{/itemHasMultipleOf}}                            request.{{cppName}}.push_back(std::move(value));
                         }
                     }
 {{>param-container-constraints}}
 {{/styleDeepObject}}
 {{#styleDeepObject}}
                     bool present = false;
-                    for (auto const& entry : ctx->query) {
+                    for (auto const& entry : ctx->encodedQuery) {
                         std::string const prefix = "{{{baseNameLiteral}}}[";
                         if (entry.first.size() > prefix.size()
                                 && entry.first.compare(0, prefix.size(), prefix) == 0
@@ -209,10 +224,7 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                             present = true;
                             std::string key = entry.first.substr(
                                 prefix.size(), entry.first.size() - prefix.size() - 1);
-                            // ctx->query keys/values are already decoded by
-                            // Boost.URL; decoding again would corrupt values
-                            // containing literal percent escapes.
-                            request.{{cppName}}[key] = entry.second;
+                            request.{{cppName}}[key] = percentDecodeQuery(entry.second);
                         }
                     }
                     if (!present) {
@@ -230,6 +242,7 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
 {{^isContainer}}
                     auto values = ctx->headers.equal_range(lowercaseHeaderName("{{{baseNameLiteral}}}"));
                     bool present = values.first != values.second;
+                    std::string text;
                     if (!present) {
 {{#required}}
                         problem.withError("{{{baseNameLiteral}}}", "required header parameter is missing");
@@ -238,9 +251,12 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
 {{^required}}
                         // absent optional header parameter keeps its default value
 {{/required}}
-                    } else if (!parseScalar(values.first->second, request.{{cppName}})) {
-                        problem.withError("{{{baseNameLiteral}}}", "header parameter is not a valid {{{dataType}}}");
-                        invalid = true;
+                    } else {
+                        text = values.first->second;
+                        if (!parseScalar(text, request.{{cppName}})) {
+                            problem.withError("{{{baseNameLiteral}}}", "header parameter is not a valid {{{dataType}}}");
+                            invalid = true;
+                        }
                     }
 {{>param-constraints}}
 {{/isContainer}}
@@ -260,7 +276,12 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                                 invalid = true;
                                 break;
                             }
-                            request.{{cppName}}.push_back(std::move(value));
+{{#itemHasMultipleOf}}                            if (!isExactMultipleOf(element, "{{{itemMultipleOf}}}")) {
+                                problem.withError("{{{baseNameLiteral}}}", "header parameter element is not a multiple of {{{itemMultipleOf}}}");
+                                invalid = true;
+                                break;
+                            }
+{{/itemHasMultipleOf}}                            request.{{cppName}}.push_back(std::move(value));
                         }
                     }
 {{>param-container-constraints}}
@@ -269,6 +290,7 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
 {{#isCookie}}
                     auto values = ctx->cookies.equal_range("{{{baseNameLiteral}}}");
                     bool present = values.first != values.second;
+                    std::string text;
                     if (!present) {
 {{#required}}
                         problem.withError("{{{baseNameLiteral}}}", "required cookie parameter is missing");
@@ -277,9 +299,12 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
 {{^required}}
                         // absent optional cookie parameter keeps its default value
 {{/required}}
-                    } else if (!parseScalar(values.first->second, request.{{cppName}})) {
-                        problem.withError("{{{baseNameLiteral}}}", "cookie parameter is not a valid {{{dataType}}}");
-                        invalid = true;
+                    } else {
+                        text = values.first->second;
+                        if (!parseScalar(text, request.{{cppName}})) {
+                            problem.withError("{{{baseNameLiteral}}}", "cookie parameter is not a valid {{{dataType}}}");
+                            invalid = true;
+                        }
                     }
 {{>param-constraints}}
 {{/isCookie}}

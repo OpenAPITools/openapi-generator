@@ -43,14 +43,14 @@ if (NOT THREADS_TARGET_PREDEFINED)
     set_property(TARGET Threads::Threads PROPERTY IMPORTED_GLOBAL TRUE)
 endif ()
 
-# Generated code is held warning-clean. Warnings are fatal by default on
-# GCC/Clang (Boost headers arrive through SYSTEM include directories, so the
-# flag only bites the generated sources). MSVC keeps /W4 without /WX because
-# vcpkg-propagated Boost headers are not reliably marked external; set
-# -DCPP_BOOST_BEAST_SERVER_WERROR=OFF to relax the non-MSVC default.
-option(CPP_BOOST_BEAST_SERVER_WERROR "Treat compiler warnings as errors" ON)
+# Generated code is held warning-clean. GCC/Clang use -Wall/-Wextra and
+# MSVC uses /W4 with conforming language mode; the default WERROR option
+# promotes those warnings to errors on every compiler.
 if (MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+    add_compile_options(/W4 /permissive-)
+    if (CPP_BOOST_BEAST_SERVER_WERROR)
+        add_compile_options(/WX)
+    endif ()
 else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra")
     if (CPP_BOOST_BEAST_SERVER_WERROR)

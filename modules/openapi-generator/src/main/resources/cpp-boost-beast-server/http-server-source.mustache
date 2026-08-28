@@ -43,6 +43,14 @@ std::string lowercased(std::string text) {
     return text;
 }
 
+bool validHostField(std::string_view value) {
+    auto parsed = boost::urls::parse_authority(
+        boost::core::string_view(value.data(), value.size()));
+    return parsed.has_value()
+        && !parsed->has_userinfo()
+        && !parsed->encoded_host().empty();
+}
+
 /// Extracts credentials per the route's declared schemes.
 AuthCredentials collectCredentials(
         RequestContext const& ctx, SecurityGroups const& groups) {
@@ -149,6 +157,7 @@ private:
         stream_.expires_after(
             std::chrono::seconds(options_.readTimeoutSeconds));
         parser_.emplace();
+        requestIsHead_ = false;
         parser_->body_limit(options_.bodyLimitBytes);
         // Read the head first: a client that sent Expect: 100-continue holds
         // the body back until the interim response arrives, so a combined
@@ -180,6 +189,7 @@ private:
             // be skipped safely on a keep-alive stream.
             requestVersion_ = static_cast<unsigned>(parser_->get().version());
             requestKeepAlive_ = parser_->get().keep_alive();
+            requestIsHead_ = parser_->get().method() == http::verb::head;
             forceClose_ = true;
             return send_response(
                 toProblemResponse(Problem::payloadTooLarge()));
@@ -205,6 +215,22 @@ private:
         requestKeepAlive_ = parser_->get().keep_alive();
         forceClose_ = false;
         auto const& head = parser_->get();
+        requestIsHead_ = head.method() == http::verb::head;
+        if (head.version() >= 11) {
+            auto const hosts = head.equal_range(http::field::host);
+            std::size_t hostCount = 0;
+            std::string_view hostValue;
+            for (auto it = hosts.first; it != hosts.second; ++it) {
+                ++hostCount;
+                hostValue = std::string_view(
+                    it->value().data(), it->value().size());
+            }
+            if (hostCount != 1 || !validHostField(hostValue)) {
+                forceClose_ = true;
+                return send_response(toProblemResponse(
+                    Problem::badRequest("HTTP/1.1 requires exactly one valid Host field")));
+            }
+        }
         // Expect handling (RFC 9110 10.1.1) only matters when a body
         // follows (Content-Length or chunked); a bodiless request must not
         // be made to wait. count() rather than contains(): contains()
@@ -332,19 +358,50 @@ private:
         // to read the request data it was handed.
         auto ctx = std::make_shared<RequestContext>();
         ctx->method = std::string(request.method_string());
-        ctx->target = std::string(request.target());
         ctx->body = request.body();
 
-        boost::system::result<boost::urls::url_view> parsedUrl =
-            boost::urls::parse_origin_form(request.target());
+        // RFC 9112 requires servers to accept both origin-form and
+        // absolute-form. Normalize an absolute HTTP(S) target to origin-form
+        // before routing; its authority, not Host, is authoritative, though
+        // HTTP/1.1 still requires one syntactically valid Host field.
+        auto parsedOrigin = boost::urls::parse_origin_form(request.target());
+        if (parsedOrigin.has_value()) {
+            ctx->target.assign(request.target().data(), request.target().size());
+        } else {
+            auto absolute = boost::urls::parse_absolute_uri(request.target());
+            if (!absolute.has_value()
+                    || (absolute->scheme_id() != boost::urls::scheme::http
+                        && absolute->scheme_id() != boost::urls::scheme::https)
+                    || !absolute->has_authority()
+                    || absolute->authority().has_userinfo()
+                    || absolute->encoded_host().empty()) {
+                return send_response(toProblemResponse(
+                    Problem::badRequest("malformed request target")));
+            }
+            auto path = absolute->encoded_path();
+            if (path.empty()) {
+                ctx->target = "/";
+            } else {
+                ctx->target.assign(path.data(), path.size());
+            }
+            if (absolute->has_query()) {
+                auto query = absolute->encoded_query();
+                ctx->target.push_back('?');
+                ctx->target.append(query.data(), query.size());
+            }
+        }
+
+        auto parsedUrl = boost::urls::parse_origin_form(ctx->target);
         if (!parsedUrl.has_value()) {
             return send_response(toProblemResponse(
                 Problem::badRequest("malformed request target")));
         }
-        for (auto const& param : parsedUrl->params()) {
-            std::string key(param.key.data(), param.key.size());
-            std::string value(param.value.data(), param.value.size());
-            ctx->query.emplace(std::move(key), std::move(value));
+        for (auto const& param : parsedUrl->encoded_params()) {
+            std::string const encodedKey(param.key.data(), param.key.size());
+            std::string const encodedValue(param.value.data(), param.value.size());
+            std::string key = percentDecodeQuery(encodedKey);
+            ctx->encodedQuery.emplace(key, encodedValue);
+            ctx->query.emplace(std::move(key), percentDecodeQuery(encodedValue));
         }
 
         for (auto const& field : request) {
@@ -454,6 +511,12 @@ private:
         // with operation_aborted and no response would ever reach the client.
         stream_.expires_after(
             std::chrono::seconds(options_.readTimeoutSeconds));
+        if (requestIsHead_) {
+            // `prepare_payload` has already recorded the GET-equivalent
+            // Content-Length. Clearing only the body preserves that metadata
+            // while ensuring HEAD never writes content bytes.
+            response.body().clear();
+        }
         // Mirror the request's HTTP version and keep-alive preference
         // (RFC 9110 6.7): responses must not keep a 1.0 connection alive
         // that did not opt in, and version should not exceed the request's.
@@ -491,6 +554,7 @@ private:
 
     unsigned requestVersion_ = 11;
     bool requestKeepAlive_ = false;
+    bool requestIsHead_ = false;
     bool forceClose_ = false;
     boost::beast::tcp_stream stream_;
     boost::beast::flat_buffer buffer_;

@@ -43,11 +43,15 @@ struct SchemeRequirement {
 /// OR-of-AND security alternatives for one route.
 using SecurityGroups = std::vector<std::vector<SchemeRequirement>>;
 
-/// Fully-decoded, owning request data handed to generated handlers.
+/// Owning request data handed to generated handlers. Query parameters are
+/// available both form-decoded (`query`) and as encoded values keyed by their
+/// decoded names (`encodedQuery`), so style delimiters can be split before
+/// percent-decoding without corrupting escaped data.
 struct RequestContext {
     std::string method;
-    std::string target;                                   // origin-form, encoded
-    std::multimap<std::string, std::string> query;        // decoded key/value pairs
+    std::string target;                                   // normalized origin-form, encoded
+    std::multimap<std::string, std::string> query;        // form-decoded key/value pairs
+    std::multimap<std::string, std::string> encodedQuery; // decoded keys, ENCODED values
     std::map<std::string, std::string> pathParams;        // ENCODED raw captures
     std::multimap<std::string, std::string> headers;      // lowercased names
     std::multimap<std::string, std::string> cookies;      // decoded

@@ -230,13 +230,17 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
 
                 // ---- parameter limit (query, form) ----
                 {
-                    auto values = ctx->query.equal_range("limit");
+                    auto values = ctx->encodedQuery.equal_range("limit");
                     bool present = values.first != values.second;
+                    std::string text;
                     if (!present) {
                         // absent optional query parameter keeps its default value
-                    } else if (!parseScalar(values.first->second, request.limit)) {
-                        problem.withError("limit", "query parameter is not a valid std::int32_t");
-                        invalid = true;
+                    } else {
+                        text = percentDecodeQuery(values.first->second);
+                        if (!parseScalar(text, request.limit)) {
+                            problem.withError("limit", "query parameter is not a valid std::int32_t");
+                            invalid = true;
+                        }
                     }
 
 

@@ -162,3 +162,10 @@
                         invalid = true;
                     }
 {{/hasMaximum}}{{/numberKind}}
+{{#hasMultipleOf}}
+                    if (!invalid && present
+                            && !isExactMultipleOf(text, "{{{multipleOf}}}")) {
+                        problem.withError("{{{baseNameLiteral}}}", "value is not a multiple of {{{multipleOf}}}");
+                        invalid = true;
+                    }
+{{/hasMultipleOf}}
