@@ -223,6 +223,27 @@ void testNumericConversionBoundaries() {
     boost::json::value const tooLargeUnsigned(std::ldexp(1.0, 64));
     require(!tryGetMathematicalInteger(tooLargeUnsigned, unsignedValue),
             "2^64 must not convert to uint64");
+    // A signed destination whose FULL range fits inside the double exact
+    // window must accept its own minimum: every integer up to 2^53 has an
+    // unambiguous double image, so -2^31 names exactly one int32 and the
+    // trust window closes there.
+    std::int32_t narrow = 0;
+    boost::json::value const int32Lower(
+            static_cast<double>((std::numeric_limits<std::int32_t>::min)()));
+    require(tryGetMathematicalInteger(int32Lower, narrow)
+                    && narrow == (std::numeric_limits<std::int32_t>::min)(),
+            "-2^31 must convert to int32: the image names exactly one integer");
+    boost::json::value const int32Upper(
+            static_cast<double>((std::numeric_limits<std::int32_t>::max)()));
+    require(tryGetMathematicalInteger(int32Upper, narrow)
+                    && narrow == (std::numeric_limits<std::int32_t>::max)(),
+            "2^31-1 must convert to int32: the image names exactly one integer");
+    // Destinations reaching the ambiguous precision boundary keep the open
+    // edge: -2^53 is the image of both -2^53 and -2^53 - 1 (both in int64's
+    // range), so without a lexeme it must still fail closed.
+    boost::json::value const ambiguousSignedLower(-std::ldexp(1.0, 53));
+    require(!tryGetMathematicalInteger(ambiguousSignedLower, signedValue),
+            "-2^53 must refuse for int64: tokens on both sides round into it");
     requireThrows(
             [&]() { (void)convertJsonNumber<std::int64_t>(tooLargeSigned); },
             "out-of-range floating-to-integer conversion must throw");
