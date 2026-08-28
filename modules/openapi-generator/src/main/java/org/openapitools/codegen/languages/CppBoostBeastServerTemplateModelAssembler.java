@@ -836,18 +836,20 @@ final class CppBoostBeastServerTemplateModelAssembler {
         // Nullable body schemas arrive as std::optional<Inner> (OAS 3.1
         // ["X","null"]). fromJsonLeaf decodes that type (JSON null = absent),
         // so the handler keeps a typed body; the header import and the
-        // per-token qualification resolve through Inner. A std::optional
-        // whose inner is neither a generated model nor a plain scalar cannot
-        // decode: degrade to no typed body like the variant path.
+        // per-token qualification resolve through Inner. The inner need not
+        // be a bare model or scalar: the BodyJson.h overload set decodes
+        // containers recursively (std::vector<T>, std::map<std::string,T>,
+        // std::shared_ptr<T>, std::optional<T>), so any composition over a
+        // generated model, a plain scalar, or boost::json::value is typable.
+        // Only an inner that no overload reaches degrades to no typed body
+        // (like the variant path).
         String innerModel = dataType;
         boolean optionalBody = dataType.startsWith("std::optional<")
                 && dataType.endsWith(">");
         if (optionalBody) {
             innerModel = dataType.substring(
                     "std::optional<".length(), dataType.length() - 1).trim();
-            if (!modelClassNames.contains(innerModel)
-                    && !CppBoostBeastServerCodegen.isPlainScalarDataType(innerModel)
-                    && !"std::string".equals(innerModel)) {
+            if (!isDecodableBodyDataType(innerModel, modelClassNames, modelDataTypes)) {
                 dataType = "";
                 innerModel = "";
                 optionalBody = false;
@@ -863,9 +865,11 @@ final class CppBoostBeastServerTemplateModelAssembler {
         facts.put("hasBody", hasBody);
         facts.put("mediaTypes", hasBody ? rendered : "");
         // "model" names the generated class whose header the API source must
-        // include: the body model itself, or the inner model of an optional
-        // body ("" for scalar/inline/degraded bodies).
-        facts.put("model", hasBody ? innerModel : "");
+        // include: the body model itself, or for an optional body the first
+        // model token found inside the (possibly container) inner type —
+        // std::optional<std::vector<Pet>> still needs Pet.h. "" for
+        // scalar/inline/degraded bodies.
+        facts.put("model", hasBody ? modelImportFor(innerModel, modelClassNames) : "");
         // The full field type as declared in the generated Request struct,
         // with per-identifier qualification: a model token shadowed by one of
         // this API class's nested contract types (XxxRequest/XxxResponder) or
@@ -937,6 +941,76 @@ final class CppBoostBeastServerTemplateModelAssembler {
             current = resolved;
         }
         return false;
+    }
+
+    /**
+     * Whether {@code fromJsonLeaf} reaches a C++ type recursively: the
+     * BodyJson.h overload set decodes generated models (member fromJsonValue),
+     * plain scalars, boost::json::value (the catch-all overload), and the
+     * container overloads std::optional / std::shared_ptr / std::vector /
+     * std::map over any decodable inner. std::variant is refused: the
+     * request path has no schema-driven branch matcher (documented policy,
+     * see isUntypableBodyDataType). Model aliases resolve through the
+     * className→dataType map so a model aliasing a variant stays refused.
+     */
+    private static boolean isDecodableBodyDataType(
+            String type, Set<String> modelClassNames,
+            Map<String, String> modelDataTypes) {
+        return isDecodableBodyDataType(type, modelClassNames, modelDataTypes, 0);
+    }
+
+    private static boolean isDecodableBodyDataType(
+            String type, Set<String> modelClassNames,
+            Map<String, String> modelDataTypes, int depth) {
+        String current = type == null ? "" : type.trim();
+        // Bound the peel: legal schemas nest a handful of wrappers at most;
+        // a deeper walk means a pathological (or cyclic alias) type.
+        if (current.isEmpty() || depth > 8) {
+            return false;
+        }
+        for (String prefix : new String[] {"std::optional<", "std::shared_ptr<",
+                "std::vector<"}) {
+            if (current.startsWith(prefix) && current.endsWith(">")) {
+                return isDecodableBodyDataType(
+                        current.substring(prefix.length(), current.length() - 1),
+                        modelClassNames, modelDataTypes, depth + 1);
+            }
+        }
+        if (current.startsWith("std::map<") && current.endsWith(">")) {
+            String args = current.substring("std::map<".length(), current.length() - 1);
+            int depthOfAngle = 0;
+            for (int i = 0; i < args.length(); i++) {
+                char c = args.charAt(i);
+                if (c == '<') {
+                    depthOfAngle++;
+                } else if (c == '>') {
+                    depthOfAngle--;
+                } else if (c == ',' && depthOfAngle == 0) {
+                    // The map KEY must be std::string for the overload
+                    // (std::map<std::string, T>) to match at all.
+                    boolean stringKey = args.substring(0, i).trim().equals("std::string");
+                    return stringKey && isDecodableBodyDataType(
+                            args.substring(i + 1), modelClassNames, modelDataTypes,
+                            depth + 1);
+                }
+            }
+            return false;
+        }
+        if (current.startsWith("std::variant<")) {
+            return false;
+        }
+        if (CppBoostBeastServerCodegen.isPlainScalarDataType(current)
+                || "boost::json::value".equals(current)) {
+            return true;
+        }
+        // A model name that aliases a container/union: follow one hop per
+        // level (bounded by depth), exactly like the variant walk above.
+        String alias = modelDataTypes.get(current);
+        if (alias != null && !alias.equals(current)) {
+            return isDecodableBodyDataType(
+                    alias, modelClassNames, modelDataTypes, depth + 1);
+        }
+        return modelClassNames.contains(current);
     }
 
 
@@ -1103,6 +1177,33 @@ final class CppBoostBeastServerTemplateModelAssembler {
             }
         }
         return out.toString();
+    }
+
+    /** The first identifier inside a body type that names a generated model
+     *  (the header the API source must include), or "" when the type embeds
+     *  none (scalars, boost::json::value). Tokens are matched whole against
+     *  the model-class table, so std::optional&lt;std::vector&lt;Pet&gt;&gt;
+     *  yields Pet. */
+    static String modelImportFor(String dataType, Set<String> modelClassNames) {
+        if (dataType == null || dataType.isEmpty() || modelClassNames.isEmpty()) {
+            return "";
+        }
+        if (modelClassNames.contains(dataType)) {
+            return dataType;
+        }
+        StringBuilder token = new StringBuilder();
+        for (int i = 0; i <= dataType.length(); i++) {
+            char c = i < dataType.length() ? dataType.charAt(i) : '>';
+            if (Character.isJavaIdentifierPart(c)) {
+                token.append(c);
+                continue;
+            }
+            if (modelClassNames.contains(token.toString())) {
+                return token.toString();
+            }
+            token.setLength(0);
+        }
+        return "";
     }
 
     /** The Content-Type the generated responder labels this response with.

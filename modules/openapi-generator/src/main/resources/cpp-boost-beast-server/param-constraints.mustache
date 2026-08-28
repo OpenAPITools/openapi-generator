@@ -87,7 +87,16 @@
                             invalid = true;
                         }
                     }
-{{/hasEnum}}{{/boolKind}}
+{{/hasEnum}}{{#enumAlwaysInvalid}}
+                    if (!invalid && present) {
+                        // Every declared enum member is unrepresentable for
+                        // a bool codec (strings/numbers): no wire value can
+                        // satisfy the schema. Fail closed like the integer
+                        // and string branches.
+                        problem.withError("{{{baseNameLiteral}}}", "no declared enum member is representable for this parameter type");
+                        invalid = true;
+                    }
+{{/enumAlwaysInvalid}}{{/boolKind}}
 {{#integerKind}}{{#enumAlwaysInvalid}}
                     if (!invalid && present) {
                         // Every declared enum member is unrepresentable for
@@ -133,7 +142,16 @@
                             invalid = true;
                         }
                     }
-{{/hasEnum}}{{#hasMinimum}}
+{{/hasEnum}}{{#enumAlwaysInvalid}}
+                    if (!invalid && present) {
+                        // Every declared enum member is unrepresentable for
+                        // a number codec (strings/bools): no wire value can
+                        // satisfy the schema. Fail closed like the integer
+                        // branch.
+                        problem.withError("{{{baseNameLiteral}}}", "no declared enum member is representable for this parameter type");
+                        invalid = true;
+                    }
+{{/enumAlwaysInvalid}}{{#hasMinimum}}
                     if (!invalid && present && static_cast<long double>(request.{{cppName}}) {{#minimumExclusive}}<={{/minimumExclusive}}{{^minimumExclusive}}<{{/minimumExclusive}} {{minimum}}L) {
                         problem.withError("{{{baseNameLiteral}}}", "value is out of the allowed range");
                         invalid = true;

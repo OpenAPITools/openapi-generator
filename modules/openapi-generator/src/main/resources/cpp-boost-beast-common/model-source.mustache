@@ -1688,7 +1688,10 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{#vendorExtensions.x-cpp-has-explicit-default}}
     {{#parent}}
     if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
-        m_{{name}} = {{{defaultValue}}};
+        // With a parent the member is the ModelPropertyStorage wrapper; the
+        // reset must write its .value (the wrapper itself has no assignment
+        // from ValueType).
+        m_{{name}}.value = {{{defaultValue}}};
     }
     {{/parent}}
     {{^parent}}

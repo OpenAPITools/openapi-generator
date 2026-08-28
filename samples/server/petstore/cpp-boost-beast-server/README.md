@@ -116,16 +116,22 @@ are generated for quick start.
 Parameter and body validation follows these documented rules:
 
 - **String length** (`minLength` / `maxLength`) counts Unicode code points,
-  not bytes, matching JSON Schema. Invalid UTF-8 degrades to a byte count,
-  which only shifts the length upward.
+  not bytes, matching JSON Schema, on both surfaces. Malformed UTF-8
+  degrades to a byte count (a value the schema could not have produced),
+  which only shifts the length upward and never lets `maxLength` pass.
 - **`pattern`** is evaluated UNANCHORED (`std::regex_search`), per JSON
-  Schema. Matching runs over the UTF-8 BYTES with `std::regex` in its
-  ECMAScript grammar, so `\w`, `[^…]`, and `.` treat a multi-byte character
-  as its constituent bytes; a pattern relying on Unicode word/property
-  semantics is outside the supported subset and answers 400 rather than
-  matching approximately. Patterns the grammar cannot compile are refused
-  the same way. Keep ASCII-only patterns, or express intent with explicit
-  byte-safe alternatives.
+  Schema, but its grammar surface differs by place:
+  - *Parameters* (path/query/header/cookie): `std::regex` in its ECMAScript
+    grammar over the UTF-8 BYTES, so `\w`, `[^…]`, and `.` treat a
+    multi-byte character as its constituent bytes.
+  - *Request/response bodies* (the model validator): the value is decoded to
+    code points and matched with `std::wregex`, so `.` and character classes
+    advance one Unicode scalar at a time.
+  A pattern relying on Unicode word/property semantics (`\p{…}`) is outside
+  the supported subset on both surfaces and answers 400 rather than matching
+  approximately; patterns the grammar cannot compile are refused the same
+  way. Keep ASCII-only patterns unless you intend code-point (`body`) rather
+  than byte (`parameter`) semantics.
 - **Enum reachability**: an enum member is validated only when the
   parameter's C++ codec can produce a JSON-equal value for it (a string
   member can never match an integer parameter). When no declared member is
@@ -144,6 +150,16 @@ Parameter and body validation follows these documented rules:
   Bodies whose schema is inline, a composition union, or nullable are
   decode-shape-only (no schema gate) — the generated decode still rejects
   structurally wrong payloads.
+- **Numeric representability is a whole-payload gate**: a JSON number the
+  finite-double domain cannot hold (e.g. `1e400`) answers 400 for the whole
+  body, even if it sits in a member the model ignores. This is deliberate.
+  Schema validity and model representability are different questions: an
+  unbounded `number`-typed schema admits `1e400`, but no generated C++
+  field can hold it, and the shared exact-JSON parser would otherwise decode
+  the sanitized placeholder (0) into observable model state. Rejecting the
+  payload at the boundary is the only way to guarantee no silently corrupted
+  number reaches the service through either a declared field or preserved
+  additional properties.
 - **Model decoding stays tolerant** (client-compatibility policy): unknown
   members are ignored, and the server gate above is what enforces the
   schema. Do not rely on the model constructor to reject invalid input.

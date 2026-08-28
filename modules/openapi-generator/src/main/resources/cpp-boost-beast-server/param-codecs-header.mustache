@@ -160,7 +160,7 @@ inline void parseCookieHeader(
             }
             // RFC 6265 4.1.1 cookie-av permits a quoted-string value
             // (DQUOTE *cookie-octet DQUOTE). A user agent may send
-            // session=/"abc"/; strip the wrapping quotes so the codec sees
+            // session="abc"; strip the wrapping quotes so the codec sees
             // the cookie value, not its serialization.
             if (valueText.size() >= 2
                     && valueText.front() == '"' && valueText.back() == '"') {
@@ -179,17 +179,38 @@ inline void parseCookieHeader(
 }
 
 /// Counts UTF-8 code points in a decoded value for minLength/maxLength
-/// (JSON Schema counts Unicode scalars, not bytes). Mirrors the model
-/// validator's countCodePoints: continuation bytes (0x80..0xBF) are skipped;
-/// invalid sequences degrade to a byte count, which only ever shifts the
-/// length upward (fail-closed for max, permissive for a value the schema
-/// could not have intended).
+/// (JSON Schema counts Unicode scalars, not bytes). A complete valid
+/// sequence counts once; any byte that is not part of one (invalid lead,
+/// truncated sequence, orphaned continuation) counts as one, so malformed
+/// percent-decoded data degrades to a byte count and can never make a
+/// maxLength check pass by smuggling continuation bytes.
 inline std::size_t utf8CodepointCount(std::string_view text) {
     std::size_t count = 0;
-    for (std::size_t i = 0; i < text.size(); ++i) {
-        if ((static_cast<unsigned char>(text[i]) & 0xC0) != 0x80) {
-            ++count;
+    std::size_t i = 0;
+    while (i < text.size()) {
+        unsigned char const lead = static_cast<unsigned char>(text[i]);
+        std::size_t extra;
+        if (lead < 0x80) {
+            extra = 0;
+        } else if (lead >= 0xC2 && lead <= 0xDF) {
+            extra = 1;
+        } else if (lead >= 0xE0 && lead <= 0xEF) {
+            extra = 2;
+        } else if (lead >= 0xF0 && lead <= 0xF4) {
+            extra = 3;
+        } else {
+            extra = static_cast<std::size_t>(-1);   // C0/C1/F5+/stray continuation
         }
+        bool const complete = extra != static_cast<std::size_t>(-1)
+            && i + extra < text.size();
+        bool whole = complete;
+        for (std::size_t k = 1; whole && k <= extra; ++k) {
+            if ((static_cast<unsigned char>(text[i + k]) & 0xC0) != 0x80) {
+                whole = false;
+            }
+        }
+        ++count;
+        i += whole ? extra + 1 : 1;
     }
     return count;
 }
@@ -333,63 +354,110 @@ inline bool isJsonNumberGrammar(std::string_view text) {
 /// LC_NUMERIC, so under a comma-decimal locale it would accept "1,5"
 /// (which JSON forbids) and reject the valid "1.5". The grammar scan fixes
 /// the accepted text; the accumulation below converts exactly that text
-/// digit by digit (no decimal-point lookup). Long digit strings carry at
-/// most an implementation-precision ULP difference from a correctly-rounded
-/// conversion, and exponent application through std::pow saturates to 0 on
-/// underflow (accepted; ordinary rounding of "1e-400") and to infinity on
-/// overflow (rejected by the finiteness gate below).
+/// with a BOUNDED significand: at most kSignificantDigits digits enter the
+/// accumulator (longer runs carry no precision past that budget and shift
+/// the decimal exponent instead), so no finite JSON token can overflow the
+/// intermediate value the way a full digit-by-digit mantissa would. The
+/// exponent is then applied in bounded pow() steps: "0e400" scales nothing
+/// (no 0 * inf -> NaN) and "1e400" saturates to infinity, which the
+/// finiteness gate rejects. Underflow (1e-400) rounds to zero/denormal and
+/// stays accepted, matching strtod semantics. Any residual difference from
+/// a correctly-rounded conversion is at most an implementation-precision
+/// ULP on long digit strings.
 template <typename T>
 inline bool parseFloatScalar(std::string_view text, T& out) {
     if (!isJsonNumberGrammar(text)) return false;
+    constexpr int kSignificantDigits = 18;
     std::size_t i = 0;
     bool negative = text[i] == '-';
     if (negative) ++i;
-    double mantissa = 0.0;
-    while (i < text.size() && text[i] >= '0' && text[i] <= '9') {
-        mantissa = mantissa * 10.0 + static_cast<double>(text[i] - '0');
-        ++i;
-    }
+    std::size_t const intBeg = i;
+    while (i < text.size() && text[i] >= '0' && text[i] <= '9') ++i;
+    std::size_t const intEnd = i;
+    std::size_t fracBeg = intEnd;
     if (i < text.size() && text[i] == '.') {
         ++i;
-        double fraction = 0.0;
-        double scale = 1.0;
-        while (i < text.size() && text[i] >= '0' && text[i] <= '9') {
-            fraction = fraction * 10.0 + static_cast<double>(text[i] - '0');
-            scale *= 10.0;
-            ++i;
-        }
-        mantissa += fraction / scale;
+        fracBeg = i;
+        while (i < text.size() && text[i] >= '0' && text[i] <= '9') ++i;
     }
-    int exponent = 0;
+    std::size_t const fracEnd = i;
+    long long declared = 0;
     if (i < text.size() && (text[i] == 'e' || text[i] == 'E')) {
         ++i;
         bool exponentNegative = text[i] == '-';
         if (text[i] == '+' || text[i] == '-') ++i;
         while (i < text.size() && text[i] >= '0' && text[i] <= '9') {
-            // Clamp: any magnitude beyond this saturates pow() to 0 or inf,
-            // and clamping keeps the accumulator from signed overflow.
-            if (exponent < 100000) {
-                exponent = exponent * 10 + (text[i] - '0');
+            // Clamp: any magnitude beyond this saturates the scaling loop to
+            // 0 or infinity, and clamping keeps the accumulator from signed
+            // overflow.
+            if (declared < 100000) {
+                declared = declared * 10 + (text[i] - '0');
             }
             ++i;
         }
-        if (exponentNegative) exponent = -exponent;
+        if (exponentNegative) declared = -declared;
     }
-    double parsed = mantissa;
-    if (exponent > 0) parsed *= std::pow(10.0, static_cast<double>(exponent));
-    if (exponent < 0) parsed *= std::pow(10.0, static_cast<double>(exponent));
+    // Significant digits are the run from the first non-zero digit of
+    // [intBeg, fracEnd) to the end of the fraction. Value = I * 10^-P *
+    // 10^declared, where I is that run read as an integer and P counts the
+    // fraction digits (they sit below the decimal point whether or not they
+    // are part of the significant run — "0.001" keeps P = 3). Truncating I
+    // to the first kSignificantDigits divides it by 10^(L - kept), which the
+    // exponent below pays back exactly.
+    std::size_t sigStart = intBeg;
+    bool allZero = true;
+    for (std::size_t k = intBeg; k < fracEnd; ++k) {
+        if (k >= intEnd && k < fracBeg) continue;   // the '.' position
+        if (text[k] != '0') { sigStart = k; allZero = false; break; }
+    }
+    long double parsed = 0.0L;
+    if (!allZero) {
+        long long const headDigits =
+            sigStart < intEnd ? static_cast<long long>(intEnd - sigStart) : 0;
+        long long const fracDigits =
+            static_cast<long long>(fracEnd) - static_cast<long long>(
+                sigStart > fracBeg ? sigStart : fracBeg);
+        long long const totalDigits = headDigits + fracDigits;
+        long long const kept = totalDigits < kSignificantDigits
+            ? totalDigits : kSignificantDigits;
+        long long exponent = declared
+            - static_cast<long long>(fracEnd - fracBeg)
+            + (totalDigits - kept);
+        long long remaining = kept;
+        for (std::size_t k = sigStart; k < fracEnd && remaining > 0; ++k) {
+            if (k >= intEnd && k < fracBeg) continue;
+            parsed = parsed * 10.0L + static_cast<long double>(text[k] - '0');
+            --remaining;
+        }
+        // Scaling in bounded steps: pow() itself never overflows even where
+        // long double is only 64-bit (MSVC, Apple arm64). Overflow of the
+        // product saturates to infinity and dies at the finiteness gate;
+        // underflow rounds toward zero and stays accepted.
+        while (exponent > 0) {
+            long double const factor = std::pow(
+                10.0L, static_cast<long double>(exponent > 300 ? 300 : exponent));
+            parsed *= factor;
+            exponent -= exponent > 300 ? 300 : exponent;
+        }
+        while (exponent < 0) {
+            long long const chunk = exponent < -300 ? 300 : -exponent;
+            parsed /= std::pow(10.0L, static_cast<long double>(chunk));
+            exponent += chunk;
+        }
+    }
+    // (allZero skips scaling entirely: a zero significand stays zero
+    // whatever the exponent, so "0e400" is finite, not 0 * inf.)
     if (negative) parsed = -parsed;
     // JSON numbers are finite; overflow (1e400) saturated to infinity above
-    // and dies here. Underflow (1e-400) rounded to zero/denormal and stays
-    // accepted, matching strtod semantics.
+    // and dies here.
     if (!std::isfinite(parsed)) return false;
     // A float parameter rejects values outside float range: casting 1e40 to
     // float yields infinity, which would hand the service a non-finite
     // number the schema never allows. Underflow to denormal/zero stays
     // accepted (ordinary narrowing, not a wire-level error).
     if constexpr (sizeof(T) < sizeof(double)) {
-        if (parsed > static_cast<double>(std::numeric_limits<T>::max())
-                || parsed < -static_cast<double>(std::numeric_limits<T>::max())) {
+        if (parsed > static_cast<long double>(std::numeric_limits<T>::max())
+                || parsed < -static_cast<long double>(std::numeric_limits<T>::max())) {
             return false;
         }
     }

@@ -215,35 +215,81 @@ private:
         requestKeepAlive_ = parser_->get().keep_alive();
         forceClose_ = false;
         auto const& head = parser_->get();
-        // Expect only matters when a body follows (Content-Length or
-        // chunked); a bodiless request must not be made to wait. count()
-        // rather than contains(): contains() exists only since Boost 1.85
-        // and the Linux CI image ships an older Beast.
-        bool mayHaveBody = head.count(http::field::content_length) > 0
-            || head.chunked();
-        if (head.version() >= 11 && mayHaveBody
-                && lowercased(std::string(head[http::field::expect]))
-                        == "100-continue") {
-            // Expect: 100-continue (RFC 9110 10.1.1): send the interim
-            // response now so the client releases the body. An oversized
-            // declared length never reaches here — the parser already
-            // answered 413 at header finish above.
-            // http::async_write serializes the message lazily and the
-            // composed operation references it until the handler runs, so
-            // the interim response must be heap-owned and captured, exactly
-            // like send_response's message_generator. A stack local here
-            // would dangle the moment this function returns.
-            auto interim = std::make_shared<http::response<http::empty_body>>(
-                http::status::continue_, 11);
-            interim->set(http::field::server,
-                         "openapi-generator-cpp-boost-beast-server");
-            http::async_write(
-                stream_, *interim,
-                [self = shared_from_this(), interim](
-                        boost::beast::error_code writeEc, std::size_t) {
-                    self->on_interim_sent(writeEc);
-                });
-            return;
+        // Expect handling (RFC 9110 10.1.1) only matters when a body
+        // follows (Content-Length or chunked); a bodiless request must not
+        // be made to wait. count() rather than contains(): contains()
+        // exists only since Boost 1.85 and the Linux CI image ships an
+        // older Beast. The field is a comma-separated list: the interim
+        // response is sent only when every token is 100-continue; an
+        // unrecognized expectation the server cannot verify answers 417
+        // (and closes, since the unread body bytes cannot be skipped on a
+        // keep-alive stream).
+        if (head.version() >= 11) {
+            bool sawContinue = false;
+            bool sawUnsupported = false;
+            std::string_view const expectField = head[http::field::expect];
+            // An absent field yields an empty string_view; looping over it
+            // would spin forever (npos + 1 wraps to 0). Only tokenize when
+            // the field is actually present.
+            if (!expectField.empty()) {
+                std::size_t tokenStart = 0;
+            while (tokenStart <= expectField.size()) {
+                std::size_t const comma = expectField.find(',', tokenStart);
+                std::size_t const tokenEnd =
+                    comma == std::string_view::npos ? expectField.size() : comma;
+                std::size_t beg = tokenStart;
+                std::size_t end = tokenEnd;
+                while (beg < end && (expectField[beg] == ' ' || expectField[beg] == '\t')) {
+                    ++beg;
+                }
+                while (end > beg && (expectField[end - 1] == ' ' || expectField[end - 1] == '\t')) {
+                    --end;
+                }
+                if (beg != end) {   // an empty element (trailing comma) is slack
+                    std::string token(expectField.substr(beg, end - beg));
+                    for (char& ch : token) {
+                        ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+                    }
+                    if (token == "100-continue") {
+                        sawContinue = true;
+                    } else {
+                        sawUnsupported = true;
+                    }
+                }
+                if (comma == std::string_view::npos) {
+                    break;
+                }
+                tokenStart = comma + 1;
+            }
+        }
+            bool mayHaveBody = head.count(http::field::content_length) > 0
+                || head.chunked();
+            if (sawUnsupported) {
+                forceClose_ = true;
+                return send_response(
+                    toProblemResponse(Problem::expectationFailed()));
+            }
+            if (sawContinue && mayHaveBody) {
+                // Send the interim response now so the client releases the
+                // body. An oversized declared length never reaches here —
+                // the parser already answered 413 at header finish above.
+                // http::async_write serializes the message lazily and the
+                // composed operation references it until the handler runs,
+                // so the interim response must be heap-owned and captured,
+                // exactly like send_response's message_generator. A stack
+                // local here would dangle the moment this returns.
+                auto interim = std::make_shared<http::response<http::empty_body>>(
+                    http::status::continue_, 11);
+                interim->set(http::field::server,
+                             "openapi-generator-cpp-boost-beast-server");
+                http::async_write(
+                    stream_, *interim,
+                    [self = shared_from_this(), interim](
+                            boost::beast::error_code writeEc, std::size_t) {
+                        self->on_interim_sent(writeEc);
+                    });
+                return;
+            }
         }
         read_body();
     }

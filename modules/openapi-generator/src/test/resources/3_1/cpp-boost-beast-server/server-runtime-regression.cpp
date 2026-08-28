@@ -810,6 +810,39 @@ int main() {
         "unicode property-escape pattern should fail closed 400");
     expect(propertyEscape.body.find("supported regex grammar") != std::string::npos,
         "property-escape problem should explain the grammar");
+    // The same policy applies to a pattern nested in a BODY property: Pet.note
+    // declares '^\p{L}+$', which the model validator refuses as an unsupported
+    // pattern expression, so any payload carrying the property answers 400
+    // (the object-property fail-closed path). Only when the schema registry is
+    // generated — the decode-shape-only config has no schema gate and accepts
+    // the payload.
+#ifdef CPPBB_EXPECT_SCHEMA_VALIDATION
+    RawResponse propertyNote = roundtrip(ioc, port, request("POST /pets",
+        "Authorization: Bearer ok\r\nContent-Type: application/json\r\n"
+        "Connection: close\r\n",
+        "{\"id\":9,\"name\":\"rex\",\"note\":\"abc\"}"));
+    expect(propertyNote.status == 400,
+        "body property with property-escape pattern should fail closed 400");
+    expect(propertyNote.body.find("unsupported pattern expression") != std::string::npos,
+        "body fail-closed problem should name the pattern grammar");
+#endif
+
+    // An unsupported Expectation token (anything but 100-continue) is refused
+    // with 417 (RFC 9110 10.1.1) instead of being silently ignored: a client
+    // that requested an assurance the server cannot give must never have its
+    // body read as if the expectation held.
+    RawResponse expectUnknown = roundtrip(ioc, port, request("POST /echo",
+        "Content-Type: application/json\r\nExpect: confirm-10x\r\n"
+        "Connection: close\r\n", "{\"id\":1,\"name\":\"x\"}"));
+    expect(expectUnknown.status == 417,
+        "unsupported Expectation token should answer 417");
+    // A list containing 100-continue plus an unsupported token is also 417:
+    // every expectation must be satisfiable before the interim response.
+    RawResponse expectMixed = roundtrip(ioc, port, request("POST /echo",
+        "Content-Type: application/json\r\nExpect: 100-continue, confirm-10x\r\n"
+        "Connection: close\r\n", "{\"id\":1,\"name\":\"x\"}"));
+    expect(expectMixed.status == 417,
+        "mixed Expectation list with an unsupported token should answer 417");
 
     // ---- tagged variant (oneOf) response ----
     // Pick is a oneOf of two string branches sharing one C++ type, so the

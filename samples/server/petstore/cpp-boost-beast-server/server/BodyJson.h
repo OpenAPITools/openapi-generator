@@ -20,12 +20,12 @@
 
 #include <boost/json.hpp>
 
+#include <cmath>
 #include <cstdint>
 #include <cstddef>
-#include <type_traits>
+#include <limits>
 #include <memory>
-#include <boost/json.hpp>
-#include <cmath>
+#include <optional>
 #include <stdexcept>
 #include <variant>
 #include <vector>
@@ -225,15 +225,18 @@ inline void fromJsonLeaf(boost::json::value const& json, std::int64_t& out) {
         out = static_cast<std::int64_t>(value);
         return;
     }
-    // Integral doubles in range represent the integer exactly (JSON makes
-    // no int/real distinction); outside double's exact-integer range the
-    // value cannot be trusted and is rejected.
+    // JSON makes no integer/real distinction: 1.0 IS the integer 1. But a
+    // double holds an integer exactly only while |value| <= 2^53: above it
+    // the decimal token may already have been rounded on the way in (the
+    // original text is lost here), so the value cannot be trusted. Reject
+    // outside the exact window — fail closed; a schema-valid integral
+    // double beyond 2^53 answers 400 rather than a corrupted int64.
     if (json.is_double()) {
         double value = json.as_double();
         double integral;
         if (std::modf(value, &integral) == 0.0
-                && value >= -9223372036854775808.0
-                && value <= 9223372036854774784.0) {
+                && value >= -9007199254740992.0
+                && value <= 9007199254740992.0) {
             out = static_cast<std::int64_t>(integral);
             return;
         }
