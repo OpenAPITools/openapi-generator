@@ -160,6 +160,8 @@ public class CppBoostBeastServerCodegenTest {
         Assert.assertTrue(
                 main.contains("DefaultApi::attach(server, std::make_shared<DefaultApiStub>())"),
                 "main.cpp must attach the stub service");
+        Assert.assertTrue(main.contains("_dupenv_s(&rawPortText"),
+                "MSVC quick start must avoid deprecated getenv warnings under /WX");
     }
 
     @Test

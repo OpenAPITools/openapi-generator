@@ -37,7 +37,20 @@ static void attach{{classname}}(HttpServer& server) {
 
 int main() {
     unsigned port = 8080;
-    if (char const* portText = std::getenv("PORT")) {
+#if defined(_MSC_VER)
+    char* rawPortText = nullptr;
+    std::size_t rawPortSize = 0;
+    if (_dupenv_s(&rawPortText, &rawPortSize, "PORT") != 0) {
+        std::cerr << "fatal: could not read PORT from the environment\n";
+        return EXIT_FAILURE;
+    }
+    std::unique_ptr<char, decltype(&std::free)> portTextOwner(
+        rawPortText, &std::free);
+    char const* portText = portTextOwner.get();
+#else
+    char const* portText = std::getenv("PORT");
+#endif
+    if (portText != nullptr) {
         // Validate the whole value: a partial parse (e.g. "80x") or an
         // out-of-range number must fail loudly rather than silently bind a
         // different port than the operator intended. Port 0 would bind an
