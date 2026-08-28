@@ -177,15 +177,23 @@ inline bool isJsonInteger(boost::json::value const& v) {
 
 /// Attempts to extract a mathematical integer into a checked destination.
 /// Returns false when the value is not integral or exceeds destination bounds.
-/// A double is a trustworthy integer image only while |value| <= 2^53
-/// (doubles' own significand), regardless of how wide the destination is:
-/// above that window every double IS integral (modf says 0) yet the token
-/// that produced it may already have been rounded at parse time, and every
-/// cast-based exactness check then agrees with the rounded image. Inside an
-/// ExactInstanceScope the wire lexeme is authoritative and converts exactly
-/// (9007199254740993.0 names an integer the binary image cannot); outside
-/// any scope the window is enforced and the value is refused rather than
-/// silently corrupted.
+/// A double is a trustworthy integer image only while
+/// -2^53 < value < 2^53 (doubles' own significand), regardless of how wide
+/// the destination is. Both 2^53 boundary images are ambiguous: +2^53 is
+/// also the ties-to-even image of the token 9007199254740993, and -2^53 is
+/// also the ties-to-even image of -9007199254740993, so accepting either
+/// boundary would decode a different wire integer as the image. (For an
+/// unsigned destination the window's lower edge is zero, and zero is never
+/// the image of a different integral token — +0.0 and -0.0 both name the
+/// integer 0 — so zero stays accepted there.) Above the window every
+/// double IS integral (modf says 0) yet the token that produced it may
+/// already have been rounded at parse time, and every cast-based exactness
+/// check then agrees with the rounded image. Inside an ExactInstanceScope
+/// the wire lexeme is authoritative and is consulted FIRST, before any
+/// image-based check: it converts exactly (9007199254740993.0 names an
+/// integer the binary image cannot; 1.0000000000000001 names a
+/// non-integer the image cannot see). Outside any scope the window is
+/// enforced and a value beyond it is refused rather than silently corrupted.
 template <typename T>
 bool tryGetMathematicalInteger(boost::json::value const& v, T& out) {
     static_assert(std::is_integral_v<T>,
@@ -216,6 +224,17 @@ bool tryGetMathematicalInteger(boost::json::value const& v, T& out) {
             return true;
         }
         case boost::json::kind::double_: {
+            // The wire lexeme outranks the binary image whenever it exists:
+            // an image check would accept 1.0000000000000001 (which rounds to
+            // the integer 1.0) and reject 9223372036854775807.0 (which rounds
+            // past int64's maximum), inverting both verdicts. A lexeme beyond
+            // the ExactNumber limit throws std::length_error; callers map
+            // that to a payload error.
+            if (std::string const* lexeme =
+                    org::openapitools::client::model::detail::schema_validation::exactNumericLexeme(v)) {
+                return org::openapitools::client::model::detail::schema_validation::exactLexemeToInteger(
+                        *lexeme, out);
+            }
             double const value = v.as_double();
             double integralPart;
             if (!std::isfinite(value)
@@ -234,22 +253,19 @@ bool tryGetMathematicalInteger(boost::json::value const& v, T& out) {
                     std::numeric_limits<T>::digits,
                     std::numeric_limits<double>::digits);
             double const trustUpper = std::ldexp(1.0, trustDigits);
-            double const trustLower = std::is_signed_v<T>
-                    ? -trustUpper : 0.0;
-            if (integralPart >= trustLower && integralPart < trustUpper) {
+            // Signed: open at both edges (each 2^53 image is ambiguous).
+            // Unsigned: the zero edge is unambiguous, so 0.0 / -0.0 stay
+            // accepted.
+            bool const aboveLower = std::is_signed_v<T>
+                    ? integralPart > -trustUpper
+                    : integralPart >= 0.0;
+            if (aboveLower && integralPart < trustUpper) {
                 out = static_cast<T>(integralPart);
                 return true;
             }
-            // Inside the destination but past the trust window: only the
-            // decimal text can still name the integer exactly, and only a
-            // decode inside an ExactInstanceScope has it. A lexeme beyond
-            // the ExactNumber limit throws std::length_error; callers map
-            // that to a payload error.
-            if (std::string const* lexeme =
-                    org::openapitools::client::model::detail::schema_validation::exactNumericLexeme(v)) {
-                return org::openapitools::client::model::detail::schema_validation::exactLexemeToInteger(
-                        *lexeme, out);
-            }
+            // At or past the trust window with no lexeme to recover the
+            // token from: fail closed rather than return a possibly rounded
+            // image.
             return false;
         }
         default:
