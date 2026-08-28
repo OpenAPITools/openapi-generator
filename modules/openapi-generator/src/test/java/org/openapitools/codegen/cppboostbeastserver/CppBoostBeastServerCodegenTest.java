@@ -930,10 +930,13 @@ public class CppBoostBeastServerCodegenTest {
                 IllegalArgumentException.class,
                 () -> new DefaultGenerator()
                         .opts(configurator.toClientOptInput()).generate());
-        // The collision witness is an all-'l' segment (captures may be
-        // empty there); the diagnostic must carry the concrete path.
-        Assert.assertTrue(error.getMessage().contains("/api/" + tail),
-                "diagnostic must name the ambiguous witness path, got: "
+        // Each template forces at least 124 literal 'l' chars into the
+        // segment (captures may be empty, so 124 is the shortest joint
+        // match). Pin the exact 'both match' diagnostic: a looser prefix
+        // would pass on a wrong-length witness.
+        Assert.assertTrue(error.getMessage().contains(
+                        "both match '/api/" + "l".repeat(124) + "' with equal ranking"),
+                "diagnostic must name the exact ambiguous witness path, got: "
                         + error.getMessage());
     }
 
