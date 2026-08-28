@@ -791,8 +791,12 @@ boost::json::object Pet::toJsonObject_internal() const
 
 void Pet::fromJsonObject_internal(boost::json::object const& object)
 {
+    m_Id = {};
+    m_Name = {};
     m_TagIsSet = false;
+    m_Tag = {};
     m_StatusIsSet = false;
+    m_Status = {};
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {

@@ -798,9 +798,15 @@ boost::json::object Pet::toJsonObject_internal() const
 void Pet::fromJsonObject_internal(boost::json::object const& object)
 {
     m_IdIsSet = false;
+    m_Id = {};
     m_CategoryIsSet = false;
+    m_Category = {};
+    m_Name = {};
+    m_PhotoUrls = {};
     m_TagsIsSet = false;
+    m_Tags = {};
     m_StatusIsSet = false;
+    m_Status = {};
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {

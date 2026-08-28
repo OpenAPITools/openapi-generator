@@ -16,6 +16,7 @@
 // ============================================================================
 #include <boost/asio.hpp>
 
+#include <cerrno>
 #include <cstdlib>
 #include <iostream>
 #include <memory>
@@ -44,13 +45,26 @@ static void attachUsersApi(HttpServer& server) {
 int main() {
     unsigned port = 8080;
     if (char const* portText = std::getenv("PORT")) {
-        port = static_cast<unsigned>(std::strtoul(portText, nullptr, 10));
+        // Validate the whole value: a partial parse (e.g. "80x") or an
+        // out-of-range number must fail loudly rather than silently bind a
+        // different port than the operator intended. Port 0 would bind an
+        // ephemeral port whose number the log line below cannot know.
+        char* end = nullptr;
+        errno = 0;
+        unsigned long parsed = std::strtoul(portText, &end, 10);
+        if (errno != 0 || end == portText || *end != '\0'
+                || parsed < 1 || parsed > 65535) {
+            std::cerr << "fatal: invalid PORT value '" << portText
+                      << "' (expected an integer between 1 and 65535)\n";
+            return EXIT_FAILURE;
+        }
+        port = static_cast<unsigned>(parsed);
     }
 
     try {
         boost::asio::io_context ioc;
         auto router = std::make_shared<Router>();
-        auto server = std::make_shared<HttpServer>(ioc, router);
+        auto server = HttpServer::create(ioc, router);
         attachPetsApi(*server);
         attachStoreApi(*server);
         attachUsersApi(*server);

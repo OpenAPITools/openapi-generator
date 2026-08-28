@@ -160,26 +160,19 @@ private:
             std::chrono::seconds(options_.readTimeoutSeconds));
         parser_.emplace();
         parser_->body_limit(options_.bodyLimitBytes);
-        http::async_read(
+        // Read the head first: a client that sent Expect: 100-continue holds
+        // the body back until the interim response arrives, so a combined
+        // head+body read would deadlock against the read timeout. Head-level
+        // errors (400/431) also get answered before any body byte is spent.
+        http::async_read_header(
             stream_, buffer_, *parser_,
             boost::beast::bind_front_handler(
-                &session::on_read, shared_from_this()));
+                &session::on_read_header, shared_from_this()));
     }
 
-    void on_read(boost::beast::error_code ec, std::size_t) {
+    void on_read_header(boost::beast::error_code ec, std::size_t) {
         if (ec == http::error::end_of_stream) {
             return do_close();
-        }
-        if (ec == http::error::body_limit) {
-            // The unread remainder of the oversized body cannot be skipped
-            // safely: answer 413 and close the connection. The parser head
-            // was fully read before the body overflowed, so mirror its
-            // version/keep-alive (RFC 9110 6.7) before responding.
-            requestVersion_ = static_cast<unsigned>(parser_->get().version());
-            requestKeepAlive_ = parser_->get().keep_alive();
-            forceClose_ = true;
-            return send_response(
-                toProblemResponse(Problem::payloadTooLarge()));
         }
         if (ec == http::error::header_limit) {
             // The head overflowed its limits; nothing usable was parsed.
@@ -187,6 +180,19 @@ private:
             forceClose_ = true;
             return send_response(
                 toProblemResponse(Problem::requestHeaderFieldsTooLarge()));
+        }
+        if (ec == http::error::body_limit) {
+            // The declared Content-Length (or chunked stream) exceeds the
+            // configured body limit; the parser refuses it while finishing
+            // the head, before any body byte is spent. The head itself was
+            // parsed, so mirror its version/keep-alive (RFC 9110 6.7), then
+            // answer 413 and close: the client's unsent body bytes cannot
+            // be skipped safely on a keep-alive stream.
+            requestVersion_ = static_cast<unsigned>(parser_->get().version());
+            requestKeepAlive_ = parser_->get().keep_alive();
+            forceClose_ = true;
+            return send_response(
+                toProblemResponse(Problem::payloadTooLarge()));
         }
         if (ec) {
             // HTTP parser errors (bad Content-Length/Transfer-Encoding,
@@ -203,11 +209,81 @@ private:
                     Problem::badRequest("malformed HTTP request: "
                                         + ec.message())));
             }
-            return failLog(ec, "read");
+            return failLog(ec, "read header");
         }
         requestVersion_ = static_cast<unsigned>(parser_->get().version());
         requestKeepAlive_ = parser_->get().keep_alive();
         forceClose_ = false;
+        auto const& head = parser_->get();
+        // Expect only matters when a body follows (Content-Length or
+        // chunked); a bodiless request must not be made to wait.
+        bool mayHaveBody = head.contains(http::field::content_length)
+            || head.chunked();
+        if (head.version() >= 11 && mayHaveBody
+                && lowercased(std::string(head[http::field::expect]))
+                        == "100-continue") {
+            // Expect: 100-continue (RFC 9110 10.1.1): send the interim
+            // response now so the client releases the body. An oversized
+            // declared length never reaches here — the parser already
+            // answered 413 at header finish above.
+            // http::async_write serializes the message lazily and the
+            // composed operation references it until the handler runs, so
+            // the interim response must be heap-owned and captured, exactly
+            // like send_response's message_generator. A stack local here
+            // would dangle the moment this function returns.
+            auto interim = std::make_shared<http::response<http::empty_body>>(
+                http::status::continue_, 11);
+            interim->set(http::field::server,
+                         "openapi-generator-cpp-boost-beast-server");
+            http::async_write(
+                stream_, *interim,
+                [self = shared_from_this(), interim](
+                        boost::beast::error_code writeEc, std::size_t) {
+                    self->on_interim_sent(writeEc);
+                });
+            return;
+        }
+        read_body();
+    }
+
+    void on_interim_sent(boost::beast::error_code ec) {
+        if (ec) {
+            return failLog(ec, "write 100-continue");
+        }
+        read_body();
+    }
+
+    void read_body() {
+        http::async_read(
+            stream_, buffer_, *parser_,
+            boost::beast::bind_front_handler(
+                &session::on_read_body, shared_from_this()));
+    }
+
+    void on_read_body(boost::beast::error_code ec, std::size_t) {
+        if (ec == http::error::end_of_stream) {
+            return do_close();
+        }
+        if (ec == http::error::body_limit) {
+            // The unread remainder of the oversized body cannot be skipped
+            // safely: answer 413 and close the connection. The parser head
+            // was fully read before the body overflowed, so mirror its
+            // version/keep-alive (RFC 9110 6.7) before responding.
+            forceClose_ = true;
+            return send_response(
+                toProblemResponse(Problem::payloadTooLarge()));
+        }
+        if (ec) {
+            static boost::beast::error_code const httpSample =
+                http::make_error_code(http::error::end_of_stream);
+            if (ec.category() == httpSample.category()) {
+                forceClose_ = true;
+                return send_response(toProblemResponse(
+                    Problem::badRequest("malformed HTTP request: "
+                                        + ec.message())));
+            }
+            return failLog(ec, "read body");
+        }
         handle_request(parser_->release());
     }
 
@@ -251,8 +327,21 @@ private:
                 res.set(http::field::allow, allowed);
                 return send_response(std::move(res));
             }
+            // Echo the path WITHOUT the query string: a credential smuggled
+            // into an unknown route's query (api_key=...) would otherwise be
+            // reflected verbatim into the problem document's detail and
+            // instance, leaking it to logs and any intermediary.
+            std::string echoedTarget(ctx->target);
+            if (auto question = echoedTarget.find('?');
+                    question != std::string::npos) {
+                echoedTarget.resize(question);
+            }
+            if (auto hash = echoedTarget.find('#');
+                    hash != std::string::npos) {
+                echoedTarget.resize(hash);
+            }
             return send_response(toProblemResponse(
-                Problem::notFound(std::string(request.target()))));
+                Problem::notFound(echoedTarget)));
         }
 
         ctx->pathParams = match.pathParams;

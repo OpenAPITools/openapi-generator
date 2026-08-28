@@ -802,11 +802,17 @@ boost::json::object Order::toJsonObject_internal() const
 void Order::fromJsonObject_internal(boost::json::object const& object)
 {
     m_IdIsSet = false;
+    m_Id = {};
     m_PetIdIsSet = false;
+    m_PetId = {};
     m_QuantityIsSet = false;
+    m_Quantity = {};
     m_ShipDateIsSet = false;
+    m_ShipDate = {};
     m_StatusIsSet = false;
+    m_Status = {};
     m_CompleteIsSet = false;
+    m_Complete = {};
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {

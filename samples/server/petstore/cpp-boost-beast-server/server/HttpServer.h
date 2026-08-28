@@ -25,7 +25,9 @@
 
 #include <cstddef>
 #include <memory>
+#include <stdexcept>
 #include <string>
+#include <utility>
 
 namespace org::openapitools::server::api {
 
@@ -35,11 +37,33 @@ struct ServerOptions {
     std::shared_ptr<Authorizer> authorizer;
 };
 
+/// Shared-ownership server: listen()/stop()/acceptNext() route through
+/// enable_shared_from_this, so instances must come from create(). The
+/// constructor is private to make stack allocation (which would throw
+/// bad_weak_ptr on first use) impossible, and copies/moves are deleted
+/// because a duplicated handle would double-drive one acceptor.
 class HttpServer : public std::enable_shared_from_this<HttpServer> {
 public:
-    HttpServer(boost::asio::io_context& ioc,
-               std::shared_ptr<Router> router,
-               ServerOptions options = {});
+    /// Builds a server bound to no address yet. Throws std::invalid_argument
+    /// when `router` is null: the router() accessor dereferences it and the
+    /// accept loop would answer nothing, so a null router is rejected at
+    /// construction instead of failing per request.
+    static std::shared_ptr<HttpServer> create(
+            boost::asio::io_context& ioc,
+            std::shared_ptr<Router> router,
+            ServerOptions options = {}) {
+        if (router == nullptr) {
+            throw std::invalid_argument(
+                "HttpServer requires a non-null router");
+        }
+        return std::shared_ptr<HttpServer>(
+            new HttpServer(ioc, std::move(router), std::move(options)));
+    }
+
+    HttpServer(HttpServer const&) = delete;
+    HttpServer& operator=(HttpServer const&) = delete;
+    HttpServer(HttpServer&&) = delete;
+    HttpServer& operator=(HttpServer&&) = delete;
 
     /// Opens, binds (SO_REUSEADDR), and listens. Throws on failure.
     void listen(boost::asio::ip::tcp::endpoint endpoint);
@@ -55,6 +79,10 @@ public:
     std::shared_ptr<Router> routerPtr() const { return router_; }
 
 private:
+    HttpServer(boost::asio::io_context& ioc,
+               std::shared_ptr<Router> router,
+               ServerOptions options);
+
     struct ListenerState;
     void acceptNext();
 

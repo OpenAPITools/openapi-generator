@@ -20,6 +20,10 @@
 #include "server/Problem.h"
 #include "server/Responder.h"
 #include "server/Router.h"
+// Body pre-validation evaluates the declared schema IR before decoding.
+#include "model/Oas31ExactJson.h"
+#include "model/Oas31SchemaRegistry.h"
+#include "model/Oas31Validator.h"
 
 #include <algorithm>
 #include <cctype>
@@ -68,7 +72,15 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
                         c = static_cast<char>(std::tolower(
                             static_cast<unsigned char>(c)));
                     }
-                    while (!contentType.empty() && contentType.back() == ' ') {
+                    // RFC 9110 5.6.3 allows whitespace around the type/
+                    // subtype and between parameters; trim it on both sides
+                    // (' ' and HTAB) before comparing.
+                    while (!contentType.empty()
+                            && (contentType.front() == ' ' || contentType.front() == '\t')) {
+                        contentType.erase(contentType.begin());
+                    }
+                    while (!contentType.empty()
+                            && (contentType.back() == ' ' || contentType.back() == '\t')) {
                         contentType.pop_back();
                     }
                     static std::vector<std::string> const kMediaTypes = {
@@ -81,8 +93,53 @@ void PetsApi::attach(HttpServer& server, std::shared_ptr<PetsApi> impl) {
                         return;
                     }
                     try {
-                        fromJsonBody(ctx->body, request.body);
+                        // Validate the raw payload against the declared
+                        // component schema BEFORE decoding. The model decode
+                        // is deliberately tolerant (client-compat policy:
+                        // nulls on non-nullable fields are skipped, unknown
+                        // members ignored); the server gate enforces the
+                        // schema so a sloppy payload cannot reach the service
+                        // with silently defaulted fields. Exact-JSON parsing
+                        // preserves numeric lexemes, so multipleOf and
+                        // magnitude checks see the wire text, and the decode
+                        // inside the scope converts numbers exactly too.
+                        org::openapitools::server::model::detail::schema_validation::ExactJsonValue exactJson =
+                            org::openapitools::server::model::detail::schema_validation::parseExactJson(ctx->body);
+                        org::openapitools::server::model::detail::schema_validation::requireModelConvertibleJson(exactJson);
+                        org::openapitools::server::model::detail::schema_validation::ExactInstanceScope exactScope(exactJson);
+                        org::openapitools::server::model::detail::schema_validation::SchemaIndex const schemaIndex =
+                            org::openapitools::server::model::detail::schema_validation::schemaNodeFor("Pet_component");
+                        if (schemaIndex == org::openapitools::server::model::detail::schema_validation::kNoSchema) {
+                            throw std::invalid_argument(
+                                "request body schema id is not in the generated registry");
+                        }
+                        {
+                            org::openapitools::server::model::detail::schema_validation::RawInstance instance(&exactJson.value);
+                            org::openapitools::server::model::detail::schema_validation::ValidationPath validationPath;
+                            org::openapitools::server::model::detail::schema_validation::ValidationContext context;
+                            org::openapitools::server::model::detail::schema_validation::ValidationResult const result =
+                                org::openapitools::server::model::detail::schema_validation::sharedSchemaEvaluator().validate(
+                                    schemaIndex, instance, validationPath, context);
+                            if (!result.success) {
+                                std::string message = "request body failed schema validation";
+                                if (!result.failurePath.empty()) {
+                                    message += " at '" + result.failurePath + "'";
+                                }
+                                if (!result.failureMessage.empty()) {
+                                    message += ": " + result.failureMessage;
+                                }
+                                throw std::invalid_argument(message);
+                            }
+                        }
+                        fromJsonLeaf(exactJson.value, request.body);
                     } catch (std::invalid_argument const& error) {
+                        Problem parseProblem = Problem::badRequest(error.what());
+                        parseProblem.withError("body", error.what());
+                        responderCore->sendProblem(std::move(parseProblem));
+                        return;
+                    } catch (std::length_error const& error) {
+                        // A numeric lexeme beyond the implementation limit is
+                        // a payload problem, not a server fault: answer 400.
                         Problem parseProblem = Problem::badRequest(error.what());
                         parseProblem.withError("body", error.what());
                         responderCore->sendProblem(std::move(parseProblem));

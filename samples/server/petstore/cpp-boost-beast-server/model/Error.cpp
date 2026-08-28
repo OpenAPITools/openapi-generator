@@ -690,6 +690,8 @@ boost::json::object Error::toJsonObject_internal() const
 
 void Error::fromJsonObject_internal(boost::json::object const& object)
 {
+    m_Code = {};
+    m_Message = {};
     {
         const auto CodeIt = object.find("code");
         if (CodeIt != object.end()) {

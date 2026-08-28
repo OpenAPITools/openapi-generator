@@ -695,7 +695,9 @@ boost::json::object Category::toJsonObject_internal() const
 void Category::fromJsonObject_internal(boost::json::object const& object)
 {
     m_IdIsSet = false;
+    m_Id = {};
     m_NameIsSet = false;
+    m_Name = {};
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {

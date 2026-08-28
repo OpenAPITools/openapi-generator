@@ -847,48 +847,52 @@ private:
     // ====================================================================
     // ECMAScript-subset pattern engine
     //
-    // The implementation decodes code points before translating supported
-    // Unicode letter escapes to wide-regex ranges. Matching is unanchored unless
-    // the pattern supplies anchors; unsupported constructs fail closed.
+    // The implementation decodes code points before compiling a wide regex.
+    // Matching is unanchored unless the pattern supplies anchors; unsupported
+    // constructs fail closed.
     // ====================================================================
 
-    /// Letter ranges approximated from the Unicode Letter categories for the
-    /// corpus surface (Latin, Greek, Cyrillic, Armenian, Hebrew, Arabic,
-    /// Indic, CJK, Hangul). Documented approximation: not exhaustive.
-    static char const* letterRanges() {
-        return "a-zA-Z"
-            "\\u00C0-\\u00FF\\u0100-\\u024F"
-            "\\u0370-\\u03FF\\u0400-\\u04FF"
-            "\\u0500-\\u052F\\u0531-\\u058F"
-            "\\u0591-\\u05FF\\u0600-\\u06FF"
-            "\\u0900-\\u097F\\u0A00-\\u0A7F"
-            "\\u0B00-\\u0B7F\\u0C00-\\u0C7F"
-            "\\u0D00-\\u0D7F\\u1E00-\\u1EFF"
-            "\\u3041-\\u3096\\u30A1-\\u30FA"
-            "\\u3400-\\u4DBF\\u4E00-\\u9FFF"
-            "\\uAC00-\\uD7A3";
-    }
-
-    static std::string replaceAll(std::string s, std::string const& from,
-                                  std::string const& to) {
-        std::size_t pos = 0;
-        while ((pos = s.find(from, pos)) != std::string::npos) {
-            s.replace(pos, from.size(), to);
-            pos += to.size();
+    /// True when `pattern` contains a real Unicode property escape
+    /// (\\p{...} / \\P{...}). std::regex's ECMAScript subset has no complete
+    /// representation for these, and a hand-maintained code-point range list
+    /// can only ever approximate a property like Letter — silently rejecting
+    /// valid letters outside the listed scripts. Such patterns are therefore
+    /// reported as unsupported (fail closed) rather than approximated: the
+    /// validator answers with an explicit "unsupported pattern expression"
+    /// error instead of a wrong accept/reject. Only a backslash starting an
+    /// ODD-length run escapes the next character; in "\\\\p{L}" the doubled
+    /// backslashes are literals and the following p is ordinary text.
+    static bool hasUnicodePropertyEscape(std::string const& pattern) {
+        for (std::size_t i = 0; i < pattern.size(); ++i) {
+            if (pattern[i] != '\\') {
+                continue;
+            }
+            std::size_t slashes = 0;
+            while (i + slashes < pattern.size() && pattern[i + slashes] == '\\') {
+                ++slashes;
+            }
+            std::size_t const after = i + slashes;
+            if (after >= pattern.size()) {
+                break;   // run ends the pattern; nothing to test
+            }
+            if ((slashes % 2) == 0) {
+                // Even run: every backslash is itself escaped, the following
+                // character is a literal; loop ++i lands right after the run.
+                i = after - 1;
+                continue;
+            }
+            if ((pattern[after] == 'p' || pattern[after] == 'P')
+                    && after + 1 < pattern.size() && pattern[after + 1] == '{') {
+                return true;
+            }
+            // Odd run that is not a property escape: the escaped character
+            // is a literal; consume it so its bytes are not re-scanned.
+            i = after;
         }
-        return s;
+        return false;
     }
 
-    /// Translate \p{...} / \P{...} letter escapes into explicit ranges.
     static std::wstring normalizeEcmaPattern(std::string p) {
-        p = replaceAll(std::move(p), "\\p{Letter}",
-                       "[" + std::string(letterRanges()) + "]");
-        p = replaceAll(std::move(p), "\\p{L}",
-                       "[" + std::string(letterRanges()) + "]");
-        p = replaceAll(std::move(p), "\\P{Letter}",
-                       "[^" + std::string(letterRanges()) + "]");
-        p = replaceAll(std::move(p), "\\P{L}",
-                       "[^" + std::string(letterRanges()) + "]");
         return utf8ToWide(std::move(p));
     }
 
@@ -938,9 +942,14 @@ private:
         bool matched;
     };
 
-    /// Unanchored ECMAScript-subset search on code points.
+    /// Unanchored ECMAScript-subset search on code points. Property escapes
+    /// are refused before compilation (see hasUnicodePropertyEscape); no
+    /// approximation is attempted.
     static RegexMatch ecmaRegexSearch(std::string const& pattern,
                                       std::string const& key) {
+        if (hasUnicodePropertyEscape(pattern)) {
+            return {false, false};
+        }
         try {
             std::wregex re(normalizeEcmaPattern(pattern),
                            std::regex_constants::ECMAScript);

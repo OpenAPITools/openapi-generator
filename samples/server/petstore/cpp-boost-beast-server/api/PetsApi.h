@@ -56,7 +56,10 @@ public:
 
     /// Fully decoded request data for createPet.
     struct CreatePetRequest {
-        Pet body{};
+    // Fully-qualified field type: std::optional wrapper preserved, model
+    // tokens shadowed by this class's nested contract types or ambiguous
+    // with runtime types already model-namespace qualified by the assembler.
+    Pet body{};
     };
 
     /// Single-shot responder for createPet. Movable, thread-safe value

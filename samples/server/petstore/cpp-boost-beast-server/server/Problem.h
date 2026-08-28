@@ -178,7 +178,15 @@ toProblemResponse(Problem const& problem) {
                 }
                 codepoint = (codepoint << 6) | (next & 0x3FU);
             }
+            // Shortest-form enforcement: codepoint bounds catch 2-byte
+            // overlongs (a C2/C3 lead is refused above), but 3- and 4-byte
+            // sequences hide behind their continuation bytes — E0 80 80 is
+            // 0x80 and F0 8F BF BF is 0xFFFF, both non-shortest and both
+            // ≥ 0x80. Require each form's minimum so accepted bytes are
+            // exactly valid UTF-8.
             if (valid && (codepoint < 0x80 || codepoint > 0x10FFFF
+                    || (extra == 2 && codepoint < 0x800)
+                    || (extra == 3 && codepoint < 0x10000)
                     || (codepoint >= 0xD800 && codepoint <= 0xDFFF))) {
                 valid = false;
             }

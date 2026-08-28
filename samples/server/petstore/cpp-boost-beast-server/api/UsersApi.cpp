@@ -20,6 +20,10 @@
 #include "server/Problem.h"
 #include "server/Responder.h"
 #include "server/Router.h"
+// Body pre-validation evaluates the declared schema IR before decoding.
+#include "model/Oas31ExactJson.h"
+#include "model/Oas31SchemaRegistry.h"
+#include "model/Oas31Validator.h"
 
 #include <algorithm>
 #include <cctype>

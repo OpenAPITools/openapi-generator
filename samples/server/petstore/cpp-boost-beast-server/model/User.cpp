@@ -696,7 +696,10 @@ boost::json::object User::toJsonObject_internal() const
 void User::fromJsonObject_internal(boost::json::object const& object)
 {
     m_IdIsSet = false;
+    m_Id = {};
+    m_Username = {};
     m_EmailIsSet = false;
+    m_Email = {};
     {
         const auto IdIt = object.find("id");
         if (IdIt != object.end()) {

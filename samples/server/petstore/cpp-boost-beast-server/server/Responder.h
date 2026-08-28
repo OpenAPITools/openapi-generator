@@ -58,15 +58,29 @@ public:
         complete(toProblemResponse(std::move(problem)));
     }
 
-    /// Completes the request with a JSON body and status.
+    /// Completes the request with a JSON body and status. A model whose
+    /// serialization throws (e.g. a NaN/Infinity stored into a non-finite
+    /// field by a setter, which boost::json refuses to serialize) answers
+    /// 500 through the single-completion path instead of propagating out of
+    /// the connection handler.
     template <typename T>
     void sendJson(unsigned status, T const& value, std::string const& contentType) {
         namespace http = boost::beast::http;
+        std::string body;
+        try {
+            body = toJsonBody(value);
+        } catch (std::exception const& error) {
+            std::cerr << "cpp-boost-beast-server: response serialization"
+                      << " failed for " << operationId_ << ": "
+                      << error.what() << "\n";
+            sendProblem(Problem::internal());
+            return;
+        }
         http::response<http::string_body> res{
             static_cast<http::status>(status), 11};
         res.set(http::field::server, "openapi-generator-cpp-boost-beast-server");
         res.set(http::field::content_type, contentType);
-        res.body() = toJsonBody(value);
+        res.body() = std::move(body);
         res.prepare_payload();
         complete(std::move(res));
     }

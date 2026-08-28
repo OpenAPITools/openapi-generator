@@ -698,8 +698,11 @@ boost::json::object ApiResponse::toJsonObject_internal() const
 void ApiResponse::fromJsonObject_internal(boost::json::object const& object)
 {
     m_CodeIsSet = false;
+    m_Code = {};
     m_TypeIsSet = false;
+    m_Type = {};
     m_MessageIsSet = false;
+    m_Message = {};
     {
         const auto CodeIt = object.find("code");
         if (CodeIt != object.end()) {
