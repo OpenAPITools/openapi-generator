@@ -648,7 +648,14 @@ int main() {
                 break;
             }
             transcript.append(buffer, got);
-            if (transcript.find("HTTP/1.1 200") != std::string::npos) {
+            // The Connection: close server hangs up after the final
+            // response, so EOF ends the read. Stop only once BOTH the 200
+            // status line and the echoed body marker arrived; the body can
+            // split across segments (or land in the same segment as the
+            // headers), and breaking on the status line alone races the
+            // body and makes the "twice" assertion below flaky.
+            if (transcript.find("HTTP/1.1 200") != std::string::npos
+                    && transcript.find("twice") != std::string::npos) {
                 break;
             }
         }
