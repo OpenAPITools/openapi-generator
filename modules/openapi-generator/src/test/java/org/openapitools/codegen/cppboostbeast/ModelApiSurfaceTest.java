@@ -1371,6 +1371,17 @@ public class ModelApiSurfaceTest {
         // explicit initializers.
         Assert.assertTrue(source.contains("m_Retries = std::int32_t{-7};"),
                 "scalar defaults on scalar carriers must still be emitted");
+        // A variant alias whose alternatives include an array keeps its
+        // scalar default: the initializer decodes through the alias's
+        // own fromJsonValue, so the container alternative is irrelevant.
+        String mixed = Files.readString(
+                output.resolve("model/MixedWithContainer.h"));
+        Assert.assertTrue(mixed.contains(
+                        "m_Named = fromJsonValue_StringOrTags(boost::json::value(\"alloy\"))"),
+                "scalar default on a variant-alias carrier with a container "
+                        + "alternative must be kept and decoded via the alias");
+        Assert.assertFalse(mixed.contains("m_Named = \"alloy\""),
+                "a scalar default must never be assigned raw to a variant member");
     }
 
     @Test

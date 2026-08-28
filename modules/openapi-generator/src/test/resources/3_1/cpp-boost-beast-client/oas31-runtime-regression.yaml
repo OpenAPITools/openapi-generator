@@ -398,3 +398,15 @@ components:
         voice:
           $ref: '#/components/schemas/DefaultVoice'
           default: alloy
+    MixedWithContainer:
+      type: object
+      properties:
+        named:
+          $ref: '#/components/schemas/StringOrTags'
+          default: alloy
+    StringOrTags:
+      oneOf:
+        - type: array
+          items:
+            type: string
+        - type: string
