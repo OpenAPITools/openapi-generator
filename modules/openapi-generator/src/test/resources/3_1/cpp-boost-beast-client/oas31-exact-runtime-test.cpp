@@ -433,6 +433,61 @@ void testAnnotationPayloadsLocationsAndRollback() {
             "a failing parent schema must roll back earlier child annotations");
 }
 
+void testUnicodePropertyEscapesFailClosed() {
+    auto validateAgainstPattern = [](std::string const& pattern,
+                                     std::string const& payload)
+            -> schema_validation::ValidationResult {
+        schema_validation::SchemaResourceRegistry registry;
+        registry.nodes.resize(1);
+        registry.nodes[0].hasPattern = true;
+        registry.nodes[0].pattern = pattern;
+        schema_validation::SchemaEvaluator const evaluator(registry);
+        schema_validation::ExactJsonValue document =
+                schema_validation::parseExactJson(payload);
+        schema_validation::ExactInstanceScope scope(document);
+        schema_validation::RawInstance instance(&document.value);
+        schema_validation::ValidationPath path;
+        schema_validation::ValidationContext context;
+        return evaluator.validate(0, instance, path, context);
+    };
+
+    // \p{L} has no representation in std::regex's ECMAScript subset, and a
+    // hand-maintained range list would mis-accept/mis-reject. The validator
+    // must refuse the schema explicitly instead of approximating it.
+    {
+        schema_validation::ValidationResult const result =
+                validateAgainstPattern("^\\p{L}+$", "\"abc\"");
+        require(!result.success,
+                "a property-escape pattern must never validate a value");
+        require(result.failureMessage.find("unsupported pattern")
+                        != std::string::npos,
+                ("property escapes must be reported as unsupported, got: "
+                        + result.failureMessage).c_str());
+    }
+    {
+        schema_validation::ValidationResult const result =
+                validateAgainstPattern("\\P{Letter}x", "\"zy\"");
+        require(!result.success && result.failureMessage.find(
+                        "unsupported pattern") != std::string::npos,
+                "negated property escapes must fail closed too");
+    }
+    // An escaped backslash before p is literal text, not a property escape:
+    // the pattern bytes are '\\' + 'p' (matching the two-character text
+    // "\p"), and must compile and search normally.
+    {
+        schema_validation::ValidationResult const hit =
+                validateAgainstPattern("\\\\p", "\"x\\\\p\"");
+        require(hit.success,
+                "a doubled-backslash pattern must match its literal text");
+        schema_validation::ValidationResult const miss =
+                validateAgainstPattern("\\\\p", "\"ab\"");
+        require(!miss.success
+                        && miss.failureMessage.find("does not match")
+                                != std::string::npos,
+                "a doubled-backslash pattern must still reject other text");
+    }
+}
+
 } // namespace
 
 int main() {
@@ -448,6 +503,7 @@ int main() {
         testConditionalGuardOutputsDoNotLeak();
         testDynamicAnchorChainsAreNotDepthLimited();
         testAnnotationPayloadsLocationsAndRollback();
+        testUnicodePropertyEscapesFailClosed();
         std::cout << "oas31 exact runtime tests passed\n";
         return EXIT_SUCCESS;
     } catch (std::exception const& exception) {

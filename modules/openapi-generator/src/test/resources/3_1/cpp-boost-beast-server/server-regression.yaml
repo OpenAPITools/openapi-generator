@@ -357,6 +357,12 @@ paths:
               pattern: '*oops'
           style: form
           explode: false
+        - name: uni
+          in: query
+          description: Unicode property escape outside the supported grammar
+          schema:
+            type: string
+            pattern: '^\p{L}+$'
       responses:
         '200':
           description: Echo of the decoded float
@@ -405,6 +411,10 @@ components:
           type: array
           items:
             type: string
+        note:
+          type: string
+          description: Unicode property escape pattern for fail-closed probes
+          pattern: '^\p{L}+$'
     ErrorResponse:
       type: object
       properties:

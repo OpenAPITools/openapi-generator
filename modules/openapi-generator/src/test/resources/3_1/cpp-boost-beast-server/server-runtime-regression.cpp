@@ -344,7 +344,7 @@ int main() {
     options.readTimeoutSeconds = 1;
     options.bodyLimitBytes = 1024;
     options.authorizer = std::make_shared<RegressionAuthorizer>();
-    auto server = std::make_shared<api::HttpServer>(ioc, router, options);
+    auto server = api::HttpServer::create(ioc, router, options);
     api::DefaultApi::attach(*server, std::make_shared<RegressionApi>());
     server->listen(boost::asio::ip::tcp::endpoint{
         boost::asio::ip::make_address("127.0.0.1"),
@@ -703,6 +703,16 @@ int main() {
     RawResponse itemPatternHit = roundtrip(ioc, port,
         "GET /codec?codes=aa,bb HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
     expect(itemPatternHit.status == 400, "uncompilable item pattern should fail closed 400");
+    // A Unicode property escape (\p{L}) is refused explicitly, not matched
+    // approximately: some std::regex libraries compile \p as an identity
+    // escape (literal "p"), which would silently mis-accept. The scanner
+    // rejects it before construction, so any present value answers 400.
+    RawResponse propertyEscape = roundtrip(ioc, port,
+        "GET /codec?uni=abc HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(propertyEscape.status == 400,
+        "unicode property-escape pattern should fail closed 400");
+    expect(propertyEscape.body.find("supported regex grammar") != std::string::npos,
+        "property-escape problem should explain the grammar");
 
     // ---- tagged variant (oneOf) response ----
     // Pick is a oneOf of two string branches sharing one C++ type, so the
