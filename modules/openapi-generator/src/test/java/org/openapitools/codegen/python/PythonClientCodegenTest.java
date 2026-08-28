@@ -724,6 +724,41 @@ public class PythonClientCodegenTest {
         assertFileContains(apiInitFile.toPath(), "from my_pkg.my_api.pet_api import PetApi");
     }
 
+    @Test(description = "Verify an object query parameter is exploded, whether or not it declares its properties")
+    public void testExplodedObjectQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+            .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output.getAbsolutePath(), "openapi_client", "api", "default_api.py");
+
+        // form style with explode - the default - puts every entry on the wire under its own
+        // property name. Handing the whole dict to _query_params instead leaves ApiClient to
+        // json encode it, which is what used to happen.
+        TestUtils.assertFileContains(api,
+            "for _key, _value in filter.items():",
+            "_query_params.append((_key, _value))");
+        TestUtils.assertFileNotContains(api, "_query_params.append(('filter', filter))");
+
+        // a declared map behaves the same way
+        TestUtils.assertFileContains(api, "for _key, _value in typed_filter.items():");
+
+        // deepObject and form without explode both keep a single parameter
+        TestUtils.assertFileContains(api,
+            "_query_params.append(('deepFilter', deep_filter))",
+            "_query_params.append(('flatFilter', flat_filter))");
+        TestUtils.assertFileNotContains(api, "for _key, _value in deep_filter.items():");
+        TestUtils.assertFileNotContains(api, "for _key, _value in flat_filter.items():");
+    }
+
     @Test(description = "Verify default license format uses object notation when poetry1 is false")
     public void testLicenseFormatInPyprojectToml() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
