@@ -890,6 +890,24 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
                             + property.baseName + "' of type " + property.dataType);
         }
 
+        // Containers lower to std::vector / std::map / std::set (also inside
+        // a NullableField), where a scalar initializer cannot even compile —
+        // OpenAI's Eval.testing_criteria declares `default: eval` on an
+        // array of graders. JSON Schema keeps such a default as an
+        // annotation the decode path cannot honour; drop it so the member
+        // value-initializes instead of emitting broken code. Scalars,
+        // enums, and composed (variant-alias) carriers keep their defaults:
+        // the variant case is rewritten to fromJsonValue_<alias>(...) later.
+        String carrier = nullableInner instanceof String
+                ? (String) nullableInner
+                : property.dataType;
+        if (property.isContainer
+                || (carrier != null && (carrier.contains("std::vector<")
+                        || carrier.contains("std::map<")
+                        || carrier.contains("std::set<")))) {
+            return null;
+        }
+
         String expression;
         if (value.isTextual()) {
             expression = "\"" + escapeCppStringContent(value.textValue()) + "\"";

@@ -1344,6 +1344,36 @@ public class ModelApiSurfaceTest {
     }
 
     @Test
+    public void scalarDefaultOnArrayCarrierDegradesToValueInitialization()
+            throws IOException {
+        // OpenAI's Eval.testing_criteria declares `default: eval` on an
+        // array of graders. JSON Schema keeps such a default as an
+        // annotation, but a generated `= "eval"` cannot even compile
+        // against std::vector; the decoder must drop it to value
+        // initialization instead of emitting broken code.
+        Path outputRoot = Files.createDirectories(Path.of("target"));
+        Path output = Files.createTempDirectory(
+                outputRoot, "cpp-boost-beast-array-default-");
+        output.toFile().deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-client")
+                .setInputSpec("src/test/resources/3_1/cpp-boost-beast-client/"
+                        + "oas31-runtime-regression.yaml")
+                .setOutputDir(output.toString());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        String source = Files.readString(output.resolve("model/ScalarDefaults.cpp"));
+        Assert.assertTrue(source.contains("m_Mismatched_tags = {};"),
+                "a scalar default on an array carrier must degrade to {}");
+        Assert.assertFalse(source.contains("m_Mismatched_tags = \"eval\""),
+                "a scalar default must never be assigned to a vector member");
+        // Genuine scalar defaults on the same model must keep their
+        // explicit initializers.
+        Assert.assertTrue(source.contains("m_Retries = std::int32_t{-7};"),
+                "scalar defaults on scalar carriers must still be emitted");
+    }
+
+    @Test
     public void tolerateNonNullableNullsDefaultsOnAndCanBeDisabled() throws IOException {
         CppBoostBeastClientCodegen defaults = new CppBoostBeastClientCodegen();
         defaults.processOpts();
