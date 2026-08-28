@@ -167,7 +167,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '/user/{username}'
-            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
+            .replace('{username}', encodeURIComponent(String(username)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
@@ -201,7 +201,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '/user/{username}'
-            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
+            .replace('{username}', encodeURIComponent(String(username)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
@@ -306,7 +306,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '/user/{username}'
-            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
+            .replace('{username}', encodeURIComponent(String(username)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);

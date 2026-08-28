@@ -12,24 +12,29 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  GetBehaviorPermissionsResponse,
-  GetBehaviorTypeResponse,
-} from '../models/index';
 import {
+    type GetBehaviorPermissionsResponse,
     GetBehaviorPermissionsResponseFromJSON,
     GetBehaviorPermissionsResponseToJSON,
+} from '../models/GetBehaviorPermissionsResponse';
+import {
+    type GetBehaviorTypeResponse,
     GetBehaviorTypeResponseFromJSON,
     GetBehaviorTypeResponseToJSON,
-} from '../models/index';
+} from '../models/GetBehaviorTypeResponse';
 
 export interface GetBehaviorPermissionsRequest {
+    /**
+     * 
+     */
     behaviorId: number;
 }
 
 export interface GetBehaviorTypeRequest {
+    /**
+     * 
+     */
     behaviorId: number;
 }
 
@@ -55,7 +60,7 @@ export class BehaviorApi extends runtime.BaseAPI {
 
 
         let urlPath = `/fake_behavior/{behavior-id}/permissions`;
-        urlPath = urlPath.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters['behaviorId'])));
+        urlPath = urlPath.replace('{behavior-id}', encodeURIComponent(String(requestParameters['behaviorId'])));
 
         return {
             path: urlPath,
@@ -100,7 +105,7 @@ export class BehaviorApi extends runtime.BaseAPI {
 
 
         let urlPath = `/fake_behavior/{behavior-id}/type`;
-        urlPath = urlPath.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters['behaviorId'])));
+        urlPath = urlPath.replace('{behavior-id}', encodeURIComponent(String(requestParameters['behaviorId'])));
 
         return {
             path: urlPath,

@@ -28,6 +28,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -40,9 +41,16 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.model.EnumVarMap.ENUM_VARS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/go/}.
+ */
 public class GoClientCodegen extends AbstractGoCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
@@ -57,6 +65,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public static final String MODEL_FILE_FOLDER = "modelFileFolder";
     public static final String WITH_GO_MOD = "withGoMod";
     public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
+    public static final String USE_HTTP_HEADER_SET = "useHttpHeaderSet";
     public static final String IMPORT_VALIDATOR = "importValidator";
     @Setter protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
@@ -130,6 +139,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         cliOptions.add(CliOption.newBoolean(WITH_AWSV4_SIGNATURE, "whether to include AWS v4 signature support"));
         cliOptions.add(CliOption.newBoolean(GENERATE_INTERFACES, "Generate interfaces for api classes"));
         cliOptions.add(CliOption.newBoolean(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS, "Use default values for required variables when available"));
+        cliOptions.add(CliOption.newBoolean(USE_HTTP_HEADER_SET, "When setting HTTP request headers, use http.Header.Set with canonicalized header names"));
 
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(
@@ -153,6 +163,19 @@ public class GoClientCodegen extends AbstractGoCodegen {
         cliOptions.add(CliOption.newBoolean(WITH_GO_MOD, "Generate go.mod and go.sum", true));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_MARSHAL_JSON, CodegenConstants.GENERATE_MARSHAL_JSON_DESC, true));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_UNMARSHAL_JSON, CodegenConstants.GENERATE_UNMARSHAL_JSON_DESC, true));
+
+        CliOption enumUnknownDefaultCaseOpt = CliOption.newBoolean(
+                CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE,
+                CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE_DESC).defaultValue(Boolean.FALSE.toString());
+        Map<String, String> enumUnknownDefaultCaseOpts = new HashMap<>();
+        enumUnknownDefaultCaseOpts.put("false",
+                "No changes to the enums are made, this is the default option.");
+        enumUnknownDefaultCaseOpts.put("true",
+                "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.");
+        enumUnknownDefaultCaseOpt.setEnum(enumUnknownDefaultCaseOpts);
+        cliOptions.add(enumUnknownDefaultCaseOpt);
+        this.setEnumUnknownDefaultCase(false);
+
         this.setWithGoMod(true);
     }
 
@@ -253,6 +276,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
         if (additionalProperties.containsKey(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS)) {
             setUseDefaultValuesForRequiredVars(Boolean.parseBoolean(additionalProperties.get(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS).toString()));
             additionalProperties.put(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS, useDefaultValuesForRequiredVars);
+        }
+
+        if (additionalProperties.containsKey(USE_HTTP_HEADER_SET)) {
+            setUseHttpHeaderSet(Boolean.parseBoolean(additionalProperties.get(USE_HTTP_HEADER_SET).toString()));
+            additionalProperties.put(USE_HTTP_HEADER_SET, useHttpHeaderSet);
         }
 
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
@@ -411,6 +439,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         }
     }
 
+
     /**
      * Determines if at least one of the allOf pieces of a schema are of type string
      *
@@ -497,6 +526,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
             if (model.isEnum) {
+                prefixEnumUnknownDefaultCase(model);
                 continue;
             }
 
@@ -522,7 +552,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             boolean addedFmtImport = false;
 
             // oneOf
-            if (model.oneOf != null && !model.oneOf.isEmpty()) {
+            if (hasOneOf(model)) {
                 imports.add(createMapping("import", "fmt"));
                 addedFmtImport = true;
 
@@ -533,7 +563,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
 
             // anyOf
-            if (model.anyOf != null && !model.anyOf.isEmpty()) {
+            if (hasAnyOf(model)) {
                 imports.add(createMapping("import", "fmt"));
                 addedFmtImport = true;
             }
@@ -557,6 +587,41 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
         }
         return objs;
+    }
+
+    /**
+     * Prefixes the generated {@code unknown_default_open_api} enum case with the model name when enum class prefixing
+     * is disabled.
+     * <p>
+     * Go enum constants are emitted at package scope, so multiple models otherwise generate duplicate
+     * {@code UNKNOWN_DEFAULT_OPEN_API} constants.
+     */
+    @SuppressWarnings("unchecked")
+    private void prefixEnumUnknownDefaultCase(CodegenModel model) {
+        // Only the synthetic unknown-default fallback needs a model-specific prefix. Regular enum class prefixing
+        // already prefixes every enum case, and models without allowable values do not need any post-processing.
+        if (!enumUnknownDefaultCase || enumClassPrefix || model.allowableValues == null) {
+            return;
+        }
+
+        // The enum variables are stored by the shared enum post-processing as allowableValues["enumVars"].
+        Object enumVarsObject = model.allowableValues.get(ENUM_VARS);
+        if (!(enumVarsObject instanceof List)) {
+            return;
+        }
+
+        // The unknown-default fallback is appended as the last enum variable. If that shape changes, skip safely.
+        List<?> enumVars = (List<?>) enumVarsObject;
+        if (enumVars.isEmpty() || !(enumVars.get(enumVars.size() - 1) instanceof Map)) {
+            return;
+        }
+
+        // Prefix only the fallback name so user-defined enum values keep their existing generated names.
+        EnumVarMap fallbackEnumVar = (EnumVarMap) enumVars.get(enumVars.size() - 1);
+        Object fallbackName = fallbackEnumVar.getEnumName();
+        if (fallbackName instanceof String) {
+            fallbackEnumVar.setEnumName(model.classname.toUpperCase(Locale.ROOT) + "_" + fallbackName);
+        }
     }
 
     @Override
@@ -746,8 +811,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 throw new RuntimeException("Invalid count when constructing example: " + depthList.size());
             }
         } else if (codegenModel.isEnum) {
-            Map<String, Object> allowableValues = codegenModel.allowableValues;
-            List<Object> values = (List<Object>) allowableValues.get("values");
+            List<Object> values = getEnumValues(codegenModel.allowableValues);
             String example = String.valueOf(values.get(0));
             if (codegenModel.isString) {
                 example = "\"" + example + "\"";

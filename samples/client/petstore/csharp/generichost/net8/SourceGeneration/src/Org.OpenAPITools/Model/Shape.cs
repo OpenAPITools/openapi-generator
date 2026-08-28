@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
         /// <param name="triangle"></param>
-        public Shape(Triangle triangle)
+        internal Shape(Triangle triangle)
         {
             Triangle = triangle;
             OnCreated();
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
         /// <param name="quadrilateral"></param>
-        public Shape(Quadrilateral quadrilateral)
+        internal Shape(Quadrilateral quadrilateral)
         {
             Quadrilateral = quadrilateral;
             OnCreated();
@@ -107,8 +107,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Shape" />
     /// </summary>
-    public class ShapeJsonConverter : JsonConverter<Shape>
+    public partial class ShapeJsonConverter : JsonConverter<Shape>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShapeJsonConverter" /> class.
+        /// </summary>
+        public ShapeJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Shape" />
         /// </summary>

@@ -18,8 +18,8 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
-    id("org.springframework.boot") version "3.0.2"
-    id("io.spring.dependency-management") version "1.0.14.RELEASE"
+    id("org.springframework.boot") version "3.3.13"
+    id("io.spring.dependency-management") version "1.1.7"
 }
 
 tasks.getByName("bootJar") {
@@ -32,7 +32,7 @@ tasks.getByName("jar") {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.5")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.6")
     }
 }
 
@@ -51,7 +51,7 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    implementation("org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 
     implementation("jakarta.validation:jakarta.validation-api")
     implementation("jakarta.annotation:jakarta.annotation-api:2.1.0")

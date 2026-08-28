@@ -14,6 +14,9 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 {{#useJackson3}}
 import tools.jackson.databind.cfg.DateTimeFeature;
 import tools.jackson.databind.cfg.EnumFeature;
+{{#openApiNullable}}
+import org.openapitools.jackson.nullable.JsonNullableJackson3Module;
+{{/openApiNullable}}
 {{/useJackson3}}
 {{#joda}}
 import {{jacksonPackage}}.datatype.joda.JodaModule;
@@ -76,6 +79,9 @@ public class JSON {
     {{#joda}}
     jsonMapperBuilder.addModule(new JodaModule());
     {{/joda}}
+    {{#openApiNullable}}
+    jsonMapperBuilder.addModule(new JsonNullableJackson3Module());
+    {{/openApiNullable}}
     mapper = jsonMapperBuilder.build();
     {{/useJackson3}}
   }
@@ -153,7 +159,12 @@ public class JSON {
         // Get the value of the discriminator property, if present in the input payload.
         node = node.get(discriminatorName);
         if (node != null && node.isValueNode()) {
+          {{^useJackson3}}
           String discrValue = node.asText();
+          {{/useJackson3}}
+          {{#useJackson3}}
+          String discrValue = node.asString();
+          {{/useJackson3}}
           if (discrValue != null) {
             return discrValue;
           }

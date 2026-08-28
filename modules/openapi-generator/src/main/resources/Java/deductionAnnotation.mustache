@@ -1,0 +1,12 @@
+{{^discriminator}}
+{{#jackson}}
+{{#useDeductionForOneOfInterfaces}}
+    @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
+    @JsonSubTypes({
+    {{#interfaceModels}}
+        @JsonSubTypes.Type(value = {{classname}}.class){{^-last}}, {{/-last}}
+    {{/interfaceModels}}
+    })
+{{/useDeductionForOneOfInterfaces}}
+{{/jackson}}
+{{/discriminator}}

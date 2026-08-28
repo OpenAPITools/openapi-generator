@@ -26,6 +26,9 @@ import java.io.File;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/cpp-qt-qhttpengine-server/}.
+ */
 public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implements CodegenConfig {
 
     protected final String SRC_DIR = "/src";

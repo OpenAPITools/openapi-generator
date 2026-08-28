@@ -22,13 +22,12 @@ NAME = "petstore-api"
 VERSION = "1.0.0"
 PYTHON_REQUIRES = ">= 3.10"
 REQUIRES = [
-    "urllib3 >= 2.1.0, < 3.0.0",
+    "urllib3 >= 2.7.0, < 3.0.0",
     "python-dateutil >= 2.8.2",
     "pem >= 19.3.0",
     "pycryptodome >= 3.9.0",
     "pydantic >= 2.11",
     "typing-extensions >= 4.7.1",
-    "lazy-imports >= 1, < 2",
 ]
 
 setup(

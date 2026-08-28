@@ -12,6 +12,10 @@ additionalProperties:
   useJackson3: true
   openApiNullable: false
   useJspecify: true
+  generateBuilders: true
+  generateConstructorWithAllArgs: true
+  useSingleRequestParameter: true
+  useAbstractionForFiles: true
 typeMappings:
   OffsetDateTime: java.time.Instant
   BigDecimal: java.math.BigDecimal

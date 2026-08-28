@@ -36,6 +36,9 @@ import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/cpp-rest-sdk-client/}.
+ */
 public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     public static final String DECLSPEC = "declspec";
@@ -293,7 +296,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
         // Handle additionalProperties for models that have both properties and additionalProperties
         Schema addlProps = ModelUtils.getAdditionalProperties(model);
-        if (addlProps != null && model.getProperties() != null && !model.getProperties().isEmpty()) {
+        if (addlProps != null && ModelUtils.hasProperties(model)) {
             // This model has both defined properties AND additionalProperties
             codegenModel.additionalPropertiesType = getTypeDeclaration(addlProps);
             // Add import for web::json::value which is used to store additional properties

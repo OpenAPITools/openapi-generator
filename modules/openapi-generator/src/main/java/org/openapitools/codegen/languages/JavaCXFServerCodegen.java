@@ -32,6 +32,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.List;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/JavaJaxRS/cxf/}.
+ */
 public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements CXFServerFeatures, GzipTestFeatures, LoggingTestFeatures, UseGenericResponseFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(JavaCXFServerCodegen.class);

@@ -1,0 +1,13 @@
+title: Flow Collection
+description: A collection of flows
+type: array
+items:
+  type: object
+  title: Flow Collection Item
+  allOf:
+    - $ref: collection-item.yaml
+    - type: object
+      properties:
+        container_mapping:
+          description: Describes the mapping of the Flow essence from this collection's container
+          $ref: container-mapping.yaml

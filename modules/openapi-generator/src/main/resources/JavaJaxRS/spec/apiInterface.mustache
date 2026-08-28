@@ -7,7 +7,13 @@
      {{#responses}}
      * @return {{{message}}}
      {{/responses}}
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
      */
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     @{{httpMethod}}{{#subresourceOperation}}
     @Path("{{{path}}}"){{/subresourceOperation}}{{#hasConsumes}}
     @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
@@ -27,7 +33,7 @@
     {{/implicitHeadersParams.0}}
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
-    @Operation(summary = "{{{summary}}}", description = "{{{notes}}}")
+    @Operation(summary = "{{{summary}}}", description = "{{{notes}}}"{{#isDeprecated}}, deprecated = true{{/isDeprecated}})
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerV3Annotations}}
     {{#supportAsync}}{{>returnAsyncTypeInterface}}{{/supportAsync}}{{^supportAsync}}{{#returnResponse}}Response{{/returnResponse}}{{^returnResponse}}{{>returnTypeInterface}}{{/returnResponse}}{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}});

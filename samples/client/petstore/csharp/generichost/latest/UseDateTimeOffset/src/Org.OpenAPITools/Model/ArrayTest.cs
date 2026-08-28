@@ -115,8 +115,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ArrayTest" />
     /// </summary>
-    public class ArrayTestJsonConverter : JsonConverter<ArrayTest>
+    public partial class ArrayTestJsonConverter : JsonConverter<ArrayTest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArrayTestJsonConverter" /> class.
+        /// </summary>
+        public ArrayTestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ArrayTest" />
         /// </summary>

@@ -1,15 +1,23 @@
 import {
     Configuration,
     ConfigurationParameters,
-} from "../index";
+} from "../runtime";
 
 import {
     BehaviorApi,
+} from "./BehaviorApi";
+import {
     PetApi,
+} from "./PetApi";
+import {
     PetPartApi,
+} from "./PetPartApi";
+import {
     StoreApi,
+} from "./StoreApi";
+import {
     UserApi,
-} from "./index";
+} from "./UserApi";
 
 export class Api {
     public static behaviorApi: BehaviorApi;

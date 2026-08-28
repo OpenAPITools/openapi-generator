@@ -51,10 +51,10 @@ function Initialize-PSMapTest {
 
 
         $PSO = [PSCustomObject]@{
-            "map_map_of_string" = ${MapMapOfString}
-            "map_of_enum_string" = ${MapOfEnumString}
-            "direct_map" = ${DirectMap}
-            "indirect_map" = ${IndirectMap}
+            'map_map_of_string' = ${MapMapOfString}
+            'map_of_enum_string' = ${MapOfEnumString}
+            'direct_map' = ${DirectMap}
+            'indirect_map' = ${IndirectMap}
         }
 
 
@@ -92,42 +92,42 @@ function ConvertFrom-PSJsonToMapTest {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSMapTest
-        $AllProperties = ("map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map")
+        $AllProperties = ('map_map_of_string', 'map_of_enum_string', 'direct_map', 'indirect_map')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "map_map_of_string"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'map_map_of_string'))) { #optional property not found
             $MapMapOfString = $null
         } else {
-            $MapMapOfString = $JsonParameters.PSobject.Properties["map_map_of_string"].value
+            $MapMapOfString = $JsonParameters.PSobject.Properties['map_map_of_string'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "map_of_enum_string"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'map_of_enum_string'))) { #optional property not found
             $MapOfEnumString = $null
         } else {
-            $MapOfEnumString = $JsonParameters.PSobject.Properties["map_of_enum_string"].value
+            $MapOfEnumString = $JsonParameters.PSobject.Properties['map_of_enum_string'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "direct_map"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'direct_map'))) { #optional property not found
             $DirectMap = $null
         } else {
-            $DirectMap = $JsonParameters.PSobject.Properties["direct_map"].value
+            $DirectMap = $JsonParameters.PSobject.Properties['direct_map'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "indirect_map"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'indirect_map'))) { #optional property not found
             $IndirectMap = $null
         } else {
-            $IndirectMap = $JsonParameters.PSobject.Properties["indirect_map"].value
+            $IndirectMap = $JsonParameters.PSobject.Properties['indirect_map'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "map_map_of_string" = ${MapMapOfString}
-            "map_of_enum_string" = ${MapOfEnumString}
-            "direct_map" = ${DirectMap}
-            "indirect_map" = ${IndirectMap}
+            'map_map_of_string' = ${MapMapOfString}
+            'map_of_enum_string' = ${MapOfEnumString}
+            'direct_map' = ${DirectMap}
+            'indirect_map' = ${IndirectMap}
         }
 
         return $PSO

@@ -34,6 +34,7 @@ import java.util.List;
  * Similar to the original JAXRS generator, this creates API and Service classes
  * in /src/gen/java and a sample ServiceImpl in /src/main/java. The API uses CDI
  * to get an instance of ServiceImpl that implements the Service interface.
+ * <p>Mustache templates are located in {@code src/main/resources/JavaJaxRS/cxf-cdi/}.
  */
 public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen implements BeanValidationFeatures {
 

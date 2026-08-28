@@ -1,0 +1,6 @@
+ktor:
+    application:
+        modules:
+            - org.openapitools.ApplicationKt.module
+    deployment:
+        port: 8080

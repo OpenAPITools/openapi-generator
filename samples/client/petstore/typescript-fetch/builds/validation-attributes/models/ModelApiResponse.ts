@@ -21,25 +21,21 @@ import { mapValues } from '../runtime';
 export interface ModelApiResponse {
     /**
      * 
-     * @type {number}
-     * @memberof ModelApiResponse
      */
     code?: number;
     /**
      * 
-     * @type {string}
-     * @memberof ModelApiResponse
      */
     type?: string;
     /**
      * 
-     * @type {string}
-     * @memberof ModelApiResponse
      */
     message?: string;
 }
 export const ModelApiResponsePropertyValidationAttributesMap: {
     [property: string]: {
+        dataType?: string,
+        required?: boolean,
         maxLength?: number,
         minLength?: number,
         pattern?: string,

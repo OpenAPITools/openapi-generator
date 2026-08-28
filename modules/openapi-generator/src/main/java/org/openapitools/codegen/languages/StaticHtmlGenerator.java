@@ -34,6 +34,9 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.escape;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/htmlDocs/}.
+ */
 public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";

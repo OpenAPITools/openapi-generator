@@ -44,8 +44,8 @@ function Initialize-PSAnimal {
 
 
         $PSO = [PSCustomObject]@{
-            "className" = ${ClassName}
-            "color" = ${Color}
+            'className' = ${ClassName}
+            'color' = ${Color}
         }
 
 
@@ -83,7 +83,7 @@ function ConvertFrom-PSJsonToAnimal {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSAnimal
-        $AllProperties = ("className", "color")
+        $AllProperties = ('className', 'color')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -94,21 +94,21 @@ function ConvertFrom-PSJsonToAnimal {
             throw "Error! Empty JSON cannot be serialized due to the required property 'className' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "className"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'className'))) {
             throw "Error! JSON cannot be serialized due to the required property 'className' missing."
         } else {
-            $ClassName = $JsonParameters.PSobject.Properties["className"].value
+            $ClassName = $JsonParameters.PSobject.Properties['className'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "color"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'color'))) { #optional property not found
             $Color = $null
         } else {
-            $Color = $JsonParameters.PSobject.Properties["color"].value
+            $Color = $JsonParameters.PSobject.Properties['color'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "className" = ${ClassName}
-            "color" = ${Color}
+            'className' = ${ClassName}
+            'color' = ${Color}
         }
 
         return $PSO

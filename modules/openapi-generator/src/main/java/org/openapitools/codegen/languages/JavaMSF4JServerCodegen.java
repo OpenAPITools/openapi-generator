@@ -28,6 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/java-msf4j-server/}.
+ */
 public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     protected static final String LIBRARY_JERSEY2 = "jersey2";

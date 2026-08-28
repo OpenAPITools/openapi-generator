@@ -38,8 +38,14 @@ import java.io.File;
 import java.util.*;
 
 import static java.util.UUID.randomUUID;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/powershell/}.
+ */
 public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
     @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
@@ -1055,11 +1061,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 if (modelMaps.containsKey(op.returnType) && modelMaps.get(op.returnType) != null) {
                     CodegenModel cm = modelMaps.get(op.returnType);
 
-                    if (cm.oneOf != null && !cm.oneOf.isEmpty()) {
+                    if (hasOneOf(cm)) {
                         op.vendorExtensions.put("x-ps-return-type-one-of", true);
                     }
 
-                    if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
+                    if (hasAnyOf(cm)) {
                         op.vendorExtensions.put("x-ps-return-type-any-of", true);
                     }
                 } else {
@@ -1096,13 +1102,13 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             }
 
             // if oneOf contains "null" type
-            if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("ModelNull")) {
+            if (hasOneOf(model) && model.oneOf.contains("ModelNull")) {
                 model.isNullable = true;
                 model.oneOf.remove("ModelNull");
             }
 
             // if anyOf contains "null" type
-            if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("ModelNull")) {
+            if (hasAnyOf(model) && model.anyOf.contains("ModelNull")) {
                 model.isNullable = true;
                 model.anyOf.remove("ModelNull");
             }
@@ -1365,7 +1371,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         example.append("\"");
 
-        List<Object> enumValues = (List<Object>) allowableValues.get("values");
+        List<Object> enumValues = getEnumValues(allowableValues);
         example.append(enumValues.get(0));
 
         example.append("\"");
@@ -1509,15 +1515,17 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
-        System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
-        System.out.println("# - OpenAPI Generator for PowerShell Developers      https://bit.ly/3qBWfRJ    #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
+            System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
+            System.out.println("# - OpenAPI Generator for PowerShell Developers      https://bit.ly/3qBWfRJ    #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override
@@ -1527,7 +1535,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toEnumVarName(String name, String datatype) {
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "EMPTY";
         }
 
@@ -1536,8 +1544,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             return (getSymbolName(name)).toUpperCase(Locale.ROOT);
         }
 
-        // number
-        if ("Int16".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype) ||
+        if (name.matches("^\\d.*") || // any data type (including string) starting with a number
+                // numeric data type
+                "Int16".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype) ||
                 "UInt16".equals(datatype) || "UInt32".equals(datatype) || "UInt64".equals(datatype) ||
                 "Double".equals(datatype) || "Single".equals(datatype) || "Decimal".equals(datatype)) {
             String varName = name;

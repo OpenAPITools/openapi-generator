@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MixedOneOfContent" /> class.
         /// </summary>
         /// <param name="string"></param>
-        public MixedOneOfContent(string @string)
+        internal MixedOneOfContent(string @string)
         {
             String = @string;
             OnCreated();
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MixedOneOfContent" /> class.
         /// </summary>
         /// <param name="bool"></param>
-        public MixedOneOfContent(bool @bool)
+        internal MixedOneOfContent(bool @bool)
         {
             Bool = @bool;
             OnCreated();
@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MixedOneOfContent" /> class.
         /// </summary>
         /// <param name="int"></param>
-        public MixedOneOfContent(int @int)
+        internal MixedOneOfContent(int @int)
         {
             Int = @int;
             OnCreated();
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MixedOneOfContent" /> class.
         /// </summary>
         /// <param name="decimal"></param>
-        public MixedOneOfContent(decimal @decimal)
+        internal MixedOneOfContent(decimal @decimal)
         {
             Decimal = @decimal;
             OnCreated();
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MixedOneOfContent" /> class.
         /// </summary>
         /// <param name="mixedSubId"></param>
-        public MixedOneOfContent(MixedSubId mixedSubId)
+        internal MixedOneOfContent(MixedSubId mixedSubId)
         {
             MixedSubId = mixedSubId;
             OnCreated();
@@ -141,8 +141,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="MixedOneOfContent" />
     /// </summary>
-    public class MixedOneOfContentJsonConverter : JsonConverter<MixedOneOfContent>
+    public partial class MixedOneOfContentJsonConverter : JsonConverter<MixedOneOfContent>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MixedOneOfContentJsonConverter" /> class.
+        /// </summary>
+        public MixedOneOfContentJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="MixedOneOfContent" />
         /// </summary>

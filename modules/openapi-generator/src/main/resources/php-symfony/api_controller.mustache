@@ -154,10 +154,10 @@ class {{controllerName}} extends Controller
             {{^isFile}}
             {{#isBodyParam}}
             $inputFormat = $request->getMimeType($request->getContentTypeFormat());
-            ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}{{#items}}array<{{dataType}}>{{/items}}{{/isContainer}}{{^isContainer}}{{#isEnumRef}}\{{modelPackage}}\{{dataType}}{{/isEnumRef}}{{^isEnumRef}}{{dataType}}{{/isEnumRef}}{{/isContainer}}', $inputFormat);
+            ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}{{#items}}array<{{dataType}}>{{/items}}{{/isContainer}}{{^isContainer}}{{#isEnumRef}}\{{{modelPackage}}}\{{{dataType}}}{{/isEnumRef}}{{^isEnumRef}}{{dataType}}{{/isEnumRef}}{{/isContainer}}', $inputFormat);
             {{/isBodyParam}}
             {{^isBodyParam}}
-            ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}array<{{collectionFormat}}{{^collectionFormat}}csv{{/collectionFormat}},{{dataType}}>{{/isContainer}}{{^isContainer}}{{#isEnumRef}}\{{modelPackage}}\{{dataType}}{{/isEnumRef}}{{^isEnumRef}}{{dataType}}{{/isEnumRef}}{{/isContainer}}', 'string');
+            ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}array<{{collectionFormat}}{{^collectionFormat}}csv{{/collectionFormat}},{{dataType}}>{{/isContainer}}{{^isContainer}}{{#isEnumRef}}\{{{modelPackage}}}\{{{dataType}}}{{/isEnumRef}}{{^isEnumRef}}{{dataType}}{{/isEnumRef}}{{/isContainer}}', 'string');
             {{/isBodyParam}}
             {{/isFile}}
             {{/allParams}}

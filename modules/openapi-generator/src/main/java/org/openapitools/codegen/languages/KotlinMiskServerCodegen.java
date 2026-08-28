@@ -46,6 +46,9 @@ import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/kotlin-misk/}.
+ */
 public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinMiskServerCodegen.class);

@@ -70,12 +70,12 @@ function Initialize-PSEnumTest {
 
 
         $PSO = [PSCustomObject]@{
-            "enum_string" = ${EnumString}
-            "enum_string_required" = ${EnumStringRequired}
-            "enum_integer" = ${EnumInteger}
-            "enum_integer_only" = ${EnumIntegerOnly}
-            "enum_number" = ${EnumNumber}
-            "outerEnum" = ${OuterEnum}
+            'enum_string' = ${EnumString}
+            'enum_string_required' = ${EnumStringRequired}
+            'enum_integer' = ${EnumInteger}
+            'enum_integer_only' = ${EnumIntegerOnly}
+            'enum_number' = ${EnumNumber}
+            'outerEnum' = ${OuterEnum}
         }
 
 
@@ -113,7 +113,7 @@ function ConvertFrom-PSJsonToEnumTest {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSEnumTest
-        $AllProperties = ("enum_string", "enum_string_required", "enum_integer", "enum_integer_only", "enum_number", "outerEnum")
+        $AllProperties = ('enum_string', 'enum_string_required', 'enum_integer', 'enum_integer_only', 'enum_number', 'outerEnum')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -124,49 +124,49 @@ function ConvertFrom-PSJsonToEnumTest {
             throw "Error! Empty JSON cannot be serialized due to the required property 'enum_string_required' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "enum_string_required"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'enum_string_required'))) {
             throw "Error! JSON cannot be serialized due to the required property 'enum_string_required' missing."
         } else {
-            $EnumStringRequired = $JsonParameters.PSobject.Properties["enum_string_required"].value
+            $EnumStringRequired = $JsonParameters.PSobject.Properties['enum_string_required'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "enum_string"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'enum_string'))) { #optional property not found
             $EnumString = $null
         } else {
-            $EnumString = $JsonParameters.PSobject.Properties["enum_string"].value
+            $EnumString = $JsonParameters.PSobject.Properties['enum_string'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "enum_integer"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'enum_integer'))) { #optional property not found
             $EnumInteger = $null
         } else {
-            $EnumInteger = $JsonParameters.PSobject.Properties["enum_integer"].value
+            $EnumInteger = $JsonParameters.PSobject.Properties['enum_integer'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "enum_integer_only"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'enum_integer_only'))) { #optional property not found
             $EnumIntegerOnly = $null
         } else {
-            $EnumIntegerOnly = $JsonParameters.PSobject.Properties["enum_integer_only"].value
+            $EnumIntegerOnly = $JsonParameters.PSobject.Properties['enum_integer_only'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "enum_number"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'enum_number'))) { #optional property not found
             $EnumNumber = $null
         } else {
-            $EnumNumber = $JsonParameters.PSobject.Properties["enum_number"].value
+            $EnumNumber = $JsonParameters.PSobject.Properties['enum_number'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "outerEnum"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'outerEnum'))) { #optional property not found
             $OuterEnum = $null
         } else {
-            $OuterEnum = $JsonParameters.PSobject.Properties["outerEnum"].value
+            $OuterEnum = $JsonParameters.PSobject.Properties['outerEnum'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "enum_string" = ${EnumString}
-            "enum_string_required" = ${EnumStringRequired}
-            "enum_integer" = ${EnumInteger}
-            "enum_integer_only" = ${EnumIntegerOnly}
-            "enum_number" = ${EnumNumber}
-            "outerEnum" = ${OuterEnum}
+            'enum_string' = ${EnumString}
+            'enum_string_required' = ${EnumStringRequired}
+            'enum_integer' = ${EnumInteger}
+            'enum_integer_only' = ${EnumIntegerOnly}
+            'enum_number' = ${EnumNumber}
+            'outerEnum' = ${OuterEnum}
         }
 
         return $PSO

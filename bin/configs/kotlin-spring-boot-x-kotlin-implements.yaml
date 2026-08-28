@@ -4,6 +4,8 @@ library: spring-boot
 inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   documentationProvider: none
   annotationLibrary: swagger1
   useSwaggerUI: false
@@ -11,7 +13,7 @@ additionalProperties:
   skipDefaultInterface: true
   interfaceOnly: true
   serializableModel: true
-  beanValidations: true
+  useBeanValidation: true
   includeHttpRequestContext: true
   schemaImplements:
     Pet: com.some.pack.WithId

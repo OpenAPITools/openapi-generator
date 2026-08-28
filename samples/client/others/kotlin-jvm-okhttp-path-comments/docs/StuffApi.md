@@ -44,8 +44,14 @@ This endpoint does not need any parameter.
 ### Authorization
 
 
-Configure bearerAuth:
-    ApiClient.accessToken = ""
+Configure bearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure bearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 

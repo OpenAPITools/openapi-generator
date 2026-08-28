@@ -1,0 +1,10 @@
+openapi: 3.0.3
+info:
+  title: Completely Broken Spec
+  # Missing required 'version' field!
+paths:
+  /broken-endpoint:
+    get:
+      responses:
+        # Invalid response code type syntax or completely missing details
+        'invalid_code':

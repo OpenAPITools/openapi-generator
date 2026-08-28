@@ -11,6 +11,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
+import org.openapitools.codegen.languages.JavaCXFServerCodegen;
 import org.openapitools.codegen.languages.JavaCXFExtServerCodegen;
 import org.openapitools.codegen.languages.features.*;
 import org.openapitools.codegen.testutils.ConfigAssert;
@@ -24,6 +25,9 @@ import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
+
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
     private static class JavaCXFExtServerCodegenTester extends JavaCXFExtServerCodegen {
@@ -410,6 +414,37 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
                 .exists();
         Assertions.assertThat(Paths.get(outputPath + "/test-data-control.json"))
                 .exists();
+    }
+
+    @Test
+    public void testGenerateSwagger2ModelsUseRequiredMode() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        JavaCXFServerCodegen cxfCodegen = new JavaCXFServerCodegen();
+        cxfCodegen.setOutputDir(output.getAbsolutePath());
+        cxfCodegen.additionalProperties().put("documentationProvider", "swagger2");
+        cxfCodegen.additionalProperties().put("annotationLibrary", "swagger2");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(cxfCodegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/Pet.java"),
+                "requiredMode = Schema.RequiredMode.REQUIRED");
+        assertFileNotContains(output.toPath().resolve("src/gen/java/org/openapitools/model/Pet.java"), "@Schema(description = \"\", example = \"doggie\", required = true");
     }
 
     @Test

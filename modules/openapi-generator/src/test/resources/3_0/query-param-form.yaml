@@ -33,6 +33,17 @@ paths:
           required: false
           schema:
             type: string
+        - in: query
+          name: tags
+          style: form
+          explode: true
+          description: Tags
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+            uniqueItems: true
       responses:
         '200':
           description: Ok
@@ -71,6 +82,17 @@ paths:
           required: false
           schema:
             type: string
+        - in: query
+          name: tags
+          style: form
+          explode: false
+          description: Tags
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+            uniqueItems: true
 
       responses:
         '200':

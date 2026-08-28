@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="whale"></param>
-        public Mammal(Whale whale)
+        internal Mammal(Whale whale)
         {
             Whale = whale;
             OnCreated();
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="zebra"></param>
-        public Mammal(Zebra zebra)
+        internal Mammal(Zebra zebra)
         {
             Zebra = zebra;
             OnCreated();
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="pig"></param>
-        public Mammal(Pig pig)
+        internal Mammal(Pig pig)
         {
             Pig = pig;
             OnCreated();
@@ -119,8 +119,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Mammal" />
     /// </summary>
-    public class MammalJsonConverter : JsonConverter<Mammal>
+    public partial class MammalJsonConverter : JsonConverter<Mammal>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MammalJsonConverter" /> class.
+        /// </summary>
+        public MammalJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Mammal" />
         /// </summary>

@@ -29,6 +29,9 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/go-echo-server/}.
+ */
 public class GoEchoServerCodegen extends AbstractGoCodegen {
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;

@@ -1484,10 +1484,10 @@ export const PathApiAxiosParamCreator = function (configuration?: Configuration)
             // verify required parameter 'enumRefStringPath' is not null or undefined
             assertParamExists('testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath', 'enumRefStringPath', enumRefStringPath)
             const localVarPath = `/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}`
-                .replace(`{${"path_string"}}`, encodeURIComponent(String(pathString)))
-                .replace(`{${"path_integer"}}`, encodeURIComponent(String(pathInteger)))
-                .replace(`{${"enum_nonref_string_path"}}`, encodeURIComponent(String(enumNonrefStringPath)))
-                .replace(`{${"enum_ref_string_path"}}`, encodeURIComponent(String(enumRefStringPath)));
+                .replace('{path_string}', encodeURIComponent(String(pathString)))
+                .replace('{path_integer}', encodeURIComponent(String(pathInteger)))
+                .replace('{enum_nonref_string_path}', encodeURIComponent(String(enumNonrefStringPath)))
+                .replace('{enum_ref_string_path}', encodeURIComponent(String(enumRefStringPath)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

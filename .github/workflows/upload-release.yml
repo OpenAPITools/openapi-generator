@@ -1,0 +1,52 @@
+name: Release to Github (stable)
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+
+jobs:
+  upload-release-asset:
+    runs-on: ubuntu-latest
+    name: Upload CLI JAR to GitHub Release
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v6.0.0
+        with:
+          java-version: 11
+          distribution: 'zulu'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build CLI JAR
+        run: ./mvnw clean package -pl modules/openapi-generator-cli -am -DskipTests=true
+
+      - name: Get project version
+        id: get_version
+        run: |
+          VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Upload JAR as GitHub Release asset
+        run: |
+          VERSION="${{ steps.get_version.outputs.version }}"
+          JAR="modules/openapi-generator-cli/target/openapi-generator-cli.jar"
+          ASSET="openapi-generator-cli-${VERSION}.jar"
+          cp "$JAR" "$ASSET"
+          gh release upload "${{ github.ref_name }}" "$ASSET" --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

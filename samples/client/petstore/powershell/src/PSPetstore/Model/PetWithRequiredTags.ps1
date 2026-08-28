@@ -73,12 +73,12 @@ function Initialize-PSPetWithRequiredTags {
 
 
         $PSO = [PSCustomObject]@{
-            "id" = ${Id}
-            "category" = ${Category}
-            "name" = ${Name}
-            "photoUrls" = ${PhotoUrls}
-            "tags" = ${Tags}
-            "status" = ${Status}
+            'id' = ${Id}
+            'category' = ${Category}
+            'name' = ${Name}
+            'photoUrls' = ${PhotoUrls}
+            'tags' = ${Tags}
+            'status' = ${Status}
         }
 
 
@@ -116,7 +116,7 @@ function ConvertFrom-PSJsonToPetWithRequiredTags {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSPetWithRequiredTags
-        $AllProperties = ("id", "category", "name", "photoUrls", "tags", "status")
+        $AllProperties = ('id', 'category', 'name', 'photoUrls', 'tags', 'status')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -127,49 +127,49 @@ function ConvertFrom-PSJsonToPetWithRequiredTags {
             throw "Error! Empty JSON cannot be serialized due to the required property 'name' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "name"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'name'))) {
             throw "Error! JSON cannot be serialized due to the required property 'name' missing."
         } else {
-            $Name = $JsonParameters.PSobject.Properties["name"].value
+            $Name = $JsonParameters.PSobject.Properties['name'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "photoUrls"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'photoUrls'))) {
             throw "Error! JSON cannot be serialized due to the required property 'photoUrls' missing."
         } else {
-            $PhotoUrls = $JsonParameters.PSobject.Properties["photoUrls"].value
+            $PhotoUrls = $JsonParameters.PSobject.Properties['photoUrls'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "tags"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'tags'))) {
             throw "Error! JSON cannot be serialized due to the required property 'tags' missing."
         } else {
-            $Tags = $JsonParameters.PSobject.Properties["tags"].value
+            $Tags = $JsonParameters.PSobject.Properties['tags'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'id'))) { #optional property not found
             $Id = $null
         } else {
-            $Id = $JsonParameters.PSobject.Properties["id"].value
+            $Id = $JsonParameters.PSobject.Properties['id'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "category"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'category'))) { #optional property not found
             $Category = $null
         } else {
-            $Category = $JsonParameters.PSobject.Properties["category"].value
+            $Category = $JsonParameters.PSobject.Properties['category'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "status"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'status'))) { #optional property not found
             $Status = $null
         } else {
-            $Status = $JsonParameters.PSobject.Properties["status"].value
+            $Status = $JsonParameters.PSobject.Properties['status'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "id" = ${Id}
-            "category" = ${Category}
-            "name" = ${Name}
-            "photoUrls" = ${PhotoUrls}
-            "tags" = ${Tags}
-            "status" = ${Status}
+            'id' = ${Id}
+            'category' = ${Category}
+            'name' = ${Name}
+            'photoUrls' = ${PhotoUrls}
+            'tags' = ${Tags}
+            'status' = ${Status}
         }
 
         return $PSO

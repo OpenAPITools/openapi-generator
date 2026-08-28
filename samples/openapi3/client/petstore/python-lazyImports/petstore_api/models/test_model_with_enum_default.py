@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.test_enum import TestEnum
 from petstore_api.models.test_enum_with_default import TestEnumWithDefault
@@ -30,9 +30,9 @@ class TestModelWithEnumDefault(BaseModel):
     TestModelWithEnumDefault
     """ # noqa: E501
     test_enum: TestEnum
-    test_string: Optional[StrictStr] = None
+    test_string: Optional[StrictStr] = Field(default=None, json_schema_extra={"examples": ["Just some string"]})
     test_enum_with_default: Optional[TestEnumWithDefault] = TestEnumWithDefault.ZWEI
-    test_string_with_default: Optional[StrictStr] = 'ahoy matey'
+    test_string_with_default: Optional[StrictStr] = Field(default='ahoy matey', json_schema_extra={"examples": ["More string"]})
     test_inline_defined_enum_with_default: Optional[StrictStr] = 'B'
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]

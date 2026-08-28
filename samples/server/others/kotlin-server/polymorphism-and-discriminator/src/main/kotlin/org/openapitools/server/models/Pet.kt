@@ -15,7 +15,7 @@ import org.openapitools.server.models.Cat
 import org.openapitools.server.models.Dog
 
 /**
- * 
+ * A pet
  * @param petType 
  */
 @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME, include = com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY, property = "petType", visible = true)

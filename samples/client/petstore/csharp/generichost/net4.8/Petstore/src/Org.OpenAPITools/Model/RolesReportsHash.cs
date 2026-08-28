@@ -105,8 +105,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="RolesReportsHash" />
     /// </summary>
-    public class RolesReportsHashJsonConverter : JsonConverter<RolesReportsHash>
+    public partial class RolesReportsHashJsonConverter : JsonConverter<RolesReportsHash>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RolesReportsHashJsonConverter" /> class.
+        /// </summary>
+        public RolesReportsHashJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RolesReportsHash" />
         /// </summary>

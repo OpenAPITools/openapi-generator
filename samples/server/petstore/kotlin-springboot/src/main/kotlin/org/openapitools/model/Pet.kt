@@ -2,10 +2,14 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
+import com.fasterxml.jackson.annotation.Nulls
 import org.openapitools.model.Category
 import org.openapitools.model.Tag
+import org.openapitools.configuration.ValuedEnum
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -27,18 +31,34 @@ import javax.validation.Valid
  */
 data class Pet(
 
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("name", required = true)
     @get:JsonProperty("name", required = true) val name: kotlin.String,
 
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("photoUrls", required = true)
     @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @field:Valid
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("category")
     @get:JsonProperty("category") val category: Category? = null,
 
     @field:Valid
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("tags")
     @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("status")
     @get:JsonProperty("status") val status: Pet.Status? = null
 ) : java.io.Serializable {
 
@@ -46,7 +66,7 @@ data class Pet(
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(@get:JsonValue val value: kotlin.String) {
+    enum class Status(@get:JsonValue override val value: kotlin.String) : ValuedEnum<kotlin.String> {
 
         available("available"),
         pending("pending"),
@@ -57,7 +77,7 @@ data class Pet(
             @JsonCreator
             fun forValue(value: kotlin.String): Status {
                 return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Pet'")
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Status'")
             }
         }
     }

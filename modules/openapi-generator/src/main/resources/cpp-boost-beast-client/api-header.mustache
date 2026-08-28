@@ -1,0 +1,199 @@
+{{>licenseInfo}}
+{{#operations}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{apiHeaderGuardPrefix}}_{{classname}}_H_
+#define {{apiHeaderGuardPrefix}}_{{classname}}_H_
+
+#include <exception>
+#include <functional>
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
+#include <variant>
+#include <vector>
+
+#include <boost/beast/core.hpp>
+#include <boost/optional.hpp>
+
+#include "HttpClient.h"
+#include "../model/ValidationTypes.h"
+{{#hasExportMacro}}
+#include "ApiExport.h"
+{{/hasExportMacro}}
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+{{#x-codegen-has-models}}using namespace {{modelNamespace}};
+{{/x-codegen-has-models}}
+
+{{#operation}}
+{{#vendorExtensions.x-codegen-response-union}}
+/// Response union type for {{#operationId}}{{{.}}}{{/operationId}}.
+struct {{vendorExtensions.x-codegen-response-union}} {
+    boost::beast::http::status status;
+    std::string contentType;
+    std::map<std::string, std::string> headers;
+    std::variant<
+    {{#vendorExtensions.x-codegen-response-union-members}}
+        {{{bodyType}}}{{^last}},{{/last}}
+    {{/vendorExtensions.x-codegen-response-union-members}}
+    > body;
+};
+
+{{/vendorExtensions.x-codegen-response-union}}
+{{/operation}}
+///
+/// Exception to flag problems in the api's
+///
+class {{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}{{classname}}Exception: public std::exception
+{
+public:
+    {{classname}}Exception(boost::beast::http::status statusCode, std::string what, std::string responseBody);
+
+    boost::beast::http::status getStatus() const;
+    const std::string& getResponseBody() const noexcept;
+    const char* what() const noexcept override;
+
+private:
+    boost::beast::http::status m_status;
+    std::string m_what;
+    std::string m_responseBody;
+};
+
+
+class {{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}{{classname}} {
+
+public:
+    {{classname}}(
+        std::shared_ptr<HttpClient> client,
+        const std::string& context = "{{{contextPath}}}")
+      : m_client(std::move(client)),
+        m_context(context)
+    {}
+
+    virtual ~{{classname}}() = default;
+
+    {{#operation}}
+    /// <summary>
+    /// {{summary}}
+    /// </summary>
+    /// <remarks>
+    /// {{notes}}
+    /// </remarks>
+    {{#vendorExtensions.x-codegen-streaming-response}}
+    virtual HttpResponseData
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+        {{#vendorExtensions.x-codegen-sse-representation-mode}}SseEventCallback {{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}std::function<bool(const {{#vendorExtensions.x-codegen-stream-element-type}}{{{.}}}{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}{{{returnType}}}{{/vendorExtensions.x-codegen-stream-element-type}} &, const SseEvent &)> {{/vendorExtensions.x-codegen-sse-representation-mode}}onEvent{{#allParams}},
+        const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}>{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{/allParams}}{{#allParams}}{{#vendorExtensions.x-codegen-multipart-filename-param}},
+        const std::string& {{{vendorExtensions.x-codegen-multipart-filename-param-name}}} = "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"{{/vendorExtensions.x-codegen-multipart-filename-param}}{{/allParams}},
+        const SseStreamOptions& streamOptions = {});
+    {{/vendorExtensions.x-codegen-streaming-response}}
+    {{^vendorExtensions.x-codegen-streaming-response}}
+    virtual {{#vendorExtensions.x-codegen-response-union}}{{vendorExtensions.x-codegen-response-union}}{{/vendorExtensions.x-codegen-response-union}}{{^vendorExtensions.x-codegen-response-union}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/vendorExtensions.x-codegen-response-union}}
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+        {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}>{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams}}{{#vendorExtensions.x-codegen-multipart-filename-param}}, const std::string& {{{vendorExtensions.x-codegen-multipart-filename-param-name}}} = "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"{{/vendorExtensions.x-codegen-multipart-filename-param}}{{/allParams}});
+    {{/vendorExtensions.x-codegen-streaming-response}}
+    {{#vendorExtensions.x-codegen-has-optional-form-parameter}}
+    /// Backward-compatible overload preserving value-typed form arguments.
+    {{#vendorExtensions.x-codegen-streaming-response}}virtual HttpResponseData{{/vendorExtensions.x-codegen-streaming-response}}{{^vendorExtensions.x-codegen-streaming-response}}virtual {{#vendorExtensions.x-codegen-response-union}}{{vendorExtensions.x-codegen-response-union}}{{/vendorExtensions.x-codegen-response-union}}{{^vendorExtensions.x-codegen-response-union}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/vendorExtensions.x-codegen-response-union}}{{/vendorExtensions.x-codegen-streaming-response}}
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+        {{#vendorExtensions.x-codegen-streaming-response}}{{#vendorExtensions.x-codegen-sse-representation-mode}}SseEventCallback {{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}std::function<bool(const {{#vendorExtensions.x-codegen-stream-element-type}}{{{.}}}{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}{{{returnType}}}{{/vendorExtensions.x-codegen-stream-element-type}} &, const SseEvent &)> {{/vendorExtensions.x-codegen-sse-representation-mode}}onEvent, {{/vendorExtensions.x-codegen-streaming-response}}{{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams}}{{#vendorExtensions.x-codegen-multipart-filename-param}}, const std::string& {{{vendorExtensions.x-codegen-multipart-filename-param-name}}} = "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"{{/vendorExtensions.x-codegen-multipart-filename-param}}{{/allParams}}{{#vendorExtensions.x-codegen-streaming-response}}, const SseStreamOptions& streamOptions = {}{{/vendorExtensions.x-codegen-streaming-response}}) {
+        return {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+            {{#vendorExtensions.x-codegen-streaming-response}}std::move(onEvent), {{/vendorExtensions.x-codegen-streaming-response}}{{#allParams}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}boost::optional<{{{dataType}}}>({{{paramName}}}){{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{^vendorExtensions.x-codegen-is-optional-form-parameter}}{{{paramName}}}{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams}}{{#vendorExtensions.x-codegen-multipart-filename-param}}, {{{vendorExtensions.x-codegen-multipart-filename-param-name}}}{{/vendorExtensions.x-codegen-multipart-filename-param}}{{/allParams}}{{#vendorExtensions.x-codegen-streaming-response}}, streamOptions{{/vendorExtensions.x-codegen-streaming-response}});
+    }
+    {{/vendorExtensions.x-codegen-has-optional-form-parameter}}
+
+    {{#vendorExtensions.x-codegen-dual-content}}
+    /// Streams text/event-stream and selects streaming on a request-body copy.
+    virtual HttpResponseData
+    {{#operationId}}{{{.}}}{{/operationId}}Stream(
+        {{#vendorExtensions.x-codegen-sse-representation-mode}}SseEventCallback {{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}std::function<bool(const {{{vendorExtensions.x-codegen-dual-stream-element-type}}} &, const SseEvent &)> {{/vendorExtensions.x-codegen-sse-representation-mode}}onEvent{{#allParams}},
+        const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}>{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{/allParams}}{{#allParams}}{{#vendorExtensions.x-codegen-multipart-filename-param}},
+        const std::string& {{{vendorExtensions.x-codegen-multipart-filename-param-name}}} = "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"{{/vendorExtensions.x-codegen-multipart-filename-param}}{{/allParams}},
+        const SseStreamOptions& streamOptions = {});
+    {{/vendorExtensions.x-codegen-dual-content}}
+    {{#vendorExtensions.x-codegen-other-methods}}
+    /// <summary>
+    /// {{summary}}
+    /// </summary>
+    /// <remarks>
+    /// {{notes}}
+    /// </remarks>
+    {{#vendorExtensions.x-codegen-streaming-response}}
+    virtual HttpResponseData
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+        {{#vendorExtensions.x-codegen-sse-representation-mode}}SseEventCallback {{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}std::function<bool(const {{#vendorExtensions.x-codegen-stream-element-type}}{{{.}}}{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}{{{returnType}}}{{/vendorExtensions.x-codegen-stream-element-type}} &, const SseEvent &)> {{/vendorExtensions.x-codegen-sse-representation-mode}}onEvent{{#allParams}},
+        const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}>{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{/allParams}}{{#allParams}}{{#vendorExtensions.x-codegen-multipart-filename-param}},
+        const std::string& {{{vendorExtensions.x-codegen-multipart-filename-param-name}}} = "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"{{/vendorExtensions.x-codegen-multipart-filename-param}}{{/allParams}},
+        const SseStreamOptions& streamOptions = {});
+    {{/vendorExtensions.x-codegen-streaming-response}}
+    {{^vendorExtensions.x-codegen-streaming-response}}
+    virtual {{#vendorExtensions.x-codegen-response-union}}{{vendorExtensions.x-codegen-response-union}}{{/vendorExtensions.x-codegen-response-union}}{{^vendorExtensions.x-codegen-response-union}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/vendorExtensions.x-codegen-response-union}}
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+        {{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}>{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams}}{{#vendorExtensions.x-codegen-multipart-filename-param}}, const std::string& {{{vendorExtensions.x-codegen-multipart-filename-param-name}}} = "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"{{/vendorExtensions.x-codegen-multipart-filename-param}}{{/allParams}});
+    {{/vendorExtensions.x-codegen-streaming-response}}
+    {{#vendorExtensions.x-codegen-dual-content}}
+    virtual HttpResponseData
+    {{#operationId}}{{{.}}}{{/operationId}}Stream(
+        {{#vendorExtensions.x-codegen-sse-representation-mode}}SseEventCallback {{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}std::function<bool(const {{{vendorExtensions.x-codegen-dual-stream-element-type}}} &, const SseEvent &)> {{/vendorExtensions.x-codegen-sse-representation-mode}}onEvent{{#allParams}},
+        const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}>{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{/allParams}}{{#allParams}}{{#vendorExtensions.x-codegen-multipart-filename-param}},
+        const std::string& {{{vendorExtensions.x-codegen-multipart-filename-param-name}}} = "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"{{/vendorExtensions.x-codegen-multipart-filename-param}}{{/allParams}},
+        const SseStreamOptions& streamOptions = {});
+    {{/vendorExtensions.x-codegen-dual-content}}
+    {{#vendorExtensions.x-codegen-has-optional-form-parameter}}
+    /// Backward-compatible overload preserving value-typed form arguments.
+    {{#vendorExtensions.x-codegen-streaming-response}}virtual HttpResponseData{{/vendorExtensions.x-codegen-streaming-response}}{{^vendorExtensions.x-codegen-streaming-response}}virtual {{#vendorExtensions.x-codegen-response-union}}{{vendorExtensions.x-codegen-response-union}}{{/vendorExtensions.x-codegen-response-union}}{{^vendorExtensions.x-codegen-response-union}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/vendorExtensions.x-codegen-response-union}}{{/vendorExtensions.x-codegen-streaming-response}}
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+        {{#vendorExtensions.x-codegen-streaming-response}}{{#vendorExtensions.x-codegen-sse-representation-mode}}SseEventCallback {{/vendorExtensions.x-codegen-sse-representation-mode}}{{^vendorExtensions.x-codegen-sse-representation-mode}}std::function<bool(const {{#vendorExtensions.x-codegen-stream-element-type}}{{{.}}}{{/vendorExtensions.x-codegen-stream-element-type}}{{^vendorExtensions.x-codegen-stream-element-type}}{{{returnType}}}{{/vendorExtensions.x-codegen-stream-element-type}} &, const SseEvent &)> {{/vendorExtensions.x-codegen-sse-representation-mode}}onEvent, {{/vendorExtensions.x-codegen-streaming-response}}{{#allParams}}const {{#vendorExtensions.x-codegen-is-optional-query-parameter}}boost::optional<{{/vendorExtensions.x-codegen-is-optional-query-parameter}}{{{dataType}}}{{#vendorExtensions.x-codegen-is-optional-query-parameter}}>{{/vendorExtensions.x-codegen-is-optional-query-parameter}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams}}{{#vendorExtensions.x-codegen-multipart-filename-param}}, const std::string& {{{vendorExtensions.x-codegen-multipart-filename-param-name}}} = "{{#lambda.cppStringLiteral}}{{baseName}}{{/lambda.cppStringLiteral}}"{{/vendorExtensions.x-codegen-multipart-filename-param}}{{/allParams}}{{#vendorExtensions.x-codegen-streaming-response}}, const SseStreamOptions& streamOptions = {}{{/vendorExtensions.x-codegen-streaming-response}}) {
+        return {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+            {{#vendorExtensions.x-codegen-streaming-response}}std::move(onEvent), {{/vendorExtensions.x-codegen-streaming-response}}{{#allParams}}{{#vendorExtensions.x-codegen-is-optional-form-parameter}}boost::optional<{{{dataType}}}>({{{paramName}}}){{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{^vendorExtensions.x-codegen-is-optional-form-parameter}}{{{paramName}}}{{/vendorExtensions.x-codegen-is-optional-form-parameter}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams}}{{#vendorExtensions.x-codegen-multipart-filename-param}}, {{{vendorExtensions.x-codegen-multipart-filename-param-name}}}{{/vendorExtensions.x-codegen-multipart-filename-param}}{{/allParams}}{{#vendorExtensions.x-codegen-streaming-response}}, streamOptions{{/vendorExtensions.x-codegen-streaming-response}});
+    }
+    {{/vendorExtensions.x-codegen-has-optional-form-parameter}}
+    {{/vendorExtensions.x-codegen-other-methods}}
+    {{/operation}}
+
+    /// Credential hook invoked before each operation with its effective security
+    /// requirements. Operation requirements override root requirements and an
+    /// empty list clears them. Override this no-op to attach credentials;
+    /// `target` is mutable for apiKey-in-query placement.
+    virtual void applyOperationSecurity(
+        const std::string& operationId,
+        const std::vector<SecurityRequirementGroup>& requirements,
+        std::string& target,
+        std::map<std::string, std::string>& headers) {
+        (void)operationId; (void)requirements; (void)target; (void)headers;
+    }
+
+protected:
+    virtual std::string base64encode(const std::string& str);
+
+    virtual void setPreferredMediaTypeHeader(
+        std::map<std::string, std::string>& headers, const std::string& headerName, const std::vector<std::string>& contentTypes);
+
+    virtual void handleStdException(
+        const std::exception& e);
+    virtual void handleUncaughtException();
+
+    private:
+    std::shared_ptr<HttpClient> m_client;
+    std::string m_context;
+};
+
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+{{/operations}}
+
+#endif /* {{apiHeaderGuardPrefix}}_{{classname}}_H_ */

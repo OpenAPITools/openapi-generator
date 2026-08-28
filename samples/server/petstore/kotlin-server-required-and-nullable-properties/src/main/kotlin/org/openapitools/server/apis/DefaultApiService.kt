@@ -13,5 +13,5 @@ interface DefaultApiService {
      * @return Successful operation (status code 200)
      * @see DefaultApi#addPet
      */
-    fun addPet(pet: Pet?, ctx: Context): Pet
+    fun addPet(pet: Pet? = null, ctx: Context): Pet
 }

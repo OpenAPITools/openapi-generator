@@ -1,7 +1,6 @@
 package org.openapitools.generator.gradle.plugin
 
 import org.gradle.testkit.runner.TaskOutcome
-import org.testng.SkipException
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
@@ -20,23 +19,24 @@ class GenerateTaskConfigurationCacheTest : TestBase() {
     }
 
     @DataProvider(name = "gradle_version_provider")
-    private fun gradleVersionProviderWithConfigurationCache(): Array<Array<String>> = arrayOf(arrayOf("8.14.4"), arrayOf("8.14.4"))
-
-    @DataProvider(name = "gradle_version_provider_without_cc")
-    private fun gradleVersionProviderWithoutConfigurationCache(): Array<Array<String>> = arrayOf(arrayOf("5.6.1"))
+    private fun gradleVersionProviderWithConfigurationCache(): Array<Array<String>> = arrayOf(
+        arrayOf("8.14.4", "STRING"),
+        arrayOf("8.14.4", "FILE")
+    )
 
     // inputSpec tests
 
-    private val inputSpecExtensionContents = """
+    private fun inputSpecExtensionContents(format: PropertyFormat) = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
         cleanupOutput.set(true)
         """.trimIndent()
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `openApiGenerate should reuse configuration cache`(gradleVersion: String) {
+    fun `openApiGenerate should reuse configuration cache`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
-        withProject(inputSpecExtensionContents)
+        withProject(inputSpecExtensionContents(propertyFormat))
 
         // Act
         val result1 = build {
@@ -61,41 +61,54 @@ class GenerateTaskConfigurationCacheTest : TestBase() {
         assertEquals(expectedRelativeFilePathSet, projectDirCC.toRelativeFilePathSet())
     }
 
+    @Test(dataProvider = "gradle_version_provider")
+    fun `openApiGenerate should handle up-to-date with configuration cache`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        // Arrange
+        withProject(inputSpecExtensionContents(propertyFormat))
+
+        // Act - First run: Should be SUCCESS and store the configuration cache
+        val result1 = build {
+            withProjectDir(projectDirCC)
+            withArguments("--configuration-cache", "openApiGenerate")
+            withGradleVersion(gradleVersion)
+        }
+
+        // Assert first run
+        assertEquals(TaskOutcome.SUCCESS, result1.task(":openApiGenerate")?.outcome)
+        assertTrue(result1.output.contains("Configuration cache entry stored."))
+
+        // Act - Second run: Should be UP-TO-DATE and reuse the cache
+        val result2 = build {
+            withProjectDir(projectDirCC)
+            withArguments("--configuration-cache", "openApiGenerate")
+            withGradleVersion(gradleVersion)
+        }
+
+        // Assert second run
+        assertEquals(TaskOutcome.UP_TO_DATE, result2.task(":openApiGenerate")?.outcome)
+        assertTrue(result2.output.contains("Configuration cache entry reused."))
+
+        // Act - Third run: Modify spec file and task should re-execute
+        val specFile = projectDirCC.resolve("spec.yaml")
+        specFile.appendText("\n# Trigger change")
+
+        val result3 = build {
+            withProjectDir(projectDirCC)
+            withArguments("--configuration-cache", "openApiGenerate")
+            withGradleVersion(gradleVersion)
+        }
+
+        // Assert third run
+        assertEquals(TaskOutcome.SUCCESS, result3.task(":openApiGenerate")?.outcome)
+        assertTrue(result3.output.contains("Configuration cache entry reused."))
+    }
+
     private fun getJavaVersion(): Int {
         val version = System.getProperty("java.version")
         val parts = version.split('.')
         if (parts.first() == "1") return parts.getOrElse(1) { "0" }.toInt()
         return parts.first().toInt()
-    }
-
-    @Test(dataProvider = "gradle_version_provider_without_cc")
-    fun `openApiGenerate should work with Gradle legacy versions`(gradleVersion: String) {
-        if(getJavaVersion() > 12) {
-            // https://docs.gradle.org/current/userguide/compatibility.html
-            throw SkipException("Skipping test as Gradle ${gradleVersion} is not compatible with Java ${getJavaVersion()}")
-        }
-        // Arrange
-        withProject(inputSpecExtensionContents)
-
-        // Act
-        val result1 = build {
-            withProjectDir(projectDirCC)
-            withArguments("clean", "openApiGenerate")
-            withGradleVersion(gradleVersion)
-        }
-
-        val expectedRelativeFilePathSet = projectDirCC.toRelativeFilePathSet()
-
-        val result2 = build {
-            withProjectDir(projectDirCC)
-            withArguments("clean", "openApiGenerate")
-            withGradleVersion(gradleVersion)
-        }
-
-        // Assert
-        assertEquals(TaskOutcome.SUCCESS, result1.task(":openApiGenerate")?.outcome)
-        assertEquals(TaskOutcome.SUCCESS, result2.task(":openApiGenerate")?.outcome)
-        assertEquals(expectedRelativeFilePathSet, projectDirCC.toRelativeFilePathSet())
     }
 
     // Helper methods & test fixtures

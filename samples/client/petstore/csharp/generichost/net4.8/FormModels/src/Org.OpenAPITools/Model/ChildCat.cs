@@ -81,8 +81,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ChildCat" />
     /// </summary>
-    public class ChildCatJsonConverter : JsonConverter<ChildCat>
+    public partial class ChildCatJsonConverter : JsonConverter<ChildCat>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChildCatJsonConverter" /> class.
+        /// </summary>
+        public ChildCatJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ChildCat" />
         /// </summary>
@@ -119,9 +129,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "pet_type":
-                            string petTypeRawValue = utf8JsonReader.GetString();
-                            if (petTypeRawValue != null)
-                                petType = new Option<ChildCatAllOfPetType?>(ChildCatAllOfPetTypeValueConverter.FromStringOrDefault(petTypeRawValue));
+                            petType = new Option<ChildCatAllOfPetType?>(JsonSerializer.Deserialize<ChildCatAllOfPetType?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "name":
                             name = new Option<string>(utf8JsonReader.GetString());

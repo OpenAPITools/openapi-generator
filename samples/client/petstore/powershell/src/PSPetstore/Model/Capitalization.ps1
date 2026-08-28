@@ -60,12 +60,12 @@ function Initialize-PSCapitalization {
 
 
         $PSO = [PSCustomObject]@{
-            "smallCamel" = ${SmallCamel}
-            "CapitalCamel" = ${CapitalCamel}
-            "small_Snake" = ${SmallSnake}
-            "Capital_Snake" = ${CapitalSnake}
-            "SCA_ETH_Flow_Points" = ${SCAETHFlowPoints}
-            "ATT_NAME" = ${ATTNAME}
+            'smallCamel' = ${SmallCamel}
+            'CapitalCamel' = ${CapitalCamel}
+            'small_Snake' = ${SmallSnake}
+            'Capital_Snake' = ${CapitalSnake}
+            'SCA_ETH_Flow_Points' = ${SCAETHFlowPoints}
+            'ATT_NAME' = ${ATTNAME}
         }
 
 
@@ -103,56 +103,56 @@ function ConvertFrom-PSJsonToCapitalization {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSCapitalization
-        $AllProperties = ("smallCamel", "CapitalCamel", "small_Snake", "Capital_Snake", "SCA_ETH_Flow_Points", "ATT_NAME")
+        $AllProperties = ('smallCamel', 'CapitalCamel', 'small_Snake', 'Capital_Snake', 'SCA_ETH_Flow_Points', 'ATT_NAME')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "smallCamel"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'smallCamel'))) { #optional property not found
             $SmallCamel = $null
         } else {
-            $SmallCamel = $JsonParameters.PSobject.Properties["smallCamel"].value
+            $SmallCamel = $JsonParameters.PSobject.Properties['smallCamel'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "CapitalCamel"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'CapitalCamel'))) { #optional property not found
             $CapitalCamel = $null
         } else {
-            $CapitalCamel = $JsonParameters.PSobject.Properties["CapitalCamel"].value
+            $CapitalCamel = $JsonParameters.PSobject.Properties['CapitalCamel'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "small_Snake"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'small_Snake'))) { #optional property not found
             $SmallSnake = $null
         } else {
-            $SmallSnake = $JsonParameters.PSobject.Properties["small_Snake"].value
+            $SmallSnake = $JsonParameters.PSobject.Properties['small_Snake'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "Capital_Snake"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'Capital_Snake'))) { #optional property not found
             $CapitalSnake = $null
         } else {
-            $CapitalSnake = $JsonParameters.PSobject.Properties["Capital_Snake"].value
+            $CapitalSnake = $JsonParameters.PSobject.Properties['Capital_Snake'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "SCA_ETH_Flow_Points"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'SCA_ETH_Flow_Points'))) { #optional property not found
             $SCAETHFlowPoints = $null
         } else {
-            $SCAETHFlowPoints = $JsonParameters.PSobject.Properties["SCA_ETH_Flow_Points"].value
+            $SCAETHFlowPoints = $JsonParameters.PSobject.Properties['SCA_ETH_Flow_Points'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "ATT_NAME"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'ATT_NAME'))) { #optional property not found
             $ATTNAME = $null
         } else {
-            $ATTNAME = $JsonParameters.PSobject.Properties["ATT_NAME"].value
+            $ATTNAME = $JsonParameters.PSobject.Properties['ATT_NAME'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "smallCamel" = ${SmallCamel}
-            "CapitalCamel" = ${CapitalCamel}
-            "small_Snake" = ${SmallSnake}
-            "Capital_Snake" = ${CapitalSnake}
-            "SCA_ETH_Flow_Points" = ${SCAETHFlowPoints}
-            "ATT_NAME" = ${ATTNAME}
+            'smallCamel' = ${SmallCamel}
+            'CapitalCamel' = ${CapitalCamel}
+            'small_Snake' = ${SmallSnake}
+            'Capital_Snake' = ${CapitalSnake}
+            'SCA_ETH_Flow_Points' = ${SCAETHFlowPoints}
+            'ATT_NAME' = ${ATTNAME}
         }
 
         return $PSO

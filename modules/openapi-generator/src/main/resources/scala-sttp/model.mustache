@@ -5,7 +5,7 @@ package {{package}}
 import {{import}}
 {{/imports}}
 {{#circe}}
-import io.circe.{Decoder, Encoder, Json}
+import io.circe.{Decoder, DecodingFailure, Encoder, Json}
 import io.circe.syntax._
 import {{invokerPackage}}.JsonSupport._
 {{/circe}}
@@ -20,6 +20,148 @@ import {{invokerPackage}}.JsonSupport._
 {{{description}}}
 {{/javadocRenderer}}
 {{/description}}
+{{#vendorExtensions.x-isSealedTrait}}
+sealed trait {{classname}}{{#vendorExtensions.x-hasOwnVars}} {
+{{#vars}}
+  def {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{^isArray}}{{classname}}Enums.{{datatypeWithEnum}}{{/isArray}}{{#isArray}}Seq[{{classname}}Enums.{{datatypeWithEnum}}]{{/isArray}}{{/isEnum}}{{^required}}]{{/required}}
+{{/vars}}
+}{{/vendorExtensions.x-hasOwnVars}}
+object {{classname}} {
+{{#circe}}
+{{#vendorExtensions.x-use-discr-mapping}}
+{{#discriminator}}
+  implicit val encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
+{{#mappedModels}}
+    case obj: {{model.classname}} => obj.asJson.mapObject(("{{propertyName}}" -> "{{mappingName}}".asJson) +: _)
+{{/mappedModels}}
+  }
+  implicit val decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { c =>
+    c.downField("{{propertyName}}").as[String].flatMap {
+{{#mappedModels}}
+      case "{{mappingName}}" => c.as[{{model.classname}}]
+{{/mappedModels}}
+      case other => Left(DecodingFailure(s"Unknown discriminator value: $other", c.history))
+    }
+  }
+{{/discriminator}}
+{{/vendorExtensions.x-use-discr-mapping}}
+{{^vendorExtensions.x-use-discr-mapping}}
+{{#vendorExtensions.x-use-discr}}
+  implicit val encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
+{{#vendorExtensions.x-discriminator-entries}}
+    case obj: {{classname}} => obj.asJson.mapObject(("{{discriminator.propertyName}}" -> "{{schemaName}}".asJson) +: _)
+{{/vendorExtensions.x-discriminator-entries}}
+  }
+  implicit val decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { c =>
+    c.downField("{{discriminator.propertyName}}").as[String].flatMap {
+{{#vendorExtensions.x-discriminator-entries}}
+      case "{{schemaName}}" => c.as[{{classname}}]
+{{/vendorExtensions.x-discriminator-entries}}
+      case other => Left(DecodingFailure(s"Unknown discriminator value: $other", c.history))
+    }
+  }
+{{/vendorExtensions.x-use-discr}}
+{{^vendorExtensions.x-use-discr}}
+  implicit val encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
+{{#oneOf}}
+    case obj: {{.}} => obj.asJson
+{{/oneOf}}
+  }
+  implicit val decoder{{classname}}: Decoder[{{classname}}] =
+    List[Decoder[{{classname}}]]({{#oneOf}}Decoder[{{.}}].map(x => x: {{classname}}){{^-last}}, {{/-last}}{{/oneOf}}).reduceLeft(_ or _)
+{{/vendorExtensions.x-use-discr}}
+{{/vendorExtensions.x-use-discr-mapping}}
+{{/circe}}
+}
+
+{{#vendorExtensions.x-oneOfMembers}}
+case class {{classname}}(
+  {{#vars}}
+  {{#description}}
+  /* {{{.}}} */
+  {{/description}}
+  {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{^isArray}}{{classname}}Enums.{{datatypeWithEnum}}{{/isArray}}{{#isArray}}Seq[{{classname}}Enums.{{datatypeWithEnum}}]{{/isArray}}{{/isEnum}}{{^required}}] = None{{/required}}{{^-last}},{{/-last}}
+  {{/vars}}
+) extends {{vendorExtensions.x-oneOfParent}}
+{{#circe}}
+object {{classname}} {
+  implicit val encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        {{#vars}}
+        {{#required}}Some("{{baseName}}" -> t.{{{name}}}.asJson){{/required}}{{^required}}t.{{{name}}}.map(v => "{{baseName}}" -> v.asJson){{/required}}{{^-last}},{{/-last}}
+        {{/vars}}
+      ).flatten
+    }
+  }
+  implicit val decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { c =>
+    for {
+      {{#vars}}
+      {{{name}}} <- c.downField("{{baseName}}").as[{{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{^isArray}}{{classname}}Enums.{{datatypeWithEnum}}{{/isArray}}{{#isArray}}Seq[{{classname}}Enums.{{datatypeWithEnum}}]{{/isArray}}{{/isEnum}}{{^required}}]{{/required}}]
+      {{/vars}}
+    } yield {{classname}}(
+      {{#vars}}
+      {{{name}}} = {{{name}}}{{^-last}},{{/-last}}
+      {{/vars}}
+    )
+  }
+}
+{{/circe}}
+
+{{/vendorExtensions.x-oneOfMembers}}
+{{/vendorExtensions.x-isSealedTrait}}
+{{#vendorExtensions.x-isRegularTrait}}
+trait {{classname}}
+object {{classname}} {
+{{#circe}}
+{{#vendorExtensions.x-use-discr-mapping}}
+{{#discriminator}}
+  implicit val encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
+{{#mappedModels}}
+    case obj: {{model.classname}} => obj.asJson.mapObject(("{{propertyName}}" -> "{{mappingName}}".asJson) +: _)
+{{/mappedModels}}
+  }
+  implicit val decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { c =>
+    c.downField("{{propertyName}}").as[String].flatMap {
+{{#mappedModels}}
+      case "{{mappingName}}" => c.as[{{model.classname}}]
+{{/mappedModels}}
+      case other => Left(DecodingFailure(s"Unknown discriminator value: $other", c.history))
+    }
+  }
+{{/discriminator}}
+{{/vendorExtensions.x-use-discr-mapping}}
+{{^vendorExtensions.x-use-discr-mapping}}
+{{#vendorExtensions.x-use-discr}}
+  implicit val encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
+{{#vendorExtensions.x-discriminator-entries}}
+    case obj: {{classname}} => obj.asJson.mapObject(("{{discriminator.propertyName}}" -> "{{schemaName}}".asJson) +: _)
+{{/vendorExtensions.x-discriminator-entries}}
+  }
+  implicit val decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { c =>
+    c.downField("{{discriminator.propertyName}}").as[String].flatMap {
+{{#vendorExtensions.x-discriminator-entries}}
+      case "{{schemaName}}" => c.as[{{classname}}]
+{{/vendorExtensions.x-discriminator-entries}}
+      case other => Left(DecodingFailure(s"Unknown discriminator value: $other", c.history))
+    }
+  }
+{{/vendorExtensions.x-use-discr}}
+{{^vendorExtensions.x-use-discr}}
+  implicit val encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
+{{#oneOf}}
+    case obj: {{.}} => obj.asJson
+{{/oneOf}}
+  }
+  implicit val decoder{{classname}}: Decoder[{{classname}}] =
+    List[Decoder[{{classname}}]]({{#oneOf}}Decoder[{{.}}].map(x => x: {{classname}}){{^-last}}, {{/-last}}{{/oneOf}}).reduceLeft(_ or _)
+{{/vendorExtensions.x-use-discr}}
+{{/vendorExtensions.x-use-discr-mapping}}
+{{/circe}}
+}
+{{/vendorExtensions.x-isRegularTrait}}
+{{^vendorExtensions.x-isSealedTrait}}
+{{^vendorExtensions.x-isRegularTrait}}
 {{^isEnum}}
 case class {{classname}}(
   {{#vars}}
@@ -28,7 +170,7 @@ case class {{classname}}(
   {{/description}}
   {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{^isArray}}{{classname}}Enums.{{datatypeWithEnum}}{{/isArray}}{{#isArray}}Seq[{{classname}}Enums.{{datatypeWithEnum}}]{{/isArray}}{{/isEnum}}{{^required}}] = None{{/required}}{{^-last}},{{/-last}}
   {{/vars}}
-)
+){{#vendorExtensions.x-oneOfParent}} extends {{vendorExtensions.x-oneOfParent}}{{/vendorExtensions.x-oneOfParent}}
 {{#circe}}
 object {{classname}} {
 {{#hasVars}}
@@ -64,6 +206,8 @@ object {{classname}} {
 }
 {{/circe}}
 {{/isEnum}}
+{{/vendorExtensions.x-isRegularTrait}}
+{{/vendorExtensions.x-isSealedTrait}}
 
 {{#isEnum}}
 object {{classname}} extends Enumeration {

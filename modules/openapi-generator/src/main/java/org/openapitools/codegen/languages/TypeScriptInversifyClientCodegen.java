@@ -37,6 +37,9 @@ import java.util.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript-inversify/}.
+ */
 public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCodegen {
 
     public static final String NPM_REPOSITORY = "npmRepository";
@@ -198,7 +201,8 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         parameter.dataType = applyLocalTypeMapping(parameter.dataType);
-        if (parameter.isFormParam && parameter.isArray && "binary".equals(parameter.dataFormat)) {
+        if (isBinaryFormArray(parameter)) {
+            parameter.isFile = true;
             parameter.isCollectionFormatMulti = true;
         }
     }

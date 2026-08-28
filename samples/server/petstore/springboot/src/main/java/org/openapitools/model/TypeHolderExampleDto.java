@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -12,33 +13,38 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import jakarta.annotation.Generated;
+import javax.annotation.Generated;
 
 /**
  * TypeHolderExampleDto
  */
 
 @JsonTypeName("TypeHolderExample")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class TypeHolderExampleDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String stringItem;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private BigDecimal numberItem;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Float floatItem;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Integer integerItem;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Boolean boolItem;
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExampleDto() {

@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         /// <param name="basquePig"></param>
-        public Pig(BasquePig basquePig)
+        internal Pig(BasquePig basquePig)
         {
             BasquePig = basquePig;
             OnCreated();
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         /// <param name="danishPig"></param>
-        public Pig(DanishPig danishPig)
+        internal Pig(DanishPig danishPig)
         {
             DanishPig = danishPig;
             OnCreated();
@@ -106,8 +106,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Pig" />
     /// </summary>
-    public class PigJsonConverter : JsonConverter<Pig>
+    public partial class PigJsonConverter : JsonConverter<Pig>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PigJsonConverter" /> class.
+        /// </summary>
+        public PigJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Pig" />
         /// </summary>

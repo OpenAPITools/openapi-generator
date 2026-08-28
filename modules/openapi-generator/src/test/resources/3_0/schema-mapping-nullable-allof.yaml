@@ -1,0 +1,40 @@
+openapi: "3.0.0"
+info:
+  title: schemaMapping + nullable allOf test fixture
+  description: >
+    Verifies that when a schema is substituted via schemaMapping and a sibling schema
+    derives from it using "nullable: true + allOf: [$ref]", the generated output
+    correctly represents the nullable mapped type.
+  version: "1.0.0"
+paths:
+  /my-objects:
+    post:
+      operationId: createMyObject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MyObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyObject'
+components:
+  schemas:
+    ExternalModel:
+      type: object
+      properties:
+        id:
+          type: string
+    MyObject:
+      type: object
+      properties:
+        name:
+          type: string
+        optionalRef:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/ExternalModel'

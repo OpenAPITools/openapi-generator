@@ -44,3 +44,9 @@ internal struct MapTest: Sendable, Codable {
     }
 }
 
+
+extension MapTest: UnknownCaseCheckable {
+    internal var containsUnknownDefaultOpenApiCase: Bool {
+        return false
+    }
+}

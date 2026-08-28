@@ -1,0 +1,58 @@
+[package]
+name = "{{{packageName}}}"
+version = "{{{packageVersion}}}"
+{{#infoEmail}}
+authors = ["{{{.}}}"]
+{{/infoEmail}}
+{{^infoEmail}}
+authors = ["OpenAPI Generator team and contributors"]
+{{/infoEmail}}
+{{#appDescription}}
+description = "{{{.}}}"
+{{/appDescription}}
+{{#licenseInfo}}
+license = "{{.}}"
+{{/licenseInfo}}
+{{^licenseInfo}}
+license = "Unlicense"
+{{/licenseInfo}}
+edition = "2021"
+{{#publishRustRegistry}}
+publish = ["{{.}}"]
+{{/publishRustRegistry}}
+{{#repositoryUrl}}
+repository = "{{.}}"
+{{/repositoryUrl}}
+{{#documentationUrl}}
+documentation = "{{.}}"
+{{/documentationUrl}}
+{{#homePageUrl}}
+homepage = "{{.}}"
+{{/homePageUrl}}
+
+[features]
+default = ["server"]
+server = []
+
+[dependencies]
+salvo = { version = "0.93", features = [
+    "oapi",
+    "cors",
+    "jwt-auth",
+    "serve-static",
+] }
+async-trait = "0.1"
+base64 = "0.22"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+anyhow = "1"
+chrono = { version = "0.4", features = ["serde"] }
+{{#hasUUIDs}}
+uuid = { version = "1", features = ["serde", "v4"] }
+{{/hasUUIDs}}
+{{#enableRequestValidation}}
+validator = { version = "0.20", features = ["derive"] }
+{{/enableRequestValidation}}

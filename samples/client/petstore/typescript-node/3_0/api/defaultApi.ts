@@ -119,7 +119,7 @@ export class DefaultApi {
      */
     public async patchUsersUserId (userId: number, strCode?: string, strCode2?: string, patchUsersUserIdRequest?: PatchUsersUserIdRequest, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: User;  }> {
         const localVarPath = this.basePath + '/users/{userId}'
-            .replace('{' + 'userId' + '}', encodeURIComponent(String(userId)));
+            .replace('{userId}', encodeURIComponent(String(userId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/json'];

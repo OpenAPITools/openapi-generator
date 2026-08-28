@@ -8,6 +8,16 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+pub type SSE = std::pin::Pin<
+    std::boxed::Box<
+        dyn futures_util::Stream<
+                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
+            > + std::marker::Send
+            + std::marker::Sync,
+    >,
+>;
+
+#[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
     let mut errs = validator::ValidationErrors::new();
     errs.add("na", e);
@@ -142,7 +152,7 @@ impl std::str::FromStr for Amount {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Amount".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -160,7 +170,7 @@ impl std::str::FromStr for Amount {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Amount".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -295,7 +305,7 @@ impl std::str::FromStr for CheckoutError {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing CheckoutError".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -313,7 +323,7 @@ impl std::str::FromStr for CheckoutError {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing CheckoutError".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -481,7 +491,7 @@ impl std::str::FromStr for Payment {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Payment".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -513,7 +523,7 @@ impl std::str::FromStr for Payment {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Payment".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -663,7 +673,7 @@ impl std::str::FromStr for PaymentMethod {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing PaymentMethod".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -681,7 +691,7 @@ impl std::str::FromStr for PaymentMethod {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing PaymentMethod".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -812,7 +822,7 @@ impl std::str::FromStr for PaymentResult {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing PaymentResult".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -830,7 +840,7 @@ impl std::str::FromStr for PaymentResult {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing PaymentResult".to_string(),
-                        );
+                        )
                     }
                 }
             }

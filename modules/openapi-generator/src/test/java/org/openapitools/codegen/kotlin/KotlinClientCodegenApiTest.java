@@ -103,6 +103,23 @@ public class KotlinClientCodegenApiTest {
     }
 
     @Test
+    public void testOptionalParamsHaveDefaultNullJvmKtor() throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/kotlin/petstore.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_KTOR);
+
+        ClientOptInput input = createClientOptInput(openAPI, codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(input).generate();
+        File petApi = files.stream().filter(file -> file.getName().equals("PetApi.kt")).findAny().orElseThrow();
+
+        assertFileContains(petApi.toPath(), "apiKey: kotlin.String? = null");
+    }
+
+    @Test
     public void testEnumDefaultForReferencedSchemaParameterJvmOkhttp4() throws IOException {
         OpenAPI openAPI = readOpenAPI("3_0/kotlin/enum-default-query.yaml");
 
@@ -188,6 +205,28 @@ public class KotlinClientCodegenApiTest {
         assertFileNotContains(queryApi.toPath(), "parseDateToQueryString(datetimeQuery)");
         assertFileNotContains(queryApi.toPath(), "parseDateToQueryString(dateQuery)");
         assertFileNotContains(queryApi.toPath(), "parseDateToQueryString(it)");
+    }
+
+    @Test
+    public void testJvmKtorQueryParamWithTypeObject() throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/kotlin/jvm-ktor-type-object-query.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_KTOR);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+
+        assertFileContains(defaultApi.toPath(), "mapFormExplode?.forEach { (key, value) -> localVariableQuery[key]");
+        assertFileContains(defaultApi.toPath(), "mapFormNoexplode?.takeIf");
+        assertFileContains(defaultApi.toPath(), "localVariableQuery[\"map_deep[$key]\"]");
+
+        assertFileContains(defaultApi.toPath(), "modelFormExplode?.a?.let { localVariableQuery[\"a\"]");
+        assertFileContains(defaultApi.toPath(), "modelFormNoexplode?.let { _model -> listOfNotNull(_model.a?.let { \"a,$it\" }, _model.b?.let { \"b,$it\" })");
+        assertFileContains(defaultApi.toPath(), "localVariableQuery[\"model_deep[a]\"]");
+
+        assertFileNotContains(defaultApi.toPath(), "mapDeep?.apply {");
     }
 
     private static void assertFileContainsLine(List<String> lines, String line) {

@@ -26,6 +26,9 @@ import org.openapitools.codegen.model.OperationsMap;
 import java.io.File;
 import java.util.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scalatra/}.
+ */
 public class ScalatraServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
 
     protected String groupId = "org.openapitools";

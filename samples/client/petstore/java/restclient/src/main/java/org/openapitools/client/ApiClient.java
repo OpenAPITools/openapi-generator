@@ -64,17 +64,17 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
 
-        protected final String separator;
+        private final String separator;
         CollectionFormat(String separator) {
             this.separator = separator;
         }
 
-        protected String collectionToString(Collection<?> collection) {
+        public String collectionToString(Collection<?> collection) {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
@@ -140,6 +140,13 @@ public class ApiClient extends JavaTimeFormatter {
     protected final DateFormat dateFormat;
     protected final ObjectMapper mapper;
     protected Map<String, Authentication> authentications;
+
+    /**
+     * The {@link ExceptionProvider} used to create exceptions thrown by this client.
+     * Defaults to {@link ExceptionProvider#DEFAULT}. Can be replaced to customize the exceptions
+     * thrown by this client by calling {@link #setExceptionProvider(ExceptionProvider)}.
+     */
+    protected ExceptionProvider exceptionProvider = ExceptionProvider.DEFAULT;
 
 
     public ApiClient() {
@@ -290,6 +297,25 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     /**
+     * Get the current {@link ExceptionProvider}.
+     * @return the exception provider
+     */
+    public ExceptionProvider getExceptionProvider() {
+        return exceptionProvider;
+    }
+
+    /**
+     * Set a custom {@link ExceptionProvider} to control which exception types are thrown
+     * by this client.
+     * @param exceptionProvider the exception provider
+     * @return this client instance
+     */
+    public ApiClient setExceptionProvider(ExceptionProvider exceptionProvider) {
+        this.exceptionProvider = exceptionProvider;
+        return this;
+    }
+
+    /**
      * Get authentication for the given name.
      *
      * @param authName The authentication name
@@ -310,7 +336,7 @@ public class ApiClient extends JavaTimeFormatter {
                 return;
             }
         }
-        throw new RuntimeException("No Bearer authentication configured!");
+        throw exceptionProvider.bearerAuthException();
     }
 
     /**
@@ -325,7 +351,7 @@ public class ApiClient extends JavaTimeFormatter {
             return;
             }
         }
-        throw new RuntimeException("No Bearer authentication configured!");
+        throw exceptionProvider.bearerAuthException();
     }
 
     /**
@@ -339,7 +365,7 @@ public class ApiClient extends JavaTimeFormatter {
                 return;
             }
         }
-        throw new RuntimeException("No HTTP basic authentication configured!");
+        throw exceptionProvider.httpBasicAuthException();
     }
 
     /**
@@ -353,7 +379,7 @@ public class ApiClient extends JavaTimeFormatter {
                 return;
             }
         }
-        throw new RuntimeException("No HTTP basic authentication configured!");
+        throw exceptionProvider.httpBasicAuthException();
     }
 
     /**
@@ -367,7 +393,7 @@ public class ApiClient extends JavaTimeFormatter {
                 return;
             }
         }
-        throw new RuntimeException("No API key authentication configured!");
+        throw exceptionProvider.apiKeyAuthException();
     }
 
     /**
@@ -381,7 +407,7 @@ public class ApiClient extends JavaTimeFormatter {
                 return;
             }
         }
-        throw new RuntimeException("No API key authentication configured!");
+        throw exceptionProvider.apiKeyAuthException();
     }
 
     /**
@@ -405,7 +431,7 @@ public class ApiClient extends JavaTimeFormatter {
                 return this;
             }
         }
-        throw new RuntimeException("No OAuth2 authentication configured!");
+        throw exceptionProvider.oAuth2Exception();
     }
 
     /**
@@ -460,7 +486,7 @@ public class ApiClient extends JavaTimeFormatter {
         try {
             return dateFormat.parse(str);
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw exceptionProvider.dateTimeException(e);
         }
     }
 
@@ -528,7 +554,7 @@ public class ApiClient extends JavaTimeFormatter {
             try {
                 return parameterToMultiValueMap(collectionFormat, name, mapper.writeValueAsString(value));
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+                throw exceptionProvider.jacksonException(e);
             }
         }
 
@@ -537,10 +563,10 @@ public class ApiClient extends JavaTimeFormatter {
             try {
                 values.add(mapper.writeValueAsString(o));
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+                throw exceptionProvider.jacksonException(e);
             }
         }
-        return parameterToMultiValueMap(collectionFormat, name, "[" + StringUtils.collectionToDelimitedString(values, collectionFormat.separator) + "]");
+        return parameterToMultiValueMap(collectionFormat, name, "[" + collectionFormat.collectionToString(values) + "]");
     }
 
     /**
@@ -662,10 +688,10 @@ public class ApiClient extends JavaTimeFormatter {
     /**
      * Select the Content-Type header's value from the given array:
      *     if JSON exists in the given array, use it;
-     *     otherwise use the first one of the array.
+     *     otherwise use the first non-wildcard one of the array.
      *
      * @param contentTypes The Content-Type array to select from
-     * @return MediaType The Content-Type header to use. If the given array is empty, null will be returned.
+     * @return MediaType The Content-Type header to use. If the given array is empty, null will be returned; if it only contains wildcard media types, JSON will be used.
      */
     public MediaType selectHeaderContentType(String[] contentTypes) {
         if (contentTypes.length == 0) {
@@ -674,10 +700,20 @@ public class ApiClient extends JavaTimeFormatter {
         for (String contentType : contentTypes) {
             MediaType mediaType = MediaType.parseMediaType(contentType);
             if (isJsonMime(mediaType)) {
+                // A wildcard media type (e.g. "*/*" or "application/*") is treated as
+                // JSON-compatible but cannot be used as a request Content-Type header,
+                // so fall back to concrete JSON in that case.
+                return mediaType.isWildcardType() || mediaType.isWildcardSubtype() ? MediaType.APPLICATION_JSON : mediaType;
+            }
+        }
+        // No JSON type found; use the first concrete (non-wildcard) media type instead.
+        for (String contentType : contentTypes) {
+            MediaType mediaType = MediaType.parseMediaType(contentType);
+            if (!mediaType.isWildcardType() && !mediaType.isWildcardSubtype()) {
                 return mediaType;
             }
         }
-        return MediaType.parseMediaType(contentTypes[0]);
+        return MediaType.APPLICATION_JSON;
     }
 
     /**
@@ -871,7 +907,7 @@ public class ApiClient extends JavaTimeFormatter {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {
-                throw new RestClientException("Authentication undefined: " + authName);
+                throw exceptionProvider.undefinedAuthenticationException(authName);
             }
             auth.applyToParams(queryParams, headerParams, cookieParams);
         }

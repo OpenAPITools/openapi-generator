@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **id** | Option<**i64**> |  | [optional]
 **pet_id** | Option<**i64**> |  | [optional]
 **quantity** | Option<**i32**> |  | [optional]
-**ship_date** | Option<**String**> |  | [optional]
+**ship_date** | Option<**chrono::DateTime<chrono::FixedOffset>**> |  | [optional]
 **status** | Option<**Status**> | Order Status (enum: placed, approved, delivered) | [optional]
 **complete** | Option<**bool**> |  | [optional][default to false]
 

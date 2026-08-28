@@ -44,6 +44,9 @@ import java.util.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/Javascript-Apollo/}.
+ */
 public class JavascriptApolloClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(JavascriptApolloClientCodegen.class);

@@ -558,10 +558,15 @@ namespace {{packageName}}.Client
             }
             else
             {
+                {{#throwOnAnyError}}
+                throw policyResult.FinalException ?? new InvalidOperationException("The retry policy failed without an exception.");
+                {{/throwOnAnyError}}
+                {{^throwOnAnyError}}
                 return new RestResponse<T>(request)
                 {
                     ErrorException = policyResult.FinalException
                 };
+                {{/throwOnAnyError}}
             }
         }
                 

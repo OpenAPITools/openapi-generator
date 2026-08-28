@@ -152,8 +152,8 @@ components:
         type: object
         example: null
       example:
-        sampleProperty: sampleProperty
         sampleBaseProperty: sampleBaseProperty
+        sampleProperty: sampleProperty
     baseAllOf:
       properties:
         sampleBaseProperty:

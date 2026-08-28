@@ -20,6 +20,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,11 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.ModelUtils.hasAllOf;
+
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/plantuml/}.
+ */
 public class PlantumlDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String ALL_OF_SUFFIX = "AllOf";
 
@@ -76,7 +82,7 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
                 .collect(Collectors.toList());
 
         List<CodegenModel> subtypeCodegenModelList = codegenModelList.stream()
-                .filter(codegenModel -> !codegenModel.allOf.isEmpty())
+                .filter(ModelUtils::hasAllOf)
                 .collect(Collectors.toList());
 
 

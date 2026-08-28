@@ -15,6 +15,8 @@ import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
 
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractRustCodegen extends DefaultCodegen implements CodegenConfig {
@@ -292,7 +294,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
             } else {
                 mdl.arrayModelType = toModelName(mdl.arrayModelType);
             }
-        } else if ((!mdl.anyOf.isEmpty()) || (!mdl.oneOf.isEmpty())) {
+        } else if ((hasAnyOf(mdl)) || (hasOneOf(mdl))) {
             mdl.dataType = getSchemaType(model);
         }
 
@@ -391,8 +393,14 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        // This is the representation of the enum that will be serialized / deserialized
-        // Note: generators currently only support string enums, so checking the type here is pointless
+        if ("integer".equals(datatype) || "number".equals(datatype)
+                || "i8".equals(datatype) || "i16".equals(datatype)
+                || "i32".equals(datatype) || "i64".equals(datatype)
+                || "u8".equals(datatype) || "u16".equals(datatype)
+                || "u32".equals(datatype) || "u64".equals(datatype)
+                || "f32".equals(datatype) || "f64".equals(datatype)) {
+            return value;
+        }
         return escapeText(value);
     }
 

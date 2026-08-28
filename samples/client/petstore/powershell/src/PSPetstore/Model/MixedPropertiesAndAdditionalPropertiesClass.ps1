@@ -45,9 +45,9 @@ function Initialize-PSMixedPropertiesAndAdditionalPropertiesClass {
 
 
         $PSO = [PSCustomObject]@{
-            "uuid" = ${Uuid}
-            "dateTime" = ${DateTime}
-            "map" = ${Map}
+            'uuid' = ${Uuid}
+            'dateTime' = ${DateTime}
+            'map' = ${Map}
         }
 
 
@@ -85,35 +85,35 @@ function ConvertFrom-PSJsonToMixedPropertiesAndAdditionalPropertiesClass {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSMixedPropertiesAndAdditionalPropertiesClass
-        $AllProperties = ("uuid", "dateTime", "map")
+        $AllProperties = ('uuid', 'dateTime', 'map')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "uuid"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'uuid'))) { #optional property not found
             $Uuid = $null
         } else {
-            $Uuid = $JsonParameters.PSobject.Properties["uuid"].value
+            $Uuid = $JsonParameters.PSobject.Properties['uuid'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "dateTime"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'dateTime'))) { #optional property not found
             $DateTime = $null
         } else {
-            $DateTime = $JsonParameters.PSobject.Properties["dateTime"].value
+            $DateTime = $JsonParameters.PSobject.Properties['dateTime'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "map"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'map'))) { #optional property not found
             $Map = $null
         } else {
-            $Map = $JsonParameters.PSobject.Properties["map"].value
+            $Map = $JsonParameters.PSobject.Properties['map'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "uuid" = ${Uuid}
-            "dateTime" = ${DateTime}
-            "map" = ${Map}
+            'uuid' = ${Uuid}
+            'dateTime' = ${DateTime}
+            'map' = ${Map}
         }
 
         return $PSO

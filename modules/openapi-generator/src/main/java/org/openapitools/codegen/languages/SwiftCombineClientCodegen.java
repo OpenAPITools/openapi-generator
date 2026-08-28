@@ -48,6 +48,9 @@ import java.util.stream.Stream;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/swift-combine/}.
+ */
 public class SwiftCombineClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(SwiftCombineClientCodegen.class);
 
@@ -780,10 +783,12 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# swift combine generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# swift combine generator is contributed by @dydus0x14 and @ptiz.          #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override

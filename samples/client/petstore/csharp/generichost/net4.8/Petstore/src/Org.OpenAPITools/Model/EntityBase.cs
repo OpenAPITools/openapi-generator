@@ -91,8 +91,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="EntityBase" />
     /// </summary>
-    public class EntityBaseJsonConverter : JsonConverter<EntityBase>
+    public partial class EntityBaseJsonConverter : JsonConverter<EntityBase>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntityBaseJsonConverter" /> class.
+        /// </summary>
+        public EntityBaseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="EntityBase" />
         /// </summary>

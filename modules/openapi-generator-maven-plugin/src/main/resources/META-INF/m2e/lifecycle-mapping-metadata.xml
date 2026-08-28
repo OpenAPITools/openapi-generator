@@ -4,6 +4,7 @@
       <pluginExecutionFilter>
         <goals>
           <goal>generate</goal>
+          <goal>validate</goal>
         </goals>
       </pluginExecutionFilter>
       <action>

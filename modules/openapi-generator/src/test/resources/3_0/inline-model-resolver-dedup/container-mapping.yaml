@@ -1,0 +1,8 @@
+title: Container Mapping
+description: Defines the location of Flow essence data in a container track
+type: object
+properties:
+  track_index:
+    description: A zero-based track index
+    type: integer
+    minimum: 0

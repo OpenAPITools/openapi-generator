@@ -1,0 +1,11 @@
+openapi: 3.0.1
+info: {title: Cookie Test, version: 1.0.0}
+paths:
+  /thing:
+    get:
+      operationId: getThing
+      tags: [things]
+      parameters:
+        - {name: session, in: cookie, schema: {type: string}}
+        - {name: tracking, in: cookie, schema: {type: string}}
+      responses: {"200": {description: ok, content: {application/json: {schema: {type: string}}}}}

@@ -36,7 +36,7 @@ function Initialize-TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 
 
         $PSO = [PSCustomObject]@{
-            "values" = ${Values}
+            'values' = ${Values}
         }
 
 
@@ -74,21 +74,21 @@ function ConvertFrom-JsonToTestQueryStyleFormExplodeTrueArrayStringQueryObjectPa
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
-        $AllProperties = ("values")
+        $AllProperties = ('values')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "values"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'values'))) { #optional property not found
             $Values = $null
         } else {
-            $Values = $JsonParameters.PSobject.Properties["values"].value
+            $Values = $JsonParameters.PSobject.Properties['values'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "values" = ${Values}
+            'values' = ${Values}
         }
 
         return $PSO

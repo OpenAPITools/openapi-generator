@@ -13,23 +13,22 @@ import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import jakarta.annotation.Generated;
+import javax.annotation.Generated;
 
 /**
  * NullableMapPropertyDto
  */
 
 @JsonTypeName("NullableMapProperty")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class NullableMapPropertyDto {
 
-  @Valid
   private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
 
   public NullableMapPropertyDto languageValues(Map<String, String> languageValues) {
@@ -38,7 +37,7 @@ public class NullableMapPropertyDto {
   }
 
   public NullableMapPropertyDto putLanguageValuesItem(String key, String languageValuesItem) {
-    if (this.languageValues == null || !this.languageValues.isPresent()) {
+    if (this.languageValues == null || !this.languageValues.isPresent() || this.languageValues.get() == null) {
       this.languageValues = JsonNullable.of(new HashMap<>());
     }
     this.languageValues.get().put(key, languageValuesItem);
@@ -50,7 +49,7 @@ public class NullableMapPropertyDto {
    * @return languageValues
    */
   
-  @Schema(name = "languageValues", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "languageValues", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("languageValues")
   public JsonNullable<Map<String, String>> getLanguageValues() {
     return languageValues;

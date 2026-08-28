@@ -47,3 +47,9 @@ internal struct MapTest: Codable, JSONEncodable {
     }
 }
 
+
+extension MapTest: UnknownCaseCheckable {
+    internal var containsUnknownDefaultOpenApiCase: Bool {
+        return false
+    }
+}

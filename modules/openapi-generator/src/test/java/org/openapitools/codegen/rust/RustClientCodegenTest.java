@@ -273,6 +273,27 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testIntegerPropertyEnum() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_1/rust_integer_property_enum.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path outputPath = Path.of(target.toString(), "/src/models/signed_message_signature.rs");
+        TestUtils.assertFileExists(outputPath);
+        // The integer-enum property must use serde_repr (not string rename)
+        TestUtils.assertFileContains(outputPath, "use serde_repr::{Serialize_repr,Deserialize_repr}");
+        TestUtils.assertFileContains(outputPath, "Serialize_repr, Deserialize_repr");
+        TestUtils.assertFileContains(outputPath, "= 0");
+        TestUtils.assertFileContains(outputPath, "= 1");
+        // Must NOT contain a string rename for an integer variant
+        TestUtils.assertFileNotContains(outputPath, linearize("#[serde(rename = \"0\")]"));
+    }
+
+    @Test
     public void testArrayWithObjectEnumValues() throws IOException {
         Path target = Files.createTempDirectory("test");
         target.toFile().deleteOnExit();

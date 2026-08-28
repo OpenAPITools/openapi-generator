@@ -12,15 +12,12 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  TestBaseDto,
-} from '../models/index';
 import {
+    type TestBaseDto,
     TestBaseDtoFromJSON,
     TestBaseDtoToJSON,
-} from '../models/index';
+} from '../models/TestBaseDto';
 
 /**
  * 

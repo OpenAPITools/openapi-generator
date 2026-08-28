@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/python-aiohttp/}.
+ */
 public class PythonAiohttpConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonAiohttpConnexionServerCodegen.class);
 

@@ -12,43 +12,67 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  User,
-} from '../models/index';
 import {
+    type User,
     UserFromJSON,
     UserToJSON,
-} from '../models/index';
+} from '../models/User';
 
 export interface CreateUserRequest {
+    /**
+     * 
+     */
     user: User;
 }
 
 export interface CreateUsersWithArrayInputRequest {
+    /**
+     * 
+     */
     user: Array<User>;
 }
 
 export interface CreateUsersWithListInputRequest {
+    /**
+     * 
+     */
     user: Array<User>;
 }
 
 export interface DeleteUserRequest {
+    /**
+     * The name that needs to be deleted
+     */
     username: string;
 }
 
 export interface GetUserByNameRequest {
+    /**
+     * The name that needs to be fetched. Use user1 for testing.
+     */
     username: string;
 }
 
 export interface LoginUserRequest {
+    /**
+     * The user name for login
+     */
     username: string;
+    /**
+     * The password for login in clear text
+     */
     password: string;
 }
 
 export interface UpdateUserRequest {
+    /**
+     * name that need to be deleted
+     */
     username: string;
+    /**
+     * 
+     */
     user: User;
 }
 
@@ -234,7 +258,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,
@@ -280,7 +304,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,
@@ -447,7 +471,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,

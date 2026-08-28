@@ -416,7 +416,12 @@ func (c *APIClient) prepareRequest(
 	if len(headerParams) > 0 {
 		headers := http.Header{}
 		for h, v := range headerParams {
+			{{#useHttpHeaderSet}}
+			headers.Set(h, v)
+			{{/useHttpHeaderSet}}
+			{{^useHttpHeaderSet}}
 			headers[h] = []string{v}
+			{{/useHttpHeaderSet}}
 		}
 		localVarRequest.Header = headers
 	}
@@ -537,6 +542,15 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 	}
 	if s, ok := v.(*string); ok {
 		*s = string(b)
+		return nil
+	}
+	if r, ok := v.(*io.Reader); ok {
+		*r = bytes.NewReader(b)
+		return nil
+	}
+	// Must stay before the JSON branch: json.Unmarshal would base64-decode into *[]byte.
+	if p, ok := v.(*[]byte); ok {
+		*p = b
 		return nil
 	}
 	if f, ok := v.(*os.File); ok {

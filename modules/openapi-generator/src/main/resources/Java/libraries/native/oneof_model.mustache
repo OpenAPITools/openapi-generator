@@ -27,7 +27,9 @@ import {{jacksonPackage}}.databind.annotation.JsonDeserialize;
 import {{jacksonPackage}}.databind.annotation.JsonSerialize;
 import {{jacksonPackage}}.databind.deser.std.StdDeserializer;
 import {{jacksonPackage}}.databind.ser.std.StdSerializer;
+{{#supportUrlQuery}}
 import {{invokerPackage}}.ApiClient;
+{{/supportUrlQuery}}
 import {{invokerPackage}}.JSON;
 
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}

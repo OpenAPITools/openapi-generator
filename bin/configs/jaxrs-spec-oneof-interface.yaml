@@ -1,0 +1,9 @@
+generatorName: jaxrs-spec
+outputDir: samples/server/petstore/jaxrs-spec-oneof-interface
+inputSpec: modules/openapi-generator/src/test/resources/3_0/jaxrs-spec/oneof_interface.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/spec
+additionalProperties:
+  artifactId: jaxrs-spec-oneof-interface-petstore-server
+  useOneOfInterfaces: "true"
+  serializableModel: "true"
+  hideGenerationTimestamp: "true"

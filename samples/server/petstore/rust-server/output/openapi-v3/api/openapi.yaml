@@ -198,6 +198,18 @@ paths:
       responses:
         "200":
           description: OK
+  /required_binary_stream:
+    put:
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: binary
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
   /readonly_auth_scheme:
     get:
       responses:
@@ -593,6 +605,32 @@ paths:
                 $ref: "#/components/schemas/AdditionalPropertiesReferencedAnyOfObject"
           description: OK
       summary: Test examples
+  /multiple-response-content-types:
+    post:
+      operationId: MultipleResponseContentTypes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ObjectParam"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfObject"
+          description: Created
+        "403":
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfObject"
+          description: Forbidden
+      summary: Test multiple content types in a single response
 components:
   parameters:
     ids:
@@ -739,10 +777,10 @@ components:
       type: integer
     ObjectUntypedProps:
       example:
-        not_required_untyped_nullable: ""
         required_untyped: ""
         required_untyped_nullable: ""
         not_required_untyped: ""
+        not_required_untyped_nullable: ""
       properties:
         required_untyped:
           nullable: false
@@ -815,6 +853,7 @@ components:
         nullableWithNullDefault:
           nullable: true
           type: string
+          default: null
         nullableWithPresentDefault:
           default: default
           nullable: true

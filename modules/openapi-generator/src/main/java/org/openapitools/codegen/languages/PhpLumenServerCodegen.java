@@ -31,6 +31,9 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/php-lumen/}.
+ */
 public class PhpLumenServerCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
     protected String apiVersion = "1.0.0";

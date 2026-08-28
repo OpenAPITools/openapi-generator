@@ -1,0 +1,18 @@
+openapi: 3.1.0
+info:
+  title: Integer property enum
+  description: Struct with a type:integer property constrained to an enum should use serde_repr, not string rename.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    SignedMessageSignature:
+      type: object
+      properties:
+        v:
+          type: integer
+          enum: [0, 1]
+        r:
+          type: string
+        s:
+          type: string

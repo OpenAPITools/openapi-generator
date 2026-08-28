@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 import type { TestA } from './TestA';
 import {
     instanceOfTestA,
@@ -51,12 +52,14 @@ export function TestArrayResponseFromJSONTyped(json: any, ignoreDiscriminator: b
                 return json.map(value => TestBFromJSONTyped(value, true));
             }
         }
-        return json;
     }
     if (Array.isArray(json)) {
         if (json.every(item => typeof item === 'string')) {
             return json;
         }
+    }
+    if (Array.isArray(json)) {
+        return json;
     }
     return {} as any;
 }
@@ -78,12 +81,14 @@ export function TestArrayResponseToJSONTyped(value?: TestArrayResponse | null, i
                 return value.map(value => TestBToJSON(value as TestB));
             }
         }
-        return value;
     }
     if (Array.isArray(value)) {
         if (value.every(item => typeof item === 'string')) {
             return value;
         }
+    }
+    if (Array.isArray(value)) {
+        return value;
     }
     return {};
 }

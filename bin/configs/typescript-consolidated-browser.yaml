@@ -8,3 +8,4 @@ additionalProperties:
   projectName: ts-petstore-client
   moduleName: petstore
   supportsES6: true
+  enumType: stringUnion

@@ -131,7 +131,7 @@ export class PetApi {
     { response: JQueryXHR; body?: any;  },
     { response: JQueryXHR; errorThrown: string }
     > {
-        let localVarPath = this.basePath + '/pet/{petId}'.replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
+        let localVarPath = this.basePath + '/pet/{petId}'.replace('{petId}', encodeURIComponent(String(petId)));
 
         let queryParameters: any = {};
         let headerParams: any = {};
@@ -353,7 +353,7 @@ export class PetApi {
     { response: JQueryXHR; body: models.Pet;  },
     { response: JQueryXHR; errorThrown: string }
     > {
-        let localVarPath = this.basePath + '/pet/{petId}'.replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
+        let localVarPath = this.basePath + '/pet/{petId}'.replace('{petId}', encodeURIComponent(String(petId)));
 
         let queryParameters: any = {};
         let headerParams: any = {};
@@ -498,7 +498,7 @@ export class PetApi {
     { response: JQueryXHR; body?: any;  },
     { response: JQueryXHR; errorThrown: string }
     > {
-        let localVarPath = this.basePath + '/pet/{petId}'.replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
+        let localVarPath = this.basePath + '/pet/{petId}'.replace('{petId}', encodeURIComponent(String(petId)));
 
         let queryParameters: any = {};
         let headerParams: any = {};
@@ -588,7 +588,7 @@ export class PetApi {
     { response: JQueryXHR; body: models.ApiResponse;  },
     { response: JQueryXHR; errorThrown: string }
     > {
-        let localVarPath = this.basePath + '/pet/{petId}/uploadImage'.replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
+        let localVarPath = this.basePath + '/pet/{petId}/uploadImage'.replace('{petId}', encodeURIComponent(String(petId)));
 
         let queryParameters: any = {};
         let headerParams: any = {};

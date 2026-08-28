@@ -30,6 +30,9 @@ import java.util.EnumSet;
 import java.util.List;
 
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/apache2/}.
+ */
 public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String USER_INFO_PATH = "userInfoPath";
     private final Logger LOGGER = LoggerFactory.getLogger(Apache2ConfigCodegen.class);

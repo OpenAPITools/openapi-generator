@@ -50,6 +50,36 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             raise ValueError(r"must validate the regular expression {{{vendorExtensions.x-pattern}}}")
         return value
     {{/vendorExtensions.x-regex}}
+    {{#isArray}}
+    {{#items}}
+    {{#vendorExtensions.x-regex}}
+
+    @field_validator('{{{name}}}')
+    def {{{name}}}_items_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        {{^required}}
+        if value is None:
+            return value
+        {{/required}}
+        {{#required}}
+        {{#isNullable}}
+        if value is None:
+            return value
+        {{/isNullable}}
+        {{/required}}
+
+        for item in value:
+        {{#isNullable}}
+            if item is None:
+                continue
+
+        {{/isNullable}}
+            if not re.match(r"{{{.}}}", item{{#vendorExtensions.x-modifiers}} ,re.{{{.}}}{{/vendorExtensions.x-modifiers}}):
+                raise ValueError(r"must validate the regular expression {{{vendorExtensions.x-pattern}}}")
+        return value
+    {{/vendorExtensions.x-regex}}
+    {{/items}}
+    {{/isArray}}
     {{#isEnum}}
 
     @field_validator('{{{name}}}')
@@ -317,14 +347,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             else None{{^-last}},{{/-last}}
             {{/items.isMap}}
             {{#items.isArray}}
-            "{{{baseName}}}": dict(
-                (_k,
-                        [{{{items.items.dataType}}}.from_dict(_item) for _item in _v]
-                        if _v is not None
-                        else None
-                )
-                for _k, _v in obj.get("{{{baseName}}}").items()
-            ){{^-last}},{{/-last}}
+            "{{{baseName}}}": {
+                _k: [{{{items.items.dataType}}}.from_dict(_item) for _item in _v] if _v is not None else None
+                for _k, _v in obj["{{{baseName}}}"].items()
+            }
+            if obj.get("{{{baseName}}}") is not None
+            else None{{^-last}},{{/-last}}
             {{/items.isArray}}
             {{/items.isContainer}}
             {{^items.isContainer}}

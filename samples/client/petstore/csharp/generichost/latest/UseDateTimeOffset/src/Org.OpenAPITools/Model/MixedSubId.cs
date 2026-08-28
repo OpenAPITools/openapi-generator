@@ -83,8 +83,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="MixedSubId" />
     /// </summary>
-    public class MixedSubIdJsonConverter : JsonConverter<MixedSubId>
+    public partial class MixedSubIdJsonConverter : JsonConverter<MixedSubId>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MixedSubIdJsonConverter" /> class.
+        /// </summary>
+        public MixedSubIdJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="MixedSubId" />
         /// </summary>

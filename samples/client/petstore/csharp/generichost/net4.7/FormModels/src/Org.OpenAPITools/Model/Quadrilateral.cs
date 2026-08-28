@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
         /// <param name="simpleQuadrilateral"></param>
-        public Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
+        internal Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
         {
             SimpleQuadrilateral = simpleQuadrilateral;
             OnCreated();
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
         /// <param name="complexQuadrilateral"></param>
-        public Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
+        internal Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
         {
             ComplexQuadrilateral = complexQuadrilateral;
             OnCreated();
@@ -104,8 +104,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Quadrilateral" />
     /// </summary>
-    public class QuadrilateralJsonConverter : JsonConverter<Quadrilateral>
+    public partial class QuadrilateralJsonConverter : JsonConverter<Quadrilateral>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QuadrilateralJsonConverter" /> class.
+        /// </summary>
+        public QuadrilateralJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Quadrilateral" />
         /// </summary>

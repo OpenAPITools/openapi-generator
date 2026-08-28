@@ -1,0 +1,26 @@
+openapi: 3.1.0
+info:
+  title: List items regex test
+  version: 0.0.1
+paths:
+  /test:
+    get:
+      responses:
+        "200":
+          description: test
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TestObject"
+components:
+  schemas:
+    TestObject:
+      properties:
+        tags:
+          items:
+            pattern: "/^[A-Z0-9_\\- ]+$/"
+            type:
+              oneOf:
+                - string
+                - type: "null"
+          type: array

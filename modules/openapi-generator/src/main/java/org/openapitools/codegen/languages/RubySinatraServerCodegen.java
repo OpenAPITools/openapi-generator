@@ -31,6 +31,9 @@ import java.util.Map;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/ruby-sinatra-server/}.
+ */
 public class RubySinatraServerCodegen extends AbstractRubyCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(RubySinatraServerCodegen.class);

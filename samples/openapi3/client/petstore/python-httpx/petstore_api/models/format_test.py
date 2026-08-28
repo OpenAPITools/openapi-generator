@@ -44,49 +44,49 @@ class FormatTest(BaseModel):
     binary: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None
     var_date: date = Field(alias="date")
     date_time: Optional[datetime] = Field(default=None, alias="dateTime")
-    uuid: Optional[UUID] = None
+    uuid: Optional[UUID] = Field(default=None, json_schema_extra={"examples": ["72f98069-206d-4f12-9f12-3d1e525a8e84"]})
     password: Annotated[str, Field(min_length=10, strict=True, max_length=64)]
     pattern_with_digits: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="A string that is a 10 digit number. Can have leading zeros.")
     pattern_with_digits_and_delimiter: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
     __properties: ClassVar[List[str]] = ["integer", "int32", "int64", "number", "float", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
 
-    @field_validator('string')
+    @field_validator('string', mode="before")
     def string_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not re.match(r"[a-z]", value ,re.IGNORECASE):
+        if isinstance(value, str) and not re.match(r"[a-z]", value ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /[a-z]/i")
         return value
 
-    @field_validator('string_with_double_quote_pattern')
+    @field_validator('string_with_double_quote_pattern', mode="before")
     def string_with_double_quote_pattern_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not re.match(r"this is \"something\"", value):
+        if isinstance(value, str) and not re.match(r"this is \"something\"", value):
             raise ValueError(r"must validate the regular expression /this is \"something\"/")
         return value
 
-    @field_validator('pattern_with_digits')
+    @field_validator('pattern_with_digits', mode="before")
     def pattern_with_digits_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not re.match(r"^\d{10}$", value):
+        if isinstance(value, str) and not re.match(r"^\d{10}$", value):
             raise ValueError(r"must validate the regular expression /^\d{10}$/")
         return value
 
-    @field_validator('pattern_with_digits_and_delimiter')
+    @field_validator('pattern_with_digits_and_delimiter', mode="before")
     def pattern_with_digits_and_delimiter_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not re.match(r"^image_\d{1,3}$", value ,re.IGNORECASE):
+        if isinstance(value, str) and not re.match(r"^image_\d{1,3}$", value ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /^image_\d{1,3}$/i")
         return value
 

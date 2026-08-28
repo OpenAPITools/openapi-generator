@@ -51,7 +51,7 @@ function deleteOrderRaw<T>(requestParameters: DeleteOrderRequest, requestConfig:
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `${runtime.Configuration.basePath}/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
+        url: `${runtime.Configuration.basePath}/store/order/{orderId}`.replace('{orderId}', encodeURIComponent(String(requestParameters.orderId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -142,7 +142,7 @@ function getOrderByIdRaw<T>(requestParameters: GetOrderByIdRequest, requestConfi
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `${runtime.Configuration.basePath}/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
+        url: `${runtime.Configuration.basePath}/store/order/{orderId}`.replace('{orderId}', encodeURIComponent(String(requestParameters.orderId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,

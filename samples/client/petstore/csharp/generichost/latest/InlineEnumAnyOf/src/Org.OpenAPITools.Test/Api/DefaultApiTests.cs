@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Test.Api
             Client.Option<IconsSizeParameter> size = default!;
             var response = await _instance.IconsAsync(size);
             var model = response.Default();
-            Assert.IsType<IconsDefaultResponse>(model);
+            Assert.IsType<Org.OpenAPITools.Model.IconsDefaultResponse>(model);
         }
     }
 }

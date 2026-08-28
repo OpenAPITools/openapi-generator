@@ -51,10 +51,10 @@ function Initialize-TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectPar
 
 
         $PSO = [PSCustomObject]@{
-            "size" = ${Size}
-            "color" = ${Color}
-            "id" = ${Id}
-            "name" = ${Name}
+            'size' = ${Size}
+            'color' = ${Color}
+            'id' = ${Id}
+            'name' = ${Name}
         }
 
 
@@ -92,42 +92,42 @@ function ConvertFrom-JsonToTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryOb
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-        $AllProperties = ("size", "color", "id", "name")
+        $AllProperties = ('size', 'color', 'id', 'name')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "size"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'size'))) { #optional property not found
             $Size = $null
         } else {
-            $Size = $JsonParameters.PSobject.Properties["size"].value
+            $Size = $JsonParameters.PSobject.Properties['size'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "color"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'color'))) { #optional property not found
             $Color = $null
         } else {
-            $Color = $JsonParameters.PSobject.Properties["color"].value
+            $Color = $JsonParameters.PSobject.Properties['color'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'id'))) { #optional property not found
             $Id = $null
         } else {
-            $Id = $JsonParameters.PSobject.Properties["id"].value
+            $Id = $JsonParameters.PSobject.Properties['id'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "name"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'name'))) { #optional property not found
             $Name = $null
         } else {
-            $Name = $JsonParameters.PSobject.Properties["name"].value
+            $Name = $JsonParameters.PSobject.Properties['name'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "size" = ${Size}
-            "color" = ${Color}
-            "id" = ${Id}
-            "name" = ${Name}
+            'size' = ${Size}
+            'color' = ${Color}
+            'id' = ${Id}
+            'name' = ${Name}
         }
 
         return $PSO

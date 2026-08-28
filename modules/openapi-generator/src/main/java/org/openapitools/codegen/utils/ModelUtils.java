@@ -23,6 +23,7 @@ import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
@@ -36,6 +37,8 @@ import io.swagger.v3.parser.util.RemoteUrl;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.IJsonSchemaValidationProperties;
@@ -44,6 +47,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -80,6 +84,10 @@ public class ModelUtils {
 
     private static final ObjectMapper JSON_MAPPER;
     private static final ObjectMapper YAML_MAPPER;
+
+    // allow more schema definitions to be the `null` type in 3.1 spec
+    // e.g. {type: object, nullable: true} which is any type that's nullable
+    public static boolean looseNullDefinitions = false;
 
     static {
         JSON_MAPPER = ObjectMapperFactory.createJson();
@@ -410,6 +418,25 @@ public class ModelUtils {
         return ref;
     }
 
+    public static boolean hasProperties(Schema<?> schema) {
+        return schema.getProperties() != null && !schema.getProperties().isEmpty();
+    }
+
+    public static boolean hasEnum(Schema<?> schema) {
+        return schema.getEnum() != null && !schema.getEnum().isEmpty();
+    }
+
+    /**
+     * Return true if the specified schema is type object
+     * Only considers OAS 3.0 {@code type} and not OAS 3.1 {@code types}
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is an OAS 3.0 {@code object} schema.
+     */
+    public static boolean isObjectTypeOAS30(Schema<?> schema) {
+        return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType());
+    }
+
     /**
      * Return true if the specified schema is type object
      * We can't use isObjectSchema because it requires properties to exist which is not required
@@ -453,7 +480,7 @@ public class ModelUtils {
                 // must not be a map
                 (SchemaTypeUtil.OBJECT_TYPE.equals(getType(schema)) && !(ModelUtils.isMapSchema(schema))) ||
                 // must have at least one property
-                (getType(schema) == null && schema.getProperties() != null && !schema.getProperties().isEmpty());
+                (getType(schema) == null && hasProperties(schema));
     }
 
     /**
@@ -502,19 +529,19 @@ public class ModelUtils {
     public static boolean isComplexComposedSchema(Schema schema) {
         int count = 0;
 
-        if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+        if (hasAllOf(schema)) {
             count++;
         }
 
-        if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+        if (hasOneOf(schema)) {
             count++;
         }
 
-        if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+        if (hasAnyOf(schema)) {
             count++;
         }
 
-        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        if (hasProperties(schema)) {
             count++;
         }
 
@@ -562,7 +589,7 @@ public class ModelUtils {
 
         // additionalProperties explicitly set to false
         if ((schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) ||
-            (schema.getAdditionalProperties() instanceof Schema && Boolean.FALSE.equals(((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue()))
+                (schema.getAdditionalProperties() instanceof Schema && Boolean.FALSE.equals(((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue()))
         ) {
             return false;
         }
@@ -696,6 +723,18 @@ public class ModelUtils {
                         && SchemaTypeUtil.DATE_TIME_FORMAT.equals(schema.getFormat()));
     }
 
+    public static boolean isDateTimeLocalSchema(Schema schema) {
+        // format: date-time-local, see https://spec.openapis.org/registry/format/date-time-local.html
+        return (SchemaTypeUtil.STRING_TYPE.equals(getType(schema))
+                && "date-time-local".equals(schema.getFormat()));
+    }
+
+    public static boolean isTimeLocalSchema(Schema schema) {
+        // format: time-local, see https://spec.openapis.org/registry/format/time-local.html
+        return (SchemaTypeUtil.STRING_TYPE.equals(getType(schema))
+                && "time-local".equals(schema.getFormat()));
+    }
+
     public static boolean isPasswordSchema(Schema schema) {
         return (schema instanceof PasswordSchema) ||
                 // double
@@ -812,13 +851,179 @@ public class ModelUtils {
                 (null != schema.getProperties() && !schema.getProperties().isEmpty()) &&
                 // no additionalProperties is set
                 (schema.getAdditionalProperties() == null ||
-                // additionalProperties is boolean and set to false
-                (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()) ||
-                // additionalProperties is a schema with its boolean value set to false
-                (schema.getAdditionalProperties() instanceof Schema &&
-                        ((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue() != null &&
-                              !((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue())
+                        // additionalProperties is boolean and set to false
+                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()) ||
+                        // additionalProperties is a schema with its boolean value set to false
+                        (schema.getAdditionalProperties() instanceof Schema &&
+                                ((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue() != null &&
+                                !((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue())
                 );
+    }
+
+    public static final class ResolvedMaxBound implements Comparable<ResolvedMaxBound> {
+
+        public final BigDecimal maxBound;
+        public final boolean exclusive;
+
+        private ResolvedMaxBound(BigDecimal maxBound, boolean exclusive) {
+            this.maxBound = maxBound;
+            this.exclusive = exclusive;
+        }
+
+        @Nullable
+        public static ResolvedMaxBound getSmallerMaxBound(@Nullable ResolvedMaxBound first, @Nullable ResolvedMaxBound second) {
+            if (first == null && second == null) {
+                return null;
+            }
+            if (first != null && second != null) {
+                boolean firstIsSmallerOrSame = first.compareTo(second) <= 0;
+                return firstIsSmallerOrSame ? first : second;
+            }
+            if (second == null) {
+                return first;
+            }
+            return second;
+        }
+
+        @Nullable
+        public static ResolvedMaxBound createResolvedMaxBound(@Nullable BigDecimal maxBound, boolean exclusive) {
+            return maxBound == null ? null : new ResolvedMaxBound(maxBound, exclusive);
+        }
+
+        @Override
+        public int compareTo(@NonNull ResolvedMaxBound o) {
+            // lower maximum is lower
+            int comparison = this.maxBound.compareTo(o.maxBound);
+            if (comparison == 0) {
+                // if they are identical, then the one with exclusive is lower maximum
+                return Boolean.compare(o.exclusive, this.exclusive);
+            }
+            return comparison;
+        }
+    }
+
+    public static final class ResolvedMinBound implements Comparable<ResolvedMinBound> {
+
+        public final BigDecimal minBound;
+        public final boolean exclusive;
+
+        private ResolvedMinBound(BigDecimal minBound, boolean exclusive) {
+            this.minBound = minBound;
+            this.exclusive = exclusive;
+        }
+
+        @Nullable
+        public static ResolvedMinBound getLargerMinBound(@Nullable ResolvedMinBound first, @Nullable ResolvedMinBound second) {
+            if (first == null && second == null) {
+                return null;
+            }
+            if (first != null && second != null) {
+                boolean firstIsLargerOrSame = first.compareTo(second) >= 0;
+                return firstIsLargerOrSame ? first : second;
+            }
+            if (second == null) {
+                return first;
+            }
+            return second;
+        }
+
+        @Nullable
+        public static ResolvedMinBound createResolvedMinBound(@Nullable BigDecimal minBound, boolean exclusive) {
+            return minBound == null ? null : new ResolvedMinBound(minBound, exclusive);
+        }
+
+        @Override
+        public int compareTo(@NonNull ResolvedMinBound o) {
+            //lower minimum is lower
+            int comparison = this.minBound.compareTo(o.minBound);
+            // if they are identical, then the one without exclusive is lower minimum
+            if (comparison == 0) {
+                return Boolean.compare(this.exclusive, o.exclusive);
+            }
+            return comparison;
+        }
+    }
+
+    /**
+     * Extracts the effective maximum bound from a single (non-allOf, already-dereferenced) schema,
+     * taking both OAS 3.0 boolean {@code exclusiveMaximum} and OAS 3.1 numeric
+     * {@code exclusiveMaximum} into account.
+     */
+    @Nullable
+    private static ResolvedMaxBound extractMaxBound(Schema<?> schema) {
+        return ResolvedMaxBound.getSmallerMaxBound(
+                // 3.0 - 3.1 maximum (with 3.0 possible exclusive)
+                ResolvedMaxBound.createResolvedMaxBound(schema.getMaximum(), Boolean.TRUE.equals(schema.getExclusiveMaximum())),
+                // 3.1 exclusive maximum
+                ResolvedMaxBound.createResolvedMaxBound(schema.getExclusiveMaximumValue(), true)
+        );
+    }
+
+    /**
+     * Extracts the effective minimum bound from a single (non-allOf, already-dereferenced) schema,
+     * taking both OAS 3.0 boolean {@code exclusiveMinimum} and OAS 3.1 numeric
+     * {@code exclusiveMinimum} into account.
+     */
+    @Nullable
+    private static ResolvedMinBound extractMinBound(Schema<?> schema) {
+        return ResolvedMinBound.getLargerMinBound(
+                // 3.0 - 3.1 minimum (with 3.0 possible exclusive)
+                ResolvedMinBound.createResolvedMinBound(schema.getMinimum(), Boolean.TRUE.equals(schema.getExclusiveMinimum())),
+                // 3.1 exclusive minimum
+                ResolvedMinBound.createResolvedMinBound(schema.getExclusiveMinimumValue(), true)
+        );
+    }
+
+    /**
+     * Returns the effective {@code maximum} for the given schema as a {@link ResolvedMaxBound},
+     * resolving through a top-level {@code $ref} and walking any {@code allOf} items.
+     * Per JSON Schema / OpenAPI {@code allOf} intersection semantics the most restrictive
+     * (smallest) value wins. When two bounds share the same value, the exclusive one wins.
+     * Both OAS 3.0 boolean {@code exclusiveMaximum} and OAS 3.1 numeric {@code exclusiveMaximum}
+     * are taken into account.
+     *
+     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
+     * @param schema  the schema to inspect
+     * @return the effective maximum bound, or {@code null} if none is defined
+     */
+    @Nullable
+    public static ResolvedMaxBound resolveMaximumBound(OpenAPI openAPI, Schema<?> schema) {
+        schema = getReferencedSchema(openAPI, schema);
+        if (schema == null) return null;
+
+        ResolvedMaxBound result = extractMaxBound(schema);
+        return !hasAllOf(schema)
+                ? result
+                : schema.getAllOf().stream()
+                // recursive search for smallest max bound
+                  .map(allOfItem -> resolveMaximumBound(openAPI, allOfItem))
+                  .reduce(result, ResolvedMaxBound::getSmallerMaxBound);
+    }
+
+    /**
+     * Returns the effective {@code minimum} for the given schema as a {@link ResolvedMinBound},
+     * resolving through a top-level {@code $ref} and walking any {@code allOf} items.
+     * Per JSON Schema / OpenAPI {@code allOf} intersection semantics the most restrictive
+     * (largest) value wins. When two bounds share the same value, the exclusive one wins.
+     * Both OAS 3.0 boolean {@code exclusiveMinimum} and OAS 3.1 numeric {@code exclusiveMinimum}
+     * are taken into account.
+     *
+     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
+     * @param schema  the schema to inspect
+     * @return the effective minimum bound, or {@code null} if none is defined
+     */
+    @Nullable
+    public static ResolvedMinBound resolveMinimumBound(OpenAPI openAPI, Schema<?> schema) {
+        schema = getReferencedSchema(openAPI, schema);
+        if (schema == null) return null;
+
+        ResolvedMinBound result = extractMinBound(schema);
+        return !hasAllOf(schema)
+                ? result
+                : schema.getAllOf().stream()
+                  // recursive search for largest min bound
+                  .map(allOfItem -> resolveMinimumBound(openAPI, allOfItem))
+                  .reduce(result, ResolvedMinBound::getLargerMinBound);
     }
 
     public static boolean hasValidation(Schema sc) {
@@ -884,7 +1089,7 @@ public class ModelUtils {
                 return false;
             }
 
-            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // has properties
+            if (hasProperties(schema)) {
                 return false;
             }
 
@@ -921,7 +1126,7 @@ public class ModelUtils {
                 if (schema.getExtensions() != null && schema.getExtensions().containsKey(freeFormExplicit)) {
                     // User has hard-coded vendor extension to handle free-form evaluation.
                     boolean isFreeFormExplicit = Boolean.parseBoolean(String.valueOf(schema.getExtensions().get(freeFormExplicit)));
-                    if (!isFreeFormExplicit && addlProps != null && addlProps.getProperties() != null && !addlProps.getProperties().isEmpty()) {
+                    if (!isFreeFormExplicit && addlProps != null && hasProperties(addlProps)) {
                         once(LOGGER).error(String.format(Locale.ROOT, "Potentially confusing usage of %s within model which defines additional properties", freeFormExplicit));
                     }
                     return isFreeFormExplicit;
@@ -1090,6 +1295,39 @@ public class ModelUtils {
                 allSchemas.add(s);
             });
         });
+        return allSchemas;
+    }
+
+    /**
+     * Return the list of all schemas in the entire OpenAPI document, including inline schemas
+     * defined in path operations (request bodies, responses, parameters, headers, callbacks)
+     * and schemas under components/schemas. Results are deduplicated by identity.
+     * This is a superset of {@link #getAllSchemas(OpenAPI)}.
+     *
+     * @param openAPI specification
+     * @return schemas a deduplicated list of all schemas in the document
+     */
+    public static List<Schema> getAllSchemasInDocument(OpenAPI openAPI) {
+        List<Schema> allSchemas = new ArrayList<Schema>();
+        Set<Schema> seen = Collections.newSetFromMap(new IdentityHashMap<>());
+
+        // Visit schemas reachable from paths (inline + $ref targets)
+        visitOpenAPI(openAPI, (s, mimeType) -> {
+            if (seen.add(s)) {
+                allSchemas.add(s);
+            }
+        });
+
+        // Also visit components/schemas entries not reachable from any path
+        List<String> refSchemas = new ArrayList<String>();
+        getSchemas(openAPI).forEach((key, schema) -> {
+            visitSchema(openAPI, schema, null, refSchemas, (s, mimeType) -> {
+                if (seen.add(s)) {
+                    allSchemas.add(s);
+                }
+            });
+        });
+
         return allSchemas;
     }
 
@@ -1334,7 +1572,7 @@ public class ModelUtils {
             }
         } else if (schema.getNot() != null) {
             return hasSelfReference(openAPI, schema.getNot(), visitedSchemaNames);
-        } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        } else if (hasProperties(schema)) {
             // go through properties to see if there's any self-reference
             for (Schema property : ((Map<String, Schema>) schema.getProperties()).values()) {
                 if (hasSelfReference(openAPI, property, visitedSchemaNames)) {
@@ -1384,7 +1622,7 @@ public class ModelUtils {
             Schema ref = allSchemas.get(simpleRef);
             if (ref == null) {
                 if (!isRefToSchemaWithProperties(schema.get$ref())) {
-                    once(LOGGER).warn("{} is not defined", schema.get$ref());
+                    once(LOGGER).warn(MessageFormatter.format("{} is not defined", schema.get$ref()).getMessage());
                 }
                 return schema;
             } else if (isEnumSchema(ref)) {
@@ -1400,7 +1638,7 @@ public class ModelUtils {
             } else if (isComposedSchema(ref)) {
                 return schema;
             } else if (isMapSchema(ref)) {
-                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
+                if (hasProperties(ref))
                     return schema; // treat it as model
                 else {
                     if (isGenerateAliasAsModel(ref)) {
@@ -1412,7 +1650,7 @@ public class ModelUtils {
                     }
                 }
             } else if (isObjectSchema(ref)) { // model
-                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
+                if (hasProperties(ref)) {
                     // TODO we may need to check `hasSelfReference(openAPI, ref)` as a special/edge case:
                     // TODO we may also need to revise below to return `ref` instead of schema
                     // which is the last reference to the actual model/object
@@ -1530,11 +1768,11 @@ public class ModelUtils {
      * @return a list of schema defined in allOf, anyOf or oneOf
      */
     public static List<Schema> getInterfaces(Schema composed) {
-        if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
+        if (hasAllOf(composed)) {
             return composed.getAllOf();
-        } else if (composed.getAnyOf() != null && !composed.getAnyOf().isEmpty()) {
+        } else if (hasAnyOf(composed)) {
             return composed.getAnyOf();
-        } else if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
+        } else if (hasOneOf(composed)) {
             return composed.getOneOf();
         } else {
             return Collections.emptyList();
@@ -1745,8 +1983,9 @@ public class ModelUtils {
      * returns false (because the nullable attribute is defined in the referenced schema).
      * <p>
      * The 'nullable' attribute was introduced in OAS 3.0.
-     * The 'nullable' attribute is deprecated in OAS 3.1. In a OAS 3.1 document, the preferred way
-     * to specify nullable properties is to use the 'null' type.
+     * The 'nullable' attribute was removed in OAS 3.1 and is not a valid keyword there; it is ignored,
+     * so this method returns false for it in a 3.1 document. In an OAS 3.1 document, the way to specify
+     * nullable properties is to use the 'null' type (e.g. type: ['string', 'null']).
      *
      * @param schema the OAS schema.
      * @return true if the schema is nullable.
@@ -1763,6 +2002,7 @@ public class ModelUtils {
         if (schema.getExtensions() != null && schema.getExtensions().get(X_NULLABLE) != null) {
             return Boolean.parseBoolean(schema.getExtensions().get(X_NULLABLE).toString());
         }
+
         // In OAS 3.1, the recommended way to define a nullable property or object is to use oneOf.
         if (isComposedSchema(schema)) {
             return isNullableComposedSchema(schema);
@@ -2105,6 +2345,21 @@ public class ModelUtils {
     }
 
     /**
+     * Returns true if the model contains allOf and may or may not have
+     * properties/oneOf/anyOf defined.
+     *
+     * @param model the model
+     * @return true if allOf is not empty
+     */
+    public static boolean hasAllOf(CodegenModel model) {
+        if (model != null && model.allOf != null && !model.allOf.isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Returns true if the schema contains allOf and properties,
      * and no oneOf/anyOf defined.
      *
@@ -2112,7 +2367,7 @@ public class ModelUtils {
      * @return true if the schema contains allOf but no properties/oneOf/anyOf defined.
      */
     public static boolean isAllOfWithProperties(Schema schema) {
-        return hasAllOf(schema) && (schema.getProperties() != null && !schema.getProperties().isEmpty()) &&
+        return hasAllOf(schema) && (hasProperties(schema)) &&
                 (schema.getOneOf() == null || schema.getOneOf().isEmpty()) &&
                 (schema.getAnyOf() == null || schema.getAnyOf().isEmpty());
     }
@@ -2143,10 +2398,25 @@ public class ModelUtils {
      * properties/allOf/anyOf defined.
      *
      * @param schema the schema
-     * @return true if allOf is not empty
+     * @return true if oneOf is not empty
      */
     public static boolean hasOneOf(Schema schema) {
         if (schema != null && schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the model contains oneOf and may or may not have
+     * properties/allOf/anyOf defined.
+     *
+     * @param model the model
+     * @return true if oneOf is not empty
+     */
+    public static boolean hasOneOf(CodegenModel model) {
+        if (model != null && model.oneOf != null && !model.oneOf.isEmpty()) {
             return true;
         }
 
@@ -2187,6 +2457,31 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Returns true if the model contains anyOf and may or may not have
+     * properties/allOf/oneOf defined.
+     *
+     * @param model the model
+     * @return true if anyOf is not empty
+     */
+    public static boolean hasAnyOf(CodegenModel model) {
+        if (model != null && model.anyOf != null && !model.anyOf.isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the schema contains a $ref
+     *
+     * @param schema the schema
+     * @return true if $ref is set
+     */
+    public static boolean hasRef(Schema schema) {
+        return schema != null && schema.get$ref() != null;
     }
 
     /**
@@ -2268,6 +2563,13 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Creates a deep copy of a schema.
+     *
+     * @param schema    schema to clone
+     * @param openapi31 true when cloning an OpenAPI 3.1 schema
+     * @return a deep copy of the schema
+     */
     public static Schema cloneSchema(Schema schema, boolean openapi31) {
         if (openapi31) {
             return AnnotationsUtils.clone(schema, openapi31);
@@ -2287,8 +2589,8 @@ public class ModelUtils {
     /**
      * Simplifies the schema by removing the oneOfAnyOf if the oneOfAnyOf only contains a single non-null sub-schema
      *
-     * @param openAPI OpenAPI
-     * @param schema Schema
+     * @param openAPI    OpenAPI
+     * @param schema     Schema
      * @param subSchemas The oneOf or AnyOf schemas
      * @return The simplified schema
      */
@@ -2300,6 +2602,12 @@ public class ModelUtils {
         // if only one element left, simplify to just the element (schema)
         if (subSchemas.size() == 1) {
             Schema<?> subSchema = subSchemas.get(0);
+            // The parser may reuse a $ref schema instance in multiple locations. Clone the
+            // remaining $ref before applying parent metadata so those locations stay isolated.
+            if (subSchema.get$ref() != null) {
+                subSchema = cloneSchema(subSchema,
+                        openAPI != null && SpecVersion.V31.equals(openAPI.getSpecVersion()));
+            }
             // Preserve parent-level docs when nullable anyOf/oneOf collapses to a single child schema.
             if (subSchema.getDescription() == null && schema.getDescription() != null) {
                 subSchema.setDescription(schema.getDescription());
@@ -2354,13 +2662,26 @@ public class ModelUtils {
         schema = ModelUtils.getReferencedSchema(openAPI, schema);
 
         // allOf/anyOf/oneOf
-        if (ModelUtils.hasAllOf(schema) || ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema)) {
+        if (hasAllOf(schema) || hasOneOf(schema) || hasAnyOf(schema)) {
             return false;
         }
 
-        // schema with properties
-        if (schema.getProperties() != null) {
+        // schema with properties or additional properties
+        if (schema.getProperties() != null ||
+                (schema.getAdditionalProperties() != null && !Boolean.FALSE.equals(schema.getBooleanSchemaValue()))) {
             return false;
+        }
+
+        // OpenAPI 3.0.x: nullable object with no properties or constraints expresses nullability, which
+        // is any type that's nullable, i.e. {type: object, nullable: true}
+        // given that the normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled
+        if (looseNullDefinitions &&
+                !(schema instanceof JsonSchema) // 3.0.x only
+                && "object".equals(schema.getType())
+                && Boolean.TRUE.equals(schema.getNullable())
+                && schema.get$ref() == null
+                && schema.getAdditionalProperties() == null) {
+            return true;
         }
 
         // convert referenced enum of null only to `nullable:true`
@@ -2418,8 +2739,18 @@ public class ModelUtils {
         // dereference the schema
         schema = ModelUtils.getReferencedSchema(openAPI, schema);
 
-        if (schema.getTypes() == null && hasValidation(schema)) {
+        if (schema.getTypes() == null && schema.getType() == null && hasValidation(schema)
+                && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
             // just validation without type
+            //
+            // A schema that carries properties is a model, even when it omits `type: object` --
+            // which is very common in 3.0 specs, e.g. `minProperties: 2` next to `properties: {...}`.
+            // Checking `getTypes() == null && hasValidation(schema)` alone classified those as
+            // unsupported, and as an allOf member their properties were then dropped from the
+            // composed model without any warning.
+            //
+            // getTypes() is only populated for 3.1, so getType() has to be checked as well for the
+            // 3.0 case to be recognised.
             return true;
         } else if (schema.getIf() != null && schema.getThen() != null) {
             // if, then in 3.1 spec
@@ -2432,8 +2763,8 @@ public class ModelUtils {
     /**
      * Copy meta data (e.g. description, default, examples, etc) from one schema to another.
      *
-     * @param from  From schema
-     * @param to    To schema
+     * @param from From schema
+     * @param to   To schema
      */
     public static void copyMetadata(Schema from, Schema to) {
         if (from.getDescription() != null) {
@@ -2452,7 +2783,7 @@ public class ModelUtils {
             to.setExample(from.getExample());
         }
         if (from.getExamples() != null) {
-            to.setExample(from.getExamples());
+            to.setExamples(from.getExamples());
         }
         if (from.getReadOnly() != null) {
             to.setReadOnly(from.getReadOnly());
@@ -2513,8 +2844,9 @@ public class ModelUtils {
 
     /**
      * Returns true if the OpenAPI specification contains any schemas which are enums.
-     * @param openAPI   OpenAPI specification
-     * @return          true if the OpenAPI specification contains any schemas which are enums.
+     *
+     * @param openAPI OpenAPI specification
+     * @return true if the OpenAPI specification contains any schemas which are enums.
      */
     public static boolean containsEnums(OpenAPI openAPI) {
         Map<String, Schema> schemaMap = getSchemas(openAPI);
@@ -2523,6 +2855,19 @@ public class ModelUtils {
         }
 
         return schemaMap.values().stream().anyMatch(ModelUtils::isEnumSchema);
+    }
+
+    /**
+     * Whether all branches in the oneOf contains a {@code const}. Returns false for OAS 3.0 since that does not support
+     * {@code const}.
+     * @param schema The Schema
+     * @return true if all {@code oneOf} branches contains a {@code const}.
+     */
+    public static boolean isOneOfOfConsts(Schema<?> schema) {
+        if (hasOneOf(schema) && !schema.getSpecVersion().equals(SpecVersion.V30)) {
+            return schema.getOneOf().stream().allMatch(oneOf -> oneOf.getConst() != null);
+        }
+        return false;
     }
 
     @FunctionalInterface

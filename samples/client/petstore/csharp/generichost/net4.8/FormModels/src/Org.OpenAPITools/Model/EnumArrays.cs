@@ -105,8 +105,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="EnumArrays" />
     /// </summary>
-    public class EnumArraysJsonConverter : JsonConverter<EnumArrays>
+    public partial class EnumArraysJsonConverter : JsonConverter<EnumArrays>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumArraysJsonConverter" /> class.
+        /// </summary>
+        public EnumArraysJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="EnumArrays" />
         /// </summary>
@@ -146,9 +156,7 @@ namespace Org.OpenAPITools.Model
                             arrayEnum = new Option<List<EnumArraysArrayEnumInner>>(JsonSerializer.Deserialize<List<EnumArraysArrayEnumInner>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "just_symbol":
-                            string justSymbolRawValue = utf8JsonReader.GetString();
-                            if (justSymbolRawValue != null)
-                                justSymbol = new Option<EnumArraysJustSymbol?>(EnumArraysJustSymbolValueConverter.FromStringOrDefault(justSymbolRawValue));
+                            justSymbol = new Option<EnumArraysJustSymbol?>(JsonSerializer.Deserialize<EnumArraysJustSymbol?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

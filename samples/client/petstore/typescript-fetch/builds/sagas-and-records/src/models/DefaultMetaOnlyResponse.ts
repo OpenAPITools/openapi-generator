@@ -29,8 +29,6 @@ import {
 export interface DefaultMetaOnlyResponse {
     /**
      * 
-     * @type {ResponseMeta}
-     * @memberof DefaultMetaOnlyResponse
      */
     meta: ResponseMeta;
 }

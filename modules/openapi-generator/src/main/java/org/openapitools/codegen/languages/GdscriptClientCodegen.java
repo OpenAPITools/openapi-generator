@@ -18,6 +18,9 @@ import java.util.Map;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
+/**
+ * <p>Handlebars templates are located in {@code src/main/resources/gdscript/}.
+ */
 public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     // All generated core classes will use this affixes both in class_name and file name.

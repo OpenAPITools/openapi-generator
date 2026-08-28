@@ -40,6 +40,9 @@ import org.springframework.http.HttpStatus;
 {{#useResponseEntity}}
 import org.springframework.http.ResponseEntity;
 {{/useResponseEntity}}
+{{#useSpringSecurityPreAuthorize}}
+import org.springframework.security.access.prepost.PreAuthorize;
+{{/useSpringSecurityPreAuthorize}}
 {{#useBeanValidation}}{{^useSpringBuiltInValidation}}import org.springframework.validation.annotation.Validated;{{/useSpringBuiltInValidation}}{{/useBeanValidation}}
 {{#useSpringController}}
 {{#useResponseEntity}}
@@ -178,7 +181,7 @@ public interface {{classname}} {
         deprecated = true,
         {{/isDeprecated}}
         {{#vendorExtensions.x-tags.size}}
-        tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
+        tags = { {{#vendorExtensions.x-tags}}"{{{tag}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         {{/vendorExtensions.x-tags.size}}
         responses = {
             {{#responses}}
@@ -212,7 +215,7 @@ public interface {{classname}} {
     {{#swagger1AnnotationLibrary}}
     @ApiOperation(
         {{#vendorExtensions.x-tags.size}}
-        tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
+        tags = { {{#vendorExtensions.x-tags}}"{{{tag}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         {{/vendorExtensions.x-tags.size}}
         value = "{{{summary}}}",
         nickname = "{{{operationId}}}",
@@ -272,6 +275,9 @@ public interface {{classname}} {
     {{#vendorExtensions.x-operation-extra-annotation}}
     {{{.}}}
     {{/vendorExtensions.x-operation-extra-annotation}}
+    {{#vendorExtensions.x-spring-security-pre-authorize}}
+    @PreAuthorize("{{{.}}}")
+    {{/vendorExtensions.x-spring-security-pre-authorize}}
     {{#vendorExtensions.x-sse}}
     @ResponseBody
     {{/vendorExtensions.x-sse}}
@@ -279,7 +285,7 @@ public interface {{classname}} {
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
         {{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}},
         {{/hasParams}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true){{/swagger2AnnotationLibrary}} final {{#reactive}}ServerWebExchange exchange{{/reactive}}{{^reactive}}HttpServletRequest servletRequest{{/reactive}}{{/includeHttpRequestContext}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
-        {{/hasParams}}{{^hasParams}}{{#includeHttpRequestContext}},{{/includeHttpRequestContext}}{{/hasParams}}{{#springDocDocumentationProvider}}@ParameterObject{{/springDocDocumentationProvider}} final Pageable pageable{{/vendorExtensions.x-spring-paginated}}{{#vendorExtensions.x-spring-provide-args}}{{#hasParams}},
+        {{/hasParams}}{{^hasParams}}{{#includeHttpRequestContext}},{{/includeHttpRequestContext}}{{/hasParams}}{{#vendorExtensions.x-pageable-extra-annotation}}{{{.}}} {{/vendorExtensions.x-pageable-extra-annotation}}{{#springDocDocumentationProvider}}@ParameterObject{{/springDocDocumentationProvider}} final Pageable pageable{{/vendorExtensions.x-spring-paginated}}{{#vendorExtensions.x-spring-provide-args}}{{#hasParams}},
         {{/hasParams}}{{^hasParams}}{{#includeHttpRequestContext}},{{/includeHttpRequestContext}}{{/hasParams}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true){{/swagger2AnnotationLibrary}} {{{.}}}{{^hasParams}}{{^-last}}{{^reactive}},{{/reactive}}
         {{/-last}}{{/hasParams}}{{/vendorExtensions.x-spring-provide-args}}
     ){{#unhandledException}} throws Exception{{/unhandledException}}{{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}} {

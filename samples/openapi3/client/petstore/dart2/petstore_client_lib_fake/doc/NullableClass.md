@@ -15,11 +15,11 @@ Name | Type | Description | Notes
 **dateProp** | [**DateTime**](DateTime.md) |  | [optional] 
 **datetimeProp** | [**DateTime**](DateTime.md) |  | [optional] 
 **arrayNullableProp** | **List<Object>** |  | [optional] [default to const []]
-**arrayAndItemsNullableProp** | **List<Object>** |  | [optional] [default to const []]
-**arrayItemsNullable** | **List<Object>** |  | [optional] [default to const []]
+**arrayAndItemsNullableProp** | **List<Object?>** |  | [optional] [default to const []]
+**arrayItemsNullable** | **List<Object?>** |  | [optional] [default to const []]
 **objectNullableProp** | **Map<String, Object>** |  | [optional] [default to const {}]
-**objectAndItemsNullableProp** | **Map<String, Object>** |  | [optional] [default to const {}]
-**objectItemsNullable** | **Map<String, Object>** |  | [optional] [default to const {}]
+**objectAndItemsNullableProp** | **Map<String, Object?>** |  | [optional] [default to const {}]
+**objectItemsNullable** | **Map<String, Object?>** |  | [optional] [default to const {}]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

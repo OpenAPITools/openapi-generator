@@ -1,0 +1,29 @@
+swagger: '2.0'
+info:
+  title: C++ Boost Beast collection format regression
+  version: 1.0.0
+basePath: /v1
+paths:
+  /items:
+    get:
+      tags:
+        - CollectionFormat
+      operationId: getItems
+      parameters:
+        - name: ids
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: csvIds
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: csv
+      responses:
+        '204':
+          description: Accepted

@@ -8,6 +8,7 @@ const ids: number[] = [4, 5];
 const filter: Filter = {name: 'John', age: 37, nicknames: ['Joe', 'Joey']};
 const filterWithSpecialCharacters: Filter = {name: 'Éléonore &,|+', age: 42, nicknames: ['Elé', 'Ellie']};
 const country: string = "Belgium";
+const tags: Set<string> = new Set(['a', 'b']);
 
 describe('Form Query Param testing', () => {
   let httpTesting: HttpTestingController;
@@ -80,6 +81,18 @@ describe('Form Query Param testing', () => {
     expect(req.request.method).toEqual('GET');
   });
 
+  it('should separate the query parameter with ampersands (set only)', async () => {
+    service.searchExplode(undefined, undefined, undefined, tags).subscribe();
+    const req = httpTesting.expectOne('http://localhost/search_explode?tags=a&tags=b');
+    expect(req.request.method).toEqual('GET');
+  });
+
+  it('should separate the query parameter with ampersands (all set including tags)', async () => {
+    service.searchExplode(ids, filter, country, tags).subscribe();
+    const req = httpTesting.expectOne('http://localhost/search_explode?ids=4&ids=5&name=John&age=37&nicknames=Joe&nicknames=Joey&country=Belgium&tags=a&tags=b');
+    expect(req.request.method).toEqual('GET');
+  });
+
   it('should separate the query parameter with comma (all set)', async () => {
     service.searchNotExplode(ids, filter, country).subscribe();
     const req = httpTesting.expectOne('http://localhost/search_not_explode?ids=4,5&filter=name,John,age,37,nicknames,Joe,Joey&country=Belgium');
@@ -123,6 +136,18 @@ describe('Form Query Param testing', () => {
   it('should separate the query parameter with comma (simple only)', async () => {
     service.searchNotExplode(undefined, undefined, country).subscribe();
     const req = httpTesting.expectOne('http://localhost/search_not_explode?country=Belgium');
+    expect(req.request.method).toEqual('GET');
+  });
+
+  it('should separate the query parameter with comma (set only)', async () => {
+    service.searchNotExplode(undefined, undefined, undefined, tags).subscribe();
+    const req = httpTesting.expectOne('http://localhost/search_not_explode?tags=a,b');
+    expect(req.request.method).toEqual('GET');
+  });
+
+  it('should separate the query parameter with comma (all set including tags)', async () => {
+    service.searchNotExplode(ids, filter, country, tags).subscribe();
+    const req = httpTesting.expectOne('http://localhost/search_not_explode?ids=4,5&filter=name,John,age,37,nicknames,Joe,Joey&country=Belgium&tags=a,b');
     expect(req.request.method).toEqual('GET');
   });
 

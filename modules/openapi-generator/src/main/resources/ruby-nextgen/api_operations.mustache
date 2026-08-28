@@ -1,0 +1,37 @@
+class {{classname}}
+  def initialize(connection)
+    @connection = connection
+  end
+{{#operation}}
+
+  def {{operationId}}{{#hasParams}}({{#allParams}}{{paramName}}:{{^required}} nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}
+{{#allParams}}
+{{#required}}
+    raise ArgumentError, '{{paramName}} is required' if {{paramName}}.nil?
+{{/required}}
+{{/allParams}}
+{{#vendorExtensions.x-rb-has-required-params}}
+
+{{/vendorExtensions.x-rb-has-required-params}}
+    @connection.call(
+      :{{httpMethod}},
+      '{{{path}}}'{{#pathParams}}
+        .gsub('{{=<% %>=}}{<%baseName%>}<%={{ }}=%>', ERB::Util.url_encode({{paramName}}.to_s)){{/pathParams}},
+      type: {{{vendorExtensions.x-rb-return-type}}},
+      auth: [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]{{#hasQueryParams}},{{/hasQueryParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{^hasHeaderParams}}{{#bodyParam}},{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}},{{/hasFormParams}}{{/bodyParam}}{{/hasHeaderParams}}{{/hasQueryParams}}
+{{#hasQueryParams}}
+      query: { {{#queryParams}}'{{baseName}}' => {{paramName}}{{^-last}}, {{/-last}}{{/queryParams}} }{{#hasHeaderParams}},{{/hasHeaderParams}}{{^hasHeaderParams}}{{#bodyParam}},{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}},{{/hasFormParams}}{{/bodyParam}}{{/hasHeaderParams}}
+{{/hasQueryParams}}
+{{#hasHeaderParams}}
+      headers: { {{#headerParams}}'{{baseName}}' => {{paramName}}{{^-last}}, {{/-last}}{{/headerParams}} }{{#bodyParam}},{{/bodyParam}}{{#hasFormParams}},{{/hasFormParams}}
+{{/hasHeaderParams}}
+{{#bodyParam}}
+      body: {{paramName}}
+{{/bodyParam}}
+{{#hasFormParams}}
+      form: { {{#formParams}}'{{baseName}}' => {{paramName}}{{^-last}}, {{/-last}}{{/formParams}} }
+{{/hasFormParams}}
+    )
+  end
+{{/operation}}
+end

@@ -1,0 +1,264 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore - PagedModel Substitution Test
+  description: |
+    Test spec for substituteGenericPagedModel feature.
+
+    Contains schemas that SHOULD be detected as paged models:
+      - UserPage       : flat-object form, PageMetadata defined inline
+      - OrderPage      : flat-object form, PageMetadata defined in external file
+      - PetPageAllOf   : allOf form, PageMeta defined inline
+
+    And schemas that should NOT be detected:
+      - UserList       : has a 'content' array but no pagination-metadata property
+      - SearchResult   : no 'content' property at all
+      - PetSort        : a plain string enum — unrelated
+
+    Operations returning detected schemas will have their return type
+    replaced with PagedModel<T>; operations returning non-detected schemas are untouched.
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io/v2
+tags:
+  - name: user
+    description: User operations
+  - name: order
+    description: Order operations
+  - name: pet
+    description: Pet operations
+
+paths:
+  # ---- Detected: flat-object form, inline PageMetadata ----
+  /users:
+    get:
+      tags: [user]
+      summary: List users (returns UserPage — should be replaced with PagedModel<User>)
+      operationId: listUsers
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Paged list of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPage'
+
+  # ---- Detected: flat-object form, PageMetadata from external file ----
+  /orders:
+    get:
+      tags: [order]
+      summary: List orders (returns OrderPage — PageMetadata lives in external file)
+      operationId: listOrders
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Paged list of orders
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderPage'
+
+  # ---- Detected: allOf form ----
+  /pets/paged:
+    get:
+      tags: [pet]
+      summary: List pets using allOf paged form (returns PetPageAllOf)
+      operationId: listPetsPaged
+      responses:
+        '200':
+          description: Paged list of pets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetPageAllOf'
+
+  # ---- NOT detected: array without pagination companion ----
+  /users/list:
+    get:
+      tags: [user]
+      summary: Simple list of users — UserList should NOT be suppressed
+      operationId: listUsersSimple
+      responses:
+        '200':
+          description: Plain list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+
+  # ---- NOT detected: no content property ----
+  /pets/search:
+    get:
+      tags: [pet]
+      summary: Search result with no content array — SearchResult should NOT be suppressed
+      operationId: searchPets
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Search result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResult'
+
+  # ---- NOT detected: returns a plain array (not a $ref to a paged schema) ----
+  /pets:
+    get:
+      tags: [pet]
+      summary: Find pets — returns raw array, no PagedModel replacement
+      operationId: findPets
+      responses:
+        '200':
+          description: List of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+
+components:
+  schemas:
+    # ---------- Domain types ----------
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+
+    Pet:
+      type: object
+      required: [name]
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: string
+
+    # ---------- Pagination metadata (inline) ----------
+
+    PageMeta:
+      type: object
+      description: Shared pagination metadata schema
+      properties:
+        size:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+      required: [size, number, totalElements, totalPages]
+
+    # ---------- DETECTED: flat-object form — inline PageMeta ----------
+
+    UserPage:
+      type: object
+      description: Paged list of users — flat-object form with inline PageMeta
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        page:
+          $ref: '#/components/schemas/PageMeta'
+      required: [content, page]
+
+    # ---------- DETECTED: flat-object form — external PageMetadata ----------
+    # Order domain type and PageMetadata schema live in the external components file.
+
+    OrderPage:
+      type: object
+      description: Paged list of orders — flat-object form with external PageMetadata
+      properties:
+        content:
+          type: array
+          items:
+            $ref: './petstore-paged-model-components.yaml#/components/schemas/Order'
+        page:
+          $ref: './petstore-paged-model-components.yaml#/components/schemas/PageMetadata'
+      required: [content, page]
+
+    # ---------- DETECTED: allOf form ----------
+
+    PetPageAllOf:
+      description: Paged list of pets — allOf form
+      allOf:
+        - $ref: '#/components/schemas/PageMeta'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Pet'
+
+    # ---------- NOT DETECTED: content array but no pagination companion ----------
+
+    UserList:
+      type: object
+      description: A plain list wrapper — has content array but no pagination metadata property
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        description:
+          type: string
+
+    # ---------- NOT DETECTED: no content property ----------
+
+    SearchResult:
+      type: object
+      description: Search result with metadata — no 'content' array at all
+      properties:
+        query:
+          type: string
+        totalHits:
+          type: integer
+        page:
+          $ref: '#/components/schemas/PageMeta'
+
+    # ---------- NOT DETECTED: plain string enum ----------
+
+    PetSort:
+      type: string
+      enum:
+        - "id,asc"
+        - "id,desc"
+        - "name,asc"
+        - "name,desc"

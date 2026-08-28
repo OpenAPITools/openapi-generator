@@ -53,7 +53,7 @@ class ArrayOfArrayOfNumberOnly {
       return ArrayOfArrayOfNumberOnly(
         arrayArrayNumber: json[r'ArrayArrayNumber'] is List
           ? (json[r'ArrayArrayNumber'] as List).map((e) =>
-              e == null ? const  <num>[] : (e as List).cast<num>()
+              e == null ? const <num>[] : (e as List).map((value) => value as num).toList(growable: false)
             ).toList()
           :  const [],
       );

@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="appleReq"></param>
-        public FruitReq(AppleReq appleReq)
+        internal FruitReq(AppleReq appleReq)
         {
             AppleReq = appleReq;
             OnCreated();
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="bananaReq"></param>
-        public FruitReq(BananaReq bananaReq)
+        internal FruitReq(BananaReq bananaReq)
         {
             BananaReq = bananaReq;
             OnCreated();
@@ -88,8 +88,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="FruitReq" />
     /// </summary>
-    public class FruitReqJsonConverter : JsonConverter<FruitReq>
+    public partial class FruitReqJsonConverter : JsonConverter<FruitReq>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FruitReqJsonConverter" /> class.
+        /// </summary>
+        public FruitReqJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="FruitReq" />
         /// </summary>

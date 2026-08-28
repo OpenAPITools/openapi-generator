@@ -2,16 +2,21 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -22,37 +27,49 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("AdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, String> mapString = new HashMap<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, Integer> mapInteger = new HashMap<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, Boolean> mapBoolean = new HashMap<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
-  
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Object anytype1;
 
   private @Nullable Object anytype2 = null;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Object anytype3;
 
   public AdditionalPropertiesClassDto mapString(Map<String, String> mapString) {
@@ -100,7 +117,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapNumber
    * @return mapNumber
    */
-  
+  @Valid 
   @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -184,7 +201,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapArrayInteger
    * @return mapArrayInteger
    */
-  
+  @Valid 
   @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -212,7 +229,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
    */
-  
+  @Valid 
   @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -240,7 +257,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapMapString
    * @return mapMapString
    */
-  
+  @Valid 
   @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -268,7 +285,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapMapAnytype
    * @return mapMapAnytype
    */
-  
+  @Valid 
   @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;

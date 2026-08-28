@@ -32,8 +32,12 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-lagom-server/}.
+ */
 public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaLagomServerCodegen.class);
 
@@ -186,7 +190,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
             for (CodegenProperty var : cm.vars) {
                 if (var.isEnum) {
-                    List<Object> enumValues = (List<Object>) var.allowableValues.get("values");
+                    List<Object> enumValues = getEnumValues(var.allowableValues);
 
                     for (final ListIterator<Object> i = enumValues.listIterator(); i.hasNext(); ) {
                         final String element = String.valueOf(i.next());

@@ -1,5 +1,5 @@
-| {{baseName}}
-| {{description}} {{#baseType}}<<{{.}}>>{{/baseType}}
+| {{#tablecellcontent}}{{baseName}}{{/tablecellcontent}}
+| {{#tablecellcontent}}{{description}}{{/tablecellcontent}} {{#baseType}}<<{{.}}>>{{/baseType}}
 | {{^required}}-{{/required}}{{#required}}X{{/required}}
-| {{defaultValue}}
-| {{{pattern}}}
+| {{#tablecellcontent}}{{defaultValue}}{{/tablecellcontent}}
+| {{#tablecellcontent}}{{{pattern}}}{{/tablecellcontent}}

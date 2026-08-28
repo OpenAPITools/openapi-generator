@@ -2,9 +2,12 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.fasterxml.jackson.annotation.Nulls
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Email
@@ -32,10 +35,10 @@ import io.swagger.v3.oas.annotations.media.Schema
 )
 
 interface Animal {
-                @get:Schema(example = "null", requiredMode = Schema.RequiredMode.REQUIRED, description = "")
+                @get:Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
         val className: kotlin.String
 
-                @get:Schema(example = "null", description = "")
+                @get:Schema(description = "")
         val color: kotlin.String? 
 
 

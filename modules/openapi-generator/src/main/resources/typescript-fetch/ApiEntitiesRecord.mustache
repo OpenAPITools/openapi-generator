@@ -1,14 +1,14 @@
-import {Map, Record, RecordOf} from 'immutable';
+import { Map, Record, RecordOf } from 'immutable';
 
-import {
 {{#models}}
 {{#model}}
 {{#isEntity}}
+import {
     {{classname}}RecordEntity,
+} from "./models/{{classname}}Record{{importFileExtension}}"
 {{/isEntity}}
 {{/model}}
 {{/models}}
-} from "./models/index{{importFileExtension}}"
 
 export const ApiEntitiesRecordProps = {
     recType: "ApiEntitiesRecord" as "ApiEntitiesRecord",

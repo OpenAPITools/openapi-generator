@@ -22,31 +22,36 @@ class GenerateTaskFromCacheTest : TestBase() {
     }
 
     @DataProvider(name = "gradle_version_provider")
-    private fun gradleVersionProvider(): Array<Array<String>> = arrayOf(arrayOf("8.14.4"), arrayOf("8.14.4"))
+    private fun gradleVersionProvider(): Array<Array<String>> = arrayOf(
+        arrayOf("8.14.4", "STRING"),
+        arrayOf("8.14.4", "FILE")
+    )
 
     // inputSpec tests
 
-    private val inputSpecExtensionContents = """
+    private fun inputSpecExtensionContents(format: PropertyFormat) = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
         """.trimIndent()
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `inputSpec - same directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
-        runCacheabilityTestUsingSameDirectory(gradleVersion, inputSpecExtensionContents)
+    fun `inputSpec - same directory - openApiGenerate task output should come from cache`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        runCacheabilityTestUsingSameDirectory(gradleVersion, inputSpecExtensionContents(propertyFormat))
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `inputSpec - different directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
-        runCacheabilityTestUsingDifferentDirectories(gradleVersion, inputSpecExtensionContents)
+    fun `inputSpec - different directory - openApiGenerate task output should come from cache`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        runCacheabilityTestUsingDifferentDirectories(gradleVersion, inputSpecExtensionContents(propertyFormat))
     }
 
     // templateDir tests
 
-    private val templateDirExtensionContents = """
+    private fun templateDirExtensionContents(format: PropertyFormat) = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
-        templateDir = file("templateDir").absolutePath
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
+        templateDir = ${"templateDir".toPropertyReference(format)}
         """.trimIndent()
 
     private fun initializeTemplateDirTest() {
@@ -54,23 +59,25 @@ class GenerateTaskFromCacheTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `templateDir - same directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+    fun `templateDir - same directory - openApiGenerate task output should come from cache`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         initializeTemplateDirTest()
-        runCacheabilityTestUsingSameDirectory(gradleVersion, templateDirExtensionContents)
+        runCacheabilityTestUsingSameDirectory(gradleVersion, templateDirExtensionContents(propertyFormat))
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `templateDir - different directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+    fun `templateDir - different directory - openApiGenerate task output should come from cache`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         initializeTemplateDirTest()
-        runCacheabilityTestUsingDifferentDirectories(gradleVersion, templateDirExtensionContents)
+        runCacheabilityTestUsingDifferentDirectories(gradleVersion, templateDirExtensionContents(propertyFormat))
     }
 
     // configFile tests
 
-    private val configFileExtensionContents = """
+    private fun configFileExtensionContents(format: PropertyFormat) = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
-        configFile = file("configFile").absolutePath
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
+        configFile = ${"configFile".toPropertyReference(format)}
         """.trimIndent()
 
     private fun initializeConfigFileTest() {
@@ -80,23 +87,25 @@ class GenerateTaskFromCacheTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `configFile - same directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+    fun `configFile - same directory - openApiGenerate task output should come from cache`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         initializeConfigFileTest()
-        runCacheabilityTestUsingSameDirectory(gradleVersion, configFileExtensionContents)
+        runCacheabilityTestUsingSameDirectory(gradleVersion, configFileExtensionContents(propertyFormat))
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `configFile - different directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+    fun `configFile - different directory - openApiGenerate task output should come from cache`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         initializeConfigFileTest()
-        runCacheabilityTestUsingDifferentDirectories(gradleVersion, configFileExtensionContents)
+        runCacheabilityTestUsingDifferentDirectories(gradleVersion, configFileExtensionContents(propertyFormat))
     }
 
     // ignoreFileOverride tests
 
-    private val ignoreFileOverrideExtensionContents = """
+    private fun ignoreFileOverrideExtensionContents(format: PropertyFormat) = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
-        ignoreFileOverride = file(".openapi-generator-ignore").absolutePath
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
+        ignoreFileOverride = ${".openapi-generator-ignore".toPropertyReference(format)}
         """.trimIndent()
 
     private fun initializeIgnoreFileTest() {
@@ -104,15 +113,17 @@ class GenerateTaskFromCacheTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `ignoreFileOverride - same directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+    fun `ignoreFileOverride - same directory - openApiGenerate task output should come from cache`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         initializeIgnoreFileTest()
-        runCacheabilityTestUsingSameDirectory(gradleVersion, ignoreFileOverrideExtensionContents)
+        runCacheabilityTestUsingSameDirectory(gradleVersion, ignoreFileOverrideExtensionContents(propertyFormat))
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `ignoreFileOverride - different directory - openApiGenerate task output should come from cache`(gradleVersion: String) {
+    fun `ignoreFileOverride - different directory - openApiGenerate task output should come from cache`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         initializeIgnoreFileTest()
-        runCacheabilityTestUsingDifferentDirectories(gradleVersion, ignoreFileOverrideExtensionContents)
+        runCacheabilityTestUsingDifferentDirectories(gradleVersion, ignoreFileOverrideExtensionContents(propertyFormat))
     }
 
     // Helper methods & test fixtures

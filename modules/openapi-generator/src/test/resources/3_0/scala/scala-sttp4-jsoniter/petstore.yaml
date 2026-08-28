@@ -98,6 +98,16 @@ paths:
                 - pending
                 - sold
               default: available
+        - name: statusList
+          in: query
+          description: Status values as referenced enums (regression coverage for arrays of enums in query parameters)
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/PetStatus'
       responses:
         '200':
           description: successful operation
@@ -135,6 +145,28 @@ paths:
           explode: false
           schema:
             type: array
+            items:
+              type: string
+        - name: colors
+          in: query
+          description: Unique coat colors to filter by (regression coverage for sets of referenced enums in query parameters)
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/PetColor'
+        - name: uniqueTags
+          in: query
+          description: Deduplicated tags to filter by (regression coverage for sets of primitives in query parameters)
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            uniqueItems: true
             items:
               type: string
       responses:
@@ -569,6 +601,42 @@ paths:
           description: User not found
       security:
         - api_key: []
+  '/fake/misc':
+    get:
+      tags:
+        - fake 
+      summary: misc parameter type tests
+      description: ''
+      operationId: parameter_types
+      parameters:
+        - name: uuid
+          in: query
+          description: uuid
+          required: required
+          schema:
+            type: string
+            format: uuid
+        - name: datetime
+          in: query
+          description: datetime
+          required: required
+          schema:
+            type: string
+            format: date-time
+        - name: date
+          in: query
+          description: date
+          required: required
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -607,6 +675,22 @@ components:
       name: api_key
       in: header
   schemas:
+    PetColor:
+      title: Pet color
+      description: coat color of a pet
+      type: string
+      enum:
+        - black
+        - white
+        - brown
+    PetStatus:
+      title: Pet status
+      description: pet status in the store
+      type: string
+      enum:
+        - available
+        - pending
+        - sold
     Order:
       title: Pet Order
       description: An order for a pets from the pet store

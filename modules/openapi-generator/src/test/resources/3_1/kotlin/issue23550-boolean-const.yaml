@@ -1,0 +1,13 @@
+openapi: 3.1.0
+info:
+  title: Boolean const regression
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    ExceptionState:
+      type: object
+      properties:
+        exceptionPeriodIsClosed:
+          type: boolean
+          const: true

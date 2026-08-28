@@ -1,0 +1,28 @@
+openapi: 3.0.1
+info:
+  title: Quarkus API Key auth test
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: Get items
+      security:
+        - api_key: []
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: createItem
+      summary: Create item
+      responses:
+        '201':
+          description: Created
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-API-Key

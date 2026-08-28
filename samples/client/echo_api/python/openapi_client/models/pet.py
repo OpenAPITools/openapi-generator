@@ -30,8 +30,8 @@ class Pet(BaseModel):
     """
     Pet
     """ # noqa: E501
-    id: Optional[StrictInt] = None
-    name: StrictStr
+    id: Optional[StrictInt] = Field(default=None, json_schema_extra={"examples": [10]})
+    name: StrictStr = Field(json_schema_extra={"examples": ["doggie"]})
     category: Optional[Category] = None
     photo_urls: List[StrictStr] = Field(alias="photoUrls")
     tags: Optional[List[Tag]] = None
@@ -94,8 +94,7 @@ class Pet(BaseModel):
         _items = []
         if self.tags:
             for _item_tags in self.tags:
-                if _item_tags:
-                    _items.append(_item_tags.to_dict())
+                _items.append(_item_tags.to_dict() if _item_tags is not None else None)
             _dict['tags'] = _items
         return _dict
 

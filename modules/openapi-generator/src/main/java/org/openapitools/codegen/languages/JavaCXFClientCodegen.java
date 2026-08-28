@@ -35,6 +35,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/JavaJaxRS/cxf/}.
+ */
 public class JavaCXFClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, UseGenericResponseFeatures, GzipTestFeatures, LoggingTestFeatures {
 
@@ -48,6 +51,11 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
 
+    public static final String USE_JACKSON_3 = "useJackson3";
+    public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
+    public static final String JACKSON3_PACKAGE = "tools.jackson";
+    public static final String JACKSON_PACKAGE = "jacksonPackage";
+
     @Getter protected boolean useGenericResponse = false;
 
     @Getter protected boolean useGzipFeatureForTests = false;
@@ -55,6 +63,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
     @Getter protected boolean useLoggingFeatureForTests = false;
 
     @Setter protected boolean useAbstractionForFiles = false;
+
+    @Getter @Setter protected boolean useJackson3 = false;
 
     public JavaCXFClientCodegen() {
         super();
@@ -94,6 +104,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_LOGGING_FEATURE_FOR_TESTS, "Use Logging Feature for tests"));
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk."));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 instead of Jackson 2.", this.useJackson3));
+
     }
 
     @Override
@@ -104,7 +116,13 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS, this::setUseLoggingFeatureForTests);
         convertPropertyToBooleanAndWriteBack(JACKSON, this::setJackson);
         convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES, this::setUseAbstractionForFiles);
+        convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
 
+        if (this.useJackson3) {
+            this.applyJackson3Package();
+        } else {
+            this.applyJackson2Package();
+        }
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
@@ -203,4 +221,12 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         this.useGenericResponse = useGenericResponse;
     }
 
+
+    protected void applyJackson2Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON2_PACKAGE);
+    }
+
+    protected void applyJackson3Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON3_PACKAGE);
+    }
 }

@@ -105,3 +105,17 @@ components:
         - $ref: '#/components/schemas/StringRef'
     JustDescription:
       description: A schema with just description
+    BareNullableObject:
+      type: object
+      nullable: true
+    NullableObjectWithProperties:
+      type: object
+      nullable: true
+      properties:
+        name:
+          type: string
+    NullableObjectMap:
+      type: object
+      nullable: true
+      additionalProperties:
+        type: string

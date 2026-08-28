@@ -1,0 +1,24 @@
+openapi: 3.0.1
+info:
+  title: Quarkus op-level explicit empty security with no global -- emits @PermitAll
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: Op-level security:[] -- explicit opt-out, emits @PermitAll
+      security: []
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    oauth2_scheme:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            admin: Admin access

@@ -1,0 +1,6 @@
+title: Collection Item
+description: An item in a collection
+type: object
+properties:
+  id:
+    type: string

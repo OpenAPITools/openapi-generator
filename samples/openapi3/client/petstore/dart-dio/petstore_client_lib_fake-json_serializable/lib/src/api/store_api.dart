@@ -253,7 +253,8 @@ _responseData = rawData == null ? null : deserialize<Order, Order>(rawData, 'Ord
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(order);
+      _bodyData = jsonEncode(order);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(

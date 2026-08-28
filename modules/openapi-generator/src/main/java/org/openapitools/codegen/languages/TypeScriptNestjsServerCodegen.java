@@ -39,6 +39,9 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript-nestjs-server/}.
+ */
 public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNestjsServerCodegen.class);
 
@@ -386,7 +389,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
                 if (isLanguageGenericType(operation.returnType)) {
                     // Extract generic type and add to imports if it's not a primitive
                     String genericType = extractGenericType(operation.returnType);
-                    if (needToImport(operation.returnType) && genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
+                    if (needToImport(genericType) && genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
                         allImports.add(genericType);
                     }
                 } else if (needToImport(operation.returnType)) {

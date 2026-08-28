@@ -961,6 +961,20 @@ paths:
                   - type: array
                     items:
                       type: integer
+  /fake/nullable-required-fields-anyof:
+    get:
+      tags:
+        - fake
+      summary: test anyOf with map of objects containing nullable required fields
+      description: 'Tests that anyOf deserialization works when object values contain required fields that are nullable (e.g. Record<string, { before: string | null, after: string | null }>)'
+      operationId: testNullableRequiredFieldsAnyOf
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullableFieldsMapResponse'
   /fake/anyOfWIthSameErasure:
     get:
       description: Test route, this shouldn't cause a compiler error
@@ -2866,3 +2880,46 @@ components:
           allOf:
             - $ref: '#/components/schemas/Height'
           default: 32.1
+    NullableFieldsValue:
+      description: "Object with required but nullable string fields"
+      type: object
+      properties:
+        before:
+          type: string
+          nullable: true
+        after:
+          type: string
+          nullable: true
+      required:
+        - before
+        - after
+    NullableFieldsMapSuccess:
+      description: "Success response containing a map of objects with nullable fields"
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+        positions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NullableFieldsValue'
+      required:
+        - status
+        - positions
+    NullableFieldsMapError:
+      description: "Error response"
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+        reason:
+          type: string
+      required:
+        - status
+        - reason
+    NullableFieldsMapResponse:
+      anyOf:
+        - $ref: '#/components/schemas/NullableFieldsMapSuccess'
+        - $ref: '#/components/schemas/NullableFieldsMapError'

@@ -39,6 +39,9 @@ import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRAR
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-play-server/}.
+ */
 public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     public static final String TITLE = "title";
     public static final String SKIP_STUBS = "skipStubs";

@@ -45,9 +45,9 @@ function Initialize-PSOuterComposite {
 
 
         $PSO = [PSCustomObject]@{
-            "my_number" = ${MyNumber}
-            "my_string" = ${MyString}
-            "my_boolean" = ${MyBoolean}
+            'my_number' = ${MyNumber}
+            'my_string' = ${MyString}
+            'my_boolean' = ${MyBoolean}
         }
 
 
@@ -85,35 +85,35 @@ function ConvertFrom-PSJsonToOuterComposite {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSOuterComposite
-        $AllProperties = ("my_number", "my_string", "my_boolean")
+        $AllProperties = ('my_number', 'my_string', 'my_boolean')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "my_number"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'my_number'))) { #optional property not found
             $MyNumber = $null
         } else {
-            $MyNumber = $JsonParameters.PSobject.Properties["my_number"].value
+            $MyNumber = $JsonParameters.PSobject.Properties['my_number'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "my_string"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'my_string'))) { #optional property not found
             $MyString = $null
         } else {
-            $MyString = $JsonParameters.PSobject.Properties["my_string"].value
+            $MyString = $JsonParameters.PSobject.Properties['my_string'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "my_boolean"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'my_boolean'))) { #optional property not found
             $MyBoolean = $null
         } else {
-            $MyBoolean = $JsonParameters.PSobject.Properties["my_boolean"].value
+            $MyBoolean = $JsonParameters.PSobject.Properties['my_boolean'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "my_number" = ${MyNumber}
-            "my_string" = ${MyString}
-            "my_boolean" = ${MyBoolean}
+            'my_number' = ${MyNumber}
+            'my_string' = ${MyString}
+            'my_boolean' = ${MyBoolean}
         }
 
         return $PSO

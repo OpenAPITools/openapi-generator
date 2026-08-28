@@ -1,26 +1,37 @@
 import {{javaxPackage}}.ws.rs.core.GenericType;
 import {{javaxPackage}}.ws.rs.core.Response;
+{{^useJackson3}}
 import java.io.IOException;
+{{/useJackson3}}
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
+{{^useJackson3}}
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.SerializationContext;
+{{/useJackson3}}
+import {{jacksonPackage}}.core.JsonGenerator;
+import {{jacksonPackage}}.core.JsonParser;
+import {{jacksonPackage}}.core.JsonToken;
+import {{jacksonPackage}}.core.type.TypeReference;
+import {{jacksonPackage}}.databind.DeserializationContext;
+import {{jacksonPackage}}.databind.JsonNode;
+{{^useJackson3}}
+import com.fasterxml.jackson.databind.MapperFeature;
+{{/useJackson3}}
+import {{jacksonPackage}}.databind.annotation.JsonDeserialize;
+import {{jacksonPackage}}.databind.annotation.JsonSerialize;
+import {{jacksonPackage}}.databind.deser.std.StdDeserializer;
+import {{jacksonPackage}}.databind.ser.std.StdSerializer;
 import {{invokerPackage}}.JSON;
 
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
@@ -39,8 +50,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         @Override
-        public void serialize({{classname}} value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+        public void serialize({{classname}} value, JsonGenerator jgen, {{^useJackson3}}SerializerProvider provider{{/useJackson3}}{{#useJackson3}}SerializationContext serializationContext{{/useJackson3}}) throws {{^useJackson3}}IOException, JsonProcessingException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
+{{^useJackson3}}
             jgen.writeObject(value.getActualInstance());
+{{/useJackson3}}
+{{#useJackson3}}
+            serializationContext.writeValue(jgen, value.getActualInstance());
+{{/useJackson3}}
         }
     }
 
@@ -54,18 +70,28 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         @Override
-        public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws {{^useJackson3}}IOException, JsonProcessingException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
             JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
             {{classname}} new{{classname}} = new {{classname}}();
+{{^useJackson3}}
             Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+{{/useJackson3}}
+{{#useJackson3}}
+            Map<String, Object> result2 = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<Map<String, Object>>() {}));
+{{/useJackson3}}
             String discriminatorValue = (String)result2.get("{{{propertyBaseName}}}");
             switch (discriminatorValue) {
             {{#mappedModels}}
                 case "{{{mappingName}}}":
+{{^useJackson3}}
                     deserialized = tree.traverse(jp.getCodec()).readValueAs({{{modelName}}}.class);
+{{/useJackson3}}
+{{#useJackson3}}
+                    deserialized = ctxt.readTreeAsValue(tree, {{{modelName}}}.class);
+{{/useJackson3}}
                     new{{classname}}.setActualInstance(deserialized);
                     return new{{classname}};
             {{/mappedModels}}
@@ -75,9 +101,19 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
             {{/discriminator}}
             {{/useOneOfDiscriminatorLookup}}
+{{^useJackson3}}
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
+{{/useJackson3}}
+{{#useJackson3}}
+            boolean typeCoercion = false; // MapperFeature.ALLOW_COERCION_OF_SCALARS was removed in Jackson 3
+{{/useJackson3}}
             int match = 0;
+{{^useJackson3}}
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
+{{/useJackson3}}
+{{#useJackson3}}
+            JsonToken token = tree.asToken();
+{{/useJackson3}}
             {{#composedSchemas}}
             {{#oneOf}}
             // deserialize {{{dataType}}}{{#isNullable}} (nullable){{/isNullable}}
@@ -122,10 +158,20 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 if (attemptParsing) {
                     {{#isMap}}
                     final TypeReference<{{{dataType}}}> ref = new TypeReference<{{{dataType}}}>(){};
+{{^useJackson3}}
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(ref);
+{{/useJackson3}}
+{{#useJackson3}}
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(ref));
+{{/useJackson3}}
                     {{/isMap}}
                     {{^isMap}}
+{{^useJackson3}}
                     deserialized = tree.traverse(jp.getCodec()).readValueAs({{{dataType}}}.class);
+{{/useJackson3}}
+{{#useJackson3}}
+                    deserialized = ctxt.readTreeAsValue(tree, {{{dataType}}}.class);
+{{/useJackson3}}
                     {{/isMap}}
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
@@ -137,7 +183,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 {{#isArray}}
                 if (token == JsonToken.START_ARRAY) {
                     final TypeReference<{{{dataType}}}> ref = new TypeReference<{{{dataType}}}>(){};
+{{^useJackson3}}
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(ref);
+{{/useJackson3}}
+{{#useJackson3}}
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(ref));
+{{/useJackson3}}
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -157,19 +208,34 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 ret.setActualInstance(deserialized);
                 return ret;
             }
+{{^useJackson3}}
             throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+{{/useJackson3}}
+{{#useJackson3}}
+            throw DatabindException.from(jp, String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+{{/useJackson3}}
         }
 
         /**
          * Handle deserialization of the 'null' value.
          */
         @Override
+{{^useJackson3}}
         public {{classname}} getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+{{/useJackson3}}
+{{#useJackson3}}
+        public {{classname}} getNullValue(DeserializationContext ctxt) {
+{{/useJackson3}}
         {{#isNullable}}
             return null;
         {{/isNullable}}
         {{^isNullable}}
+{{^useJackson3}}
             throw new JsonMappingException(ctxt.getParser(), "{{classname}} cannot be null");
+{{/useJackson3}}
+{{#useJackson3}}
+            throw DatabindException.from(ctxt.getParser(), "{{classname}} cannot be null");
+{{/useJackson3}}
         {{/isNullable}}
         }
     }

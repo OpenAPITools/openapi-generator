@@ -4,25 +4,31 @@ on:
   push:
     branches:
       - master
+    tags:
+      - 'v*'
+
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
       - name: Set up JDK 11
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6.0.0
         with:
           java-version: 11
           distribution: 'zulu'
+
       - name: Cache Maven packages
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
       - name: Build
         run: ./mvnw clean install -DskipTests=true
         #run: ./mvnw clean install
@@ -35,10 +41,10 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
- 
+
       - id: install-secret-key
         name: Install gpg secret key
         run: |
@@ -46,7 +52,7 @@ jobs:
           gpg --list-secret-keys --keyid-format LONG
 
       - name: Set up Maven Central Repository
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6.0.0
         with:
           java-version: 11
           distribution: 'zulu'

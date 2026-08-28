@@ -31,6 +31,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename. If not provided, uses the version from the OpenAPI specification file. If that's also not present, uses the default value of the artifactVersion option.| |1.0.0|
 |async|use async Callable controllers| |false|
+|autoXSpringPaginated|Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected. Only applies when library is spring-boot or spring-cloud.| |false|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
@@ -42,6 +43,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |camelSecurityDefinitions|generate camel security definitions| |true|
 |camelUseDefaultValidationErrorProcessor|generate default validation error processor| |true|
 |camelValidationErrorProcessor|validation error processor bean name| |validationErrorProcessor|
+|clientRegistrationId|Client registration ID for OAuth2 in Spring HTTP Interface (@ClientRegistrationId annotation). Requires library=spring-http-interface and useSpringBoot4=true (Spring Security 7).| |null|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
 |containerDefaultToNull|Set containers (array, set, map) default to null| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
@@ -58,10 +60,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |documentationProvider|Select the OpenAPI documentation provider.|<dl><dt>**none**</dt><dd>Do not publish an OpenAPI specification.</dd><dt>**source**</dt><dd>Publish the original input OpenAPI specification.</dd><dt>**springdoc**</dt><dd>Generate an OpenAPI 3 specification using SpringDoc.</dd></dl>|springdoc|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumPropertyNaming|Naming convention for enum properties: 'MACRO_CASE', 'legacy' and 'original'| |MACRO_CASE|
-|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |generateBuilders|Whether to generate builders for models| |false|
 |generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
 |generateGenericResponseEntity|Use a generic type for the `ResponseEntity` wrapping return values of generated API methods. If enabled, method are generated with return type ResponseEntity&lt;?&gt;| |false|
+|generateJsonIncludeAnnotations|Whether to generate policy @JsonInclude annotations on model properties. When true, emits spec-honest annotations (required-field protection and the optional non-nullable policy from optionalNonNullPropertyJsonInclude). When false, none are generated and the global ObjectMapper owns inclusion. When left unset it defaults to false (7.23.0-equivalent output) and logs a warning; set it explicitly to silence the warning. A per-property override set via the `x-jackson-json-include-policy` vendor extension is always honored regardless of this flag.| |false|
+|generateJsonSetterNullsAnnotations|Whether to generate @JsonSetter(nulls = ...) annotations on optional non-nullable model properties. When true, emits @JsonSetter so an explicit null in the payload does not overwrite the field. When false, none are generated and deserialization null-handling defers to the global ObjectMapper. When left unset it defaults to false (7.23.0-equivalent output) and logs a warning; set it explicitly to silence the warning.| |false|
+|generatePageableConstraintValidation|Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library is spring-boot or spring-cloud.| |false|
+|generateSortValidation|Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library is spring-boot or spring-cloud.| |false|
 |generatedConstructorWithRequiredArgs|Whether to generate constructors with required args for models| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hateoas|Use Spring HATEOAS library to allow adding HATEOAS links| |false|
@@ -79,6 +85,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |modelPackage|package for generated models| |org.openapitools.model|
 |openApiNullable|Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.| |true|
 |optionalAcceptNullable|Use `ofNullable` instead of just `of` to accept null values when using Optional.| |true|
+|optionalNonNullPropertyJsonInclude|The Jackson @JsonInclude policy emitted for optional, non-nullable model properties when generateJsonIncludeAnnotations is true. NONE emits no annotation, deferring fully to the global ObjectMapper inclusion policy.|<dl><dt>**NON_NULL**</dt><dd>Omit the property when its value is null (default, spec-safe for non-nullable fields).</dd><dt>**NON_EMPTY**</dt><dd>Omit the property when its value is null or considered empty.</dd><dt>**NON_DEFAULT**</dt><dd>Omit the property when its value equals the default.</dd><dt>**NONE**</dt><dd>Emit no @JsonInclude annotation; defer to the global ObjectMapper.</dd></dl>|NON_NULL|
+|optionalNonNullPropertyJsonSetterNulls|The Jackson @JsonSetter(nulls = ...) mode emitted for optional, non-nullable model properties when generateJsonSetterNullsAnnotations is true. SKIP ignores an explicit JSON null (keeping the field's default), FAIL rejects it. When left unset the mode is derived from openApiNullable (true -&gt; FAIL where supported, false -&gt; SKIP), preserving 7.24.x behavior. A per-property override set via the `x-jackson-json-setter-nulls` vendor extension always wins.|<dl><dt>**SKIP**</dt><dd>Emit @JsonSetter(nulls = Nulls.SKIP): silently ignore an explicit JSON null, keeping the field's default.</dd><dt>**FAIL**</dt><dd>Emit @JsonSetter(nulls = Nulls.FAIL): reject an explicit JSON null.</dd></dl>|null|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
@@ -101,12 +109,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
 |springApiVersion|Value for 'version' attribute in @RequestMapping (for Spring 7 and above).| |null|
+|springSecurityAuthorityPrefix|Prefix added to OAuth2/OpenID Connect scopes when generating Spring Security authorities.| |SCOPE_|
+|substituteGenericPagedModel|Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' pagination-metadata property) and replace their generated references with PagedModel&lt;T&gt;. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata schema are suppressed from code generation.| |false|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|server title name or client service name| |OpenAPI Spring|
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
-|useDeductionForOneOfInterfaces|whether to use deduction for generated oneOf interfaces| |false|
+|useDeductionForOneOfInterfaces|Annotate discriminator-free oneOf interfaces with Jackson's @JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype is resolved from the JSON field set rather than a type-tag property. Has no effect when a discriminator is present (name-based resolution is used instead). Requires subtypes to have structurally distinct sets of properties.| |false|
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
+|useEnumValueInterface|Generate a ValuedEnum&lt;T&gt; interface in the config package and make all generated enums implement it, providing a common typed way to access the underlying enum value. Use `importMappings.ValuedEnum` to substitute a custom/library-provided interface instead of generating one.| |false|
 |useFeignClientContextId|Whether to generate Feign client with contextId parameter.| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useHttpServiceProxyFactoryInterfacesConfigurator|Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.| |false|
@@ -121,6 +132,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSpringBoot4|Generate code and provide dependencies for use with Spring Boot 4.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
 |useSpringBuiltInValidation|Disable `@Validated` at the class level when using built-in validation.| |false|
 |useSpringController|Annotate the generated API as a Spring Controller| |false|
+|useSpringSecurityPreAuthorize|Generate Spring Security @PreAuthorize annotations from OAuth2/OpenID Connect security scopes.| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|use tags for creating interface and controller classnames| |false|
 |virtualService|Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki| |false|
@@ -137,16 +149,18 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-tags|Specify multiple swagger tags for operation|OPERATION|null
 |x-accepts|Specify custom value for 'Accept' header for operation|OPERATION|null
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
-|x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
-|x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
-|x-operation-extra-annotation|List of custom annotations to be added to operation|OPERATION|null
-|x-spring-paginated|Add `org.springframework.data.domain.Pageable` to controller method. Can be used to handle `page`, `size` and `sort` query parameters. If these query parameters are also specified in the operation spec, they will be removed from the controller method as their values can be obtained from the `Pageable` object.|OPERATION|false
+|x-class-extra-annotation|Custom annotation(s) to be added to model; accepts a string or list of strings|MODEL|null
+|x-field-extra-annotation|Custom annotation(s) to be added to property; accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
+|x-operation-extra-annotation|Custom annotation(s) to be added to operation; accepts a string or list of strings|OPERATION|null
+|x-spring-paginated|Add `org.springframework.data.domain.Pageable` to controller method. Can be used to handle `page`, `size` and `sort` query parameters. If these query parameters are also specified in the operation spec, they will be removed from the controller method as their values can be obtained from the `Pageable` object. Applies when `library=spring-boot` or `library=spring-cloud`; ignored for other (client) libraries.|OPERATION|false
 |x-version-param|Marker property that tells that this parameter would be used for endpoint versioning. Applicable for headers & query params. true/false|OPERATION_PARAMETER|null
 |x-pattern-message|Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
 |x-size-message|Add this property whenever you need to customize the invalidation error message for the size or length of a variable|FIELD, OPERATION_PARAMETER|null
 |x-minimum-message|Add this property whenever you need to customize the invalidation error message for the minimum value of a variable|FIELD, OPERATION_PARAMETER|null
 |x-maximum-message|Add this property whenever you need to customize the invalidation error message for the maximum value of a variable|FIELD, OPERATION_PARAMETER|null
 |x-spring-api-version|Value for 'version' attribute in @RequestMapping (for Spring 7 and above).|OPERATION|null
+|x-jackson-json-include-policy|Manually override the resolved Jackson `@JsonInclude` policy for this property. Must be one of `ALWAYS`, `NON_NULL`, `NON_ABSENT`, `NON_EMPTY`, `NON_DEFAULT`, `USE_DEFAULTS`, `CUSTOM`, or `NONE` to emit no annotation. Always wins over the automatic required/nullable matrix and the `optionalNonNullPropertyJsonInclude` option.|FIELD|resolved automatically per the required/nullable matrix
+|x-jackson-json-setter-nulls|Manually override the resolved Jackson `@JsonSetter(nulls = ...)` deserialization null-handling for this property. Must be one of `SKIP` (ignore an explicit JSON null, keeping the default), `FAIL` (reject an explicit JSON null), or `NONE` to emit no annotation. Always wins over the automatic `openApiNullable` default and the `optionalNonNullPropertyJsonSetterNulls` option, and is honored regardless of `generateJsonSetterNullsAnnotations` or whether the property is required/nullable.|FIELD|resolved automatically per the openApiNullable default
 
 
 ## IMPORT MAPPING

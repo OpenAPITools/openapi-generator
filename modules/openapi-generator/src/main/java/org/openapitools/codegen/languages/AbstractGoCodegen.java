@@ -29,8 +29,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -38,6 +41,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
+    private static final String X_GO_CUSTOM_TAG = "x-go-custom-tag";
 
     @Setter
     protected boolean withGoCodegenComment = false;
@@ -59,6 +63,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean generateUnmarshalJSON = true;
     @Setter
     protected boolean useDefaultValuesForRequiredVars = false;
+    @Setter
+    protected boolean useHttpHeaderSet = false;
 
     @Setter
     protected String packageName = "openapi";
@@ -394,7 +400,23 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(unaliasSchema(inner));
+            if (inner != null) {
+                inner = unaliasSchema(inner);
+            }
+            String typDecl;
+            if (inner != null) {
+                typDecl = getTypeDeclaration(inner);
+            } else {
+                typDecl = "interface{}";
+            }
+
+            // when nullable and the type of the map isn't nullable already (maps, slices, ...): make it a pointer
+            if (inner != null && Boolean.TRUE.equals(inner.getNullable()) && !typDecl.startsWith("map") && !typDecl.startsWith("[]")) {
+                typDecl = "*" + typDecl;
+            }
+
+            return getSchemaType(p) + "[string]" + typDecl;
+
         }
 
         //return super.getTypeDeclaration(p);
@@ -788,9 +810,20 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 if (cp.pattern != null) {
-                    cp.vendorExtensions.put("x-go-custom-tag", "validate:\"regexp=" +
-                            cp.pattern.replace("\\", "\\\\").replaceAll("^/|/$", "") +
-                            "\"");
+                    String regexp = String.format(Locale.getDefault(), "regexp=%s", cp.pattern);
+
+                    // Replace backtick by \\x60, if found
+                    if (regexp.contains("`")) {
+                        regexp = regexp.replace("`", "\\x60");
+                    }
+
+                    // Escape comma
+                    if (regexp.contains(",")) {
+                        regexp = regexp.replace(",", "\\\\,");
+                    }
+
+                    String validate = String.format(Locale.getDefault(), "validate:\"%s\"", regexp);
+                    cp.vendorExtensions.put(X_GO_CUSTOM_TAG, validate);
                 }
 
                 // construct data tag in the template: x-go-datatag
@@ -819,8 +852,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 // {{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}
-                if (StringUtils.isNotEmpty(String.valueOf(cp.vendorExtensions.getOrDefault("x-go-custom-tag", "")))) {
-                    goDataTag += " " + cp.vendorExtensions.get("x-go-custom-tag");
+                if (StringUtils.isNotEmpty(String.valueOf(cp.vendorExtensions.getOrDefault(X_GO_CUSTOM_TAG, "")))) {
+                    goDataTag += " " + cp.vendorExtensions.get(X_GO_CUSTOM_TAG);
                 }
 
                 // if it contains backtick, wrap with " instead
@@ -837,13 +870,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             // if oneOf contains "null" type
-            if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("nil")) {
+            if (hasOneOf(model) && model.oneOf.contains("nil")) {
                 model.isNullable = true;
                 model.oneOf.remove("nil");
             }
 
             // if anyOf contains "null" type
-            if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("nil")) {
+            if (hasAnyOf(model) && model.anyOf.contains("nil")) {
                 model.isNullable = true;
                 model.anyOf.remove("nil");
             }
@@ -876,6 +909,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
+    }
+
+    @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
@@ -890,6 +928,18 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
+    }
+
+    /**
+     * checks if the data should be classified as "string" in enum
+     * In the future, we may rename this function to "isEnumString"
+     *
+     * @param dataType data type
+     * @return true if it's a enum string
+     */
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        return "string".equalsIgnoreCase(dataType);
     }
 
     @Override
@@ -907,6 +957,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     public String toEnumValue(String value, String datatype) {
         if (isNumberType(datatype) || "bool".equals(datatype)) {
+            return value;
+        } else if (isDataTypeString(datatype) && value.indexOf("\"") == 0 && value.lastIndexOf("\"") == value.length() - 1) {
             return value;
         } else {
             return "\"" + escapeText(value) + "\"";

@@ -35,7 +35,7 @@ function Initialize-PSArrayOfArrayOfNumberOnly {
 
 
         $PSO = [PSCustomObject]@{
-            "ArrayArrayNumber" = ${ArrayArrayNumber}
+            'ArrayArrayNumber' = ${ArrayArrayNumber}
         }
 
 
@@ -73,21 +73,21 @@ function ConvertFrom-PSJsonToArrayOfArrayOfNumberOnly {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSArrayOfArrayOfNumberOnly
-        $AllProperties = ("ArrayArrayNumber")
+        $AllProperties = ('ArrayArrayNumber')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "ArrayArrayNumber"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'ArrayArrayNumber'))) { #optional property not found
             $ArrayArrayNumber = $null
         } else {
-            $ArrayArrayNumber = $JsonParameters.PSobject.Properties["ArrayArrayNumber"].value
+            $ArrayArrayNumber = $JsonParameters.PSobject.Properties['ArrayArrayNumber'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "ArrayArrayNumber" = ${ArrayArrayNumber}
+            'ArrayArrayNumber' = ${ArrayArrayNumber}
         }
 
         return $PSO

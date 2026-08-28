@@ -115,8 +115,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="OuterComposite" />
     /// </summary>
-    public class OuterCompositeJsonConverter : JsonConverter<OuterComposite>
+    public partial class OuterCompositeJsonConverter : JsonConverter<OuterComposite>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OuterCompositeJsonConverter" /> class.
+        /// </summary>
+        public OuterCompositeJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="OuterComposite" />
         /// </summary>

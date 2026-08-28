@@ -698,8 +698,8 @@ components:
   schemas:
     Category:
       example:
-        name: Dogs
         id: 1
+        name: Dogs
       properties:
         id:
           example: 1
@@ -713,8 +713,8 @@ components:
         name: category
     Tag:
       example:
-        name: name
         id: 0
+        name: name
       properties:
         id:
           format: int64
@@ -726,19 +726,19 @@ components:
         name: tag
     Pet:
       example:
+        id: 10
+        name: doggie
+        category:
+          id: 1
+          name: Dogs
         photoUrls:
         - photoUrls
         - photoUrls
-        name: doggie
-        id: 10
-        category:
-          name: Dogs
-          id: 1
         tags:
-        - name: name
-          id: 0
-        - name: name
-          id: 0
+        - id: 0
+          name: name
+        - id: 0
+          name: name
         status: available
       properties:
         id:

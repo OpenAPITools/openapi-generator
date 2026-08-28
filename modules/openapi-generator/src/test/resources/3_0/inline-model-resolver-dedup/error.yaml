@@ -1,0 +1,8 @@
+title: Error
+description: An API error response
+type: object
+properties:
+  code:
+    type: integer
+  message:
+    type: string

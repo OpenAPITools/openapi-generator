@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **call123testSpecialTags**
 ```swift
-    open class func call123testSpecialTags(uuidTest: UUID, body: Client, completion: @escaping (_ data: Client?, _ error: Error?) -> Void)
+    open class func call123testSpecialTags(uuidTest: UUID, body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Client
 ```
 
 To test special tags
@@ -25,15 +25,11 @@ let uuidTest = 987 // UUID | to test uuid example value
 let body = Client(client: "client_example") // Client | client model
 
 // To test special tags
-AnotherFakeAPI.call123testSpecialTags(uuidTest: uuidTest, body: body) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await AnotherFakeAPI.call123testSpecialTags(uuidTest: uuidTest, body: body)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 

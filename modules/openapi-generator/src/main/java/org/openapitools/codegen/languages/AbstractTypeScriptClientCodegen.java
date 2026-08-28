@@ -588,6 +588,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return nameMapping.get(name);
         }
 
+        // translate @ for properties (like @type) to at_.
+        // Otherwise an additional "type" property will lead to duplicates
+        name = name.replaceAll("^@", "at_");
+
         name = sanitizeName(name, "[^\\w$]");
 
         if ("_".equals(name)) {
@@ -772,7 +776,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     private String numericEnumValuesToEnumTypeUnion(List<Number> values) {
         List<String> stringValues = new ArrayList<>();
         for (Number value : values) {
-            stringValues.add(value.toString());
+            if (value == null) {
+                LOGGER.warn("An enum value was null. See https://github.com/swagger-api/swagger-core/issues/4223");
+            } else {
+                stringValues.add(value.toString());
+            }
         }
         return enumValuesToEnumTypeUnion(stringValues, "number");
     }
@@ -1047,6 +1055,23 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 m.imports.add(s);
             }
         }
+    }
+
+    /**
+     * Returns true for multipart form arrays whose array or item schema is binary.
+     *
+     * @param parameter Codegen parameter
+     */
+    protected static boolean isBinaryFormArray(CodegenParameter parameter) {
+        if (!parameter.isFormParam || !parameter.isArray) {
+            return false;
+        }
+        if ("binary".equals(parameter.dataFormat)) {
+            return true;
+        }
+
+        CodegenProperty items = parameter.items;
+        return items != null && (items.isFile || items.isBinary || "binary".equals(items.dataFormat));
     }
 
     /**

@@ -33,8 +33,12 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/postgresql-schema/}.
+ */
 @SuppressWarnings("unchecked")
 public class PostgresqlSchemaCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PostgresqlSchemaCodegen.class);
@@ -504,8 +508,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
 
         if (Boolean.TRUE.equals(isEnum)) {
-            Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = (List<Object>) allowableValues.get("values");
+            List<Object> enumValues = getEnumValues(property.getAllowableValues());
             String typeName = this.toTableName(model.getName())
                     + "_" + this.toColumnName(property.getName());
             postgresqlSchema.put("typeDefinition", typeDefinition);
@@ -628,8 +631,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
 
         if (Boolean.TRUE.equals(isEnum)) {
-            Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = (List<Object>) allowableValues.get("values");
+            List<Object> enumValues = getEnumValues(property.allowableValues);
             String typeName = this.toTableName(model.getName())
                     + "_" + this.toColumnName(property.getName());
             postgresqlSchema.put("typeDefinition", typeDefinition);
@@ -734,8 +736,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
 
         if (Boolean.TRUE.equals(isEnum)) {
-            Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = (List<Object>) allowableValues.get("values");
+            List<Object> enumValues = getEnumValues(property.allowableValues);
             String typeName = this.toTableName(model.getName())
                     + "_" + this.toColumnName(property.getName());
             postgresqlSchema.put("typeDefinition", typeDefinition);

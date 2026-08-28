@@ -74,10 +74,9 @@ class MapOfArrayOfModel(BaseModel):
         _field_dict_of_array = {}
         if self.shop_id_to_org_online_lip_map:
             for _key_shop_id_to_org_online_lip_map in self.shop_id_to_org_online_lip_map:
-                if self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map] is not None:
-                    _field_dict_of_array[_key_shop_id_to_org_online_lip_map] = [
-                        _item.to_dict() for _item in self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map]
-                    ]
+                _field_dict_of_array[_key_shop_id_to_org_online_lip_map] = [
+                    _item.to_dict() if _item is not None else None for _item in self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map]
+                ] if self.shop_id_to_org_online_lip_map[_key_shop_id_to_org_online_lip_map] is not None else None
             _dict['shopIdToOrgOnlineLipMap'] = _field_dict_of_array
         return _dict
 
@@ -91,14 +90,12 @@ class MapOfArrayOfModel(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "shopIdToOrgOnlineLipMap": dict(
-                (_k,
-                        [Tag.from_dict(_item) for _item in _v]
-                        if _v is not None
-                        else None
-                )
-                for _k, _v in obj.get("shopIdToOrgOnlineLipMap", {}).items()
-            )
+            "shopIdToOrgOnlineLipMap": {
+                _k: [Tag.from_dict(_item) for _item in _v] if _v is not None else None
+                for _k, _v in obj["shopIdToOrgOnlineLipMap"].items()
+            }
+            if obj.get("shopIdToOrgOnlineLipMap") is not None
+            else None
         })
         return _obj
 

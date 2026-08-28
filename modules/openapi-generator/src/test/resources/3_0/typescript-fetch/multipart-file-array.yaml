@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Multipart File Array
+  version: 1.0.0
+paths:
+  /upload:
+    post:
+      operationId: uploadFiles
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - files
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                metadata:
+                  type: string
+      responses:
+        '204':
+          description: Successful upload

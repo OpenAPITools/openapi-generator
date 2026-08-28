@@ -85,8 +85,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="DanishPig" />
     /// </summary>
-    public class DanishPigJsonConverter : JsonConverter<DanishPig>
+    public partial class DanishPigJsonConverter : JsonConverter<DanishPig>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DanishPigJsonConverter" /> class.
+        /// </summary>
+        public DanishPigJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="DanishPig" />
         /// </summary>

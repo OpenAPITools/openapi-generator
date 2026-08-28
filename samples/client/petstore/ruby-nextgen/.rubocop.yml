@@ -1,0 +1,123 @@
+---
+plugins:
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.0
+  SuggestExtensions: false
+  # Merge our exclusions with RuboCop's defaults (vendor/**/*, etc.) instead of
+  # replacing them.
+  inherit_mode:
+    merge:
+      - Exclude
+  Exclude:
+    # Zeitwerk entry point: intentionally thin and can't be reorganized further.
+    - lib/petstore.rb
+    # Bundler binstubs (if generated) are not our code to lint.
+    - bin/*
+
+Gemspec/RequireMFA:
+  Enabled: false
+
+#########
+# STYLE #
+#########
+
+Style/Documentation:
+  Enabled: false
+
+# The generated code uses `module Petstore` + nested class, a valid idiom RuboCop's
+# nested/compact binary does not model, and which is required for sibling-constant lexical scope.
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+# Generated `pattern:` regexes are copied verbatim from the OpenAPI document's
+# `pattern` keyword; escapes that look redundant inside a character class may
+# be exactly what the spec author intended, so this gem does not rewrite them.
+Style/RedundantRegexpEscape:
+  Enabled: false
+
+# Generated `enum:` arrays hold arbitrary spec-supplied string values (which
+# may contain whitespace or other characters unsafe for a bare %w literal),
+# so plain string arrays are kept instead of switching per-array based on
+# content.
+Style/WordArray:
+  Enabled: false
+
+# Operations whose operationId collides with a sibling (once camelized) get a
+# numeric suffix (`_1`, `_2`, ...) from OpenAPI Generator's own operationId
+# de-duplication, driven by the source document rather than this gem.
+Naming/VariableNumber:
+  Enabled: false
+
+##########
+# LAYOUT #
+##########
+
+# Method-call/attribute continuation lines use a fixed extra indent rather
+# than aligning to the first argument's column, since the column position
+# would otherwise vary with every generated method/attribute name.
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/HashAlignment:
+  EnforcedColonStyle: key
+  EnforcedHashRocketStyle: key
+
+# Generated hashes (query params, attribute maps) are mechanically emitted and legitimately long.
+Layout/LineLength:
+  Enabled: false
+
+###########
+# METRICS #
+###########
+
+# Generated models/APIs mirror the shape of the OpenAPI document they were
+# generated from -- a schema with many properties or an API with many
+# operations legitimately produces a large class/method. Rather than chase
+# generated-code-only offenses forever, the Metrics department is tuned very
+# generously (effectively off) for this generated gem; genuine style cops
+# above stay on.
+Metrics:
+  Enabled: false
+
+#########
+# RSPEC #
+#########
+
+# Generated specs are intentionally repetitive/thin smoke tests over
+# generated models and APIs; relax the cops that assume hand-written,
+# example-per-behavior specs.
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false
+
+# The generated spec tree intentionally omits an extra top-level directory
+# named after the gem (spec/api/..., not spec/<gem_name>/api/...) since the
+# whole spec/ directory is already gem-scoped; that layout choice is a
+# permanent mismatch with this cop's naming convention.
+RSpec/SpecFilePathFormat:
+  Enabled: false

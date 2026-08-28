@@ -12,6 +12,9 @@ import java.util.Locale;
 
 import static java.util.UUID.randomUUID;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/aspnet-fastendpoints/}.
+ */
 public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen implements CodegenConfig {
 
     public static final String PROJECT_NAME = "projectName";

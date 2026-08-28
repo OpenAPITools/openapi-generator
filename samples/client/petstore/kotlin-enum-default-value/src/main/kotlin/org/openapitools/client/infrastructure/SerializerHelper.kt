@@ -6,6 +6,8 @@ import com.squareup.moshi.adapters.EnumJsonAdapter
 object SerializerHelper {
     fun addEnumUnknownDefaultCase(moshiBuilder: Moshi.Builder): Moshi.Builder {
         return moshiBuilder
+            .add(org.openapitools.client.models.ComplexEnum::class.java, EnumJsonAdapter.create(org.openapitools.client.models.ComplexEnum::class.java)
+                .withUnknownFallback(org.openapitools.client.models.ComplexEnum.unknown_default_open_api))
             .add(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName::class.java, EnumJsonAdapter.create(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName::class.java)
                 .withUnknownFallback(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName.unknown_default_open_api))
             .add(org.openapitools.client.models.PropertyOfDay.DaysOfWeek::class.java, EnumJsonAdapter.create(org.openapitools.client.models.PropertyOfDay.DaysOfWeek::class.java)

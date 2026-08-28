@@ -1,3 +1,6 @@
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     @{{httpMethod}}{{#subresourceOperation}}
     @Path("{{{path}}}"){{/subresourceOperation}}{{#hasConsumes}}
     @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
@@ -18,7 +21,7 @@
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}}
     }){{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
-    @Operation(summary = "{{{summary}}}", description = "{{{notes}}}")
+    @Operation(summary = "{{{summary}}}", description = "{{{notes}}}"{{#isDeprecated}}, deprecated = true{{/isDeprecated}})
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"){{^-last}},{{/-last}}{{/responses}}
     }){{/useSwaggerV3Annotations}}

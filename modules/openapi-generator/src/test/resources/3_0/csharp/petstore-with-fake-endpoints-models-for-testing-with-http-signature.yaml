@@ -1468,6 +1468,25 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/RolesReportsHash'
+    InjectedVendorExtensionsTest:
+      type: object
+      properties:
+        unalteredProperty:
+          type: string
+          readOnly: true
+        potentiallyOverriddenPropertyToPrivate:
+          type: string
+          readOnly: true
+        potentiallyOverriddenPropertyToInternal:
+          type: string
+          readOnly: true
+        potentiallyOverriddenPropertyToPublic:
+          type: string
+          readOnly: true
+        unalteredPropertyAccessor:
+          type: string
+        potentiallyOverriddenPropertyAccessor:
+          type: string
     RolesReportsHash:
       description: Role report Hash
       type: object

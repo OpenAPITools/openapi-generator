@@ -35,9 +35,9 @@ components:
           c: Child
         propertyName: $_type
       example:
+        $_type: $_type
         lastName: lastName
         firstName: firstName
-        $_type: $_type
       properties:
         $_type:
           type: string

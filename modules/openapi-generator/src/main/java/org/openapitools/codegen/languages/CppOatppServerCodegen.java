@@ -37,6 +37,9 @@ import java.util.function.Predicate;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/cpp-oatpp-server/}.
+ */
 public class CppOatppServerCodegen extends AbstractCppCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(CppOatppServerCodegen.class);
 

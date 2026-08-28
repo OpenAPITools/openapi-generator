@@ -12,44 +12,77 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  EnumPatternObject,
-  FakeEnumRequestGetInline200Response,
-  NumberEnum,
-  StringEnum,
-} from '../models/index';
 import {
+    type EnumPatternObject,
     EnumPatternObjectFromJSON,
     EnumPatternObjectToJSON,
+} from '../models/EnumPatternObject';
+import {
+    type FakeEnumRequestGetInline200Response,
     FakeEnumRequestGetInline200ResponseFromJSON,
     FakeEnumRequestGetInline200ResponseToJSON,
+} from '../models/FakeEnumRequestGetInline200Response';
+import {
+    type NumberEnum,
     NumberEnumFromJSON,
     NumberEnumToJSON,
+} from '../models/NumberEnum';
+import {
+    type StringEnum,
     StringEnumFromJSON,
     StringEnumToJSON,
-} from '../models/index';
+} from '../models/StringEnum';
 
 export interface FakeEnumRequestGetInlineRequest {
+    /**
+     * 
+     */
     stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;
+    /**
+     * 
+     */
     nullableStringEnum?: FakeEnumRequestGetInlineNullableStringEnumEnum;
+    /**
+     * 
+     */
     numberEnum?: FakeEnumRequestGetInlineNumberEnumEnum;
+    /**
+     * 
+     */
     nullableNumberEnum?: FakeEnumRequestGetInlineNullableNumberEnumEnum;
 }
 
 export interface FakeEnumRequestGetRefRequest {
+    /**
+     * 
+     */
     stringEnum?: StringEnum;
+    /**
+     * 
+     */
     nullableStringEnum?: StringEnum | null;
+    /**
+     * 
+     */
     numberEnum?: NumberEnum;
+    /**
+     * 
+     */
     nullableNumberEnum?: NumberEnum | null;
 }
 
 export interface FakeEnumRequestPostInlineRequest {
+    /**
+     * 
+     */
     fakeEnumRequestGetInline200Response?: FakeEnumRequestGetInline200Response;
 }
 
 export interface FakeEnumRequestPostRefRequest {
+    /**
+     * 
+     */
     enumPatternObject?: EnumPatternObject;
 }
 
@@ -245,7 +278,7 @@ export class DefaultApi extends runtime.BaseAPI {
 export enum FakeEnumRequestGetInlineStringEnumEnum {
     One = 'one',
     Two = 'two',
-    Three = 'three'
+    Three = 'three',
 }
 /**
   * @export
@@ -254,7 +287,7 @@ export enum FakeEnumRequestGetInlineStringEnumEnum {
 export enum FakeEnumRequestGetInlineNullableStringEnumEnum {
     One = 'one',
     Two = 'two',
-    Three = 'three'
+    Three = 'three',
 }
 /**
   * @export
@@ -263,7 +296,7 @@ export enum FakeEnumRequestGetInlineNullableStringEnumEnum {
 export enum FakeEnumRequestGetInlineNumberEnumEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
-    NUMBER_3 = 3
+    NUMBER_3 = 3,
 }
 /**
   * @export
@@ -272,5 +305,5 @@ export enum FakeEnumRequestGetInlineNumberEnumEnum {
 export enum FakeEnumRequestGetInlineNullableNumberEnumEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
-    NUMBER_3 = 3
+    NUMBER_3 = 3,
 }

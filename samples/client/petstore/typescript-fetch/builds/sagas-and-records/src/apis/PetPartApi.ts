@@ -12,29 +12,49 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  GetMatchingPartsResponse,
-  GetPetPartTypeResponse,
-} from '../models/index';
 import {
+    type GetMatchingPartsResponse,
     GetMatchingPartsResponseFromJSON,
     GetMatchingPartsResponseToJSON,
+} from '../models/GetMatchingPartsResponse';
+import {
+    type GetPetPartTypeResponse,
     GetPetPartTypeResponseFromJSON,
     GetPetPartTypeResponseToJSON,
-} from '../models/index';
+} from '../models/GetPetPartTypeResponse';
 
 export interface GetFakePetPartTypeRequest {
+    /**
+     * 
+     */
     fakePetPartId: number;
 }
 
 export interface GetMatchingPartsRequest {
+    /**
+     * 
+     */
     fakePetPartId: number;
+    /**
+     * 
+     */
     _long: boolean;
+    /**
+     * 
+     */
     smooth: boolean;
+    /**
+     * 
+     */
     _short: boolean;
+    /**
+     * 
+     */
     name?: string;
+    /**
+     * 
+     */
     connectedPart?: string;
 }
 
@@ -60,7 +80,7 @@ export class PetPartApi extends runtime.BaseAPI {
 
 
         let urlPath = `/fake_petParts/{fake_petPart-id}/part-type`;
-        urlPath = urlPath.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters['fakePetPartId'])));
+        urlPath = urlPath.replace('{fake_petPart-id}', encodeURIComponent(String(requestParameters['fakePetPartId'])));
 
         return {
             path: urlPath,
@@ -146,7 +166,7 @@ export class PetPartApi extends runtime.BaseAPI {
 
 
         let urlPath = `/fake_petParts/{fake_petPart-id}/matching-parts`;
-        urlPath = urlPath.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters['fakePetPartId'])));
+        urlPath = urlPath.replace('{fake_petPart-id}', encodeURIComponent(String(requestParameters['fakePetPartId'])));
 
         return {
             path: urlPath,

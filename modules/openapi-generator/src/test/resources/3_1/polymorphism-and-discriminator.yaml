@@ -9,6 +9,7 @@ paths: {}
 components:
   schemas:
     Pet:
+      description: A pet
       type: object
       discriminator:
         propertyName: petType

@@ -1,0 +1,51 @@
+openapi: "3.0.0"
+info:
+  title: Built-value additionalProperties BuilderFactory test
+  version: "1.0.0"
+paths:
+  /catalog/{id}:
+    get:
+      operationId: getCatalog
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Catalog"
+components:
+  schemas:
+    Widget:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    # `additionalProperties: { type: array, items: ... }` is the canonical
+    # "map of array of $ref" shape. Without the BuilderFactory walk,
+    # deserialization throws
+    #   Bad state: No builder factory for BuiltList<Widget>
+    WidgetsByCategory:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          $ref: "#/components/schemas/Widget"
+    Catalog:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+        widgetsByCategory:
+          $ref: "#/components/schemas/WidgetsByCategory"

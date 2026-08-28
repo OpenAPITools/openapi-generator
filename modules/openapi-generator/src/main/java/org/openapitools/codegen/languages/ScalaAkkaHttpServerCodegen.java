@@ -36,6 +36,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-akka-http-server/}.
+ */
 public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String groupId;
     protected String artifactId;

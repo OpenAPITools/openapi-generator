@@ -55,11 +55,11 @@ function Initialize-PSObjectWithDeprecatedFields {
 
 
         $PSO = [PSCustomObject]@{
-            "uuid" = ${Uuid}
-            "id" = ${Id}
-            "deprecatedRef" = ${DeprecatedRef}
-            "bars" = ${Bars}
-            "name_mapping" = ${SomethingElse}
+            'uuid' = ${Uuid}
+            'id' = ${Id}
+            'deprecatedRef' = ${DeprecatedRef}
+            'bars' = ${Bars}
+            'name_mapping' = ${SomethingElse}
         }
 
 
@@ -97,49 +97,49 @@ function ConvertFrom-PSJsonToObjectWithDeprecatedFields {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSObjectWithDeprecatedFields
-        $AllProperties = ("uuid", "id", "deprecatedRef", "bars", "name_mapping")
+        $AllProperties = ('uuid', 'id', 'deprecatedRef', 'bars', 'name_mapping')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "uuid"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'uuid'))) { #optional property not found
             $Uuid = $null
         } else {
-            $Uuid = $JsonParameters.PSobject.Properties["uuid"].value
+            $Uuid = $JsonParameters.PSobject.Properties['uuid'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'id'))) { #optional property not found
             $Id = $null
         } else {
-            $Id = $JsonParameters.PSobject.Properties["id"].value
+            $Id = $JsonParameters.PSobject.Properties['id'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "deprecatedRef"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'deprecatedRef'))) { #optional property not found
             $DeprecatedRef = $null
         } else {
-            $DeprecatedRef = $JsonParameters.PSobject.Properties["deprecatedRef"].value
+            $DeprecatedRef = $JsonParameters.PSobject.Properties['deprecatedRef'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "bars"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'bars'))) { #optional property not found
             $Bars = $null
         } else {
-            $Bars = $JsonParameters.PSobject.Properties["bars"].value
+            $Bars = $JsonParameters.PSobject.Properties['bars'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "name_mapping"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'name_mapping'))) { #optional property not found
             $SomethingElse = $null
         } else {
-            $SomethingElse = $JsonParameters.PSobject.Properties["name_mapping"].value
+            $SomethingElse = $JsonParameters.PSobject.Properties['name_mapping'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "uuid" = ${Uuid}
-            "id" = ${Id}
-            "deprecatedRef" = ${DeprecatedRef}
-            "bars" = ${Bars}
-            "name_mapping" = ${SomethingElse}
+            'uuid' = ${Uuid}
+            'id' = ${Id}
+            'deprecatedRef' = ${DeprecatedRef}
+            'bars' = ${Bars}
+            'name_mapping' = ${SomethingElse}
         }
 
         return $PSO

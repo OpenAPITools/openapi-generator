@@ -39,6 +39,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ExamplesUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,12 +52,16 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.CodegenConstants.X_EXAMPLE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript/}.
+ */
 public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptClientCodegen.class);
 
@@ -77,6 +82,9 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     private static final String USE_OBJECT_PARAMS_SWITCH = "useObjectParameters";
     private static final String USE_OBJECT_PARAMS_DESC = "Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.";
+    private static final String ENUM_TYPE_SWITCH = "enumType";
+    private static final String ENUM_TYPE_SWITCH_DESC = "Specify the enum type which should be used in the client code.";
+    private static final String[][] ENUM_TYPES = {{"stringUnion", "Union of literal string types"}, {"enum", "Typescript's [string enums](https://www.typescriptlang.org/docs/handbook/enums.html#string-enums)"}};
 
     protected static final String TYPESCRIPT_MAJOR_VERSION_SWTICH = "typescriptMajorVersion";
     private static final String TYPESCRIPT_MAJOR_VERSION_DESC = "Specify the major version of TypeScript to use in the client code. Default is 5.";
@@ -155,6 +163,13 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         platformOption.defaultValue(PLATFORMS[0]);
 
         cliOptions.add(platformOption);
+
+        CliOption enumTypeOption = new CliOption(TypeScriptClientCodegen.ENUM_TYPE_SWITCH, TypeScriptClientCodegen.ENUM_TYPE_SWITCH_DESC);
+        for (String[] option : TypeScriptClientCodegen.ENUM_TYPES) {
+            enumTypeOption.addEnum(option[0], option[1]);
+        }
+        enumTypeOption.defaultValue(ENUM_TYPES[1][0]);
+        cliOptions.add(enumTypeOption);
 
         // Set property naming to camelCase
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
@@ -456,6 +471,15 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 "http" + File.separator + httpLibName + ".mustache",
                 "http", httpLibName + ".ts"
         ));
+
+        additionalProperties.putIfAbsent(ENUM_TYPE_SWITCH, ENUM_TYPES[1][0]);
+        Object propEnumType = additionalProperties.get(ENUM_TYPE_SWITCH);
+
+        Map<String, Boolean> enumTypes = new HashMap<>();
+        for (String[] option : ENUM_TYPES) {
+            enumTypes.put(option[0], option[0].equals(propEnumType));
+        }
+        additionalProperties.put("enumTypes", enumTypes);
 
         Object propPlatform = additionalProperties.get(PLATFORM_SWITCH);
         if (propPlatform == null) {
@@ -1038,8 +1062,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         }
 
         Object example = null;
-        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-            example = codegenParameter.vendorExtensions.get("x-example");
+        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey(X_EXAMPLE)) {
+            example = codegenParameter.vendorExtensions.get(X_EXAMPLE);
         } else if (parameter.getExample() != null) {
             example = parameter.getExample();
         } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty() && parameter.getExamples().values().iterator().next().getValue() != null) {
@@ -1060,16 +1084,13 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
      */
     @Override
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
-        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey(X_EXAMPLE)) {
+            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get(X_EXAMPLE));
         }
 
         Content content = requestBody.getContent();
 
-        if (content.size() > 1) {
-            // @see ModelUtils.getSchemaFromContent()
-            once(LOGGER).debug("Multiple MediaTypes found, using only the first one");
-        }
+        Optional<Object> contentExample = ExamplesUtils.getContentExample(content);
 
         MediaType mediaType = content.values().iterator().next();
         Schema schema = mediaType.getSchema();
@@ -1078,14 +1099,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             return;
         }
 
-        Object example = null;
-        if (mediaType.getExample() != null) {
-            example = mediaType.getExample();
-        } else if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty() && mediaType.getExamples().values().iterator().next().getValue() != null) {
-            example = mediaType.getExamples().values().iterator().next().getValue();
-        } else {
-            example = getObjectExample(schema);
-        }
+        Object example = contentExample.orElseGet(() -> getObjectExample(schema));
         example = exampleFromStringOrArraySchema(schema, example, codegenParameter.paramName);
         codegenParameter.example = toExampleValue(schema, example);
     }

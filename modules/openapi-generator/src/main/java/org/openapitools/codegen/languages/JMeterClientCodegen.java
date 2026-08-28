@@ -33,6 +33,9 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Map;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/jmeter-client/}.
+ */
 public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     // source folder where to write the files

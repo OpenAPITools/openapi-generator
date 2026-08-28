@@ -30,7 +30,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -75,8 +74,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.*;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -101,7 +101,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS = "additionalOneOfTypeAnnotations";
     public static final String ADDITIONAL_ENUM_TYPE_ANNOTATIONS = "additionalEnumTypeAnnotations";
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
-    public static final String OPENAPI_NULLABLE = "openApiNullable";
+    public static final String OPENAPI_NULLABLE = CodegenConstants.OPENAPI_NULLABLE;
     public static final String JACKSON = "jackson";
     public static final String TEST_OUTPUT = "testOutput";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
@@ -225,6 +225,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter
     protected boolean useJspecify;
     protected JSpecifyNullableLambda jSpecifyNullableLambda;
+    protected RemoveAnnotationLambda removeAnnotationLambda;
+
+    @Getter @Setter
+    protected boolean useDeductionForOneOfInterfaces = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -608,6 +612,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToBooleanAndWriteBack(USE_ONE_OF_INTERFACES, this::setUseOneOfInterfaces);
         convertPropertyToStringAndWriteBack(CodegenConstants.ENUM_PROPERTY_NAMING, this::setEnumPropertyNaming);
         convertPropertyToBooleanAndWriteBack(USE_JSPECIFY, this::setUseJspecify);
+        convertPropertyToBooleanAndWriteBack(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
@@ -672,10 +677,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put("jsr310", "true");
             typeMapping.put("date", "LocalDate");
             importMapping.put("LocalDate", "java.time.LocalDate");
+            typeMapping.put("time-local","LocalTime");
             importMapping.put("LocalTime", "java.time.LocalTime");
+            typeMapping.put("date-time-local", "LocalDateTime");
+            importMapping.put("LocalDateTime", "java.time.LocalDateTime");
             if ("java8-localdatetime".equals(dateLibrary)) {
                 typeMapping.put("DateTime", "LocalDateTime");
-                importMapping.put("LocalDateTime", "java.time.LocalDateTime");
             } else {
                 typeMapping.put("DateTime", "OffsetDateTime");
                 importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
@@ -701,9 +708,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             writer.write(content);
         });
-        additionalProperties.put("removeAnnotations", (Mustache.Lambda) (fragment, writer) -> {
-            writer.write(removeAnnotations(fragment.execute()));
-        });
+        this.removeAnnotationLambda = new RemoveAnnotationLambda();
+        additionalProperties.put("removeAnnotations", removeAnnotationLambda);
         additionalProperties.put("sanitizeDataType", (Mustache.Lambda) (fragment, writer) -> {
             writer.write(sanitizeDataType(fragment.execute()));
         });
@@ -876,6 +882,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator),
                     "package-info.java"));
         }
+        // simplify mustache template for jspecify. @Nullable is kept
+        this.removeAnnotationLambda.keepAnnotation("@Nullable");
     }
 
     @Override
@@ -1247,7 +1255,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                             .replace("\\", "\\\\")
                             .replace("\"", "\\\""));
 
-            validations = String.format(Locale.ROOT, "@Pattern(regexp = \"%s\")", pattern);
+            String patternMessage = (items.getExtensions() != null)
+                    ? (String) items.getExtensions().get("x-pattern-message")
+                    : null;
+            validations = String.format(Locale.ROOT, "@Pattern(regexp = \"%s\"%s)",
+                    pattern,
+                    (patternMessage != null ? ", message=\"" + patternMessage + "\"" : ""));
         }
 
         if (ModelUtils.isEmailSchema(items)) {
@@ -1383,7 +1396,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             return toArrayDefaultValue(cp, schema);
         } else if (ModelUtils.isMapSchema(schema) && !(ModelUtils.isComposedSchema(schema))) {
-            if (schema.getProperties() != null && schema.getProperties().size() > 0) {
+            if (ModelUtils.hasProperties(schema)) {
                 // object is complex object with free-form additional properties
                 if (schema.getDefault() != null) {
                     return super.toDefaultValue(schema);
@@ -1442,6 +1455,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return "URI.create(\"" + escapeText(String.valueOf(schema.getDefault())) + "\")";
             }
             return null;
+        } else if (ModelUtils.isTimeLocalSchema(schema)) {
+            if (schema.getDefault() != null) {
+                if ("java8".equals(getDateLibrary())) {
+                    return String.format(Locale.ROOT, "LocalTime.parse(\"%s\")", schema.getDefault());
+                }
+            }
+            return null;
+        } else if (ModelUtils.isDateTimeLocalSchema(schema)) {
+            if (schema.getDefault() != null) {
+                if ("java8".equals(getDateLibrary())) {
+                    return String.format(Locale.ROOT, "LocalDateTime.parse(\"%s\")", String.valueOf(schema.getDefault()));
+                }
+            }
+            return null;
         } else if (ModelUtils.isStringSchema(schema)) {
             if (schema.getDefault() != null) {
                 String _default;
@@ -1477,84 +1504,153 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         } else if (ModelUtils.isObjectSchema(schema)) {
             if (schema.getDefault() != null) {
-                try {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append("new " + cp.datatypeWithEnum + "()");
-                    Map<String, Schema> propertySchemas = schema.getProperties();
-                    if(propertySchemas != null) {
-                        // With `parseOptions.setResolve(true)`, objects with 1 key-value pair are LinkedHashMap and objects with more than 1 are ObjectNode
-                        // When not set, objects of any size are ObjectNode
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        ObjectNode objectNode;
-                        if(!(schema.getDefault() instanceof ObjectNode)) {
-                            objectNode = objectMapper.valueToTree(schema.getDefault());
-                        } else {
-                            objectNode = (ObjectNode) schema.getDefault();
-
-                        }
-                        Set<Map.Entry<String, JsonNode>> defaultProperties = objectNode.properties();
-                        for (Map.Entry<String, JsonNode> defaultProperty : defaultProperties) {
-                            String key = defaultProperty.getKey();
-                            JsonNode value = defaultProperty.getValue();
-                            Schema propertySchema = propertySchemas.get(key);
-                            if (!value.isValueNode() || propertySchema == null) { //Skip complex objects for now
-                                continue;
-                            }
-
-                            String defaultPropertyExpression = null;
-                            if(ModelUtils.isLongSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText()+"l";
-                            } else if(ModelUtils.isIntegerSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText();
-                            } else if(ModelUtils.isDoubleSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText()+"d";
-                            } else if(ModelUtils.isFloatSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText()+"f";
-                            } else if(ModelUtils.isNumberSchema(propertySchema)) {
-                                defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
-                            } else if(ModelUtils.isURISchema(propertySchema)) {
-                                defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
-                            } else if(ModelUtils.isDateSchema(propertySchema)) {
-                                if("java8".equals(getDateLibrary())) {
-                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDate.parse(\"%s\")", value.asText());
-                                }
-                            } else if(ModelUtils.isDateTimeSchema(propertySchema)) {
-                                if("java8".equals(getDateLibrary())) {
-                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.OffsetDateTime.parse(\"%s\", %s)",
-                                            value.asText(),
-                                            "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
-                                }
-                            } else if(ModelUtils.isUUIDSchema(propertySchema)) {
-                                defaultPropertyExpression = "java.util.UUID.fromString(\"" + value.asText() + "\")";
-                            } else if(ModelUtils.isStringSchema(propertySchema)) {
-                                defaultPropertyExpression = "\"" + value.asText() + "\"";
-                            } else if(ModelUtils.isBooleanSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText();
-                            }
-                            if(defaultPropertyExpression != null) {
-                                stringBuilder
-//                                        .append(System.lineSeparator())
-                                        .append(".")
-                                        .append(toVarName(key))
-                                        .append("(").append(defaultPropertyExpression).append(")");
-                            }
-                        }
-                    }
-                    return stringBuilder.toString();
-                } catch (ClassCastException e) {
-                    LOGGER.error("Can't resolve default value: "+schema.getDefault(), e);
-                    return null;
-                }
+                return toObjectDefaultValue(cp, schema.getDefault(), schema.getProperties());
             }
             return null;
         } else if (ModelUtils.isComposedSchema(schema)) {
             if (schema.getDefault() != null) {
+                // A `$ref` to an object schema combined with a sibling `default` (or an explicit `allOf`)
+                // is parsed as a composed schema, so the object's properties live in the `allOf` members
+                // rather than directly on the schema. Resolve them and render the default the same way as a
+                // plain object schema. Falling through to `super.toDefaultValue(...)` here would emit the raw
+                // default (e.g. `{"one":"one"}`) as Java, which does not compile (see #23795).
+                Map<String, Schema> propertySchemas = getComposedSchemaProperties(schema);
+                if (!propertySchemas.isEmpty()) {
+                    return toObjectDefaultValue(cp, schema.getDefault(), propertySchemas);
+                }
+                // No object properties resolved: the composition wraps a non-object, e.g. an `allOf`
+                // to an enum or scalar (`allOf: [{$ref: '#/.../CurrencyCode'}]` + sibling `default`).
+                // There is nothing to build via toObjectDefaultValue, so defer to the base behavior,
+                // which emits the raw default for later enum var-name / scalar conversion. Returning
+                // null here dropped the default and regressed enum defaults (see #24384).
                 return super.toDefaultValue(schema);
             }
             return null;
         }
 
         return super.toDefaultValue(schema);
+    }
+
+    /**
+     * Renders the default value of an object-typed property as a Java fluent builder expression, e.g.
+     * {@code new Pet().name("doggie").id(1l)}. Only scalar (value node) default properties for which a
+     * matching property schema is known are rendered; nested objects are skipped.
+     *
+     * @param cp              the codegen property carrying the target Java type ({@code datatypeWithEnum})
+     * @param defaultValue    the raw default value from the schema (a {@code Map}/{@code ObjectNode})
+     * @param propertySchemas the resolved property schemas used to type each default entry
+     * @return the Java expression, or {@code null} if it cannot be resolved
+     */
+    private String toObjectDefaultValue(CodegenProperty cp, Object defaultValue, Map<String, Schema> propertySchemas) {
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("new " + cp.datatypeWithEnum + "()");
+            if (propertySchemas != null) {
+                // With `parseOptions.setResolve(true)`, objects with 1 key-value pair are LinkedHashMap and objects with more than 1 are ObjectNode
+                // When not set, objects of any size are ObjectNode
+                ObjectMapper objectMapper = new ObjectMapper();
+                ObjectNode objectNode;
+                if(!(defaultValue instanceof ObjectNode)) {
+                    objectNode = objectMapper.valueToTree(defaultValue);
+                } else {
+                    objectNode = (ObjectNode) defaultValue;
+
+                }
+                Set<Map.Entry<String, JsonNode>> defaultProperties = objectNode.properties();
+                for (Map.Entry<String, JsonNode> defaultProperty : defaultProperties) {
+                    String key = defaultProperty.getKey();
+                    JsonNode value = defaultProperty.getValue();
+                    Schema propertySchema = propertySchemas.get(key);
+                    if (!value.isValueNode() || propertySchema == null) { //Skip complex objects for now
+                        continue;
+                    }
+
+                    String defaultPropertyExpression = null;
+                    if(ModelUtils.isEnumSchema(ModelUtils.getReferencedSchema(this.openAPI, propertySchema))) {
+                        // Enum-typed property: render the enum constant (e.g. `OutputFormat.OrderEnum.SIMILARITY`)
+                        // rather than a raw quoted string, which would not compile (see #24298).
+                        CodegenProperty enumProperty = fromProperty(key, propertySchema);
+                        String enumType = enumProperty.isEnum
+                                // an inline enum is generated as a nested class of the containing object type
+                                ? cp.datatypeWithEnum + "." + enumProperty.datatypeWithEnum
+                                // a `$ref` to a named enum is a top-level type
+                                : enumProperty.datatypeWithEnum;
+                        defaultPropertyExpression = enumType + "." + toEnumVarName(value.asText(), enumProperty.dataType);
+                    } else if(ModelUtils.isLongSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText()+"l";
+                    } else if(ModelUtils.isIntegerSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText();
+                    } else if(ModelUtils.isDoubleSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText()+"d";
+                    } else if(ModelUtils.isFloatSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText()+"f";
+                    } else if(ModelUtils.isNumberSchema(propertySchema)) {
+                        defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
+                    } else if(ModelUtils.isURISchema(propertySchema)) {
+                        defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
+                    } else if(ModelUtils.isDateSchema(propertySchema)) {
+                        if("java8".equals(getDateLibrary())) {
+                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDate.parse(\"%s\")", value.asText());
+                        }
+                    } else if(ModelUtils.isDateTimeSchema(propertySchema)) {
+                        if("java8".equals(getDateLibrary())) {
+                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.OffsetDateTime.parse(\"%s\", %s)",
+                                    value.asText(),
+                                    "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
+                        }
+                    } else if(ModelUtils.isTimeLocalSchema(propertySchema)) {
+                        if("java8".equals(getDateLibrary())) {
+                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalTime.parse(\"%s\")", value.asText());
+                        }
+                    } else if(ModelUtils.isDateTimeLocalSchema(propertySchema)) {
+                        if("java8".equals(getDateLibrary())) {
+                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDateTime.parse(\"%s\")", value.asText());
+                        }
+                    } else if(ModelUtils.isUUIDSchema(propertySchema)) {
+                        defaultPropertyExpression = "java.util.UUID.fromString(\"" + value.asText() + "\")";
+                    } else if(ModelUtils.isStringSchema(propertySchema)) {
+                        defaultPropertyExpression = "\"" + value.asText() + "\"";
+                    } else if(ModelUtils.isBooleanSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText();
+                    }
+                    if(defaultPropertyExpression != null) {
+                        stringBuilder
+//                                        .append(System.lineSeparator())
+                                .append(".")
+                                .append(toVarName(key))
+                                .append("(").append(defaultPropertyExpression).append(")");
+                    }
+                }
+            }
+            return stringBuilder.toString();
+        } catch (ClassCastException e) {
+            LOGGER.error("Can't resolve default value: "+defaultValue, e);
+            return null;
+        }
+    }
+
+    /**
+     * Collects the property schemas of a composed schema by merging the schema's own properties with the
+     * properties of every {@code allOf} member (dereferencing {@code $ref}s as needed). This is used to
+     * render object defaults declared via a `$ref` + sibling `default` or an explicit `allOf`.
+     *
+     * @param schema the composed schema
+     * @return the merged property schemas (never {@code null}; empty when none can be resolved)
+     */
+    private Map<String, Schema> getComposedSchemaProperties(Schema schema) {
+        Map<String, Schema> propertySchemas = new LinkedHashMap<>();
+        if (schema.getProperties() != null) {
+            propertySchemas.putAll(schema.getProperties());
+        }
+        if (schema.getAllOf() != null) {
+            for (Object member : schema.getAllOf()) {
+                Schema resolved = ModelUtils.getReferencedSchema(this.openAPI, (Schema) member);
+                if (resolved != null && resolved.getProperties() != null) {
+                    propertySchemas.putAll(resolved.getProperties());
+                }
+            }
+        }
+        return propertySchemas;
     }
 
     private String getDefaultCollectionType(Schema schema) {
@@ -1670,36 +1766,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
         boolean isModel = (codegenParameter.isModel || (codegenParameter.isContainer && codegenParameter.getItems().isModel));
 
-        Content content = requestBody.getContent();
-
-        if (content.size() > 1) {
-            // @see ModelUtils.getSchemaFromContent()
-            LOGGER.debug("Multiple MediaTypes found, using only the first one");
-        }
-
-        MediaType mediaType = content.values().iterator().next();
-        if (mediaType.getExample() != null) {
-            if (isModel) {
+        MediaType mediaType = requestBody.getContent().values().iterator().next();
+        boolean hasExample = mediaType.getExample() != null || (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty());
+        if (isModel) {
+            if (hasExample) {
                 once(LOGGER).warn("Ignoring complex example on request body");
-            } else {
-                codegenParameter.example = mediaType.getExample().toString();
-                return;
             }
+            setParameterExampleValue(codegenParameter);
+        } else {
+            super.setParameterExampleValue(codegenParameter, requestBody);
         }
-
-        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
-            Example example = mediaType.getExamples().values().iterator().next();
-            if (example.getValue() != null) {
-                if (isModel) {
-                    once(LOGGER).warn("Ignoring complex example on request body");
-                } else {
-                    codegenParameter.example = example.getValue().toString();
-                    return;
-                }
-            }
-        }
-
-        setParameterExampleValue(codegenParameter);
     }
 
     @Override
@@ -1709,7 +1785,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         boolean hasAllowableValues = p.allowableValues != null && !p.allowableValues.isEmpty();
         if (hasAllowableValues) {
             //support examples for inline enums
-            final List<Object> values = (List<Object>) p.allowableValues.get("values");
+            final List<Object> values = getEnumValues(p.allowableValues);
             example = String.valueOf(values.get(0));
         } else if (p.defaultValue == null) {
             example = p.example;
@@ -2023,6 +2099,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * <p>
      * For example:
      * <ul>
+     *     <li>{@code @jakarta.annotation.Nullable String} -> {@code String}</li>
      *     <li>{@code @Min(0) @Max(10)Integer} -> {@code Integer}</li>
      *     <li>{@code @Pattern(regexp = "^[a-z]$")String>} -> {@code String}</li>
      *     <li>{@code List<@Pattern(regexp = "^[a-z]$")String>}" -> "{@code List<String>}"</li>
@@ -2034,7 +2111,38 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     public String removeAnnotations(String dataType) {
         if (dataType != null && dataType.contains("@")) {
-            return dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+            return dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+        }
+        return dataType;
+    }
+
+    /**
+     * Remove annotations from the given data type string except annotationToKeep.
+     * <p>
+     * For example:
+     * <ul>
+     *     <li>{@code @Nullable @Min(0) @Max(10)Integer} -> {@code @Nullable Integer}</li>
+     *     <li>{@code @Nullable List<@Valid Pet>}" -> "{@code @Nullable List<Pet>}"</li>
+     * </ul>
+     *
+     * @param dataType the data type string
+     * @param annotationToKeep annotation to keep. For example @Nullable
+     * @return the data type string without annotations.
+     */
+    public String removeAnnotationsWithExclusion(String dataType, String annotationToKeep) {
+        if (dataType != null && dataType.contains("@")) {
+            if (annotationToKeep == null) {
+                return dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+            }
+            annotationToKeep += " ";
+            boolean annotationPresent = dataType.indexOf(annotationToKeep) >=0;
+            if (annotationPresent) {
+                dataType = dataType.replace( annotationToKeep, "%%");
+            }
+            dataType = dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+            if (annotationPresent) {
+                dataType = dataType.replace("%%", annotationToKeep);
+            }
         }
         return dataType;
     }
@@ -2075,13 +2183,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         // make sure the x-implements is always a List and always at least empty
         for (ModelMap mo : objs.getModels()) {
-            CodegenModel cm = mo.getModel();
-            if (cm.getVendorExtensions().containsKey(X_IMPLEMENTS)) {
-                List<String> xImplements = getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS));
-                cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplements);
-            } else {
-                cm.getVendorExtensions().put(X_IMPLEMENTS, new ArrayList<String>());
-            }
+            normalizeVendorExtensionWithStringList(mo.getModel().getVendorExtensions(), X_IMPLEMENTS);
+        }
+
+        // make sure the x-class-extra-annotation is always a List and always at least empty
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel model = mo.getModel();
+            normalizeVendorExtensionWithStringList(model.getVendorExtensions(), VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName());
+            normalizeModelPropertyVendorExtensions(model, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
         }
 
         // skip interfaces predefined in open api spec in x-implements via additional property xImplementsSkip
@@ -2182,9 +2291,66 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             handleImplicitHeaders(op);
             handleConstantParams(op);
+            normalizeOperationParameterVendorExtensions(op, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
         }
 
         return objs;
+    }
+
+    /**
+     * Normalizes a model property vendor extension across all property collections.
+     * In this context, normalization means converting a missing value, a single string, or a list value
+     * into a predictable mutable {@code List<String>} on each property. The same property can appear in
+     * several model collections, so the collections are de-duplicated before updating the extension map.
+     *
+     * @param model model whose properties should be updated
+     * @param name  vendor extension name
+     */
+    private void normalizeModelPropertyVendorExtensions(CodegenModel model, String name) {
+        Set<CodegenProperty> properties = Collections.newSetFromMap(new IdentityHashMap<>());
+        properties.addAll(model.vars);
+        properties.addAll(model.allVars);
+        properties.addAll(model.requiredVars);
+        properties.addAll(model.optionalVars);
+        properties.addAll(model.readOnlyVars);
+        properties.addAll(model.readWriteVars);
+        properties.addAll(model.parentVars);
+        properties.addAll(model.parentRequiredVars);
+        properties.addAll(model.nonNullableVars);
+
+        for (CodegenProperty property : properties) {
+            normalizeVendorExtensionWithStringList(property.vendorExtensions, name);
+        }
+    }
+
+    /**
+     * Normalizes an operation parameter vendor extension across all parameter collections.
+     * In this context, normalization means converting a missing value, a single string, or a list value
+     * into a predictable mutable {@code List<String>} on each parameter. The same parameter can appear in
+     * several operation collections, so the collections are de-duplicated before updating the extension map.
+     *
+     * @param operation operation whose parameters should be updated
+     * @param name      vendor extension name
+     */
+    protected void normalizeOperationParameterVendorExtensions(CodegenOperation operation, String name) {
+        Set<CodegenParameter> parameters = Collections.newSetFromMap(new IdentityHashMap<>());
+        parameters.addAll(operation.allParams);
+        parameters.addAll(operation.bodyParams);
+        parameters.addAll(operation.pathParams);
+        parameters.addAll(operation.queryParams);
+        parameters.addAll(operation.headerParams);
+        parameters.addAll(operation.implicitHeadersParams);
+        parameters.addAll(operation.constantParams);
+        parameters.addAll(operation.formParams);
+        parameters.addAll(operation.cookieParams);
+        parameters.addAll(operation.requiredParams);
+        parameters.addAll(operation.optionalParams);
+        parameters.addAll(operation.requiredAndNotNullableParams);
+        parameters.addAll(operation.notNullableParams);
+
+        for (CodegenParameter parameter : parameters) {
+            normalizeVendorExtensionWithStringList(parameter.vendorExtensions, name);
+        }
     }
 
     @Override
@@ -2352,6 +2518,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return "new BigDecimal(\"" + value + "\")";
         } else if ("URI".equals(datatype)) {
             return "URI.create(\"" + escapeText(value) + "\")";
+        } else if ("UUID".equals(datatype)) {
+            return "UUID.fromString(\"" + escapeText(value) + "\")";
         } else {
             return "\"" + escapeText(value) + "\"";
         }
@@ -2732,7 +2900,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Mustache.Lambda jSpecifyDatatypeLambda = (fragment, writer) -> {
             String dataType = fragment.execute();
             if (jSpecifyNullableLambda.isSetAndClear()) {
-                int idx = dataType.lastIndexOf('.');
+                int idx = getLastIndex(dataType);
                 if (idx > 0) {
                     // generate declaration like java.time.@Nullable Timestamp
                     writer.write(dataType.substring(0, idx + 1));
@@ -2752,10 +2920,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     }
 
+    private int getLastIndex(String dataType) {
+        int index = dataType.indexOf('<');
+        if (index >= 0) {
+            dataType = dataType.substring(0, index);
+        }
+        return dataType.lastIndexOf('.');
+    }
+
     /**
      * for Jspecify, remove @Nullable before the datatype and set keptNullable to true if done.
      */
-    class JSpecifyNullableLambda implements Mustache.Lambda {
+    protected class JSpecifyNullableLambda implements Mustache.Lambda {
         private String nullableAnnotation = "@Nullable";
         // remember @Nullable annotation value when jspecify is used.
         private String keptNullable = null;
@@ -2774,9 +2950,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             keptNullable = null;
             String value = fragment.execute();
             if (useJspecify) {
-                if (value.startsWith(nullableAnnotation)) {
+                // extract @Nullable annotation (starting with @ and ending with space)
+                String patternToFind = nullableAnnotation + " ";
+                if (value.startsWith(patternToFind)) {
                     keptNullable = value;
-                    int idx = nullableAnnotation.length();
+                    int idx = patternToFind.length();
                     // trim left
                     while (idx < value.length() && value.charAt(idx) == ' ') {
                         idx ++;
@@ -2802,5 +2980,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .filter(CodegenParameter::notRequiredOrIsNullable)
                 .findAny()
                 .ifPresent(param -> codegenOperation.imports.add("Nullable"));
+    }
+
+    /**
+     * Simplify the removeAnnotations lambda for custom removal.
+     */
+    protected class RemoveAnnotationLambda implements Mustache.Lambda {
+
+        private String keep;
+
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+            writer.write(removeAnnotationsWithExclusion(fragment.execute(), keep));
+        }
+
+        public void keepAnnotation(String keep) {
+            this.keep = keep;
+        }
     }
 }

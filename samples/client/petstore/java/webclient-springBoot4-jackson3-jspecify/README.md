@@ -4,7 +4,7 @@ jspecify
 
 - API version: 1.0.0
 
-- Generator version: 7.22.0-SNAPSHOT
+- Generator version: 7.26.0-SNAPSHOT
 
 test fully qualified name and jspecify
 
@@ -84,23 +84,21 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.openapitools.client.*;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.model.*;
-import org.openapitools.client.api.DefaultApi;
+import org.openapitools.client.api.FileApi;
 
-public class DefaultApiExample {
+public class FileApiExample {
 
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost");
         
-        DefaultApi apiInstance = new DefaultApi(defaultClient);
-        java.time.Instant dtParam = new java.time.Instant(); // java.time.Instant | 
-        java.time.Instant dtQuery = new java.time.Instant(); // java.time.Instant | 
-        java.time.Instant dtCookie = new java.time.Instant(); // java.time.Instant | 
+        FileApi apiInstance = new FileApi(defaultClient);
+        String id = "id_example"; // String | 
         try {
-            Foo result = apiInstance.fooDtParamGet(dtParam, dtQuery, dtCookie);
+            FileContent result = apiInstance.fileIdGet(id);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling DefaultApi#fooDtParamGet");
+            System.err.println("Exception when calling FileApi#fileIdGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -117,13 +115,18 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DefaultApi* | [**fooDtParamGet**](docs/DefaultApi.md#fooDtParamGet) | **GET** /foo/{dtParam} | 
-*DefaultApi* | [**uploadPost**](docs/DefaultApi.md#uploadPost) | **POST** /upload | 
+*FileApi* | [**fileIdGet**](docs/FileApi.md#fileIdGet) | **GET** /file/{id} | 
+*FooApi* | [**fooDtParamGet**](docs/FooApi.md#fooDtParamGet) | **GET** /foo/{dtParam} | 
+*RequiredAndNullableApi* | [**requiredAndNullablePost**](docs/RequiredAndNullableApi.md#requiredAndNullablePost) | **POST** /requiredAndNullable | 
+*UploadApi* | [**uploadFilesPost**](docs/UploadApi.md#uploadFilesPost) | **POST** /uploadFiles | 
+*UploadApi* | [**uploadPost**](docs/UploadApi.md#uploadPost) | **POST** /upload | 
 
 
 ## Documentation for Models
 
+ - [FileContent](docs/FileContent.md)
  - [Foo](docs/Foo.md)
+ - [RequiredAndNullable](docs/RequiredAndNullable.md)
 
 
 <a id="documentation-for-authorization"></a>

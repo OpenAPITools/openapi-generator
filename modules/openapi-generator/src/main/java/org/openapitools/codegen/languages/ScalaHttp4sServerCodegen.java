@@ -34,6 +34,9 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-http4s-server/}.
+ */
 public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaHttp4sServerCodegen.class);
     protected String artifactId = "http4s-server";

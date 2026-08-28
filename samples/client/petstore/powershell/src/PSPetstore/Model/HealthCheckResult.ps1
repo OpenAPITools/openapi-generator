@@ -35,7 +35,7 @@ function Initialize-PSHealthCheckResult {
 
 
         $PSO = [PSCustomObject]@{
-            "NullableMessage" = ${NullableMessage}
+            'NullableMessage' = ${NullableMessage}
         }
 
 
@@ -73,21 +73,21 @@ function ConvertFrom-PSJsonToHealthCheckResult {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSHealthCheckResult
-        $AllProperties = ("NullableMessage")
+        $AllProperties = ('NullableMessage')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "NullableMessage"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'NullableMessage'))) { #optional property not found
             $NullableMessage = $null
         } else {
-            $NullableMessage = $JsonParameters.PSobject.Properties["NullableMessage"].value
+            $NullableMessage = $JsonParameters.PSobject.Properties['NullableMessage'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "NullableMessage" = ${NullableMessage}
+            'NullableMessage' = ${NullableMessage}
         }
 
         return $PSO

@@ -4,8 +4,8 @@
     "target": "es6",
     "strict": true,
     "module": "commonjs",
-    "moduleResolution": "node",
     "outDir": "dist",
+    "rootDir": "src",
     "typeRoots": [
       "node_modules/@types"
     ]

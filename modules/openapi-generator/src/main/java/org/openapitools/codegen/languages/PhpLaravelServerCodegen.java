@@ -25,6 +25,9 @@ import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/php-laravel/}.
+ */
 public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
     private static final String AUTOWIRE = "autowire";
     private final Logger LOGGER = LoggerFactory.getLogger(PhpLaravelServerCodegen.class);

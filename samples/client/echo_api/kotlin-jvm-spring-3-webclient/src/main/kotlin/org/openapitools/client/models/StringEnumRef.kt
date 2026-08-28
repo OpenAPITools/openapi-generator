@@ -66,7 +66,7 @@ enum class StringEnumRef(@get:JsonValue val value: kotlin.String) {
         fun encode(data: kotlin.Any?): kotlin.String? = if (data is StringEnumRef) "$data" else null
 
         /**
-         * Returns a valid [StringEnumRef] for [data], null otherwise.
+         * Returns a valid [StringEnumRef] for [data].
          */
         @JvmStatic
         @JsonCreator
@@ -79,6 +79,20 @@ enum class StringEnumRef(@get:JsonValue val value: kotlin.String) {
             data == value || normalizedData == "$value".lowercase()
           }
             ?: unknown_default_open_api
+        }
+
+        /**
+         * Returns a valid [StringEnumRef] for [data], or null when [data] is null or does not match a known value.
+         *
+         * Lenient counterpart to [decode], intended for direct calls from Kotlin code.
+         * Jackson deserialization uses [decode], which is strict.
+         */
+        @JvmStatic
+        fun decodeOrNull(data: kotlin.Any?): StringEnumRef? = data?.let {
+          val normalizedData = "$it".lowercase()
+          entries.firstOrNull { value ->
+            it == value || normalizedData == "$value".lowercase()
+          }
         }
     }
 }

@@ -43,6 +43,9 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/JavaVertXServer/}.
+ */
 public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(JavaVertXServerCodegen.class);
 

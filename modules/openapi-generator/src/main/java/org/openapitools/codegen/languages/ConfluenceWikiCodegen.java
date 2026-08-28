@@ -29,6 +29,9 @@ import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/confluenceWikiDocs/}.
+ */
 public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String ALL_OPERATIONS = "";
     protected String invokerPackage = "org.openapitools.client";

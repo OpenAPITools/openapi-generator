@@ -54,10 +54,10 @@ function Initialize-PSName {
 
 
         $PSO = [PSCustomObject]@{
-            "name" = ${Name}
-            "snake_case" = ${SnakeCase}
-            "property" = ${Property}
-            "123Number" = ${Var123Number}
+            'name' = ${Name}
+            'snake_case' = ${SnakeCase}
+            'property' = ${Property}
+            '123Number' = ${Var123Number}
         }
 
 
@@ -95,7 +95,7 @@ function ConvertFrom-PSJsonToName {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSName
-        $AllProperties = ("name", "snake_case", "property", "123Number")
+        $AllProperties = ('name', 'snake_case', 'property', '123Number')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -106,35 +106,35 @@ function ConvertFrom-PSJsonToName {
             throw "Error! Empty JSON cannot be serialized due to the required property 'name' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "name"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'name'))) {
             throw "Error! JSON cannot be serialized due to the required property 'name' missing."
         } else {
-            $Name = $JsonParameters.PSobject.Properties["name"].value
+            $Name = $JsonParameters.PSobject.Properties['name'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "snake_case"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'snake_case'))) { #optional property not found
             $SnakeCase = $null
         } else {
-            $SnakeCase = $JsonParameters.PSobject.Properties["snake_case"].value
+            $SnakeCase = $JsonParameters.PSobject.Properties['snake_case'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "property"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'property'))) { #optional property not found
             $Property = $null
         } else {
-            $Property = $JsonParameters.PSobject.Properties["property"].value
+            $Property = $JsonParameters.PSobject.Properties['property'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "123Number"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match '123Number'))) { #optional property not found
             $Var123Number = $null
         } else {
-            $Var123Number = $JsonParameters.PSobject.Properties["123Number"].value
+            $Var123Number = $JsonParameters.PSobject.Properties['123Number'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "name" = ${Name}
-            "snake_case" = ${SnakeCase}
-            "property" = ${Property}
-            "123Number" = ${Var123Number}
+            'name' = ${Name}
+            'snake_case' = ${SnakeCase}
+            'property' = ${Property}
+            '123Number' = ${Var123Number}
         }
 
         return $PSO

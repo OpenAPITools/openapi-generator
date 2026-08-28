@@ -83,8 +83,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="HelloWorldPostRequest" />
     /// </summary>
-    public class HelloWorldPostRequestJsonConverter : JsonConverter<HelloWorldPostRequest>
+    public partial class HelloWorldPostRequestJsonConverter : JsonConverter<HelloWorldPostRequest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HelloWorldPostRequestJsonConverter" /> class.
+        /// </summary>
+        public HelloWorldPostRequestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="HelloWorldPostRequest" />
         /// </summary>

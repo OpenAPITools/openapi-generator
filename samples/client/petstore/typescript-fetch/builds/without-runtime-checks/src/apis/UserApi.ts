@@ -12,39 +12,65 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
 import type {
-  User,
+    User,
 } from '../models/index';
 
 export interface CreateUserRequest {
+    /**
+     * 
+     */
     body: User;
 }
 
 export interface CreateUsersWithArrayInputRequest {
+    /**
+     * 
+     */
     body: Array<User>;
 }
 
 export interface CreateUsersWithListInputRequest {
+    /**
+     * 
+     */
     body: Array<User>;
 }
 
 export interface DeleteUserRequest {
+    /**
+     * The name that needs to be deleted
+     */
     username: string;
 }
 
 export interface GetUserByNameRequest {
+    /**
+     * The name that needs to be fetched. Use user1 for testing.
+     */
     username: string;
 }
 
 export interface LoginUserRequest {
+    /**
+     * The user name for login
+     */
     username: string;
+    /**
+     * The password for login in clear text
+     */
     password: string;
 }
 
 export interface UpdateUserRequest {
+    /**
+     * name that need to be deleted
+     */
     username: string;
+    /**
+     * 
+     */
     body: User;
 }
 
@@ -210,7 +236,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,
@@ -256,7 +282,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,
@@ -409,7 +435,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,

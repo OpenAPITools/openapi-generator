@@ -13,3 +13,9 @@ internal enum EnumClass: String, Sendable, Codable, CaseIterable, CaseIterableDe
     case xyz = "(xyz)"
     case unknownDefaultOpenApi = "unknown_default_open_api"
 }
+
+extension EnumClass: UnknownCaseCheckable {
+    internal var containsUnknownDefaultOpenApiCase: Bool {
+        self == .unknownDefaultOpenApi
+    }
+}

@@ -1,0 +1,33 @@
+package org.openapitools.configuration
+
+import org.openapitools.model.PetSort
+import org.openapitools.model.PetSortEnum
+
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.core.convert.converter.Converter
+
+/**
+ * This class provides Spring Converter beans for the enum models in the OpenAPI specification.
+ *
+ * By default, Spring only converts primitive types to enums using Enum::valueOf, which can prevent
+ * correct conversion if the OpenAPI specification is using an `enumPropertyNaming` other than
+ * `original` or the specification has an integer enum.
+ */
+@Configuration(value = "org.openapitools.configuration.enumConverterConfiguration")
+class EnumConverterConfiguration {
+
+    @Bean(name = ["org.openapitools.configuration.EnumConverterConfiguration.petSortConverter"])
+    fun petSortConverter(): Converter<kotlin.String, PetSort> {
+        return object: Converter<kotlin.String, PetSort> {
+            override fun convert(source: kotlin.String): PetSort = PetSort.forValue(source)
+        }
+    }
+    @Bean(name = ["org.openapitools.configuration.EnumConverterConfiguration.petSortEnumConverter"])
+    fun petSortEnumConverter(): Converter<kotlin.String, PetSortEnum> {
+        return object: Converter<kotlin.String, PetSortEnum> {
+            override fun convert(source: kotlin.String): PetSortEnum = PetSortEnum.forValue(source)
+        }
+    }
+
+}

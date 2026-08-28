@@ -24,6 +24,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.EnumSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/python-blueplanet/}.
+ */
 public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServerCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonBluePlanetServerCodegen.class);
 

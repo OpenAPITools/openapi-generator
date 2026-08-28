@@ -1409,12 +1409,12 @@ components:
       type: string
     Order:
       example:
+        id: 0
         petId: 6
         quantity: 1
-        id: 0
         shipDate: 2000-01-23T04:56:07.000+00:00
-        complete: false
         status: placed
+        complete: false
       properties:
         id:
           format: int64
@@ -1443,8 +1443,8 @@ components:
         name: Order
     Category:
       example:
-        name: default-name
         id: 6
+        name: default-name
       properties:
         id:
           format: int64
@@ -1459,18 +1459,18 @@ components:
         name: Category
     User:
       example:
+        id: 0
+        username: username
         firstName: firstName
         lastName: lastName
+        email: email
         password: password
+        phone: phone
         userStatus: 6
+        arbitraryObject: "{}"
+        arbitraryNullableObject: "{}"
         arbitraryTypeValue: ""
         arbitraryNullableTypeValue: ""
-        phone: phone
-        id: 0
-        arbitraryObject: "{}"
-        email: email
-        arbitraryNullableObject: "{}"
-        username: username
       properties:
         id:
           format: int64
@@ -1513,8 +1513,8 @@ components:
         name: User
     Tag:
       example:
-        name: name
         id: 1
+        name: name
       properties:
         id:
           format: int64
@@ -1526,19 +1526,19 @@ components:
         name: Tag
     Pet:
       example:
+        id: 0
+        category:
+          id: 6
+          name: default-name
+        name: doggie
         photoUrls:
         - photoUrls
         - photoUrls
-        name: doggie
-        id: 0
-        category:
-          name: default-name
-          id: 6
         tags:
-        - name: name
-          id: 1
-        - name: name
-          id: 1
+        - id: 1
+          name: name
+        - id: 1
+          name: name
         status: available
       properties:
         id:
@@ -1993,8 +1993,8 @@ components:
       type: integer
     OuterComposite:
       example:
-        my_string: my_string
         my_number: 0.8008281904610115
+        my_string: my_string
         my_boolean: true
       properties:
         my_number:

@@ -1,0 +1,11 @@
+generatorName: kotlin
+outputDir: samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return
+library: jvm-spring-restclient
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/nullable-return-type.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-jvm-spring-3-restclient-nullable-return
+  enumUnknownDefaultCase: true
+  serializationLibrary: jackson
+  useSpringBoot3: true
+  nullableReturnType: true

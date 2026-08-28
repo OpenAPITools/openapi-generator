@@ -40,7 +40,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.IOException
 
 /**
- * 
+ * A schema that can be either a User, a Pet, or an array of strings
  *
  */
 data class ApiUserOrPetOrArrayString(var actualInstance: Any? = null) {

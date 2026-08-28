@@ -12,44 +12,77 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  EnumPatternObject,
-  FakeEnumRequestGetInline200Response,
-  NumberEnum,
-  StringEnum,
-} from '../models/index';
 import {
+    type EnumPatternObject,
     EnumPatternObjectFromJSON,
     EnumPatternObjectToJSON,
+} from '../models/EnumPatternObject';
+import {
+    type FakeEnumRequestGetInline200Response,
     FakeEnumRequestGetInline200ResponseFromJSON,
     FakeEnumRequestGetInline200ResponseToJSON,
+} from '../models/FakeEnumRequestGetInline200Response';
+import {
+    type NumberEnum,
     NumberEnumFromJSON,
     NumberEnumToJSON,
+} from '../models/NumberEnum';
+import {
+    type StringEnum,
     StringEnumFromJSON,
     StringEnumToJSON,
-} from '../models/index';
+} from '../models/StringEnum';
 
 export interface FakeEnumRequestGetInlineRequest {
+    /**
+     * 
+     */
     stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;
+    /**
+     * 
+     */
     nullableStringEnum?: FakeEnumRequestGetInlineNullableStringEnumEnum;
+    /**
+     * 
+     */
     numberEnum?: FakeEnumRequestGetInlineNumberEnumEnum;
+    /**
+     * 
+     */
     nullableNumberEnum?: FakeEnumRequestGetInlineNullableNumberEnumEnum;
 }
 
 export interface FakeEnumRequestGetRefRequest {
+    /**
+     * 
+     */
     stringEnum?: StringEnum;
+    /**
+     * 
+     */
     nullableStringEnum?: StringEnum | null;
+    /**
+     * 
+     */
     numberEnum?: NumberEnum;
+    /**
+     * 
+     */
     nullableNumberEnum?: NumberEnum | null;
 }
 
 export interface FakeEnumRequestPostInlineRequest {
+    /**
+     * 
+     */
     fakeEnumRequestGetInline200Response?: FakeEnumRequestGetInline200Response;
 }
 
 export interface FakeEnumRequestPostRefRequest {
+    /**
+     * 
+     */
     enumPatternObject?: EnumPatternObject;
 }
 
@@ -244,7 +277,7 @@ export class DefaultApi extends runtime.BaseAPI {
 export const FakeEnumRequestGetInlineStringEnumEnum = {
     One: 'one',
     Two: 'two',
-    Three: 'three'
+    Three: 'three',
 } as const;
 export type FakeEnumRequestGetInlineStringEnumEnum = typeof FakeEnumRequestGetInlineStringEnumEnum[keyof typeof FakeEnumRequestGetInlineStringEnumEnum];
 /**
@@ -253,7 +286,7 @@ export type FakeEnumRequestGetInlineStringEnumEnum = typeof FakeEnumRequestGetIn
 export const FakeEnumRequestGetInlineNullableStringEnumEnum = {
     One: 'one',
     Two: 'two',
-    Three: 'three'
+    Three: 'three',
 } as const;
 export type FakeEnumRequestGetInlineNullableStringEnumEnum = typeof FakeEnumRequestGetInlineNullableStringEnumEnum[keyof typeof FakeEnumRequestGetInlineNullableStringEnumEnum];
 /**
@@ -262,7 +295,7 @@ export type FakeEnumRequestGetInlineNullableStringEnumEnum = typeof FakeEnumRequ
 export const FakeEnumRequestGetInlineNumberEnumEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
-    NUMBER_3: 3
+    NUMBER_3: 3,
 } as const;
 export type FakeEnumRequestGetInlineNumberEnumEnum = typeof FakeEnumRequestGetInlineNumberEnumEnum[keyof typeof FakeEnumRequestGetInlineNumberEnumEnum];
 /**
@@ -271,6 +304,6 @@ export type FakeEnumRequestGetInlineNumberEnumEnum = typeof FakeEnumRequestGetIn
 export const FakeEnumRequestGetInlineNullableNumberEnumEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
-    NUMBER_3: 3
+    NUMBER_3: 3,
 } as const;
 export type FakeEnumRequestGetInlineNullableNumberEnumEnum = typeof FakeEnumRequestGetInlineNullableNumberEnumEnum[keyof typeof FakeEnumRequestGetInlineNullableNumberEnumEnum];

@@ -31,7 +31,7 @@ import org.openapitools.client.models.User
 import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * A schema that can be either a User or a Pet
  *
  * @param username 
  * @param name 

@@ -51,6 +51,6 @@ components:
         \ language-specific classname with allowed characters in that programming\
         \ language."
       example:
-        prop2: prop2
         objectType: objectType
+        prop2: prop2
 

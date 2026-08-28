@@ -177,22 +177,22 @@ function Initialize-PSFormatTest {
 
 
         $PSO = [PSCustomObject]@{
-            "integer" = ${Integer}
-            "int32" = ${Int32}
-            "int64" = ${Int64}
-            "number" = ${Number}
-            "float" = ${Float}
-            "double" = ${Double}
-            "decimal" = ${Decimal}
-            "string" = ${String}
-            "byte" = ${Byte}
-            "binary" = ${Binary}
-            "date" = ${Date}
-            "dateTime" = ${DateTime}
-            "uuid" = ${Uuid}
-            "password" = ${Password}
-            "pattern_with_digits" = ${PatternWithDigits}
-            "pattern_with_digits_and_delimiter" = ${PatternWithDigitsAndDelimiter}
+            'integer' = ${Integer}
+            'int32' = ${Int32}
+            'int64' = ${Int64}
+            'number' = ${Number}
+            'float' = ${Float}
+            'double' = ${Double}
+            'decimal' = ${Decimal}
+            'string' = ${String}
+            'byte' = ${Byte}
+            'binary' = ${Binary}
+            'date' = ${Date}
+            'dateTime' = ${DateTime}
+            'uuid' = ${Uuid}
+            'password' = ${Password}
+            'pattern_with_digits' = ${PatternWithDigits}
+            'pattern_with_digits_and_delimiter' = ${PatternWithDigitsAndDelimiter}
         }
 
 
@@ -230,7 +230,7 @@ function ConvertFrom-PSJsonToFormatTest {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSFormatTest
-        $AllProperties = ("integer", "int32", "int64", "number", "float", "double", "decimal", "string", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter")
+        $AllProperties = ('integer', 'int32', 'int64', 'number', 'float', 'double', 'decimal', 'string', 'byte', 'binary', 'date', 'dateTime', 'uuid', 'password', 'pattern_with_digits', 'pattern_with_digits_and_delimiter')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -241,119 +241,119 @@ function ConvertFrom-PSJsonToFormatTest {
             throw "Error! Empty JSON cannot be serialized due to the required property 'number' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "number"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'number'))) {
             throw "Error! JSON cannot be serialized due to the required property 'number' missing."
         } else {
-            $Number = $JsonParameters.PSobject.Properties["number"].value
+            $Number = $JsonParameters.PSobject.Properties['number'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "byte"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'byte'))) {
             throw "Error! JSON cannot be serialized due to the required property 'byte' missing."
         } else {
-            $Byte = $JsonParameters.PSobject.Properties["byte"].value
+            $Byte = $JsonParameters.PSobject.Properties['byte'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "date"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'date'))) {
             throw "Error! JSON cannot be serialized due to the required property 'date' missing."
         } else {
-            $Date = $JsonParameters.PSobject.Properties["date"].value
+            $Date = $JsonParameters.PSobject.Properties['date'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "password"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'password'))) {
             throw "Error! JSON cannot be serialized due to the required property 'password' missing."
         } else {
-            $Password = $JsonParameters.PSobject.Properties["password"].value
+            $Password = $JsonParameters.PSobject.Properties['password'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "integer"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'integer'))) { #optional property not found
             $Integer = $null
         } else {
-            $Integer = $JsonParameters.PSobject.Properties["integer"].value
+            $Integer = $JsonParameters.PSobject.Properties['integer'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "int32"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'int32'))) { #optional property not found
             $Int32 = $null
         } else {
-            $Int32 = $JsonParameters.PSobject.Properties["int32"].value
+            $Int32 = $JsonParameters.PSobject.Properties['int32'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "int64"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'int64'))) { #optional property not found
             $Int64 = $null
         } else {
-            $Int64 = $JsonParameters.PSobject.Properties["int64"].value
+            $Int64 = $JsonParameters.PSobject.Properties['int64'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "float"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'float'))) { #optional property not found
             $Float = $null
         } else {
-            $Float = $JsonParameters.PSobject.Properties["float"].value
+            $Float = $JsonParameters.PSobject.Properties['float'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "double"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'double'))) { #optional property not found
             $Double = $null
         } else {
-            $Double = $JsonParameters.PSobject.Properties["double"].value
+            $Double = $JsonParameters.PSobject.Properties['double'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "decimal"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'decimal'))) { #optional property not found
             $Decimal = $null
         } else {
-            $Decimal = $JsonParameters.PSobject.Properties["decimal"].value
+            $Decimal = $JsonParameters.PSobject.Properties['decimal'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "string"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'string'))) { #optional property not found
             $String = $null
         } else {
-            $String = $JsonParameters.PSobject.Properties["string"].value
+            $String = $JsonParameters.PSobject.Properties['string'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "binary"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'binary'))) { #optional property not found
             $Binary = $null
         } else {
-            $Binary = $JsonParameters.PSobject.Properties["binary"].value
+            $Binary = $JsonParameters.PSobject.Properties['binary'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "dateTime"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'dateTime'))) { #optional property not found
             $DateTime = $null
         } else {
-            $DateTime = $JsonParameters.PSobject.Properties["dateTime"].value
+            $DateTime = $JsonParameters.PSobject.Properties['dateTime'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "uuid"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'uuid'))) { #optional property not found
             $Uuid = $null
         } else {
-            $Uuid = $JsonParameters.PSobject.Properties["uuid"].value
+            $Uuid = $JsonParameters.PSobject.Properties['uuid'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "pattern_with_digits"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'pattern_with_digits'))) { #optional property not found
             $PatternWithDigits = $null
         } else {
-            $PatternWithDigits = $JsonParameters.PSobject.Properties["pattern_with_digits"].value
+            $PatternWithDigits = $JsonParameters.PSobject.Properties['pattern_with_digits'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "pattern_with_digits_and_delimiter"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'pattern_with_digits_and_delimiter'))) { #optional property not found
             $PatternWithDigitsAndDelimiter = $null
         } else {
-            $PatternWithDigitsAndDelimiter = $JsonParameters.PSobject.Properties["pattern_with_digits_and_delimiter"].value
+            $PatternWithDigitsAndDelimiter = $JsonParameters.PSobject.Properties['pattern_with_digits_and_delimiter'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "integer" = ${Integer}
-            "int32" = ${Int32}
-            "int64" = ${Int64}
-            "number" = ${Number}
-            "float" = ${Float}
-            "double" = ${Double}
-            "decimal" = ${Decimal}
-            "string" = ${String}
-            "byte" = ${Byte}
-            "binary" = ${Binary}
-            "date" = ${Date}
-            "dateTime" = ${DateTime}
-            "uuid" = ${Uuid}
-            "password" = ${Password}
-            "pattern_with_digits" = ${PatternWithDigits}
-            "pattern_with_digits_and_delimiter" = ${PatternWithDigitsAndDelimiter}
+            'integer' = ${Integer}
+            'int32' = ${Int32}
+            'int64' = ${Int64}
+            'number' = ${Number}
+            'float' = ${Float}
+            'double' = ${Double}
+            'decimal' = ${Decimal}
+            'string' = ${String}
+            'byte' = ${Byte}
+            'binary' = ${Binary}
+            'date' = ${Date}
+            'dateTime' = ${DateTime}
+            'uuid' = ${Uuid}
+            'password' = ${Password}
+            'pattern_with_digits' = ${PatternWithDigits}
+            'pattern_with_digits_and_delimiter' = ${PatternWithDigitsAndDelimiter}
         }
 
         return $PSO
