@@ -199,7 +199,18 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 				iter := indValue.MapRange()
 				for iter.Next() {
 					k,v := iter.Key(), iter.Value()
-					parameterAddToHeaderOrQuery(headerOrQueryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface(), style, collectionType)
+					var keyPrefixForMapEntry = fmt.Sprintf("%s[%s]", keyPrefix, k.String())
+					var styleForMapEntry = style
+					if style == "form" {
+						// form style explodes an object into one parameter per entry, keyed by the
+						// property name alone. Only deepObject nests the property under the
+						// parameter name. The flattening applies to the top level only: anything
+						// nested inside an entry keeps the path it has accumulated, so that two
+						// siblings holding the same property name stay distinct.
+						keyPrefixForMapEntry = k.String()
+						styleForMapEntry = ""
+					}
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, v.Interface(), styleForMapEntry, collectionType)
 				}
 				return
 
