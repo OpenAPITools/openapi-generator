@@ -35,13 +35,17 @@ public class CppHttplibServerCodegenModelTest {
      * Wraps a single model the way {@link org.openapitools.codegen.DefaultGenerator}
      * does before calling {@code postProcessAllModels}, so tests can exercise the full
      * enum vendor-extension pipeline (identifier + original-value derivation), not just
-     * the intermediate state produced by {@code fromModel}.
+     * the intermediate state produced by {@code fromModel}. This mirrors
+     * {@code DefaultGenerator}'s {@code processModels}, which runs {@code postProcessModels}
+     * (and, for C++, {@code postProcessModelsEnum} with it) before {@code postProcessAllModels}
+     * is ever invoked.
      */
-    private Map<String, ModelsMap> wrapForPostProcessAllModels(String name, CodegenModel model) {
+    private Map<String, ModelsMap> wrapForPostProcessAllModels(CppHttplibServerCodegen codegen, String name, CodegenModel model) {
         final ModelMap modelMap = new ModelMap();
         modelMap.setModel(model);
         final ModelsMap modelsMap = new ModelsMap();
         modelsMap.setModels(Collections.singletonList(modelMap));
+        codegen.postProcessModels(modelsMap);
         final HashMap<String, ModelsMap> allModels = new HashMap<>();
         allModels.put(name, modelsMap);
         return allModels;
@@ -173,7 +177,7 @@ public class CppHttplibServerCodegenModelTest {
 
         final CodegenModel model = codegen.fromModel("ModelWithColorArray", schema);
         final CodegenModel processedModel = codegen.postProcessAllModels(
-                wrapForPostProcessAllModels("ModelWithColorArray", model))
+                wrapForPostProcessAllModels(codegen, "ModelWithColorArray", model))
                 .get("ModelWithColorArray").getModels().get(0).getModel();
 
         CodegenProperty arrayProp = processedModel.vars.get(0);
@@ -221,7 +225,7 @@ public class CppHttplibServerCodegenModelTest {
         // postProcessAllModels, since that's the single place both the identifier and the
         // original spec value are derived together (see enumSerializationUsesOriginalSpecValueTest).
         final CodegenModel processedModel = codegen.postProcessAllModels(
-                wrapForPostProcessAllModels("UserStatusModel", model))
+                wrapForPostProcessAllModels(codegen, "UserStatusModel", model))
                 .get("UserStatusModel").getModels().get(0).getModel();
         CodegenProperty statusProp = processedModel.vars.get(0);
         Assert.assertTrue((boolean) statusProp.vendorExtensions.getOrDefault("isEnum", false));
@@ -244,7 +248,7 @@ public class CppHttplibServerCodegenModelTest {
 
         final CodegenModel model = codegen.fromModel("Pet", schema);
         final CodegenModel processedModel = codegen.postProcessAllModels(
-                wrapForPostProcessAllModels("Pet", model))
+                wrapForPostProcessAllModels(codegen, "Pet", model))
                 .get("Pet").getModels().get(0).getModel();
 
         CodegenProperty statusProp = processedModel.vars.get(0);
@@ -282,7 +286,7 @@ public class CppHttplibServerCodegenModelTest {
                 java.util.Arrays.asList("ACTIVE", "INACTIVE", "PENDING"));
 
         final CodegenModel processedModel = codegen.postProcessAllModels(
-                wrapForPostProcessAllModels("Status", model))
+                wrapForPostProcessAllModels(codegen, "Status", model))
                 .get("Status").getModels().get(0).getModel();
         Assert.assertNotNull(processedModel.vendorExtensions.get("modelClassName"));
         Assert.assertEquals(((List<?>) processedModel.allowableValues.get("enumVars")).size(), 3);
