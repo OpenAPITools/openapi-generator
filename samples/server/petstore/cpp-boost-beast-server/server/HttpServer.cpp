@@ -521,18 +521,24 @@ private:
         // with operation_aborted and no response would ever reach the client.
         stream_.expires_after(
             std::chrono::seconds(options_.readTimeoutSeconds));
-        if (requestIsHead_) {
-            // `prepare_payload` has already recorded the GET-equivalent
-            // Content-Length. Clearing only the body preserves that metadata
-            // while ensuring HEAD never writes content bytes.
-            response.body().clear();
-        }
         // Mirror the request's HTTP version and keep-alive preference
         // (RFC 9110 6.7): responses must not keep a 1.0 connection alive
         // that did not opt in, and version should not exceed the request's.
         response.version(requestVersion_);
         bool keepAlive = forceClose_ ? false : requestKeepAlive_;
         response.keep_alive(keepAlive);
+        if (requestIsHead_) {
+            // Keep the GET-equivalent headers (including Content-Length), but
+            // use empty_body so Beast's writer has no body octets to frame.
+            http::response<http::empty_body> headResponse(
+                std::move(response.base()));
+            return write_response(std::move(headResponse), keepAlive);
+        }
+        write_response(std::move(response), keepAlive);
+    }
+
+    template <typename Body>
+    void write_response(http::response<Body>&& response, bool keepAlive) {
         auto message = std::make_shared<http::message_generator>(
             std::move(response));
         boost::beast::async_write(

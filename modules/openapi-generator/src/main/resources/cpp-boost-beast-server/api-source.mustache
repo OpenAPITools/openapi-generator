@@ -197,14 +197,14 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                         // absent optional query parameter keeps its default value
 {{/required}}
                     } else {
-                        for (std::string const& element : elements) {
+                        for (std::string const& decodedElement : elements) {
                             {{{innerType}}} value;
-                            if (!parseScalar(element, value)) {
+                            if (!parseScalar(decodedElement, value)) {
                                 problem.withError("{{{baseNameLiteral}}}", "query parameter element is not a valid {{{innerType}}}");
                                 invalid = true;
                                 break;
                             }
-{{#itemHasMultipleOf}}                            if (!isExactMultipleOf(element, "{{{itemMultipleOf}}}")) {
+{{#itemHasMultipleOf}}                            if (!isExactMultipleOf(decodedElement, "{{{itemMultipleOf}}}")) {
                                 problem.withError("{{{baseNameLiteral}}}", "query parameter element is not a multiple of {{{itemMultipleOf}}}");
                                 invalid = true;
                                 break;

@@ -46,6 +46,8 @@ endif ()
 # Generated code is held warning-clean. GCC/Clang use -Wall/-Wextra and
 # MSVC uses /W4 with conforming language mode; the default WERROR option
 # promotes those warnings to errors on every compiler.
+option(CPP_BOOST_BEAST_SERVER_WERROR "Treat compiler warnings as errors" ON)
+
 if (MSVC)
     add_compile_options(/W4 /permissive-)
     if (CPP_BOOST_BEAST_SERVER_WERROR)

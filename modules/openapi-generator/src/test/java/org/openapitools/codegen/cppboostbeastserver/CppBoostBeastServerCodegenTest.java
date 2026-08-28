@@ -117,8 +117,8 @@ public class CppBoostBeastServerCodegenTest {
                 "enum constraints must emit an allow-list check");
         Assert.assertTrue(apiSource.contains("isExactMultipleOf(text, \"0.1\")"),
                 "number multipleOf must be checked against the exact wire lexeme");
-        Assert.assertTrue(apiSource.contains("isExactMultipleOf(element, \"2\")"),
-                "array-item multipleOf must be emitted");
+        Assert.assertTrue(apiSource.contains("isExactMultipleOf(decodedElement, \"2\")"),
+                "decoded query-array items must drive the multipleOf check");
 
         Assert.assertTrue(Files.exists(output.resolve("server/HttpServer.h")));
         Assert.assertTrue(Files.exists(output.resolve("server/Router.h")));
@@ -136,8 +136,12 @@ public class CppBoostBeastServerCodegenTest {
         Assert.assertTrue(httpServer.contains("requestIsHead_"),
                 "HEAD responses must suppress body bytes");
         String cmake = Files.readString(output.resolve("CMakeLists.txt"));
-        Assert.assertTrue(cmake.contains("add_compile_options(/WX)"),
-                "MSVC warnings must be errors when WERROR is enabled");
+        Assert.assertTrue(cmake.contains(
+                        "option(CPP_BOOST_BEAST_SERVER_WERROR \"Treat compiler warnings as errors\" ON)"),
+                "generated CMake must enable warnings-as-errors by default");
+        Assert.assertTrue(cmake.contains(
+                        "if (CPP_BOOST_BEAST_SERVER_WERROR)\n        add_compile_options(/WX)"),
+                "MSVC /WX must remain conditional on the WERROR option");
         Assert.assertTrue(Files.exists(output.resolve("server/BodyJson.h")));
         Assert.assertTrue(Files.exists(output.resolve("model/Pet.h")),
                 "models must be generated");

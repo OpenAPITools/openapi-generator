@@ -872,6 +872,11 @@ int main() {
         "Connection: close\r\n\r\n");
     expect(ticksOk.status == 200,
         "array item multipleOf should accept all valid elements");
+    RawResponse encodedTicks = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb&ticks=%32,%34 HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(encodedTicks.status == 200,
+        "multipleOf should validate decoded query-array item lexemes");
     RawResponse ticksBad = roundtrip(ioc, port,
         "GET /defaults?ids=aa,bb&ticks=2,3 HTTP/1.1\r\nHost: t\r\n"
         "Connection: close\r\n\r\n");
