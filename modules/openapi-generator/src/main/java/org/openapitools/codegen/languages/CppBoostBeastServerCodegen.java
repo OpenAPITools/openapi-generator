@@ -864,9 +864,9 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
     }
 
     /** Per-segment glob merge: literal chars must align; each expression is
-     *  a wildcard that may absorb any run of chars. Returns up to
-     *  candidateBudget concrete strings. Sound only as a CANDIDATE list —
-     *  callers must verify against the exact Router::matches mirror. */
+    *  a wildcard that may absorb any run of chars. Returns up to
+    *  candidateBudget concrete strings. Sound only as a CANDIDATE list —
+    *  callers must verify against the exact Router::matches mirror. */
     private static List<String> segmentWitnesses(List<RouteToken> a, List<RouteToken> b,
                                                  char filler, int candidateBudget) {
         StringBuilder flatA = new StringBuilder();
@@ -879,57 +879,76 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         }
         List<String> results = new ArrayList<>();
         mergeGlob(flatA.toString(), 0, flatB.toString(), 0, new StringBuilder(),
-                filler, results, candidateBudget);
+                filler, results, candidateBudget, new int[]{20000});
         return results;
     }
 
+    /**
+     * Enumerates strings that BOTH flattened segment patterns can produce.
+     * Each side advances over its own tokens; a literal position must be
+     * matched by an identical literal on the other side or absorbed by the
+     * other side's wildcard. A wildcard may end (advance) or absorb the
+     * next character. `steps` bounds the search; exhaustion only under-
+     * reports (generation is never rejected on an unproven suspicion).
+     */
     private static void mergeGlob(String a, int i, String b, int j, StringBuilder buf,
-                                  char filler, List<String> results, int budget) {
-        if (results.size() >= budget || buf.length() > a.length() + b.length() + 2) {
+                                  char filler, List<String> results, int budget,
+                                  int[] steps) {
+        if (results.size() >= budget || steps[0]-- <= 0
+                || buf.length() > a.length() + b.length() + 2) {
             return;
         }
-        if (i >= a.length() && j >= b.length()) {
+        boolean aLeft = i < a.length();
+        boolean bLeft = j < b.length();
+        if (!aLeft && !bLeft) {
             results.add(buf.toString());
             return;
         }
-        char ca = i < a.length() ? a.charAt(i) : 0;
-        char cb = j < b.length() ? b.charAt(j) : 0;
-        boolean wildA = i < a.length() && ca == '\u0000';
-        boolean wildB = j < b.length() && cb == '\u0000';
-        if (i >= a.length()) {
+        char ca = aLeft ? a.charAt(i) : 0;
+        char cb = bLeft ? b.charAt(j) : 0;
+        boolean wildA = aLeft && ca == '\u0000';
+        boolean wildB = bLeft && cb == '\u0000';
+        if (!aLeft) {
+            // Only B remains: its wildcard may end empty or absorb more.
             if (wildB) {
-                mergeGlob(a, i, b, j + 1, buf, filler, results, budget); // empty capture
-                mergeGlob(a, i, b, j, append(buf, filler), filler, results, budget); // absorb
+                mergeGlob(a, i, b, j + 1, buf, filler, results, budget, steps);
+                mergeGlob(a, i, b, j, append(buf, filler), filler, results, budget,
+                        steps);
             }
             return;
         }
-        if (j >= b.length()) {
+        if (!bLeft) {
             if (wildA) {
-                mergeGlob(a, i + 1, b, j, buf, filler, results, budget);
-                mergeGlob(a, i, b, j, append(buf, filler), filler, results, budget);
+                mergeGlob(a, i + 1, b, j, buf, filler, results, budget, steps);
+                mergeGlob(a, i, b, j, append(buf, filler), filler, results, budget,
+                        steps);
             }
             return;
         }
         if (!wildA && !wildB) {
             if (ca == cb) {
-                mergeGlob(a, i + 1, b, j + 1, append(buf, ca), filler, results, budget);
+                mergeGlob(a, i + 1, b, j + 1, append(buf, ca), filler, results,
+                        budget, steps);
             }
             return;
         }
         if (wildA && wildB) {
-            mergeGlob(a, i + 1, b, j + 1, buf, filler, results, budget); // both empty
-            mergeGlob(a, i, b, j, append(buf, filler), filler, results, budget); // both absorb
-            mergeGlob(a, i, b, j + 1, buf, filler, results, budget); // A absorbs, B empty
-            mergeGlob(a, i + 1, b, j, buf, filler, results, budget); // B absorbs, A empty
+            mergeGlob(a, i + 1, b, j + 1, buf, filler, results, budget, steps);
+            mergeGlob(a, i + 1, b, j, buf, filler, results, budget, steps);
+            mergeGlob(a, i, b, j + 1, buf, filler, results, budget, steps);
+            mergeGlob(a, i, b, j, append(buf, filler), filler, results, budget, steps);
             return;
         }
         if (wildA) {
-            mergeGlob(a, i, b, j + 1, buf, filler, results, budget); // A empty, B literal
-            mergeGlob(a, i, b, j, append(buf, cb), filler, results, budget); // A absorbs cb
+            // A's wildcard absorbs B's literal cb…
+            mergeGlob(a, i, b, j + 1, append(buf, cb), filler, results, budget, steps);
+            // …or A's capture ends before it, leaving cb for A's next token.
+            mergeGlob(a, i + 1, b, j, buf, filler, results, budget, steps);
             return;
         }
-        mergeGlob(a, i + 1, b, j, buf, filler, results, budget); // B empty, A literal
-        mergeGlob(a, i, b, j, append(buf, ca), filler, results, budget); // B absorbs ca
+        // wildB, literal ca on A's side: symmetric.
+        mergeGlob(a, i + 1, b, j, append(buf, ca), filler, results, budget, steps);
+        mergeGlob(a, i, b, j + 1, buf, filler, results, budget, steps);
     }
 
     private static StringBuilder append(StringBuilder buf, char c) {
