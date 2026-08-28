@@ -22,9 +22,12 @@
 
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
+#include <limits>
 #include <map>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <unordered_map>
 #include <vector>
@@ -388,6 +391,46 @@ inline InstanceLexemeTable const* activeInstanceLexemes(
     if (found == context->paths.end()) return nullptr;
     path = found->second;
     return context->lexemes;
+}
+
+/// Inside a live ExactInstanceScope the original wire lexeme is recoverable
+/// for every numeric node of the parsed document. Returns nullptr when no
+/// scope is active (plain parse, untouched DOM) or the node is not a
+/// recorded number.
+inline std::string const* exactNumericLexeme(boost::json::value const& json) {
+    std::string path;
+    auto const* table = activeInstanceLexemes(&json, path);
+    return table == nullptr ? nullptr : table->lexemeAt(path);
+}
+
+/// Converts `lexeme` into `out` exactly when it names an integer within the
+/// bounds of the destination type T. Works on the decimal text, never on a
+/// binary-float image, so tokens the double cannot represent (integers
+/// above 2^53 written with a fraction point or exponent) convert exactly.
+/// A lexeme longer than the ExactNumber implementation limit throws
+/// std::length_error; callers already treat that as a payload error.
+template <typename T>
+bool exactLexemeToInteger(std::string const& lexeme, T& out) {
+    static_assert(std::is_integral_v<T> && !std::is_same_v<T, bool>,
+                  "exactLexemeToInteger requires an integral destination");
+    ExactNumber const number = ExactNumber::parseLexeme(lexeme);
+    if (!number.isInteger()) {
+        return false;
+    }
+    using Big = ExactNumber::Integer;
+    ExactNumber const low(Big((std::numeric_limits<T>::min)()), Big(0));
+    ExactNumber const high(Big((std::numeric_limits<T>::max)()), Big(0));
+    if (number.compare(low) < 0 || number.compare(high) > 0) {
+        return false;
+    }
+    // The range check bounds the exponent (T's maximum has finitely many
+    // decimal digits), so this loop is finite and small by construction.
+    Big scaled = number.mantissa();
+    for (Big e = number.exponent10(); e > 0; --e) {
+        scaled *= 10;
+    }
+    out = scaled.convert_to<T>();
+    return true;
 }
 } // namespace org::openapitools::server::model::detail::schema_validation
 

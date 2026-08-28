@@ -186,16 +186,38 @@ void testNumericConversionBoundaries() {
     require(!tryGetMathematicalInteger(tooLargeSigned, signedValue),
             "2^63 must not convert to int64");
 
+    // The largest integral double below 2^63 is a trustworthy IMAGE of no
+    // specific integer: every token in a 1024-wide rounding band produces
+    // it, and past 2^53 the cast-based exactness check agrees with the
+    // band's centre. Without a wire lexeme there is nothing to prove which
+    // token arrived, so the decode refuses it (fail closed) ...
     boost::json::value const largestDoubleBelowSignedUpper(
             std::nextafter(signedUpper, 0.0));
-    require(tryGetMathematicalInteger(
+    require(!tryGetMathematicalInteger(
                     largestDoubleBelowSignedUpper, signedValue),
-            "the largest integral double below 2^63 must convert to int64");
-
+            "integral doubles past the exact window must refuse without a lexeme");
+    // ... while the same magnitude inside an ExactInstanceScope converts
+    // exactly from the decimal text it was parsed from.
+    {
+        schema_validation::ExactJsonValue document =
+                schema_validation::parseExactJson("[9223372036854774784.0]");
+        schema_validation::ExactInstanceScope scope(document);
+        require(tryGetMathematicalInteger(document.value.as_array()[0], signedValue)
+                        && signedValue == 9223372036854774784LL,
+                "the lexeme must convert exactly inside a scope");
+    }
     boost::json::value const signedLower(-signedUpper);
-    require(tryGetMathematicalInteger(signedLower, signedValue)
-                    && signedValue == (std::numeric_limits<std::int64_t>::min)(),
-            "-2^63 must convert to int64 exactly");
+    require(!tryGetMathematicalInteger(signedLower, signedValue),
+            "-2^63 image must refuse without a lexeme: in- AND out-of-range "
+            "tokens both round into it and cannot be told apart");
+    {
+        schema_validation::ExactJsonValue document =
+                schema_validation::parseExactJson("[-9223372036854775808.0]");
+        schema_validation::ExactInstanceScope scope(document);
+        require(tryGetMathematicalInteger(document.value.as_array()[0], signedValue)
+                        && signedValue == (std::numeric_limits<std::int64_t>::min)(),
+                "-2^63 must convert to int64 exactly from its lexeme");
+    }
 
     std::uint64_t unsignedValue = 0;
     boost::json::value const tooLargeUnsigned(std::ldexp(1.0, 64));

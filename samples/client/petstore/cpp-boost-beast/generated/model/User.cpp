@@ -403,6 +403,32 @@ struct JsonValueConverter<double>
     }
 };
 
+// Integer destinations honour the exact wire lexeme when the decode runs
+// inside an ExactInstanceScope (see tryGetMathematicalInteger). Plain
+// value_to<std::int64_t> would accept the ROUNDED double image of any
+// integral token above 2^53 — 9007199254740993.0 arriving as ...92 —
+// because its static_cast equality check agrees with the image.
+template <>
+struct JsonValueConverter<std::int64_t>
+{
+    static boost::json::value toJsonValue(const std::int64_t& sourceValue)
+    {
+        return boost::json::value_from(sourceValue);
+    }
+
+    static std::int64_t fromJsonValue(const boost::json::value& jsonValue)
+    {
+        std::int64_t result = 0;
+        if (!tryGetMathematicalInteger(jsonValue, result)) {
+            throw std::invalid_argument(
+                "Decode failed: value not representable as int64 "
+                "(non-integral, out of range, or past the exact window "
+                "with no wire lexeme to recover from)");
+        }
+        return result;
+    }
+};
+
 template <>
 struct JsonValueConverter<std::nullptr_t>
 {

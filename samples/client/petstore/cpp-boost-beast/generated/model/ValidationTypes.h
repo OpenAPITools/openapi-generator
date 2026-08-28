@@ -24,6 +24,7 @@
 
 #include <boost/beast/http/status.hpp>
 
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <limits>
@@ -33,6 +34,10 @@
 #include <type_traits>
 #include <utility>
 #include <boost/json.hpp>
+// The exact-JSON runtime lives beside this header and supplies the wire
+// lexeme recovery used by tryGetMathematicalInteger's double branch. There
+// is no cycle: Oas31ExactJson.h does not include this header.
+#include "Oas31ExactJson.h"
 
 namespace org {
 namespace openapitools {
@@ -172,6 +177,15 @@ inline bool isJsonInteger(boost::json::value const& v) {
 
 /// Attempts to extract a mathematical integer into a checked destination.
 /// Returns false when the value is not integral or exceeds destination bounds.
+/// A double is a trustworthy integer image only while |value| <= 2^53
+/// (doubles' own significand), regardless of how wide the destination is:
+/// above that window every double IS integral (modf says 0) yet the token
+/// that produced it may already have been rounded at parse time, and every
+/// cast-based exactness check then agrees with the rounded image. Inside an
+/// ExactInstanceScope the wire lexeme is authoritative and converts exactly
+/// (9007199254740993.0 names an integer the binary image cannot); outside
+/// any scope the window is enforced and the value is refused rather than
+/// silently corrupted.
 template <typename T>
 bool tryGetMathematicalInteger(boost::json::value const& v, T& out) {
     static_assert(std::is_integral_v<T>,
@@ -216,8 +230,27 @@ bool tryGetMathematicalInteger(boost::json::value const& v, T& out) {
                     || integralPart >= upperExclusive) {
                 return false;
             }
-            out = static_cast<T>(integralPart);
-            return true;
+            int const trustDigits = (std::min)(
+                    std::numeric_limits<T>::digits,
+                    std::numeric_limits<double>::digits);
+            double const trustUpper = std::ldexp(1.0, trustDigits);
+            double const trustLower = std::is_signed_v<T>
+                    ? -trustUpper : 0.0;
+            if (integralPart >= trustLower && integralPart < trustUpper) {
+                out = static_cast<T>(integralPart);
+                return true;
+            }
+            // Inside the destination but past the trust window: only the
+            // decimal text can still name the integer exactly, and only a
+            // decode inside an ExactInstanceScope has it. A lexeme beyond
+            // the ExactNumber limit throws std::length_error; callers map
+            // that to a payload error.
+            if (std::string const* lexeme =
+                    org::openapitools::client::model::detail::schema_validation::exactNumericLexeme(v)) {
+                return org::openapitools::client::model::detail::schema_validation::exactLexemeToInteger(
+                        *lexeme, out);
+            }
+            return false;
         }
         default:
             return false;

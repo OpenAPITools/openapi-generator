@@ -53,6 +53,7 @@ public class Oas31ExactRuntimeTest {
                 .replace("{{>licenseInfo}}", "")
                 .replace("{{validateOnDecode}}", "true")
                 .replace("{{schemaValidationHeaderGuardPrefix}}", validationGuard)
+                .replace("{{schemaValidationNamespace}}", validationNamespace)
                 .replace("{{#modelNamespaceDeclarations}}\nnamespace {{this}} {\n"
                         + "{{/modelNamespaceDeclarations}}",
                         "namespace " + modelNamespace + " {")

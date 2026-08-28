@@ -33,6 +33,10 @@
 // CompositionBranchValue lives here; the response path unwraps it below.
 // The include is directory-qualified so a generated model header cannot
 // hijack it through the model/ search path (same policy as api-header).
+// ValidationTypes.h carries the numeric decode contract — its
+// tryGetMathematicalInteger consults the exact wire lexeme inside a
+// handler decode (it pulls Oas31ExactJson.h with it), so integer leaves
+// share the model pipeline's judgment verbatim.
 #include "model/ValidationTypes.h"
 
 namespace org::openapitools::server::api {
@@ -212,36 +216,14 @@ inline void fromJsonLeaf(boost::json::value const& json, std::int32_t& out) {
 }
 
 inline void fromJsonLeaf(boost::json::value const& json, std::int64_t& out) {
-    if (json.is_int64()) {
-        out = json.as_int64();
-        return;
+    // One judgment with the model pipeline: integral kinds convert directly;
+    // a double converts while it is a trustworthy image (|value| <= 2^53)
+    // or while the handler's ExactInstanceScope still holds the wire lexeme
+    // (9007199254740993.0 names an integer exactly from its text); past the
+    // window with no lexeme it fails closed — 400, never a corrupted int64.
+    if (!org::openapitools::server::model::tryGetMathematicalInteger(json, out)) {
+        throw std::invalid_argument("expected a JSON integer");
     }
-    if (json.is_uint64()) {
-        std::uint64_t value = json.as_uint64();
-        if (value > static_cast<std::uint64_t>(
-                std::numeric_limits<std::int64_t>::max())) {
-            throw std::invalid_argument("integer out of int64 range");
-        }
-        out = static_cast<std::int64_t>(value);
-        return;
-    }
-    // JSON makes no integer/real distinction: 1.0 IS the integer 1. But a
-    // double holds an integer exactly only while |value| <= 2^53: above it
-    // the decimal token may already have been rounded on the way in (the
-    // original text is lost here), so the value cannot be trusted. Reject
-    // outside the exact window — fail closed; a schema-valid integral
-    // double beyond 2^53 answers 400 rather than a corrupted int64.
-    if (json.is_double()) {
-        double value = json.as_double();
-        double integral;
-        if (std::modf(value, &integral) == 0.0
-                && value >= -9007199254740992.0
-                && value <= 9007199254740992.0) {
-            out = static_cast<std::int64_t>(integral);
-            return;
-        }
-    }
-    throw std::invalid_argument("expected a JSON integer");
 }
 
 inline void fromJsonLeaf(boost::json::value const& json, float& out) {
