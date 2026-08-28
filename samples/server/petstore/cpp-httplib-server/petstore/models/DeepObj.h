@@ -7,6 +7,7 @@
 #pragma once
 // System headers
 #include <nlohmann/json.hpp>
+#include <string>
 #include <cstdint>
 #include <string>
 #include "DeepObjBaz.h"

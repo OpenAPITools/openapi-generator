@@ -520,6 +520,19 @@ std::string jsonString = json.dump();
 // Deserialize from JSON
 auto parsedModel = models::TestQueryParametersDeepObjectParameter::fromJson(nlohmann::json::parse(jsonString));
 ```
+#### models::TopLevelStatus
+
+```cpp
+// Create a model
+auto model = models::TopLevelStatus();
+
+// Serialize to JSON
+nlohmann::json json = models::TopLevelStatus::toJson(model);
+std::string jsonString = json.dump();
+
+// Deserialize from JSON
+auto parsedModel = models::TopLevelStatus::fromJson(nlohmann::json::parse(jsonString));
+```
 
 ## Implementing API Handlers
 
