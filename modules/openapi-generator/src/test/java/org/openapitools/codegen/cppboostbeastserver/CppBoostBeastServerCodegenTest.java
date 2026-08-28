@@ -864,6 +864,42 @@ public class CppBoostBeastServerCodegenTest {
     }
 
     @Test
+    public void rejectsOverlapOfDistinctWholeSegmentCaptures() throws IOException {
+        // '/{p}/a/b' and '/{q}/a{r}/b' have different shape keys and equal
+        // literal-token ranking (2 each), and BOTH match '/c/a/b'. The
+        // first segment is a whole-segment capture on each side, and the
+        // router forbids empty whole-segment captures, so every witness
+        // needs a char NEITHER pattern consumes. A search that skips
+        // steps where both sides merely absorb a char "proves" the first
+        // segment disjoint (empty option list) and lets this ambiguous
+        // route table through; the root both-absorb step must be taken.
+        Path spec = writeTempSpec(spec(
+                "  /{p}/a/b:",
+                "    get:",
+                "      operationId: first",
+                "      responses:",
+                "        '200': {description: ok}",
+                "  /{q}/a{r}/b:",
+                "    get:",
+                "      operationId: second",
+                "      responses:",
+                "        '200': {description: ok}"));
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-server")
+                .setInputSpec(spec.toString())
+                .setOutputDir(Files.createTempDirectory("overlap-stretch-").toString())
+                .setValidateSpec(false);
+        IllegalArgumentException error = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> new DefaultGenerator()
+                        .opts(configurator.toClientOptInput()).generate());
+        // 'c' is the spare filler char: absent from both templates.
+        Assert.assertTrue(error.getMessage().contains("/c/a/b"),
+                "diagnostic must name the ambiguous witness path, got: "
+                        + error.getMessage());
+    }
+
+    @Test
     public void rejectsAdjacentPathExpressions() throws IOException {
         // The router cannot split a capture boundary with no literal between
         // expressions, so /a/{first}{second} must be rejected up front.

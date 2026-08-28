@@ -897,13 +897,22 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
      * product-NFA state (i, j) reachable by SOME string of length L
      * (epsilon-closed); each state is discovered once per level with a
      * parent pointer, so every emitted candidate is a real generated string.
-     * A step where BOTH sides merely absorb a char leaves the state
-     * unchanged and only lengthens the witness — deleting such a char from
-     * any witness keeps it generable by both sides — so emitted steps always
-     * advance at least one side, a shortest witness has length at most
-     * n + m, levels are capped there, and finishing them is a disjointness
-     * PROOF, not a timeout. Letters are limited to the spare filler plus
+     * A step where BOTH sides merely absorb a char must still be taken:
+     * when a capture occupies a whole path segment the router forbids an
+     * empty capture, so a witness can need a char neither side consumes to
+     * make every whole-segment capture non-empty (e.g. '{p3}' vs '{q3}').
+     * Such a step leaves the product state unchanged but advances the level,
+     * and one suffices — the same char stretches every absorbing wildcard —
+     * so levels are capped at n + m + 1 (n + m chars to align and consume
+     * both patterns, plus one both-absorb char). Finishing every level is a
+     * disjointness PROOF, not a timeout.
+     * Letters are limited to the spare filler plus
      * literals present in the templates; none is '/'.
+     *
+     * <p>A level-0 witness may be the empty string (both segments can match
+     * an empty path segment); suppressing it would prove disjointness for a
+     * pair that genuinely collides on '//'. Empty candidates are verified by
+     * the caller's whole-path Router::matches mirror like any other.
      *
      * <p>Sound only as a CANDIDATE list — callers verify against the exact
      * Router::matches mirror before rejecting.
@@ -916,7 +925,7 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         int m = flatB.length();
         int width = m + 1;
         int states = (n + 1) * width;
-        int maxLevel = n + m;
+        int maxLevel = n + m + 1;
         long tableCells = (long) (n + 1) * (m + 1) * (maxLevel + 1);
         if (tableCells > 4_000_000) {
             // Pathological template: bail out with an under-report (never a
@@ -977,14 +986,15 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                     current.add(state + 1);
                 }
             }
-            if (inLevel[accept] && level > 0) {
-                String witness = reconstructSegmentWitness(
-                        parent, parentChar, level * states + accept);
-                if (!witness.isEmpty()) {
-                    results.add(witness);
-                    if (results.size() >= budget) {
-                        return results;
-                    }
+            if (inLevel[accept]) {
+                // The level-0 candidate may reconstruct to the empty string
+                // (both segments match an empty path segment); it is a
+                // genuine witness candidate and the caller's whole-path
+                // Router::matches mirror decides it.
+                results.add(reconstructSegmentWitness(
+                        parent, parentChar, level * states + accept));
+                if (results.size() >= budget) {
+                    return results;
                 }
             }
             if (level == maxLevel) {
@@ -992,7 +1002,12 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
             }
             // Emit one char: each side absorbs it (wildcard stays), consumes
             // it (matching literal), or the path dies. A step that leaves
-            // BOTH positions unchanged is skipped (see above).
+            // BOTH positions unchanged is normally skipped (it only
+            // lengthens the witness), EXCEPT from the root state at level 0:
+            // a whole-segment capture cannot be empty (Router::matches
+            // refuses that), it absorbs only at index 0, and one root char
+            // stretches every whole-segment capture at once — without it,
+            // '{p3}' vs '{q3}' would be "proven" disjoint.
             List<Integer> next = new ArrayList<>();
             boolean[] inNext = new boolean[states];
             for (int state : current) {
@@ -1004,7 +1019,8 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                         continue;
                     }
                     int nj = advanceSide(flatB, j, c);
-                    if (nj < 0 || (ni == i && nj == j)) {
+                    if (nj < 0 || ((ni == i && nj == j)
+                            && !(level == 0 && state == 0))) {
                         continue;
                     }
                     int key = ni * width + nj;
