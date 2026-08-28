@@ -10,6 +10,12 @@
 #include "server/Problem.h"
 #include "server/Responder.h"
 #include "server/Router.h"
+{{#x-server-schema-validation}}
+// Body pre-validation evaluates the declared schema IR before decoding.
+#include "model/Oas31ExactJson.h"
+#include "model/Oas31SchemaRegistry.h"
+#include "model/Oas31Validator.h"
+{{/x-server-schema-validation}}
 
 #include <algorithm>
 #include <cctype>
@@ -28,7 +34,7 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
 
 {{#operation}}
     // ------------------------------------------------------------------
-    // {{httpMethod}} {{path}} ({{operationId}})
+    // {{httpMethod}} {{{vendorExtensions.x-server-path-literal}}} ({{{vendorExtensions.x-server-operation-id-literal}}})
     // ------------------------------------------------------------------
     {
         {{{apiNsQualified}}}SecurityGroups security;
@@ -36,8 +42,10 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
         {
             std::vector<{{{apiNsQualified}}}SchemeRequirement> group;
 {{#.}}
+            // Values are C++-escaped by CppBoostBeastOperationFacts; triple
+            // braces insert them verbatim (double braces would HTML-escape).
             group.push_back({{{apiNsQualified}}}SchemeRequirement{
-                "{{name}}", "{{type}}", "{{in}}", "{{paramName}}", "{{httpScheme}}"});
+                "{{{name}}}", "{{{type}}}", "{{{in}}}", "{{{paramName}}}", "{{{httpScheme}}}" });
 {{/.}}
             security.push_back(std::move(group));
         }
@@ -45,7 +53,7 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
 
         router->add(
             "{{httpMethod}}",
-            "{{path}}",
+            "{{{vendorExtensions.x-server-path-literal}}}",
             [impl](std::shared_ptr<{{{apiNsQualified}}}RequestContext> ctx,
                     std::shared_ptr<{{{apiNsQualified}}}ResponderCore> responderCore) {
                 {{vendorExtensions.x-server-operation-pascal}}Request request;
@@ -53,11 +61,11 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                 bool invalid = false;
 
 {{#vendorExtensions.x-server-params}}
-                // ---- parameter {{baseName}} ({{in}}, {{style}}) ----
+                // ---- parameter {{{baseNameLiteral}}} ({{in}}, {{style}}) ----
                 {
 {{#isPath}}
 {{^isContainer}}
-                    auto rawSegment = ctx->pathParams.find("{{baseName}}");
+                    auto rawSegment = ctx->pathParams.find("{{{baseNameLiteral}}}");
                     std::string encoded =
                         rawSegment != ctx->pathParams.end() ? rawSegment->second : std::string();
 {{#hasScalarConstraints}}                    bool present = true;
@@ -71,29 +79,31 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                         text = percentDecode(text);
                     }
 {{/styleLabel}}
-{{#styleMatrix}}                    malformed = !decodeMatrix(encoded, "{{baseName}}", text);
+{{#styleMatrix}}                    malformed = !decodeMatrix(encoded, "{{{baseNameLiteral}}}", text);
                     if (!malformed) {
                         text = percentDecode(text);
                     }
 {{/styleMatrix}}
                     if (malformed) {
-                        problem.withError("{{baseName}}", "path parameter is not {{style}}-encoded");
+                        problem.withError("{{{baseNameLiteral}}}", "path parameter is not {{style}}-encoded");
                         invalid = true;
                     } else if (text.empty()) {
-                        problem.withError("{{baseName}}", "path parameter is missing or empty");
+                        problem.withError("{{{baseNameLiteral}}}", "path parameter is missing or empty");
                         invalid = true;
                     } else if (!parseScalar(text, request.{{cppName}})) {
-                        problem.withError("{{baseName}}", "path parameter is not a valid {{{dataType}}}");
+                        problem.withError("{{{baseNameLiteral}}}", "path parameter is not a valid {{{dataType}}}");
                         invalid = true;
                     }
 {{>param-constraints}}
 {{/isContainer}}
 {{#isContainer}}
-                    auto rawSegment = ctx->pathParams.find("{{baseName}}");
+                    auto rawSegment = ctx->pathParams.find("{{{baseNameLiteral}}}");
                     std::string encoded =
                         rawSegment != ctx->pathParams.end() ? rawSegment->second : std::string();
                     bool malformed = false;
-                    std::string segmentValue;
+{{#styleLabel}}                    std::string segmentValue;
+{{/styleLabel}}{{#styleMatrix}}{{^explode}}                    std::string segmentValue;
+{{/explode}}{{/styleMatrix}}
                     std::vector<std::string> elements;
 {{#styleSimple}}                    elements = splitSimple(encoded);
 {{/styleSimple}}
@@ -105,50 +115,52 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                         elements = splitSimple(segmentValue);
                     }
 {{/explode}}{{/styleLabel}}
-{{#styleMatrix}}{{#explode}}                    malformed = !splitMatrixExploded(encoded, "{{baseName}}", elements);
-{{/explode}}{{^explode}}                    malformed = !decodeMatrix(encoded, "{{baseName}}", segmentValue);
+{{#styleMatrix}}{{#explode}}                    malformed = !splitMatrixExploded(encoded, "{{{baseNameLiteral}}}", elements);
+{{/explode}}{{^explode}}                    malformed = !decodeMatrix(encoded, "{{{baseNameLiteral}}}", segmentValue);
                     if (!malformed) {
                         elements = splitSimple(segmentValue);
                     }
 {{/explode}}{{/styleMatrix}}
                     if (malformed) {
-                        problem.withError("{{baseName}}", "path parameter is not {{style}}-encoded");
+                        problem.withError("{{{baseNameLiteral}}}", "path parameter is not {{style}}-encoded");
                         invalid = true;
                     } else {
                         for (std::string& element : elements) {
                             {{{innerType}}} value;
                             if (!parseScalar(percentDecode(element), value)) {
-                                problem.withError("{{baseName}}", "path parameter element is not a valid {{{innerType}}}");
+                                problem.withError("{{{baseNameLiteral}}}", "path parameter element is not a valid {{{innerType}}}");
                                 invalid = true;
                                 break;
                             }
                             request.{{cppName}}.push_back(std::move(value));
                         }
                     }
+{{#hasContainerConstraints}}                    bool present = true;
+{{/hasContainerConstraints}}
 {{>param-container-constraints}}
 {{/isContainer}}
 {{/isPath}}
 {{#isQuery}}
 {{^isContainer}}
-                    auto values = ctx->query.equal_range("{{baseName}}");
+                    auto values = ctx->query.equal_range("{{{baseNameLiteral}}}");
                     bool present = values.first != values.second;
                     if (!present) {
 {{#required}}
-                        problem.withError("{{baseName}}", "required query parameter is missing");
+                        problem.withError("{{{baseNameLiteral}}}", "required query parameter is missing");
                         invalid = true;
 {{/required}}
 {{^required}}
                         // absent optional query parameter keeps its default value
 {{/required}}
                     } else if (!parseScalar(values.first->second, request.{{cppName}})) {
-                        problem.withError("{{baseName}}", "query parameter is not a valid {{{dataType}}}");
+                        problem.withError("{{{baseNameLiteral}}}", "query parameter is not a valid {{{dataType}}}");
                         invalid = true;
                     }
 {{>param-constraints}}
 {{/isContainer}}
 {{#isContainer}}
 {{^styleDeepObject}}
-                    auto values = ctx->query.equal_range("{{baseName}}");
+                    auto values = ctx->query.equal_range("{{{baseNameLiteral}}}");
                     bool present = values.first != values.second;
                     std::vector<std::string> elements;
                     if (present) {
@@ -168,7 +180,7 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                     }
                     if (!present) {
 {{#required}}
-                        problem.withError("{{baseName}}", "required query parameter is missing");
+                        problem.withError("{{{baseNameLiteral}}}", "required query parameter is missing");
                         invalid = true;
 {{/required}}
 {{^required}}
@@ -178,7 +190,7 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                         for (std::string& element : elements) {
                             {{{innerType}}} value;
                             if (!parseScalar(element, value)) {
-                                problem.withError("{{baseName}}", "query parameter element is not a valid {{{innerType}}}");
+                                problem.withError("{{{baseNameLiteral}}}", "query parameter element is not a valid {{{innerType}}}");
                                 invalid = true;
                                 break;
                             }
@@ -190,7 +202,7 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
 {{#styleDeepObject}}
                     bool present = false;
                     for (auto const& entry : ctx->query) {
-                        std::string const prefix = "{{baseName}}[";
+                        std::string const prefix = "{{{baseNameLiteral}}}[";
                         if (entry.first.size() > prefix.size()
                                 && entry.first.compare(0, prefix.size(), prefix) == 0
                                 && entry.first.back() == ']') {
@@ -205,7 +217,7 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                     }
                     if (!present) {
 {{#required}}
-                        problem.withError("{{baseName}}", "required query parameter is missing");
+                        problem.withError("{{{baseNameLiteral}}}", "required query parameter is missing");
                         invalid = true;
 {{/required}}{{^required}}
                         // absent optional query parameter keeps its default value
@@ -216,35 +228,35 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
 {{/isQuery}}
 {{#isHeader}}
 {{^isContainer}}
-                    auto values = ctx->headers.equal_range(lowercaseHeaderName("{{baseName}}"));
+                    auto values = ctx->headers.equal_range(lowercaseHeaderName("{{{baseNameLiteral}}}"));
                     bool present = values.first != values.second;
                     if (!present) {
 {{#required}}
-                        problem.withError("{{baseName}}", "required header parameter is missing");
+                        problem.withError("{{{baseNameLiteral}}}", "required header parameter is missing");
                         invalid = true;
 {{/required}}
 {{^required}}
                         // absent optional header parameter keeps its default value
 {{/required}}
                     } else if (!parseScalar(values.first->second, request.{{cppName}})) {
-                        problem.withError("{{baseName}}", "header parameter is not a valid {{{dataType}}}");
+                        problem.withError("{{{baseNameLiteral}}}", "header parameter is not a valid {{{dataType}}}");
                         invalid = true;
                     }
 {{>param-constraints}}
 {{/isContainer}}
 {{#isContainer}}
-                    auto values = ctx->headers.equal_range(lowercaseHeaderName("{{baseName}}"));
+                    auto values = ctx->headers.equal_range(lowercaseHeaderName("{{{baseNameLiteral}}}"));
                     bool present = values.first != values.second;
                     if (!present) {
 {{#required}}
-                        problem.withError("{{baseName}}", "required header parameter is missing");
+                        problem.withError("{{{baseNameLiteral}}}", "required header parameter is missing");
                         invalid = true;
 {{/required}}
                     } else {
                         for (std::string& element : splitSimple(values.first->second)) {
                             {{{innerType}}} value;
                             if (!parseScalar(element, value)) {
-                                problem.withError("{{baseName}}", "header parameter element is not a valid {{{innerType}}}");
+                                problem.withError("{{{baseNameLiteral}}}", "header parameter element is not a valid {{{innerType}}}");
                                 invalid = true;
                                 break;
                             }
@@ -255,18 +267,18 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
 {{/isContainer}}
 {{/isHeader}}
 {{#isCookie}}
-                    auto values = ctx->cookies.equal_range("{{baseName}}");
+                    auto values = ctx->cookies.equal_range("{{{baseNameLiteral}}}");
                     bool present = values.first != values.second;
                     if (!present) {
 {{#required}}
-                        problem.withError("{{baseName}}", "required cookie parameter is missing");
+                        problem.withError("{{{baseNameLiteral}}}", "required cookie parameter is missing");
                         invalid = true;
 {{/required}}
 {{^required}}
                         // absent optional cookie parameter keeps its default value
 {{/required}}
                     } else if (!parseScalar(values.first->second, request.{{cppName}})) {
-                        problem.withError("{{baseName}}", "cookie parameter is not a valid {{{dataType}}}");
+                        problem.withError("{{{baseNameLiteral}}}", "cookie parameter is not a valid {{{dataType}}}");
                         invalid = true;
                     }
 {{>param-constraints}}
@@ -296,7 +308,15 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                         c = static_cast<char>(std::tolower(
                             static_cast<unsigned char>(c)));
                     }
-                    while (!contentType.empty() && contentType.back() == ' ') {
+                    // RFC 9110 5.6.3 allows whitespace around the type/
+                    // subtype and between parameters; trim it on both sides
+                    // (' ' and HTAB) before comparing.
+                    while (!contentType.empty()
+                            && (contentType.front() == ' ' || contentType.front() == '\t')) {
+                        contentType.erase(contentType.begin());
+                    }
+                    while (!contentType.empty()
+                            && (contentType.back() == ' ' || contentType.back() == '\t')) {
                         contentType.pop_back();
                     }
                     static std::vector<std::string> const kMediaTypes = {
@@ -309,8 +329,58 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                         return;
                     }
                     try {
+{{#vendorExtensions.x-server-request-body-schema-id}}
+                        // Validate the raw payload against the declared
+                        // component schema BEFORE decoding. The model decode
+                        // is deliberately tolerant (client-compat policy:
+                        // nulls on non-nullable fields are skipped, unknown
+                        // members ignored); the server gate enforces the
+                        // schema so a sloppy payload cannot reach the service
+                        // with silently defaulted fields. Exact-JSON parsing
+                        // preserves numeric lexemes, so multipleOf and
+                        // magnitude checks see the wire text, and the decode
+                        // inside the scope converts numbers exactly too.
+                        {{{schemaValidationNamespace}}}::ExactJsonValue exactJson =
+                            {{{schemaValidationNamespace}}}::parseExactJson(ctx->body);
+                        {{{schemaValidationNamespace}}}::requireModelConvertibleJson(exactJson);
+                        {{{schemaValidationNamespace}}}::ExactInstanceScope exactScope(exactJson);
+                        {{{schemaValidationNamespace}}}::SchemaIndex const schemaIndex =
+                            {{{schemaValidationNamespace}}}::schemaNodeFor("{{{vendorExtensions.x-server-request-body-schema-id}}}");
+                        if (schemaIndex == {{{schemaValidationNamespace}}}::kNoSchema) {
+                            throw std::invalid_argument(
+                                "request body schema id is not in the generated registry");
+                        }
+                        {
+                            {{{schemaValidationNamespace}}}::RawInstance instance(&exactJson.value);
+                            {{{schemaValidationNamespace}}}::ValidationPath validationPath;
+                            {{{schemaValidationNamespace}}}::ValidationContext context;
+                            {{{schemaValidationNamespace}}}::ValidationResult const result =
+                                {{{schemaValidationNamespace}}}::sharedSchemaEvaluator().validate(
+                                    schemaIndex, instance, validationPath, context);
+                            if (!result.success) {
+                                std::string message = "request body failed schema validation";
+                                if (!result.failurePath.empty()) {
+                                    message += " at '" + result.failurePath + "'";
+                                }
+                                if (!result.failureMessage.empty()) {
+                                    message += ": " + result.failureMessage;
+                                }
+                                throw std::invalid_argument(message);
+                            }
+                        }
+                        fromJsonLeaf(exactJson.value, request.body);
+{{/vendorExtensions.x-server-request-body-schema-id}}
+{{^vendorExtensions.x-server-request-body-schema-id}}
                         fromJsonBody(ctx->body, request.body);
+{{/vendorExtensions.x-server-request-body-schema-id}}
                     } catch (std::invalid_argument const& error) {
+                        {{{apiNsQualified}}}Problem parseProblem = {{{apiNsQualified}}}Problem::badRequest(error.what());
+                        parseProblem.withError("body", error.what());
+                        responderCore->sendProblem(std::move(parseProblem));
+                        return;
+                    } catch (std::length_error const& error) {
+                        // A numeric lexeme beyond the implementation limit is
+                        // a payload problem, not a server fault: answer 400.
                         {{{apiNsQualified}}}Problem parseProblem = {{{apiNsQualified}}}Problem::badRequest(error.what());
                         parseProblem.withError("body", error.what());
                         responderCore->sendProblem(std::move(parseProblem));
@@ -333,7 +403,7 @@ void {{classname}}::attach({{{apiNsQualified}}}HttpServer& server, std::shared_p
                 impl->{{nickname}}(std::move(request), ctx, std::move(responder));
             },
             std::move(security),
-            "{{operationId}}");
+            "{{{vendorExtensions.x-server-operation-id-literal}}}");
     }
 {{/operation}}
 }

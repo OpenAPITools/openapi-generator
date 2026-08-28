@@ -134,7 +134,7 @@ inline bool splitMatrixExploded(std::string_view segment, std::string const& nam
     return true;
 }
 
-/// Parses a Cookie header value ("k=v; k2=v2") into decoded pairs.
+/// Decodes a Cookie header value ("k=v; k2=v2") into decoded pairs.
 inline void parseCookieHeader(
         std::string_view header,
         std::multimap<std::string, std::string>& out) {
@@ -153,10 +153,20 @@ inline void parseCookieHeader(
             while (!key.empty() && (key.back() == ' ' || key.back() == '\t')) {
                 key.pop_back();
             }
-            std::string value = percentDecode(pair.substr(eq + 1));
-            while (!value.empty() && value.front() == ' ') {
-                value.erase(value.begin());
+            std::string_view valueText = pair.substr(eq + 1);
+            while (!valueText.empty()
+                    && (valueText.front() == ' ' || valueText.front() == '\t')) {
+                valueText.remove_prefix(1);
             }
+            // RFC 6265 4.1.1 cookie-av permits a quoted-string value
+            // (DQUOTE *cookie-octet DQUOTE). A user agent may send
+            // session=/"abc"/; strip the wrapping quotes so the codec sees
+            // the cookie value, not its serialization.
+            if (valueText.size() >= 2
+                    && valueText.front() == '"' && valueText.back() == '"') {
+                valueText = valueText.substr(1, valueText.size() - 2);
+            }
+            std::string value = percentDecode(valueText);
             if (!key.empty()) {
                 out.emplace(std::move(key), std::move(value));
             }
@@ -166,6 +176,60 @@ inline void parseCookieHeader(
         }
         start = semi + 1;
     }
+}
+
+/// Counts UTF-8 code points in a decoded value for minLength/maxLength
+/// (JSON Schema counts Unicode scalars, not bytes). Mirrors the model
+/// validator's countCodePoints: continuation bytes (0x80..0xBF) are skipped;
+/// invalid sequences degrade to a byte count, which only ever shifts the
+/// length upward (fail-closed for max, permissive for a value the schema
+/// could not have intended).
+inline std::size_t utf8CodepointCount(std::string_view text) {
+    std::size_t count = 0;
+    for (std::size_t i = 0; i < text.size(); ++i) {
+        if ((static_cast<unsigned char>(text[i]) & 0xC0) != 0x80) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+/// True when `pattern` contains a real Unicode property escape (\p{...} or
+/// \P{...}). std::regex's ECMAScript grammar has no representation for
+/// them, and some standard libraries silently compile `\p` as an identity
+/// escape (matching the literal text "p"), so a trial construction cannot
+/// detect every unsupported pattern; this scan refuses property escapes
+/// explicitly before the regex is built. Only a backslash starting an
+/// ODD-length run escapes the next character: in "\\p{L}" the doubled
+/// backslashes are literals and the p is ordinary text.
+inline bool hasUnicodePropertyEscape(std::string_view pattern) {
+    for (std::size_t i = 0; i < pattern.size(); ++i) {
+        if (pattern[i] != '\\') {
+            continue;
+        }
+        std::size_t slashes = 0;
+        while (i + slashes < pattern.size() && pattern[i + slashes] == '\\') {
+            ++slashes;
+        }
+        std::size_t const after = i + slashes;
+        if (after >= pattern.size()) {
+            break;   // run ends the pattern; nothing to test
+        }
+        if ((slashes % 2) == 0) {
+            // Even run: the following character is a literal; the loop's
+            // ++i resumes right after the run.
+            i = after - 1;
+            continue;
+        }
+        if ((pattern[after] == 'p' || pattern[after] == 'P')
+                && after + 1 < pattern.size() && pattern[after + 1] == '{') {
+            return true;
+        }
+        // Odd run that is not a property escape: the escaped character is
+        // a literal; consume it so its bytes are not re-scanned.
+        i = after;
+    }
+    return false;
 }
 
 // ---------------------------------------------------------------------------
@@ -183,9 +247,29 @@ inline bool parseScalar(std::string_view text, bool& out) {
     return false;
 }
 
+/// True when `text` is exactly the JSON integer grammar
+/// ( '-'? ( '0' | [1-9] [0-9]* ) ) with no surrounding whitespace, signless
+/// forms aside. strtoll is locale-sensitive only for grouping (which JSON
+/// forbids), so a grammar-checked scan is locale-independent.
+inline bool isJsonIntegerGrammar(std::string_view text) {
+    if (text.empty()) return false;
+    std::size_t i = 0;
+    if (text[i] == '-') {
+        ++i;
+        if (i == text.size()) return false;   // bare '-'
+    }
+    if (text[i] == '0') {
+        return i + 1 == text.size();          // leading zeros are not JSON
+    }
+    for (; i < text.size(); ++i) {
+        if (text[i] < '0' || text[i] > '9') return false;
+    }
+    return true;
+}
+
 template <typename T>
 inline bool parseIntegerScalar(std::string_view text, T& out) {
-    if (text.empty()) return false;
+    if (!isJsonIntegerGrammar(text)) return false;
     std::string storage(text);
     char* end = nullptr;
     errno = 0;
@@ -212,36 +296,92 @@ inline bool parseScalar(std::string_view text, std::int32_t& out) {
 inline bool parseScalar(std::string_view text, std::int64_t& out) {
     return parseIntegerScalar(text, out);
 }
-
-template <typename T>
-inline bool parseFloatScalar(std::string_view text, T& out) {
+/// True when `text` is exactly the JSON number grammar
+/// ( '-'? int ( '.' frac )? ( [eE] [+-]? frac )? ). Rejects the strtod
+/// extensions (hex floats, "inf"/"nan", leading '+', leading zeros, "1.",
+/// ".5") and any locale decimal comma.
+inline bool isJsonNumberGrammar(std::string_view text) {
     if (text.empty()) return false;
-    // strtod also accepts C99 hex floats ("0x1p3", and even the hex integer
-    // "0x10", which consumes the whole input). JSON/OAS number text never
-    // does; reject the form explicitly instead of relying on the length
-    // check below, which hex floats sail through.
-    {
-        std::string_view digits =
-            (text.front() == '-' || text.front() == '+') ? text.substr(1) : text;
-        if (digits.size() >= 2 && digits[0] == '0'
-                && (digits[1] == 'x' || digits[1] == 'X')) {
-            return false;
-        }
-    }
-    std::string storage(text);
-    char* end = nullptr;
-    double parsed = std::strtod(storage.c_str(), &end);
-    // Whole-input match: strtod stops at NUL or junk; compare the consumed
-    // length so embedded NULs (via %00) cannot smuggle trailing bytes.
-    if (end == nullptr
-            || static_cast<std::size_t>(end - storage.data()) != storage.size()) {
+    std::size_t i = text[0] == '-' ? 1 : 0;
+    if (i >= text.size()) return false;
+    if (text[i] == '0') {
+        ++i;
+    } else if (text[i] >= '1' && text[i] <= '9') {
+        while (i < text.size() && text[i] >= '0' && text[i] <= '9') ++i;
+    } else {
         return false;
     }
-    // ERANGE means overflow (result saturates to HUGE_VAL) or underflow
-    // (result rounds to a denormal or zero). Overflow is non-finite and dies
-    // on the isfinite gate; underflow is ordinary IEEE rounding of a legal
-    // JSON number like "1e-400", so it is accepted, not a wire error.
-    // JSON numbers are finite; reject strtod extensions like "inf"/"nan".
+    std::size_t digits = 0;
+    if (i < text.size() && text[i] == '.') {
+        ++i;
+        digits = i;
+        while (i < text.size() && text[i] >= '0' && text[i] <= '9') ++i;
+        if (i == digits) return false;        // '.' requires digits
+    }
+    if (i < text.size() && (text[i] == 'e' || text[i] == 'E')) {
+        ++i;
+        if (i < text.size() && (text[i] == '+' || text[i] == '-')) ++i;
+        digits = i;
+        while (i < text.size() && text[i] >= '0' && text[i] <= '9') ++i;
+        if (i == digits) return false;        // exponent requires digits
+    }
+    return i == text.size();
+}
+
+
+/// Parses a JSON number without any locale dependence: strtod honors
+/// LC_NUMERIC, so under a comma-decimal locale it would accept "1,5"
+/// (which JSON forbids) and reject the valid "1.5". The grammar scan fixes
+/// the accepted text; the accumulation below converts exactly that text
+/// digit by digit (no decimal-point lookup). Long digit strings carry at
+/// most an implementation-precision ULP difference from a correctly-rounded
+/// conversion, and exponent application through std::pow saturates to 0 on
+/// underflow (accepted; ordinary rounding of "1e-400") and to infinity on
+/// overflow (rejected by the finiteness gate below).
+template <typename T>
+inline bool parseFloatScalar(std::string_view text, T& out) {
+    if (!isJsonNumberGrammar(text)) return false;
+    std::size_t i = 0;
+    bool negative = text[i] == '-';
+    if (negative) ++i;
+    double mantissa = 0.0;
+    while (i < text.size() && text[i] >= '0' && text[i] <= '9') {
+        mantissa = mantissa * 10.0 + static_cast<double>(text[i] - '0');
+        ++i;
+    }
+    if (i < text.size() && text[i] == '.') {
+        ++i;
+        double fraction = 0.0;
+        double scale = 1.0;
+        while (i < text.size() && text[i] >= '0' && text[i] <= '9') {
+            fraction = fraction * 10.0 + static_cast<double>(text[i] - '0');
+            scale *= 10.0;
+            ++i;
+        }
+        mantissa += fraction / scale;
+    }
+    int exponent = 0;
+    if (i < text.size() && (text[i] == 'e' || text[i] == 'E')) {
+        ++i;
+        bool exponentNegative = text[i] == '-';
+        if (text[i] == '+' || text[i] == '-') ++i;
+        while (i < text.size() && text[i] >= '0' && text[i] <= '9') {
+            // Clamp: any magnitude beyond this saturates pow() to 0 or inf,
+            // and clamping keeps the accumulator from signed overflow.
+            if (exponent < 100000) {
+                exponent = exponent * 10 + (text[i] - '0');
+            }
+            ++i;
+        }
+        if (exponentNegative) exponent = -exponent;
+    }
+    double parsed = mantissa;
+    if (exponent > 0) parsed *= std::pow(10.0, static_cast<double>(exponent));
+    if (exponent < 0) parsed *= std::pow(10.0, static_cast<double>(exponent));
+    if (negative) parsed = -parsed;
+    // JSON numbers are finite; overflow (1e400) saturated to infinity above
+    // and dies here. Underflow (1e-400) rounded to zero/denormal and stays
+    // accepted, matching strtod semantics.
     if (!std::isfinite(parsed)) return false;
     // A float parameter rejects values outside float range: casting 1e40 to
     // float yields infinity, which would hand the service a non-finite

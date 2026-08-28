@@ -82,8 +82,9 @@ int main() {
     auto router = std::make_shared<api::Router>();
     api::ServerOptions options;
     options.authorizer = std::make_shared<MyAuthorizer>();
-    auto server = std::make_shared<api::HttpServer>(
-        ioc, router, options);
+    // HttpServer routes its own lifecycle through enable_shared_from_this, so
+    // it can only be built through create() (which also rejects a null router).
+    auto server = api::HttpServer::create(ioc, router, options);
 {{#apiInfo}}{{#apis}}{{#operations}}
     api::{{classname}}::attach(*server, std::make_shared<My{{classname}}>());
 {{/operations}}{{/apis}}{{/apiInfo}}
@@ -112,6 +113,45 @@ when bytes arrive.
 
 With `addApiImplStubs=true` a `main.cpp` and stub services (501 responses)
 are generated for quick start.
+
+## Validation semantics
+
+Parameter and body validation follows these documented rules:
+
+- **String length** (`minLength` / `maxLength`) counts Unicode code points,
+  not bytes, matching JSON Schema. Invalid UTF-8 degrades to a byte count,
+  which only shifts the length upward.
+- **`pattern`** is evaluated UNANCHORED (`std::regex_search`), per JSON
+  Schema. Matching runs over the UTF-8 BYTES with `std::regex` in its
+  ECMAScript grammar, so `\w`, `[^…]`, and `.` treat a multi-byte character
+  as its constituent bytes; a pattern relying on Unicode word/property
+  semantics is outside the supported subset and answers 400 rather than
+  matching approximately. Patterns the grammar cannot compile are refused
+  the same way. Keep ASCII-only patterns, or express intent with explicit
+  byte-safe alternatives.
+- **Enum reachability**: an enum member is validated only when the
+  parameter's C++ codec can produce a JSON-equal value for it (a string
+  member can never match an integer parameter). When no declared member is
+  reachable, the parameter fails closed with 400 instead of skipping the
+  check.
+- **Absent optional collections** skip `minItems`/`maxItems`/`uniqueItems`
+  and every item-level check: the constraint applies to the array instance,
+  which is not on the wire.
+- **Numeric grammar** is strict and locale-independent: parameters must be
+  exact JSON number text (`1.5` yes; `+1.5`, `.5`, `1.`, `1,5`, `0x10`,
+  leading/trailing space, `inf`, `nan` no).
+- **Request bodies** are validated against their declared component schema
+  BEFORE decoding, so an invalid payload answers 400 instead of reaching the
+  service with silently defaulted fields. The exact-number-preserving parser
+  is shared with the model path, so numeric lexemes are compared exactly.
+  Bodies whose schema is inline, a composition union, or nullable are
+  decode-shape-only (no schema gate) — the generated decode still rejects
+  structurally wrong payloads.
+- **Model decoding stays tolerant** (client-compatibility policy): unknown
+  members are ignored, and the server gate above is what enforces the
+  schema. Do not rely on the model constructor to reject invalid input.
+- **401/404/405 responses never echo** request query strings, and credential
+  values are not logged.
 
 ## Security
 

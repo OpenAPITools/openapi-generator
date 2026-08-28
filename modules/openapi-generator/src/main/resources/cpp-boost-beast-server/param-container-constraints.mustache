@@ -1,64 +1,84 @@
 {{! Container-parameter validation: collection bounds (minItems/maxItems/
     uniqueItems) and the per-element constraint ladder derived from the items
-    schema. Requires C++ locals invalid, problem and the decoded container
-    member request.cppName, plus the assembler facts hasMinItems/minItems,
-    hasMaxItems/maxItems, uniqueItems and the item ladder (itemHasEnum,
-    itemEnumValues, itemHasPattern, itemPattern, itemHasMinLength,
-    itemMinLength, itemHasMaxLength, itemMaxLength, itemHasMinimum,
-    itemMinimum, itemHasMaximum, itemMaximum, itemMinimumAlwaysInvalid,
+    schema. Requires C++ locals invalid, problem, `present` (declared by the
+    query/header branches; the path branch sets it true when the partial is
+    included) and the decoded container member request.cppName, plus the
+    assembler facts hasMinItems/minItems, hasMaxItems/maxItems, uniqueItems
+    and the item ladder (itemHasEnum, itemEnumValues, itemEnumAlwaysInvalid,
+    itemHasPattern, itemPattern, itemHasMinLength, itemMinLength,
+    itemHasMaxLength, itemMaxLength, itemHasMinimum, itemMinimum,
+    itemHasMaximum, itemMaximum, itemMinimumAlwaysInvalid,
     itemMaximumAlwaysInvalid). Elements were decoded as the inner type, so
-    the item facts use that kind. }}
+    the item facts use that kind. The error keys use baseNameLiteral
+    (C++-escaped, triple-brace) so a wire name containing quotes or
+    backslashes cannot corrupt the generated string literal. Item string
+    lengths count UTF-8 code points; the item pattern is an unanchored
+    std::regex_search over the UTF-8 bytes (see the README pattern-policy
+    note). An absent parameter (present false) skips every check: the bounds
+    apply to the array instance, which is not on the wire. }}
 {{#hasMinItems}}
-                    if (!invalid && request.{{cppName}}.size() < {{minItems}}) {
-                        problem.withError("{{baseName}}", "value has fewer items than minItems");
+                    if (!invalid && present && request.{{cppName}}.size() < {{minItems}}) {
+                        problem.withError("{{{baseNameLiteral}}}", "value has fewer items than minItems");
                         invalid = true;
                     }
 {{/hasMinItems}}{{#hasMaxItems}}
-                    if (!invalid && request.{{cppName}}.size() > {{maxItems}}) {
-                        problem.withError("{{baseName}}", "value has more items than maxItems");
+                    if (!invalid && present && request.{{cppName}}.size() > {{maxItems}}) {
+                        problem.withError("{{{baseNameLiteral}}}", "value has more items than maxItems");
                         invalid = true;
                     }
 {{/hasMaxItems}}{{#uniqueItems}}
-                    if (!invalid) {
+                    if (!invalid && present) {
                         std::vector<{{{innerType}}}> sortedItems(request.{{cppName}}.begin(), request.{{cppName}}.end());
                         std::sort(sortedItems.begin(), sortedItems.end());
                         if (std::adjacent_find(sortedItems.begin(), sortedItems.end()) != sortedItems.end()) {
-                            problem.withError("{{baseName}}", "value items are not unique");
+                            problem.withError("{{{baseNameLiteral}}}", "value items are not unique");
                             invalid = true;
                         }
                     }
 {{/uniqueItems}}
-{{#itemMinimumAlwaysInvalid}}
-                    if (!invalid && !request.{{cppName}}.empty()) {
-                        problem.withError("{{baseName}}", "item value can never satisfy the declared minimum");
+{{#itemEnumAlwaysInvalid}}
+                    if (!invalid && present && !request.{{cppName}}.empty()) {
+                        // Every declared item enum member is unrepresentable
+                        // for the element codec: any present item violates
+                        // the schema. Fail closed rather than skip the check.
+                        problem.withError("{{{baseNameLiteral}}}", "no declared item enum member is representable for this element type");
+                        invalid = true;
+                    }
+{{/itemEnumAlwaysInvalid}}{{#itemMinimumAlwaysInvalid}}
+                    if (!invalid && present && !request.{{cppName}}.empty()) {
+                        problem.withError("{{{baseNameLiteral}}}", "item value can never satisfy the declared minimum");
                         invalid = true;
                     }
 {{/itemMinimumAlwaysInvalid}}{{#itemMaximumAlwaysInvalid}}
-                    if (!invalid && !request.{{cppName}}.empty()) {
-                        problem.withError("{{baseName}}", "item value can never satisfy the declared maximum");
+                    if (!invalid && present && !request.{{cppName}}.empty()) {
+                        problem.withError("{{{baseNameLiteral}}}", "item value can never satisfy the declared maximum");
                         invalid = true;
                     }
 {{/itemMaximumAlwaysInvalid}}
-
 {{#itemStringKind}}{{#itemHasEnum}}
-                    if (!invalid) {
+                    if (!invalid && present) {
                         static std::vector<std::string> const kItemAllowed = { {{#itemEnumValues}}{{{.}}}, {{/itemEnumValues}} };
                         for ({{{innerType}}} const& item : request.{{cppName}}) {
                             if (std::find(kItemAllowed.begin(), kItemAllowed.end(), item) == kItemAllowed.end()) {
-                                problem.withError("{{baseName}}", "item value is not one of the allowed enum members");
+                                problem.withError("{{{baseNameLiteral}}}", "item value is not one of the allowed enum members");
                                 invalid = true;
                                 break;
                             }
                         }
                     }
 {{/itemHasEnum}}{{#itemHasPattern}}
-                    if (!invalid && !request.{{cppName}}.empty()) {
-                        // Same fail-closed policy as the scalar ladder: a
-                        // pattern outside the std::regex ECMAScript subset
-                        // answers 400 instead of retry-throwing 500. Empty
-                        // (absent) containers skip the gate, matching the
-                        // no-op loop semantics of the decodable case.
+                    if (!invalid && present && !request.{{cppName}}.empty()) {
+                        // JSON Schema `pattern` is UNANCHORED (substring
+                        // match), evaluated over the UTF-8 bytes. Same
+                        // fail-closed policy as the scalar ladder: a pattern
+                        // outside the std::regex ECMAScript subset answers
+                        // 400 instead of retry-throwing 500. Empty (absent)
+                        // containers skip the gate, matching the no-op loop
+                        // semantics of the decodable case.
                         static bool const kItemPatternOk = [] {
+                            if (hasUnicodePropertyEscape("{{{itemPattern}}}")) {
+                                return false;
+                            }
                             try {
                                 std::regex trial("{{{itemPattern}}}");
                                 (void)trial;
@@ -68,13 +88,13 @@
                             }
                         }();
                         if (!kItemPatternOk) {
-                            problem.withError("{{baseName}}", "the declared item pattern is outside the supported regex grammar");
+                            problem.withError("{{{baseNameLiteral}}}", "the declared item pattern is outside the supported regex grammar");
                             invalid = true;
                         } else {
                             static std::regex const kItemPattern("{{{itemPattern}}}");
                             for ({{{innerType}}} const& item : request.{{cppName}}) {
-                                if (!std::regex_match(item, kItemPattern)) {
-                                    problem.withError("{{baseName}}", "item value does not match the required pattern");
+                                if (!std::regex_search(item, kItemPattern)) {
+                                    problem.withError("{{{baseNameLiteral}}}", "item value does not match the required pattern");
                                     invalid = true;
                                     break;
                                 }
@@ -82,20 +102,20 @@
                         }
                     }
 {{/itemHasPattern}}{{#itemHasMinLength}}
-                    if (!invalid) {
+                    if (!invalid && present) {
                         for ({{{innerType}}} const& item : request.{{cppName}}) {
-                            if (item.size() < {{itemMinLength}}) {
-                                problem.withError("{{baseName}}", "item value is shorter than minLength");
+                            if (utf8CodepointCount(item) < {{itemMinLength}}) {
+                                problem.withError("{{{baseNameLiteral}}}", "item value is shorter than minLength");
                                 invalid = true;
                                 break;
                             }
                         }
                     }
 {{/itemHasMinLength}}{{#itemHasMaxLength}}
-                    if (!invalid) {
+                    if (!invalid && present) {
                         for ({{{innerType}}} const& item : request.{{cppName}}) {
-                            if (item.size() > {{itemMaxLength}}) {
-                                problem.withError("{{baseName}}", "item value is longer than maxLength");
+                            if (utf8CodepointCount(item) > {{itemMaxLength}}) {
+                                problem.withError("{{{baseNameLiteral}}}", "item value is longer than maxLength");
                                 invalid = true;
                                 break;
                             }
@@ -103,11 +123,11 @@
                     }
 {{/itemHasMaxLength}}{{/itemStringKind}}
 {{#itemBoolKind}}{{#itemHasEnum}}
-                    if (!invalid) {
+                    if (!invalid && present) {
                         static std::vector<bool> const kItemAllowed = { {{#itemEnumValues}}{{{.}}}, {{/itemEnumValues}} };
                         for ({{{innerType}}} const& item : request.{{cppName}}) {
                             if (std::find(kItemAllowed.begin(), kItemAllowed.end(), item) == kItemAllowed.end()) {
-                                problem.withError("{{baseName}}", "item value is not one of the allowed enum members");
+                                problem.withError("{{{baseNameLiteral}}}", "item value is not one of the allowed enum members");
                                 invalid = true;
                                 break;
                             }
@@ -115,31 +135,31 @@
                     }
 {{/itemHasEnum}}{{/itemBoolKind}}
 {{#itemIntegerKind}}{{^itemMinimumAlwaysInvalid}}{{^itemMaximumAlwaysInvalid}}{{#itemHasEnum}}
-                    if (!invalid) {
+                    if (!invalid && present) {
                         static std::vector<long long> const kItemAllowed = { {{#itemEnumValues}}{{{.}}}, {{/itemEnumValues}} };
                         for ({{{innerType}}} const& item : request.{{cppName}}) {
                             if (std::find(kItemAllowed.begin(), kItemAllowed.end(), static_cast<long long>(item)) == kItemAllowed.end()) {
-                                problem.withError("{{baseName}}", "item value is not one of the allowed enum members");
+                                problem.withError("{{{baseNameLiteral}}}", "item value is not one of the allowed enum members");
                                 invalid = true;
                                 break;
                             }
                         }
                     }
 {{/itemHasEnum}}{{#itemHasMinimum}}
-                    if (!invalid) {
+                    if (!invalid && present) {
                         for ({{{innerType}}} const& item : request.{{cppName}}) {
                             if (item < {{itemMinimum}}) {
-                                problem.withError("{{baseName}}", "item value is below the minimum");
+                                problem.withError("{{{baseNameLiteral}}}", "item value is below the minimum");
                                 invalid = true;
                                 break;
                             }
                         }
                     }
 {{/itemHasMinimum}}{{#itemHasMaximum}}
-                    if (!invalid) {
+                    if (!invalid && present) {
                         for ({{{innerType}}} const& item : request.{{cppName}}) {
                             if (item > {{itemMaximum}}) {
-                                problem.withError("{{baseName}}", "item value is above the maximum");
+                                problem.withError("{{{baseNameLiteral}}}", "item value is above the maximum");
                                 invalid = true;
                                 break;
                             }
@@ -147,31 +167,31 @@
                     }
 {{/itemHasMaximum}}{{/itemMaximumAlwaysInvalid}}{{/itemMinimumAlwaysInvalid}}{{/itemIntegerKind}}
 {{#itemNumberKind}}{{#itemHasEnum}}
-                    if (!invalid) {
+                    if (!invalid && present) {
                         static std::vector<long double> const kItemAllowed = { {{#itemEnumValues}}{{{.}}}, {{/itemEnumValues}} };
                         for ({{{innerType}}} const& item : request.{{cppName}}) {
                             if (std::find(kItemAllowed.begin(), kItemAllowed.end(), static_cast<long double>(item)) == kItemAllowed.end()) {
-                                problem.withError("{{baseName}}", "item value is not one of the allowed enum members");
+                                problem.withError("{{{baseNameLiteral}}}", "item value is not one of the allowed enum members");
                                 invalid = true;
                                 break;
                             }
                         }
                     }
 {{/itemHasEnum}}{{#itemHasMinimum}}
-                    if (!invalid) {
+                    if (!invalid && present) {
                         for ({{{innerType}}} const& item : request.{{cppName}}) {
                             if (static_cast<long double>(item) {{#itemMinimumExclusive}}<={{/itemMinimumExclusive}}{{^itemMinimumExclusive}}<{{/itemMinimumExclusive}} {{itemMinimum}}L) {
-                                problem.withError("{{baseName}}", "item value is out of the allowed range");
+                                problem.withError("{{{baseNameLiteral}}}", "item value is out of the allowed range");
                                 invalid = true;
                                 break;
                             }
                         }
                     }
 {{/itemHasMinimum}}{{#itemHasMaximum}}
-                    if (!invalid) {
+                    if (!invalid && present) {
                         for ({{{innerType}}} const& item : request.{{cppName}}) {
                             if (static_cast<long double>(item) {{#itemMaximumExclusive}}>={{/itemMaximumExclusive}}{{^itemMaximumExclusive}}>{{/itemMaximumExclusive}} {{itemMaximum}}L) {
-                                problem.withError("{{baseName}}", "item value is out of the allowed range");
+                                problem.withError("{{{baseNameLiteral}}}", "item value is out of the allowed range");
                                 invalid = true;
                                 break;
                             }

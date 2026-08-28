@@ -17,6 +17,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -63,14 +64,20 @@ final class CppBoostBeastServerTemplateModelAssembler {
     private final String modelNamespace;
     private final String apiNamespace;
     private final Function<String, String> modelImportFunction;
+    /** Whether generated models decode through the schema-IR validator (the
+     *  `validateOnDecode` option). Body schema validation on the request path
+     *  is only generated when the registry exists. */
+    private final boolean schemaRegistryAvailable;
 
     CppBoostBeastServerTemplateModelAssembler(
             OpenAPI sourceOpenApi, String modelNamespace, String apiNamespace,
-            Function<String, String> modelImportFunction) {
+            Function<String, String> modelImportFunction,
+            boolean schemaRegistryAvailable) {
         this.sourceOpenApi = sourceOpenApi;
         this.modelNamespace = modelNamespace;
         this.apiNamespace = apiNamespace;
         this.modelImportFunction = modelImportFunction;
+        this.schemaRegistryAvailable = schemaRegistryAvailable;
     }
 
     OperationsMap assemble(OperationsMap objs, List<ModelMap> allModels) {
@@ -79,12 +86,18 @@ final class CppBoostBeastServerTemplateModelAssembler {
         }
         Set<String> modelClassNames = new HashSet<>();
         Map<String, String> modelDataTypes = new HashMap<>();
+        Map<String, String> modelSchemaIds = new HashMap<>();
         for (ModelMap modelMap : allModels) {
             if (modelMap != null && modelMap.getModel() != null
                     && modelMap.getModel().classname != null) {
                 modelClassNames.add(modelMap.getModel().classname);
                 modelDataTypes.put(modelMap.getModel().classname,
                         modelMap.getModel().dataType);
+                Object schemaId = modelMap.getModel().vendorExtensions == null ? null
+                        : modelMap.getModel().vendorExtensions.get("x-cpp-component-schema-id");
+                if (schemaId != null && !schemaId.toString().isEmpty()) {
+                    modelSchemaIds.put(modelMap.getModel().classname, schemaId.toString());
+                }
             }
         }
         // The API classes live in the same namespace as the runtime types
@@ -111,6 +124,20 @@ final class CppBoostBeastServerTemplateModelAssembler {
                 emittedModelImports.add(existing.get("classname"));
             }
         }
+        // Names of the nested contract types declared by THIS API class. A
+        // generated model with one of these names is shadowed inside the
+        // class scope, so every token spelling of it in a body/response type
+        // must be model-namespace qualified, not just whole-type matches.
+        Set<String> contractNames = new HashSet<>();
+        for (CodegenOperation op : objs.getOperations().getOperation()) {
+            if (op == null) {
+                continue;
+            }
+            String pascal = pascalCase(
+                    op.operationId != null ? op.operationId : op.operationIdLowerCase);
+            contractNames.add(pascal + "Request");
+            contractNames.add(pascal + "Responder");
+        }
         for (CodegenOperation op : objs.getOperations().getOperation()) {
             if (op == null) {
                 continue;
@@ -124,20 +151,42 @@ final class CppBoostBeastServerTemplateModelAssembler {
             String pascal = pascalCase(
                     op.operationId != null ? op.operationId : op.operationIdLowerCase);
             op.vendorExtensions.put("x-server-operation-pascal", pascal);
+            // C++-escaped renderings for every place the raw spec text lands
+            // inside a generated string literal ({{...}} would HTML-escape the
+            // C++ escapes; {{{...}}} inserts them exactly once).
+            op.vendorExtensions.put("x-server-operation-id-literal",
+                    CppBoostBeastModelCodegen.escapeCppStringContent(
+                            op.operationId == null ? "" : op.operationId));
+            op.vendorExtensions.put("x-server-path-literal",
+                    CppBoostBeastModelCodegen.escapeCppStringContent(
+                            op.path == null ? "" : op.path));
 
             op.vendorExtensions.put("x-server-params",
                     serverParams(op, raw));
 
             Map<String, Object> body = requestBodyFacts(
-                    op, raw, pascal, modelClassNames, modelDataTypes, collidingModels);
+                    op, raw, pascal, modelClassNames, modelDataTypes,
+                    collidingModels, modelSchemaIds, contractNames);
             op.vendorExtensions.put("x-server-has-request-body", body.get("hasBody"));
             op.vendorExtensions.put("x-server-request-model", body.get("model"));
+            op.vendorExtensions.put("x-server-request-field-type",
+                    body.get("fieldType"));
             op.vendorExtensions.put("x-server-request-model-collides",
                     body.get("modelCollides"));
             op.vendorExtensions.put("x-server-request-media-types",
                     body.get("mediaTypes"));
             op.vendorExtensions.put("x-server-request-body-required",
                     body.get("required"));
+            // Only present when non-empty: jmustache renders {{#section}}
+            // for an empty STRING value, and the validation branch must not
+            // be emitted against a missing/unknown registry entry (that
+            // covers compileWithValidation=false and non-registered bodies,
+            // which stay on the decode-shape-only fromJsonBody path).
+            Object bodySchemaId = body.get("schemaId");
+            if (bodySchemaId != null && !bodySchemaId.toString().isEmpty()) {
+                op.vendorExtensions.put("x-server-request-body-schema-id",
+                        bodySchemaId.toString());
+            }
             // Mixed bodies (multipart + JSON): the JSON member's model is not in
             // DefaultCodegen's op.imports (it flattened the form payload instead),
             // so the recovered typed field would reference an un-included header.
@@ -153,7 +202,8 @@ final class CppBoostBeastServerTemplateModelAssembler {
             }
 
             op.vendorExtensions.put("x-server-responses",
-                    serverResponses(op, raw, pascal, collidingModels, modelClassNames));
+                    serverResponses(op, raw, pascal, collidingModels, modelClassNames,
+                            contractNames));
 
             op.vendorExtensions.put("x-server-security-groups",
                     CppBoostBeastOperationFacts.effectiveSecurityGroups(sourceOpenApi, op));
@@ -187,6 +237,10 @@ final class CppBoostBeastServerTemplateModelAssembler {
             }
         }
         objs.put("x-server-has-model-use", anyModelUse);
+        // The OAS 3.1 schema registry (Oas31SchemaRegistry.h et al.) is
+        // generated only when validateOnDecode is on; the body-validation
+        // wiring in the API templates gates on this.
+        objs.put("x-server-schema-validation", schemaRegistryAvailable);
         return objs;
     }
 
@@ -248,6 +302,12 @@ final class CppBoostBeastServerTemplateModelAssembler {
             Map<String, Object> facts = new LinkedHashMap<>();
             facts.put("cppName", param.paramName != null ? param.paramName : param.baseName);
             facts.put("baseName", param.baseName);
+            // C++-escaped baseName for every generated string literal that
+            // embeds the wire name ({{...}} HTML-escapes and corrupts the C++
+            // escapes; the templates use {{{baseNameLiteral}}} for literals).
+            facts.put("baseNameLiteral",
+                    CppBoostBeastModelCodegen.escapeCppStringContent(
+                            param.baseName == null ? "" : param.baseName));
             facts.put("in", in);
             facts.put("isPath", "path".equals(in));
             facts.put("isQuery", "query".equals(in));
@@ -298,8 +358,13 @@ final class CppBoostBeastServerTemplateModelAssembler {
             // The path-scalar branch declares `present` only when the shared
             // constraint ladder actually reads it (a POD bool with no uses
             // would trip -Wunused-variable under the generated -Werror).
+            // enumAlwaysInvalid counts: an integer parameter whose enum
+            // members were ALL unreachable (strings, fractional, or out of
+            // range) renders an empty allow-list, so hasEnum is false while
+            // the fail-closed check must still run.
             facts.put("hasScalarConstraints",
                     Boolean.TRUE.equals(facts.get("hasEnum"))
+                            || Boolean.TRUE.equals(facts.get("enumAlwaysInvalid"))
                             || Boolean.TRUE.equals(facts.get("hasPattern"))
                             || Boolean.TRUE.equals(facts.get("hasMinLength"))
                             || Boolean.TRUE.equals(facts.get("hasMaxLength"))
@@ -307,6 +372,21 @@ final class CppBoostBeastServerTemplateModelAssembler {
                             || Boolean.TRUE.equals(facts.get("hasMaximum"))
                             || Boolean.TRUE.equals(facts.get("minimumAlwaysInvalid"))
                             || Boolean.TRUE.equals(facts.get("maximumAlwaysInvalid")));
+            // The container-constraints partial reads `present` for the
+            // size bounds; the partial is included only when it exists.
+            facts.put("hasContainerConstraints",
+                    Boolean.TRUE.equals(facts.get("hasMinItems"))
+                            || Boolean.TRUE.equals(facts.get("hasMaxItems"))
+                            || Boolean.TRUE.equals(facts.get("uniqueItems"))
+                            || Boolean.TRUE.equals(facts.get("itemEnumAlwaysInvalid"))
+                            || Boolean.TRUE.equals(facts.get("itemMinimumAlwaysInvalid"))
+                            || Boolean.TRUE.equals(facts.get("itemMaximumAlwaysInvalid"))
+                            || Boolean.TRUE.equals(facts.get("itemHasEnum"))
+                            || Boolean.TRUE.equals(facts.get("itemHasPattern"))
+                            || Boolean.TRUE.equals(facts.get("itemHasMinLength"))
+                            || Boolean.TRUE.equals(facts.get("itemHasMaxLength"))
+                            || Boolean.TRUE.equals(facts.get("itemHasMinimum"))
+                            || Boolean.TRUE.equals(facts.get("itemHasMaximum")));
 
             params.add(facts);
         }
@@ -376,20 +456,44 @@ final class CppBoostBeastServerTemplateModelAssembler {
 
     private Parameter findRawParameter(
             CodegenOperation op, Operation raw, String baseName, String in) {
-        if (raw != null && raw.getParameters() != null) {
-            for (Parameter candidate : raw.getParameters()) {
-                if (candidate == null) {
-                    continue;
-                }
-                // $ref parameters carry null name/in in the raw document;
-                // resolve to the target before comparing.
-                Parameter resolved =
-                        ModelUtils.getReferencedParameter(sourceOpenApi, candidate);
-                Parameter effective = resolved != null ? resolved : candidate;
-                if (baseName.equals(effective.getName())
-                        && (effective.getIn() == null || effective.getIn().equals(in))) {
-                    return effective;
-                }
+        if (raw != null) {
+            Parameter fromOperation =
+                    findInParameterList(raw.getParameters(), baseName, in);
+            if (fromOperation != null) {
+                return fromOperation;
+            }
+        }
+        // Operation-level lookup misses parameters declared on the PATH ITEM
+        // (they reach op.allParams through DefaultCodegen's merge, but the raw
+        // Operation never lists them). Consult the path item so constraints on
+        // shared parameters are not silently dropped.
+        if (sourceOpenApi != null && sourceOpenApi.getPaths() != null
+                && op.path != null) {
+            PathItem pathItem = sourceOpenApi.getPaths().get(op.path);
+            if (pathItem != null) {
+                return findInParameterList(pathItem.getParameters(), baseName, in);
+            }
+        }
+        return null;
+    }
+
+    private Parameter findInParameterList(
+            List<Parameter> candidates, String baseName, String in) {
+        if (candidates == null) {
+            return null;
+        }
+        for (Parameter candidate : candidates) {
+            if (candidate == null) {
+                continue;
+            }
+            // $ref parameters carry null name/in in the raw document;
+            // resolve to the target before comparing.
+            Parameter resolved =
+                    ModelUtils.getReferencedParameter(sourceOpenApi, candidate);
+            Parameter effective = resolved != null ? resolved : candidate;
+            if (baseName.equals(effective.getName())
+                    && (effective.getIn() == null || effective.getIn().equals(in))) {
+                return effective;
             }
         }
         return null;
@@ -434,43 +538,63 @@ final class CppBoostBeastServerTemplateModelAssembler {
                 || "std::int64_t".equals(dataType);
         List<String> enumValues = new ArrayList<>();
         String enumKind = "";
+        boolean stringKind = "std::string".equals(dataType);
+        boolean boolKind = "bool".equals(dataType);
+        boolean numberKind = "float".equals(dataType) || "double".equals(dataType);
+        // Render an enum member only when the parameter's C++ codec can
+        // actually produce a JSON-equal value for it. JSON Schema `enum`
+        // compares by JSON equality, so a string member can never match an
+        // integer-typed parameter (parseScalar yields an int), a numeric
+        // member never matches a string parameter (the wire text is a std::
+        // string, and `1` is ill-formed in a vector<std::string>), etc. An
+        // integer codec additionally drops fractional / out-of-range numeric
+        // members. Skipping keeps the allow-list exact and compilable; if
+        // EVERY declared member is unreachable, enumAlwaysInvalid fails the
+        // check closed rather than silently permitting everything.
         if (schema != null && schema.getEnum() != null && !schema.getEnum().isEmpty()) {
             for (Object value : schema.getEnum()) {
                 if (value instanceof Boolean) {
+                    if (!boolKind) {
+                        continue;   // bool member: only a bool codec matches it
+                    }
                     enumValues.add(value.toString());
                     if (enumKind.isEmpty()) {
                         enumKind = "bool";
                     }
                 } else if (value instanceof Integer || value instanceof Long
-                        || value instanceof Short || value instanceof Byte) {
-                    enumValues.add(integerKind ? longLongLiteral(value.toString()) : value.toString());
-                    if (enumKind.isEmpty() || "bool".equals(enumKind)) {
-                        enumKind = "integer";
-                    }
-                } else if (value instanceof Double || value instanceof Float
+                        || value instanceof Short || value instanceof Byte
+                        || value instanceof Double || value instanceof Float
                         || value instanceof java.math.BigDecimal) {
                     java.math.BigDecimal decimal = new java.math.BigDecimal(value.toString());
                     if (integerKind) {
-                        // An integer parameter can only match an integer-valued
-                        // member; fractional members are unreachable values,
-                        // and members outside the long long range can never
-                        // arrive through parseScalar. Keep the list exact.
-                        java.math.BigDecimal integral = decimal.setScale(0, java.math.RoundingMode.DOWN);
+                        // Only an integral member inside the long long range
+                        // can arrive through parseScalar; others are
+                        // unreachable and drop out.
+                        java.math.BigDecimal integral =
+                                decimal.setScale(0, java.math.RoundingMode.DOWN);
                         if (integral.compareTo(decimal) == 0
                                 && integral.compareTo(INT64_MIN) >= 0
                                 && integral.compareTo(INT64_MAX) <= 0) {
                             enumValues.add(longLongLiteral(integral.toPlainString()));
-                        }
-                        if (enumKind.isEmpty()) {
-                            enumKind = "integer";
+                            if (enumKind.isEmpty()) {
+                                enumKind = "integer";
+                            }
                         }
                         continue;
+                    }
+                    if (!numberKind) {
+                        continue;   // numeric member matches only a number codec
                     }
                     enumValues.add(value.toString());
                     if (enumKind.isEmpty() || "bool".equals(enumKind)) {
                         enumKind = "number";
                     }
                 } else {
+                    // String member (or null, which heterogeneousEnumIssue
+                    // already rejected): reachable only for a string codec.
+                    if (!stringKind) {
+                        continue;
+                    }
                     enumValues.add("\""
                             + CppBoostBeastModelCodegen.escapeCppStringContent(
                                     value == null ? "" : value.toString())
@@ -481,9 +605,7 @@ final class CppBoostBeastServerTemplateModelAssembler {
                 }
             }
         }
-        boolean stringKind = "std::string".equals(dataType);
-        boolean boolKind = "bool".equals(dataType);
-        boolean numberKind = "float".equals(dataType) || "double".equals(dataType);
+
         emit(facts, prefix, "stringKind", stringKind);
         emit(facts, prefix, "boolKind", boolKind);
         emit(facts, prefix, "integerKind", integerKind);
@@ -491,6 +613,14 @@ final class CppBoostBeastServerTemplateModelAssembler {
         emit(facts, prefix, "enumValues", enumValues);
         emit(facts, prefix, "enumKind", enumKind);
         emit(facts, prefix, "hasEnum", !enumValues.isEmpty());
+        // A parameter whose enum members were ALL unreachable for its C++
+        // codec (strings against an integer, numbers against a bool, ...) can
+        // never decode to a permitted value. Fail closed instead of silently
+        // skipping the enum check (hasEnum false would let everything
+        // through).
+        emit(facts, prefix, "enumAlwaysInvalid",
+                schema != null && schema.getEnum() != null
+                        && !schema.getEnum().isEmpty() && enumValues.isEmpty());
         String pattern = schema != null && schema.getPattern() != null
                 ? CppBoostBeastModelCodegen.escapeCppStringContent(schema.getPattern()) : "";
         emit(facts, prefix, "pattern", pattern);
@@ -604,7 +734,8 @@ final class CppBoostBeastServerTemplateModelAssembler {
     private Map<String, Object> requestBodyFacts(
             CodegenOperation op, Operation raw, String pascal,
             Set<String> modelClassNames, Map<String, String> modelDataTypes,
-            Set<String> collidingModels) {
+            Set<String> collidingModels, Map<String, String> modelSchemaIds,
+            Set<String> contractNames) {
         Map<String, Object> facts = new LinkedHashMap<>();
         List<String> mediaTypes = new ArrayList<>();
         RequestBody body = raw != null
@@ -696,10 +827,33 @@ final class CppBoostBeastServerTemplateModelAssembler {
             // the right branch needs the schema-driven matcher, which the
             // request path does not run, and fromJsonLeaf only reaches types
             // that expose a member fromJsonValue (generated classes). Degrade
-            // rather than emit a call that cannot compile.
+            // rather than emit a call that cannot compile. std::optional is
+            // NOT untypable: fromJsonLeaf decodes it (JSON null = absent), so
+            // a nullable body schema keeps its typed handler.
             dataType = "";
         }
         boolean hasBody = !mediaTypes.isEmpty() && !dataType.isEmpty();
+        // Nullable body schemas arrive as std::optional<Inner> (OAS 3.1
+        // ["X","null"]). fromJsonLeaf decodes that type (JSON null = absent),
+        // so the handler keeps a typed body; the header import and the
+        // per-token qualification resolve through Inner. A std::optional
+        // whose inner is neither a generated model nor a plain scalar cannot
+        // decode: degrade to no typed body like the variant path.
+        String innerModel = dataType;
+        boolean optionalBody = dataType.startsWith("std::optional<")
+                && dataType.endsWith(">");
+        if (optionalBody) {
+            innerModel = dataType.substring(
+                    "std::optional<".length(), dataType.length() - 1).trim();
+            if (!modelClassNames.contains(innerModel)
+                    && !CppBoostBeastServerCodegen.isPlainScalarDataType(innerModel)
+                    && !"std::string".equals(innerModel)) {
+                dataType = "";
+                innerModel = "";
+                optionalBody = false;
+                hasBody = false;
+            }
+        }
         if (!mediaTypes.isEmpty() && dataType.isEmpty()) {
             LOGGER.warn("cpp-boost-beast-server: operation '{}' declares a JSON"
                             + " request body whose schema the runtime cannot type"
@@ -708,13 +862,36 @@ final class CppBoostBeastServerTemplateModelAssembler {
         }
         facts.put("hasBody", hasBody);
         facts.put("mediaTypes", hasBody ? rendered : "");
-        facts.put("model", dataType);
-        // The field reference is model-namespace qualified when the model is
-        // named like this operation's Request type (injected-class-name
-        // shadowing) or like a runtime type (ambiguous under the model
-        // using-directive).
-        facts.put("modelCollides", hasBody && (dataType.equals(pascal + "Request")
-                || collidingModels.contains(dataType)));
+        // "model" names the generated class whose header the API source must
+        // include: the body model itself, or the inner model of an optional
+        // body ("" for scalar/inline/degraded bodies).
+        facts.put("model", hasBody ? innerModel : "");
+        // The full field type as declared in the generated Request struct,
+        // with per-identifier qualification: a model token shadowed by one of
+        // this API class's nested contract types (XxxRequest/XxxResponder) or
+        // ambiguous with a runtime type under the model using-directive is
+        // model-namespace qualified — including inside std::optional<...>.
+        String fieldType = hasBody
+                ? qualifyContractTokens(
+                        qualifyCollidingModels(dataType, collidingModels),
+                        contractNames)
+                : "";
+        facts.put("fieldType", fieldType);
+        // True when the field type was qualified away from its bare spelling,
+        // so the model using-directive is not relied upon for this field.
+        facts.put("modelCollides", hasBody && !fieldType.equals(dataType));
+        // The generated schema-IR id of the body model, only when the schema
+        // registry exists (validateOnDecode) and the body is a plain model.
+        // The handler validates the raw JSON against that schema before
+        // decoding. Optional bodies are deliberately excluded: validating
+        // `null` against the INNER schema would reject a wire-valid null
+        // (the nullable wrapper is not itself a registry entry), so those
+        // bodies stay on the decode-shape-only path (documented policy).
+        String schemaId = "";
+        if (hasBody && schemaRegistryAvailable && !optionalBody) {
+            schemaId = modelSchemaIds.getOrDefault(dataType, "");
+        }
+        facts.put("schemaId", schemaId);
         // OpenAPI request bodies are optional unless required: true. The
         // handler must not reject an absent optional body as malformed JSON.
         facts.put("required", body != null && Boolean.TRUE.equals(body.getRequired()));
@@ -735,11 +912,11 @@ final class CppBoostBeastServerTemplateModelAssembler {
         return left != null && left.equals(right);
     }
     /**
-     * A request body is typable only when {@code fromJsonLeaf} has an overload
-     * for its C++ type: a generated class (member fromJsonValue), a concrete
-     * scalar, boost::json::value, or a shared_ptr/vector/map thereof. Union
-     * bodies (std::variant) and optionals have no such overload, and neither
-     * does a model that is merely an alias to one, so those degrade to no body.
+     * Whether a request body's C++ type is one {@code fromJsonLeaf} cannot
+     * decode: a composition union (std::variant, directly or through model
+     * aliases). std::optional is typable (the overload decodes JSON null as
+     * absent); whether its INNER type is decidable is a separate question the
+     * caller settles against the model/scalar tables.
      */
     private static boolean isUntypableBodyDataType(
             String dataType, Map<String, String> modelDataTypes) {
@@ -747,8 +924,11 @@ final class CppBoostBeastServerTemplateModelAssembler {
         // A body model may alias through a couple of names before reaching the
         // concrete variant; bound the walk so a pathological cycle can't hang.
         for (int hop = 0; hop < 4 && current != null && !current.isEmpty(); hop++) {
-            if (current.startsWith("std::variant<") || current.startsWith("std::optional<")) {
+            if (current.startsWith("std::variant<")) {
                 return true;
+            }
+            if (current.startsWith("std::optional<")) {
+                return false;
             }
             String resolved = modelDataTypes.get(current);
             if (resolved == null || resolved.equals(current)) {
@@ -766,7 +946,8 @@ final class CppBoostBeastServerTemplateModelAssembler {
 
     private List<Map<String, Object>> serverResponses(
             CodegenOperation op, Operation raw, String pascal,
-            Set<String> collidingModels, Set<String> modelClassNames) {
+            Set<String> collidingModels, Set<String> modelClassNames,
+            Set<String> contractNames) {
         List<Map<String, Object>> responses = new ArrayList<>();
         if (op.responses == null) {
             return responses;
@@ -800,11 +981,13 @@ final class CppBoostBeastServerTemplateModelAssembler {
             // shadowed: a model named like this operation's nested Request/
             // Responder type (injected-class-name shadowing) or like a
             // runtime type (ambiguous under the model using-directive).
-            boolean pascalCollision = dataType.equals(pascal + "Responder")
-                    || dataType.equals(pascal + "Request");
-            String rendered = pascalCollision && !modelNamespace.isEmpty()
-                    ? modelNamespace + "::" + dataType
-                    : qualifyCollidingModels(dataType, collidingModels);
+            // Shadowing applies per whole identifier token: a model named
+            // like ANY contract type of this API class (e.g. inside
+            // std::vector<FooRequest>) resolves to the nested class, not the
+            // model, so every such token is namespace-qualified.
+            String rendered = qualifyContractTokens(
+                    qualifyCollidingModels(dataType, collidingModels),
+                    contractNames);
             facts.put("sendType", rendered);
             // The README quick-start declares the response value OUTSIDE the
             // generated api header, so the header's `using namespace <model>;`
@@ -842,6 +1025,43 @@ final class CppBoostBeastServerTemplateModelAssembler {
                 } else {
                     out.append(token);
                 }
+                i = j;
+            } else {
+                out.append(c);
+                i++;
+            }
+        }
+        return out.toString();
+    }
+
+    /** Rewrites whole identifier tokens that name one of this API class's
+     *  nested contract types (XxxRequest / XxxResponder) to a model-namespace
+     *  spelling. Inside the generated api class scope those names resolve to
+     *  the nested contract type, shadowing a generated model with the same
+     *  name, so a bare model token (even nested in a container type) would
+     *  silently bind to the wrong class. */
+    String qualifyContractTokens(String dataType, Set<String> contractNames) {
+        if (dataType.isEmpty() || contractNames.isEmpty()) {
+            return dataType;
+        }
+        StringBuilder out = new StringBuilder(dataType.length());
+        int i = 0;
+        while (i < dataType.length()) {
+            char c = dataType.charAt(i);
+            if (Character.isJavaIdentifierStart(c)) {
+                int j = i + 1;
+                while (j < dataType.length() && Character.isJavaIdentifierPart(dataType.charAt(j))) {
+                    j++;
+                }
+                String token = dataType.substring(i, j);
+                // Skip tokens already qualified by a preceding '::' (they
+                // name the model explicitly).
+                boolean alreadyQualified = i >= 2 && dataType.startsWith("::", i - 2);
+                if (!alreadyQualified && contractNames.contains(token)
+                        && !modelNamespace.isEmpty()) {
+                    out.append(modelNamespace).append("::");
+                }
+                out.append(token);
                 i = j;
             } else {
                 out.append(c);

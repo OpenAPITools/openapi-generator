@@ -14,8 +14,8 @@
 #include <cstddef>
 #include <type_traits>
 #include <memory>
-#include <limits>
-#include <optional>
+#include <boost/json.hpp>
+#include <cmath>
 #include <stdexcept>
 #include <variant>
 #include <vector>
@@ -184,6 +184,20 @@ inline void fromJsonLeaf(boost::json::value const& json, std::int32_t& out) {
         out = static_cast<std::int32_t>(value);
         return;
     }
+    // JSON makes no integer/real distinction: 1.0 IS the integer 1 (RFC
+    // 8259 6.1, JSON Schema type "integer" admits integral reals). Boost
+    // stores any fraction-carrying token as double, so an integral double
+    // in range decodes exactly.
+    if (json.is_double()) {
+        double value = json.as_double();
+        double integral;
+        if (std::modf(value, &integral) == 0.0
+                && value >= static_cast<double>(std::numeric_limits<std::int32_t>::min())
+                && value <= static_cast<double>(std::numeric_limits<std::int32_t>::max())) {
+            out = static_cast<std::int32_t>(integral);
+            return;
+        }
+    }
     throw std::invalid_argument("expected a JSON integer");
 }
 
@@ -200,6 +214,19 @@ inline void fromJsonLeaf(boost::json::value const& json, std::int64_t& out) {
         }
         out = static_cast<std::int64_t>(value);
         return;
+    }
+    // Integral doubles in range represent the integer exactly (JSON makes
+    // no int/real distinction); outside double's exact-integer range the
+    // value cannot be trusted and is rejected.
+    if (json.is_double()) {
+        double value = json.as_double();
+        double integral;
+        if (std::modf(value, &integral) == 0.0
+                && value >= -9223372036854775808.0
+                && value <= 9223372036854774784.0) {
+            out = static_cast<std::int64_t>(integral);
+            return;
+        }
     }
     throw std::invalid_argument("expected a JSON integer");
 }
@@ -289,10 +316,11 @@ void fromJsonLeaf(boost::json::value const& json, std::map<std::string, T>& out)
     }
 }
 
-inline void fromJsonLeaf(boost::json::value const& json, std::nullptr_t& /*out*/) {
+inline void fromJsonLeaf(boost::json::value const& json, std::nullptr_t& out) {
     if (!json.is_null()) {
         throw std::invalid_argument("expected JSON null");
     }
+    out = nullptr;
 }
 
 // std::optional decodes null as "absent" and any other value as "present".

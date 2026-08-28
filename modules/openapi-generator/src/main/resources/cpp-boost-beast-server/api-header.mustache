@@ -59,12 +59,10 @@ public:
     {{/hasDefaultInit}}
     {{/vendorExtensions.x-server-params}}
     {{#vendorExtensions.x-server-has-request-body}}
-    {{#vendorExtensions.x-server-request-model-collides}}
-        {{modelNamespace}}::{{{vendorExtensions.x-server-request-model}}} body{};
-    {{/vendorExtensions.x-server-request-model-collides}}
-    {{^vendorExtensions.x-server-request-model-collides}}
-        {{{vendorExtensions.x-server-request-model}}} body{};
-    {{/vendorExtensions.x-server-request-model-collides}}
+    // Fully-qualified field type: std::optional wrapper preserved, model
+    // tokens shadowed by this class's nested contract types or ambiguous
+    // with runtime types already model-namespace qualified by the assembler.
+    {{{vendorExtensions.x-server-request-field-type}}} body{};
     {{/vendorExtensions.x-server-has-request-body}}
     };
 
@@ -142,7 +140,7 @@ public:
             {{vendorExtensions.x-server-operation-pascal}}Responder responder) override {
         (void)request;
         (void)context;
-        responder.sendNotImplemented("{{operationId}}");
+        responder.sendNotImplemented("{{{vendorExtensions.x-server-operation-id-literal}}}");
     }
 {{/operation}}
 };

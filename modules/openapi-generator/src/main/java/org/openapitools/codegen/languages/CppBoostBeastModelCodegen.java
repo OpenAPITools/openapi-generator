@@ -1108,7 +1108,11 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
                 isPrimitiveType || isString || parameter.isByteArray || parameter.isBinary
                         || "std::string".equals(parameter.dataType));
 
-        if (!isPrimitiveType && !isArray && !isMap && !isString && !parameter.dataType.startsWith("std::shared_ptr")
+        // A parameter whose schema failed to resolve (unresolvable $ref)
+        // carries no dataType; the server generator's degrade path drops it
+        // with a warning. Wrapping null would NPE here.
+        if (parameter.dataType != null
+                && !isPrimitiveType && !isArray && !isMap && !isString && !parameter.dataType.startsWith("std::shared_ptr")
                 && !"boost::json::value".equals(parameter.dataType)
                 && !"std::nullptr_t".equals(parameter.dataType)
                 && !parameter.dataType.startsWith("std::variant<")
@@ -1253,10 +1257,27 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
         }
         return produced;
     }
+
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         beginGeneration(openAPI);
         hasExplicitRootServers = detectExplicitRootServers();
+        // The license header embeds the document title, description, version
+        // and contact email verbatim inside a C++ block comment; a '*/'
+        // sequence would terminate it and inject arbitrary code, and NUL
+        // bytes cannot appear in source. Neutralize both before any template
+        // reads them (DefaultCodegen copies appDescription later, in
+        // processOpenAPI).
+        if (openAPI.getInfo() != null) {
+            io.swagger.v3.oas.models.info.Info info = openAPI.getInfo();
+            info.setTitle(sanitizeCommentText(info.getTitle()));
+            info.setDescription(sanitizeCommentText(info.getDescription()));
+            info.setVersion(sanitizeCommentText(info.getVersion()));
+            if (info.getContact() != null) {
+                info.getContact().setEmail(
+                        sanitizeCommentText(info.getContact().getEmail()));
+            }
+        }
 
         List<String> policyDiagnostics = validateDialectPolicy(openAPI);
         if (!policyDiagnostics.isEmpty()) {
@@ -1331,7 +1352,12 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
                 }
                 if ((schema.getOneOf() != null && !schema.getOneOf().isEmpty())
                         || (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty())) {
+                    // getTypeDeclaration matches the RAW component name (the
+                    // $ref simple name), postProcessParameter matches the
+                    // model CLASS name; register both spellings so composed
+                    // models keep value semantics on either path.
                     variantModels.add(schemaName);
+                    variantModels.add(toModelName(schemaName));
                 }
             }
         }
@@ -3038,6 +3064,28 @@ public abstract class CppBoostBeastModelCodegen extends AbstractCppCodegen {
             }
         }
         return escaped.toString();
+    }
+
+    /**
+     * Neutralizes text destined for a generated C++ block comment. The
+     * license header embeds the document title, description, version and
+     * contact email verbatim inside a /** ... *&#47; comment; a literal
+     * *&#47; sequence would terminate the comment early and turn the rest
+     * of the header text into code, and NUL bytes cannot legally appear in
+     * a C++ translation unit. Replaces every *&#47; with '* /' (visually
+     * identical intent, comment-safe; the substitution can never re-form
+     * the terminator since only a space is inserted between the two
+     * characters) and rewrites NUL to a space.
+     */
+    static String sanitizeCommentText(String value) {
+        if (value == null) {
+            return null;
+        }
+        String out = value.indexOf('\0') >= 0 ? value.replace('\0', ' ') : value;
+        while (out.contains("*/")) {
+            out = out.replace("*/", "* /");
+        }
+        return out;
     }
 
     protected static String toPreprocessorIdentifier(String value) {

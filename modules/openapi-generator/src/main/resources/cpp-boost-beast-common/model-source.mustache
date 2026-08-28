@@ -1674,14 +1674,21 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{#vars}}
     {{^vendorExtensions.x-cpp-reject-if-present}}
     {{^vendorExtensions.x-cpp-const}}
+    {{! Reset every decodable member to its fresh-construction state before
+        reading JSON, so a decode into a reused instance cannot observe a
+        value left by a previous decode or setter. Required members included:
+        a required member whose JSON value is skipped by the null-tolerance
+        policy must show the declared default, not a stale one. The IsSet
+        bookkeeping line exists only for non-required plain members. }}
     {{^required}}
     {{^vendorExtensions.x-cpp-no-is-set}}
     m_{{name}}IsSet = false;
     {{/vendorExtensions.x-cpp-no-is-set}}
+    {{/required}}
     {{#vendorExtensions.x-cpp-has-explicit-default}}
     {{#parent}}
     if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
-        m_{{name}}.value = {{{defaultValue}}};
+        m_{{name}} = {{{defaultValue}}};
     }
     {{/parent}}
     {{^parent}}
@@ -1698,8 +1705,8 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{^parent}}
     m_{{name}}.resetMissing();
     {{/parent}}
-    {{/vendorExtensions.x-cpp-nullable-field}}
-    {{#vendorExtensions.x-cpp-no-is-set}}
+        {{/vendorExtensions.x-cpp-nullable-field}}
+        {{#vendorExtensions.x-cpp-no-is-set}}
         {{^vendorExtensions.x-cpp-nullable-field}}
     {{#parent}}
     if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
@@ -1709,10 +1716,21 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{^parent}}
     m_{{name}}.reset();
     {{/parent}}
-    {{/vendorExtensions.x-cpp-nullable-field}}
-    {{/vendorExtensions.x-cpp-no-is-set}}
+        {{/vendorExtensions.x-cpp-nullable-field}}
+        {{/vendorExtensions.x-cpp-no-is-set}}
+        {{^vendorExtensions.x-cpp-nullable-field}}
+        {{^vendorExtensions.x-cpp-no-is-set}}
+    {{#parent}}
+    if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
+        m_{{name}} = {};
+    }
+    {{/parent}}
+    {{^parent}}
+    m_{{name}} = {};
+    {{/parent}}
+        {{/vendorExtensions.x-cpp-no-is-set}}
+        {{/vendorExtensions.x-cpp-nullable-field}}
     {{/vendorExtensions.x-cpp-has-explicit-default}}
-    {{/required}}
     {{/vendorExtensions.x-cpp-const}}
     {{/vendorExtensions.x-cpp-reject-if-present}}
     {{/vars}}

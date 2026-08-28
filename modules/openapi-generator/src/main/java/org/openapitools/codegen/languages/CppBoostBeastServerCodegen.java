@@ -422,8 +422,8 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         String apiNamespace = String.valueOf(
                 additionalProperties.getOrDefault("apiNamespace", ""));
         return new CppBoostBeastServerTemplateModelAssembler(
-                sourceOpenApi, modelNamespace, apiNamespace,
-                this::toModelImport).assemble(objs, allModels);
+                sourceOpenApi, modelNamespace, apiNamespace, this::toModelImport,
+                validateOnDecode).assemble(objs, allModels);
     }
 
     /**
@@ -452,6 +452,7 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
             return diagnostics;
         }
         Map<String, String> shapeOwners = new LinkedHashMap<>();
+        List<String[]> methodTemplates = new ArrayList<>();
         for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
             String pathTemplate = pathEntry.getKey();
             String malformed = pathTemplateIssue(pathTemplate);
@@ -475,6 +476,7 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                 if (operation == null) {
                     continue;
                 }
+                methodTemplates.add(new String[]{opEntry.getKey().name(), pathTemplate});
                 String operationId = operation.getOperationId() != null
                         ? operation.getOperationId()
                         : opEntry.getKey() + " " + pathTemplate;
@@ -493,6 +495,35 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
                                     + "'; only concrete codes are supported");
                         }
                     }
+                }
+            }
+        }
+        // Overlapping-shape probe: two templates with DIFFERENT shapes can
+        // still match the same concrete path with equal literal-token ranking
+        // (e.g. '/a/{x}b' and '/a/a{y}' both match '/a/ab'), which makes the
+        // router fall back to registration order. Synthesize a witness per
+        // pair and verify it with a Java mirror of Router::matches; only a
+        // verified collision is rejected, so the probe can under-report but
+        // never reject a deterministically routable pair.
+        for (int i = 0; i < methodTemplates.size(); i++) {
+            for (int j = i + 1; j < methodTemplates.size(); j++) {
+                String[] first = methodTemplates.get(i);
+                String[] second = methodTemplates.get(j);
+                if (!first[0].equals(second[0])) {
+                    continue; // different methods never race inside match()
+                }
+                if (routeShapeKey(first[1]).equals(routeShapeKey(second[1]))) {
+                    continue; // already rejected as the same shape
+                }
+                if (routeLiteralTokens(first[1]) != routeLiteralTokens(second[1])) {
+                    continue; // ranking resolves deterministically
+                }
+                String witness = overlappingPathWitness(first[1], second[1]);
+                if (witness != null) {
+                    diagnostics.add("path templates '" + first[1] + "' and '"
+                            + second[1] + "' both match '" + witness
+                            + "' with equal ranking; server routing would"
+                            + " depend on registration order");
                 }
             }
         }
@@ -642,6 +673,10 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
             if (close == open + 1) {
                 return "empty '{}' expression";
             }
+            if (close + 1 < pathTemplate.length()
+                    && pathTemplate.charAt(close + 1) == '{') {
+                return "adjacent expressions without literal text between them";
+            }
             start = close + 1;
         }
     }
@@ -687,6 +722,270 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
             start = slash + 1;
         }
         return key.length() == 0 ? "/" : key.toString();
+    }
+
+    /** One router token mirror: literal text or a named capture. */
+    private static final class RouteToken {
+        private final String literal;
+        private final String param;
+
+        private RouteToken(String literal, String param) {
+            this.literal = literal;
+            this.param = param;
+        }
+
+        private boolean isParam() {
+            return !param.isEmpty();
+        }
+    }
+
+    /** Mirror of Router::splitPath. */
+    private static List<String> splitPathSegments(String path) {
+        String s = path;
+        int query = s.indexOf('?');
+        if (query >= 0) {
+            s = s.substring(0, query);
+        }
+        List<String> segments = new ArrayList<>();
+        int start = (!s.isEmpty() && s.charAt(0) == '/') ? 1 : 0;
+        while (start <= s.length()) {
+            int slash = s.indexOf('/', start);
+            if (slash < 0) {
+                segments.add(s.substring(start));
+                break;
+            }
+            segments.add(s.substring(start, slash));
+            start = slash + 1;
+        }
+        return segments;
+    }
+
+    /** Mirror of Router::tokenizeSegment (well-formed templates only). */
+    private static List<RouteToken> tokenizeSegment(String segment) {
+        List<RouteToken> tokens = new ArrayList<>();
+        int start = 0;
+        while (start < segment.length()) {
+            int open = segment.indexOf('{', start);
+            if (open < 0) {
+                tokens.add(new RouteToken(segment.substring(start), ""));
+                break;
+            }
+            int close = segment.indexOf('}', open);
+            int inner = segment.indexOf('{', open + 1);
+            if (close < 0 || (inner >= 0 && inner < close) || close == open + 1) {
+                tokens.add(new RouteToken(segment.substring(start), ""));
+                break;
+            }
+            if (open > start) {
+                tokens.add(new RouteToken(segment.substring(start, open), ""));
+            }
+            tokens.add(new RouteToken("", segment.substring(open + 1, close)));
+            start = close + 1;
+        }
+        return tokens;
+    }
+
+    /** Mirror of Router::matches for one segment, including the non-greedy
+     *  find-anchored capture semantics of the generated runtime. */
+    private static boolean segmentMatches(List<RouteToken> tokens, String text,
+                                          Map<String, String> captures) {
+        if (tokens.isEmpty()) {
+            return text.isEmpty();
+        }
+        int position = 0;
+        for (int t = 0; t < tokens.size(); t++) {
+            RouteToken token = tokens.get(t);
+            if (!token.isParam()) {
+                if (!text.startsWith(token.literal, position)) {
+                    return false;
+                }
+                position += token.literal.length();
+                continue;
+            }
+            int begin = position;
+            int end = text.length();
+            boolean anchored = false;
+            if (t + 1 < tokens.size()) {
+                anchored = true;
+                int hit = text.indexOf(tokens.get(t + 1).literal, begin);
+                if (hit < 0) {
+                    return false;
+                }
+                end = hit;
+            }
+            if (tokens.size() == 1 && begin == end) {
+                return false; // a whole-segment {param} may not be empty
+            }
+            captures.put(token.param, text.substring(begin, end));
+            position = anchored ? end : text.length();
+        }
+        return position == text.length();
+    }
+
+    /** Mirror of Router::match's per-template shape test for a concrete path. */
+    private static boolean matchesPathTemplate(String template, String target,
+                                               Map<String, String> params) {
+        List<String> targetSegments = splitPathSegments(target);
+        List<String> templateSegments = splitPathSegments(template);
+        if (templateSegments.size() != targetSegments.size()) {
+            return false;
+        }
+        for (int i = 0; i < templateSegments.size(); i++) {
+            if (!segmentMatches(tokenizeSegment(templateSegments.get(i)),
+                    targetSegments.get(i), params)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** Literal-token ranking weight of a template, mirroring Router::add. */
+    private static int routeLiteralTokens(String pathTemplate) {
+        int count = 0;
+        for (String segment : splitPathSegments(pathTemplate)) {
+            for (RouteToken token : tokenizeSegment(segment)) {
+                if (!token.isParam()) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    /** A letter absent from both templates, so synthesized captures cannot
+     *  accidentally complete a find-anchored literal early. */
+    private static char spareCaptureChar(String first, String second) {
+        for (char c = 'a'; c <= 'z'; c++) {
+            if (first.indexOf(c) < 0 && second.indexOf(c) < 0) {
+                return c;
+            }
+        }
+        return 'z';
+    }
+
+    /** Per-segment glob merge: literal chars must align; each expression is
+     *  a wildcard that may absorb any run of chars. Returns up to
+     *  candidateBudget concrete strings. Sound only as a CANDIDATE list —
+     *  callers must verify against the exact Router::matches mirror. */
+    private static List<String> segmentWitnesses(List<RouteToken> a, List<RouteToken> b,
+                                                 char filler, int candidateBudget) {
+        StringBuilder flatA = new StringBuilder();
+        StringBuilder flatB = new StringBuilder();
+        for (RouteToken token : a) {
+            flatA.append(token.isParam() ? '\u0000' : token.literal);
+        }
+        for (RouteToken token : b) {
+            flatB.append(token.isParam() ? '\u0000' : token.literal);
+        }
+        List<String> results = new ArrayList<>();
+        mergeGlob(flatA.toString(), 0, flatB.toString(), 0, new StringBuilder(),
+                filler, results, candidateBudget);
+        return results;
+    }
+
+    private static void mergeGlob(String a, int i, String b, int j, StringBuilder buf,
+                                  char filler, List<String> results, int budget) {
+        if (results.size() >= budget || buf.length() > a.length() + b.length() + 2) {
+            return;
+        }
+        if (i >= a.length() && j >= b.length()) {
+            results.add(buf.toString());
+            return;
+        }
+        char ca = i < a.length() ? a.charAt(i) : 0;
+        char cb = j < b.length() ? b.charAt(j) : 0;
+        boolean wildA = i < a.length() && ca == '\u0000';
+        boolean wildB = j < b.length() && cb == '\u0000';
+        if (i >= a.length()) {
+            if (wildB) {
+                mergeGlob(a, i, b, j + 1, buf, filler, results, budget); // empty capture
+                mergeGlob(a, i, b, j, append(buf, filler), filler, results, budget); // absorb
+            }
+            return;
+        }
+        if (j >= b.length()) {
+            if (wildA) {
+                mergeGlob(a, i + 1, b, j, buf, filler, results, budget);
+                mergeGlob(a, i, b, j, append(buf, filler), filler, results, budget);
+            }
+            return;
+        }
+        if (!wildA && !wildB) {
+            if (ca == cb) {
+                mergeGlob(a, i + 1, b, j + 1, append(buf, ca), filler, results, budget);
+            }
+            return;
+        }
+        if (wildA && wildB) {
+            mergeGlob(a, i + 1, b, j + 1, buf, filler, results, budget); // both empty
+            mergeGlob(a, i, b, j, append(buf, filler), filler, results, budget); // both absorb
+            mergeGlob(a, i, b, j + 1, buf, filler, results, budget); // A absorbs, B empty
+            mergeGlob(a, i + 1, b, j, buf, filler, results, budget); // B absorbs, A empty
+            return;
+        }
+        if (wildA) {
+            mergeGlob(a, i, b, j + 1, buf, filler, results, budget); // A empty, B literal
+            mergeGlob(a, i, b, j, append(buf, cb), filler, results, budget); // A absorbs cb
+            return;
+        }
+        mergeGlob(a, i + 1, b, j, buf, filler, results, budget); // B empty, A literal
+        mergeGlob(a, i, b, j, append(buf, ca), filler, results, budget); // B absorbs ca
+    }
+
+    private static StringBuilder append(StringBuilder buf, char c) {
+        return new StringBuilder(buf).append(c);
+    }
+
+    /** A concrete target path BOTH templates' router shapes match, verified
+     *  against the exact Router::matches mirror, or null when no collision
+     *  could be PROVEN. The merge can only under-report: generation is never
+     *  rejected on an unverified suspicion. */
+    private static String overlappingPathWitness(String first, String second) {
+        List<String> aSegments = splitPathSegments(first);
+        List<String> bSegments = splitPathSegments(second);
+        if (aSegments.size() != bSegments.size()) {
+            return null;
+        }
+        List<List<String>> perSegment = new ArrayList<>();
+        char filler = spareCaptureChar(first, second);
+        for (int i = 0; i < aSegments.size(); i++) {
+            List<String> options = segmentWitnesses(
+                    tokenizeSegment(aSegments.get(i)),
+                    tokenizeSegment(bSegments.get(i)), filler, 6);
+            if (options.isEmpty()) {
+                return null;
+            }
+            perSegment.add(options);
+        }
+        int[] picks = new int[perSegment.size()];
+        // Lexicographic walk over the (bounded) candidate product.
+        for (int guard = 0; guard < 512; guard++) {
+            StringBuilder witness = new StringBuilder(first.startsWith("/") ? "/" : "");
+            for (int i = 0; i < perSegment.size(); i++) {
+                if (i > 0) {
+                    witness.append('/');
+                }
+                witness.append(perSegment.get(i).get(picks[i]));
+            }
+            String candidate = witness.toString();
+            if (matchesPathTemplate(first, candidate, new HashMap<>())
+                    && matchesPathTemplate(second, candidate, new HashMap<>())) {
+                return candidate;
+            }
+            int slot = picks.length - 1;
+            while (slot >= 0) {
+                picks[slot]++;
+                if (picks[slot] < perSegment.get(slot).size()) {
+                    break;
+                }
+                picks[slot] = 0;
+                slot--;
+            }
+            if (slot < 0) {
+                break;
+            }
+        }
+        return null;
     }
 
     /** True when the `{baseName}` expression is the whole path segment (the
