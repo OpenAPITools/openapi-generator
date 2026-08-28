@@ -1832,6 +1832,26 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public List<String> toExampleValues(Schema p) {
+        List<?> examples = p.getExamples();
+        if (examples == null || examples.isEmpty()) {
+            return null;
+        }
+
+        List<String> result = new ArrayList<>();
+        for (Object example : examples) {
+            if (example instanceof Date) {
+                Date date = (Date) example;
+                result.add(DateTimeFormatter.ISO_LOCAL_DATE.format(ZonedDateTime.ofInstant(date.toInstant(), UTC)));
+            } else if (example != null) {
+                result.add(escapeText(exampleValueToString(example)));
+            }
+        }
+
+        return result.isEmpty() ? null : result;
+    }
+
+    @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
 

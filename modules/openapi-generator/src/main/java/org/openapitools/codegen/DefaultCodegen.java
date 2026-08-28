@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
@@ -2212,6 +2213,49 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the list of example values of the property, as declared with the
+     * OpenAPI 3.1 `examples` keyword.
+     * <p>
+     * This method should be overridden in the generator to meet its requirement.
+     *
+     * @param schema Property schema
+     * @return string presentations of the example values of the property, null if none is defined
+     */
+    public List<String> toExampleValues(Schema schema) {
+        List<?> examples = schema.getExamples();
+        if (examples == null || examples.isEmpty()) {
+            return null;
+        }
+
+        List<String> result = new ArrayList<>();
+        for (Object example : examples) {
+            if (example != null) {
+                result.add(exampleValueToString(example));
+            }
+        }
+
+        return result.isEmpty() ? null : result;
+    }
+
+    /**
+     * Convert a single example value taken from the OpenAPI document to its string presentation.
+     * <p>
+     * OAS 3.1 `examples` entries are handed over by the parser as Jackson nodes, so scalars are
+     * unwrapped to avoid the surrounding quotes that {@code JsonNode#toString} would add.
+     *
+     * @param example the raw example value
+     * @return string presentation of the example value
+     */
+    protected static String exampleValueToString(Object example) {
+        if (example instanceof JsonNode) {
+            JsonNode node = (JsonNode) example;
+            return node.isValueNode() ? node.asText() : node.toString();
+        }
+
+        return example.toString();
+    }
+
+    /**
      * Return the default value of the property
      * <p>
      * This method should be overridden in the generator to meet its requirement.
@@ -4079,6 +4123,14 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.error("Error in generating `example` for the property {}. Default to ERROR_TO_EXAMPLE_VALUE. Enable debugging for more info.", property.baseName);
             LOGGER.debug("Exception from toExampleValue: {}", e.getMessage());
             property.example = "ERROR_TO_EXAMPLE_VALUE";
+        }
+        // put toExampleValues in a try-catch block to log the error as example values are not critical
+        try {
+            property.examples = toExampleValues(p);
+        } catch (Exception e) {
+            LOGGER.error("Error in generating `examples` for the property {}. Default to null. Enable debugging for more info.", property.baseName);
+            LOGGER.debug("Exception from toExampleValues: {}", e.getMessage());
+            property.examples = null;
         }
 
         property.jsonSchema = Json.pretty(Json.mapper().convertValue(p, TreeMap.class));

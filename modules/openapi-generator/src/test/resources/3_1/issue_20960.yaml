@@ -57,6 +57,7 @@ components:
           description: ...
           examples:
             - 'ResourceType'
+            - 'Group'
         created:
           type: string
           format: date-time
