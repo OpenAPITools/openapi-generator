@@ -863,96 +863,184 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         return 'z';
     }
 
-    /** Per-segment glob merge: literal chars must align; each expression is
-    *  a wildcard that may absorb any run of chars. Returns up to
-    *  candidateBudget concrete strings. Sound only as a CANDIDATE list —
-    *  callers must verify against the exact Router::matches mirror. */
-    private static List<String> segmentWitnesses(List<RouteToken> a, List<RouteToken> b,
-                                                 char filler, int candidateBudget) {
-        StringBuilder flatA = new StringBuilder();
-        StringBuilder flatB = new StringBuilder();
-        for (RouteToken token : a) {
-            flatA.append(token.isParam() ? '\u0000' : token.literal);
+    /** Flattens a token list to chars: literal text stays, each capture
+     *  expression becomes one NUL wildcard. */
+    private static String flattenSegmentTokens(List<RouteToken> tokens) {
+        StringBuilder flat = new StringBuilder();
+        for (RouteToken token : tokens) {
+            flat.append(token.isParam() ? '\u0000' : token.literal);
         }
-        for (RouteToken token : b) {
-            flatB.append(token.isParam() ? '\u0000' : token.literal);
-        }
-        List<String> results = new ArrayList<>();
-        mergeGlob(flatA.toString(), 0, flatB.toString(), 0, new StringBuilder(),
-                filler, results, candidateBudget, new int[]{20000});
-        return results;
+        return flat.toString();
     }
 
     /**
-     * Enumerates strings that BOTH flattened segment patterns can produce.
-     * Each side advances over its own tokens; a literal position must be
-     * matched by an identical literal on the other side or absorbed by the
-     * other side's wildcard. A wildcard may end (advance) or absorb the
-     * next character. `steps` bounds the search; exhaustion only under-
-     * reports (generation is never rejected on an unproven suspicion).
+     * Enumerates up to {@code budget} concrete strings that BOTH flattened
+     * segment patterns can generate, shortest-first, or an empty list when
+     * the intersection is PROVEN empty. Replaces a step-budgeted
+     * depth-first merge whose cap could exhaust on branchy-but-intersecting
+     * pairs and silently under-report a real route collision.
+     *
+     * <p>Each side is a linear token pattern: a literal position only
+     * advances on its own char, a wildcard position absorbs any letter for
+     * free or ends without consuming (epsilon). Trie level L holds every
+     * product-NFA state (i, j) reachable by SOME string of length L
+     * (epsilon-closed); each state is discovered once per level with a
+     * parent pointer, so every emitted candidate is a real generated string.
+     * A step where BOTH sides merely absorb a char leaves the state
+     * unchanged and only lengthens the witness — deleting such a char from
+     * any witness keeps it generable by both sides — so emitted steps always
+     * advance at least one side, a shortest witness has length at most
+     * n + m, levels are capped there, and finishing them is a disjointness
+     * PROOF, not a timeout. Letters are limited to the spare filler plus
+     * literals present in the templates; none is '/'.
+     *
+     * <p>Sound only as a CANDIDATE list — callers verify against the exact
+     * Router::matches mirror before rejecting.
      */
-    private static void mergeGlob(String a, int i, String b, int j, StringBuilder buf,
-                                  char filler, List<String> results, int budget,
-                                  int[] steps) {
-        if (results.size() >= budget || steps[0]-- <= 0
-                || buf.length() > a.length() + b.length() + 2) {
-            return;
+    private static List<String> segmentWitnesses(List<RouteToken> a, List<RouteToken> b,
+                                                 char filler, int budget) {
+        String flatA = flattenSegmentTokens(a);
+        String flatB = flattenSegmentTokens(b);
+        int n = flatA.length();
+        int m = flatB.length();
+        int width = m + 1;
+        int states = (n + 1) * width;
+        int maxLevel = n + m;
+        long tableCells = (long) (n + 1) * (m + 1) * (maxLevel + 1);
+        if (tableCells > 4_000_000) {
+            // Pathological template: bail out with an under-report (never a
+            // false reject), matching the old budgeted search's behavior.
+            return new ArrayList<>();
         }
-        boolean aLeft = i < a.length();
-        boolean bLeft = j < b.length();
-        if (!aLeft && !bLeft) {
-            results.add(buf.toString());
-            return;
-        }
-        char ca = aLeft ? a.charAt(i) : 0;
-        char cb = bLeft ? b.charAt(j) : 0;
-        boolean wildA = aLeft && ca == '\u0000';
-        boolean wildB = bLeft && cb == '\u0000';
-        if (!aLeft) {
-            // Only B remains: its wildcard may end empty or absorb more.
-            if (wildB) {
-                mergeGlob(a, i, b, j + 1, buf, filler, results, budget, steps);
-                mergeGlob(a, i, b, j, append(buf, filler), filler, results, budget,
-                        steps);
+        // Letters a witness ever needs: the filler (captures) plus every
+        // literal char either side may have to align on.
+        List<Character> letters = new ArrayList<>();
+        letters.add(filler);
+        for (int k = 0; k < n; k++) {
+            char c = flatA.charAt(k);
+            if (c != '\u0000' && !letters.contains(c)) {
+                letters.add(c);
             }
-            return;
         }
-        if (!bLeft) {
-            if (wildA) {
-                mergeGlob(a, i + 1, b, j, buf, filler, results, budget, steps);
-                mergeGlob(a, i, b, j, append(buf, filler), filler, results, budget,
-                        steps);
+        for (int k = 0; k < m; k++) {
+            char c = flatB.charAt(k);
+            if (c != '\u0000' && !letters.contains(c)) {
+                letters.add(c);
             }
-            return;
         }
-        if (!wildA && !wildB) {
-            if (ca == cb) {
-                mergeGlob(a, i + 1, b, j + 1, append(buf, ca), filler, results,
-                        budget, steps);
+        // Flat index = level * states + state. parent[] names the predecessor
+        // flat index (-1 for the root); parentChar[] is the emitted char,
+        // '\u0000' marking an in-level epsilon (wildcard end).
+        int levels = maxLevel + 1;
+        int[] parent = new int[levels * states];
+        char[] parentChar = new char[levels * states];
+        java.util.Arrays.fill(parent, Integer.MIN_VALUE);
+        parent[0] = -1;
+        List<Integer> current = new ArrayList<>();
+        current.add(0); // state (0, 0)
+        List<String> results = new ArrayList<>();
+        int accept = n * width + m;
+        for (int level = 0; level <= maxLevel; level++) {
+            // Epsilon-close the level in place: a wildcard may end without
+            // consuming, cascading over consecutive wildcards. Within a
+            // level every epsilon strictly increases (i, j), so this
+            // terminates.
+            boolean[] inLevel = new boolean[states];
+            for (int state : current) {
+                inLevel[state] = true;
             }
-            return;
+            for (int head = 0; head < current.size(); head++) {
+                int state = current.get(head);
+                int i = state / width;
+                int j = state % width;
+                if (i < n && flatA.charAt(i) == '\u0000' && !inLevel[state + width]) {
+                    inLevel[state + width] = true;
+                    parent[level * states + state + width] = level * states + state;
+                    parentChar[level * states + state + width] = '\u0000';
+                    current.add(state + width);
+                }
+                if (j < m && flatB.charAt(j) == '\u0000' && !inLevel[state + 1]) {
+                    inLevel[state + 1] = true;
+                    parent[level * states + state + 1] = level * states + state;
+                    parentChar[level * states + state + 1] = '\u0000';
+                    current.add(state + 1);
+                }
+            }
+            if (inLevel[accept] && level > 0) {
+                String witness = reconstructSegmentWitness(
+                        parent, parentChar, level * states + accept);
+                if (!witness.isEmpty()) {
+                    results.add(witness);
+                    if (results.size() >= budget) {
+                        return results;
+                    }
+                }
+            }
+            if (level == maxLevel) {
+                break;
+            }
+            // Emit one char: each side absorbs it (wildcard stays), consumes
+            // it (matching literal), or the path dies. A step that leaves
+            // BOTH positions unchanged is skipped (see above).
+            List<Integer> next = new ArrayList<>();
+            boolean[] inNext = new boolean[states];
+            for (int state : current) {
+                int i = state / width;
+                int j = state % width;
+                for (char c : letters) {
+                    int ni = advanceSide(flatA, i, c);
+                    if (ni < 0) {
+                        continue;
+                    }
+                    int nj = advanceSide(flatB, j, c);
+                    if (nj < 0 || (ni == i && nj == j)) {
+                        continue;
+                    }
+                    int key = ni * width + nj;
+                    if (inNext[key]) {
+                        continue;
+                    }
+                    inNext[key] = true;
+                    parent[(level + 1) * states + key] = level * states + state;
+                    parentChar[(level + 1) * states + key] = c;
+                    next.add(key);
+                }
+            }
+            current = next;
         }
-        if (wildA && wildB) {
-            mergeGlob(a, i + 1, b, j + 1, buf, filler, results, budget, steps);
-            mergeGlob(a, i + 1, b, j, buf, filler, results, budget, steps);
-            mergeGlob(a, i, b, j + 1, buf, filler, results, budget, steps);
-            mergeGlob(a, i, b, j, append(buf, filler), filler, results, budget, steps);
-            return;
-        }
-        if (wildA) {
-            // A's wildcard absorbs B's literal cb…
-            mergeGlob(a, i, b, j + 1, append(buf, cb), filler, results, budget, steps);
-            // …or A's capture ends before it, leaving cb for A's next token.
-            mergeGlob(a, i + 1, b, j, buf, filler, results, budget, steps);
-            return;
-        }
-        // wildB, literal ca on A's side: symmetric.
-        mergeGlob(a, i + 1, b, j, append(buf, ca), filler, results, budget, steps);
-        mergeGlob(a, i, b, j + 1, buf, filler, results, budget, steps);
+        return results;
     }
 
-    private static StringBuilder append(StringBuilder buf, char c) {
-        return new StringBuilder(buf).append(c);
+    /** Advances one pattern by char {@code c}: a wildcard absorbs it (stay),
+     *  a matching literal consumes it (step), anything else kills the path.
+     *  Returns the new index or -1. */
+    private static int advanceSide(String flat, int i, char c) {
+        if (i < flat.length()) {
+            char at = flat.charAt(i);
+            if (at == '\u0000') {
+                return i;
+            }
+            if (at == c) {
+                return i + 1;
+            }
+        }
+        return -1;
+    }
+
+    /** Rebuilds the emitted string by walking parent pointers to the root;
+     *  every step either decreases the level or (within a level) strictly
+     *  increases (i, j), so the walk terminates. */
+    private static String reconstructSegmentWitness(int[] parent, char[] parentChar,
+                                                    int flat) {
+        StringBuilder reversed = new StringBuilder();
+        int cursor = flat;
+        while (parent[cursor] >= 0) {
+            if (parentChar[cursor] != '\u0000') {
+                reversed.append(parentChar[cursor]);
+            }
+            cursor = parent[cursor];
+        }
+        return reversed.reverse().toString();
     }
 
     /** A concrete target path BOTH templates' router shapes match, verified

@@ -925,5 +925,42 @@ public class CppBoostBeastServerCodegenTest {
                 "the registered route must carry the raw path, not &amp;");
         Assert.assertFalse(apiSource.contains("/a&amp;b"),
                 "html escaping must not corrupt the route literal");
+        Assert.assertTrue(apiSource.contains("\"fr&ac\""),
+                "the query lookup key must carry the raw parameter name");
+        Assert.assertFalse(apiSource.contains("fr&amp;ac"),
+                "html escaping must not corrupt the parameter name");
+        Assert.assertTrue(apiSource.contains("impl->getIt("),
+                "the dispatch call must carry the raw operationId nickname");
+    }
+
+    @Test
+    public void rejectsBranchyRouteOverlapWithWitness() throws IOException {
+        // Alternating wildcard/literal layouts with equal literal-token
+        // ranking: '/v/{p1}a{p2}a{p3}a' and '/v/a{p4}a{p5}a{p6}' both match
+        // '/v/aaa'. The intersection search must terminate in polynomial
+        // time on this branchy pair and still PROVE the collision (a
+        // step-budgeted DFS could under-report it; the trie BFS cannot).
+        Path spec = writeTempSpec(spec(
+                "  /v/{p1}a{p2}a{p3}a:",
+                "    get:",
+                "      operationId: odd",
+                "      responses:",
+                "        '200': {description: ok}",
+                "  /v/a{p4}a{p5}a{p6}:",
+                "    get:",
+                "      operationId: even",
+                "      responses:",
+                "        '200': {description: ok}"));
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-server")
+                .setInputSpec(spec.toString())
+                .setOutputDir(Files.createTempDirectory("branchy-").toString())
+                .setValidateSpec(false);
+        IllegalArgumentException error = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> new DefaultGenerator()
+                        .opts(configurator.toClientOptInput()).generate());
+        Assert.assertTrue(error.getMessage().contains("'/v/"),
+                "diagnostic must name a witness path, got: " + error.getMessage());
     }
 }
