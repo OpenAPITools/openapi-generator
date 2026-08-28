@@ -799,4 +799,131 @@ public class CppBoostBeastServerCodegenTest {
         Assert.assertTrue(apiHeader.contains("void send200(Pick value) const"),
                 "the variant response must generate a typed sender");
     }
+
+    @Test
+    public void rejectsCrossLayoutRouteOverlapWithWitness() throws IOException {
+        // /a/{x}b and /a/a{y} have different shape keys but both match /a/ab
+        // with equal ranking; the witness probe must prove the collision.
+        Path spec = writeTempSpec(spec(
+                "  /a/{x}b:",
+                "    get:",
+                "      operationId: first",
+                "      responses:",
+                "        '200': {description: ok}",
+                "  /a/a{y}:",
+                "    get:",
+                "      operationId: second",
+                "      responses:",
+                "        '200': {description: ok}"));
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-server")
+                .setInputSpec(spec.toString())
+                .setOutputDir(Files.createTempDirectory("overlap-").toString())
+                .setValidateSpec(false);
+        IllegalArgumentException error = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> new DefaultGenerator()
+                        .opts(configurator.toClientOptInput()).generate());
+        Assert.assertTrue(error.getMessage().contains("/a/ab"),
+                "diagnostic must name the ambiguous witness path, got: "
+                        + error.getMessage());
+    }
+
+    @Test
+    public void rejectsAdjacentPathExpressions() throws IOException {
+        // The router cannot split a capture boundary with no literal between
+        // expressions, so /a/{first}{second} must be rejected up front.
+        Path spec = writeTempSpec(spec(
+                "  /a/{first}{second}:",
+                "    get:",
+                "      operationId: adjacent",
+                "      responses:",
+                "        '200': {description: ok}"));
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-server")
+                .setInputSpec(spec.toString())
+                .setOutputDir(Files.createTempDirectory("adjacent-").toString())
+                .setValidateSpec(false);
+        IllegalArgumentException error = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> new DefaultGenerator()
+                        .opts(configurator.toClientOptInput()).generate());
+        Assert.assertTrue(error.getMessage().contains("adjacent expressions"),
+                "diagnostic must name the adjacency defect, got: "
+                        + error.getMessage());
+    }
+
+    @Test
+    public void sanitizesCommentTerminatorsInInfoFields() throws IOException {
+        // A title containing */ would close the generated block comment and
+        // turn the remaining text into code in every generated file.
+        Path spec = writeTempSpec(
+                "openapi: 3.1.0",
+                "info: {title: \"evil */ int x;\", version: '1'}",
+                "paths:",
+                "  /ping:",
+                "    get:",
+                "      operationId: ping",
+                "      responses:",
+                "        '200': {description: ok}");
+        Path output = generate(spec.toString(), java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("evil * / int x;"),
+                "the terminator must be neutralized in the license header");
+        Assert.assertFalse(apiHeader.contains("*/ int x"),
+                "no generated comment may embed the raw terminator");
+    }
+
+    @Test
+    public void keepsNullableModelBodyTypedAsOptional() throws IOException {
+        // A nullable component body must lower to std::optional<...> and stay
+        // typed: the JSON runtime decodes std::optional natively, so only
+        // variant unions are untypable.
+        Path spec = writeTempSpec(spec(
+                "  /maybe:",
+                "    post:",
+                "      operationId: maybe",
+                "      requestBody:",
+                "        required: false",
+                "        content:",
+                "          application/json:",
+                "            schema: { $ref: '#/components/schemas/MaybeName' }",
+                "      responses:",
+                "        '200': {description: ok}",
+                "components:",
+                "  schemas:",
+                "    MaybeName:",
+                "      type: ['null', 'string']"));
+        Path output = generate(spec.toString(), java.util.Map.of());
+        String apiHeader = Files.readString(output.resolve("api/DefaultApi.h"));
+        Assert.assertTrue(apiHeader.contains("body{};"),
+                "the request struct must exist");
+        Assert.assertTrue(
+                apiHeader.contains("std::optional<std::string> body{};")
+                        || apiHeader.contains("std::optional<std::string> body{"),
+                "a nullable body must stay typed as std::optional, header was:\n"
+                        + apiHeader.substring(0, Math.min(apiHeader.length(), 4000)));
+    }
+
+    @Test
+    public void rendersHtmlSignificantNamesUnescapedInLiterals() throws IOException {
+        // Path, operationId, and parameter names with & < > " must reach the
+        // C++ literals verbatim (C++-escaped once), not HTML-escaped.
+        Path spec = writeTempSpec(spec(
+                "  /a&b:",
+                "    get:",
+                "      operationId: getIt",
+                "      parameters:",
+                "        - name: \"fr&ac\"",
+                "          in: query",
+                "          schema: {type: string}",
+                "      responses:",
+                "        '200': {description: ok}"));
+        Path output = generate(spec.toString(), java.util.Map.of());
+        String apiSource = Files.readString(output.resolve("api/DefaultApi.cpp"));
+        Assert.assertTrue(apiSource.contains("\"/a&b\""),
+                "the registered route must carry the raw path, not &amp;");
+        Assert.assertFalse(apiSource.contains("/a&amp;b"),
+                "html escaping must not corrupt the route literal");
+    }
 }

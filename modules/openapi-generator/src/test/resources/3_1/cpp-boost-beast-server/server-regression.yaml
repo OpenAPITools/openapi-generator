@@ -8,6 +8,17 @@ security:
   - api_key: []
 paths:
   /pets/{petId}:
+    parameters:
+      - name: version
+        in: query
+        description: >-
+          Declared on the PATH ITEM: the rawschema lookup must fall back
+          from the operation list to shared parameters (constraint
+          inheritance regression)
+        schema:
+          type: integer
+          format: int32
+          minimum: 5
     get:
       operationId: getPetById
       parameters:

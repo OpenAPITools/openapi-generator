@@ -425,12 +425,39 @@ int main() {
     expect(created.status == 201, "valid create should be 201");
     expect(created.body.find("rex") != std::string::npos,
         "created body should echo name");
+    // 400 on a body whose enum member is not declared (schema validation
+    // runs before the handler sees the value).
+    RawResponse badEnumBody = roundtrip(ioc, port, request("POST /pets",
+        "Authorization: Bearer ok\r\nContent-Type: application/json\r\n"
+        "Connection: close\r\n",
+        "{\"id\":9,\"name\":\"rex\",\"status\":\"invalid\"}"));
+    expect(badEnumBody.status == 400,
+        "undeclared enum member in body should be 400");
+    // 400 on an explicit null for a required non-nullable field (no silent
+    // default substitution). Only the validation-enabled build enforces
+    // this at the request boundary; the compileWithValidation=false leg
+    // keeps the documented tolerate-null compatibility default.
+#ifdef CPPBB_EXPECT_SCHEMA_VALIDATION
+    RawResponse nullRequired = roundtrip(ioc, port, request("POST /pets",
+        "Authorization: Bearer ok\r\nContent-Type: application/json\r\n"
+        "Connection: close\r\n", "{\"id\":null,\"name\":\"rex\"}"));
+    expect(nullRequired.status == 400,
+        "null for a required non-nullable body field should be 400");
+#endif
 
     // 415 on text/plain.
     RawResponse wrongType = roundtrip(ioc, port, request("POST /pets",
         "Authorization: Bearer ok\r\nContent-Type: text/plain\r\n"
         "Connection: close\r\n", "hi"));
     expect(wrongType.status == 415, "text/plain body should be 415");
+    // 404 must not echo the query: a credential sent as ?api_key= would
+    // otherwise leak through detail/instance.
+    RawResponse missingKey = roundtrip(ioc, port,
+        "GET /nope?api_key=SUPERSECRET HTTP/1.1\r\nHost: t\r\n"
+        "Connection: close\r\n\r\n");
+    expect(missingKey.status == 404, "unknown path with query should be 404");
+    expect(missingKey.body.find("SUPERSECRET") == std::string::npos,
+        "404 problem must not echo the query string");
 
     // 401 without credentials on POST.
     RawResponse noAuth = roundtrip(ioc, port, request("POST /pets",
@@ -472,6 +499,19 @@ int main() {
     expect(updated.status == 200, "PUT with api_key should be 200");
     expect(updated.body.find("put-dog") != std::string::npos,
         "PUT response should echo the decoded body");
+    // Constraint inheritance from the PATH ITEM: `version` is declared on
+    // /pets/{petId}.parameters with minimum:5, so the raw-schema lookup
+    // must fall back beyond the operation list; violating values answer 400.
+    RawResponse versionLow = roundtrip(ioc, port,
+        "GET /pets/3?version=2 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(versionLow.status == 400,
+        "path-item parameter constraint must be enforced (below minimum)");
+    expect(versionLow.body.find("below the minimum") != std::string::npos,
+        "path-item constraint failure should report the minimum");
+    RawResponse versionOk = roundtrip(ioc, port,
+        "GET /pets/3?version=9 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(versionOk.status == 200,
+        "path-item parameter satisfying its constraint should be 200");
 
     // 413 on a body over the configured limit.
     std::string big(2048, 'x');
@@ -513,6 +553,63 @@ int main() {
             "keep-alive should serve two requests on one connection");
         expect(second.body.find("\"id\":8") != std::string::npos,
             "second keep-alive response should be for pet 8");
+    }
+
+    // Expect: 100-continue must be answered BEFORE the body is released.
+    // A client that holds its body back would deadlock against the read
+    // timeout on a server that reads head+body in one step, so the probe
+    // writes only the head and asserts the interim response arrives first.
+    {
+        boost::asio::ip::tcp::socket expectSocket(ioc);
+        expectSocket.connect(boost::asio::ip::tcp::endpoint{
+            boost::asio::ip::make_address("127.0.0.1"),
+            static_cast<unsigned short>(port)});
+        const std::string body = "{\"id\":5,\"name\":\"cont\"}";
+        const std::string head =
+            "POST /echo HTTP/1.1\r\nHost: t\r\nExpect: 100-continue\r\n"
+            "Content-Type: application/json\r\nConnection: close\r\n"
+            "Content-Length: " + std::to_string(body.size()) + "\r\n\r\n";
+        boost::asio::write(expectSocket, boost::asio::buffer(head));
+        expectSocket.non_blocking(true);
+        std::string transcript;
+        char probe[64];
+        for (int attempt = 0; attempt < 300; ++attempt) {
+            boost::system::error_code probeEc;
+            std::size_t got = 0;
+            try {
+                got = expectSocket.read_some(
+                    boost::asio::buffer(probe), probeEc);
+            } catch (boost::system::system_error const&) {
+                got = 0;
+                probeEc = boost::asio::error::would_block;
+            }
+            if (got > 0) {
+                transcript.append(probe, got);
+                break;   // first bytes after the head = the interim response
+            }
+            if (probeEc != boost::asio::error::would_block) {
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+        expectSocket.non_blocking(false);
+        expect(transcript.rfind("HTTP/1.1 100", 0) == 0,
+            "Expect: 100-continue should receive an interim response first");
+        boost::asio::write(expectSocket, boost::asio::buffer(body));
+        char buffer[4096];
+        boost::system::error_code readEc;
+        for (;;) {
+            std::size_t got = expectSocket.read_some(
+                boost::asio::buffer(buffer), readEc);
+            if (readEc) {
+                break;
+            }
+            transcript.append(buffer, got);
+        }
+        expect(transcript.find("HTTP/1.1 200") != std::string::npos,
+            "100-continue request should complete with the final response");
+        expect(transcript.find("cont") != std::string::npos,
+            "final response should echo the released body");
     }
 
     // Label-style pattern path parameter: valid then invalid.

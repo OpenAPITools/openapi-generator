@@ -95,6 +95,13 @@ public class CppBoostBeastServerRuntimeTest {
         command.add("-Wall");
         command.add("-Werror");
         command.add("-DBOOST_ERROR_CODE_HEADER_ONLY");
+        // Schema-IR-dependent driver legs (explicit-null rejection at the
+        // request boundary) only hold when the validation runtime was
+        // generated; the compileWithValidation=false leg documents and
+        // keeps the tolerate-null compatibility default instead.
+        if (Files.exists(output.resolve("model/schema_ir.generated.cpp"))) {
+            command.add("-DCPPBB_EXPECT_SCHEMA_VALIDATION");
+        }
         command.add("-I" + output);
         command.add("-I" + output.resolve("api"));
         command.add("-I" + output.resolve("model"));
