@@ -265,6 +265,18 @@ paths:
           schema:
             type: string
             default: five
+        - name: X-Note
+          in: header
+          description: >-
+            Code-point length probe: maxLength counts Unicode scalars (two
+            CJK characters pass as 2), and malformed (e.g. overlong-encoded)
+            UTF-8 degrades to a strict byte count so continuation bytes
+            cannot be smuggled through length checks. A header (not query)
+            so raw non-ASCII octets are legal wire bytes (RFC 7230
+            obs-text).
+          schema:
+            type: string
+            maxLength: 2
         - name: limit
           in: query
           schema:
@@ -352,6 +364,15 @@ paths:
           schema:
             type: number
             format: float
+        - name: z
+          in: query
+          description: >-
+            Unbounded double parameter: on platforms where long double is
+            wider than double (x86 80-bit), 1e400 parses finite and must
+            still be refused by the destination-range gate
+          schema:
+            type: number
+            format: double
         - name: code
           in: query
           description: Pattern outside the std::regex ECMAScript subset

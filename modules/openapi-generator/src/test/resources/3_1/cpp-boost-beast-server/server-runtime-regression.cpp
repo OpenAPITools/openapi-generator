@@ -148,7 +148,8 @@ public:
         // optional parameters, decoded values for present ones.
         model::Report report;
         report.setTitle(request.name + "|" + std::to_string(request.limit)
-            + "|" + std::to_string(request.ids.size()));
+            + "|" + std::to_string(request.ids.size())
+            + "|" + request.xNote);
         responder.send200(std::move(report));
     }
 
@@ -174,9 +175,11 @@ public:
                CodecResponder responder) override {
         // Echo the decoded float so the driver can prove the wire grammar
         // gates: hex forms and float overflow are rejected pre-handler,
-        // underflow arrives as zero (ordinary IEEE rounding).
+        // underflow arrives as zero (ordinary IEEE rounding). The double z
+        // only appends when nonzero so existing legs stay byte-exact.
         model::Report report;
-        report.setTitle(std::to_string(request.w));
+        report.setTitle(std::to_string(request.w)
+            + (request.z == 0.0 ? "" : "|" + std::to_string(request.z)));
         responder.send200(std::move(report));
     }
 
@@ -612,6 +615,50 @@ int main() {
             "final response should echo the released body");
     }
 
+    // RFC 9110 5.3 also allows the expectation list across repeated field
+    // lines. An unsupported token on the SECOND line must still answer 417:
+    // tokenizing only the first line would silently ignore it.
+    RawResponse expectSecondLineBad = roundtrip(ioc, port, request("POST /echo",
+        "Expect: 100-continue\r\nExpect: confirm-10x\r\n"
+        "Content-Type: application/json\r\nConnection: close\r\n",
+        "{\"id\":1,\"name\":\"x\"}"));
+    expect(expectSecondLineBad.status == 417,
+        "unsupported token on a repeated Expect line should answer 417");
+    // Repeated all-100-continue lines complete: interim, body, final 200.
+    {
+        boost::asio::ip::tcp::socket repeatSocket(ioc);
+        repeatSocket.connect(boost::asio::ip::tcp::endpoint{
+            boost::asio::ip::make_address("127.0.0.1"),
+            static_cast<unsigned short>(port)});
+        const std::string body = "{\"id\":6,\"name\":\"twice\"}";
+        const std::string head =
+            "POST /echo HTTP/1.1\r\nHost: t\r\nExpect: 100-continue\r\n"
+            "Expect: 100-continue\r\nContent-Type: application/json\r\n"
+            "Connection: close\r\nContent-Length: "
+            + std::to_string(body.size()) + "\r\n\r\n";
+        boost::asio::write(repeatSocket, boost::asio::buffer(head));
+        boost::asio::write(repeatSocket, boost::asio::buffer(body));
+        std::string transcript;
+        char buffer[4096];
+        boost::system::error_code readEc;
+        for (;;) {
+            std::size_t got = repeatSocket.read_some(
+                boost::asio::buffer(buffer), readEc);
+            if (readEc) {
+                break;
+            }
+            transcript.append(buffer, got);
+            if (transcript.find("HTTP/1.1 200") != std::string::npos) {
+                break;
+            }
+        }
+        expect(transcript.find("HTTP/1.1 100") != std::string::npos
+                && transcript.find("HTTP/1.1 200") != std::string::npos,
+            "repeated 100-continue lines should interim then complete");
+        expect(transcript.find("twice") != std::string::npos,
+            "repeated-Expect request should echo its body");
+    }
+
     // Label-style pattern path parameter: valid then invalid.
     RawResponse labelOk = roundtrip(ioc, port,
         "GET /reports/.AB-12 HTTP/1.1\r\nHost: t\r\n"
@@ -675,14 +722,14 @@ int main() {
     RawResponse defaultsAbsent = roundtrip(ioc, port,
         "GET /defaults?ids=aa,bb HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
     expect(defaultsAbsent.status == 200, "defaults with valid ids should be 200");
-    expect(defaultsAbsent.body.find("\"title\":\"five|7|2\"") != std::string::npos,
+    expect(defaultsAbsent.body.find("\"title\":\"five|7|2|\"") != std::string::npos,
         "absent name/limit should carry declared defaults (five, 7)");
 
     RawResponse defaultsPresent = roundtrip(ioc, port,
         "GET /defaults?name=hi&limit=3&ids=aa,bb HTTP/1.1\r\nHost: t\r\n"
         "Connection: close\r\n\r\n");
     expect(defaultsPresent.status == 200, "explicit values should be 200");
-    expect(defaultsPresent.body.find("\"title\":\"hi|3|2\"") != std::string::npos,
+    expect(defaultsPresent.body.find("\"title\":\"hi|3|2|\"") != std::string::npos,
         "present name/limit should override declared defaults");
 
     // Exclusive bounds: score must be >1.5 and <3 (JSON Schema semantics).
@@ -717,6 +764,31 @@ int main() {
     expect(period.status == 200, "embedded path expressions should route");
     expect(period.body.find("\"title\":\"2026-8\"") != std::string::npos,
         "embedded expressions should capture year and month separately");
+    // Header code-point length probe: two CJK characters are TWO code
+    // points and pass maxLength 2 despite six bytes; an overlong three-byte
+    // encoding of 'A' is malformed UTF-8 whose strict count is three bytes,
+    // so it must fail the same check (continuation bytes cannot be
+    // smuggled through a naive lead-byte count).
+    const std::string cjk{
+        static_cast<char>(0xE6), static_cast<char>(0x97),
+        static_cast<char>(0xA5), static_cast<char>(0xE6),
+        static_cast<char>(0x9C), static_cast<char>(0xAC)};  // 日本
+    const std::string overlong{
+        static_cast<char>(0xE0), static_cast<char>(0x80),
+        static_cast<char>(0x80)};  // overlong 'A'
+    RawResponse noteUnicode = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb HTTP/1.1\r\nHost: t\r\n"
+        "X-Note: " + cjk + "\r\nConnection: close\r\n\r\n");
+    expect(noteUnicode.status == 200,
+        "two CJK characters should pass maxLength as two code points");
+    expect(noteUnicode.body.find(cjk) != std::string::npos,
+        "the header value should echo through the title");
+    RawResponse noteOverlong = roundtrip(ioc, port,
+        "GET /defaults?ids=aa,bb HTTP/1.1\r\nHost: t\r\n"
+        "X-Note: " + overlong + "\r\nConnection: close\r\n\r\n");
+    expect(noteOverlong.status == 400,
+        "overlong UTF-8 must degrade to a byte count (3 > 2) and answer 400");
+
     RawResponse periodBad = roundtrip(ioc, port,
         "GET /periods/20x6-8/summary HTTP/1.1\r\nHost: t\r\n"
         "Connection: close\r\n\r\n");
@@ -757,6 +829,21 @@ int main() {
         "{\"id\":5,\"name\":\"echoed\"}"));
     expect(echoGood.status == 200 && echoGood.body.find("echoed") != std::string::npos,
         "present optional body should decode and echo");
+    // int64 leaf above 2^53 arriving in double form: the handler decode
+    // runs inside an ExactInstanceScope, so the id converts from the wire
+    // lexeme EXACTLY (9007199254740993.0 names an integer; the double image
+    // would silently round it to ...92). Only in the validation-enabled
+    // config: without the schema gate there is no lexeme table, and the
+    // documented decode-shape-only path rejects instead of corrupting.
+#ifdef CPPBB_EXPECT_SCHEMA_VALIDATION
+    RawResponse echoExactBig = roundtrip(ioc, port, request("POST /echo",
+        "Content-Type: application/json\r\nConnection: close\r\n",
+        "{\"id\":9007199254740993.0,\"name\":\"exact\"}"));
+    expect(echoExactBig.status == 200,
+        "integral double naming an int64 above 2^53 should decode exactly");
+    expect(echoExactBig.body.find("\"id\":9007199254740993") != std::string::npos,
+        "the echo must carry the lexeme's integer, not the rounded double");
+#endif
     // ---- float wire grammar (parseScalar gates) ----
     // Plain decimal parses and reaches the handler.
     RawResponse floatOk = roundtrip(ioc, port,
@@ -783,6 +870,19 @@ int main() {
         "GET /codec?w=inf HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
     expect(floatInf.status == 400, "inf text should be 400");
 
+    // 1e400 on a DOUBLE parameter: where long double is wider than double
+    // (x86 80-bit) the parse stays FINITE, so only the destination-range
+    // gate can refuse it — the leg must answer 400 on every platform.
+    RawResponse doubleBig = roundtrip(ioc, port,
+        "GET /codec?z=1e400 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(doubleBig.status == 400, "double overflow should be 400");
+    // A double inside range but far above float range still passes: the
+    // gate is destination-aware, not a blanket overflow ban.
+    RawResponse doubleOk = roundtrip(ioc, port,
+        "GET /codec?z=1e308 HTTP/1.1\r\nHost: t\r\nConnection: close\r\n\r\n");
+    expect(doubleOk.status == 200, "in-range large double should be 200");
+    expect(doubleOk.body.find("\"title\":\"0.000000|1") != std::string::npos,
+        "the double should decode and echo alongside the default float");
     // ---- fail-closed regex patterns ----
     // '(?i)' is outside std::regex's ECMAScript subset: construction throws,
     // so the gate answers 400 for every present value instead of retry-

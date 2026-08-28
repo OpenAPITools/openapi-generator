@@ -126,7 +126,10 @@ Parameter and body validation follows these documented rules:
     multi-byte character as its constituent bytes.
   - *Request/response bodies* (the model validator): the value is decoded to
     code points and matched with `std::wregex`, so `.` and character classes
-    advance one Unicode scalar at a time.
+    advance one Unicode scalar at a time on platforms with 32-bit `wchar_t`
+    (macOS/Linux); on Windows (`wchar_t` is 16-bit) the value is encoded as
+    UTF-16 and `.` matches one UTF-16 code unit, which can be half of a
+    surrogate pair.
   A pattern relying on Unicode word/property semantics (`\p{…}`) is outside
   the supported subset on both surfaces and answers 400 rather than matching
   approximately; patterns the grammar cannot compile are refused the same

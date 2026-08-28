@@ -209,49 +209,49 @@ private:
         // follows (Content-Length or chunked); a bodiless request must not
         // be made to wait. count() rather than contains(): contains()
         // exists only since Boost 1.85 and the Linux CI image ships an
-        // older Beast. The field is a comma-separated list: the interim
-        // response is sent only when every token is 100-continue; an
-        // unrecognized expectation the server cannot verify answers 417
+        // older Beast. The expectations form a comma-separated list, and
+        // RFC 9110 5.3 additionally allows the list across repeated field
+        // lines — every Expect line is tokenized, not just the first. The
+        // interim response is sent only when every token is 100-continue;
+        // an unrecognized expectation the server cannot verify answers 417
         // (and closes, since the unread body bytes cannot be skipped on a
         // keep-alive stream).
         if (head.version() >= 11) {
             bool sawContinue = false;
             bool sawUnsupported = false;
-            std::string_view const expectField = head[http::field::expect];
-            // An absent field yields an empty string_view; looping over it
-            // would spin forever (npos + 1 wraps to 0). Only tokenize when
-            // the field is actually present.
-            if (!expectField.empty()) {
+            auto const expectRange = head.equal_range(http::field::expect);
+            for (auto it = expectRange.first; it != expectRange.second; ++it) {
+                std::string_view const expectField = it->value();
                 std::size_t tokenStart = 0;
-            while (tokenStart <= expectField.size()) {
-                std::size_t const comma = expectField.find(',', tokenStart);
-                std::size_t const tokenEnd =
-                    comma == std::string_view::npos ? expectField.size() : comma;
-                std::size_t beg = tokenStart;
-                std::size_t end = tokenEnd;
-                while (beg < end && (expectField[beg] == ' ' || expectField[beg] == '\t')) {
-                    ++beg;
-                }
-                while (end > beg && (expectField[end - 1] == ' ' || expectField[end - 1] == '\t')) {
-                    --end;
-                }
-                if (beg != end) {   // an empty element (trailing comma) is slack
-                    std::string token(expectField.substr(beg, end - beg));
-                    for (char& ch : token) {
-                        ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+                while (tokenStart <= expectField.size()) {
+                    std::size_t const comma = expectField.find(',', tokenStart);
+                    std::size_t const tokenEnd =
+                        comma == std::string_view::npos ? expectField.size() : comma;
+                    std::size_t beg = tokenStart;
+                    std::size_t end = tokenEnd;
+                    while (beg < end && (expectField[beg] == ' ' || expectField[beg] == '\t')) {
+                        ++beg;
                     }
-                    if (token == "100-continue") {
-                        sawContinue = true;
-                    } else {
-                        sawUnsupported = true;
+                    while (end > beg && (expectField[end - 1] == ' ' || expectField[end - 1] == '\t')) {
+                        --end;
                     }
+                    if (beg != end) {   // an empty element (trailing comma) is slack
+                        std::string token(expectField.substr(beg, end - beg));
+                        for (char& ch : token) {
+                            ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+                        }
+                        if (token == "100-continue") {
+                            sawContinue = true;
+                        } else {
+                            sawUnsupported = true;
+                        }
+                    }
+                    if (comma == std::string_view::npos) {
+                        break;
+                    }
+                    tokenStart = comma + 1;
                 }
-                if (comma == std::string_view::npos) {
-                    break;
-                }
-                tokenStart = comma + 1;
             }
-        }
             bool mayHaveBody = head.count(http::field::content_length) > 0
                 || head.chunked();
             if (sawUnsupported) {

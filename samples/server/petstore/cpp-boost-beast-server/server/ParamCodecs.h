@@ -215,7 +215,16 @@ inline std::size_t utf8CodepointCount(std::string_view text) {
             && i + extra < text.size();
         bool whole = complete;
         for (std::size_t k = 1; whole && k <= extra; ++k) {
-            if ((static_cast<unsigned char>(text[i + k]) & 0xC0) != 0x80) {
+            unsigned char const next = static_cast<unsigned char>(text[i + k]);
+            // Continuation range, plus the lead-specific second-byte bounds
+            // that forbid overlongs (E0 A0.., F0 90..), surrogates (ED 80..
+            // refused), and out-of-range tails (F4 8F..).
+            if (next < 0x80 || next > 0xBF
+                    || (k == 1 && (
+                        (lead == 0xE0 && next < 0xA0)
+                        || (lead == 0xED && next > 0x9F)
+                        || (lead == 0xF0 && next < 0x90)
+                        || (lead == 0xF4 && next > 0x8F)))) {
                 whole = false;
             }
         }
@@ -459,13 +468,20 @@ inline bool parseFloatScalar(std::string_view text, T& out) {
     // whatever the exponent, so "0e400" is finite, not 0 * inf.)
     if (negative) parsed = -parsed;
     // JSON numbers are finite; overflow (1e400) saturated to infinity above
-    // and dies here.
+    // and dies here. On platforms where long double is WIDER than double
+    // (x86 80-bit) it does not: 1e400 stays a finite long double, and the
+    // cast below would hand the service a non-finite double. The
+    // representability gate therefore compares against the DESTINATION
+    // range for float and double alike. Underflow (1e-400, or 1e-50 for
+    // float) rounds toward zero/denormal and stays accepted; a value above
+    // the destination maximum is a wire-level representability failure
+    // either way, so both platforms answer 400 identically.
     if (!std::isfinite(parsed)) return false;
-    // A float parameter rejects values outside float range: casting 1e40 to
-    // float yields infinity, which would hand the service a non-finite
-    // number the schema never allows. Underflow to denormal/zero stays
-    // accepted (ordinary narrowing, not a wire-level error).
-    if constexpr (sizeof(T) < sizeof(double)) {
+    if constexpr (sizeof(T) < sizeof(long double)) {
+        // Narrowing must not reach the non-finite range from above. Values
+        // between the destination maximum and the next representable long
+        // double also exceed the maximum, so this comparison closes every
+        // rounding-to-infinity path.
         if (parsed > static_cast<long double>(std::numeric_limits<T>::max())
                 || parsed < -static_cast<long double>(std::numeric_limits<T>::max())) {
             return false;
