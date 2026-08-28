@@ -52,7 +52,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#ve
 {{{.}}}
 {{/vendorExtensions.x-field-extra-annotation}}
 {{#isContainer}}
-  protected {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
+  protected {{{datatypeWithEnum}}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^required}} = null{{/required}};
 {{/isContainer}}
 {{^isContainer}}
   protected {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
