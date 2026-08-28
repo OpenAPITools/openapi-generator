@@ -646,7 +646,11 @@ class ApiClient:
             if isinstance(v, dict):
                 v = json.dumps(v)
 
-            if k in collection_formats:
+            # a collection format only applies to a parameter that actually carries a
+            # collection. An exploded object query parameter takes its names from the
+            # object, so a property name that happens to match a sibling array parameter
+            # must not be joined or repeated as if it were that parameter's list.
+            if k in collection_formats and isinstance(v, (list, tuple)):
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':
                     new_params.extend(

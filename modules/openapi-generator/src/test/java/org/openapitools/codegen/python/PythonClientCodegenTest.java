@@ -757,6 +757,14 @@ public class PythonClientCodegenTest {
             "_query_params.append(('flatFilter', flat_filter))");
         TestUtils.assertFileNotContains(api, "for _key, _value in deep_filter.items():");
         TestUtils.assertFileNotContains(api, "for _key, _value in flat_filter.items():");
+
+        // An exploded object takes its names from the object, so a property name can collide
+        // with a sibling array parameter's name. The collection format must only be applied
+        // to a value that actually is a collection, or "context": "en" alongside a
+        // context: multi array parameter would go on the wire as context=e&context=n.
+        Path apiClient = Paths.get(output.getAbsolutePath(), "openapi_client", "api_client.py");
+        TestUtils.assertFileContains(apiClient,
+            "if k in collection_formats and isinstance(v, (list, tuple)):");
     }
 
     @Test(description = "Verify default license format uses object notation when poetry1 is false")
