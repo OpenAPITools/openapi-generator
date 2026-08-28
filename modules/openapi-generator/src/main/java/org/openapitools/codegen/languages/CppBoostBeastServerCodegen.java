@@ -688,8 +688,19 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
      *  '/a/{z}-{w}' ordering ambiguities and '/x/{a}' vs '/x/{b}') are
      *  detected at generation time. Whole-segment and embedded expressions
      *  share one shape space: '/pets/{id}' and '/pets/p{id}' differ (extra
-     *  literal), '/reports/{y}-{m}' and '/reports/{a}-{b}' collide. */
+     *  literal), '/reports/{y}-{m}' and '/reports/{a}-{b}' collide.
+     *
+     *  <p>The query string is stripped first, exactly as Router::splitPath
+     *  does at registration: '/responses?beta=true' registers as the route
+     *  '/responses', so it must hash to the SAME shape as '/responses' —
+     *  otherwise the duplicate slips past this gate into the pairwise
+     *  witness probe, which reports it as a ranking ambiguity instead of
+     *  the literal route duplication it is. */
     private static String routeShapeKey(String pathTemplate) {
+        int query = pathTemplate.indexOf('?');
+        if (query >= 0) {
+            pathTemplate = pathTemplate.substring(0, query);
+        }
         StringBuilder key = new StringBuilder();
         int start = pathTemplate.startsWith("/") ? 1 : 0;
         while (start <= pathTemplate.length()) {

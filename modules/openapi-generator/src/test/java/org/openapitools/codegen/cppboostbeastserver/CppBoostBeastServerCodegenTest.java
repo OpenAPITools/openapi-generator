@@ -429,6 +429,40 @@ public class CppBoostBeastServerCodegenTest {
     }
 
     @Test
+    public void rejectsQuerySuffixRouteAsSameShape() throws IOException {
+        // Router::splitPath strips the query string at REGISTRATION time, so
+        // '/responses?beta=true' registers the very same route as
+        // '/responses' — a literal duplicate, not a ranking puzzle. The
+        // shape gate must say exactly that (the same wording as two
+        // same-shape templates), instead of letting the pair fall through to
+        // the witness probe and mislabelling it as registration-order
+        // ambiguity. This is the OpenAI document's beta-path idiom.
+        Path spec = writeTempSpec(spec(
+                "  /responses:",
+                "    post:",
+                "      operationId: createResponse",
+                "      responses:",
+                "        '200': {description: ok}",
+                "  /responses?beta=true:",
+                "    post:",
+                "      operationId: betaCreateResponse",
+                "      responses:",
+                "        '200': {description: ok}"));
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-server")
+                .setInputSpec(spec.toString())
+                .setOutputDir(Files.createTempDirectory("query-dup-").toString())
+                .setValidateSpec(false);
+        IllegalArgumentException error = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> new DefaultGenerator()
+                        .opts(configurator.toClientOptInput()).generate());
+        Assert.assertTrue(error.getMessage().contains("have the same shape"),
+                "a ?-suffixed duplicate must be reported as the same shape, got: "
+                        + error.getMessage());
+    }
+
+    @Test
     public void rejectsRangedResponseCodes() throws IOException {
         Path spec = writeTempSpec(spec(
                 "  /r:",
