@@ -183,8 +183,8 @@ inline bool isJsonInteger(boost::json::value const& v) {
 /// would decode a different wire integer as the image. The lower edge is
 /// open only for a destination reaching the precision boundary (int64),
 /// whose -2^53 image is likewise ambiguous with -9007199254740993; for a
-/// narrower signed destination the window spans the whole range, so the
-/// image of -2^53 names exactly one integer and -2^53 itself is accepted.
+/// narrower signed destination the full range lies inside the exact
+/// window, so the destination's own minimum image is accepted.
 /// (For an unsigned destination the window's lower edge is zero, and zero
 /// is never the image of a different integral token — +0.0 and -0.0 both
 /// name the integer 0 — so zero stays accepted there.) Above the window
