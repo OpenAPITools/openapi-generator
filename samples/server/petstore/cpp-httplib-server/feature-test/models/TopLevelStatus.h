@@ -7,7 +7,6 @@
 #pragma once
 // System headers
 #include <nlohmann/json.hpp>
-#include <string>
 
 
 
@@ -28,11 +27,11 @@ inline void to_json(nlohmann::json& j, const TopLevelStatus& value)
     switch (value)
     {
         
-        case TopLevelStatus::ACTIVE: j = active; break;
+        case TopLevelStatus::ACTIVE: j = "active"; break;
         
-        case TopLevelStatus::INACTIVE: j = inactive; break;
+        case TopLevelStatus::INACTIVE: j = "inactive"; break;
         
-        case TopLevelStatus::PENDING: j = pending; break;
+        case TopLevelStatus::PENDING: j = "pending"; break;
         
     }
 }
@@ -40,19 +39,19 @@ inline void to_json(nlohmann::json& j, const TopLevelStatus& value)
 inline void from_json(const nlohmann::json& j, TopLevelStatus& value)
 {
     
-    if (j == active)
+    if (j == "active")
     {
         value = TopLevelStatus::ACTIVE;
         return;
     }
     
-    if (j == inactive)
+    if (j == "inactive")
     {
         value = TopLevelStatus::INACTIVE;
         return;
     }
     
-    if (j == pending)
+    if (j == "pending")
     {
         value = TopLevelStatus::PENDING;
         return;

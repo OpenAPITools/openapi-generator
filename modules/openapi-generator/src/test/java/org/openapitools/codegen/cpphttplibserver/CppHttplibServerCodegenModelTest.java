@@ -281,6 +281,8 @@ public class CppHttplibServerCodegenModelTest {
         Assert.assertNotNull(model);
         Assert.assertEquals(model.name, "Status");
         Assert.assertTrue(model.isEnum, "top-level enum schemas must remain enum models");
+        Assert.assertEquals(model.vendorExtensions.get("isStringEnum"), true,
+                "string-backed top-level enums must serialize their values as JSON strings");
         Assert.assertNotNull(model.allowableValues);
         Assert.assertEquals(model.allowableValues.get("values"),
                 java.util.Arrays.asList("ACTIVE", "INACTIVE", "PENDING"));

@@ -1560,6 +1560,9 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         if (model != null) {
             model.name = toModelName(modelName);
             model.classname = model.name;
+            if (model.isEnum) {
+                model.vendorExtensions.put("isStringEnum", ModelUtils.isStringSchema(schema));
+            }
 
             if (ModelUtils.hasAllOf(schema) && this.openAPI != null) {
                 int refCount = 0;

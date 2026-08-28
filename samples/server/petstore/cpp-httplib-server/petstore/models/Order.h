@@ -7,7 +7,6 @@
 #pragma once
 // System headers
 #include <nlohmann/json.hpp>
-#include <string>
 #include <optional>
 #include <cstdint>
 #include <string>

@@ -523,15 +523,15 @@ auto parsedModel = models::TestQueryParametersDeepObjectParameter::fromJson(nloh
 #### models::TopLevelStatus
 
 ```cpp
-// Create a model
-auto model = models::TopLevelStatus();
+// Select an enum value
+auto model = models::TopLevelStatus::ACTIVE;
 
-// Serialize to JSON
-nlohmann::json json = models::TopLevelStatus::toJson(model);
+// Serialize to JSON via the generated to_json free function
+nlohmann::json json = model;
 std::string jsonString = json.dump();
 
-// Deserialize from JSON
-auto parsedModel = models::TopLevelStatus::fromJson(nlohmann::json::parse(jsonString));
+// Deserialize from JSON via the generated from_json free function
+auto parsedModel = nlohmann::json::parse(jsonString).get<models::TopLevelStatus>();
 ```
 
 ## Implementing API Handlers

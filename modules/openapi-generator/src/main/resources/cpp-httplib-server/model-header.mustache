@@ -5,7 +5,6 @@
 {{#model}}
 // System headers
 #include <nlohmann/json.hpp>
-#include <string>
 {{#vendorExtensions.filteredImports}}
 {{{.}}}
 {{/vendorExtensions.filteredImports}}
@@ -29,7 +28,7 @@ inline void to_json(nlohmann::json& j, const {{vendorExtensions.modelClassName}}
     switch (value)
     {
         {{#allowableValues}}{{#enumVars}}
-        case {{vendorExtensions.modelClassName}}::{{name}}: j = {{#isString}}"{{{value}}}"{{/isString}}{{^isString}}{{value}}{{/isString}}; break;
+        case {{vendorExtensions.modelClassName}}::{{name}}: j = {{#vendorExtensions.isStringEnum}}"{{{value}}}"{{/vendorExtensions.isStringEnum}}{{^vendorExtensions.isStringEnum}}{{value}}{{/vendorExtensions.isStringEnum}}; break;
         {{/enumVars}}{{/allowableValues}}
     }
 }
@@ -37,7 +36,7 @@ inline void to_json(nlohmann::json& j, const {{vendorExtensions.modelClassName}}
 inline void from_json(const nlohmann::json& j, {{vendorExtensions.modelClassName}}& value)
 {
     {{#allowableValues}}{{#enumVars}}
-    if (j == {{#isString}}"{{{value}}}"{{/isString}}{{^isString}}{{value}}{{/isString}})
+    if (j == {{#vendorExtensions.isStringEnum}}"{{{value}}}"{{/vendorExtensions.isStringEnum}}{{^vendorExtensions.isStringEnum}}{{value}}{{/vendorExtensions.isStringEnum}})
     {
         value = {{vendorExtensions.modelClassName}}::{{name}};
         return;
