@@ -216,8 +216,10 @@ private:
         forceClose_ = false;
         auto const& head = parser_->get();
         // Expect only matters when a body follows (Content-Length or
-        // chunked); a bodiless request must not be made to wait.
-        bool mayHaveBody = head.contains(http::field::content_length)
+        // chunked); a bodiless request must not be made to wait. count()
+        // rather than contains(): contains() exists only since Boost 1.85
+        // and the Linux CI image ships an older Beast.
+        bool mayHaveBody = head.count(http::field::content_length) > 0
             || head.chunked();
         if (head.version() >= 11 && mayHaveBody
                 && lowercased(std::string(head[http::field::expect]))
