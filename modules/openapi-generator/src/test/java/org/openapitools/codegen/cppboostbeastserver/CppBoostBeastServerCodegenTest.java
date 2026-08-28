@@ -900,6 +900,44 @@ public class CppBoostBeastServerCodegenTest {
     }
 
     @Test
+    public void provesOverlapForNearBudgetLiteralInitialSegments() throws IOException {
+        // The second segment flattens to exactly 125 chars on BOTH sides and
+        // starts with a literal on both, so the root both-absorb level is
+        // unreachable for it. The old cell guard charged that level anyway:
+        // 126x126x252 = 4,000,752 cells crossed the 4M budget and the
+        // witness probe under-reported a collision that a pre-root-absorb
+        // budget (126x126x251 = 3,984,876) searches completely. '/l{c}/l'
+        // vs '/l{c}ll' style layouts: different shape keys, equal literal
+        // token counts, and both match the all-'l' path segment.
+        String tail = "l".repeat(123);
+        Path spec = writeTempSpec(spec(
+                "  /api/l{c1}" + tail + ":",
+                "    get:",
+                "      operationId: first",
+                "      responses:",
+                "        '200': {description: ok}",
+                "  /api/ll{c2}" + "l".repeat(122) + ":",
+                "    get:",
+                "      operationId: second",
+                "      responses:",
+                "        '200': {description: ok}"));
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-boost-beast-server")
+                .setInputSpec(spec.toString())
+                .setOutputDir(Files.createTempDirectory("overlap-budget-").toString())
+                .setValidateSpec(false);
+        IllegalArgumentException error = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> new DefaultGenerator()
+                        .opts(configurator.toClientOptInput()).generate());
+        // The collision witness is an all-'l' segment (captures may be
+        // empty there); the diagnostic must carry the concrete path.
+        Assert.assertTrue(error.getMessage().contains("/api/" + tail),
+                "diagnostic must name the ambiguous witness path, got: "
+                        + error.getMessage());
+    }
+
+    @Test
     public void rejectsAdjacentPathExpressions() throws IOException {
         // The router cannot split a capture boundary with no literal between
         // expressions, so /a/{first}{second} must be rejected up front.

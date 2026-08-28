@@ -925,9 +925,24 @@ public class CppBoostBeastServerCodegen extends CppBoostBeastModelCodegen {
         int m = flatB.length();
         int width = m + 1;
         int states = (n + 1) * width;
-        int maxLevel = n + m + 1;
-        long tableCells = (long) (n + 1) * (m + 1) * (maxLevel + 1);
-        if (tableCells > 4_000_000) {
+        // The +1 level exists solely to host ONE both-absorb char from the
+        // root state, and that step is only possible when BOTH patterns can
+        // absorb a char at index 0 (a wildcard; advanceSide never stays on
+        // a literal or past the end). Without a root absorb the level is
+        // unreachable — skip allocating it. Coverage is pinned to the
+        // pre-root-absorb budget by the guard below, so no pair that was
+        // searchable before the level existed stops being searchable.
+        int maxLevel = (n > 0 && m > 0
+                && flatA.charAt(0) == '\u0000' && flatB.charAt(0) == '\u0000')
+                ? n + m + 1 : n + m;
+        // Coverage is pinned to the PRE-root-absorb budget: a pair that was
+        // searchable before the root-absorb level existed must stay
+        // searchable after it. The optional extra level adds one `states`
+        // row to the allocation; near the cap that is a few percent over
+        // the base, and the skewed shapes that could inflate it further
+        // are already refused here.
+        long baseCells = (long) (n + 1) * (m + 1) * (n + m + 1);
+        if (baseCells > 4_000_000) {
             // Pathological template: bail out with an under-report (never a
             // false reject), matching the old budgeted search's behavior.
             return new ArrayList<>();
