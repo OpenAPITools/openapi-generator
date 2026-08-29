@@ -8214,6 +8214,29 @@ public class DefaultCodegen implements CodegenConfig {
         return param;
     }
 
+    /**
+     * Check if the content type is form data (e.g. multipart/* or application/x-www-form-urlencoded).
+     *
+     * @param contentType Content type string
+     * @return true if form content type
+     */
+    protected boolean isFormContentType(String contentType) {
+        if (contentType == null) {
+            return false;
+        }
+        String ct = contentType.toLowerCase(Locale.ROOT);
+        return ct.startsWith("application/x-www-form-urlencoded") || ct.startsWith("multipart");
+    }
+
+    /**
+     * Check if skipFormModel is enabled (defaults to true).
+     *
+     * @return true if skipFormModel is true
+     */
+    public boolean isSkipFormModel() {
+        return Boolean.parseBoolean(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL, "true"));
+    }
+
     protected LinkedHashMap<String, CodegenMediaType> getContent(Content content, Set<String> imports, String mediaTypeSchemaSuffix) {
         if (content == null) {
             return null;
@@ -8285,7 +8308,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             cmtContent.put(contentType, codegenMt);
-            if (schemaProp != null) {
+            if (schemaProp != null && (!isFormContentType(contentType) || !isSkipFormModel())) {
                 addImports(imports, schemaProp.getImports(true, importBaseType, generatorMetadata.getFeatureSet()));
             }
         }

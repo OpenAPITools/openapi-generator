@@ -9335,4 +9335,45 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("Dummy.java"))
                 .fileContains("import org.myorg.MyCustomId;", "import org.myorg.MyCustomKey;");
     }
+
+    @Test
+    public void testMultipleRequestBodyContentTypesDanglingImport_issue24727() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(USE_TAGS, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/issue_24727.yaml", SPRING_BOOT,
+                additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .fileContains("import org.openapitools.model.MultiArticleImporter;")
+                .fileDoesNotContain("import org.openapitools.model.CreateMultiArticleImporterRequest;");
+
+        Assert.assertNotNull(files.get("MultiArticleImporter.java"));
+        Assert.assertNull(files.get("CreateMultiArticleImporterRequest.java"));
+    }
+
+    @Test
+    public void testMultipleRequestBodyContentTypesWithSkipFormModelFalse_issue24727() throws Exception {
+        GlobalSettings.setProperty("skipFormModel", "false");
+        try {
+            Map<String, Object> additionalProperties = new HashMap<>();
+            additionalProperties.put(INTERFACE_ONLY, "true");
+            additionalProperties.put(USE_TAGS, "true");
+
+            Map<String, File> files = generateFromContract(
+                    "src/test/resources/3_0/issue_24727.yaml", SPRING_BOOT,
+                    additionalProperties);
+
+            JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                    .fileContains("import org.openapitools.model.MultiArticleImporter;")
+                    .fileContains("import org.openapitools.model.CreateMultiArticleImporterRequest;");
+
+            Assert.assertNotNull(files.get("MultiArticleImporter.java"));
+            Assert.assertNotNull(files.get("CreateMultiArticleImporterRequest.java"));
+        } finally {
+            GlobalSettings.reset();
+        }
+    }
 }
