@@ -3305,6 +3305,21 @@ public class KotlinSpringServerCodegenTest {
                 "): User");
     }
 
+    @Test
+    public void sealedResponseInterfaceIsPreservedInDelegate() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
+        additionalProperties.put(KotlinSpringServerCodegen.USE_SEALED_RESPONSE_INTERFACES, true);
+        additionalProperties.put(DELEGATE_PATTERN, true);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", additionalProperties);
+
+        assertFileContains(files.get("UsersApiDelegate.kt").toPath(),
+                "): ResponseEntity<CreateUserResponse>",
+                "): ResponseEntity<GetUserResponse>");
+    }
+
     /**
      * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/17445.
      * OpenAPI 'default' responses must emit responseCode = "default" in @ApiResponse (swagger2),
