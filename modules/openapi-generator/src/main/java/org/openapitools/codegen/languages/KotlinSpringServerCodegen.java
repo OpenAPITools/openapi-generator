@@ -100,6 +100,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_TAGS = "useTags";
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
     public static final String USE_RESPONSE_ENTITY = "useResponseEntity";
+    public static final String GENERATE_GENERIC_RESPONSE_ENTITY = "generateGenericResponseEntity";
     public static final String DECLARATIVE_INTERFACE_REACTIVE_MODE = "declarativeInterfaceReactiveMode";
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
@@ -176,6 +177,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean beanQualifiers = false;
     @Setter private DeclarativeInterfaceReactiveMode declarativeInterfaceReactiveMode = DeclarativeInterfaceReactiveMode.coroutines;
     @Setter private boolean useResponseEntity = true;
+    @Setter private boolean generateGenericResponseEntity = false;
     @Setter private boolean autoXSpringPaginated = false;
     @Setter private boolean generateSortValidation = false;
     @Setter private boolean generatePageableConstraintValidation = false;
@@ -304,6 +306,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_RESPONSE_ENTITY,
                 "Whether (when false) to return actual type (e.g. List<Fruit>) and handle non-happy path responses via exceptions flow or (when true) return entire ResponseEntity (e.g. ResponseEntity<List<Fruit>>). If disabled, method are annotated using a @ResponseStatus annotation, which has the status of the first response declared in the Api definition",
                 useResponseEntity);
+        addSwitch(GENERATE_GENERIC_RESPONSE_ENTITY,
+                "Use a generic type for the ResponseEntity wrapping return values of generated API methods. If enabled, methods are generated with return type ResponseEntity<*>",
+                generateGenericResponseEntity);
         addSwitch(USE_SEALED_RESPONSE_INTERFACES,
                 "Generate sealed interfaces for endpoint responses that all possible response types implement. Allows controllers to return any valid response type in a type-safe manner (e.g., sealed interface CreateUserResponse implemented by User, ConflictResponse, ErrorResponse)",
                 useSealedResponseInterfaces);
@@ -613,10 +618,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             additionalProperties.put(CodegenConstants.LIBRARY, library);
         }
 
-        if(additionalProperties.containsKey(USE_RESPONSE_ENTITY)) {
+        if (additionalProperties.containsKey(USE_RESPONSE_ENTITY)) {
             this.setUseResponseEntity(Boolean.parseBoolean(additionalProperties.get(USE_RESPONSE_ENTITY).toString()));
         }
         writePropertyBack(USE_RESPONSE_ENTITY, useResponseEntity);
+
+        if (additionalProperties.containsKey(GENERATE_GENERIC_RESPONSE_ENTITY)) {
+            this.setGenerateGenericResponseEntity(Boolean.parseBoolean(additionalProperties.get(GENERATE_GENERIC_RESPONSE_ENTITY).toString()));
+        }
+        if (!useResponseEntity) {
+            this.setGenerateGenericResponseEntity(false);
+        }
+        writePropertyBack(GENERATE_GENERIC_RESPONSE_ENTITY, generateGenericResponseEntity);
 
         if(additionalProperties.containsKey(USE_SEALED_RESPONSE_INTERFACES)) {
             this.setUseSealedResponseInterfaces(Boolean.parseBoolean(additionalProperties.get(USE_SEALED_RESPONSE_INTERFACES).toString()));
