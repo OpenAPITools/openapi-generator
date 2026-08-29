@@ -96,7 +96,6 @@ public class EnumArrays {
     }
   }
 
-  
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(@Nullable JustSymbolEnum justSymbol) {

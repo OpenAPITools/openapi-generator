@@ -34,10 +34,8 @@ public class Pet {
 
   private String name;
 
-  @Valid
   private List<String> photoUrls = new ArrayList<>();
 
-  @Valid
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -200,7 +198,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
+  
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   public List<@Valid Tag> getTags() {

@@ -39,10 +39,8 @@ public class Foo {
 
   private org.springframework.core.io.@Nullable Resource binary;
 
-  @Valid
   private List<OffsetDateTime> listOfDt = new ArrayList<>();
 
-  @Valid
   private List<OffsetDateTime> listMinIntems = new ArrayList<>();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -138,7 +136,7 @@ public class Foo {
    * Get listOfDt
    * @return listOfDt
    */
-  @Valid 
+  
   @Schema(name = "listOfDt", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("listOfDt")
   @JacksonXmlProperty(localName = "listOfDt")
@@ -172,7 +170,7 @@ public class Foo {
    * Get listMinIntems
    * @return listMinIntems
    */
-  @Valid @Size(min = 1) 
+  @Size(min = 1) 
   @Schema(name = "listMinIntems", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("listMinIntems")
   @JacksonXmlProperty(localName = "listMinIntems")

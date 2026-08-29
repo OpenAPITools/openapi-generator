@@ -38,7 +38,6 @@ public class ObjectWithDeprecatedFieldsDto {
   private @Nullable DeprecatedObjectDto deprecatedRef;
 
   @Deprecated
-  @Valid
   private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFieldsDto uuid(@Nullable String uuid) {

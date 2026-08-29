@@ -36,10 +36,8 @@ public class PetDto {
 
   private String name;
 
-  
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  
   private List<TagDto> tags = new ArrayList<>();
 
   /**

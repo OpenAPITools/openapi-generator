@@ -100,7 +100,6 @@ public class EnumArraysDto {
     }
   }
 
-  @Valid
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArraysDto justSymbol(@Nullable JustSymbolEnum justSymbol) {

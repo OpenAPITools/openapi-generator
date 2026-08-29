@@ -28,7 +28,6 @@ public class FileSchemaTestClassDto {
 
   private @Nullable FileDto file;
 
-  
   private List<FileDto> files = new ArrayList<>();
 
   public FileSchemaTestClassDto file(@Nullable FileDto file) {

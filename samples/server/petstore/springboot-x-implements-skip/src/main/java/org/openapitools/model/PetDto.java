@@ -39,10 +39,8 @@ public class PetDto {
 
   private String name;
 
-  @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @Valid
   private List<@Valid TagDto> tags = new ArrayList<>();
 
   /**
@@ -206,7 +204,7 @@ public class PetDto {
    * Get tags
    * @return tags
    */
-  @Valid 
+  
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   public List<@Valid TagDto> getTags() {

@@ -24,16 +24,12 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ContainerDefaultValueDto {
 
-  
   private @Nullable List<String> nullableArray;
 
-  
   private List<String> nullableRequiredArray;
 
-  
   private List<String> requiredArray = new ArrayList<>();
 
-  
   private @Nullable List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
 
   public ContainerDefaultValueDto() {

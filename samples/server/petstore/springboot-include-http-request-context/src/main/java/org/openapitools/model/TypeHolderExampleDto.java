@@ -38,7 +38,6 @@ public class TypeHolderExampleDto {
 
   private Boolean boolItem;
 
-  @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExampleDto() {

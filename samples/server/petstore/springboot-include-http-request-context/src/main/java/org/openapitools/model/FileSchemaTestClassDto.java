@@ -30,7 +30,6 @@ public class FileSchemaTestClassDto {
 
   private @Nullable FileDto file;
 
-  @Valid
   private List<@Valid FileDto> files = new ArrayList<>();
 
   public FileSchemaTestClassDto file(@Nullable FileDto file) {
@@ -71,7 +70,7 @@ public class FileSchemaTestClassDto {
    * Get files
    * @return files
    */
-  @Valid 
+  
   @Schema(name = "files", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("files")
   public List<@Valid FileDto> getFiles() {
