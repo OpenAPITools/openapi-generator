@@ -3290,6 +3290,21 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void sealedResponseInterfaceIsPreservedInDelegateWithoutResponseEntity() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false);
+        additionalProperties.put(KotlinSpringServerCodegen.USE_SEALED_RESPONSE_INTERFACES, true);
+        additionalProperties.put(DELEGATE_PATTERN, true);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", additionalProperties);
+
+        assertFileContains(files.get("UsersApiDelegate.kt").toPath(),
+                "): CreateUserResponse",
+                "): GetUserResponse");
+    }
+
+    @Test
     public void sealedResponseInterfaceDoesNotChangeControllerServiceReturnType() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
