@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// DanishPig
     /// </summary>
-    public partial class DanishPig : IValidatableObject
+    public partial class DanishPig : IEquatable<DanishPig?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DanishPig" /> class.
@@ -69,6 +69,42 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as DanishPig).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if DanishPig instances are equal
+        /// </summary>
+        /// <param name="input">Instance of DanishPig to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(DanishPig? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = (hashCode * 59) + ClassName.GetHashCode();
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

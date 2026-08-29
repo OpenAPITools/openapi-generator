@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// DeprecatedObject
     /// </summary>
-    public partial class DeprecatedObject : IValidatableObject
+    public partial class DeprecatedObject : IEquatable<DeprecatedObject>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DeprecatedObject" /> class.
@@ -73,6 +73,44 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as DeprecatedObject).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if DeprecatedObject instances are equal
+        /// </summary>
+        /// <param name="input">Instance of DeprecatedObject to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(DeprecatedObject input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (Name != null)
+                    hashCode = (hashCode * 59) + Name.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>
