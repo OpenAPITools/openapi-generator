@@ -65,7 +65,10 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   @Deprecated
   {{/deprecated}}
   {{#isContainer}}
+  {{! Arrays/sets carry @Valid on the type argument; only map values need a container-level @Valid (HV000271). }}
+  {{#isMap}}
   {{#useBeanValidation}}@Valid{{/useBeanValidation}}
+  {{/isMap}}
   {{#openApiNullable}}
   private {{>nullableAnnotation}}{{#isNullable}}{{>nullableDataTypeBeanValidation}} {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();{{/isNullable}}{{^required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}{{#required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}
   {{/openApiNullable}}

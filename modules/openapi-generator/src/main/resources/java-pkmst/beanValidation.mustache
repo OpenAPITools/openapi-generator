@@ -1,7 +1,7 @@
 {{#required}}
   @NotNull
-{{/required}}{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}
-  @Valid{{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{^isContainer}}{{^isPrimitiveType}}
+{{/required}}{{#isMap}}{{^isPrimitiveType}}{{^isEnum}}
+  @Valid{{/isEnum}}{{/isPrimitiveType}}{{/isMap}}{{^isContainer}}{{^isPrimitiveType}}
   @Valid{{/isPrimitiveType}}{{/isContainer}}
 {{>beanValidationCore}}
 

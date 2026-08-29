@@ -3,13 +3,16 @@
   @NotNull
 {{/isReadOnly}}
 {{/required}}
-{{#isContainer}}
+{{! Arrays and sets already carry @Valid on their type argument (e.g. List<@Valid Pet>), }}
+{{! so annotating the container itself is redundant and deprecated (HV000271). }}
+{{! Map values get no such type argument, so maps still need the container-level @Valid. }}
+{{#isMap}}
 {{^isPrimitiveType}}
 {{^isEnum}}
   @Valid
 {{/isEnum}}
 {{/isPrimitiveType}}
-{{/isContainer}}
+{{/isMap}}
 {{^isContainer}}
 {{^isPrimitiveType}}
   @Valid

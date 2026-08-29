@@ -5366,6 +5366,50 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldNotAnnotateArrayContainersWithValid_issue24927() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml",
+                        null, new ParseOptions())
+                .getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Hibernate Validator deprecated @Valid on containers (HV000271). Arrays and sets already
+        // carry it on their type argument, so neither the field nor the getter may repeat it.
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("private List<@Valid Tag> tags")
+                .assertProperty("tags").doesNotHaveAnnotation("Valid").toProperty().toType()
+                .assertProperty("photoUrls").doesNotHaveAnnotation("Valid").toProperty().toType()
+                .assertMethod("getTags").assertMethodAnnotations().doesNotContainWithName("Valid")
+                .toMethod().toFileAssert()
+                .assertMethod("getPhotoUrls").assertMethodAnnotations().doesNotContainWithName("Valid")
+                .toMethod().toFileAssert()
+                // A plain object property is not a container, so it keeps @Valid.
+                .assertMethod("getCategory").assertMethodAnnotations().containsWithName("Valid");
+
+        // Map values get no type argument annotation, so maps keep the container-level @Valid.
+        JavaFileAssert.assertThat(files.get("MixedPropertiesAndAdditionalPropertiesClass.java"))
+                .fileContains("private Map<String, Animal> map")
+                .assertProperty("map").hasAnnotation("Valid").toProperty().toType()
+                .assertMethod("getMap").assertMethodAnnotations().containsWithName("Valid");
+    }
+
+    @Test
     public void shouldGenerateOptionalParameterTypesWhenUsingOptionalAndDelegate_issue17768() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
