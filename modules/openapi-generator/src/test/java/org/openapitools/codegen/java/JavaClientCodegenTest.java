@@ -2301,6 +2301,37 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testUseBeanValidationDoesNotAnnotateArrayContainersWithValid_issue24927() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .addAdditionalProperty(JavaClientCodegen.USE_BEANVALIDATION, true)
+                .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        // Hibernate Validator deprecated @Valid on containers (HV000271). Arrays already carry it
+        // on their type argument, so the getter must not repeat it.
+        JavaFileAssert.assertThat(output.resolve("src/main/java/org/openapitools/client/model/Pet.java"))
+                .fileContains("private List<@Valid Tag> tags")
+                .assertMethod("getTags").assertMethodAnnotations().doesNotContainWithName("Valid")
+                .toMethod().toFileAssert()
+                .assertMethod("getPhotoUrls").assertMethodAnnotations().doesNotContainWithName("Valid")
+                .toMethod().toFileAssert()
+                // A plain object property is not a container, so it keeps @Valid.
+                .assertMethod("getCategory").assertMethodAnnotations().containsWithName("Valid");
+
+        // Map values get no type argument annotation, so maps keep the container-level @Valid.
+        JavaFileAssert.assertThat(output.resolve(
+                        "src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java"))
+                .fileContains("private Map<String, Animal> map")
+                .assertMethod("getMap").assertMethodAnnotations().containsWithName("Valid");
+    }
+
+    @Test
     public void testRestTemplateWithUseBeanValidationDisabled() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
