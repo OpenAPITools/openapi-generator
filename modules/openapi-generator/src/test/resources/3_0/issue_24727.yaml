@@ -1,0 +1,39 @@
+openapi: 3.0.3
+info:
+  title: Multiple request-body content types repro
+  version: 1.0.0
+paths:
+  /api/multi_article_importer:
+    post:
+      operationId: createMultiArticleImporter
+      summary: Create a multi article importer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultiArticleImporter'
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultiArticleImporter'
+components:
+  schemas:
+    MultiArticleImporter:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
