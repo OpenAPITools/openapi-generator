@@ -3274,6 +3274,37 @@ public class KotlinSpringServerCodegenTest {
                 "): ResponseEntity<*>");
     }
 
+    @Test
+    public void sealedResponseInterfaceIsPreservedWithoutResponseEntity() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false);
+        additionalProperties.put(KotlinSpringServerCodegen.USE_SEALED_RESPONSE_INTERFACES, true);
+        additionalProperties.put(INTERFACE_ONLY, true);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", additionalProperties);
+
+        assertFileContains(files.get("UsersApi.kt").toPath(),
+                "): CreateUserResponse",
+                "): GetUserResponse");
+    }
+
+    @Test
+    public void sealedResponseInterfaceDoesNotChangeControllerServiceReturnType() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
+        additionalProperties.put(KotlinSpringServerCodegen.USE_SEALED_RESPONSE_INTERFACES, true);
+        additionalProperties.put(SERVICE_INTERFACE, true);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", additionalProperties);
+
+        assertFileContains(files.get("UsersApiController.kt").toPath(),
+                "): ResponseEntity<User>");
+        assertFileContains(files.get("UsersApiService.kt").toPath(),
+                "): User");
+    }
+
     /**
      * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/17445.
      * OpenAPI 'default' responses must emit responseCode = "default" in @ApiResponse (swagger2),

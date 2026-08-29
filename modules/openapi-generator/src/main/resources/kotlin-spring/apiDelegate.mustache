@@ -36,7 +36,7 @@ interface {{classname}}Delegate {
         {{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}},
         {{/hasParams}}{{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}}{{/includeHttpRequestContext}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
         {{/hasParams}}{{^hasParams}}{{#includeHttpRequestContext}},
-        {{/includeHttpRequestContext}}{{/hasParams}}pageable: Pageable{{/vendorExtensions.x-spring-paginated}}): {{#useResponseEntity}}ResponseEntity<{{#generateGenericResponseEntity}}*{{/generateGenericResponseEntity}}{{^generateGenericResponseEntity}}{{#useSealedResponseInterfaces}}{{#vendorExtensions.x-sealed-response-interface}}{{vendorExtensions.x-sealed-response-interface}}{{/vendorExtensions.x-sealed-response-interface}}{{^vendorExtensions.x-sealed-response-interface}}{{>returnTypes}}{{/vendorExtensions.x-sealed-response-interface}}{{/useSealedResponseInterfaces}}{{^useSealedResponseInterfaces}}{{>returnTypes}}{{/useSealedResponseInterfaces}}{{/generateGenericResponseEntity}}>{{/useResponseEntity}}{{^useResponseEntity}}{{>returnTypes}}{{/useResponseEntity}}{{^skipDefaultDelegateInterface}} {
+        {{/includeHttpRequestContext}}{{/hasParams}}pageable: Pageable{{/vendorExtensions.x-spring-paginated}}): {{#useResponseEntity}}ResponseEntity<{{#generateGenericResponseEntity}}*{{/generateGenericResponseEntity}}{{^generateGenericResponseEntity}}{{>returnTypes}}{{/generateGenericResponseEntity}}>{{/useResponseEntity}}{{^useResponseEntity}}{{>returnTypes}}{{/useResponseEntity}}{{^skipDefaultDelegateInterface}} {
         {{>methodBody}}{{! prevent indent}}
     }{{/skipDefaultDelegateInterface}}
 
