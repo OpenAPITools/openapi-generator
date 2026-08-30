@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.X_DISCRIMINATOR_VALUE;
 import static org.openapitools.codegen.utils.OnceLogger.once;
@@ -320,6 +321,31 @@ public class DiscriminatorUtils {
                     composedSchemaName, discPropName, modelName, discPropName, discPropName);
         }
         return null;
+    }
+
+    /**
+     * Get the best matching simple type for all the mapped schemas
+     * @param openAPI
+     * @param schema             The Schema that may contain the discriminator
+     * @param discPropName       The String that is the discriminator propertyName in the schema
+     * @return "enum", "string" or "object
+     */
+    public static List<Schema> getDistinctTypes(OpenAPI openAPI, Schema schema, String discPropName) {
+        List<Schema> mappedSchemas = getMappedSchemas(openAPI, schema);
+        return mappedSchemas.stream().map(sc -> ModelUtils.findProperty(openAPI, sc, discPropName))
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public static List<Schema> getMappedSchemas(OpenAPI openAPI, Schema schema) {
+        if (schema.getDiscriminator() != null && schema.getDiscriminator().getMapping() != null) {
+            return schema.getDiscriminator().getMapping().values().stream()
+                    .map(ref -> ModelUtils.getSchema(openAPI, ModelUtils.getSimpleRef(ref)))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+
     }
 
     public static class DiscriminatorData {

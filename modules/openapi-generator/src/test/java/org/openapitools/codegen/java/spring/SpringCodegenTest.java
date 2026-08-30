@@ -9335,4 +9335,23 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("Dummy.java"))
                 .fileContains("import org.myorg.MyCustomId;", "import org.myorg.MyCustomKey;");
     }
+
+    @Test
+    public void issue_24769() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneOf_issue_24769.yaml", SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, true)
+        );
+
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .fileContains("public enum TypeEnum {",
+                        "DOG(\"DOG\");");
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .fileContains("public enum TypeEnum {",
+                        "CAT(\"CAT\");");
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileDoesNotContain("public enum TypeEnum {")
+                .fileContains("public Enum getType();");
+
+    }
 }

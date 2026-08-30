@@ -3869,9 +3869,49 @@ public class DefaultCodegen implements CodegenConfig {
      * @param discriminatorPropertyName The name of the discriminator property.
      */
     protected String getDiscriminatorPropertyType(Schema schema, String discriminatorPropertyName) {
-        return DiscriminatorUtils.getDiscriminatorPropertyType(schema, discriminatorPropertyName)
+        String type = DiscriminatorUtils.getDiscriminatorPropertyType(schema, discriminatorPropertyName)
                 .map(this::toModelName)
-                .orElseGet(() -> typeMapping.get("string"));
+                .orElse(null);
+        if (type != null) {
+            return type;
+        }
+        List<Schema> schemas = DiscriminatorUtils.getDistinctTypes(openAPI, schema, discriminatorPropertyName);
+        return getCommonSchemaType(schemas);
+    }
+
+    /**
+     * get the most commons denominator schemaType for several schemas.
+     *
+     * @param schemas  the list of schemas to compare.
+     *
+     * @Return the comman type
+     */
+    protected String getCommonSchemaType(List<Schema> schemas) {
+        switch (schemas.size()) {
+            case 0:
+                return typeMapping.get("object");
+            case 1:
+                return getSchemaType(schemas.get(0));
+            default:
+                break;
+        }
+        String simpleType = "object";
+        if (schemas.stream().allMatch(ModelUtils::isEnumSchema)) {
+            simpleType = "enum";
+        } else if (schemas.stream().allMatch(ModelUtils::isIntegerSchema)) {
+            simpleType = "integer";
+        } else if (schemas.stream().allMatch(ModelUtils::isLongSchema)) {
+            simpleType = "long";
+        } else if (schemas.stream().allMatch(ModelUtils::isNumberSchema)) {
+            simpleType = "number";
+        }
+
+        String type = typeMapping.get(simpleType);
+        if (type == null) {
+            // some typeMapping are not defined.  Fallback to object.
+            return typeMapping.get("object");
+        }
+        return type;
     }
 
     /**
