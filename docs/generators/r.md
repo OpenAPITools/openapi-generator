@@ -46,9 +46,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>character</li>
 <li>data.frame</li>
+<li>Date</li>
 <li>integer</li>
 <li>numeric</li>
 <li>object</li>
+<li>POSIXct</li>
 </ul>
 
 ## RESERVED WORDS

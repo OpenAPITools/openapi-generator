@@ -16,8 +16,8 @@
 #' @field string  character [optional]
 #' @field byte  character
 #' @field binary  data.frame [optional]
-#' @field date  character
-#' @field dateTime  character [optional]
+#' @field date  Date
+#' @field dateTime  POSIXct [optional]
 #' @field uuid  character [optional]
 #' @field password  character
 #' @field pattern_with_digits A string that is a 10 digit number. Can have leading zeros. character [optional]
@@ -58,12 +58,12 @@ FormatTest <- R6::R6Class(
     #' @param double double
     #' @param string string
     #' @param binary binary
-    #' @param dateTime dateTime. Default to "2015-10-28T14:38:02Z".
+    #' @param dateTime dateTime. Default to as.POSIXct("2015-10-28T14:38:02", format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC").
     #' @param uuid uuid
     #' @param pattern_with_digits A string that is a 10 digit number. Can have leading zeros.
     #' @param pattern_with_digits_and_delimiter A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
     #' @param ... Other optional arguments.
-    initialize = function(`number`, `byte`, `date`, `password`, `integer` = NULL, `int32` = NULL, `int64` = NULL, `float` = NULL, `double` = NULL, `string` = NULL, `binary` = NULL, `dateTime` = "2015-10-28T14:38:02Z", `uuid` = NULL, `pattern_with_digits` = NULL, `pattern_with_digits_and_delimiter` = NULL, ...) {
+    initialize = function(`number`, `byte`, `date`, `password`, `integer` = NULL, `int32` = NULL, `int64` = NULL, `float` = NULL, `double` = NULL, `string` = NULL, `binary` = NULL, `dateTime` = as.POSIXct("2015-10-28T14:38:02", format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC"), `uuid` = NULL, `pattern_with_digits` = NULL, `pattern_with_digits_and_delimiter` = NULL, ...) {
       if (!missing(`number`)) {
         self$`number` <- `number`
       }
@@ -71,8 +71,8 @@ FormatTest <- R6::R6Class(
         self$`byte` <- `byte`
       }
       if (!missing(`date`)) {
-        if (!(is.character(`date`) && length(`date`) == 1)) {
-          stop(paste("Error! Invalid data for `date`. Must be a string:", `date`))
+        if (!(inherits(`date`, "Date") && length(`date`) == 1)) {
+          stop(paste("Error! Invalid data for `date`. Must be a Date:", `date`))
         }
         self$`date` <- `date`
       }
@@ -122,8 +122,8 @@ FormatTest <- R6::R6Class(
         self$`binary` <- `binary`
       }
       if (!is.null(`dateTime`)) {
-        if (!is.character(`dateTime`)) {
-          stop(paste("Error! Invalid data for `dateTime`. Must be a string:", `dateTime`))
+        if (!inherits(`dateTime`, "POSIXt")) {
+          stop(paste("Error! Invalid data for `dateTime`. Must be a POSIXct/POSIXlt datetime:", `dateTime`))
         }
         self$`dateTime` <- `dateTime`
       }
@@ -276,10 +276,15 @@ FormatTest <- R6::R6Class(
         self$`binary` <- this_object$`binary`
       }
       if (!is.null(this_object$`date`)) {
-        self$`date` <- this_object$`date`
+        # convert the JSON date string into an R Date object
+        self$`date` <- as.Date(this_object$`date`)
       }
       if (!is.null(this_object$`dateTime`)) {
-        self$`dateTime` <- this_object$`dateTime`
+        # convert the JSON date-time string into an R POSIXct object
+        # NOTE: an explicit tryFormats list is required in all current R versions (verified through
+        # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
+        # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
+        self$`dateTime` <- as.POSIXct(this_object$`dateTime`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
       }
       if (!is.null(this_object$`uuid`)) {
         self$`uuid` <- this_object$`uuid`
@@ -323,8 +328,17 @@ FormatTest <- R6::R6Class(
       self$`string` <- this_object$`string`
       self$`byte` <- this_object$`byte`
       self$`binary` <- this_object$`binary`
-      self$`date` <- this_object$`date`
-      self$`dateTime` <- this_object$`dateTime`
+      if (!is.null(this_object$`date`)) {
+        # convert the JSON date string into an R Date object
+        self$`date` <- as.Date(this_object$`date`)
+      }
+      if (!is.null(this_object$`dateTime`)) {
+        # convert the JSON date-time string into an R POSIXct object
+        # NOTE: an explicit tryFormats list is required in all current R versions (verified through
+        # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
+        # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
+        self$`dateTime` <- as.POSIXct(this_object$`dateTime`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
+      }
       self$`uuid` <- this_object$`uuid`
       self$`password` <- this_object$`password`
       self$`pattern_with_digits` <- this_object$`pattern_with_digits`

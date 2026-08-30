@@ -318,7 +318,19 @@
 
       {{/allParams}}
       {{#headerParams}}
+      {{#isDate}}
+      # format the Date as an ISO-8601 date string for the HTTP header
+      header_params["{{baseName}}"] <- if (is.null(`{{paramName}}`)) NULL else as.character(`{{paramName}}`)
+      {{/isDate}}
+      {{#isDateTime}}
+      # format the POSIXct datetime as an ISO-8601 UTC string for the HTTP header
+      header_params["{{baseName}}"] <- if (is.null(`{{paramName}}`)) NULL else format(`{{paramName}}`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+      {{/isDateTime}}
+      {{^isDate}}
+      {{^isDateTime}}
       header_params["{{baseName}}"] <- `{{paramName}}`
+      {{/isDateTime}}
+      {{/isDate}}
 
       {{/headerParams}}
       {{#queryParams}}
@@ -378,7 +390,17 @@
       }
       {{/isEnum}}
       {{/items}}
+      {{#isDate}}
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(as.character(`{{{paramName}}}`), URLencode, reserved = TRUE), collapse = ","))
+      {{/isDate}}
+      {{#isDateTime}}
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(format(`{{{paramName}}}`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), URLencode, reserved = TRUE), collapse = ","))
+      {{/isDateTime}}
+      {{^isDate}}
+      {{^isDateTime}}
       query_params[["{{{baseName}}}"]] <- I(paste(lapply(`{{{paramName}}}`, URLencode, reserved = TRUE), collapse = ","))
+      {{/isDateTime}}
+      {{/isDate}}
       {{/isExplode}}
       {{/uniqueItems}}
       {{^uniqueItems}}
@@ -424,7 +446,17 @@
       }
       {{/isEnum}}
       {{/items}}
+      {{#isDate}}
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(as.character(`{{{paramName}}}`), URLencode, reserved = TRUE), collapse = ","))
+      {{/isDate}}
+      {{#isDateTime}}
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(format(`{{{paramName}}}`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), URLencode, reserved = TRUE), collapse = ","))
+      {{/isDateTime}}
+      {{^isDate}}
+      {{^isDateTime}}
       query_params[["{{{baseName}}}"]] <- I(paste(lapply(`{{{paramName}}}`, URLencode, reserved = TRUE), collapse = ","))
+      {{/isDateTime}}
+      {{/isDate}}
       {{/isExplode}}
       {{/uniqueItems}}
       {{/isArray}}
@@ -442,7 +474,19 @@
         {{/useRlangExceptionHandling}}
       }
       {{/isEnum}}
+      {{#isDate}}
+      # format the Date as an ISO-8601 date string for the query string
+      query_params[["{{baseName}}"]] <- if (is.null(`{{paramName}}`)) NULL else as.character(`{{paramName}}`)
+      {{/isDate}}
+      {{#isDateTime}}
+      # format the POSIXct datetime as an ISO-8601 UTC string for the query string
+      query_params[["{{baseName}}"]] <- if (is.null(`{{paramName}}`)) NULL else format(`{{paramName}}`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+      {{/isDateTime}}
+      {{^isDate}}
+      {{^isDateTime}}
       query_params[["{{baseName}}"]] <- `{{paramName}}`
+      {{/isDateTime}}
+      {{/isDate}}
       {{/isArray}}
 
       {{/queryParams}}

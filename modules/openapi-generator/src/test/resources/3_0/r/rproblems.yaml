@@ -1,0 +1,39 @@
+openapi: 3.0.3
+info:
+  title: R generator edge cases
+  description: >
+    Edge-case spec for the R client generator.
+  version: 0.0.1
+paths:
+  /example:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DateTimeObject'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    DateTimeObject:
+      properties:
+        start:
+          format: date-time
+          type: string
+        end:
+          format: date-time
+          type: string
+          nullable: true
+      type: object
+    DateObject:
+      properties:
+        start:
+          format: date
+          type: string
+        end:
+          format: date
+          nullable: true
+          type: string
+      type: object

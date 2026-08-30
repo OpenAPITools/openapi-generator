@@ -88,13 +88,13 @@
         }
         {{/isBoolean}}
         {{#isDate}}
-        if (!(is.character(`{{name}}`) && length(`{{name}}`) == 1)) {
-          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        if (!(inherits(`{{name}}`, "Date") && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a Date:", `{{name}}`))
         }
         {{/isDate}}
         {{#isDateTime}}
-        if (!(is.character(`{{name}}`) && length(`{{name}}`) == 1)) {
-          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        if (!(inherits(`{{name}}`, "POSIXt") && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a POSIXct/POSIXlt datetime:", `{{name}}`))
         }
         {{/isDateTime}}
         {{#isUri}}
@@ -109,7 +109,7 @@
         {{/isContainer}}
         {{#isContainer}}
         stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
-        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}is.character(x){{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
+        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}{{#items.isDate}}inherits(x, "Date"){{/items.isDate}}{{#items.isDateTime}}inherits(x, "POSIXt"){{/items.isDateTime}}{{^items.isDate}}{{^items.isDateTime}}is.character(x){{/items.isDateTime}}{{/items.isDate}}{{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
         {{#isArray}}
         {{#uniqueItems}}
         if (!identical(`{{name}}`, unique(`{{name}}`))) {
@@ -160,13 +160,13 @@
         }
         {{/isBoolean}}
         {{#isDate}}
-        if (!is.character(`{{name}}`)) {
-          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        if (!inherits(`{{name}}`, "Date")) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a Date:", `{{name}}`))
         }
         {{/isDate}}
         {{#isDateTime}}
-        if (!is.character(`{{name}}`)) {
-          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        if (!inherits(`{{name}}`, "POSIXt")) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a POSIXct/POSIXlt datetime:", `{{name}}`))
         }
         {{/isDateTime}}
         {{#isUri}}
@@ -181,7 +181,7 @@
         {{/isContainer}}
         {{#isContainer}}
         stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
-        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}is.character(x){{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
+        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}{{#items.isDate}}inherits(x, "Date"){{/items.isDate}}{{#items.isDateTime}}inherits(x, "POSIXt"){{/items.isDateTime}}{{^items.isDate}}{{^items.isDateTime}}is.character(x){{/items.isDateTime}}{{/items.isDate}}{{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
         {{#isArray}}
         {{#uniqueItems}}
         if (!identical(`{{name}}`, unique(`{{name}}`))) {
@@ -330,7 +330,22 @@
           stop(paste("Error! Invalid data for `{{baseName}}`. Must be a URL:", this_object$`{{baseName}}`))
         }
         {{/isUri}}
+        {{#isDate}}
+        # convert the JSON date string into an R Date object
+        self$`{{name}}` <- as.Date(this_object$`{{baseName}}`)
+        {{/isDate}}
+        {{#isDateTime}}
+        # convert the JSON date-time string into an R POSIXct object
+        # NOTE: an explicit tryFormats list is required in all current R versions (verified through
+        # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
+        # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
+        self$`{{name}}` <- as.POSIXct(this_object$`{{baseName}}`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
+        {{/isDateTime}}
+        {{^isDate}}
+        {{^isDateTime}}
         self$`{{name}}` <- this_object$`{{baseName}}`
+        {{/isDateTime}}
+        {{/isDate}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         `{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object` <- {{dataType}}$new()
@@ -400,7 +415,26 @@
         stop(paste("Error! Invalid data for `{{name}}`. Must be a URL:", this_object$`{{name}}`))
       }
       {{/isUri}}
+      {{#isDate}}
+      if (!is.null(this_object$`{{name}}`)) {
+        # convert the JSON date string into an R Date object
+        self$`{{name}}` <- as.Date(this_object$`{{name}}`)
+      }
+      {{/isDate}}
+      {{#isDateTime}}
+      if (!is.null(this_object$`{{name}}`)) {
+        # convert the JSON date-time string into an R POSIXct object
+        # NOTE: an explicit tryFormats list is required in all current R versions (verified through
+        # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
+        # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
+        self$`{{name}}` <- as.POSIXct(this_object$`{{name}}`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
+      }
+      {{/isDateTime}}
+      {{^isDate}}
+      {{^isDateTime}}
       self$`{{name}}` <- this_object$`{{name}}`
+      {{/isDateTime}}
+      {{/isDate}}
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
       self$`{{name}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON(this_object$`{{name}}`, auto_unbox = TRUE, digits = NA))
