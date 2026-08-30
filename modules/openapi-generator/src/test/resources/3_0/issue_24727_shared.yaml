@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: Shared form model repro
+  version: 1.0.0
+paths:
+  /api/upload:
+    post:
+      operationId: uploadArticle
+      summary: Upload an article
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ArticlePayload'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticlePayload'
+components:
+  schemas:
+    ArticlePayload:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
