@@ -815,7 +815,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema inner = ModelUtils.getSchemaItems(p);
-            return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
+            String innerTypeDeclaration = getItemsTypeDeclaration(inner);
+            return ModelUtils.isSet(p) ? "Set<" + innerTypeDeclaration + ">" : "[" + innerTypeDeclaration + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = unaliasSchema(ModelUtils.getAdditionalProperties(p));
             return "[String: " + getItemsTypeDeclaration(inner) + "]";
@@ -825,7 +826,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     private String getItemsTypeDeclaration(Schema items) {
         String itemsTypeDeclaration = getTypeDeclaration(items);
-        String nullable = items.getNullable() != null && items.getNullable() && !itemsTypeDeclaration.endsWith("?") ? "?" : "";
+        Schema itemsSchema = ModelUtils.getReferencedSchema(openAPI, unaliasSchema(items));
+        String nullable = ModelUtils.isNullable(itemsSchema) && !itemsTypeDeclaration.endsWith("?") ? "?" : "";
         return itemsTypeDeclaration + nullable;
     }
 

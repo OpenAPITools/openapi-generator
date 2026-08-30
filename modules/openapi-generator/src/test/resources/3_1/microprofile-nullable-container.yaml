@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  title: Microprofile Nullable Container Repro
+  version: 1.0.0
+paths:
+  /thing:
+    get:
+      operationId: getThing
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Thing"
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        nullableMap:
+          type: [object, "null"]
+          additionalProperties: true
+        nullableArray:
+          type: [array, "null"]
+          items:
+            type: string
+        regularArray:
+          type: array
+          items:
+            type: string
+      required:
+        - nullableMap
+        - nullableArray
+        - regularArray

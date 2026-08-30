@@ -4849,6 +4849,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             op.path = path;
         }
+        // remove backslash from path, e.g. /api/v2/GetPetById\\(\\) => /api/v2/GetPetById()
+        op.path = op.path.replace("\\", "");
 
         op.summary = escapeText(operation.getSummary());
         op.unescapedNotes = operation.getDescription();
