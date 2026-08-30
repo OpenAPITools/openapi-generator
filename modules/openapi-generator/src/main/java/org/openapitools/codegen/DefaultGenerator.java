@@ -225,9 +225,20 @@ public class DefaultGenerator implements Generator {
         generateApiDocumentation = GlobalSettings.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
         generateRecursiveDependentModels = GlobalSettings.getProperty(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, false);
 
-        Boolean skipFormModel = GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
-                Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
-                getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, true);
+        Boolean skipFormModel = null;
+        if (config.additionalProperties().containsKey(CodegenConstants.SKIP_FORM_MODEL)) {
+            final Object val = config.additionalProperties().get(CodegenConstants.SKIP_FORM_MODEL);
+            if (val instanceof Boolean) {
+                skipFormModel = (Boolean) val;
+            } else if (val != null) {
+                skipFormModel = Boolean.parseBoolean(val.toString());
+            }
+        }
+        if (skipFormModel == null) {
+            skipFormModel = GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
+                    Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
+                    getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, true);
+        }
 
         // Additional properties added for tests to exclude references in project related files
         config.additionalProperties().put(CodegenConstants.GENERATE_API_TESTS, generateApiTests);
@@ -475,9 +486,11 @@ public class DefaultGenerator implements Generator {
         // store all processed models
         Map<String, ModelsMap> allProcessedModels = new TreeMap<>((o1, o2) -> ObjectUtils.compare(config.toModelName(o1), config.toModelName(o2)));
 
-        Boolean skipFormModel = GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
-                Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
-                getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, true);
+        Boolean skipFormModel = config.additionalProperties().containsKey(CodegenConstants.SKIP_FORM_MODEL) ?
+                Boolean.valueOf(config.additionalProperties().get(CodegenConstants.SKIP_FORM_MODEL).toString()) :
+                (GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
+                        Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
+                        getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, true));
 
         // process models only
         for (String name : modelKeys) {

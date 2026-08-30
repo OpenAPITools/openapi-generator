@@ -9401,4 +9401,23 @@ public class SpringCodegenTest {
 
         Assert.assertNotNull(files.get("ArticlePayload.java"));
     }
+
+    @Test
+    public void testMultipleRequestBodyContentTypesWithSkipFormModelFalseInAdditionalProperties_issue24727() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(CodegenConstants.SKIP_FORM_MODEL, "false");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/issue_24727.yaml", SPRING_BOOT,
+                additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .fileContains("import org.openapitools.model.MultiArticleImporter;")
+                .fileContains("import org.openapitools.model.CreateMultiArticleImporterRequest;");
+
+        Assert.assertNotNull(files.get("MultiArticleImporter.java"));
+        Assert.assertNotNull(files.get("CreateMultiArticleImporterRequest.java"));
+    }
 }
