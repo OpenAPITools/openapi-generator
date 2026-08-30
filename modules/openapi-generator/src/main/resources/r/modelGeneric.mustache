@@ -109,7 +109,7 @@
         {{/isContainer}}
         {{#isContainer}}
         stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
-        sapply(`{{name}}`, function(x) stopifnot({{{vendorExtensions.x-r-item-check}}}))
+        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}{{#items.isDate}}inherits(x, "Date"){{/items.isDate}}{{#items.isDateTime}}inherits(x, "POSIXt"){{/items.isDateTime}}{{^items.isDate}}{{^items.isDateTime}}is.character(x){{/items.isDateTime}}{{/items.isDate}}{{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
         {{#isArray}}
         {{#uniqueItems}}
         if (!identical(`{{name}}`, unique(`{{name}}`))) {
@@ -181,7 +181,7 @@
         {{/isContainer}}
         {{#isContainer}}
         stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
-        sapply(`{{name}}`, function(x) stopifnot({{{vendorExtensions.x-r-item-check}}}))
+        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}{{#items.isDate}}inherits(x, "Date"){{/items.isDate}}{{#items.isDateTime}}inherits(x, "POSIXt"){{/items.isDateTime}}{{^items.isDate}}{{^items.isDateTime}}is.character(x){{/items.isDateTime}}{{/items.isDate}}{{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
         {{#isArray}}
         {{#uniqueItems}}
         if (!identical(`{{name}}`, unique(`{{name}}`))) {
@@ -458,7 +458,68 @@
       {{#requiredVars}}
       # check the required field `{{name}}`
       if (!is.null(input_json$`{{name}}`)) {
-        {{{vendorExtensions.x-r-validate-json-check}}}
+        {{^isContainer}}
+        {{#isInteger}}
+        if (!(is.numeric(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", input_json$`{{name}}`))
+        }
+        {{/isInteger}}
+        {{#isLong}}
+        if (!(is.numeric(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", input_json$`{{name}}`))
+        }
+        {{/isLong}}
+        {{#isFloat}}
+        if (!(is.numeric(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", input_json$`{{name}}`))
+        }
+        {{/isFloat}}
+        {{#isDouble}}
+        if (!(is.numeric(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", input_json$`{{name}}`))
+        }
+        {{/isDouble}}
+        {{#isString}}
+        if (!(is.character(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", input_json$`{{name}}`))
+        }
+        {{/isString}}
+        {{#isBoolean}}
+        if (!(is.logical(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a boolean:", input_json$`{{name}}`))
+        }
+        {{/isBoolean}}
+        {{#isDate}}
+        if (!(is.character(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", input_json$`{{name}}`))
+        }
+        {{/isDate}}
+        {{#isDateTime}}
+        if (!(is.character(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", input_json$`{{name}}`))
+        }
+        {{/isDateTime}}
+        {{#isUri}}
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(input_json$`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a URL:", input_json$`{{name}}`))
+        }
+        {{/isUri}}
+        {{^isPrimitiveType}}
+        stopifnot(R6::is.R6(input_json$`{{name}}`))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isContainer}}
+        stopifnot(is.vector(input_json$`{{name}}`), length(input_json$`{{name}}`) != 0)
+        {{#isArray}}
+        {{#uniqueItems}}
+        if (!identical(input_json$`{{name}}`, unique(input_json$`{{name}}`))) {
+          stop("Error! Items in `{{name}}` are not unique.")
+        }
+        {{/uniqueItems}}
+        {{/isArray}}
+        tmp <- sapply(input_json$`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}is.character(x){{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
+        {{/isContainer}}
       } else {
         stop(paste("The JSON input `", input, "` is invalid for {{classname}}: the required field `{{name}}` is missing."))
       }
