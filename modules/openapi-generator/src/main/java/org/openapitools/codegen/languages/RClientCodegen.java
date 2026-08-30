@@ -868,7 +868,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
      */
     public String rDate(Object dateValue) {
         if (dateValue == null) {
-            // returning null suppresses the default in the generated initialize() signature
             return null;
         }
 
@@ -913,7 +912,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
      */
     public String rDateTime(Object dateValue) {
         if (dateValue == null) {
-            // returning null suppresses the default in the generated initialize() signature
             return null;
         }
 

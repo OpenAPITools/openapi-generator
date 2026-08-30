@@ -416,9 +416,9 @@ ApiClient <- R6::R6Class(
         if (identical(return_type, "Date")) {
           return_obj <- if (is.null(obj)) NULL else as.Date(obj)
         } else if (identical(return_type, "POSIXct")) {
-          # NOTE: an explicit tryFormats list is required in all current R versions (verified through
-          # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
-          # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
+          # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
+          # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
+          # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
           return_obj <- if (is.null(obj)) NULL else as.POSIXct(obj, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
         } else {
           return_obj <- obj
