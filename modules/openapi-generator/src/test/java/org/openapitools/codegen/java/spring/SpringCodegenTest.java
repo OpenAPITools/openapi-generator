@@ -9356,24 +9356,49 @@ public class SpringCodegenTest {
 
     @Test
     public void testMultipleRequestBodyContentTypesWithSkipFormModelFalse_issue24727() throws Exception {
-        GlobalSettings.setProperty("skipFormModel", "false");
-        try {
-            Map<String, Object> additionalProperties = new HashMap<>();
-            additionalProperties.put(INTERFACE_ONLY, "true");
-            additionalProperties.put(USE_TAGS, "true");
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
 
-            Map<String, File> files = generateFromContract(
-                    "src/test/resources/3_0/issue_24727.yaml", SPRING_BOOT,
-                    additionalProperties);
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_24727.yaml", null, new ParseOptions()).getOpenAPI();
 
-            JavaFileAssert.assertThat(files.get("DefaultApi.java"))
-                    .fileContains("import org.openapitools.model.MultiArticleImporter;")
-                    .fileContains("import org.openapitools.model.CreateMultiArticleImporterRequest;");
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_TAGS, "true");
 
-            Assert.assertNotNull(files.get("MultiArticleImporter.java"));
-            Assert.assertNotNull(files.get("CreateMultiArticleImporterRequest.java"));
-        } finally {
-            GlobalSettings.reset();
-        }
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.SKIP_FORM_MODEL, "false");
+        generator.setGenerateMetadata(false);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(this::getUniqueName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .fileContains("import org.openapitools.model.MultiArticleImporter;")
+                .fileContains("import org.openapitools.model.CreateMultiArticleImporterRequest;");
+
+        Assert.assertNotNull(files.get("MultiArticleImporter.java"));
+        Assert.assertNotNull(files.get("CreateMultiArticleImporterRequest.java"));
+    }
+
+    @Test
+    public void testMultipleRequestBodyContentTypesWithSharedModel_issue24727() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(USE_TAGS, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/issue_24727_shared.yaml", SPRING_BOOT,
+                additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .fileContains("import org.openapitools.model.ArticlePayload;");
+
+        Assert.assertNotNull(files.get("ArticlePayload.java"));
     }
 }
