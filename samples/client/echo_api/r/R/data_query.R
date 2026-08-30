@@ -115,7 +115,7 @@ DataQuery <- R6::R6Class(
       }
       if (!is.null(self$`date`)) {
         DataQueryObject[["date"]] <-
-          self$`date`
+          format(self$`date`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
       }
       return(DataQueryObject)
     },

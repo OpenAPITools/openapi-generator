@@ -256,7 +256,17 @@
           {{/isContainer}}
           {{^isContainer}}
           {{#isPrimitiveType}}
+          {{#isDate}}
+          as.character(self$`{{name}}`)
+          {{/isDate}}
+          {{#isDateTime}}
+          format(self$`{{name}}`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+          {{/isDateTime}}
+          {{^isDate}}
+          {{^isDateTime}}
           self$`{{name}}`
+          {{/isDateTime}}
+          {{/isDate}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
           self$extractSimpleType(self$`{{name}}`)

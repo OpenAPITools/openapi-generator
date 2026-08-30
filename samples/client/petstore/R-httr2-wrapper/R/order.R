@@ -133,7 +133,7 @@ Order <- R6::R6Class(
       }
       if (!is.null(self$`shipDate`)) {
         OrderObject[["shipDate"]] <-
-          self$`shipDate`
+          format(self$`shipDate`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
       }
       if (!is.null(self$`status`)) {
         OrderObject[["status"]] <-

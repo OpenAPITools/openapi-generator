@@ -617,9 +617,9 @@ test_that("Tests URL validation", {
 
 test_that("Order and datetime test", {
   # test tag
-  t <- Order$new(id = 393, petId = 12930, quantity = 12, shipDate = "2019-09-29T19:39:29Z", status = "approved")
+  t <- Order$new(id = 393, petId = 12930, quantity = 12, shipDate = as.POSIXct("2019-09-29T19:39:29Z", tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC"), status = "approved")
 
   expect_equal(t$toJSONString(), "{\"id\":393,\"petId\":12930,\"quantity\":12,\"shipDate\":\"2019-09-29T19:39:29Z\",\"status\":\"approved\",\"complete\":false}")
 
-  expect_error(Order$new(id = 393, petId = 12930, quantity = 12, shipDate = TRUE, status = "approved"), "Error! Invalid data for `shipDate`. Must be a string: TRUE")
+  expect_error(Order$new(id = 393, petId = 12930, quantity = 12, shipDate = TRUE, status = "approved"), "Error! Invalid data for `shipDate`. Must be a POSIXct/POSIXlt datetime: TRUE")
 })

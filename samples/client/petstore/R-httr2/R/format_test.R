@@ -216,11 +216,11 @@ FormatTest <- R6::R6Class(
       }
       if (!is.null(self$`date`)) {
         FormatTestObject[["date"]] <-
-          self$`date`
+          as.character(self$`date`)
       }
       if (!is.null(self$`dateTime`)) {
         FormatTestObject[["dateTime"]] <-
-          self$`dateTime`
+          format(self$`dateTime`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
       }
       if (!is.null(self$`uuid`)) {
         FormatTestObject[["uuid"]] <-
