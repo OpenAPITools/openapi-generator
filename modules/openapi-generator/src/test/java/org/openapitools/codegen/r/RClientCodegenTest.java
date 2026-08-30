@@ -150,7 +150,7 @@ public class RClientCodegenTest {
         rClientCodegen.setOutputDir(output.getAbsolutePath());
 
         // the spec has optional date/date-time fields plus a `nullable: true` `end` field
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/r/issue_24813-datetime-parsing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_24813-datetime-parsing.yaml");
         final ClientOptInput clientOptInput = new ClientOptInput();
         clientOptInput.openAPI(openAPI);
         clientOptInput.config(rClientCodegen);
@@ -200,7 +200,7 @@ public class RClientCodegenTest {
         // the spec carries a DateArrayObject (required arrays of date / date-time) and a
         // DateTimeDefaults model whose optional date-time fields carry zone-aware and
         // zone-less defaults that exercise rDateTime() UTC normalization
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/r/issue_24813-datetime-parsing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_24813-datetime-parsing.yaml");
         final ClientOptInput clientOptInput = new ClientOptInput();
         clientOptInput.openAPI(openAPI);
         clientOptInput.config(rClientCodegen);
