@@ -3902,8 +3902,12 @@ public class DefaultCodegen implements CodegenConfig {
             simpleType = "integer";
         } else if (schemas.stream().allMatch(ModelUtils::isLongSchema)) {
             simpleType = "long";
+        } else if (schemas.stream().allMatch(ModelUtils::isShortSchema)) {
+            simpleType = "short";
         } else if (schemas.stream().allMatch(ModelUtils::isNumberSchema)) {
             simpleType = "number";
+        } else if (schemas.stream().allMatch(s -> ModelUtils.isStringSchema(s) && s.getFormat() == null)) {
+            return "string";
         }
 
         String type = typeMapping.get(simpleType);
