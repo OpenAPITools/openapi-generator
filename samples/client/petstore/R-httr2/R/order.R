@@ -57,7 +57,7 @@ Order <- R6::R6Class(
       }
       if (!is.null(`shipDate`)) {
         if (!inherits(`shipDate`, "POSIXt")) {
-          stop(paste("Error! Invalid data for `shipDate`. Must be a POSIXt datetime:", `shipDate`))
+          stop(paste("Error! Invalid data for `shipDate`. Must be a POSIXct/POSIXlt datetime:", `shipDate`))
         }
         self$`shipDate` <- `shipDate`
       }
@@ -123,7 +123,7 @@ Order <- R6::R6Class(
       }
       if (!is.null(self$`shipDate`)) {
         OrderObject[["shipDate"]] <-
-          format(self$`shipDate`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+          self$`shipDate`
       }
       if (!is.null(self$`status`)) {
         OrderObject[["status"]] <-
@@ -177,7 +177,7 @@ Order <- R6::R6Class(
     #' @return Order in JSON format
     toJSONString = function(...) {
       simple <- self$toSimpleType()
-      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, Date = "ISO8601", POSIXt = "ISO8601", UTC = TRUE, ...)
       return(as.character(jsonlite::minify(json)))
     },
 

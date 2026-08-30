@@ -123,7 +123,7 @@ FormatTest <- R6::R6Class(
       }
       if (!is.null(`dateTime`)) {
         if (!inherits(`dateTime`, "POSIXt")) {
-          stop(paste("Error! Invalid data for `dateTime`. Must be a POSIXt datetime:", `dateTime`))
+          stop(paste("Error! Invalid data for `dateTime`. Must be a POSIXct/POSIXlt datetime:", `dateTime`))
         }
         self$`dateTime` <- `dateTime`
       }
@@ -216,11 +216,11 @@ FormatTest <- R6::R6Class(
       }
       if (!is.null(self$`date`)) {
         FormatTestObject[["date"]] <-
-          as.character(self$`date`)
+          self$`date`
       }
       if (!is.null(self$`dateTime`)) {
         FormatTestObject[["dateTime"]] <-
-          format(self$`dateTime`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+          self$`dateTime`
       }
       if (!is.null(self$`uuid`)) {
         FormatTestObject[["uuid"]] <-
@@ -306,7 +306,7 @@ FormatTest <- R6::R6Class(
     #' @return FormatTest in JSON format
     toJSONString = function(...) {
       simple <- self$toSimpleType()
-      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, Date = "ISO8601", POSIXt = "ISO8601", UTC = TRUE, ...)
       return(as.character(jsonlite::minify(json)))
     },
 

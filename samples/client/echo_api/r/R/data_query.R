@@ -60,7 +60,7 @@ DataQuery <- R6::R6Class(
       }
       if (!is.null(`date`)) {
         if (!inherits(`date`, "POSIXt")) {
-          stop(paste("Error! Invalid data for `date`. Must be a POSIXt datetime:", `date`))
+          stop(paste("Error! Invalid data for `date`. Must be a POSIXct/POSIXlt datetime:", `date`))
         }
         self$`date` <- `date`
       }
@@ -115,7 +115,7 @@ DataQuery <- R6::R6Class(
       }
       if (!is.null(self$`date`)) {
         DataQueryObject[["date"]] <-
-          format(self$`date`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+          self$`date`
       }
       return(DataQueryObject)
     },
@@ -155,7 +155,7 @@ DataQuery <- R6::R6Class(
     #' @return DataQuery in JSON format
     toJSONString = function(...) {
       simple <- self$toSimpleType()
-      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, Date = "ISO8601", POSIXt = "ISO8601", UTC = TRUE, ...)
       return(as.character(jsonlite::minify(json)))
     },
 

@@ -95,7 +95,8 @@ public class RClientCodegenTest {
         clientOptInput.config(rClientCodegen);
         defaultGenerator.opts(clientOptInput);
 
-        var formatTestModel = defaultGenerator.generate().stream()
+        List<File> generatedFiles = defaultGenerator.generate();
+        var formatTestModel = generatedFiles.stream()
                 .filter(file -> "format_test.R".equals(file.getName())).findFirst();
         if (formatTestModel.isEmpty()) {
             Assert.fail("`format_test.R` has not been generated");
@@ -118,6 +119,25 @@ public class RClientCodegenTest {
                 "fromJSON should convert the date property with as.Date");
         Assert.assertTrue(content.contains("as.POSIXct(this_object$`dateTime`"),
                 "fromJSON should convert the dateTime property with as.POSIXct");
+
+        // toSimpleType leaves Date/POSIXct as native R objects (no manual formatting);
+        // jsonlite::toJSON handles ISO 8601 serialization via Date/POSIXt/UTC options
+        Assert.assertFalse(content.contains("as.character(self$`date`)"),
+                "toSimpleType should not manually format Date fields; jsonlite handles serialization");
+        Assert.assertFalse(content.contains("format(self$`dateTime`"),
+                "toSimpleType should not manually format POSIXct fields; jsonlite handles serialization");
+        Assert.assertTrue(content.contains("Date = \"ISO8601\", POSIXt = \"ISO8601\", UTC = TRUE"),
+                "toJSONString should pass ISO 8601 options to jsonlite::toJSON");
+
+        // DESCRIPTION pins jsonlite (>= 1.0) for the ISO 8601 serialization options
+        var description = generatedFiles.stream()
+                .filter(file -> "DESCRIPTION".equals(file.getName())).findFirst();
+        if (description.isEmpty()) {
+            Assert.fail("`DESCRIPTION` has not been generated");
+        }
+        String descContent = String.join("\n", Files.readAllLines(Paths.get(description.get().getAbsolutePath())));
+        Assert.assertTrue(descContent.contains("jsonlite (>= 1.0)"),
+                "DESCRIPTION should pin jsonlite (>= 1.0) for ISO 8601 serialization support");
     }
 
     @Test

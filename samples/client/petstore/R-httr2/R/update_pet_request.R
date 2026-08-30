@@ -124,7 +124,7 @@ UpdatePetRequest <- R6::R6Class(
     #' @return UpdatePetRequest in JSON format
     toJSONString = function(...) {
       simple <- self$toSimpleType()
-      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, Date = "ISO8601", POSIXt = "ISO8601", UTC = TRUE, ...)
       return(as.character(jsonlite::minify(json)))
     },
 
