@@ -1,0 +1,51 @@
+openapi: 3.1.0
+info:
+  title: discriminator_constants
+  version: '1.0.0'
+components:
+  schemas:
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: type
+        mapping:
+          CAT: '#/components/schemas/Cat'
+          DOG: '#/components/schemas/Dog'
+    Cat:
+      description: A representation of a cat
+      type: object
+      properties:
+        type:
+          type: string
+          description: pet is a CAT
+          const: CAT
+        huntingSkill:
+          type: string
+          description: The measured skill for hunting
+          enum:
+            - clueless
+            - lazy
+            - adventurous
+            - aggressive
+      required:
+        - type
+        - huntingSkill
+    Dog:
+      description: A representation of a dog
+      type: object
+      properties:
+        type:
+          type: string
+          description: Pet is a DOG
+          const: DOG
+        packSize:
+          type: integer
+          format: int32
+          description: the size of the pack the dog is from
+          default: 0
+          minimum: 0
+      required:
+        - type
+        - packSize
