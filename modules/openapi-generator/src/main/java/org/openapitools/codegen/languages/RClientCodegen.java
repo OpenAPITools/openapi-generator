@@ -629,7 +629,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     needsExtractSimpleType = true;
                 }
 
-                // create extension x-r-doc-type to store the data type in r doc format
                 var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
             }
 
