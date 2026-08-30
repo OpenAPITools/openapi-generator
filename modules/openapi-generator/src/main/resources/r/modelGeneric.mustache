@@ -94,7 +94,7 @@
         {{/isDate}}
         {{#isDateTime}}
         if (!(inherits(`{{name}}`, "POSIXt") && length(`{{name}}`) == 1)) {
-          stop(paste("Error! Invalid data for `{{name}}`. Must be a POSIXct/POSIXlt datetime:", `{{name}}`))
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a POSIXt datetime:", `{{name}}`))
         }
         {{/isDateTime}}
         {{#isUri}}
@@ -166,7 +166,7 @@
         {{/isDate}}
         {{#isDateTime}}
         if (!inherits(`{{name}}`, "POSIXt")) {
-          stop(paste("Error! Invalid data for `{{name}}`. Must be a POSIXct/POSIXlt datetime:", `{{name}}`))
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a POSIXt datetime:", `{{name}}`))
         }
         {{/isDateTime}}
         {{#isUri}}
@@ -431,7 +431,7 @@
       {{#isDateTime}}
       if (!is.null(this_object$`{{name}}`)) {
         # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
-      # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
+        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
         # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
         self$`{{name}}` <- as.POSIXct(this_object$`{{name}}`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
       }

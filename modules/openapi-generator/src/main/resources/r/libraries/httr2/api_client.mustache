@@ -361,7 +361,6 @@ ApiClient  <- R6::R6Class(
     #' @export
     deserializeObj = function(obj, return_type, pkg_env) {
       return_obj <- NULL
-      # "Date" and "POSIXct" hold `date` and `date-time` schema values (real R temporal classes)
       primitive_types <- c("character", "numeric", "integer", "logical", "complex", "Date", "POSIXct")
 
       # for deserialization, uniqueness requirements do not matter

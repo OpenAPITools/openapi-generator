@@ -73,7 +73,7 @@ public class RClientCodegenTest {
         // `date` maps to the R Date class, `date-time` to POSIXct (the concrete POSIXt subclass)
         Assert.assertEquals(codegen.getTypeDeclaration(new StringSchema().format("date")), "Date");
         Assert.assertEquals(codegen.getTypeDeclaration(new StringSchema().format("date-time")), "POSIXct");
-        // both are treated as language-specific primitives (no import, primitive template branches)
+        // both are language-specific primitives (no import, primitive template branches)
         Assert.assertTrue(codegen.languageSpecificPrimitives().contains("Date"));
         Assert.assertTrue(codegen.languageSpecificPrimitives().contains("POSIXct"));
     }
