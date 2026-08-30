@@ -180,10 +180,16 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 				for i:=0;i<lenIndValue;i++ {
 					var arrayValue = indValue.Index(i)
 					var keyPrefixForCollectionType = keyPrefix
+					var styleForElement = style
 					if style == "deepObject" {
 						keyPrefixForCollectionType = keyPrefix + "[" + strconv.Itoa(i) + "]"
+					} else if style == "form" {
+						// the property-name flattening applies only to a map that is the
+						// parameter's direct value: an element of an array keeps the path
+						// it has accumulated
+						styleForElement = ""
 					}
-					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), style, collectionType)
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), styleForElement, collectionType)
 				}
 				return
 

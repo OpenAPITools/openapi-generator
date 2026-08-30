@@ -162,7 +162,14 @@ public class GoClientCodegenTest {
                 "if style == \"form\" {",
                 "keyPrefixForMapEntry = k.String()",
                 "styleForMapEntry = \"\"",
-                "parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, v.Interface(), styleForMapEntry, collectionType)");
+                "parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, v.Interface(), styleForMapEntry, collectionType)",
+                // an array element does not inherit the form flattening: a map nested one
+                // level down keeps its accumulated path instead of being keyed by its
+                // property names alone
+                "var styleForElement = style",
+                "} else if style == \"form\" {",
+                "styleForElement = \"\"",
+                "parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), styleForElement, collectionType)");
 
         // and the api hands the declared style over. Note that explode is not passed, so a
         // form style object is treated as exploded whether or not it says explode: false -
