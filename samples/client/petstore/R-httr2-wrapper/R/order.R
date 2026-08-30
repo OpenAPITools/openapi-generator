@@ -62,7 +62,7 @@ Order <- R6::R6Class(
       }
       if (!is.null(`shipDate`)) {
         if (!inherits(`shipDate`, "POSIXt")) {
-          stop(paste("Error! Invalid data for `shipDate`. Must be a POSIXct/POSIXlt datetime:", `shipDate`))
+          stop(paste("Error! Invalid data for `shipDate`. Must be a POSIXt datetime:", `shipDate`))
         }
         self$`shipDate` <- `shipDate`
       }
@@ -167,9 +167,9 @@ Order <- R6::R6Class(
         self$`quantity` <- this_object$`quantity`
       }
       if (!is.null(this_object$`shipDate`)) {
-        # NOTE: an explicit tryFormats list is required in all current R versions (verified through
-        # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
-        # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
+        # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
+        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
+        # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
         self$`shipDate` <- as.POSIXct(this_object$`shipDate`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
       }
       if (!is.null(this_object$`status`)) {
@@ -216,9 +216,9 @@ Order <- R6::R6Class(
       self$`petId` <- this_object$`petId`
       self$`quantity` <- this_object$`quantity`
       if (!is.null(this_object$`shipDate`)) {
-        # NOTE: an explicit tryFormats list is required in all current R versions (verified through
-        # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
-        # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
+        # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
+        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
+        # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
         self$`shipDate` <- as.POSIXct(this_object$`shipDate`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
       }
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("placed", "approved", "delivered"))) {

@@ -60,7 +60,7 @@ DataQuery <- R6::R6Class(
       }
       if (!is.null(`date`)) {
         if (!inherits(`date`, "POSIXt")) {
-          stop(paste("Error! Invalid data for `date`. Must be a POSIXct/POSIXlt datetime:", `date`))
+          stop(paste("Error! Invalid data for `date`. Must be a POSIXt datetime:", `date`))
         }
         self$`date` <- `date`
       }
@@ -140,9 +140,9 @@ DataQuery <- R6::R6Class(
         self$`text` <- this_object$`text`
       }
       if (!is.null(this_object$`date`)) {
-        # NOTE: an explicit tryFormats list is required in all current R versions (verified through
-        # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
-        # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
+        # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
+        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
+        # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
         self$`date` <- as.POSIXct(this_object$`date`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
       }
       self
@@ -171,9 +171,9 @@ DataQuery <- R6::R6Class(
       self$`suffix` <- this_object$`suffix`
       self$`text` <- this_object$`text`
       if (!is.null(this_object$`date`)) {
-        # NOTE: an explicit tryFormats list is required in all current R versions (verified through
-        # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
-        # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
+        # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
+        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
+        # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
         self$`date` <- as.POSIXct(this_object$`date`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
       }
       self

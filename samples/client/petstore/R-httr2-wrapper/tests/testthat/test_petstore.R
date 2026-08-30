@@ -627,7 +627,7 @@ test_that("Order and datetime test", {
 test_that("Order accepts POSIXlt datetime and serializes as ISO 8601", {
   # POSIXlt is the list-based POSIXt subclass; inherits(x, "POSIXt") accepts it
   # and format() serializes it identically to POSIXct in toSimpleType.
-  t <- Order$new(id = 393, petId = 12930, quantity = 12, shipDate = as.POSIXlt("2019-09-29T19:39:29", format = "%Y-%m-%dT%H:%M:%S", tz = "UTC"), status = "approved")
+  t <- Order$new(id = 393, petId = 12930, quantity = 12, shipDate = as.POSIXlt("2019-09-29 19:39:29", tz = "UTC"), status = "approved")
 
   expect_true(inherits(t$shipDate, "POSIXlt"))
   expect_equal(t$toJSONString(), "{\"id\":393,\"petId\":12930,\"quantity\":12,\"shipDate\":\"2019-09-29T19:39:29Z\",\"status\":\"approved\",\"complete\":false}")

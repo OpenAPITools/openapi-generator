@@ -123,7 +123,7 @@ FormatTest <- R6::R6Class(
       }
       if (!is.null(`dateTime`)) {
         if (!inherits(`dateTime`, "POSIXt")) {
-          stop(paste("Error! Invalid data for `dateTime`. Must be a POSIXct/POSIXlt datetime:", `dateTime`))
+          stop(paste("Error! Invalid data for `dateTime`. Must be a POSIXt datetime:", `dateTime`))
         }
         self$`dateTime` <- `dateTime`
       }
@@ -279,9 +279,9 @@ FormatTest <- R6::R6Class(
         self$`date` <- as.Date(this_object$`date`)
       }
       if (!is.null(this_object$`dateTime`)) {
-        # NOTE: an explicit tryFormats list is required in all current R versions (verified through
-        # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
-        # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
+        # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
+        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
+        # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
         self$`dateTime` <- as.POSIXct(this_object$`dateTime`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
       }
       if (!is.null(this_object$`uuid`)) {
@@ -330,9 +330,9 @@ FormatTest <- R6::R6Class(
         self$`date` <- as.Date(this_object$`date`)
       }
       if (!is.null(this_object$`dateTime`)) {
-        # NOTE: an explicit tryFormats list is required in all current R versions (verified through
-        # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
-        # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
+        # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
+        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
+        # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
         self$`dateTime` <- as.POSIXct(this_object$`dateTime`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
       }
       self$`uuid` <- this_object$`uuid`
