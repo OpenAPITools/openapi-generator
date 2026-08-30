@@ -4786,6 +4786,13 @@ public class JavaClientCodegenTest {
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("client/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
+        if (NATIVE.equals(library)) { // native library generates no authentication class
+            assertThat(files).doesNotContainKey("auth/package-info.java");
+        } else {
+            assertThat(files).containsKey("auth/package-info.java");
+            JavaFileAssert.assertThat(files.get("auth/package-info.java"))
+                    .fileContains("@org.jspecify.annotations.NullMarked");
+        }
     }
 
     @Test(dataProvider = "jspecifyLibraries")
