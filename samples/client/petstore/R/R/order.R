@@ -167,7 +167,6 @@ Order <- R6::R6Class(
         self$`quantity` <- this_object$`quantity`
       }
       if (!is.null(this_object$`shipDate`)) {
-        # convert the JSON date-time string into an R POSIXct object
         # NOTE: an explicit tryFormats list is required in all current R versions (verified through
         # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
         # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
@@ -217,7 +216,6 @@ Order <- R6::R6Class(
       self$`petId` <- this_object$`petId`
       self$`quantity` <- this_object$`quantity`
       if (!is.null(this_object$`shipDate`)) {
-        # convert the JSON date-time string into an R POSIXct object
         # NOTE: an explicit tryFormats list is required in all current R versions (verified through
         # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
         # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.

@@ -290,11 +290,9 @@ FormatTest <- R6::R6Class(
         self$`binary` <- this_object$`binary`
       }
       if (!is.null(this_object$`date`)) {
-        # convert the JSON date string into an R Date object
         self$`date` <- as.Date(this_object$`date`)
       }
       if (!is.null(this_object$`dateTime`)) {
-        # convert the JSON date-time string into an R POSIXct object
         # NOTE: an explicit tryFormats list is required in all current R versions (verified through
         # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
         # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
@@ -353,11 +351,9 @@ FormatTest <- R6::R6Class(
       self$`byte` <- this_object$`byte`
       self$`binary` <- this_object$`binary`
       if (!is.null(this_object$`date`)) {
-        # convert the JSON date string into an R Date object
         self$`date` <- as.Date(this_object$`date`)
       }
       if (!is.null(this_object$`dateTime`)) {
-        # convert the JSON date-time string into an R POSIXct object
         # NOTE: an explicit tryFormats list is required in all current R versions (verified through
         # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
         # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.

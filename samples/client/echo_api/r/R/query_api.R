@@ -32,8 +32,8 @@
 #' ####################  TestQueryDatetimeDateString  ####################
 #'
 #' library(openapi)
-#' var_datetime_query <- "datetime_query_example" # character |  (Optional)
-#' var_date_query <- "date_query_example" # character |  (Optional)
+#' var_datetime_query <- as.POSIXct("2020-01-01T12:00:00", format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC") # POSIXct |  (Optional)
+#' var_date_query <- as.Date("2020-01-01") # Date |  (Optional)
 #' var_string_query <- "string_query_example" # character |  (Optional)
 #'
 #' #Test query parameter(s)
@@ -148,7 +148,7 @@
 #' ####################  TestQueryStyleFormExplodeTrueObjectAllOf  ####################
 #'
 #' library(openapi)
-#' var_query_object <- DataQuery$new(123, c("SUCCESS"), "suffix_example", "text_example", "date_example") # DataQuery |  (Optional)
+#' var_query_object <- DataQuery$new(123, c("SUCCESS"), "suffix_example", "text_example", as.POSIXct("2020-01-01T12:00:00", format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC")) # DataQuery |  (Optional)
 #'
 #' #Test query parameter(s)
 #' api_instance <- QueryApi$new()
@@ -368,9 +368,9 @@ QueryApi <- R6::R6Class(
         stop("Invalid value for `string_query` when calling QueryApi$TestQueryDatetimeDateString, `string_query` is not nullable")
       }
 
-      query_params[["datetime_query"]] <- `datetime_query`
+      query_params[["datetime_query"]] <- if (is.null(`datetime_query`)) NULL else format(`datetime_query`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
 
-      query_params[["date_query"]] <- `date_query`
+      query_params[["date_query"]] <- if (is.null(`date_query`)) NULL else as.character(`date_query`)
 
       query_params[["string_query"]] <- `string_query`
 
