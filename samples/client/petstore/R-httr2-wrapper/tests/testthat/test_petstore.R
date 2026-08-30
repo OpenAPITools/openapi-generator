@@ -632,3 +632,19 @@ test_that("Order accepts POSIXlt datetime and serializes as ISO 8601", {
   expect_true(inherits(t$shipDate, "POSIXlt"))
   expect_equal(t$toJSONString(), "{\"id\":393,\"petId\":12930,\"quantity\":12,\"shipDate\":\"2019-09-29T19:39:29Z\",\"status\":\"approved\",\"complete\":false}")
 })
+
+test_that("tryFormats parses all three ISO 8601 datetime string variants", {
+  expected <- as.POSIXct("2019-09-29 19:39:29", tz = "UTC")
+
+  # Format 1: ISO 8601 with trailing Z
+  json_z <- '{"id":1,"petId":2,"quantity":3,"shipDate":"2019-09-29T19:39:29Z","status":"placed","complete":false}'
+  expect_equal(Order$new()$fromJSONString(json_z)$shipDate, expected)
+
+  # Format 2: ISO 8601 without trailing Z
+  json_no_z <- '{"id":1,"petId":2,"quantity":3,"shipDate":"2019-09-29T19:39:29","status":"placed","complete":false}'
+  expect_equal(Order$new()$fromJSONString(json_no_z)$shipDate, expected)
+
+  # Format 3: space separator (legacy/some APIs)
+  json_space <- '{"id":1,"petId":2,"quantity":3,"shipDate":"2019-09-29 19:39:29","status":"placed","complete":false}'
+  expect_equal(Order$new()$fromJSONString(json_space)$shipDate, expected)
+})
