@@ -1122,14 +1122,12 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
                 }
             } else if ("Date".equals(codegenProperty.dataType)) {
-                // `date` schema: emit a runnable as.Date(...) example.
                 // toExampleValue() yields the literal string "null" when the spec has no example; treat it as missing
                 if (StringUtils.isEmpty(codegenProperty.example) || "null".equals(codegenProperty.example)) {
                     return "as.Date(\"2020-01-01\")";
                 }
                 return "as.Date(\"" + escapeText(codegenProperty.example) + "\")";
             } else if ("POSIXct".equals(codegenProperty.dataType)) {
-                // `date-time` schema: emit a runnable as.POSIXct(...) example
                 if (StringUtils.isEmpty(codegenProperty.example) || "null".equals(codegenProperty.example)) {
                     return "as.POSIXct(\"2020-01-01T12:00:00\", format = \"%Y-%m-%dT%H:%M:%OS\", tz = \"UTC\")";
                 }

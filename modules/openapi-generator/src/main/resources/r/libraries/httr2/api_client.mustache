@@ -426,10 +426,8 @@ ApiClient  <- R6::R6Class(
       } else {
         # To handle primitive type
         if (identical(return_type, "Date")) {
-          # convert JSON date strings into R Date objects
           return_obj <- if (is.null(obj)) NULL else as.Date(obj)
         } else if (identical(return_type, "POSIXct")) {
-          # convert JSON date-time strings into R POSIXct objects
           # NOTE: an explicit tryFormats list is required in all current R versions (verified through
           # R 4.3.x NEWS and R-devel): as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator
           # format, and strptime's %z does not accept a trailing 'Z' as a UTC designator on input.

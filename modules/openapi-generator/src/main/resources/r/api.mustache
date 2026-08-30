@@ -319,11 +319,9 @@
       {{/allParams}}
       {{#headerParams}}
       {{#isDate}}
-      # format the Date as an ISO-8601 date string for the HTTP header
       header_params["{{baseName}}"] <- if (is.null(`{{paramName}}`)) NULL else as.character(`{{paramName}}`)
       {{/isDate}}
       {{#isDateTime}}
-      # format the POSIXct datetime as an ISO-8601 UTC string for the HTTP header
       header_params["{{baseName}}"] <- if (is.null(`{{paramName}}`)) NULL else format(`{{paramName}}`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
       {{/isDateTime}}
       {{^isDate}}
@@ -475,11 +473,9 @@
       }
       {{/isEnum}}
       {{#isDate}}
-      # format the Date as an ISO-8601 date string for the query string
       query_params[["{{baseName}}"]] <- if (is.null(`{{paramName}}`)) NULL else as.character(`{{paramName}}`)
       {{/isDate}}
       {{#isDateTime}}
-      # format the POSIXct datetime as an ISO-8601 UTC string for the query string
       query_params[["{{baseName}}"]] <- if (is.null(`{{paramName}}`)) NULL else format(`{{paramName}}`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
       {{/isDateTime}}
       {{^isDate}}
