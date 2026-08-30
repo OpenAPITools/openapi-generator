@@ -56,7 +56,6 @@ import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -201,13 +200,6 @@ public class DefaultGenerator implements Generator {
         return getGeneratorPropertyDefaultSwitch(key, defaultValue);
     }
 
-    private boolean convertGlobalPropertyToBooleanAndWriteBack(final String propertyKey, final Consumer<Boolean> booleanSetter, final boolean defaultValue) {
-        boolean value = getGlobalOrGeneratorPropertyDefault(propertyKey, defaultValue);
-        booleanSetter.accept(value);
-        config.additionalProperties().put(propertyKey, value);
-        return value;
-    }
-
     void configureGeneratorProperties() {
         // allows generating only models by specifying a CSV of models to generate, or empty for all
         // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints and type inference.
@@ -235,16 +227,25 @@ public class DefaultGenerator implements Generator {
         }
         // model/api tests and documentation options rely on parent generate options (api or model) and no other options.
         // They default to true in all scenarios and can only be marked false explicitly
-        convertGlobalPropertyToBooleanAndWriteBack(CodegenConstants.MODEL_TESTS, val -> generateModelTests = val, true);
-        convertGlobalPropertyToBooleanAndWriteBack(CodegenConstants.MODEL_DOCS, val -> generateModelDocumentation = val, true);
-        convertGlobalPropertyToBooleanAndWriteBack(CodegenConstants.API_TESTS, val -> generateApiTests = val, true);
-        convertGlobalPropertyToBooleanAndWriteBack(CodegenConstants.API_DOCS, val -> generateApiDocumentation = val, true);
-        convertGlobalPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, val -> generateRecursiveDependentModels = val, false);
-        convertGlobalPropertyToBooleanAndWriteBack(CodegenConstants.SKIP_FORM_MODEL, val -> {}, true);
+        generateModelTests = getGlobalOrGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, true);
+        generateModelDocumentation = getGlobalOrGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, true);
+        generateApiTests = getGlobalOrGeneratorPropertyDefault(CodegenConstants.API_TESTS, true);
+        generateApiDocumentation = getGlobalOrGeneratorPropertyDefault(CodegenConstants.API_DOCS, true);
+        generateRecursiveDependentModels = getGlobalOrGeneratorPropertyDefault(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, false);
+        Boolean skipFormModel = getGlobalOrGeneratorPropertyDefault(CodegenConstants.SKIP_FORM_MODEL, true);
+
+        // Additional properties added for tests to exclude references in project related files
+        config.additionalProperties().put(CodegenConstants.GENERATE_API_TESTS, generateApiTests);
+        config.additionalProperties().put(CodegenConstants.GENERATE_MODEL_TESTS, generateModelTests);
+
+        config.additionalProperties().put(CodegenConstants.GENERATE_API_DOCS, generateApiDocumentation);
+        config.additionalProperties().put(CodegenConstants.GENERATE_MODEL_DOCS, generateModelDocumentation);
 
         config.additionalProperties().put(CodegenConstants.GENERATE_APIS, generateApis);
         config.additionalProperties().put(CodegenConstants.GENERATE_MODELS, generateModels);
         config.additionalProperties().put(CodegenConstants.GENERATE_WEBHOOKS, generateWebhooks);
+        config.additionalProperties().put(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, generateRecursiveDependentModels);
+        config.additionalProperties().put(CodegenConstants.SKIP_FORM_MODEL, skipFormModel);
 
         if (!generateApiTests && !generateModelTests) {
             config.additionalProperties().put(CodegenConstants.EXCLUDE_TESTS, true);
