@@ -381,11 +381,13 @@ FormatTest <- R6::R6Class(
       input_json <- jsonlite::fromJSON(input)
       # check the required field `number`
       if (!is.null(input_json$`number`)) {
+        
       } else {
         stop(paste("The JSON input `", input, "` is invalid for FormatTest: the required field `number` is missing."))
       }
       # check the required field `byte`
       if (!is.null(input_json$`byte`)) {
+        
       } else {
         stop(paste("The JSON input `", input, "` is invalid for FormatTest: the required field `byte` is missing."))
       }

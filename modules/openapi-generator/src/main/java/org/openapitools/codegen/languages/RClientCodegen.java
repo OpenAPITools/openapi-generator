@@ -630,6 +630,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
 
                 var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
+                var.vendorExtensions.put("x-r-item-check", constructItemCheck(var));
+                var.vendorExtensions.put("x-r-validate-json-check", constructValidateJSONCheck(var));
             }
 
             // create extension x-r-has-non-primitive-field to indicate whether generated models need special handling for complex types
@@ -645,6 +647,18 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                 // create extension x-r-doc-type to store the data type in r doc format
                 var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
+                var.vendorExtensions.put("x-r-item-check", constructItemCheck(var));
+                var.vendorExtensions.put("x-r-validate-json-check", constructValidateJSONCheck(var));
+            }
+
+            // removeAllDuplicatedProperty clones properties into separate lists, so
+            // vendor extensions must be set on requiredVars/optionalVars independently
+            for (CodegenProperty var : cm.requiredVars) {
+                var.vendorExtensions.put("x-r-item-check", constructItemCheck(var));
+                var.vendorExtensions.put("x-r-validate-json-check", constructValidateJSONCheck(var));
+            }
+            for (CodegenProperty var : cm.optionalVars) {
+                var.vendorExtensions.put("x-r-item-check", constructItemCheck(var));
             }
         }
         return postProcessModelsEnum(objs);
@@ -1075,6 +1089,96 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else { // model
             return "\\link{" + codegenProperty.dataType + "}";
         }
+    }
+
+    /**
+     * Generate the R type-check expression for elements of a container (array/map) property,
+     * used in the {@code sapply()} call within {@code initialize()} validation.
+     *
+     * @param prop the container property (must have {@code items} set for array/map types)
+     * @return the R expression for {@code stopifnot()}, e.g. {@code inherits(x, "Date")},
+     *         {@code is.character(x)}, or {@code R6::is.R6(x)}
+     */
+    public String constructItemCheck(CodegenProperty prop) {
+        if (!Boolean.TRUE.equals(prop.isPrimitiveType)) {
+            return "R6::is.R6(x)";
+        }
+        if (prop.items != null) {
+            if (Boolean.TRUE.equals(prop.items.isDate)) {
+                return "inherits(x, \"Date\")";
+            }
+            if (Boolean.TRUE.equals(prop.items.isDateTime)) {
+                return "inherits(x, \"POSIXt\")";
+            }
+        }
+        return "is.character(x)";
+    }
+
+    /**
+     * Generate the R validation code for a required property in the {@code validateJSON()} method.
+     * This checks the raw JSON input (after {@code jsonlite::fromJSON}), so date/date-time fields
+     * are still character strings (not R Date/POSIXct objects).
+     *
+     * @param prop the required property to validate
+     * @return the R validation code block (first line has no leading indentation;
+     *         subsequent lines include their own indentation)
+     */
+    public String constructValidateJSONCheck(CodegenProperty prop) {
+        String name = prop.name;
+
+        if (Boolean.TRUE.equals(prop.isContainer)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("stopifnot(is.vector(input_json$`").append(name).append("`), length(input_json$`").append(name).append("`) != 0)");
+            if (Boolean.TRUE.equals(prop.isArray) && Boolean.TRUE.equals(prop.getUniqueItems())) {
+                sb.append("\n        if (!identical(input_json$`").append(name).append("`, unique(input_json$`").append(name).append("`))) {\n");
+                sb.append("          stop(\"Error! Items in `").append(name).append("` are not unique.\")\n");
+                sb.append("        }");
+            }
+            String itemCheck = Boolean.TRUE.equals(prop.isPrimitiveType) ? "is.character(x)" : "R6::is.R6(x)";
+            sb.append("\n        tmp <- sapply(input_json$`").append(name).append("`, function(x) stopifnot(").append(itemCheck).append("))");
+            return sb.toString();
+        }
+
+        if (!Boolean.TRUE.equals(prop.isPrimitiveType)) {
+            return "stopifnot(R6::is.R6(input_json$`" + name + "`))";
+        }
+
+        // Determine the R type-check function and error message type name
+        String checkFn;
+        String typeName;
+        if (Boolean.TRUE.equals(prop.isInteger) || Boolean.TRUE.equals(prop.isLong)) {
+            checkFn = "is.numeric";
+            typeName = "an integer";
+        } else if (Boolean.TRUE.equals(prop.isFloat) || Boolean.TRUE.equals(prop.isDouble)) {
+            checkFn = "is.numeric";
+            typeName = "a number";
+        } else if (Boolean.TRUE.equals(prop.isBoolean)) {
+            checkFn = "is.logical";
+            typeName = "a boolean";
+        } else if (Boolean.TRUE.equals(prop.isString) || Boolean.TRUE.equals(prop.isDate) || Boolean.TRUE.equals(prop.isDateTime)) {
+            // isString, isDate, isDateTime — all check is.character in the validateJSON context
+            // (jsonlite::fromJSON returns datetime strings as character vectors)
+            checkFn = "is.character";
+            typeName = "a string";
+        } else {
+            // No type-specific check (e.g., generic number without a format flag)
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("if (!(").append(checkFn).append("(input_json$`").append(name).append("`) && length(input_json$`").append(name).append("`) == 1)) {\n");
+        sb.append("          stop(paste(\"Error! Invalid data for `").append(name).append("`. Must be ").append(typeName).append(":\", input_json$`").append(name).append("`))\n");
+        sb.append("        }");
+
+        // Additional URL validation for URI-format string properties
+        if (Boolean.TRUE.equals(prop.isUri)) {
+            sb.append("\n        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r\n");
+            sb.append("        if (!stringr::str_detect(input_json$`").append(name).append("`, \"(https?|ftp)://[^ /$.?#].[^\\\\s]*\")) {\n");
+            sb.append("          stop(paste(\"Error! Invalid data for `").append(name).append("`. Must be a URL:\", input_json$`").append(name).append("`))\n");
+            sb.append("        }");
+        }
+
+        return sb.toString();
     }
 
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
