@@ -37,3 +37,40 @@ components:
           nullable: true
           type: string
       type: object
+    # Array-of-date and array-of-date-time fields exercise the container item
+    # validation path: the generated sapply() must check inherits(x, "Date")
+    # for date items and inherits(x, "POSIXt") for date-time items.
+    DateArrayObject:
+      required:
+        - dates
+        - dateTimes
+      properties:
+        dates:
+          type: array
+          items:
+            type: string
+            format: date
+        dateTimes:
+          type: array
+          items:
+            type: string
+            format: date-time
+      type: object
+    # Optional date-time fields with defaults exercise rDateTime() UTC
+    # normalization: a trailing 'Z' is stripped (same instant), an explicit
+    # offset is shifted to UTC, and a zone-less value is interpreted as UTC.
+    DateTimeDefaults:
+      properties:
+        withZ:
+          type: string
+          format: date-time
+          default: '2020-01-01T12:00:00Z'
+        withOffset:
+          type: string
+          format: date-time
+          default: '2020-01-01T12:00:00+05:00'
+        withoutTimezone:
+          type: string
+          format: date-time
+          default: '2020-01-01T12:00:00'
+      type: object

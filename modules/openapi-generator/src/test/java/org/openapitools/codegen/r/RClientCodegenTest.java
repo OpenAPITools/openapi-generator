@@ -189,6 +189,60 @@ public class RClientCodegenTest {
     }
 
     @Test
+    public void testDateArrayAndDateTimeDefaults() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+
+        RClientCodegen rClientCodegen = new RClientCodegen();
+        rClientCodegen.setOutputDir(output.getAbsolutePath());
+
+        // the spec carries a DateArrayObject (required arrays of date / date-time) and a
+        // DateTimeDefaults model whose optional date-time fields carry zone-aware and
+        // zone-less defaults that exercise rDateTime() UTC normalization
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/r/rproblems.yaml");
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        clientOptInput.config(rClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        // NOTE: generate() must be called exactly once; processOpts() is not idempotent
+        // (re-running it NPEs on the errorObjectType key it stores with a null value).
+        List<File> generatedFiles = defaultGenerator.generate();
+
+        // --- DateArrayObject: container item validation uses inherits(x, "Date"/"POSIXt") ---
+        var dateArrayObject = generatedFiles.stream()
+                .filter(file -> "date_array_object.R".equals(file.getName())).findFirst();
+        if (dateArrayObject.isEmpty()) {
+            Assert.fail("`date_array_object.R` has not been generated");
+        }
+        String arrayContent = String.join("\n", Files.readAllLines(Paths.get(dateArrayObject.get().getAbsolutePath())));
+        // the sapply() validation for the `dates` array must check inherits(x, "Date")
+        Assert.assertTrue(arrayContent.contains("sapply(`dates`, function(x) stopifnot(inherits(x, \"Date\")))"),
+                "array-of-date validation should check inherits(x, \"Date\") per item");
+        // the sapply() validation for the `dateTimes` array must check inherits(x, "POSIXt")
+        Assert.assertTrue(arrayContent.contains("sapply(`dateTimes`, function(x) stopifnot(inherits(x, \"POSIXt\")))"),
+                "array-of-date-time validation should check inherits(x, \"POSIXt\") per item");
+
+        // --- DateTimeDefaults: rDateTime() normalizes every default to UTC ---
+        var dateTimeDefaults = generatedFiles.stream()
+                .filter(file -> "date_time_defaults.R".equals(file.getName())).findFirst();
+        if (dateTimeDefaults.isEmpty()) {
+            Assert.fail("`date_time_defaults.R` has not been generated");
+        }
+        String defaultsContent = String.join("\n", Files.readAllLines(Paths.get(dateTimeDefaults.get().getAbsolutePath())));
+        // withZ: the trailing 'Z' is stripped; the instant is unchanged (12:00:00 UTC)
+        Assert.assertTrue(defaultsContent.contains("as.POSIXct(\"2020-01-01T12:00:00\", format = \"%Y-%m-%dT%H:%M:%OS\", tz = \"UTC\")"),
+                "withZ default should be emitted with the trailing 'Z' stripped (same UTC instant)");
+        // withOffset: +05:00 is shifted to UTC (12:00:00+05:00 == 07:00:00 UTC)
+        Assert.assertTrue(defaultsContent.contains("as.POSIXct(\"2020-01-01T07:00:00\", format = \"%Y-%m-%dT%H:%M:%OS\", tz = \"UTC\")"),
+                "withOffset default should be normalized from +05:00 to UTC (07:00:00)");
+        // withoutTimezone: a zone-less value is interpreted as UTC (12:00:00)
+        Assert.assertTrue(defaultsContent.contains("as.POSIXct(\"2020-01-01T12:00:00\", format = \"%Y-%m-%dT%H:%M:%OS\", tz = \"UTC\")"),
+                "withoutTimezone default should be interpreted as UTC (12:00:00)");
+    }
+
+    @Test
     public void testNullCheckOnEnumValues() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
