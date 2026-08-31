@@ -160,12 +160,12 @@
         }
         {{/isBoolean}}
         {{#isDate}}
-        if (!inherits(`{{name}}`, "Date")) {
+        if (!(inherits(`{{name}}`, "Date") && length(`{{name}}`) == 1)) {
           stop(paste("Error! Invalid data for `{{name}}`. Must be a Date:", `{{name}}`))
         }
         {{/isDate}}
         {{#isDateTime}}
-        if (!inherits(`{{name}}`, "POSIXt")) {
+        if (!(inherits(`{{name}}`, "POSIXt") && length(`{{name}}`) == 1)) {
           stop(paste("Error! Invalid data for `{{name}}`. Must be a POSIXct/POSIXlt datetime:", `{{name}}`))
         }
         {{/isDateTime}}
@@ -239,7 +239,17 @@
           {{#isContainer}}
           {{#isArray}}
           {{#isPrimitiveType}}
+          {{#isDate}}
+          lapply(self$`{{name}}`, as.character)
+          {{/isDate}}
+          {{#isDateTime}}
+          lapply(self$`{{name}}`, .format_datetime)
+          {{/isDateTime}}
+          {{^isDate}}
+          {{^isDateTime}}
           self$`{{name}}`
+          {{/isDateTime}}
+          {{/isDate}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
           self$extractSimpleType(self$`{{name}}`)
@@ -247,7 +257,17 @@
           {{/isArray}}
           {{#isMap}}
           {{#isPrimitiveType}}
+          {{#isDate}}
+          lapply(self$`{{name}}`, as.character)
+          {{/isDate}}
+          {{#isDateTime}}
+          lapply(self$`{{name}}`, .format_datetime)
+          {{/isDateTime}}
+          {{^isDate}}
+          {{^isDateTime}}
           self$`{{name}}`
+          {{/isDateTime}}
+          {{/isDate}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
           self$extractSimpleType(self$`{{name}}`)
@@ -256,7 +276,17 @@
           {{/isContainer}}
           {{^isContainer}}
           {{#isPrimitiveType}}
+          {{#isDate}}
+          as.character(self$`{{name}}`)
+          {{/isDate}}
+          {{#isDateTime}}
+          .format_datetime(self$`{{name}}`)
+          {{/isDateTime}}
+          {{^isDate}}
+          {{^isDateTime}}
           self$`{{name}}`
+          {{/isDateTime}}
+          {{/isDate}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
           self$extractSimpleType(self$`{{name}}`)
@@ -334,10 +364,7 @@
         self$`{{name}}` <- as.Date(this_object$`{{baseName}}`)
         {{/isDate}}
         {{#isDateTime}}
-        # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
-        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
-        # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
-        self$`{{name}}` <- as.POSIXct(this_object$`{{baseName}}`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
+        self$`{{name}}` <- .parse_datetime(this_object$`{{baseName}}`)
         {{/isDateTime}}
         {{^isDate}}
         {{^isDateTime}}
@@ -377,7 +404,7 @@
         simple[[key]] <- self$additional_properties[[key]]
       }
       {{/isAdditionalPropertiesTrue}}
-      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, Date = "ISO8601", POSIXt = "ISO8601", UTC = TRUE, ...)
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
       return(as.character(jsonlite::minify(json)))
     },
 
@@ -414,17 +441,10 @@
       }
       {{/isUri}}
       {{#isDate}}
-      if (!is.null(this_object$`{{name}}`)) {
-        self$`{{name}}` <- as.Date(this_object$`{{name}}`)
-      }
+      self$`{{name}}` <- if (is.null(this_object$`{{baseName}}`)) NULL else as.Date(this_object$`{{baseName}}`)
       {{/isDate}}
       {{#isDateTime}}
-      if (!is.null(this_object$`{{name}}`)) {
-        # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
-        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
-        # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
-        self$`{{name}}` <- as.POSIXct(this_object$`{{name}}`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
-      }
+      self$`{{name}}` <- if (is.null(this_object$`{{baseName}}`)) NULL else .parse_datetime(this_object$`{{baseName}}`)
       {{/isDateTime}}
       {{^isDate}}
       {{^isDateTime}}

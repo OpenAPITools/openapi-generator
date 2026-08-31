@@ -1,4 +1,5 @@
 {{>partial_header}}
+{{>date_time_helpers}}
 #' ApiClient Class
 #'
 #' Generic API client for OpenAPI client library builds.
@@ -361,7 +362,8 @@ ApiClient  <- R6::R6Class(
     #' @export
     deserializeObj = function(obj, return_type, pkg_env) {
       return_obj <- NULL
-      primitive_types <- c("character", "numeric", "integer", "logical", "complex", "Date", "POSIXct")
+      primitive_types <- c("character", "numeric", "integer", "logical", "complex")
+      temporal_types <- c("Date", "POSIXct")
 
       # for deserialization, uniqueness requirements do not matter
       return_type <- gsub(pattern = "^(set|array)\\[",
@@ -380,7 +382,8 @@ ApiClient  <- R6::R6Class(
         # To handle the "array" and "set" types
         inner_return_type <- regmatches(return_type,
                                         regexec(pattern = "collection\\[(.*)\\]", return_type))[[1]][2]
-        if (c(inner_return_type) %in% primitive_types) {
+        if (c(inner_return_type) %in% primitive_types ||
+            (c(inner_return_type) %in% temporal_types && !exists(inner_return_type, pkg_env))) {
           return_obj <- vector("list", length = length(obj))
           if (length(obj) > 0) {
             for (row in 1:length(obj)) {
@@ -401,8 +404,12 @@ ApiClient  <- R6::R6Class(
             }
           }
         }
-      } else if (exists(return_type, pkg_env) && !(c(return_type) %in% primitive_types)) {
+      } else if (exists(return_type, pkg_env) &&
+                 !(c(return_type) %in% primitive_types) &&
+                 !(c(return_type) %in% temporal_types && is.character(obj))) {
         # To handle model objects which are not array or map containers (e.g. Pet)
+        # A temporal token (Date/POSIXct) with a character payload is a bare
+        # date/date-time value, not a model — fall through to the primitive branch.
         return_type <- get(return_type, envir = as.environment(pkg_env))
         return_obj <- return_type$new()
         # check if discriminator is defined
@@ -427,10 +434,7 @@ ApiClient  <- R6::R6Class(
         if (identical(return_type, "Date")) {
           return_obj <- if (is.null(obj)) NULL else as.Date(obj)
         } else if (identical(return_type, "POSIXct")) {
-          # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
-          # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
-          # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
-          return_obj <- if (is.null(obj)) NULL else as.POSIXct(obj, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
+          return_obj <- if (is.null(obj)) NULL else .parse_datetime(obj)
         } else {
           return_obj <- obj
         }

@@ -114,30 +114,30 @@ public class RClientCodegenTest {
         Assert.assertTrue(content.contains("inherits(`dateTime`, \"POSIXt\")"),
                 "dateTime property validation should check inherits(x, \"POSIXt\")");
 
-        // fromJSON converts parsed JSON date strings into Date/POSIXct
+        // fromJSON converts parsed JSON date strings into Date/POSIXct via helpers
         Assert.assertTrue(content.contains("as.Date(this_object$`date`)"),
                 "fromJSON should convert the date property with as.Date");
-        Assert.assertTrue(content.contains("as.POSIXct(this_object$`dateTime`"),
-                "fromJSON should convert the dateTime property with as.POSIXct");
+        Assert.assertTrue(content.contains(".parse_datetime(this_object$`dateTime`)"),
+                "fromJSON should convert the dateTime property with .parse_datetime()");
 
-        // toSimpleType leaves Date/POSIXct as native R objects (no manual formatting);
-        // jsonlite::toJSON handles ISO 8601 serialization via Date/POSIXt/UTC options
-        Assert.assertFalse(content.contains("as.character(self$`date`)"),
-                "toSimpleType should not manually format Date fields; jsonlite handles serialization");
-        Assert.assertFalse(content.contains("format(self$`dateTime`"),
-                "toSimpleType should not manually format POSIXct fields; jsonlite handles serialization");
-        Assert.assertTrue(content.contains("Date = \"ISO8601\", POSIXt = \"ISO8601\", UTC = TRUE"),
-                "toJSONString should pass ISO 8601 options to jsonlite::toJSON");
+        // toSimpleType formats Date/POSIXct as ISO 8601 strings (manual formatting,
+        // not jsonlite options) so the ... passthrough to toJSON remains unbroken
+        Assert.assertTrue(content.contains("as.character(self$`date`)"),
+                "toSimpleType should format Date fields as character for JSON serialization");
+        Assert.assertTrue(content.contains(".format_datetime(self$`dateTime`)"),
+                "toSimpleType should format POSIXct fields via .format_datetime()");
+        Assert.assertFalse(content.contains("Date = \"ISO8601\""),
+                "toJSONString should not hardcode Date = \"ISO8601\" (breaks ... passthrough)");
 
-        // DESCRIPTION pins jsonlite (>= 1.0) for the ISO 8601 serialization options
+        // DESCRIPTION does not pin jsonlite (>= 1.0) since serialization is manual
         var description = generatedFiles.stream()
                 .filter(file -> "DESCRIPTION".equals(file.getName())).findFirst();
         if (description.isEmpty()) {
             Assert.fail("`DESCRIPTION` has not been generated");
         }
         String descContent = String.join("\n", Files.readAllLines(Paths.get(description.get().getAbsolutePath())));
-        Assert.assertTrue(descContent.contains("jsonlite (>= 1.0)"),
-                "DESCRIPTION should pin jsonlite (>= 1.0) for ISO 8601 serialization support");
+        Assert.assertFalse(descContent.contains("jsonlite (>= 1.0)"),
+                "DESCRIPTION should not pin jsonlite (>= 1.0); serialization is handled in toSimpleType");
     }
 
     @Test
@@ -173,10 +173,13 @@ public class RClientCodegenTest {
                 "nullable date fields should default to NULL in the constructor signature");
         Assert.assertTrue(content.contains("if (!is.null(`end`)) {"),
                 "date field validation should be guarded so NULL is accepted");
-        // a JSON null must keep the field NULL (not coerce it to a zero-length Date),
-        // in both fromJSON and fromJSONString
-        Assert.assertEquals(content.split(Pattern.quote("if (!is.null(this_object$`end`)) {"), -1).length - 1, 2,
-                "fromJSON and fromJSONString must both guard the nullable date conversion");
+        // fromJSON guards the nullable date conversion inside an is.null() check
+        Assert.assertTrue(content.contains("if (!is.null(this_object$`end`)) {"),
+                "fromJSON should guard the nullable date conversion");
+        // fromJSONString uses a null-clearing conditional so a JSON null/omission
+        // resets the field to NULL instead of retaining a stale value
+        Assert.assertTrue(content.contains("if (is.null(this_object$`end`)) NULL else as.Date(this_object$`end`)"),
+                "fromJSONString should clear NULL on omitted/null date fields (stale-value fix)");
 
         var dateTimeObject = generatedFiles.stream()
                 .filter(file -> "date_time_object.R".equals(file.getName())).findFirst();
@@ -184,8 +187,12 @@ public class RClientCodegenTest {
             Assert.fail("`date_time_object.R` has not been generated");
         }
         String dateTimeContent = String.join("\n", Files.readAllLines(Paths.get(dateTimeObject.get().getAbsolutePath())));
-        Assert.assertEquals(dateTimeContent.split(Pattern.quote("if (!is.null(this_object$`end`)) {"), -1).length - 1, 2,
-                "fromJSON and fromJSONString must both guard the nullable date-time conversion");
+        // fromJSON guards the nullable date-time conversion; fromJSONString uses
+        // a null-clearing conditional so a JSON null/omission resets the field
+        Assert.assertTrue(dateTimeContent.contains("if (!is.null(this_object$`end`)) {"),
+                "fromJSON should guard the nullable date-time conversion");
+        Assert.assertTrue(dateTimeContent.contains("if (is.null(this_object$`end`)) NULL else .parse_datetime(this_object$`end`)"),
+                "fromJSONString should clear NULL on omitted/null date-time fields (stale-value fix)");
     }
 
     @Test
@@ -240,6 +247,95 @@ public class RClientCodegenTest {
         // withoutTimezone: a zone-less value is interpreted as UTC (12:00:00)
         Assert.assertTrue(defaultsContent.contains("as.POSIXct(\"2020-01-01T12:00:00\", format = \"%Y-%m-%dT%H:%M:%OS\", tz = \"UTC\")"),
                 "withoutTimezone default should be interpreted as UTC (12:00:00)");
+
+        // --- Cluster H: withZ assertion must be non-vacuous ---
+        // The positive assertion above is also satisfied by withoutTimezone's identical
+        // output, so assert the 'Z' was actually stripped (not retained in the literal).
+        Assert.assertFalse(defaultsContent.contains("as.POSIXct(\"2020-01-01T12:00:00Z\""),
+                "withZ default should have the trailing 'Z' stripped, not retained in the literal");
+
+        // --- Cluster A: fromJSON uses .parse_datetime() helper (not inline tryFormats) ---
+        var dateTimeObject = generatedFiles.stream()
+                .filter(file -> "date_time_object.R".equals(file.getName())).findFirst();
+        if (dateTimeObject.isEmpty()) {
+            Assert.fail("`date_time_object.R` has not been generated");
+        }
+        String dtContent = String.join("\n", Files.readAllLines(Paths.get(dateTimeObject.get().getAbsolutePath())));
+        Assert.assertTrue(dtContent.contains(".parse_datetime(this_object$`start`)"),
+                "fromJSON should use .parse_datetime() for date-time fields, not inline tryFormats");
+        Assert.assertFalse(dtContent.contains("tryFormats = c("),
+                "model code should not contain inline tryFormats lists (replaced by .parse_datetime helper)");
+
+        // --- Cluster B: fromJSONString clears NULL on omitted/null date-time fields ---
+        Assert.assertTrue(dtContent.contains("if (is.null(this_object$`end`)) NULL else"),
+                "fromJSONString should assign NULL for null/omitted date-time fields (stale-value fix)");
+
+        // --- Cluster C: toJSONString uses stock jsonlite::toJSON (no Date/POSIXt/UTC options) ---
+        Assert.assertFalse(dtContent.contains("Date = \"ISO8601\""),
+                "toJSONString should not hardcode Date = \"ISO8601\" (breaks ... passthrough)");
+        Assert.assertFalse(dtContent.contains("POSIXt = \"ISO8601\""),
+                "toJSONString should not hardcode POSIXt = \"ISO8601\"");
+
+        // --- Cluster D: toSimpleType formats date-time via .format_datetime() ---
+        Assert.assertTrue(dtContent.contains(".format_datetime(self$`start`)"),
+                "toSimpleType should format date-time fields via .format_datetime()");
+
+        // --- Cluster G: optional date validation includes length()==1 check ---
+        var dateObject = generatedFiles.stream()
+                .filter(file -> "date_object.R".equals(file.getName())).findFirst();
+        if (dateObject.isEmpty()) {
+            Assert.fail("`date_object.R` has not been generated");
+        }
+        String dateContent = String.join("\n", Files.readAllLines(Paths.get(dateObject.get().getAbsolutePath())));
+        Assert.assertTrue(dateContent.contains("inherits(`end`, \"Date\") && length(`end`) == 1"),
+                "optional date validation should check length == 1 (scalar enforcement)");
+
+        // --- Cluster I: fromJSONString uses baseName (not name) for date fields ---
+        var fieldAlias = generatedFiles.stream()
+                .filter(file -> "field_alias.R".equals(file.getName())).findFirst();
+        if (fieldAlias.isEmpty()) {
+            Assert.fail("`field_alias.R` has not been generated");
+        }
+        String aliasContent = String.join("\n", Files.readAllLines(Paths.get(fieldAlias.get().getAbsolutePath())));
+        Assert.assertTrue(aliasContent.contains("this_object$`ship-date`"),
+                "fromJSONString should read the JSON key (baseName `ship-date`), not the R field name (`ship_date`)");
+
+        // --- Cluster F: api_client.R does NOT add Date/POSIXct to primitive_types ---
+        var apiClient = generatedFiles.stream()
+                .filter(file -> "api_client.R".equals(file.getName())).findFirst();
+        if (apiClient.isEmpty()) {
+            Assert.fail("`api_client.R` has not been generated");
+        }
+        String apiClientContent = String.join("\n", Files.readAllLines(Paths.get(apiClient.get().getAbsolutePath())));
+        Assert.assertTrue(apiClientContent.contains("temporal_types <- c(\"Date\", \"POSIXct\")"),
+                "api_client.R should define temporal_types separately from primitive_types");
+        Assert.assertTrue(apiClientContent.contains(".parse_datetime <- function"),
+                "api_client.R should define the .parse_datetime helper");
+        Assert.assertTrue(apiClientContent.contains(".format_datetime <- function"),
+                "api_client.R should define the .format_datetime helper");
+        // The primitive_types line must NOT contain "Date" or "POSIXct"
+        String primitiveLine = apiClientContent.lines()
+                .filter(l -> l.contains("primitive_types <- c(")).findFirst().orElse("");
+        Assert.assertFalse(primitiveLine.contains("\"Date\""),
+                "primitive_types should not contain \"Date\" (model-name precedence fix)");
+        Assert.assertFalse(primitiveLine.contains("\"POSIXct\""),
+                "primitive_types should not contain \"POSIXct\" (model-name precedence fix)");
+        Assert.assertTrue(apiClientContent.contains("temporal_types && is.character(obj)"),
+                "deserializeObj model branch should guard temporal tokens with is.character(obj)");
+
+        // --- Cluster E: API file formats date/date-time query and header params ---
+        var apiFile = generatedFiles.stream()
+                .filter(file -> file.getName().endsWith("_api.R")).findFirst();
+        if (apiFile.isEmpty()) {
+            Assert.fail("no *_api.R file has been generated");
+        }
+        String apiContent = String.join("\n", Files.readAllLines(Paths.get(apiFile.get().getAbsolutePath())));
+        Assert.assertTrue(apiContent.contains(".format_datetime(`datetime_query`)"),
+                "scalar date-time query param should be formatted via .format_datetime()");
+        Assert.assertTrue(apiContent.contains(".format_datetime(`datetime_header`)"),
+                "date-time header param should be formatted via .format_datetime()");
+        Assert.assertTrue(apiContent.contains(".format_datetime(`datetime_array`)"),
+                "array date-time query param should format items via .format_datetime()");
     }
 
     @Test

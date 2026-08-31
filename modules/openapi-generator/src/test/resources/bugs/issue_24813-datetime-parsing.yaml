@@ -15,6 +15,65 @@ paths:
       responses:
         '200':
           description: OK
+  /dates:
+    get:
+      tags:
+        - date_test
+      parameters:
+        - name: date_query
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: datetime_query
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: date_header
+          in: header
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: datetime_header
+          in: header
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: OK
+  /date-arrays:
+    get:
+      tags:
+        - date_test
+      parameters:
+        - name: date_array
+          in: query
+          required: false
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+              format: date
+        - name: datetime_array
+          in: query
+          required: false
+          explode: false
+          style: form
+          schema:
+            type: array
+            items:
+              type: string
+              format: date-time
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     DateTimeObject:
@@ -34,8 +93,8 @@ components:
           type: string
         end:
           format: date
-          nullable: true
           type: string
+          nullable: true
       type: object
     # Array-of-date and array-of-date-time fields exercise the container item
     # validation path: the generated sapply() must check inherits(x, "Date")
@@ -73,4 +132,25 @@ components:
           type: string
           format: date-time
           default: '2020-01-01T12:00:00'
+      type: object
+    # A model named `Date` exercises the deserializeObj precedence fix: the
+    # generated api_client.R must NOT add "Date" to primitive_types so this
+    # model takes precedence over the temporal primitive of the same name.
+    Date:
+      description: to test model name collision with the temporal primitive Date
+      properties:
+        className:
+          type: string
+      required:
+        - className
+      type: object
+    # A model with a property whose JSON key (baseName) differs from the R field
+    # name exercises the fromJSONString baseName fix for date/date-time fields.
+    # toVarName("ship-date") = underscore(camelize("ship-date")) = "ship_date",
+    # so name="ship_date" but baseName="ship-date".
+    FieldAlias:
+      properties:
+        ship-date:
+          type: string
+          format: date
       type: object
