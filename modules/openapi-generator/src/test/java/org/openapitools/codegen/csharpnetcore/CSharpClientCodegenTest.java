@@ -120,9 +120,9 @@ public class CSharpClientCodegenTest {
                 "if (requiredNotnullableEnumStringValue == null)\n" +
                         "                                    throw new JsonException();",
                 "if (!requiredNullableEnumString.IsSet)\n" +
-                        "                throw new ArgumentException(\"Property is required for class RequiredClass.\", nameof(requiredNullableEnumString));",
+                        "                throw new JsonException(\"Property is required for class RequiredClass: required_nullable_enum_string.\");",
                 "if (!requiredNotnullableEnumString.IsSet)\n" +
-                        "                throw new ArgumentException(\"Property is required for class RequiredClass.\", nameof(requiredNotnullableEnumString));"
+                        "                throw new JsonException(\"Property is required for class RequiredClass: required_notnullable_enum_string.\");"
         );
     }
 
@@ -440,9 +440,9 @@ public class CSharpClientCodegenTest {
         // Required numeric checks distinguish a missing property from a present null.
         assertThat(modelWithEnumProperties).contains(
                 "if (!requiredInlineIntEnum.IsSet)\n" +
-                        "                throw new ArgumentException(\"Property is required for class ModelWithEnumProperties.\", nameof(requiredInlineIntEnum));",
+                        "                throw new JsonException(\"Property is required for class ModelWithEnumProperties: requiredInlineIntEnum.\");",
                 "if (requiredInlineIntEnum.IsSet && requiredInlineIntEnum.Value == null)\n" +
-                        "                throw new ArgumentNullException(nameof(requiredInlineIntEnum), \"Property is not nullable for class ModelWithEnumProperties.\");"
+                        "                throw new JsonException(\"Property is not nullable for class ModelWithEnumProperties: requiredInlineIntEnum.\");"
         );
 
         // Verify long enum uses int64 reader with validation and actual int64 values
