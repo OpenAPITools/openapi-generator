@@ -33,7 +33,7 @@ data class User(
 
     @Schema(required = true, description = "")
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("username")
+    @param:JsonProperty("username", required = true)
     @get:JsonProperty("username", required = true) val username: kotlin.String,
 
     @Schema(description = "")
