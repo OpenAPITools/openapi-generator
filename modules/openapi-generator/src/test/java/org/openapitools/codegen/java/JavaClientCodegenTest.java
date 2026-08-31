@@ -5070,6 +5070,29 @@ public class JavaClientCodegenTest {
                                 + " @FormParam(\"statusArray\")  List<MultipartMixedStatus> statusArray");
     }
 
+    @Test
+    public void testMicroprofileNullableRequiredContainers_issue24776() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.MODEL_PACKAGE, "org.openapitools.client.model",
+                        JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0"
+                ))
+                .setInputSpec("src/test/resources/3_1/microprofile-nullable-container.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Thing.java")).content()
+                .contains("protected Map<String, Object> nullableMap = null;")
+                .contains("protected List<String> nullableArray = null;")
+                .contains("protected List<String> regularArray = new ArrayList<>();")
+                .doesNotContain(" = ;");
+    }
+
     private static JavaClientCodegen newRetrofit2Codegen(Map<String, Object> properties) {
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setLibrary(JavaClientCodegen.RETROFIT_2);

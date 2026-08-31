@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: Cpp Boost Beast optional nullable property regression
+  version: 1.0.0
+  description: >
+    OAS 3.0 optional nullable property tri-state regression fixture.
+    An optional property tagged nullable: true must preserve three wire
+    states: missing (property absent), explicit null (property: null),
+    and present value (property: "value").
+paths:
+  /optional-nullable:
+    post:
+      operationId: postOptionalNullable
+      summary: Round-trip an optional nullable string property
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TriStateContainer'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriStateContainer'
+components:
+  schemas:
+    TriStateContainer:
+      description: >
+        Object with an optional nullable string property.  At runtime the
+        generator must distinguish missing, null, and present-value states.
+        The property is not in the required list (optional), and tagged
+        nullable: true.
+      type: object
+      properties:
+        label:
+          type: string
+        nullableValue:
+          type: string
+          nullable: true

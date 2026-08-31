@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 # **deleteOrder**
 ```swift
-    open class func deleteOrder(orderId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func deleteOrder(orderId: String) async throws
 ```
 
 Delete purchase order by ID
@@ -27,15 +27,10 @@ import PetstoreClient
 let orderId = "orderId_example" // String | ID of the order that needs to be deleted
 
 // Delete purchase order by ID
-StoreAPI.deleteOrder(orderId: orderId) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await StoreAPI.deleteOrder(orderId: orderId)
+} catch {
+    print(error)
 }
 ```
 
@@ -62,7 +57,7 @@ No authorization required
 
 # **getInventory**
 ```swift
-    open class func getInventory(completion: @escaping (_ data: [String: Int]?, _ error: Error?) -> Void)
+    open class func getInventory() async throws -> [String: Int]
 ```
 
 Returns pet inventories by status
@@ -76,15 +71,11 @@ import PetstoreClient
 
 
 // Returns pet inventories by status
-StoreAPI.getInventory() { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await StoreAPI.getInventory()
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 
@@ -108,7 +99,7 @@ This endpoint does not need any parameter.
 
 # **getOrderById**
 ```swift
-    open class func getOrderById(orderId: Int64, completion: @escaping (_ data: Order?, _ error: Error?) -> Void)
+    open class func getOrderById(orderId: Int64) async throws -> Order
 ```
 
 Find purchase order by ID
@@ -123,15 +114,11 @@ import PetstoreClient
 let orderId = 987 // Int64 | ID of pet that needs to be fetched
 
 // Find purchase order by ID
-StoreAPI.getOrderById(orderId: orderId) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await StoreAPI.getOrderById(orderId: orderId)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 
@@ -158,7 +145,7 @@ No authorization required
 
 # **placeOrder**
 ```swift
-    open class func placeOrder(body: Order, completion: @escaping (_ data: Order?, _ error: Error?) -> Void)
+    open class func placeOrder(body: Order) async throws -> Order
 ```
 
 Place an order for a pet
@@ -171,15 +158,11 @@ import PetstoreClient
 let body = Order(id: 123, petId: 123, quantity: 123, shipDate: Date(), status: "status_example", complete: false) // Order | order placed for purchasing the pet
 
 // Place an order for a pet
-StoreAPI.placeOrder(body: body) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await StoreAPI.placeOrder(body: body)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 
