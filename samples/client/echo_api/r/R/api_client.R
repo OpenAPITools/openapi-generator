@@ -351,8 +351,13 @@ ApiClient <- R6::R6Class(
         # To handle the "array" and "set" types
         inner_return_type <- regmatches(return_type,
                                         regexec(pattern = "collection\\[(.*)\\]", return_type))[[1]][2]
+        # A temporal token (Date/POSIXct) whose payload is a character vector is a
+        # bare array of date/date-time strings, not an array of same-named model
+        # objects (which jsonlite parses to a data.frame). Route it through the
+        # primitive-array path so each element is converted via as.Date/.parse_datetime.
         if (c(inner_return_type) %in% primitive_types ||
-            (c(inner_return_type) %in% temporal_types && !exists(inner_return_type, pkg_env))) {
+            (c(inner_return_type) %in% temporal_types &&
+             (!exists(inner_return_type, pkg_env) || is.character(obj)))) {
           return_obj <- vector("list", length = length(obj))
           if (length(obj) > 0) {
             for (row in 1:length(obj)) {
