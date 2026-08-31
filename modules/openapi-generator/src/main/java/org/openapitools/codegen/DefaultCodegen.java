@@ -3914,12 +3914,12 @@ public class DefaultCodegen implements CodegenConfig {
         String simpleType = "object";
         if (schemas.stream().allMatch(ModelUtils::isEnumSchema)) {
             simpleType = "enum";
-        } else if (schemas.stream().allMatch(ModelUtils::isIntegerSchema)) {
-            simpleType = "integer";
         } else if (schemas.stream().allMatch(ModelUtils::isLongSchema)) {
             simpleType = "long";
         } else if (schemas.stream().allMatch(ModelUtils::isShortSchema)) {
             simpleType = "short";
+        } else if (schemas.stream().allMatch(ModelUtils::isIntegerSchema)) {
+            simpleType = "integer";
         } else if (schemas.stream().allMatch(ModelUtils::isNumberSchema)) {
             simpleType = "number";
         } else if (schemas.stream().allMatch(s -> ModelUtils.isStringSchema(s) && s.getFormat() == null)) {
