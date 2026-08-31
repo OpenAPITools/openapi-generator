@@ -296,14 +296,14 @@
             {{#allVars}}
             {{#required}}
             if (!{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}.IsSet)
-                throw new ArgumentException("Property is required for class {{classname}}.", nameof({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}));
+                throw new JsonException("Property is required for class {{classname}}: {{baseName}}.");
 
             {{/required}}
             {{/allVars}}
             {{#allVars}}
             {{^isNullable}}
             if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}.IsSet && {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}.Value == null)
-                throw new ArgumentNullException(nameof({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}), "Property is not nullable for class {{classname}}.");
+                throw new JsonException("Property is not nullable for class {{classname}}: {{baseName}}.");
 
             {{/isNullable}}
             {{/allVars}}

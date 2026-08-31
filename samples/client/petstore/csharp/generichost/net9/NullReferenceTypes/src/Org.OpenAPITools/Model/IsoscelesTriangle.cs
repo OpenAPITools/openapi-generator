@@ -146,16 +146,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class IsoscelesTriangle.", nameof(shapeType));
+                throw new JsonException("Property is required for class IsoscelesTriangle: shapeType.");
 
             if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class IsoscelesTriangle.", nameof(triangleType));
+                throw new JsonException("Property is required for class IsoscelesTriangle: triangleType.");
 
             if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class IsoscelesTriangle.");
+                throw new JsonException("Property is not nullable for class IsoscelesTriangle: shapeType.");
 
             if (triangleType.IsSet && triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class IsoscelesTriangle.");
+                throw new JsonException("Property is not nullable for class IsoscelesTriangle: triangleType.");
 
             return new IsoscelesTriangle(shapeType.Value!, triangleType.Value!);
         }

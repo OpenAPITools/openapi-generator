@@ -188,13 +188,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (code.IsSet && code.Value == null)
-                throw new ArgumentNullException(nameof(code), "Property is not nullable for class Result.");
+                throw new JsonException("Property is not nullable for class Result: code.");
 
             if (data.IsSet && data.Value == null)
-                throw new ArgumentNullException(nameof(data), "Property is not nullable for class Result.");
+                throw new JsonException("Property is not nullable for class Result: data.");
 
             if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class Result.");
+                throw new JsonException("Property is not nullable for class Result: uuid.");
 
             return new Result(code, data, uuid);
         }

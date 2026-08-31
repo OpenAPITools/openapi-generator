@@ -187,13 +187,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (arrayArrayOfInteger.IsSet && arrayArrayOfInteger.Value == null)
-                throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is not nullable for class ArrayTest.");
+                throw new JsonException("Property is not nullable for class ArrayTest: array_array_of_integer.");
 
             if (arrayArrayOfModel.IsSet && arrayArrayOfModel.Value == null)
-                throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is not nullable for class ArrayTest.");
+                throw new JsonException("Property is not nullable for class ArrayTest: array_array_of_model.");
 
             if (arrayOfString.IsSet && arrayOfString.Value == null)
-                throw new ArgumentNullException(nameof(arrayOfString), "Property is not nullable for class ArrayTest.");
+                throw new JsonException("Property is not nullable for class ArrayTest: array_of_string.");
 
             return new ArrayTest(arrayArrayOfInteger, arrayArrayOfModel, arrayOfString);
         }

@@ -187,13 +187,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (myBoolean.IsSet && myBoolean.Value == null)
-                throw new ArgumentNullException(nameof(myBoolean), "Property is not nullable for class OuterComposite.");
+                throw new JsonException("Property is not nullable for class OuterComposite: my_boolean.");
 
             if (myNumber.IsSet && myNumber.Value == null)
-                throw new ArgumentNullException(nameof(myNumber), "Property is not nullable for class OuterComposite.");
+                throw new JsonException("Property is not nullable for class OuterComposite: my_number.");
 
             if (myString.IsSet && myString.Value == null)
-                throw new ArgumentNullException(nameof(myString), "Property is not nullable for class OuterComposite.");
+                throw new JsonException("Property is not nullable for class OuterComposite: my_string.");
 
             return new OuterComposite(myBoolean, myNumber, myString);
         }

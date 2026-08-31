@@ -138,10 +138,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!quadrilateralType.IsSet)
-                throw new ArgumentException("Property is required for class QuadrilateralInterface.", nameof(quadrilateralType));
+                throw new JsonException("Property is required for class QuadrilateralInterface: quadrilateralType.");
 
             if (quadrilateralType.IsSet && quadrilateralType.Value == null)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class QuadrilateralInterface.");
+                throw new JsonException("Property is not nullable for class QuadrilateralInterface: quadrilateralType.");
 
             return new QuadrilateralInterface(quadrilateralType.Value);
         }

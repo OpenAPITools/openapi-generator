@@ -244,16 +244,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!alternativeName.IsSet)
-                throw new ArgumentException("Property is required for class TestDescendants.", nameof(alternativeName));
+                throw new JsonException("Property is required for class TestDescendants: alternativeName.");
 
             if (!objectType.IsSet)
-                throw new ArgumentException("Property is required for class TestDescendants.", nameof(objectType));
+                throw new JsonException("Property is required for class TestDescendants: objectType.");
 
             if (alternativeName.IsSet && alternativeName.Value == null)
-                throw new ArgumentNullException(nameof(alternativeName), "Property is not nullable for class TestDescendants.");
+                throw new JsonException("Property is not nullable for class TestDescendants: alternativeName.");
 
             if (objectType.IsSet && objectType.Value == null)
-                throw new ArgumentNullException(nameof(objectType), "Property is not nullable for class TestDescendants.");
+                throw new JsonException("Property is not nullable for class TestDescendants: objectType.");
 
             return new TestDescendants(alternativeName.Value!);
         }

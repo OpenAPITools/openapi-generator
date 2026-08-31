@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (lengthCm.IsSet && lengthCm.Value == null)
-                throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class Banana.");
+                throw new JsonException("Property is not nullable for class Banana: lengthCm.");
 
             return new Banana(lengthCm);
         }

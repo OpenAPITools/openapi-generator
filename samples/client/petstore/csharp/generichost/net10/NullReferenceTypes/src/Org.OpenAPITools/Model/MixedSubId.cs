@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class MixedSubId.");
+                throw new JsonException("Property is not nullable for class MixedSubId: id.");
 
             return new MixedSubId(id);
         }

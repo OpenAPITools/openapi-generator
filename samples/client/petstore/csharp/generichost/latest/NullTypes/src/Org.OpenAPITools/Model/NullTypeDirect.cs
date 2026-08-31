@@ -160,7 +160,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class NullTypeDirect.");
+                throw new JsonException("Property is not nullable for class NullTypeDirect: id.");
 
             return new NullTypeDirect(alwaysNull, id);
         }
