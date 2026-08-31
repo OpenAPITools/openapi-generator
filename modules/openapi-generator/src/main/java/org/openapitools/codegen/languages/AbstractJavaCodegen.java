@@ -2330,7 +2330,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     /**
      * Visits every canonical location in which a schema can contain another {@link CodegenProperty}.
-     * Derived views such as {@code requiredVars} and {@code mostInnerItems} are intentionally omitted
++     * Other derived views such as {@code mostInnerItems} are intentionally omitted
++     * because their properties are already reachable through {@code items}. Note that
++     * {@code requiredVarsMap} is traversed explicitly below.
      * because their properties are already reachable through {@code vars} and {@code items}.
      */
     private void visitNestedProperties(IJsonSchemaValidationProperties schema,
