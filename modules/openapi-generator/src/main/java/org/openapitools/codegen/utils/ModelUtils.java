@@ -2990,15 +2990,4 @@ public class ModelUtils {
             }
         }
     }
-
-    /**
-     * find a property under the schema.
-     *
-     * @param schema
-     * @param propertyName property to find
-     * @return found property or null if not found.
-     */
-    public static Schema findProperty(OpenAPI openAPI, Schema schema, String propertyName) {
-        return findProperty(openAPI, schema, propertyName, false, new HashSet<>());
-    }
 }

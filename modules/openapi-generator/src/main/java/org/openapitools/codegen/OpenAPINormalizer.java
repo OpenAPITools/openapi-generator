@@ -1866,14 +1866,6 @@ public class OpenAPINormalizer {
         return schemaName;
     }
 
-
-    /**
-     * find a property under the schema
-     */
-    protected Schema findProperty(Schema schema, String propertyName) {
-        return findProperty(schema, propertyName, false, new HashSet<>());
-    }
-
     /**
      * find a property under the schema.
      *
