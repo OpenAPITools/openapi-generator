@@ -40,6 +40,20 @@ paths:
           explode: false
           schema:
             type: object
+        # an array of objects, not exploded, so the whole slice is handed to the runtime
+        # as one value. That is the only shape that reaches the array branch: with
+        # explode: true the api unrolls the slice itself and each element arrives as a
+        # map. The flattening applies only to a map that is the parameter's own value, so
+        # an element here keeps the path it accumulated (arrayFilter[key]=value) rather
+        # than being keyed by its property names alone.
+        - in: query
+          name: arrayFilter
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: object
       responses:
         '200':
           description: a list of items

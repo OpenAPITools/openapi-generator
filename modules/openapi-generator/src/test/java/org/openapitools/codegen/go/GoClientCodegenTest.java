@@ -180,7 +180,11 @@ public class GoClientCodegenTest {
                 "parameterAddToHeaderOrQuery(localVarQueryParams, \"filter\", r.filter, \"form\", \"\")",
                 "parameterAddToHeaderOrQuery(localVarQueryParams, \"typedFilter\", r.typedFilter, \"form\", \"\")",
                 "parameterAddToHeaderOrQuery(localVarQueryParams, \"deepFilter\", r.deepFilter, \"deepObject\", \"\")",
-                "parameterAddToHeaderOrQuery(localVarQueryParams, \"flatFilter\", r.flatFilter, \"form\", \"\")");
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"flatFilter\", r.flatFilter, \"form\", \"\")",
+                // the array of objects the element reset exists for: not exploded, so the
+                // whole slice reaches the runtime as one form style value and enters the
+                // array branch that must not pass the flattening down to its elements
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"arrayFilter\", r.arrayFilter, \"form\", \"csv\")");
     }
 
     @Test
