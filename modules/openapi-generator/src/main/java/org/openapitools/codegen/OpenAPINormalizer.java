@@ -1883,8 +1883,38 @@ public class OpenAPINormalizer {
      * @param visitedSchemas avoid infinite recursion
      * @return found property or null if not found.
      */
-    protected Schema findProperty(Schema schema, String propertyName, boolean toDelete, Set<Schema> visitedSchemas) {
-        return ModelUtils.findProperty(openAPI, schema, propertyName, toDelete, visitedSchemas);
+    private Schema findProperty(Schema schema, String propertyName, boolean toDelete, Set<Schema> visitedSchemas) {
+        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+        if (propertyName == null || schema == null || visitedSchemas.contains(schema)) {
+            return null;
+        }
+        visitedSchemas.add(schema);
+        Map<String, Schema>  properties = schema.getProperties();
+        if (properties != null) {
+            Schema property = ModelUtils.getReferencedSchema(openAPI, properties.get(propertyName));
+            if (property != null) {
+                if (toDelete) {
+                    if (schema.getProperties().remove(propertyName) != null) {
+                        LOGGER.info("property " + propertyName + " has been removed in REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING normalization");
+                        if (schema.getProperties().isEmpty()) {
+                            schema.setProperties(null);
+                        }
+                    }
+                }
+                return property;
+            }
+        }
+        List<Schema> allOfs = schema.getAllOf();
+        if (allOfs != null) {
+            for (Schema child : allOfs) {
+                Schema found = findProperty(child, propertyName, toDelete, visitedSchemas);
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+
+        return null;
     }
 
 

@@ -3894,6 +3894,13 @@ public class DefaultCodegen implements CodegenConfig {
             case 1:
                 Schema first = schemas.get(0);
                 try {
+                    if (StringUtils.isEmpty(first.get$ref())) {
+                        Schema refScheme = ModelUtils.getReferencedSchema(openAPI, first);
+                        if (ModelUtils.isEnumSchema(refScheme)) {
+                            return toModelName(first.getName());
+                        }
+                        return getSchemaType(refScheme);
+                    }
                     return getSchemaType(first);
                 } catch (Exception e) {
                     // fallback for some unit test misconfigurations...
@@ -3903,6 +3910,7 @@ public class DefaultCodegen implements CodegenConfig {
             default:
                 break;
         }
+        schemas = schemas.stream().map(s -> ModelUtils.getReferencedSchema(openAPI, s)).collect(Collectors.toList());
         String simpleType = "object";
         if (schemas.stream().allMatch(ModelUtils::isEnumSchema)) {
             simpleType = "enum";

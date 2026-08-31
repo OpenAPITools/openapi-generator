@@ -9353,5 +9353,10 @@ public class SpringCodegenTest {
                 .fileDoesNotContain("public enum TypeEnum {")
                 .fileContains("public Enum getType();");
 
+        JavaFileAssert.assertThat(files.get("PetInteger.java"))
+                .fileContains("public Integer getIntType();");
+
+        JavaFileAssert.assertThat(files.get("PetEnumRef.java"))
+                .fileContains("public PetEnumType getEnumRefType();");
     }
 }

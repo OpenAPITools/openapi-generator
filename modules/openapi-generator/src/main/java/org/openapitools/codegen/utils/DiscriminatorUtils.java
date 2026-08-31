@@ -332,10 +332,12 @@ public class DiscriminatorUtils {
      */
     public static List<Schema> getDistinctTypes(OpenAPI openAPI, Schema schema, String discPropName) {
         List<Schema> mappedSchemas = getMappedSchemas(openAPI, schema);
-        return mappedSchemas.stream().map(sc -> ModelUtils.findProperty(openAPI, sc, discPropName))
+        return mappedSchemas.stream().map(sc -> findProperty(openAPI, sc, discPropName, new HashSet<>()))
+                .filter(Objects::nonNull)
                 .distinct()
                 .collect(Collectors.toList());
     }
+
 
     public static List<Schema> getMappedSchemas(OpenAPI openAPI, Schema schema) {
         if (schema.getDiscriminator() != null && schema.getDiscriminator().getMapping() != null) {
@@ -345,8 +347,35 @@ public class DiscriminatorUtils {
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();
-
     }
+
+    public static Schema findProperty(OpenAPI openAPI, Schema schema, String propertyName, Set<Schema> visitedSchemas) {
+        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+        if (propertyName == null || schema == null || visitedSchemas.contains(schema)) {
+            return null;
+        }
+        visitedSchemas.add(schema);
+        Map<String, Schema>  properties = schema.getProperties();
+        if (properties != null) {
+            Schema property = properties.get(propertyName);
+//            Schema property = ModelUtils.getReferencedSchema(openAPI, );
+            if (property != null) {
+                return property;
+            }
+        }
+        List<Schema> allOfs = schema.getAllOf();
+        if (allOfs != null) {
+            for (Schema child : allOfs) {
+                Schema found = findProperty(openAPI, child, propertyName, visitedSchemas);
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+
+        return null;
+    }
+
 
     public static class DiscriminatorData {
         private final Discriminator discriminator;

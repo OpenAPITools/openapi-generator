@@ -19,16 +19,9 @@ components:
       properties:
         type:
           type: string
-          description: pet is a CAT
           const: CAT
         huntingSkill:
           type: string
-          description: The measured skill for hunting
-          enum:
-            - clueless
-            - lazy
-            - adventurous
-            - aggressive
       required:
         - type
         - huntingSkill
@@ -38,14 +31,79 @@ components:
       properties:
         type:
           type: string
-          description: Pet is a DOG
           const: DOG
         packSize:
           type: integer
           format: int32
-          description: the size of the pack the dog is from
-          default: 0
-          minimum: 0
       required:
         - type
         - packSize
+    PetInteger:
+      oneOf:
+        - $ref: '#/components/schemas/CatInteger'
+        - $ref: '#/components/schemas/DogInteger'
+      discriminator:
+        propertyName: intType
+        mapping:
+          1: '#/components/schemas/CatInteger'
+          2: '#/components/schemas/DogInteger'
+    CatInteger:
+      description: A representation of a cat
+      type: object
+      properties:
+        intType:
+          type: integer
+        huntingSkill:
+          type: string
+      required:
+        - intType
+        - huntingSkill
+    DogInteger:
+      description: A representation of a dog
+      type: object
+      properties:
+        intType:
+          type: integer
+        packSize:
+          type: integer
+          format: int32
+      required:
+        - intType
+        - packSize
+    PetEnumRef:
+      oneOf:
+        - $ref: '#/components/schemas/CatEnumRef'
+        - $ref: '#/components/schemas/DogEnumRef'
+      discriminator:
+        propertyName: enumRefType
+        mapping:
+          CAT: '#/components/schemas/CatEnumRef'
+          DOG: '#/components/schemas/DogEnumRef'
+    CatEnumRef:
+      description: A representation of a cat
+      type: object
+      properties:
+        enumRefType:
+          $ref: '#/components/schemas/PetEnumType'
+        huntingSkill:
+          type: string
+      required:
+        - enumRefType
+        - huntingSkill
+    DogEnumRef:
+      description: A representation of a dog
+      type: object
+      properties:
+        enumRefType:
+          $ref: '#/components/schemas/PetEnumType'
+        packSize:
+          type: integer
+          format: int32
+      required:
+        - enumRefType
+        - packSize
+    PetEnumType:
+      type: string
+      enum:
+        - CAT
+        - DOG
