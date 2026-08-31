@@ -67,6 +67,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -2214,11 +2215,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (this.serializableModel) {
             for (ModelMap mo : objs.getModels()) {
                 CodegenModel cm = mo.getModel();
-                List<String> xImplements = new ArrayList<>(getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS)));
-                if (!xImplements.contains("Serializable")) {
-                    xImplements.add("Serializable");
-                }
-                cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplements);
+                addInterfaceToVendorExtensions(cm.getVendorExtensions(), "Serializable");
+                forEachModelPropertyRecursively(cm, property -> {
+                    if (property.isEnum) {
+                        addInterfaceToVendorExtensions(property.getVendorExtensions(), "Serializable");
+                    }
+                });
             }
         }
 
@@ -2300,6 +2302,65 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         for (CodegenProperty property : properties) {
             normalizeVendorExtensionWithStringList(property.vendorExtensions, name);
+        }
+    }
+
+    private void addInterfaceToVendorExtensions(Map<String, Object> vendorExtensions, String interfaceName) {
+        List<String> interfaces = new ArrayList<>(getObjectAsStringList(vendorExtensions.get(X_IMPLEMENTS)));
+        if (!interfaces.contains(interfaceName)) {
+            interfaces.add(interfaceName);
+        }
+        vendorExtensions.put(X_IMPLEMENTS, interfaces);
+    }
+
+    private void forEachModelPropertyRecursively(CodegenModel model, Consumer<CodegenProperty> action) {
+        Set<CodegenProperty> visited = Collections.newSetFromMap(new IdentityHashMap<>());
+        visitNestedProperties(model, visited, action);
+    }
+
+    private void visitProperty(CodegenProperty property, Set<CodegenProperty> visited,
+            Consumer<CodegenProperty> action) {
+        if (property == null || !visited.add(property)) {
+            return;
+        }
+
+        action.accept(property);
+        visitNestedProperties(property, visited, action);
+    }
+
+    /**
+     * Visits every canonical location in which a schema can contain another {@link CodegenProperty}.
+     * Derived views such as {@code requiredVars} and {@code mostInnerItems} are intentionally omitted
+     * because their properties are already reachable through {@code vars} and {@code items}.
+     */
+    private void visitNestedProperties(IJsonSchemaValidationProperties schema,
+            Set<CodegenProperty> visited, Consumer<CodegenProperty> action) {
+        visitProperties(schema.getVars(), visited, action);
+        visitProperty(schema.getItems(), visited, action);
+        visitProperty(schema.getAdditionalProperties(), visited, action);
+        visitProperty(schema.getContains(), visited, action);
+
+        Map<String, CodegenProperty> requiredVarsMap = schema.getRequiredVarsMap();
+        if (requiredVarsMap != null) {
+            visitProperties(requiredVarsMap.values(), visited, action);
+        }
+
+        CodegenComposedSchemas composedSchemas = schema.getComposedSchemas();
+        if (composedSchemas != null) {
+            visitProperties(composedSchemas.getAllOf(), visited, action);
+            visitProperties(composedSchemas.getOneOf(), visited, action);
+            visitProperties(composedSchemas.getAnyOf(), visited, action);
+            visitProperty(composedSchemas.getNot(), visited, action);
+        }
+    }
+
+    private void visitProperties(Collection<CodegenProperty> properties, Set<CodegenProperty> visited,
+            Consumer<CodegenProperty> action) {
+        if (properties == null) {
+            return;
+        }
+        for (CodegenProperty property : properties) {
+            visitProperty(property, visited, action);
         }
     }
 
