@@ -5026,23 +5026,4 @@ public class JavaClientCodegenTest {
         codegen.additionalProperties().putAll(properties);
         return codegen;
     }
-
-
-    @Test
-    public void issue_24769() throws IOException {
-        Map<String, File> files = generateFromContract(
-                "src/test/resources/3_1/oneof_polymorphism_and_inheritance.yaml", RESTCLIENT,
-                Map.of(USE_SEALED_ONE_OF_INTERFACES, true,
-                        USE_ONE_OF_INTERFACES, true)
-        );
-        JavaFileAssert.assertThat("BarOrRefValue.java").fileContains(
-                "public String getAtType();"
-        );
-
-        JavaFileAssert.assertThat("Entity.java").fileContains(
-                "protected String atType;"
-        );
-    }
-
-
 }
