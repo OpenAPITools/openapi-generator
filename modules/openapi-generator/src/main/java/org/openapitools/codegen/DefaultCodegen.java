@@ -3880,8 +3880,8 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * get the most commons denominator schemaType for several schemas.
-     *
+     * Get the most commons denominator schemaType for several schemas.
+     * <p>
      * @param schemas  the list of schemas to compare.
      *
      * @Return the comman type

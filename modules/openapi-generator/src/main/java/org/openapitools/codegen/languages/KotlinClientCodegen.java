@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -1008,16 +1007,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         return objects;
-    }
-
-    /**
-     * Kotlin has its own implementation in postProcessAllModels
-     *
-     * @return
-     */
-    @Override
-    protected String getCommonSchemaType(List<Schema> schemas) {
-        return typeMapping.get("string");
     }
 
     @Override
