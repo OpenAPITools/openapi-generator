@@ -342,7 +342,7 @@ public class DiscriminatorUtils {
     public static List<Schema> getMappedSchemas(OpenAPI openAPI, Schema schema) {
         if (schema.getDiscriminator() != null && schema.getDiscriminator().getMapping() != null) {
             return schema.getDiscriminator().getMapping().values().stream()
-                    .map(ref -> ModelUtils.getSchema(openAPI, ModelUtils.getSimpleRef(ref)))
+                    .map(ref -> ModelUtils.getSchema(openAPI, ref.indexOf('/') >= 0 ? ModelUtils.getSimpleRef(ref) : ref))
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
         }
