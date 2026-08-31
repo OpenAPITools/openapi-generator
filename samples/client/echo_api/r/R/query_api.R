@@ -368,7 +368,7 @@ QueryApi <- R6::R6Class(
         stop("Invalid value for `string_query` when calling QueryApi$TestQueryDatetimeDateString, `string_query` is not nullable")
       }
 
-      query_params[["datetime_query"]] <- if (is.null(`datetime_query`)) NULL else format(`datetime_query`, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+      query_params[["datetime_query"]] <- if (is.null(`datetime_query`)) NULL else .format_datetime(`datetime_query`)
 
       query_params[["date_query"]] <- if (is.null(`date_query`)) NULL else as.character(`date_query`)
 

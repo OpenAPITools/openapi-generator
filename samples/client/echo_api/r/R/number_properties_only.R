@@ -117,7 +117,7 @@ NumberPropertiesOnly <- R6::R6Class(
     #' @return NumberPropertiesOnly in JSON format
     toJSONString = function(...) {
       simple <- self$toSimpleType()
-      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, Date = "ISO8601", POSIXt = "ISO8601", UTC = TRUE, ...)
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
       return(as.character(jsonlite::minify(json)))
     },
 

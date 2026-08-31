@@ -56,7 +56,7 @@ Order <- R6::R6Class(
         self$`quantity` <- `quantity`
       }
       if (!is.null(`shipDate`)) {
-        if (!inherits(`shipDate`, "POSIXt")) {
+        if (!(inherits(`shipDate`, "POSIXt") && length(`shipDate`) == 1)) {
           stop(paste("Error! Invalid data for `shipDate`. Must be a POSIXct/POSIXlt datetime:", `shipDate`))
         }
         self$`shipDate` <- `shipDate`
@@ -123,7 +123,7 @@ Order <- R6::R6Class(
       }
       if (!is.null(self$`shipDate`)) {
         OrderObject[["shipDate"]] <-
-          self$`shipDate`
+          .format_datetime(self$`shipDate`)
       }
       if (!is.null(self$`status`)) {
         OrderObject[["status"]] <-
@@ -153,10 +153,7 @@ Order <- R6::R6Class(
         self$`quantity` <- this_object$`quantity`
       }
       if (!is.null(this_object$`shipDate`)) {
-        # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
-        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
-        # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
-        self$`shipDate` <- as.POSIXct(this_object$`shipDate`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
+        self$`shipDate` <- .parse_datetime(this_object$`shipDate`)
       }
       if (!is.null(this_object$`status`)) {
         if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("placed", "approved", "delivered"))) {
@@ -177,7 +174,7 @@ Order <- R6::R6Class(
     #' @return Order in JSON format
     toJSONString = function(...) {
       simple <- self$toSimpleType()
-      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, Date = "ISO8601", POSIXt = "ISO8601", UTC = TRUE, ...)
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
       return(as.character(jsonlite::minify(json)))
     },
 
@@ -191,12 +188,7 @@ Order <- R6::R6Class(
       self$`id` <- this_object$`id`
       self$`petId` <- this_object$`petId`
       self$`quantity` <- this_object$`quantity`
-      if (!is.null(this_object$`shipDate`)) {
-        # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
-        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
-        # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
-        self$`shipDate` <- as.POSIXct(this_object$`shipDate`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
-      }
+      self$`shipDate` <- if (is.null(this_object$`shipDate`)) NULL else .parse_datetime(this_object$`shipDate`)
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("placed", "approved", "delivered"))) {
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"placed\", \"approved\", \"delivered\".", sep = ""))
       }

@@ -145,7 +145,7 @@ Dog <- R6::R6Class(
       for (key in names(self$additional_properties)) {
         simple[[key]] <- self$additional_properties[[key]]
       }
-      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, Date = "ISO8601", POSIXt = "ISO8601", UTC = TRUE, ...)
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
       return(as.character(jsonlite::minify(json)))
     },
 

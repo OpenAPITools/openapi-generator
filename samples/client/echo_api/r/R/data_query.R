@@ -59,7 +59,7 @@ DataQuery <- R6::R6Class(
         self$`text` <- `text`
       }
       if (!is.null(`date`)) {
-        if (!inherits(`date`, "POSIXt")) {
+        if (!(inherits(`date`, "POSIXt") && length(`date`) == 1)) {
           stop(paste("Error! Invalid data for `date`. Must be a POSIXct/POSIXlt datetime:", `date`))
         }
         self$`date` <- `date`
@@ -115,7 +115,7 @@ DataQuery <- R6::R6Class(
       }
       if (!is.null(self$`date`)) {
         DataQueryObject[["date"]] <-
-          self$`date`
+          .format_datetime(self$`date`)
       }
       return(DataQueryObject)
     },
@@ -140,10 +140,7 @@ DataQuery <- R6::R6Class(
         self$`text` <- this_object$`text`
       }
       if (!is.null(this_object$`date`)) {
-        # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
-        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
-        # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
-        self$`date` <- as.POSIXct(this_object$`date`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
+        self$`date` <- .parse_datetime(this_object$`date`)
       }
       self
     },
@@ -155,7 +152,7 @@ DataQuery <- R6::R6Class(
     #' @return DataQuery in JSON format
     toJSONString = function(...) {
       simple <- self$toSimpleType()
-      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, Date = "ISO8601", POSIXt = "ISO8601", UTC = TRUE, ...)
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
       return(as.character(jsonlite::minify(json)))
     },
 
@@ -170,12 +167,7 @@ DataQuery <- R6::R6Class(
       self$`outcomes` <- ApiClient$new()$deserializeObj(this_object$`outcomes`, "array[character]", loadNamespace("openapi"))
       self$`suffix` <- this_object$`suffix`
       self$`text` <- this_object$`text`
-      if (!is.null(this_object$`date`)) {
-        # NOTE: an explicit tryFormats list is required in all current R versions thru 4.3.x
-        # as.POSIXct's default tryFormats omit the ISO 8601 'T'-separator format, and
-        # strptime's %z does not accept a trailing 'Z' as a UTC designator on input.
-        self$`date` <- as.POSIXct(this_object$`date`, tryFormats = c("%Y-%m-%dT%H:%M:%OSZ", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%S"), tz = "UTC")
-      }
+      self$`date` <- if (is.null(this_object$`date`)) NULL else .parse_datetime(this_object$`date`)
       self
     },
 
