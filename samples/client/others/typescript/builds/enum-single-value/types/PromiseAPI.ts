@@ -4,3 +4,4 @@ import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../midd
 
 import { SingleValueEnum30 } from '../models/SingleValueEnum30';
 import { SingleValueEnum31 } from '../models/SingleValueEnum31';
+import { SingleValueOneOfConst31 } from '../models/SingleValueOneOfConst31';
