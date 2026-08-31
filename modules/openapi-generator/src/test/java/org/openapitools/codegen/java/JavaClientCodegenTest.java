@@ -2363,6 +2363,23 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testOverrideSetterWhenChildIsDeclaredBeforeParent() {
+        final Path output = newTempFolder();
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/allOf_composition_discriminator_child_first.yaml", null, null)
+                .getOpenAPI();
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+        codegen.setLibrary(JavaClientCodegen.APACHE);
+
+        new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Cat.java")).content()
+                .contains("  @Override\n  public Cat petType(@javax.annotation.Nonnull String petType) {");
+    }
+
+    @Test
     public void testForJavaApacheHttpClientOverrideSetter() {
         final Path output = newTempFolder();
         OpenAPI openAPI = new OpenAPIParser()
