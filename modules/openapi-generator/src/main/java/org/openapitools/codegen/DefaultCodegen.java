@@ -3889,7 +3889,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected String getCommonSchemaType(List<Schema> schemas) {
         switch (schemas.size()) {
             case 0:
-                return typeMapping.get("object");
+                //. keep string for backward compatibility
+                return typeMapping.get("string");
             case 1:
                 Schema first = schemas.get(0);
                 try {
