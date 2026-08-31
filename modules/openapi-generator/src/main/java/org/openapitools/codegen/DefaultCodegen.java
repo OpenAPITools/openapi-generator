@@ -3901,7 +3901,7 @@ public class DefaultCodegen implements CodegenConfig {
                         }
                         return getSchemaType(refScheme);
                     }
-                    return getSchemaType(first);
+                    return toModelName(ModelUtils.getSimpleRef(first.get$ref()));
                 } catch (Exception e) {
                     // fallback for some unit test misconfigurations...
                     LOGGER.warn("Unable to getSchemaType for " + first, e);
