@@ -248,13 +248,13 @@ public class RClientCodegenTest {
         Assert.assertTrue(defaultsContent.contains("as.POSIXct(\"2020-01-01T12:00:00\", format = \"%Y-%m-%dT%H:%M:%OS\", tz = \"UTC\")"),
                 "withoutTimezone default should be interpreted as UTC (12:00:00)");
 
-        // --- Cluster H: withZ assertion must be non-vacuous ---
-        // The positive assertion above is also satisfied by withoutTimezone's identical
-        // output, so assert the 'Z' was actually stripped (not retained in the literal).
+        // withZ assertion must be non-vacuous: the positive assertion above is also
+        // satisfied by withoutTimezone's identical output, so assert the 'Z' was
+        // actually stripped (not retained in the literal).
         Assert.assertFalse(defaultsContent.contains("as.POSIXct(\"2020-01-01T12:00:00Z\""),
                 "withZ default should have the trailing 'Z' stripped, not retained in the literal");
 
-        // --- Cluster A: fromJSON uses .parse_datetime() helper (not inline tryFormats) ---
+        // fromJSON should use the .parse_datetime() helper instead of inline tryFormats
         var dateTimeObject = generatedFiles.stream()
                 .filter(file -> "date_time_object.R".equals(file.getName())).findFirst();
         if (dateTimeObject.isEmpty()) {
@@ -266,21 +266,21 @@ public class RClientCodegenTest {
         Assert.assertFalse(dtContent.contains("tryFormats = c("),
                 "model code should not contain inline tryFormats lists (replaced by .parse_datetime helper)");
 
-        // --- Cluster B: fromJSONString clears NULL on omitted/null date-time fields ---
+        // fromJSONString should clear NULL on omitted/null date-time fields
         Assert.assertTrue(dtContent.contains("if (is.null(this_object$`end`)) NULL else"),
                 "fromJSONString should assign NULL for null/omitted date-time fields (stale-value fix)");
 
-        // --- Cluster C: toJSONString uses stock jsonlite::toJSON (no Date/POSIXt/UTC options) ---
+        // toJSONString should use stock jsonlite::toJSON without hardcoded Date/POSIXt/UTC options
         Assert.assertFalse(dtContent.contains("Date = \"ISO8601\""),
                 "toJSONString should not hardcode Date = \"ISO8601\" (breaks ... passthrough)");
         Assert.assertFalse(dtContent.contains("POSIXt = \"ISO8601\""),
                 "toJSONString should not hardcode POSIXt = \"ISO8601\"");
 
-        // --- Cluster D: toSimpleType formats date-time via .format_datetime() ---
+        // toSimpleType should format date-time fields via .format_datetime()
         Assert.assertTrue(dtContent.contains(".format_datetime(self$`start`)"),
                 "toSimpleType should format date-time fields via .format_datetime()");
 
-        // --- Cluster G: optional date validation includes length()==1 check ---
+        // optional date validation should include a length()==1 scalar check
         var dateObject = generatedFiles.stream()
                 .filter(file -> "date_object.R".equals(file.getName())).findFirst();
         if (dateObject.isEmpty()) {
@@ -290,7 +290,7 @@ public class RClientCodegenTest {
         Assert.assertTrue(dateContent.contains("inherits(`end`, \"Date\") && length(`end`) == 1"),
                 "optional date validation should check length == 1 (scalar enforcement)");
 
-        // --- Cluster I: fromJSONString uses baseName (not name) for date fields ---
+        // fromJSONString should use baseName (JSON key) not name (R field name) for date fields
         var fieldAlias = generatedFiles.stream()
                 .filter(file -> "field_alias.R".equals(file.getName())).findFirst();
         if (fieldAlias.isEmpty()) {
@@ -300,7 +300,7 @@ public class RClientCodegenTest {
         Assert.assertTrue(aliasContent.contains("this_object$`ship-date`"),
                 "fromJSONString should read the JSON key (baseName `ship-date`), not the R field name (`ship_date`)");
 
-        // --- Cluster F: api_client.R does NOT add Date/POSIXct to primitive_types ---
+        // api_client.R should not add Date/POSIXct to primitive_types (model-name precedence)
         var apiClient = generatedFiles.stream()
                 .filter(file -> "api_client.R".equals(file.getName())).findFirst();
         if (apiClient.isEmpty()) {
@@ -323,7 +323,7 @@ public class RClientCodegenTest {
         Assert.assertTrue(apiClientContent.contains("temporal_types && is.character(obj)"),
                 "deserializeObj model branch should guard temporal tokens with is.character(obj)");
 
-        // --- Cluster E: API file formats date/date-time query and header params ---
+        // API file should format date/date-time query and header params via .format_datetime()
         var apiFile = generatedFiles.stream()
                 .filter(file -> file.getName().endsWith("_api.R")).findFirst();
         if (apiFile.isEmpty()) {
