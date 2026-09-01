@@ -339,7 +339,7 @@ public class DiscriminatorUtils {
     }
 
     /**
-     * return the list of deferenced mapping schemas.
+     * return the list of dereferenced mapping schemas.
      * @return the schemas found or empty list if not found.
      */
     public static List<Schema> getMappedSchemas(OpenAPI openAPI, Schema schema) {
