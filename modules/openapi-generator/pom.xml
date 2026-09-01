@@ -298,7 +298,7 @@
         <dependency>
             <groupId>com.github.jknack</groupId>
             <artifactId>handlebars-jackson2</artifactId>
-            <version>${handlebars-java.version}</version>
+            <version>${handlebars-jackson2.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
