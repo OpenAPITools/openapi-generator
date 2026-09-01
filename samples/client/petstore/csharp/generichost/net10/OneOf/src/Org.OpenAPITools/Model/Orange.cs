@@ -146,9 +146,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (sweet.IsSet && sweet.Value == null)
-                throw new ArgumentNullException(nameof(sweet), "Property is not nullable for class Orange.");
-
             return new Orange(sweet);
         }
 
@@ -177,7 +174,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Orange orange, JsonSerializerOptions jsonSerializerOptions)
         {
             if (orange.SweetOption.IsSet)
-                writer.WriteBoolean("sweet", orange.SweetOption.Value!.Value);
+                if (orange.SweetOption.Value != null)
+                    writer.WriteBoolean("sweet", orange.SweetOption.Value!.Value);
+                else
+                    writer.WriteNull("sweet");
         }
     }
 }

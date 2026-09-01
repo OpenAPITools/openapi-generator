@@ -146,9 +146,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayNumber.IsSet && arrayNumber.Value == null)
-                throw new ArgumentNullException(nameof(arrayNumber), "Property is not nullable for class ArrayOfNumberOnly.");
-
             return new ArrayOfNumberOnly(arrayNumber);
         }
 
@@ -176,9 +173,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ArrayOfNumberOnly arrayOfNumberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (arrayOfNumberOnly.ArrayNumberOption.IsSet && arrayOfNumberOnly.ArrayNumber == null)
-                throw new ArgumentNullException(nameof(arrayOfNumberOnly.ArrayNumber), "Property is required for class ArrayOfNumberOnly.");
-
             if (arrayOfNumberOnly.ArrayNumberOption.IsSet)
             {
                 writer.WritePropertyName("ArrayNumber");
