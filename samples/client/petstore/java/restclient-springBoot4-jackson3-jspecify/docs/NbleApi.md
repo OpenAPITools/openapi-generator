@@ -1,17 +1,17 @@
-# RequiredAndNullableApi
+# NbleApi
 
 All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**requiredAndNullableGet**](RequiredAndNullableApi.md#requiredAndNullableGet) | **GET** /requiredAndNullable |  |
-| [**requiredAndNullablePost**](RequiredAndNullableApi.md#requiredAndNullablePost) | **POST** /requiredAndNullable |  |
+| [**nbleGet**](NbleApi.md#nbleGet) | **GET** /nble |  |
+| [**nblePost**](NbleApi.md#nblePost) | **POST** /nble |  |
 
 
 
-## requiredAndNullableGet
+## nbleGet
 
-> requiredAndNullableGet(filter)
+> nbleGet(mandatory, optional)
 
 
 
@@ -23,19 +23,20 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.models.*;
-import org.openapitools.client.api.RequiredAndNullableApi;
+import org.openapitools.client.api.NbleApi;
 
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost");
 
-        RequiredAndNullableApi apiInstance = new RequiredAndNullableApi(defaultClient);
-        String filter = "filter_example"; // String | 
+        NbleApi apiInstance = new NbleApi(defaultClient);
+        String mandatory = "mandatory_example"; // String | 
+        String optional = "optional_example"; // String | 
         try {
-            apiInstance.requiredAndNullableGet(filter);
+            apiInstance.nbleGet(mandatory, optional);
         } catch (ApiException e) {
-            System.err.println("Exception when calling RequiredAndNullableApi#requiredAndNullableGet");
+            System.err.println("Exception when calling NbleApi#nbleGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -50,7 +51,8 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **filter** | **String**|  | [optional] |
+| **mandatory** | **String**|  | |
+| **optional** | **String**|  | [optional] |
 
 ### Return type
 
@@ -72,9 +74,9 @@ No authorization required
 | **0** | OK |  -  |
 
 
-## requiredAndNullablePost
+## nblePost
 
-> RequiredAndNullable requiredAndNullablePost(requiredAndNullable)
+> RequiredAndNullable nblePost(requiredAndNullable)
 
 
 
@@ -86,20 +88,20 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.models.*;
-import org.openapitools.client.api.RequiredAndNullableApi;
+import org.openapitools.client.api.NbleApi;
 
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost");
 
-        RequiredAndNullableApi apiInstance = new RequiredAndNullableApi(defaultClient);
+        NbleApi apiInstance = new NbleApi(defaultClient);
         RequiredAndNullable requiredAndNullable = new RequiredAndNullable(); // RequiredAndNullable | bodyWithRequiredAndNullableAttributes
         try {
-            RequiredAndNullable result = apiInstance.requiredAndNullablePost(requiredAndNullable);
+            RequiredAndNullable result = apiInstance.nblePost(requiredAndNullable);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling RequiredAndNullableApi#requiredAndNullablePost");
+            System.err.println("Exception when calling NbleApi#nblePost");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());

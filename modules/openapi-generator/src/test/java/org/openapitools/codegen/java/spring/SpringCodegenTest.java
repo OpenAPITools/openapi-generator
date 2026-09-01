@@ -7231,16 +7231,18 @@ public class SpringCodegenTest {
                         "java.time.@Nullable Instant dtQuery",
                         "java.time.@Nullable Instant dtCookie");
 
-        JavaFileAssert requiredApi = JavaFileAssert.assertThat(files.get("RequiredAndNullableApi.java"));
+        JavaFileAssert nbleApi = JavaFileAssert.assertThat(files.get("NbleApi.java"));
         // SPRING_HTTP_INTERFACE has other requirements for default in api arguments
         if (SPRING_HTTP_INTERFACE.equals(library)) {
-            requiredApi.fileContains(
-                    " @Nullable String filter");
+            nbleApi.fileContains(
+                    ") String mandatory",
+                    ") @Nullable String optional");
             fooApiAssert.fileContains(
                         "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") @Nullable String color");
         } else {
-            requiredApi.fileContains(
-                    " @Nullable String filter");
+            nbleApi.fileContains(
+                    ") String mandatory",
+                    ") @Nullable String optional");
             fooApiAssert.fileContains(
                     "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") String color");
         }
@@ -7357,13 +7359,17 @@ public class SpringCodegenTest {
                         "java.time.@Nullable Instant dtParam",
                         "java.time.@Nullable Instant dtQuery",
                         "java.time.@Nullable Instant dtCookie");
-        JavaFileAssert requiredApi = JavaFileAssert.assertThat(files.get("RequiredAndNullableApi.java"));
+        JavaFileAssert nbleApi = JavaFileAssert.assertThat(files.get("NbleApi.java"));
         if (SPRING_HTTP_INTERFACE.equals(library)) {
-            requiredApi .fileContains("@RequestParam(value = \"filter\", required = false) @Nullable String filter");
+            nbleApi .fileContains(
+                    "@RequestParam(value = \"mandatory\", required = true) String mandatory",
+                "@RequestParam(value = \"optional\", required = false) @Nullable String optional");
         } else {
-            // incorrect generation for required=false, nullable=true
+            // incorrect generation for required=false, nullable=true?
+            nbleApi .fileContains(
+                    "@RequestParam(value = \"mandatory\", required = true) String mandatory",
+                    "@RequestParam(value = \"optional\", required = false) String optional");
         }
-
     }
 
     @DataProvider(name = "jspecifyLibrariesUseOptional")
@@ -7459,8 +7465,9 @@ public class SpringCodegenTest {
                     .doesNotContainWithName("Nullable")
                     .doesImportAnnotation("org.jspecify.annotations.Nullable");
         }
-        JavaFileAssert.assertThat(files.get("RequiredAndNullableApi.java"))
-                    .fileContains("@RequestParam(value = \"filter\", required = false) Optional<String> filter");
+        JavaFileAssert.assertThat(files.get("NbleApi.java")).fileContains(
+                "@RequestParam(value = \"mandatory\", required = true) String mandatory",
+                "@RequestParam(value = \"optional\", required = false) Optional<String> optional");
         }
 
     // -------------------------------------------------------------------------

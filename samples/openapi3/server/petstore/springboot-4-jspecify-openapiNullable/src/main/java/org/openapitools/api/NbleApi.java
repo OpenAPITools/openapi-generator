@@ -36,49 +36,51 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 @Validated
-@Tag(name = "requiredAndNullable", description = "requiredAndNullable")
-public interface RequiredAndNullableApi {
+@Tag(name = "nble", description = "the nble API")
+public interface NbleApi {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
-    String PATH_REQUIRED_AND_NULLABLE_GET = "/requiredAndNullable";
+    String PATH_NBLE_GET = "/nble";
     /**
-     * GET /requiredAndNullable
+     * GET /nble
      *
-     * @param filter  (optional)
+     * @param mandatory  (required)
+     * @param optional  (optional)
      * @return OK (status code 200)
      */
     @Operation(
-        operationId = "requiredAndNullableGet",
-        tags = { "requiredAndNullable" },
+        operationId = "nbleGet",
+        tags = { "nble" },
         responses = {
             @ApiResponse(responseCode = "default", description = "OK")
         }
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = RequiredAndNullableApi.PATH_REQUIRED_AND_NULLABLE_GET
+        value = NbleApi.PATH_NBLE_GET
     )
-    default ResponseEntity<Void> requiredAndNullableGet(
-        @Parameter(name = "filter", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "filter", required = false) Optional<String> filter
+    default ResponseEntity<Void> nbleGet(
+        @NotNull @Parameter(name = "mandatory", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "mandatory", required = true) String mandatory,
+        @Parameter(name = "optional", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "optional", required = false) String optional
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
-    String PATH_REQUIRED_AND_NULLABLE_POST = "/requiredAndNullable";
+    String PATH_NBLE_POST = "/nble";
     /**
-     * POST /requiredAndNullable
+     * POST /nble
      *
      * @param requiredAndNullable bodyWithRequiredAndNullableAttributes (required)
      * @return response (status code 200)
      */
     @Operation(
-        operationId = "requiredAndNullablePost",
-        tags = { "requiredAndNullable" },
+        operationId = "nblePost",
+        tags = { "nble" },
         responses = {
             @ApiResponse(responseCode = "default", description = "response", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = RequiredAndNullable.class))
@@ -87,11 +89,11 @@ public interface RequiredAndNullableApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = RequiredAndNullableApi.PATH_REQUIRED_AND_NULLABLE_POST,
+        value = NbleApi.PATH_NBLE_POST,
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<RequiredAndNullable> requiredAndNullablePost(
+    default ResponseEntity<RequiredAndNullable> nblePost(
         @Parameter(name = "RequiredAndNullable", description = "bodyWithRequiredAndNullableAttributes", required = true) @Valid @RequestBody RequiredAndNullable requiredAndNullable
     ) {
         getRequest().ifPresent(request -> {

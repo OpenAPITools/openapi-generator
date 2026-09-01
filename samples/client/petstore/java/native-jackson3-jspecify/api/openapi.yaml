@@ -61,13 +61,21 @@ paths:
       - foo
       x-accepts:
       - application/json
-  /requiredAndNullable:
+  /nble:
     get:
       parameters:
       - explode: true
         in: query
-        name: filter
+        name: optional
         required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: mandatory
+        required: true
         schema:
           nullable: true
           type: string
@@ -76,7 +84,7 @@ paths:
         default:
           description: OK
       tags:
-      - requiredAndNullable
+      - nble
       x-accepts:
       - application/json
     post:
@@ -95,7 +103,7 @@ paths:
                 $ref: "#/components/schemas/RequiredAndNullable"
           description: response
       tags:
-      - requiredAndNullable
+      - nble
       x-content-type: application/json
       x-accepts:
       - application/json
