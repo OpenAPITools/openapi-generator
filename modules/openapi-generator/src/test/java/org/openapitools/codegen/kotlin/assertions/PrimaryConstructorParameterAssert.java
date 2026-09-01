@@ -1,6 +1,5 @@
 package org.openapitools.codegen.kotlin.assertions;
 
-import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.CanIgnoreReturnValue;
 import org.jetbrains.kotlin.psi.KtAnnotationEntry;
@@ -11,12 +10,16 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @CanIgnoreReturnValue
-public class PrimaryConstructorParameterAssert extends AbstractAssert<PrimaryConstructorParameterAssert, KtParameter> {
+public class PrimaryConstructorParameterAssert extends AbstractParameterAssert<PrimaryConstructorParameterAssert, PrimaryConstructorParameterAnnotationAssert> {
     private final ClassAssert classAssert;
 
     PrimaryConstructorParameterAssert(final ClassAssert classAssert, final KtParameter parameter) {
         super(parameter, PrimaryConstructorParameterAssert.class);
         this.classAssert = classAssert;
+    }
+
+    PrimaryConstructorParameterAnnotationAssert createAnnotationAssert(final KtAnnotationEntry annotation) {
+        return new PrimaryConstructorParameterAnnotationAssert(this, annotation);
     }
 
     public PrimaryConstructorParameterAnnotationAssert assertParameterAnnotation(final String annotationName, final String useSiteTarget) {
