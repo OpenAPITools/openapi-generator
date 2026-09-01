@@ -52,7 +52,7 @@ export interface InlineObject {
 export const InlineObjectStringEnumEnum = {
     One: 'one',
     Two: 'two',
-    Three: 'three'
+    Three: 'three',
 } as const;
 export type InlineObjectStringEnumEnum = typeof InlineObjectStringEnumEnum[keyof typeof InlineObjectStringEnumEnum];
 
@@ -62,7 +62,7 @@ export type InlineObjectStringEnumEnum = typeof InlineObjectStringEnumEnum[keyof
 export const InlineObjectNumberEnumEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
-    NUMBER_3: 3
+    NUMBER_3: 3,
 } as const;
 export type InlineObjectNumberEnumEnum = typeof InlineObjectNumberEnumEnum[keyof typeof InlineObjectNumberEnumEnum];
 

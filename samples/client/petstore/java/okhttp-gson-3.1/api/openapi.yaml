@@ -325,6 +325,7 @@ paths:
                 additionalProperties:
                   format: int32
                   type: integer
+                type: object
           description: successful operation
       security:
       - api_key: []
@@ -833,6 +834,15 @@ paths:
       - fake
       x-accepts:
       - application/json
+  /fake/path/backslash/GetPetById\(\):
+    get:
+      responses:
+        "200":
+          description: ""
+      tags:
+      - fake
+      x-accepts:
+      - application/json
 components:
   parameters:
     ref_to_uuid:
@@ -1203,6 +1213,8 @@ components:
       properties:
         first_property:
           $ref: "#/components/schemas/Pet"
+        second_property:
+          description: just null type
     updatePetWithForm_request:
       properties:
         name:

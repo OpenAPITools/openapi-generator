@@ -128,3 +128,4 @@ class _$ObjectThatReferencesObjectsWithDuplicateInlineEnumsSerializer implements
   }
 }
 
+

@@ -63,6 +63,7 @@ open class DefaultApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         val params = mutableMapOf<String, Any>(
         )
 

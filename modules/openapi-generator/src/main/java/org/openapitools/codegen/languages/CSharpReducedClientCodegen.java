@@ -39,6 +39,8 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.CodegenConstants.X_CSHARP_VALUE_TYPE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -1081,13 +1083,13 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
 
-            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+            if (hasOneOf(cm) && cm.oneOf.contains("ModelNull")) {
                 // if oneOf contains "null" type
                 cm.isNullable = true;
                 cm.oneOf.remove("ModelNull");
             }
 
-            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+            if (hasAnyOf(cm) && cm.anyOf.contains("ModelNull")) {
                 // if anyOf contains "null" type
                 cm.isNullable = true;
                 cm.anyOf.remove("ModelNull");
@@ -1102,7 +1104,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
         if (!isQuietMode()) {
             System.out.println("################################################################################");
             System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
             System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
             System.out.println("#                                                                              #");
             System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");

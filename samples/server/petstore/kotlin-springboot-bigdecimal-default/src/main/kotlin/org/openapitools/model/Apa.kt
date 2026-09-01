@@ -28,11 +28,13 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Apa(
 
     @Schema(required = true, description = "")
-    @param:JsonProperty("bepa")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("bepa", required = true)
     @get:JsonProperty("bepa", required = true) val bepa: java.math.BigDecimal = java.math.BigDecimal("0"),
 
     @Schema(required = true, description = "")
-    @param:JsonProperty("cepa")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("cepa", required = true)
     @get:JsonProperty("cepa", required = true) val cepa: java.math.BigDecimal = java.math.BigDecimal("6.28318"),
 
     @Schema(description = "")

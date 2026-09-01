@@ -78,8 +78,10 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     publishing {
         publications {
@@ -91,7 +93,7 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
+       mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
 }
@@ -106,10 +108,10 @@ ext {
     rest_assured_version = "5.5.6"
     junit_version = "5.10.3"
 {{#jackson}}
-    jackson_version = "2.19.2"
-    jackson_databind_version = "2.19.2"
+    jackson_version = "2.21.5"
+    jackson_databind_version = "2.21.5"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.10"
+    jackson_databind_nullable_version = "0.2.11"
     {{/openApiNullable}}
 {{/jackson}}
 {{#gson}}

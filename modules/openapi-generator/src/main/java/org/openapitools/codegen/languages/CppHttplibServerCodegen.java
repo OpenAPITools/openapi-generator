@@ -59,7 +59,9 @@ import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 
-import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.model.EnumVarMap.*;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.hasEnumValues;
 
 /**
  * C++ HTTP Library Server Code Generator.
@@ -1306,9 +1308,8 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                         var.vendorExtensions.put("isOptionalEnum", true);
                     } else {
                         // Required enum: Use first value which is always UNSPECIFIED (added by setEnumVendorExtensions)
-                        if (var.allowableValues != null && var.allowableValues.containsKey(ENUM_VALUES)) {
-                            @SuppressWarnings("unchecked")
-                            List<Object> values = (List<Object>) var.allowableValues.get(ENUM_VALUES);
+                        if (hasEnumValues(var.allowableValues)) {
+                            List<Object> values = getEnumValues(var.allowableValues);
                             if (values != null && !values.isEmpty()) {
                                 // First value is always safe (UNSPECIFIED) after setEnumVendorExtensions
                                 String enumIdentifier = values.get(0).toString();

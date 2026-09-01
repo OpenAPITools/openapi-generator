@@ -11,8 +11,8 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.0.0",
-    "@angular/common": "^22.0.1",
-    "@angular/compiler": "^19.2.20",
+    "@angular/common": "^22.0.2",
+    "@angular/compiler": "^20.3.27",
     "@angular/core": "^19.2.20",
     "@angular/forms": "^22.0.1",
     "@angular/platform-browser": "^22.0.1",

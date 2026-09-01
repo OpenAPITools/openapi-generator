@@ -44,18 +44,12 @@ aiohttp-retry = ">= 2.8.3"
 {{#httpx}}
 httpx = ">= 0.28.1"
 {{/httpx}}
-{{#tornado}}
-tornado = ">=4.2, <5"
-{{/tornado}}
 {{#hasHttpSignatureMethods}}
 pem = ">= 19.3.0"
 pycryptodome = ">= 3.9.0"
 {{/hasHttpSignatureMethods}}
 pydantic = ">= 2.11"
 typing-extensions = ">= 4.7.1"
-{{#lazyImports}}
-lazy-imports = ">= 1, < 2"
-{{/lazyImports}}
 {{/poetry1}}
 {{^poetry1}}
 requires-python = ">=3.10"
@@ -72,18 +66,12 @@ dependencies = [
   "aiohttp (>=3.14.1)",
   "aiohttp-retry (>=2.8.3)",
 {{/asyncio}}
-{{#tornado}}
-  "tornado (>=4.2,<5)",
-{{/tornado}}
 {{#hasHttpSignatureMethods}}
   "pem (>=19.3.0)",
   "pycryptodome (>=3.9.0)",
 {{/hasHttpSignatureMethods}}
   "pydantic (>=2.11)",
   "typing-extensions (>=4.7.1)",
-{{#lazyImports}}
-  "lazy-imports (>=1,<2)"
-{{/lazyImports}}
 ]
 
 [project.urls]

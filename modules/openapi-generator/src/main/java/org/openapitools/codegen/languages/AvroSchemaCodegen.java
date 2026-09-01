@@ -26,6 +26,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -251,7 +252,7 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
+    protected List<EnumVarMap> buildEnumVars(List<Object> values, String dataType) {
         List<Object> sanitizedValues = values.stream()
                 .filter(x -> x != null)
                 .map(Object::toString)

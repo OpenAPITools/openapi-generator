@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface SnakeOptionTwo {
     /**
      * 
-     * @type {SnakeOptionTwoDiscriminatorFieldEnum}
-     * @memberof SnakeOptionTwo
      */
     discriminatorField: SnakeOptionTwoDiscriminatorFieldEnum;
     /**
      * 
-     * @type {string}
-     * @memberof SnakeOptionTwo
      */
     someProperty: string;
 }
@@ -38,7 +34,7 @@ export interface SnakeOptionTwo {
  * @export
  */
 export const SnakeOptionTwoDiscriminatorFieldEnum = {
-    SnakeOptionTwo: 'snakeOptionTwo'
+    SnakeOptionTwo: 'snakeOptionTwo',
 } as const;
 export type SnakeOptionTwoDiscriminatorFieldEnum = typeof SnakeOptionTwoDiscriminatorFieldEnum[keyof typeof SnakeOptionTwoDiscriminatorFieldEnum];
 

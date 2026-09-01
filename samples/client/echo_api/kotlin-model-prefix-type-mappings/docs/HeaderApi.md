@@ -33,12 +33,12 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
 | **integerHeader** | **kotlin.Int**|  | [optional] |
 | **booleanHeader** | **kotlin.Boolean**|  | [optional] |
 | **stringHeader** | **kotlin.String**|  | [optional] |
 | **enumNonrefStringHeader** | **kotlin.String**|  | [optional] [enum: success, failure, unclassified] |
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
 | **enumRefStringHeader** | [**ApiStringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type

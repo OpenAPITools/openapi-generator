@@ -77,10 +77,9 @@ class ArrayOfArrayOfModel(BaseModel):
         _items = []
         if self.another_property:
             for _item_another_property in self.another_property:
-                if _item_another_property:
-                    _items.append(
-                         [_inner_item.to_dict() for _inner_item in _item_another_property if _inner_item is not None]
-                    )
+                _items.append(
+                     [_inner_item.to_dict() if _inner_item is not None else None for _inner_item in _item_another_property] if _item_another_property is not None else None
+                )
             _dict['another_property'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
@@ -100,7 +99,7 @@ class ArrayOfArrayOfModel(BaseModel):
 
         _obj = cls.model_validate({
             "another_property": [
-                    [Tag.from_dict(_inner_item) for _inner_item in _item]
+                    [Tag.from_dict(_inner_item) for _inner_item in _item] if _item is not None else None
                     for _item in obj["another_property"]
                 ] if obj.get("another_property") is not None else None
         })

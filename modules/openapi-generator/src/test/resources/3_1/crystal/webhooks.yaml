@@ -1,0 +1,51 @@
+openapi: 3.1.0
+info:
+  title: Webhook demo
+  description: >-
+    OpenAPI 3.1 moves webhooks to a top-level `webhooks` object. The generator
+    routes those through postProcessWebhooksWithModels rather than
+    postProcessOperationsWithModels, so a generator that only overrides the
+    latter emits api classes with no name and untyped parameters.
+  version: 1.0.0
+paths:
+  /things:
+    get:
+      operationId: listThings
+      responses:
+        '200':
+          description: the things
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Thing'
+webhooks:
+  thing.created:
+    post:
+      operationId: thingCreated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ThingCreatedEvent'
+      responses:
+        '200':
+          description: acknowledged
+components:
+  schemas:
+    Thing:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+    ThingCreatedEvent:
+      type: object
+      required:
+        - thing
+      properties:
+        thing:
+          $ref: '#/components/schemas/Thing'

@@ -31,7 +31,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.CodegenConstants.ENUM_VALUES;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 /**
@@ -383,7 +383,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = (List<Object>) allowableValues.get(ENUM_VALUES);
+            List<Object> enumValues = getEnumValues(allowableValues);
             for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
@@ -473,8 +473,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         columnDefinition.put("colName", colName);
 
         if (Boolean.TRUE.equals(isEnum)) {
-            Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = (List<Object>) allowableValues.get(ENUM_VALUES);
+            List<Object> enumValues = getEnumValues(property.getAllowableValues());
             for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
@@ -615,8 +614,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         columnDefinition.put("colName", colName);
 
         if (Boolean.TRUE.equals(isEnum)) {
-            Map<String, Object> allowableValues = property.getAllowableValues();
-            List<Object> enumValues = (List<Object>) allowableValues.get(ENUM_VALUES);
+            List<Object> enumValues = getEnumValues(property.getAllowableValues());
             columnDefinition.put("colDataType", "ENUM");
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
             for (int i = 0; i < enumValues.size(); i++) {

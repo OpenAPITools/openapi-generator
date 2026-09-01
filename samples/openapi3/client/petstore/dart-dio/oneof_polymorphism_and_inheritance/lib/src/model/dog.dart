@@ -107,3 +107,4 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
   }
 }
 
+

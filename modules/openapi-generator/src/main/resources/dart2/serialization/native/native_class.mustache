@@ -82,10 +82,10 @@ class {{{classname}}} {
         {{#pattern}}
       json[r'{{{baseName}}}'] = value == null ? null : (_isEpochMarker(r'{{{pattern}}}')
         ? value.millisecondsSinceEpoch
-        : _dateFormatter.format(value.toUtc()));
+        : _dateFormatter.format(value));
         {{/pattern}}
         {{^pattern}}
-      json[r'{{{baseName}}}'] = value == null ? null : _dateFormatter.format(value.toUtc());
+      json[r'{{{baseName}}}'] = value == null ? null : _dateFormatter.format(value);
         {{/pattern}}
       {{/isDate}}
       {{^isDateTime}}
@@ -120,10 +120,10 @@ class {{{classname}}} {
       {{#pattern}}
       json[r'{{{baseName}}}'] = _isEpochMarker(r'{{{pattern}}}')
         ? this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.millisecondsSinceEpoch
-        : _dateFormatter.format(this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.toUtc());
+        : _dateFormatter.format(this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}});
       {{/pattern}}
       {{^pattern}}
-      json[r'{{{baseName}}}'] = _dateFormatter.format(this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.toUtc());
+      json[r'{{{baseName}}}'] = _dateFormatter.format(this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}});
       {{/pattern}}
     {{/isDate}}
     {{^isDateTime}}
@@ -361,7 +361,9 @@ class {{{classname}}} {
                 {{^vendorExtensions.x-is-optional}}
         {{{name}}}: {{#isNullable}}json[r'{{{baseName}}}'] == null
             ? {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
-            : {{/isNullable}}{{{datatypeWithEnum}}}.parse('${json[r'{{{baseName}}}']}'),
+            : {{/isNullable}}{{^isNullable}}{{^required}}json[r'{{{baseName}}}'] == null
+            ? {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
+            : {{/required}}{{/isNullable}}{{{datatypeWithEnum}}}.parse('${json[r'{{{baseName}}}']}'),
                 {{/vendorExtensions.x-is-optional}}
               {{/isNumber}}
               {{^isNumber}}

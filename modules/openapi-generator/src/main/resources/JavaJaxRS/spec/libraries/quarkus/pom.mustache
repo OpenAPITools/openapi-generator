@@ -18,19 +18,30 @@
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
+{{#useJakartaEe}}
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+{{/useJakartaEe}}
+{{^useJakartaEe}}
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+{{/useJakartaEe}}
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 {{#useJakartaEe}}
-    <quarkus-plugin.version>3.0.1.Final</quarkus-plugin.version>
-    <quarkus.platform.version>3.0.1.Final</quarkus.platform.version>
+    <quarkus-plugin.version>3.27.4.1</quarkus-plugin.version>
+    <quarkus.platform.version>3.27.4.1</quarkus.platform.version>
 {{/useJakartaEe}}
 {{^useJakartaEe}}
     <quarkus-plugin.version>1.13.7.Final</quarkus-plugin.version>
     <quarkus.platform.version>1.13.7.Final</quarkus.platform.version>
 {{/useJakartaEe}}
+{{#useJakartaEe}}
+    <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+{{/useJakartaEe}}
+{{^useJakartaEe}}
     <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
+{{/useJakartaEe}}
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
 {{#useJakartaEe}}
@@ -51,7 +62,7 @@
     <smallrye.rest.client.version>1.2.1</smallrye.rest.client.version>
 {{/useMutiny}}
 {{#openApiNullable}}
-    <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
+    <jackson-databind-nullable-version>0.2.11</jackson-databind-nullable-version>
 {{/openApiNullable}}
   </properties>
   <dependencyManagement>
@@ -66,10 +77,25 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+{{#useJakartaEe}}
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest</artifactId>
+    </dependency>
+{{#useBeanValidation}}
+    <!-- quarkus-rest does not pull in bean validation transitively, unlike quarkus-resteasy -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-validator</artifactId>
+    </dependency>
+{{/useBeanValidation}}
+{{/useJakartaEe}}
+{{^useJakartaEe}}
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy</artifactId>
     </dependency>
+{{/useJakartaEe}}
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>

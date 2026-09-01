@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface NumericSingletonEnumModel {
     /**
      * 
-     * @type {NumericSingletonEnumModelKindEnum}
-     * @memberof NumericSingletonEnumModel
      */
     kind: NumericSingletonEnumModelKindEnum;
 }
@@ -32,7 +30,7 @@ export interface NumericSingletonEnumModel {
  * @export
  */
 export const NumericSingletonEnumModelKindEnum = {
-    NUMBER_42: 42
+    NUMBER_42: 42,
 } as const;
 export type NumericSingletonEnumModelKindEnum = typeof NumericSingletonEnumModelKindEnum[keyof typeof NumericSingletonEnumModelKindEnum];
 

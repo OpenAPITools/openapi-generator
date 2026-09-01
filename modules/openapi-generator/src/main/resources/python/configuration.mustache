@@ -14,6 +14,9 @@ from logging import FileHandler
 {{^async}}
 import multiprocessing
 {{/async}}
+{{^async}}
+import ssl
+{{/async}}
 import sys
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
 {{^async}}
@@ -227,6 +230,9 @@ class Configuration:
     :param no_proxy: Comma-separated hosts that bypass the proxy.
 {{/async}}
     :param proxy_headers: Proxy headers.
+{{^async}}
+    :param proxy_ssl_context: SSL context used only for the TLS handshake with the proxy itself, independent of the destination TLS settings.
+{{/async}}
     :param safe_chars_for_path_param: Safe characters for path parameter encoding.
     :param client_side_validation: Enable client-side validation. Default True.
     :param socket_options: Options to pass down to the underlying urllib3 socket.
@@ -361,6 +367,9 @@ conf = {{{packageName}}}.Configuration(
         no_proxy: Optional[str]=None,
 {{/async}}
         proxy_headers: Optional[Any]=None,
+{{^async}}
+        proxy_ssl_context: Optional[ssl.SSLContext]=None,
+{{/async}}
         safe_chars_for_path_param: str='',
         client_side_validation: bool=True,
         socket_options: Optional[Any]=None,
@@ -486,25 +495,35 @@ conf = {{{packageName}}}.Configuration(
 {{^async}}
         # urllib3 does not read proxy environment variables itself:
         # https://github.com/urllib3/urllib3/issues/1785
+        # A proxy taken from the environment is re-resolved when the host is
+        # assigned; see the host setter.
+        self._proxy_from_env = proxy is None
         if proxy is None or no_proxy is None:
             proxies = getproxies()
             if proxy is None:
-                scheme = urlparse(self.host).scheme
-                proxy = proxies.get(scheme) or proxies.get("all")
+                proxy = self._env_proxy(proxies, self.host)
             if no_proxy is None:
                 no_proxy = proxies.get("no")
-{{/async}}
-        self.proxy = proxy
-        """Proxy URL
-        """
-{{^async}}
+        self._proxy = proxy
         self.no_proxy = no_proxy
         """Hosts that bypass the proxy
+        """
+{{/async}}
+{{#async}}
+        self.proxy = proxy
+        """Proxy URL
         """
 {{/async}}
         self.proxy_headers = proxy_headers
         """Proxy headers
         """
+{{^async}}
+        self.proxy_ssl_context = proxy_ssl_context
+        """SSL context used only for the TLS handshake with the proxy itself
+        (e.g. an HTTPS CONNECT tunnel), independent of the destination TLS
+        settings above.
+        """
+{{/async}}
         self.safe_chars_for_path_param = safe_chars_for_path_param
         """Safe chars for path_param
         """
@@ -557,6 +576,12 @@ conf = {{{packageName}}}.Configuration(
                 if callable(copy_method):
                     setattr(result, k, copy_method())
                     continue
+{{^async}}
+            if k == 'proxy_ssl_context':
+                # ssl.SSLContext holds unpicklable C state and can't be deepcopied.
+                setattr(result, k, v)
+                continue
+{{/async}}
 {{#asyncio}}
             if k in ('client_session_kwargs', 'trace_configs'):
                 setattr(result, k, copy.copy(v))
@@ -578,6 +603,12 @@ conf = {{{packageName}}}.Configuration(
         result.logger_stream_handler = self.logger_stream_handler
 {{/useIndependentImplicitClients}}
 {{^useIndependentImplicitClients}}
+{{^async}}
+            if k == 'proxy_ssl_context':
+                # ssl.SSLContext holds unpicklable C state and can't be deepcopied.
+                setattr(result, k, v)
+                continue
+{{/async}}
             if k not in ('logger', 'logger_file_handler'):
                 setattr(result, k, copy.deepcopy(v, memo))
         # shallow copy of loggers
@@ -963,3 +994,25 @@ conf = {{{packageName}}}.Configuration(
         """Fix base path."""
         self._base_path = value
         self.server_index = None
+{{^async}}
+        if self._proxy_from_env:
+            # the scheme-specific proxy depends on the host, which is
+            # commonly assigned after construction
+            self._proxy = self._env_proxy(getproxies(), value)
+
+    @staticmethod
+    def _env_proxy(proxies: Dict[str, str], host: str) -> Optional[str]:
+        """Pick the environment proxy that applies to `host`."""
+        return proxies.get(urlparse(host).scheme) or proxies.get("all")
+
+    @property
+    def proxy(self) -> Optional[str]:
+        """Proxy URL
+        """
+        return self._proxy
+
+    @proxy.setter
+    def proxy(self, value: Optional[str]) -> None:
+        self._proxy = value
+        self._proxy_from_env = False
+{{/async}}

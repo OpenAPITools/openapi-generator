@@ -22,14 +22,10 @@ import { type ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullab
 export interface ParentWithNullable {
     /**
      * 
-     * @type {ParentWithNullableTypeEnum}
-     * @memberof ParentWithNullable
      */
     type?: ParentWithNullableTypeEnum;
     /**
      * 
-     * @type {string}
-     * @memberof ParentWithNullable
      */
     nullableProperty?: string | null;
 }
@@ -39,7 +35,7 @@ export interface ParentWithNullable {
  * @export
  */
 export const ParentWithNullableTypeEnum = {
-    ChildWithNullable: 'ChildWithNullable'
+    ChildWithNullable: 'ChildWithNullable',
 } as const;
 export type ParentWithNullableTypeEnum = typeof ParentWithNullableTypeEnum[keyof typeof ParentWithNullableTypeEnum];
 

@@ -138,6 +138,20 @@ public class RuleConfiguration {
      * @param enableApiRequestUriWithBodyRecommendation <code>true</code> to enable, <code>false</code> to disable
      */
     private boolean enableApiRequestUriWithBodyRecommendation = defaultedBoolean(propertyPrefix + ".anti-patterns.uri-unexpected-body", true);
+    /**
+     * -- GETTER --
+     * Gets whether the recommendation check for default values not in enum is enabled.
+     * <p>
+     * JSON Schema treats 'default' as an annotation keyword — it is RECOMMENDED to validate
+     * against the schema but not required. A default outside the enum is technically valid
+     * but causes generators to emit incorrect default values.
+     *
+     * @return <code>true</code> if enabled, <code>false</code> if disabled
+     * -- SETTER --
+     * Enable or Disable the recommendation check for default values not in enum.
+     * @param enableDefaultNotInEnumRecommendation <code>true</code> to enable, <code>false</code> to disable
+     */
+    private boolean enableDefaultNotInEnumRecommendation = defaultedBoolean(propertyPrefix + ".default-not-in-enum", true);
 
     @SuppressWarnings("SameParameterValue")
     private static boolean defaultedBoolean(String key, boolean defaultValue) {

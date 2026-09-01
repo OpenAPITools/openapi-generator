@@ -21,26 +21,18 @@ import { mapValues } from '../runtime';
 export interface FakeEnumRequestGetInline200Response {
     /**
      * 
-     * @type {FakeEnumRequestGetInline200ResponseStringEnumEnum}
-     * @memberof FakeEnumRequestGetInline200Response
      */
     stringEnum?: FakeEnumRequestGetInline200ResponseStringEnumEnum;
     /**
      * 
-     * @type {FakeEnumRequestGetInline200ResponseNullableStringEnumEnum}
-     * @memberof FakeEnumRequestGetInline200Response
      */
     nullableStringEnum?: FakeEnumRequestGetInline200ResponseNullableStringEnumEnum;
     /**
      * 
-     * @type {FakeEnumRequestGetInline200ResponseNumberEnumEnum}
-     * @memberof FakeEnumRequestGetInline200Response
      */
     numberEnum?: FakeEnumRequestGetInline200ResponseNumberEnumEnum;
     /**
      * 
-     * @type {FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum}
-     * @memberof FakeEnumRequestGetInline200Response
      */
     nullableNumberEnum?: FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum;
 }
@@ -52,7 +44,7 @@ export interface FakeEnumRequestGetInline200Response {
 export const FakeEnumRequestGetInline200ResponseStringEnumEnum = {
     One: 'one',
     Two: 'two',
-    Three: 'three'
+    Three: 'three',
 } as const;
 export type FakeEnumRequestGetInline200ResponseStringEnumEnum = typeof FakeEnumRequestGetInline200ResponseStringEnumEnum[keyof typeof FakeEnumRequestGetInline200ResponseStringEnumEnum];
 
@@ -62,7 +54,7 @@ export type FakeEnumRequestGetInline200ResponseStringEnumEnum = typeof FakeEnumR
 export const FakeEnumRequestGetInline200ResponseNullableStringEnumEnum = {
     One: 'one',
     Two: 'two',
-    Three: 'three'
+    Three: 'three',
 } as const;
 export type FakeEnumRequestGetInline200ResponseNullableStringEnumEnum = typeof FakeEnumRequestGetInline200ResponseNullableStringEnumEnum[keyof typeof FakeEnumRequestGetInline200ResponseNullableStringEnumEnum];
 
@@ -72,7 +64,7 @@ export type FakeEnumRequestGetInline200ResponseNullableStringEnumEnum = typeof F
 export const FakeEnumRequestGetInline200ResponseNumberEnumEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
-    NUMBER_3: 3
+    NUMBER_3: 3,
 } as const;
 export type FakeEnumRequestGetInline200ResponseNumberEnumEnum = typeof FakeEnumRequestGetInline200ResponseNumberEnumEnum[keyof typeof FakeEnumRequestGetInline200ResponseNumberEnumEnum];
 
@@ -82,7 +74,7 @@ export type FakeEnumRequestGetInline200ResponseNumberEnumEnum = typeof FakeEnumR
 export const FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
-    NUMBER_3: 3
+    NUMBER_3: 3,
 } as const;
 export type FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum = typeof FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum[keyof typeof FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum];
 

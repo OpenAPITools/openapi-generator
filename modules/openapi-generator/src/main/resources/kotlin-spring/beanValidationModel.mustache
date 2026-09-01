@@ -34,5 +34,5 @@ isLong set
     @get:Max(value={{.}}L{{#vendorExtensions.x-maximum-message}}, message="{{vendorExtensions.x-maximum-message}}"{{/vendorExtensions.x-maximum-message}}){{/maximum}}{{/isLong}}{{!
 Not Integer, not Long => we have a decimal value!
 }}{{^isInteger}}{{^isLong}}{{#minimum}}
-    @get:DecimalMin(value="{{.}}"{{#vendorExtensions.x-minimum-message}}, message="{{vendorExtensions.x-minimum-message}}"{{/vendorExtensions.x-minimum-message}}){{/minimum}}{{#maximum}}
-    @get:DecimalMax(value="{{.}}"{{#vendorExtensions.x-maximum-message}}, message="{{vendorExtensions.x-maximum-message}}"{{/vendorExtensions.x-maximum-message}}){{/maximum}}{{/isLong}}{{/isInteger}}
+    @get:DecimalMin(value="{{.}}"{{#exclusiveMinimum}}, inclusive=false{{/exclusiveMinimum}}{{#vendorExtensions.x-minimum-message}}, message="{{vendorExtensions.x-minimum-message}}"{{/vendorExtensions.x-minimum-message}}){{/minimum}}{{#maximum}}
+    @get:DecimalMax(value="{{.}}"{{#exclusiveMaximum}}, inclusive=false{{/exclusiveMaximum}}{{#vendorExtensions.x-maximum-message}}, message="{{vendorExtensions.x-maximum-message}}"{{/vendorExtensions.x-maximum-message}}){{/maximum}}{{/isLong}}{{/isInteger}}

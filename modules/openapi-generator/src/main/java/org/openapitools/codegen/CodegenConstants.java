@@ -156,6 +156,24 @@ public class CodegenConstants {
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS = "prependFormOrBodyParameters";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_DESC = "Add form or body parameters to the beginning of the parameter list.";
 
+    public static final String SPLIT_OPERATIONS_BY_CONTENT_TYPE = "splitOperationsByContentType";
+
+    /**
+     * Extensions set on every operation produced by {@code splitOperationsByContentType}, describing where
+     * the variant sits in the content-type matrix so that a generator can merge the variants back into a
+     * single construct instead of emitting one method per combination.
+     * <p>
+     * The {@code *-index} ones carry the 0-based rank of the variant's media-type in its axis, in the order
+     * the spec declares them, so a consumer never has to rely on the order operations happen to reach it in:
+     * rank 0 is that axis's default content-type, and the variant ranked 0 on both axes is the one a caller
+     * gets without asking. An axis that was not split has no media-type and ranks 0.
+     */
+    public static final String X_CONTENT_TYPE_VARIANT_GROUP = "x-content-type-variant-group";
+    public static final String X_CONTENT_TYPE_VARIANT_REQUEST = "x-content-type-variant-request";
+    public static final String X_CONTENT_TYPE_VARIANT_RESPONSE = "x-content-type-variant-response";
+    public static final String X_CONTENT_TYPE_VARIANT_REQUEST_INDEX = "x-content-type-variant-request-index";
+    public static final String X_CONTENT_TYPE_VARIANT_RESPONSE_INDEX = "x-content-type-variant-response-index";
+
     public static final String USE_DATETIME_OFFSET = "useDateTimeOffset";
     public static final String USE_DATETIME_OFFSET_DESC = "Use DateTimeOffset to model date-time properties";
 
@@ -210,6 +228,9 @@ public class CodegenConstants {
 
     public static final String INTERFACE_PREFIX = "interfacePrefix";
     public static final String INTERFACE_PREFIX_DESC = "Prefix interfaces with a community standard or widely accepted prefix.";
+
+    public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String INTERFACE_ONLY_DESC = "Whether to generate only API interface stubs without the server files.";
 
     public static final String RETURN_ICOLLECTION = "returnICollection";
     public static final String RETURN_ICOLLECTION_DESC = "Return ICollection<T> instead of the concrete type.";
@@ -415,6 +436,14 @@ public class CodegenConstants {
     public static final String USE_VERTX_5 = "useVertx5";
     public static final String USE_VERTX_5_DESC = "Setting this property to true will generate Vert.x 5 specific callbacks using Callables.";
 
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE = "optionalNonNullPropertyJsonInclude";
+
+    public static final String OPTIONAL_NON_NULL_PROPERTY_JSON_SETTER_NULLS = "optionalNonNullPropertyJsonSetterNulls";
+
+    public static final String GENERATE_JSON_INCLUDE_ANNOTATIONS = "generateJsonIncludeAnnotations";
+
+    public static final String GENERATE_JSON_SETTER_NULLS_ANNOTATIONS = "generateJsonSetterNullsAnnotations";
+
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
             "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
@@ -467,20 +496,8 @@ public class CodegenConstants {
     public static final String DEFAULT_TO_EMPTY_CONTAINER = "defaultToEmptyContainer";
     public static final String DEFAULT_TO_EMPTY_CONTAINER_DESC = "Initialize containers (array/set/map) to empty containers instead of null by default. Usage: https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md#default-values";
 
-    // The raw enum values from the OpenAPI specification
-    public static final String ENUM_VALUES = "values";
-    // The map that stores all enum values and their metadata (name, value, enumDescription...)
-    public static final String ENUM_VARS = "enumVars";
-    // The name of the enum, for example NAME("value") in Java
-    public static final String ENUM_NAME = "name";
-    // The on-the-line value, i.e., the one present in the "values"
-    public static final String ENUM_VALUE = "value";
-    // If the enum is typed as a string
-    public static final String ENUM_IS_STRING = "isString";
-    // The description that should be attached to an entry in "enumVars"
-    public static final String ENUM_DESCRIPTION = "enumDescription";
-
     // Vendor extensions
+    public static final String X_EXAMPLE = "x-example";
     public static final String X_INTERNAL = "x-internal";
     public static final String X_PARENT = "x-parent";
     public static final String X_COMPOSED_DATA_TYPE = "x-composed-data-type";
@@ -507,6 +524,7 @@ public class CodegenConstants {
     public static final String X_MODIFIERS = "x-modifiers";
     public static final String X_MODIFIER_PREFIX = "x-modifier-";
     public static final String X_MODEL_IS_MUTABLE = "x-model-is-mutable";
+    public static final String X_MODEL_IS_OPERATION_INPUT = "x-model-is-operation-input";
     public static final String X_IMPLEMENTS = "x-implements";
     public static final String X_IS_ONE_OF_INTERFACE = "x-is-one-of-interface";
     public static final String USE_ENUM_VALUE_INTERFACE = "useEnumValueInterface";

@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.EnumUtils.ANY_OF;
 import static org.openapitools.codegen.utils.EnumUtils.ONE_OF;
+import static org.openapitools.codegen.utils.ModelUtils.isOneOfOfConsts;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
@@ -181,16 +182,53 @@ public class OpenAPINormalizer {
      */
     public static OpenAPINormalizer createNormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
         if (inputRules.containsKey(NORMALIZER_CLASS)) {
+            String className = inputRules.get(NORMALIZER_CLASS);
+            Class<?> clazz;
             try {
-                Class clazz = Class.forName(inputRules.get(NORMALIZER_CLASS));
-                Constructor constructor = clazz.getConstructor(OpenAPI.class, Map.class);
+                clazz = loadNormalizerClass(className);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(
+                        "Failed to load custom " + NORMALIZER_CLASS + " '" + className + "'. This class must be "
+                                + "visible on the generation runtime classpath (i.e. resolvable either by the "
+                                + "current thread's context classloader or by the classloader that loaded "
+                                + "openapi-generator itself). Ensure the class (and its dependencies) is on the "
+                                + "classpath used to launch the generator.", e);
+            }
+            try {
+                Constructor<?> constructor = clazz.getConstructor(OpenAPI.class, Map.class);
                 return (OpenAPINormalizer) constructor.newInstance(openAPI, inputRules);
             } catch (ReflectiveOperationException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException(
+                        "Failed to instantiate custom " + NORMALIZER_CLASS + " '" + className + "'. The class was "
+                                + "found but could not be constructed; it must declare a public constructor "
+                                + "accepting (OpenAPI, Map<String, String>) and that constructor must not throw.", e);
             }
         } else {
             return new OpenAPINormalizer(openAPI, inputRules);
         }
+    }
+
+    /**
+     * Loads a custom normalizer class, preferring the current thread's context classloader (which
+     * frameworks such as Gradle's Worker API set to a classloader that includes any user-supplied
+     * classpath) and falling back to the classloader that defined {@link OpenAPINormalizer} itself
+     * (the original, pre-existing behavior) so that normalizers already visible on the default
+     * classpath keep working unchanged.
+     *
+     * @param className fully qualified name of the custom {@link OpenAPINormalizer} subclass
+     * @return the resolved {@link Class}
+     * @throws ClassNotFoundException if the class cannot be resolved via either classloader
+     */
+    private static Class<?> loadNormalizerClass(String className) throws ClassNotFoundException {
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        if (contextClassLoader != null) {
+            try {
+                return Class.forName(className, true, contextClassLoader);
+            } catch (ClassNotFoundException ignored) {
+                // fall through and try the defining classloader below
+            }
+        }
+        return Class.forName(className, true, OpenAPINormalizer.class.getClassLoader());
     }
 
     /**
@@ -998,8 +1036,8 @@ public class OpenAPINormalizer {
             }
             normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
-            normalizeMapSchema(schema);
-            Schema additionalProperties = (Schema) schema.getAdditionalProperties();
+            Schema result = normalizeMapSchema(schema);
+            Schema additionalProperties = (Schema) result.getAdditionalProperties();
             if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, additionalProperties)) {
                 // OAS 3.1 allows a map value schema of `type: "null"` (e.g.
                 // `additionalProperties: { type: "null" }`). There's no OAS 3.0 equivalent type,
@@ -1008,15 +1046,17 @@ public class OpenAPINormalizer {
                 // generated as a normal (nullable) object instead.
                 Schema anyTypeNullable = new Schema();
                 anyTypeNullable.setNullable(true);
-                schema.setAdditionalProperties(anyTypeNullable);
+                result.setAdditionalProperties(anyTypeNullable);
             } else {
                 Schema normalized = normalizeSchema(additionalProperties, visitedSchemas);
                 if (getRule(NORMALIZE_31SPEC)) {
                     // capture the normalized value schema (e.g. an OAS 3.1 `type: [array, "null"]`
                     // value is rewritten to a proper array schema), which would otherwise be lost.
-                    schema.setAdditionalProperties(normalized);
+                    result.setAdditionalProperties(normalized);
                 }
             }
+
+            return result;
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
         } else if (schema instanceof IntegerSchema) {
@@ -1105,7 +1145,8 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeMapSchema(Schema schema) {
-        return processSetMapToNullable(schema);
+        Schema result = processNormalize31Spec(schema, new HashSet<>());
+        return processSetMapToNullable(result);
     }
 
     protected Schema normalizeSimpleSchema(Schema schema, Set<Schema> visitedSchemas) {
@@ -1702,18 +1743,24 @@ public class OpenAPINormalizer {
             }
 
             schema = simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
-            if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
-                if (schema.getSpecVersion().equals(SpecVersion.V30)) {
-                    schema.setOneOf(null);
-                } //else {
-                    // TODO convert oneOf const/deprecated to enum
-               // }
-            }
+            clearOneOf(schema);
         }
 
         return schema;
     }
 
+    /**
+     * Removes the {@code oneOf} from the schema if it is considered to not contain information that the generator can
+     * currently act upon. The schema is left untouched if all the {@code oneOf} branches contain an OAS 3.1 {@code const}.
+     * This since that structure can potentially be used for enum interpretation.
+     */
+    private void clearOneOf(Schema schema) {
+        if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
+            if (!isOneOfOfConsts(schema)) {
+                schema.setOneOf(null);
+            }
+        }
+    }
 
     /**
      * Ensure inheritance is correctly defined for OneOf and Discriminators.
@@ -2179,13 +2226,22 @@ public class OpenAPINormalizer {
         normalizeExclusiveMinMax31(schema);
 
         if (schema instanceof JsonSchema &&
-                schema.get$schema() == null &&
-                schema.getTypes() == null && schema.getType() == null) {
+                schema.get$schema() == null && schema.getTypes() == null && schema.getType() == null) {
             // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
             // components:
             //  schemas:
             //    any_type: {}
-            return new Schema();
+            Schema sc = new Schema<>();
+
+            // copy description, title, etc
+            ModelUtils.copyMetadata(schema, sc);
+
+            // additional properties set?
+            if (schema.getAdditionalProperties() != null) {
+                sc.setAdditionalProperties(schema.getAdditionalProperties());
+            }
+
+            return sc;
         }
 
         // return schema if nothing in 3.1 spec types to normalize

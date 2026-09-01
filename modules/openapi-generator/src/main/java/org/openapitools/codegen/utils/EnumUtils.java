@@ -2,17 +2,100 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.model.EnumVarMap;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_DEPRECATED;
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
+import static org.openapitools.codegen.model.EnumVarMap.*;
 
 public class EnumUtils {
 
+    public static final String BUNGIE_X_ENUM_VALUES = "x-enum-values";
+    private static final String BUNGIE_ENUM_DESCRIPTION = "description";
+    private static final String BUNGIE_ENUM_IDENTIFIER = "identifier";
+    private static final String BUNGIE_ENUM_NUMERIC_VALUE = "numericValue";
+
     public static final String ONE_OF = "oneOf";
     public static final String ANY_OF = "anyOf";
+
+    /**
+     *
+     * @param allowableValues The allowableValues map
+     * @return whether the allowableValues map contains {@value EnumVarMap#ENUM_VARS}
+     */
+    public static boolean hasEnumVars(Map<String, Object> allowableValues) {
+        return allowableValues != null && allowableValues.containsKey(ENUM_VARS);
+    }
+
+    /**
+     *
+     * @param allowableValues The allowableValues map
+     * @return whether the allowableValues map contains {@value EnumVarMap#ENUM_VALUES}
+     */
+    public static boolean hasEnumValues(Map<String, Object> allowableValues) {
+        return allowableValues != null && allowableValues.containsKey(ENUM_VALUES);
+    }
+
+    /**
+     * Get the {@value EnumVarMap#ENUM_VARS} from the allowableValues map.
+     *
+     * @param allowableValues The allowableValues map
+     * @return the list of enumVars
+     */
+    public static List<EnumVarMap> getEnumVars(Map<String, Object> allowableValues) {
+        @SuppressWarnings("unchecked")
+        List<EnumVarMap> enumVars = (List<EnumVarMap>) allowableValues.get(ENUM_VARS);
+        return enumVars;
+    }
+
+    /**
+     * Get the {@value EnumVarMap#ENUM_VALUES} from the allowableValues map.
+     * @param allowableValues The allowableValues map
+     * @return the list of enumValues
+     */
+    public static List<Object> getEnumValues(Map<String, Object> allowableValues) {
+        @SuppressWarnings("unchecked")
+        List<Object> enumValues = (List<Object>) allowableValues.get(ENUM_VALUES);
+        return enumValues;
+    }
+
+    /**
+     * Get the {@value EnumVarMap#ENUM_VALUES} from the allowableValues map.
+     * @param allowableValues The allowableValues map
+     * @return the list of enumValues
+     */
+    public static List<String> getEnumValuesAsString(Map<String, Object> allowableValues) {
+        @SuppressWarnings("unchecked")
+        List<String> enumValues = (List<String>) allowableValues.get(ENUM_VALUES);
+        return enumValues;
+    }
+
+    /**
+     * Bungie has defined their own enum extension to describe enum values.
+     * See <a href="https://github.com/Bungie-net/api?tab=readme-ov-file">documentation</a> and the section with
+     * {@code x-enum-values} for more information.
+     *
+     * @param xEnumValues The {@code x-enum-values} Bungie extension map
+     * @return A list of {@code enumVars} extracted from the {@code x-enum-values} extension
+     */
+    public static List<Map<String, String>> getBungieEnumValues(List<Map<String, Object>> xEnumValues) {
+        List<Map<String, String>> enumVars = new ArrayList<>();
+        for (Map<String, Object> enumValue : xEnumValues) {
+            Map<String, String> enumVar = new HashMap<>();
+            enumVar.put(ENUM_NAME, (String) enumValue.get(BUNGIE_ENUM_IDENTIFIER));
+            if (enumValue.containsKey(BUNGIE_ENUM_NUMERIC_VALUE) && enumValue.get(BUNGIE_ENUM_NUMERIC_VALUE) != null) {
+                enumVar.put(ENUM_VALUE, enumValue.get(BUNGIE_ENUM_NUMERIC_VALUE).toString());
+            }
+            if (enumValue.containsKey(BUNGIE_ENUM_DESCRIPTION) && enumValue.get(BUNGIE_ENUM_DESCRIPTION) != null) {
+                enumVar.put(ENUM_DESCRIPTION, enumValue.get(BUNGIE_ENUM_DESCRIPTION).toString());
+            }
+            enumVars.add(enumVar);
+        }
+        return enumVars;
+    }
 
     /**
      * Simplifies a composed schema (oneOf/anyOf) where all sub-schemas are enums

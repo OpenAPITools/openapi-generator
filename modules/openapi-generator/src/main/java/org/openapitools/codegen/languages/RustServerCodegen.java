@@ -49,6 +49,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.utils.EnumUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -1086,8 +1087,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             codegenParameter.isByteArray = ModelUtils.isByteArraySchema(original_schema);
 
             // This is a model, so should only have an example if explicitly defined.
-            if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-                codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+            if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey(X_EXAMPLE)) {
+                codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get(X_EXAMPLE));
             } else if (!codegenParameter.required) {
                 //mandatory parameter use the example in the yaml. if no example, it is also null.
                 codegenParameter.example = null;
@@ -1382,7 +1383,82 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
         bundle.put("hasAuthScopes", hasAuthScopes);
 
+        addAuthSchemeTestsToBundle(authMethods, bundle);
+
         return super.postProcessSupportingFileData(bundle);
+    }
+
+    /**
+     * Derive the facts the generated auth-scheme precedence tests need.
+     *
+     * Each generated block in `context.rs` returns early once it matches, so a block that fails to
+     * check which `AuthData` variant it received will claim credentials belonging to another scheme
+     * and make every later block unreachable (see issue #24095).
+     *
+     * Whether that is observable depends on block order, so the only thing the template cannot work
+     * out for itself is whether a block handling a given HTTP scheme precedes the apiKey block it
+     * could shadow. Everything else - which requests to send, which credentials to use - lives in
+     * the template.
+     */
+    private void addAuthSchemeTestsToBundle(List<CodegenSecurity> authMethods, Map<String, Object> bundle) {
+        boolean hasBasic = false;
+        boolean hasBearer = false;
+        boolean basicPrecedesHeaderApiKey = false;
+        boolean bearerPrecedesHeaderApiKey = false;
+        boolean basicPrecedesQueryApiKey = false;
+        boolean bearerPrecedesQueryApiKey = false;
+        String apiKeyHeaderName = null;
+        String apiKeyQueryName = null;
+
+        if (authMethods != null) {
+            for (CodegenSecurity authMethod : authMethods) {
+                boolean isBasic = Boolean.TRUE.equals(authMethod.isBasicBasic);
+                boolean isBearer = Boolean.TRUE.equals(authMethod.isBasicBearer)
+                        || Boolean.TRUE.equals(authMethod.isOAuth);
+                boolean isApiKeyHeader = Boolean.TRUE.equals(authMethod.isApiKey)
+                        && Boolean.TRUE.equals(authMethod.isKeyInHeader);
+                boolean isApiKeyQuery = Boolean.TRUE.equals(authMethod.isApiKey)
+                        && Boolean.TRUE.equals(authMethod.isKeyInQuery);
+
+                hasBasic |= isBasic;
+                hasBearer |= isBearer;
+                // Only blocks generated before an apiKey block can shadow it, and the header and
+                // query blocks are shadowed independently: each matches a different part of the
+                // request, so a block that fails to match one may still precede and claim the other.
+                if (apiKeyHeaderName == null) {
+                    basicPrecedesHeaderApiKey |= isBasic;
+                    bearerPrecedesHeaderApiKey |= isBearer;
+                }
+                if (apiKeyQueryName == null) {
+                    basicPrecedesQueryApiKey |= isBasic;
+                    bearerPrecedesQueryApiKey |= isBearer;
+                }
+                if (isApiKeyHeader && apiKeyHeaderName == null) {
+                    apiKeyHeaderName = authMethod.keyParamName.toLowerCase(Locale.ROOT);
+                }
+                if (isApiKeyQuery && apiKeyQueryName == null) {
+                    apiKeyQueryName = authMethod.keyParamName;
+                }
+            }
+        }
+
+        bundle.put("authTestHasBasic", hasBasic);
+        bundle.put("authTestHasBearer", hasBearer);
+        bundle.put("authTestBasicPrecedesHeaderApiKey", basicPrecedesHeaderApiKey);
+        bundle.put("authTestBearerPrecedesHeaderApiKey", bearerPrecedesHeaderApiKey);
+        bundle.put("authTestBasicPrecedesQueryApiKey", basicPrecedesQueryApiKey);
+        bundle.put("authTestBearerPrecedesQueryApiKey", bearerPrecedesQueryApiKey);
+        bundle.put("authTestApiKeyHeader", apiKeyHeaderName);
+        bundle.put("authTestApiKeyQuery", apiKeyQueryName);
+        bundle.put("authTestHasApiKey", apiKeyHeaderName != null || apiKeyQueryName != null);
+
+        SupportingFile authTestFile =
+                new SupportingFile("tests-auth-scheme-precedence.mustache", "tests", "auth_scheme_precedence.rs");
+        if (hasBasic || hasBearer || apiKeyHeaderName != null || apiKeyQueryName != null) {
+            supportingFiles.add(authTestFile);
+        } else {
+            supportingFiles.remove(authTestFile);
+        }
     }
 
     /**
@@ -1651,12 +1727,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 additionalProperties.put("apiUsesIntegerEnums", true);
 
                 // Add numeric discriminant values for enum variants
-                @SuppressWarnings("unchecked")
-                List<Map<String, Object>> enumVars =
-                    (List<Map<String, Object>>) model.allowableValues.get(ENUM_VARS);
+                List<EnumVarMap> enumVars = getEnumVars(model.allowableValues);
 
                 if (enumVars != null) {
-                    for (Map<String, Object> enumVar : enumVars) {
+                    for (EnumVarMap enumVar : enumVars) {
                         String value = (String) enumVar.get("value");
                         if (value != null) {
                             // Strip quotes to get raw numeric value
@@ -1768,8 +1842,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         } else {
             param.vendorExtensions.put("x-format-string", param.getIsEnumOrRef() ? "{}" : "{:?}");
             // Check if this is a model-type enum (allowableValues with values list)
-            if (param.allowableValues != null && param.allowableValues.containsKey(ENUM_VALUES)) {
-                List<?> values = (List<?>) param.allowableValues.get(ENUM_VALUES);
+            if (hasEnumValues(param.allowableValues)) {
+                List<?> values = getEnumValues(param.allowableValues);
                 if (!values.isEmpty()) {
                     // Use the first enum value as the example.
                     String firstEnumValue = values.get(0).toString();
@@ -1785,24 +1859,24 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         if (param.required) {
             if (example != null) {
-                param.vendorExtensions.put("x-example", example);
+                param.vendorExtensions.put(X_EXAMPLE, example);
             } else if (param.isArray) {
                 // Use the empty list if we don't have an example
-                param.vendorExtensions.put("x-example", "&Vec::new()");
+                param.vendorExtensions.put(X_EXAMPLE, "&Vec::new()");
             } else {
                 // If we don't have an example that we can provide, we need to disable the client example, as it won't build.
-                param.vendorExtensions.put("x-example", "???");
+                param.vendorExtensions.put(X_EXAMPLE, "???");
                 op.vendorExtensions.put("x-no-client-example", Boolean.TRUE);
             }
         } else if ((param.dataFormat != null) && (("date-time".equals(param.dataFormat)) || ("date".equals(param.dataFormat)))) {
             param.vendorExtensions.put("x-format-string", "{:?}");
-            param.vendorExtensions.put("x-example", "None");
+            param.vendorExtensions.put(X_EXAMPLE, "None");
         } else {
             // Not required, so override the format string and example
             boolean itemsAreEnum = param.isArray && param.items != null && param.items.getIsEnumOrRef();
             param.vendorExtensions.put("x-format-string", (param.getIsEnumOrRef() || itemsAreEnum) ? "{}" : "{:?}");
             String exampleString = (example != null) ? "Some(" + example + ")" : "None";
-            param.vendorExtensions.put("x-example", exampleString);
+            param.vendorExtensions.put(X_EXAMPLE, exampleString);
         }
 
         // Add a vendor extension to flag if this can have validate() run on it.

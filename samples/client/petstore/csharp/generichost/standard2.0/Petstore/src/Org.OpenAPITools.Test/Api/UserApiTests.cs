@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Test.Api
             string username = default;
             var response = await _instance.GetUserByNameAsync(username);
             var model = response.Ok();
-            Assert.IsType<User>(model);
+            Assert.IsType<Org.OpenAPITools.Model.User>(model);
         }
 
         /// <summary>

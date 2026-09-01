@@ -206,18 +206,16 @@ class _$OrderSerializer implements PrimitiveSerializer<Order> {
   }
 }
 
+
+/// Order Status
 class OrderStatusEnum extends EnumClass {
 
-  /// Order Status
   @BuiltValueEnumConst(wireName: r'placed')
   static const OrderStatusEnum placed = _$orderStatusEnum_placed;
-  /// Order Status
   @BuiltValueEnumConst(wireName: r'approved')
   static const OrderStatusEnum approved = _$orderStatusEnum_approved;
-  /// Order Status
   @BuiltValueEnumConst(wireName: r'delivered')
   static const OrderStatusEnum delivered = _$orderStatusEnum_delivered;
-  /// Order Status
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
   static const OrderStatusEnum unknownDefaultOpenApi = _$orderStatusEnum_unknownDefaultOpenApi;
 

@@ -682,6 +682,10 @@ components:
             - placed
             - approved
             - delivered
+          x-enum-descriptions:
+            - An order is placed but not yet approved.
+            - An order is approved and delivery is in progress.
+            - An order is delivered and finalized.
         complete:
           type: boolean
           default: false

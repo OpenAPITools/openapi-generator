@@ -51,13 +51,13 @@ class StoreController extends Controller
     {
         $validator = Validator::make(
             array_merge(
-                [
-                    'orderId' => $orderId,
-                ],
                 $request->all(),
+                [
+                    'order_id' => $orderId,
+                ],
             ),
             [
-                'orderId' => [
+                'order_id' => [
                     'required',
                     'string',
                 ],
@@ -94,10 +94,10 @@ class StoreController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -129,13 +129,13 @@ class StoreController extends Controller
     {
         $validator = Validator::make(
             array_merge(
-                [
-                    'orderId' => $orderId,
-                ],
                 $request->all(),
+                [
+                    'order_id' => $orderId,
+                ],
             ),
             [
-                'orderId' => [
+                'order_id' => [
                     'required',
                     'gte:1',
                     'lte:5',
@@ -178,10 +178,10 @@ class StoreController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],

@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             var response = await _instance.RootGetAsync();
             var model = response.Ok();
-            Assert.IsType<Fruit>(model);
+            Assert.IsType<Org.OpenAPITools.Model.Fruit>(model);
         }
     }
 }

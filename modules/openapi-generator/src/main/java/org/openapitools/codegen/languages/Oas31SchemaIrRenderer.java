@@ -1,0 +1,615 @@
+/*
+ * Copyright 2026 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.openapitools.codegen.languages;
+
+import io.swagger.v3.oas.models.OpenAPI;
+
+import org.openapitools.codegen.languages.Oas31SchemaIrEmitter.DynamicAnchorReg;
+import org.openapitools.codegen.languages.Oas31SchemaIrEmitter.IrNode;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/** Renders a completed densified schema registry into generated C++ sources. */
+final class Oas31SchemaIrRenderer {
+    private final OpenAPI openAPI;
+    private final Map<String, Object> additionalProperties;
+    private final Map<String, DynamicAnchorReg> dynamicAnchorRegs;
+    private final Set<Integer> vocabInertResources;
+
+    Oas31SchemaIrRenderer(
+            OpenAPI openAPI,
+            Map<String, Object> additionalProperties,
+            Map<String, DynamicAnchorReg> dynamicAnchorRegs,
+            Set<Integer> vocabInertResources) {
+        this.openAPI = openAPI;
+        this.additionalProperties = additionalProperties;
+        this.dynamicAnchorRegs = dynamicAnchorRegs;
+        this.vocabInertResources = vocabInertResources;
+    }
+
+    /**
+     * Retrieval/base URI of the single schema resource emitted this pass.
+     * Derived from the emitter's model access: a user-supplied {@code oas31BaseUri}
+     * option (the OAS 3.1 document retrieval URI) or a stable document-local urn
+     * when the invocation carries no explicit base URI. Honest: external-file
+     * resources cannot be emitted this pass, so there is exactly one resource.
+     */
+    private String documentBaseUri() {
+        Object opt = additionalProperties.get("oas31BaseUri");
+        if (opt != null && !String.valueOf(opt).isEmpty()) {
+            return String.valueOf(opt);
+        }
+        return "urn:openapi-generator:cpp-boost-beast:schema";
+    }
+
+    /**
+     * Dialect URI for the single emitted schema resource, classed from the
+     * document knobs ({@code jsonSchemaDialect} / OAS 3.1 pinning) that the
+     * emitter can observe via its model access. Falls back to the OAS 3.1 base
+     * alias when the document is unavailable or declares nothing recognizable.
+     */
+    private String documentDialectUri() {
+        CppBoostBeastClientCodegen.OasDialect d = Oas31KeywordScanner.resolveDocumentDialect(openAPI);
+        switch (d) {
+            case OAS_31:
+                return CppBoostBeastClientCodegen.OAS_31_DIALECT;
+            case DRAFT_2020_12_REC:
+                return CppBoostBeastClientCodegen.DRAFT_2020_12;
+            case UNRECOGNIZED:
+                if (openAPI != null && openAPI.getJsonSchemaDialect() != null
+                        && !openAPI.getJsonSchemaDialect().isEmpty()) {
+                    return openAPI.getJsonSchemaDialect().trim();
+                }
+                return CppBoostBeastClientCodegen.OAS_31_DIALECT_BASE_ALIAS;
+            case UNSPECIFIED:
+            default:
+                return Oas31KeywordScanner.isOas31(openAPI)
+                        ? CppBoostBeastClientCodegen.OAS_31_DIALECT
+                        : CppBoostBeastClientCodegen.OAS_31_DIALECT_BASE_ALIAS;
+        }
+    }
+    private String schemaValidationNamespace() {
+        Object value = additionalProperties.get("schemaValidationNamespace");
+        if (value == null || value.toString().isEmpty()) {
+            throw new IllegalStateException("schemaValidationNamespace must be configured");
+        }
+        return value.toString();
+    }
+
+    private String schemaValidationHeaderGuardPrefix() {
+        Object value = additionalProperties.get("schemaValidationHeaderGuardPrefix");
+        if (value == null || value.toString().isEmpty()) {
+            throw new IllegalStateException("schemaValidationHeaderGuardPrefix must be configured");
+        }
+        return value.toString();
+    }
+
+    /** Oas31SchemaRegistry.h — declarations only (registry defined in .cpp). */
+    String buildSchemaIrHeader(List<IrNode> nodes) {
+        final String namespaceName = schemaValidationNamespace();
+        String guard = schemaValidationHeaderGuardPrefix() + "_OAS31_SCHEMA_REGISTRY_H_";
+        String exportMacro = additionalProperties.getOrDefault(
+                CppBoostBeastClientCodegen.EXPORT_MACRO, "").toString();
+        final String exportPrefix = exportMacro.isEmpty() ? "" : exportMacro + " ";
+        StringBuilder sb = new StringBuilder();
+        sb.append("// Generated by CppBoostBeastClientCodegen (densified OAS 3.1 schema IR).\n");
+        sb.append("// Do not edit by hand. SchemaNode/SchemaResource layout frozen in "
+                + "Oas31SchemaIr.h.\n");
+        sb.append("#ifndef ").append(guard).append("\n");
+        sb.append("#define ").append(guard).append("\n\n");
+        sb.append("#include \"Oas31SchemaIr.h\"\n");
+        if (!exportMacro.isEmpty()) {
+            sb.append("#include \"ApiExport.h\"\n");
+        }
+        sb.append("#include <string>\n\n");
+        sb.append("namespace ").append(namespaceName).append(" {\n\n");
+        sb.append("// Densified SchemaResourceRegistry for the generated schema IR.\n");
+        sb.append("// Numeric constraints carry ORIGINAL lexemes (ExactNumber::parseLexeme).\n");
+        sb.append(exportPrefix).append("SchemaResourceRegistry const& schemaRegistry();\n\n");
+        sb.append("class ").append(exportPrefix).append("SchemaEvaluator;\n");
+        sb.append(exportPrefix).append("SchemaEvaluator const& sharedSchemaEvaluator();\n\n");
+        sb.append("// Resolve a validate_<id> identifier to its SchemaIndex "
+                + "(kNoSchema if unknown).\n");
+        sb.append(exportPrefix).append("SchemaIndex schemaNodeFor(std::string const& id);\n\n");
+        sb.append("} // namespace ").append(namespaceName).append("\n\n");
+        sb.append("#endif // ").append(guard).append("\n");
+        return sb.toString();
+    }
+
+    /** Emit `n.<field>.push_back(<idx>);` for every resolved index. */
+    private static void emitChildVector(StringBuilder sb, String field,
+                                        List<Integer> indices) {
+        if (indices == null) return;
+        for (Integer cidx : indices) {
+            if (cidx >= 0) {
+                sb.append("        n.").append(field).append(".push_back(").append(cidx).append(");\n");
+            }
+        }
+    }
+
+    /** schema_ir.generated.cpp or one partitioned registry source. */
+    String buildSchemaIrSource(
+            List<IrNode> nodes, int mainNodeCount,
+            int start, int end, int chunk) {
+        boolean isChunk = chunk >= 0;
+        String namespaceName = schemaValidationNamespace();
+        StringBuilder sb = new StringBuilder();
+        sb.append("// Generated by CppBoostBeastClientCodegen (densified OAS 3.1 schema IR).\n");
+        sb.append("// Numeric constraints are exact lexemes parsed by ExactNumber::parseLexeme.\n");
+        sb.append("#include \"Oas31SchemaRegistry.h\"\n");
+        sb.append("#include \"Oas31ExactJson.h\"\n");
+        if (!isChunk) {
+            sb.append("#include \"Oas31Validator.h\"\n");
+        }
+        sb.append("#include <string>\n");
+        sb.append("#include <utility>\n\n");
+        sb.append("namespace ").append(namespaceName).append(" {\n");
+        if (isChunk) {
+            sb.append("namespace detail {\n");
+        }
+        sb.append("namespace {\n\n");
+        sb.append("[[maybe_unused]] void setExact(ExactNumber& out, bool& hasOut, std::string const& lexeme) {\n");
+        sb.append("    if (!lexeme.empty()) { out = ExactNumber::parseLexeme(lexeme); hasOut = true; }\n");
+        sb.append("}\n\n");
+        if (isChunk) {
+            sb.append("} // namespace\n\n");
+            sb.append("void appendSchemaRegistryChunk").append(chunk)
+                    .append("(SchemaResourceRegistry& reg) {\n");
+        } else {
+            sb.append("SchemaResourceRegistry buildRegistry() {\n");
+            sb.append("    SchemaResourceRegistry reg;\n");
+            sb.append("    reg.nodes.reserve(").append(nodes.size()).append(");\n");
+            // One generated document resource owns the main validator rows.
+            sb.append("    SchemaResource res;\n");
+            sb.append("    res.baseUri = \"").append(CppBoostBeastClientCodegen.escapeCppStringContent(documentBaseUri())).append("\";\n");
+            sb.append("    res.dialect = \"").append(CppBoostBeastClientCodegen.escapeCppStringContent(documentDialectUri())).append("\";\n");
+            sb.append("    // No document-root anchor is declared.\n");
+            for (int i = 0; i < mainNodeCount; i++) {
+                sb.append("    res.rootNodes.push_back(").append(i).append(");\n");
+            }
+            sb.append("    reg.resources.push_back(std::move(res));\n");
+        }
+
+        for (int index = start; index < end; index++) {
+            IrNode node = nodes.get(index);
+            boolean resolvedRef = node.isRef && node.refTargetIndex >= 0;
+            sb.append("\n    { // node ").append(index).append("\n");
+            sb.append("        SchemaNode n;\n");
+            sb.append("        n.resourceIdentity = 0;\n");
+            // Dynamic resource roots push scope frames; anchor and dynamic-ref
+            // names identify declarations and lookups within those frames.
+            if (node.dynamicResource != 0) {
+                sb.append("        n.dynamicResource = ").append(node.dynamicResource).append(";\n");
+            }
+            if (node.resourceRoot) {
+                sb.append("        n.resourceRoot = true;\n");
+            }
+            if (node.dynamicAnchorName != null) {
+                sb.append("        n.dynamicAnchorName = \"");
+                sb.append(CppBoostBeastClientCodegen.escapeCppStringContent(node.dynamicAnchorName));
+                sb.append("\";\n");
+            }
+            if (node.dynamicRefAnchor != null && resolvedRef) {
+                sb.append("        n.dynamicRefAnchor = \"");
+                sb.append(CppBoostBeastClientCodegen.escapeCppStringContent(node.dynamicRefAnchor));
+                sb.append("\";\n");
+            }
+            // A local $ref applies its target alongside sibling keywords. The
+            // target row retains its complete constraint surface, including all
+            // composition applicators.
+            if (resolvedRef) {
+                sb.append("        n.applicator = ApplicatorKind::ref;\n");
+                sb.append("        n.children.push_back(").append(node.refTargetIndex).append(");\n");
+            }
+            // A deep enum present => the enum alone is the complete constraint
+            // (the instance must deep-equal a member, which subsumes any type).
+            // The lowered model's type flag is unreliable here (type-less enums
+            // are inferred as `string`; `type: array` becomes an ArraySchema that
+            // DROPS the enum), so we omit it and rely on the exact enum.
+            if (node.hasType && node.enumJson == null) {
+                sb.append("        n.typeFlags = ").append(node.typeFlags).append("u;\n");
+            }
+            switch (node.booleanValue) {
+                case TRUE:
+                    sb.append("        n.booleanValue = BooleanValue::true_;\n");
+                    break;
+                case FALSE:
+                    sb.append("        n.booleanValue = BooleanValue::false_;\n");
+                    break;
+                default:
+                    break;
+            }
+            Oas31ExactLiteralEmitter.appendNodeLiterals(sb, node);
+            if (node.hasUniqueItems) {
+                sb.append("        n.hasUniqueItems = true;\n");
+            }
+            if (node.notSchemaIndex >= 0) {
+                sb.append("        n.notSchema = ").append(node.notSchemaIndex).append(";\n");
+            }
+            // -- Object structure --
+            if (node.hasObjectSchema) {
+                sb.append("        n.hasObjectSchema = true;\n");
+            }
+            for (IrNode.PropertySchema pb : node.properties) {
+                if (pb.index < 0) continue;
+                sb.append("        { PropertyBinding b; b.name = \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(pb.name))
+                        .append("\"; b.node = ").append(pb.index)
+                        .append("; n.properties.push_back(std::move(b)); }\n");
+            }
+            for (String rn : node.required) {
+                sb.append("        n.required.push_back(\"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(rn)).append("\");\n");
+            }
+            if (!"absent".equals(node.additionalPropertiesKind)) {
+                switch (node.additionalPropertiesKind) {
+                    case "allowed":
+                        sb.append("        n.additionalProperties = AdditionalPropertiesKind::allowed;\n");
+                        break;
+                    case "reject":
+                        sb.append("        n.additionalProperties = AdditionalPropertiesKind::reject;\n");
+                        break;
+                    case "schema":
+                        sb.append("        n.additionalProperties = AdditionalPropertiesKind::schema;\n");
+                        if (node.additionalSchemaIndex >= 0) {
+                            sb.append("        n.additionalSchema = ").append(node.additionalSchemaIndex).append(";\n");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Oas31ExactLiteralEmitter.appendSetExact(
+                    sb, "n.minProperties", "n.hasMinProperties", node.minPropertiesLexeme);
+            Oas31ExactLiteralEmitter.appendSetExact(
+                    sb, "n.maxProperties", "n.hasMaxProperties", node.maxPropertiesLexeme);
+            // -- String constraints --
+            Oas31ExactLiteralEmitter.appendSetExact(
+                    sb, "n.minLength", "n.hasMinLength", node.minLengthLexeme);
+            Oas31ExactLiteralEmitter.appendSetExact(
+                    sb, "n.maxLength", "n.hasMaxLength", node.maxLengthLexeme);
+            if (node.patternPresent) {
+                sb.append("        n.pattern = \"").append(node.patternLexeme).append("\";\n");
+                sb.append("        n.hasPattern = true;\n");
+            }
+            for (int i = 0; i < node.patternProperties.size(); i++) {
+                IrNode.PatternSchema pb = node.patternProperties.get(i);
+                if (pb.index < 0) continue;
+                sb.append("        n.patternProperties.push_back({")
+                  .append("\"").append(CppBoostBeastClientCodegen.escapeCppStringContent(pb.regex)).append("\", ")
+                  .append(pb.index).append("});\n");
+            }
+            if (node.propertyNamesIndex >= 0) {
+                sb.append("        n.propertyNames = ").append(node.propertyNamesIndex).append(";\n");
+            }
+            // -- Array structure --
+            for (int i = 0; i < node.prefixItems.size(); i++) {
+                int cidx = node.prefixItemIndices.isEmpty() ? -1 : node.prefixItemIndices.get(i);
+                if (cidx < 0) continue;
+                sb.append("        n.prefixItems.push_back(").append(cidx).append(");\n");
+            }
+            if (node.itemsIndex >= 0) {
+                sb.append("        n.items = ").append(node.itemsIndex).append(";\n");
+            }
+            Oas31ExactLiteralEmitter.appendSetExact(
+                    sb, "n.minItems", "n.hasMinItems", node.minItemsLexeme);
+            Oas31ExactLiteralEmitter.appendSetExact(
+                    sb, "n.maxItems", "n.hasMaxItems", node.maxItemsLexeme);
+            // -- Coexisting composition applicators --
+            emitChildVector(sb, "allOfChildren", node.allOfChildIndices);
+            emitChildVector(sb, "anyOfChildren", node.anyOfChildIndices);
+            emitChildVector(sb, "oneOfChildren", node.oneOfChildIndices);
+            // -- unevaluatedProperties --
+            if (node.unevaluatedPropertiesPresent) {
+                sb.append("        n.hasUnevaluatedProperties = true;\n");
+                if (node.unevaluatedPropertiesRejects) {
+                    sb.append("        n.unevaluatedPropertiesRejects = true;\n");
+                }
+                if (node.unevaluatedSchemaIndex >= 0) {
+                    sb.append("        n.unevaluatedSchema = ").append(node.unevaluatedSchemaIndex).append(";\n");
+                }
+            }
+            // -- unevaluatedItems --
+            if (node.unevaluatedItemsPresent) {
+                sb.append("        n.hasUnevaluatedItems = true;\n");
+                if (node.unevaluatedItemsRejects) {
+                    sb.append("        n.unevaluatedItemsRejects = true;\n");
+                }
+                if (node.unevaluatedItemsSchemaIndex >= 0) {
+                    sb.append("        n.unevaluatedItemsSchema = ").append(node.unevaluatedItemsSchemaIndex).append(";\n");
+                }
+            }
+            // -- if / then / else --
+            if (node.ifIndex >= 0) {
+                sb.append("        n.hasIf = true;\n");
+                sb.append("        n.ifSchema = ").append(node.ifIndex).append(";\n");
+            }
+            if (node.thenIndex >= 0) {
+                sb.append("        n.hasThen = true;\n");
+                sb.append("        n.thenSchema = ").append(node.thenIndex).append(";\n");
+            }
+            if (node.elseIndex >= 0) {
+                sb.append("        n.hasElse = true;\n");
+                sb.append("        n.elseSchema = ").append(node.elseIndex).append(";\n");
+            }
+            // -- dependentSchemas --
+            for (IrNode.DependentSchema d : node.dependentSchemas) {
+                if (d.index < 0) continue;
+                sb.append("        n.dependentSchemas.push_back({\"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(d.name))
+                        .append("\", ").append(d.index).append("});\n");
+            }
+            // -- contains family --
+            if (node.containsIndex >= 0) {
+                sb.append("        n.hasContains = true;\n");
+                sb.append("        n.containsSchema = ").append(node.containsIndex).append(";\n");
+            }
+            Oas31ExactLiteralEmitter.appendSetExact(sb, "n.minContains", "n.hasMinContains",
+                    node.minContainsLexeme);
+            Oas31ExactLiteralEmitter.appendSetExact(sb, "n.maxContains", "n.hasMaxContains",
+                    node.maxContainsLexeme);
+            // -- dependentRequired --
+            for (IrNode.DependentRequiredEntry de : node.dependentRequired) {
+                if (de.required.isEmpty()) continue;
+                sb.append("        n.dependentRequired.push_back({\"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(de.name)).append("\", {");
+                for (int ri = 0; ri < de.required.size(); ri++) {
+                    if (ri > 0) sb.append(", ");
+                    sb.append("\"").append(CppBoostBeastClientCodegen.escapeCppStringContent(de.required.get(ri)))
+                            .append("\"");
+                }
+                sb.append("}});\n");
+            }
+            // -- Annotation payloads (each field contains one complete JSON value) --
+            if (!node.annTitle.isEmpty()) {
+                sb.append("        n.annTitle = \"").append(CppBoostBeastClientCodegen.escapeCppStringContent(node.annTitle)).append("\";\n");
+            }
+            if (!node.annDescription.isEmpty()) {
+                sb.append("        n.annDescription = \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(node.annDescription))
+                        .append("\";\n");
+            }
+            if (!node.annDefaultJson.isEmpty()) {
+                sb.append("        n.annDefaultJson = \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(node.annDefaultJson))
+                        .append("\";\n");
+            }
+            if (!node.annExamplesJson.isEmpty()) {
+                sb.append("        n.annExamplesJson = \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(
+                                node.annExamplesJson))
+                        .append("\";\n");
+            }
+            if (!node.annDeprecatedJson.isEmpty()) {
+                sb.append("        n.annDeprecatedJson = \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(
+                                node.annDeprecatedJson))
+                        .append("\";\n");
+            }
+            if (!node.annReadOnlyJson.isEmpty()) {
+                sb.append("        n.annReadOnlyJson = \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(
+                                node.annReadOnlyJson))
+                        .append("\";\n");
+            }
+            if (!node.annWriteOnlyJson.isEmpty()) {
+                sb.append("        n.annWriteOnlyJson = \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(
+                                node.annWriteOnlyJson))
+                        .append("\";\n");
+            }
+            if (!node.annFormat.isEmpty()) {
+                sb.append("        n.annFormat = \"").append(CppBoostBeastClientCodegen.escapeCppStringContent(node.annFormat)).append("\";\n");
+            }
+            if (!node.annContentEncoding.isEmpty()) {
+                sb.append("        n.annContentEncoding = \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(node.annContentEncoding))
+                        .append("\";\n");
+            }
+            if (!node.annContentMediaType.isEmpty()) {
+                sb.append("        n.annContentMediaType = \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(node.annContentMediaType))
+                        .append("\";\n");
+            }
+            if (!node.annContentSchemaJson.isEmpty()) {
+                sb.append("        n.annContentSchemaJson = \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(
+                                node.annContentSchemaJson))
+                        .append("\";\n");
+            }
+            for (java.util.Map.Entry<String, String> ex : node.annExtras) {
+                sb.append("        n.annExtras.push_back({\"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(ex.getKey()))
+                        .append("\", \"").append(CppBoostBeastClientCodegen.escapeCppStringContent(ex.getValue()))
+                        .append("\"});\n");
+            }
+            if (node.validatorId != null && !node.validatorId.isEmpty()) {
+                sb.append("        n.sourceName = \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(node.validatorId))
+                        .append("\";\n");
+            }
+            sb.append("        n.schemaPath = \"")
+                    .append(CppBoostBeastClientCodegen.escapeCppStringContent(node.schemaPath))
+                    .append("\";\n");
+            String baseUri = documentBaseUri();
+            int fragment = baseUri.indexOf('#');
+            if (fragment >= 0) {
+                baseUri = baseUri.substring(0, fragment);
+            }
+            sb.append("        n.absSchemaUri = \"")
+                    .append(CppBoostBeastClientCodegen.escapeCppStringContent(
+                            baseUri + node.schemaPath))
+                    .append("\";\n");
+            sb.append("        reg.nodes.push_back(std::move(n));\n");
+            sb.append("    }\n");
+        }
+
+        if (isChunk) {
+            sb.append("}\n\n");
+            sb.append("SchemaIndex schemaNodeForChunk").append(chunk)
+                    .append("(std::string const& id) {\n");
+            for (int index = start; index < end; index++) {
+                sb.append("    if (id == \"")
+                        .append(CppBoostBeastClientCodegen.escapeCppStringContent(
+                                nodes.get(index).validatorId))
+                        .append("\") return ").append(index).append(";\n");
+            }
+            sb.append("    return kNoSchema;\n");
+            sb.append("}\n\n");
+            sb.append("} // namespace detail\n");
+            sb.append("} // namespace ").append(namespaceName).append("\n");
+            return sb.toString();
+        }
+
+        // Resources whose dialect omits the validation vocabulary treat those
+        // keywords as inert annotations. Row identity follows dynamic scope so
+        // unmarked rows inherit the enclosing resource.
+        for (int rid : vocabInertResources) {
+            sb.append("    reg.vocabInertResources.insert(")
+                    .append(rid).append(");\n");
+        }
+
+        // Emit resolved dynamic-anchor tables per synthetic resource; unresolved
+        // registrations fall back to static resolution.
+        {
+            int maxRes = 0;
+            for (DynamicAnchorReg reg : dynamicAnchorRegs.values()) {
+                if (reg.row >= 0 && reg.resource > maxRes) maxRes = reg.resource;
+            }
+            sb.append("    reg.dynamicAnchorTables.resize(").append(maxRes + 1).append(");\n");
+            for (DynamicAnchorReg reg : dynamicAnchorRegs.values()) {
+                if (reg.row < 0) continue;
+                sb.append("    reg.dynamicAnchorTables[").append(reg.resource)
+                    .append("].push_back({\"");
+                sb.append(CppBoostBeastClientCodegen.escapeCppStringContent(reg.name));
+                    sb.append("\", ").append(reg.row).append("});\n");
+            }
+        }
+
+        sb.append("\n    return reg;\n");
+        sb.append("}\n\n");
+        sb.append("} // namespace\n\n");
+        sb.append("SchemaResourceRegistry const& schemaRegistry() {\n");
+        sb.append("    static SchemaResourceRegistry const r = buildRegistry();\n");
+        sb.append("    return r;\n");
+        sb.append("}\n\n");
+        sb.append("SchemaEvaluator const& sharedSchemaEvaluator() {\n");
+        sb.append("    static SchemaEvaluator const evaluator(schemaRegistry());\n");
+        sb.append("    return evaluator;\n");
+        sb.append("}\n\n");
+        sb.append("SchemaIndex schemaNodeFor(std::string const& id) {\n");
+        for (int index = 0; index < nodes.size(); index++) {
+            sb.append("    if (id == \"")
+                    .append(CppBoostBeastClientCodegen.escapeCppStringContent(
+                            nodes.get(index).validatorId))
+                    .append("\") return ").append(index).append(";\n");
+        }
+        sb.append("    (void)id;\n");
+        sb.append("    return kNoSchema;\n");
+        sb.append("}\n\n");
+        sb.append("} // namespace ").append(namespaceName).append("\n");
+        return sb.toString();
+    }
+
+    /** Small coordinator linking independently compiled registry partitions. */
+    String buildSchemaIrCoordinatorSource(
+            List<IrNode> nodes, int mainNodeCount, int chunkCount) {
+        String namespaceName = schemaValidationNamespace();
+        StringBuilder sb = new StringBuilder();
+        sb.append("// Generated by CppBoostBeastClientCodegen (partitioned OAS 3.1 schema IR).\n");
+        sb.append("#include \"Oas31SchemaRegistry.h\"\n");
+        sb.append("#include \"Oas31Validator.h\"\n");
+        sb.append("#include <string>\n");
+        sb.append("#include <utility>\n\n");
+        sb.append("namespace ").append(namespaceName).append(" {\n");
+        sb.append("namespace detail {\n");
+        for (int chunk = 0; chunk < chunkCount; chunk++) {
+            sb.append("void appendSchemaRegistryChunk").append(chunk)
+                    .append("(SchemaResourceRegistry& reg);\n");
+            sb.append("SchemaIndex schemaNodeForChunk").append(chunk)
+                    .append("(std::string const& id);\n");
+        }
+        sb.append("} // namespace detail\n\n");
+        sb.append("namespace {\n\n");
+        sb.append("SchemaResourceRegistry buildRegistry() {\n");
+        sb.append("    SchemaResourceRegistry reg;\n");
+        sb.append("    reg.nodes.reserve(").append(nodes.size()).append(");\n");
+        sb.append("    SchemaResource res;\n");
+        sb.append("    res.baseUri = \"")
+                .append(CppBoostBeastClientCodegen.escapeCppStringContent(documentBaseUri()))
+                .append("\";\n");
+        sb.append("    res.dialect = \"")
+                .append(CppBoostBeastClientCodegen.escapeCppStringContent(documentDialectUri()))
+                .append("\";\n");
+        sb.append("    // No document-root anchor is declared.\n");
+        for (int i = 0; i < mainNodeCount; i++) {
+            sb.append("    res.rootNodes.push_back(").append(i).append(");\n");
+        }
+        sb.append("    reg.resources.push_back(std::move(res));\n");
+        for (int chunk = 0; chunk < chunkCount; chunk++) {
+            sb.append("    detail::appendSchemaRegistryChunk").append(chunk)
+                    .append("(reg);\n");
+        }
+        for (int rid : vocabInertResources) {
+            sb.append("    reg.vocabInertResources.insert(")
+                    .append(rid).append(");\n");
+        }
+
+        int maxRes = 0;
+        for (DynamicAnchorReg reg : dynamicAnchorRegs.values()) {
+            if (reg.row >= 0 && reg.resource > maxRes) {
+                maxRes = reg.resource;
+            }
+        }
+        sb.append("    reg.dynamicAnchorTables.resize(").append(maxRes + 1).append(");\n");
+        for (DynamicAnchorReg reg : dynamicAnchorRegs.values()) {
+            if (reg.row < 0) {
+                continue;
+            }
+            sb.append("    reg.dynamicAnchorTables[").append(reg.resource)
+                    .append("].push_back({\"")
+                    .append(CppBoostBeastClientCodegen.escapeCppStringContent(reg.name))
+                    .append("\", ").append(reg.row).append("});\n");
+        }
+        sb.append("\n    return reg;\n");
+        sb.append("}\n\n");
+        sb.append("} // namespace\n\n");
+        sb.append("SchemaResourceRegistry const& schemaRegistry() {\n");
+        sb.append("    static SchemaResourceRegistry const r = buildRegistry();\n");
+        sb.append("    return r;\n");
+        sb.append("}\n\n");
+        sb.append("SchemaEvaluator const& sharedSchemaEvaluator() {\n");
+        sb.append("    static SchemaEvaluator const evaluator(schemaRegistry());\n");
+        sb.append("    return evaluator;\n");
+        sb.append("}\n\n");
+        sb.append("SchemaIndex schemaNodeFor(std::string const& id) {\n");
+        sb.append("    SchemaIndex index = kNoSchema;\n");
+        for (int chunk = 0; chunk < chunkCount; chunk++) {
+            sb.append("    index = detail::schemaNodeForChunk").append(chunk)
+                    .append("(id);\n");
+            sb.append("    if (index != kNoSchema) return index;\n");
+        }
+        sb.append("    return kNoSchema;\n");
+        sb.append("}\n\n");
+        sb.append("} // namespace ").append(namespaceName).append("\n");
+        return sb.toString();
+    }
+
+
+}

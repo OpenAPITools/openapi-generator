@@ -319,3 +319,4 @@ class _$NullableClassSerializer implements PrimitiveSerializer<NullableClass> {
   }
 }
 
+

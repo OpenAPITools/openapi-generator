@@ -216,6 +216,82 @@ public class DartDioClientCodegenTest {
     }
 
     @Test
+    public void testQueryParameterNullGuardsFollowRequiredness() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_1/dart-dio/optional_nullable_query_parameter.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = output.toPath().resolve("lib/src/api/default_api.dart");
+
+        TestUtils.assertFileContains(defaultApi,
+                "int? activityId,",
+                "int? categoryId,",
+                "required int requiredId,",
+                "final _queryParameters = <String, dynamic>{");
+
+        // Optional query parameters use nullable Dart arguments. Null means the
+        // caller omitted the parameter, so the generated request must omit it.
+        TestUtils.assertFileContains(defaultApi,
+                "if (activityId != null)",
+                "r'activity_id': encodeQueryParameter(_serializers, activityId, const FullType(int)),",
+                "if (categoryId != null)",
+                "r'category_id': encodeQueryParameter(_serializers, categoryId, const FullType(int)),");
+
+        // Required query parameters are always emitted. If the schema is
+        // nullable, null is an explicit supplied value rather than omission.
+        TestUtils.assertFileContains(defaultApi,
+                "r'required_id': encodeQueryParameter(_serializers, requiredId, const FullType(int)),",
+                "r'required_nullable_id': encodeQueryParameter(_serializers, requiredNullableId, const FullType(int)),");
+        TestUtils.assertFileNotContains(defaultApi,
+                "if (requiredId != null)",
+                "if (requiredNullableId != null)",
+                "final _queryParameters = <String, dynamic>{\n      r'activity_id': encodeQueryParameter(_serializers, activityId, const FullType(int)),",
+                "final _queryParameters = <String, dynamic>{\n      r'category_id': encodeQueryParameter(_serializers, categoryId, const FullType(int)),");
+    }
+
+    /**
+     * Regression test for dart-dio built_value anyOf serialization.
+     *
+     * The one_of AnyOf implementation stores selected values by the index of
+     * the matching declared schema. Before the fix, generated serializers built
+     * the FullType parameters from anyOf.valueTypes, which only contains the
+     * selected value's type. A value stored at index 1 therefore tried to read
+     * specifiedType.parameters[1] from a one-element parameter list and threw a
+     * RangeError during serialization.
+     */
+    @Test
+    public void testAnyOfSerializationUsesDeclaredTypeIndexes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/built_value_anyof_primitive.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        Path fieldValue = output.toPath().resolve("lib/src/model/field_value.dart");
+
+        TestUtils.assertFileContains(fieldValue,
+                "FullType(AnyOf, anyOf.types.map((type) => FullType(type)).toList())");
+        TestUtils.assertFileNotContains(fieldValue,
+                "FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList())");
+    }
+
+    @Test
     public void verifyDartDioGeneratorRuns() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();

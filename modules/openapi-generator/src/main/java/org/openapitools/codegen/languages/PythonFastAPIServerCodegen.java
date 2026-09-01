@@ -243,6 +243,38 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     }
 
     @Override
+    protected PydanticType getPydanticParameterType(CodegenParameter parameter,
+                                                    Set<String> modelImports,
+                                                    Set<String> exampleImports,
+                                                    Set<String> postponedModelImports,
+                                                    Set<String> postponedExampleImports,
+                                                    PythonImports moduleImports,
+                                                    String classname) {
+        // Path/query/header/cookie values always arrive as strings on the wire and rely on Pydantic
+        // coercion, so they must not use strict types. Body params keep the strict default.
+        if (parameter.isQueryParam || parameter.isPathParam || parameter.isHeaderParam || parameter.isCookieParam) {
+            return new PydanticCoercibleType(
+                    modelImports,
+                    exampleImports,
+                    postponedModelImports,
+                    postponedExampleImports,
+                    moduleImports,
+                    classname
+            );
+        }
+
+        return super.getPydanticParameterType(
+                parameter,
+                modelImports,
+                exampleImports,
+                postponedModelImports,
+                postponedExampleImports,
+                moduleImports,
+                classname
+        );
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
 
@@ -536,7 +568,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         if (!isQuietMode()) {
             System.out.println("################################################################################");
             System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
             System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
             System.out.println("#                                                                              #");
             System.out.println("# This generator's contributed by Nikita Vakula (https://github.com/krjakbrjak)#");

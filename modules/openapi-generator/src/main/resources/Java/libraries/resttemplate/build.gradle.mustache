@@ -84,14 +84,16 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
+    java {
     {{#useJakartaEe}}
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     {{/useJakartaEe}}
     {{^useJakartaEe}}
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     {{/useJakartaEe}}
+    }
 
     publishing {
         publications {
@@ -116,17 +118,17 @@ ext {
     swagger_annotations_version = "2.2.9"
     {{/swagger2AnnotationLibrary}}
     {{#useJackson3}}
-    jackson_version = "3.1.0"
+    jackson_version = "3.1.5"
     {{/useJackson3}}
     {{^useJackson3}}
-    jackson_version = "2.21.1"
+    jackson_version = "2.21.5"
     {{/useJackson3}}
     jackson_annotations_version = "2.21"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.10"
+    jackson_databind_nullable_version = "0.2.11"
     {{/openApiNullable}}
     {{#useSpringBoot4}}
-    spring_web_version = "7.0.5"
+    spring_web_version = "7.0.8"
     jakarta_annotation_version = "3.0.0"
     bean_validation_version = "3.1.1"
     {{/useSpringBoot4}}

@@ -151,3 +151,12 @@ components:
       oneOf:
         - $ref: '#/components/schemas/Parent'
         - type: "null"
+    StringPatternsWithOneOf:
+      type: string
+      oneOf:
+        - type: string
+          description: Numeric identifier
+          pattern: '^\d{1,35}$'
+        - type: string
+          description: UUID identifier
+          pattern: '^[0-9a-f-]{36}$'

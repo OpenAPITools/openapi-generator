@@ -72,6 +72,8 @@ components:
         - Max
     ModelWithEnumProperties:
       type: object
+      required:
+        - requiredInlineIntEnum
       properties:
         intEnum:
           $ref: '#/components/schemas/IntegerEnum'
@@ -91,6 +93,42 @@ components:
           enum:
             - 0
             - 1
+          x-enum-varnames:
+            - None
+            - Some
+        nullableInlineIntEnum:
+          type: integer
+          format: int32
+          nullable: true
+          enum:
+            - 0
+            - 1
+          x-enum-varnames:
+            - None
+            - Some
+        requiredInlineIntEnum:
+          type: integer
+          format: int32
+          enum:
+            - 0
+            - 1
+          x-enum-varnames:
+            - None
+            - Some
+        inlineStringEnum:
+          type: string
+          enum:
+            - none
+            - some
+          x-enum-varnames:
+            - None
+            - Some
+        nullableInlineStringEnum:
+          type: string
+          nullable: true
+          enum:
+            - none
+            - some
           x-enum-varnames:
             - None
             - Some
@@ -115,6 +153,16 @@ components:
         inlineByteEnum:
           type: integer
           format: byte
+          enum:
+            - 0
+            - 255
+          x-enum-varnames:
+            - Min
+            - Max
+        nullableInlineByteEnum:
+          type: integer
+          format: byte
+          nullable: true
           enum:
             - 0
             - 255

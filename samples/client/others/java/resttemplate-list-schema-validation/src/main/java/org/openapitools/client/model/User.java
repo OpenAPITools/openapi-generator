@@ -33,7 +33,7 @@ import javax.validation.Valid;
   User.JSON_PROPERTY_USERNAME,
   User.JSON_PROPERTY_EMAIL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_USERNAME = "username";
   @javax.annotation.Nullable
@@ -49,7 +49,7 @@ public class User {
   /**
    * Constructor with all args parameters
    */
-  public User(@JsonProperty(JSON_PROPERTY_USERNAME) String username, @JsonProperty(JSON_PROPERTY_EMAIL) String email) {
+  public User(@JsonProperty(JSON_PROPERTY_USERNAME) @javax.annotation.Nullable String username, @JsonProperty(JSON_PROPERTY_EMAIL) @javax.annotation.Nonnull String email) {
     this.username = username;
     this.email = email;
   }

@@ -56,6 +56,50 @@ public class Sttp4CodegenTest {
     }
 
     @Test
+    public void verifyEnumParameterImportAndWireValues() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/scala/sttp4-enum-param.yaml", null, new ParseOptions()).getOpenAPI();
+
+        ScalaSttp4ClientCodegen codegen = new ScalaSttp4ClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put("jsonLibrary", "circe");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        // Enums are sealed traits + case objects: the API must import the type itself,
+        // not Enumeration-style wildcard members (which would not bring the type into scope).
+        Path apiPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/api/DefaultApi.scala");
+        assertFileContains(apiPath, "import org.openapitools.client.model.PetStatus\n");
+        assertFileNotContains(apiPath, "import org.openapitools.client.model.PetStatus._");
+
+        // Models live in the same package as the enum: no import is needed at all
+        // (sealed trait, not an Enumeration with a type alias inside the companion).
+        Path modelPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Pet.scala");
+        assertFileNotContains(modelPath, "import org.openapitools.client.model.PetStatus");
+
+        // Case objects carry their wire value as toString so path/query interpolation
+        // (uri"...${param}...") serializes the wire value, not the Scala identifier.
+        Path enumPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/PetStatus.scala");
+        assertFileContains(enumPath, "case object Available extends PetStatus { override def toString: String = \"available\" }");
+        assertFileContains(enumPath, "case object SoldOut extends PetStatus { override def toString: String = \"sold-out\" }");
+    }
+
+    @Test
     public void verifyOneOfSupportWithCirce() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -107,20 +151,22 @@ public class Sttp4CodegenTest {
         Path vehiclePath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Vehicle.scala");
         assertFileContains(vehiclePath, "sealed trait Vehicle");
         assertFileContains(vehiclePath, "object Vehicle {");
-        assertFileContains(vehiclePath, "// oneOf with discriminator - using semiauto derivation with Configuration");
+        assertFileContains(vehiclePath, "// oneOf with discriminator");
         assertFileContains(vehiclePath,
-                "private implicit val config: Configuration = Configuration.default.withDiscriminator(\"vehicleType\")");
-        assertFileContains(vehiclePath, "\"Car\" => \"car\"");
-        assertFileContains(vehiclePath, "\"Truck\" => \"truck\"");
+                "case obj: Car => obj.asJson.mapObject((\"vehicleType\" -> \"car\".asJson) +: _)");
+        assertFileContains(vehiclePath,
+                "case obj: Truck => obj.asJson.mapObject((\"vehicleType\" -> \"truck\".asJson) +: _)");
+        assertFileContains(vehiclePath, "c.downField(\"vehicleType\").as[String].flatMap {");
+        assertFileContains(vehiclePath, "case \"car\" => c.as[Car].map(x => x: Vehicle)");
+        assertFileContains(vehiclePath, "case \"truck\" => c.as[Truck].map(x => x: Vehicle)");
 
         // Test oneOf with discriminator that is a Scala keyword ("type")
         // The discriminator should use the original wire name, not the backtick-escaped Scala name
         Path shapePath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Shape.scala");
         assertFileContains(shapePath, "sealed trait Shape");
-        assertFileContains(shapePath,
-                "private implicit val config: Configuration = Configuration.default.withDiscriminator(\"type\")");
+        assertFileContains(shapePath, "c.downField(\"type\").as[String].flatMap {");
         // Discriminator in serialization must not be backtick-escaped
-        assertFileNotContains(shapePath, "withDiscriminator(\"`type`\")");
+        assertFileNotContains(shapePath, "`type`");
 
         // Verify regular models are still case classes
         Path dogPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Dog.scala");
@@ -219,8 +265,8 @@ public class Sttp4CodegenTest {
         assertFileContains(eventPath, "case class PurchaseEvent(");
         assertFileContains(eventPath, "amount: Double");
 
-        // Verify discriminator is configured
-        assertFileContains(eventPath, "Configuration.default.withDiscriminator(\"eventType\")");
+        // Verify the discriminator is written by the sealed trait's encoder
+        assertFileContains(eventPath, "c.downField(\"eventType\").as[String].flatMap {");
 
         // Verify the discriminator property was removed from inline members
         // ClickEvent and ViewEvent should have NO properties at all
@@ -332,5 +378,135 @@ public class Sttp4CodegenTest {
         assertFileContains(modelPath, "import java.time.OffsetDateTime");
         assertFileContains(modelPath, "createdAt: OffsetDateTime");
         assertFileContains(modelPath, "updatedAt: Option[OffsetDateTime]");
+    }
+
+    @Test
+    public void verifyOptionalFieldsOmittedWhenNone() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/scala/sttp4-optional-fields.yaml", null, new ParseOptions()).getOpenAPI();
+
+        ScalaSttp4ClientCodegen codegen = new ScalaSttp4ClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put("jsonLibrary", "circe");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        // Optional fields set to None must be omitted from the JSON (sttp3 parity),
+        // not serialized as null: strict servers reject explicit null for
+        // non-nullable optional properties.
+        Path petPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Pet.scala");
+        assertFileContains(petPath, "t.tag.map(v => \"tag\" -> v.asJson)");
+        assertFileNotContains(petPath, "deriveEncoder");
+    }
+
+    @Test
+    public void verifyCirceCodecsUseOriginalJsonPropertyNames() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/scala/sttp4-mixed-case-fields.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        ScalaSttp4ClientCodegen codegen = new ScalaSttp4ClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put("jsonLibrary", "circe");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        // Scala identifiers stay camelCase; JSON keys are the original spec property names
+        Path modelPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/MixedCaseModel.scala");
+        assertFileContains(modelPath, "assignmentKey: String");
+        assertFileContains(modelPath, "addressLine2: Option[String] = None");
+        assertFileContains(modelPath, "Some(\"assignment_key\" -> t.assignmentKey.asJson)");
+        assertFileContains(modelPath, "t.firstName.map(v => \"first-name\" -> v.asJson)");
+        assertFileContains(modelPath, "t.zipCode.map(v => \"ZipCode\" -> v.asJson)");
+        // an already-camelCase property must keep its name, so this stays byte-identical
+        assertFileContains(modelPath, "t.lastName.map(v => \"lastName\" -> v.asJson)");
+        assertFileContains(modelPath, "lastName <- c.downField(\"lastName\").as[Option[String]]");
+        assertFileContains(modelPath, "t.addressLine2.map(v => \"address_line_2\" -> v.asJson)");
+        assertFileContains(modelPath, "assignmentKey <- c.downField(\"assignment_key\").as[String]");
+        assertFileContains(modelPath, "addressLine2 <- c.downField(\"address_line_2\").as[Option[String]]");
+        assertFileContains(modelPath,
+                "bookingStatus <- c.downField(\"booking_status\").as[Option[MixedCaseModelEnums.BookingStatus]]");
+        assertFileNotContains(modelPath, "deriveEncoder");
+        assertFileNotContains(modelPath, "deriveDecoder");
+
+        // Inline oneOf members: original names too, and the discriminator property is
+        // written by the sealed trait rather than carried as a member field
+        Path paymentPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/PaymentMethod.scala");
+        assertFileContains(paymentPath, "Some(\"card_holder_name\" -> t.cardHolderName.asJson)");
+        assertFileContains(paymentPath, "t.lastFourDigits.map(v => \"last-four-digits\" -> v.asJson)");
+        assertFileContains(paymentPath,
+                "case obj: CreditCardPayment => obj.asJson.mapObject((\"payment_type\" -> \"credit_card\".asJson) +: _)");
+        assertFileContains(paymentPath, "c.downField(\"payment_type\").as[String].flatMap {");
+        assertFileNotContains(paymentPath, "paymentType");
+
+        // oneOf without a discriminator encodes the bare member. Deriving it produced a
+        // constructor-name wrapper ({"Circle":{..}}), which is not what oneOf means.
+        Path shapePath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Shape.scala");
+        assertFileContains(shapePath, "case obj: Circle => obj.asJson");
+        assertFileContains(shapePath, "Decoder[Circle].map(x => x: Shape)");
+        assertFileNotContains(shapePath, "deriveEncoder");
+    }
+
+    @Test
+    public void verifyModelNamedRequestDoesNotShadowSttpRequest() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/scala/sttp4-request-model-name.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        ScalaSttp4ClientCodegen codegen = new ScalaSttp4ClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        // A model named Request is imported explicitly, which outranks the
+        // `import sttp.client4._` wildcard, so the return type must be qualified.
+        Path apiPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/api/DefaultApi.scala");
+        assertFileContains(apiPath, "import org.openapitools.client.model.Request");
+        assertFileContains(apiPath, "): sttp.client4.Request[Either[ResponseException[String], Response]] =");
     }
 }

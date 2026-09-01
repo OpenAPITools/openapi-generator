@@ -180,6 +180,15 @@ public class SpringPageableScanUtils {
      * pagination query parameters (page, size, sort).
      */
     public static boolean willBePageable(Operation operation, boolean autoXSpringPaginated) {
+        return willBePageable(null, operation, autoXSpringPaginated);
+    }
+
+    /**
+     * Returns {@code true} if the given operation will have a Pageable parameter injected,
+     * resolving component parameter references against the supplied OpenAPI document.
+     */
+    public static boolean willBePageable(
+            OpenAPI openAPI, Operation operation, boolean autoXSpringPaginated) {
         Boolean xSpringPaginated = getXSpringPaginated(operation);
         if (xSpringPaginated != null) {
             return xSpringPaginated;
@@ -188,7 +197,7 @@ public class SpringPageableScanUtils {
             return false;
         }
         Set<String> paramNames = operation.getParameters().stream()
-                .map(Parameter::getName)
+                .map(parameter -> resolveParameter(openAPI, parameter).getName())
                 .collect(Collectors.toSet());
         return paramNames.containsAll(DEFAULT_PAGEABLE_QUERY_PARAMS);
     }
@@ -216,7 +225,7 @@ public class SpringPageableScanUtils {
      * Auto-detects Pageable pagination query parameters and, when detected, mutates the
      * operation by setting {@code x-spring-paginated: true} on its vendor extensions.
      *
-     * <p>Detection is delegated to {@link #willBePageable(Operation, boolean)}. If the
+     * <p>Detection is delegated to {@link #willBePageable(OpenAPI, Operation, boolean)}. If the
      * operation is already explicitly flagged ({@code x-spring-paginated: true/false})
      * this method is a read-only pass-through — it returns the explicit value without
      * mutating extensions. Only auto-detected operations (those whose flag was
@@ -234,7 +243,21 @@ public class SpringPageableScanUtils {
      */
     public static boolean applyAutoXSpringPaginatedIfNeeded(
             Operation operation, boolean autoXSpringPaginated) {
-        if (!willBePageable(operation, autoXSpringPaginated)) {
+        return applyAutoXSpringPaginatedIfNeeded(null, operation, autoXSpringPaginated);
+    }
+
+    /**
+     * Auto-detects pagination parameters after resolving component parameter references against
+     * the supplied OpenAPI document.
+     *
+     * @param openAPI               the OpenAPI document used to resolve parameter references
+     * @param operation             the raw OpenAPI {@link Operation} to inspect (and possibly mutate)
+     * @param autoXSpringPaginated  whether auto-detection is enabled for this generator
+     * @return {@code true} if the operation is (or was just marked as) paginated
+     */
+    public static boolean applyAutoXSpringPaginatedIfNeeded(
+            OpenAPI openAPI, Operation operation, boolean autoXSpringPaginated) {
+        if (!willBePageable(openAPI, operation, autoXSpringPaginated)) {
             return false;
         }
         if (getXSpringPaginated(operation) == null) {
@@ -350,7 +373,9 @@ public class SpringPageableScanUtils {
             Map<String, PageableDefaultsData> pageableDefaultsRegistry,
             AnnotationSyntax syntax) {
 
-        String operationId = codegenOperation.operationId;
+        String operationId = codegenOperation.operationIdOriginal != null
+                ? codegenOperation.operationIdOriginal
+                : codegenOperation.operationId;
         List<String> pageableAnnotations = new ArrayList<>();
 
         if (generatePageableConstraintValidation && useBeanValidation
@@ -467,10 +492,11 @@ public class SpringPageableScanUtils {
                 String operationId = operation.getOperationId();
                 if (operationId == null
                         || operation.getParameters() == null
-                        || !willBePageable(operation, autoXSpringPaginated)) {
+                        || !willBePageable(openAPI, operation, autoXSpringPaginated)) {
                     continue;
                 }
-                for (Parameter param : operation.getParameters()) {
+                for (Parameter unresolvedParam : operation.getParameters()) {
+                    Parameter param = resolveParameter(openAPI, unresolvedParam);
                     if (!SORT.equals(param.getName())) {
                         continue;
                     }
@@ -522,7 +548,7 @@ public class SpringPageableScanUtils {
             for (Operation operation : pathEntry.getValue().readOperations()) {
                 String operationId = operation.getOperationId();
                 if (operationId == null
-                        || !willBePageable(operation, autoXSpringPaginated)
+                        || !willBePageable(openAPI, operation, autoXSpringPaginated)
                         || operation.getParameters() == null) {
                     continue;
                 }
@@ -530,7 +556,8 @@ public class SpringPageableScanUtils {
                 Integer sizeDefault = null;
                 List<SortFieldDefault> sortDefaults = new ArrayList<>();
 
-                for (Parameter param : operation.getParameters()) {
+                for (Parameter unresolvedParam : operation.getParameters()) {
+                    Parameter param = resolveParameter(openAPI, unresolvedParam);
                     Schema<?> schema = param.getSchema();
                     if (schema == null) {
                         continue;
@@ -603,7 +630,7 @@ public class SpringPageableScanUtils {
             for (Operation operation : pathEntry.getValue().readOperations()) {
                 String operationId = operation.getOperationId();
                 if (operationId == null
-                        || !willBePageable(operation, autoXSpringPaginated)
+                        || !willBePageable(openAPI, operation, autoXSpringPaginated)
                         || operation.getParameters() == null) {
                     continue;
                 }
@@ -611,7 +638,8 @@ public class SpringPageableScanUtils {
                 int maxSize = -1;
                 int minPage = -1;
                 int minSize = -1;
-                for (Parameter param : operation.getParameters()) {
+                for (Parameter unresolvedParam : operation.getParameters()) {
+                    Parameter param = resolveParameter(openAPI, unresolvedParam);
                     Schema<?> schema = param.getSchema();
                     if (schema == null) {
                         continue;
@@ -646,6 +674,10 @@ public class SpringPageableScanUtils {
             }
         }
         return result;
+    }
+
+    private static Parameter resolveParameter(OpenAPI openAPI, Parameter parameter) {
+        return ModelUtils.getReferencedParameter(openAPI, parameter);
     }
 
     private static Integer toIntInclusiveMax(ModelUtils.ResolvedMaxBound maxBound) {

@@ -23,21 +23,11 @@ namespace Org.OpenAPITools.Extensions
         /// Add the api to your host builder.
         /// </summary>
         /// <param name="services"></param>
-        public static void AddApi(this IServiceCollection services)
-        {
-            HostConfiguration config = new HostConfiguration(services);
-            AddApi(services, config);
-        }
-
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="services"></param>
         /// <param name="options"></param>
-        public static void AddApi(this IServiceCollection services, Action<HostConfiguration> options)
+        public static void AddApi(this IServiceCollection services, Action<HostConfiguration> options = null)
         {
             HostConfiguration config = new HostConfiguration(services);
-            options(config);
+            options?.Invoke(config);
             AddApi(services, config);
         }
 

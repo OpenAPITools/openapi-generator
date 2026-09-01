@@ -1,0 +1,36 @@
+openapi: 3.0.1
+info:
+  title: optional response on a multi content-type operation (issue 6708)
+  version: 1.0.0
+paths:
+  /reports/{id}:
+    get:
+      operationId: getReport
+      tags: [report]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        # a 2xx with no body: the method returns null for it instead of parsing nothing
+        '204':
+          description: not ready yet
+components:
+  schemas:
+    Report:
+      type: object
+      properties:
+        id:
+          type: string

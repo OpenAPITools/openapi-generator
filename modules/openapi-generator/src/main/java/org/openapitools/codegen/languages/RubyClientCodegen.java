@@ -28,6 +28,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 
-import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -645,7 +647,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isEnum) {
                 // When inline enum, set example to first allowable value
-                List<Object> values = (List<Object>) codegenParameter.allowableValues.get(ENUM_VALUES);
+                List<Object> values = getEnumValues(codegenParameter.allowableValues);
                 codegenParameter.example = String.valueOf(values.get(0));
             }
             if (codegenParameter.isString || "String".equalsIgnoreCase(codegenParameter.baseType)) {
@@ -715,7 +717,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isEnum) {
                 // When inline enum, set example to first allowable value
-                List<Object> values = (List<Object>) codegenProperty.allowableValues.get(ENUM_VALUES);
+                List<Object> values = getEnumValues(codegenProperty.allowableValues);
                 codegenProperty.example = String.valueOf(values.get(0));
             }
             if (codegenProperty.isString || "String".equalsIgnoreCase(codegenProperty.baseType)) {
@@ -782,8 +784,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 throw new RuntimeException("Invalid count when constructing example: " + count);
             }
         } else if (codegenModel.isEnum) {
-            List<Map<String, String>> enumVars = (List<Map<String, String>>) codegenModel.allowableValues.get(ENUM_VARS);
-            return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get(ENUM_NAME);
+            List<EnumVarMap> enumVars = getEnumVars(codegenModel.allowableValues);
+            return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).getEnumName();
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
             if (modelMaps.containsKey(subModel)) {

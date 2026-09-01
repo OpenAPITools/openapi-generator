@@ -282,9 +282,9 @@ try {
 ```
 
 ### Parameters
-| **username** | **kotlin.String**| The user name for login | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **username** | **kotlin.String**| The user name for login | |
 | **password** | **kotlin.String**| The password for login in clear text | |
 
 ### Return type
@@ -374,9 +374,9 @@ try {
 ```
 
 ### Parameters
-| **username** | **kotlin.String**| name that need to be deleted | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **username** | **kotlin.String**| name that need to be deleted | |
 | **user** | [**User**](User.md)| Updated user object | |
 
 ### Return type

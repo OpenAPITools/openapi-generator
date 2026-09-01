@@ -27,6 +27,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -41,10 +42,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenConstants.ENUM_NAME;
-import static org.openapitools.codegen.CodegenConstants.ENUM_VARS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -1412,8 +1412,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (allowableValues == null) {
             return;
         }
-        for (Map<String, String> enumVar : (List<Map<String, String>>) allowableValues.get(ENUM_VARS)) {
-            enumVar.put(ENUM_NAME, paramNameType + enumVar.get(ENUM_NAME));
+        for (EnumVarMap enumVar : getEnumVars(allowableValues)) {
+            enumVar.setEnumName(paramNameType + enumVar.getEnumName());
         }
     }
 
