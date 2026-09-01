@@ -108,8 +108,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>exit</li>
 <li>extends</li>
 <li>final</li>
-<li>finally</li>
-<li>fn</li>
 <li>for</li>
 <li>foreach</li>
 <li>formparams</li>
@@ -127,7 +125,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>interface</li>
 <li>isset</li>
 <li>list</li>
-<li>match</li>
 <li>namespace</li>
 <li>new</li>
 <li>or</li>
@@ -136,7 +133,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>protected</li>
 <li>public</li>
 <li>queryparams</li>
-<li>readonly</li>
 <li>require</li>
 <li>require_once</li>
 <li>resourcepath</li>
@@ -151,7 +147,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>var</li>
 <li>while</li>
 <li>xor</li>
-<li>yield</li>
 </ul>
 
 ## FEATURE SET
