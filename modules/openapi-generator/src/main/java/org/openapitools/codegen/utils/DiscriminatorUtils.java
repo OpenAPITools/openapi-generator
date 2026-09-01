@@ -324,11 +324,11 @@ public class DiscriminatorUtils {
     }
 
     /**
-     * Get the best matching simple type for all the mapped schemas
-     * @param openAPI
+     * Get the best matching simple types for all the mapped schemas
+     * @param openAPI            The openAPI specification
      * @param schema             The Schema that may contain the discriminator
      * @param discPropName       The String that is the discriminator propertyName in the schema
-     * @return "enum", "string" or "object
+     * @return the distinct list of property Schema with the requested discPropName
      */
     public static List<Schema> getDistinctTypes(OpenAPI openAPI, Schema schema, String discPropName) {
         List<Schema> mappedSchemas = getMappedSchemas(openAPI, schema);
@@ -338,17 +338,27 @@ public class DiscriminatorUtils {
                 .collect(Collectors.toList());
     }
 
-
+    /**
+     * return the list of deferenced mapping schemas.
+     * @return the schemas found or empty list if not found.
+     */
     public static List<Schema> getMappedSchemas(OpenAPI openAPI, Schema schema) {
         if (schema.getDiscriminator() != null && schema.getDiscriminator().getMapping() != null) {
             return schema.getDiscriminator().getMapping().values().stream()
-                    .map(ref -> ModelUtils.getSchema(openAPI, ref.indexOf('/') >= 0 ? ModelUtils.getSimpleRef(ref) : ref))
+                    .filter(Objects::nonNull)
+                    .map(ref -> ref.indexOf('/') >= 0 ? ModelUtils.getSimpleRef(ref) : ref)
+                    .map(ref -> ModelUtils.getSchema(openAPI, ref))
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();
     }
 
+    /**
+     * Recursively try to find the schema matching the propertyName.
+     *
+     * @return the schema found or null if not found
+     */
     public static Schema findProperty(OpenAPI openAPI, Schema schema, String propertyName, Set<Schema> visitedSchemas) {
         schema = ModelUtils.getReferencedSchema(openAPI, schema);
         if (propertyName == null || schema == null || visitedSchemas.contains(schema)) {
@@ -358,7 +368,6 @@ public class DiscriminatorUtils {
         Map<String, Schema>  properties = schema.getProperties();
         if (properties != null) {
             Schema property = properties.get(propertyName);
-//            Schema property = ModelUtils.getReferencedSchema(openAPI, );
             if (property != null) {
                 return property;
             }
@@ -372,10 +381,8 @@ public class DiscriminatorUtils {
                 }
             }
         }
-
         return null;
     }
-
 
     public static class DiscriminatorData {
         private final Discriminator discriminator;
