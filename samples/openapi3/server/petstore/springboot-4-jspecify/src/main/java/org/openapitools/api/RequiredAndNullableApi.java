@@ -5,6 +5,7 @@
  */
 package org.openapitools.api;
 
+import org.jspecify.annotations.Nullable;
 import org.openapitools.model.RequiredAndNullable;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +42,32 @@ public interface RequiredAndNullableApi {
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
+
+    String PATH_REQUIRED_AND_NULLABLE_GET = "/requiredAndNullable";
+    /**
+     * GET /requiredAndNullable
+     *
+     * @param filter  (optional)
+     * @return OK (status code 200)
+     */
+    @Operation(
+        operationId = "requiredAndNullableGet",
+        tags = { "requiredAndNullable" },
+        responses = {
+            @ApiResponse(responseCode = "default", description = "OK")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = RequiredAndNullableApi.PATH_REQUIRED_AND_NULLABLE_GET
+    )
+    default ResponseEntity<Void> requiredAndNullableGet(
+        @Parameter(name = "filter", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "filter", required = false) @Nullable String filter
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
 
     String PATH_REQUIRED_AND_NULLABLE_POST = "/requiredAndNullable";
     /**

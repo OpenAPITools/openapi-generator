@@ -48,6 +48,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Foo'
   /requiredAndNullable:
+    get:
+      tags:
+        - requiredAndNullable
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          schema:
+            type: string
+            nullable: true
+      responses:
+        default:
+          description: OK
     post:
       tags:
         - requiredAndNullable
@@ -65,6 +78,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequiredAndNullable'
+
   /upload:
     post:
       tags:

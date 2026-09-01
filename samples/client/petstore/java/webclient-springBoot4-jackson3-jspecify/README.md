@@ -117,6 +117,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *FileApi* | [**fileIdGet**](docs/FileApi.md#fileIdGet) | **GET** /file/{id} | 
 *FooApi* | [**fooDtParamGet**](docs/FooApi.md#fooDtParamGet) | **GET** /foo/{dtParam} | 
+*RequiredAndNullableApi* | [**requiredAndNullableGet**](docs/RequiredAndNullableApi.md#requiredAndNullableGet) | **GET** /requiredAndNullable | 
 *RequiredAndNullableApi* | [**requiredAndNullablePost**](docs/RequiredAndNullableApi.md#requiredAndNullablePost) | **POST** /requiredAndNullable | 
 *UploadApi* | [**uploadFilesPost**](docs/UploadApi.md#uploadFilesPost) | **POST** /uploadFiles | 
 *UploadApi* | [**uploadPost**](docs/UploadApi.md#uploadPost) | **POST** /upload | 

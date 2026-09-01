@@ -3,6 +3,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.BaseApi;
 
+import org.jspecify.annotations.Nullable;
 import org.openapitools.client.model.RequiredAndNullable;
 
 import java.util.Collections;
@@ -37,6 +38,47 @@ public class RequiredAndNullableApi extends BaseApi {
         super(apiClient);
     }
 
+    /**
+     * 
+     * 
+     * <p><b>0</b> - OK
+     * @param filter  (optional)
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void requiredAndNullableGet(String filter) throws RestClientException {
+        requiredAndNullableGetWithHttpInfo(filter);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - OK
+     * @param filter  (optional)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> requiredAndNullableGetWithHttpInfo(String filter) throws RestClientException {
+        Object localVarPostBody = null;
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "filter", filter));
+        
+
+        final String[] localVarAccepts = {  };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/requiredAndNullable", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
     /**
      * 
      * 

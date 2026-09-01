@@ -7231,11 +7231,16 @@ public class SpringCodegenTest {
                         "java.time.@Nullable Instant dtQuery",
                         "java.time.@Nullable Instant dtCookie");
 
+        JavaFileAssert requiredApi = JavaFileAssert.assertThat(files.get("RequiredAndNullableApi.java"));
         // SPRING_HTTP_INTERFACE has other requirements for default in api arguments
         if (SPRING_HTTP_INTERFACE.equals(library)) {
+            requiredApi.fileContains(
+                    " @Nullable String filter");
             fooApiAssert.fileContains(
                         "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") @Nullable String color");
         } else {
+            requiredApi.fileContains(
+                    " @Nullable String filter");
             fooApiAssert.fileContains(
                     "@RequestParam(value = \"color\", required = false, defaultValue = \"red\") String color");
         }
@@ -7322,13 +7327,7 @@ public class SpringCodegenTest {
                         "javax.annotation.Nullable",
                         "jakarta.annotation.Nullable")
                 .assertMethod("getRequiredDt").assertMethodAnnotations().containsWithName("NotNull").containsWithName("Valid");
-        JavaFileAssert.assertThat(files.get("FooApi.java"))
-                .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
-                .fileContains(
-                        "java.time.@Nullable Instant dtParam",
-                        "java.time.@Nullable Instant dtQuery",
-                        "java.time.@Nullable Instant dtCookie"
-                );
+
         JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
                 .fileContains(
                         "private JsonNullable<String> str = JsonNullable.<String>undefined();",
@@ -7352,6 +7351,19 @@ public class SpringCodegenTest {
                     .doesNotContainWithName("Nullable")
                     .doesImportAnnotation("org.jspecify.annotations.Nullable");
         }
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
+                .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
+                .fileContains(
+                        "java.time.@Nullable Instant dtParam",
+                        "java.time.@Nullable Instant dtQuery",
+                        "java.time.@Nullable Instant dtCookie");
+        JavaFileAssert requiredApi = JavaFileAssert.assertThat(files.get("RequiredAndNullableApi.java"));
+        if (SPRING_HTTP_INTERFACE.equals(library)) {
+            requiredApi .fileContains("@RequestParam(value = \"filter\", required = false) @Nullable String filter");
+        } else {
+            // incorrect generation for required=false, nullable=true
+        }
+
     }
 
     @DataProvider(name = "jspecifyLibrariesUseOptional")
@@ -7447,7 +7459,9 @@ public class SpringCodegenTest {
                     .doesNotContainWithName("Nullable")
                     .doesImportAnnotation("org.jspecify.annotations.Nullable");
         }
-    }
+        JavaFileAssert.assertThat(files.get("RequiredAndNullableApi.java"))
+                    .fileContains("@RequestParam(value = \"filter\", required = false) Optional<String> filter");
+        }
 
     // -------------------------------------------------------------------------
     // autoXSpringPaginated tests

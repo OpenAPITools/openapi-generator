@@ -2,6 +2,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
+import org.jspecify.annotations.Nullable;
 import org.openapitools.client.model.RequiredAndNullable;
 
 import java.util.HashMap;
@@ -42,6 +43,72 @@ public class RequiredAndNullableApi {
 
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - OK
+     * @param filter The filter parameter
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec requiredAndNullableGetRequestCreation(@Nullable String filter) throws RestClientResponseException {
+        Object postBody = null;
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<>();
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
+
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "filter", filter));
+
+        final String[] localVarAccepts = { };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/requiredAndNullable", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - OK
+     * @param filter The filter parameter
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public void requiredAndNullableGet(@Nullable String filter) throws RestClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        requiredAndNullableGetRequestCreation(filter).body(localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - OK
+     * @param filter The filter parameter
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> requiredAndNullableGetWithHttpInfo(@Nullable String filter) throws RestClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return requiredAndNullableGetRequestCreation(filter).toEntity(localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>0</b> - OK
+     * @param filter The filter parameter
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec requiredAndNullableGetWithResponseSpec(@Nullable String filter) throws RestClientResponseException {
+        return requiredAndNullableGetRequestCreation(filter);
     }
 
     /**

@@ -62,6 +62,23 @@ paths:
       x-accepts:
       - application/json
   /requiredAndNullable:
+    get:
+      parameters:
+      - explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      responses:
+        default:
+          description: OK
+      tags:
+      - requiredAndNullable
+      x-accepts:
+      - application/json
     post:
       requestBody:
         content:
