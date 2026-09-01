@@ -19,40 +19,13 @@ part 'dog.g.dart';
   disallowUnrecognizedKeys: false,
   explicitToJson: true,
 )
-class Dog {
-  /// Returns a new [Dog] instance.
+class Dog extends Animal {
+/// Returns a new [Dog] instance.
   Dog({
-
-    required  this.className,
-
-     this.color = 'red',
-
      this.breed,
+    required  super.className,
+     super.color = 'red',
   });
-
-  @JsonKey(
-    
-    name: r'className',
-    required: true,
-    includeIfNull: false,
-  )
-
-
-  final String className;
-
-
-
-  @JsonKey(
-    defaultValue: 'red',
-    name: r'color',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? color;
-
-
 
   @JsonKey(
     
@@ -70,6 +43,7 @@ class Dog {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Dog &&
+    runtimeType == other.runtimeType &&
       other.className == className &&
       other.color == color &&
       other.breed == breed;
