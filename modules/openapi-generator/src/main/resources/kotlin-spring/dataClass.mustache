@@ -21,9 +21,9 @@
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
 ){{/discriminator}}{{! no newline
-}}{{#parent}} : {{{.}}}{{#isMap}}(){{/isMap}}{{! no newline
-      }}{{#vendorExtensions.x-kotlin-implements}}, {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{! <- serializableModel is also handled via x-kotlin-implements
-      }}{{#vendorExtensions.x-implements-sealed-interfaces}}{{#.}}, {{{.}}}{{/.}}{{/vendorExtensions.x-implements-sealed-interfaces}}{{! <- add sealed interface implementations
+}}{{#parent}} : {{{.}}}{{#vendorExtensions.x-is-parent-ctor-call-needed}}(){{/vendorExtensions.x-is-parent-ctor-call-needed}}{{! no newline
+    }}{{#vendorExtensions.x-kotlin-implements}}, {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+    }}{{#vendorExtensions.x-implements-sealed-interfaces}}{{#.}}, {{{.}}}{{/.}}{{/vendorExtensions.x-implements-sealed-interfaces}}{{! no newline
 }}{{/parent}}{{! no newline
 }}{{^parent}}{{! no newline
     }}{{#vendorExtensions.x-kotlin-implements}}{{! no newline
