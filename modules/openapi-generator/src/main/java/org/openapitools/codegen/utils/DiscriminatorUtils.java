@@ -343,13 +343,27 @@ public class DiscriminatorUtils {
      * @return the schemas found or empty list if not found.
      */
     public static List<Schema> getMappedSchemas(OpenAPI openAPI, Schema schema) {
-        if (schema.getDiscriminator() != null && schema.getDiscriminator().getMapping() != null) {
-            return schema.getDiscriminator().getMapping().values().stream()
-                    .filter(Objects::nonNull)
-                    .map(ref -> ref.indexOf('/') >= 0 ? ModelUtils.getSimpleRef(ref) : ref)
-                    .map(ref -> ModelUtils.getSchema(openAPI, ref))
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toList());
+        if (schema.getDiscriminator() != null) {
+            if (schema.getDiscriminator().getMapping() != null) {
+                return schema.getDiscriminator().getMapping().values().stream()
+                        .filter(Objects::nonNull)
+                        .map(ref -> ref.indexOf('/') >= 0 ? ModelUtils.getSimpleRef(ref) : ref)
+                        .map(ref -> ModelUtils.getSchema(openAPI, ref))
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList());
+            }
+            if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+                // try also oneOf without discriminator mapping
+                List<Schema> oneOfs = (List<Schema>) schema.getOneOf();
+                return oneOfs.stream()
+                        .filter(Objects::nonNull)
+                        .map(oneOf -> ((Schema)oneOf).get$ref())
+                        .filter(Objects::nonNull)
+                        .map(ref -> ref.indexOf('/') >= 0 ? ModelUtils.getSimpleRef(ref) : ref)
+                        .map(ref -> ModelUtils.getSchema(openAPI, (String)ref))
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList());
+            }
         }
         return Collections.emptyList();
     }

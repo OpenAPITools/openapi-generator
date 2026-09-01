@@ -3922,7 +3922,7 @@ public class DefaultCodegen implements CodegenConfig {
             simpleType = "integer";
         } else if (schemas.stream().allMatch(ModelUtils::isNumberSchema)) {
             simpleType = "number";
-        } else if (schemas.stream().allMatch(s -> ModelUtils.isStringSchema(s) && s.getFormat() == null)) {
+        } else if (schemas.stream().allMatch(s -> ModelUtils.isStringSchema(s) && s.getFormat() == null && !ModelUtils.isEnumSchema(s))) {
             return "string";
         }
 

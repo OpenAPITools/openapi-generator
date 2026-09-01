@@ -9359,4 +9359,26 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("PetEnumRef.java"))
                 .fileContains("public PetEnumType getEnumRefType();");
     }
+
+    @Test
+    public void issue_19194() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneOf_issue_19194.yaml", SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, true), configurator->
+                        configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
+        );
+        JavaFileAssert.assertThat(files.get("CargoInterface.java"))
+                .fileContains("public CargoGeneralParameterUnit getUnit();");
+    }
+
+    @Test
+    public void issue_19194_v2() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_19194_v2.yaml", SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, true), configurator->
+                        configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "false")
+        );
+        JavaFileAssert.assertThat(files.get("CargoParent.java"))
+                .fileContains("public Object getUnit();");
+    }
 }
