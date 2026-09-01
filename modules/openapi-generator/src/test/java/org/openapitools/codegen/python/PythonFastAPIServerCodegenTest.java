@@ -268,4 +268,23 @@ public class PythonFastAPIServerCodegenTest {
         Assert.assertFalse(content.contains("\n,\n"),
                 "comma wrapped onto its own line in: " + api);
     }
+
+    @Test(description = "security imports are emitted only for APIs with authenticated operations (#23008)")
+    public void testSecurityImportsRequireAuthenticatedOperations() throws IOException {
+        final DefaultCodegen unauthenticatedCodegen = new PythonFastAPIServerCodegen();
+        final String unauthenticatedOutputPath = generateFiles(unauthenticatedCodegen, "src/test/resources/bugs/issue_23008.yaml");
+        final Path unauthenticatedApi = Paths.get(unauthenticatedOutputPath + "src/openapi_server/apis/default_api.py");
+
+        assertFileExists(unauthenticatedApi);
+        assertFileNotContains(unauthenticatedApi, "from openapi_server.models.extra_models import TokenModel");
+        assertFileNotContains(unauthenticatedApi, "from openapi_server.security_api import");
+
+        final DefaultCodegen authenticatedCodegen = new PythonFastAPIServerCodegen();
+        final String authenticatedOutputPath = generateFiles(authenticatedCodegen, "src/test/resources/3_0/python-fastapi/petstore.yaml");
+        final Path authenticatedApi = Paths.get(authenticatedOutputPath + "src/openapi_server/apis/pet_api.py");
+
+        assertFileExists(authenticatedApi);
+        assertFileContains(authenticatedApi, "from openapi_server.models.extra_models import TokenModel");
+        assertFileContains(authenticatedApi, "from openapi_server.security_api import get_token_");
+    }
 }
