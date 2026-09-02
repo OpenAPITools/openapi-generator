@@ -9360,25 +9360,24 @@ public class SpringCodegenTest {
                 .fileContains("public PetEnumType getEnumRefType();");
     }
 
-    @Test
-    public void issue_19194() throws IOException {
-        Map<String, File> files = generateFromContract(
-                "src/test/resources/3_0/oneOf_issue_19194.yaml", SPRING_BOOT,
-                Map.of(USE_SPRING_BOOT4, true), configurator->
-                        configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
-        );
-        JavaFileAssert.assertThat(files.get("CargoInterface.java"))
-                .fileContains("public CargoGeneralParameterUnit getUnit();");
+    @DataProvider(name = "oneOfDiscriminatorType")
+    public Object[][] oneOfDiscriminatorType() {
+        return new Object[][]{
+                {"/3_0/oneOf_issue_19194.yaml", true, "CargoInterface.java", "public CargoGeneralParameterUnit getUnit();"},
+//                {"/3_0/oneOf_issue_19194.yaml", false, "CargoInterface.java", "public CargoGeneralParameterUnitEnum getUnit();"},
+                {"/3_0/oneOf_issue_19194_v2.yaml", false, "CargoParent.java", "public Object getUnit()"}
+        };
     }
 
-    @Test
-    public void issue_19194_v2() throws IOException {
+    @Test(dataProvider = "oneOfDiscriminatorType")
+    public void oneOfDiscriminatorType(String filename, boolean resolveInlineEnum, String fileToCheck, String expectedContains) throws IOException {
         Map<String, File> files = generateFromContract(
-                "src/test/resources/3_0/spring/issue_19194_v2.yaml", SPRING_BOOT,
+                "src/test/resources" + filename, SPRING_BOOT,
                 Map.of(USE_SPRING_BOOT4, true), configurator->
-                        configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "false")
+                        configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", Boolean.toString(resolveInlineEnum))
         );
-        JavaFileAssert.assertThat(files.get("CargoParent.java"))
-                .fileContains("public Object getUnit();");
+        JavaFileAssert.assertThat(files.get(fileToCheck))
+                .fileContains(expectedContains);
     }
+
 }

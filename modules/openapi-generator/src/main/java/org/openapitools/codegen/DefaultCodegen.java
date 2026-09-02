@@ -3892,14 +3892,16 @@ public class DefaultCodegen implements CodegenConfig {
                 //. keep string for backward compatibility
                 return typeMapping.get("string");
             case 1:
+
                 Schema first = schemas.get(0);
                 try {
                     if (StringUtils.isEmpty(first.get$ref())) {
-                        Schema refScheme = ModelUtils.getReferencedSchema(openAPI, first);
-                        if (ModelUtils.isEnumSchema(refScheme)) {
+                        if (ModelUtils.isEnumSchema(first)) {
+                            // TODO: improve handling of inline enums)) {
                             return toModelName(first.getName());
                         }
-                        return getSchemaType(refScheme);
+                        Schema refScheme = ModelUtils.getReferencedSchema(openAPI, first);
+                        return getSingleSchemaType(refScheme);
                     }
                     return toModelName(ModelUtils.getSimpleRef(first.get$ref()));
                 } catch (Exception e) {
