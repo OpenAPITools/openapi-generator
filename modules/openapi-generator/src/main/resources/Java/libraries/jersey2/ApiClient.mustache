@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.URI;
+{{#generateInsecureTlsHook}}
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -36,6 +37,7 @@ import java.security.cert.X509Certificate;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+{{/generateInsecureTlsHook}}
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -1437,14 +1439,17 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    *    server endpoints from web targets created by the client instance that is using this SSL context.
    * 4. Set the client-side trust store.
    *
+{{#generateInsecureTlsHook}}
    * To completely disable certificate validation (at your own risk), you can
    * override this method and invoke disableCertificateValidation(clientBuilder).
    *
+{{/generateInsecureTlsHook}}
    * @param clientBuilder a {@link {{javaxPackage}}.ws.rs.client.ClientBuilder} object.
    */
   protected void customizeClientBuilder(ClientBuilder clientBuilder) {
     // No-op extension point
   }
+{{#generateInsecureTlsHook}}
 
   /**
    * Disable X.509 certificate validation in TLS connections.
@@ -1475,6 +1480,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     sslContext.init(null, trustAllCerts, new SecureRandom());
     clientBuilder.sslContext(sslContext);
   }
+{{/generateInsecureTlsHook}}
 
   /**
    * <p>Build the response headers.</p>
