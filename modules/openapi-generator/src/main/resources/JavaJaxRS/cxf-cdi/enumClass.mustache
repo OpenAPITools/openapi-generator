@@ -5,7 +5,7 @@
 {{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
 
     {{#allowableValues}}
-    {{#enumVars}}{{#withXml}}@XmlEnumValue({{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{/withXml}}@JsonProperty({{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{name}}({{^isUri}}{{^isNumeric}}{{^isFreeFormObject}}{{dataType}}.valueOf({{/isFreeFormObject}}{{/isNumeric}}{{/isUri}}{{{value}}}{{^isUri}}{{^isNumeric}}{{^isFreeFormObject}}){{/isFreeFormObject}}{{/isNumeric}}{{/isUri}}){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{#enumVars}}{{#withXml}}@XmlEnumValue({{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{/withXml}}@JsonProperty({{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{name}}({{^isUri}}{{^isUuid}}{{^isNumeric}}{{^isFreeFormObject}}{{dataType}}.valueOf({{/isFreeFormObject}}{{/isNumeric}}{{/isUuid}}{{/isUri}}{{{value}}}{{^isUri}}{{^isUuid}}{{^isNumeric}}{{^isFreeFormObject}}){{/isFreeFormObject}}{{/isNumeric}}{{/isUuid}}{{/isUri}}){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
     {{/allowableValues}}
 
 
