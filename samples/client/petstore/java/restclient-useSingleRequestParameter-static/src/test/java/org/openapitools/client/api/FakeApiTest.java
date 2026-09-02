@@ -258,7 +258,9 @@ public class FakeApiTest {
         List<EnumClass> enumQueryModelArray = null;
         List<String> enumFormStringArray = null;
         String enumFormString = null;
-        api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+        Integer enumFormInteger = null;
+        BigDecimal enumFormDouble = null;
+        api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
 
         // TODO: test validations
     }
