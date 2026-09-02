@@ -21,10 +21,10 @@ defmodule OpenapiPetstore.Api.Store do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec delete_order(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec delete_order(Tesla.Env.client, String.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def delete_order(connection, order_id, _opts \\ []) do
     request =
       %{}
@@ -51,7 +51,7 @@ defmodule OpenapiPetstore.Api.Store do
 
   ### Returns
 
-  - `{:ok, %{}}` on success
+  - `{:ok, %{optional(String.t) => integer()}}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
   @spec get_inventory(Tesla.Env.client, keyword()) :: {:ok, %{optional(String.t) => integer()}} | {:error, Tesla.Env.t}
@@ -81,10 +81,10 @@ defmodule OpenapiPetstore.Api.Store do
 
   ### Returns
 
-  - `{:ok, OpenapiPetstore.Model.Order.t}` on success
+  - `{:ok, OpenapiPetstore.Model.Order.t} | {:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec get_order_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Order.t} | {:error, Tesla.Env.t}
+  @spec get_order_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, OpenapiPetstore.Model.Order.t} | {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def get_order_by_id(connection, order_id, _opts \\ []) do
     request =
       %{}
@@ -113,10 +113,10 @@ defmodule OpenapiPetstore.Api.Store do
 
   ### Returns
 
-  - `{:ok, OpenapiPetstore.Model.Order.t}` on success
+  - `{:ok, OpenapiPetstore.Model.Order.t} | {:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec place_order(Tesla.Env.client, OpenapiPetstore.Model.Order.t, keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Order.t} | {:error, Tesla.Env.t}
+  @spec place_order(Tesla.Env.client, OpenapiPetstore.Model.Order.t, keyword()) :: {:ok, OpenapiPetstore.Model.Order.t} | {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def place_order(connection, order, _opts \\ []) do
     request =
       %{}

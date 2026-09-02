@@ -21,10 +21,10 @@ defmodule OpenapiPetstore.Api.User do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec create_user(Tesla.Env.client, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec create_user(Tesla.Env.client, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def create_user(connection, user, _opts \\ []) do
     request =
       %{}
@@ -52,10 +52,10 @@ defmodule OpenapiPetstore.Api.User do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec create_users_with_array_input(Tesla.Env.client, list(OpenapiPetstore.Model.User.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec create_users_with_array_input(Tesla.Env.client, list(OpenapiPetstore.Model.User.t), keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def create_users_with_array_input(connection, user, _opts \\ []) do
     request =
       %{}
@@ -83,10 +83,10 @@ defmodule OpenapiPetstore.Api.User do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec create_users_with_list_input(Tesla.Env.client, list(OpenapiPetstore.Model.User.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec create_users_with_list_input(Tesla.Env.client, list(OpenapiPetstore.Model.User.t), keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def create_users_with_list_input(connection, user, _opts \\ []) do
     request =
       %{}
@@ -114,10 +114,10 @@ defmodule OpenapiPetstore.Api.User do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec delete_user(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec delete_user(Tesla.Env.client, String.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def delete_user(connection, username, _opts \\ []) do
     request =
       %{}
@@ -145,10 +145,10 @@ defmodule OpenapiPetstore.Api.User do
 
   ### Returns
 
-  - `{:ok, OpenapiPetstore.Model.User.t}` on success
+  - `{:ok, OpenapiPetstore.Model.User.t} | {:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec get_user_by_name(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.User.t} | {:error, Tesla.Env.t}
+  @spec get_user_by_name(Tesla.Env.client, String.t, keyword()) :: {:ok, OpenapiPetstore.Model.User.t} | {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def get_user_by_name(connection, username, _opts \\ []) do
     request =
       %{}
@@ -178,10 +178,10 @@ defmodule OpenapiPetstore.Api.User do
 
   ### Returns
 
-  - `{:ok, String.t}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec login_user(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, nil} | {:ok, String.t} | {:error, Tesla.Env.t}
+  @spec login_user(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def login_user(connection, username, password, _opts \\ []) do
     request =
       %{}
@@ -210,10 +210,10 @@ defmodule OpenapiPetstore.Api.User do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec logout_user(Tesla.Env.client, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec logout_user(Tesla.Env.client, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def logout_user(connection, _opts \\ []) do
     request =
       %{}
@@ -241,10 +241,10 @@ defmodule OpenapiPetstore.Api.User do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec update_user(Tesla.Env.client, String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec update_user(Tesla.Env.client, String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def update_user(connection, username, user, _opts \\ []) do
     request =
       %{}
