@@ -346,9 +346,7 @@ public class DiscriminatorUtils {
         if (schema.getDiscriminator() != null) {
             if (schema.getDiscriminator().getMapping() != null) {
                 return schema.getDiscriminator().getMapping().values().stream()
-                        .filter(Objects::nonNull)
-                        .map(ref -> ref.indexOf('/') >= 0 ? ModelUtils.getSimpleRef(ref) : ref)
-                        .map(ref -> ModelUtils.getSchema(openAPI, ref))
+                        .map(ref -> getReferencedSchema(openAPI, ref))
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList());
             }
@@ -357,15 +355,22 @@ public class DiscriminatorUtils {
                 List<Schema> oneOfs = (List<Schema>) schema.getOneOf();
                 return oneOfs.stream()
                         .filter(Objects::nonNull)
-                        .map(oneOf -> ((Schema)oneOf).get$ref())
-                        .filter(Objects::nonNull)
-                        .map(ref -> ref.indexOf('/') >= 0 ? ModelUtils.getSimpleRef(ref) : ref)
-                        .map(ref -> ModelUtils.getSchema(openAPI, (String)ref))
+                        .map(oneOf -> oneOf.get$ref()!=null? getReferencedSchema(openAPI, oneOf.get$ref()): oneOf)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList());
             }
         }
         return Collections.emptyList();
+    }
+
+    private static Schema getReferencedSchema(OpenAPI openAPI, String ref) {
+        if (ref == null) {
+            return null;
+        }
+        if (ref.indexOf('/') >= 0) {
+            ref = ModelUtils.getSimpleRef(ref);
+        }
+        return ModelUtils.getSchema(openAPI, ref);
     }
 
     /**

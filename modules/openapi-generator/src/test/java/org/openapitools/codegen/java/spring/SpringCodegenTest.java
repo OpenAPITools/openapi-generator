@@ -9364,8 +9364,9 @@ public class SpringCodegenTest {
     public Object[][] oneOfDiscriminatorType() {
         return new Object[][]{
                 {"/3_0/oneOf_issue_19194.yaml", true, "CargoInterface.java", "public CargoGeneralParameterUnit getUnit();"},
-//                {"/3_0/oneOf_issue_19194.yaml", false, "CargoInterface.java", "public CargoGeneralParameterUnitEnum getUnit();"},
-                {"/3_0/oneOf_issue_19194_v2.yaml", false, "CargoParent.java", "public Object getUnit()"}
+                {"/3_0/oneOf_issue_19194.yaml", false, "CargoInterface.java", "public Enum getUnit();"},
+                {"/3_0/oneOf_issue_19194_v2.yaml", false, "CargoParent.java", "public Object getUnit()"},
+                {"/3_0/oneof_polymorphism_and_inheritance.yaml", false, "FooRefOrValue.java", "public String getAtType()"}
         };
     }
 

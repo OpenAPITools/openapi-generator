@@ -3895,24 +3895,22 @@ public class DefaultCodegen implements CodegenConfig {
 
                 Schema first = schemas.get(0);
                 try {
-                    if (StringUtils.isEmpty(first.get$ref())) {
-                        if (ModelUtils.isEnumSchema(first)) {
-                            // TODO: improve handling of inline enums)) {
-                            return toModelName(first.getName());
-                        }
-                        Schema refScheme = ModelUtils.getReferencedSchema(openAPI, first);
-                        return getSingleSchemaType(refScheme);
+                    if (StringUtils.isNotEmpty(first.get$ref())) {
+                        return toModelName(ModelUtils.getSimpleRef(first.get$ref()));
                     }
-                    return toModelName(ModelUtils.getSimpleRef(first.get$ref()));
                 } catch (Exception e) {
                     // fallback for some unit test misconfigurations...
-                    LOGGER.warn("Unable to getSchemaType for " + first, e);
+                    LOGGER.warn("Unable to model name for " + first, e);
                     return typeMapping.get("string");
                 }
             default:
                 break;
         }
         schemas = schemas.stream().map(s -> ModelUtils.getReferencedSchema(openAPI, s)).collect(Collectors.toList());
+        return getCommonTypeMapping(schemas);
+    }
+
+    protected String getCommonTypeMapping(List<Schema> schemas) {
         String simpleType = "object";
         if (schemas.stream().allMatch(ModelUtils::isEnumSchema)) {
             simpleType = "enum";
@@ -3925,7 +3923,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (schemas.stream().allMatch(ModelUtils::isNumberSchema)) {
             simpleType = "number";
         } else if (schemas.stream().allMatch(s -> ModelUtils.isStringSchema(s) && s.getFormat() == null && !ModelUtils.isEnumSchema(s))) {
-            return "string";
+            simpleType = "string";
         }
 
         String type = typeMapping.get(simpleType);
