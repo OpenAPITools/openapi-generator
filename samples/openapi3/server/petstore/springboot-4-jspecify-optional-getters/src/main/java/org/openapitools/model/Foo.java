@@ -2,11 +2,8 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -34,27 +31,37 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "Foo")
 @XmlRootElement(name = "Foo")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Foo {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dt;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private @Nullable OffsetDateTime nullableDt = null;
+
   private org.springframework.core.io.@Nullable Resource binary;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private List<OffsetDateTime> listOfDt = new ArrayList<>();
+  private org.springframework.core.io.@Nullable Resource nullableBinary = null;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private List<OffsetDateTime> listMinIntems = new ArrayList<>();
+  private @Nullable List<OffsetDateTime> listOfDt = new ArrayList<>();
+
+  private @Nullable List<OffsetDateTime> listMinIntems = new ArrayList<>();
+
+  private @Nullable List<OffsetDateTime> nullableListMinIntems;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime requiredDt;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable BigDecimal number;
+
+  private @Nullable BigDecimal nullableNumber = null;
+
+  private @Nullable String color = "red";
+
+  private String requiredColor = "red";
+
+  private @Nullable String nullableColor = null;
 
   public Foo() {
     super();
@@ -63,23 +70,31 @@ public class Foo {
   /**
    * Constructor with only required parameters
    */
-  public Foo(OffsetDateTime requiredDt) {
+  public Foo(OffsetDateTime requiredDt, String requiredColor) {
     this.requiredDt = requiredDt;
+    this.requiredColor = requiredColor;
   }
 
   /**
    * Constructor with all args parameters
    */
-  public Foo(OffsetDateTime dt, org.springframework.core.io.Resource binary, List<OffsetDateTime> listOfDt, List<OffsetDateTime> listMinIntems, OffsetDateTime requiredDt, BigDecimal number) {
+  public Foo(@Nullable OffsetDateTime dt, @Nullable OffsetDateTime nullableDt, org.springframework.core.io.@Nullable Resource binary, org.springframework.core.io.@Nullable Resource nullableBinary, @Nullable List<OffsetDateTime> listOfDt, @Nullable List<OffsetDateTime> listMinIntems, @Nullable List<OffsetDateTime> nullableListMinIntems, OffsetDateTime requiredDt, @Nullable BigDecimal number, @Nullable BigDecimal nullableNumber, @Nullable String color, String requiredColor, @Nullable String nullableColor) {
       this.dt = dt;
+      this.nullableDt = nullableDt;
       this.binary = binary;
+      this.nullableBinary = nullableBinary;
       this.listOfDt = listOfDt;
       this.listMinIntems = listMinIntems;
+      this.nullableListMinIntems = nullableListMinIntems;
       this.requiredDt = requiredDt;
       this.number = number;
+      this.nullableNumber = nullableNumber;
+      this.color = color;
+      this.requiredColor = requiredColor;
+      this.nullableColor = nullableColor;
   }
 
-  public Foo dt(OffsetDateTime dt) {
+  public Foo dt(@Nullable OffsetDateTime dt) {
     this.dt = dt;
     return this;
   }
@@ -93,18 +108,41 @@ public class Foo {
   @JsonProperty("dt")
   @JacksonXmlProperty(localName = "dt")
   @XmlElement(name = "dt")
-  public java.util.Optional<@Nullable OffsetDateTime> getDt() {
+  public java.util.Optional<OffsetDateTime> getDt() {
     return java.util.Optional.ofNullable(dt);
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("dt")
   @JacksonXmlProperty(localName = "dt")
   public void setDt(@Nullable OffsetDateTime dt) {
     this.dt = dt;
   }
 
-  public Foo binary(org.springframework.core.io.Resource binary) {
+  public Foo nullableDt(@Nullable OffsetDateTime nullableDt) {
+    this.nullableDt = nullableDt;
+    return this;
+  }
+
+  /**
+   * Get nullableDt
+   * @return nullableDt
+   */
+  @Valid 
+  @Schema(name = "nullableDt", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
+  @JsonProperty("nullableDt")
+  @JacksonXmlProperty(localName = "nullableDt")
+  @XmlElement(name = "nullableDt")
+  public OffsetDateTime getNullableDt() {
+    return nullableDt;
+  }
+
+  @JsonProperty("nullableDt")
+  @JacksonXmlProperty(localName = "nullableDt")
+  public void setNullableDt(@Nullable OffsetDateTime nullableDt) {
+    this.nullableDt = nullableDt;
+  }
+
+  public Foo binary(org.springframework.core.io.@Nullable Resource binary) {
     this.binary = binary;
     return this;
   }
@@ -118,18 +156,41 @@ public class Foo {
   @JsonProperty("binary")
   @JacksonXmlProperty(localName = "binary")
   @XmlElement(name = "binary")
-  public java.util.Optional<org.springframework.core.io.@Nullable Resource> getBinary() {
+  public java.util.Optional<org.springframework.core.io.Resource> getBinary() {
     return java.util.Optional.ofNullable(binary);
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("binary")
   @JacksonXmlProperty(localName = "binary")
   public void setBinary(org.springframework.core.io.@Nullable Resource binary) {
     this.binary = binary;
   }
 
-  public Foo listOfDt(List<OffsetDateTime> listOfDt) {
+  public Foo nullableBinary(org.springframework.core.io.@Nullable Resource nullableBinary) {
+    this.nullableBinary = nullableBinary;
+    return this;
+  }
+
+  /**
+   * Get nullableBinary
+   * @return nullableBinary
+   */
+  @Valid 
+  @Schema(name = "nullableBinary", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
+  @JsonProperty("nullableBinary")
+  @JacksonXmlProperty(localName = "nullableBinary")
+  @XmlElement(name = "nullableBinary")
+  public org.springframework.core.io.Resource getNullableBinary() {
+    return nullableBinary;
+  }
+
+  @JsonProperty("nullableBinary")
+  @JacksonXmlProperty(localName = "nullableBinary")
+  public void setNullableBinary(org.springframework.core.io.@Nullable Resource nullableBinary) {
+    this.nullableBinary = nullableBinary;
+  }
+
+  public Foo listOfDt(@Nullable List<OffsetDateTime> listOfDt) {
     this.listOfDt = listOfDt;
     return this;
   }
@@ -156,15 +217,14 @@ public class Foo {
     return java.util.Optional.ofNullable(listOfDt);
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("listOfDt")
   @JacksonXmlProperty(localName = "listOfDt")
   @JacksonXmlElementWrapper(useWrapping = false)
-  public void setListOfDt(List<OffsetDateTime> listOfDt) {
+  public void setListOfDt(@Nullable List<OffsetDateTime> listOfDt) {
     this.listOfDt = listOfDt;
   }
 
-  public Foo listMinIntems(List<OffsetDateTime> listMinIntems) {
+  public Foo listMinIntems(@Nullable List<OffsetDateTime> listMinIntems) {
     this.listMinIntems = listMinIntems;
     return this;
   }
@@ -191,12 +251,45 @@ public class Foo {
     return java.util.Optional.ofNullable(listMinIntems);
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("listMinIntems")
   @JacksonXmlProperty(localName = "listMinIntems")
   @JacksonXmlElementWrapper(useWrapping = false)
-  public void setListMinIntems(List<OffsetDateTime> listMinIntems) {
+  public void setListMinIntems(@Nullable List<OffsetDateTime> listMinIntems) {
     this.listMinIntems = listMinIntems;
+  }
+
+  public Foo nullableListMinIntems(@Nullable List<OffsetDateTime> nullableListMinIntems) {
+    this.nullableListMinIntems = nullableListMinIntems;
+    return this;
+  }
+
+  public Foo addNullableListMinIntemsItem(OffsetDateTime nullableListMinIntemsItem) {
+    if (this.nullableListMinIntems == null) {
+      this.nullableListMinIntems = new ArrayList<>();
+    }
+    this.nullableListMinIntems.add(nullableListMinIntemsItem);
+    return this;
+  }
+
+  /**
+   * Get nullableListMinIntems
+   * @return nullableListMinIntems
+   */
+  @Valid @Size(min = 1) 
+  @Schema(name = "nullableListMinIntems", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
+  @JsonProperty("nullableListMinIntems")
+  @JacksonXmlProperty(localName = "nullableListMinIntems")
+  @JacksonXmlElementWrapper(useWrapping = false)
+  @XmlElement(name = "nullableListMinIntems")
+  public List<OffsetDateTime> getNullableListMinIntems() {
+    return nullableListMinIntems;
+  }
+
+  @JsonProperty("nullableListMinIntems")
+  @JacksonXmlProperty(localName = "nullableListMinIntems")
+  @JacksonXmlElementWrapper(useWrapping = false)
+  public void setNullableListMinIntems(@Nullable List<OffsetDateTime> nullableListMinIntems) {
+    this.nullableListMinIntems = nullableListMinIntems;
   }
 
   public Foo requiredDt(OffsetDateTime requiredDt) {
@@ -223,7 +316,7 @@ public class Foo {
     this.requiredDt = requiredDt;
   }
 
-  public Foo number(BigDecimal number) {
+  public Foo number(@Nullable BigDecimal number) {
     this.number = number;
     return this;
   }
@@ -237,15 +330,110 @@ public class Foo {
   @JsonProperty("number")
   @JacksonXmlProperty(localName = "number")
   @XmlElement(name = "number")
-  public java.util.Optional<@Nullable BigDecimal> getNumber() {
+  public java.util.Optional<BigDecimal> getNumber() {
     return java.util.Optional.ofNullable(number);
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("number")
   @JacksonXmlProperty(localName = "number")
   public void setNumber(@Nullable BigDecimal number) {
     this.number = number;
+  }
+
+  public Foo nullableNumber(@Nullable BigDecimal nullableNumber) {
+    this.nullableNumber = nullableNumber;
+    return this;
+  }
+
+  /**
+   * Get nullableNumber
+   * @return nullableNumber
+   */
+  @Valid 
+  @Schema(name = "nullableNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
+  @JsonProperty("nullableNumber")
+  @JacksonXmlProperty(localName = "nullableNumber")
+  @XmlElement(name = "nullableNumber")
+  public BigDecimal getNullableNumber() {
+    return nullableNumber;
+  }
+
+  @JsonProperty("nullableNumber")
+  @JacksonXmlProperty(localName = "nullableNumber")
+  public void setNullableNumber(@Nullable BigDecimal nullableNumber) {
+    this.nullableNumber = nullableNumber;
+  }
+
+  public Foo color(@Nullable String color) {
+    this.color = color;
+    return this;
+  }
+
+  /**
+   * Get color
+   * @return color
+   */
+  
+  @Schema(name = "color", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("color")
+  @JacksonXmlProperty(localName = "color")
+  @XmlElement(name = "color")
+  public java.util.Optional<String> getColor() {
+    return java.util.Optional.ofNullable(color);
+  }
+
+  @JsonProperty("color")
+  @JacksonXmlProperty(localName = "color")
+  public void setColor(@Nullable String color) {
+    this.color = color;
+  }
+
+  public Foo requiredColor(String requiredColor) {
+    this.requiredColor = requiredColor;
+    return this;
+  }
+
+  /**
+   * Get requiredColor
+   * @return requiredColor
+   */
+  @NotNull 
+  @Schema(name = "requiredColor", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("requiredColor")
+  @JacksonXmlProperty(localName = "requiredColor")
+  @XmlElement(name = "requiredColor")
+  public String getRequiredColor() {
+    return requiredColor;
+  }
+
+  @JsonProperty("requiredColor")
+  @JacksonXmlProperty(localName = "requiredColor")
+  public void setRequiredColor(String requiredColor) {
+    this.requiredColor = requiredColor;
+  }
+
+  public Foo nullableColor(@Nullable String nullableColor) {
+    this.nullableColor = nullableColor;
+    return this;
+  }
+
+  /**
+   * Get nullableColor
+   * @return nullableColor
+   */
+  
+  @Schema(name = "nullableColor", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
+  @JsonProperty("nullableColor")
+  @JacksonXmlProperty(localName = "nullableColor")
+  @XmlElement(name = "nullableColor")
+  public String getNullableColor() {
+    return nullableColor;
+  }
+
+  @JsonProperty("nullableColor")
+  @JacksonXmlProperty(localName = "nullableColor")
+  public void setNullableColor(@Nullable String nullableColor) {
+    this.nullableColor = nullableColor;
   }
 
   @Override
@@ -258,16 +446,23 @@ public class Foo {
     }
     Foo foo = (Foo) o;
     return Objects.equals(this.dt, foo.dt) &&
+        Objects.equals(this.nullableDt, foo.nullableDt) &&
         Objects.equals(this.binary, foo.binary) &&
+        Objects.equals(this.nullableBinary, foo.nullableBinary) &&
         Objects.equals(this.listOfDt, foo.listOfDt) &&
         Objects.equals(this.listMinIntems, foo.listMinIntems) &&
+        Objects.equals(this.nullableListMinIntems, foo.nullableListMinIntems) &&
         Objects.equals(this.requiredDt, foo.requiredDt) &&
-        Objects.equals(this.number, foo.number);
+        Objects.equals(this.number, foo.number) &&
+        Objects.equals(this.nullableNumber, foo.nullableNumber) &&
+        Objects.equals(this.color, foo.color) &&
+        Objects.equals(this.requiredColor, foo.requiredColor) &&
+        Objects.equals(this.nullableColor, foo.nullableColor);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(dt, binary, listOfDt, listMinIntems, requiredDt, number);
+    return Objects.hash(dt, nullableDt, binary, nullableBinary, listOfDt, listMinIntems, nullableListMinIntems, requiredDt, number, nullableNumber, color, requiredColor, nullableColor);
   }
 
   @Override
@@ -275,11 +470,18 @@ public class Foo {
     StringBuilder sb = new StringBuilder();
     sb.append("class Foo {\n");
     sb.append("    dt: ").append(toIndentedString(dt)).append("\n");
+    sb.append("    nullableDt: ").append(toIndentedString(nullableDt)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
+    sb.append("    nullableBinary: ").append(toIndentedString(nullableBinary)).append("\n");
     sb.append("    listOfDt: ").append(toIndentedString(listOfDt)).append("\n");
     sb.append("    listMinIntems: ").append(toIndentedString(listMinIntems)).append("\n");
+    sb.append("    nullableListMinIntems: ").append(toIndentedString(nullableListMinIntems)).append("\n");
     sb.append("    requiredDt: ").append(toIndentedString(requiredDt)).append("\n");
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
+    sb.append("    nullableNumber: ").append(toIndentedString(nullableNumber)).append("\n");
+    sb.append("    color: ").append(toIndentedString(color)).append("\n");
+    sb.append("    requiredColor: ").append(toIndentedString(requiredColor)).append("\n");
+    sb.append("    nullableColor: ").append(toIndentedString(nullableColor)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -288,7 +490,7 @@ public class Foo {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
@@ -306,31 +508,53 @@ public class Foo {
 
     protected Builder copyOf(Foo value) { 
       this.instance.setDt(value.dt);
+      this.instance.setNullableDt(value.nullableDt);
       this.instance.setBinary(value.binary);
+      this.instance.setNullableBinary(value.nullableBinary);
       this.instance.setListOfDt(value.listOfDt);
       this.instance.setListMinIntems(value.listMinIntems);
+      this.instance.setNullableListMinIntems(value.nullableListMinIntems);
       this.instance.setRequiredDt(value.requiredDt);
       this.instance.setNumber(value.number);
+      this.instance.setNullableNumber(value.nullableNumber);
+      this.instance.setColor(value.color);
+      this.instance.setRequiredColor(value.requiredColor);
+      this.instance.setNullableColor(value.nullableColor);
       return this;
     }
 
-    public Foo.Builder dt(OffsetDateTime dt) {
+    public Foo.Builder dt(@Nullable OffsetDateTime dt) {
       this.instance.dt(dt);
       return this;
     }
     
-    public Foo.Builder binary(org.springframework.core.io.Resource binary) {
+    public Foo.Builder nullableDt(@Nullable OffsetDateTime nullableDt) {
+      this.instance.nullableDt(nullableDt);
+      return this;
+    }
+    
+    public Foo.Builder binary(org.springframework.core.io.@Nullable Resource binary) {
       this.instance.binary(binary);
       return this;
     }
     
-    public Foo.Builder listOfDt(List<OffsetDateTime> listOfDt) {
+    public Foo.Builder nullableBinary(org.springframework.core.io.@Nullable Resource nullableBinary) {
+      this.instance.nullableBinary(nullableBinary);
+      return this;
+    }
+    
+    public Foo.Builder listOfDt(@Nullable List<OffsetDateTime> listOfDt) {
       this.instance.listOfDt(listOfDt);
       return this;
     }
     
-    public Foo.Builder listMinIntems(List<OffsetDateTime> listMinIntems) {
+    public Foo.Builder listMinIntems(@Nullable List<OffsetDateTime> listMinIntems) {
       this.instance.listMinIntems(listMinIntems);
+      return this;
+    }
+    
+    public Foo.Builder nullableListMinIntems(@Nullable List<OffsetDateTime> nullableListMinIntems) {
+      this.instance.nullableListMinIntems(nullableListMinIntems);
       return this;
     }
     
@@ -339,8 +563,28 @@ public class Foo {
       return this;
     }
     
-    public Foo.Builder number(BigDecimal number) {
+    public Foo.Builder number(@Nullable BigDecimal number) {
       this.instance.number(number);
+      return this;
+    }
+    
+    public Foo.Builder nullableNumber(@Nullable BigDecimal nullableNumber) {
+      this.instance.nullableNumber(nullableNumber);
+      return this;
+    }
+    
+    public Foo.Builder color(@Nullable String color) {
+      this.instance.color(color);
+      return this;
+    }
+    
+    public Foo.Builder requiredColor(String requiredColor) {
+      this.instance.requiredColor(requiredColor);
+      return this;
+    }
+    
+    public Foo.Builder nullableColor(@Nullable String nullableColor) {
+      this.instance.nullableColor(nullableColor);
       return this;
     }
     
