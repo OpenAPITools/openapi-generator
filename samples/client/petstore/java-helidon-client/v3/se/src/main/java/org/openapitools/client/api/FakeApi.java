@@ -120,9 +120,11 @@ public interface FakeApi {
   * @param enumQueryModelArray  (optional)
   * @param enumFormStringArray Form parameter enum test (string array) (optional)
   * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+  * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+  * @param enumFormDouble Form parameter enum test (double) (optional, default to 1.1)
   * @return {@code ApiResponse<Void>}
   */
-  ApiResponse<Void> testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString);
+  ApiResponse<Void> testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble);
 
  /**
   * Fake endpoint to test group parameters (optional)

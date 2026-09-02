@@ -135,10 +135,10 @@ public class StoreApiMockServer {
     }
 
     public static String getOrderById200ResponseSample1() {
-        return "{ \"id\" : 0, \"petId\" : 6, \"quantity\" : 1, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"status\" : \"placed\", \"complete\" : false }";
+        return "{ \"id\" : 0, \"petId\" : 6, \"quantity\" : 1, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"status\" : \"placed\", \"complete\" : false, \"paymentMethod\" : 1, \"OrderStatus\" : \"{}\" }";
     }
     public static String getOrderById200ResponseSample2() {
-        return "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+        return "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> <paymentMethod>1</paymentMethod> <OrderStatus>UNDEFINED_EXAMPLE_VALUE</OrderStatus> </Order>";
     }
 
 
@@ -187,14 +187,14 @@ public class StoreApiMockServer {
     }
 
     public static String placeOrder200ResponseSample1() {
-        return "{ \"id\" : 0, \"petId\" : 6, \"quantity\" : 1, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"status\" : \"placed\", \"complete\" : false }";
+        return "{ \"id\" : 0, \"petId\" : 6, \"quantity\" : 1, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"status\" : \"placed\", \"complete\" : false, \"paymentMethod\" : 1, \"OrderStatus\" : \"{}\" }";
     }
     public static String placeOrder200ResponseSample2() {
-        return "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+        return "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> <paymentMethod>1</paymentMethod> <OrderStatus>UNDEFINED_EXAMPLE_VALUE</OrderStatus> </Order>";
     }
 
     public static String placeOrderRequestSample1() {
-        return "{ \"id\" : 0, \"petId\" : 6, \"quantity\" : 1, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"status\" : \"placed\", \"complete\" : false }";
+        return "{ \"id\" : 0, \"petId\" : 6, \"quantity\" : 1, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"status\" : \"placed\", \"complete\" : false, \"paymentMethod\" : 1, \"OrderStatus\" : \"{}\" }";
     }
 
 
