@@ -773,10 +773,12 @@ public class FakeApi extends BaseApi {
      * @param enumQueryModelArray  (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+     * @param enumFormDouble Form parameter enum test (double) (optional, default to 1.1)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws RestClientException {
-        testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble) throws RestClientException {
+        testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
     }
 
     /**
@@ -793,10 +795,12 @@ public class FakeApi extends BaseApi {
      * @param enumQueryModelArray  (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+     * @param enumFormDouble Form parameter enum test (double) (optional, default to 1.1)
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws RestClientException {
+    public ResponseEntity<Void> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -821,6 +825,10 @@ public class FakeApi extends BaseApi {
             localVarFormParams.addAll("enum_form_string_array", enumFormStringArray);
         if (enumFormString != null)
             localVarFormParams.add("enum_form_string", enumFormString);
+        if (enumFormInteger != null)
+            localVarFormParams.add("enum_form_integer", enumFormInteger);
+        if (enumFormDouble != null)
+            localVarFormParams.add("enum_form_double", enumFormDouble);
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);

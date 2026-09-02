@@ -1005,7 +1005,7 @@ example().catch(console.error);
 
 ## testEnumParameters
 
-> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString)
+> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble)
 
 To test enum parameters
 
@@ -1043,6 +1043,10 @@ async function example() {
     enumFormStringArray: ...,
     // string | Form parameter enum test (string) (optional)
     enumFormString: enumFormString_example,
+    // number | Form parameter enum test (integer) (optional)
+    enumFormInteger: 56,
+    // number | Form parameter enum test (double) (optional)
+    enumFormDouble: 8.14,
   } satisfies TestEnumParametersRequest;
 
   try {
@@ -1071,6 +1075,8 @@ example().catch(console.error);
 | **enumQueryModelArray** | `Array<EnumClass>` |  | [Optional] |
 | **enumFormStringArray** | `>`, `$` | Form parameter enum test (string array) | [Optional] [Enum: >, $] |
 | **enumFormString** | `_abc`, `-efg`, `(xyz)` | Form parameter enum test (string) | [Optional] [Defaults to `&#39;-efg&#39;`] [Enum: _abc, -efg, (xyz)] |
+| **enumFormInteger** | `1`, `-1`, `0` | Form parameter enum test (integer) | [Optional] [Defaults to `1`] [Enum: 1, -1, 0] |
+| **enumFormDouble** | `1.1`, `-1.1`, `0.1`, `0.0` | Form parameter enum test (double) | [Optional] [Defaults to `1.1`] [Enum: 1.1, -1.1, 0.1, 0.0] |
 
 ### Return type
 

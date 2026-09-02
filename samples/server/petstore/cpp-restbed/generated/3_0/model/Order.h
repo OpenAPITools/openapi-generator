@@ -94,6 +94,18 @@ public:
     bool isComplete() const;
     void setComplete(bool value);
 
+    /// <summary>
+    /// Various payment methods
+    /// </summary>
+    double getPaymentMethod() const;
+    void setPaymentMethod(double value);
+
+    /// <summary>
+    /// Order status
+    /// </summary>
+    std::string getOrderStatus() const;
+    void setOrderStatus(std::string value);
+
 protected:
     int64_t m_Id = 0L;
     int64_t m_PetId = 0L;
@@ -101,6 +113,8 @@ protected:
     std::string m_ShipDate = "";
     std::string m_Status = "";
     bool m_Complete = false;
+    double m_PaymentMethod = 1;
+    std::string m_OrderStatus = std::string{};
 };
 
 std::vector<Order> createOrderVectorFromJsonString(const std::string& json);
