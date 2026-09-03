@@ -61,6 +61,17 @@ defmodule RequestBuilderTest do
     assert request == %{headers: [{"cookie", "category=id,1,name,toys"}]}
   end
 
+  test "serializes Date values nested in an object cookie" do
+    date = Date.from_iso8601!("2026-01-01")
+
+    request =
+      %{}
+      |> RequestBuilder.add_param(:cookie_exploded, :metadata, %{expires: date})
+      |> RequestBuilder.finalize_request()
+
+    assert request == %{headers: [{"cookie", "expires=#{to_string(date)}"}]}
+  end
+
   test "serializes Date and DateTime cookie values with their scalar forms" do
     date = Date.from_iso8601!("2024-01-02")
     {:ok, date_time, 0} = DateTime.from_iso8601("2024-01-02T03:04:05Z")
@@ -133,6 +144,23 @@ defmodule RequestBuilderTest do
     assert request == %{headers: [{"x_metadata", "role=admin,firstName=Alex"}]}
   end
 
+  test "serializes Date values in an array header" do
+    dates = [Date.from_iso8601!("2026-01-01"), Date.from_iso8601!("2026-01-02")]
+
+    request = RequestBuilder.add_param(%{}, :headers_form, :x_dates, dates)
+
+    assert request == %{headers: [{"x_dates", "2026-01-01,2026-01-02"}]}
+  end
+
+  test "serializes DateTime values in an exploded object header" do
+    {:ok, date_time, 0} = DateTime.from_iso8601("2026-01-01T03:04:05Z")
+
+    request =
+      RequestBuilder.add_param(%{}, :headers_form_exploded, :x_metadata, %{k: date_time})
+
+    assert request == %{headers: [{"x_metadata", "k=#{to_string(date_time)}"}]}
+  end
+
   test "serializes model structs as object headers" do
     category = %Category{id: 1, name: "toys"}
 
@@ -173,6 +201,16 @@ defmodule RequestBuilderTest do
   test "raises for nested header values" do
     assert_raise ArgumentError, ~r/nested parameter values/, fn ->
       RequestBuilder.add_param(%{}, :headers_form, :id, [[1, 2]])
+    end
+  end
+
+  test "raises for a list nested inside an object" do
+    assert_raise ArgumentError, ~r/nested parameter values/, fn ->
+      RequestBuilder.add_param(%{}, :cookie, :id, %{tags: [1, 2]})
+    end
+
+    assert_raise ArgumentError, ~r/nested parameter values/, fn ->
+      RequestBuilder.add_param(%{}, :headers_form_exploded, :id, %{tags: [1, 2]})
     end
   end
 

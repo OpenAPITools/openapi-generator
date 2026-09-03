@@ -122,7 +122,7 @@ defmodule OpenapiPetstore.RequestBuilder do
     headers =
       request
       |> Map.get(:headers, [])
-      |> List.keystore(to_string(key), 0, {to_string(key), serialize_cookie_value(value)})
+      |> List.keystore(to_string(key), 0, {to_string(key), serialize_parameter_value(value, ",")})
 
     Map.put(request, :headers, headers)
   end
@@ -131,13 +131,13 @@ defmodule OpenapiPetstore.RequestBuilder do
     headers =
       request
       |> Map.get(:headers, [])
-      |> List.keystore(to_string(key), 0, {to_string(key), serialize_exploded_header_value(value)})
+      |> List.keystore(to_string(key), 0, {to_string(key), serialize_parameter_value(value, "=")})
 
     Map.put(request, :headers, headers)
   end
 
   def add_param(request, :cookie, key, value) do
-    add_cookies(request, [{to_string(key), serialize_cookie_value(value)}])
+    add_cookies(request, [{to_string(key), serialize_parameter_value(value, ",")}])
   end
 
   def add_param(request, :cookie_exploded, key, value) do
@@ -167,13 +167,13 @@ defmodule OpenapiPetstore.RequestBuilder do
   defp serialize_exploded_cookie(key, value) when is_list(value) do
     key = to_string(key)
 
-    if cookie_pair_list?(value) do
+    if parameter_pair_list?(value) do
       Enum.map(value, fn {pair_key, pair_value} ->
-        {cookie_leaf_to_string(pair_key), cookie_leaf_to_string(pair_value)}
+        {parameter_leaf_to_string(pair_key), parameter_leaf_to_string(pair_value)}
       end)
     else
       Enum.map(value, fn item ->
-        {key, cookie_array_item_to_string(item)}
+        {key, parameter_array_item_to_string(item)}
       end)
     end
   end
@@ -186,10 +186,10 @@ defmodule OpenapiPetstore.RequestBuilder do
       is_struct(value) ->
         value
         |> Map.from_struct()
-        |> serialize_exploded_cookie_map()
+        |> serialize_parameter_map_pairs()
 
       true ->
-        serialize_exploded_cookie_map(value)
+        serialize_parameter_map_pairs(value)
     end
   end
 
@@ -197,60 +197,25 @@ defmodule OpenapiPetstore.RequestBuilder do
     [{to_string(key), scalar_to_string(value)}]
   end
 
-  defp serialize_exploded_cookie_map(value) do
+  defp serialize_parameter_map_pairs(value) do
     value
-    |> cookie_map_entries()
+    |> parameter_map_entries()
     |> Enum.map(fn {key, value} ->
-      {cookie_leaf_to_string(key), cookie_leaf_to_string(value)}
+      {parameter_leaf_to_string(key), parameter_leaf_to_string(value)}
     end)
   end
 
-  defp serialize_exploded_header_value(value) when is_list(value) do
-    if cookie_pair_list?(value) do
-      Enum.map_join(value, ",", fn {pair_key, pair_value} ->
-        "#{cookie_leaf_to_string(pair_key)}=#{cookie_leaf_to_string(pair_value)}"
-      end)
-    else
-      Enum.map_join(value, ",", &cookie_array_item_to_string/1)
-    end
-  end
-
-  defp serialize_exploded_header_value(value) when is_map(value) do
-    cond do
-      is_struct(value) and String.Chars.impl_for(value) != nil ->
-        scalar_to_string(value)
-
-      is_struct(value) ->
-        value
-        |> Map.from_struct()
-        |> serialize_exploded_header_map()
-
-      true ->
-        serialize_exploded_header_map(value)
-    end
-  end
-
-  defp serialize_exploded_header_value(value), do: scalar_to_string(value)
-
-  defp serialize_exploded_header_map(value) do
-    value
-    |> cookie_map_entries()
-    |> Enum.map_join(",", fn {key, value} ->
-      "#{cookie_leaf_to_string(key)}=#{cookie_leaf_to_string(value)}"
-    end)
-  end
-
-  defp serialize_cookie_value(value) when is_list(value) do
-    if cookie_pair_list?(value) do
+  defp serialize_parameter_value(value, pair_separator) when is_list(value) do
+    if parameter_pair_list?(value) do
       Enum.map_join(value, ",", fn {key, value} ->
-        "#{cookie_leaf_to_string(key)},#{cookie_leaf_to_string(value)}"
+        "#{parameter_leaf_to_string(key)}#{pair_separator}#{parameter_leaf_to_string(value)}"
       end)
     else
-      Enum.map_join(value, ",", &cookie_array_item_to_string/1)
+      Enum.map_join(value, ",", &parameter_array_item_to_string/1)
     end
   end
 
-  defp serialize_cookie_value(value) when is_map(value) do
+  defp serialize_parameter_value(value, pair_separator) when is_map(value) do
     cond do
       is_struct(value) and String.Chars.impl_for(value) != nil ->
         scalar_to_string(value)
@@ -258,46 +223,64 @@ defmodule OpenapiPetstore.RequestBuilder do
       is_struct(value) ->
         value
         |> Map.from_struct()
-        |> serialize_cookie_map()
+        |> serialize_parameter_map(pair_separator)
 
       true ->
-        serialize_cookie_map(value)
+        serialize_parameter_map(value, pair_separator)
     end
   end
 
-  defp serialize_cookie_value(value), do: scalar_to_string(value)
+  defp serialize_parameter_value(value, _pair_separator), do: scalar_to_string(value)
 
-  defp serialize_cookie_map(value) do
+  defp serialize_parameter_map(value, pair_separator) do
     value
-    |> cookie_map_entries()
+    |> parameter_map_entries()
     |> Enum.map_join(",", fn {key, value} ->
-      "#{cookie_leaf_to_string(key)},#{cookie_leaf_to_string(value)}"
+      "#{parameter_leaf_to_string(key)}#{pair_separator}#{parameter_leaf_to_string(value)}"
     end)
   end
 
-  defp cookie_map_entries(value) do
+  defp parameter_map_entries(value) do
     value
     |> Map.to_list()
-    |> Enum.sort_by(fn {key, _value} -> cookie_leaf_to_string(key) end)
+    |> Enum.sort_by(fn {key, _value} -> parameter_leaf_to_string(key) end)
   end
 
-  defp cookie_pair_list?(value) do
+  defp parameter_pair_list?(value) do
     Enum.all?(value, fn pair -> is_tuple(pair) and tuple_size(pair) == 2 end)
   end
 
-  defp cookie_array_item_to_string(value) when is_list(value) or is_map(value) do
+  defp parameter_array_item_to_string(%_{} = value) do
+    if String.Chars.impl_for(value) != nil do
+      scalar_to_string(value)
+    else
+      raise ArgumentError,
+        "nested parameter values are not supported; expected scalar array items, got: #{inspect(value)}"
+    end
+  end
+
+  defp parameter_array_item_to_string(value) when is_list(value) or is_map(value) do
     raise ArgumentError,
       "nested parameter values are not supported; expected scalar array items, got: #{inspect(value)}"
   end
 
-  defp cookie_array_item_to_string(value), do: scalar_to_string(value)
+  defp parameter_array_item_to_string(value), do: scalar_to_string(value)
 
-  defp cookie_leaf_to_string(value) when is_list(value) or is_map(value) do
+  defp parameter_leaf_to_string(%_{} = value) do
+    if String.Chars.impl_for(value) != nil do
+      scalar_to_string(value)
+    else
+      raise ArgumentError,
+        "nested parameter values are not supported; expected a scalar leaf, got: #{inspect(value)}"
+    end
+  end
+
+  defp parameter_leaf_to_string(value) when is_list(value) or is_map(value) do
     raise ArgumentError,
       "nested parameter values are not supported; expected a scalar leaf, got: #{inspect(value)}"
   end
 
-  defp cookie_leaf_to_string(value), do: scalar_to_string(value)
+  defp parameter_leaf_to_string(value), do: scalar_to_string(value)
 
   defp scalar_to_string(value) do
     to_string(value)

@@ -276,7 +276,7 @@ defmodule OpenapiPetstore.Api.Pet do
   def upload_file(connection, pet_id, opts \\ []) do
     optional_params = %{
       :additionalMetadata => :form,
-      :file => :form
+      :file => :file
     }
 
     request =
