@@ -42,9 +42,3 @@ src/main/java/org/openapitools/client/model/Foo.java
 src/main/java/org/openapitools/client/model/RequiredAndNullable.java
 src/main/java/org/openapitools/client/model/package-info.java
 src/main/java/org/openapitools/client/package-info.java
-src/test/java/org/openapitools/client/api/FileApiTest.java
-src/test/java/org/openapitools/client/api/FooApiTest.java
-src/test/java/org/openapitools/client/api/RequiredAndNullableApiTest.java
-src/test/java/org/openapitools/client/api/UploadApiTest.java
-src/test/java/org/openapitools/client/model/FileContentTest.java
-src/test/java/org/openapitools/client/model/RequiredAndNullableTest.java
