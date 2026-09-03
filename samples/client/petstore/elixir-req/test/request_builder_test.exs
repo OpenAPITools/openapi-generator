@@ -132,6 +132,17 @@ defmodule RequestBuilderTest do
     assert request.headers == [{"cookie", "category=id,1,name,toys"}]
   end
 
+  test "serializes Date values nested in an object cookie" do
+    date = Date.from_iso8601!("2026-01-01")
+
+    request =
+      %{}
+      |> add_param(:cookie_exploded, :metadata, %{expires: date})
+      |> finalize_request()
+
+    assert request.headers == [{"cookie", "expires=#{to_string(date)}"}]
+  end
+
   test "serializes Date and DateTime cookie values with their scalar forms" do
     date = Date.from_iso8601!("2024-01-02")
     {:ok, date_time, 0} = DateTime.from_iso8601("2024-01-02T03:04:05Z")
@@ -163,8 +174,14 @@ defmodule RequestBuilderTest do
     assert request == %{headers: [{"x_token", "abc"}]}
   end
 
+  test "serializes a scalar header charlist as a string" do
+    request = add_param(%{}, :headers, :x_token, ~c"abc")
+
+    assert request == %{headers: [{"x_token", "abc"}]}
+  end
+
   test "serializes array header values as a comma-joined binary" do
-    request = add_param(%{}, :headers, :x_ids, [3, 4, 5])
+    request = add_param(%{}, :headers_form, :x_ids, [3, 4, 5])
     [{_, value}] = request.headers
 
     assert value == "3,4,5"
@@ -173,9 +190,66 @@ defmodule RequestBuilderTest do
   end
 
   test "serializes map header values in deterministic key order" do
-    request = add_param(%{}, :headers, :x_metadata, %{"k2" => "v2", "k1" => "v1"})
+    request = add_param(%{}, :headers_form, :x_metadata, %{"k2" => "v2", "k1" => "v1"})
 
     assert request == %{headers: [{"x_metadata", "k1,v1,k2,v2"}]}
+  end
+
+  test "serializes non-exploded object header values in deterministic key order" do
+    request =
+      add_param(%{}, :headers_form, :x_metadata, [role: "admin", firstName: "Alex"])
+
+    assert request == %{headers: [{"x_metadata", "role,admin,firstName,Alex"}]}
+  end
+
+  test "serializes exploded object header values in deterministic key order" do
+    request =
+      add_param(
+        %{},
+        :headers_form_exploded,
+        :x_metadata,
+        [role: "admin", firstName: "Alex"]
+      )
+
+    assert request == %{headers: [{"x_metadata", "role=admin,firstName=Alex"}]}
+  end
+
+  test "serializes Date values in an array header" do
+    dates = [Date.from_iso8601!("2026-01-01"), Date.from_iso8601!("2026-01-02")]
+
+    request = add_param(%{}, :headers_form, :x_dates, dates)
+
+    assert request == %{headers: [{"x_dates", "2026-01-01,2026-01-02"}]}
+  end
+
+  test "serializes DateTime values in an exploded object header" do
+    {:ok, date_time, 0} = DateTime.from_iso8601("2026-01-01T03:04:05Z")
+
+    request = add_param(%{}, :headers_form_exploded, :x_metadata, %{k: date_time})
+
+    assert request == %{headers: [{"x_metadata", "k=#{to_string(date_time)}"}]}
+  end
+
+  test "serializes model structs as object headers" do
+    category = %Category{id: 1, name: "toys"}
+
+    request = add_param(%{}, :headers_form, :x_category, category)
+
+    assert request == %{headers: [{"x_category", "id,1,name,toys"}]}
+  end
+
+  test "serializes Date and DateTime headers with their scalar forms" do
+    date = Date.from_iso8601!("2024-01-02")
+    {:ok, date_time, 0} = DateTime.from_iso8601("2024-01-02T03:04:05Z")
+
+    request =
+      %{}
+      |> add_param(:headers, :date, date)
+      |> add_param(:headers, :date_time, date_time)
+
+    assert request == %{
+             headers: [{"date", to_string(date)}, {"date_time", to_string(date_time)}]
+           }
   end
 
   test "does not prepend a separator for an empty caller-supplied cookie header" do
@@ -188,9 +262,25 @@ defmodule RequestBuilderTest do
     assert request.headers == [{"cookie", "id=3"}]
   end
 
-  test "raises for nested parameter values" do
+  test "raises for nested cookie values" do
     assert_raise ArgumentError, ~r/nested parameter values/, fn ->
       add_param(%{}, :cookie, :id, [[1, 2]])
+    end
+  end
+
+  test "raises for nested header values" do
+    assert_raise ArgumentError, ~r/nested parameter values/, fn ->
+      add_param(%{}, :headers_form, :id, [[1, 2]])
+    end
+  end
+
+  test "raises for a list nested inside an object" do
+    assert_raise ArgumentError, ~r/nested parameter values/, fn ->
+      add_param(%{}, :cookie, :id, %{tags: [1, 2]})
+    end
+
+    assert_raise ArgumentError, ~r/nested parameter values/, fn ->
+      add_param(%{}, :headers_form_exploded, :id, %{tags: [1, 2]})
     end
   end
 
