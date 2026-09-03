@@ -15,7 +15,7 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 @JsonPropertyOrder({
 })
-@JsonTypeName("java")
+@JsonTypeName("DefaultValue")
 public class DefaultValue {
   public DefaultValue() {
   }

@@ -37,7 +37,7 @@ public class HttpBearerAuth implements Authentication {
    * @return The bearer token
    */
   public String getBearerToken() {
-    return tokenSupplier.get();
+    return tokenSupplier == null ? null : tokenSupplier.get();
   }
 
   /**

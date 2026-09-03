@@ -130,6 +130,14 @@ public class JSON {
         if (localDateTimeFormat != null) {
             config.withAdapters(new LocalDateTimeAdapter(localDateTimeFormat));
         }
+        config.withSerializers(new org.openapitools.client.model.Drawing.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Drawing.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.NullableClass.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.NullableClass.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Zebra.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Zebra.CustomJsonbDeserializer());
         jsonb = JsonbBuilder.create(config);
     }
 

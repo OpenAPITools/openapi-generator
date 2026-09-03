@@ -130,6 +130,22 @@ public class JSON {
         if (localDateTimeFormat != null) {
             config.withAdapters(new LocalDateTimeAdapter(localDateTimeFormat));
         }
+        config.withSerializers(new org.openapitools.client.model.Category.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Category.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ModelApiResponse.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ModelApiResponse.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Order.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Order.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Pet.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Pet.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.PetWithRequiredNullableCases1.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.PetWithRequiredNullableCases1.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.PetWithRequiredNullableCases2.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.PetWithRequiredNullableCases2.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Tag.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Tag.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.User.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.User.CustomJsonbDeserializer());
         jsonb = JsonbBuilder.create(config);
     }
 

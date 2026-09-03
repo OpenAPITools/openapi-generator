@@ -19,6 +19,15 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.bind.serializer.JsonbSerializer;
+import jakarta.json.bind.serializer.SerializationContext;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -184,5 +193,74 @@ public class Category {
   }
 
 
+
+  /**
+   * Custom JSON-B serializer that flattens the additional (undeclared) properties into the
+   * serialized object. JSON-B has no equivalent of Jackson's {@code @JsonAnyGetter}, so without
+   * this serializer values added through {@code putAdditionalProperty} would not be emitted
+   * under their original names. Registered with the Jsonb instance built by {@code JSON}.
+   */
+  public static class CustomJsonbSerializer implements JsonbSerializer<Category> {
+    @Override
+    public void serialize(Category value, JsonGenerator generator, SerializationContext context) {
+      generator.writeStartObject();
+      if (value.getId() != null) {
+        context.serialize("id", value.getId(), generator);
+      }
+      if (value.getName() != null) {
+        context.serialize("name", value.getName(), generator);
+      }
+      if (value.getAdditionalProperties() != null) {
+        for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+          // a declared property always wins over an additional property with the same name
+          if (!openapiFields.contains(entry.getKey())) {
+            context.serialize(entry.getKey(), entry.getValue(), generator);
+          }
+        }
+      }
+      generator.writeEnd();
+    }
+  }
+
+  /**
+   * Custom JSON-B deserializer that captures undeclared fields into the additional-properties
+   * map. JSON-B has no equivalent of Jackson's {@code @JsonAnySetter}, so without this
+   * deserializer unknown response keys would be silently dropped. Registered with the Jsonb
+   * instance built by {@code JSON}.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<Category> {
+    @Override
+    public Category deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      JsonObject jsonObj = parser.getObject();
+      Category instance = new Category();
+      if (jsonObj.containsKey("id") && jsonObj.get("id").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setId(JSON.getJsonb().fromJson(jsonObj.get("id").toString(), fieldType("id")));
+      }
+      if (jsonObj.containsKey("name") && jsonObj.get("name").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setName(JSON.getJsonb().fromJson(jsonObj.get("name").toString(), fieldType("name")));
+      }
+      for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
+        if (!openapiFields.contains(entry.getKey())) {
+          instance.putAdditionalProperty(entry.getKey(),
+              entry.getValue().getValueType() == JsonValue.ValueType.NULL
+                  ? null
+                  : JSON.getJsonb().fromJson(entry.getValue().toString(), Object.class));
+        }
+      }
+      return instance;
+    }
+
+    private static Type fieldType(String fieldName) {
+      // walk up the hierarchy: inherited properties are declared on a parent class
+      for (Class<?> clazz = Category.class; clazz != null; clazz = clazz.getSuperclass()) {
+        try {
+          return clazz.getDeclaredField(fieldName).getGenericType();
+        } catch (NoSuchFieldException e) {
+          // not declared on this class; check the parent
+        }
+      }
+      throw new IllegalArgumentException("Field " + fieldName + " not found on Category");
+    }
+  }
 }
 

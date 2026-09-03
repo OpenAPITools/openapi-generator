@@ -28,6 +28,15 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.bind.serializer.JsonbSerializer;
+import jakarta.json.bind.serializer.SerializationContext;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -244,5 +253,86 @@ public class Drawing {
   }
 
 
+
+  /**
+   * Custom JSON-B serializer that flattens the additional (undeclared) properties into the
+   * serialized object. JSON-B has no equivalent of Jackson's {@code @JsonAnyGetter}, so without
+   * this serializer values added through {@code putAdditionalProperty} would not be emitted
+   * under their original names. Registered with the Jsonb instance built by {@code JSON}.
+   */
+  public static class CustomJsonbSerializer implements JsonbSerializer<Drawing> {
+    @Override
+    public void serialize(Drawing value, JsonGenerator generator, SerializationContext context) {
+      generator.writeStartObject();
+      if (value.getMainShape() != null) {
+        context.serialize("mainShape", value.getMainShape(), generator);
+      }
+      if (value.getShapeOrNull() != null) {
+        context.serialize("shapeOrNull", value.getShapeOrNull(), generator);
+      }
+      if (value.getNullableShape() != null) {
+        context.serialize("nullableShape", value.getNullableShape(), generator);
+      }
+      if (value.getShapes() != null) {
+        context.serialize("shapes", value.getShapes(), generator);
+      }
+      if (value.getAdditionalProperties() != null) {
+        for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+          // a declared property always wins over an additional property with the same name
+          if (!openapiFields.contains(entry.getKey())) {
+            context.serialize(entry.getKey(), entry.getValue(), generator);
+          }
+        }
+      }
+      generator.writeEnd();
+    }
+  }
+
+  /**
+   * Custom JSON-B deserializer that captures undeclared fields into the additional-properties
+   * map. JSON-B has no equivalent of Jackson's {@code @JsonAnySetter}, so without this
+   * deserializer unknown response keys would be silently dropped. Registered with the Jsonb
+   * instance built by {@code JSON}.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<Drawing> {
+    @Override
+    public Drawing deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      JsonObject jsonObj = parser.getObject();
+      Drawing instance = new Drawing();
+      if (jsonObj.containsKey("mainShape") && jsonObj.get("mainShape").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setMainShape(JSON.getJsonb().fromJson(jsonObj.get("mainShape").toString(), fieldType("mainShape")));
+      }
+      if (jsonObj.containsKey("shapeOrNull") && jsonObj.get("shapeOrNull").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setShapeOrNull(JSON.getJsonb().fromJson(jsonObj.get("shapeOrNull").toString(), fieldType("shapeOrNull")));
+      }
+      if (jsonObj.containsKey("nullableShape") && jsonObj.get("nullableShape").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setNullableShape(JSON.getJsonb().fromJson(jsonObj.get("nullableShape").toString(), fieldType("nullableShape")));
+      }
+      if (jsonObj.containsKey("shapes") && jsonObj.get("shapes").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setShapes(JSON.getJsonb().fromJson(jsonObj.get("shapes").toString(), fieldType("shapes")));
+      }
+      for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
+        if (!openapiFields.contains(entry.getKey())) {
+          instance.putAdditionalProperty(entry.getKey(),
+              entry.getValue().getValueType() == JsonValue.ValueType.NULL
+                  ? null
+                  : JSON.getJsonb().fromJson(entry.getValue().toString(), Object.class));
+        }
+      }
+      return instance;
+    }
+
+    private static Type fieldType(String fieldName) {
+      // walk up the hierarchy: inherited properties are declared on a parent class
+      for (Class<?> clazz = Drawing.class; clazz != null; clazz = clazz.getSuperclass()) {
+        try {
+          return clazz.getDeclaredField(fieldName).getGenericType();
+        } catch (NoSuchFieldException e) {
+          // not declared on this class; check the parent
+        }
+      }
+      throw new IllegalArgumentException("Field " + fieldName + " not found on Drawing");
+    }
+  }
 }
 

@@ -29,6 +29,15 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.bind.serializer.JsonbSerializer;
+import jakarta.json.bind.serializer.SerializationContext;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -493,5 +502,134 @@ public class NullableClass {
   }
 
 
+
+  /**
+   * Custom JSON-B serializer that flattens the additional (undeclared) properties into the
+   * serialized object. JSON-B has no equivalent of Jackson's {@code @JsonAnyGetter}, so without
+   * this serializer values added through {@code putAdditionalProperty} would not be emitted
+   * under their original names. Registered with the Jsonb instance built by {@code JSON}.
+   */
+  public static class CustomJsonbSerializer implements JsonbSerializer<NullableClass> {
+    @Override
+    public void serialize(NullableClass value, JsonGenerator generator, SerializationContext context) {
+      generator.writeStartObject();
+      if (value.getIntegerProp() != null) {
+        context.serialize("integer_prop", value.getIntegerProp(), generator);
+      }
+      if (value.getNumberProp() != null) {
+        context.serialize("number_prop", value.getNumberProp(), generator);
+      }
+      if (value.getBooleanProp() != null) {
+        context.serialize("boolean_prop", value.getBooleanProp(), generator);
+      }
+      if (value.getStringProp() != null) {
+        context.serialize("string_prop", value.getStringProp(), generator);
+      }
+      if (value.getDateProp() != null) {
+        context.serialize("date_prop", value.getDateProp(), generator);
+      }
+      if (value.getDatetimeProp() != null) {
+        context.serialize("datetime_prop", value.getDatetimeProp(), generator);
+      }
+      if (value.getArrayNullableProp() != null) {
+        context.serialize("array_nullable_prop", value.getArrayNullableProp(), generator);
+      }
+      if (value.getArrayAndItemsNullableProp() != null) {
+        context.serialize("array_and_items_nullable_prop", value.getArrayAndItemsNullableProp(), generator);
+      }
+      if (value.getArrayItemsNullable() != null) {
+        context.serialize("array_items_nullable", value.getArrayItemsNullable(), generator);
+      }
+      if (value.getObjectNullableProp() != null) {
+        context.serialize("object_nullable_prop", value.getObjectNullableProp(), generator);
+      }
+      if (value.getObjectAndItemsNullableProp() != null) {
+        context.serialize("object_and_items_nullable_prop", value.getObjectAndItemsNullableProp(), generator);
+      }
+      if (value.getObjectItemsNullable() != null) {
+        context.serialize("object_items_nullable", value.getObjectItemsNullable(), generator);
+      }
+      if (value.getAdditionalProperties() != null) {
+        for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+          // a declared property always wins over an additional property with the same name
+          if (!openapiFields.contains(entry.getKey())) {
+            context.serialize(entry.getKey(), entry.getValue(), generator);
+          }
+        }
+      }
+      generator.writeEnd();
+    }
+  }
+
+  /**
+   * Custom JSON-B deserializer that captures undeclared fields into the additional-properties
+   * map. JSON-B has no equivalent of Jackson's {@code @JsonAnySetter}, so without this
+   * deserializer unknown response keys would be silently dropped. Registered with the Jsonb
+   * instance built by {@code JSON}.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<NullableClass> {
+    @Override
+    public NullableClass deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      JsonObject jsonObj = parser.getObject();
+      NullableClass instance = new NullableClass();
+      if (jsonObj.containsKey("integer_prop") && jsonObj.get("integer_prop").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setIntegerProp(JSON.getJsonb().fromJson(jsonObj.get("integer_prop").toString(), fieldType("integerProp")));
+      }
+      if (jsonObj.containsKey("number_prop") && jsonObj.get("number_prop").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setNumberProp(JSON.getJsonb().fromJson(jsonObj.get("number_prop").toString(), fieldType("numberProp")));
+      }
+      if (jsonObj.containsKey("boolean_prop") && jsonObj.get("boolean_prop").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setBooleanProp(JSON.getJsonb().fromJson(jsonObj.get("boolean_prop").toString(), fieldType("booleanProp")));
+      }
+      if (jsonObj.containsKey("string_prop") && jsonObj.get("string_prop").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setStringProp(JSON.getJsonb().fromJson(jsonObj.get("string_prop").toString(), fieldType("stringProp")));
+      }
+      if (jsonObj.containsKey("date_prop") && jsonObj.get("date_prop").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setDateProp(JSON.getJsonb().fromJson(jsonObj.get("date_prop").toString(), fieldType("dateProp")));
+      }
+      if (jsonObj.containsKey("datetime_prop") && jsonObj.get("datetime_prop").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setDatetimeProp(JSON.getJsonb().fromJson(jsonObj.get("datetime_prop").toString(), fieldType("datetimeProp")));
+      }
+      if (jsonObj.containsKey("array_nullable_prop") && jsonObj.get("array_nullable_prop").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setArrayNullableProp(JSON.getJsonb().fromJson(jsonObj.get("array_nullable_prop").toString(), fieldType("arrayNullableProp")));
+      }
+      if (jsonObj.containsKey("array_and_items_nullable_prop") && jsonObj.get("array_and_items_nullable_prop").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setArrayAndItemsNullableProp(JSON.getJsonb().fromJson(jsonObj.get("array_and_items_nullable_prop").toString(), fieldType("arrayAndItemsNullableProp")));
+      }
+      if (jsonObj.containsKey("array_items_nullable") && jsonObj.get("array_items_nullable").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setArrayItemsNullable(JSON.getJsonb().fromJson(jsonObj.get("array_items_nullable").toString(), fieldType("arrayItemsNullable")));
+      }
+      if (jsonObj.containsKey("object_nullable_prop") && jsonObj.get("object_nullable_prop").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setObjectNullableProp(JSON.getJsonb().fromJson(jsonObj.get("object_nullable_prop").toString(), fieldType("objectNullableProp")));
+      }
+      if (jsonObj.containsKey("object_and_items_nullable_prop") && jsonObj.get("object_and_items_nullable_prop").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setObjectAndItemsNullableProp(JSON.getJsonb().fromJson(jsonObj.get("object_and_items_nullable_prop").toString(), fieldType("objectAndItemsNullableProp")));
+      }
+      if (jsonObj.containsKey("object_items_nullable") && jsonObj.get("object_items_nullable").getValueType() != JsonValue.ValueType.NULL) {
+        instance.setObjectItemsNullable(JSON.getJsonb().fromJson(jsonObj.get("object_items_nullable").toString(), fieldType("objectItemsNullable")));
+      }
+      for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
+        if (!openapiFields.contains(entry.getKey())) {
+          instance.putAdditionalProperty(entry.getKey(),
+              entry.getValue().getValueType() == JsonValue.ValueType.NULL
+                  ? null
+                  : JSON.getJsonb().fromJson(entry.getValue().toString(), Object.class));
+        }
+      }
+      return instance;
+    }
+
+    private static Type fieldType(String fieldName) {
+      // walk up the hierarchy: inherited properties are declared on a parent class
+      for (Class<?> clazz = NullableClass.class; clazz != null; clazz = clazz.getSuperclass()) {
+        try {
+          return clazz.getDeclaredField(fieldName).getGenericType();
+        } catch (NoSuchFieldException e) {
+          // not declared on this class; check the parent
+        }
+      }
+      throw new IllegalArgumentException("Field " + fieldName + " not found on NullableClass");
+    }
+  }
 }
 

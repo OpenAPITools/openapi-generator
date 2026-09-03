@@ -20,9 +20,9 @@ import java.util.Map;
  * API response returned by API call.
  */
 public class ApiResponse<T> {
-    final private int statusCode;
-    final private Map<String, List<String>> headers;
-    final private T data;
+    private final int statusCode;
+    private final Map<String, List<String>> headers;
+    private final T data;
 
     /**
      * <p>Constructor for ApiResponse.</p>
@@ -39,7 +39,7 @@ public class ApiResponse<T> {
      *
      * @param statusCode The status code of HTTP response
      * @param headers The headers of HTTP response
-     * @param data The object deserialized from response bod
+     * @param data The object deserialized from response body
      */
     public ApiResponse(int statusCode, Map<String, List<String>> headers, T data) {
         this.statusCode = statusCode;
