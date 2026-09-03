@@ -56,6 +56,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     // This is the name of elixir project name;
     protected static final String defaultPackageName = "openapi_client";
+    protected static final String TESLA = "tesla";
+    protected static final String REQ = "req";
 
     String supportedElixirVersion = "1.18";
     List<String> extraApplications = Arrays.asList(":logger");
@@ -236,6 +238,25 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 "The main namespace to use for all classes. e.g. Yay.Pets"));
         cliOptions.add(new CliOption("licenseHeader", "The license header to prepend to the top of all source files."));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Elixir package name (convention: lowercase)."));
+
+        supportedLibraries.put(TESLA, "Tesla >= 1.14 (https://github.com/elixir-tesla/tesla)");
+        supportedLibraries.put(REQ, "Req >= 0.6.0 (excluding 0.7.0-0.7.2) (https://github.com/wojtekmach/req)");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY,
+                "HTTP library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        libraryOption.setDefault(TESLA);
+        cliOptions.add(libraryOption);
+        setLibrary(TESLA);
+    }
+
+    @Override
+    public void setLibrary(String library) {
+        if (library != null && !supportedLibraries.containsKey(library)) {
+            throw new IllegalArgumentException("Invalid HTTP library " + library
+                    + ". Only tesla and req are supported.");
+        }
+        super.setLibrary(library);
     }
 
     /**
@@ -275,9 +296,27 @@ public class ElixirClientCodegen extends DefaultCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            setLibrary(String.valueOf(additionalProperties.get(CodegenConstants.LIBRARY)));
+        }
+
+        boolean isTesla = TESLA.equals(getLibrary());
+        boolean isReq = REQ.equals(getLibrary());
+        if (!isTesla && !isReq) {
+            throw new IllegalArgumentException("Invalid HTTP library " + getLibrary()
+                    + ". Only tesla and req are supported.");
+        }
+
+        deps = new ArrayList<>(Arrays.asList(
+                isReq ? "{:req, \"~> 0.6.0 or ~> 0.7.3\"}" : "{:tesla, \"~> 1.14\"}",
+                "{:ex_doc, \"~> 0.37.3\", only: :dev, runtime: false}",
+                "{:dialyxir, \"~> 1.4\", only: [:dev, :test], runtime: false}"));
         additionalProperties.put("supportedElixirVersion", supportedElixirVersion);
         additionalProperties.put("extraApplications", join(",", extraApplications));
         additionalProperties.put("deps", deps);
+        additionalProperties.put("isTesla", isTesla);
+        additionalProperties.put("isReq", isReq);
         additionalProperties.put("underscored", new Mustache.Lambda() {
             @Override
             public void execute(Template.Fragment fragment, Writer writer) throws IOException {
@@ -704,6 +743,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
     class ExtendedCodegenOperation extends CodegenOperation {
         private List<String> pathTemplateNames = new ArrayList<>();
         private String replacedPathName;
+        private List<String> successTypes;
 
         public ExtendedCodegenOperation(CodegenOperation o) {
             super();
@@ -760,7 +800,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         public String typespec() {
             StringBuilder sb = new StringBuilder("@spec ");
             sb.append(underscore(operationId));
-            sb.append("(Tesla.Env.client, ");
+            sb.append(isLibrary(REQ) ? "(Req.Request.t(), " : "(Tesla.Env.client, ");
 
             for (CodegenParameter param : allParams) {
                 if (param.required) {
@@ -770,24 +810,44 @@ public class ElixirClientCodegen extends DefaultCodegen {
             }
 
             sb.append("keyword()) :: ");
-            HashSet<String> uniqueResponseTypes = new HashSet<>();
-            for (CodegenResponse response : this.responses) {
-                ExtendedCodegenResponse exResponse = (ExtendedCodegenResponse) response;
-                StringBuilder returnEntry = new StringBuilder();
-                if (exResponse.schema != null) {
-                    returnEntry.append(getTypeDeclaration((Schema) exResponse.schema));
-                } else {
-                    returnEntry.append(normalizeTypeName(exResponse.dataType, exResponse.primitiveType));
-                }
-                uniqueResponseTypes.add(returnEntry.toString());
-            }
-
-            for (String returnType : uniqueResponseTypes) {
+            for (String returnType : successTypes()) {
                 sb.append("{:ok, ").append(returnType).append("} | ");
             }
 
-            sb.append("{:error, Tesla.Env.t}");
+            sb.append(isLibrary(REQ) ? "{:error, term()}" : "{:error, Tesla.Env.t}");
             return sb.toString();
+        }
+
+        public String successTypesDoc() {
+            StringBuilder sb = new StringBuilder();
+            for (String returnType : successTypes()) {
+                if (sb.length() > 0) {
+                    sb.append(" | ");
+                }
+                sb.append("{:ok, ").append(returnType).append("}");
+            }
+            return sb.toString();
+        }
+
+        private List<String> successTypes() {
+            if (successTypes == null) {
+                successTypes = new ArrayList<>();
+                for (CodegenResponse response : this.responses) {
+                    ExtendedCodegenResponse exResponse = (ExtendedCodegenResponse) response;
+                    String returnType;
+                    if (exResponse.decodedStruct().equals("false")) {
+                        returnType = isLibrary(REQ) ? "Req.Response.t()" : "Tesla.Env.t";
+                    } else if (exResponse.schema != null) {
+                        returnType = getTypeDeclaration((Schema) exResponse.schema);
+                    } else {
+                        returnType = normalizeTypeName(exResponse.dataType, exResponse.primitiveType);
+                    }
+                    if (!successTypes.contains(returnType)) {
+                        successTypes.add(returnType);
+                    }
+                }
+            }
+            return successTypes;
         }
 
         private String normalizeTypeName(String baseType, boolean isPrimitive) {
