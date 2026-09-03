@@ -127,10 +127,10 @@ public class Order {
   @XmlType(name="PaymentMethodEnum")
   @XmlEnum(BigDecimal.class)
   public enum PaymentMethodEnum {
-    @XmlEnumValue(new BigDecimal("1"))
+    
     NUMBER_1(new BigDecimal("1")),
     
-    @XmlEnumValue(new BigDecimal("2"))
+    
     NUMBER_2(new BigDecimal("2"));
 
     private BigDecimal value;

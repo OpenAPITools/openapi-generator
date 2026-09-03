@@ -181,7 +181,7 @@ public class Order  {
     public static final class Serializer implements JsonbSerializer<OrderStatusEnum> {
         @Override
         public void serialize(OrderStatusEnum obj, JsonGenerator generator, SerializationContext ctx) {
-            generator.write(obj.value);
+            generator.write(String.valueOf(obj.value));
         }
     }
   }
