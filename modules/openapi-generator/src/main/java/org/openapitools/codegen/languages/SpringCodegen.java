@@ -898,7 +898,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     private boolean supportLibraryUseTags() {
-        return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
+        return SPRING_BOOT.equals(library)
+               || SPRING_CLOUD_LIBRARY.equals(library)
+               || SPRING_HTTP_INTERFACE.equals(library);
     }
 
     /**

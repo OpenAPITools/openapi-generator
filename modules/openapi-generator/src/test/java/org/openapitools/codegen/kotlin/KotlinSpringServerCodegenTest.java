@@ -1,18 +1,27 @@
 package org.openapitools.codegen.kotlin;
 
 import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.testng.annotations.Test;
+
+import io.swagger.v3.oas.models.Operation;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+import static org.openapitools.codegen.languages.KotlinSpringServerCodegen.SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY;
+import static org.openapitools.codegen.languages.KotlinSpringServerCodegen.USE_TAGS;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class KotlinSpringServerCodegenTest {
@@ -201,6 +210,40 @@ public class KotlinSpringServerCodegenTest {
         final Path userApiKt = Paths.get(output + "/src/main/kotlin/org/openapitools/api/UserApi.kt");
         TestUtils.assertFileContains(userApiKt, "import org.springframework.validation.annotation.Validated");
         TestUtils.assertFileContains(userApiKt, "@Validated");
+    }
+
+    @Test(description = "useTags=false should group operations by first path segment for spring-declarative-http-interface")
+    public void useTags_false_groupsByFirstPathSegment_springDeclarativeHttpInterface() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(USE_TAGS, false);
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "findByStatus";
+        co.path = "/pet/findByStatus";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Pet", "/pet/findByStatus", new Operation(), co, groups);
+
+        assertTrue(groups.containsKey("pet"));
+        assertEquals(co.baseName, "pet");
+    }
+
+    @Test(description = "useTags=true should group operations by tag for spring-declarative-http-interface")
+    public void useTags_true_groupsByTag_springDeclarativeHttpInterface() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(USE_TAGS, true);
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "findByStatus";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Pet", "/pet/findByStatus", new Operation(), co, groups);
+
+        assertTrue(groups.containsKey("Pet"));
     }
 
 }
