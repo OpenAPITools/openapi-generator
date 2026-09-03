@@ -118,6 +118,11 @@ defmodule {{moduleName}}.RequestBuilder do
   @spec add_param(map(), atom(), atom(), any()) :: map()
   def add_param(request, :body, :body, nil), do: request
 
+  def add_param(%{form_multipart: parts} = request, :body, key, value) when is_binary(value) do
+    part = {to_string(key), {value, content_type: "application/octet-stream"}}
+    Map.put(request, :form_multipart, parts ++ [part])
+  end
+
   def add_param(%{form_multipart: parts} = request, :body, key, value) do
     part = {to_string(key), {JSON.encode!(value), content_type: "application/json"}}
     Map.put(request, :form_multipart, parts ++ [part])
@@ -136,7 +141,7 @@ defmodule {{moduleName}}.RequestBuilder do
   end
 
   def add_param(request, :headers, key, value) do
-    put_header(request, to_string(key), to_string(value))
+    put_header(request, to_string(key), serialize_cookie_value(value))
   end
 
   def add_param(request, :cookie, key, value) do
@@ -274,14 +279,14 @@ defmodule {{moduleName}}.RequestBuilder do
 
   defp cookie_array_item_to_string(value) when is_list(value) or is_map(value) do
     raise ArgumentError,
-      "nested cookie values are not supported; expected scalar array items, got: #{inspect(value)}"
+      "nested parameter values are not supported; expected scalar array items, got: #{inspect(value)}"
   end
 
   defp cookie_array_item_to_string(value), do: scalar_to_string(value)
 
   defp cookie_leaf_to_string(value) when is_list(value) or is_map(value) do
     raise ArgumentError,
-      "nested cookie values are not supported; expected a scalar leaf, got: #{inspect(value)}"
+      "nested parameter values are not supported; expected a scalar leaf, got: #{inspect(value)}"
   end
 
   defp cookie_leaf_to_string(value), do: scalar_to_string(value)
@@ -290,7 +295,7 @@ defmodule {{moduleName}}.RequestBuilder do
     to_string(value)
   rescue
     Protocol.UndefinedError ->
-      raise ArgumentError, "cookie values must contain scalar leaves, got: #{inspect(value)}"
+      raise ArgumentError, "parameter values must contain scalar leaves, got: #{inspect(value)}"
   end
 
   defp multipart_field(key, value) when is_binary(value), do: {to_string(key), value}
@@ -420,14 +425,15 @@ defmodule {{moduleName}}.RequestBuilder do
 
   - `{:ok, struct}`, `{:ok, list}` or `{:ok, Req.Response.t()}` on success
   - `{:ok, Req.Response.t()}` for a 2xx response with no mapped success response
-  - `{:error, Req.Response.t()}` for an unmapped non-2xx response
-  - `{:error, Exception.t() | term()}` for a transport or decoding error
+  - `{:error, term()}` on failure. This can be an unmapped non-2xx
+    `Req.Response.t()`, a Req transport `Exception.t()`, or an arbitrary JSON
+    decode-failure reason.
   """
   @spec evaluate_response(
           {:ok, Req.Response.t()} | {:error, Exception.t()},
           response_mapping()
         ) ::
-          {:ok, any()} | {:error, Req.Response.t() | Exception.t() | term()}
+          {:ok, any()} | {:error, term()}
   def evaluate_response({:ok, %Req.Response{} = response}, mapping) do
     resolve_mapping(response, mapping, nil)
   end

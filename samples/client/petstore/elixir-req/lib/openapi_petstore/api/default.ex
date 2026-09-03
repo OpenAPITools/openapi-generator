@@ -19,9 +19,9 @@ defmodule OpenapiPetstore.Api.Default do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.FooGetDefaultResponse.t}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec foo_get(Req.Request.t(), keyword()) :: {:ok, OpenapiPetstore.Model.FooGetDefaultResponse.t} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec foo_get(Req.Request.t(), keyword()) :: {:ok, OpenapiPetstore.Model.FooGetDefaultResponse.t} | {:error, term()}
   def foo_get(connection, _opts \\ []) do
     request =
       %{}

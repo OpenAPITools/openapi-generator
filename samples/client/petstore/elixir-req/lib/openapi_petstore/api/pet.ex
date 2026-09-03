@@ -22,9 +22,9 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec add_pet(Req.Request.t(), OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec add_pet(Req.Request.t(), OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def add_pet(connection, pet, _opts \\ []) do
     request =
       %{}
@@ -56,9 +56,9 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec delete_pet(Req.Request.t(), integer(), keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec delete_pet(Req.Request.t(), integer(), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def delete_pet(connection, pet_id, opts \\ []) do
     optional_params = %{
       :api_key => :headers
@@ -93,9 +93,9 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Returns
 
   - `{:ok, [OpenapiPetstore.Model.Pet.t]} | {:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec find_pets_by_status(Req.Request.t(), list(String.t), keyword()) :: {:ok, [OpenapiPetstore.Model.Pet.t]} | {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec find_pets_by_status(Req.Request.t(), list(String.t), keyword()) :: {:ok, [OpenapiPetstore.Model.Pet.t]} | {:ok, Req.Response.t()} | {:error, term()}
   def find_pets_by_status(connection, status, _opts \\ []) do
     request =
       %{}
@@ -126,9 +126,9 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Returns
 
   - `{:ok, [OpenapiPetstore.Model.Pet.t]} | {:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec find_pets_by_tags(Req.Request.t(), list(String.t), keyword()) :: {:ok, [OpenapiPetstore.Model.Pet.t]} | {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec find_pets_by_tags(Req.Request.t(), list(String.t), keyword()) :: {:ok, [OpenapiPetstore.Model.Pet.t]} | {:ok, Req.Response.t()} | {:error, term()}
   def find_pets_by_tags(connection, tags, _opts \\ []) do
     request =
       %{}
@@ -159,9 +159,9 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.Pet.t} | {:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec get_pet_by_id(Req.Request.t(), integer(), keyword()) :: {:ok, OpenapiPetstore.Model.Pet.t} | {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec get_pet_by_id(Req.Request.t(), integer(), keyword()) :: {:ok, OpenapiPetstore.Model.Pet.t} | {:ok, Req.Response.t()} | {:error, term()}
   def get_pet_by_id(connection, pet_id, _opts \\ []) do
     request =
       %{}
@@ -192,9 +192,9 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec update_pet(Req.Request.t(), OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec update_pet(Req.Request.t(), OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def update_pet(connection, pet, _opts \\ []) do
     request =
       %{}
@@ -229,9 +229,9 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec update_pet_with_form(Req.Request.t(), integer(), keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec update_pet_with_form(Req.Request.t(), integer(), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def update_pet_with_form(connection, pet_id, opts \\ []) do
     optional_params = %{
       :name => :form,
@@ -269,9 +269,9 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.ApiResponse.t}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec upload_file(Req.Request.t(), integer(), keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec upload_file(Req.Request.t(), integer(), keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, term()}
   def upload_file(connection, pet_id, opts \\ []) do
     optional_params = %{
       :additionalMetadata => :form,
@@ -309,9 +309,9 @@ defmodule OpenapiPetstore.Api.Pet do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.ApiResponse.t}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec upload_file_with_required_file(Req.Request.t(), integer(), String.t, keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec upload_file_with_required_file(Req.Request.t(), integer(), String.t, keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, term()}
   def upload_file_with_required_file(connection, pet_id, required_file, opts \\ []) do
     optional_params = %{
       :additionalMetadata => :form

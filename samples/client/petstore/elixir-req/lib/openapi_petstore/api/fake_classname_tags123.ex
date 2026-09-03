@@ -22,9 +22,9 @@ defmodule OpenapiPetstore.Api.FakeClassnameTags123 do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.Client.t}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_classname(Req.Request.t(), OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_classname(Req.Request.t(), OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, term()}
   def test_classname(connection, client, _opts \\ []) do
     request =
       %{}

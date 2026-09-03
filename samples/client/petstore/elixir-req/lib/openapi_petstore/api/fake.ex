@@ -19,9 +19,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, any()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec fake_all_of_with_local_single_ref_get(Req.Request.t(), keyword()) :: {:ok, any()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec fake_all_of_with_local_single_ref_get(Req.Request.t(), keyword()) :: {:ok, any()} | {:error, term()}
   def fake_all_of_with_local_single_ref_get(connection, _opts \\ []) do
     request =
       %{}
@@ -47,9 +47,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.AllOfWithSingleRef.t}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec fake_all_of_with_remote_single_ref_get(Req.Request.t(), keyword()) :: {:ok, OpenapiPetstore.Model.AllOfWithSingleRef.t} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec fake_all_of_with_remote_single_ref_get(Req.Request.t(), keyword()) :: {:ok, OpenapiPetstore.Model.AllOfWithSingleRef.t} | {:error, term()}
   def fake_all_of_with_remote_single_ref_get(connection, _opts \\ []) do
     request =
       %{}
@@ -76,9 +76,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.FakeBigDecimalMap200Response.t}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec fake_big_decimal_map(Req.Request.t(), keyword()) :: {:ok, OpenapiPetstore.Model.FakeBigDecimalMap200Response.t} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec fake_big_decimal_map(Req.Request.t(), keyword()) :: {:ok, OpenapiPetstore.Model.FakeBigDecimalMap200Response.t} | {:error, term()}
   def fake_big_decimal_map(connection, _opts \\ []) do
     request =
       %{}
@@ -105,9 +105,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.HealthCheckResult.t}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec fake_health_get(Req.Request.t(), keyword()) :: {:ok, OpenapiPetstore.Model.HealthCheckResult.t} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec fake_health_get(Req.Request.t(), keyword()) :: {:ok, OpenapiPetstore.Model.HealthCheckResult.t} | {:error, term()}
   def fake_health_get(connection, _opts \\ []) do
     request =
       %{}
@@ -137,9 +137,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec fake_http_signature_test(Req.Request.t(), OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec fake_http_signature_test(Req.Request.t(), OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def fake_http_signature_test(connection, pet, opts \\ []) do
     optional_params = %{
       :query_1 => :query,
@@ -174,9 +174,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec fake_outer_boolean_serialize(Req.Request.t(), keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec fake_outer_boolean_serialize(Req.Request.t(), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def fake_outer_boolean_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -209,9 +209,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.OuterComposite.t}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec fake_outer_composite_serialize(Req.Request.t(), keyword()) :: {:ok, OpenapiPetstore.Model.OuterComposite.t} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec fake_outer_composite_serialize(Req.Request.t(), keyword()) :: {:ok, OpenapiPetstore.Model.OuterComposite.t} | {:error, term()}
   def fake_outer_composite_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -244,9 +244,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec fake_outer_number_serialize(Req.Request.t(), keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec fake_outer_number_serialize(Req.Request.t(), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def fake_outer_number_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -279,9 +279,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec fake_outer_string_serialize(Req.Request.t(), keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec fake_outer_string_serialize(Req.Request.t(), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def fake_outer_string_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -314,9 +314,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec fake_property_enum_integer_serialize(Req.Request.t(), OpenapiPetstore.Model.OuterObjectWithEnumProperty.t, keyword()) :: {:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec fake_property_enum_integer_serialize(Req.Request.t(), OpenapiPetstore.Model.OuterObjectWithEnumProperty.t, keyword()) :: {:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t} | {:error, term()}
   def fake_property_enum_integer_serialize(connection, outer_object_with_enum_property, _opts \\ []) do
     request =
       %{}
@@ -346,9 +346,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_additional_properties_reference(Req.Request.t(), %{optional(String.t) => any()}, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_additional_properties_reference(Req.Request.t(), %{optional(String.t) => any()}, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_additional_properties_reference(connection, request_body, _opts \\ []) do
     request =
       %{}
@@ -378,9 +378,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_any_type_object(Req.Request.t(), any(), keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_any_type_object(Req.Request.t(), any(), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_any_type_object(connection, body, _opts \\ []) do
     request =
       %{}
@@ -409,9 +409,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_body_with_binary(Req.Request.t(), String.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_body_with_binary(Req.Request.t(), String.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_body_with_binary(connection, body, _opts \\ []) do
     request =
       %{}
@@ -440,9 +440,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_body_with_file_schema(Req.Request.t(), OpenapiPetstore.Model.FileSchemaTestClass.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_body_with_file_schema(Req.Request.t(), OpenapiPetstore.Model.FileSchemaTestClass.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_body_with_file_schema(connection, file_schema_test_class, _opts \\ []) do
     request =
       %{}
@@ -471,9 +471,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_body_with_query_params(Req.Request.t(), String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_body_with_query_params(Req.Request.t(), String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_body_with_query_params(connection, query, user, _opts \\ []) do
     request =
       %{}
@@ -504,9 +504,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.Client.t}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_client_model(Req.Request.t(), OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_client_model(Req.Request.t(), OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, term()}
   def test_client_model(connection, client, _opts \\ []) do
     request =
       %{}
@@ -549,9 +549,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_endpoint_parameters(Req.Request.t(), number(), float(), String.t, binary(), keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_endpoint_parameters(Req.Request.t(), number(), float(), String.t, binary(), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_endpoint_parameters(connection, number, double, pattern_without_delimiter, byte, opts \\ []) do
     optional_params = %{
       :integer => :form,
@@ -607,9 +607,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_enum_parameters(Req.Request.t(), keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_enum_parameters(Req.Request.t(), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_enum_parameters(connection, opts \\ []) do
     optional_params = %{
       :enum_header_string_array => :headers,
@@ -657,9 +657,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_group_parameters(Req.Request.t(), integer(), boolean(), integer(), keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_group_parameters(Req.Request.t(), integer(), boolean(), integer(), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_group_parameters(connection, required_string_group, required_boolean_group, required_int64_group, opts \\ []) do
     optional_params = %{
       :string_group => :query,
@@ -698,9 +698,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_implicit_free_form_object(Req.Request.t(), %{optional(String.t) => any()}, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_implicit_free_form_object(Req.Request.t(), %{optional(String.t) => any()}, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_implicit_free_form_object(connection, body, _opts \\ []) do
     request =
       %{}
@@ -730,9 +730,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_inline_additional_properties(Req.Request.t(), %{optional(String.t) => String.t}, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_inline_additional_properties(Req.Request.t(), %{optional(String.t) => String.t}, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_inline_additional_properties(connection, request_body, _opts \\ []) do
     request =
       %{}
@@ -762,9 +762,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_inline_freeform_additional_properties(Req.Request.t(), OpenapiPetstore.Model.TestInlineFreeformAdditionalPropertiesRequest.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_inline_freeform_additional_properties(Req.Request.t(), OpenapiPetstore.Model.TestInlineFreeformAdditionalPropertiesRequest.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_inline_freeform_additional_properties(connection, test_inline_freeform_additional_properties_request, _opts \\ []) do
     request =
       %{}
@@ -795,9 +795,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_json_form_data(Req.Request.t(), String.t, String.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_json_form_data(Req.Request.t(), String.t, String.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_json_form_data(connection, param, param2, _opts \\ []) do
     request =
       %{}
@@ -828,9 +828,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_nullable(Req.Request.t(), OpenapiPetstore.Model.ChildWithNullable.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_nullable(Req.Request.t(), OpenapiPetstore.Model.ChildWithNullable.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_nullable(connection, child_with_nullable, _opts \\ []) do
     request =
       %{}
@@ -865,9 +865,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_query_parameter_collection_format(Req.Request.t(), list(String.t), list(String.t), list(String.t), list(String.t), list(String.t), String.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_query_parameter_collection_format(Req.Request.t(), list(String.t), list(String.t), list(String.t), list(String.t), list(String.t), String.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_query_parameter_collection_format(connection, pipe, ioutil, http, url, context, allow_empty, opts \\ []) do
     optional_params = %{
       :language => :query
@@ -907,9 +907,9 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec test_string_map_reference(Req.Request.t(), %{optional(String.t) => String.t}, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec test_string_map_reference(Req.Request.t(), %{optional(String.t) => String.t}, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_string_map_reference(connection, request_body, _opts \\ []) do
     request =
       %{}

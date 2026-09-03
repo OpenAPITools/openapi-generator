@@ -22,9 +22,9 @@ defmodule OpenapiPetstore.Api.Store do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec delete_order(Req.Request.t(), String.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec delete_order(Req.Request.t(), String.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def delete_order(connection, order_id, _opts \\ []) do
     request =
       %{}
@@ -53,9 +53,9 @@ defmodule OpenapiPetstore.Api.Store do
   ### Returns
 
   - `{:ok, %{optional(String.t) => integer()}}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec get_inventory(Req.Request.t(), keyword()) :: {:ok, %{optional(String.t) => integer()}} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec get_inventory(Req.Request.t(), keyword()) :: {:ok, %{optional(String.t) => integer()}} | {:error, term()}
   def get_inventory(connection, _opts \\ []) do
     request =
       %{}
@@ -84,9 +84,9 @@ defmodule OpenapiPetstore.Api.Store do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.Order.t} | {:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec get_order_by_id(Req.Request.t(), integer(), keyword()) :: {:ok, OpenapiPetstore.Model.Order.t} | {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec get_order_by_id(Req.Request.t(), integer(), keyword()) :: {:ok, OpenapiPetstore.Model.Order.t} | {:ok, Req.Response.t()} | {:error, term()}
   def get_order_by_id(connection, order_id, _opts \\ []) do
     request =
       %{}
@@ -117,9 +117,9 @@ defmodule OpenapiPetstore.Api.Store do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.Order.t} | {:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec place_order(Req.Request.t(), OpenapiPetstore.Model.Order.t, keyword()) :: {:ok, OpenapiPetstore.Model.Order.t} | {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec place_order(Req.Request.t(), OpenapiPetstore.Model.Order.t, keyword()) :: {:ok, OpenapiPetstore.Model.Order.t} | {:ok, Req.Response.t()} | {:error, term()}
   def place_order(connection, order, _opts \\ []) do
     request =
       %{}

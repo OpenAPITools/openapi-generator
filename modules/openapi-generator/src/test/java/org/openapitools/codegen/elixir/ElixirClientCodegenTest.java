@@ -95,7 +95,8 @@ public class ElixirClientCodegenTest {
             String generatedMix = Files.readString(output.toPath().resolve("mix.exs"), StandardCharsets.UTF_8);
             Assert.assertTrue(generatedMix.contains("{:req, \"~> 0.6.0 or ~> 0.7.3\"}"));
             Assert.assertTrue(generatedApi.contains("Req.Request.t()"));
-            Assert.assertTrue(generatedApi.contains("{:error, Req.Response.t() | Exception.t() | term()}"));
+            Assert.assertTrue(generatedApi.contains("{:error, term()}"));
+            Assert.assertFalse(generatedApi.contains("{:error, Req.Response.t() | Exception.t() | term()}"));
             Assert.assertFalse(generatedApi.contains("Tesla."));
 
             String deleteOrderSpec = generatedApi.lines()
@@ -107,7 +108,7 @@ public class ElixirClientCodegenTest {
             int deleteOrderSpecIndex = generatedApi.indexOf(deleteOrderSpec);
             String deleteOrderSuccessTypes = deleteOrderSpec
                     .substring(deleteOrderSpec.indexOf(" :: ") + 4)
-                    .replaceFirst(" \\| \\{:error, Req\\.Response\\.t\\(\\) \\| Exception\\.t\\(\\) \\| term\\(\\)\\}.*$", "");
+                    .replaceFirst(" \\| \\{:error, term\\(\\)\\}.*$", "");
             String deleteOrderDoc = generatedApi.substring(0, deleteOrderSpecIndex)
                     .lines()
                     .filter(line -> line.startsWith("  - `{:ok,") && line.endsWith("` on success"))

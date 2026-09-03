@@ -13,6 +13,13 @@ defmodule RequestBuilderTest do
     end
   end
 
+  defmodule MultipartBodyAdapter do
+    def run(request) do
+      send(Process.get(:request_builder_test_pid), {:multipart_request, request})
+      {request, %Req.Response{status: 200, body: ""}}
+    end
+  end
+
   test "encodes primitive query lists like Tesla" do
     request =
       %{}
@@ -150,6 +157,27 @@ defmodule RequestBuilderTest do
     assert request.headers == [{"cookie", "token=abc; id=3,4,5"}]
   end
 
+  test "serializes scalar header values unchanged" do
+    request = add_param(%{}, :headers, :x_token, "abc")
+
+    assert request == %{headers: [{"x_token", "abc"}]}
+  end
+
+  test "serializes array header values as a comma-joined binary" do
+    request = add_param(%{}, :headers, :x_ids, [3, 4, 5])
+    [{_, value}] = request.headers
+
+    assert value == "3,4,5"
+    assert is_binary(value)
+    refute value == <<3, 4, 5>>
+  end
+
+  test "serializes map header values in deterministic key order" do
+    request = add_param(%{}, :headers, :x_metadata, %{"k2" => "v2", "k1" => "v1"})
+
+    assert request == %{headers: [{"x_metadata", "k1,v1,k2,v2"}]}
+  end
+
   test "does not prepend a separator for an empty caller-supplied cookie header" do
     request =
       %{}
@@ -160,8 +188,8 @@ defmodule RequestBuilderTest do
     assert request.headers == [{"cookie", "id=3"}]
   end
 
-  test "raises for nested cookie values" do
-    assert_raise ArgumentError, ~r/nested cookie values/, fn ->
+  test "raises for nested parameter values" do
+    assert_raise ArgumentError, ~r/nested parameter values/, fn ->
       add_param(%{}, :cookie, :id, [[1, 2]])
     end
   end
@@ -188,6 +216,30 @@ defmodule RequestBuilderTest do
     assert [{"file", {%File.Stream{}, options}}] = request.form_multipart
     assert options[:filename] == Path.basename(path)
     assert options[:content_type] == "application/octet-stream"
+  end
+
+  test "sends raw binary bodies unchanged in multipart operations" do
+    body = <<0, 1, 2, 255>>
+
+    request =
+      %{}
+      |> method(:post)
+      |> url("/multipart")
+      |> multipart()
+      |> add_param(:body, :body, body)
+      |> finalize_request()
+      |> Enum.into([])
+
+    Process.put(:request_builder_test_pid, self())
+
+    connection = Connection.new(req_options: [adapter: MultipartBodyAdapter])
+
+    assert {:ok, %Req.Response{status: 200}} = Connection.request(connection, request)
+    assert_receive {:multipart_request, sent_request}
+
+    wire_body = IO.iodata_to_binary(sent_request.body)
+    assert :binary.match(wire_body, body) != :nomatch
+    assert :binary.match(wire_body, "content-type: application/octet-stream") != :nomatch
   end
 
   test "keeps response decoding disabled when requested Req options enable it" do

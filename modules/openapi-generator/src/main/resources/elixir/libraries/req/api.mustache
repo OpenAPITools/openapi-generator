@@ -36,7 +36,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
   ### Returns
 
   - `{{{successTypesDoc}}}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
   {{{typespec}}}
   def {{{operationId}}}(connection, {{#requiredParams}}{{#underscored}}{{{paramName}}}{{/underscored}}, {{/requiredParams}}{{^hasOptionalParams}}_{{/hasOptionalParams}}opts \\ []) do

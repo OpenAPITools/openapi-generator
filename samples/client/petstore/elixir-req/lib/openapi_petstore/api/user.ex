@@ -22,9 +22,9 @@ defmodule OpenapiPetstore.Api.User do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec create_user(Req.Request.t(), OpenapiPetstore.Model.User.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec create_user(Req.Request.t(), OpenapiPetstore.Model.User.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def create_user(connection, user, _opts \\ []) do
     request =
       %{}
@@ -54,9 +54,9 @@ defmodule OpenapiPetstore.Api.User do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec create_users_with_array_input(Req.Request.t(), list(OpenapiPetstore.Model.User.t), keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec create_users_with_array_input(Req.Request.t(), list(OpenapiPetstore.Model.User.t), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def create_users_with_array_input(connection, user, _opts \\ []) do
     request =
       %{}
@@ -86,9 +86,9 @@ defmodule OpenapiPetstore.Api.User do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec create_users_with_list_input(Req.Request.t(), list(OpenapiPetstore.Model.User.t), keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec create_users_with_list_input(Req.Request.t(), list(OpenapiPetstore.Model.User.t), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def create_users_with_list_input(connection, user, _opts \\ []) do
     request =
       %{}
@@ -118,9 +118,9 @@ defmodule OpenapiPetstore.Api.User do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec delete_user(Req.Request.t(), String.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec delete_user(Req.Request.t(), String.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def delete_user(connection, username, _opts \\ []) do
     request =
       %{}
@@ -150,9 +150,9 @@ defmodule OpenapiPetstore.Api.User do
   ### Returns
 
   - `{:ok, OpenapiPetstore.Model.User.t} | {:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec get_user_by_name(Req.Request.t(), String.t, keyword()) :: {:ok, OpenapiPetstore.Model.User.t} | {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec get_user_by_name(Req.Request.t(), String.t, keyword()) :: {:ok, OpenapiPetstore.Model.User.t} | {:ok, Req.Response.t()} | {:error, term()}
   def get_user_by_name(connection, username, _opts \\ []) do
     request =
       %{}
@@ -184,9 +184,9 @@ defmodule OpenapiPetstore.Api.User do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec login_user(Req.Request.t(), String.t, String.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec login_user(Req.Request.t(), String.t, String.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def login_user(connection, username, password, _opts \\ []) do
     request =
       %{}
@@ -217,9 +217,9 @@ defmodule OpenapiPetstore.Api.User do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec logout_user(Req.Request.t(), keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec logout_user(Req.Request.t(), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def logout_user(connection, _opts \\ []) do
     request =
       %{}
@@ -249,9 +249,9 @@ defmodule OpenapiPetstore.Api.User do
   ### Returns
 
   - `{:ok, Req.Response.t()}` on success
-  - `{:error, Req.Response.t() | Exception.t() | term()}` on failure
+  - `{:error, term()}` on failure
   """
-  @spec update_user(Req.Request.t(), String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, Req.Response.t()} | {:error, Req.Response.t() | Exception.t() | term()}
+  @spec update_user(Req.Request.t(), String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def update_user(connection, username, user, _opts \\ []) do
     request =
       %{}

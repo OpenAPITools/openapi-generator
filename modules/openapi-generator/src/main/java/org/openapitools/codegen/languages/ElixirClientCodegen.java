@@ -814,7 +814,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 sb.append("{:ok, ").append(returnType).append("} | ");
             }
 
-            sb.append(isLibrary(REQ) ? "{:error, Req.Response.t() | Exception.t() | term()}" : "{:error, Tesla.Env.t}");
+            sb.append(isLibrary(REQ) ? "{:error, term()}" : "{:error, Tesla.Env.t}");
             return sb.toString();
         }
 
