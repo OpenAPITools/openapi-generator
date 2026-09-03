@@ -40,6 +40,20 @@ Multiple clients for the same API with different URLs can be created passing dif
 ```elixir
 client = {{moduleName}}.Connection.new(base_url: "{{{basePath}}}")
 ```
+{{#isReq}}
+Req options can be configured for all clients in application configuration or overridden for an individual client.
+`req_options` are merged after the generated defaults, so same-named options and headers replace the generated values.
+The `username`, `password`, `bearer_token`, and `token` connection options set `auth` or `authorization` after that merge,
+so they take precedence over a custom `authorization` header. To override the generated User-Agent, pass
+`headers: [{"user-agent", "..."}]` in `req_options`; `user_agent:` is not a Req option.
+
+```elixir
+config :{{#underscored}}{{packageName}}{{/underscored}}, {{moduleName}}.Connection,
+  req_options: [retry: :transient, receive_timeout: 30_000]
+
+client = {{moduleName}}.Connection.new(req_options: [receive_timeout: 30_000])
+```
+{{/isReq}}
 
 [exdoc]: https://github.com/elixir-lang/ex_doc
 [hexdocs]: https://hexdocs.pm

@@ -54,7 +54,7 @@ import org.openapitools.client.ApiClient;
   Foo.JSON_PROPERTY_REQUIRED_COLOR,
   Foo.JSON_PROPERTY_NULLABLE_COLOR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Foo {
   public static final String JSON_PROPERTY_DT = "dt";
   

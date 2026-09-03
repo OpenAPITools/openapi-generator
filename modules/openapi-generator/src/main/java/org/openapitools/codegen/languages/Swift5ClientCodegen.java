@@ -769,12 +769,20 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema inner = ModelUtils.getSchemaItems(p);
-            return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
+            String innerTypeDeclaration = getItemsTypeDeclaration(inner);
+            return ModelUtils.isSet(p) ? "Set<" + innerTypeDeclaration + ">" : "[" + innerTypeDeclaration + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return "[String: " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
+    }
+
+    private String getItemsTypeDeclaration(Schema items) {
+        String itemsTypeDeclaration = getTypeDeclaration(items);
+        Schema itemsSchema = ModelUtils.getReferencedSchema(openAPI, unaliasSchema(items));
+        String nullable = ModelUtils.isNullable(itemsSchema) && !itemsTypeDeclaration.endsWith("?") ? "?" : "";
+        return itemsTypeDeclaration + nullable;
     }
 
     @Override

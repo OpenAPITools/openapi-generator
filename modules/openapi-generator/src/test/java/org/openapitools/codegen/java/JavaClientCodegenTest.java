@@ -4998,6 +4998,29 @@ public class JavaClientCodegenTest {
                                 + " @FormParam(\"statusArray\")  List<MultipartMixedStatus> statusArray");
     }
 
+    @Test
+    public void testMicroprofileNullableRequiredContainers_issue24776() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.MODEL_PACKAGE, "org.openapitools.client.model",
+                        JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0"
+                ))
+                .setInputSpec("src/test/resources/3_1/microprofile-nullable-container.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Thing.java")).content()
+                .contains("protected Map<String, Object> nullableMap = null;")
+                .contains("protected List<String> nullableArray = null;")
+                .contains("protected List<String> regularArray = new ArrayList<>();")
+                .doesNotContain(" = ;");
+    }
+
     private static JavaClientCodegen newRetrofit2Codegen(Map<String, Object> properties) {
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setLibrary(JavaClientCodegen.RETROFIT_2);
@@ -5099,5 +5122,48 @@ public class JavaClientCodegenTest {
         if (!SERIALIZATION_LIBRARY_JACKSON.equals(serializationLibrary)) {
             assertThat(files.get("Pet.java")).content().doesNotContain("JsonNullable");
         }
+    }
+
+    @DataProvider(name = "jerseyLibraries")
+    public static Object[][] jerseyLibraries() {
+        return new Object[][]{{JavaClientCodegen.JERSEY2}, {JavaClientCodegen.JERSEY3}};
+    }
+
+    @Test(dataProvider = "jerseyLibraries")
+    public void testInsecureTlsHookGeneratedByDefault(String library) {
+        Path output = generateJerseyClient(library, null);
+
+        JavaFileAssert.assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java").toFile())
+                .assertMethod("disableCertificateValidation");
+    }
+
+    @Test(dataProvider = "jerseyLibraries")
+    public void testInsecureTlsHookOmittedWhenDisabled(String library) {
+        Path output = generateJerseyClient(library, false);
+
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
+                .doesNotContain("disableCertificateValidation")
+                .doesNotContain("X509TrustManager")
+                .doesNotContain("import javax.net.ssl.SSLContext;")
+                .doesNotContain("import java.security.SecureRandom;")
+                .doesNotContain("import java.security.KeyManagementException;")
+                .doesNotContain("import java.security.NoSuchAlgorithmException;")
+                .doesNotContain("import java.security.cert.X509Certificate;");
+    }
+
+    private static Path generateJerseyClient(String library, Boolean generateInsecureTlsHook) {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+        if (generateInsecureTlsHook != null) {
+            configurator.addAdditionalProperty(GENERATE_INSECURE_TLS_HOOK, generateInsecureTlsHook);
+        }
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return output;
     }
 }

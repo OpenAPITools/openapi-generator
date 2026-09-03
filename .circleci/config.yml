@@ -24,8 +24,26 @@ commands: # a reusable command with parameters
             libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
             libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
             fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget libgbm1
-      # The following `checkout` command checks out your code to your working directory. In 1.0 we did this implicitly. In 2.0 you can choose where in the course of a job your code should be checked out.
-      - checkout
+      # Avoid intermittent SSH checkout failures from CircleCI workers.
+      - run:
+          name: Checkout source over HTTPS with retry
+          command: |
+            if [ -n "${CIRCLE_PULL_REQUEST:-}" ]; then
+              ref="refs/pull/${CIRCLE_PULL_REQUEST##*/}/head"
+            elif [[ "${CIRCLE_BRANCH:-}" =~ ^pull/[0-9]+$ ]]; then
+              ref="refs/${CIRCLE_BRANCH}/head"
+            else
+              ref="$CIRCLE_SHA1"
+            fi
+            git init .
+            git remote add origin https://github.com/OpenAPITools/openapi-generator.git
+            for i in $(seq 1 5); do
+              if git fetch --depth=1 origin "$ref" && git checkout --detach FETCH_HEAD; then
+                exit 0
+              fi
+              sleep 5
+            done
+            exit 1
       # Prepare for artifact and test results  collection equivalent to how it was done on 1.0.
       # In many cases you can simplify this from what is generated here.
       # 'See docs on artifact collection here https://circleci.com/docs/2.0/artifacts/'
@@ -189,7 +207,6 @@ jobs:
       DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
       DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
     steps:
-      - checkout
       - command_build_and_test:
           nodeNo: "3"
 workflows:

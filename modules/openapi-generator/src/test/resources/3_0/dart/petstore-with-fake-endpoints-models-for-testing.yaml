@@ -2141,3 +2141,25 @@ components:
           $ref: '#/components/schemas/ObjectWithInlineEnum'
         object_two:
           $ref: '#/components/schemas/ObjectWithDuplicateInlineEnum'
+    getUserInfoResponse:
+      type: object
+      required:
+      - sub
+      - updated_at
+      properties:
+        email:
+          description: Email address of user, if available
+          type: string
+          format: email
+          maxLength: 255
+          example: user@example.com
+        scopes:
+          description: Auth-Scopes of the user, if available
+          type: array
+          items:
+            type: string
+            enum:
+            - app
+            - cms
+          example:
+          - app
