@@ -3912,26 +3912,26 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String getCommonTypeMapping(List<Schema> schemas) {
         String simpleType = "object";
-        if (schemas.stream().allMatch(ModelUtils::isEnumSchema)) {
-            simpleType = "enum";
-        } else if (schemas.stream().allMatch(ModelUtils::isLongSchema)) {
-            simpleType = "long";
-        } else if (schemas.stream().allMatch(ModelUtils::isShortSchema)) {
-            simpleType = "short";
-        } else if (schemas.stream().allMatch(ModelUtils::isIntegerSchema)) {
-            simpleType = "integer";
-        } else if (schemas.stream().allMatch(ModelUtils::isNumberSchema)) {
-            simpleType = "number";
-        } else if (schemas.stream().allMatch(s -> ModelUtils.isStringSchema(s) && s.getFormat() == null && !ModelUtils.isEnumSchema(s))) {
-            simpleType = "string";
+        Set<String> types = schemas.stream().map(this::getPrimitiveType).collect(Collectors.toSet());
+        if (types.size() == 1) {
+            String commonType = types.iterator().next();
+            if (typeMapping.containsKey(commonType)) {
+                // matching simple type
+                simpleType = commonType;
+            }
         }
-
-        String type = typeMapping.get(simpleType);
-        if (type == null) {
-            // some typeMapping are not defined.  Fallback to object.
-            return typeMapping.get("object");
+        if ("objects".equals(simpleType) || "string".equals(simpleType)) {
+            // alternate more strict options
+            simpleType = "object";
+            // Some generators define enum typeMapping
+            if (schemas.stream().allMatch(ModelUtils::isEnumSchema) && typeMapping.containsKey("enum")) {
+                simpleType = "enum";
+            } else if (schemas.stream().allMatch(s -> ModelUtils.isStringSchema(s) && !ModelUtils.isEnumSchema(s))) {
+                // only string if there is no mix of enum and string
+                simpleType = "string";
+            }
         }
-        return type;
+        return typeMapping.get(simpleType);
     }
 
     /**

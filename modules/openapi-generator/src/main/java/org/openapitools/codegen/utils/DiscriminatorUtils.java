@@ -355,7 +355,9 @@ public class DiscriminatorUtils {
                 List<Schema> oneOfs = (List<Schema>) schema.getOneOf();
                 return oneOfs.stream()
                         .filter(Objects::nonNull)
-                        .map(oneOf -> oneOf.get$ref()!=null? getReferencedSchema(openAPI, oneOf.get$ref()): oneOf)
+                        .map(oneOf -> oneOf.get$ref()!=null
+                                ? getReferencedSchema(openAPI, oneOf.get$ref())
+                                : oneOf)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList());
             }
