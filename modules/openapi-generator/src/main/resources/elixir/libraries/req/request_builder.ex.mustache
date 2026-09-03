@@ -105,11 +105,12 @@ defmodule {{moduleName}}.RequestBuilder do
   - `key` (atom) - The name of the parameter
   - `value` (any) - The value of the parameter
 
-  Cookie values use OpenAPI's `form` style. `:cookie` uses `explode=false` and
-  `:cookie_exploded` uses `explode=true`. Scalars use their string form, arrays
-  are comma-joined or emitted as separate pairs, and objects (including keyword
-  lists) are flattened into key/value pairs. Values are kept unencoded; nested
-  lists or maps raise `ArgumentError`.
+  Header values use OpenAPI's `simple` style. `:headers` is for scalars,
+  `:headers_form` uses `explode=false`, and `:headers_form_exploded` uses
+  `explode=true`. Arrays are comma-joined, and objects (including keyword
+  lists) are flattened into key/value pairs. Cookie values use OpenAPI's `form`
+  style: `:cookie` uses `explode=false` and `:cookie_exploded` uses `explode=true`.
+  Values are kept unencoded; nested lists or maps raise `ArgumentError`.
 
   ### Returns
 
@@ -141,7 +142,15 @@ defmodule {{moduleName}}.RequestBuilder do
   end
 
   def add_param(request, :headers, key, value) do
+    put_header(request, to_string(key), scalar_to_string(value))
+  end
+
+  def add_param(request, :headers_form, key, value) do
     put_header(request, to_string(key), serialize_cookie_value(value))
+  end
+
+  def add_param(request, :headers_form_exploded, key, value) do
+    put_header(request, to_string(key), serialize_exploded_header_value(value))
   end
 
   def add_param(request, :cookie, key, value) do
@@ -229,6 +238,41 @@ defmodule {{moduleName}}.RequestBuilder do
     |> cookie_map_entries()
     |> Enum.map(fn {key, value} ->
       {cookie_leaf_to_string(key), cookie_leaf_to_string(value)}
+    end)
+  end
+
+  defp serialize_exploded_header_value(value) when is_list(value) do
+    if cookie_pair_list?(value) do
+      Enum.map_join(value, ",", fn {pair_key, pair_value} ->
+        "#{cookie_leaf_to_string(pair_key)}=#{cookie_leaf_to_string(pair_value)}"
+      end)
+    else
+      Enum.map_join(value, ",", &cookie_array_item_to_string/1)
+    end
+  end
+
+  defp serialize_exploded_header_value(value) when is_map(value) do
+    cond do
+      is_struct(value) and String.Chars.impl_for(value) != nil ->
+        scalar_to_string(value)
+
+      is_struct(value) ->
+        value
+        |> Map.from_struct()
+        |> serialize_exploded_header_map()
+
+      true ->
+        serialize_exploded_header_map(value)
+    end
+  end
+
+  defp serialize_exploded_header_value(value), do: scalar_to_string(value)
+
+  defp serialize_exploded_header_map(value) do
+    value
+    |> cookie_map_entries()
+    |> Enum.map_join(",", fn {key, value} ->
+      "#{cookie_leaf_to_string(key)}=#{cookie_leaf_to_string(value)}"
     end)
   end
 
