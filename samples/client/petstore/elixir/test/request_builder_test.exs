@@ -248,4 +248,23 @@ defmodule RequestBuilderTest do
       File.rm(path)
     end
   end
+
+  test "multipart form fields encode structured values as JSON and scalars as text" do
+    request =
+      RequestBuilder.add_optional_params(
+        %{},
+        %{:meta => :multipart_form, :count => :multipart_form, :when => :multipart_form},
+        meta: %{"a" => 1},
+        count: 42,
+        when: ~D[2026-01-02]
+      )
+
+    parts = Map.new(request.body.parts, &{&1.dispositions[:name], &1})
+
+    assert parts["meta"].body == ~s({"a":1})
+    assert parts["meta"].headers == [{:"Content-Type", "application/json"}]
+    assert parts["count"].body == "42"
+    assert parts["count"].headers == []
+    assert parts["when"].body == "2026-01-02"
+  end
 end

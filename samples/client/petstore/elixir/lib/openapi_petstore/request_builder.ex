@@ -153,7 +153,25 @@ defmodule OpenapiPetstore.RequestBuilder do
   def add_param(request, :multipart_form, name, value) do
     request
     |> Map.put_new_lazy(:body, &Tesla.Multipart.new/0)
-    |> Map.update!(:body, &Tesla.Multipart.add_field(&1, to_string(name), to_string(value)))
+    |> Map.update!(:body, &add_multipart_field(&1, to_string(name), value))
+  end
+
+  defp add_multipart_field(multipart, name, value) when is_binary(value) do
+    Tesla.Multipart.add_field(multipart, name, value)
+  end
+
+  defp add_multipart_field(multipart, name, value) when is_list(value) or is_map(value) do
+    if is_struct(value) and String.Chars.impl_for(value) != nil do
+      Tesla.Multipart.add_field(multipart, name, to_string(value))
+    else
+      Tesla.Multipart.add_field(multipart, name, JSON.encode!(value),
+        headers: [{:"Content-Type", "application/json"}]
+      )
+    end
+  end
+
+  defp add_multipart_field(multipart, name, value) do
+    Tesla.Multipart.add_field(multipart, name, to_string(value))
   end
 
   def add_param(request, :form, name, value) do

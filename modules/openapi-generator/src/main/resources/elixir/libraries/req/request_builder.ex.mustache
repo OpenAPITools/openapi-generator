@@ -327,9 +327,15 @@ defmodule {{moduleName}}.RequestBuilder do
 
   defp multipart_field(key, value) when is_binary(value), do: {to_string(key), value}
 
-  defp multipart_field(key, value) do
-    {to_string(key), {JSON.encode!(value), content_type: "application/json"}}
+  defp multipart_field(key, value) when is_list(value) or is_map(value) do
+    if is_struct(value) and String.Chars.impl_for(value) != nil do
+      {to_string(key), to_string(value)}
+    else
+      {to_string(key), {JSON.encode!(value), content_type: "application/json"}}
+    end
   end
+
+  defp multipart_field(key, value), do: {to_string(key), to_string(value)}
 
   defp put_json_body(request, value) do
     request
