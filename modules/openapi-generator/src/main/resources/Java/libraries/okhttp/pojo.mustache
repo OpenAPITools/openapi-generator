@@ -31,6 +31,19 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
+{{#isAdditionalPropertiesTrue}}
+{{^hasChildren}}
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.bind.serializer.JsonbSerializer;
+import jakarta.json.bind.serializer.SerializationContext;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
+{{/hasChildren}}
+{{/isAdditionalPropertiesTrue}}
 {{/isJsonb}}
 import java.io.IOException;
 import java.util.Arrays;
@@ -67,7 +80,10 @@ import {{invokerPackage}}.JSON;
   {{classname}}.JSON_PROPERTY_{{nameInSnakeCase}}{{^-last}},{{/-last}}
 {{/vars}}
 })
-@JsonTypeName("{{name}}")
+{{! The models/model wrapper resolves the model name even when this template is rendered
+    directly as a user-defined Model template ("files" config), where the bundle root's
+    "name" key holds the generator name instead. The bundle always carries one model. }}
+@JsonTypeName("{{#models}}{{#model}}{{name}}{{/model}}{{/models}}")
 {{/isJackson}}
 public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
 {{#serializableModel}}
@@ -662,4 +678,79 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     return JSON.getGson().toJson(this);
   }
 {{/isGson}}
+{{#isJsonb}}
+{{#isAdditionalPropertiesTrue}}
+{{^hasChildren}}
+
+  /**
+   * Custom JSON-B serializer that flattens the additional (undeclared) properties into the
+   * serialized object. JSON-B has no equivalent of Jackson's {@code @JsonAnyGetter}, so without
+   * this serializer values added through {@code putAdditionalProperty} would not be emitted
+   * under their original names. Registered with the Jsonb instance built by {@code JSON}.
+   */
+  public static class CustomJsonbSerializer implements JsonbSerializer<{{classname}}> {
+    @Override
+    public void serialize({{classname}} value, JsonGenerator generator, SerializationContext context) {
+      generator.writeStartObject();
+      {{#allVars}}
+      if (value.{{getter}}() != null) {
+        context.serialize("{{baseName}}", value.{{getter}}(), generator);
+      }
+      {{/allVars}}
+      if (value.getAdditionalProperties() != null) {
+        for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+          // a declared property always wins over an additional property with the same name
+          if (!openapiFields.contains(entry.getKey())) {
+            context.serialize(entry.getKey(), entry.getValue(), generator);
+          }
+        }
+      }
+      generator.writeEnd();
+    }
+  }
+
+  /**
+   * Custom JSON-B deserializer that captures undeclared fields into the additional-properties
+   * map. JSON-B has no equivalent of Jackson's {@code @JsonAnySetter}, so without this
+   * deserializer unknown response keys would be silently dropped. Registered with the Jsonb
+   * instance built by {@code JSON}.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<{{classname}}> {
+    @Override
+    public {{classname}} deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      JsonObject jsonObj = parser.getObject();
+      {{classname}} instance = new {{classname}}();
+      {{#allVars}}
+      {{^isReadOnly}}
+      if (jsonObj.containsKey("{{baseName}}") && jsonObj.get("{{baseName}}").getValueType() != JsonValue.ValueType.NULL) {
+        instance.{{setter}}(JSON.getJsonb().fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")));
+      }
+      {{/isReadOnly}}
+      {{/allVars}}
+      for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
+        if (!openapiFields.contains(entry.getKey())) {
+          instance.putAdditionalProperty(entry.getKey(),
+              entry.getValue().getValueType() == JsonValue.ValueType.NULL
+                  ? null
+                  : JSON.getJsonb().fromJson(entry.getValue().toString(), Object.class));
+        }
+      }
+      return instance;
+    }
+
+    private static Type fieldType(String fieldName) {
+      // walk up the hierarchy: inherited properties are declared on a parent class
+      for (Class<?> clazz = {{classname}}.class; clazz != null; clazz = clazz.getSuperclass()) {
+        try {
+          return clazz.getDeclaredField(fieldName).getGenericType();
+        } catch (NoSuchFieldException e) {
+          // not declared on this class; check the parent
+        }
+      }
+      throw new IllegalArgumentException("Field " + fieldName + " not found on {{classname}}");
+    }
+  }
+{{/hasChildren}}
+{{/isAdditionalPropertiesTrue}}
+{{/isJsonb}}
 }

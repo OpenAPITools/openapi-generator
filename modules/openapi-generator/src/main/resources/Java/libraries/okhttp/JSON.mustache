@@ -639,6 +639,28 @@ public class JSON {
             config.withAdapters(new JodaLocalDateAdapter(jodaLocalDateFormat));
         }
         {{/joda}}
+        {{! JSON-B has no any-getter/any-setter, so models with 'additionalProperties: true'
+            round-trip their undeclared fields through custom (de)serializers generated into
+            the model. The guards mirror model.mustache's dispatch: only plain pojos define
+            these inner classes. }}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^vendorExtensions.x-is-one-of-interface}}
+        {{^oneOf}}
+        {{^anyOf}}
+        {{^hasChildren}}
+        {{#isAdditionalPropertiesTrue}}
+        config.withSerializers(new {{modelPackage}}.{{classname}}.CustomJsonbSerializer());
+        config.withDeserializers(new {{modelPackage}}.{{classname}}.CustomJsonbDeserializer());
+        {{/isAdditionalPropertiesTrue}}
+        {{/hasChildren}}
+        {{/anyOf}}
+        {{/oneOf}}
+        {{/vendorExtensions.x-is-one-of-interface}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
         jsonb = JsonbBuilder.create(config);
     }
 

@@ -5124,6 +5124,25 @@ public class JavaClientCodegenTest {
         }
     }
 
+    @Test(description = "JSON-B has no any-getter/any-setter, so additionalProperties=true models "
+            + "need generated custom (de)serializers wired into the Jsonb config to round-trip "
+            + "undeclared fields")
+    public void testOkhttpJsonbAdditionalPropertiesRoundTrip() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml",
+                JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB));
+
+        assertThat(files.get("NullableClass.java")).content()
+                .contains("public static class CustomJsonbSerializer implements JsonbSerializer<NullableClass>")
+                .contains("public static class CustomJsonbDeserializer implements JsonbDeserializer<NullableClass>");
+        assertThat(files.get("JSON.java")).content()
+                .contains("config.withSerializers(new org.openapitools.client.model.NullableClass.CustomJsonbSerializer());")
+                .contains("config.withDeserializers(new org.openapitools.client.model.NullableClass.CustomJsonbDeserializer());");
+        // a model without additionalProperties must not get the custom (de)serializers
+        assertThat(files.get("Pet.java")).content().doesNotContain("CustomJsonbSerializer");
+    }
+
     @Test(description = "the setVerifyingSsl(false) insecure-TLS hook is generated unless opted out")
     public void testOkhttpInsecureTlsHookGeneratedByDefault() {
         final Map<String, File> files = generateFromContract(
