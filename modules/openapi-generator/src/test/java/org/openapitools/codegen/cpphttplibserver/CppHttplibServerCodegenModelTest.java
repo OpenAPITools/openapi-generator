@@ -294,6 +294,24 @@ public class CppHttplibServerCodegenModelTest {
         Assert.assertEquals(((List<?>) processedModel.allowableValues.get("enumVars")).size(), 3);
     }
 
+    @Test(description = "convert integer-backed top-level enum model")
+    public void integerBackedEnumModelTest() {
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.processOpts();
+
+        IntegerSchema enumSchema = new IntegerSchema();
+        enumSchema.setEnum(java.util.Arrays.asList(0, 1, 2));
+
+        final CodegenModel model = codegen.fromModel("NumericStatus", enumSchema);
+
+        Assert.assertNotNull(model);
+        Assert.assertTrue(model.isEnum, "top-level enum schemas must remain enum models");
+        // model-header.mustache's `{{^vendorExtensions.isStringEnum}}` branch renders these
+        // values unquoted, so the flag must be false for integer-backed top-level enums.
+        Assert.assertEquals(model.vendorExtensions.get("isStringEnum"), false,
+                "integer-backed top-level enums must serialize their values as raw JSON numbers");
+    }
+
     @Test(description = "convert model with nullable property")
     public void nullablePropertyTest() {
         final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
