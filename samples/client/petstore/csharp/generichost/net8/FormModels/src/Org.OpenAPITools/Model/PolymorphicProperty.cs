@@ -148,9 +148,6 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             bool? varBool = default;
@@ -158,28 +155,45 @@ namespace Org.OpenAPITools.Model
             Object varObject = default;
             List<string> list = default;
 
-            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (utf8JsonReaderOneOf.Read())
+            if (startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray)
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
+                Utf8JsonReader utf8JsonReaderBool = utf8JsonReader;
+                ClientUtils.TryDeserialize<bool?>(ref utf8JsonReaderBool, jsonSerializerOptions, out varBool);
 
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
+                Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
+                ClientUtils.TryDeserialize<string>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
 
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
+                Utf8JsonReader utf8JsonReaderObject = utf8JsonReader;
+                ClientUtils.TryDeserialize<Object>(ref utf8JsonReaderObject, jsonSerializerOptions, out varObject);
+
+                Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
+                ClientUtils.TryDeserialize<List<string>>(ref utf8JsonReaderList, jsonSerializerOptions, out list);
+            }
+            else
+            {
+                Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
+                while (utf8JsonReaderOneOf.Read())
                 {
-                    Utf8JsonReader utf8JsonReaderBool = utf8JsonReader;
-                    ClientUtils.TryDeserialize<bool?>(ref utf8JsonReaderBool, jsonSerializerOptions, out varBool);
+                    if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
+                        break;
 
-                    Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
-                    ClientUtils.TryDeserialize<string>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
+                    if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
+                        break;
 
-                    Utf8JsonReader utf8JsonReaderObject = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Object>(ref utf8JsonReaderObject, jsonSerializerOptions, out varObject);
+                    if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
+                    {
+                        Utf8JsonReader utf8JsonReaderBool = utf8JsonReader;
+                        ClientUtils.TryDeserialize<bool?>(ref utf8JsonReaderBool, jsonSerializerOptions, out varBool);
 
-                    Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
-                    ClientUtils.TryDeserialize<List<string>>(ref utf8JsonReaderList, jsonSerializerOptions, out list);
+                        Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
+                        ClientUtils.TryDeserialize<string>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
+
+                        Utf8JsonReader utf8JsonReaderObject = utf8JsonReader;
+                        ClientUtils.TryDeserialize<Object>(ref utf8JsonReaderObject, jsonSerializerOptions, out varObject);
+
+                        Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
+                        ClientUtils.TryDeserialize<List<string>>(ref utf8JsonReaderList, jsonSerializerOptions, out list);
+                    }
                 }
             }
 

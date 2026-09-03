@@ -111,30 +111,38 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             AppleReq appleReq = default;
             BananaReq bananaReq = default;
 
-            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (utf8JsonReaderOneOf.Read())
+            if (startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray)
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
+                Utf8JsonReader utf8JsonReaderAppleReq = utf8JsonReader;
+                ClientUtils.TryDeserialize<AppleReq>(ref utf8JsonReaderAppleReq, jsonSerializerOptions, out appleReq);
 
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
+                Utf8JsonReader utf8JsonReaderBananaReq = utf8JsonReader;
+                ClientUtils.TryDeserialize<BananaReq>(ref utf8JsonReaderBananaReq, jsonSerializerOptions, out bananaReq);
+            }
+            else
+            {
+                Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
+                while (utf8JsonReaderOneOf.Read())
                 {
-                    Utf8JsonReader utf8JsonReaderAppleReq = utf8JsonReader;
-                    ClientUtils.TryDeserialize<AppleReq>(ref utf8JsonReaderAppleReq, jsonSerializerOptions, out appleReq);
+                    if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
+                        break;
 
-                    Utf8JsonReader utf8JsonReaderBananaReq = utf8JsonReader;
-                    ClientUtils.TryDeserialize<BananaReq>(ref utf8JsonReaderBananaReq, jsonSerializerOptions, out bananaReq);
+                    if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
+                        break;
+
+                    if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
+                    {
+                        Utf8JsonReader utf8JsonReaderAppleReq = utf8JsonReader;
+                        ClientUtils.TryDeserialize<AppleReq>(ref utf8JsonReaderAppleReq, jsonSerializerOptions, out appleReq);
+
+                        Utf8JsonReader utf8JsonReaderBananaReq = utf8JsonReader;
+                        ClientUtils.TryDeserialize<BananaReq>(ref utf8JsonReaderBananaReq, jsonSerializerOptions, out bananaReq);
+                    }
                 }
             }
 
