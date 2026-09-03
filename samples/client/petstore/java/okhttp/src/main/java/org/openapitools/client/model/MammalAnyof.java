@@ -183,6 +183,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
 
         try {
             // validate the JSON object to see if any exception is thrown
+            Zebra.validateJsonElement(jsonElement);
             matches++;
         } catch (Exception e) {
             // deserialization failed, continue
@@ -306,6 +307,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
                     // deserialize Zebra
                     try {
                         // validate the JSON object to see if any exception is thrown
+                        Zebra.validateJsonElement(jsonElement);
                         MammalAnyof ret = new MammalAnyof();
                         ret.setActualInstance(adapterZebra.fromJsonTree(jsonElement));
                         collectUnconsumedProperties(ret, jsonElement, gson);

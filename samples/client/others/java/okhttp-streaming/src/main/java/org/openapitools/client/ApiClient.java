@@ -1131,7 +1131,15 @@ public class ApiClient {
         try {
              Response response = call.execute();
              if (!response.isSuccessful()) {
-                 throw new ApiException(response.code(), response.message(), response.headers().toMultimap(), null);
+                 String respBody = null;
+                 if (response.body() != null) {
+                     try {
+                         respBody = response.body().string();
+                     } catch (IOException e) {
+                         throw new ApiException(response.message(), e, response.code(), response.headers().toMultimap());
+                     }
+                 }
+                 throw new ApiException(response.message(), response.code(), response.headers().toMultimap(), respBody);
              }
              if (response.body() == null) {
                  return null;
@@ -1425,29 +1433,6 @@ public class ApiClient {
             if (!cookieParams.containsKey(param.getKey())) {
                 reqBuilder.addHeader("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
             }
-        }
-    }
-
-    /**
-     * Update query and header parameters based on authentication settings.
-     *
-     * @param authNames The authentications to apply
-     * @param queryParams List of query parameters
-     * @param headerParams Map of header parameters
-     * @param cookieParams Map of cookie parameters
-     * @param payload HTTP request body
-     * @param method HTTP method
-     * @param uri URI
-     * @throws org.openapitools.client.ApiException If fails to update the parameters
-     */
-    public void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams,
-                                    Map<String, String> cookieParams, byte[] payload, String method, URI uri) throws ApiException {
-        for (String authName : authNames) {
-            Authentication auth = authentications.get(authName);
-            if (auth == null) {
-                throw new RuntimeException("Authentication undefined: " + authName);
-            }
-            auth.applyToParams(queryParams, headerParams, cookieParams, payload, method, uri);
         }
     }
 

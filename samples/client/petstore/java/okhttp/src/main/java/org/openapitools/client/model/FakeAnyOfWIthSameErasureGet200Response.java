@@ -169,6 +169,11 @@ public class FakeAnyOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
             if (!jsonElement.isJsonArray()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
             }
+            for (JsonElement element : jsonElement.getAsJsonArray()) {
+                if (!element.getAsJsonPrimitive().isString()) {
+                    throw new IllegalArgumentException(String.format("Expected array items to be of type String in the JSON string but got `%s`", element.toString()));
+                }
+            }
             matches++;
         } catch (Exception e) {
             // deserialization failed, continue
@@ -231,6 +236,11 @@ public class FakeAnyOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
                         // validate the JSON object to see if any exception is thrown
                         if (!jsonElement.isJsonArray()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        for (JsonElement element : jsonElement.getAsJsonArray()) {
+                            if (!element.getAsJsonPrimitive().isString()) {
+                                throw new IllegalArgumentException(String.format("Expected array items to be of type String in the JSON string but got `%s`", element.toString()));
+                            }
                         }
                         FakeAnyOfWIthSameErasureGet200Response ret = new FakeAnyOfWIthSameErasureGet200Response();
                         ret.setActualInstance(adapterListString.fromJsonTree(jsonElement));

@@ -21,6 +21,8 @@ import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
 import jakarta.json.bind.serializer.JsonbSerializer;
@@ -232,34 +234,60 @@ public class Category {
     @Override
     public Category deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
       JsonObject jsonObj = parser.getObject();
-      Category instance = new Category();
-      if (jsonObj.containsKey("id") && jsonObj.get("id").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setId(JSON.getJsonb().fromJson(jsonObj.get("id").toString(), fieldType("id")));
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
       }
-      if (jsonObj.containsKey("name") && jsonObj.get("name").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setName(JSON.getJsonb().fromJson(jsonObj.get("name").toString(), fieldType("name")));
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
+      Category instance = new Category();
+      if (jsonObj.containsKey("id")) {
+        instance.setId(jsonObj.get("id").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("id").toString(), fieldType("id")));
+      }
+      if (jsonObj.containsKey("name")) {
+        instance.setName(jsonObj.get("name").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("name").toString(), fieldType("name")));
       }
       for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
         if (!openapiFields.contains(entry.getKey())) {
           instance.putAdditionalProperty(entry.getKey(),
               entry.getValue().getValueType() == JsonValue.ValueType.NULL
                   ? null
-                  : JSON.getJsonb().fromJson(entry.getValue().toString(), Object.class));
+                  : jsonb.fromJson(entry.getValue().toString(), Object.class));
         }
       }
       return instance;
     }
 
-    private static Type fieldType(String fieldName) {
+    private static java.lang.reflect.Field declaredField(String fieldName) {
       // walk up the hierarchy: inherited properties are declared on a parent class
       for (Class<?> clazz = Category.class; clazz != null; clazz = clazz.getSuperclass()) {
         try {
-          return clazz.getDeclaredField(fieldName).getGenericType();
+          return clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
           // not declared on this class; check the parent
         }
       }
       throw new IllegalArgumentException("Field " + fieldName + " not found on Category");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField(Category instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on Category", e);
+      }
     }
   }
 }

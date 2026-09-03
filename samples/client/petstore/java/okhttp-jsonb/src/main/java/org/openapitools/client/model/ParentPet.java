@@ -22,6 +22,14 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.json.JsonObject;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.bind.serializer.JsonbSerializer;
+import jakarta.json.bind.serializer.SerializationContext;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -82,5 +90,38 @@ public class ParentPet extends GrandparentAnimal {
   }
 
 
+
+  /**
+   * Custom JSON-B serializer for the root of a discriminated hierarchy. Yasson serializes a
+   * value against its declared type, which would drop every subtype field, and its native
+   * polymorphism support (JsonbTypeInfo) rejects hierarchies whose discriminator is also a
+   * bean property. Delegating to the polymorphism-free Jsonb instance serializes the runtime
+   * type with all of its fields; the discriminator value is carried by the property itself.
+   */
+  public static class CustomJsonbSerializer implements JsonbSerializer<ParentPet> {
+    @Override
+    public void serialize(ParentPet value, JsonGenerator generator, SerializationContext context) {
+      generator.write(jakarta.json.Json.createReader(
+          new java.io.StringReader(JSON.getPlainJsonb().toJson(value))).readValue());
+    }
+  }
+
+  /**
+   * Custom JSON-B deserializer for the root of a discriminated hierarchy: picks the subtype
+   * from the discriminator value the way the Gson variant's TypeSelector does. Binding goes
+   * through the polymorphism-free Jsonb instance so this deserializer cannot recurse into
+   * itself.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<ParentPet> {
+    @Override
+    public ParentPet deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      JsonObject jsonObj = parser.getObject();
+      String discriminatorValue = jsonObj.getString("pet_type", null);
+      if ("ChildCat".equals(discriminatorValue)) {
+        return JSON.getPlainJsonb().fromJson(jsonObj.toString(), ChildCat.class);
+      }
+      return JSON.getPlainJsonb().fromJson(jsonObj.toString(), ParentPet.class);
+    }
+  }
 }
 

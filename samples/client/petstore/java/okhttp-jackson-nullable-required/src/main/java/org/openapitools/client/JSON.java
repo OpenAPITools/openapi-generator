@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.openapitools.jackson.nullable.JsonNullableModule;
 
 
 import okio.ByteString;
@@ -70,7 +69,6 @@ public class JSON {
                 .addModule(new JavaTimeModule())
                 .addModule(new RFC3339JavaTimeModule())
                 .build();
-            mapper.registerModule(new JsonNullableModule());
         }
     }
 

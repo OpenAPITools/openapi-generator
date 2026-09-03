@@ -73,13 +73,6 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
             } catch (Exception e) {
                 // deserialization failed, continue
             }
-            // deserialize String
-            try {
-                deserialized = ctx.deserialize(String.class, jakarta.json.Json.createParser(new java.io.StringReader(jsonObject.toString())));
-                match++;
-            } catch (Exception e) {
-                // deserialization failed, continue
-            }
             if (match == 1) {
                 MyExamplePostRequest ret = new MyExamplePostRequest();
                 ret.setActualInstance(deserialized);

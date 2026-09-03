@@ -166,8 +166,8 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
         // deserialize Integer
         try {
             // validate the JSON object to see if any exception is thrown
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
             }
             matches++;
         } catch (Exception e) {
@@ -180,6 +180,11 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
             // validate the JSON object to see if any exception is thrown
             if (!jsonElement.isJsonArray()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            for (JsonElement element : jsonElement.getAsJsonArray()) {
+                if (!element.getAsJsonPrimitive().isString()) {
+                    throw new IllegalArgumentException(String.format("Expected array items to be of type String in the JSON string but got `%s`", element.toString()));
+                }
             }
             matches++;
         } catch (Exception e) {
@@ -245,8 +250,8 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
                     // deserialize Integer
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if (!jsonElement.isJsonPrimitive()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterInteger;
                         match++;
@@ -262,6 +267,11 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
                         // validate the JSON object to see if any exception is thrown
                         if (!jsonElement.isJsonArray()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        for (JsonElement element : jsonElement.getAsJsonArray()) {
+                            if (!element.getAsJsonPrimitive().isString()) {
+                                throw new IllegalArgumentException(String.format("Expected array items to be of type String in the JSON string but got `%s`", element.toString()));
+                            }
                         }
                         actualAdapter = adapterListString;
                         match++;

@@ -1575,29 +1575,6 @@ public class ApiClient {
     }
 
     /**
-     * Update query and header parameters based on authentication settings.
-     *
-     * @param authNames The authentications to apply
-     * @param queryParams List of query parameters
-     * @param headerParams Map of header parameters
-     * @param cookieParams Map of cookie parameters
-     * @param payload HTTP request body
-     * @param method HTTP method
-     * @param uri URI
-     * @throws org.openapitools.client.ApiException If fails to update the parameters
-     */
-    public void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams,
-                                    Map<String, String> cookieParams, byte[] payload, String method, URI uri) throws ApiException {
-        for (String authName : authNames) {
-            Authentication auth = authentications.get(authName);
-            if (auth == null) {
-                throw new RuntimeException("Authentication undefined: " + authName);
-            }
-            auth.applyToParams(queryParams, headerParams, cookieParams, payload, method, uri);
-        }
-    }
-
-    /**
      * Build a form-encoding request body with the given form parameters.
      *
      * @param formParams Form parameters in the form of Map

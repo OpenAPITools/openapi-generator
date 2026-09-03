@@ -23,6 +23,8 @@ import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
 import jakarta.json.bind.serializer.JsonbSerializer;
@@ -196,31 +198,55 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     @Override
     public TestInlineFreeformAdditionalPropertiesRequest deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
       JsonObject jsonObj = parser.getObject();
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
       TestInlineFreeformAdditionalPropertiesRequest instance = new TestInlineFreeformAdditionalPropertiesRequest();
-      if (jsonObj.containsKey("someProperty") && jsonObj.get("someProperty").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setSomeProperty(JSON.getJsonb().fromJson(jsonObj.get("someProperty").toString(), fieldType("someProperty")));
+      if (jsonObj.containsKey("someProperty")) {
+        instance.setSomeProperty(jsonObj.get("someProperty").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("someProperty").toString(), fieldType("someProperty")));
       }
       for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
         if (!openapiFields.contains(entry.getKey())) {
           instance.putAdditionalProperty(entry.getKey(),
               entry.getValue().getValueType() == JsonValue.ValueType.NULL
                   ? null
-                  : JSON.getJsonb().fromJson(entry.getValue().toString(), Object.class));
+                  : jsonb.fromJson(entry.getValue().toString(), Object.class));
         }
       }
       return instance;
     }
 
-    private static Type fieldType(String fieldName) {
+    private static java.lang.reflect.Field declaredField(String fieldName) {
       // walk up the hierarchy: inherited properties are declared on a parent class
       for (Class<?> clazz = TestInlineFreeformAdditionalPropertiesRequest.class; clazz != null; clazz = clazz.getSuperclass()) {
         try {
-          return clazz.getDeclaredField(fieldName).getGenericType();
+          return clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
           // not declared on this class; check the parent
         }
       }
       throw new IllegalArgumentException("Field " + fieldName + " not found on TestInlineFreeformAdditionalPropertiesRequest");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField(TestInlineFreeformAdditionalPropertiesRequest instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on TestInlineFreeformAdditionalPropertiesRequest", e);
+      }
     }
   }
 }

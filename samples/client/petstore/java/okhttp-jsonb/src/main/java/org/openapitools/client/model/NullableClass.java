@@ -31,6 +31,8 @@ import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
 import jakarta.json.bind.serializer.JsonbSerializer;
@@ -571,64 +573,110 @@ public class NullableClass {
     @Override
     public NullableClass deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
       JsonObject jsonObj = parser.getObject();
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
       NullableClass instance = new NullableClass();
-      if (jsonObj.containsKey("integer_prop") && jsonObj.get("integer_prop").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setIntegerProp(JSON.getJsonb().fromJson(jsonObj.get("integer_prop").toString(), fieldType("integerProp")));
+      if (jsonObj.containsKey("integer_prop")) {
+        instance.setIntegerProp(jsonObj.get("integer_prop").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("integer_prop").toString(), fieldType("integerProp")));
       }
-      if (jsonObj.containsKey("number_prop") && jsonObj.get("number_prop").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setNumberProp(JSON.getJsonb().fromJson(jsonObj.get("number_prop").toString(), fieldType("numberProp")));
+      if (jsonObj.containsKey("number_prop")) {
+        instance.setNumberProp(jsonObj.get("number_prop").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("number_prop").toString(), fieldType("numberProp")));
       }
-      if (jsonObj.containsKey("boolean_prop") && jsonObj.get("boolean_prop").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setBooleanProp(JSON.getJsonb().fromJson(jsonObj.get("boolean_prop").toString(), fieldType("booleanProp")));
+      if (jsonObj.containsKey("boolean_prop")) {
+        instance.setBooleanProp(jsonObj.get("boolean_prop").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("boolean_prop").toString(), fieldType("booleanProp")));
       }
-      if (jsonObj.containsKey("string_prop") && jsonObj.get("string_prop").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setStringProp(JSON.getJsonb().fromJson(jsonObj.get("string_prop").toString(), fieldType("stringProp")));
+      if (jsonObj.containsKey("string_prop")) {
+        instance.setStringProp(jsonObj.get("string_prop").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("string_prop").toString(), fieldType("stringProp")));
       }
-      if (jsonObj.containsKey("date_prop") && jsonObj.get("date_prop").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setDateProp(JSON.getJsonb().fromJson(jsonObj.get("date_prop").toString(), fieldType("dateProp")));
+      if (jsonObj.containsKey("date_prop")) {
+        instance.setDateProp(jsonObj.get("date_prop").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("date_prop").toString(), fieldType("dateProp")));
       }
-      if (jsonObj.containsKey("datetime_prop") && jsonObj.get("datetime_prop").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setDatetimeProp(JSON.getJsonb().fromJson(jsonObj.get("datetime_prop").toString(), fieldType("datetimeProp")));
+      if (jsonObj.containsKey("datetime_prop")) {
+        instance.setDatetimeProp(jsonObj.get("datetime_prop").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("datetime_prop").toString(), fieldType("datetimeProp")));
       }
-      if (jsonObj.containsKey("array_nullable_prop") && jsonObj.get("array_nullable_prop").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setArrayNullableProp(JSON.getJsonb().fromJson(jsonObj.get("array_nullable_prop").toString(), fieldType("arrayNullableProp")));
+      if (jsonObj.containsKey("array_nullable_prop")) {
+        instance.setArrayNullableProp(jsonObj.get("array_nullable_prop").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("array_nullable_prop").toString(), fieldType("arrayNullableProp")));
       }
-      if (jsonObj.containsKey("array_and_items_nullable_prop") && jsonObj.get("array_and_items_nullable_prop").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setArrayAndItemsNullableProp(JSON.getJsonb().fromJson(jsonObj.get("array_and_items_nullable_prop").toString(), fieldType("arrayAndItemsNullableProp")));
+      if (jsonObj.containsKey("array_and_items_nullable_prop")) {
+        instance.setArrayAndItemsNullableProp(jsonObj.get("array_and_items_nullable_prop").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("array_and_items_nullable_prop").toString(), fieldType("arrayAndItemsNullableProp")));
       }
-      if (jsonObj.containsKey("array_items_nullable") && jsonObj.get("array_items_nullable").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setArrayItemsNullable(JSON.getJsonb().fromJson(jsonObj.get("array_items_nullable").toString(), fieldType("arrayItemsNullable")));
+      if (jsonObj.containsKey("array_items_nullable")) {
+        instance.setArrayItemsNullable(jsonObj.get("array_items_nullable").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("array_items_nullable").toString(), fieldType("arrayItemsNullable")));
       }
-      if (jsonObj.containsKey("object_nullable_prop") && jsonObj.get("object_nullable_prop").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setObjectNullableProp(JSON.getJsonb().fromJson(jsonObj.get("object_nullable_prop").toString(), fieldType("objectNullableProp")));
+      if (jsonObj.containsKey("object_nullable_prop")) {
+        instance.setObjectNullableProp(jsonObj.get("object_nullable_prop").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("object_nullable_prop").toString(), fieldType("objectNullableProp")));
       }
-      if (jsonObj.containsKey("object_and_items_nullable_prop") && jsonObj.get("object_and_items_nullable_prop").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setObjectAndItemsNullableProp(JSON.getJsonb().fromJson(jsonObj.get("object_and_items_nullable_prop").toString(), fieldType("objectAndItemsNullableProp")));
+      if (jsonObj.containsKey("object_and_items_nullable_prop")) {
+        instance.setObjectAndItemsNullableProp(jsonObj.get("object_and_items_nullable_prop").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("object_and_items_nullable_prop").toString(), fieldType("objectAndItemsNullableProp")));
       }
-      if (jsonObj.containsKey("object_items_nullable") && jsonObj.get("object_items_nullable").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setObjectItemsNullable(JSON.getJsonb().fromJson(jsonObj.get("object_items_nullable").toString(), fieldType("objectItemsNullable")));
+      if (jsonObj.containsKey("object_items_nullable")) {
+        instance.setObjectItemsNullable(jsonObj.get("object_items_nullable").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("object_items_nullable").toString(), fieldType("objectItemsNullable")));
       }
       for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
         if (!openapiFields.contains(entry.getKey())) {
           instance.putAdditionalProperty(entry.getKey(),
               entry.getValue().getValueType() == JsonValue.ValueType.NULL
                   ? null
-                  : JSON.getJsonb().fromJson(entry.getValue().toString(), Object.class));
+                  : jsonb.fromJson(entry.getValue().toString(), Object.class));
         }
       }
       return instance;
     }
 
-    private static Type fieldType(String fieldName) {
+    private static java.lang.reflect.Field declaredField(String fieldName) {
       // walk up the hierarchy: inherited properties are declared on a parent class
       for (Class<?> clazz = NullableClass.class; clazz != null; clazz = clazz.getSuperclass()) {
         try {
-          return clazz.getDeclaredField(fieldName).getGenericType();
+          return clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
           // not declared on this class; check the parent
         }
       }
       throw new IllegalArgumentException("Field " + fieldName + " not found on NullableClass");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField(NullableClass instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on NullableClass", e);
+      }
     }
   }
 }

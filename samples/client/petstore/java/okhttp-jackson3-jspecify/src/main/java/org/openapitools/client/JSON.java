@@ -69,6 +69,7 @@ public class JSON {
                 .enable(EnumFeature.WRITE_ENUMS_USING_TO_STRING)
                 .enable(EnumFeature.READ_ENUMS_USING_TO_STRING)
                 .defaultDateFormat(new RFC3339DateFormat());
+            jsonMapperBuilder.addModule(new RFC3339JavaTimeModule());
             mapper = jsonMapperBuilder.build();
         }
     }

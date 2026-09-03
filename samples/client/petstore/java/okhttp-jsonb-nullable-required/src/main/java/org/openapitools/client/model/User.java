@@ -21,6 +21,8 @@ import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
 import jakarta.json.bind.serializer.JsonbSerializer;
@@ -412,52 +414,90 @@ public class User {
     @Override
     public User deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
       JsonObject jsonObj = parser.getObject();
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
       User instance = new User();
-      if (jsonObj.containsKey("id") && jsonObj.get("id").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setId(JSON.getJsonb().fromJson(jsonObj.get("id").toString(), fieldType("id")));
+      if (jsonObj.containsKey("id")) {
+        instance.setId(jsonObj.get("id").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("id").toString(), fieldType("id")));
       }
-      if (jsonObj.containsKey("username") && jsonObj.get("username").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setUsername(JSON.getJsonb().fromJson(jsonObj.get("username").toString(), fieldType("username")));
+      if (jsonObj.containsKey("username")) {
+        instance.setUsername(jsonObj.get("username").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("username").toString(), fieldType("username")));
       }
-      if (jsonObj.containsKey("firstName") && jsonObj.get("firstName").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setFirstName(JSON.getJsonb().fromJson(jsonObj.get("firstName").toString(), fieldType("firstName")));
+      if (jsonObj.containsKey("firstName")) {
+        instance.setFirstName(jsonObj.get("firstName").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("firstName").toString(), fieldType("firstName")));
       }
-      if (jsonObj.containsKey("lastName") && jsonObj.get("lastName").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setLastName(JSON.getJsonb().fromJson(jsonObj.get("lastName").toString(), fieldType("lastName")));
+      if (jsonObj.containsKey("lastName")) {
+        instance.setLastName(jsonObj.get("lastName").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("lastName").toString(), fieldType("lastName")));
       }
-      if (jsonObj.containsKey("email") && jsonObj.get("email").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setEmail(JSON.getJsonb().fromJson(jsonObj.get("email").toString(), fieldType("email")));
+      if (jsonObj.containsKey("email")) {
+        instance.setEmail(jsonObj.get("email").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("email").toString(), fieldType("email")));
       }
-      if (jsonObj.containsKey("password") && jsonObj.get("password").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setPassword(JSON.getJsonb().fromJson(jsonObj.get("password").toString(), fieldType("password")));
+      if (jsonObj.containsKey("password")) {
+        instance.setPassword(jsonObj.get("password").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("password").toString(), fieldType("password")));
       }
-      if (jsonObj.containsKey("phone") && jsonObj.get("phone").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setPhone(JSON.getJsonb().fromJson(jsonObj.get("phone").toString(), fieldType("phone")));
+      if (jsonObj.containsKey("phone")) {
+        instance.setPhone(jsonObj.get("phone").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("phone").toString(), fieldType("phone")));
       }
-      if (jsonObj.containsKey("userStatus") && jsonObj.get("userStatus").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setUserStatus(JSON.getJsonb().fromJson(jsonObj.get("userStatus").toString(), fieldType("userStatus")));
+      if (jsonObj.containsKey("userStatus")) {
+        instance.setUserStatus(jsonObj.get("userStatus").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("userStatus").toString(), fieldType("userStatus")));
       }
       for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
         if (!openapiFields.contains(entry.getKey())) {
           instance.putAdditionalProperty(entry.getKey(),
               entry.getValue().getValueType() == JsonValue.ValueType.NULL
                   ? null
-                  : JSON.getJsonb().fromJson(entry.getValue().toString(), Object.class));
+                  : jsonb.fromJson(entry.getValue().toString(), Object.class));
         }
       }
       return instance;
     }
 
-    private static Type fieldType(String fieldName) {
+    private static java.lang.reflect.Field declaredField(String fieldName) {
       // walk up the hierarchy: inherited properties are declared on a parent class
       for (Class<?> clazz = User.class; clazz != null; clazz = clazz.getSuperclass()) {
         try {
-          return clazz.getDeclaredField(fieldName).getGenericType();
+          return clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
           // not declared on this class; check the parent
         }
       }
       throw new IllegalArgumentException("Field " + fieldName + " not found on User");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField(User instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on User", e);
+      }
     }
   }
 }

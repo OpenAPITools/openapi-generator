@@ -67,8 +67,8 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
         // deserialize String
         try {
             // validate the JSON object to see if any exception is thrown
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+            if (!jsonElement.getAsJsonPrimitive().isString()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
             }
             matches++;
         } catch (Exception e) {
@@ -79,8 +79,8 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
         // deserialize Integer
         try {
             // validate the JSON object to see if any exception is thrown
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
             }
             matches++;
         } catch (Exception e) {
@@ -142,8 +142,8 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
                     // deserialize String
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if (!jsonElement.isJsonPrimitive()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+                        if (!jsonElement.getAsJsonPrimitive().isString()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterString;
                         match++;
@@ -157,8 +157,8 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
                     // deserialize Integer
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if (!jsonElement.isJsonPrimitive()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterInteger;
                         match++;

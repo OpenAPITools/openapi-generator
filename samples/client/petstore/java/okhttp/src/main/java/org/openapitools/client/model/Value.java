@@ -177,6 +177,12 @@ public class Value extends AbstractOpenApiSchema {
         // deserialize List<Scalar>
         try {
             // validate the JSON object to see if any exception is thrown
+            if (!jsonElement.isJsonArray()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            for (JsonElement element : jsonElement.getAsJsonArray()) {
+                Scalar.validateJsonElement(element);
+            }
             matches++;
         } catch (Exception e) {
             // deserialization failed, continue
@@ -254,6 +260,12 @@ public class Value extends AbstractOpenApiSchema {
                     // deserialize List<Scalar>
                     try {
                         // validate the JSON object to see if any exception is thrown
+                        if (!jsonElement.isJsonArray()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        for (JsonElement element : jsonElement.getAsJsonArray()) {
+                            Scalar.validateJsonElement(element);
+                        }
                         actualAdapter = adapterListScalar;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'List<Scalar>'");

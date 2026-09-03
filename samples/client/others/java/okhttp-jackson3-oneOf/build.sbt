@@ -14,7 +14,6 @@ lazy val root = (project in file(".")).
       "com.squareup.okhttp3" % "logging-interceptor" % "5.4.0",
       "tools.jackson.core" % "jackson-core" % "3.2.1",
       "tools.jackson.core" % "jackson-databind" % "3.2.1",
-      "org.openapitools" % "jackson-databind-nullable" % "0.2.11",
       "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5",
       "org.junit.jupiter" % "junit-jupiter-api" % "5.10.3" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"

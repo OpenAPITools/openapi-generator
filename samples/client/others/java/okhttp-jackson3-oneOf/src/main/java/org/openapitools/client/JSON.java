@@ -26,7 +26,6 @@ import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.module.SimpleModule;
 import tools.jackson.databind.cfg.DateTimeFeature;
 import tools.jackson.databind.cfg.EnumFeature;
-import org.openapitools.jackson.nullable.JsonNullableJackson3Module;
 
 
 import okio.ByteString;
@@ -70,7 +69,7 @@ public class JSON {
                 .enable(EnumFeature.WRITE_ENUMS_USING_TO_STRING)
                 .enable(EnumFeature.READ_ENUMS_USING_TO_STRING)
                 .defaultDateFormat(new RFC3339DateFormat());
-            jsonMapperBuilder.addModule(new JsonNullableJackson3Module());
+            jsonMapperBuilder.addModule(new RFC3339JavaTimeModule());
             mapper = jsonMapperBuilder.build();
         }
     }

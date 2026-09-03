@@ -76,6 +76,12 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
         // deserialize List<@Valid OneOf1>
         try {
             // validate the JSON object to see if any exception is thrown
+            if (!jsonElement.isJsonArray()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            for (JsonElement element : jsonElement.getAsJsonArray()) {
+                OneOf1.validateJsonElement(element);
+            }
             matches++;
         } catch (Exception e) {
             // deserialization failed, continue
@@ -147,6 +153,12 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
                     // deserialize List<@Valid OneOf1>
                     try {
                         // validate the JSON object to see if any exception is thrown
+                        if (!jsonElement.isJsonArray()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        for (JsonElement element : jsonElement.getAsJsonArray()) {
+                            OneOf1.validateJsonElement(element);
+                        }
                         actualAdapter = adapterListOneOf1;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'List<@Valid OneOf1>'");

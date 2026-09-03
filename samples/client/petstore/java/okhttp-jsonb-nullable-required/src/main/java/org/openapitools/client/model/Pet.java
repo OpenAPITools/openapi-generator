@@ -26,6 +26,8 @@ import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
 import jakarta.json.bind.serializer.JsonbSerializer;
@@ -427,46 +429,80 @@ public class Pet {
     @Override
     public Pet deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
       JsonObject jsonObj = parser.getObject();
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
       Pet instance = new Pet();
-      if (jsonObj.containsKey("id") && jsonObj.get("id").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setId(JSON.getJsonb().fromJson(jsonObj.get("id").toString(), fieldType("id")));
+      if (jsonObj.containsKey("id")) {
+        instance.setId(jsonObj.get("id").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("id").toString(), fieldType("id")));
       }
-      if (jsonObj.containsKey("category") && jsonObj.get("category").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setCategory(JSON.getJsonb().fromJson(jsonObj.get("category").toString(), fieldType("category")));
+      if (jsonObj.containsKey("category")) {
+        instance.setCategory(jsonObj.get("category").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("category").toString(), fieldType("category")));
       }
-      if (jsonObj.containsKey("name") && jsonObj.get("name").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setName(JSON.getJsonb().fromJson(jsonObj.get("name").toString(), fieldType("name")));
+      if (jsonObj.containsKey("name")) {
+        instance.setName(jsonObj.get("name").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("name").toString(), fieldType("name")));
       }
-      if (jsonObj.containsKey("photoUrls") && jsonObj.get("photoUrls").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setPhotoUrls(JSON.getJsonb().fromJson(jsonObj.get("photoUrls").toString(), fieldType("photoUrls")));
+      if (jsonObj.containsKey("photoUrls")) {
+        instance.setPhotoUrls(jsonObj.get("photoUrls").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("photoUrls").toString(), fieldType("photoUrls")));
       }
-      if (jsonObj.containsKey("tags") && jsonObj.get("tags").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setTags(JSON.getJsonb().fromJson(jsonObj.get("tags").toString(), fieldType("tags")));
+      if (jsonObj.containsKey("tags")) {
+        instance.setTags(jsonObj.get("tags").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("tags").toString(), fieldType("tags")));
       }
-      if (jsonObj.containsKey("status") && jsonObj.get("status").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setStatus(JSON.getJsonb().fromJson(jsonObj.get("status").toString(), fieldType("status")));
+      if (jsonObj.containsKey("status")) {
+        instance.setStatus(jsonObj.get("status").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("status").toString(), fieldType("status")));
       }
       for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
         if (!openapiFields.contains(entry.getKey())) {
           instance.putAdditionalProperty(entry.getKey(),
               entry.getValue().getValueType() == JsonValue.ValueType.NULL
                   ? null
-                  : JSON.getJsonb().fromJson(entry.getValue().toString(), Object.class));
+                  : jsonb.fromJson(entry.getValue().toString(), Object.class));
         }
       }
       return instance;
     }
 
-    private static Type fieldType(String fieldName) {
+    private static java.lang.reflect.Field declaredField(String fieldName) {
       // walk up the hierarchy: inherited properties are declared on a parent class
       for (Class<?> clazz = Pet.class; clazz != null; clazz = clazz.getSuperclass()) {
         try {
-          return clazz.getDeclaredField(fieldName).getGenericType();
+          return clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
           // not declared on this class; check the parent
         }
       }
       throw new IllegalArgumentException("Field " + fieldName + " not found on Pet");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField(Pet instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on Pet", e);
+      }
     }
   }
 }

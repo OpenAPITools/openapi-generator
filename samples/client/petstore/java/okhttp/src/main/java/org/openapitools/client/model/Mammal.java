@@ -201,6 +201,7 @@ public class Mammal extends AbstractOpenApiSchema {
         // deserialize Zebra
         try {
             // validate the JSON object to see if any exception is thrown
+            Zebra.validateJsonElement(jsonElement);
             matches++;
         } catch (Exception e) {
             // deserialization failed, continue
@@ -318,6 +319,7 @@ public class Mammal extends AbstractOpenApiSchema {
                     // deserialize Zebra
                     try {
                         // validate the JSON object to see if any exception is thrown
+                        Zebra.validateJsonElement(jsonElement);
                         actualAdapter = adapterZebra;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Zebra'");

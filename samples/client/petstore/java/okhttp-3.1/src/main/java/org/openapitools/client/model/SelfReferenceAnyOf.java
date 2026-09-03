@@ -163,8 +163,8 @@ public class SelfReferenceAnyOf extends AbstractOpenApiSchema {
 
         try {
             // validate the JSON object to see if any exception is thrown
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+            if (!jsonElement.getAsJsonPrimitive().isString()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
             }
             matches++;
         } catch (Exception e) {
@@ -174,8 +174,8 @@ public class SelfReferenceAnyOf extends AbstractOpenApiSchema {
 
         try {
             // validate the JSON object to see if any exception is thrown
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+            if (!jsonElement.getAsJsonPrimitive().isBoolean()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type Boolean in the JSON string but got `%s`", jsonElement.toString()));
             }
             matches++;
         } catch (Exception e) {
@@ -239,8 +239,8 @@ public class SelfReferenceAnyOf extends AbstractOpenApiSchema {
                     // deserialize String
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if (!jsonElement.isJsonPrimitive()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+                        if (!jsonElement.getAsJsonPrimitive().isString()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         SelfReferenceAnyOf ret = new SelfReferenceAnyOf();
                         ret.setActualInstance(adapterString.fromJsonTree(jsonElement));
@@ -255,8 +255,8 @@ public class SelfReferenceAnyOf extends AbstractOpenApiSchema {
                     // deserialize Boolean
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if (!jsonElement.isJsonPrimitive()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+                        if (!jsonElement.getAsJsonPrimitive().isBoolean()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type Boolean in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         SelfReferenceAnyOf ret = new SelfReferenceAnyOf();
                         ret.setActualInstance(adapterBoolean.fromJsonTree(jsonElement));

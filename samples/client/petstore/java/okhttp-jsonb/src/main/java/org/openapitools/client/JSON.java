@@ -49,7 +49,8 @@ import java.util.HashMap;
  * A JSON utility class
  */
 public class JSON {
-    private static Jsonb jsonb;
+    private static volatile Jsonb jsonb;
+    private static volatile Jsonb plainJsonb;
     private static DateFormat dateFormat;
     private static DateFormat sqlDateFormat;
     private static DateTimeFormatter offsetDateTimeFormat;
@@ -102,6 +103,17 @@ public class JSON {
         return jsonb;
     }
 
+    /**
+     * The Jsonb instance without the polymorphism (de)serializers of the discriminated
+     * hierarchy roots. The generated model classes delegate concrete subtype binding through
+     * it; application code should use {@link #getJsonb()}.
+     *
+     * @return the polymorphism-free Jsonb instance
+     */
+    public static Jsonb getPlainJsonb() {
+        return plainJsonb;
+    }
+
     public static void setJsonb(Jsonb jsonb) {
         JSON.jsonb = jsonb;
     }
@@ -138,6 +150,13 @@ public class JSON {
         config.withDeserializers(new org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest.CustomJsonbDeserializer());
         config.withSerializers(new org.openapitools.client.model.Zebra.CustomJsonbSerializer());
         config.withDeserializers(new org.openapitools.client.model.Zebra.CustomJsonbDeserializer());
+        plainJsonb = JsonbBuilder.create(config);
+        config.withSerializers(new org.openapitools.client.model.Animal.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Animal.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.GrandparentAnimal.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.GrandparentAnimal.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ParentPet.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ParentPet.CustomJsonbDeserializer());
         jsonb = JsonbBuilder.create(config);
     }
 
@@ -280,7 +299,9 @@ public class JSON {
 
     public static boolean isInstanceOf(Class<?> type, Object instance, Set<Class<?>> visited) {
         if (instance == null) {
-            return true;
+            // null never matches a concrete schema type; nullable composed schemas accept
+            // null in setActualInstance before consulting this method
+            return false;
         }
         if (type.isInstance(instance)) {
             return true;

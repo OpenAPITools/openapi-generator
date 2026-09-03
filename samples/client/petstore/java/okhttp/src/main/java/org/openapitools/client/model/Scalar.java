@@ -167,6 +167,7 @@ public class Scalar extends AbstractOpenApiSchema {
         // deserialize UUID
         try {
             // validate the JSON object to see if any exception is thrown
+            UUID.fromString(jsonElement.getAsString());
             matches++;
         } catch (Exception e) {
             // deserialization failed, continue
@@ -176,8 +177,8 @@ public class Scalar extends AbstractOpenApiSchema {
         // deserialize String
         try {
             // validate the JSON object to see if any exception is thrown
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+            if (!jsonElement.getAsJsonPrimitive().isString()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
             }
             matches++;
         } catch (Exception e) {
@@ -188,6 +189,9 @@ public class Scalar extends AbstractOpenApiSchema {
         // deserialize BigDecimal
         try {
             // validate the JSON object to see if any exception is thrown
+            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+            }
             matches++;
         } catch (Exception e) {
             // deserialization failed, continue
@@ -197,8 +201,8 @@ public class Scalar extends AbstractOpenApiSchema {
         // deserialize Boolean
         try {
             // validate the JSON object to see if any exception is thrown
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+            if (!jsonElement.getAsJsonPrimitive().isBoolean()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type Boolean in the JSON string but got `%s`", jsonElement.toString()));
             }
             matches++;
         } catch (Exception e) {
@@ -273,6 +277,7 @@ public class Scalar extends AbstractOpenApiSchema {
                     // deserialize UUID
                     try {
                         // validate the JSON object to see if any exception is thrown
+                        UUID.fromString(jsonElement.getAsString());
                         actualAdapter = adapterUUID;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'UUID'");
@@ -285,8 +290,8 @@ public class Scalar extends AbstractOpenApiSchema {
                     // deserialize String
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if (!jsonElement.isJsonPrimitive()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+                        if (!jsonElement.getAsJsonPrimitive().isString()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterString;
                         match++;
@@ -300,6 +305,9 @@ public class Scalar extends AbstractOpenApiSchema {
                     // deserialize BigDecimal
                     try {
                         // validate the JSON object to see if any exception is thrown
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                        }
                         actualAdapter = adapterBigDecimal;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'BigDecimal'");
@@ -312,8 +320,8 @@ public class Scalar extends AbstractOpenApiSchema {
                     // deserialize Boolean
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if (!jsonElement.isJsonPrimitive()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+                        if (!jsonElement.getAsJsonPrimitive().isBoolean()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type Boolean in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterBoolean;
                         match++;

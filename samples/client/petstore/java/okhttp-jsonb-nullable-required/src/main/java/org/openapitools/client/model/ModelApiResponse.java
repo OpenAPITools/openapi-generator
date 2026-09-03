@@ -21,6 +21,8 @@ import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
 import jakarta.json.bind.serializer.JsonbSerializer;
@@ -262,37 +264,65 @@ public class ModelApiResponse {
     @Override
     public ModelApiResponse deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
       JsonObject jsonObj = parser.getObject();
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
       ModelApiResponse instance = new ModelApiResponse();
-      if (jsonObj.containsKey("code") && jsonObj.get("code").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setCode(JSON.getJsonb().fromJson(jsonObj.get("code").toString(), fieldType("code")));
+      if (jsonObj.containsKey("code")) {
+        instance.setCode(jsonObj.get("code").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("code").toString(), fieldType("code")));
       }
-      if (jsonObj.containsKey("type") && jsonObj.get("type").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setType(JSON.getJsonb().fromJson(jsonObj.get("type").toString(), fieldType("type")));
+      if (jsonObj.containsKey("type")) {
+        instance.setType(jsonObj.get("type").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("type").toString(), fieldType("type")));
       }
-      if (jsonObj.containsKey("message") && jsonObj.get("message").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setMessage(JSON.getJsonb().fromJson(jsonObj.get("message").toString(), fieldType("message")));
+      if (jsonObj.containsKey("message")) {
+        instance.setMessage(jsonObj.get("message").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("message").toString(), fieldType("message")));
       }
       for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
         if (!openapiFields.contains(entry.getKey())) {
           instance.putAdditionalProperty(entry.getKey(),
               entry.getValue().getValueType() == JsonValue.ValueType.NULL
                   ? null
-                  : JSON.getJsonb().fromJson(entry.getValue().toString(), Object.class));
+                  : jsonb.fromJson(entry.getValue().toString(), Object.class));
         }
       }
       return instance;
     }
 
-    private static Type fieldType(String fieldName) {
+    private static java.lang.reflect.Field declaredField(String fieldName) {
       // walk up the hierarchy: inherited properties are declared on a parent class
       for (Class<?> clazz = ModelApiResponse.class; clazz != null; clazz = clazz.getSuperclass()) {
         try {
-          return clazz.getDeclaredField(fieldName).getGenericType();
+          return clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
           // not declared on this class; check the parent
         }
       }
       throw new IllegalArgumentException("Field " + fieldName + " not found on ModelApiResponse");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField(ModelApiResponse instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on ModelApiResponse", e);
+      }
     }
   }
 }

@@ -30,6 +30,8 @@ import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
 import jakarta.json.bind.serializer.JsonbSerializer;
@@ -298,40 +300,70 @@ public class Drawing {
     @Override
     public Drawing deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
       JsonObject jsonObj = parser.getObject();
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
       Drawing instance = new Drawing();
-      if (jsonObj.containsKey("mainShape") && jsonObj.get("mainShape").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setMainShape(JSON.getJsonb().fromJson(jsonObj.get("mainShape").toString(), fieldType("mainShape")));
+      if (jsonObj.containsKey("mainShape")) {
+        instance.setMainShape(jsonObj.get("mainShape").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("mainShape").toString(), fieldType("mainShape")));
       }
-      if (jsonObj.containsKey("shapeOrNull") && jsonObj.get("shapeOrNull").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setShapeOrNull(JSON.getJsonb().fromJson(jsonObj.get("shapeOrNull").toString(), fieldType("shapeOrNull")));
+      if (jsonObj.containsKey("shapeOrNull")) {
+        instance.setShapeOrNull(jsonObj.get("shapeOrNull").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("shapeOrNull").toString(), fieldType("shapeOrNull")));
       }
-      if (jsonObj.containsKey("nullableShape") && jsonObj.get("nullableShape").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setNullableShape(JSON.getJsonb().fromJson(jsonObj.get("nullableShape").toString(), fieldType("nullableShape")));
+      if (jsonObj.containsKey("nullableShape")) {
+        instance.setNullableShape(jsonObj.get("nullableShape").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("nullableShape").toString(), fieldType("nullableShape")));
       }
-      if (jsonObj.containsKey("shapes") && jsonObj.get("shapes").getValueType() != JsonValue.ValueType.NULL) {
-        instance.setShapes(JSON.getJsonb().fromJson(jsonObj.get("shapes").toString(), fieldType("shapes")));
+      if (jsonObj.containsKey("shapes")) {
+        instance.setShapes(jsonObj.get("shapes").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("shapes").toString(), fieldType("shapes")));
       }
       for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
         if (!openapiFields.contains(entry.getKey())) {
           instance.putAdditionalProperty(entry.getKey(),
               entry.getValue().getValueType() == JsonValue.ValueType.NULL
                   ? null
-                  : JSON.getJsonb().fromJson(entry.getValue().toString(), Object.class));
+                  : jsonb.fromJson(entry.getValue().toString(), Object.class));
         }
       }
       return instance;
     }
 
-    private static Type fieldType(String fieldName) {
+    private static java.lang.reflect.Field declaredField(String fieldName) {
       // walk up the hierarchy: inherited properties are declared on a parent class
       for (Class<?> clazz = Drawing.class; clazz != null; clazz = clazz.getSuperclass()) {
         try {
-          return clazz.getDeclaredField(fieldName).getGenericType();
+          return clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
           // not declared on this class; check the parent
         }
       }
       throw new IllegalArgumentException("Field " + fieldName + " not found on Drawing");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField(Drawing instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on Drawing", e);
+      }
     }
   }
 }

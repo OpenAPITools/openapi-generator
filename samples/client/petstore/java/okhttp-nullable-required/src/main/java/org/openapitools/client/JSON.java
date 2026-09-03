@@ -65,6 +65,11 @@ public class JSON {
     private static ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
     public JSON() {
+        if (gson != null) {
+            // the shared static Gson is already built; rebuilding would discard a
+            // customization installed through setGson()
+            return;
+        }
         GsonFireBuilder fireBuilder = new GsonFireBuilder();
         GsonBuilder builder = fireBuilder.createGsonBuilder();
         builder.registerTypeAdapter(Date.class, dateTypeAdapter);
@@ -140,7 +145,9 @@ public class JSON {
 
     public static boolean isInstanceOf(Class<?> type, Object instance, Set<Class<?>> visited) {
         if (instance == null) {
-            return true;
+            // null never matches a concrete schema type; nullable composed schemas accept
+            // null in setActualInstance before consulting this method
+            return false;
         }
         if (type.isInstance(instance)) {
             return true;
