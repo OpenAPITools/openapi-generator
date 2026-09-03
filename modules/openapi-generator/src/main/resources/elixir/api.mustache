@@ -45,10 +45,10 @@ defmodule {{moduleName}}.Api.{{classname}} do
     optional_params = %{
 {{/-first}}
 {{#isBodyParam}}
-      :body => :body
+      :body => :body{{^-last}},{{/-last}}
 {{/isBodyParam}}
 {{^isBodyParam}}
-      {{#atom}}{{baseName}}{{/atom}} => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{^-last}},{{/-last}}
+      {{#atom}}{{baseName}}{{/atom}} => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}{{#isArray}}:headers_form{{/isArray}}{{^isArray}}{{#isMap}}{{#isExplode}}:headers_form_exploded{{/isExplode}}{{^isExplode}}:headers_form{{/isExplode}}{{/isMap}}{{^isMap}}{{#isFreeFormObject}}{{#isExplode}}:headers_form_exploded{{/isExplode}}{{^isExplode}}:headers_form{{/isExplode}}{{/isFreeFormObject}}{{^isFreeFormObject}}{{#isModel}}{{#isExplode}}:headers_form_exploded{{/isExplode}}{{^isExplode}}:headers_form{{/isExplode}}{{/isModel}}{{^isModel}}:headers{{/isModel}}{{/isFreeFormObject}}{{/isMap}}{{/isArray}}{{/isHeaderParam}}{{#isCookieParam}}{{#isExplode}}:cookie_exploded{{/isExplode}}{{^isExplode}}:cookie{{/isExplode}}{{/isCookieParam}}{{^-last}},{{/-last}}
 {{/isBodyParam}}
 {{#-last}}
     }
@@ -61,7 +61,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
       |> url("{{replacedPathName}}")
 {{#requiredParams}}
 {{^isPathParam}}
-      |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}, {{#isBodyParam}}:body{{/isBodyParam}}{{^isBodyParam}}{{#atom}}{{baseName}}{{/atom}}{{/isBodyParam}}, {{#underscored}}{{paramName}}{{/underscored}})
+      |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}{{#isArray}}:headers_form{{/isArray}}{{^isArray}}{{#isMap}}{{#isExplode}}:headers_form_exploded{{/isExplode}}{{^isExplode}}:headers_form{{/isExplode}}{{/isMap}}{{^isMap}}{{#isFreeFormObject}}{{#isExplode}}:headers_form_exploded{{/isExplode}}{{^isExplode}}:headers_form{{/isExplode}}{{/isFreeFormObject}}{{^isFreeFormObject}}{{#isModel}}{{#isExplode}}:headers_form_exploded{{/isExplode}}{{^isExplode}}:headers_form{{/isExplode}}{{/isModel}}{{^isModel}}:headers{{/isModel}}{{/isFreeFormObject}}{{/isMap}}{{/isArray}}{{/isHeaderParam}}{{#isCookieParam}}{{#isExplode}}:cookie_exploded{{/isExplode}}{{^isExplode}}:cookie{{/isExplode}}{{/isCookieParam}}, {{#isBodyParam}}:body{{/isBodyParam}}{{^isBodyParam}}{{#atom}}{{baseName}}{{/atom}}{{/isBodyParam}}, {{#underscored}}{{paramName}}{{/underscored}})
 {{/isPathParam}}
 {{/requiredParams}}
 {{#optionalParams}}
@@ -72,6 +72,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
 {{#requiresHttpcWorkaround}}
       |> ensure_body()
 {{/requiresHttpcWorkaround}}
+      |> finalize_request()
       |> Enum.into([])
 
     connection

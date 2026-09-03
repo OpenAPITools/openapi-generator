@@ -30,6 +30,7 @@ defmodule OpenapiPetstore.Api.Store do
       %{}
       |> method(:delete)
       |> url("/store/order/#{order_id}")
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -60,6 +61,7 @@ defmodule OpenapiPetstore.Api.Store do
       %{}
       |> method(:get)
       |> url("/store/inventory")
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -90,6 +92,7 @@ defmodule OpenapiPetstore.Api.Store do
       %{}
       |> method(:get)
       |> url("/store/order/#{order_id}")
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -123,6 +126,7 @@ defmodule OpenapiPetstore.Api.Store do
       |> method(:post)
       |> url("/store/order")
       |> add_param(:body, :body, order)
+      |> finalize_request()
       |> Enum.into([])
 
     connection

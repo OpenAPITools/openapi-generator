@@ -82,8 +82,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         GlobalFeature.ParameterStyling)
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism)
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie)
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath)
                 .includeDataTypeFeatures(

@@ -80,6 +80,13 @@ defmodule {{moduleName}}.RequestBuilder do
   - `key` (atom) - The name of the parameter
   - `value` (any) - The value of the parameter
 
+  Header values use OpenAPI's `simple` style. `:headers` is for scalars,
+  `:headers_form` uses `explode=false`, and `:headers_form_exploded` uses
+  `explode=true`. Arrays are comma-joined, and objects (including keyword
+  lists) are flattened into key/value pairs. Cookie values use OpenAPI's `form`
+  style: `:cookie` uses `explode=false` and `:cookie_exploded` uses `explode=true`.
+  Values are kept unencoded; nested lists or maps raise `ArgumentError`.
+
   ### Returns
 
   Map
@@ -104,9 +111,35 @@ defmodule {{moduleName}}.RequestBuilder do
     headers =
       request
       |> Map.get(:headers, [])
-      |> List.keystore(to_string(key), 0, {to_string(key), to_string(value)})
+      |> List.keystore(to_string(key), 0, {to_string(key), scalar_to_string(value)})
 
     Map.put(request, :headers, headers)
+  end
+
+  def add_param(request, :headers_form, key, value) do
+    headers =
+      request
+      |> Map.get(:headers, [])
+      |> List.keystore(to_string(key), 0, {to_string(key), serialize_cookie_value(value)})
+
+    Map.put(request, :headers, headers)
+  end
+
+  def add_param(request, :headers_form_exploded, key, value) do
+    headers =
+      request
+      |> Map.get(:headers, [])
+      |> List.keystore(to_string(key), 0, {to_string(key), serialize_exploded_header_value(value)})
+
+    Map.put(request, :headers, headers)
+  end
+
+  def add_param(request, :cookie, key, value) do
+    add_cookies(request, [{to_string(key), serialize_cookie_value(value)}])
+  end
+
+  def add_param(request, :cookie_exploded, key, value) do
+    add_cookies(request, serialize_exploded_cookie(key, value))
   end
 
   def add_param(request, :file, name, path) do
@@ -121,6 +154,154 @@ defmodule {{moduleName}}.RequestBuilder do
 
   def add_param(request, location, key, value) do
     Map.update(request, location, [{key, value}], &(&1 ++ [{key, value}]))
+  end
+
+  defp add_cookies(request, cookies) do
+    Map.update(request, :cookie, cookies, fn existing_cookies ->
+      existing_cookies ++ cookies
+    end)
+  end
+
+  defp serialize_exploded_cookie(key, value) when is_list(value) do
+    key = to_string(key)
+
+    if cookie_pair_list?(value) do
+      Enum.map(value, fn {pair_key, pair_value} ->
+        {cookie_leaf_to_string(pair_key), cookie_leaf_to_string(pair_value)}
+      end)
+    else
+      Enum.map(value, fn item ->
+        {key, cookie_array_item_to_string(item)}
+      end)
+    end
+  end
+
+  defp serialize_exploded_cookie(key, value) when is_map(value) do
+    cond do
+      is_struct(value) and String.Chars.impl_for(value) != nil ->
+        [{to_string(key), scalar_to_string(value)}]
+
+      is_struct(value) ->
+        value
+        |> Map.from_struct()
+        |> serialize_exploded_cookie_map()
+
+      true ->
+        serialize_exploded_cookie_map(value)
+    end
+  end
+
+  defp serialize_exploded_cookie(key, value) do
+    [{to_string(key), scalar_to_string(value)}]
+  end
+
+  defp serialize_exploded_cookie_map(value) do
+    value
+    |> cookie_map_entries()
+    |> Enum.map(fn {key, value} ->
+      {cookie_leaf_to_string(key), cookie_leaf_to_string(value)}
+    end)
+  end
+
+  defp serialize_exploded_header_value(value) when is_list(value) do
+    if cookie_pair_list?(value) do
+      Enum.map_join(value, ",", fn {pair_key, pair_value} ->
+        "#{cookie_leaf_to_string(pair_key)}=#{cookie_leaf_to_string(pair_value)}"
+      end)
+    else
+      Enum.map_join(value, ",", &cookie_array_item_to_string/1)
+    end
+  end
+
+  defp serialize_exploded_header_value(value) when is_map(value) do
+    cond do
+      is_struct(value) and String.Chars.impl_for(value) != nil ->
+        scalar_to_string(value)
+
+      is_struct(value) ->
+        value
+        |> Map.from_struct()
+        |> serialize_exploded_header_map()
+
+      true ->
+        serialize_exploded_header_map(value)
+    end
+  end
+
+  defp serialize_exploded_header_value(value), do: scalar_to_string(value)
+
+  defp serialize_exploded_header_map(value) do
+    value
+    |> cookie_map_entries()
+    |> Enum.map_join(",", fn {key, value} ->
+      "#{cookie_leaf_to_string(key)}=#{cookie_leaf_to_string(value)}"
+    end)
+  end
+
+  defp serialize_cookie_value(value) when is_list(value) do
+    if cookie_pair_list?(value) do
+      Enum.map_join(value, ",", fn {key, value} ->
+        "#{cookie_leaf_to_string(key)},#{cookie_leaf_to_string(value)}"
+      end)
+    else
+      Enum.map_join(value, ",", &cookie_array_item_to_string/1)
+    end
+  end
+
+  defp serialize_cookie_value(value) when is_map(value) do
+    cond do
+      is_struct(value) and String.Chars.impl_for(value) != nil ->
+        scalar_to_string(value)
+
+      is_struct(value) ->
+        value
+        |> Map.from_struct()
+        |> serialize_cookie_map()
+
+      true ->
+        serialize_cookie_map(value)
+    end
+  end
+
+  defp serialize_cookie_value(value), do: scalar_to_string(value)
+
+  defp serialize_cookie_map(value) do
+    value
+    |> cookie_map_entries()
+    |> Enum.map_join(",", fn {key, value} ->
+      "#{cookie_leaf_to_string(key)},#{cookie_leaf_to_string(value)}"
+    end)
+  end
+
+  defp cookie_map_entries(value) do
+    value
+    |> Map.to_list()
+    |> Enum.sort_by(fn {key, _value} -> cookie_leaf_to_string(key) end)
+  end
+
+  defp cookie_pair_list?(value) do
+    Enum.all?(value, fn pair -> is_tuple(pair) and tuple_size(pair) == 2 end)
+  end
+
+  defp cookie_array_item_to_string(value) when is_list(value) or is_map(value) do
+    raise ArgumentError,
+      "nested parameter values are not supported; expected scalar array items, got: #{inspect(value)}"
+  end
+
+  defp cookie_array_item_to_string(value), do: scalar_to_string(value)
+
+  defp cookie_leaf_to_string(value) when is_list(value) or is_map(value) do
+    raise ArgumentError,
+      "nested parameter values are not supported; expected a scalar leaf, got: #{inspect(value)}"
+  end
+
+  defp cookie_leaf_to_string(value), do: scalar_to_string(value)
+
+  defp scalar_to_string(value) do
+    to_string(value)
+  rescue
+    Protocol.UndefinedError ->
+      raise ArgumentError, "parameter values must contain scalar leaves, got: #{inspect(value)}"
   end
 
   @doc """
@@ -146,12 +327,51 @@ defmodule {{moduleName}}.RequestBuilder do
     Map.put_new(request, :body, "")
   end
 
+  @doc """
+  Render cookie parameters as a single `cookie` header.
+
+  Any caller-supplied `cookie` header is preserved and the generated cookies
+  are appended to it.
+  """
+  @spec finalize_request(map()) :: map()
+  def finalize_request(%{cookie: cookies} = request) when cookies != [] do
+    cookie_header = Enum.map_join(cookies, "; ", fn {key, value} -> "#{key}=#{value}" end)
+
+    headers =
+      request
+      |> Map.get(:headers, [])
+      |> append_cookie_header(cookie_header)
+
+    request
+    |> Map.put(:headers, headers)
+    |> Map.delete(:cookie)
+  end
+
+  def finalize_request(request), do: Map.delete(request, :cookie)
+
+  defp append_cookie_header(headers, cookie_header) do
+    case Enum.find_index(headers, fn {key, _} -> String.downcase(to_string(key)) == "cookie" end) do
+      nil -> [{"cookie", cookie_header} | headers]
+      index ->
+        List.update_at(headers, index, fn {key, value} ->
+          if String.trim(to_string(value)) == "" do
+            {key, cookie_header}
+          else
+            {key, "#{value}; #{cookie_header}"}
+          end
+        end)
+    end
+  end
+
   @type status_code :: :default | 100..599
   @type response_mapping :: [{status_code, false | %{} | module()}]
 
   @doc """
   Evaluate the response from a Tesla request.
   Decode the response for a Tesla request.
+
+  If no response mapping matches, a 2xx response is successful and any other
+  response is returned as an error.
 
   ### Parameters
 
@@ -179,6 +399,9 @@ defmodule {{moduleName}}.RequestBuilder do
   defp resolve_mapping(env, [{:default, struct} | tail], _), do: resolve_mapping(env, tail, struct)
 
   defp resolve_mapping(env, [_ | tail], struct), do: resolve_mapping(env, tail, struct)
+
+  defp resolve_mapping(%Tesla.Env{status: status} = env, [], nil) when status in 200..299,
+    do: {:ok, env}
 
   defp resolve_mapping(env, [], nil), do: {:error, env}
 

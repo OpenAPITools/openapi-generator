@@ -31,6 +31,7 @@ defmodule OpenapiPetstore.Api.Pet do
       |> method(:post)
       |> url("/pet")
       |> add_param(:body, :body, pet)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -68,6 +69,7 @@ defmodule OpenapiPetstore.Api.Pet do
       |> method(:delete)
       |> url("/pet/#{pet_id}")
       |> add_optional_params(optional_params, opts)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -100,6 +102,7 @@ defmodule OpenapiPetstore.Api.Pet do
       |> method(:get)
       |> url("/pet/findByStatus")
       |> add_param(:query, :status, status)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -132,6 +135,7 @@ defmodule OpenapiPetstore.Api.Pet do
       |> method(:get)
       |> url("/pet/findByTags")
       |> add_param(:query, :tags, tags)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -163,6 +167,7 @@ defmodule OpenapiPetstore.Api.Pet do
       %{}
       |> method(:get)
       |> url("/pet/#{pet_id}")
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -196,6 +201,7 @@ defmodule OpenapiPetstore.Api.Pet do
       |> method(:put)
       |> url("/pet")
       |> add_param(:body, :body, pet)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -238,6 +244,7 @@ defmodule OpenapiPetstore.Api.Pet do
       |> url("/pet/#{pet_id}")
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -278,6 +285,7 @@ defmodule OpenapiPetstore.Api.Pet do
       |> url("/pet/#{pet_id}/uploadImage")
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -316,6 +324,7 @@ defmodule OpenapiPetstore.Api.Pet do
       |> url("/fake/#{pet_id}/uploadImageWithRequiredFile")
       |> add_param(:file, :requiredFile, required_file)
       |> add_optional_params(optional_params, opts)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
