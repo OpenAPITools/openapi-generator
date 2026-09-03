@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.annotation.Nulls
-import org.openapitools.model.Category
 import org.openapitools.model.Tag
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
@@ -45,7 +44,7 @@ data class Pet(
     @field:Valid
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("category")
-    @get:JsonProperty("category") val category: Category? = null,
+    @get:JsonProperty("category") val category: com.example.mapped.Category? = null,
 
     @field:Valid
     @field:JsonSetter(nulls = Nulls.SKIP)

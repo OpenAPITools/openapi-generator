@@ -38,7 +38,8 @@ public class CodegenConstants {
 
     /**
      * Wildcard token for {@code forcedGenerateSchemas}: when this value is present in the set,
-     * all schemas are generated even if they appear in schemaMappings or importMappings.
+     * all schemas suppressed by schema mappings or type-plus-import mappings are emitted as shadow
+     * models.
      */
     public static final String FORCE_GENERATE_ALL_SCHEMAS = "*";
 

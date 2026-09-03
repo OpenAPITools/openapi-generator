@@ -49,7 +49,7 @@ import java.util.stream.Stream;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
-public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
+public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig, ForcedSchemaSupport {
 
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
@@ -124,6 +124,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected Set<String> propertyAdditionalKeywords = new HashSet<>(Arrays.asList("entries", "keys", "size", "values"));
 
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
+    @Override
+    public void clearModelNameCache() {
+        schemaKeyToModelNameCache.clear();
+        super.clearModelNameCache();
+    }
+
     @Getter @Setter
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
     @Getter

@@ -246,7 +246,12 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val schemaMappings = project.objects.mapProperty<String, String>()
 
     /**
-     * Specifies schema names that must be generated even when listed in schemaMappings or importMappings
+     * Specifies mapping-suppressed schemas to emit as isolated shadow models.
+     *
+     * Use `"*"` to include all mapping-suppressed schemas. Unmapped schemas remain in normal
+     * generation, and generated APIs and supporting-file metadata continue to use mapped classes.
+     * Supported families are Java, Groovy, Kotlin, C#, Python, Python Pydantic v1, PHP, Go client, Perl,
+     * PowerShell, R, and Ruby; other generators fail before writing files.
      */
     val forcedGenerateSchemas = project.objects.listProperty<String>()
 

@@ -398,8 +398,10 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> schemaMappings;
 
     /**
-     * A list of schema names that must be generated even when listed in schemaMappings or importMappings.
-     * Use {@code <param>*</param>} as a wildcard to force-generate all mapped schemas at once.
+     * Mapping-suppressed schemas to emit as isolated shadow models.
+     * Use {@code <param>*</param>} as a wildcard to include all mapping-suppressed schemas.
+     * Supported families are Java, Groovy, Kotlin, C#, Python, Python Pydantic v1, PHP, Go client, Perl,
+     * PowerShell, R, and Ruby; other generators fail before writing files.
      */
     @Parameter(name = "forcedGenerateSchemas", property = "openapi.generator.maven.plugin.forcedGenerateSchemas")
     private List<String> forcedGenerateSchemas;

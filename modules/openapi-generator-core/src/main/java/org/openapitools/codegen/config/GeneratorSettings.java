@@ -256,8 +256,10 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
-     * Gets the set of schema names that must be generated even when listed in schemaMappings or importMappings.
-     * Use {@code "*"} as a wildcard to force-generate all mapped schemas at once.
+     * Gets the mapping-suppressed schemas to emit as isolated shadow models.
+     * Use {@code "*"} as a wildcard to include all mapping-suppressed schemas.
+     * Supported families are Java, Groovy, Kotlin, C#, Python, Python Pydantic v1, PHP, Go client, Perl,
+     * PowerShell, R, and Ruby; other generators fail before writing files.
      *
      * @return the forced generate schemas
      */
@@ -974,9 +976,10 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
-         * Sets the {@code forcedGenerateSchemas} (schemas to generate even when listed in schemaMappings or importMappings).
-         * Use {@code "*"} as a wildcard to force-generate all mapped schemas at once.
-         * and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the mapping-suppressed schemas to emit as isolated shadow models.
+         * Use {@code "*"} as a wildcard to include all mapping-suppressed schemas.
+         * Unsupported generator families fail before writing files.
+         * Returns a reference to this Builder so that the methods can be chained together.
          *
          * @param schemas the {@code forcedGenerateSchemas} to set
          * @return a reference to this Builder
@@ -987,8 +990,9 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
-         * Adds a single schema name to {@code forcedGenerateSchemas} (schemas to generate even when listed in schemaMappings or importMappings).
-         * Use {@code "*"} as a wildcard to force-generate all mapped schemas at once.
+         * Adds a mapping-suppressed schema to emit as an isolated shadow model.
+         * Use {@code "*"} as a wildcard to include all mapping-suppressed schemas.
+         * Unsupported generator families fail before writing files.
          * Returns a reference to this Builder so that the methods can be chained together.
          *
          * @param schema the schema name to add

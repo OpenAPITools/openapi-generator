@@ -166,11 +166,22 @@ public interface CodegenConfig {
     Map<String, String> schemaMapping();
 
     /**
-     * Returns the set of schema names that must be generated even when they appear in
-     * schemaMappings or importMappings (which would normally suppress their generation).
+     * Returns the set of schema names that must be generated even when suppressed by
+     * {@code schemaMapping}, or by a {@code typeMapping} with a matching {@code importMapping}.
+     * <p>
+     * A force-generated schema is emitted as an isolated shadow model under its <em>stock</em>
+     * (unmapped) model name — as if neither {@code schemaMapping} nor {@code importMapping} applied
+     * to it — while {@code typeMapping} is still honored. Shadow models may reference one another
+     * by their stock names, but they are not added to generated APIs or the normal model metadata
+     * used by supporting files. Ordinary generated code continues to use the mapped classes.
      * <p>
      * Use {@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS} ({@code "*"}) as a wildcard
-     * to force-generate <em>all</em> mapped schemas at once.
+     * to force-generate all schemas that would otherwise be suppressed by mappings. Schemas without
+     * a suppressing mapping remain in the normal generation pass.
+     * <p>
+     * Supported generator families are Java, Groovy, Kotlin, C#, Python, Python Pydantic v1, PHP, Go
+     * client, Perl, PowerShell, R, and Ruby. Other generators reject this option before generating
+     * files.
      */
     Set<String> forcedGenerateSchemas();
 

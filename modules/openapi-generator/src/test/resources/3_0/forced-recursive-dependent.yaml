@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: forcedGenerateSchemas with recursive dependent models
+  description: >
+    Root is mapped via schemaMappings and also force-generated. When the top-level model set is
+    constrained to Root only and generateRecursiveDependentModels is enabled, Root's dependent
+    (RecursiveDependent) is reachable exclusively through Root and must still be emitted by the
+    forced-schema pass.
+  version: 1.0.0
+paths:
+  /root:
+    get:
+      operationId: getRoot
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Root'
+components:
+  schemas:
+    Root:
+      type: object
+      properties:
+        dependent:
+          $ref: '#/components/schemas/RecursiveDependent'
+    RecursiveDependent:
+      type: object
+      properties:
+        value:
+          type: string

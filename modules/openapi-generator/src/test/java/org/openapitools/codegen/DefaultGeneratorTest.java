@@ -398,10 +398,13 @@ public class DefaultGeneratorTest {
      * Verifies that a schema listed in schemaMappings is skipped by default, but is generated
      * when it also appears in forcedGenerateSchemas.
      *
-     * When a schema is in schemaMappings, the generator renames the model using the mapped value.
-     * For example, mapping "Category" -> "ExternalCategory" means the generated file is
-     * ExternalCategory.java. Part 2 verifies that this file IS written when forcedGenerateSchemas
-     * contains "Category", whereas Part 1 verifies that NO such file exists without it.
+     * A force-generated schema is emitted "as if" the schemaMapping did not exist, i.e. under its
+     * stock (unmapped) model name. For example, mapping "Category" -> "ExternalCategory" normally
+     * suppresses the model, but force-generating "Category" produces the stock Category.java (NOT
+     * ExternalCategory.java). This keeps the output valid even for fully-qualified mapping targets,
+     * whose dotted names could not be used as a class/file name. Part 2 verifies the stock file IS
+     * written when forcedGenerateSchemas contains "Category", whereas Part 1 verifies that NO model
+     * file exists without it.
      */
     @Test
     public void forcedGenerateSchemaOverridesSchemaMappingSkip() throws IOException {
@@ -439,8 +442,8 @@ public class DefaultGeneratorTest {
         }
 
         // --- Part 2: forcedGenerateSchemas must force generation despite schemaMapping ---
-        // The Java generator resolves the model name through schemaMapping (Category -> ExternalCategory),
-        // so the output file is ExternalCategory.java, not Category.java.
+        // A force-generated schema is emitted under its stock (unmapped) name, "as if" the mapping
+        // did not exist, so the output file is Category.java, not ExternalCategory.java.
         Path target2 = Files.createTempDirectory("test-forced-gen-force");
         try {
             final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -466,18 +469,22 @@ public class DefaultGeneratorTest {
             List<File> files = generator.opts(clientOptInput).generate();
 
             Assert.assertTrue(
-                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(mappedModelRelPath)),
-                    "ExternalCategory.java MUST be generated when Category is in both schemaMappings and forcedGenerateSchemas");
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(originalModelRelPath)),
+                    "Category.java (stock name) MUST be generated when Category is in both schemaMappings and forcedGenerateSchemas");
             Assert.assertTrue(
-                    new File(target2.toFile(), mappedModelRelPath).exists(),
-                    "ExternalCategory.java MUST exist on disk when forcedGenerateSchemas overrides schemaMappings");
+                    new File(target2.toFile(), originalModelRelPath).exists(),
+                    "Category.java MUST exist on disk when forcedGenerateSchemas overrides schemaMappings");
+            Assert.assertFalse(
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(mappedModelRelPath)),
+                    "ExternalCategory.java (mapped name) must NOT be generated: forced schemas bypass the mapping");
         } finally {
             target2.toFile().deleteOnExit();
         }
 
         // --- Part 3: wildcard "*" must force-generate ALL schemas suppressed by schemaMappings ---
         // Two schemas are mapped (Category->ExternalCategory, Tag->ExternalTag).
-        // Adding only "*" (FORCE_GENERATE_ALL_SCHEMAS) to forcedGenerateSchemas must cause both to be generated.
+        // Adding only "*" (FORCE_GENERATE_ALL_SCHEMAS) to forcedGenerateSchemas must cause both to be
+        // generated under their stock names (Category.java, Tag.java), bypassing the mapping.
         Path target3 = Files.createTempDirectory("test-forced-gen-wildcard");
         try {
             final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -498,24 +505,218 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            final String externalCategoryRelPath = "src/main/java/org/openapitools/client/model/ExternalCategory.java";
-            final String externalTagRelPath = "src/main/java/org/openapitools/client/model/ExternalTag.java";
+            final String categoryRelPath = "src/main/java/org/openapitools/client/model/Category.java";
+            final String tagRelPath = "src/main/java/org/openapitools/client/model/Tag.java";
 
             Assert.assertTrue(
-                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(externalCategoryRelPath)),
-                    "ExternalCategory.java MUST be generated when wildcard \"*\" is in forcedGenerateSchemas");
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(categoryRelPath)),
+                    "Category.java (stock name) MUST be generated when wildcard \"*\" is in forcedGenerateSchemas");
             Assert.assertTrue(
-                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(externalTagRelPath)),
-                    "ExternalTag.java MUST be generated when wildcard \"*\" is in forcedGenerateSchemas");
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(tagRelPath)),
+                    "Tag.java (stock name) MUST be generated when wildcard \"*\" is in forcedGenerateSchemas");
             Assert.assertTrue(
-                    new File(target3.toFile(), externalCategoryRelPath).exists(),
-                    "ExternalCategory.java MUST exist on disk when wildcard \"*\" is used");
+                    new File(target3.toFile(), categoryRelPath).exists(),
+                    "Category.java MUST exist on disk when wildcard \"*\" is used");
             Assert.assertTrue(
-                    new File(target3.toFile(), externalTagRelPath).exists(),
-                    "ExternalTag.java MUST exist on disk when wildcard \"*\" is used");
+                    new File(target3.toFile(), tagRelPath).exists(),
+                    "Tag.java MUST exist on disk when wildcard \"*\" is used");
         } finally {
             target3.toFile().deleteOnExit();
         }
+
+        // --- Part 4: typeMapping + importMapping suppression must also be bypassed ---
+        // Part 4a (control): typeMapping + importMapping alone must suppress Category in Phase 1.
+        Path target4control = Files.createTempDirectory("test-forced-gen-type-import-control");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(target4control.toAbsolutePath().toString())
+                    .addTypeMapping("Category", "ExternalCategory")
+                    .addImportMapping("ExternalCategory", "com.example.ExternalCategory");
+
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+            Assert.assertFalse(
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(originalModelRelPath)),
+                    "Category.java must NOT be generated when type/import mapping suppresses it and it is not forced");
+            Assert.assertFalse(
+                    new File(target4control.toFile(), originalModelRelPath).exists(),
+                    "Category.java must NOT exist when type/import mapping suppresses it and it is not forced");
+        } finally {
+            target4control.toFile().deleteOnExit();
+        }
+
+        // Part 4b: forcing Category must bypass the type/import mapping suppression.
+        Path target4 = Files.createTempDirectory("test-forced-gen-type-import");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(target4.toAbsolutePath().toString())
+                    .addTypeMapping("Category", "ExternalCategory")
+                    .addImportMapping("ExternalCategory", "com.example.ExternalCategory")
+                    .addForcedGenerateSchema("Category");
+
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+            Assert.assertTrue(
+                    files.stream().anyMatch(f -> f.getPath().replace('\\', '/').endsWith(originalModelRelPath)),
+                    "Category.java MUST be generated when forced generation overrides type/import mapping suppression");
+            Assert.assertTrue(
+                    new File(target4.toFile(), originalModelRelPath).exists(),
+                    "Category.java MUST exist when forced generation overrides type/import mapping suppression");
+        } finally {
+            target4.toFile().deleteOnExit();
+        }
+    }
+
+    /**
+     * Regression test: when the top-level model set is constrained and
+     * {@code generateRecursiveDependentModels} is enabled, a forced+mapped schema's dependents that
+     * are reachable only through it must still be emitted by the forced-schema pass. Previously the
+     * recursive-dependent discovery was disabled during the forced pass, silently dropping them.
+     */
+    @Test
+    public void forcedGenerateSchemaKeepsRecursiveDependentsOfMappedSchema() throws IOException {
+        final String rootRelPath = "src/main/java/org/openapitools/client/model/Root.java";
+        final String dependentRelPath = "src/main/java/org/openapitools/client/model/RecursiveDependent.java";
+        final String mappedRootRelPath = "src/main/java/org/openapitools/client/model/ExternalRoot.java";
+
+        Path target = Files.createTempDirectory("test-forced-gen-recursive");
+        String oldModelsProp = GlobalSettings.getProperty(CodegenConstants.MODELS);
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/forced-recursive-dependent.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString())
+                    .addSchemaMapping("Root", "ExternalRoot")
+                    .addForcedGenerateSchema("Root");
+
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, "true");
+            // Constrain the top-level model set to Root only; RecursiveDependent is reachable only
+            // through Root and must be pulled in recursively.
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "Root");
+
+            generator.opts(configurator.toClientOptInput()).generate();
+
+            Assert.assertTrue(
+                    new File(target.toFile(), rootRelPath).exists(),
+                    "Root.java (stock name) MUST be generated for the forced+mapped schema");
+            Assert.assertFalse(
+                    new File(target.toFile(), mappedRootRelPath).exists(),
+                    "ExternalRoot.java (mapped name) must NOT be generated: the forced schema bypasses the mapping");
+            Assert.assertTrue(
+                    new File(target.toFile(), dependentRelPath).exists(),
+                    "RecursiveDependent.java MUST be generated as a recursive dependent of the forced schema");
+        } finally {
+            if (oldModelsProp != null) {
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModelsProp);
+            } else {
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
+            }
+            target.toFile().deleteOnExit();
+        }
+    }
+
+    /**
+     * Regression test: when the top-level model set is constrained and a forced+mapped schema
+     * depends on another forced+mapped schema that lies outside the constrained set (reachable only
+     * as a recursive dependent), the forced-schema pass must still remove the dependent's mapping so
+     * it is emitted under its stock name and the forced-to-forced reference resolves to the stock
+     * shadow. Previously the mapping-removal set was derived from the constrained top-level keys, so
+     * the dependent kept its mapping, was skipped, and the reference pointed at the mapped class.
+     */
+    @Test
+    public void forcedGenerateSchemaEmitsForcedRecursiveDependentOutsideConstrainedModelSet() throws IOException {
+        final String rootRelPath = "src/main/java/org/openapitools/client/model/Root.java";
+        final String dependentRelPath = "src/main/java/org/openapitools/client/model/RecursiveDependent.java";
+        final String mappedRootRelPath = "src/main/java/org/openapitools/client/model/ExternalRoot.java";
+        final String mappedDependentRelPath = "src/main/java/org/openapitools/client/model/ExternalDependent.java";
+
+        Path target = Files.createTempDirectory("test-forced-gen-recursive-forced");
+        String oldModelsProp = GlobalSettings.getProperty(CodegenConstants.MODELS);
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/forced-recursive-dependent-forced.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString())
+                    .addSchemaMapping("Root", "ExternalRoot")
+                    .addSchemaMapping("RecursiveDependent", "ExternalDependent")
+                    .addForcedGenerateSchema("Root")
+                    .addForcedGenerateSchema("RecursiveDependent");
+
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, "true");
+            // Constrain the top-level model set to Root only; RecursiveDependent (itself forced and
+            // mapped) is reachable only through Root and lies outside the constrained set.
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "Root");
+
+            generator.opts(configurator.toClientOptInput()).generate();
+
+            File rootFile = new File(target.toFile(), rootRelPath);
+            Assert.assertTrue(rootFile.exists(),
+                    "Root.java (stock name) MUST be generated for the forced+mapped schema");
+            Assert.assertTrue(
+                    new File(target.toFile(), dependentRelPath).exists(),
+                    "RecursiveDependent.java (stock name) MUST be generated for the forced+mapped recursive dependent");
+            Assert.assertFalse(
+                    new File(target.toFile(), mappedRootRelPath).exists(),
+                    "ExternalRoot.java (mapped name) must NOT be generated: the forced schema bypasses the mapping");
+            Assert.assertFalse(
+                    new File(target.toFile(), mappedDependentRelPath).exists(),
+                    "ExternalDependent.java (mapped name) must NOT be generated: the forced dependent bypasses the mapping");
+
+            String rootContents = new String(Files.readAllBytes(rootFile.toPath()));
+            Assert.assertTrue(rootContents.contains("RecursiveDependent"),
+                    "Root must reference the stock shadow dependent name");
+            Assert.assertFalse(rootContents.contains("ExternalDependent"),
+                    "Root must not reference the mapped dependent name in the forced shadow pass");
+        } finally {
+            if (oldModelsProp != null) {
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModelsProp);
+            } else {
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
+            }
+            target.toFile().deleteOnExit();
+        }
+    }
+
+    @Test
+    public void forcedGenerateSchemasFailsFastForUnsupportedGenerator() {
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("clojure")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .addForcedGenerateSchema("Category");
+
+        IllegalArgumentException exception = Assert.expectThrows(
+                IllegalArgumentException.class,
+                () -> new DefaultGenerator(false).opts(configurator.toClientOptInput()).generate());
+
+        Assert.assertTrue(exception.getMessage().contains("Generator 'clojure' does not support forcedGenerateSchemas"));
     }
 
     @Test

@@ -51,7 +51,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 /**
  * <p>Mustache templates are located in {@code src/main/resources/go/}.
  */
-public class GoClientCodegen extends AbstractGoCodegen {
+public class GoClientCodegen extends AbstractGoCodegen implements ForcedSchemaSupport {
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
     @Setter protected String packageVersion = "1.0.0";
@@ -73,6 +73,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
+    @Override
+    public void clearModelNameCache() {
+        schemaKeyToModelNameCache.clear();
+        super.clearModelNameCache();
+    }
 
     public GoClientCodegen() {
         super();

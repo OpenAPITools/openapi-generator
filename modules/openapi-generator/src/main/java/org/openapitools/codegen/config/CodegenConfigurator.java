@@ -236,9 +236,13 @@ public class CodegenConfigurator {
 
     /**
      * Adds a single schema name to {@code forcedGenerateSchemas}.
-     * Schemas in this set are generated even when they appear in schemaMappings or importMappings.
+     * Mapping-suppressed schemas in this set are also emitted as isolated shadow models under their
+     * stock (unmapped) model names. APIs, ordinary models, and supporting-file metadata continue to
+     * use the mapped classes; {@code typeMapping} is preserved.
      * Use {@code "*"} ({@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS}) to force-generate
-     * all mapped schemas at once.
+     * all mapping-suppressed schemas at once. Unmapped schemas remain in normal generation.
+     * Supported generator families are Java, Groovy, Kotlin, C#, Python, Python Pydantic v1, PHP, Go
+     * client, Perl, PowerShell, R, and Ruby; other generators fail before writing files.
      */
     public CodegenConfigurator addForcedGenerateSchema(String schema) {
         this.forcedGenerateSchemas.add(schema);
@@ -249,7 +253,8 @@ public class CodegenConfigurator {
     /**
      * Replaces the entire {@code forcedGenerateSchemas} set.
      * Use {@code "*"} ({@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS}) as a wildcard
-     * to force-generate all mapped schemas at once.
+     * to force-generate all mapping-suppressed schemas at once.
+     * Unsupported generator families fail before writing files.
      */
     public CodegenConfigurator setForcedGenerateSchemas(Set<String> schemas) {
         this.forcedGenerateSchemas = schemas;
