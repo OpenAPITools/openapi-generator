@@ -35,7 +35,7 @@ defmodule RequestBuilderTest do
   test "serializes keyword-list cookie values" do
     request =
       %{}
-      |> RequestBuilder.add_param(:cookie, :id, [role: "admin", firstName: "Alex"])
+      |> RequestBuilder.add_param(:cookie, :id, role: "admin", firstName: "Alex")
       |> RequestBuilder.finalize_request()
 
     assert request == %{headers: [{"cookie", "id=role,admin,firstName,Alex"}]}
@@ -44,7 +44,7 @@ defmodule RequestBuilderTest do
   test "serializes exploded object cookie values" do
     request =
       %{}
-      |> RequestBuilder.add_param(:cookie_exploded, :id, [role: "admin", firstName: "Alex"])
+      |> RequestBuilder.add_param(:cookie_exploded, :id, role: "admin", firstName: "Alex")
       |> RequestBuilder.finalize_request()
 
     assert request == %{headers: [{"cookie", "role=admin; firstName=Alex"}]}
@@ -127,7 +127,7 @@ defmodule RequestBuilderTest do
 
   test "serializes non-exploded object header values in deterministic key order" do
     request =
-      RequestBuilder.add_param(%{}, :headers_form, :x_metadata, [role: "admin", firstName: "Alex"])
+      RequestBuilder.add_param(%{}, :headers_form, :x_metadata, role: "admin", firstName: "Alex")
 
     assert request == %{headers: [{"x_metadata", "role,admin,firstName,Alex"}]}
   end
@@ -138,7 +138,8 @@ defmodule RequestBuilderTest do
         %{},
         :headers_form_exploded,
         :x_metadata,
-        [role: "admin", firstName: "Alex"]
+        role: "admin",
+        firstName: "Alex"
       )
 
     assert request == %{headers: [{"x_metadata", "role=admin,firstName=Alex"}]}
@@ -224,5 +225,27 @@ defmodule RequestBuilderTest do
     env = %Tesla.Env{status: 500}
 
     assert RequestBuilder.evaluate_response({:ok, env}, []) == {:error, env}
+  end
+
+  test "multipart file and form field accumulate into one Tesla.Multipart body" do
+    path = Path.join(System.tmp_dir!(), "rb_multipart_#{System.unique_integer([:positive])}.txt")
+    File.write!(path, "hello")
+
+    try do
+      request =
+        RequestBuilder.add_optional_params(
+          %{},
+          %{:additionalMetadata => :multipart_form, :file => :file},
+          additionalMetadata: "meta",
+          file: path
+        )
+
+      assert %Tesla.Multipart{} = request.body
+      names = Enum.map(request.body.parts, & &1.dispositions[:name])
+      assert "additionalMetadata" in names
+      assert "file" in names
+    after
+      File.rm(path)
+    end
   end
 end

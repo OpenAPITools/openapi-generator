@@ -145,7 +145,13 @@ defmodule {{moduleName}}.RequestBuilder do
   def add_param(request, :file, name, path) do
     request
     |> Map.put_new_lazy(:body, &Tesla.Multipart.new/0)
-    |> Map.update!(:body, &(Tesla.Multipart.add_file(&1, path, name: name)))
+    |> Map.update!(:body, &Tesla.Multipart.add_file(&1, path, name: to_string(name)))
+  end
+
+  def add_param(request, :multipart_form, name, value) do
+    request
+    |> Map.put_new_lazy(:body, &Tesla.Multipart.new/0)
+    |> Map.update!(:body, &Tesla.Multipart.add_field(&1, to_string(name), to_string(value)))
   end
 
   def add_param(request, :form, name, value) do

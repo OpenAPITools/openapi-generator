@@ -275,7 +275,7 @@ defmodule OpenapiPetstore.Api.Pet do
   @spec upload_file(Tesla.Env.client, integer(), keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
   def upload_file(connection, pet_id, opts \\ []) do
     optional_params = %{
-      :additionalMetadata => :form,
+      :additionalMetadata => :multipart_form,
       :file => :file
     }
 
@@ -315,7 +315,7 @@ defmodule OpenapiPetstore.Api.Pet do
   @spec upload_file_with_required_file(Tesla.Env.client, integer(), String.t, keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
   def upload_file_with_required_file(connection, pet_id, required_file, opts \\ []) do
     optional_params = %{
-      :additionalMetadata => :form
+      :additionalMetadata => :multipart_form
     }
 
     request =
