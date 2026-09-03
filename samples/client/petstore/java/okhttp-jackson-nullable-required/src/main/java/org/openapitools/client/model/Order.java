@@ -38,7 +38,7 @@ import org.openapitools.client.JSON;
 /**
  * An order for a pets from the pet store
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 @JsonPropertyOrder({
   Order.JSON_PROPERTY_ID,
   Order.JSON_PROPERTY_PET_ID,

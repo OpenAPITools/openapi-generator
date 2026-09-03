@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
 /**
  * QuadrilateralInterface
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class QuadrilateralInterface {
   public static final String SERIALIZED_NAME_QUADRILATERAL_TYPE = "quadrilateralType";
   @JsonbProperty(SERIALIZED_NAME_QUADRILATERAL_TYPE)

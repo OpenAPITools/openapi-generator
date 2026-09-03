@@ -42,7 +42,7 @@ import org.openapitools.client.JSON;
 /**
  * to test the default value of properties
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 @JsonPropertyOrder({
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT,
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT,

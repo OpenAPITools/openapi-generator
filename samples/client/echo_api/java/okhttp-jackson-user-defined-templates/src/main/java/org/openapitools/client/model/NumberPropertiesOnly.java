@@ -35,7 +35,7 @@ import org.openapitools.client.JSON;
 /**
  * NumberPropertiesOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 @JsonPropertyOrder({
   NumberPropertiesOnly.JSON_PROPERTY_NUMBER,
   NumberPropertiesOnly.JSON_PROPERTY_FLOAT,

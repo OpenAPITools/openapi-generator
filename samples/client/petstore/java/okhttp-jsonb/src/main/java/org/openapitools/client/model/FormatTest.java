@@ -39,7 +39,7 @@ import org.openapitools.client.JSON;
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @JsonbProperty(SERIALIZED_NAME_INTEGER)

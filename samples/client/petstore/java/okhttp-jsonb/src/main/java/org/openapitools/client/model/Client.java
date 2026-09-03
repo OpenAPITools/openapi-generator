@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
 /**
  * Client
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Client {
   public static final String SERIALIZED_NAME_CLIENT = "client";
   @JsonbProperty(SERIALIZED_NAME_CLIENT)

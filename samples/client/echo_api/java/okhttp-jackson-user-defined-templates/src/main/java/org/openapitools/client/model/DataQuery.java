@@ -39,7 +39,7 @@ import org.openapitools.client.JSON;
 /**
  * DataQuery
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 @JsonPropertyOrder({
   DataQuery.JSON_PROPERTY_SUFFIX,
   DataQuery.JSON_PROPERTY_TEXT,

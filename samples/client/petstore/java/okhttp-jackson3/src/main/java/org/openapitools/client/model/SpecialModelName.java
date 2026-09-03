@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
 /**
  * SpecialModelName
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 @JsonPropertyOrder({
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME,
   SpecialModelName.JSON_PROPERTY_SPECIAL_MODEL_NAME

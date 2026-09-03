@@ -38,7 +38,7 @@ import org.openapitools.client.JSON;
  * @deprecated
  */
 @Deprecated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 @JsonPropertyOrder({
   DeprecatedObject.JSON_PROPERTY_NAME
 })

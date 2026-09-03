@@ -35,7 +35,7 @@ import org.openapitools.client.JSON;
 /**
  * FooGetDefaultResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FooGetDefaultResponse {
   public static final String SERIALIZED_NAME_STRING = "string";
   @JsonbProperty(SERIALIZED_NAME_STRING)

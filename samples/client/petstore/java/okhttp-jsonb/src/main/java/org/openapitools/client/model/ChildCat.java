@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
 /**
  * ChildCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ChildCat extends ParentPet {
   public static final String SERIALIZED_NAME_NAME = "name";
   @JsonbProperty(SERIALIZED_NAME_NAME)

@@ -42,7 +42,7 @@ import org.openapitools.client.JSON;
 /**
  * A pet for sale in the pet store
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 @JsonPropertyOrder({
   PetWithRequiredNullableCases2.JSON_PROPERTY_ID,
   PetWithRequiredNullableCases2.JSON_PROPERTY_CATEGORY,

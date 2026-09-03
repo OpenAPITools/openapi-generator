@@ -761,18 +761,9 @@ public class ApiClient {
             return params;
         }
 
-        // collectionFormat is assumed to be "csv" by default
-        String delimiter = ",";
-
-        // escape all delimiters except commas, which are URI reserved
-        // characters
-        if ("ssv".equals(collectionFormat)) {
-            delimiter = escapeString(" ");
-        } else if ("tsv".equals(collectionFormat)) {
-            delimiter = escapeString("\t");
-        } else if ("pipes".equals(collectionFormat)) {
-            delimiter = escapeString("|");
-        }
+        // escape all delimiters except commas, which are URI reserved characters
+        String separator = collectionFormatSeparator(collectionFormat);
+        String delimiter = ",".equals(separator) ? separator : escapeString(separator);
 
         StringBuilder sb = new StringBuilder();
         for (Object item : value) {
@@ -824,16 +815,7 @@ public class ApiClient {
             return parameterToString(value);
         }
 
-        // collectionFormat is assumed to be "csv" by default
-        String delimiter = ",";
-
-        if ("ssv".equals(collectionFormat)) {
-            delimiter = " ";
-        } else if ("tsv".equals(collectionFormat)) {
-            delimiter = "\t";
-        } else if ("pipes".equals(collectionFormat)) {
-            delimiter = "|";
-        }
+        String delimiter = collectionFormatSeparator(collectionFormat);
 
         StringBuilder sb = new StringBuilder() ;
         for (Object item : value) {
@@ -842,6 +824,25 @@ public class ApiClient {
         }
 
         return sb.substring(delimiter.length());
+    }
+
+    /**
+     * Returns the separator between the items of a collection serialized in the
+     * given collection format.
+     *
+     * @param collectionFormat The collection format of the parameter ("csv" when unrecognized).
+     * @return The separator string.
+     */
+    protected String collectionFormatSeparator(String collectionFormat) {
+        if ("ssv".equals(collectionFormat)) {
+            return " ";
+        } else if ("tsv".equals(collectionFormat)) {
+            return "\t";
+        } else if ("pipes".equals(collectionFormat)) {
+            return "|";
+        }
+        // collectionFormat is assumed to be "csv" by default
+        return ",";
     }
 
     /**
@@ -1590,37 +1591,8 @@ public class ApiClient {
                     }
                 };
             } else {
-                TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-
-                if (sslCaCert == null) {
-                    trustManagerFactory.init((KeyStore) null);
-                } else {
-                    char[] password = null; // Any password will work.
-                    CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
-                    Collection<? extends Certificate> certificates = certificateFactory.generateCertificates(sslCaCert);
-                    if (certificates.isEmpty()) {
-                        throw new IllegalArgumentException("expected non-empty set of trusted certificates");
-                    }
-                    KeyStore caKeyStore = newEmptyKeyStore(password);
-                    int index = 0;
-                    for (Certificate certificate : certificates) {
-                        String certificateAlias = "ca" + (index++);
-                        caKeyStore.setCertificateEntry(certificateAlias, certificate);
-                    }
-                    trustManagerFactory.init(caKeyStore);
-                }
-                trustManagers = trustManagerFactory.getTrustManagers();
-                if (tlsServerName != null && !tlsServerName.isEmpty()) {
-                    hostnameVerifier = new HostnameVerifier() {
-                        @Override
-                        public boolean verify(String hostname, SSLSession session) {
-                            // Verify the certificate against tlsServerName instead of the actual hostname
-                            return OkHostnameVerifier.INSTANCE.verify(tlsServerName, session);
-                        }
-                    };
-                } else {
-                    hostnameVerifier = OkHostnameVerifier.INSTANCE;
-                }
+                trustManagers = trustedTrustManagers();
+                hostnameVerifier = trustedHostnameVerifier();
             }
 
             SSLContext sslContext = SSLContext.getInstance("TLS");
@@ -1632,6 +1604,54 @@ public class ApiClient {
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Build the trust managers that verify server certificates against the JVM's
+     * trust store, or against sslCaCert when one is configured.
+     *
+     * @return The trust managers to initialize the client's SSLContext with
+     * @throws GeneralSecurityException if sslCaCert cannot be loaded into a key store
+     */
+    protected TrustManager[] trustedTrustManagers() throws GeneralSecurityException {
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+
+        if (sslCaCert == null) {
+            trustManagerFactory.init((KeyStore) null);
+        } else {
+            char[] password = null; // Any password will work.
+            CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+            Collection<? extends Certificate> certificates = certificateFactory.generateCertificates(sslCaCert);
+            if (certificates.isEmpty()) {
+                throw new IllegalArgumentException("expected non-empty set of trusted certificates");
+            }
+            KeyStore caKeyStore = newEmptyKeyStore(password);
+            int index = 0;
+            for (Certificate certificate : certificates) {
+                String certificateAlias = "ca" + (index++);
+                caKeyStore.setCertificateEntry(certificateAlias, certificate);
+            }
+            trustManagerFactory.init(caKeyStore);
+        }
+        return trustManagerFactory.getTrustManagers();
+    }
+
+    /**
+     * Build the hostname verifier for TLS connections, honoring tlsServerName when set.
+     *
+     * @return The hostname verifier to configure the http client with
+     */
+    protected HostnameVerifier trustedHostnameVerifier() {
+        if (tlsServerName != null && !tlsServerName.isEmpty()) {
+            return new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    // Verify the certificate against tlsServerName instead of the actual hostname
+                    return OkHostnameVerifier.INSTANCE.verify(tlsServerName, session);
+                }
+            };
+        }
+        return OkHostnameVerifier.INSTANCE;
     }
 
     protected KeyStore newEmptyKeyStore(char[] password) throws GeneralSecurityException {

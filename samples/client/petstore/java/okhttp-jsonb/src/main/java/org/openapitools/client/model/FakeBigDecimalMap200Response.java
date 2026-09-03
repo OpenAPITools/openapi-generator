@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
 /**
  * FakeBigDecimalMap200Response
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response {
   public static final String SERIALIZED_NAME_SOME_ID = "someId";
   @JsonbProperty(SERIALIZED_NAME_SOME_ID)

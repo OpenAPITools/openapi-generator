@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
 /**
  * Query
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 @JsonPropertyOrder({
   Query.JSON_PROPERTY_ID,
   Query.JSON_PROPERTY_OUTCOMES

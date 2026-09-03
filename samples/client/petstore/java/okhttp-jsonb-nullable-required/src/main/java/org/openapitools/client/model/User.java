@@ -32,7 +32,7 @@ import org.openapitools.client.JSON;
 /**
  * A User who is purchasing from the pet store
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @JsonbProperty(SERIALIZED_NAME_ID)

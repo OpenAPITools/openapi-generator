@@ -28,6 +28,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 
 
+import org.openapitools.client.model.FileContent;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -112,6 +113,7 @@ public class FileApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -144,6 +146,7 @@ public class FileApi {
      * 
      * 
      * @param id  (required)
+     * @return FileContent
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -152,15 +155,16 @@ public class FileApi {
         <tr><td> 200 </td><td> ok </td><td>  -  </td></tr>
      </table>
      */
-    public void fileIdGet(String id) throws ApiException {
-        fileIdGetWithHttpInfo(id);
+    public FileContent fileIdGet(String id) throws ApiException {
+        ApiResponse<FileContent> localVarResp = fileIdGetWithHttpInfo(id);
+        return localVarResp.getData();
     }
 
     /**
      * 
      * 
      * @param id  (required)
-     * @return ApiResponse&lt;Void&gt;
+     * @return ApiResponse&lt;FileContent&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -169,9 +173,12 @@ public class FileApi {
         <tr><td> 200 </td><td> ok </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> fileIdGetWithHttpInfo(String id) throws ApiException {
+    public ApiResponse<FileContent> fileIdGetWithHttpInfo(String id) throws ApiException {
         okhttp3.Call localVarCall = fileIdGetValidateBeforeCall(id, null);
-        return localVarApiClient.execute(localVarCall);
+        
+        Type localVarReturnType = new TypeReference<FileContent>(){}.getType();
+        
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -188,10 +195,11 @@ public class FileApi {
         <tr><td> 200 </td><td> ok </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fileIdGetAsync(String id, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call fileIdGetAsync(String id, final ApiCallback<FileContent> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = fileIdGetValidateBeforeCall(id, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeReference<FileContent>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
 }

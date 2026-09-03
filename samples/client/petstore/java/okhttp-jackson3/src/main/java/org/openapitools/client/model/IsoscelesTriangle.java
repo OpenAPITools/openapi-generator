@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
 /**
  * IsoscelesTriangle
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 @JsonPropertyOrder({
   IsoscelesTriangle.JSON_PROPERTY_SHAPE_TYPE,
   IsoscelesTriangle.JSON_PROPERTY_TRIANGLE_TYPE
