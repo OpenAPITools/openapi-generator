@@ -14,6 +14,7 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.Json;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -51,6 +52,32 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO uncomment below to test "IsType" OneOfArrayRequest
             //Assert.IsType<OneOfArrayRequest>(instance);
+        }
+
+        [Fact]
+        public void SerializeOneOfStringArray()
+        {
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(new OneOfArrayRequestJsonConverter());
+            var request = new OneOfArrayRequest(new List<string> { "first", "second" });
+
+            string json = JsonSerializer.Serialize(request, options);
+
+            Assert.Equal("[\"first\",\"second\"]", json);
+        }
+
+        [Fact]
+        public void SerializeOneOfModelArray()
+        {
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(new OneOfArrayRequestJsonConverter());
+            options.Converters.Add(new TestObjectJsonConverter());
+            var item = new TestObject(new Option<string?>("example"));
+            var request = new OneOfArrayRequest(new List<TestObject> { item });
+
+            string json = JsonSerializer.Serialize(request, options);
+
+            Assert.Equal("[{\"name\":\"example\"}]", json);
         }
     }
 }
