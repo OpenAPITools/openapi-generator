@@ -332,6 +332,8 @@ public class DiscriminatorUtils {
      */
     public static List<Schema> getDistinctTypes(OpenAPI openAPI, Schema schema, String discPropName) {
         List<Schema> mappedSchemas = getMappedSchemas(openAPI, schema);
+
+        List<Schema> properties = mappedSchemas.stream().map(sc -> findProperty(openAPI, sc, discPropName, new HashSet<>())).collect(Collectors.toList());;
         return mappedSchemas.stream().map(sc -> findProperty(openAPI, sc, discPropName, new HashSet<>()))
                 .filter(Objects::nonNull)
                 .distinct()

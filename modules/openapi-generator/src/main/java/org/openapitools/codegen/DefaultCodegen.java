@@ -3898,6 +3898,13 @@ public class DefaultCodegen implements CodegenConfig {
                     if (StringUtils.isNotEmpty(first.get$ref())) {
                         return toModelName(ModelUtils.getSimpleRef(first.get$ref()));
                     }
+                    if (ModelUtils.isEnumSchema(first)) {
+                        // inline enum, use the least common denominator
+                        String simpleType = typeMapping.get("enum");
+
+                        return simpleType != null? simpleType:  typeMapping.get("object");
+                    }
+                    return typeMapping.get(getPrimitiveType(first));
                 } catch (Exception e) {
                     // fallback for some unit test misconfigurations...
                     LOGGER.warn("Unable to model name for " + first, e);
@@ -3910,25 +3917,31 @@ public class DefaultCodegen implements CodegenConfig {
         return getCommonTypeMapping(schemas);
     }
 
+    /**
+     * Find the common type between different schemas.
+     *
+     * @param schemas list of more than one schema.
+     * @return the common matching mapped type
+     */
     protected String getCommonTypeMapping(List<Schema> schemas) {
         String simpleType = "object";
-        Set<String> types = schemas.stream().map(this::getPrimitiveType).collect(Collectors.toSet());
-        if (types.size() == 1) {
-            String commonType = types.iterator().next();
-            if (typeMapping.containsKey(commonType)) {
-                // matching simple type
-                simpleType = commonType;
-            }
-        }
-        if ("objects".equals(simpleType) || "string".equals(simpleType)) {
-            // alternate more strict options
-            simpleType = "object";
-            // Some generators define enum typeMapping
-            if (schemas.stream().allMatch(ModelUtils::isEnumSchema) && typeMapping.containsKey("enum")) {
+
+        boolean allEnums = schemas.stream().allMatch(ModelUtils::isEnumSchema);
+        if (allEnums) {
+            // non matching enums
+            if (typeMapping.containsKey("enum")) {
                 simpleType = "enum";
-            } else if (schemas.stream().allMatch(s -> ModelUtils.isStringSchema(s) && !ModelUtils.isEnumSchema(s))) {
-                // only string if there is no mix of enum and string
-                simpleType = "string";
+            }
+            return typeMapping.get(simpleType);
+        }
+        if (schemas.stream().noneMatch(ModelUtils::isEnumSchema)) {
+            Set<String> types = schemas.stream().map(this::getPrimitiveType).collect(Collectors.toSet());
+            if (types.size() == 1) {
+                String foundPrimitiveType = types.iterator().next();
+                if (typeMapping.containsKey(foundPrimitiveType)) {
+                    // matching simple type
+                    simpleType = foundPrimitiveType;
+                }
             }
         }
         return typeMapping.get(simpleType);
