@@ -1064,6 +1064,39 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(apiKt, "ONE(\"1\");");
     }
 
+    @Test
+    public void testMultiplatformEnumWithCustomVariableNamesOverridesToString() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .setLibrary("multiplatform")
+                .setAdditionalProperties(new HashMap<>() {{
+                    put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+                    put(CodegenConstants.MODEL_PACKAGE, "model");
+                    put("dateLibrary", "kotlinx-datetime");
+                }})
+                .setInputSpec("src/test/resources/3_0/kotlin/multiplatform-inline-query-enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.opts(clientOptInput).generate();
+
+        final Path definedEnumKt = Paths.get(output + "/src/commonMain/kotlin/model/ApiError.kt");
+        final Path inlineEnumKt = Paths.get(output + "/src/commonMain/kotlin/model/AllowFoo.kt");
+        final Path headerEnumKt = Paths.get(output + "/src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt");
+
+        TestUtils.assertFileContains(definedEnumKt, "override fun toString(): kotlin.String = value.toString()");
+        TestUtils.assertFileContains(definedEnumKt, "@SerialName(value = \"100\") ERROR(100);");
+        TestUtils.assertFileContains(inlineEnumKt, "override fun toString(): kotlin.String = value");
+        TestUtils.assertFileContains(inlineEnumKt, "ALLOW(\"1\");");
+        TestUtils.assertFileContains(headerEnumKt, "override fun toString(): kotlin.String = value");
+        TestUtils.assertFileContains(headerEnumKt, "ALLOW(\"1\");");
+    }
+
     @Test(description = "convert an empty model to object")
     public void emptyModelKotlinxSerializationTest() throws IOException {
         final Schema<?> schema = new ObjectSchema()
@@ -1184,6 +1217,195 @@ public class KotlinClientCodegenModelTest {
         // is auto-renamed to a backtick-escaped identifier
         TestUtils.assertFileContains(itemModel,
                 "@param:JsonProperty(\"2nd_field\")\n    @get:JsonProperty(\"2nd_field\")\n    val `2ndField`");
+    }
+
+    @Test(description = "useJackson3 requires serializationLibrary=jackson")
+    public void shouldRefuseJackson3WithoutJacksonSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "moshi")
+                .addAdditionalProperty(KotlinClientCodegen.USE_JACKSON_3, true);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> generator.opts(configurator.toClientOptInput()).generate());
+    }
+
+    @Test(description = "useJackson3 is incompatible with openApiNullable")
+    public void shouldRefuseOpenApiNullableWithJackson3() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(KotlinClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty("openApiNullable", true);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> generator.opts(configurator.toClientOptInput()).generate());
+    }
+
+    @Test(description = "useJackson3 is only wired up for jvm-okhttp4 and jvm-spring-restclient so far")
+    public void shouldRefuseJackson3WithUnsupportedLibrary() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-retrofit2")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(KotlinClientCodegen.USE_JACKSON_3, true);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> generator.opts(configurator.toClientOptInput()).generate());
+    }
+
+    @Test(description = "useJackson3 switches the serializer and generated model imports to the tools.jackson package")
+    public void shouldGenerateJackson3Imports() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(KotlinClientCodegen.USE_JACKSON_3, true);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path petModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Pet.kt");
+        // annotations stay on com.fasterxml.jackson.annotation - that package didn't move in Jackson 3
+        TestUtils.assertFileContains(petModel, "import com.fasterxml.jackson.annotation.JsonProperty");
+
+        Path serializerPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
+        TestUtils.assertFileContains(serializerPath, "import tools.jackson.databind.json.JsonMapper");
+        TestUtils.assertFileContains(serializerPath, "import tools.jackson.module.kotlin.jsonMapper");
+        TestUtils.assertFileNotContains(serializerPath, "com.fasterxml.jackson.databind");
+    }
+
+    @Test(description = "useJackson3 swaps the Jackson 2 Gradle dependencies for their Jackson 3 equivalents")
+    public void shouldGenerateBuildGradleWithJackson3Deps() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(KotlinClientCodegen.USE_JACKSON_3, true);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path buildGradlePath = Paths.get(output.getAbsolutePath() + "/build.gradle");
+        TestUtils.assertFileContains(buildGradlePath, "tools.jackson.module:jackson-module-kotlin");
+        TestUtils.assertFileNotContains(buildGradlePath, "jackson-datatype-jsr310");
+        TestUtils.assertFileNotContains(buildGradlePath, "com.fasterxml.jackson.module");
+    }
+
+    @Test(description = "useSpringBoot4 auto-enables useJackson3 for jvm-spring-restclient")
+    public void shouldAutoEnableJackson3WithSpringBoot4() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-spring-restclient")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(KotlinClientCodegen.USE_SPRING_BOOT4, true);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path apiPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/apis/PetApi.kt");
+        TestUtils.assertFileContains(apiPath, "JacksonJsonHttpMessageConverter");
+        TestUtils.assertFileNotContains(apiPath, "MappingJackson2HttpMessageConverter");
+
+        Path buildGradlePath = Paths.get(output.getAbsolutePath() + "/build.gradle");
+        TestUtils.assertFileContains(buildGradlePath, "spring_boot_version = \"4.1.0\"");
+        TestUtils.assertFileContains(buildGradlePath, "tools.jackson.module:jackson-module-kotlin");
+    }
+
+    @Test(description = "regression test: useSpringBoot4=false must not silently enable Jackson 3 "
+            + "(the additionalProperties key merely being *present* is not the same as it being true)")
+    public void shouldNotEnableJackson3WhenSpringBoot4ExplicitlyFalse() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-spring-restclient")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(KotlinClientCodegen.USE_SPRING_BOOT3, true)
+                .addAdditionalProperty(KotlinClientCodegen.USE_SPRING_BOOT4, false);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path apiPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/apis/PetApi.kt");
+        TestUtils.assertFileContains(apiPath, "MappingJackson2HttpMessageConverter");
+        TestUtils.assertFileNotContains(apiPath, "JacksonJsonHttpMessageConverter");
+
+        Path serializerPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
+        TestUtils.assertFileContains(serializerPath, "import com.fasterxml.jackson.databind.ObjectMapper");
+        TestUtils.assertFileNotContains(serializerPath, "tools.jackson");
+    }
+
+    @Test(description = "regression test: useJackson3=true with useSpringBoot3 (not 4) on jvm-spring-restclient "
+            + "must be refused, since JacksonJsonHttpMessageConverter doesn't exist before Spring Framework 7 / "
+            + "Spring Boot 4 and would otherwise generate code that fails to compile against Spring Boot 3")
+    public void shouldRefuseJackson3WithSpringBoot3OnRestClient() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-spring-restclient")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(KotlinClientCodegen.USE_SPRING_BOOT3, true)
+                .addAdditionalProperty(KotlinClientCodegen.USE_JACKSON_3, true);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> generator.opts(configurator.toClientOptInput()).generate());
+    }
+
+    @Test(description = "jvm-spring-restclient still requires Spring Boot 3 or 4")
+    public void shouldRefuseSpringRestClientWithoutSpringBoot3Or4() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-spring-restclient")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Assert.assertThrows(RuntimeException.class,
+                () -> generator.opts(configurator.toClientOptInput()).generate());
     }
 
     private static class ModelNameTest {

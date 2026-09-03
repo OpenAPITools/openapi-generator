@@ -30,7 +30,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -226,6 +225,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter
     protected boolean useJspecify;
     protected JSpecifyNullableLambda jSpecifyNullableLambda;
+    protected RemoveAnnotationLambda removeAnnotationLambda;
+
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
 
@@ -707,9 +708,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             writer.write(content);
         });
-        additionalProperties.put("removeAnnotations", (Mustache.Lambda) (fragment, writer) -> {
-            writer.write(removeAnnotations(fragment.execute()));
-        });
+        this.removeAnnotationLambda = new RemoveAnnotationLambda();
+        additionalProperties.put("removeAnnotations", removeAnnotationLambda);
         additionalProperties.put("sanitizeDataType", (Mustache.Lambda) (fragment, writer) -> {
             writer.write(sanitizeDataType(fragment.execute()));
         });
@@ -882,6 +882,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator),
                     "package-info.java"));
         }
+        // simplify mustache template for jspecify. @Nullable is kept
+        this.removeAnnotationLambda.keepAnnotation("@Nullable");
     }
 
     @Override
@@ -1764,36 +1766,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
         boolean isModel = (codegenParameter.isModel || (codegenParameter.isContainer && codegenParameter.getItems().isModel));
 
-        Content content = requestBody.getContent();
-
-        if (content.size() > 1) {
-            // @see ModelUtils.getSchemaFromContent()
-            LOGGER.debug("Multiple MediaTypes found, using only the first one");
-        }
-
-        MediaType mediaType = content.values().iterator().next();
-        if (mediaType.getExample() != null) {
-            if (isModel) {
+        MediaType mediaType = requestBody.getContent().values().iterator().next();
+        boolean hasExample = mediaType.getExample() != null || (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty());
+        if (isModel) {
+            if (hasExample) {
                 once(LOGGER).warn("Ignoring complex example on request body");
-            } else {
-                codegenParameter.example = mediaType.getExample().toString();
-                return;
             }
+            setParameterExampleValue(codegenParameter);
+        } else {
+            super.setParameterExampleValue(codegenParameter, requestBody);
         }
-
-        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
-            Example example = mediaType.getExamples().values().iterator().next();
-            if (example.getValue() != null) {
-                if (isModel) {
-                    once(LOGGER).warn("Ignoring complex example on request body");
-                } else {
-                    codegenParameter.example = example.getValue().toString();
-                    return;
-                }
-            }
-        }
-
-        setParameterExampleValue(codegenParameter);
     }
 
     @Override
@@ -2097,6 +2079,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * <p>
      * For example:
      * <ul>
+     *     <li>{@code @jakarta.annotation.Nullable String} -> {@code String}</li>
      *     <li>{@code @Min(0) @Max(10)Integer} -> {@code Integer}</li>
      *     <li>{@code @Pattern(regexp = "^[a-z]$")String>} -> {@code String}</li>
      *     <li>{@code List<@Pattern(regexp = "^[a-z]$")String>}" -> "{@code List<String>}"</li>
@@ -2108,7 +2091,38 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     public String removeAnnotations(String dataType) {
         if (dataType != null && dataType.contains("@")) {
-            return dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+            return dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+        }
+        return dataType;
+    }
+
+    /**
+     * Remove annotations from the given data type string except annotationToKeep.
+     * <p>
+     * For example:
+     * <ul>
+     *     <li>{@code @Nullable @Min(0) @Max(10)Integer} -> {@code @Nullable Integer}</li>
+     *     <li>{@code @Nullable List<@Valid Pet>}" -> "{@code @Nullable List<Pet>}"</li>
+     * </ul>
+     *
+     * @param dataType the data type string
+     * @param annotationToKeep annotation to keep. For example @Nullable
+     * @return the data type string without annotations.
+     */
+    public String removeAnnotationsWithExclusion(String dataType, String annotationToKeep) {
+        if (dataType != null && dataType.contains("@")) {
+            if (annotationToKeep == null) {
+                return dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+            }
+            annotationToKeep += " ";
+            boolean annotationPresent = dataType.indexOf(annotationToKeep) >=0;
+            if (annotationPresent) {
+                dataType = dataType.replace( annotationToKeep, "%%");
+            }
+            dataType = dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+            if (annotationPresent) {
+                dataType = dataType.replace("%%", annotationToKeep);
+            }
         }
         return dataType;
     }
@@ -2897,7 +2911,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     /**
      * for Jspecify, remove @Nullable before the datatype and set keptNullable to true if done.
      */
-    class JSpecifyNullableLambda implements Mustache.Lambda {
+    protected class JSpecifyNullableLambda implements Mustache.Lambda {
         private String nullableAnnotation = "@Nullable";
         // remember @Nullable annotation value when jspecify is used.
         private String keptNullable = null;
@@ -2916,9 +2930,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             keptNullable = null;
             String value = fragment.execute();
             if (useJspecify) {
-                if (value.startsWith(nullableAnnotation)) {
+                // extract @Nullable annotation (starting with @ and ending with space)
+                String patternToFind = nullableAnnotation + " ";
+                if (value.startsWith(patternToFind)) {
                     keptNullable = value;
-                    int idx = nullableAnnotation.length();
+                    int idx = patternToFind.length();
                     // trim left
                     while (idx < value.length() && value.charAt(idx) == ' ') {
                         idx ++;
@@ -2944,5 +2960,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .filter(CodegenParameter::notRequiredOrIsNullable)
                 .findAny()
                 .ifPresent(param -> codegenOperation.imports.add("Nullable"));
+    }
+
+    /**
+     * Simplify the removeAnnotations lambda for custom removal.
+     */
+    protected class RemoveAnnotationLambda implements Mustache.Lambda {
+
+        private String keep;
+
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+            writer.write(removeAnnotationsWithExclusion(fragment.execute(), keep));
+        }
+
+        public void keepAnnotation(String keep) {
+            this.keep = keep;
+        }
     }
 }

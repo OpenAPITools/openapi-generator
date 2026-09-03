@@ -37,6 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY_DESC;
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 
 /**
@@ -47,10 +49,10 @@ import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_
  */
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
-    public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String RETURN_RESPONSE = "returnResponse";
     public static final String RETURN_JBOSS_RESPONSE = "returnJBossResponse";
     public static final String GENERATE_POM = "generatePom";
+    public static final String GENERATE_ROOT_RESOURCES = "generateRootResources";
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
     public static final String USE_MICROPROFILE_OPENAPI_ANNOTATIONS = "useMicroProfileOpenAPIAnnotations";
     public static final String USE_SWAGGER_V3_ANNOTATIONS = "useSwaggerV3Annotations";
@@ -68,6 +70,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String KUMULUZEE_LIBRARY = "kumuluzee";
 
     private boolean interfaceOnly = false;
+    private boolean generateRootResources = true;
     private boolean returnResponse = false;
     private boolean returnJbossResponse = false;
     private boolean generatePom = true;
@@ -154,7 +157,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         cliOptions.add(library);
         cliOptions.add(CliOption.newBoolean(GENERATE_POM, "Whether to generate pom.xml if the file does not already exist.").defaultValue(String.valueOf(generatePom)));
-        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
+        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, INTERFACE_ONLY_DESC).defaultValue(String.valueOf(interfaceOnly)));
+        cliOptions.add(CliOption.newBoolean(GENERATE_ROOT_RESOURCES, "Whether to generate the root resource and application classes, only useful if interfaceOnly is true.", generateRootResources));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
         cliOptions.add(CliOption.newBoolean(RETURN_JBOSS_RESPONSE, "Whether generate API interface should return `org.jboss.resteasy.reactive.RestResponse` instead of a deserialized entity. This flag cannot be combined with `returnResponse` flag. It requires the flag `interfaceOnly` and `useJakartaEE` set to true, because `org.jboss.resteasy.reactive.RestResponse` was introduced in Quarkus 2.x").defaultValue(String.valueOf(returnJbossResponse)));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
@@ -174,6 +178,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         convertPropertyToBooleanAndWriteBack(GENERATE_POM, value -> generatePom = value);
 
         convertPropertyToBooleanAndWriteBack(INTERFACE_ONLY, value -> interfaceOnly = value);
+        convertPropertyToBooleanAndWriteBack(GENERATE_ROOT_RESOURCES, value -> generateRootResources = value);
         convertPropertyToBooleanAndWriteBack(RETURN_RESPONSE, value -> returnResponse = value);
         convertPropertyToBooleanAndWriteBack(RETURN_JBOSS_RESPONSE, value -> returnJbossResponse = value);
         convertPropertyToBooleanAndWriteBack(SUPPORT_ASYNC, this::setSupportAsync);
@@ -250,7 +255,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
                 .doNotOverwrite());
 
-        if (!interfaceOnly) {
+        if ((!interfaceOnly) || generateRootResources) {
             supportingFiles.add(new SupportingFile("RestResourceRoot.mustache",
                     (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestResourceRoot.java")
                     .doNotOverwrite());

@@ -4,6 +4,8 @@ library: spring-boot
 inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/polymorphism-oneof-discriminator.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   documentationProvider: none
   annotationLibrary: none
   useSwaggerUI: "false"

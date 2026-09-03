@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -31,11 +32,13 @@ import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.CaseFormatLambda;
+import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +90,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
     public static final String SUPPORT_STREAMING = "supportStreaming";
     public static final String SUPPORT_URL_QUERY = "supportUrlQuery";
+    public static final String GENERATE_INSECURE_TLS_HOOK = "generateInsecureTlsHook";
     public static final String GRADLE_PROPERTIES = "gradleProperties";
     public static final String ERROR_OBJECT_TYPE = "errorObjectType";
 
@@ -280,6 +284,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
         cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, restclient and webclient, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
+        cliOptions.add(CliOption.newBoolean(GENERATE_INSECURE_TLS_HOOK, "Generate the ApiClient.disableCertificateValidation hook, which trusts all TLS certificates (default to true). Set to false to omit it, e.g. when static analysis flags the trust-all TrustManager it contains. Available on `jersey2`, `jersey3` libraries.", true));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
         cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 instead of Jackson 2. Supported for 'native', 'apache-httpclient', and 'jersey3' libraries (requires Java 17+) and for Spring 'resttemplate', 'webclient', and 'restclient' libraries (require useSpringBoot4=true).", this.useJackson3));
@@ -522,6 +527,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         } else {
             additionalProperties.put(SUPPORT_URL_QUERY, Boolean.parseBoolean(additionalProperties.get(SUPPORT_URL_QUERY).toString()));
+        }
+
+        if (!additionalProperties.containsKey(GENERATE_INSECURE_TLS_HOOK)) {
+            additionalProperties.put(GENERATE_INSECURE_TLS_HOOK, true);
+        } else {
+            additionalProperties.put(GENERATE_INSECURE_TLS_HOOK,
+                    Boolean.parseBoolean(additionalProperties.get(GENERATE_INSECURE_TLS_HOOK).toString()));
         }
 
         convertPropertyToBooleanAndWriteBack(GENERATE_CLIENT_AS_BEAN, this::setGenerateClientAsBean);
@@ -1235,10 +1247,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
                         if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
                             String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
-                            for (Map<String, Object> enumVars : (List<Map<String, Object>>) var.getAllowableValues().get(ENUM_VARS)) {
-                                if (defaultValue.equals(enumVars.get(ENUM_NAME))) {
+                            for (EnumVarMap enumVars : EnumUtils.getEnumVars(var.allowableValues)) {
+                                if (defaultValue.equals(enumVars.getEnumName())) {
                                     // update default to use the string directly instead of enum string
-                                    var.defaultValue = (String) enumVars.get(ENUM_VALUE);
+                                    var.defaultValue = (String) enumVars.getEnumValue();
                                 }
                             }
                         }
@@ -1409,8 +1421,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator),
                     "package-info.java"));
         }
+        String nullableAnnotation = "@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable";
         //  nullable_var_annotations.mustache generates nullable annotations as @{{javaxPackage}}.annotation.Nullable
         // override the default pattern for the "find and replace"
-        jSpecifyNullableLambda.setNullableAnnotation("@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable");
+        jSpecifyNullableLambda.setNullableAnnotation(nullableAnnotation);
     }
 }

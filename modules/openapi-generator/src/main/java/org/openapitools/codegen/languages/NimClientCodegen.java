@@ -23,6 +23,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -37,8 +38,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.CodegenConstants.ENUM_VALUE;
-import static org.openapitools.codegen.CodegenConstants.ENUM_VARS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.EnumUtils.hasEnumVars;
@@ -259,14 +258,14 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             return;
         }
 
-        List<Map<String, Object>> enumVars = getEnumVars(allowableValues);
-        for (Map<String, Object> enumVar : enumVars) {
-            Object value = enumVar.get(ENUM_VALUE);
+        List<EnumVarMap> enumVars = getEnumVars(allowableValues);
+        for (EnumVarMap enumVar : enumVars) {
+            Object value = enumVar.getEnumValue();
             if (value instanceof String) {
                 String strValue = (String) value;
                 // Remove surrounding quotes if present
                 if (strValue.startsWith("\"") && strValue.endsWith("\"")) {
-                    enumVar.put(ENUM_VALUE, strValue.substring(1, strValue.length() - 1));
+                    enumVar.setEnumValue(strValue.substring(1, strValue.length() - 1));
                 }
             }
         }

@@ -63,6 +63,8 @@ try {
 ```
 
 ### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
 | **pi0** | **kotlin.Int**|  | [default to 10] |
 | **pi1** | **kotlin.Int**|  | |
 | **pn0** | **kotlin.Double**|  | [default to 10.0] |
@@ -91,8 +93,6 @@ try {
 | **fn1** | **kotlin.Double**|  | [default to 71.0] |
 | **fn2** | **kotlin.Double**|  | [optional] |
 | **fn3** | **kotlin.Double**|  | |
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
 | **fn4** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | |
 
 ### Return type

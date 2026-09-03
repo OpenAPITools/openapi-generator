@@ -28,6 +28,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -40,10 +41,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.model.EnumVarMap.ENUM_VARS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
-import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
 import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -65,6 +65,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public static final String MODEL_FILE_FOLDER = "modelFileFolder";
     public static final String WITH_GO_MOD = "withGoMod";
     public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
+    public static final String USE_HTTP_HEADER_SET = "useHttpHeaderSet";
     public static final String IMPORT_VALIDATOR = "importValidator";
     @Setter protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
@@ -138,6 +139,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         cliOptions.add(CliOption.newBoolean(WITH_AWSV4_SIGNATURE, "whether to include AWS v4 signature support"));
         cliOptions.add(CliOption.newBoolean(GENERATE_INTERFACES, "Generate interfaces for api classes"));
         cliOptions.add(CliOption.newBoolean(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS, "Use default values for required variables when available"));
+        cliOptions.add(CliOption.newBoolean(USE_HTTP_HEADER_SET, "When setting HTTP request headers, use http.Header.Set with canonicalized header names"));
 
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(
@@ -274,6 +276,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
         if (additionalProperties.containsKey(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS)) {
             setUseDefaultValuesForRequiredVars(Boolean.parseBoolean(additionalProperties.get(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS).toString()));
             additionalProperties.put(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS, useDefaultValuesForRequiredVars);
+        }
+
+        if (additionalProperties.containsKey(USE_HTTP_HEADER_SET)) {
+            setUseHttpHeaderSet(Boolean.parseBoolean(additionalProperties.get(USE_HTTP_HEADER_SET).toString()));
+            additionalProperties.put(USE_HTTP_HEADER_SET, useHttpHeaderSet);
         }
 
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
@@ -610,10 +617,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
         }
 
         // Prefix only the fallback name so user-defined enum values keep their existing generated names.
-        Map<String, Object> fallbackEnumVar = (Map<String, Object>) enumVars.get(enumVars.size() - 1);
-        Object fallbackName = fallbackEnumVar.get(ENUM_NAME);
+        EnumVarMap fallbackEnumVar = (EnumVarMap) enumVars.get(enumVars.size() - 1);
+        Object fallbackName = fallbackEnumVar.getEnumName();
         if (fallbackName instanceof String) {
-            fallbackEnumVar.put(ENUM_NAME, model.classname.toUpperCase(Locale.ROOT) + "_" + fallbackName);
+            fallbackEnumVar.setEnumName(model.classname.toUpperCase(Locale.ROOT) + "_" + fallbackName);
         }
     }
 

@@ -654,7 +654,7 @@
         stop(local_var_error_msg)
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
-        rlang::abort(message = error_msg,
+        rlang::abort(message = local_var_error_msg,
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
         {{/useRlangExceptionHandling}}

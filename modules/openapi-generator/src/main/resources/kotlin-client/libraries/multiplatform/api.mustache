@@ -47,6 +47,7 @@ import kotlinx.serialization.encoding.*
         @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
         {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/enumVars}}{{/allowableValues}}
+        override fun toString(): kotlin.String = value{{^isString}}.toString(){{/isString}}
     }
 
     {{/isEnum}}

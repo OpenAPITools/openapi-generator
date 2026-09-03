@@ -26,25 +26,32 @@ import jakarta.annotation.Generated;
  * A pet for sale in the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Pet {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Long id;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Category category;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> photoUrls = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
+   * @deprecated deprecated
    */
+  @Deprecated
   public enum StatusEnum {
     AVAILABLE("available"),
     
@@ -80,6 +87,7 @@ public class Pet {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   @Deprecated
   private StatusEnum status;
 
@@ -110,7 +118,6 @@ public class Pet {
     return id;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
@@ -131,7 +138,6 @@ public class Pet {
     return category;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("category")
   public void setCategory(Category category) {
     this.category = category;
@@ -208,7 +214,6 @@ public class Pet {
     return tags;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("tags")
   public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
@@ -234,7 +239,6 @@ public class Pet {
   /**
    * @deprecated
    */
-  @JsonSetter(nulls = Nulls.SKIP)
   @Deprecated
   @JsonProperty("status")
   public void setStatus(StatusEnum status) {

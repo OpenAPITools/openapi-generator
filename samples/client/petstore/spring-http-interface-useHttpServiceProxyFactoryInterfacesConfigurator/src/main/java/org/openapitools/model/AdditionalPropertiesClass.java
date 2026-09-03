@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -57,7 +57,6 @@ public class AdditionalPropertiesClass {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Object anytype1;
 
-  @JsonInclude(JsonInclude.Include.NON_ABSENT)
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

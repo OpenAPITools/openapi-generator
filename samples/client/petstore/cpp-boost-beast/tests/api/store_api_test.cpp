@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE(getInventory) {
 
     const auto resp = api.getInventory();
 
-    BOOST_REQUIRE_EQUAL(resp.size(), 2);
+    BOOST_REQUIRE_EQUAL(resp.size(), 2u);
 
     BOOST_REQUIRE_EQUAL(resp.at("cats"), 3);
     BOOST_REQUIRE_EQUAL(resp.at("dogs"), 2);

@@ -137,6 +137,7 @@ open class PetApi : ApiClient {
         @SerialName(value = "sold")
         sold("sold");
         
+        override fun toString(): kotlin.String = value.toString()
     }
 
     /**

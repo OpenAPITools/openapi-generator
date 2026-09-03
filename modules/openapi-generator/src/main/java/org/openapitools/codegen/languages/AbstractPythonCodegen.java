@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.DataTypeFeature;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -1138,18 +1139,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             // set enum type in extensions and update `name` in enumVars
             if (model.isEnum) {
-                for (Map<String, Object> enumVars : getEnumVars(model.getAllowableValues())) {
-                    if ((Boolean) enumVars.get(ENUM_IS_STRING)) {
+                for (EnumVarMap enumVars : getEnumVars(model.getAllowableValues())) {
+                    if (enumVars.isString()) {
                         model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "str");
                         // Do not overwrite the variable name if already set through x-enum-varnames
                         if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
-                            enumVars.put(ENUM_NAME, toEnumVariableName((String) enumVars.get(ENUM_VALUE), "str"));
+                            enumVars.setEnumName(toEnumVariableName((String) enumVars.getEnumValue(), "str"));
                         }
                     } else {
                         model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "int");
                         // Do not overwrite the variable name if already set through x-enum-varnames
                         if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
-                            enumVars.put(ENUM_NAME, toEnumVariableName((String) enumVars.get(ENUM_VALUE), "int"));
+                            enumVars.setEnumName(toEnumVariableName((String) enumVars.getEnumValue(), "int"));
                         }
                     }
                 }
@@ -1394,7 +1395,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             List<CodegenParameter> params = operation.allParams;
 
             for (CodegenParameter cp : params) {
-                PydanticType pydantic = new PydanticType(
+                PydanticType pydantic = getPydanticParameterType(
+                        cp,
                         modelImports,
                         exampleImports,
                         postponedModelImports,
@@ -1488,6 +1490,23 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // reset imports with newImports
         objs.setImports(newImports);
         return objs;
+    }
+
+    protected PydanticType getPydanticParameterType(CodegenParameter parameter,
+                                                    Set<String> modelImports,
+                                                    Set<String> exampleImports,
+                                                    Set<String> postponedModelImports,
+                                                    Set<String> postponedExampleImports,
+                                                    PythonImports moduleImports,
+                                                    String classname) {
+        return new PydanticType(
+                modelImports,
+                exampleImports,
+                postponedModelImports,
+                postponedExampleImports,
+                moduleImports,
+                classname
+        );
     }
 
 
@@ -1860,7 +1879,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
      * entries will be automatically removed.
      *
      * */
-    class PythonImports {
+    protected class PythonImports {
         private Map<String, Set<String>> imports;
 
         public PythonImports() {
@@ -1906,18 +1925,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
     }
 
-    class PydanticType {
+    protected class PydanticType {
 
-        private static final String TYPING = "typing";
+        protected static final String TYPING = "typing";
 
-        private static final String DECIMAL = "Decimal";
+        protected static final String DECIMAL = "Decimal";
 
-        private Set<String> modelImports;
-        private Set<String> exampleImports;
-        private Set<String> postponedModelImports;
-        private Set<String> postponedExampleImports;
-        private PythonImports moduleImports;
-        private String classname;
+        protected Set<String> modelImports;
+        protected Set<String> exampleImports;
+        protected Set<String> postponedModelImports;
+        protected Set<String> postponedExampleImports;
+        protected PythonImports moduleImports;
+        protected String classname;
 
         public PydanticType(
                 Set<String> modelImports,
@@ -1935,7 +1954,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             this.classname = classname;
         }
 
-        private PythonType arrayType(IJsonSchemaValidationProperties cp) {
+        protected PythonType arrayType(IJsonSchemaValidationProperties cp) {
             PythonType pt = new PythonType();
             ConstraintApplier.applyConstraints(cp, pt, ConstraintType.ARRAY);
             if (cp.getUniqueItems()) {
@@ -1957,7 +1976,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return pt;
         }
 
-        private PythonType collectionItemType(CodegenProperty itemCp) {
+        protected PythonType collectionItemType(CodegenProperty itemCp) {
             PythonType itemPt = getType(itemCp);
             if (itemCp != null && !itemPt.type.equals("Any") && itemCp.isNullable) {
                 moduleImports.add(TYPING, "Optional");
@@ -1968,7 +1987,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return itemPt;
         }
 
-        private PythonType stringType(IJsonSchemaValidationProperties cp) {
+        protected PythonType stringType(IJsonSchemaValidationProperties cp) {
 
             if (cp.getHasValidation()) {
                 PythonType pt = new PythonType("str");
@@ -1994,7 +2013,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
         }
 
-        private PythonType mapType(IJsonSchemaValidationProperties cp) {
+        protected PythonType mapType(IJsonSchemaValidationProperties cp) {
             moduleImports.add(TYPING, "Dict");
             PythonType pt = new PythonType("Dict");
             pt.addTypeParam(new PythonType("str"));
@@ -2002,7 +2021,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return pt;
         }
 
-        private PythonType numberType(IJsonSchemaValidationProperties cp) {
+        protected PythonType numberType(IJsonSchemaValidationProperties cp) {
             if (cp.getHasValidation()) {
                 PythonType floatt = new PythonType("float");
                 PythonType intt = new PythonType("int");
@@ -2048,7 +2067,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
         }
 
-        private PythonType intType(IJsonSchemaValidationProperties cp) {
+        protected PythonType intType(IJsonSchemaValidationProperties cp) {
             if (cp.getHasValidation()) {
                 PythonType pt = new PythonType("int");
                 // e.g. conint(ge=10, le=100, strict=True)
@@ -2061,7 +2080,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
         }
 
-        private PythonType binaryType(IJsonSchemaValidationProperties cp) {
+        protected PythonType binaryType(IJsonSchemaValidationProperties cp) {
             if (cp.getHasValidation()) {
                 PythonType bytest = new PythonType("bytes");
                 PythonType strt = new PythonType("str");
@@ -2119,12 +2138,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
         }
 
-        private PythonType boolType(IJsonSchemaValidationProperties cp) {
+        protected PythonType boolType(IJsonSchemaValidationProperties cp) {
             moduleImports.add(PYDANTIC, "StrictBool");
             return new PythonType("StrictBool");
         }
 
-        private PythonType decimalType(IJsonSchemaValidationProperties cp) {
+        protected PythonType decimalType(IJsonSchemaValidationProperties cp) {
             PythonType pt = new PythonType(DECIMAL);
             moduleImports.add("decimal", DECIMAL);
 
@@ -2137,12 +2156,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return pt;
         }
 
-        private PythonType anyType(IJsonSchemaValidationProperties cp) {
+        protected PythonType anyType(IJsonSchemaValidationProperties cp) {
             moduleImports.add(TYPING, "Any");
             return new PythonType("Any");
         }
 
-        private PythonType dateType(IJsonSchemaValidationProperties cp) {
+        protected PythonType dateType(IJsonSchemaValidationProperties cp) {
             if (cp.getIsDate()) {
                 moduleImports.add("datetime", "date");
             }
@@ -2153,12 +2172,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return new PythonType(cp.getDataType());
         }
 
-        private PythonType uuidType(IJsonSchemaValidationProperties cp) {
+        protected PythonType uuidType(IJsonSchemaValidationProperties cp) {
             moduleImports.add("uuid", "UUID");
             return new PythonType("UUID");
         }
 
-        private PythonType modelType(IJsonSchemaValidationProperties cp) {
+        protected PythonType modelType(IJsonSchemaValidationProperties cp) {
             // add model prefix
             hasModelsToImport = true;
             modelImports.add(cp.getDataType());
@@ -2166,7 +2185,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return new PythonType(cp.getDataType());
         }
 
-        private PythonType fromCommon(IJsonSchemaValidationProperties cp) {
+        protected PythonType fromCommon(IJsonSchemaValidationProperties cp) {
             if (cp == null) {
                 // if codegen property (e.g. map/dict of undefined type) is null, default to string
                 LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
@@ -2224,7 +2243,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return this.finalizeType(cp, pt);
         }
 
-        private PythonType getType(CodegenProperty cp) {
+        protected PythonType getType(CodegenProperty cp) {
             PythonType result = fromCommon(cp);
 
             /* comment out the following since Literal requires python 3.8
@@ -2338,7 +2357,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return this.finalizeType(cp, pt);
         }
 
-        private PythonType getType(CodegenParameter cp) {
+        protected PythonType getType(CodegenParameter cp) {
             // TODO: cleanup
             PythonType result = fromCommon(cp);
 
@@ -2471,6 +2490,110 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         private static int floorValue(String value) {
             return (int) Math.floor(Double.parseDouble(value));
+        }
+    }
+
+    /**
+     * Pydantic type generator for values that arrive over the wire as strings — server-bound request
+     * parameters in path, query, header, and cookie position. These rely on Pydantic's automatic coercion
+     * (e.g. {@code "3" -> 3}); the strict types emitted by the base {@link PydanticType}
+     * ({@code StrictInt}/{@code StrictStr}/{@code StrictFloat}, {@code strict=True}) disable that
+     * coercion and make FastAPI reject otherwise-valid requests with a 422. See issue #21905.
+     *
+     * <p>Request bodies and models are <em>not</em> wire-string values — they carry real JSON types —
+     * so they keep the strict base behaviour.
+     */
+    protected class PydanticCoercibleType extends PydanticType {
+        public PydanticCoercibleType(
+                Set<String> modelImports,
+                Set<String> exampleImports,
+                Set<String> postponedModelImports,
+                Set<String> postponedExampleImports,
+                PythonImports moduleImports,
+                String classname
+        ) {
+            super(modelImports, exampleImports, postponedModelImports, postponedExampleImports, moduleImports, classname);
+        }
+
+        @Override
+        protected PythonType stringType(IJsonSchemaValidationProperties cp) {
+            if (cp.getHasValidation()) {
+                PythonType pt = new PythonType("str");
+                ConstraintApplier.applyConstraints(cp, pt, ConstraintType.STRING);
+                if (cp.getPattern() != null) {
+                    moduleImports.add(PYDANTIC, "field_validator");
+                }
+                return pt;
+            } else if ("password".equals(cp.getFormat())) { // TODO avoid using format, use `is` boolean flag instead
+                moduleImports.add(PYDANTIC, "SecretStr");
+                return new PythonType("SecretStr");
+            }
+
+            return new PythonType("str");
+        }
+
+        @Override
+        protected PythonType numberType(IJsonSchemaValidationProperties cp) {
+            if (cp.getHasValidation()) {
+                PythonType floatt = new PythonType("float");
+                PythonType intt = new PythonType("int");
+
+                ConstraintApplier.applyConstraints(cp, floatt, ConstraintType.NUMBER);
+                ConstraintApplier.applyConstraints(cp, intt, ConstraintType.ROUNDED_NUMBER);
+
+                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
+                    moduleImports.add(TYPING, "Union");
+                    PythonType pt = new PythonType("Union");
+                    pt.addTypeParam(floatt);
+                    pt.addTypeParam(intt);
+                    return pt;
+                } else if ("StrictFloat".equals(mapNumberTo)) {
+                    return floatt;
+                } else if (DECIMAL.equals(mapNumberTo)) {
+                    return decimalType(cp);
+                }
+
+                return floatt;
+            } else if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
+                moduleImports.add(TYPING, "Union");
+                PythonType pt = new PythonType("Union");
+                pt.addTypeParam(new PythonType("float"));
+                pt.addTypeParam(new PythonType("int"));
+                return pt;
+            } else if ("StrictFloat".equals(mapNumberTo)) {
+                return new PythonType("float");
+            } else if (DECIMAL.equals(mapNumberTo)) {
+                moduleImports.add("decimal", DECIMAL);
+                return new PythonType(DECIMAL);
+            }
+
+            return new PythonType("float");
+        }
+
+        @Override
+        protected PythonType intType(IJsonSchemaValidationProperties cp) {
+            PythonType pt = new PythonType("int");
+            if (cp.getHasValidation()) {
+                ConstraintApplier.applyConstraints(cp, pt, ConstraintType.NUMBER);
+            }
+            return pt;
+        }
+
+        @Override
+        protected PythonType boolType(IJsonSchemaValidationProperties cp) {
+            return new PythonType("bool");
+        }
+
+        @Override
+        protected PythonType decimalType(IJsonSchemaValidationProperties cp) {
+            PythonType pt = new PythonType(DECIMAL);
+            moduleImports.add("decimal", DECIMAL);
+
+            if (cp.getHasValidation()) {
+                ConstraintApplier.applyConstraints(cp, pt, ConstraintType.NUMBER);
+            }
+
+            return pt;
         }
     }
 }

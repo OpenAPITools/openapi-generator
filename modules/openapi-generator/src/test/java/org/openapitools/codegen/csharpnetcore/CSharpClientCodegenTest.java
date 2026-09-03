@@ -48,6 +48,42 @@ import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 public class CSharpClientCodegenTest {
 
     @Test
+    public void testGenericHostOneOfConstructorsRespectApiVisibility() throws IOException {
+        Map<String, File> publicModels = generateIssue23046Models(false);
+        File publicModel = publicModels.get("DynamicMetadataValue");
+        assertFileContains(publicModel.toPath(),
+                "public DynamicMetadataValue(string @string)",
+                "public DynamicMetadataValue(decimal @decimal)",
+                "public DynamicMetadataValue(bool @bool)",
+                "public DynamicMetadataValue(DateTime dateTime)");
+        assertFileNotContains(publicModel.toPath(), "internal DynamicMetadataValue(");
+        assertFileContains(publicModels.get("ResponseOnlyValue").toPath(),
+                "internal ResponseOnlyValue(string @string)",
+                "internal ResponseOnlyValue(int @int)");
+        assertFileNotContains(publicModels.get("ResponseOnlyValue").toPath(), "public ResponseOnlyValue(");
+        assertFileContains(publicModels.get("QueryParameterValue").toPath(),
+                "public QueryParameterValue(string @string)",
+                "public QueryParameterValue(int @int)");
+        assertFileNotContains(publicModels.get("QueryParameterValue").toPath(), "internal QueryParameterValue(");
+        assertFileContains(publicModels.get("ReadOnlyValue").toPath(),
+                "internal ReadOnlyValue(string @string)",
+                "internal ReadOnlyValue(int @int)");
+        assertFileNotContains(publicModels.get("ReadOnlyValue").toPath(), "public ReadOnlyValue(");
+        assertFileContains(publicModels.get("ForbiddenValue").toPath(),
+                "internal ForbiddenValue(string @string)",
+                "internal ForbiddenValue(int @int)");
+        assertFileNotContains(publicModels.get("ForbiddenValue").toPath(), "public ForbiddenValue(");
+
+        File internalModel = generateIssue23046Models(true).get("DynamicMetadataValue");
+        assertFileContains(internalModel.toPath(), 
+                "internal DynamicMetadataValue(string @string)",
+                "internal DynamicMetadataValue(decimal @decimal)",
+                "internal DynamicMetadataValue(bool @bool)",
+                "internal DynamicMetadataValue(DateTime dateTime)");
+        assertFileNotContains(internalModel.toPath(), "public DynamicMetadataValue(");
+    }
+
+    @Test
     public void testGenericHostInnerStringEnumUnknownHandlingPreservesNullBehavior() throws IOException {
         // Unknown enum values must throw for both nullable and non-nullable properties.
         // Preserve the existing null-token behavior: nullable properties record a present
@@ -538,5 +574,38 @@ public class CSharpClientCodegenTest {
         Assert.assertFalse(cr1.isArray);
         Assert.assertFalse(cr1.isModel);
         Assert.assertTrue(cr1.isMap);
+    }
+
+    private Map<String, File> generateIssue23046Models(boolean nonPublicApi) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/csharp/issue_23046.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setNonPublicApi(nonPublicApi);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        Map<String, File> models = Map.of(
+                "DynamicMetadataValue", getGeneratedModel(files, output, "DynamicMetadataValue"),
+                "ResponseOnlyValue", getGeneratedModel(files, output, "ResponseOnlyValue"),
+                "QueryParameterValue", getGeneratedModel(files, output, "QueryParameterValue"),
+                "ReadOnlyValue", getGeneratedModel(files, output, "ReadOnlyValue"),
+                "ForbiddenValue", getGeneratedModel(files, output, "ForbiddenValue"));
+        return models;
+    }
+
+    private File getGeneratedModel(Map<String, File> files, File output, String modelName) {
+        String path = Paths.get(output.getAbsolutePath(),
+                "src", "Org.OpenAPITools", "Model", modelName + ".cs").toString();
+        File model = files.get(path);
+        assertNotNull(model, "Could not find generated model: " + path);
+        return model;
     }
 }
