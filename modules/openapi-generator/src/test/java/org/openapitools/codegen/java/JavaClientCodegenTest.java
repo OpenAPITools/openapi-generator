@@ -5124,6 +5124,29 @@ public class JavaClientCodegenTest {
         }
     }
 
+    @Test(description = "the setVerifyingSsl(false) insecure-TLS hook is generated unless opted out")
+    public void testOkhttpInsecureTlsHookGeneratedByDefault() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml", JavaClientCodegen.OKHTTP);
+
+        assertThat(files.get("ApiClient.java")).content()
+                .contains("public ApiClient setVerifyingSsl(boolean verifyingSsl)")
+                .contains("checkClientTrusted");
+    }
+
+    @Test(description = "generateInsecureTlsHook=false must omit setVerifyingSsl and the trust-all "
+            + "TrustManager, e.g. for consumers whose static analysis flags that code")
+    public void testOkhttpInsecureTlsHookOmittedWhenDisabled() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml", JavaClientCodegen.OKHTTP,
+                Map.of(GENERATE_INSECURE_TLS_HOOK, false));
+
+        assertThat(files.get("ApiClient.java")).content()
+                .doesNotContain("verifyingSsl")
+                .doesNotContain("checkClientTrusted")
+                .doesNotContain("import java.security.cert.CertificateException;");
+    }
+
     @DataProvider(name = "jerseyLibraries")
     public static Object[][] jerseyLibraries() {
         return new Object[][]{{JavaClientCodegen.JERSEY2}, {JavaClientCodegen.JERSEY3}};
