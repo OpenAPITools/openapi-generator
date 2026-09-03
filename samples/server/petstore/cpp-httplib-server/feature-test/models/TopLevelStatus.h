@@ -60,3 +60,5 @@ inline void from_json(const nlohmann::json& j, TopLevelStatus& value)
     throw nlohmann::json::type_error::create(302, "Invalid value for TopLevelStatus", &j);
 }
 
+} // namespace models
+
