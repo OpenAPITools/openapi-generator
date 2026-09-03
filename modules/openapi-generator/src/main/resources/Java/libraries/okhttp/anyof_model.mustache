@@ -211,10 +211,31 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{/isArray}}
             {{/hasChildren}}
             {{/isModel}}
+            {{^isModel}}
+            {{#isNumber}}
+            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            {{/isNumber}}
+            {{^isNumber}}
             {{#isPrimitiveType}}
             {{#isArray}}
             if (!jsonElement.isJsonArray()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            for (JsonElement element : jsonElement.getAsJsonArray()) {
+                {{#items}}
+                {{#isNumber}}
+                if (!element.getAsJsonPrimitive().isNumber()) {
+                    throw new IllegalArgumentException(String.format("Expected array items to be of type Number in the JSON string but got `%s`", element.toString()));
+                }
+                {{/isNumber}}
+                {{^isNumber}}
+                if (!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                    throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", element.toString()));
+                }
+                {{/isNumber}}
+                {{/items}}
             }
             {{/isArray}}
             {{^isArray}}
@@ -222,14 +243,82 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             if (!jsonElement.isJsonObject()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
             }
+            for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
+                {{#items}}
+                {{#isNumber}}
+                if (!entry.getValue().getAsJsonPrimitive().isNumber()) {
+                    throw new IllegalArgumentException(String.format("Expected map values to be of type Number in the JSON string but got `%s`", entry.getValue().toString()));
+                }
+                {{/isNumber}}
+                {{^isNumber}}
+                if (!entry.getValue().getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                    throw new IllegalArgumentException(String.format("Expected map values to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", entry.getValue().toString()));
+                }
+                {{/isNumber}}
+                {{/items}}
+            }
             {{/isMap}}
             {{^isMap}}
-            if (!jsonElement.isJsonPrimitive()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+            if (!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
             }
             {{/isMap}}
             {{/isArray}}
             {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            {{#isArray}}
+            if (!jsonElement.isJsonArray()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            for (JsonElement element : jsonElement.getAsJsonArray()) {
+                {{#items.isModel}}
+                {{{items.dataType}}}.validateJsonElement(element);
+                {{/items.isModel}}
+                {{^items.isModel}}
+                {{#items.isUuid}}
+                UUID.fromString(element.getAsString());
+                {{/items.isUuid}}
+                {{^items.isUuid}}
+                if (!element.isJsonPrimitive()) {
+                    throw new IllegalArgumentException(String.format("Expected array items to be a primitive type in the JSON string but got `%s`", element.toString()));
+                }
+                {{/items.isUuid}}
+                {{/items.isModel}}
+            }
+            {{/isArray}}
+            {{^isArray}}
+            {{#isMap}}
+            if (!jsonElement.isJsonObject()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
+                {{#items.isModel}}
+                {{{items.dataType}}}.validateJsonElement(entry.getValue());
+                {{/items.isModel}}
+                {{^items.isModel}}
+                {{#items.isUuid}}
+                UUID.fromString(entry.getValue().getAsString());
+                {{/items.isUuid}}
+                {{^items.isUuid}}
+                if (!entry.getValue().isJsonPrimitive()) {
+                    throw new IllegalArgumentException(String.format("Expected map values to be a primitive type in the JSON string but got `%s`", entry.getValue().toString()));
+                }
+                {{/items.isUuid}}
+                {{/items.isModel}}
+            }
+            {{/isMap}}
+            {{^isMap}}
+            {{#isUuid}}
+            UUID.fromString(jsonElement.getAsString());
+            {{/isUuid}}
+            {{^isUuid}}
+            {{{dataType}}}.validateJsonElement(jsonElement);
+            {{/isUuid}}
+            {{/isMap}}
+            {{/isArray}}
+            {{/isPrimitiveType}}
+            {{/isNumber}}
+            {{/isModel}}
             matches++;
         } catch (Exception e) {
             // deserialization failed, continue
@@ -366,10 +455,31 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         {{/isArray}}
                         {{/hasChildren}}
                         {{/isModel}}
+                        {{^isModel}}
+                        {{#isNumber}}
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        {{/isNumber}}
+                        {{^isNumber}}
                         {{#isPrimitiveType}}
                         {{#isArray}}
                         if (!jsonElement.isJsonArray()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        for (JsonElement element : jsonElement.getAsJsonArray()) {
+                            {{#items}}
+                            {{#isNumber}}
+                            if (!element.getAsJsonPrimitive().isNumber()) {
+                                throw new IllegalArgumentException(String.format("Expected array items to be of type Number in the JSON string but got `%s`", element.toString()));
+                            }
+                            {{/isNumber}}
+                            {{^isNumber}}
+                            if (!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                                throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", element.toString()));
+                            }
+                            {{/isNumber}}
+                            {{/items}}
                         }
                         {{/isArray}}
                         {{^isArray}}
@@ -377,14 +487,82 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         if (!jsonElement.isJsonObject()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
                         }
+                        for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
+                            {{#items}}
+                            {{#isNumber}}
+                            if (!entry.getValue().getAsJsonPrimitive().isNumber()) {
+                                throw new IllegalArgumentException(String.format("Expected map values to be of type Number in the JSON string but got `%s`", entry.getValue().toString()));
+                            }
+                            {{/isNumber}}
+                            {{^isNumber}}
+                            if (!entry.getValue().getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                                throw new IllegalArgumentException(String.format("Expected map values to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", entry.getValue().toString()));
+                            }
+                            {{/isNumber}}
+                            {{/items}}
+                        }
                         {{/isMap}}
                         {{^isMap}}
-                        if (!jsonElement.isJsonPrimitive()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be a primitive type in the JSON string but got `%s`", jsonElement.toString()));
+                        if (!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         {{/isMap}}
                         {{/isArray}}
                         {{/isPrimitiveType}}
+                        {{^isPrimitiveType}}
+                        {{#isArray}}
+                        if (!jsonElement.isJsonArray()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        for (JsonElement element : jsonElement.getAsJsonArray()) {
+                            {{#items.isModel}}
+                            {{{items.dataType}}}.validateJsonElement(element);
+                            {{/items.isModel}}
+                            {{^items.isModel}}
+                            {{#items.isUuid}}
+                            UUID.fromString(element.getAsString());
+                            {{/items.isUuid}}
+                            {{^items.isUuid}}
+                            if (!element.isJsonPrimitive()) {
+                                throw new IllegalArgumentException(String.format("Expected array items to be a primitive type in the JSON string but got `%s`", element.toString()));
+                            }
+                            {{/items.isUuid}}
+                            {{/items.isModel}}
+                        }
+                        {{/isArray}}
+                        {{^isArray}}
+                        {{#isMap}}
+                        if (!jsonElement.isJsonObject()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
+                            {{#items.isModel}}
+                            {{{items.dataType}}}.validateJsonElement(entry.getValue());
+                            {{/items.isModel}}
+                            {{^items.isModel}}
+                            {{#items.isUuid}}
+                            UUID.fromString(entry.getValue().getAsString());
+                            {{/items.isUuid}}
+                            {{^items.isUuid}}
+                            if (!entry.getValue().isJsonPrimitive()) {
+                                throw new IllegalArgumentException(String.format("Expected map values to be a primitive type in the JSON string but got `%s`", entry.getValue().toString()));
+                            }
+                            {{/items.isUuid}}
+                            {{/items.isModel}}
+                        }
+                        {{/isMap}}
+                        {{^isMap}}
+                        {{#isUuid}}
+                        UUID.fromString(jsonElement.getAsString());
+                        {{/isUuid}}
+                        {{^isUuid}}
+                        {{{dataType}}}.validateJsonElement(jsonElement);
+                        {{/isUuid}}
+                        {{/isMap}}
+                        {{/isArray}}
+                        {{/isPrimitiveType}}
+                        {{/isNumber}}
+                        {{/isModel}}
                         {{classname}} ret = new {{classname}}();
                         ret.setActualInstance(adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}.fromJsonTree(jsonElement));
                         {{#isAdditionalPropertiesTrue}}
@@ -485,6 +663,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             }
             {{/discriminator}}
             {{#composedSchemas.anyOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
             // deserialize {{{dataType}}}
             try {
                 {{^useJackson3}}
@@ -504,6 +683,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 log.log(Level.FINER, "Input data does not match schema '{{{dataType}}}'", e);
             }
 
+            {{/vendorExtensions.x-duplicated-data-type}}
             {{/composedSchemas.anyOf}}
             {{^useJackson3}}
             throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: no match found"));
@@ -659,6 +839,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{/useOneOfDiscriminatorLookup}}
             int match = 0;
             {{#composedSchemas.anyOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
             // deserialize {{{dataType}}}
             try {
                 deserialized = ctx.deserialize({{{baseType}}}.class, jakarta.json.Json.createParser(new java.io.StringReader(jsonObject.toString())));
@@ -672,6 +853,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             } catch (Exception e) {
                 // deserialization failed, continue
             }
+            {{/vendorExtensions.x-duplicated-data-type}}
             {{/composedSchemas.anyOf}}
             if (match > 0) {
                 {{classname}} ret = new {{classname}}();
@@ -817,7 +999,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     StringJoiner joiner = new StringJoiner("&");
 
-    {{#composedSchemas.oneOf}}
+    {{#composedSchemas.anyOf}}
     {{^vendorExtensions.x-duplicated-data-type}}
     if (getActualInstance() instanceof {{{dataType}}}) {
         {{#isArray}}
@@ -941,7 +1123,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return joiner.toString();
     }
     {{/vendorExtensions.x-duplicated-data-type}}
-    {{/composedSchemas.oneOf}}
+    {{/composedSchemas.anyOf}}
     return null;
   }
 {{/supportUrlQuery}}

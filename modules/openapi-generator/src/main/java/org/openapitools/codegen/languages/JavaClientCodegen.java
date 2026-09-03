@@ -874,7 +874,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
-                if (!useJackson3 || libNative || libApache || libJersey3 || libRestTemplate || libWebClient) {
+                if (!useJackson3 || libNative || libApache || libJersey3 || libOkHttp || libRestTemplate || libWebClient) {
                     supportingFiles.add(new SupportingFile("RFC3339InstantDeserializer.mustache", invokerFolder, "RFC3339InstantDeserializer.java"));
                     supportingFiles.add(new SupportingFile("RFC3339JavaTimeModule.mustache", invokerFolder, "RFC3339JavaTimeModule.java"));
                 }
@@ -888,13 +888,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 additionalProperties.put(SERIALIZATION_LIBRARY_JSONB, "true");
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
                 additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
-                if (libOkHttp) {
-                    // openApiNullable is Jackson-only (it is jackson-databind-nullable). The okhttp pom
-                    // already omits that dependency for JSON-B, so leaving the flag on emits JsonNullable
-                    // references that cannot resolve.
-                    openApiNullable = false;
-                    additionalProperties.put(OPENAPI_NULLABLE, false);
-                }
                 break;
             default:
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
@@ -910,6 +903,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.put("isGson", SERIALIZATION_LIBRARY_GSON.equals(getSerializationLibrary()));
             additionalProperties.put("isJackson", SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary()));
             additionalProperties.put("isJsonb", SERIALIZATION_LIBRARY_JSONB.equals(getSerializationLibrary()));
+            // The okhttp templates never wrap fields in JsonNullable, so openApiNullable would only
+            // emit dead equalsNullable/hashCodeNullable helpers, unused imports and (for JSON-B) an
+            // unresolvable jackson-databind-nullable reference. Force it off for every serialization
+            // library rather than pretending the absent-vs-explicit-null distinction is supported.
+            openApiNullable = false;
+            additionalProperties.put(OPENAPI_NULLABLE, false);
         }
 
         if (isLibrary(FEIGN)) {

@@ -109,7 +109,10 @@ public class JSON {
     private static ObjectMapper mapper;
     {{/isJackson}}
     {{#isJsonb}}
-    private static Jsonb jsonb;
+    {{! volatile: rebuildJsonb() swaps the instances at runtime (date-format setters) while
+        OkHttp dispatcher threads may be reading them. }}
+    private static volatile Jsonb jsonb;
+    private static volatile Jsonb plainJsonb;
     {{! A Jsonb instance is immutable, so the configured formats are kept here and the instance is
         rebuilt from scratch whenever one of them changes. }}
     private static DateFormat dateFormat;
@@ -127,6 +130,11 @@ public class JSON {
 
     public JSON() {
         {{#isGson}}
+        if (gson != null) {
+            // the shared static Gson is already built; rebuilding would discard a
+            // customization installed through setGson()
+            return;
+        }
         GsonFireBuilder fireBuilder = new GsonFireBuilder();
         {{#models}}
         {{#model}}
@@ -215,6 +223,7 @@ public class JSON {
                 .enable(EnumFeature.WRITE_ENUMS_USING_TO_STRING)
                 .enable(EnumFeature.READ_ENUMS_USING_TO_STRING)
                 .defaultDateFormat(new RFC3339DateFormat());
+            jsonMapperBuilder.addModule(new RFC3339JavaTimeModule());
             {{#joda}}
             jsonMapperBuilder.addModule(new JodaModule());
             {{/joda}}
@@ -502,7 +511,9 @@ public class JSON {
 
     public static boolean isInstanceOf(Class<?> type, Object instance, Set<Class<?>> visited) {
         if (instance == null) {
-            return true;
+            // null never matches a concrete schema type; nullable composed schemas accept
+            // null in setActualInstance before consulting this method
+            return false;
         }
         if (type.isInstance(instance)) {
             return true;
@@ -601,6 +612,17 @@ public class JSON {
         return jsonb;
     }
 
+    /**
+     * The Jsonb instance without the polymorphism (de)serializers of the discriminated
+     * hierarchy roots. The generated model classes delegate concrete subtype binding through
+     * it; application code should use {@link #getJsonb()}.
+     *
+     * @return the polymorphism-free Jsonb instance
+     */
+    public static Jsonb getPlainJsonb() {
+        return plainJsonb;
+    }
+
     public static void setJsonb(Jsonb jsonb) {
         JSON.jsonb = jsonb;
     }
@@ -658,6 +680,22 @@ public class JSON {
         {{/anyOf}}
         {{/oneOf}}
         {{/vendorExtensions.x-is-one-of-interface}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{! Built before the polymorphism components are added: the root (de)serializers of the
+            discriminated hierarchies bind concrete subtypes through this instance, which keeps
+            them from recursing into themselves. }}
+        plainJsonb = JsonbBuilder.create(config);
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{#hasChildren}}
+        {{#discriminator}}
+        config.withSerializers(new {{modelPackage}}.{{classname}}.CustomJsonbSerializer());
+        config.withDeserializers(new {{modelPackage}}.{{classname}}.CustomJsonbDeserializer());
+        {{/discriminator}}
+        {{/hasChildren}}
         {{/isEnum}}
         {{/model}}
         {{/models}}
@@ -851,7 +889,9 @@ public class JSON {
 
     public static boolean isInstanceOf(Class<?> type, Object instance, Set<Class<?>> visited) {
         if (instance == null) {
-            return true;
+            // null never matches a concrete schema type; nullable composed schemas accept
+            // null in setActualInstance before consulting this method
+            return false;
         }
         if (type.isInstance(instance)) {
             return true;

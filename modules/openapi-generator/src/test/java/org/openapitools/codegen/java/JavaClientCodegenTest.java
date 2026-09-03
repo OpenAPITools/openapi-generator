@@ -5124,6 +5124,63 @@ public class JavaClientCodegenTest {
         }
     }
 
+    @Test(description = "the okhttp templates never emit JsonNullable fields, so openApiNullable "
+            + "must be forced off for every serializer instead of emitting dead helpers")
+    public void testOkhttpForcesOpenApiNullableOff() {
+        JavaClientCodegen codegen = newOkhttpCodegen(
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        JavaClientCodegen.OPENAPI_NULLABLE, true));
+
+        assertThat(codegen.additionalProperties()).contains(entry(JavaClientCodegen.OPENAPI_NULLABLE, false));
+    }
+
+    @Test(description = "okhttp+Jackson3 must keep the lenient RFC3339 date handling the Jackson2 "
+            + "variant has, instead of silently falling back to stock jsr310 parsing")
+    public void testOkhttpJackson3GetsRfc3339Module() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml", JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        USE_JACKSON_3, true));
+
+        assertThat(files).containsKeys("RFC3339JavaTimeModule.java", "RFC3339InstantDeserializer.java");
+        assertThat(files.get("JSON.java")).content().contains("new RFC3339JavaTimeModule()");
+    }
+
+    @Test(description = "JSON-B has no workable native polymorphism for discriminators that are "
+            + "also bean properties (Yasson rejects the key collision), so hierarchy roots need "
+            + "generated TypeSelector-style (de)serializers wired into the Jsonb config")
+    public void testOkhttpJsonbEmitsPolymorphismSerializers() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml",
+                JavaClientCodegen.OKHTTP,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB));
+
+        assertThat(files.get("Animal.java")).content()
+                .contains("public static class CustomJsonbDeserializer implements JsonbDeserializer<Animal>")
+                .contains("if (\"Cat\".equals(discriminatorValue)) {")
+                .doesNotContain("@JsonbTypeInfo");
+        assertThat(files.get("JSON.java")).content()
+                .contains("plainJsonb = JsonbBuilder.create(config);")
+                .contains("config.withDeserializers(new org.openapitools.client.model.Animal.CustomJsonbDeserializer());");
+        // subtypes must not run the discriminator dispatch, or root delegation would recurse
+        assertThat(files.get("Cat.java")).content().doesNotContain("discriminatorValue");
+    }
+
+    @Test(description = "serializing a free-form additional property whose value is null must emit "
+            + "JSON null instead of crashing on JsonNull.getAsJsonObject()")
+    public void testOkhttpGsonAdditionalPropertiesNullSafe() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml",
+                JavaClientCodegen.OKHTTP);
+
+        assertThat(files.get("NullableClass.java")).content()
+                .contains("if (jsonElement.isJsonNull()) {")
+                .contains("obj.add(entry.getKey(), JsonNull.INSTANCE);");
+        // null is not an instance of anything: non-nullable oneOf must reject it
+        assertThat(files.get("JSON.java")).content()
+                .doesNotContain("if (instance == null) {\n            return true;");
+    }
+
     @Test(description = "JSON-B has no any-getter/any-setter, so additionalProperties=true models "
             + "need generated custom (de)serializers wired into the Jsonb config to round-trip "
             + "undeclared fields")

@@ -368,6 +368,7 @@ public class {{classname}} {
             return localVarApiClient.executeStream(localVarCall, localVarReturnType);
         } catch (ApiException e) {
             {{#isGson}}e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<{{{errorObjectType}}}>(){}.getType()));{{/isGson}}
+            {{#isJackson}}e.setErrorObject(localVarApiClient.getJSON().deserialize(e.getResponseBody(), new TypeReference<{{{errorObjectType}}}>(){}.getType()));{{/isJackson}}
             {{#isJsonb}}e.setErrorObject(localVarApiClient.getJSON().deserialize(e.getResponseBody(), new JSON.GenericType<{{{errorObjectType}}}>(){}.getType()));{{/isJsonb}}
             throw e;
         }
@@ -394,6 +395,7 @@ public class {{classname}} {
             return localVarApiClient.execute(localVarCall, localVarReturnType);
         } catch (ApiException e) {
             {{#isGson}}e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<{{{errorObjectType}}}>(){}.getType()));{{/isGson}}
+            {{#isJackson}}e.setErrorObject(localVarApiClient.getJSON().deserialize(e.getResponseBody(), new TypeReference<{{{errorObjectType}}}>(){}.getType()));{{/isJackson}}
             {{#isJsonb}}e.setErrorObject(localVarApiClient.getJSON().deserialize(e.getResponseBody(), new JSON.GenericType<{{{errorObjectType}}}>(){}.getType()));{{/isJsonb}}
             throw e;
         }
