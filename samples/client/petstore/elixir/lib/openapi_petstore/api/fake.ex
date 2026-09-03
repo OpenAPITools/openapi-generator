@@ -18,7 +18,7 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, OpenapiPetstore.Model.Foo.t}` on success
+  - `{:ok, any()}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
   @spec fake_all_of_with_local_single_ref_get(Tesla.Env.client, keyword()) :: {:ok, any()} | {:error, Tesla.Env.t}
@@ -132,10 +132,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec fake_http_signature_test(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec fake_http_signature_test(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def fake_http_signature_test(connection, pet, opts \\ []) do
     optional_params = %{
       :query_1 => :query,
@@ -168,10 +168,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, boolean()}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec fake_outer_boolean_serialize(Tesla.Env.client, keyword()) :: {:ok, boolean()} | {:error, Tesla.Env.t}
+  @spec fake_outer_boolean_serialize(Tesla.Env.client, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def fake_outer_boolean_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -238,10 +238,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, number()}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec fake_outer_number_serialize(Tesla.Env.client, keyword()) :: {:ok, number()} | {:error, Tesla.Env.t}
+  @spec fake_outer_number_serialize(Tesla.Env.client, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def fake_outer_number_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -273,10 +273,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, String.t}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec fake_outer_string_serialize(Tesla.Env.client, keyword()) :: {:ok, String.t} | {:error, Tesla.Env.t}
+  @spec fake_outer_string_serialize(Tesla.Env.client, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def fake_outer_string_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -339,10 +339,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_additional_properties_reference(Tesla.Env.client, %{optional(String.t) => any()}, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_additional_properties_reference(Tesla.Env.client, %{optional(String.t) => any()}, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_additional_properties_reference(connection, request_body, _opts \\ []) do
     request =
       %{}
@@ -370,10 +370,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_any_type_object(Tesla.Env.client, any(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_any_type_object(Tesla.Env.client, any(), keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_any_type_object(connection, body, _opts \\ []) do
     request =
       %{}
@@ -400,10 +400,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_body_with_binary(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_body_with_binary(Tesla.Env.client, String.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_body_with_binary(connection, body, _opts \\ []) do
     request =
       %{}
@@ -430,10 +430,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_body_with_file_schema(Tesla.Env.client, OpenapiPetstore.Model.FileSchemaTestClass.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_body_with_file_schema(Tesla.Env.client, OpenapiPetstore.Model.FileSchemaTestClass.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_body_with_file_schema(connection, file_schema_test_class, _opts \\ []) do
     request =
       %{}
@@ -460,10 +460,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_body_with_query_params(Tesla.Env.client, String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_body_with_query_params(Tesla.Env.client, String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_body_with_query_params(connection, query, user, _opts \\ []) do
     request =
       %{}
@@ -536,10 +536,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_endpoint_parameters(Tesla.Env.client, number(), float(), String.t, binary(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_endpoint_parameters(Tesla.Env.client, number(), float(), String.t, binary(), keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_endpoint_parameters(connection, number, double, pattern_without_delimiter, byte, opts \\ []) do
     optional_params = %{
       :integer => :form,
@@ -593,10 +593,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_enum_parameters(Tesla.Env.client, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_enum_parameters(Tesla.Env.client, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_enum_parameters(connection, opts \\ []) do
     optional_params = %{
       :enum_header_string_array => :headers,
@@ -642,10 +642,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_group_parameters(Tesla.Env.client, integer(), boolean(), integer(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_group_parameters(Tesla.Env.client, integer(), boolean(), integer(), keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_group_parameters(connection, required_string_group, required_boolean_group, required_int64_group, opts \\ []) do
     optional_params = %{
       :string_group => :query,
@@ -682,10 +682,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_implicit_free_form_object(Tesla.Env.client, %{optional(String.t) => any()}, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_implicit_free_form_object(Tesla.Env.client, %{optional(String.t) => any()}, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_implicit_free_form_object(connection, body, _opts \\ []) do
     request =
       %{}
@@ -713,10 +713,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_inline_additional_properties(Tesla.Env.client, %{optional(String.t) => String.t}, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_inline_additional_properties(Tesla.Env.client, %{optional(String.t) => String.t}, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_inline_additional_properties(connection, request_body, _opts \\ []) do
     request =
       %{}
@@ -744,10 +744,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_inline_freeform_additional_properties(Tesla.Env.client, OpenapiPetstore.Model.TestInlineFreeformAdditionalPropertiesRequest.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_inline_freeform_additional_properties(Tesla.Env.client, OpenapiPetstore.Model.TestInlineFreeformAdditionalPropertiesRequest.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_inline_freeform_additional_properties(connection, test_inline_freeform_additional_properties_request, _opts \\ []) do
     request =
       %{}
@@ -776,10 +776,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_json_form_data(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_json_form_data(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_json_form_data(connection, param, param2, _opts \\ []) do
     request =
       %{}
@@ -808,10 +808,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_nullable(Tesla.Env.client, OpenapiPetstore.Model.ChildWithNullable.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_nullable(Tesla.Env.client, OpenapiPetstore.Model.ChildWithNullable.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_nullable(connection, child_with_nullable, _opts \\ []) do
     request =
       %{}
@@ -844,10 +844,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_query_parameter_collection_format(Tesla.Env.client, list(String.t), list(String.t), list(String.t), list(String.t), list(String.t), String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_query_parameter_collection_format(Tesla.Env.client, list(String.t), list(String.t), list(String.t), list(String.t), list(String.t), String.t, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_query_parameter_collection_format(connection, pipe, ioutil, http, url, context, allow_empty, opts \\ []) do
     optional_params = %{
       :language => :query
@@ -886,10 +886,10 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ### Returns
 
-  - `{:ok, nil}` on success
+  - `{:ok, Tesla.Env.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_string_map_reference(Tesla.Env.client, %{optional(String.t) => String.t}, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_string_map_reference(Tesla.Env.client, %{optional(String.t) => String.t}, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_string_map_reference(connection, request_body, _opts \\ []) do
     request =
       %{}
