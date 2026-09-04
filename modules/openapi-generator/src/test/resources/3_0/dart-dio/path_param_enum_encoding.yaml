@@ -1,0 +1,47 @@
+openapi: "3.0.0"
+info:
+  title: Path parameter enum encoding test
+  version: "1.0.0"
+paths:
+  /orders/{status}:
+    get:
+      operationId: getOrderByStatus
+      parameters:
+        - name: status
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/OrderStatus"
+      responses:
+        "200":
+          description: OK
+  /items/{category}:
+    get:
+      operationId: getItemByCategory
+      parameters:
+        - name: category
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/CategoryType"
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    # Enum whose wire names differ from their Dart camelCase identifiers.
+    # unknown_default_open_api -> Dart: unknownDefaultOpenApi
+    # type_a                   -> Dart: typeA
+    # These must be encoded via the serializer (wire name), NOT via
+    # .toString() (Dart identifier name).
+    OrderStatus:
+      type: string
+      enum:
+        - placed
+        - approved
+        - unknown_default_open_api
+    CategoryType:
+      type: string
+      enum:
+        - type_a
+        - type_b
