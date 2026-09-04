@@ -6323,8 +6323,12 @@ public class DefaultCodegen implements CodegenConfig {
                     cp = fromProperty(key, prop, mandatory.contains(key));
                 }
 
-                if (cm != null && cm.allVars == vars && cp.isOverridden == null) { // processing allVars and it's a parent property
-                    cp.isOverridden = true;
+                if (cm != null && cm.allVars == vars) {
+                    // Processing allVars: a property is overridden when it comes from the parent rather than
+                    // being declared by this model. fromProperty caches CodegenProperty instances, so the flag
+                    // must be assigned rather than only filled in when unset - a cached instance may already
+                    // carry a value from whichever model happened to be processed first.
+                    cp.isOverridden = !varsMap.containsKey(key);
                 }
 
                 vars.add(cp);
