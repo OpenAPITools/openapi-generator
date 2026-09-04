@@ -16,6 +16,7 @@ package org.openapitools.server.models
  * A pet dog
  * @param packSize the size of the pack the dog is from
  * @param petType 
+ * @param name 
  */
 data class Dog(
     /* the size of the pack the dog is from */
@@ -25,5 +26,5 @@ data class Dog(
     
     @field:com.fasterxml.jackson.annotation.JsonProperty("petType")
     val petType: kotlin.Any? = null
-)
+) : Pet
 
