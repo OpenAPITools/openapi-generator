@@ -1,0 +1,166 @@
+openapi: 3.0.1
+info:
+  description: |
+    Sample spec exercising Jackson @JsonTypeInfo(defaultImpl = ...) on oneOf interfaces, driven by the x-jackson-default-impl vendor extension (spec-based) and the typeInfoDefaultImpls generator option (config-based).
+  title: Jackson defaultImpl oneOf sample
+  version: 0.0.1
+servers:
+- url: http://localhost:8080
+paths:
+  /animals:
+    post:
+      operationId: createAnimal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Animal"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Animal"
+          description: OK
+      tags:
+      - default
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /fruits:
+    post:
+      operationId: createFruit
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Fruit"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Fruit"
+          description: OK
+      tags:
+      - default
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /beverages:
+    post:
+      operationId: createBeverage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Beverage"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Beverage"
+          description: OK
+      tags:
+      - default
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    Animal:
+      oneOf:
+      - $ref: "#/components/schemas/Dog"
+      - $ref: "#/components/schemas/Cat"
+      x-jackson-default-impl: Dog
+      x-one-of-name: Animal
+    Dog:
+      example:
+        bark: true
+      properties:
+        bark:
+          type: boolean
+      type: object
+    Cat:
+      properties:
+        declawed:
+          type: boolean
+      type: object
+    Fruit:
+      discriminator:
+        mapping:
+          APPLE: "#/components/schemas/Apple"
+          BANANA: "#/components/schemas/Banana"
+        propertyName: fruitType
+      example:
+        fruitType: fruitType
+      oneOf:
+      - $ref: "#/components/schemas/Apple"
+      - $ref: "#/components/schemas/Banana"
+      properties:
+        fruitType:
+          type: string
+      required:
+      - fruitType
+      type: object
+      x-one-of-name: Fruit
+    Apple:
+      properties:
+        fruitType:
+          type: string
+        seeds:
+          type: integer
+      required:
+      - fruitType
+      type: object
+    Banana:
+      properties:
+        fruitType:
+          type: string
+        length:
+          type: integer
+      required:
+      - fruitType
+      type: object
+    Beverage:
+      discriminator:
+        mapping:
+          WATER: "#/components/schemas/Water"
+          SODA: "#/components/schemas/Soda"
+        propertyName: beverageType
+      example:
+        beverageType: beverageType
+      oneOf:
+      - $ref: "#/components/schemas/Water"
+      - $ref: "#/components/schemas/Soda"
+      properties:
+        beverageType:
+          type: string
+      required:
+      - beverageType
+      type: object
+      x-jackson-default-impl: Water
+      x-one-of-name: Beverage
+    Water:
+      properties:
+        beverageType:
+          type: string
+        sparkling:
+          type: boolean
+      required:
+      - beverageType
+      type: object
+    Soda:
+      properties:
+        beverageType:
+          type: string
+        sugarGrams:
+          type: integer
+      required:
+      - beverageType
+      type: object
+
