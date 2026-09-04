@@ -355,6 +355,44 @@ public class Swift5ClientCodegenTest {
         }
     }
 
+    @Test(description = "query parameter dictionaries carry an explicit type annotation so swiftc does not have to infer them", enabled = true)
+    public void queryParameterDictionaryIsTypeAnnotatedTest() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("swift5")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            File apiFile = files.stream()
+                    .filter(f -> f.getName().equals("PetAPI.swift"))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("PetAPI.swift not found"));
+
+            String content = Files.readString(apiFile.toPath());
+
+            // The dictionary literal of (wrappedValue:, isExplode:) tuples must be bound to an
+            // explicitly typed local: without the annotation the constraint solver has to infer
+            // the type from every entry's encodeToJSON() overload at once, which times out
+            // ("the compiler is unable to type-check this expression in reasonable time")
+            // for operations with many query parameters.
+            Assert.assertTrue(content.contains("let localVariableQueryParameters: [String: (wrappedValue: Any?, isExplode: Bool)] = ["));
+            Assert.assertTrue(content.contains("APIHelper.mapValuesToQueryItems(localVariableQueryParameters)"));
+
+        } finally {
+            output.deleteOnExit();
+        }
+    }
+
     @Test
     public void testAdditionalModelObjectAttributesParsing() {
         Swift5ClientCodegen codegen = new Swift5ClientCodegen();
