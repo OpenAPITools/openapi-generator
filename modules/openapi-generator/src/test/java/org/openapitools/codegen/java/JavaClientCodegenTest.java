@@ -5166,6 +5166,18 @@ public class JavaClientCodegenTest {
         assertThat(files.get("Cat.java")).content().doesNotContain("discriminatorValue");
     }
 
+    @Test(description = "composed oneOf models must keep okhttp-gson's fromJson/toJson helpers "
+            + "so migrating consumers do not lose API surface")
+    public void testOkhttpOneOfModelsKeepJsonHelpers() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml",
+                JavaClientCodegen.OKHTTP);
+
+        assertThat(files.get("Fruit.java")).content()
+                .contains("public static Fruit fromJson(String jsonString) throws IOException {")
+                .contains("public String toJson() {");
+    }
+
     @Test(description = "serializing a free-form additional property whose value is null must emit "
             + "JSON null instead of crashing on JsonNull.getAsJsonObject()")
     public void testOkhttpGsonAdditionalPropertiesNullSafe() {
