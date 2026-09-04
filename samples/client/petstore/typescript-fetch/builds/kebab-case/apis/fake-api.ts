@@ -1560,7 +1560,7 @@ export class FakeApi extends runtime.BaseAPI {
 
         if (requestParameters['language'] != null) {
             for (let key of Object.keys(requestParameters['language'])) {
-                queryParameters[key] = requestParameters['language'][key];
+                queryParameters[key] = (requestParameters['language'] as any)[key];
             }
         }
 
