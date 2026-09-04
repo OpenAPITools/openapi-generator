@@ -290,6 +290,22 @@ class ApiClientTests(unittest.TestCase):
         result = self.api_client.parameters_to_url_query([('boolean', True)], {})
         self.assertEqual(result, "boolean=true")
 
+    def test_parameters_to_url_query_exploded_name_does_not_collide_with_collection_format(self):
+        # an exploded object query parameter contributes entries under its own property
+        # names. A scalar entry whose name happens to match a declared array parameter
+        # must not be joined or repeated as if it were that parameter's list.
+        params = self.api_client.parameters_to_url_query(
+            params=[('language', 'nl'), ('context', 'abc')],
+            collection_formats={'context': 'multi'})
+        self.assertEqual(params, "language=nl&context=abc")
+
+    def test_parameters_to_url_query_collection_format_still_applies_to_lists(self):
+        # the declared array parameter itself still gets its collection format
+        params = self.api_client.parameters_to_url_query(
+            params=[('language', 'nl'), ('context', ['a', 'b'])],
+            collection_formats={'context': 'multi'})
+        self.assertEqual(params, "language=nl&context=a&context=b")
+
     def test_parameters_to_url_query_list_value(self):
         params = self.api_client.parameters_to_url_query(params=[('list', [1, 2, 3])],
                                                          collection_formats={'list': 'multi'})

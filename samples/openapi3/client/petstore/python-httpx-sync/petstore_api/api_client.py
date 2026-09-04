@@ -540,11 +540,15 @@ class ApiClient:
             if isinstance(v, dict):
                 v = json.dumps(v)
 
-            if k in collection_formats:
+            # a collection format only applies to a parameter that actually carries a
+            # collection. An exploded object query parameter takes its names from the
+            # object, so a property name that happens to match a sibling array parameter
+            # must not be joined or repeated as if it were that parameter's list.
+            if k in collection_formats and isinstance(v, (list, tuple)):
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':
                     new_params.extend(
-                        (k, quote(str(value).lower() if isinstance(value, bool) else str(value)))
+                        (quote(str(k)), quote(str(value).lower() if isinstance(value, bool) else str(value)))
                         for value in v
                     )
                 else:
@@ -557,12 +561,14 @@ class ApiClient:
                     else:  # csv is the default
                         delimiter = ','
                     new_params.append(
-                        (k, delimiter.join(
+                        (quote(str(k)), delimiter.join(
                             quote(str(value).lower() if isinstance(value, bool) else str(value))
                             for value in v))
                     )
             else:
-                new_params.append((k, quote(str(v))))
+                # the name is quoted as well as the value: an exploded object query
+                # parameter takes its names from the object, so they are runtime data
+                new_params.append((quote(str(k)), quote(str(v))))
 
         return "&".join(["=".join(map(str, item)) for item in new_params])
 

@@ -9515,7 +9515,10 @@ class FakeApi:
             
         if language is not None:
             
-            _query_params.append(('language', language))
+            # form style explodes an object into one parameter per entry, keyed by the
+            # property name alone
+            for _key, _value in language.items():
+                _query_params.append((_key, _value))
             
         if allow_empty is not None:
             
