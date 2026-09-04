@@ -67,7 +67,23 @@ class {{{classname}}} {
         {{^required}}
     if ({{{paramName}}} != null) {
           {{/required}}
+        {{#isMap}}
+          {{#isExplode}}
+            {{^isDeepObject}}
+      // form style explodes an object into one query parameter per entry, keyed by the property name alone
+      {{#isFreeFormObject}}({{{paramName}}} as Map){{/isFreeFormObject}}{{^isFreeFormObject}}{{{paramName}}}{{/isFreeFormObject}}.forEach((entryKey, entryValue) => queryParams.addAll(_queryParams('', entryKey.toString(), entryValue)));
+            {{/isDeepObject}}
+            {{#isDeepObject}}
       queryParams.addAll(_queryParams('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
+            {{/isDeepObject}}
+          {{/isExplode}}
+          {{^isExplode}}
+      queryParams.addAll(_queryParams('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
+          {{/isExplode}}
+        {{/isMap}}
+        {{^isMap}}
+      queryParams.addAll(_queryParams('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
+        {{/isMap}}
           {{^required}}
     }
         {{/required}}
