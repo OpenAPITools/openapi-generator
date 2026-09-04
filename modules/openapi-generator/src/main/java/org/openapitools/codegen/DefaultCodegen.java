@@ -1049,6 +1049,8 @@ public class DefaultCodegen implements CodegenConfig {
         return specMajorVersion == 3 && specMinorVersion >= 1;
     }
 
+    private List<String> schemasUsedOnlyInFormParam = null;
+
     /**
      * Set the OpenAPI document.
      * This method is invoked when the input OpenAPI document has been parsed and validated.
@@ -1059,12 +1061,28 @@ public class DefaultCodegen implements CodegenConfig {
             once(LOGGER).warn(UNSUPPORTED_V310_SPEC_MSG);
         }
         this.openAPI = openAPI;
+        this.schemasUsedOnlyInFormParam = null;
         // Set global settings such that helper functions in ModelUtils can lookup the value
         // of the CLI option.
         ModelUtils.setDisallowAdditionalPropertiesIfNotPresent(getDisallowAdditionalPropertiesIfNotPresent());
 
         // Multiple operations rely on proper type aliases, so we should always update them
         typeAliases = getAllAliases(ModelUtils.getSchemas(openAPI));
+    }
+
+    /**
+     * Returns the list of schema names that are used only in form parameters.
+     *
+     * @return list of schema names used only in form parameters
+     */
+    public List<String> getSchemasUsedOnlyInFormParam() {
+        if (this.openAPI == null) {
+            return Collections.emptyList();
+        }
+        if (this.schemasUsedOnlyInFormParam == null) {
+            this.schemasUsedOnlyInFormParam = ModelUtils.getSchemasUsedOnlyInFormParam(this.openAPI);
+        }
+        return this.schemasUsedOnlyInFormParam;
     }
 
     // override with any message to be shown right before the process finishes
@@ -8206,6 +8224,36 @@ public class DefaultCodegen implements CodegenConfig {
         return param;
     }
 
+    /**
+     * Check if the content type is form data (e.g. multipart/* or application/x-www-form-urlencoded).
+     *
+     * @param contentType Content type string
+     * @return true if form content type
+     */
+    protected boolean isFormContentType(String contentType) {
+        if (contentType == null) {
+            return false;
+        }
+        String ct = contentType.toLowerCase(Locale.ROOT);
+        return ct.startsWith("application/x-www-form-urlencoded") || ct.startsWith("multipart");
+    }
+
+    /**
+     * Check if skipFormModel is enabled (defaults to true).
+     *
+     * @return true if skipFormModel is true
+     */
+    public boolean isSkipFormModel() {
+        if (additionalProperties.containsKey(CodegenConstants.SKIP_FORM_MODEL)) {
+            final Object val = additionalProperties.get(CodegenConstants.SKIP_FORM_MODEL);
+            if (val instanceof Boolean) {
+                return (Boolean) val;
+            }
+            return Boolean.parseBoolean(val.toString());
+        }
+        return Boolean.parseBoolean(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL, "true"));
+    }
+
     protected LinkedHashMap<String, CodegenMediaType> getContent(Content content, Set<String> imports, String mediaTypeSchemaSuffix) {
         if (content == null) {
             return null;
@@ -8278,7 +8326,17 @@ public class DefaultCodegen implements CodegenConfig {
 
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null) {
-                addImports(imports, schemaProp.getImports(true, importBaseType, generatorMetadata.getFeatureSet()));
+                Set<String> propImports = schemaProp.getImports(true, importBaseType, generatorMetadata.getFeatureSet());
+                if (isFormContentType(contentType) && isSkipFormModel()) {
+                    List<String> formOnlySchemas = getSchemasUsedOnlyInFormParam();
+                    Set<String> formOnlyModels = formOnlySchemas.stream()
+                            .flatMap(s -> Stream.of(s, toModelName(s)))
+                            .collect(Collectors.toSet());
+                    propImports = propImports.stream()
+                            .filter(imp -> !formOnlyModels.contains(imp))
+                            .collect(Collectors.toSet());
+                }
+                addImports(imports, propImports);
             }
         }
         return cmtContent;
