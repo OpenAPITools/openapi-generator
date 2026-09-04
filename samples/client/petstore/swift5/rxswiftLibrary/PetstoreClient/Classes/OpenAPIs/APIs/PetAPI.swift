@@ -106,7 +106,7 @@ open class PetAPI {
      */
     open class func deletePetWithRequestBuilder(petId: Int64, apiKey: String? = nil) -> RequestBuilder<Void> {
         var localVariablePath = "/pet/{petId}"
-        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
+        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId.encodeToJSON()))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
@@ -285,7 +285,7 @@ open class PetAPI {
      */
     open class func getPetByIdWithRequestBuilder(petId: Int64) -> RequestBuilder<Pet> {
         var localVariablePath = "/pet/{petId}"
-        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
+        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId.encodeToJSON()))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
@@ -396,7 +396,7 @@ open class PetAPI {
      */
     open class func updatePetWithFormWithRequestBuilder(petId: Int64, name: String? = nil, status: String? = nil) -> RequestBuilder<Void> {
         var localVariablePath = "/pet/{petId}"
-        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
+        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId.encodeToJSON()))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
@@ -461,7 +461,7 @@ open class PetAPI {
      */
     open class func uploadFileWithRequestBuilder(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> RequestBuilder<ApiResponse> {
         var localVariablePath = "/pet/{petId}/uploadImage"
-        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
+        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId.encodeToJSON()))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
@@ -526,7 +526,7 @@ open class PetAPI {
      */
     open class func uploadFileWithRequiredFileWithRequestBuilder(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> RequestBuilder<ApiResponse> {
         var localVariablePath = "/fake/{petId}/uploadImageWithRequiredFile"
-        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
+        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId.encodeToJSON()))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
