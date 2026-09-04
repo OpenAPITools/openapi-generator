@@ -520,6 +520,19 @@ std::string jsonString = json.dump();
 // Deserialize from JSON
 auto parsedModel = models::TestQueryParametersDeepObjectParameter::fromJson(nlohmann::json::parse(jsonString));
 ```
+#### models::TopLevelPriority
+
+```cpp
+// Select an enum value
+auto model = models::TopLevelPriority::_0;
+
+// Serialize to JSON via the generated to_json free function
+nlohmann::json json = model;
+std::string jsonString = json.dump();
+
+// Deserialize from JSON via the generated from_json free function
+auto parsedModel = nlohmann::json::parse(jsonString).get<models::TopLevelPriority>();
+```
 #### models::TopLevelStatus
 
 ```cpp

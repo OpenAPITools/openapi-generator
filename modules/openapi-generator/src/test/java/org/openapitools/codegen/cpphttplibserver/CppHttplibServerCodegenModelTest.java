@@ -19,10 +19,15 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.CppHttplibServerCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -333,6 +338,52 @@ public class CppHttplibServerCodegenModelTest {
         Assert.assertEquals(model.vendorExtensions.get("isStringEnum"), true,
                 "string-valued top-level enums must serialize their values as JSON strings even when"
                         + " the declared type is not plainly `string`");
+    }
+
+    @Test(description = "model-header.mustache must render quoted values for string-backed "
+            + "top-level enums and bare values for integer-backed ones; the other enum tests "
+            + "only assert the isStringEnum flag that feeds this template, not its output")
+    public void topLevelEnumHeadersRenderTypedJsonValuesTest() throws IOException {
+        final File output = Files.createTempDirectory("cpp-httplib-server-enums").toFile();
+        output.deleteOnExit();
+
+        StringSchema stringEnumSchema = new StringSchema();
+        stringEnumSchema.setEnum(java.util.Arrays.asList("active", "inactive", "pending"));
+        IntegerSchema integerEnumSchema = new IntegerSchema();
+        integerEnumSchema.setEnum(java.util.Arrays.asList(0, 1, 2));
+
+        final OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("TopLevelStatus", stringEnumSchema);
+        openAPI.getComponents().addSchemas("TopLevelPriority", integerEnumSchema);
+
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.additionalProperties().put("modelNamespace", "models");
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        final List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate();
+        files.forEach(File::deleteOnExit);
+
+        // model-header.mustache guards the quoting with `{{#vendorExtensions.isStringEnum}}`, so a
+        // `type: string` enum must emit quoted values; bare ones would be undeclared identifiers.
+        final Path stringEnumHeader = output.toPath().resolve("models/TopLevelStatus.h");
+        TestUtils.assertFileContains(stringEnumHeader,
+                "case TopLevelStatus::ACTIVE: j = \"active\"; break;",
+                "case TopLevelStatus::INACTIVE: j = \"inactive\"; break;",
+                "case TopLevelStatus::PENDING: j = \"pending\"; break;",
+                "if (j == \"active\")");
+        TestUtils.assertFileNotContains(stringEnumHeader, "j = active;");
+
+        // ...while the `{{^vendorExtensions.isStringEnum}}` branch must leave a `type: integer`
+        // enum's values bare, or they serialize as JSON strings instead of numbers.
+        final Path integerEnumHeader = output.toPath().resolve("models/TopLevelPriority.h");
+        TestUtils.assertFileContains(integerEnumHeader,
+                "case TopLevelPriority::_0: j = 0; break;",
+                "case TopLevelPriority::_1: j = 1; break;",
+                "case TopLevelPriority::_2: j = 2; break;",
+                "if (j == 0)");
+        TestUtils.assertFileNotContains(integerEnumHeader, "j = \"0\";");
     }
 
     @Test(description = "convert model with nullable property")
