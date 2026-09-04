@@ -405,5 +405,24 @@ public class Shape extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of Shape given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of Shape
+     * @throws IOException if the JSON string is invalid with respect to Shape
+     */
+    public static Shape fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, Shape.class);
+    }
+
+    /**
+     * Convert an instance of Shape to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

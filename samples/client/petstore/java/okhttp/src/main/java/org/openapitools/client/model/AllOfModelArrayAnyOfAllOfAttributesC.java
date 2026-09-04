@@ -379,5 +379,24 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
 
 
 
+    /**
+     * Create an instance of AllOfModelArrayAnyOfAllOfAttributesC given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of AllOfModelArrayAnyOfAllOfAttributesC
+     * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOfAllOfAttributesC
+     */
+    public static AllOfModelArrayAnyOfAllOfAttributesC fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, AllOfModelArrayAnyOfAllOfAttributesC.class);
+    }
+
+    /**
+     * Convert an instance of AllOfModelArrayAnyOfAllOfAttributesC to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

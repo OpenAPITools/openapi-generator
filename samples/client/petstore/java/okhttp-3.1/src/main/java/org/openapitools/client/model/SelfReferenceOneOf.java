@@ -371,5 +371,24 @@ public class SelfReferenceOneOf extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of SelfReferenceOneOf given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of SelfReferenceOneOf
+     * @throws IOException if the JSON string is invalid with respect to SelfReferenceOneOf
+     */
+    public static SelfReferenceOneOf fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, SelfReferenceOneOf.class);
+    }
+
+    /**
+     * Convert an instance of SelfReferenceOneOf to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

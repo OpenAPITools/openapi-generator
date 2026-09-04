@@ -283,5 +283,24 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of MyExampleGet200Response given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of MyExampleGet200Response
+     * @throws IOException if the JSON string is invalid with respect to MyExampleGet200Response
+     */
+    public static MyExampleGet200Response fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, MyExampleGet200Response.class);
+    }
+
+    /**
+     * Convert an instance of MyExampleGet200Response to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

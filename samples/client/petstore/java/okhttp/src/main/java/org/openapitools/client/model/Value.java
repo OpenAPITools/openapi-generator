@@ -378,5 +378,24 @@ public class Value extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of Value given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of Value
+     * @throws IOException if the JSON string is invalid with respect to Value
+     */
+    public static Value fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, Value.class);
+    }
+
+    /**
+     * Convert an instance of Value to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

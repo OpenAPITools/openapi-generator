@@ -278,5 +278,24 @@ public class FruitReq extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of FruitReq given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of FruitReq
+     * @throws IOException if the JSON string is invalid with respect to FruitReq
+     */
+    public static FruitReq fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, FruitReq.class);
+    }
+
+    /**
+     * Convert an instance of FruitReq to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

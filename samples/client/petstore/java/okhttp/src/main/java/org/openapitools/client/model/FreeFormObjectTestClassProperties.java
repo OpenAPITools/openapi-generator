@@ -181,11 +181,6 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
             if (!jsonElement.isJsonObject()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
             }
-            for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
-                if (!entry.getValue().getAsJsonPrimitive().isNumber()) {
-                    throw new IllegalArgumentException(String.format("Expected map values to be of type Number in the JSON string but got `%s`", entry.getValue().toString()));
-                }
-            }
             matches++;
         } catch (Exception e) {
             // deserialization failed, continue
@@ -267,11 +262,6 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
                         // validate the JSON object to see if any exception is thrown
                         if (!jsonElement.isJsonObject()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
-                        }
-                        for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
-                            if (!entry.getValue().getAsJsonPrimitive().isNumber()) {
-                                throw new IllegalArgumentException(String.format("Expected map values to be of type Number in the JSON string but got `%s`", entry.getValue().toString()));
-                            }
                         }
                         actualAdapter = adapterMapStringObject;
                         match++;
@@ -385,5 +375,24 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of FreeFormObjectTestClassProperties given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of FreeFormObjectTestClassProperties
+     * @throws IOException if the JSON string is invalid with respect to FreeFormObjectTestClassProperties
+     */
+    public static FreeFormObjectTestClassProperties fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, FreeFormObjectTestClassProperties.class);
+    }
+
+    /**
+     * Convert an instance of FreeFormObjectTestClassProperties to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

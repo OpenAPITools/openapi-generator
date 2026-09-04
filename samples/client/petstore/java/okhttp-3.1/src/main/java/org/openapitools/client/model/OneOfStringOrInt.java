@@ -371,5 +371,24 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of OneOfStringOrInt given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of OneOfStringOrInt
+     * @throws IOException if the JSON string is invalid with respect to OneOfStringOrInt
+     */
+    public static OneOfStringOrInt fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, OneOfStringOrInt.class);
+    }
+
+    /**
+     * Convert an instance of OneOfStringOrInt to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

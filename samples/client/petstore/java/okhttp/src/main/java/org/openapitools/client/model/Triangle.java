@@ -468,5 +468,24 @@ public class Triangle extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of Triangle given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of Triangle
+     * @throws IOException if the JSON string is invalid with respect to Triangle
+     */
+    public static Triangle fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, Triangle.class);
+    }
+
+    /**
+     * Convert an instance of Triangle to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

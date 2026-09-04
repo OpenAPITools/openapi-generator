@@ -373,5 +373,24 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of FakeRefParameterPetIdParameter given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of FakeRefParameterPetIdParameter
+     * @throws IOException if the JSON string is invalid with respect to FakeRefParameterPetIdParameter
+     */
+    public static FakeRefParameterPetIdParameter fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, FakeRefParameterPetIdParameter.class);
+    }
+
+    /**
+     * Convert an instance of FakeRefParameterPetIdParameter to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

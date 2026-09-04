@@ -217,5 +217,24 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of MyExamplePostRequest given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of MyExamplePostRequest
+     * @throws IOException if the JSON string is invalid with respect to MyExamplePostRequest
+     */
+    public static MyExamplePostRequest fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, MyExamplePostRequest.class);
+    }
+
+    /**
+     * Convert an instance of MyExamplePostRequest to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

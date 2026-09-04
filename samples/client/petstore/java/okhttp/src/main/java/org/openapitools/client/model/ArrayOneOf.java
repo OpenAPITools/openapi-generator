@@ -385,5 +385,24 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of ArrayOneOf given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of ArrayOneOf
+     * @throws IOException if the JSON string is invalid with respect to ArrayOneOf
+     */
+    public static ArrayOneOf fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, ArrayOneOf.class);
+    }
+
+    /**
+     * Convert an instance of ArrayOneOf to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

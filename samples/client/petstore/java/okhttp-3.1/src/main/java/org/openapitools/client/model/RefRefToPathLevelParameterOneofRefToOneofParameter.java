@@ -371,5 +371,24 @@ public class RefRefToPathLevelParameterOneofRefToOneofParameter extends Abstract
 
 
 
+    /**
+     * Create an instance of RefRefToPathLevelParameterOneofRefToOneofParameter given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of RefRefToPathLevelParameterOneofRefToOneofParameter
+     * @throws IOException if the JSON string is invalid with respect to RefRefToPathLevelParameterOneofRefToOneofParameter
+     */
+    public static RefRefToPathLevelParameterOneofRefToOneofParameter fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, RefRefToPathLevelParameterOneofRefToOneofParameter.class);
+    }
+
+    /**
+     * Convert an instance of RefRefToPathLevelParameterOneofRefToOneofParameter to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

@@ -468,5 +468,24 @@ public class Mammal extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of Mammal given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of Mammal
+     * @throws IOException if the JSON string is invalid with respect to Mammal
+     */
+    public static Mammal fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, Mammal.class);
+    }
+
+    /**
+     * Convert an instance of Mammal to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

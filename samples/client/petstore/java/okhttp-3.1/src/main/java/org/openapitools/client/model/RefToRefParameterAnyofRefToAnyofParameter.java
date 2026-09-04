@@ -383,5 +383,24 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
 
 
 
+    /**
+     * Create an instance of RefToRefParameterAnyofRefToAnyofParameter given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of RefToRefParameterAnyofRefToAnyofParameter
+     * @throws IOException if the JSON string is invalid with respect to RefToRefParameterAnyofRefToAnyofParameter
+     */
+    public static RefToRefParameterAnyofRefToAnyofParameter fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, RefToRefParameterAnyofRefToAnyofParameter.class);
+    }
+
+    /**
+     * Convert an instance of RefToRefParameterAnyofRefToAnyofParameter to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

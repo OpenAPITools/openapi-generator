@@ -410,5 +410,24 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of ShapeOrNull given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of ShapeOrNull
+     * @throws IOException if the JSON string is invalid with respect to ShapeOrNull
+     */
+    public static ShapeOrNull fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, ShapeOrNull.class);
+    }
+
+    /**
+     * Convert an instance of ShapeOrNull to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

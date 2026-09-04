@@ -346,5 +346,24 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
 
 
 
+    /**
+     * Create an instance of FakeOneOfWIthSameErasureGet200Response given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of FakeOneOfWIthSameErasureGet200Response
+     * @throws IOException if the JSON string is invalid with respect to FakeOneOfWIthSameErasureGet200Response
+     */
+    public static FakeOneOfWIthSameErasureGet200Response fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, FakeOneOfWIthSameErasureGet200Response.class);
+    }
+
+    /**
+     * Convert an instance of FakeOneOfWIthSameErasureGet200Response to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

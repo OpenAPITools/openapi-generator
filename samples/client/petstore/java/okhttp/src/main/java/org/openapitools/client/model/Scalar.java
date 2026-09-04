@@ -481,5 +481,24 @@ public class Scalar extends AbstractOpenApiSchema {
 
 
 
+    /**
+     * Create an instance of Scalar given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of Scalar
+     * @throws IOException if the JSON string is invalid with respect to Scalar
+     */
+    public static Scalar fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, Scalar.class);
+    }
+
+    /**
+     * Convert an instance of Scalar to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

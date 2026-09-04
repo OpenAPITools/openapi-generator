@@ -271,5 +271,24 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
 
 
 
+    /**
+     * Create an instance of SimpleOneOf given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of SimpleOneOf
+     * @throws IOException if the JSON string is invalid with respect to SimpleOneOf
+     */
+    public static SimpleOneOf fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, SimpleOneOf.class);
+    }
+
+    /**
+     * Convert an instance of SimpleOneOf to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 
