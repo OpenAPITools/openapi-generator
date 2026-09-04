@@ -33,6 +33,7 @@ inline void to_json(nlohmann::json& j, const TopLevelStatus& value)
         
         case TopLevelStatus::PENDING: j = "pending"; break;
         
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for TopLevelStatus", &j);
     }
 }
 

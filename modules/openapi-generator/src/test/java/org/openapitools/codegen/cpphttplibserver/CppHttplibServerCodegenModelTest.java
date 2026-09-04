@@ -374,6 +374,11 @@ public class CppHttplibServerCodegenModelTest {
                 "case TopLevelStatus::PENDING: j = \"pending\"; break;",
                 "if (j == \"active\")");
         TestUtils.assertFileNotContains(stringEnumHeader, "j = active;");
+        // An enumerator outside the declared set must fail loudly rather than leave `j` untouched,
+        // mirroring the throw that from_json already performs on an unrecognised JSON value.
+        TestUtils.assertFileContains(stringEnumHeader,
+                "default: throw nlohmann::json::type_error::create(302, "
+                        + "\"Invalid value for TopLevelStatus\", &j);");
 
         // ...while the `{{^vendorExtensions.isStringEnum}}` branch must leave a `type: integer`
         // enum's values bare, or they serialize as JSON strings instead of numbers.
@@ -384,6 +389,9 @@ public class CppHttplibServerCodegenModelTest {
                 "case TopLevelPriority::_2: j = 2; break;",
                 "if (j == 0)");
         TestUtils.assertFileNotContains(integerEnumHeader, "j = \"0\";");
+        TestUtils.assertFileContains(integerEnumHeader,
+                "default: throw nlohmann::json::type_error::create(302, "
+                        + "\"Invalid value for TopLevelPriority\", &j);");
     }
 
     @Test(description = "convert model with nullable property")

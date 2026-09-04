@@ -30,6 +30,7 @@ inline void to_json(nlohmann::json& j, const {{vendorExtensions.modelClassName}}
         {{#allowableValues}}{{#enumVars}}
         case {{vendorExtensions.modelClassName}}::{{name}}: j = {{#vendorExtensions.isStringEnum}}"{{{value}}}"{{/vendorExtensions.isStringEnum}}{{^vendorExtensions.isStringEnum}}{{value}}{{/vendorExtensions.isStringEnum}}; break;
         {{/enumVars}}{{/allowableValues}}
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for {{vendorExtensions.modelClassName}}", &j);
     }
 }
 

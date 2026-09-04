@@ -33,6 +33,7 @@ inline void to_json(nlohmann::json& j, const TopLevelPriority& value)
         
         case TopLevelPriority::_2: j = 2; break;
         
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for TopLevelPriority", &j);
     }
 }
 
