@@ -246,4 +246,24 @@ public class KotlinSpringServerCodegenTest {
         assertTrue(groups.containsKey("Pet"));
     }
 
+    @Test(description = "useTags=false should sanitize invalid identifier chars from the first path segment for spring-declarative-http-interface")
+    public void useTags_false_groupsByFirstPathSegment_sanitizesInvalidIdentifierChars_springDeclarativeHttpInterface() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(USE_TAGS, false);
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "dummy";
+        co.path = "/another-fake/dummy";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("$another-fake?", "/another-fake/dummy", new Operation(), co, groups);
+
+        // the first path segment "another-fake" must be sanitized into a valid Kotlin/Java
+        // identifier (no hyphen) instead of being used as-is.
+        assertTrue(groups.containsKey("anotherFake"));
+        assertEquals(co.baseName, "anotherFake");
+    }
+
 }

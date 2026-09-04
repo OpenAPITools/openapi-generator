@@ -1080,6 +1080,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 basePath = "default";
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
+                // sanitize the raw path segment so it can be safely used as a Java identifier
+                // (e.g. "another-fake" -> "anotherFake") when deriving classVarName etc.
+                basePath = camelize(sanitizeName(basePath), LOWERCASE_FIRST_LETTER);
             }
             List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);

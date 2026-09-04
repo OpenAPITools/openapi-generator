@@ -12,9 +12,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
+import org.openapitools.model.ModelApiResponse;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.ResponseObjectWithDifferentFieldNames;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import org.springframework.http.ResponseEntity;
@@ -126,6 +128,22 @@ public interface FakeApi {
     )
     Mono<ResponseEntity<String>> fakeOuterStringSerialize(
          @Valid @RequestBody(required = false) Mono<String> body
+    );
+
+
+    /**
+     * GET /fake/{petId}/response-object-different-names
+     *
+     * @param petId ID of pet to update (required)
+     * @return successful operation (status code 200)
+     */
+    @HttpExchange(
+        method = "GET",
+        value = "/fake/{petId}/response-object-different-names",
+        accept = { "application/json" }
+    )
+    Mono<ResponseEntity<ResponseObjectWithDifferentFieldNames>> responseObjectDifferentNames(
+         @PathVariable("petId") Long petId
     );
 
 
@@ -381,6 +399,28 @@ public interface FakeApi {
     )
     Mono<ResponseEntity<Integer>> testWithResultExample(
         
+    );
+
+
+    /**
+     * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
+     * 
+     *
+     * @param petId ID of pet to update (required)
+     * @param requiredFile file to upload (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @return successful operation (status code 200)
+     */
+    @HttpExchange(
+        method = "POST",
+        value = "/fake/{petId}/uploadImageWithRequiredFile",
+        accept = { "application/json" },
+        contentType = "multipart/form-data"
+    )
+    Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(
+         @PathVariable("petId") Long petId,
+         @RequestPart(value = "requiredFile", required = true) Part requiredFile,
+         @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
     );
 
 }
