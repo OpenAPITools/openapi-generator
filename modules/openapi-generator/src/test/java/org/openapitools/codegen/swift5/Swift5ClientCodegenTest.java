@@ -163,6 +163,31 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(op.bodyParam.dataType, "OpenAPIDateWithoutTime");
     }
 
+    @Test(description = "model names colliding with types declared by the generated client are renamed", enabled = true)
+    public void reservedTypeNamesDeclaredByClientTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+
+        // Names declared by the generated support files (Validation.swift, Models.swift, ...):
+        // a model with such a name would be an invalid redeclaration of the client's own type.
+        Assert.assertEquals(codegen.toModelName("ValidationError"), "ModelValidationError");
+        Assert.assertEquals(codegen.toModelName("Validator"), "ModelValidator");
+        Assert.assertEquals(codegen.toModelName("Configuration"), "ModelConfiguration");
+        Assert.assertEquals(codegen.toModelName("RequestBuilder"), "ModelRequestBuilder");
+    }
+
+    @Test(description = "model names shadowing Foundation types used by the generated client are renamed", enabled = true)
+    public void reservedFoundationTypeNamesTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+
+        // Foundation types the generated support files reference unqualified
+        // (e.g. OpenISO8601DateFormatter.swift assigns `formatter.locale = Locale(...)`):
+        // a model with such a name would shadow the Foundation type inside the module.
+        Assert.assertEquals(codegen.toModelName("Locale"), "ModelLocale");
+        Assert.assertEquals(codegen.toModelName("DateFormatter"), "ModelDateFormatter");
+        Assert.assertEquals(codegen.toModelName("TimeZone"), "ModelTimeZone");
+        Assert.assertEquals(codegen.toModelName("URLSession"), "ModelURLSession");
+    }
+
     @Test(description = "type from languageSpecificPrimitives should not be prefixed", enabled = true)
     public void prefixExceptionTest() {
         final DefaultCodegen codegen = new Swift5ClientCodegen();
