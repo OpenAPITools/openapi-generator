@@ -5397,6 +5397,90 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void autoXSpringPaginatedPageSizeMode_detectsPageAndSizeOnlyOperation() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "page-size");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsMissingSort has only page+size (no sort) → 'page-size' mode must still inject Pageable
+        int methodStart = content.indexOf("fun findPetsMissingSort(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertTrue(methodSignature.contains("pageable: Pageable"),
+                "findPetsMissingSort should have pageable when autoXSpringPaginated=page-size");
+        Assert.assertFalse(methodSignature.contains("page:"), "page query param should be removed");
+        Assert.assertFalse(methodSignature.contains("size:"), "size query param should be removed");
+    }
+
+    @Test
+    public void autoXSpringPaginatedLegacyTrue_logsDeprecationWarningOnce() throws Exception {
+        ch.qos.logback.classic.Logger kotlinSpringLogger =
+                (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
+        ch.qos.logback.core.read.ListAppender<ch.qos.logback.classic.spi.ILoggingEvent> listAppender =
+                new ch.qos.logback.core.read.ListAppender<>();
+        listAppender.start();
+        kotlinSpringLogger.addAppender(listAppender);
+
+        try {
+            Map<String, Object> additionalProperties = new HashMap<>();
+            additionalProperties.put(USE_TAGS, "true");
+            additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+            additionalProperties.put(INTERFACE_ONLY, "true");
+            additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+            additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+            generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+        } finally {
+            listAppender.stop();
+            kotlinSpringLogger.detachAppender(listAppender);
+        }
+
+        long deprecationWarnings = listAppender.list.stream()
+                .filter(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
+                        && event.getFormattedMessage().contains("deprecated"))
+                .count();
+        assertThat(deprecationWarnings).isEqualTo(1);
+    }
+
+    @Test
+    public void autoXSpringPaginatedUnset_logsNoDeprecationWarning() throws Exception {
+        ch.qos.logback.classic.Logger kotlinSpringLogger =
+                (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
+        ch.qos.logback.core.read.ListAppender<ch.qos.logback.classic.spi.ILoggingEvent> listAppender =
+                new ch.qos.logback.core.read.ListAppender<>();
+        listAppender.start();
+        kotlinSpringLogger.addAppender(listAppender);
+
+        try {
+            Map<String, Object> additionalProperties = new HashMap<>();
+            additionalProperties.put(USE_TAGS, "true");
+            additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+            additionalProperties.put(INTERFACE_ONLY, "true");
+            additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+            // NOT setting AUTO_X_SPRING_PAGINATED at all — should default to 'none' silently
+
+            generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+        } finally {
+            listAppender.stop();
+            kotlinSpringLogger.detachAppender(listAppender);
+        }
+
+        boolean hasDeprecationWarning = listAppender.list.stream()
+                .anyMatch(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
+                        && event.getFormattedMessage().contains("deprecated"));
+        assertThat(hasDeprecationWarning).isFalse();
+    }
+
+    @Test
     public void testSealedResponseInterfaces() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

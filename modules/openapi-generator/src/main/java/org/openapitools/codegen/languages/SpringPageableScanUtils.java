@@ -26,6 +26,7 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -58,6 +59,93 @@ public class SpringPageableScanUtils {
      */
     public static final List<String> DEFAULT_PAGEABLE_QUERY_PARAMS =
             Collections.unmodifiableList(Arrays.asList(PAGE, SIZE, SORT));
+
+    /** Canonical string value for {@link AutoPaginationMode#NONE}. */
+    public static final String AUTO_PAGINATION_MODE_NONE = "none";
+    /** Canonical string value for {@link AutoPaginationMode#PAGE_SIZE_SORT}. */
+    public static final String AUTO_PAGINATION_MODE_PAGE_SIZE_SORT = "page-size-sort";
+    /** Canonical string value for {@link AutoPaginationMode#PAGE_SIZE}. */
+    public static final String AUTO_PAGINATION_MODE_PAGE_SIZE = "page-size";
+    /** Deprecated legacy alias of {@link #AUTO_PAGINATION_MODE_NONE}. */
+    public static final String AUTO_PAGINATION_MODE_LEGACY_FALSE = "false";
+    /** Deprecated legacy alias of {@link #AUTO_PAGINATION_MODE_PAGE_SIZE_SORT}. */
+    public static final String AUTO_PAGINATION_MODE_LEGACY_TRUE = "true";
+
+    /**
+     * The auto-detection mode for {@code autoXSpringPaginated}, controlling which query
+     * parameters must be present on an operation for it to be treated as Pageable.
+     */
+    public enum AutoPaginationMode {
+        /** Auto-detection disabled; only explicit {@code x-spring-paginated: true} is honoured. */
+        NONE(Collections.emptyList(), AUTO_PAGINATION_MODE_NONE),
+        /** Requires {@code page}, {@code size}, and {@code sort} query parameters (legacy {@code true} behavior). */
+        PAGE_SIZE_SORT(DEFAULT_PAGEABLE_QUERY_PARAMS, AUTO_PAGINATION_MODE_PAGE_SIZE_SORT),
+        /** Requires only {@code page} and {@code size}; {@code sort} may be absent. */
+        PAGE_SIZE(Collections.unmodifiableList(Arrays.asList(PAGE, SIZE)), AUTO_PAGINATION_MODE_PAGE_SIZE);
+
+        private final List<String> requiredParams;
+        private final String canonicalValue;
+
+        AutoPaginationMode(List<String> requiredParams, String canonicalValue) {
+            this.requiredParams = requiredParams;
+            this.canonicalValue = canonicalValue;
+        }
+
+        /** Query parameter names that must all be present for this mode to detect a Pageable operation. */
+        public List<String> getRequiredParams() {
+            return requiredParams;
+        }
+
+        /** The canonical option string for this mode (e.g. {@code "page-size"}). */
+        public String getCanonicalValue() {
+            return canonicalValue;
+        }
+    }
+
+    /**
+     * Resolves the raw {@code autoXSpringPaginated} option value into an {@link AutoPaginationMode},
+     * accepting both the canonical string values ({@code none}, {@code page-size-sort}, {@code page-size})
+     * and the deprecated legacy boolean aliases ({@code true}, {@code false}).
+     *
+     * <p>When a legacy alias is used, {@code deprecationWarn} is invoked with a message suggesting
+     * the canonical replacement value. Callers should only invoke this method when the option was
+     * explicitly set by the user (e.g. guarded by {@code additionalProperties.containsKey(...)}) so
+     * that no warning is emitted for the implicit default.</p>
+     *
+     * @param rawValue        the raw option value as configured by the user
+     * @param deprecationWarn callback invoked with a human-readable deprecation message when a
+     *                        legacy alias ({@code true}/{@code false}) is used; not invoked for
+     *                        canonical values
+     * @return the resolved {@link AutoPaginationMode}
+     * @throws IllegalArgumentException if {@code rawValue} is not one of the recognised values
+     */
+    public static AutoPaginationMode resolveAutoPaginationMode(String rawValue, Consumer<String> deprecationWarn) {
+        String normalized = rawValue == null ? "" : rawValue.trim().toLowerCase(Locale.ROOT);
+        switch (normalized) {
+            case AUTO_PAGINATION_MODE_NONE:
+                return AutoPaginationMode.NONE;
+            case AUTO_PAGINATION_MODE_PAGE_SIZE_SORT:
+                return AutoPaginationMode.PAGE_SIZE_SORT;
+            case AUTO_PAGINATION_MODE_PAGE_SIZE:
+                return AutoPaginationMode.PAGE_SIZE;
+            case AUTO_PAGINATION_MODE_LEGACY_FALSE:
+                deprecationWarn.accept(
+                        "autoXSpringPaginated: 'false' is deprecated and will be removed in a future release. "
+                        + "Please use '" + AUTO_PAGINATION_MODE_NONE + "' instead.");
+                return AutoPaginationMode.NONE;
+            case AUTO_PAGINATION_MODE_LEGACY_TRUE:
+                deprecationWarn.accept(
+                        "autoXSpringPaginated: 'true' is deprecated and will be removed in a future release. "
+                        + "Please use '" + AUTO_PAGINATION_MODE_PAGE_SIZE_SORT + "' instead.");
+                return AutoPaginationMode.PAGE_SIZE_SORT;
+            default:
+                throw new IllegalArgumentException(
+                        "Invalid value '" + rawValue + "' for autoXSpringPaginated. Accepted values are: "
+                        + AUTO_PAGINATION_MODE_NONE + ", " + AUTO_PAGINATION_MODE_PAGE_SIZE_SORT + ", "
+                        + AUTO_PAGINATION_MODE_PAGE_SIZE + " (deprecated aliases: "
+                        + AUTO_PAGINATION_MODE_LEGACY_TRUE + ", " + AUTO_PAGINATION_MODE_LEGACY_FALSE + ").");
+        }
+    }
 
     // -------------------------------------------------------------------------
     // Instance state (populated by scanAll)
@@ -144,18 +232,18 @@ public class SpringPageableScanUtils {
      * then read the public map fields in {@code fromOperation}.</p>
      *
      * @param openAPI              the OpenAPI document to scan
-     * @param autoXSpringPaginated whether auto-detection of pageable operations is enabled
+     * @param autoPaginationMode   the auto-detection mode for pageable operations
      */
-    public void scanAll(OpenAPI openAPI, boolean autoXSpringPaginated) {
-        sortValidationEnums = scanSortValidationEnums(openAPI, autoXSpringPaginated);
-        pageableDefaultsRegistry = scanPageableDefaults(openAPI, autoXSpringPaginated);
-        pageableConstraintsRegistry = scanPageableConstraints(openAPI, autoXSpringPaginated);
+    public void scanAll(OpenAPI openAPI, AutoPaginationMode autoPaginationMode) {
+        sortValidationEnums = scanSortValidationEnums(openAPI, autoPaginationMode);
+        pageableDefaultsRegistry = scanPageableDefaults(openAPI, autoPaginationMode);
+        pageableConstraintsRegistry = scanPageableConstraints(openAPI, autoPaginationMode);
     }
 
     /**
      * Instance variant of {@link #applyPageableAnnotations(CodegenOperation, boolean, boolean,
      * Map, boolean, Map, Map, AnnotationSyntax)} that uses the maps populated by
-     * {@link #scanAll(OpenAPI, boolean)}.
+     * {@link #scanAll(OpenAPI, AutoPaginationMode)}.
      */
     public void applyPageableAnnotations(
             CodegenOperation codegenOperation,
@@ -176,11 +264,11 @@ public class SpringPageableScanUtils {
     /**
      * Returns {@code true} if the given operation will have a Pageable parameter injected —
      * either because it has {@code x-spring-paginated: true} explicitly, or because
-     * {@code autoXSpringPaginated} is enabled and the operation has all three default
-     * pagination query parameters (page, size, sort).
+     * {@code autoPaginationMode} is not {@link AutoPaginationMode#NONE} and the operation has
+     * all of that mode's required pagination query parameters.
      */
-    public static boolean willBePageable(Operation operation, boolean autoXSpringPaginated) {
-        return willBePageable(null, operation, autoXSpringPaginated);
+    public static boolean willBePageable(Operation operation, AutoPaginationMode autoPaginationMode) {
+        return willBePageable(null, operation, autoPaginationMode);
     }
 
     /**
@@ -188,18 +276,19 @@ public class SpringPageableScanUtils {
      * resolving component parameter references against the supplied OpenAPI document.
      */
     public static boolean willBePageable(
-            OpenAPI openAPI, Operation operation, boolean autoXSpringPaginated) {
+            OpenAPI openAPI, Operation operation, AutoPaginationMode autoPaginationMode) {
         Boolean xSpringPaginated = getXSpringPaginated(operation);
         if (xSpringPaginated != null) {
             return xSpringPaginated;
         }
-        if (!autoXSpringPaginated || operation.getParameters() == null) {
+        if (autoPaginationMode == null || autoPaginationMode == AutoPaginationMode.NONE
+                || operation.getParameters() == null) {
             return false;
         }
         Set<String> paramNames = operation.getParameters().stream()
                 .map(parameter -> resolveParameter(openAPI, parameter).getName())
                 .collect(Collectors.toSet());
-        return paramNames.containsAll(DEFAULT_PAGEABLE_QUERY_PARAMS);
+        return paramNames.containsAll(autoPaginationMode.getRequiredParams());
     }
 
     /**
@@ -225,7 +314,7 @@ public class SpringPageableScanUtils {
      * Auto-detects Pageable pagination query parameters and, when detected, mutates the
      * operation by setting {@code x-spring-paginated: true} on its vendor extensions.
      *
-     * <p>Detection is delegated to {@link #willBePageable(OpenAPI, Operation, boolean)}. If the
+     * <p>Detection is delegated to {@link #willBePageable(OpenAPI, Operation, AutoPaginationMode)}. If the
      * operation is already explicitly flagged ({@code x-spring-paginated: true/false})
      * this method is a read-only pass-through — it returns the explicit value without
      * mutating extensions. Only auto-detected operations (those whose flag was
@@ -237,27 +326,27 @@ public class SpringPageableScanUtils {
      * {@code super.fromOperation()} so that the base codegen can pick up the extension
      * when populating {@code CodegenOperation.vendorExtensions}.</p>
      *
-     * @param operation            the raw OpenAPI {@link Operation} to inspect (and possibly mutate)
-     * @param autoXSpringPaginated whether auto-detection is enabled for this generator
+     * @param operation          the raw OpenAPI {@link Operation} to inspect (and possibly mutate)
+     * @param autoPaginationMode the auto-detection mode for this generator
      * @return {@code true} if the operation is (or was just marked as) paginated
      */
     public static boolean applyAutoXSpringPaginatedIfNeeded(
-            Operation operation, boolean autoXSpringPaginated) {
-        return applyAutoXSpringPaginatedIfNeeded(null, operation, autoXSpringPaginated);
+            Operation operation, AutoPaginationMode autoPaginationMode) {
+        return applyAutoXSpringPaginatedIfNeeded(null, operation, autoPaginationMode);
     }
 
     /**
      * Auto-detects pagination parameters after resolving component parameter references against
      * the supplied OpenAPI document.
      *
-     * @param openAPI               the OpenAPI document used to resolve parameter references
-     * @param operation             the raw OpenAPI {@link Operation} to inspect (and possibly mutate)
-     * @param autoXSpringPaginated  whether auto-detection is enabled for this generator
+     * @param openAPI            the OpenAPI document used to resolve parameter references
+     * @param operation          the raw OpenAPI {@link Operation} to inspect (and possibly mutate)
+     * @param autoPaginationMode the auto-detection mode for this generator
      * @return {@code true} if the operation is (or was just marked as) paginated
      */
     public static boolean applyAutoXSpringPaginatedIfNeeded(
-            OpenAPI openAPI, Operation operation, boolean autoXSpringPaginated) {
-        if (!willBePageable(openAPI, operation, autoXSpringPaginated)) {
+            OpenAPI openAPI, Operation operation, AutoPaginationMode autoPaginationMode) {
+        if (!willBePageable(openAPI, operation, autoPaginationMode)) {
             return false;
         }
         if (getXSpringPaginated(operation) == null) {
@@ -482,7 +571,7 @@ public class SpringPageableScanUtils {
      * @return map from operationId to list of allowed sort strings (e.g. {@code ["id,asc", "id,desc"]})
      */
     public static Map<String, List<String>> scanSortValidationEnums(
-            OpenAPI openAPI, boolean autoXSpringPaginated) {
+            OpenAPI openAPI, AutoPaginationMode autoPaginationMode) {
         Map<String, List<String>> result = new LinkedHashMap<>();
         if (openAPI.getPaths() == null) {
             return result;
@@ -492,7 +581,7 @@ public class SpringPageableScanUtils {
                 String operationId = operation.getOperationId();
                 if (operationId == null
                         || operation.getParameters() == null
-                        || !willBePageable(openAPI, operation, autoXSpringPaginated)) {
+                        || !willBePageable(openAPI, operation, autoPaginationMode)) {
                     continue;
                 }
                 for (Parameter unresolvedParam : operation.getParameters()) {
@@ -539,7 +628,7 @@ public class SpringPageableScanUtils {
      * least one default are included)
      */
     public static Map<String, PageableDefaultsData> scanPageableDefaults(
-            OpenAPI openAPI, boolean autoXSpringPaginated) {
+            OpenAPI openAPI, AutoPaginationMode autoPaginationMode) {
         Map<String, PageableDefaultsData> result = new LinkedHashMap<>();
         if (openAPI.getPaths() == null) {
             return result;
@@ -548,7 +637,7 @@ public class SpringPageableScanUtils {
             for (Operation operation : pathEntry.getValue().readOperations()) {
                 String operationId = operation.getOperationId();
                 if (operationId == null
-                        || !willBePageable(openAPI, operation, autoXSpringPaginated)
+                        || !willBePageable(openAPI, operation, autoPaginationMode)
                         || operation.getParameters() == null) {
                     continue;
                 }
@@ -621,7 +710,7 @@ public class SpringPageableScanUtils {
      * at least one constraint are included)
      */
     public static Map<String, PageableConstraintsData> scanPageableConstraints(
-            OpenAPI openAPI, boolean autoXSpringPaginated) {
+            OpenAPI openAPI, AutoPaginationMode autoPaginationMode) {
         Map<String, PageableConstraintsData> result = new LinkedHashMap<>();
         if (openAPI.getPaths() == null) {
             return result;
@@ -630,7 +719,7 @@ public class SpringPageableScanUtils {
             for (Operation operation : pathEntry.getValue().readOperations()) {
                 String operationId = operation.getOperationId();
                 if (operationId == null
-                        || !willBePageable(openAPI, operation, autoXSpringPaginated)
+                        || !willBePageable(openAPI, operation, autoPaginationMode)
                         || operation.getParameters() == null) {
                     continue;
                 }
