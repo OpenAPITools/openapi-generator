@@ -294,6 +294,30 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testFreeFormObjectQueryParam() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_0/rust/free-form-object-query-param.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
+        TestUtils.assertFileExists(outputPath);
+        // A free-form object query parameter maps to `serde_json::Value`, which lives
+        // outside of the `models` module.
+        TestUtils.assertFileContains(outputPath, "filter: Option<serde_json::Value>");
+        TestUtils.assertFileNotContains(outputPath, "models::serde_json");
+        // A free-form object with additionalProperties stays a map.
+        TestUtils.assertFileContains(outputPath, "tags: Option<std::collections::HashMap<String, String>>");
+        TestUtils.assertFileContains(outputPath, "meta: Option<std::collections::HashMap<String, serde_json::Value>>");
+        // Maps keep their JSON serialization (`HashMap` does not implement `Display`).
+        TestUtils.assertFileContains(outputPath, "req_builder.query(&[(\"meta\", &serde_json::to_string(param_value)?)])");
+    }
+
+    @Test
     public void testArrayWithObjectEnumValues() throws IOException {
         Path target = Files.createTempDirectory("test");
         target.toFile().deleteOnExit();
