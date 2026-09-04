@@ -61,6 +61,8 @@ import javax.lang.model.SourceVersion;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -87,6 +89,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
     private static final ZoneId UTC = ZoneId.of("UTC");
+    
+    private static final BigDecimal INTEGER_MIN_VALUE = BigDecimal.valueOf(Integer.MIN_VALUE);
+    private static final BigDecimal INTEGER_MAX_VALUE = BigDecimal.valueOf(Integer.MAX_VALUE);
+    private static final BigDecimal LONG_MIN_VALUE = BigDecimal.valueOf(Long.MIN_VALUE);
+    private static final BigDecimal LONG_MAX_VALUE = BigDecimal.valueOf(Long.MAX_VALUE);
 
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -294,6 +301,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 "Double",
                 "Integer",
                 "Long",
+                "BigInteger",
                 "Float",
                 "Object",
                 "byte[]"
@@ -304,8 +312,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         typeMapping.put("date", "Date");
         typeMapping.put("file", "File");
         typeMapping.put("AnyType", "Object");
+        typeMapping.put("BigInteger", "BigInteger");
 
         importMapping.put("BigDecimal", "java.math.BigDecimal");
+        importMapping.put("BigInteger", "java.math.BigInteger");
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");
@@ -1909,6 +1919,34 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getSchemaType(Schema p) {
+        if (ModelUtils.isIntegerSchema(p)) {
+            // legacy, non-standard `uint32`/`uint64` integer formats: since Java has no native
+            // unsigned integer types, widen them to a type that can hold the full unsigned range
+            String typeFromFormat = null;
+            if ("uint32".equals(p.getFormat())) {
+                typeFromFormat = typeMapping.get("long");
+            } else if ("uint64".equals(p.getFormat())) {
+                typeFromFormat = typeMapping.get("BigInteger");
+            } else if (SchemaTypeUtil.INTEGER32_FORMAT.equals(p.getFormat())) {
+                typeFromFormat = typeMapping.get("integer");
+            } else if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
+                typeFromFormat = typeMapping.get("long");
+            }
+
+            if(typeFromFormat != null) {
+                return typeFromFormat;
+            }
+
+            if (hasIntegerBounds(p)) {
+                String inferredType = bestFittingIntegerType(
+                    p.getMinimum(), Boolean.TRUE.equals(p.getExclusiveMinimum()),
+                    p.getMaximum(), Boolean.TRUE.equals(p.getExclusiveMaximum())
+                );
+
+                return inferredType;
+            }
+        }
+
         String openAPIType = super.getSchemaType(p);
 
         // don't apply renaming on types from the typeMapping
@@ -1920,6 +1958,92 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             LOGGER.error("No Type defined for Schema {}", p);
         }
         return toModelName(openAPIType);
+    }
+
+    private boolean hasIntegerBounds(Schema p) {
+        return p.getMinimum() != null || p.getMaximum() != null;
+    }
+
+    /**
+     * Determine the smallest Java integer type (Integer, Long or BigInteger) that can represent every
+     * value in the given [minimum, maximum] range. Missing bounds are treated as unbounded on that side.
+     */
+    private String bestFittingIntegerType(BigDecimal minimum, boolean exclusiveMinimum,
+                                           BigDecimal maximum, boolean exclusiveMaximum) {
+
+        if (exclusiveMinimum && minimum != null) {
+            minimum = minimum.add(BigDecimal.ONE);
+        }
+        if (exclusiveMaximum && maximum != null) {
+            maximum = maximum.subtract(BigDecimal.ONE);
+        }
+
+        if (Optional.ofNullable(minimum).map(this::fitsInInt).orElse(true)
+                && Optional.ofNullable(maximum).map(this::fitsInInt).orElse(true)) {
+            return typeMapping.get("integer");
+        } else if (Optional.ofNullable(minimum).map(this::fitsInLong).orElse(true)
+                && Optional.ofNullable(maximum).map(this::fitsInLong).orElse(true)) {
+            return typeMapping.get("long");
+        }
+        return typeMapping.get("BigInteger");
+    }
+
+    private Boolean fitsInInt(BigDecimal value) {
+        return value.compareTo(INTEGER_MIN_VALUE) >= 0 && value.compareTo(INTEGER_MAX_VALUE) <= 0;
+    }
+
+    private Boolean fitsInLong(BigDecimal value) {
+        return value.compareTo(LONG_MIN_VALUE) >= 0 && value.compareTo(LONG_MAX_VALUE) <= 0;
+    }
+
+    @Override
+    protected void updatePropertyForInteger(CodegenProperty property, Schema p) {
+        // legacy, non-standard `uint32`/`uint64` integer formats (see getSchemaType above)
+        property.isNumeric = Boolean.TRUE;
+        
+        if ("uint32".equals(p.getFormat())) {
+            property.isLong = Boolean.TRUE;
+            return;
+        } else if ("uint64".equals(p.getFormat())) {
+            property.isNumeric = Boolean.TRUE;
+            return;
+        } else if (SchemaTypeUtil.INTEGER32_FORMAT.equals(p.getFormat())) {
+            property.isInteger = Boolean.TRUE;
+            return;
+        } else if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
+            property.isLong = Boolean.TRUE;
+            return;
+        }
+
+        if (hasIntegerBounds(p)) {
+            String inferredType = bestFittingIntegerType(
+                p.getMinimum(), Boolean.TRUE.equals(p.getExclusiveMinimum()),
+                p.getMaximum(), Boolean.TRUE.equals(p.getExclusiveMaximum())
+            );
+
+            if (typeMapping.get("long").equals(inferredType)) {
+                property.isLong = Boolean.TRUE;
+            }
+            if (typeMapping.get("integer").equals(inferredType)) {
+                property.isInteger = Boolean.TRUE;
+            }
+            return;
+        }
+
+        super.updatePropertyForInteger(property, p);
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        // keep isLong/isInteger in sync with the widened dataType from uint32/uint64 formats and
+        // range-inferred Long/BigInteger types (see getSchemaType/updatePropertyForInteger above)
+        if (typeMapping.get("long").equals(parameter.dataType)) {
+            parameter.isInteger = false;
+            parameter.isLong = true;
+        } else if (typeMapping.get("BigInteger").equals(parameter.dataType)) {
+            parameter.isInteger = false;
+            parameter.isLong = false;
+        }
     }
 
     @Override
@@ -2072,6 +2196,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // the response data types should not contain bean validation annotations.
         property.dataType = removeAnnotations(property.dataType);
         response.dataType = removeAnnotations(response.dataType);
+
+        if (typeMapping.get("long").equals(response.dataType)) {
+            response.isInteger = false;
+            response.isLong = true;
+        } else if (typeMapping.get("BigInteger").equals(response.dataType)) {
+            response.isInteger = false;
+            response.isLong = false;
+        }
     }
 
     /**
