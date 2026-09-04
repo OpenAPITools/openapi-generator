@@ -71,6 +71,42 @@ public class RubyClientCodegenTest {
         }
     }
 
+    @Test(description = "Verify an object query parameter is exploded, whether or not it declares its properties")
+    public void testExplodedObjectQueryParameter() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/exploded-object-query-param.yaml");
+        RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        File apiFile = files.stream()
+                .filter(f -> f.getName().equals("default_api.rb"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("default_api.rb not found in generated files"));
+
+        // form style with explode - the default - puts every entry on the wire under its own
+        // property name. Assigning the whole hash under the parameter name left the http
+        // library to serialize it in bracket style, which is what used to happen.
+        TestUtils.assertFileContains(apiFile.toPath(),
+                "opts[:'filter'].each { |name, value| query_params[name.to_s] = value } if !opts[:'filter'].nil?");
+        TestUtils.assertFileNotContains(apiFile.toPath(), "query_params[:'filter']");
+
+        // a declared map behaves the same way
+        TestUtils.assertFileContains(apiFile.toPath(),
+                "opts[:'typed_filter'].each { |name, value| query_params[name.to_s] = value } if !opts[:'typed_filter'].nil?");
+
+        // deepObject and form without explode both keep a single parameter
+        TestUtils.assertFileContains(apiFile.toPath(),
+                "query_params[:'deepFilter'] = opts[:'deep_filter'] if !opts[:'deep_filter'].nil?",
+                "query_params[:'flatFilter'] = opts[:'flat_filter'] if !opts[:'flat_filter'].nil?");
+    }
+
     @Test
     public void testInitialConfigValues() {
         final RubyClientCodegen codegen = new RubyClientCodegen();
