@@ -4602,6 +4602,71 @@ public class DefaultCodegen implements CodegenConfig {
         return currentProperty;
     }
 
+    /**
+     * Applies an action to every property recursively reachable from a model.
+     * Properties are de-duplicated by identity to avoid repeated processing and cycles.
+     *
+     * @param model  model whose properties should be visited
+     * @param action action to apply to each property
+     */
+    protected void forEachModelPropertyRecursively(CodegenModel model, Consumer<CodegenProperty> action) {
+        Set<CodegenProperty> visited = Collections.newSetFromMap(new IdentityHashMap<>());
+        visitNestedProperties(model, visited, action);
+    }
+
+    /**
+     * Applies an action to a property and recursively visits its nested properties.
+     */
+    private void visitProperty(CodegenProperty property, Set<CodegenProperty> visited,
+            Consumer<CodegenProperty> action) {
+        if (property == null || !visited.add(property)) {
+            return;
+        }
+
+        action.accept(property);
+        visitNestedProperties(property, visited, action);
+    }
+
+    /**
+     * Visits every canonical location in which a schema can contain another {@link CodegenProperty}.
+     * Other derived views such as {@code mostInnerItems} are intentionally omitted
+     * because their properties are already reachable through {@code items}. Note that
+     * {@code requiredVarsMap} is traversed explicitly below.
+     */
+    private void visitNestedProperties(IJsonSchemaValidationProperties schema,
+            Set<CodegenProperty> visited, Consumer<CodegenProperty> action) {
+        visitProperties(schema.getVars(), visited, action);
+        visitProperty(schema.getItems(), visited, action);
+        visitProperty(schema.getAdditionalProperties(), visited, action);
+        visitProperty(schema.getContains(), visited, action);
+
+        Map<String, CodegenProperty> requiredVarsMap = schema.getRequiredVarsMap();
+        if (requiredVarsMap != null) {
+            visitProperties(requiredVarsMap.values(), visited, action);
+        }
+
+        CodegenComposedSchemas composedSchemas = schema.getComposedSchemas();
+        if (composedSchemas != null) {
+            visitProperties(composedSchemas.getAllOf(), visited, action);
+            visitProperties(composedSchemas.getOneOf(), visited, action);
+            visitProperties(composedSchemas.getAnyOf(), visited, action);
+            visitProperty(composedSchemas.getNot(), visited, action);
+        }
+    }
+
+    /**
+     * Visits each property in a collection and its nested properties.
+     */
+    private void visitProperties(Collection<CodegenProperty> properties, Set<CodegenProperty> visited,
+            Consumer<CodegenProperty> action) {
+        if (properties == null) {
+            return;
+        }
+        for (CodegenProperty property : properties) {
+            visitProperty(property, visited, action);
+        }
+    }
+
     protected Map<String, Object> getInnerEnumAllowableValues(CodegenProperty property) {
         CodegenProperty currentProperty = getMostInnerItems(property);
 
