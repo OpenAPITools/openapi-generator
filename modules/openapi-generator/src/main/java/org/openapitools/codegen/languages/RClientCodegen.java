@@ -37,6 +37,13 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAccessor;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -162,6 +169,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("integer");
         languageSpecificPrimitives.add("numeric");
         languageSpecificPrimitives.add("character");
+        languageSpecificPrimitives.add("Date");
+        languageSpecificPrimitives.add("POSIXct");
         languageSpecificPrimitives.add("data.frame");
         languageSpecificPrimitives.add("object");
 
@@ -176,8 +185,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("string", "character");
         typeMapping.put("UUID", "character");
         typeMapping.put("URI", "character");
-        typeMapping.put("date", "character");
-        typeMapping.put("DateTime", "character");
+        typeMapping.put("date", "Date");
+        typeMapping.put("DateTime", "POSIXct");
         typeMapping.put("password", "character");
         typeMapping.put("file", "data.frame");
         typeMapping.put("binary", "data.frame");
@@ -620,7 +629,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     needsExtractSimpleType = true;
                 }
 
-                // create extension x-r-doc-type to store the data type in r doc format
                 var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
             }
 
@@ -783,6 +791,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = "3.4";
             }
+        } else if ("Date".equals(type)) {
+            if (example == null) {
+                example = "2020-01-01";
+            }
+            example = "as.Date(\"" + escapeText(example) + "\")";
+        } else if ("POSIXct".equals(type)) {
+            if (example == null) {
+                example = "2020-01-01T12:00:00Z";
+            }
+            example = "as.POSIXct(\"" + escapeText(stripTrailingZ(example)) + "\", format = \"%Y-%m-%dT%H:%M:%OS\", tz = \"UTC\")";
         } else if ("data.frame".equals(type)) {
             if (example == null) {
                 example = "/path/to/file";
@@ -834,6 +852,118 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Convert a `date` schema default value into an R expression constructing a Date
+     * (the generated field must satisfy `inherits(x, "Date")`).
+     *
+     * Handles the value shapes swagger-parser may provide: parsed temporal types
+     * (e.g. {@link java.time.LocalDate}, {@link java.time.OffsetDateTime}), legacy
+     * {@link java.util.Date} objects, and RFC-3339 full-date strings. Temporal values
+     * are normalized to UTC so no offset suffix (e.g. "+05:00") leaks into the emitted
+     * expression, which R's as.Date() cannot parse.
+     *
+     * @param dateValue the raw default value from the schema
+     * @return an R expression, e.g. as.Date("2019-07-19"); or null when the value is
+     *         null or cannot be parsed as a date (no default is emitted)
+     */
+    public String rDate(Object dateValue) {
+        if (dateValue == null) {
+            return null;
+        }
+
+        String strValue = null;
+
+        if (dateValue instanceof OffsetDateTime) {
+            // shift to UTC first so the formatted date carries no offset suffix
+            strValue = DateTimeFormatter.ISO_LOCAL_DATE.format(((OffsetDateTime) dateValue).atZoneSameInstant(ZoneOffset.UTC));
+        } else if (dateValue instanceof TemporalAccessor) {
+            // e.g. a LocalDate parsed from a `date` schema value
+            strValue = DateTimeFormatter.ISO_LOCAL_DATE.format((TemporalAccessor) dateValue);
+        } else if (dateValue instanceof Date) {
+            // legacy java.util.Date values from swagger-parser
+            strValue = DateTimeFormatter.ISO_LOCAL_DATE.format(((Date) dateValue).toInstant().atOffset(ZoneOffset.UTC));
+        } else {
+            // handle RFC3339 date strings, ignore everything else
+            try {
+                strValue = DateTimeFormatter.ISO_LOCAL_DATE.format(DateTimeFormatter.ISO_DATE.parse(dateValue.toString()));
+            } catch (DateTimeParseException e) {
+                LOGGER.warn("Invalid `date` format for value {}", dateValue);
+                // no default is emitted rather than an as.Date(...) expression wrapping an invalid value
+                return null;
+            }
+        }
+
+        return "as.Date(\"" + strValue + "\")";
+    }
+
+    /**
+     * Convert a `date-time` schema default value into an R expression constructing a POSIXct
+     * (the generated field must satisfy `inherits(x, "POSIXt")`).
+     *
+     * Handles the value shapes swagger-parser may provide: parsed temporal types
+     * (e.g. {@link java.time.OffsetDateTime}), legacy {@link java.util.Date} objects, and
+     * RFC-3339 date-time strings. Values are normalized to UTC and the 'Z' designator is
+     * expressed via `tz = "UTC"` in the emitted expression, since strptime cannot reliably
+     * parse a trailing 'Z' on all R versions.
+     *
+     * @param dateValue the raw default value from the schema
+     * @return an R expression, e.g. as.POSIXct("2015-10-28T14:38:02", format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC");
+     *         or null when the value is null or cannot be parsed as a date-time (no default is emitted)
+     */
+    public String rDateTime(Object dateValue) {
+        if (dateValue == null) {
+            return null;
+        }
+
+        String strValue = null;
+
+        if (dateValue instanceof OffsetDateTime) {
+            // shift to UTC first so the formatted value carries a canonical 'Z' designator
+            strValue = isoInstantNoZ(((OffsetDateTime) dateValue).atZoneSameInstant(ZoneOffset.UTC));
+        } else if (dateValue instanceof TemporalAccessor) {
+            // e.g. a ZonedDateTime parsed from a `date-time` schema value; zone-less temporals
+            // (e.g. LocalDateTime) lack instant fields for ISO_INSTANT, so interpret them as UTC
+            if (dateValue instanceof LocalDateTime) {
+                strValue = isoInstantNoZ(((LocalDateTime) dateValue).toInstant(ZoneOffset.UTC));
+            } else {
+                strValue = isoInstantNoZ((TemporalAccessor) dateValue);
+            }
+        } else if (dateValue instanceof Date) {
+            // legacy java.util.Date values from swagger-parser
+            strValue = isoInstantNoZ(((Date) dateValue).toInstant());
+        } else {
+            // handle RFC3339 date-time strings, ignore everything else
+            String value = dateValue.toString();
+            try {
+                // zone-aware strings (trailing 'Z' or an offset); ISO_OFFSET_DATE_TIME parses
+                // both on all supported Java versions, unlike ISO_INSTANT (offsets only since JDK 12)
+                strValue = isoInstantNoZ(Instant.from(DateTimeFormatter.ISO_OFFSET_DATE_TIME.parse(value)));
+            } catch (DateTimeParseException zoneAware) {
+                try {
+                    // tolerate zone-less date-time strings by interpreting them as UTC
+                    strValue = isoInstantNoZ(LocalDateTime.parse(value).toInstant(ZoneOffset.UTC));
+                } catch (DateTimeParseException e) {
+                    LOGGER.warn("Invalid `date-time` format for value {}", dateValue);
+                    // no default is emitted rather than an as.POSIXct(...) expression wrapping an invalid value
+                    return null;
+                }
+            }
+        }
+
+        return "as.POSIXct(\"" + strValue + "\", format = \"%Y-%m-%dT%H:%M:%OS\", tz = \"UTC\")";
+    }
+
+    /**
+     * Format a temporal value with ISO_INSTANT (always UTC) and strip the trailing 'Z' so the
+     * value can be parsed with `format = "%Y-%m-%dT%H:%M:%OS"` and `tz = "UTC"` in generated R code.
+     *
+     * @param temporal a temporal value carrying instant fields (e.g. Instant, OffsetDateTime, ZonedDateTime)
+     * @return an ISO-8601 UTC date-time string without the trailing 'Z', e.g. "2015-10-28T14:38:02"
+     */
+    private String isoInstantNoZ(TemporalAccessor temporal) {
+        return stripTrailingZ(DateTimeFormatter.ISO_INSTANT.format(temporal));
+    }
+
+    /**
      * Return the default value of the property
      *
      * @param p OpenAPI property object
@@ -850,11 +980,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isDateSchema(p)) {
             if (p.getDefault() != null) {
-                return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
+                return rDate(p.getDefault());
             }
         } else if (ModelUtils.isDateTimeSchema(p)) {
             if (p.getDefault() != null) {
-                return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
+                return rDateTime(p.getDefault());
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
@@ -911,6 +1041,21 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
         return objs;
+    }
+
+    /**
+     * Strip a trailing 'Z' (UTC designator) from an ISO-8601 date-time string so it can be
+     * parsed with `format = "%Y-%m-%dT%H:%M:%OS"` and `tz = "UTC"` in generated R code
+     * (strptime's %z does not match a literal 'Z' on all R versions).
+     *
+     * @param value ISO-8601 date-time string, e.g. "2020-01-01T12:00:00Z"
+     * @return the string without its trailing 'Z', e.g. "2020-01-01T12:00:00"
+     */
+    private String stripTrailingZ(String value) {
+        if (value != null && value.endsWith("Z")) {
+            return value.substring(0, value.length() - 1);
+        }
+        return value;
     }
 
     /**
@@ -973,6 +1118,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                         return "\"" + codegenProperty.name + "_example\"";
                     }
                 }
+            } else if ("Date".equals(codegenProperty.dataType)) {
+                // toExampleValue() yields the literal string "null" when the spec has no example; treat it as missing
+                if (StringUtils.isEmpty(codegenProperty.example) || "null".equals(codegenProperty.example)) {
+                    return "as.Date(\"2020-01-01\")";
+                }
+                return "as.Date(\"" + escapeText(codegenProperty.example) + "\")";
+            } else if ("POSIXct".equals(codegenProperty.dataType)) {
+                if (StringUtils.isEmpty(codegenProperty.example) || "null".equals(codegenProperty.example)) {
+                    return "as.POSIXct(\"2020-01-01T12:00:00\", format = \"%Y-%m-%dT%H:%M:%OS\", tz = \"UTC\")";
+                }
+                return "as.POSIXct(\"" + escapeText(stripTrailingZ(codegenProperty.example)) + "\", format = \"%Y-%m-%dT%H:%M:%OS\", tz = \"UTC\")";
             } else { // numeric
                 if (StringUtils.isEmpty(codegenProperty.example)) {
                     return codegenProperty.example;
