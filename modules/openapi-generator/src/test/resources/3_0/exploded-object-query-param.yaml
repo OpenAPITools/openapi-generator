@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: Exploded object query parameters
+  description: >
+    Object typed query parameters, covering the four combinations of style and explode that
+    decide how an object is put on the wire. The free-form variants matter because a
+    free-form object is flagged isMap but not isContainer.
+  version: 1.0.0
+servers:
+  - url: localhost:8080
+paths:
+  /items:
+    get:
+      operationId: listItems
+      parameters:
+        # style and explode both left out, so the form/true defaults apply: every entry
+        # becomes its own parameter, keyed by the property name alone.
+        - in: query
+          name: filter
+          schema:
+            type: object
+        # the same, but declared as a map rather than as a free-form object
+        - in: query
+          name: typedFilter
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        # deepObject nests each entry under the parameter name: deepFilter[key]=value
+        - in: query
+          name: deepFilter
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+        # form without explode keeps a single parameter carrying the whole object
+        - in: query
+          name: flatFilter
+          style: form
+          explode: false
+          schema:
+            type: object
+      responses:
+        '200':
+          description: a list of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
