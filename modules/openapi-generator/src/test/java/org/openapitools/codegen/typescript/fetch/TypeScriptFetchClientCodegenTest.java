@@ -6,9 +6,6 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -25,9 +22,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -559,6 +555,22 @@ public class TypeScriptFetchClientCodegenTest {
 
         assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+    }
+
+    @Test(description = "Verify model suffix is added to model name and model filename")
+    public void testModelSuffixGeneration() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.MODEL_SUFFIX, "Resource");
+
+        File output = generate(properties, "src/test/resources/3_0/typescript-fetch/oneOf.yaml");
+
+        Path modelWithSuffix = Paths.get(output + "/models/TestBResource.ts");
+        TestUtils.assertFileExists(modelWithSuffix);
+        TestUtils.assertFileContains(modelWithSuffix, "export interface TestBResource");
+
+        Path discriminatorModelWithSuffix = Paths.get(output + "/models/TestDiscriminatorResponseResource.ts");
+        TestUtils.assertFileExists(discriminatorModelWithSuffix);
+        TestUtils.assertFileContains(discriminatorModelWithSuffix, "export type TestDiscriminatorResponseResource");
     }
 
     @Test(description = "Verify file name formatting from model name in PascalCase")
