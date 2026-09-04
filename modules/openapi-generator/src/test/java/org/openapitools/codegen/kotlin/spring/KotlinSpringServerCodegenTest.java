@@ -4482,6 +4482,81 @@ public class KotlinSpringServerCodegenTest {
                 "kotlin.collections.Set<", "Mono<ResponseEntity<set<");
     }
 
+    @Test
+    public void testParameterFieldExtraAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/kotlin-spring-param-extra-annotation.yaml",
+                Map.of(INTERFACE_ONLY, true));
+
+        Path locationApi = files.get("OrgsApi.kt").toPath();
+        // path param (single value), path param (list value -> both render), query param,
+        // header param (single value), cookie param (list value -> both render)
+        assertFileContains(locationApi,
+                "@com.example.ValidOrgId ",
+                "@com.example.ValidLocId @com.example.Trimmed ",
+                "@com.example.ValidFilter ",
+                "@com.example.ValidTrace ",
+                "@com.example.ValidSession @com.example.Trimmed ");
+
+        // form param
+        assertFileContains(files.get("DevicesApi.kt").toPath(), "@com.example.ValidDeviceId ");
+    }
+
+    @Test
+    public void testRequestBodyExtraAnnotation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/request-body-extra-annotation.yaml",
+                Map.of(INTERFACE_ONLY, true));
+
+        Path employeeApi = files.get("EmployeesApi.kt").toPath();
+        // single string value and list value both render before the body binding
+        assertFileContains(employeeApi,
+                "@com.example.MyValidation ",
+                "@com.example.AuditLogged ");
+
+        // selectivity: the annotation is applied per-operation only, even though all three
+        // operations reference the same shared Employee model. It must render exactly twice
+        // (createEmployee + createEmployeeBulk), never for createEmployeePlain.
+        String content = Files.readString(employeeApi);
+        int myValidationCount = content.split("@com.example.MyValidation", -1).length - 1;
+        assertThat(myValidationCount).isEqualTo(2);
+
+        // annotation placed directly on the inline requestBody object renders before the body binding
+        assertFileContains(employeeApi, "@com.example.InlineBodyValidation ");
+        // reusable components.requestBodies annotation applies to every operation that refs it (2 ops)
+        assertFileContains(employeeApi,
+                "@com.example.ReusableBodyValidation ",
+                "@com.example.ReusableAuditLogged ");
+        assertThat(content.split("@com.example.ReusableBodyValidation", -1).length - 1).isEqualTo(2);
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensions() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/inject-operation-vendor-extensions.yaml",
+                Map.of(INTERFACE_ONLY, true),
+                new HashMap<>(),
+                configurator -> {
+                    // operation-level injection drives the request-body annotation; parameter-level
+                    // injection annotates the path param, both without editing the spec
+                    configurator.addInjectOperationVendorExtension(
+                            "createEmployee.x-request-body-extra-annotation", "@com.example.MyValidation");
+                    configurator.addInjectOperationVendorExtension(
+                            "createEmployee.orgId.x-field-extra-annotation", "@com.example.ValidOrgId");
+                });
+
+        Path employeesApi = files.get("OrgsApi.kt").toPath();
+        assertFileContains(employeesApi,
+                "@com.example.MyValidation ",
+                "@com.example.ValidOrgId ");
+
+        // selectivity: only createEmployee is annotated, not createEmployeePlain, even though
+        // both reference the same shared Employee model and OrgId parameter schema
+        String content = Files.readString(employeesApi);
+        assertThat(content.split("@com.example.MyValidation", -1).length - 1).isEqualTo(1);
+        assertThat(content.split("@com.example.ValidOrgId", -1).length - 1).isEqualTo(1);
+    }
+
     private Map<String, File> generateFromContract(String url) throws IOException {
         return generateFromContract(url, new HashMap<>(), new HashMap<>());
     }

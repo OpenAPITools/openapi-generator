@@ -200,6 +200,16 @@ apply plugin: 'org.openapi.generator'
 |None
 |Sets specified global properties.
 
+|injectModelVendorExtensions
+|Map / Provider<Map>
+|None
+|Injects vendor extensions into models or their properties without editing the input spec. Keys use the form `modelName.x-extension-name` (model) or `modelName.propertyBaseName.x-extension-name` (model property). See the note below on supplying multiple annotations in a single value.
+
+|injectOperationVendorExtensions
+|Map / Provider<Map>
+|None
+|Injects vendor extensions into operations or their parameters without editing the input spec. Keys use the form `operationId.x-extension-name` (operation) or `operationId.paramBaseName.x-extension-name` (parameter, matched by its raw spec name). See the note below on supplying multiple annotations in a single value.
+
 |configFile
 |String / Provider<RegularFile>
 |None
@@ -557,6 +567,21 @@ models: "User:Pet"
 ])
 }
 ----
+====
+
+[NOTE]
+====
+`injectModelVendorExtensions` and `injectOperationVendorExtensions` are a generic mechanism for
+setting *any* vendor extension on a model, property, operation, or parameter without editing the spec.
+Keep in mind:
+
+* Values are always strings, applied *late* (at codegen/render time) and **overwrite** any existing
+  value; missing targets are a silent no-op. It is best suited to extensions consumed by templates,
+  such as the Spring extra-annotation extensions.
+* For the extra-annotation extensions, put multiple annotations in one value separated by *spaces*
+  (as in source), e.g. `"addPet.x-request-body-extra-annotation": "@com.example.MyValidation @Valid"`.
+  In the Gradle map form commas inside a value need no escaping, so `@Size(min = 0, max = 10)` works
+  directly (unlike the comma-separated CLI/Maven form).
 ====
 
 === openApiValidate

@@ -1,8 +1,13 @@
 generatorName: kotlin-spring
 outputDir: samples/server/petstore/kotlin-springboot-delegate
 library: spring-boot
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/petstore-with-extra-annotation.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+injectOperationVendorExtensions:
+  placeOrder.x-request-body-extra-annotation: "@NonNull"
+  placeOrder.x-extra-imports: org.springframework.lang.NonNull
+  getOrderById.orderId.x-field-extra-annotation: "@NonNull"
+  getOrderById.orderId.x-extra-imports: org.springframework.lang.NonNull
 additionalProperties:
   generateJsonIncludeAnnotations: "true"
   generateJsonSetterNullsAnnotations: "true"

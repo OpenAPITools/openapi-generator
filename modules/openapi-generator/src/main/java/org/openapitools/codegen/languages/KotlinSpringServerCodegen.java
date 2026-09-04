@@ -1706,6 +1706,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
             ops.forEach(operation -> {
+                // Normalize x-field-extra-annotation on each parameter (including the body) so a
+                // string or list value is handled uniformly and further values can be appended.
+                normalizeOperationParameterVendorExtensions(operation, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
+                // x-request-body-extra-annotation is authored on the operation (the request body usually
+                // $refs a shared model, so it cannot be placed next to the $ref). Merge its values into the
+                // body parameter's x-field-extra-annotation so it renders through the same template path.
+                normalizeVendorExtensionWithStringList(operation.vendorExtensions, VendorExtension.X_REQUEST_BODY_EXTRA_ANNOTATION.getName());
+                mergeOperationVendorExtensionIntoBodyParams(operation, VendorExtension.X_REQUEST_BODY_EXTRA_ANNOTATION.getName(), VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
                 List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
                     responses.forEach(resp -> {
@@ -1948,6 +1956,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_OPERATION_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_REQUEST_BODY_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_EXTRA_IMPORTS);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         extensions.add(VendorExtension.X_SIZE_MESSAGE);

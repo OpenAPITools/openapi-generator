@@ -211,6 +211,19 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
+    public static void applyInjectOperationVendorExtensionsKvpList(List<String> injectOperationVendorExtensions, CodegenConfigurator configurator) {
+        for (String propString : injectOperationVendorExtensions) {
+            applyInjectOperationVendorExtensionsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyInjectOperationVendorExtensionsKvp(String injectOperationVendorExtensions, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(injectOperationVendorExtensions);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addInjectOperationVendorExtension(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
     public static void applyTypeMappingsKvpList(List<String> typeMappings, CodegenConfigurator configurator) {
         for (String propString : typeMappings) {
             applyTypeMappingsKvp(propString, configurator);

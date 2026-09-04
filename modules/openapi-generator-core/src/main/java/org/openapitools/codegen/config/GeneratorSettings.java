@@ -59,6 +59,7 @@ public final class GeneratorSettings implements Serializable {
     private final Map<String, String> enumNameMappings;
     private final Map<String, String> operationIdNameMappings;
     private final Map<String, String> injectModelVendorExtensions;
+    private final Map<String, String> injectOperationVendorExtensions;
     private final Map<String, String> openapiNormalizer;
     private final Set<String> languageSpecificPrimitives;
     private final Set<String> openapiGeneratorIgnoreList;
@@ -327,6 +328,15 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
+     * Gets inject operation vendor extensions.
+     *
+     * @return a map of operationId.x-extension-name or operationId.paramBaseName.x-extension-name to extension value
+     */
+    public Map<String, String> getInjectOperationVendorExtensions() {
+        return injectOperationVendorExtensions;
+    }
+
+    /**
      * Gets OpenAPI normalizer rules
      *
      * @return a map of rules
@@ -468,6 +478,7 @@ public final class GeneratorSettings implements Serializable {
         enumNameMappings = Collections.unmodifiableMap(builder.enumNameMappings);
         operationIdNameMappings = Collections.unmodifiableMap(builder.operationIdNameMappings);
         injectModelVendorExtensions = Collections.unmodifiableMap(builder.injectModelVendorExtensions);
+        injectOperationVendorExtensions = Collections.unmodifiableMap(builder.injectOperationVendorExtensions);
         openapiNormalizer = Collections.unmodifiableMap(builder.openapiNormalizer);
         languageSpecificPrimitives = Collections.unmodifiableSet(builder.languageSpecificPrimitives);
         openapiGeneratorIgnoreList = Collections.unmodifiableSet(builder.openapiGeneratorIgnoreList);
@@ -549,6 +560,7 @@ public final class GeneratorSettings implements Serializable {
         enumNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         operationIdNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         injectModelVendorExtensions = Collections.unmodifiableMap(new HashMap<>(0));
+        injectOperationVendorExtensions = Collections.unmodifiableMap(new HashMap<>(0));
         openapiNormalizer = Collections.unmodifiableMap(new HashMap<>(0));
         languageSpecificPrimitives = Collections.unmodifiableSet(new HashSet<>(0));
         openapiGeneratorIgnoreList = Collections.unmodifiableSet(new HashSet<>(0));
@@ -629,6 +641,9 @@ public final class GeneratorSettings implements Serializable {
         if (copy.getInjectModelVendorExtensions() != null) {
             builder.injectModelVendorExtensions.putAll(copy.getInjectModelVendorExtensions());
         }
+        if (copy.getInjectOperationVendorExtensions() != null) {
+            builder.injectOperationVendorExtensions.putAll(copy.getInjectOperationVendorExtensions());
+        }
         if (copy.getOpenapiNormalizer() != null) {
             builder.openapiNormalizer.putAll(copy.getOpenapiNormalizer());
         }
@@ -683,6 +698,7 @@ public final class GeneratorSettings implements Serializable {
         private Map<String, String> enumNameMappings;
         private Map<String, String> operationIdNameMappings;
         private Map<String, String> injectModelVendorExtensions;
+        private Map<String, String> injectOperationVendorExtensions;
         private Map<String, String> openapiNormalizer;
         private Set<String> languageSpecificPrimitives;
         private Set<String> openapiGeneratorIgnoreList;
@@ -711,6 +727,7 @@ public final class GeneratorSettings implements Serializable {
             enumNameMappings = new HashMap<>();
             operationIdNameMappings = new HashMap<>();
             injectModelVendorExtensions = new HashMap<>();
+            injectOperationVendorExtensions = new HashMap<>();
             openapiNormalizer = new HashMap<>();
             languageSpecificPrimitives = new HashSet<>();
             openapiGeneratorIgnoreList = new HashSet<>();
@@ -1190,6 +1207,32 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
+         * Sets the {@code injectOperationVendorExtensions} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param injectOperationVendorExtensions the {@code injectOperationVendorExtensions} to set
+         * @return a reference to this Builder
+         */
+        public Builder withInjectOperationVendorExtensions(Map<String, String> injectOperationVendorExtensions) {
+            this.injectOperationVendorExtensions = injectOperationVendorExtensions;
+            return this;
+        }
+
+        /**
+         * Sets a single {@code injectOperationVendorExtension} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key   A key in the format operationId.x-extension-name or operationId.paramBaseName.x-extension-name
+         * @param value The extension value
+         * @return a reference to this Builder
+         */
+        public Builder withInjectOperationVendorExtension(String key, String value) {
+            if (this.injectOperationVendorExtensions == null) {
+                this.injectOperationVendorExtensions = new HashMap<>();
+            }
+            this.injectOperationVendorExtensions.put(key, value);
+            return this;
+        }
+
+        /**
          * Sets the {@code openapiNormalizer} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param openapiNormalizer the {@code openapiNormalizer} to set
@@ -1433,6 +1476,8 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getModelNameMappings(), that.getModelNameMappings()) &&
                 Objects.equals(getEnumNameMappings(), that.getEnumNameMappings()) &&
                 Objects.equals(getOperationIdNameMappings(), that.getOperationIdNameMappings()) &&
+                Objects.equals(getInjectModelVendorExtensions(), that.getInjectModelVendorExtensions()) &&
+                Objects.equals(getInjectOperationVendorExtensions(), that.getInjectOperationVendorExtensions()) &&
                 Objects.equals(getOpenapiNormalizer(), that.getOpenapiNormalizer()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
                 Objects.equals(getOpenapiGeneratorIgnoreList(), that.getOpenapiGeneratorIgnoreList()) &&
@@ -1471,6 +1516,8 @@ public final class GeneratorSettings implements Serializable {
                 getModelNameMappings(),
                 getEnumNameMappings(),
                 getOperationIdNameMappings(),
+                getInjectModelVendorExtensions(),
+                getInjectOperationVendorExtensions(),
                 getOpenapiNormalizer(),
                 getLanguageSpecificPrimitives(),
                 getOpenapiGeneratorIgnoreList(),

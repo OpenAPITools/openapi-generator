@@ -1,7 +1,10 @@
 generatorName: spring
 outputDir: samples/server/petstore/springboot-useoptional
-inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-extra-annotation.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+injectOperationVendorExtensions:
+  placeOrder.x-request-body-extra-annotation: "@org.springframework.lang.NonNull"
+  getOrderById.order_id.x-field-extra-annotation: "@org.springframework.lang.NonNull"
 additionalProperties:
   generateJsonIncludeAnnotations: "true"
   generateJsonSetterNullsAnnotations: "true"

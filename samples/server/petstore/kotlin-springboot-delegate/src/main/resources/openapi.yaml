@@ -45,6 +45,8 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
+      x-extra-imports: org.springframework.lang.NonNull
+      x-request-body-extra-annotation: '@NonNull'
     put:
       description: ""
       externalDocs:
@@ -97,6 +99,12 @@ paths:
             type: string
           type: array
         style: form
+        x-extra-imports:
+        - org.springframework.lang.NonNull
+        - org.springframework.lang.Nullable
+        x-field-extra-annotation:
+        - '@NonNull'
+        - '@Nullable'
       responses:
         "200":
           content:
@@ -202,6 +210,8 @@ paths:
           format: int64
           type: integer
         style: simple
+        x-extra-imports: org.springframework.lang.NonNull
+        x-field-extra-annotation: '@NonNull'
       responses:
         "200":
           content:
@@ -795,6 +805,8 @@ components:
           description: file to upload
           format: binary
           type: string
+          x-extra-imports: org.springframework.lang.NonNull
+          x-field-extra-annotation: '@NonNull'
       type: object
   securitySchemes:
     petstore_auth:

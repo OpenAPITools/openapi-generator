@@ -12,6 +12,7 @@ paths:
         - $ref: '#/components/parameters/groupObj'
         - $ref: '#/components/parameters/token'
         - $ref: '#/components/parameters/clientId'
+        - $ref: '#/components/parameters/sessionId'
       requestBody:
         content:
           application/json:
@@ -49,6 +50,13 @@ components:
         pattern: "\\d"
         x-pattern-message: "Only numbers"
         x-field-extra-annotation: '@com.test.MyAnnotationInHeader'
+    sessionId:
+      in: cookie
+      name: sessionId
+      required: true
+      schema:
+        type: string
+        x-field-extra-annotation: '@com.test.MyAnnotationInCookie'
   schemas:
     ObjTest:
       description: A model to return

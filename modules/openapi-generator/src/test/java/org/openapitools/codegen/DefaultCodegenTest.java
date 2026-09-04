@@ -37,6 +37,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -99,6 +100,68 @@ public class DefaultCodegenTest {
         PathItem path = openApi.getPaths().get("/pets/petType/{type}");
         CodegenOperation operation = codegen.fromOperation("/pets/petType/{type}", "get", path.getGet(), path.getServers());
         assertEquals(1, Sets.intersection(operation.imports, Sets.newHashSet("PetByType")).size());
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensions() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        codegen.setOpenAPI(openApi);
+        codegen.injectOperationVendorExtensions().put("createEmployee.x-request-body-extra-annotation", "@com.example.MyValidation");
+        codegen.injectOperationVendorExtensions().put("createEmployee.orgId.x-field-extra-annotation", "@com.example.ValidOrgId");
+        // non-matching operationId is a no-op
+        codegen.injectOperationVendorExtensions().put("noSuchOperation.x-foo", "bar");
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees");
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees", "post", path.getPost(), path.getServers());
+
+        // operation-level extension landed on the operation
+        assertEquals("@com.example.MyValidation", operation.vendorExtensions.get("x-request-body-extra-annotation"));
+        assertNull(operation.vendorExtensions.get("x-foo"));
+
+        // parameter-level extension landed on the matching parameter across collections
+        CodegenParameter orgId = operation.allParams.stream()
+                .filter(p -> "orgId".equals(p.baseName)).findFirst().orElseThrow();
+        assertEquals("@com.example.ValidOrgId", orgId.vendorExtensions.get("x-field-extra-annotation"));
+        CodegenParameter orgIdPath = operation.pathParams.stream()
+                .filter(p -> "orgId".equals(p.baseName)).findFirst().orElseThrow();
+        assertEquals("@com.example.ValidOrgId", orgIdPath.vendorExtensions.get("x-field-extra-annotation"));
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensionsMatchesSpecOperationId() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        codegen.setOpenAPI(openApi);
+        // key uses the spec-authored (snake_case) operationId, not the generated/camelized one
+        codegen.injectOperationVendorExtensions().put("create_employee_snake.x-request-body-extra-annotation", "@com.example.MyValidation");
+        // the generated/camelized operationId must not match when the spec provides an operationId
+        codegen.injectOperationVendorExtensions().put("createEmployeeSnake.x-foo", "bar");
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees/snake");
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees/snake", "post", path.getPost(), path.getServers());
+
+        assertEquals("create_employee_snake", operation.operationIdOriginal);
+        assertEquals("@com.example.MyValidation", operation.vendorExtensions.get("x-request-body-extra-annotation"));
+        assertNull(operation.vendorExtensions.get("x-foo"));
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensionsFallsBackToGeneratedIdWhenBlank() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        codegen.setOpenAPI(openApi);
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees/blank");
+        // first pass discovers the generated operationId (the spec leaves operationId blank)
+        CodegenOperation discovered = codegen.fromOperation("/orgs/{orgId}/employees/blank", "post", path.getPost(), path.getServers());
+        assertTrue(discovered.operationIdOriginal == null || discovered.operationIdOriginal.isEmpty());
+        assertTrue(StringUtils.isNotBlank(discovered.operationId));
+
+        // injecting via the generated operationId must apply, since the blank original cannot be matched
+        codegen.injectOperationVendorExtensions().put(discovered.operationId + ".x-request-body-extra-annotation", "@com.example.MyValidation");
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees/blank", "post", path.getPost(), path.getServers());
+        assertEquals("@com.example.MyValidation", operation.vendorExtensions.get("x-request-body-extra-annotation"));
     }
 
     @Test
