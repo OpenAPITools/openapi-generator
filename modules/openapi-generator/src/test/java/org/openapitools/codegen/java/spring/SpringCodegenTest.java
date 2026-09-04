@@ -23,6 +23,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.HeaderParameter;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.lang3.StringUtils;
@@ -78,6 +80,115 @@ public class SpringCodegenTest {
                 .stream()
                 .collect(groupingBy(CliOption::getOpt))
                 .forEach((k, v) -> assertEquals(v.size(), 1, k + " is described multiple times"));
+    }
+
+    @Test
+    public void shouldKeepSingleMethodByDefaultForMultipleResponseContentTypes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/issue_8701.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_TAGS, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("FooApi.java").toPath())
+                .assertMethod("getFoo")
+                .hasReturnType("ResponseEntity<FooDto>")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
+                        "produces", "{ \"application/json\", \"text/plain\", \"application/octet-stream\" }"))
+                .toMethod()
+                .toFileAssert()
+                .hasNoMethod("getFooApplicationJson")
+                .hasNoMethod("getFooTextPlain")
+                .hasNoMethod("getFooApplicationOctetStream");
+    }
+
+    @Test
+    public void shouldSplitOperationsByResponseContentTypeWhenEnabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/issue_8701.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(SPLIT_RESPONSE_TYPES, true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        Path fooApi = files.get("FooApi.java").toPath();
+        JavaFileAssert.assertThat(fooApi)
+                .hasNoMethod("getFoo")
+                .assertMethod("getFooApplicationJson")
+                .hasReturnType("ResponseEntity<FooDto>")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of("produces", "{ \"application/json\" }"))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getFooTextPlain")
+                .hasReturnType("ResponseEntity<String>")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of("produces", "{ \"text/plain\" }"));
+
+        assertFileContains(fooApi,
+                "ResponseEntity<org.springframework.core.io.Resource> getFooApplicationOctetStream",
+                "produces = { \"application/octet-stream\" }");
+    }
+
+    @Test
+    public void shouldPreserveVersionHeadersWhenImplicitHeadersAreRemoved() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-with-spring-pageable.yaml", null, new ParseOptions()).getOpenAPI();
+        openAPI.getPaths().get("/versioning/headers").getPost()
+                .addParametersItem(new HeaderParameter().name("X-Request-Id").schema(new StringSchema()));
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(IMPLICIT_HEADERS_REGEX, "^Version.*");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        assertFileContains(files.get("VersioningApi.java").toPath(),
+                "headers = { \"VersionWithDefaultValue=V1\", \"VersionNoDefaultValue\" }");
     }
 
     @Test
