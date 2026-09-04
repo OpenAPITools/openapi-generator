@@ -5,7 +5,10 @@
 //
 
 import Foundation
-#if !os(macOS)
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+#if canImport(MobileCoreServices)
 import MobileCoreServices
 #endif
 #if canImport(UniformTypeIdentifiers)
@@ -590,15 +593,14 @@ private class FormDataEncoding: ParameterEncoding {
             if let utType = UTType(filenameExtension: pathExtension) {
                 return utType.preferredMIMEType ?? "application/octet-stream"
             }
-            #else
-            return "application/octet-stream" 
             #endif
         } else {
+            #if canImport(MobileCoreServices)
             if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue(),
                     let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
                 return mimetype as String
             }
-            return "application/octet-stream"
+            #endif
         }
         return "application/octet-stream"
     }

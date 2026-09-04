@@ -31,6 +31,8 @@ jobs:
         include:
         - os: ubuntu-latest
           sample: samples/client/petstore/swift5/alamofireLibrary
+        - os: ubuntu-latest
+          sample: samples/client/petstore/swift5/urlsessionLibrary
     name: Build Swift samples
     runs-on: ${{ matrix.os }}
     steps:
