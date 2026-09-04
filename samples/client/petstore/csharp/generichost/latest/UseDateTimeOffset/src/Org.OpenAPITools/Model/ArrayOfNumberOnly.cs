@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (arrayNumber.IsSet && arrayNumber.Value == null)
-                throw new ArgumentNullException(nameof(arrayNumber), "Property is not nullable for class ArrayOfNumberOnly.");
+                throw new JsonException("Property is not nullable for class ArrayOfNumberOnly: ArrayNumber.");
 
             return new ArrayOfNumberOnly(arrayNumber);
         }

@@ -168,10 +168,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (role.IsSet && role.Value == null)
-                throw new ArgumentNullException(nameof(role), "Property is not nullable for class RolesReportsHash.");
+                throw new JsonException("Property is not nullable for class RolesReportsHash: role.");
 
             if (roleUuid.IsSet && roleUuid.Value == null)
-                throw new ArgumentNullException(nameof(roleUuid), "Property is not nullable for class RolesReportsHash.");
+                throw new JsonException("Property is not nullable for class RolesReportsHash: role_uuid.");
 
             return new RolesReportsHash(role, roleUuid);
         }

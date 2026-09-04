@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varString.IsSet && varString.Value == null)
-                throw new ArgumentNullException(nameof(varString), "Property is not nullable for class IconsDefaultResponse.");
+                throw new JsonException("Property is not nullable for class IconsDefaultResponse: string.");
 
             return new IconsDefaultResponse(varString);
         }

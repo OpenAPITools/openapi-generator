@@ -196,16 +196,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!copyActivitytt.IsSet)
-                throw new ArgumentException("Property is required for class CopyActivity.", nameof(copyActivitytt));
+                throw new JsonException("Property is required for class CopyActivity: copyActivitytt.");
 
             if (!schema.IsSet)
-                throw new ArgumentException("Property is required for class CopyActivity.", nameof(schema));
+                throw new JsonException("Property is required for class CopyActivity: $schema.");
 
             if (copyActivitytt.IsSet && copyActivitytt.Value == null)
-                throw new ArgumentNullException(nameof(copyActivitytt), "Property is not nullable for class CopyActivity.");
+                throw new JsonException("Property is not nullable for class CopyActivity: copyActivitytt.");
 
             if (schema.IsSet && schema.Value == null)
-                throw new ArgumentNullException(nameof(schema), "Property is not nullable for class CopyActivity.");
+                throw new JsonException("Property is not nullable for class CopyActivity: $schema.");
 
             return new CopyActivity(copyActivitytt.Value!);
         }

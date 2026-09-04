@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varClient.IsSet && varClient.Value == null)
-                throw new ArgumentNullException(nameof(varClient), "Property is not nullable for class ModelClient.");
+                throw new JsonException("Property is not nullable for class ModelClient: client.");
 
             return new ModelClient(varClient);
         }

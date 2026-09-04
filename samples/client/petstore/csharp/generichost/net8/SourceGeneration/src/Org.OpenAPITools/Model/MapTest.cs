@@ -274,16 +274,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (directMap.IsSet && directMap.Value == null)
-                throw new ArgumentNullException(nameof(directMap), "Property is not nullable for class MapTest.");
+                throw new JsonException("Property is not nullable for class MapTest: direct_map.");
 
             if (indirectMap.IsSet && indirectMap.Value == null)
-                throw new ArgumentNullException(nameof(indirectMap), "Property is not nullable for class MapTest.");
+                throw new JsonException("Property is not nullable for class MapTest: indirect_map.");
 
             if (mapMapOfString.IsSet && mapMapOfString.Value == null)
-                throw new ArgumentNullException(nameof(mapMapOfString), "Property is not nullable for class MapTest.");
+                throw new JsonException("Property is not nullable for class MapTest: map_map_of_string.");
 
             if (mapOfEnumString.IsSet && mapOfEnumString.Value == null)
-                throw new ArgumentNullException(nameof(mapOfEnumString), "Property is not nullable for class MapTest.");
+                throw new JsonException("Property is not nullable for class MapTest: map_of_enum_string.");
 
             return new MapTest(directMap, indirectMap, mapMapOfString, mapOfEnumString);
         }

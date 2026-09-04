@@ -829,103 +829,103 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!varByte.IsSet)
-                throw new ArgumentException("Property is required for class FormatTest.", nameof(varByte));
+                throw new JsonException("Property is required for class FormatTest: byte.");
 
             if (!date.IsSet)
-                throw new ArgumentException("Property is required for class FormatTest.", nameof(date));
+                throw new JsonException("Property is required for class FormatTest: date.");
 
             if (!number.IsSet)
-                throw new ArgumentException("Property is required for class FormatTest.", nameof(number));
+                throw new JsonException("Property is required for class FormatTest: number.");
 
             if (!password.IsSet)
-                throw new ArgumentException("Property is required for class FormatTest.", nameof(password));
+                throw new JsonException("Property is required for class FormatTest: password.");
 
             if (!stringFormattedAsDecimalRequired.IsSet)
-                throw new ArgumentException("Property is required for class FormatTest.", nameof(stringFormattedAsDecimalRequired));
+                throw new JsonException("Property is required for class FormatTest: string_formatted_as_decimal_required.");
 
             if (varByte.IsSet && varByte.Value == null)
-                throw new ArgumentNullException(nameof(varByte), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: byte.");
 
             if (date.IsSet && date.Value == null)
-                throw new ArgumentNullException(nameof(date), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: date.");
 
             if (number.IsSet && number.Value == null)
-                throw new ArgumentNullException(nameof(number), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: number.");
 
             if (password.IsSet && password.Value == null)
-                throw new ArgumentNullException(nameof(password), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: password.");
 
             if (stringFormattedAsDecimalRequired.IsSet && stringFormattedAsDecimalRequired.Value == null)
-                throw new ArgumentNullException(nameof(stringFormattedAsDecimalRequired), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: string_formatted_as_decimal_required.");
 
             if (binary.IsSet && binary.Value == null)
-                throw new ArgumentNullException(nameof(binary), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: binary.");
 
             if (dateTime.IsSet && dateTime.Value == null)
-                throw new ArgumentNullException(nameof(dateTime), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: dateTime.");
 
             if (varDecimal.IsSet && varDecimal.Value == null)
-                throw new ArgumentNullException(nameof(varDecimal), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: decimal.");
 
             if (varDouble.IsSet && varDouble.Value == null)
-                throw new ArgumentNullException(nameof(varDouble), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: double.");
 
             if (duplicatePropertyName2.IsSet && duplicatePropertyName2.Value == null)
-                throw new ArgumentNullException(nameof(duplicatePropertyName2), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: duplicate_property_name.");
 
             if (duplicatePropertyName.IsSet && duplicatePropertyName.Value == null)
-                throw new ArgumentNullException(nameof(duplicatePropertyName), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: @duplicate_property_name.");
 
             if (varFloat.IsSet && varFloat.Value == null)
-                throw new ArgumentNullException(nameof(varFloat), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: float.");
 
             if (int32.IsSet && int32.Value == null)
-                throw new ArgumentNullException(nameof(int32), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: int32.");
 
             if (int32Range.IsSet && int32Range.Value == null)
-                throw new ArgumentNullException(nameof(int32Range), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: int32Range.");
 
             if (int64.IsSet && int64.Value == null)
-                throw new ArgumentNullException(nameof(int64), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: int64.");
 
             if (int64Negative.IsSet && int64Negative.Value == null)
-                throw new ArgumentNullException(nameof(int64Negative), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: int64Negative.");
 
             if (int64NegativeExclusive.IsSet && int64NegativeExclusive.Value == null)
-                throw new ArgumentNullException(nameof(int64NegativeExclusive), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: int64NegativeExclusive.");
 
             if (int64Positive.IsSet && int64Positive.Value == null)
-                throw new ArgumentNullException(nameof(int64Positive), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: int64Positive.");
 
             if (int64PositiveExclusive.IsSet && int64PositiveExclusive.Value == null)
-                throw new ArgumentNullException(nameof(int64PositiveExclusive), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: int64PositiveExclusive.");
 
             if (integer.IsSet && integer.Value == null)
-                throw new ArgumentNullException(nameof(integer), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: integer.");
 
             if (patternWithBackslash.IsSet && patternWithBackslash.Value == null)
-                throw new ArgumentNullException(nameof(patternWithBackslash), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: pattern_with_backslash.");
 
             if (patternWithDigits.IsSet && patternWithDigits.Value == null)
-                throw new ArgumentNullException(nameof(patternWithDigits), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: pattern_with_digits.");
 
             if (patternWithDigitsAndDelimiter.IsSet && patternWithDigitsAndDelimiter.Value == null)
-                throw new ArgumentNullException(nameof(patternWithDigitsAndDelimiter), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: pattern_with_digits_and_delimiter.");
 
             if (varString.IsSet && varString.Value == null)
-                throw new ArgumentNullException(nameof(varString), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: string.");
 
             if (stringFormattedAsDecimal.IsSet && stringFormattedAsDecimal.Value == null)
-                throw new ArgumentNullException(nameof(stringFormattedAsDecimal), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: string_formatted_as_decimal.");
 
             if (unsignedInteger.IsSet && unsignedInteger.Value == null)
-                throw new ArgumentNullException(nameof(unsignedInteger), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: unsigned_integer.");
 
             if (unsignedLong.IsSet && unsignedLong.Value == null)
-                throw new ArgumentNullException(nameof(unsignedLong), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: unsigned_long.");
 
             if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class FormatTest.");
+                throw new JsonException("Property is not nullable for class FormatTest: uuid.");
 
             return new FormatTest(varByte.Value!, date.Value!.Value!, number.Value!.Value!, password.Value!, stringFormattedAsDecimalRequired.Value!.Value!, binary, dateTime, varDecimal, varDouble, duplicatePropertyName2, duplicatePropertyName, varFloat, int32, int32Range, int64, int64Negative, int64NegativeExclusive, int64Positive, int64PositiveExclusive, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, stringFormattedAsDecimal, unsignedInteger, unsignedLong, uuid);
         }

@@ -209,13 +209,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (colorCode.IsSet && colorCode.Value == null)
-                throw new ArgumentNullException(nameof(colorCode), "Property is not nullable for class Apple.");
+                throw new JsonException("Property is not nullable for class Apple: color_code.");
 
             if (cultivar.IsSet && cultivar.Value == null)
-                throw new ArgumentNullException(nameof(cultivar), "Property is not nullable for class Apple.");
+                throw new JsonException("Property is not nullable for class Apple: cultivar.");
 
             if (origin.IsSet && origin.Value == null)
-                throw new ArgumentNullException(nameof(origin), "Property is not nullable for class Apple.");
+                throw new JsonException("Property is not nullable for class Apple: origin.");
 
             return new Apple(colorCode, cultivar, origin);
         }

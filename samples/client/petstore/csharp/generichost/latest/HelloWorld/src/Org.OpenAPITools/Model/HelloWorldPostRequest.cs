@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (message.IsSet && message.Value == null)
-                throw new ArgumentNullException(nameof(message), "Property is not nullable for class HelloWorldPostRequest.");
+                throw new JsonException("Property is not nullable for class HelloWorldPostRequest: message.");
 
             return new HelloWorldPostRequest(message);
         }

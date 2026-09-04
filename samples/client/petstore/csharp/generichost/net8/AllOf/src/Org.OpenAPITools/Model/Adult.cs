@@ -145,16 +145,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (children.IsSet && children.Value == null)
-                throw new ArgumentNullException(nameof(children), "Property is not nullable for class Adult.");
+                throw new JsonException("Property is not nullable for class Adult: children.");
 
             if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Adult.");
+                throw new JsonException("Property is not nullable for class Adult: firstName.");
 
             if (lastName.IsSet && lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class Adult.");
+                throw new JsonException("Property is not nullable for class Adult: lastName.");
 
             if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Adult.");
+                throw new JsonException("Property is not nullable for class Adult: $_type.");
 
             return new Adult(children, firstName, lastName);
         }

@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (dateOnlyProperty.IsSet && dateOnlyProperty.Value == null)
-                throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is not nullable for class DateOnlyClass.");
+                throw new JsonException("Property is not nullable for class DateOnlyClass: dateOnlyProperty.");
 
             return new DateOnlyClass(dateOnlyProperty);
         }

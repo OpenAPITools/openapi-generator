@@ -169,13 +169,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Animal.", nameof(className));
+                throw new JsonException("Property is required for class Animal: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Animal.");
+                throw new JsonException("Property is not nullable for class Animal: className.");
 
             if (color.IsSet && color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Animal.");
+                throw new JsonException("Property is not nullable for class Animal: color.");
 
             return new Animal(color);
         }

@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (sweet.IsSet && sweet.Value == null)
-                throw new ArgumentNullException(nameof(sweet), "Property is not nullable for class Orange.");
+                throw new JsonException("Property is not nullable for class Orange: sweet.");
 
             return new Orange(sweet);
         }
