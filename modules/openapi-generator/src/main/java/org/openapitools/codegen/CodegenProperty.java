@@ -98,6 +98,11 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      */
     @Getter @Setter
     public String example;
+    /**
+     * The list of example values declared with the OpenAPI 3.1 `examples` keyword.
+     */
+    @Getter @Setter
+    public List<String> examples;
 
     @Getter @Setter
     public String jsonSchema;
@@ -612,6 +617,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
             if (this._enum != null) {
                 cp._enum = new ArrayList<String>(this._enum);
             }
+            if (this.examples != null) {
+                cp.examples = new ArrayList<String>(this.examples);
+            }
             if (this.allowableValues != null) {
                 cp.allowableValues = new HashMap<String, Object>(this.allowableValues);
             }
@@ -996,6 +1004,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", minLength=").append(minLength);
         sb.append(", pattern='").append(pattern).append('\'');
         sb.append(", example='").append(example).append('\'');
+        sb.append(", examples=").append(examples);
         sb.append(", jsonSchema='").append(jsonSchema).append('\'');
         sb.append(", minimum='").append(minimum).append('\'');
         sb.append(", maximum='").append(maximum).append('\'');
@@ -1183,6 +1192,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(minLength, that.minLength) &&
                 Objects.equals(pattern, that.pattern) &&
                 Objects.equals(example, that.example) &&
+                Objects.equals(examples, that.examples) &&
                 Objects.equals(jsonSchema, that.jsonSchema) &&
                 Objects.equals(minimum, that.minimum) &&
                 Objects.equals(maximum, that.maximum) &&
@@ -1213,7 +1223,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
                 dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
                 defaultValueWithParam, baseType, containerType, containerTypeMapped, title, unescapedDescription,
-                maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
+                maxLength, minLength, pattern, example, examples, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, required, deprecated,
                 isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,

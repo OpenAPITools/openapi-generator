@@ -9335,4 +9335,34 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("Dummy.java"))
                 .fileContains("import org.myorg.MyCustomId;", "import org.myorg.MyCustomKey;");
     }
+
+    @Test
+    public void testMultipleExamplesInSchemaAnnotation_issue24755() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_1/issue_20960.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Meta.java"))
+                // the OAS 3.1 `examples` keyword with several values
+                .fileContains("@Schema(name = \"resourceType\", examples = { \"ResourceType\", \"Group\" }, description = \"...\", requiredMode = Schema.RequiredMode.NOT_REQUIRED)")
+                // a single value still renders as a one element array
+                .fileContains("@Schema(name = \"created\", examples = { \"2024-07-21T17:32:28Z\" }, description = \"...\", requiredMode = Schema.RequiredMode.NOT_REQUIRED)")
+                // properties without examples are left untouched
+                .fileContains("@Schema(name = \"lastModified\", description = \"...\", requiredMode = Schema.RequiredMode.NOT_REQUIRED)");
+    }
 }
