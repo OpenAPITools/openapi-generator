@@ -18,6 +18,7 @@ import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
+import org.jspecify.annotations.Nullable;
 import org.openapitools.client.model.RequiredAndNullable;
 
 import tools.jackson.core.JacksonException;
@@ -47,7 +48,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
-public class RequiredAndNullableApi {
+public class NbleApi {
   /**
    * Utility class for extending HttpRequest.Builder functionality.
    */
@@ -76,11 +77,11 @@ public class RequiredAndNullableApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
 
-  public RequiredAndNullableApi() {
+  public NbleApi() {
     this(Configuration.getDefaultApiClient());
   }
 
-  public RequiredAndNullableApi(ApiClient apiClient) {
+  public NbleApi(ApiClient apiClient) {
     memberVarHttpClient = apiClient.getHttpClient();
     memberVarObjectMapper = apiClient.getObjectMapper();
     memberVarBaseUri = apiClient.getBaseUri();
@@ -166,48 +167,49 @@ public class RequiredAndNullableApi {
   /**
    * 
    * 
-   * @param requiredAndNullable bodyWithRequiredAndNullableAttributes (required)
-   * @return RequiredAndNullable
+   * @param mandatory  (required)
+   * @param optional  (optional)
    * @throws ApiException if fails to make API call
    */
-  public RequiredAndNullable requiredAndNullablePost(RequiredAndNullable requiredAndNullable) throws ApiException {
-    return requiredAndNullablePost(requiredAndNullable, null);
+  public void nbleGet(@Nullable String mandatory, @Nullable String optional) throws ApiException {
+    nbleGet(mandatory, optional, null);
   }
 
   /**
    * 
    * 
-   * @param requiredAndNullable bodyWithRequiredAndNullableAttributes (required)
+   * @param mandatory  (required)
+   * @param optional  (optional)
    * @param headers Optional headers to include in the request
-   * @return RequiredAndNullable
    * @throws ApiException if fails to make API call
    */
-  public RequiredAndNullable requiredAndNullablePost(RequiredAndNullable requiredAndNullable, Map<String, String> headers) throws ApiException {
-    ApiResponse<RequiredAndNullable> localVarResponse = requiredAndNullablePostWithHttpInfo(requiredAndNullable, headers);
-    return localVarResponse.getData();
+  public void nbleGet(@Nullable String mandatory, @Nullable String optional, Map<String, String> headers) throws ApiException {
+    nbleGetWithHttpInfo(mandatory, optional, headers);
   }
 
   /**
    * 
    * 
-   * @param requiredAndNullable bodyWithRequiredAndNullableAttributes (required)
-   * @return ApiResponse&lt;RequiredAndNullable&gt;
+   * @param mandatory  (required)
+   * @param optional  (optional)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<RequiredAndNullable> requiredAndNullablePostWithHttpInfo(RequiredAndNullable requiredAndNullable) throws ApiException {
-    return requiredAndNullablePostWithHttpInfo(requiredAndNullable, null);
+  public ApiResponse<Void> nbleGetWithHttpInfo(@Nullable String mandatory, @Nullable String optional) throws ApiException {
+    return nbleGetWithHttpInfo(mandatory, optional, null);
   }
 
   /**
    * 
    * 
-   * @param requiredAndNullable bodyWithRequiredAndNullableAttributes (required)
+   * @param mandatory  (required)
+   * @param optional  (optional)
    * @param headers Optional headers to include in the request
-   * @return ApiResponse&lt;RequiredAndNullable&gt;
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<RequiredAndNullable> requiredAndNullablePostWithHttpInfo(RequiredAndNullable requiredAndNullable, Map<String, String> headers) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = requiredAndNullablePostRequestBuilder(requiredAndNullable, headers);
+  public ApiResponse<Void> nbleGetWithHttpInfo(@Nullable String mandatory, @Nullable String optional, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = nbleGetRequestBuilder(mandatory, optional, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -218,7 +220,130 @@ public class RequiredAndNullableApi {
       InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("requiredAndNullablePost", localVarResponse);
+          throw getApiException("nbleGet", localVarResponse);
+        }
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody != null) {
+          localVarResponseBody.readAllBytes();
+        }
+        return new ApiResponse<>(
+            localVarResponse.statusCode(),
+            localVarResponse.headers().map(),
+            null
+        );
+      } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder nbleGetRequestBuilder(@Nullable String mandatory, @Nullable String optional, Map<String, String> headers) throws ApiException {
+    // verify the required parameter 'mandatory' is set
+    if (mandatory == null) {
+      throw new ApiException(400, "Missing the required parameter 'mandatory' when calling nbleGet");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/nble";
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "optional";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("optional", optional));
+    localVarQueryParameterBaseName = "mandatory";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("mandatory", mandatory));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * 
+   * 
+   * @param requiredAndNullable bodyWithRequiredAndNullableAttributes (required)
+   * @return RequiredAndNullable
+   * @throws ApiException if fails to make API call
+   */
+  public RequiredAndNullable nblePost(RequiredAndNullable requiredAndNullable) throws ApiException {
+    return nblePost(requiredAndNullable, null);
+  }
+
+  /**
+   * 
+   * 
+   * @param requiredAndNullable bodyWithRequiredAndNullableAttributes (required)
+   * @param headers Optional headers to include in the request
+   * @return RequiredAndNullable
+   * @throws ApiException if fails to make API call
+   */
+  public RequiredAndNullable nblePost(RequiredAndNullable requiredAndNullable, Map<String, String> headers) throws ApiException {
+    ApiResponse<RequiredAndNullable> localVarResponse = nblePostWithHttpInfo(requiredAndNullable, headers);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * 
+   * 
+   * @param requiredAndNullable bodyWithRequiredAndNullableAttributes (required)
+   * @return ApiResponse&lt;RequiredAndNullable&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<RequiredAndNullable> nblePostWithHttpInfo(RequiredAndNullable requiredAndNullable) throws ApiException {
+    return nblePostWithHttpInfo(requiredAndNullable, null);
+  }
+
+  /**
+   * 
+   * 
+   * @param requiredAndNullable bodyWithRequiredAndNullableAttributes (required)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;RequiredAndNullable&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<RequiredAndNullable> nblePostWithHttpInfo(RequiredAndNullable requiredAndNullable, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = nblePostRequestBuilder(requiredAndNullable, headers);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      InputStream localVarResponseBody = null;
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("nblePost", localVarResponse);
         }
         localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
         if (localVarResponseBody == null) {
@@ -254,15 +379,15 @@ public class RequiredAndNullableApi {
     }
   }
 
-  private HttpRequest.Builder requiredAndNullablePostRequestBuilder(RequiredAndNullable requiredAndNullable, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder nblePostRequestBuilder(RequiredAndNullable requiredAndNullable, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'requiredAndNullable' is set
     if (requiredAndNullable == null) {
-      throw new ApiException(400, "Missing the required parameter 'requiredAndNullable' when calling requiredAndNullablePost");
+      throw new ApiException(400, "Missing the required parameter 'requiredAndNullable' when calling nblePost");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/requiredAndNullable";
+    String localVarPath = "/nble";
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

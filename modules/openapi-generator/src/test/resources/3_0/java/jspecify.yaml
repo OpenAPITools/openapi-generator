@@ -47,10 +47,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Foo'
-  /requiredAndNullable:
+  /nble:
+    get:
+      tags:
+        - nble
+      parameters:
+        - name: optional
+          in: query
+          required: false
+          schema:
+            type: string
+            nullable: true
+        - name: mandatory
+          in: query
+          required: true
+          schema:
+            type: string
+            nullable: true
+      responses:
+        default:
+          description: OK
     post:
       tags:
-        - requiredAndNullable
+        - nble
       requestBody:
         required: true
         description: bodyWithRequiredAndNullableAttributes
@@ -65,6 +84,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequiredAndNullable'
+
   /upload:
     post:
       tags:
