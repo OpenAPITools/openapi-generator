@@ -3295,6 +3295,48 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void contractWithDeprecatedPropertiesAnnotatesFluentSettersAndCollectionHelpers() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_24704.yaml",
+                SPRING_BOOT,
+                Map.of(GENERATE_BUILDERS, true)
+        );
+
+        JavaFileAssert.assertThat(output.get("Example.java"))
+                .fileContains(
+                        "  /**\n   * @deprecated deprecated\n   */\n  @Deprecated\n  public Example deprecatedProperty(",
+                        "  /**\n   * @deprecated deprecated\n   */\n  @Deprecated\n  public Example deprecatedValues(",
+                        "  /**\n   * @deprecated deprecated\n   */\n  @Deprecated\n  public Example addDeprecatedValuesItem(",
+                        "  /**\n   * @deprecated deprecated\n   */\n  @Deprecated\n  public Example deprecatedMap(",
+                        "  /**\n   * @deprecated deprecated\n   */\n  @Deprecated\n  public Example putDeprecatedMapItem("
+                )
+                .assertMethod("deprecatedProperty", "String")
+                .hasAnnotation("Deprecated")
+                .toFileAssert()
+                .assertMethod("deprecatedValues")
+                .hasAnnotation("Deprecated")
+                .toFileAssert()
+                .assertMethod("deprecatedMap")
+                .hasAnnotation("Deprecated")
+                .toFileAssert()
+                .assertMethod("addDeprecatedValuesItem", "String")
+                .hasAnnotation("Deprecated")
+                .toFileAssert()
+                .assertMethod("putDeprecatedMapItem", "String", "String")
+                .hasAnnotation("Deprecated")
+                .toFileAssert()
+                .assertMethod("currentProperty", "String")
+                .doesNotHaveAnnotation("Deprecated")
+                .toFileAssert()
+                .assertInnerClass("Builder")
+                .assertMethod("deprecatedProperty", "String")
+                .hasAnnotation("Deprecated")
+                .toInnerClassAssert()
+                .assertMethod("currentProperty", "String")
+                .doesNotHaveAnnotation("Deprecated");
+    }
+
+    @Test
     public void contractWithResolvedInnerEnumContainsEnumConverter() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
