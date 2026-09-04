@@ -574,7 +574,7 @@ public class FakeApiMockServer {
 
 
 
-    public static MappingBuilder stubTestEnumParameters400(@javax.annotation.Nullable String enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable String enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable String enumQueryInteger, @javax.annotation.Nullable String enumQueryDouble, @javax.annotation.Nullable String enumQueryModelArray, @javax.annotation.Nullable String enumFormStringArray, @javax.annotation.Nullable String enumFormString) {
+    public static MappingBuilder stubTestEnumParameters400(@javax.annotation.Nullable String enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable String enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable String enumQueryInteger, @javax.annotation.Nullable String enumQueryDouble, @javax.annotation.Nullable String enumQueryModelArray, @javax.annotation.Nullable String enumFormStringArray, @javax.annotation.Nullable String enumFormString, @javax.annotation.Nullable String enumFormInteger, @javax.annotation.Nullable String enumFormDouble) {
         MappingBuilder stub = get(urlPathEqualTo("/fake"))
             .willReturn(aResponse()
                 .withStatus(400)
@@ -601,6 +601,12 @@ public class FakeApiMockServer {
         if(enumFormString != null) {
             stub = stub.withFormParam("enum_form_string", havingExactly(enumFormString));
         }
+        if(enumFormInteger != null) {
+            stub = stub.withFormParam("enum_form_integer", havingExactly(enumFormInteger));
+        }
+        if(enumFormDouble != null) {
+            stub = stub.withFormParam("enum_form_double", havingExactly(enumFormDouble));
+        }
         if(enumHeaderStringArray != null) {
             stub = stub.withHeader("enum_header_string_array", havingExactly(enumHeaderStringArray));
         }
@@ -611,7 +617,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestEnumParameters404(@javax.annotation.Nullable String enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable String enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable String enumQueryInteger, @javax.annotation.Nullable String enumQueryDouble, @javax.annotation.Nullable String enumQueryModelArray, @javax.annotation.Nullable String enumFormStringArray, @javax.annotation.Nullable String enumFormString) {
+    public static MappingBuilder stubTestEnumParameters404(@javax.annotation.Nullable String enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable String enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable String enumQueryInteger, @javax.annotation.Nullable String enumQueryDouble, @javax.annotation.Nullable String enumQueryModelArray, @javax.annotation.Nullable String enumFormStringArray, @javax.annotation.Nullable String enumFormString, @javax.annotation.Nullable String enumFormInteger, @javax.annotation.Nullable String enumFormDouble) {
         MappingBuilder stub = get(urlPathEqualTo("/fake"))
             .willReturn(aResponse()
                 .withStatus(404)
@@ -638,6 +644,12 @@ public class FakeApiMockServer {
         if(enumFormString != null) {
             stub = stub.withFormParam("enum_form_string", havingExactly(enumFormString));
         }
+        if(enumFormInteger != null) {
+            stub = stub.withFormParam("enum_form_integer", havingExactly(enumFormInteger));
+        }
+        if(enumFormDouble != null) {
+            stub = stub.withFormParam("enum_form_double", havingExactly(enumFormDouble));
+        }
         if(enumHeaderStringArray != null) {
             stub = stub.withHeader("enum_header_string_array", havingExactly(enumHeaderStringArray));
         }
@@ -648,7 +660,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestEnumParametersFault(@javax.annotation.Nullable String enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable String enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable String enumQueryInteger, @javax.annotation.Nullable String enumQueryDouble, @javax.annotation.Nullable String enumQueryModelArray, @javax.annotation.Nullable String enumFormStringArray, @javax.annotation.Nullable String enumFormString, Fault fault) {
+    public static MappingBuilder stubTestEnumParametersFault(@javax.annotation.Nullable String enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable String enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable String enumQueryInteger, @javax.annotation.Nullable String enumQueryDouble, @javax.annotation.Nullable String enumQueryModelArray, @javax.annotation.Nullable String enumFormStringArray, @javax.annotation.Nullable String enumFormString, @javax.annotation.Nullable String enumFormInteger, @javax.annotation.Nullable String enumFormDouble, Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/fake"))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -674,6 +686,12 @@ public class FakeApiMockServer {
         }
         if(enumFormString != null) {
             stub = stub.withFormParam("enum_form_string", havingExactly(enumFormString));
+        }
+        if(enumFormInteger != null) {
+            stub = stub.withFormParam("enum_form_integer", havingExactly(enumFormInteger));
+        }
+        if(enumFormDouble != null) {
+            stub = stub.withFormParam("enum_form_double", havingExactly(enumFormDouble));
         }
         if(enumHeaderStringArray != null) {
             stub = stub.withHeader("enum_header_string_array", havingExactly(enumHeaderStringArray));

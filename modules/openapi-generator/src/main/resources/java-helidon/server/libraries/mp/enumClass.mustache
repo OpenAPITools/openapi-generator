@@ -1,7 +1,7 @@
 {{>additionalEnumTypeAnnotations}}public enum {{datatypeWithEnum}} {
 
     {{#allowableValues}}
-    {{#enumVars}}{{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{#enumVars}}{{name}}({{^isUri}}{{^isUuid}}{{^isNumeric}}{{^isFreeFormObject}}{{dataType}}.valueOf({{/isFreeFormObject}}{{/isNumeric}}{{/isUuid}}{{/isUri}}{{{value}}}{{^isUri}}{{^isUuid}}{{^isNumeric}}{{^isFreeFormObject}}){{/isFreeFormObject}}{{/isNumeric}}{{/isUuid}}{{/isUri}}){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
     {{/allowableValues}}
 
 
