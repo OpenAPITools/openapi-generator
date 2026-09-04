@@ -3,6 +3,11 @@
 
 {{#models}}
 {{#model}}
+{{#isEnum}}
+#include "{{vendorExtensions.modelClassName}}.h"
+
+{{/isEnum}}
+{{^isEnum}}
 {{^vendorExtensions.isOneOfSchema}}
 {{^vendorExtensions.isAnyOfSchema}}
 #include "{{vendorExtensions.modelClassName}}.h"
@@ -56,7 +61,7 @@ std::string {{classname}}::{{enumName}}ToString({{classname}}::{{enumName}} valu
         {{#vendorExtensions.enumCases}}
         case {{enumName}}::{{name}}: return "{{value}}";
         {{/vendorExtensions.enumCases}}
-        default: return {};
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for {{classname}}::{{enumName}}");
     }
 }
 
@@ -68,7 +73,7 @@ std::string {{classname}}::{{enumName}}ToString({{classname}}::{{enumName}} valu
         return {{enumName}}::{{name}};
     }
     {{/vendorExtensions.enumCases}}
-    throw std::invalid_argument("Invalid enum value");
+    throw nlohmann::json::type_error::create(302, "Invalid value for {{classname}}::{{enumName}}");
 }
 {{/isArray}}{{/isEnum}}{{/vars}}
 
@@ -79,5 +84,6 @@ std::string {{classname}}::{{enumName}}ToString({{classname}}::{{enumName}} valu
 {{^vendorExtensions.isOneOfSchema}}{{^vendorExtensions.isAnyOfSchema}}
 } // namespace {{vendorExtensions.modelNamespace}}
 {{/vendorExtensions.isAnyOfSchema}}{{/vendorExtensions.isOneOfSchema}}
+{{/isEnum}}
 {{/model}}
 {{/models}}
