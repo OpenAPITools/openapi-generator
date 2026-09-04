@@ -179,6 +179,18 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OneOfNullableTest oneOfNullableTest, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (oneOfNullableTest.Int != null)
+            {
+                JsonSerializer.Serialize(writer, oneOfNullableTest.Int, jsonSerializerOptions);
+                return;
+            }
+
+            if (oneOfNullableTest.String != null)
+            {
+                JsonSerializer.Serialize(writer, oneOfNullableTest.String, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             WriteProperties(writer, oneOfNullableTest, jsonSerializerOptions);
