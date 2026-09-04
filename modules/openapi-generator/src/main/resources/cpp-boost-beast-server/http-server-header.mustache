@@ -1,0 +1,87 @@
+{{>licenseInfo}}
+// ============================================================================
+// HttpServer.h - asynchronous HTTP/1.1 listener and connection sessions on
+// Boost.Beast + Boost.Asio. The caller owns the io_context; the server owns
+// its acceptor and stops gracefully on demand.
+// ============================================================================
+#ifndef {{apiHeaderGuardPrefix}}_SERVER_HTTP_SERVER_H_
+#define {{apiHeaderGuardPrefix}}_SERVER_HTTP_SERVER_H_
+
+#include "Authorizer.h"
+#include "Router.h"
+
+#include <boost/asio.hpp>
+#include <boost/beast/core.hpp>
+
+#include <cstddef>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <utility>
+
+namespace {{apiNamespace}} {
+
+struct ServerOptions {
+    unsigned readTimeoutSeconds = 30;
+    std::size_t bodyLimitBytes = 8u * 1024 * 1024;
+    std::shared_ptr<Authorizer> authorizer;
+};
+
+/// Shared-ownership server: listen()/stop()/acceptNext() route through
+/// enable_shared_from_this, so instances must come from create(). The
+/// constructor is private to make stack allocation (which would throw
+/// bad_weak_ptr on first use) impossible, and copies/moves are deleted
+/// because a duplicated handle would double-drive one acceptor.
+class HttpServer : public std::enable_shared_from_this<HttpServer> {
+public:
+    /// Builds a server bound to no address yet. Throws std::invalid_argument
+    /// when `router` is null: the router() accessor dereferences it and the
+    /// accept loop would answer nothing, so a null router is rejected at
+    /// construction instead of failing per request.
+    static std::shared_ptr<HttpServer> create(
+            boost::asio::io_context& ioc,
+            std::shared_ptr<Router> router,
+            ServerOptions options = {}) {
+        if (router == nullptr) {
+            throw std::invalid_argument(
+                "HttpServer requires a non-null router");
+        }
+        return std::shared_ptr<HttpServer>(
+            new HttpServer(ioc, std::move(router), std::move(options)));
+    }
+
+    HttpServer(HttpServer const&) = delete;
+    HttpServer& operator=(HttpServer const&) = delete;
+    HttpServer(HttpServer&&) = delete;
+    HttpServer& operator=(HttpServer&&) = delete;
+
+    /// Opens, binds (SO_REUSEADDR), and listens. Throws on failure.
+    void listen(boost::asio::ip::tcp::endpoint endpoint);
+
+    /// The bound endpoint (useful after listening on port 0).
+    boost::asio::ip::tcp::endpoint localEndpoint() const;
+
+    /// Graceful stop: closes the acceptor. Open sessions finish their
+    /// current exchange or terminate with the io_context.
+    void stop();
+
+    Router& router() { return *router_; }
+    std::shared_ptr<Router> routerPtr() const { return router_; }
+
+private:
+    HttpServer(boost::asio::io_context& ioc,
+               std::shared_ptr<Router> router,
+               ServerOptions options);
+
+    struct ListenerState;
+    void acceptNext();
+
+    boost::asio::io_context& ioc_;
+    std::shared_ptr<Router> router_;
+    ServerOptions options_;
+    std::shared_ptr<ListenerState> listener_;
+};
+
+} // namespace {{apiNamespace}}
+
+#endif // {{apiHeaderGuardPrefix}}_SERVER_HTTP_SERVER_H_

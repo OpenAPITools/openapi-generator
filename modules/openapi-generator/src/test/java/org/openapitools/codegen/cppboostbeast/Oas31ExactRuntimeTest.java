@@ -44,7 +44,7 @@ public class Oas31ExactRuntimeTest {
         Path includeDirectory = output;
         Path executable = output.resolve("oas31-exact-runtime-test");
         Path validationTemplate = Path.of(
-                "src/main/resources/cpp-boost-beast-client/validation-types.mustache");
+                "src/main/resources/cpp-boost-beast-common/validation-types.mustache");
         String modelNamespace = "org::openapitools::client::model";
         String validationNamespace = modelNamespace + "::detail::schema_validation";
         String validationGuard =
@@ -53,6 +53,7 @@ public class Oas31ExactRuntimeTest {
                 .replace("{{>licenseInfo}}", "")
                 .replace("{{validateOnDecode}}", "true")
                 .replace("{{schemaValidationHeaderGuardPrefix}}", validationGuard)
+                .replace("{{schemaValidationNamespace}}", validationNamespace)
                 .replace("{{#modelNamespaceDeclarations}}\nnamespace {{this}} {\n"
                         + "{{/modelNamespaceDeclarations}}",
                         "namespace " + modelNamespace + " {")
@@ -807,7 +808,7 @@ public class Oas31ExactRuntimeTest {
             Path output,
             String namespaceName,
             String guardPrefix) throws IOException {
-        Path templateDirectory = Path.of("src/main/resources/cpp-boost-beast-client");
+        Path templateDirectory = Path.of("src/main/resources/cpp-boost-beast-common");
         String[][] headers = {
             {"oas31_exact_number.mustache", "Oas31ExactNumber.h"},
             {"oas31_exact_json.mustache", "Oas31ExactJson.h"},
