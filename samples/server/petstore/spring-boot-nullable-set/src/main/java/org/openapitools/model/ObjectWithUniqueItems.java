@@ -30,7 +30,7 @@ import jakarta.annotation.Generated;
  * ObjectWithUniqueItems
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ObjectWithUniqueItems {
 
   private JsonNullable<Set<String>> nullSet = JsonNullable.<Set<String>>undefined();
@@ -57,7 +57,7 @@ public class ObjectWithUniqueItems {
   }
 
   public ObjectWithUniqueItems addNullSetItem(String nullSetItem) {
-    if (this.nullSet == null || !this.nullSet.isPresent()) {
+    if (this.nullSet == null || !this.nullSet.isPresent() || this.nullSet.get() == null) {
       this.nullSet = JsonNullable.of(new LinkedHashSet<>());
     }
     this.nullSet.get().add(nullSetItem);
@@ -69,7 +69,7 @@ public class ObjectWithUniqueItems {
    * @return nullSet
    */
   
-  @Schema(name = "nullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullSet")
   public JsonNullable<Set<String>> getNullSet() {
     return nullSet;
@@ -115,7 +115,7 @@ public class ObjectWithUniqueItems {
   }
 
   public ObjectWithUniqueItems addNullListItem(String nullListItem) {
-    if (this.nullList == null || !this.nullList.isPresent()) {
+    if (this.nullList == null || !this.nullList.isPresent() || this.nullList.get() == null) {
       this.nullList = JsonNullable.of(new ArrayList<>());
     }
     this.nullList.get().add(nullListItem);
@@ -127,7 +127,7 @@ public class ObjectWithUniqueItems {
    * @return nullList
    */
   
-  @Schema(name = "nullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullList")
   public JsonNullable<List<String>> getNullList() {
     return nullList;

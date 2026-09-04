@@ -26,10 +26,11 @@ import jakarta.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Dog extends Animal {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String breed;
 
   public Dog() {
@@ -59,7 +60,6 @@ public class Dog extends Animal {
     return breed;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("breed")
   public void setBreed(@Nullable String breed) {
     this.breed = breed;

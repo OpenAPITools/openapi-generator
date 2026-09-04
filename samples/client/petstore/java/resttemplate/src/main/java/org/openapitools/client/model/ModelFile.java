@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
 @JsonTypeName("File")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   @javax.annotation.Nullable
@@ -43,7 +43,7 @@ public class ModelFile {
   /**
    * Constructor with all args parameters
    */
-  public ModelFile(@JsonProperty(JSON_PROPERTY_SOURCE_U_R_I) String sourceURI) {
+  public ModelFile(@JsonProperty(JSON_PROPERTY_SOURCE_U_R_I) @javax.annotation.Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
 

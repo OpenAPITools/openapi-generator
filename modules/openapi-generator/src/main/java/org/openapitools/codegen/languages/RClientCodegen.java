@@ -41,6 +41,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -967,7 +968,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
                     if (Boolean.TRUE.equals(codegenProperty.isEnum)) { // enum
-                        return "\"" + ((List<Object>) codegenProperty.allowableValues.get("values")).get(0) + "\"";
+                        return "\"" + (getEnumValues(codegenProperty.allowableValues)).get(0) + "\"";
                     } else {
                         return "\"" + codegenProperty.name + "_example\"";
                     }
@@ -1017,7 +1018,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (!isQuietMode()) {
             System.out.println("################################################################################");
             System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
             System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
             System.out.println("#                                                                              #");
             System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");

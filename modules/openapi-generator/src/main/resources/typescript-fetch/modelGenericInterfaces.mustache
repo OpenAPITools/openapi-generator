@@ -16,8 +16,6 @@ export type {{classname}} = {{{parent}}} & {
 {{#vars}}
     /**
      * {{#lambda.indented_star_4}}{{{unescapedDescription}}}{{/lambda.indented_star_4}}
-     * @type {{=<% %>=}}{<%&datatypeWithEnum%>}<%={{ }}=%>
-     * @memberof {{classname}}
     {{#deprecated}}
      * @deprecated
     {{/deprecated}}
@@ -47,7 +45,7 @@ export enum {{classname}}{{enumName}} {
 export const {{classname}}{{enumName}} = {
 {{#allowableValues}}
     {{#enumVars}}
-    {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
+    {{{name}}}: {{{value}}},
     {{/enumVars}}
 {{/allowableValues}}
 } as const;

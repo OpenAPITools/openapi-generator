@@ -1,0 +1,13 @@
+{{#allParams}}
+{{#description}}
+     * @param {{paramName}}{{#isFormParam}}{{#isFile}}InputStream{{/isFile}}{{/isFormParam}} {{{description}}}
+{{/description}}
+{{/allParams}}
+{{#responses.0}}
+     * @return {{#responses}}{{{message}}} (status code {{code}}){{^-last}}
+     *         or {{/-last}}{{/responses}}
+{{/responses.0}}
+{{#isDeprecated}}
+     * @deprecated
+{{/isDeprecated}}
+     */

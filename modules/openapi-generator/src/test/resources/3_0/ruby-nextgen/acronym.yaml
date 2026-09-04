@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: Acronym API
+  version: 1.0.0
+paths:
+  /config:
+    get:
+      operationId: getConfig
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPConfig'
+  /dedicatedCloud/{serviceName}/twoFAWhitelist:
+    get:
+      operationId: listTwoFAWhitelist
+      parameters:
+        - name: serviceName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /dedicatedCloud/{serviceName}/twoFAWhitelist/{id}:
+    get:
+      operationId: getTwoFAWhitelist
+      parameters:
+        - name: serviceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /dedicatedCloud/{serviceName}/user:
+    get:
+      operationId: listUser
+      parameters:
+        - name: serviceName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /dedicatedCloud/{serviceName}/user/{userId}:
+    get:
+      operationId: getUser
+      parameters:
+        - name: serviceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    HTTPConfig:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        port:
+          type: integer

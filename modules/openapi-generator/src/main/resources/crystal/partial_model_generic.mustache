@@ -26,7 +26,7 @@
     # {{{.}}}
     {{/description}}
     @[JSON::Field(key: "{{{baseName}}}", emit_null: false)]
-    property {{{name}}} : {{{dataType}}}
+    property {{{name}}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}
 
     {{/vendorExtensions.x-cr-inherited}}
     {{/requiredVars}}
@@ -43,7 +43,7 @@
 
     {{/vendorExtensions.x-cr-inherited}}
     {{/optionalVars}}
-{{#vars}}{{#vendorExtensions.x-cr-validated}}{{^isContainer}}{{^vendorExtensions.x-cr-inherited}}    validates({{{name}}}, {{{dataType}}}, {{#required}}false{{/required}}{{^required}}true{{/required}}{{#isEnum}}, enum: [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]{{/isEnum}}{{#maxLength}}, max_length: {{{maxLength}}}{{/maxLength}}{{#minLength}}, min_length: {{{minLength}}}{{/minLength}}{{#maximum}}, maximum: {{{maximum}}}{{#exclusiveMaximum}}, exclusive_maximum: true{{/exclusiveMaximum}}{{/maximum}}{{#minimum}}, minimum: {{{minimum}}}{{#exclusiveMinimum}}, exclusive_minimum: true{{/exclusiveMinimum}}{{/minimum}}{{#pattern}}, pattern: {{{pattern}}}{{/pattern}}{{#maxItems}}, max_items: {{{maxItems}}}{{/maxItems}}{{#minItems}}, min_items: {{{minItems}}}{{/minItems}})
+{{#vars}}{{#vendorExtensions.x-cr-validated}}{{^isContainer}}{{^vendorExtensions.x-cr-inherited}}    validates({{{name}}}, {{{dataType}}}, {{#required}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/required}}{{^required}}true{{/required}}{{#isEnum}}, enum: [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]{{/isEnum}}{{#maxLength}}, max_length: {{{maxLength}}}{{/maxLength}}{{#minLength}}, min_length: {{{minLength}}}{{/minLength}}{{#maximum}}, maximum: {{{maximum}}}{{#exclusiveMaximum}}, exclusive_maximum: true{{/exclusiveMaximum}}{{/maximum}}{{#minimum}}, minimum: {{{minimum}}}{{#exclusiveMinimum}}, exclusive_minimum: true{{/exclusiveMinimum}}{{/minimum}}{{#pattern}}, pattern: {{{pattern}}}{{/pattern}}{{#maxItems}}, max_items: {{{maxItems}}}{{/maxItems}}{{#minItems}}, min_items: {{{minItems}}}{{/minItems}})
 {{/vendorExtensions.x-cr-inherited}}{{/isContainer}}{{/vendorExtensions.x-cr-validated}}{{/vars}}
     {{#allOf}}
     {{#-first}}
@@ -69,7 +69,7 @@
     {{/discriminator}}
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize({{#requiredVars}}{{^vendorExtensions.x-cr-inherited}}@{{/vendorExtensions.x-cr-inherited}}{{{name}}} : {{{dataType}}}{{^-last}}, {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}}, {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{^vendorExtensions.x-cr-inherited}}@{{/vendorExtensions.x-cr-inherited}}{{{name}}} : {{{dataType}}}? = {{#vendorExtensions.x-cr-default}}{{{vendorExtensions.x-cr-default}}}{{/vendorExtensions.x-cr-default}}{{^vendorExtensions.x-cr-default}}nil{{/vendorExtensions.x-cr-default}}{{^-last}}, {{/-last}}{{/optionalVars}})
+    def initialize({{#requiredVars}}{{^vendorExtensions.x-cr-inherited}}@{{/vendorExtensions.x-cr-inherited}}{{{name}}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{^-last}}, {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}}, {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{^vendorExtensions.x-cr-inherited}}@{{/vendorExtensions.x-cr-inherited}}{{{name}}} : {{{dataType}}}? = {{#vendorExtensions.x-cr-default}}{{{vendorExtensions.x-cr-default}}}{{/vendorExtensions.x-cr-default}}{{^vendorExtensions.x-cr-default}}nil{{/vendorExtensions.x-cr-default}}{{^-last}}, {{/-last}}{{/optionalVars}})
 {{#parent}}      super({{{vendorExtensions.x-cr-parent-args}}})
 {{/parent}}    end
 

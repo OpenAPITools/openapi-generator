@@ -1,0 +1,22 @@
+openapi: "3.0.0"
+info:
+  title: Built-value anyOf primitive serialization test
+  version: "1.0.0"
+paths:
+  /field-value:
+    get:
+      operationId: getFieldValue
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FieldValue"
+components:
+  schemas:
+    FieldValue:
+      anyOf:
+        - type: integer
+        - type: string
+          format: uuid

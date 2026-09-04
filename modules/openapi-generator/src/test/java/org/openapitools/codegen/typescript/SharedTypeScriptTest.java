@@ -4,6 +4,7 @@ import static org.openapitools.codegen.typescript.TypeScriptGroups.TYPESCRIPT;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -274,6 +275,32 @@ public class SharedTypeScriptTest {
         }
     }
 
+    @Test(description = "Issue #23275 - as const enum objects should include trailing commas")
+    public void generatesTrailingCommasInAsConstEnumObjectsAcrossTypeScriptGenerators() throws Exception {
+        final String specPath = "src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml";
+        List<String> generators = Arrays.asList(
+                "typescript-angular",
+                "typescript-axios",
+                "typescript-fetch",
+                "typescript-nestjs-server"
+        );
+
+        for (String generatorName : generators) {
+            File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+            output.deleteOnExit();
+
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName(generatorName)
+                    .setInputSpec(specPath)
+                    .setOutputDir(output.getAbsolutePath());
+
+            Generator generator = new DefaultGenerator();
+            generator.opts(configurator.toClientOptInput()).generate();
+
+            assertAsConstObjectsUseTrailingCommas(output.toPath(), generatorName);
+        }
+    }
+
     @Test(description = "Issue #22748 - Inner enums should not be double-prefixed when model has parent")
     public void givenChildModelWithInheritedInnerEnumThenEnumNameIsNotDoublePrefixed() throws Exception {
         // This tests that when a child model inherits from a parent that has an inner enum property,
@@ -308,6 +335,43 @@ public class SharedTypeScriptTest {
         // Should contain correctly prefixed enum name (single prefix with "." separator)
         Assert.assertTrue(fileContents.contains("Employee.ProjectRolesEnum"),
                 "typescript-angular: Should contain 'Employee.ProjectRolesEnum' in " + modelFile);
+    }
+
+    private void assertAsConstObjectsUseTrailingCommas(Path root, String generatorName) throws IOException {
+        final int[] asConstObjectCount = {0};
+
+        try (Stream<Path> paths = Files.walk(root)) {
+            paths.filter(Files::isRegularFile)
+                    .filter(path -> path.toString().endsWith(".ts"))
+                    .forEach(path -> {
+                        try {
+                            List<String> lines = Files.readAllLines(path);
+                            for (int i = 0; i < lines.size(); i++) {
+                                if (!lines.get(i).strip().equals("} as const;")) {
+                                    continue;
+                                }
+
+                                asConstObjectCount[0]++;
+
+                                int previousLineIndex = i - 1;
+                                while (previousLineIndex >= 0 && lines.get(previousLineIndex).isBlank()) {
+                                    previousLineIndex--;
+                                }
+
+                                Assert.assertTrue(
+                                        previousLineIndex >= 0 && lines.get(previousLineIndex).stripTrailing().endsWith(","),
+                                        generatorName + ": Expected trailing comma before '} as const;' in " + path);
+                            }
+                        } catch (IOException e) {
+                            throw new UncheckedIOException(e);
+                        }
+                    });
+        } catch (UncheckedIOException e) {
+            throw e.getCause();
+        }
+
+        Assert.assertTrue(asConstObjectCount[0] > 0,
+                generatorName + ": Expected generated as const enum objects");
     }
 
 }

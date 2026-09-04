@@ -11,14 +11,28 @@ import java.io.InputStream
 
 
 @Path("")
-@jakarta.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.26.0-SNAPSHOT")
 interface StuffApi {
 
+    /**
+     * Finds stuff
+     *
+     * Finds stuff
+     * @return successful operation (status code 200)
+     *         or Invalid status value (status code 400)
+     */
     @GET
     @Path("/stuff")
     @Produces("application/json")
     fun findStuff(): kotlin.collections.List<Stuff>
 
+    /**
+     * Finds unique stuff
+     *
+     * Finds unique stuff
+     * @return successful operation (status code 200)
+     *         or Invalid status value (status code 400)
+     */
     @GET
     @Path("/uniquestuff")
     @Produces("application/json")

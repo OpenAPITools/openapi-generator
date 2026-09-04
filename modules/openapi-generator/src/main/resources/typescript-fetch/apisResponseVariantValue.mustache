@@ -1,0 +1,42 @@
+{{! Deserialisation of one response content-type variant. Context: the variant operation, so returnType and
+    friends are the ones the generator resolved natively for that content-type. `as any` is unavoidable: the
+    implementation signature returns the union of every variant's type, and TypeScript cannot prove which
+    branch the runtime content-type took. }}
+{{#returnType}}
+{{#isResponseFile}}
+            return new runtime.BlobApiResponse(response) as any;
+{{/isResponseFile}}
+{{^isResponseFile}}
+{{#returnTypeIsPrimitive}}
+{{#isMap}}
+            return new runtime.JSONApiResponse<any>(response) as any;
+{{/isMap}}
+{{#isArray}}
+            return new runtime.JSONApiResponse<any>(response) as any;
+{{/isArray}}
+{{#returnSimpleType}}
+            if (this.isJsonMime(responseContentType)) {
+                return new runtime.JSONApiResponse<{{returnType}}>(response) as any;
+            } else {
+                return new runtime.TextApiResponse(response) as any;
+            }
+{{/returnSimpleType}}
+{{/returnTypeIsPrimitive}}
+{{^returnTypeIsPrimitive}}
+{{#isArray}}
+            return new runtime.JSONApiResponse(response{{^withoutRuntimeChecks}}, (jsonValue) => {{#uniqueItems}}new Set({{/uniqueItems}}jsonValue.map({{returnBaseType}}FromJSON){{/withoutRuntimeChecks}}){{#uniqueItems}}){{/uniqueItems}} as any;
+{{/isArray}}
+{{^isArray}}
+{{#isMap}}
+            return new runtime.JSONApiResponse(response{{^withoutRuntimeChecks}}, (jsonValue) => runtime.mapValues(jsonValue, {{returnBaseType}}FromJSON){{/withoutRuntimeChecks}}) as any;
+{{/isMap}}
+{{^isMap}}
+            return new runtime.JSONApiResponse(response{{^withoutRuntimeChecks}}, (jsonValue) => {{returnBaseType}}FromJSON(jsonValue){{/withoutRuntimeChecks}}) as any;
+{{/isMap}}
+{{/isArray}}
+{{/returnTypeIsPrimitive}}
+{{/isResponseFile}}
+{{/returnType}}
+{{^returnType}}
+            return new runtime.VoidApiResponse(response) as any;
+{{/returnType}}

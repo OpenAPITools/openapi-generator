@@ -26,6 +26,7 @@ package org.openapitools.client.models
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 
 /**
  * 
@@ -53,7 +54,7 @@ data class Query (
      *
      * Values: SUCCESS,FAILURE,SKIPPED,unknown_default_open_api
      */
-    enum class Outcomes(val value: kotlin.String) {
+    enum class Outcomes(@get:JsonValue val value: kotlin.String) {
         @JsonProperty(value = "SUCCESS") SUCCESS("SUCCESS"),
         @JsonProperty(value = "FAILURE") FAILURE("FAILURE"),
         @JsonProperty(value = "SKIPPED") SKIPPED("SKIPPED"),

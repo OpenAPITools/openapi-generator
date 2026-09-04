@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -193,6 +194,39 @@ public class JSONTest {
 
         assertEquals(str, json.serialize(date));
         assertEquals(json.deserialize(str, LocalDate.class), date);
+    }
+
+    @Test
+    public void testLocalDateTimeTypeAdapter() {
+        final String str = "\"2016-09-09T08:02:03\"";
+        final LocalDateTime date = LocalDateTime.of(2016, 9, 9, 8, 2, 3);
+
+        assertEquals(str, json.serialize(date));
+        assertEquals(json.deserialize(str, LocalDateTime.class), date);
+        assertNull(json.deserialize("null", LocalDateTime.class));
+    }
+
+    @Test
+    public void testLocalDateTimeTypeAdapterWithSpaceSeparator() {
+        // RFC 3339 section 5.6 permits a space in place of the ISO 8601 'T' separator
+        final LocalDateTime date = LocalDateTime.of(2016, 9, 9, 8, 2, 3);
+
+        assertEquals(json.deserialize("\"2016-09-09 08:02:03\"", LocalDateTime.class), date);
+        assertEquals("\"2016-09-09T08:02:03\"", json.serialize(date));
+    }
+
+    @Test
+    public void testLocalDateTimeTypeAdapterWithCustomFormat() {
+        final String str = "\"2016-09-09 08:02:03\"";
+        final LocalDateTime date = LocalDateTime.of(2016, 9, 9, 8, 2, 3);
+
+        JSON.setLocalDateTimeFormat(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        try {
+            assertEquals(str, json.serialize(date));
+            assertEquals(json.deserialize(str, LocalDateTime.class), date);
+        } finally {
+            JSON.setLocalDateTimeFormat(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        }
     }
 
     @Test
@@ -496,6 +530,59 @@ public class JSONTest {
             });
             //assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {}`.]. JSON: {}`., Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {}`.]. JSON: {}", exception.getMessage());
             assertTrue(exception.getMessage().contains("java.io.IOException: Failed deserialization for Mammal"));
+        }
+    }
+
+    /**
+     * Validate an anyOf schema can be deserialized into the expected class.
+     * The anyOf schema has a discriminator.
+     */
+    @Test
+    public void testAnyOfSchemaWithDiscriminator() throws Exception {
+        {
+            // Zebra is listed after Whale in anyOf, and a zebra payload also satisfies Whale
+            // (className is Whale's only required field), so without the discriminator lookup
+            // this deserializes as Whale.
+            String str = "{ \"className\": \"zebra\", \"type\": \"plains\" }";
+
+            MammalAnyof o = json.getGson().fromJson(str, MammalAnyof.class);
+            assertTrue(o.getActualInstance() instanceof Zebra);
+            Zebra inst = (Zebra) o.getActualInstance();
+            assertEquals(inst.getClassName(), "zebra");
+            assertEquals(inst.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+            assertEquals(o.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+        }
+        {
+            String str = "{ \"className\": \"whale\", \"hasBaleen\": false, \"hasTeeth\": false }";
+
+            MammalAnyof o = json.getGson().fromJson(str, MammalAnyof.class);
+            assertTrue(o.getActualInstance() instanceof Whale);
+            Whale inst = (Whale) o.getActualInstance();
+            assertEquals(inst.getClassName(), "whale");
+            assertEquals(inst.getHasBaleen(), false);
+            assertEquals(inst.getHasTeeth(), false);
+            assertEquals(inst.toJson(), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+            assertEquals(json.getGson().toJson(o), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+            assertEquals(o.toJson(), "{\"hasBaleen\":false,\"hasTeeth\":false,\"className\":\"whale\"}");
+        }
+        {
+            // an unmapped discriminator value falls back to matching the anyOf schemas in order
+            String str = "{ \"className\": \"dolphin\", \"hasBaleen\": true }";
+
+            MammalAnyof o = json.getGson().fromJson(str, MammalAnyof.class);
+            assertTrue(o.getActualInstance() instanceof Whale);
+            Whale inst = (Whale) o.getActualInstance();
+            assertEquals(inst.getClassName(), "dolphin");
+            assertEquals(inst.getHasBaleen(), true);
+        }
+        {
+            // Try to deserialize empty object. This should fail 'anyOf' because none will match
+            // whale, zebra or Pig.
+            String str = "{ }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                json.getGson().fromJson(str, MammalAnyof.class);
+            });
+            assertTrue(exception.getMessage().contains("java.io.IOException: Failed deserialization for MammalAnyof"));
         }
     }
 

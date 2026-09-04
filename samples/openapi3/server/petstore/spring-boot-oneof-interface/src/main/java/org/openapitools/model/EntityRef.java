@@ -33,7 +33,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = FooRef.class, name = "FooRef")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class EntityRef {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -48,6 +48,7 @@ public class EntityRef {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String atBaseType;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String atType;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

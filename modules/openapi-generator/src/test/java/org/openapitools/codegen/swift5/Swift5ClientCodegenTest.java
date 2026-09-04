@@ -410,4 +410,35 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(imports.get(2), "BazKit");
     }
 
+    @Test(description = "nullable array items are declared as optionals", enabled = true)
+    public void nullableArrayItemsTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_22355.yaml");
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final String model = "NullItemsNotNullItems";
+        final CodegenModel cm = codegen.fromModel(model, openAPI.getComponents().getSchemas().get(model));
+
+        Assert.assertEquals(cm.vars.size(), 9);
+
+        Assert.assertEquals(cm.vars.get(0).baseName, "nullableItems");
+        Assert.assertEquals(cm.vars.get(1).baseName, "notNullableItems");
+        Assert.assertEquals(cm.vars.get(2).baseName, "defaultItems");
+        Assert.assertEquals(cm.vars.get(3).baseName, "nullableDoubleItems");
+        Assert.assertEquals(cm.vars.get(4).baseName, "xNullableItems");
+        Assert.assertEquals(cm.vars.get(5).baseName, "aliasedNullableItems");
+        Assert.assertEquals(cm.vars.get(6).baseName, "nullableItemsSet");
+        Assert.assertEquals(cm.vars.get(7).baseName, "nestedNullableItems");
+        Assert.assertEquals(cm.vars.get(8).baseName, "modelRefNullableItems");
+
+        Assert.assertEquals(cm.vars.get(0).dataType, "[String?]");
+        Assert.assertEquals(cm.vars.get(1).dataType, "[String]");
+        Assert.assertEquals(cm.vars.get(2).dataType, "[String]");
+        Assert.assertEquals(cm.vars.get(3).dataType, "[Double?]");
+        Assert.assertEquals(cm.vars.get(4).dataType, "[String?]");
+        Assert.assertEquals(cm.vars.get(5).dataType, "[String?]");
+        Assert.assertEquals(cm.vars.get(6).dataType, "Set<String?>");
+        Assert.assertEquals(cm.vars.get(7).dataType, "[[String?]]");
+        Assert.assertEquals(cm.vars.get(8).dataType, "[NullablePet?]");
+    }
+
 }

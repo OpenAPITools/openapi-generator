@@ -23,9 +23,10 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "Name", description = "Model for testing model name same as property name")
 @JsonTypeName("Name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class NameDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Integer name;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

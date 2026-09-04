@@ -1,9 +1,24 @@
 name: TypeScript clients type checks
 
 on:
+  push:
+    branches:
+      - master
+    paths:
+      - samples/client/petstore/typescript*/**
+      - samples/client/others/typescript*/**
+      - samples/client/echo_api/typescript*/**
+      - samples/openapi3/client/petstore*/typescript/**
+      - samples/server/petstore/typescript-nestjs-server/**
+      - bin/ts-typecheck-all.sh
+      - .github/workflows/samples-typescript-typecheck.yaml
   pull_request:
     paths:
-      - samples/**
+      - samples/client/petstore/typescript*/**
+      - samples/client/others/typescript*/**
+      - samples/client/echo_api/typescript*/**
+      - samples/openapi3/client/petstore*/typescript/**
+      - samples/server/petstore/typescript-nestjs-server/**
       - bin/ts-typecheck-all.sh
       - .github/workflows/samples-typescript-typecheck.yaml
 jobs:
@@ -18,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
 

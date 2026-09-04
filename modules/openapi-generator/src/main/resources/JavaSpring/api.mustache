@@ -40,6 +40,9 @@ import org.springframework.http.HttpStatus;
 {{#useResponseEntity}}
 import org.springframework.http.ResponseEntity;
 {{/useResponseEntity}}
+{{#useSpringSecurityPreAuthorize}}
+import org.springframework.security.access.prepost.PreAuthorize;
+{{/useSpringSecurityPreAuthorize}}
 {{#useBeanValidation}}{{^useSpringBuiltInValidation}}import org.springframework.validation.annotation.Validated;{{/useSpringBuiltInValidation}}{{/useBeanValidation}}
 {{#useSpringController}}
 {{#useResponseEntity}}
@@ -178,7 +181,7 @@ public interface {{classname}} {
         deprecated = true,
         {{/isDeprecated}}
         {{#vendorExtensions.x-tags.size}}
-        tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
+        tags = { {{#vendorExtensions.x-tags}}"{{{tag}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         {{/vendorExtensions.x-tags.size}}
         responses = {
             {{#responses}}
@@ -212,7 +215,7 @@ public interface {{classname}} {
     {{#swagger1AnnotationLibrary}}
     @ApiOperation(
         {{#vendorExtensions.x-tags.size}}
-        tags = { {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
+        tags = { {{#vendorExtensions.x-tags}}"{{{tag}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         {{/vendorExtensions.x-tags.size}}
         value = "{{{summary}}}",
         nickname = "{{{operationId}}}",
@@ -272,6 +275,9 @@ public interface {{classname}} {
     {{#vendorExtensions.x-operation-extra-annotation}}
     {{{.}}}
     {{/vendorExtensions.x-operation-extra-annotation}}
+    {{#vendorExtensions.x-spring-security-pre-authorize}}
+    @PreAuthorize("{{{.}}}")
+    {{/vendorExtensions.x-spring-security-pre-authorize}}
     {{#vendorExtensions.x-sse}}
     @ResponseBody
     {{/vendorExtensions.x-sse}}

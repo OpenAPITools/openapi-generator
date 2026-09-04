@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -170,6 +172,17 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
             return null;
         }
 
+        // The Swagger Parser represents an explicit `default: null` (common with
+        // `nullable: true`, e.g. via allOf composition) as a Jackson NullNode rather than a
+        // Java null. Treating it as a concrete default produces an invalid Avro union such as
+        // `["Foo", "null"]` with `"default": null`, because Avro requires a union's default
+        // value to match its FIRST branch. Treat an explicit null default as "no default" so
+        // the field falls through to the nullable-union form `["null", "Foo"]` with
+        // `"default": null`, which is valid.
+        if (p.getDefault() instanceof JsonNode && ((JsonNode) p.getDefault()).isNull()) {
+            return null;
+        }
+
         if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p) || ModelUtils.isStringSchema(p)) {
             return "\"" + p.getDefault().toString() + "\"";
         }
@@ -239,7 +252,7 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
+    protected List<EnumVarMap> buildEnumVars(List<Object> values, String dataType) {
         List<Object> sanitizedValues = values.stream()
                 .filter(x -> x != null)
                 .map(Object::toString)

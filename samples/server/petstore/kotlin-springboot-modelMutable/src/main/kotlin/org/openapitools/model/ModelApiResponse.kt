@@ -24,20 +24,20 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class ModelApiResponse(
 
-    @Schema(example = "null", description = "")
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @Schema(description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("code")
     @get:JsonProperty("code") var code: kotlin.Int? = null,
 
-    @Schema(example = "null", description = "")
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @Schema(description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("type")
     @get:JsonProperty("type") var type: kotlin.String? = null,
 
-    @Schema(example = "null", description = "")
-    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @Schema(description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("message")
     @get:JsonProperty("message") var message: kotlin.String? = null

@@ -47,7 +47,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
 @JsonTypeName("Enum_Test")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -343,7 +343,7 @@ public class EnumTest {
    * @return outerEnum
    */
   @jakarta.annotation.Nullable
-  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "", nullable = true)
   @JsonIgnore
 
   public OuterEnum getOuterEnum() {

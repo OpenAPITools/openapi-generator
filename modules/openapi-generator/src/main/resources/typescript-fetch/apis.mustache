@@ -22,14 +22,34 @@ import {
 
 {{#operations}}
 {{#operation}}
+{{#contentTypeMerged}}
+{{! the operation accepts several request content-types with different schemas: one union member per
+    content-type, discriminated by `contentType`, whose value selects the body's type }}
+{{! runtime.ExclusiveUnion makes the members mutually exclusive: without it a value carrying another
+    member's body satisfies this one, and the body goes out under the wrong content-type }}
+export type {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request = {{#hasContentTypeRequestVariants}}runtime.ExclusiveUnion<{{/hasContentTypeRequestVariants}}
+{{#contentTypeRequestVariants}}
+    | { {{#hasContentTypeRequestVariants}}contentType{{#isDefault}}?{{/isDefault}}: '{{mediaType}}'; {{/hasContentTypeRequestVariants}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{#hasReadOnly}}Omit<{{{dataType}}}, {{#readOnlyVars}}'{{baseName}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{{dataType}}}{{/hasReadOnly}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}; {{/allParams}}}
+{{/contentTypeRequestVariants}}
+{{#hasContentTypeRequestVariants}}>{{/hasContentTypeRequestVariants}};
+
+{{/contentTypeMerged}}
+{{^contentTypeMerged}}
 {{#allParams.0}}
 export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request {
 {{#allParams}}
-    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{#hasReadOnly}}Omit<{{{dataType}}}, {{#readOnlyVars}}'{{baseName}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{{dataType}}}{{/hasReadOnly}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    /**
+     * {{#lambda.indented_star_4}}{{{unescapedDescription}}}{{/lambda.indented_star_4}}
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
+     */
+    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{#hasReadOnly}}Omit<{{{dataType}}}, {{#readOnlyVars}}'{{name}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{{dataType}}}{{/hasReadOnly}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
 {{/allParams}}
 }
 
 {{/allParams.0}}
+{{/contentTypeMerged}}
 {{/operation}}
 {{/operations}}
 {{#withInterfaces}}
@@ -54,7 +74,7 @@ export interface {{classname}}Interface {
      * @throws {RequiredError}
      * @memberof {{classname}}Interface
      */
-    {{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): Promise<runtime.RequestOpts>;
+    {{nickname}}RequestOpts({{#contentTypeMerged}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{#hasContentTypeResponseVariants}} & { accept?: string }{{/hasContentTypeResponseVariants}}{{/contentTypeMerged}}{{^contentTypeMerged}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}{{/contentTypeMerged}}): Promise<runtime.RequestOpts>;
 
     {{/withRequestOptsInInterface}}
     /**
@@ -72,7 +92,14 @@ export interface {{classname}}Interface {
      * @throws {RequiredError}
      * @memberof {{classname}}Interface
      */
+    {{#hasContentTypeResponseVariants}}
+    {{#contentTypeResponseVariants}}
+    {{nickname}}Raw(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept{{#isDefault}}?{{/isDefault}}: '{{mediaType}}' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+    {{/contentTypeResponseVariants}}
+    {{/hasContentTypeResponseVariants}}
+    {{^hasContentTypeResponseVariants}}
     {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+    {{/hasContentTypeResponseVariants}}
 
     /**
      {{#notes}}
@@ -89,7 +116,14 @@ export interface {{classname}}Interface {
     {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{#returnType}}{{#isResponseOptional}} | null | undefined {{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
     {{/useSingleRequestParameter}}
     {{#useSingleRequestParameter}}
+    {{#hasContentTypeResponseVariants}}
+    {{#contentTypeResponseVariants}}
+    {{nickname}}(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept{{#isDefault}}?{{/isDefault}}: '{{mediaType}}' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{#returnType}}{{{returnType}}}{{#isResponseOptional}} | null | undefined{{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+    {{/contentTypeResponseVariants}}
+    {{/hasContentTypeResponseVariants}}
+    {{^hasContentTypeResponseVariants}}
     {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{#returnType}}{{#isResponseOptional}} | null | undefined {{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+    {{/hasContentTypeResponseVariants}}
     {{/useSingleRequestParameter}}
 
 {{/operation}}
@@ -115,9 +149,17 @@ export class {{classname}} extends runtime.BaseAPI {
      * @deprecated
      {{/isDeprecated}}
      */
-    async {{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): Promise<runtime.RequestOpts> {
+    async {{nickname}}RequestOpts({{#contentTypeMerged}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{#hasContentTypeResponseVariants}} & { accept?: string }{{/hasContentTypeResponseVariants}}{{/contentTypeMerged}}{{^contentTypeMerged}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}{{/contentTypeMerged}}): Promise<runtime.RequestOpts> {
+        {{! the conditional has to sit outside the parameter loop below: in a parameter's context,
+            `vendorExtensions` resolves to that parameter's own map and never to the operation's }}
+        {{#hasContentTypeRequestVariants}}
         {{#allParams}}
         {{#required}}
+        {{! the body and the form params only exist on one member of the request union: indexing them
+            here would not type-check, would narrow the union for everything below - and would demand
+            of every content-type a parameter only one of them has. Guarded in the switch instead. }}
+        {{^isBodyParam}}
+        {{^isFormParam}}
         if (requestParameters['{{paramName}}'] == null) {
             throw new runtime.RequiredError(
                 '{{paramName}}',
@@ -125,8 +167,24 @@ export class {{classname}} extends runtime.BaseAPI {
             );
         }
 
+        {{/isFormParam}}
+        {{/isBodyParam}}
         {{/required}}
         {{/allParams}}
+        {{/hasContentTypeRequestVariants}}
+        {{^hasContentTypeRequestVariants}}
+        {{#allParams}}
+        {{#required}}
+        if (requestParameters['{{paramName}}'] {{#isBodyParam}}{{#isNullable}}=== undefined{{/isNullable}}{{^isNullable}}== null{{/isNullable}}{{/isBodyParam}}{{^isBodyParam}}== null{{/isBodyParam}}) {
+            throw new runtime.RequiredError(
+                '{{paramName}}',
+                'Required parameter "{{paramName}}" was {{#isBodyParam}}{{#isNullable}}undefined{{/isNullable}}{{^isNullable}}null or undefined{{/isNullable}}{{/isBodyParam}}{{^isBodyParam}}null or undefined{{/isBodyParam}} when calling {{nickname}}().'
+            );
+        }
+
+        {{/required}}
+        {{/allParams}}
+        {{/hasContentTypeRequestVariants}}
         const queryParameters: any = {};
 
         {{#queryParams}}
@@ -162,6 +220,15 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/queryParams}}
         const headerParameters: runtime.HTTPHeaders = {};
 
+        {{! Content-Type is set per content-type in the switch below, where the body is built: a multipart
+            body must not set it at all, fetch adds it with the boundary it generates }}
+        {{! only where the response axis was actually divided: elsewhere the caller may have pinned an
+            Accept on the Configuration, and an operation-level one silently wins over it }}
+        {{#hasContentTypeResponseVariants}}
+        headerParameters['Accept'] = requestParameters.accept ?? '{{vendorExtensions.x-content-type-default-response}}';
+
+        {{/hasContentTypeResponseVariants}}
+        {{^hasContentTypeRequestVariants}}
         {{#bodyParam}}
         {{^consumes}}
         headerParameters['Content-Type'] = 'application/json';
@@ -172,6 +239,7 @@ export class {{classname}} extends runtime.BaseAPI {
 
         {{/consumes.0}}
         {{/bodyParam}}
+        {{/hasContentTypeRequestVariants}}
         {{#headerParams}}
         {{#isArray}}
         if (requestParameters['{{paramName}}'] != null) {
@@ -226,81 +294,21 @@ export class {{classname}} extends runtime.BaseAPI {
 
         {{/isOAuth}}
         {{/authMethods}}
+        {{! a request-split operation assembles its form body inside the content-type switch instead, where
+            the union is narrowed; emitting it here too would shadow those declarations }}
+        {{^hasContentTypeRequestVariants}}
         {{#hasFormParams}}
-        const consumes: runtime.Consume[] = [
-            {{#consumes}}
-            { contentType: '{{{mediaType}}}' },
-            {{/consumes}}
-        ];
-        // @ts-ignore: canConsumeForm may be unused
-        const canConsumeForm = runtime.canConsumeForm(consumes);
-
-        let formParams: { append(param: string, value: any): any };
-        let useForm = false;
-        {{#formParams}}
-        {{#isFile}}
-        // use FormData to transmit files using content-type "multipart/form-data"
-        useForm = canConsumeForm;
-        {{/isFile}}
-        {{/formParams}}
-        if (useForm) {
-            formParams = new FormData();
-        } else {
-            formParams = new URLSearchParams();
-        }
-
-        {{#formParams}}
-        {{#isArray}}
-        if (requestParameters['{{paramName}}'] != null) {
-            {{#isCollectionFormatMulti}}
-            requestParameters['{{paramName}}'].forEach((element) => {
-                formParams.append('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', element as any);
-            })
-            {{/isCollectionFormatMulti}}
-            {{^isCollectionFormatMulti}}
-            formParams.append('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters['{{paramName}}']{{#uniqueItems}}){{/uniqueItems}}!.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
-            {{/isCollectionFormatMulti}}
-        }
-
-        {{/isArray}}
-        {{^isArray}}
-        if (requestParameters['{{paramName}}'] != null) {
-            {{#isDateTimeType}}
-            formParams.append('{{baseName}}', (requestParameters['{{paramName}}'] as any).toISOString());
-            {{/isDateTimeType}}
-            {{^isDateTimeType}}
-            {{#isPrimitiveType}}
-            formParams.append('{{baseName}}', requestParameters['{{paramName}}'] as any);
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-            {{#isEnumRef}}
-            formParams.append('{{baseName}}', requestParameters['{{paramName}}'] as any);
-            {{/isEnumRef}}
-            {{^isEnumRef}}
-            {{^withoutRuntimeChecks}}
-            {{^isContainer}}
-            formParams.append('{{baseName}}', new Blob([JSON.stringify({{{dataType}}}ToJSON(requestParameters['{{paramName}}']))], { type: "application/json", }));
-            {{/isContainer}}
-            {{#isContainer}}
-            formParams.append('{{baseName}}', new Blob([JSON.stringify(requestParameters['{{paramName}}'])], { type: "application/json", }));
-            {{/isContainer}}
-            {{/withoutRuntimeChecks}}{{#withoutRuntimeChecks}}
-            formParams.append('{{baseName}}', new Blob([JSON.stringify(requestParameters['{{paramName}}'])], { type: "application/json", }));
-            {{/withoutRuntimeChecks}}
-            {{/isEnumRef}}
-            {{/isPrimitiveType}}
-            {{/isDateTimeType}}
-        }
-
-        {{/isArray}}
-        {{/formParams}}
+{{! the partial is already written at this method's indentation, so it is included as-is; the
+    content-type switch, which is deeper, is the one that has to re-indent it }}
+{{>apisFormParams}}
         {{/hasFormParams}}
+        {{/hasContentTypeRequestVariants}}
 
         let urlPath = `{{{path}}}`;
         {{#pathParams}}
         {{#isDateTimeType}}
         if (requestParameters['{{paramName}}'] instanceof Date) {
-            urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(requestParameters['{{paramName}}'].toISOString()));
+            urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(runtime.serializeDateTime(requestParameters['{{paramName}}'])));
         } else {
             urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(String(requestParameters['{{paramName}}'])));
         }
@@ -308,7 +316,7 @@ export class {{classname}} extends runtime.BaseAPI {
         {{^isDateTimeType}}
         {{#isDateType}}
         if (requestParameters['{{paramName}}'] instanceof Date) {
-            urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(requestParameters['{{paramName}}'].toISOString().substring(0,10)));
+            urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(runtime.serializeDate(requestParameters['{{paramName}}'])));
         } else {
             urlPath = urlPath.replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(String(requestParameters['{{paramName}}'])));
         }
@@ -319,6 +327,37 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isDateTimeType}}
         {{/pathParams}}
 
+        {{#hasContentTypeRequestVariants}}
+        {{! `contentType` selects the body's type, so narrow on it before serialising }}
+        let body: any;
+        switch (requestParameters.contentType) {
+        {{#contentTypeRequestVariants}}
+        {{^isDefault}}
+            case '{{mediaType}}': {
+{{>apisContentTypeVariantBody}}
+                break;
+            }
+        {{/isDefault}}
+        {{/contentTypeRequestVariants}}
+        {{#contentTypeRequestVariants}}
+        {{#isDefault}}
+            default: {
+{{>apisContentTypeVariantBody}}
+            }
+        {{/isDefault}}
+        {{/contentTypeRequestVariants}}
+        }
+
+        return {
+            path: urlPath,
+            method: '{{httpMethod}}',
+            headers: headerParameters,
+            query: queryParameters,
+            body: body,
+        };
+    }
+        {{/hasContentTypeRequestVariants}}
+        {{^hasContentTypeRequestVariants}}
         return {
             path: urlPath,
             method: '{{httpMethod}}',
@@ -326,27 +365,7 @@ export class {{classname}} extends runtime.BaseAPI {
             query: queryParameters,
             {{#hasBodyParam}}
             {{#bodyParam}}
-            {{#isContainer}}
-            {{^withoutRuntimeChecks}}
-            body: requestParameters['{{paramName}}']{{#isArray}}{{#items}}{{^isPrimitiveType}}!.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}},
-            {{/withoutRuntimeChecks}}
-            {{#withoutRuntimeChecks}}
-            body: requestParameters['{{paramName}}'],
-            {{/withoutRuntimeChecks}}
-            {{/isContainer}}
-            {{^isContainer}}
-            {{^isPrimitiveType}}
-            {{^withoutRuntimeChecks}}
-            body: {{dataType}}ToJSON(requestParameters['{{paramName}}']),
-            {{/withoutRuntimeChecks}}
-            {{#withoutRuntimeChecks}}
-            body: requestParameters['{{paramName}}'],
-            {{/withoutRuntimeChecks}}
-            {{/isPrimitiveType}}
-            {{#isPrimitiveType}}
-            body: requestParameters['{{paramName}}'] as any,
-            {{/isPrimitiveType}}
-            {{/isContainer}}
+            body: {{>apisRequestBodyValue}},
             {{/bodyParam}}
             {{/hasBodyParam}}
             {{#hasFormParams}}
@@ -354,6 +373,7 @@ export class {{classname}} extends runtime.BaseAPI {
             {{/hasFormParams}}
         };
     }
+        {{/hasContentTypeRequestVariants}}
 
     /**
      {{#notes}}
@@ -366,6 +386,40 @@ export class {{classname}} extends runtime.BaseAPI {
      * @deprecated
      {{/isDeprecated}}
      */
+    {{#hasContentTypeResponseVariants}}
+    {{! one overload per response content-type: `accept` selects the return type. The implementation
+        signature unions them and is not callable from outside. }}
+    {{#contentTypeResponseVariants}}
+    async {{nickname}}Raw(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept{{#isDefault}}?{{/isDefault}}: '{{mediaType}}' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+    {{/contentTypeResponseVariants}}
+    async {{nickname}}Raw(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{#contentTypeResponseVariants}}{{{returnType}}}{{^returnType}}void{{/returnType}}{{^-last}} | {{/-last}}{{/contentTypeResponseVariants}}>> {
+        const requestOptions = await this.{{nickname}}RequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        {{! dispatch on the content-type the server actually returned, not on the requested `accept`:
+            the header is a request, and a server is free not to honour it }}
+        {{! type/subtype only, compared exactly: startsWith would let application/json win over
+            application/json-patch+json, and a `; charset=` parameter would defeat an equality test.
+            Lower-cased on both sides because a media type is case-insensitive (RFC 9110). }}
+        const responseContentType = (response.headers.get('content-type') ?? '').split(';')[0].trim().toLowerCase();
+    {{#contentTypeResponseDispatch}}
+    {{#-first}}
+        if (responseContentType === '{{#lambda.lowercase}}{{mediaType}}{{/lambda.lowercase}}') {
+    {{/-first}}
+    {{^-first}}
+    {{^-last}}
+        } else if (responseContentType === '{{#lambda.lowercase}}{{mediaType}}{{/lambda.lowercase}}') {
+    {{/-last}}
+    {{/-first}}
+    {{#-last}}
+        } else {
+    {{/-last}}
+{{>apisResponseVariantValue}}
+    {{/contentTypeResponseDispatch}}
+        }
+    }
+    {{/hasContentTypeResponseVariants}}
+    {{^hasContentTypeResponseVariants}}
     async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
         const requestOptions = await this.{{nickname}}RequestOpts({{#allParams.0}}requestParameters{{/allParams.0}});
         const response = await this.request(requestOptions, initOverrides);
@@ -409,6 +463,7 @@ export class {{classname}} extends runtime.BaseAPI {
         return new runtime.VoidApiResponse(response);
         {{/returnType}}
     }
+    {{/hasContentTypeResponseVariants}}
 
     /**
      {{#notes}}
@@ -447,6 +502,34 @@ export class {{classname}} extends runtime.BaseAPI {
     }
     {{/useSingleRequestParameter}}
     {{#useSingleRequestParameter}}
+    {{#hasContentTypeResponseVariants}}
+    {{#contentTypeResponseVariants}}
+    async {{nickname}}(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept{{#isDefault}}?{{/isDefault}}: '{{mediaType}}' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{#returnType}}{{{returnType}}}{{#isResponseOptional}} | null | undefined{{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+    {{/contentTypeResponseVariants}}
+    async {{nickname}}(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{#contentTypeResponseVariants}}{{{returnType}}}{{^returnType}}void{{/returnType}}{{^-last}} | {{/-last}}{{/contentTypeResponseVariants}}{{#isResponseOptional}} | null | undefined{{/isResponseOptional}}> {
+        {{! `as any`: from the outside only the overloads of ...Raw are visible, and the loose `accept`
+            accepted here matches none of them }}
+        const response = await this.{{nickname}}Raw(requestParameters as any, initOverrides);
+        {{#isResponseOptional}}
+        {{! a 2xx response with no body (a 204, typically) has nothing to deserialise: give back null,
+            the way the unmerged path does }}
+        switch (response.raw.status) {
+            {{#responses}}
+            {{#is2xx}}
+            case {{code}}:
+                return {{#dataType}}await response.value(){{/dataType}}{{^dataType}}null{{/dataType}};
+            {{/is2xx}}
+            {{/responses}}
+            default:
+                return await response.value();
+        }
+        {{/isResponseOptional}}
+        {{^isResponseOptional}}
+        return await response.value();
+        {{/isResponseOptional}}
+    }
+    {{/hasContentTypeResponseVariants}}
+    {{^hasContentTypeResponseVariants}}
     async {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{#returnType}}{{#isResponseOptional}} | null | undefined {{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
         {{#returnType}}
         const response = await this.{{nickname}}Raw({{#allParams.0}}requestParameters, {{/allParams.0}}initOverrides);
@@ -470,6 +553,7 @@ export class {{classname}} extends runtime.BaseAPI {
         await this.{{nickname}}Raw({{#allParams.0}}requestParameters, {{/allParams.0}}initOverrides);
         {{/returnType}}
     }
+    {{/hasContentTypeResponseVariants}}
     {{/useSingleRequestParameter}}
 
     {{/operation}}
@@ -479,36 +563,20 @@ export class {{classname}} extends runtime.BaseAPI {
 
 {{#operations}}
 {{#operation}}
+{{^contentTypeMerged}}
 {{#allParams}}
 {{#isEnum}}
-{{#stringEnums}}
-/**
-  * @export
-  * @enum {string}
-  */
-export enum {{operationIdCamelCase}}{{enumName}} {
-{{#allowableValues}}
-    {{#enumVars}}
-    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
-    {{/enumVars}}
-{{/allowableValues}}
-}
-{{/stringEnums}}
-{{^stringEnums}}
-/**
- * @export
- */
-export const {{operationIdCamelCase}}{{enumName}} = {
-{{#allowableValues}}
-    {{#enumVars}}
-    {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
-    {{/enumVars}}
-{{/allowableValues}}
-} as const;
-export type {{operationIdCamelCase}}{{enumName}} = typeof {{operationIdCamelCase}}{{enumName}}[keyof typeof {{operationIdCamelCase}}{{enumName}}];
-{{/stringEnums}}
+{{>apisOperationEnum}}
 {{/isEnum}}
 {{/allParams}}
+{{/contentTypeMerged}}
+{{#contentTypeMerged}}
+{{! the request union references every variant's parameters, allParams only holds the surviving
+    variant's: the merge collected the enum ones across all the variants, deduplicated }}
+{{#contentTypeMergedEnumParams}}
+{{>apisOperationEnum}}
+{{/contentTypeMergedEnumParams}}
+{{/contentTypeMerged}}
 {{/operation}}
 {{/operations}}
 {{/hasEnums}}

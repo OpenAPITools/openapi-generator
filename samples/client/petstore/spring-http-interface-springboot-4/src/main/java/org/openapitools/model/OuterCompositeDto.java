@@ -24,16 +24,19 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("OuterComposite")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class OuterCompositeDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable BigDecimal myNumber;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String myString;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Boolean myBoolean;
 
   public OuterCompositeDto myNumber(@Nullable BigDecimal myNumber) {
@@ -51,7 +54,6 @@ public class OuterCompositeDto {
     return myNumber;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_number")
   public void setMyNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -72,7 +74,6 @@ public class OuterCompositeDto {
     return myString;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_string")
   public void setMyString(@Nullable String myString) {
     this.myString = myString;
@@ -93,7 +94,6 @@ public class OuterCompositeDto {
     return myBoolean;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_boolean")
   public void setMyBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;

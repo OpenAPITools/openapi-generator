@@ -78,14 +78,16 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
+    java {
     {{^useJackson3}}
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     {{/useJackson3}}
     {{#useJackson3}}
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     {{/useJackson3}}
+    }
 
     publishing {
         publications {
@@ -98,7 +100,7 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
+       mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
 
@@ -125,22 +127,22 @@ if(hasProperty('target') && target == 'android') {
 ext {
     swagger_annotations_version = "1.6.6"
     {{^useJackson3}}
-    jackson_version = "2.21.1"
+    jackson_version = "2.21.5"
     jackson_annotations_version = "2.21"
-    jackson_databind_version = "2.21.1"
+    jackson_databind_version = "2.21.5"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.10"
+    jackson_databind_nullable_version = "0.2.11"
     {{/openApiNullable}}
     {{/useJackson3}}
     {{#useJackson3}}
-    jackson3_version = "3.1.0"
+    jackson3_version = "3.1.5"
     jackson_annotations_version = "2.21"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.10"
+    jackson_databind_nullable_version = "0.2.11"
     {{/openApiNullable}}
     {{/useJackson3}}
     jakarta_annotation_version = "1.3.5"
-    httpclient_version = "5.1.3"
+    httpclient_version = "5.6.3"
     jodatime_version = "2.9.9"
     junit_version = "5.10.2"
 }

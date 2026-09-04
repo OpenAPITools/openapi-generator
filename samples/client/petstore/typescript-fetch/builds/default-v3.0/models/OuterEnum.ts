@@ -20,7 +20,7 @@
 export const OuterEnum = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
 

@@ -176,17 +176,17 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     public const {{#lambda.uppercase}}{{discriminator.propertyName}}_{{#lambda.snakecase}}{{mappingName}}{{/lambda.snakecase}}{{/lambda.uppercase}} = '{{mappingName}}';
 {{/discriminator.mappedModels}}
 {{/discriminator}}
-{{^discriminator}}
     {{#vars}}
     {{#isEnum}}
+    {{^isDiscriminator}}
     {{#allowableValues}}
     {{#enumVars}}
     public const {{enumName}}_{{{name}}} = {{{value}}};
     {{/enumVars}}
     {{/allowableValues}}
+    {{/isDiscriminator}}
     {{/isEnum}}
     {{/vars}}
-{{/discriminator}}
 
     {{#vars}}
     {{#isEnum}}
@@ -198,15 +198,15 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     public static function {{getter}}AllowableValues()
     {
         return [
-{{#discriminator}}
+{{#isDiscriminator}}
 {{#discriminator.mappedModels}}
             self::{{#lambda.uppercase}}{{discriminator.propertyName}}_{{#lambda.snakecase}}{{mappingName}}{{/lambda.snakecase}}{{/lambda.uppercase}},{{^-last}}
 {{/-last}}{{/discriminator.mappedModels}}
-{{/discriminator}}
-{{^discriminator}}
+{{/isDiscriminator}}
+{{^isDiscriminator}}
             {{#allowableValues}}{{#enumVars}}self::{{enumName}}_{{{name}}},{{^-last}}
             {{/-last}}{{/enumVars}}{{/allowableValues}}
-{{/discriminator}}
+{{/isDiscriminator}}
         ];
     }
 
@@ -292,44 +292,46 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
+{{#isString}}
         {{#maxLength}}
-        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}(mb_strlen($this->container['{{name}}']) > {{maxLength}})) {
+        if (!is_null($this->container['{{name}}']) && (mb_strlen($this->container['{{name}}']) > {{maxLength}})) {
             $invalidProperties[] = "invalid value for '{{name}}', the character length must be smaller than or equal to {{{maxLength}}}.";
         }
 
         {{/maxLength}}
         {{#minLength}}
-        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}(mb_strlen($this->container['{{name}}']) < {{minLength}})) {
+        if (!is_null($this->container['{{name}}']) && (mb_strlen($this->container['{{name}}']) < {{minLength}})) {
             $invalidProperties[] = "invalid value for '{{name}}', the character length must be bigger than or equal to {{{minLength}}}.";
         }
 
         {{/minLength}}
+{{/isString}}
         {{#maximum}}
-        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}($this->container['{{name}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
+        if (!is_null($this->container['{{name}}']) && ($this->container['{{name}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
             $invalidProperties[] = "invalid value for '{{name}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.";
         }
 
         {{/maximum}}
         {{#minimum}}
-        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}($this->container['{{name}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}})) {
+        if (!is_null($this->container['{{name}}']) && ($this->container['{{name}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}})) {
             $invalidProperties[] = "invalid value for '{{name}}', must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.";
         }
 
         {{/minimum}}
         {{#pattern}}
-        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}!preg_match("{{{pattern}}}", $this->container['{{name}}'])) {
+        if (!is_null($this->container['{{name}}']) && !preg_match("{{{pattern}}}", $this->container['{{name}}'])) {
             $invalidProperties[] = "invalid value for '{{name}}', must be conform to the pattern {{{pattern}}}.";
         }
 
         {{/pattern}}
         {{#maxItems}}
-        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}(count($this->container['{{name}}']) > {{maxItems}})) {
+        if (!is_null($this->container['{{name}}']) && (count($this->container['{{name}}']) > {{maxItems}})) {
             $invalidProperties[] = "invalid value for '{{name}}', number of items must be less than or equal to {{{maxItems}}}.";
         }
 
         {{/maxItems}}
         {{#minItems}}
-        if ({{#notRequiredOrIsNullable}}!is_null($this->container['{{name}}']) && {{/notRequiredOrIsNullable}}(count($this->container['{{name}}']) < {{minItems}})) {
+        if (!is_null($this->container['{{name}}']) && (count($this->container['{{name}}']) < {{minItems}})) {
             $invalidProperties[] = "invalid value for '{{name}}', number of items must be greater than or equal to {{{minItems}}}.";
         }
 
@@ -421,6 +423,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
+{{#isString}}
         {{#maxLength}}
         if ({{#isNullable}}!is_null(${{name}}) && {{/isNullable}}(mb_strlen(${{name}}) > {{maxLength}})) {
             throw new InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
@@ -430,6 +433,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
             throw new InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
         }
         {{/minLength}}
+{{/isString}}
         {{#maximum}}
         if ({{#isNullable}}!is_null(${{name}}) && {{/isNullable}}(${{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
             throw new InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.');

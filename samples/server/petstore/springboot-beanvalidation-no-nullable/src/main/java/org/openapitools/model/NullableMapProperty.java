@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * NullableMapProperty
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class NullableMapProperty {
 
   private @Nullable Map<String, String> languageValues;
@@ -43,7 +43,7 @@ public class NullableMapProperty {
    * @return languageValues
    */
   
-  @Schema(name = "languageValues", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "languageValues", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("languageValues")
   public @Nullable Map<String, String> getLanguageValues() {
     return languageValues;

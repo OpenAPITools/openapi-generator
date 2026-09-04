@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_BAR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
   @javax.annotation.Nullable
@@ -42,7 +42,7 @@ public class Foo {
   /**
    * Constructor with all args parameters
    */
-  public Foo(@JsonProperty(JSON_PROPERTY_BAR) String bar) {
+  public Foo(@JsonProperty(JSON_PROPERTY_BAR) @javax.annotation.Nullable String bar) {
     this.bar = bar;
   }
 

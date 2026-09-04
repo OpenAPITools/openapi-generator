@@ -9,6 +9,8 @@ on:
       - samples/openapi3/server/petstore/springboot-3/**
       - samples/openapi3/server/petstore/springboot-4/**
       - samples/openapi3/server/petstore/springboot-4-jspecify/**
+      - samples/openapi3/server/petstore/springboot-4-jspecify-openapiNullable/**
+      - samples/openapi3/server/petstore/springboot-4-jspecify-useOptional/**
       - samples/server/petstore/springboot-api-response-examples/**
       - samples/server/petstore/springboot-lombok-data/**
       - samples/server/petstore/springboot-lombok-tostring/**
@@ -16,6 +18,7 @@ on:
       - samples/server/petstore/springboot-petstore-with-api-response-examples/**
       - samples/server/petstore/springboot-sort-validation/**
       - samples/server/petstore/springboot-paged-model/**
+      - samples/server/others/springboot-pre-authorize/**
       - samples/openapi3/server/petstore/spring-boot-oneof-sealed/**
       - samples/openapi3/server/petstore/spring-boot-oneof-interface/**
       - samples/client/petstore/spring-http-interface-oauth/**
@@ -27,6 +30,8 @@ on:
       - samples/openapi3/server/petstore/springboot-3/**
       - samples/openapi3/server/petstore/springboot-4/**
       - samples/openapi3/server/petstore/springboot-4-jspecify/**
+      - samples/openapi3/server/petstore/springboot-4-jspecify-openapiNullable/**
+      - samples/openapi3/server/petstore/springboot-4-jspecify-useOptional/**
       - samples/server/petstore/springboot-api-response-examples/**
       - samples/server/petstore/springboot-lombok-data/**
       - samples/server/petstore/springboot-lombok-tostring/**
@@ -34,6 +39,7 @@ on:
       - samples/server/petstore/springboot-petstore-with-api-response-examples/**
       - samples/server/petstore/springboot-sort-validation/**
       - samples/server/petstore/springboot-paged-model/**
+      - samples/server/others/springboot-pre-authorize/**
       - samples/openapi3/server/petstore/spring-boot-oneof-sealed/**
       - samples/openapi3/server/petstore/spring-boot-oneof-interface/**
       - samples/client/petstore/spring-http-interface-oauth/**
@@ -53,6 +59,8 @@ jobs:
           - samples/openapi3/server/petstore/springboot-3
           - samples/openapi3/server/petstore/springboot-4
           - samples/openapi3/server/petstore/springboot-4-jspecify
+          - samples/openapi3/server/petstore/springboot-4-jspecify-openapiNullable
+          - samples/openapi3/server/petstore/springboot-4-jspecify-useOptional
           - samples/server/petstore/springboot-api-response-examples
           - samples/server/petstore/springboot-lombok-data
           - samples/server/petstore/springboot-lombok-tostring
@@ -60,12 +68,13 @@ jobs:
           - samples/server/petstore/springboot-petstore-with-api-response-examples
           - samples/server/petstore/springboot-sort-validation
           - samples/server/petstore/springboot-paged-model
+          - samples/server/others/springboot-pre-authorize
           - samples/openapi3/server/petstore/spring-boot-oneof-sealed
           - samples/openapi3/server/petstore/spring-boot-oneof-interface
           - samples/client/petstore/spring-http-interface-oauth
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6.0.0
         with:
           distribution: 'temurin'
           java-version: 17

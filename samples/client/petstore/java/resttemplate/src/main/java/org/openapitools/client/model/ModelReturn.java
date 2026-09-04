@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   ModelReturn.JSON_PROPERTY_RETURN
 })
 @JsonTypeName("Return")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
   @javax.annotation.Nullable
@@ -43,7 +43,7 @@ public class ModelReturn {
   /**
    * Constructor with all args parameters
    */
-  public ModelReturn(@JsonProperty(JSON_PROPERTY_RETURN) Integer _return) {
+  public ModelReturn(@JsonProperty(JSON_PROPERTY_RETURN) @javax.annotation.Nullable Integer _return) {
     this._return = _return;
   }
 

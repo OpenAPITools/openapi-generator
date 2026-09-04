@@ -1,0 +1,215 @@
+#ifndef {{apiHeaderGuardPrefix}}_HTTP_CLIENT_H_
+#define {{apiHeaderGuardPrefix}}_HTTP_CLIENT_H_
+
+#include <algorithm>
+#include <cstddef>
+#include <cstdint>
+#include <functional>
+#include <map>
+#include <optional>
+#include <stdexcept>
+#include <random>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include <boost/beast/http/status.hpp>
+{{#hasExportMacro}}
+#include "ApiExport.h"
+{{/hasExportMacro}}
+
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+/// One owning Server-Sent Event. event is "message" when the wire field is
+/// omitted; retryMilliseconds is set only when a valid retry field was present.
+struct SseEvent {
+    std::string event;
+    std::string data;
+    std::string id;
+    std::optional<std::uint64_t> retryMilliseconds;
+};
+
+using SseEventCallback = std::function<bool(const SseEvent &)>;
+
+/// Per-stream resource bounds and cooperative cancellation. Cancellation is
+/// checked between network reads and after callbacks; the transport remains
+/// synchronous and single-flight per HttpClientImpl instance.
+struct SseStreamOptions {
+    std::size_t maxLineBytes = 64U * 1024U;
+    std::size_t maxEventBytes = 1024U * 1024U;
+    /// Compatibility mode for non-conforming servers that omit the final blank
+    /// line. Default false follows WHATWG framing and discards an incomplete event.
+    bool dispatchUnterminatedEventAtEof = false;
+    std::function<bool()> isCancelled;
+};
+
+
+/// Rich HTTP response containing status, response headers, and body.
+struct HttpResponseData {
+    boost::beast::http::status status = boost::beast::http::status::unknown;
+    std::map<std::string, std::string> headers;
+    std::string body;
+    bool isEventStream = false;
+    bool streamCancelled = false;
+};
+
+/// One serialized form field used by urlencoded and multipart request bodies.
+struct FormParameter {
+    FormParameter(std::string parameterName, std::string parameterValue, bool file,
+                  std::string contentType = "", std::string fileName = "")
+        : name(std::move(parameterName)), value(std::move(parameterValue)),
+          isFile(file), contentType(std::move(contentType)),
+          filename(std::move(fileName)) {
+    }
+
+    std::string name;
+    std::string value;
+    bool isFile;
+    std::string contentType;
+    std::string filename;
+};
+
+inline void validateMultipartHeaderValue(const std::string& value) {
+    if (value.find_first_of("\r\n") != std::string::npos) {
+        throw std::invalid_argument("Multipart header value contains CR or LF");
+    }
+}
+
+inline std::string escapeMultipartParameter(const std::string& value) {
+    validateMultipartHeaderValue(value);
+    std::string escapedValue;
+    escapedValue.reserve(value.size());
+    for (const char character : value) {
+        if (character == '\\' || character == '"') {
+            escapedValue.push_back('\\');
+        }
+        escapedValue.push_back(character);
+    }
+    return escapedValue;
+}
+
+inline std::string selectMultipartBoundary(
+        const std::vector<FormParameter>& formParameters) {
+    static const char hexDigits[] = "0123456789abcdef";
+    for (std::size_t attempt = 0; attempt < 16; ++attempt) {
+        std::string boundary = "OpenAPIGeneratorBoundary";
+        if (attempt != 0) {
+            std::random_device entropy;
+            boundary.reserve(57);
+            for (std::size_t wordIndex = 0; wordIndex < 4; ++wordIndex) {
+                std::uint32_t word = static_cast<std::uint32_t>(entropy());
+                for (std::size_t nibble = 0; nibble < 8; ++nibble) {
+                    boundary.push_back(hexDigits[word & 0x0FU]);
+                    word >>= 4U;
+                }
+            }
+            boundary.push_back(hexDigits[attempt & 0x0FU]);
+        }
+        const auto collision = std::find_if(
+            formParameters.cbegin(), formParameters.cend(),
+            [&boundary](const FormParameter& formParameter) {
+                return formParameter.value.find(boundary) != std::string::npos;
+            });
+        if (collision == formParameters.cend()) {
+            return boundary;
+        }
+    }
+    throw std::runtime_error("Unable to select a collision-free multipart boundary");
+}
+
+inline std::string serializeMultipartFormData(
+        const std::vector<FormParameter>& formParameters,
+        const std::string& boundary) {
+    std::stringstream serializedFormData;
+    for (const auto& formParameter : formParameters) {
+        serializedFormData << "--" << boundary << "\r\n"
+                           << "Content-Disposition: form-data; name=\""
+                           << escapeMultipartParameter(formParameter.name) << '"';
+        if (formParameter.isFile) {
+            serializedFormData << "; filename=\""
+                               << escapeMultipartParameter(formParameter.filename) << '"';
+        }
+        serializedFormData << "\r\n";
+        if (!formParameter.contentType.empty()) {
+            validateMultipartHeaderValue(formParameter.contentType);
+            serializedFormData << "Content-Type: " << formParameter.contentType << "\r\n";
+        } else if (formParameter.isFile) {
+            serializedFormData << "Content-Type: application/octet-stream\r\n";
+        }
+        serializedFormData << "\r\n" << formParameter.value << "\r\n";
+    }
+    serializedFormData << "--" << boundary << "--\r\n";
+    return serializedFormData.str();
+}
+
+class {{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}HttpClient {
+
+public:
+    HttpClient() = default;
+    virtual ~HttpClient() = default;
+
+    virtual std::pair<boost::beast::http::status, std::string>
+    execute(const std::string &verb,
+            const std::string &target,
+            const std::string &body,
+            const std::map<std::string, std::string> &headers) = 0;
+
+    /// Execute an HTTP request and return status, response headers, and body.
+    /// Default implementation wraps execute() with empty headers to preserve
+    /// compatibility with custom HttpClient implementations that do not
+    /// override executeWithMetadata.
+    virtual HttpResponseData
+    executeWithMetadata(const std::string &verb,
+                        const std::string &target,
+                        const std::string &body,
+                        const std::map<std::string, std::string> &headers) {
+        auto [status, responseBody] = execute(verb, target, body, headers);
+        return HttpResponseData{status, {}, std::move(responseBody), false, false};
+    }
+
+    /// Execute an HTTP request and yield complete structured SSE events.
+    /// Returning false from onEvent requests cooperative cancellation.
+    /// Successful event streams are bounded per line and event rather than by
+    /// aggregate response size. Non-2xx and wrong-content-type bodies retain
+    /// the configured aggregate response limit and are returned in body.
+    /// Throws std::invalid_argument for an empty callback or invalid bounds.
+    virtual HttpResponseData
+    executeStream(const std::string &,
+                  const std::string &,
+                  const std::string &,
+                  const std::map<std::string, std::string> &,
+                  SseEventCallback,
+                  const SseStreamOptions & = {}) {
+        throw std::logic_error(
+            "Streaming is not supported by this HttpClient implementation");
+    }
+};
+
+/// One declared security scheme usage: a scheme name plus the OAuth scopes
+/// requested for the operation (apiKey/http schemes carry type/in/paramName/
+/// httpScheme instead of scopes).
+struct SecuritySchemeUse {
+    std::string schemeName;
+    std::string type;       // apiKey | http | oauth2 | openIdConnect | mutualTLS | unknown
+    std::string in;         // header | query | cookie (apiKey)
+    std::string paramName;  // apiKey parameter name
+    std::string httpScheme; // basic | bearer | <custom> (http)
+    std::vector<std::string> scopes;
+};
+
+/// One (OR) alternative of an operation's security requirements: every
+/// scheme in the list must be satisfied (AND). An empty list means
+/// anonymous access is allowed for that alternative.
+struct SecurityRequirementGroup {
+    std::vector<SecuritySchemeUse> ands;
+};
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+#endif /* {{apiHeaderGuardPrefix}}_HTTP_CLIENT_H_ */

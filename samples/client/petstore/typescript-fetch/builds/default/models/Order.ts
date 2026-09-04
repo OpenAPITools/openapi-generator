@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 /**
  * An order for a pets from the pet store
  * @export
@@ -21,38 +21,26 @@ import { mapValues } from '../runtime';
 export interface Order {
     /**
      * 
-     * @type {number}
-     * @memberof Order
      */
     id?: number;
     /**
      * 
-     * @type {number}
-     * @memberof Order
      */
     petId?: number;
     /**
      * 
-     * @type {number}
-     * @memberof Order
      */
     quantity?: number;
     /**
      * 
-     * @type {Date}
-     * @memberof Order
      */
     shipDate?: Date;
     /**
      * Order Status
-     * @type {OrderStatusEnum}
-     * @memberof Order
      */
     status?: OrderStatusEnum;
     /**
      * 
-     * @type {boolean}
-     * @memberof Order
      */
     complete?: boolean;
 }
@@ -64,7 +52,7 @@ export interface Order {
 export const OrderStatusEnum = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
@@ -89,7 +77,7 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
         'id': json['id'] == null ? undefined : json['id'],
         'petId': json['petId'] == null ? undefined : json['petId'],
         'quantity': json['quantity'] == null ? undefined : json['quantity'],
-        'shipDate': json['shipDate'] == null ? undefined : (new Date(json['shipDate'])),
+        'shipDate': json['shipDate'] == null ? undefined : (parseDateTime(json['shipDate'])),
         'status': json['status'] == null ? undefined : json['status'],
         'complete': json['complete'] == null ? undefined : json['complete'],
     };
@@ -109,7 +97,7 @@ export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: bool
         'id': value['id'],
         'petId': value['petId'],
         'quantity': value['quantity'],
-        'shipDate': value['shipDate'] == null ? value['shipDate'] : value['shipDate'].toISOString(),
+        'shipDate': value['shipDate'] == null ? value['shipDate'] : serializeDateTime(value['shipDate']),
         'status': value['status'],
         'complete': value['complete'],
     };

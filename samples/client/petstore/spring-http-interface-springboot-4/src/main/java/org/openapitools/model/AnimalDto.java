@@ -36,12 +36,14 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = DogDto.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class AnimalDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String className;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private String color = "red";
 
   public AnimalDto() {
@@ -83,7 +85,6 @@ public class AnimalDto {
     return color;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("color")
   public void setColor(String color) {
     this.color = color;

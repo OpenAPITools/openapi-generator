@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  title: Independent client operation names
+  version: 1.0.0
+paths:
+  /close:
+    get:
+      operationId: close
+      responses:
+        '204':
+          description: No content
+  /call-close:
+    get:
+      operationId: callClose
+      responses:
+        '204':
+          description: No content
+  /close-sync:
+    get:
+      operationId: closeSync
+      responses:
+        '204':
+          description: No content

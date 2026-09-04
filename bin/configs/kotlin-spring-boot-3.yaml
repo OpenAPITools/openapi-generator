@@ -4,6 +4,9 @@ library: spring-boot
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
+  optionalNonNullPropertyJsonInclude: "NONE"
   documentationProvider: none
   annotationLibrary: none
   useSwaggerUI: "false"

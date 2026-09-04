@@ -15,6 +15,7 @@ import http.client as httplib
 import logging
 from logging import FileHandler
 import multiprocessing
+import ssl
 import sys
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
 from urllib.parse import urlparse
@@ -181,6 +182,7 @@ class Configuration:
     :param proxy: Proxy URL.
     :param no_proxy: Comma-separated hosts that bypass the proxy.
     :param proxy_headers: Proxy headers.
+    :param proxy_ssl_context: SSL context used only for the TLS handshake with the proxy itself, independent of the destination TLS settings.
     :param safe_chars_for_path_param: Safe characters for path parameter encoding.
     :param client_side_validation: Enable client-side validation. Default True.
     :param socket_options: Options to pass down to the underlying urllib3 socket.
@@ -292,6 +294,7 @@ conf = petstore_api.Configuration(
         proxy: Optional[str]=None,
         no_proxy: Optional[str]=None,
         proxy_headers: Optional[Any]=None,
+        proxy_ssl_context: Optional[ssl.SSLContext]=None,
         safe_chars_for_path_param: str='',
         client_side_validation: bool=True,
         socket_options: Optional[Any]=None,
@@ -404,21 +407,26 @@ conf = petstore_api.Configuration(
 
         # urllib3 does not read proxy environment variables itself:
         # https://github.com/urllib3/urllib3/issues/1785
+        # A proxy taken from the environment is re-resolved when the host is
+        # assigned; see the host setter.
+        self._proxy_from_env = proxy is None
         if proxy is None or no_proxy is None:
             proxies = getproxies()
             if proxy is None:
-                scheme = urlparse(self.host).scheme
-                proxy = proxies.get(scheme) or proxies.get("all")
+                proxy = self._env_proxy(proxies, self.host)
             if no_proxy is None:
                 no_proxy = proxies.get("no")
-        self.proxy = proxy
-        """Proxy URL
-        """
+        self._proxy = proxy
         self.no_proxy = no_proxy
         """Hosts that bypass the proxy
         """
         self.proxy_headers = proxy_headers
         """Proxy headers
+        """
+        self.proxy_ssl_context = proxy_ssl_context
+        """SSL context used only for the TLS handshake with the proxy itself
+        (e.g. an HTTPS CONNECT tunnel), independent of the destination TLS
+        settings above.
         """
         self.safe_chars_for_path_param = safe_chars_for_path_param
         """Safe chars for path_param
@@ -446,12 +454,26 @@ conf = petstore_api.Configuration(
         result = cls.__new__(cls)
         memo[id(self)] = result
         for k, v in self.__dict__.items():
-            if k not in ('logger', 'logger_file_handler'):
-                setattr(result, k, copy.deepcopy(v, memo))
-        # shallow copy of loggers
+            if k in ('logger', 'logger_file_handler', 'logger_stream_handler'):
+                continue
+            if k == 'proxy_headers':
+                # MultiDictProxy rejects generic copying, but copy() returns an
+                # independent mutable multidict and preserves duplicate headers:
+                # https://multidict.aio-libs.org/en/stable/multidict/
+                copy_method = getattr(v, 'copy', None)
+                if callable(copy_method):
+                    setattr(result, k, copy_method())
+                    continue
+            if k == 'proxy_ssl_context':
+                # ssl.SSLContext holds unpicklable C state and can't be deepcopied.
+                setattr(result, k, v)
+                continue
+            setattr(result, k, copy.deepcopy(v, memo))
+
+        # Loggers and their handlers are process-global.
         result.logger = copy.copy(self.logger)
-        # use setter to re-create the file handler (excluded from __dict__ copy)
-        result.logger_file = self.logger_file
+        result.logger_file_handler = self.logger_file_handler
+        result.logger_stream_handler = self.logger_stream_handler
 
         return result
 
@@ -464,32 +486,26 @@ conf = petstore_api.Configuration(
 
     @classmethod
     def set_default(cls, default: Optional[Self]) -> None:
-        """Set default instance of configuration.
+        """Store a copy as the default configuration.
 
-        It stores default configuration, which can be
-        returned by get_default_copy method.
+        Later changes to ``default`` do not affect the stored configuration.
+        ``get_default`` returns the stored object, while ``get_default_copy``
+        returns a copy of it.
 
         :param default: object of Configuration
         """
-        cls._default = default
+        cls._default = copy.deepcopy(default)
 
     @classmethod
     def get_default_copy(cls) -> Self:
-        """Deprecated. Please use `get_default` instead.
-
-        Deprecated. Please use `get_default` instead.
-
-        :return: The configuration object.
-        """
-        return cls.get_default()
+        """Return a copy of the configured default, or a new configuration."""
+        if cls._default is not None:
+            return copy.deepcopy(cls._default)
+        return cls()
 
     @classmethod
     def get_default(cls) -> Self:
-        """Return the default configuration.
-
-        This method returns newly created, based on default constructor,
-        object of Configuration class or returns a copy of default
-        configuration.
+        """Return the shared default configuration, creating it if needed.
 
         :return: The configuration object.
         """
@@ -593,7 +609,8 @@ conf = petstore_api.Configuration(
             self.refresh_api_key_hook(self)
         key = self.api_key.get(identifier, self.api_key.get(alias) if alias is not None else None)
         if key:
-            prefix = self.api_key_prefix.get(identifier)
+            prefix = self.api_key_prefix.get(
+                identifier, self.api_key_prefix.get(alias) if alias is not None else None)
             if prefix:
                 return "%s %s" % (prefix, key)
             else:
@@ -788,3 +805,23 @@ conf = petstore_api.Configuration(
         """Fix base path."""
         self._base_path = value
         self.server_index = None
+        if self._proxy_from_env:
+            # the scheme-specific proxy depends on the host, which is
+            # commonly assigned after construction
+            self._proxy = self._env_proxy(getproxies(), value)
+
+    @staticmethod
+    def _env_proxy(proxies: Dict[str, str], host: str) -> Optional[str]:
+        """Pick the environment proxy that applies to `host`."""
+        return proxies.get(urlparse(host).scheme) or proxies.get("all")
+
+    @property
+    def proxy(self) -> Optional[str]:
+        """Proxy URL
+        """
+        return self._proxy
+
+    @proxy.setter
+    def proxy(self, value: Optional[str]) -> None:
+        self._proxy = value
+        self._proxy_from_env = False

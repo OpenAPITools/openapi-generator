@@ -69,7 +69,6 @@ public class CodegenConfigurator {
     private Map<String, Object> additionalProperties = new HashMap<>();
     private Map<String, String> importMappings = new HashMap<>();
     private Map<String, String> schemaMappings = new HashMap<>();
-    private Set<String> forcedGenerateSchemas = new HashSet<>();
     private Map<String, String> inlineSchemaNameMappings = new HashMap<>();
     private Map<String, String> inlineSchemaOptions = new HashMap<>();
     private Map<String, String> nameMappings = new HashMap<>();
@@ -77,6 +76,7 @@ public class CodegenConfigurator {
     private Map<String, String> modelNameMappings = new HashMap<>();
     private Map<String, String> enumNameMappings = new HashMap<>();
     private Map<String, String> operationIdNameMappings = new HashMap<>();
+    private Map<String, String> injectModelVendorExtensions = new HashMap<>();
     private Map<String, String> openapiNormalizer = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Set<String> openapiGeneratorIgnoreList = new HashSet<>();
@@ -125,9 +125,6 @@ public class CodegenConfigurator {
             if (generatorSettings.getSchemaMappings() != null) {
                 configurator.schemaMappings.putAll(generatorSettings.getSchemaMappings());
             }
-            if (generatorSettings.getForcedGenerateSchemas() != null) {
-                configurator.forcedGenerateSchemas.addAll(generatorSettings.getForcedGenerateSchemas());
-            }
             if (generatorSettings.getInlineSchemaNameMappings() != null) {
                 configurator.inlineSchemaNameMappings.putAll(generatorSettings.getInlineSchemaNameMappings());
             }
@@ -148,6 +145,9 @@ public class CodegenConfigurator {
             }
             if (generatorSettings.getOperationIdNameMappings() != null) {
                 configurator.operationIdNameMappings.putAll(generatorSettings.getOperationIdNameMappings());
+            }
+            if (generatorSettings.getInjectModelVendorExtensions() != null) {
+                configurator.injectModelVendorExtensions.putAll(generatorSettings.getInjectModelVendorExtensions());
             }
             if (generatorSettings.getOpenapiNormalizer() != null) {
                 configurator.openapiNormalizer.putAll(generatorSettings.getOpenapiNormalizer());
@@ -230,29 +230,6 @@ public class CodegenConfigurator {
         return this;
     }
 
-    /**
-     * Adds a single schema name to {@code forcedGenerateSchemas}.
-     * Schemas in this set are generated even when they appear in schemaMappings or importMappings.
-     * Use {@code "*"} ({@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS}) to force-generate
-     * all mapped schemas at once.
-     */
-    public CodegenConfigurator addForcedGenerateSchema(String schema) {
-        this.forcedGenerateSchemas.add(schema);
-        generatorSettingsBuilder.withForcedGenerateSchema(schema);
-        return this;
-    }
-
-    /**
-     * Replaces the entire {@code forcedGenerateSchemas} set.
-     * Use {@code "*"} ({@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS}) as a wildcard
-     * to force-generate all mapped schemas at once.
-     */
-    public CodegenConfigurator setForcedGenerateSchemas(Set<String> schemas) {
-        this.forcedGenerateSchemas = schemas;
-        generatorSettingsBuilder.withForcedGenerateSchemas(schemas);
-        return this;
-    }
-
     public CodegenConfigurator addInlineSchemaNameMapping(String key, String value) {
         this.inlineSchemaNameMappings.put(key, value);
         generatorSettingsBuilder.withInlineSchemaNameMapping(key, value);
@@ -292,6 +269,18 @@ public class CodegenConfigurator {
     public CodegenConfigurator addOperationIdNameMapping(String key, String value) {
         this.operationIdNameMappings.put(key, value);
         generatorSettingsBuilder.withOperationIdNameMapping(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator addInjectModelVendorExtension(String key, String value) {
+        this.injectModelVendorExtensions.put(key, value);
+        generatorSettingsBuilder.withInjectModelVendorExtension(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator setInjectModelVendorExtensions(Map<String, String> extensions) {
+        this.injectModelVendorExtensions = extensions;
+        generatorSettingsBuilder.withInjectModelVendorExtensions(extensions);
         return this;
     }
 
@@ -807,7 +796,6 @@ public class CodegenConfigurator {
         config.typeMapping().putAll(generatorSettings.getTypeMappings());
         config.importMapping().putAll(generatorSettings.getImportMappings());
         config.schemaMapping().putAll(generatorSettings.getSchemaMappings());
-        config.forcedGenerateSchemas().addAll(generatorSettings.getForcedGenerateSchemas());
         config.inlineSchemaNameMapping().putAll(generatorSettings.getInlineSchemaNameMappings());
         config.inlineSchemaOption().putAll(generatorSettings.getInlineSchemaOptions());
         config.nameMapping().putAll(generatorSettings.getNameMappings());
@@ -815,6 +803,7 @@ public class CodegenConfigurator {
         config.modelNameMapping().putAll(generatorSettings.getModelNameMappings());
         config.enumNameMapping().putAll(generatorSettings.getEnumNameMappings());
         config.operationIdNameMapping().putAll(generatorSettings.getOperationIdNameMappings());
+        config.injectModelVendorExtensions().putAll(generatorSettings.getInjectModelVendorExtensions());
         config.openapiNormalizer().putAll(generatorSettings.getOpenapiNormalizer());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.openapiGeneratorIgnoreList().addAll(generatorSettings.getOpenapiGeneratorIgnoreList());

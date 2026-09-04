@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6.0.0
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
@@ -40,14 +40,14 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.20.0
+        uses: s4u/setup-maven-action@v1.21.0
         with:
           java-version: ${{ matrix.java }}
           maven-version: 3.8.8
       - name: Run maven
         run: ./mvnw clean --no-snapshot-updates --batch-mode --quiet install
         env:
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
       - name: Test Template Retrieval
         run: |
           cd modules/openapi-generator-cli/target

@@ -29,14 +29,10 @@ import {
 export interface GetBehaviorPermissionsResponse {
     /**
      * 
-     * @type {ResponseMeta}
-     * @memberof GetBehaviorPermissionsResponse
      */
     meta: ResponseMeta;
     /**
      * 
-     * @type {{ [key: string]: boolean; }}
-     * @memberof GetBehaviorPermissionsResponse
      */
     data?: { [key: string]: boolean; };
 }

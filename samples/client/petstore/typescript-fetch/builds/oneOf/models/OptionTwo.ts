@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface OptionTwo {
     /**
      * 
-     * @type {OptionTwoDiscriminatorFieldEnum}
-     * @memberof OptionTwo
      */
     discriminatorField: OptionTwoDiscriminatorFieldEnum;
 }
@@ -32,7 +30,7 @@ export interface OptionTwo {
  * @export
  */
 export const OptionTwoDiscriminatorFieldEnum = {
-    OptionTwo: 'optionTwo'
+    OptionTwo: 'optionTwo',
 } as const;
 export type OptionTwoDiscriminatorFieldEnum = typeof OptionTwoDiscriminatorFieldEnum[keyof typeof OptionTwoDiscriminatorFieldEnum];
 

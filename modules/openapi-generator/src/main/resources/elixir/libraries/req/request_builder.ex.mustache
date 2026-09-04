@@ -1,0 +1,505 @@
+{{>licenseInfo}}
+defmodule {{moduleName}}.RequestBuilder do
+  @moduledoc """
+  Helper functions for building Req requests
+  """
+
+  @doc """
+  Specify the request `method` when building a request.
+
+  Does not override the `method` if one has already been specified.
+
+  ### Parameters
+
+  - `request` (Map) - Collected request options
+  - `method` (atom) - Request method
+
+  ### Returns
+
+  Map
+  """
+  @spec method(map(), atom()) :: map()
+  def method(request, method) do
+    Map.put_new(request, :method, method)
+  end
+
+  @doc """
+  Specify the request `url` when building a request.
+
+  Does not override the `url` if one has already been specified.
+
+  ### Parameters
+
+  - `request` (Map) - Collected request options
+  - `url` (String) - Request URL
+
+  ### Returns
+
+  Map
+  """
+  @spec url(map(), String.t()) :: map()
+  def url(request, url) do
+    Map.put_new(request, :url, url)
+  end
+
+  @doc """
+  Mark a request as multipart/form-data.
+
+  Multipart fields and files are encoded when the request is sent.
+  """
+  @spec multipart(map()) :: map()
+  def multipart(request) do
+    Map.put_new(request, :form_multipart, [])
+  end
+
+  @doc """
+  Add optional parameters to a request.
+
+  ### Parameters
+
+  - `request` (Map) - Collected request options
+  - `definitions` (Map) - Map of parameter name to parameter location.
+  - `options` (KeywordList) - The provided optional parameters
+
+  ### Special Parameters
+
+  - `:headers` - A map of custom headers to add to the request. Header names may
+    be strings or atoms.
+
+  ### Returns
+
+  Map
+  """
+  @spec add_optional_params(map(), %{optional(atom()) => atom()}, keyword()) :: map()
+  def add_optional_params(request, _, []), do: request
+
+  def add_optional_params(request, definitions, [{:headers, custom_headers} | tail])
+      when is_map(custom_headers) do
+    request =
+      Enum.reduce(custom_headers, request, fn {key, value}, acc ->
+        add_param(acc, :headers, key, value)
+      end)
+
+    add_optional_params(request, definitions, tail)
+  end
+
+  def add_optional_params(request, definitions, [{key, value} | tail]) do
+    case definitions do
+      %{^key => location} ->
+        request
+        |> add_param(location, key, value)
+        |> add_optional_params(definitions, tail)
+
+      _ ->
+        add_optional_params(request, definitions, tail)
+    end
+  end
+
+  @doc """
+  Add non-optional parameters to a request.
+
+  ### Parameters
+
+  - `request` (Map) - Collected request options
+  - `location` (atom) - Where to put the parameter
+  - `key` (atom) - The name of the parameter
+  - `value` (any) - The value of the parameter
+
+  Header values use OpenAPI's `simple` style. `:headers` is for scalars,
+  `:headers_form` uses `explode=false`, and `:headers_form_exploded` uses
+  `explode=true`. Arrays are comma-joined, and objects (including keyword
+  lists) are flattened into key/value pairs. Cookie values use OpenAPI's `form`
+  style: `:cookie` uses `explode=false` and `:cookie_exploded` uses `explode=true`.
+  Values are kept unencoded; nested lists or maps raise `ArgumentError`.
+
+  ### Returns
+
+  Map
+  """
+  @spec add_param(map(), atom(), atom(), any()) :: map()
+  def add_param(request, :body, :body, nil), do: request
+
+  def add_param(%{form_multipart: parts} = request, :body, key, value) when is_binary(value) do
+    part = {to_string(key), {value, content_type: "application/octet-stream"}}
+    Map.put(request, :form_multipart, parts ++ [part])
+  end
+
+  def add_param(%{form_multipart: parts} = request, :body, key, value) do
+    part = {to_string(key), {JSON.encode!(value), content_type: "application/json"}}
+    Map.put(request, :form_multipart, parts ++ [part])
+  end
+
+  def add_param(request, :body, :body, value) when is_binary(value) do
+    Map.put(request, :body, value)
+  end
+
+  def add_param(request, :body, :body, value) do
+    put_json_body(request, value)
+  end
+
+  def add_param(request, :body, _key, value) do
+    put_json_body(request, value)
+  end
+
+  def add_param(request, :headers, key, value) do
+    put_header(request, to_string(key), scalar_to_string(value))
+  end
+
+  def add_param(request, :headers_form, key, value) do
+    put_header(request, to_string(key), serialize_parameter_value(value, ","))
+  end
+
+  def add_param(request, :headers_form_exploded, key, value) do
+    put_header(request, to_string(key), serialize_parameter_value(value, "="))
+  end
+
+  def add_param(request, :cookie, key, value) do
+    add_cookies(request, [{to_string(key), serialize_parameter_value(value, ",")}])
+  end
+
+  def add_param(request, :cookie_exploded, key, value) do
+    add_cookies(request, serialize_exploded_cookie(key, value))
+  end
+
+  def add_param(request, :query, key, value) do
+    Map.update(request, :query, [{key, value}], &(&1 ++ [{key, value}]))
+  end
+
+  def add_param(%{form_multipart: parts} = request, :file, key, path) do
+    part =
+      {to_string(key),
+       {File.stream!(path),
+        filename: Path.basename(path),
+        content_type: "application/octet-stream"}}
+
+    Map.put(request, :form_multipart, parts ++ [part])
+  end
+
+  def add_param(request, :file, _key, path) do
+    request
+    |> Map.put(:body, File.stream!(path))
+    |> put_header("content-type", "application/octet-stream")
+  end
+
+  def add_param(%{form_multipart: parts} = request, :form, key, value) do
+    Map.put(request, :form_multipart, parts ++ [multipart_field(key, value)])
+  end
+
+  def add_param(request, :form, key, value) do
+    form_params = Map.get(request, :form, [])
+    Map.put(request, :form, form_params ++ encode_pair({key, value}))
+  end
+
+  def add_param(request, location, key, value) do
+    Map.update(request, location, [{key, value}], &(&1 ++ [{key, value}]))
+  end
+
+  defp add_cookies(request, cookies) do
+    Map.update(request, :cookie, cookies, fn existing_cookies ->
+      existing_cookies ++ cookies
+    end)
+  end
+
+  defp serialize_exploded_cookie(key, value) when is_list(value) do
+    key = to_string(key)
+
+    if parameter_pair_list?(value) do
+      Enum.map(value, fn {pair_key, pair_value} ->
+        {parameter_leaf_to_string(pair_key), parameter_leaf_to_string(pair_value)}
+      end)
+    else
+      Enum.map(value, fn item ->
+        {key, parameter_array_item_to_string(item)}
+      end)
+    end
+  end
+
+  defp serialize_exploded_cookie(key, value) when is_map(value) do
+    cond do
+      is_struct(value) and String.Chars.impl_for(value) != nil ->
+        [{to_string(key), scalar_to_string(value)}]
+
+      is_struct(value) ->
+        value
+        |> Map.from_struct()
+        |> serialize_parameter_map_pairs()
+
+      true ->
+        serialize_parameter_map_pairs(value)
+    end
+  end
+
+  defp serialize_exploded_cookie(key, value) do
+    [{to_string(key), scalar_to_string(value)}]
+  end
+
+  defp serialize_parameter_map_pairs(value) do
+    value
+    |> parameter_map_entries()
+    |> Enum.map(fn {key, value} ->
+      {parameter_leaf_to_string(key), parameter_leaf_to_string(value)}
+    end)
+  end
+
+  defp serialize_parameter_value(value, pair_separator) when is_list(value) do
+    if parameter_pair_list?(value) do
+      Enum.map_join(value, ",", fn {key, value} ->
+        "#{parameter_leaf_to_string(key)}#{pair_separator}#{parameter_leaf_to_string(value)}"
+      end)
+    else
+      Enum.map_join(value, ",", &parameter_array_item_to_string/1)
+    end
+  end
+
+  defp serialize_parameter_value(value, pair_separator) when is_map(value) do
+    cond do
+      is_struct(value) and String.Chars.impl_for(value) != nil ->
+        scalar_to_string(value)
+
+      is_struct(value) ->
+        value
+        |> Map.from_struct()
+        |> serialize_parameter_map(pair_separator)
+
+      true ->
+        serialize_parameter_map(value, pair_separator)
+    end
+  end
+
+  defp serialize_parameter_value(value, _pair_separator), do: scalar_to_string(value)
+
+  defp serialize_parameter_map(value, pair_separator) do
+    value
+    |> parameter_map_entries()
+    |> Enum.map_join(",", fn {key, value} ->
+      "#{parameter_leaf_to_string(key)}#{pair_separator}#{parameter_leaf_to_string(value)}"
+    end)
+  end
+
+  defp parameter_map_entries(value) do
+    value
+    |> Map.to_list()
+    |> Enum.sort_by(fn {key, _value} -> parameter_leaf_to_string(key) end)
+  end
+
+  defp parameter_pair_list?(value) do
+    Enum.all?(value, fn pair -> is_tuple(pair) and tuple_size(pair) == 2 end)
+  end
+
+  defp parameter_array_item_to_string(%_{} = value) do
+    if String.Chars.impl_for(value) != nil do
+      scalar_to_string(value)
+    else
+      raise ArgumentError,
+        "nested parameter values are not supported; expected scalar array items, got: #{inspect(value)}"
+    end
+  end
+
+  defp parameter_array_item_to_string(value) when is_list(value) or is_map(value) do
+    raise ArgumentError,
+      "nested parameter values are not supported; expected scalar array items, got: #{inspect(value)}"
+  end
+
+  defp parameter_array_item_to_string(value), do: scalar_to_string(value)
+
+  defp parameter_leaf_to_string(%_{} = value) do
+    if String.Chars.impl_for(value) != nil do
+      scalar_to_string(value)
+    else
+      raise ArgumentError,
+        "nested parameter values are not supported; expected a scalar leaf, got: #{inspect(value)}"
+    end
+  end
+
+  defp parameter_leaf_to_string(value) when is_list(value) or is_map(value) do
+    raise ArgumentError,
+      "nested parameter values are not supported; expected a scalar leaf, got: #{inspect(value)}"
+  end
+
+  defp parameter_leaf_to_string(value), do: scalar_to_string(value)
+
+  defp scalar_to_string(value) do
+    to_string(value)
+  rescue
+    Protocol.UndefinedError ->
+      raise ArgumentError, "parameter values must contain scalar leaves, got: #{inspect(value)}"
+  end
+
+  defp multipart_field(key, value) when is_binary(value), do: {to_string(key), value}
+
+  defp multipart_field(key, value) when is_list(value) or is_map(value) do
+    if is_struct(value) and String.Chars.impl_for(value) != nil do
+      {to_string(key), to_string(value)}
+    else
+      {to_string(key), {JSON.encode!(value), content_type: "application/json"}}
+    end
+  end
+
+  defp multipart_field(key, value), do: {to_string(key), to_string(value)}
+
+  defp put_json_body(request, value) do
+    request
+    |> Map.put(:body, JSON.encode_to_iodata!(value))
+    |> put_header("content-type", "application/json")
+  end
+
+  defp put_header(request, key, value) do
+    headers = Map.get(request, :headers, [])
+    Map.put(request, :headers, List.keystore(headers, key, 0, {key, value}))
+  end
+
+  @doc """
+  Finalize the request's query parameters using Tesla-compatible encoding.
+
+  ### Parameters
+
+  - `request` (Map) - Collected request options
+
+  ### Returns
+
+  Map
+  """
+  @spec finalize_request(map()) :: map()
+  def finalize_request(%{url: url, query: query} = request) do
+    join = if String.contains?(url, "?"), do: "&", else: "?"
+
+    request
+    |> Map.put(:url, url <> join <> encode_query(query))
+    |> Map.delete(:query)
+    |> finalize_cookies()
+  end
+
+  def finalize_request(request) do
+    finalize_cookies(request)
+  end
+
+  defp finalize_cookies(%{cookie: cookies} = request) do
+    cookie_header =
+      Enum.map_join(cookies, "; ", fn {key, value} ->
+        "#{key}=#{value}"
+      end)
+
+    request
+    |> Map.delete(:cookie)
+    |> append_cookie_header(cookie_header)
+  end
+
+  defp finalize_cookies(request), do: request
+
+  defp append_cookie_header(request, cookie_header) do
+    headers = Map.get(request, :headers, [])
+
+    case Enum.find_index(headers, fn {key, _value} ->
+           String.downcase(to_string(key)) == "cookie"
+         end) do
+      nil ->
+        Map.put(request, :headers, [{"cookie", cookie_header} | headers])
+
+      index ->
+        {key, value} = Enum.at(headers, index)
+        value =
+          if String.trim(to_string(value)) == "" do
+            cookie_header
+          else
+            "#{value}; #{cookie_header}"
+          end
+
+        headers = List.replace_at(headers, index, {key, value})
+        Map.put(request, :headers, headers)
+    end
+  end
+
+  defp encode_query(query) do
+    query
+    |> Enum.flat_map(&encode_pair/1)
+    |> URI.encode_query()
+  end
+
+  defp encode_pair({key, value}) when is_map(value) and not is_struct(value) do
+    encode_nested_pairs(key, value)
+  end
+
+  defp encode_pair({key, value}) when is_list(value) do
+    if list_of_tuples?(value) do
+      encode_nested_pairs(key, value)
+    else
+      Enum.map(value, fn element -> {"#{key}[]", element} end)
+    end
+  end
+
+  defp encode_pair({key, value}), do: [{key, value}]
+
+  defp encode_nested_pairs(parent_key, value) do
+    Enum.flat_map(value, &encode_nested_pair(parent_key, &1))
+  end
+
+  defp encode_nested_pair(parent_key, {key, value}) do
+    encode_pair({"#{parent_key}[#{key}]", value})
+  end
+
+  defp list_of_tuples?([{key, _} | rest]) when is_atom(key) or is_binary(key),
+    do: list_of_tuples?(rest)
+
+  defp list_of_tuples?([]), do: true
+  defp list_of_tuples?(_other), do: false
+
+  @type status_code :: :default | 100..599
+  @type response_mapping :: [{status_code, false | %{} | module()}]
+
+  @doc """
+  Evaluate the response from a Req request and decode mapped responses.
+
+  ### Parameters
+
+  - `result` - The response from Req.request/2.
+  - `mapping` - The mapping for status to struct for decoding.
+
+  ### Returns
+
+  - `{:ok, struct}`, `{:ok, list}` or `{:ok, Req.Response.t()}` on success
+  - `{:ok, Req.Response.t()}` for a 2xx response with no mapped success response
+  - `{:error, term()}` on failure. This can be an unmapped non-2xx
+    `Req.Response.t()`, a Req transport `Exception.t()`, or an arbitrary JSON
+    decode-failure reason.
+  """
+  @spec evaluate_response(
+          {:ok, Req.Response.t()} | {:error, Exception.t()},
+          response_mapping()
+        ) ::
+          {:ok, any()} | {:error, term()}
+  def evaluate_response({:ok, %Req.Response{} = response}, mapping) do
+    resolve_mapping(response, mapping, nil)
+  end
+
+  def evaluate_response({:error, _} = error, _mapping), do: error
+
+  defp resolve_mapping(%Req.Response{status: status} = response, [{mapping_status, struct} | _], _)
+       when status == mapping_status do
+    decode(response, struct)
+  end
+
+  defp resolve_mapping(response, [{:default, struct} | tail], _) do
+    resolve_mapping(response, tail, struct)
+  end
+
+  defp resolve_mapping(response, [_ | tail], struct) do
+    resolve_mapping(response, tail, struct)
+  end
+
+  defp resolve_mapping(%Req.Response{status: status} = response, [], nil) when status in 200..299,
+    do: {:ok, response}
+
+  defp resolve_mapping(response, [], nil), do: {:error, response}
+
+  defp resolve_mapping(response, [], struct), do: decode(response, struct)
+
+  defp decode(%Req.Response{} = response, false), do: {:ok, response}
+
+  defp decode(%Req.Response{body: body}, mapping) when not is_atom(mapping) do
+    {{moduleName}}.Deserializer.json_decode(body)
+  end
+
+  defp decode(%Req.Response{body: body}, module) do
+    {{moduleName}}.Deserializer.json_decode(body, module)
+  end
+end

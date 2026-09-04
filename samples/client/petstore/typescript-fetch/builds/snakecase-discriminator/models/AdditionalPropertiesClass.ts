@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface AdditionalPropertiesClass {
     /**
      * 
-     * @type {{ [key: string]: string; }}
-     * @memberof AdditionalPropertiesClass
      */
     mapProperty?: { [key: string]: string; };
     /**
      * 
-     * @type {{ [key: string]: { [key: string]: string; }; }}
-     * @memberof AdditionalPropertiesClass
      */
     mapOfMapProperty?: { [key: string]: { [key: string]: string; }; };
 }

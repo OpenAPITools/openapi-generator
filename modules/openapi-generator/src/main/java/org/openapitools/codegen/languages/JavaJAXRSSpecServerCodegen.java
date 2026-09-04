@@ -32,9 +32,13 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY_DESC;
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 
 /**
@@ -45,10 +49,10 @@ import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_
  */
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
-    public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String RETURN_RESPONSE = "returnResponse";
     public static final String RETURN_JBOSS_RESPONSE = "returnJBossResponse";
     public static final String GENERATE_POM = "generatePom";
+    public static final String GENERATE_ROOT_RESOURCES = "generateRootResources";
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
     public static final String USE_MICROPROFILE_OPENAPI_ANNOTATIONS = "useMicroProfileOpenAPIAnnotations";
     public static final String USE_SWAGGER_V3_ANNOTATIONS = "useSwaggerV3Annotations";
@@ -56,6 +60,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
     public static final String GENERATE_JSON_CREATOR = "generateJsonCreator";
     public static final String USE_JAKARTA_SECURITY_ANNOTATIONS = "useJakartaSecurityAnnotations";
+    public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
+    public static final String USE_SEALED = "useSealed";
 
     public static final String QUARKUS_LIBRARY = "quarkus";
     public static final String THORNTAIL_LIBRARY = "thorntail";
@@ -64,6 +70,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String KUMULUZEE_LIBRARY = "kumuluzee";
 
     private boolean interfaceOnly = false;
+    private boolean generateRootResources = true;
     private boolean returnResponse = false;
     private boolean returnJbossResponse = false;
     private boolean generatePom = true;
@@ -72,6 +79,12 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean useMicroProfileOpenAPIAnnotations = false;
     private boolean useMutiny = false;
     private boolean useJakartaSecurityAnnotations = false;
+
+    @Setter
+    private boolean useEnumCaseInsensitive = false;
+
+    @Setter
+    protected boolean useSealed = false;
 
     private final JakartaSecurityAnnotationProcessor jakartaSecurityAnnotationProcessor = new JakartaSecurityAnnotationProcessor();
 
@@ -144,7 +157,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         cliOptions.add(library);
         cliOptions.add(CliOption.newBoolean(GENERATE_POM, "Whether to generate pom.xml if the file does not already exist.").defaultValue(String.valueOf(generatePom)));
-        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
+        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, INTERFACE_ONLY_DESC).defaultValue(String.valueOf(interfaceOnly)));
+        cliOptions.add(CliOption.newBoolean(GENERATE_ROOT_RESOURCES, "Whether to generate the root resource and application classes, only useful if interfaceOnly is true.", generateRootResources));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
         cliOptions.add(CliOption.newBoolean(RETURN_JBOSS_RESPONSE, "Whether generate API interface should return `org.jboss.resteasy.reactive.RestResponse` instead of a deserialized entity. This flag cannot be combined with `returnResponse` flag. It requires the flag `interfaceOnly` and `useJakartaEE` set to true, because `org.jboss.resteasy.reactive.RestResponse` was introduced in Quarkus 2.x").defaultValue(String.valueOf(returnJbossResponse)));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
@@ -155,6 +169,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(USE_MUTINY, "Whether to use Smallrye Mutiny instead of CompletionStage for asynchronous computation. Only valid when library is set to quarkus.", useMutiny));
         cliOptions.add(CliOption.newBoolean(USE_JAKARTA_SECURITY_ANNOTATIONS, "Whether to generate Jakarta security annotations (@RolesAllowed, @PermitAll). Requires useJakartaEe=true. Currently only supported when library is set to quarkus.", useJakartaSecurityAnnotations));
         cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate @JsonCreator constructor for required properties.", generateJsonCreator));
+        cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
+        cliOptions.add(CliOption.newBoolean(USE_SEALED, "Whether to generate sealed model interfaces and classes.", useSealed));
     }
 
     @Override
@@ -162,6 +178,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         convertPropertyToBooleanAndWriteBack(GENERATE_POM, value -> generatePom = value);
 
         convertPropertyToBooleanAndWriteBack(INTERFACE_ONLY, value -> interfaceOnly = value);
+        convertPropertyToBooleanAndWriteBack(GENERATE_ROOT_RESOURCES, value -> generateRootResources = value);
         convertPropertyToBooleanAndWriteBack(RETURN_RESPONSE, value -> returnResponse = value);
         convertPropertyToBooleanAndWriteBack(RETURN_JBOSS_RESPONSE, value -> returnJbossResponse = value);
         convertPropertyToBooleanAndWriteBack(SUPPORT_ASYNC, this::setSupportAsync);
@@ -197,6 +214,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         convertPropertyToBooleanAndWriteBack(GENERATE_JSON_CREATOR, this::setGenerateJsonCreator);
+        convertPropertyToBooleanAndWriteBack(USE_ENUM_CASE_INSENSITIVE, this::setUseEnumCaseInsensitive);
+        convertPropertyToBooleanAndWriteBack(USE_SEALED, this::setUseSealed);
 
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
             openApiSpecFileLocation = additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
@@ -236,7 +255,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
                 .doNotOverwrite());
 
-        if (!interfaceOnly) {
+        if ((!interfaceOnly) || generateRootResources) {
             supportingFiles.add(new SupportingFile("RestResourceRoot.mustache",
                     (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestResourceRoot.java")
                     .doNotOverwrite());
@@ -379,29 +398,81 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 additionalProperties.put("hasResponseStatusAnnotations", true);
             }
         }
+
+        // The quarkus templates bind file form parameters to org.jboss.resteasy.reactive types, so the
+        // corresponding imports must only be emitted for API files that actually declare such a parameter.
+        // Always set explicitly so Mustache does not fall through to the global additionalProperties value.
+        objs.put("hasFileFormParams", objs.getOperations().getOperation().stream()
+                .flatMap(op -> op.formParams.stream())
+                .anyMatch(p -> p.isFile));
         return objs;
     }
 
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+
+        // Index the discriminators of the generated oneOf interfaces by classname. A child of a oneOf
+        // interface (useOneOfInterfaces) inherits a shared base via allOf and therefore has no Java
+        // parentModel carrying the discriminator - the discriminator lives on the interface it implements.
+        Map<String, CodegenDiscriminator> oneOfInterfaceDiscriminators = new HashMap<>();
         for (ModelsMap modelsMap : result.values()) {
             for (ModelMap modelMap : modelsMap.getModels()) {
                 CodegenModel model = modelMap.getModel();
-                if (model.parentModel != null) {
-                    CodegenDiscriminator discriminator = model.parentModel.getDiscriminator();
-                    if (discriminator != null) {
-                        for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
-                            if (mappedModel.getSchemaName().equals(model.schemaName)) {
-                                model.getVendorExtensions().put("x-discriminator-value", mappedModel.getMappingName());
-                                break;
-                            }
+                if (Boolean.TRUE.equals(model.getVendorExtensions().get("x-is-one-of-interface"))
+                        && model.getDiscriminator() != null) {
+                    oneOfInterfaceDiscriminators.put(model.classname, model.getDiscriminator());
+                }
+            }
+        }
+
+        for (ModelsMap modelsMap : result.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                // Resolve the @JsonTypeName mapping value from the Java parent's discriminator, if any,
+                // otherwise from the discriminator of the oneOf interface the model implements.
+                CodegenDiscriminator discriminator = model.parentModel != null
+                        ? model.parentModel.getDiscriminator()
+                        : discriminatorOfImplementedOneOfInterface(model, oneOfInterfaceDiscriminators);
+                if (discriminator != null) {
+                    for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
+                        if (mappedModel.getSchemaName().equals(model.schemaName)) {
+                            model.getVendorExtensions().put("x-discriminator-value", mappedModel.getMappingName());
+                            break;
                         }
                     }
+                }
+                // A oneOf container rendered as a plain class (useOneOfInterfaces disabled or the model
+                // not selected for interface generation) must not be sealed over its oneOf members: they
+                // do not extend it, so a permits clause would not compile. Only child-derived permits
+                // (subclasses that actually extend the model) may remain.
+                if (useSealed && !Boolean.TRUE.equals(model.getVendorExtensions().get("x-is-one-of-interface"))) {
+                    model.permits.removeAll(model.oneOf);
                 }
             }
         }
         return result;
+    }
+
+    /**
+     * Returns the discriminator of the oneOf interface (produced by useOneOfInterfaces) that the given
+     * model implements, or {@code null} if the model does not implement such an interface. The interface
+     * name is read from the model's {@code x-implements} vendor extension.
+     */
+    @SuppressWarnings("unchecked")
+    private CodegenDiscriminator discriminatorOfImplementedOneOfInterface(
+            CodegenModel model, Map<String, CodegenDiscriminator> oneOfInterfaceDiscriminators) {
+        Object implementsExtension = model.getVendorExtensions().get("x-implements");
+        if (!(implementsExtension instanceof Collection)) {
+            return null;
+        }
+        for (Object intf : (Collection<Object>) implementsExtension) {
+            CodegenDiscriminator discriminator = oneOfInterfaceDiscriminators.get(String.valueOf(intf));
+            if (discriminator != null) {
+                return discriminator;
+            }
+        }
+        return null;
     }
 
     @Override

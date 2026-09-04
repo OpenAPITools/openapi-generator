@@ -153,9 +153,16 @@ public:
     // ===================
     {{/-first}}
     enum class {{enumName}} {
+        {{^isArray}}
         {{#allowableValues.values}}
         {{.}}{{^-last}},{{/-last}}
         {{/allowableValues.values}}
+        {{/isArray}}
+        {{#isArray}}
+        {{#items.allowableValues.values}}
+        {{.}}{{^-last}},{{/-last}}
+        {{/items.allowableValues.values}}
+        {{/isArray}}
     };
 
     // Enum conversion functions (definitions in .cpp)

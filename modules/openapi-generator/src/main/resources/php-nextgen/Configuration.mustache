@@ -115,6 +115,13 @@ class Configuration
     protected string $tempFolderPath;
 
     /**
+     * Ignore operation specific hosts
+     * 
+     * @var bool
+     */
+    protected bool $ignoreOperationHosts = false;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -381,6 +388,29 @@ class Configuration
     public function getTempFolderPath(): string
     {
         return $this->tempFolderPath;
+    }
+
+    /**
+     * Sets the ignore operation specific hosts flag
+     *
+     * @param bool $ignoreOperationHosts Ignore operation specific hosts flag
+     *
+     * @return $this
+     */
+    public function setIgnoreOperationHosts(bool $ignoreOperationHosts): static
+    {
+        $this->ignoreOperationHosts = $ignoreOperationHosts;
+        return $this;
+    }
+
+    /**
+     * Gets the ignore operation specific hosts flag
+     *
+     * @return bool Ignore operation specific hosts flag
+     */
+    public function getIgnoreOperationHosts(): bool
+    {
+        return $this->ignoreOperationHosts;
     }
 
     /**

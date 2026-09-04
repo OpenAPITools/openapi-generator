@@ -157,7 +157,7 @@ impl std::str::FromStr for MultipartRelatedRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MultipartRelatedRequest".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -326,7 +326,7 @@ impl std::str::FromStr for MultipartRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MultipartRequest".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -353,7 +353,7 @@ impl std::str::FromStr for MultipartRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing MultipartRequest".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -501,7 +501,7 @@ impl std::str::FromStr for MultipartRequestObjectField {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MultipartRequestObjectField".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -645,7 +645,7 @@ impl std::str::FromStr for MultipleIdenticalMimeTypesPostRequest {
                     return std::result::Result::Err(
                         "Missing value while parsing MultipleIdenticalMimeTypesPostRequest"
                             .to_string(),
-                    );
+                    )
                 }
             };
 

@@ -70,6 +70,10 @@ class {{classname}}Test extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
+{{! Composed (oneOf/anyOf) models are dispatchers with no own properties: their `vars` are the }}
+{{! members' flattened properties, so per-property test stubs would be meaningless. Skip them. }}
+{{^oneOf}}
+{{^anyOf}}
 {{#vars}}
 
     /**
@@ -81,6 +85,8 @@ class {{classname}}Test extends TestCase
         self::markTestIncomplete('Not implemented');
     }
 {{/vars}}
+{{/anyOf}}
+{{/oneOf}}
 }
 {{/model}}
 {{/models}}

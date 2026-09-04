@@ -22,18 +22,22 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Name", description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Name {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Integer name;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Integer snakeCase;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String property;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Integer _123number;
 
   public Name() {
@@ -84,7 +88,6 @@ public class Name {
     return snakeCase;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("snake_case")
   public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
@@ -106,7 +109,6 @@ public class Name {
     return property;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("property")
   public void setProperty(@Nullable String property) {
     this.property = property;
@@ -128,7 +130,6 @@ public class Name {
     return _123number;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("123Number")
   public void set123number(@Nullable Integer _123number) {
     this._123number = _123number;

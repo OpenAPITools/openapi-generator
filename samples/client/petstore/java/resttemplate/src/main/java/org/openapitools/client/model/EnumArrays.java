@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -120,7 +120,7 @@ public class EnumArrays {
   /**
    * Constructor with all args parameters
    */
-  public EnumArrays(@JsonProperty(JSON_PROPERTY_JUST_SYMBOL) JustSymbolEnum justSymbol, @JsonProperty(JSON_PROPERTY_ARRAY_ENUM) List<ArrayEnumEnum> arrayEnum) {
+  public EnumArrays(@JsonProperty(JSON_PROPERTY_JUST_SYMBOL) @javax.annotation.Nullable JustSymbolEnum justSymbol, @JsonProperty(JSON_PROPERTY_ARRAY_ENUM) @javax.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.justSymbol = justSymbol;
     this.arrayEnum = arrayEnum;
   }

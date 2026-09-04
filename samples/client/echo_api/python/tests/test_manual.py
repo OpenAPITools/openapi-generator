@@ -61,7 +61,7 @@ class TestManual(unittest.TestCase):
         e = EchoServerResponseParser(api_response)
         expected_header = dict(
             integer_header="123",
-            boolean_header="True",
+            boolean_header="true",
             string_header="string_value",
             enum_nonref_string_header="success",
             enum_ref_string_header="failure",

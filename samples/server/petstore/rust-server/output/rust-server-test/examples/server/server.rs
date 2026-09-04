@@ -203,7 +203,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: String,
         context: &C) -> Result<HtmlPostResponse, ApiError>
     {
-        info!("html_post(\"{}\") - X-Span-ID: {:?}", body, context.get().0.clone());
+        info!("html_post({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -212,7 +212,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         value: String,
         context: &C) -> Result<PostYamlResponse, ApiError>
     {
-        info!("post_yaml(\"{}\") - X-Span-ID: {:?}", value, context.get().0.clone());
+        info!("post_yaml({:?}) - X-Span-ID: {:?}", value, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 

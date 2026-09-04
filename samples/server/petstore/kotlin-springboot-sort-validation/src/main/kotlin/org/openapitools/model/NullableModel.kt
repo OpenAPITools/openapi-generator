@@ -25,10 +25,12 @@ import jakarta.validation.Valid
  */
 data class NullableModel(
 
-    @param:JsonProperty("requiredNonNullable")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("requiredNonNullable", required = true)
     @get:JsonProperty("requiredNonNullable", required = true) val requiredNonNullable: kotlin.String,
 
-    @param:JsonProperty("requiredNullable")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("requiredNullable", required = true)
     @get:JsonProperty("requiredNullable", required = true) val requiredNullable: kotlin.String?,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)

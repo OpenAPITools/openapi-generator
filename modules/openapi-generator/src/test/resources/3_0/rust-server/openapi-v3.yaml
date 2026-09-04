@@ -566,6 +566,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AdditionalPropertiesReferencedAnyOfObject'
+  /multiple-response-content-types:
+    post:
+      operationId: MultipleResponseContentTypes
+      summary: Test multiple content types in a single response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectParam'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnyOfObject'
+        '403':
+          description: Forbidden
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnyOfObject'
 
 components:
   securitySchemes:

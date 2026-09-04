@@ -49,10 +49,41 @@ case class {{classname}}(
 object {{classname}} {
   import io.circe._
   import io.circe.syntax._
-  import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[{{classname}}] = deriveEncoder
-  implicit val decoder: Decoder[{{classname}}] = deriveDecoder
+{{^allVars}}
+  implicit val encoder: Encoder[{{classname}}] = Encoder.instance(_ => Json.obj())
+  implicit val decoder: Decoder[{{classname}}] = Decoder.const({{classname}}())
+{{/allVars}}
+{{#allVars}}
+{{#-first}}
+  implicit val encoder: Encoder[{{classname}}] = Encoder.instance { t =>
+    Json.fromFields(
+      Seq(
+{{/-first}}
+        {{#required}}Some("{{baseName}}" -> t.{{{name}}}.asJson){{/required}}{{^required}}t.{{{name}}}.map(v => "{{baseName}}" -> v.asJson){{/required}}{{^-last}},{{/-last}}
+{{#-last}}
+      ).flatten
+    )
+  }
+{{/-last}}
+{{/allVars}}
+{{#allVars}}
+{{#-first}}
+  implicit val decoder: Decoder[{{classname}}] = Decoder.instance { c =>
+    for {
+{{/-first}}
+      {{{name}}} <- c.downField("{{baseName}}").as[{{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}]
+{{#-last}}
+    } yield {{classname}}(
+{{/-last}}
+{{/allVars}}
+{{#allVars}}
+      {{{name}}} = {{{name}}}{{^-last}},{{/-last}}
+{{#-last}}
+    )
+  }
+{{/-last}}
+{{/allVars}}
 }
 {{/circe}}
 
@@ -176,30 +207,39 @@ object {{classname}} {
 {{#circe}}
 {{^vendorExtensions.x-hasWrappedOneOfMembers}}
 {{^vendorExtensions.x-use-discr}}
-  // oneOf without discriminator - using semiauto derivation
+  // oneOf without discriminator - try each member in turn
   import io.circe.{Encoder, Decoder}
-  import io.circe.generic.semiauto._
+  import io.circe.syntax._
 
-  implicit val encoder: Encoder[{{classname}}] = deriveEncoder
-  implicit val decoder: Decoder[{{classname}}] = deriveDecoder
+  implicit val encoder: Encoder[{{classname}}] = Encoder.instance {
+{{#vendorExtensions.x-oneOfMembers}}
+    case obj: {{classname}} => obj.asJson
+{{/vendorExtensions.x-oneOfMembers}}
+  }
+  implicit val decoder: Decoder[{{classname}}] = List[Decoder[{{classname}}]](
+{{#vendorExtensions.x-oneOfMembers}}
+    Decoder[{{classname}}].map(x => x: {{vendorExtensions.x-oneOfParent}}),
+{{/vendorExtensions.x-oneOfMembers}}
+  ).reduceLeft(_ or _)
 {{/vendorExtensions.x-use-discr}}
 {{#vendorExtensions.x-use-discr}}
-  // oneOf with discriminator - using semiauto derivation with Configuration
-  import io.circe.{Encoder, Decoder}
-  import io.circe.generic.extras._
-  import io.circe.generic.extras.semiauto._
+  // oneOf with discriminator
+  import io.circe.{Encoder, Decoder, DecodingFailure}
+  import io.circe.syntax._
 
-  private implicit val config: Configuration = Configuration.default.withDiscriminator("{{discriminator.propertyBaseName}}")
-    .copy(
-      transformConstructorNames = {
+  implicit val encoder: Encoder[{{classname}}] = Encoder.instance {
 {{#vendorExtensions.x-oneOfMembers}}
-        case "{{classname}}" => "{{vendorExtensions.x-discriminator-value}}"
+    case obj: {{classname}} => obj.asJson.mapObject(("{{vendorExtensions.x-discriminator-property}}" -> "{{vendorExtensions.x-discriminator-value}}".asJson) +: _)
 {{/vendorExtensions.x-oneOfMembers}}
-        case other => sys.error(s"Invalid {{classname}} discriminant: ${other}")
-      }
-    )  
-  implicit val encoder: Encoder[{{classname}}] = deriveConfiguredEncoder
-  implicit val decoder: Decoder[{{classname}}] = deriveConfiguredDecoder
+  }
+  implicit val decoder: Decoder[{{classname}}] = Decoder.instance { c =>
+    c.downField("{{discriminator.propertyBaseName}}").as[String].flatMap {
+{{#vendorExtensions.x-oneOfMembers}}
+      case "{{vendorExtensions.x-discriminator-value}}" => c.as[{{classname}}].map(x => x: {{vendorExtensions.x-oneOfParent}})
+{{/vendorExtensions.x-oneOfMembers}}
+      case other => Left(DecodingFailure(s"Unknown {{discriminator.propertyBaseName}}: $other", c.history))
+    }
+  }
 {{/vendorExtensions.x-use-discr}}
 {{/vendorExtensions.x-hasWrappedOneOfMembers}}
 {{#vendorExtensions.x-hasWrappedOneOfMembers}}
@@ -239,7 +279,7 @@ object {{classname}} {
   implicit val decoder: Decoder[{{classname}}] = Decoder.instance { c =>
     c.get[String]("{{discriminator.propertyBaseName}}").flatMap {
 {{#vendorExtensions.x-oneOfMembers}}
-      case "{{vendorExtensions.x-discriminator-value}}" => c.as[{{classname}}]({{classname}}.decoder).map(x => x: {{parentClassname}})
+      case "{{vendorExtensions.x-discriminator-value}}" => c.as[{{classname}}]({{classname}}.decoder).map(x => x: {{vendorExtensions.x-oneOfParent}})
 {{/vendorExtensions.x-oneOfMembers}}
 {{#vendorExtensions.x-wrappedOneOfMembers}}
       case "{{discriminatorValue}}" => c.as[{{classname}}]({{classname}}.decoder).map({{wrapperClassname}}.apply)
@@ -258,7 +298,7 @@ sealed trait {{classname}}
 object {{classname}} {
 {{#allowableValues}}
   {{#values}}
-  case object {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{classname}}
+  case object {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{classname}} { override def toString: String = "{{.}}" }
   {{/values}}
 {{/allowableValues}}
 
@@ -324,10 +364,41 @@ case class {{classname}}(
 object {{classname}} {
   import io.circe._
   import io.circe.syntax._
-  import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[{{classname}}] = deriveEncoder
-  implicit val decoder: Decoder[{{classname}}] = deriveDecoder
+{{^vars}}
+  implicit val encoder: Encoder[{{classname}}] = Encoder.instance(_ => Json.obj())
+  implicit val decoder: Decoder[{{classname}}] = Decoder.const({{classname}}())
+{{/vars}}
+{{#vars}}
+{{#-first}}
+  implicit val encoder: Encoder[{{classname}}] = Encoder.instance { t =>
+    Json.fromFields(
+      Seq(
+{{/-first}}
+        {{#required}}Some("{{baseName}}" -> t.{{{name}}}.asJson){{/required}}{{^required}}t.{{{name}}}.map(v => "{{baseName}}" -> v.asJson){{/required}}{{^-last}},{{/-last}}
+{{#-last}}
+      ).flatten
+    )
+  }
+{{/-last}}
+{{/vars}}
+{{#vars}}
+{{#-first}}
+  implicit val decoder: Decoder[{{classname}}] = Decoder.instance { c =>
+    for {
+{{/-first}}
+      {{{name}}} <- c.downField("{{baseName}}").as[{{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{^isArray}}{{classname}}Enums.{{datatypeWithEnum}}{{/isArray}}{{#isArray}}Seq[{{classname}}Enums.{{datatypeWithEnum}}]{{/isArray}}{{/isEnum}}{{^required}}]{{/required}}]
+{{#-last}}
+    } yield {{classname}}(
+{{/-last}}
+{{/vars}}
+{{#vars}}
+      {{{name}}} = {{{name}}}{{^-last}},{{/-last}}
+{{#-last}}
+    )
+  }
+{{/-last}}
+{{/vars}}
 }
 {{/circe}}
 {{#hasEnums}}
@@ -338,7 +409,7 @@ object {{classname}}Enums {
   sealed trait {{datatypeWithEnum}}
   object {{datatypeWithEnum}} {
 {{#_enum}}
-    case object {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{datatypeWithEnum}}
+    case object {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{datatypeWithEnum}} { override def toString: String = "{{.}}" }
 {{/_enum}}
 
 {{#circe}}

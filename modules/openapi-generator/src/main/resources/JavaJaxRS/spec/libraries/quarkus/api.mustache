@@ -37,6 +37,13 @@ import java.util.concurrent.CompletableFuture;
 {{/useMutiny}}
 {{/supportAsync}}
 
+{{#useJakartaEe}}
+{{#hasFileFormParams}}
+import org.jboss.resteasy.reactive.RestForm;
+import org.jboss.resteasy.reactive.multipart.FileUpload;
+
+{{/hasFileFormParams}}
+{{/useJakartaEe}}
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;

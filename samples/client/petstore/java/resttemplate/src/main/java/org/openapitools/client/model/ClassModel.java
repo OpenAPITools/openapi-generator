@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ClassModel {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
   @javax.annotation.Nullable
@@ -42,7 +42,7 @@ public class ClassModel {
   /**
    * Constructor with all args parameters
    */
-  public ClassModel(@JsonProperty(JSON_PROPERTY_PROPERTY_CLASS) String propertyClass) {
+  public ClassModel(@JsonProperty(JSON_PROPERTY_PROPERTY_CLASS) @javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
 
