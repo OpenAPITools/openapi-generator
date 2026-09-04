@@ -58,6 +58,8 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptFetchClientCodegen.class);
 
+    private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
+
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
@@ -71,6 +73,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
     public static final String IMPORT_FILE_EXTENSION_SWITCH_DESC = "File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html).";
+    public static final String MODEL_SUFFIX = "modelSuffix";
     public static final String FILE_NAMING = "fileNaming";
     public static final String KEBAB_CASE = "kebab-case";
     public static final String CAMEL_CASE = "camelCase";
@@ -159,6 +162,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_SWITCH_DESC).defaultValue(""));
+        this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'PascalCase', 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
         this.cliOptions.add(new CliOption(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, "Setting this property to true will add brackets to array attribute names, e.g. my_values[].", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(VALIDATION_ATTRIBUTES, "Setting this property to true will generate the validation attributes of model properties.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
@@ -228,6 +232,21 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     public void setStringEnums(Boolean stringEnums) {
         this.stringEnums = stringEnums;
+    }
+
+    /**
+     * Validates that the given string value only contains alpha numeric characters.
+     * Throws an IllegalArgumentException, if the string contains any other characters.
+     *
+     * @param argument The name of the argument being validated. This is only used for displaying an error message.
+     * @param value    The value that is being validated.
+     */
+    private void validateClassSuffixArgument(String argument, String value) {
+        if (!value.matches(CLASS_NAME_SUFFIX_PATTERN)) {
+            throw new IllegalArgumentException(
+                    String.format(Locale.ROOT, "%s class suffix only allows alphanumeric characters.", argument)
+            );
+        }
     }
 
     /**
@@ -333,6 +352,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (additionalProperties.containsKey(STRING_ENUMS)) {
             this.setStringEnums(convertPropertyToBoolean(STRING_ENUMS));
             additionalProperties.put("stringEnums", this.stringEnums);
+        }
+
+        if (additionalProperties.containsKey(MODEL_SUFFIX)) {
+            this.modelNameSuffix = additionalProperties.get(MODEL_SUFFIX).toString();
+            validateClassSuffixArgument("Model", modelNameSuffix);
         }
 
         if (additionalProperties.containsKey(FILE_NAMING)) {
