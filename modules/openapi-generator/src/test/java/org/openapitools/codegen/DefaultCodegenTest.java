@@ -1157,6 +1157,26 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testExample6MultipleRequestBodyExamples() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/examples.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String path = "/example6/multiple_examples";
+
+        Operation operation = openAPI.getPaths().get(path).getPost();
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", operation, null);
+        CodegenParameter bodyParam = codegenOperation.bodyParam;
+
+        assertEquals("An example6 value 1", bodyParam.example);
+
+        // verify all named examples are populated in the body parameter's examples
+        assertEquals(3, bodyParam.examples.size());
+        assertEquals("An example6 value 1", bodyParam.examples.get("FirstExample").getValue());
+        assertEquals("An example6 value 2", bodyParam.examples.get("SecondExample").getValue());
+        assertEquals("An example6 value 3", bodyParam.examples.get("ThirdExample").getValue());
+    }
+
+    @Test
     public void testDiscriminator() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
