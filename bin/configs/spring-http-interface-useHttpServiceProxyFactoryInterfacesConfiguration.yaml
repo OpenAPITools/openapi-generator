@@ -18,3 +18,4 @@ additionalProperties:
   performBeanValidation: "true"
   useHttpServiceProxyFactoryInterfacesConfigurator: "true"
   useSpringBoot3: "true"
+  useTags: "true"

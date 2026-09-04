@@ -1274,6 +1274,61 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void useTags_false_groupsByFirstPathSegment_springHttpInterface() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(USE_TAGS, "false");
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "findByStatus";
+        co.path = "/pet/findByStatus";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Pet", "/pet/findByStatus", new Operation(), co, groups);
+
+        assertTrue(groups.containsKey("pet"));
+        assertEquals(co.baseName, "pet");
+    }
+
+    @Test
+    public void useTags_true_groupsByTag_springHttpInterface() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "findByStatus";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Pet", "/pet/findByStatus", new Operation(), co, groups);
+
+        assertTrue(groups.containsKey("Pet"));
+    }
+
+    @Test
+    public void useTags_false_groupsByFirstPathSegment_sanitizesInvalidIdentifierChars_springHttpInterface() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(USE_TAGS, "false");
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "dummy";
+        co.path = "/another-fake/dummy";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("$another-fake?", "/another-fake/dummy", new Operation(), co, groups);
+
+        // the first path segment "another-fake" must be sanitized into a valid Java identifier
+        // (no hyphen) instead of being used as-is, which previously produced e.g.
+        // "AnotherFakeApi another-fakeHttpProxy()" - invalid Java syntax.
+        assertTrue(groups.containsKey("anotherFake"));
+        assertEquals(co.baseName, "anotherFake");
+    }
+
+    @Test
     public void shouldAddValidAnnotationIntoCollectionWhenBeanValidationIsEnabled_issue14723() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

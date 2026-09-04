@@ -17,4 +17,4 @@ additionalProperties:
   #  useBeanValidation should default to "false" when not specified
   #  performBeanValidation should default to "false" when not specified
   useSpringBoot3: "true"
-
+  useTags: "true"

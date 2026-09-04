@@ -1066,7 +1066,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if (library.equals(SPRING_BOOT) && !useTags) {
+        if ((library.equals(SPRING_BOOT) || library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)) && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -1080,6 +1080,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 basePath = "default";
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
+                // sanitize the raw path segment so it can be safely used as a Java identifier
+                // (e.g. "another-fake" -> "anotherFake") when deriving classVarName etc.
+                basePath = camelize(sanitizeName(basePath), LOWERCASE_FIRST_LETTER);
             }
             List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);

@@ -8,7 +8,6 @@ package org.openapitools.api;
 import org.openapitools.model.ModelApiResponse;
 import org.springframework.lang.Nullable;
 import org.openapitools.model.Pet;
-import org.openapitools.model.ResponseObjectWithDifferentFieldNames;
 import java.util.Set;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -129,22 +128,6 @@ public interface PetApi {
 
 
     /**
-     * GET /fake/{petId}/response-object-different-names
-     *
-     * @param petId ID of pet to update (required)
-     * @return successful operation (status code 200)
-     */
-    @HttpExchange(
-        method = "GET",
-        value = "/fake/{petId}/response-object-different-names",
-        accept = { "application/json" }
-    )
-    Mono<ResponseEntity<ResponseObjectWithDifferentFieldNames>> responseObjectDifferentNames(
-         @PathVariable("petId") Long petId
-    );
-
-
-    /**
      * PUT /pet : Update an existing pet
      * 
      *
@@ -206,28 +189,6 @@ public interface PetApi {
          @PathVariable("petId") Long petId,
          @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
          @RequestPart(value = "file", required = false) Part file
-    );
-
-
-    /**
-     * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
-     * 
-     *
-     * @param petId ID of pet to update (required)
-     * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @return successful operation (status code 200)
-     */
-    @HttpExchange(
-        method = "POST",
-        value = "/fake/{petId}/uploadImageWithRequiredFile",
-        accept = { "application/json" },
-        contentType = "multipart/form-data"
-    )
-    Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(
-         @PathVariable("petId") Long petId,
-         @RequestPart(value = "requiredFile", required = true) Part requiredFile,
-         @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
     );
 
 }

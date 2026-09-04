@@ -1087,14 +1087,21 @@ public class KotlinSpringServerCodegenTest {
                 new HashMap<>(),
                 configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
 
-        Path apiFile = files.get("MultipartApi.kt").toPath();
-        assertFileContains(apiFile,
-                "files: Array<org.springframework.web.multipart.MultipartFile>",
+        // With useTags=false (the library default), operations are grouped by first path
+        // segment rather than by tag, so the multipart operations are split across
+        // MultipartArrayApi.kt/MultipartSingleApi.kt/MultipartMixedApi.kt instead of a single
+        // tag-derived MultipartApi.kt.
+        Path arrayFile = files.get("MultipartArrayApi.kt").toPath();
+        Path mixedFile = files.get("MultipartMixedApi.kt").toPath();
+
+        assertFileContains(arrayFile, "files: Array<org.springframework.web.multipart.MultipartFile>");
+        assertFileContains(mixedFile,
                 "file: org.springframework.web.multipart.MultipartFile",
                 "status: MultipartMixedStatus",
                 "marker: MultipartMixedRequestMarker?",
                 "statusArray: kotlin.collections.List<MultipartMixedStatus>?");
-        assertFileNotContains(apiFile, "org.springframework.http.codec.multipart.Part");
+        assertFileNotContains(arrayFile, "org.springframework.http.codec.multipart.Part");
+        assertFileNotContains(mixedFile, "org.springframework.http.codec.multipart.Part");
     }
 
     private void assertReactiveMultipartParameters(Map<String, File> files, String fileSuffix) {
@@ -6640,7 +6647,7 @@ public class KotlinSpringServerCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/DefaultApi.kt"),
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UsersApi.kt"),
                 "import org.openapitools.model.CreateUserResponse",
                 "import org.openapitools.model.GetUserResponse",
                 "fun createUser(",
