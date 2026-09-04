@@ -44,10 +44,10 @@ export function StringEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 }
 
 export function StringEnumToJSON(value?: StringEnum | null): any {
-    return value as any;
+    return StringEnumToJSONTyped(value, false);
 }
 
-export function StringEnumToJSONTyped(value: any, ignoreDiscriminator: boolean): StringEnum {
-    return value as StringEnum;
+export function StringEnumToJSONTyped(value?: StringEnum | null, ignoreDiscriminator: boolean = false): any {
+    return value as any;
 }
 

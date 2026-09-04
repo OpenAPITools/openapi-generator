@@ -46,8 +46,8 @@ export function ClassModelFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function ClassModelToJSON(json: any): ClassModel {
-    return ClassModelToJSONTyped(json, false);
+export function ClassModelToJSON(value?: ClassModel | null): any {
+    return ClassModelToJSONTyped(value, false);
 }
 
 export function ClassModelToJSONTyped(value?: ClassModel | null, ignoreDiscriminator: boolean = false): any {

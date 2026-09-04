@@ -59,8 +59,8 @@ export function OptionOneFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function OptionOneToJSON(json: any): OptionOne {
-    return OptionOneToJSONTyped(json, false);
+export function OptionOneToJSON(value?: OptionOne | null): any {
+    return OptionOneToJSONTyped(value, false);
 }
 
 export function OptionOneToJSONTyped(value?: OptionOne | null, ignoreDiscriminator: boolean = false): any {

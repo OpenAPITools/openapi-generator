@@ -61,8 +61,8 @@ export function MatchingPartsFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function MatchingPartsToJSON(json: any): MatchingParts {
-    return MatchingPartsToJSONTyped(json, false);
+export function MatchingPartsToJSON(value?: MatchingParts | null): any {
+    return MatchingPartsToJSONTyped(value, false);
 }
 
 export function MatchingPartsToJSONTyped(value?: MatchingParts | null, ignoreDiscriminator: boolean = false): any {
