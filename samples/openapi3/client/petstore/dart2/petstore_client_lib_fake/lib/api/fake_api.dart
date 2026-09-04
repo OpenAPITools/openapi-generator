@@ -1382,7 +1382,8 @@ class FakeApi {
       queryParams.addAll(_queryParams('csv', 'url', url));
       queryParams.addAll(_queryParams('multi', 'context', context));
     if (language != null) {
-      queryParams.addAll(_queryParams('', 'language', language));
+      // form style explodes an object into one query parameter per entry, keyed by the property name alone
+      language.forEach((entryKey, entryValue) => queryParams.addAll(_queryParams('', entryKey.toString(), entryValue)));
     }
       queryParams.addAll(_queryParams('', 'allowEmpty', allowEmpty));
 
