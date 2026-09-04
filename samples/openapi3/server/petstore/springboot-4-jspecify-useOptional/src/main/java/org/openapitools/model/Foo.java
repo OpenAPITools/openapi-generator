@@ -206,7 +206,7 @@ public class Foo {
    * Get listOfDt
    * @return listOfDt
    */
-  @Valid 
+  
   @Schema(name = "listOfDt", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("listOfDt")
   @JacksonXmlProperty(localName = "listOfDt")
@@ -240,7 +240,7 @@ public class Foo {
    * Get listMinIntems
    * @return listMinIntems
    */
-  @Valid @Size(min = 1) 
+  @Size(min = 1) 
   @Schema(name = "listMinIntems", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("listMinIntems")
   @JacksonXmlProperty(localName = "listMinIntems")
@@ -274,7 +274,7 @@ public class Foo {
    * Get nullableListMinIntems
    * @return nullableListMinIntems
    */
-  @Valid @Size(min = 1) 
+  @Size(min = 1) 
   @Schema(name = "nullableListMinIntems", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableListMinIntems")
   @JacksonXmlProperty(localName = "nullableListMinIntems")

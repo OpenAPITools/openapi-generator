@@ -87,7 +87,7 @@ public class ArrayTestDto {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    */
-  @Valid 
+  
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -115,7 +115,7 @@ public class ArrayTestDto {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    */
-  @Valid 
+  
   @JsonProperty("array_array_of_model")
   public List<List<@Valid ReadOnlyFirstDto>> getArrayArrayOfModel() {
     return arrayArrayOfModel;

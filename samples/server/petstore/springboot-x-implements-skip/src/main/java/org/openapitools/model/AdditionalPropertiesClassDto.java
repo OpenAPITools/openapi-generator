@@ -79,7 +79,7 @@ public class AdditionalPropertiesClassDto {
    * Get mapOfMapProperty
    * @return mapOfMapProperty
    */
-  @Valid 
+  
   @Schema(name = "map_of_map_property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_of_map_property")
   public Map<String, Map<String, String>> getMapOfMapProperty() {

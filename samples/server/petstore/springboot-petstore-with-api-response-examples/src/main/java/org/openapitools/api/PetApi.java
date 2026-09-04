@@ -158,7 +158,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @Parameter(name = "status", deprecated = true, description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) @Deprecated List<String> status
+        @NotNull @Parameter(name = "status", deprecated = true, description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) @Deprecated List<String> status
     ) {
         return getDelegate().findPetsByStatus(status);
     }
@@ -198,7 +198,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "tags", required = true) List<String> tags
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) List<String> tags
     ) {
         return getDelegate().findPetsByTags(tags);
     }

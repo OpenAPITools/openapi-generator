@@ -224,7 +224,7 @@ public class FakeApi {
                 
             })
         })
-    public Response testAdditionalPropertiesReference(@Valid @NotNull Map<String, Object> requestBody) {
+    public Response testAdditionalPropertiesReference(@NotNull Map<String, Object> requestBody) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -358,7 +358,7 @@ public class FakeApi {
                 
             })
         })
-    public Response testInlineAdditionalProperties(@Valid @NotNull Map<String, String> requestBody) {
+    public Response testInlineAdditionalProperties(@NotNull Map<String, String> requestBody) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -437,7 +437,7 @@ public class FakeApi {
                 
             })
         })
-    public Response testStringMapReference(@Valid @NotNull Map<String, String> requestBody) {
+    public Response testStringMapReference(@NotNull Map<String, String> requestBody) {
         return Response.ok().entity("magic!").build();
     }
 
