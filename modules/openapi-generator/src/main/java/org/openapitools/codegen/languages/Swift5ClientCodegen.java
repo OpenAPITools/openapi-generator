@@ -1265,6 +1265,16 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
+    public String toRegularExpression(String pattern) {
+        // Don't wrap the pattern in "/.../" delimiters: the generated
+        // Validator hands rule.pattern straight to NSRegularExpression, which
+        // has no delimiter syntax. Wrapping also escaped every inner "/" as
+        // "\/", which is not a valid escape sequence in a Swift string
+        // literal, so any pattern containing "/" failed to compile (#15604).
+        return escapeText(pattern);
+    }
+
+    @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
