@@ -124,4 +124,58 @@ public class ElixirClientCodegenTest {
     public void testUnknownLibrary() {
         new ElixirClientCodegen().setLibrary("unknown");
     }
+
+    @Test
+    public void testFalseMappedResponsesUseResponseStructInTypespec() throws Exception {
+        File output = Files.createTempDirectory("elixir-codegen").toFile();
+        try {
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("elixir")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+
+            ClientOptInput input = configurator.toClientOptInput();
+            new DefaultGenerator().opts(input).generate();
+
+            String generatedApi;
+            try (Stream<Path> paths = Files.walk(output.toPath())) {
+                generatedApi = paths
+                        .filter(path -> path.toString().endsWith(".ex"))
+                        .filter(path -> path.getParent() != null
+                                && "api".equals(path.getParent().getFileName().toString()))
+                        .map(path -> {
+                            try {
+                                return Files.readString(path, StandardCharsets.UTF_8);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        })
+                        .collect(Collectors.joining("\n"));
+            }
+
+            String deleteOrderSpec = generatedApi.lines()
+                    .filter(line -> line.startsWith("  @spec delete_order("))
+                    .findFirst()
+                    .orElse("");
+            String loginUserSpec = generatedApi.lines()
+                    .filter(line -> line.startsWith("  @spec login_user("))
+                    .findFirst()
+                    .orElse("");
+            Assert.assertTrue(deleteOrderSpec.contains("{:ok, Tesla.Env.t}"), deleteOrderSpec);
+            Assert.assertTrue(loginUserSpec.contains("{:ok, Tesla.Env.t}"), loginUserSpec);
+
+            int deleteOrderSpecIndex = generatedApi.indexOf(deleteOrderSpec);
+            String deleteOrderSuccessTypes = deleteOrderSpec
+                    .substring(deleteOrderSpec.indexOf(" :: ") + 4)
+                    .replaceFirst(" \\| \\{:error, Tesla\\.Env\\.t\\}.*$", "");
+            String deleteOrderDoc = generatedApi.substring(0, deleteOrderSpecIndex)
+                    .lines()
+                    .filter(line -> line.startsWith("  - `{:ok,") && line.endsWith("` on success"))
+                    .reduce((first, second) -> second)
+                    .orElse("");
+            Assert.assertEquals(deleteOrderDoc, "  - `" + deleteOrderSuccessTypes + "` on success");
+        } finally {
+            FileUtils.deleteDirectory(output);
+        }
+    }
 }
