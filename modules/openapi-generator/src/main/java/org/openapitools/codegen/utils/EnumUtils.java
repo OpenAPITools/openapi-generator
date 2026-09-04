@@ -118,10 +118,19 @@ public class EnumUtils {
             return schema;
         }
 
-        if (subSchemas.size() < 2) {
-            //do not process if there's less than 2 sub-schemas. It will be normalized later, and this prevents
-            //named enum schemas from being converted to inline enum schemas
+        if (subSchemas.isEmpty()) {
             return schema;
+        }
+
+        if (subSchemas.size() == 1) {
+            Object onlySubSchema = subSchemas.get(0);
+            // A lone $ref to a named schema is left as-is (it will be normalized later); this
+            // prevents named enum schemas from being converted to inline enum schemas. An inline
+            // const/enum sub-schema (e.g. `oneOf: [{const: foo}]`), however, is processed below so
+            // that single-value enums are simplified the same way as multi-value ones.
+            if (!(onlySubSchema instanceof Schema) || ((Schema) onlySubSchema).get$ref() != null) {
+                return schema;
+            }
         }
         String schemaType = ModelUtils.getType(schema);
 

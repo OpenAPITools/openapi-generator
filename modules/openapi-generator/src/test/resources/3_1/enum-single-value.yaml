@@ -18,3 +18,14 @@ components:
           type:
             enum:
               - this-is-my-only-value
+      SingleValueOneOfConst_3_1:
+        required:
+          - type
+        properties:
+          type:
+            type: string
+            default: this-is-my-only-value
+            x-omitempty: true
+            oneOf:
+              - const: this-is-my-only-value
+                description: the only allowed value

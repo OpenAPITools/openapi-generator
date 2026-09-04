@@ -1726,6 +1726,30 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSingleOneOfConstEnum31Spec() {
+        // reproduces https://github.com/OpenAPITools/openapi-generator/issues/ where a `oneOf` wrapping
+        // a single `const` sub-schema (as opposed to 2+ consts) was not simplified into a proper enum,
+        // and lost the parent's `type`/`default`/`x-omitempty` in the process.
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/enum-single-value.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("SingleValueOneOfConst_3_1");
+        Schema originalTypeSchema = (Schema) schema.getProperties().get("type");
+        assertEquals(originalTypeSchema.getOneOf().size(), 1);
+
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, Map.of());
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("SingleValueOneOfConst_3_1");
+        Schema normalizedTypeSchema = (Schema) schema2.getProperties().get("type");
+        assertTrue(ModelUtils.isEnumSchema(normalizedTypeSchema));
+        assertNull(normalizedTypeSchema.getOneOf());
+        assertEquals(normalizedTypeSchema.getEnum(), List.of("this-is-my-only-value"));
+        assertEquals(ModelUtils.getType(normalizedTypeSchema), "string");
+        assertEquals(normalizedTypeSchema.getDefault(), "this-is-my-only-value");
+        assertEquals(normalizedTypeSchema.getExtensions().get("x-omitempty"), true);
+    }
+
+    @Test
     public void testOpenAPINormalizerProcessingAllOfSchema31Spec() {
         // to test array schema processing in 3.1 spec
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/unsupported_schema_test.yaml");
