@@ -31,6 +31,7 @@ defmodule OpenapiPetstore.Api.FakeClassnameTags123 do
       |> method(:patch)
       |> url("/fake_classname_test")
       |> add_param(:body, :body, client)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
