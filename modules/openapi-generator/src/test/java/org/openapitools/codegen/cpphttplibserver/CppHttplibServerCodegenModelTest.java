@@ -394,6 +394,40 @@ public class CppHttplibServerCodegenModelTest {
                         + "\"Invalid value for TopLevelPriority\", &j);");
     }
 
+    @Test(description = "model-source.mustache's ToString and FromString for an enum property "
+            + "must both throw nlohmann::json::type_error, naming the enum, on an unrecognised "
+            + "value -- instead of ToString returning an empty string that hides the error, or "
+            + "FromString's prior message that didn't name the enum")
+    public void propertyEnumConversionRejectsUnknownValuesTest() throws IOException {
+        final File output = Files.createTempDirectory("cpp-httplib-server-prop-enums").toFile();
+        output.deleteOnExit();
+
+        StringSchema statusSchema = new StringSchema();
+        statusSchema.setEnum(java.util.Arrays.asList("available", "pending", "sold"));
+        ObjectSchema petSchema = new ObjectSchema();
+        petSchema.addProperty("status", statusSchema);
+
+        final OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("Pet", petSchema);
+
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.additionalProperties().put("modelNamespace", "models");
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        final List<File> files = new DefaultGenerator()
+                .opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate();
+        files.forEach(File::deleteOnExit);
+
+        // Property enums (de)serialize through StatusEnumToString/StatusEnumFromString rather
+        // than the switch/if-chain in model-header.mustache's top-level to_json/from_json, so
+        // they need their own guard against unknown enumerators -- on both directions.
+        final Path source = output.toPath().resolve("models/Pet.cpp");
+        TestUtils.assertFileContains(source,
+                "default: throw nlohmann::json::type_error::create(302, \"Invalid value for Pet::StatusEnum\");",
+                "throw nlohmann::json::type_error::create(302, \"Invalid value for Pet::StatusEnum\");");
+    }
+
     @Test(description = "convert model with nullable property")
     public void nullablePropertyTest() {
         final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
