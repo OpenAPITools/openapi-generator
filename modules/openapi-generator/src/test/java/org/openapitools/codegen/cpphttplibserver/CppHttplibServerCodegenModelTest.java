@@ -312,6 +312,29 @@ public class CppHttplibServerCodegenModelTest {
                 "integer-backed top-level enums must serialize their values as raw JSON numbers");
     }
 
+    @Test(description = "convert 3.1 nullable top-level enum model with string values")
+    public void nullableStringEnumModelTest() {
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.processOpts();
+
+        // OpenAPI 3.1 `type: [null, string]`. ModelUtils.getType() returns the *first* declared
+        // type, so ModelUtils.isStringSchema() is false here even though the enum is string-backed.
+        JsonSchema enumSchema = new JsonSchema();
+        enumSchema.addType("null");
+        enumSchema.addType("string");
+        enumSchema.setEnum(java.util.Arrays.asList("available", "pending", "sold"));
+
+        final CodegenModel model = codegen.fromModel("NullableStatus", enumSchema);
+
+        Assert.assertNotNull(model);
+        Assert.assertTrue(model.isEnum, "top-level enum schemas must remain enum models");
+        // Without the value-based fallback the template would emit `j = available;` instead of
+        // `j = "available";`, which does not compile.
+        Assert.assertEquals(model.vendorExtensions.get("isStringEnum"), true,
+                "string-valued top-level enums must serialize their values as JSON strings even when"
+                        + " the declared type is not plainly `string`");
+    }
+
     @Test(description = "convert model with nullable property")
     public void nullablePropertyTest() {
         final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
