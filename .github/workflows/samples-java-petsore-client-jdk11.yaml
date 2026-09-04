@@ -9,6 +9,9 @@ on:
       - samples/client/petstore/java/okhttp-gson/**
       - samples/client/petstore/java/okhttp-gson-3.1/**
       - samples/client/petstore/java/okhttp-gson-dynamicOperations/**
+      - samples/client/petstore/java/okhttp/**
+      - samples/client/petstore/java/okhttp-3.1/**
+      - samples/client/petstore/java/okhttp-dynamicOperations/**
       - samples/client/petstore/java-micronaut-client/**
   pull_request:
     paths:
@@ -17,6 +20,9 @@ on:
       - samples/client/petstore/java/okhttp-gson/**
       - samples/client/petstore/java/okhttp-gson-3.1/**
       - samples/client/petstore/java/okhttp-gson-dynamicOperations/**
+      - samples/client/petstore/java/okhttp/**
+      - samples/client/petstore/java/okhttp-3.1/**
+      - samples/client/petstore/java/okhttp-dynamicOperations/**
       - samples/client/petstore/java-micronaut-client/**
 jobs:
   build:
@@ -31,6 +37,9 @@ jobs:
           - samples/client/petstore/java/okhttp-gson
           - samples/client/petstore/java/okhttp-gson-3.1
           - samples/client/petstore/java/okhttp-gson-dynamicOperations
+          - samples/client/petstore/java/okhttp
+          - samples/client/petstore/java/okhttp-3.1
+          - samples/client/petstore/java/okhttp-dynamicOperations
           - samples/client/petstore/java-micronaut-client
     services:
       petstore-api:

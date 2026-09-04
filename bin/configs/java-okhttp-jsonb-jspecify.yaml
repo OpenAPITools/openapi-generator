@@ -1,0 +1,16 @@
+generatorName: java
+outputDir: samples/client/petstore/java/okhttp-jsonb-jspecify
+library: okhttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/jspecify.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+validateSpec: false
+additionalProperties:
+  serializationLibrary: jsonb
+  artifactId: petstore-okhttp-jsonb-jspecify
+  hideGenerationTimestamp: "true"
+  generateBuilders: true
+  useReflectionEqualsHashCode: "true"
+  useJspecify: true
+typeMappings:
+  OffsetDateTime: java.time.Instant
+  BigDecimal: java.math.BigDecimal

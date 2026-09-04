@@ -1,0 +1,11 @@
+generatorName: java
+outputDir: samples/client/petstore/java/okhttp-jsonb
+library: okhttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/native/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  serializationLibrary: jsonb
+  artifactId: petstore-okhttp-jsonb
+  hideGenerationTimestamp: "true"
+  generateBuilders: true
+  useReflectionEqualsHashCode: "true"

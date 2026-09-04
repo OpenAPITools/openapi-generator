@@ -1,0 +1,1226 @@
+{{#isGson}}
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+{{/isGson}}
+{{#isJackson}}
+{{#isAdditionalPropertiesTrue}}
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+{{/isAdditionalPropertiesTrue}}
+import {{jacksonPackage}}.core.JsonGenerator;
+import {{jacksonPackage}}.core.JsonParser;
+import {{jacksonPackage}}.core.JsonToken;
+import {{jacksonPackage}}.core.type.TypeReference;
+import {{jacksonPackage}}.databind.DeserializationContext;
+{{^useJackson3}}
+import {{jacksonPackage}}.databind.JsonMappingException;
+{{/useJackson3}}
+import {{jacksonPackage}}.databind.JsonNode;
+import {{jacksonPackage}}.databind.MapperFeature;
+{{^useJackson3}}
+import {{jacksonPackage}}.databind.SerializerProvider;
+{{/useJackson3}}
+import {{jacksonPackage}}.databind.annotation.JsonDeserialize;
+import {{jacksonPackage}}.databind.annotation.JsonSerialize;
+import {{jacksonPackage}}.databind.deser.std.StdDeserializer;
+import {{jacksonPackage}}.databind.ser.std.StdSerializer;
+import {{jacksonPackage}}.databind.JavaType;
+{{#useJackson3}}
+import {{jacksonPackage}}.core.JacksonException;
+import {{jacksonPackage}}.databind.DatabindException;
+import {{jacksonPackage}}.databind.SerializationContext;
+{{/useJackson3}}
+{{/isJackson}}
+
+{{#isJsonb}}
+import jakarta.json.bind.annotation.JsonbTypeDeserializer;
+import jakarta.json.bind.annotation.JsonbTypeSerializer;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.bind.serializer.JsonbSerializer;
+import jakarta.json.bind.serializer.SerializationContext;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonParser;
+import jakarta.json.JsonObject;
+{{/isJsonb}}
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
+
+import {{invokerPackage}}.JSON;
+
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
+{{#isJackson}}
+@JsonDeserialize(using = {{classname}}.{{classname}}Deserializer.class)
+@JsonSerialize(using = {{classname}}.{{classname}}Serializer.class)
+{{/isJackson}}
+{{#isJsonb}}
+@JsonbTypeDeserializer({{classname}}.{{classname}}Deserializer.class)
+@JsonbTypeSerializer({{classname}}.{{classname}}Serializer.class)
+{{/isJsonb}}
+public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}} implements {{{.}}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-implements}} {
+    private static final Logger log = Logger.getLogger({{classname}}.class.getName());
+
+{{>additional_properties}}
+    {{#isAdditionalPropertiesTrue}}
+    {{#isGson}}
+    /**
+     * Record the properties that the matched oneOf schema did not consume.
+     *
+     * <p>The wrapper only owns what the selected child schema left behind. When that child accepts
+     * additional properties itself it absorbs them all and this records nothing, so a property is
+     * never stored — and therefore never written — twice.</p>
+     */
+    private static void collectUnconsumedProperties({{classname}} instance, JsonElement jsonElement, Gson gson) {
+        if (jsonElement == null || !jsonElement.isJsonObject() || instance.getActualInstance() == null) {
+            return;
+        }
+        JsonElement consumedElement = gson.toJsonTree(instance.getActualInstance());
+        if (consumedElement == null || !consumedElement.isJsonObject()) {
+            return;
+        }
+        JsonObject consumed = consumedElement.getAsJsonObject();
+        for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
+            if (consumed.has(entry.getKey())) {
+                continue;
+            }
+            JsonElement value = entry.getValue();
+            if (value.isJsonPrimitive()) {
+                JsonPrimitive primitive = value.getAsJsonPrimitive();
+                if (primitive.isString()) {
+                    instance.putAdditionalProperty(entry.getKey(), primitive.getAsString());
+                } else if (primitive.isNumber()) {
+                    instance.putAdditionalProperty(entry.getKey(), primitive.getAsNumber());
+                } else if (primitive.isBoolean()) {
+                    instance.putAdditionalProperty(entry.getKey(), primitive.getAsBoolean());
+                }
+            } else if (value.isJsonArray()) {
+                instance.putAdditionalProperty(entry.getKey(), gson.fromJson(value, List.class));
+            } else if (value.isJsonObject()) {
+                instance.putAdditionalProperty(entry.getKey(), gson.fromJson(value, HashMap.class));
+            }
+        }
+    }
+
+    /**
+     * Merge the unconsumed properties back into the JSON produced by the matched oneOf schema.
+     */
+    private static void writeUnconsumedProperties({{classname}} value, JsonObject obj, Gson gson) {
+        if (value.getAdditionalProperties() == null) {
+            return;
+        }
+        for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+            if (obj.has(entry.getKey())) {
+                // the child schema owns this property
+                continue;
+            }
+            obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()));
+        }
+    }
+    {{/isGson}}
+    {{#isJackson}}
+    /**
+     * Record the properties that the matched oneOf schema did not consume.
+     *
+     * <p>The wrapper only owns what the selected child schema left behind. When that child accepts
+     * additional properties itself it absorbs them all and this records nothing, so a property is
+     * never stored — and therefore never written — twice.</p>
+     */
+    private static void collectUnconsumedProperties({{classname}} instance, JsonNode tree) {
+        if (tree == null || !tree.isObject() || instance.getActualInstance() == null) {
+            return;
+        }
+        JsonNode consumed = JSON.getMapper().valueToTree(instance.getActualInstance());
+        if (consumed == null || !consumed.isObject()) {
+            return;
+        }
+        java.util.Iterator<Map.Entry<String, JsonNode>> fields = tree.{{^useJackson3}}fields{{/useJackson3}}{{#useJackson3}}properties{{/useJackson3}}(){{#useJackson3}}.iterator(){{/useJackson3}};
+        while (fields.hasNext()) {
+            Map.Entry<String, JsonNode> entry = fields.next();
+            if (consumed.has(entry.getKey())) {
+                continue;
+            }
+            instance.putAdditionalProperty(entry.getKey(),
+                    JSON.getMapper().convertValue(entry.getValue(), Object.class));
+        }
+    }
+    {{/isJackson}}
+    {{/isAdditionalPropertiesTrue}}
+
+    {{#isGson}}
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to {{classname}}
+     */
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+        int matches = 0;
+        List<String> errorMessages = new ArrayList<>();
+        {{#useOneOfDiscriminatorLookup}}
+        {{#discriminator}}
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        if (jsonObject.get("{{{propertyBaseName}}}") == null) {
+            throw new IOException("Failed to deserialize as the discriminator field '{{{propertyBaseName}}}' is missing.");
+        }
+        String discriminatorValue = jsonObject.get("{{{propertyBaseName}}}").getAsString();
+        {{#mappedModels}}
+        if ("{{{mappingName}}}".equals(discriminatorValue)) {
+            {{{modelName}}}.validateJsonElement(jsonElement);
+            return;
+        }
+        {{/mappedModels}}
+        {{/discriminator}}
+        {{/useOneOfDiscriminatorLookup}}
+        {{#composedSchemas}}
+        {{#oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
+        // deserialize {{{dataType}}}
+        try {
+            // validate the JSON object to see if any exception is thrown
+            {{#isModel}}
+            {{#hasChildren}}
+            {{{dataType}}}.validateJsonElement(jsonElement);
+            {{/hasChildren}}
+            {{^hasChildren}}
+            {{#isArray}}
+            if (!jsonElement.isJsonArray()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            {{/isArray}}
+            {{^isArray}}
+            {{#isMap}}
+            if (!jsonElement.isJsonObject()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            {{/isMap}}
+            {{^isMap}}
+            {{{dataType}}}.validateJsonElement(jsonElement);
+            {{/isMap}}
+            {{/isArray}}
+            {{/hasChildren}}
+            {{/isModel}}
+            {{^isModel}}
+            {{#isNumber}}
+            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            {{/isNumber}}
+            {{^isNumber}}
+            {{#isPrimitiveType}}
+            {{#isArray}}
+            if (!jsonElement.isJsonArray()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            {{#items}}
+            {{^isAnyType}}
+            for (JsonElement element : jsonElement.getAsJsonArray()) {
+                {{#isNumber}}
+                if (!element.getAsJsonPrimitive().isNumber()) {
+                    throw new IllegalArgumentException(String.format("Expected array items to be of type Number in the JSON string but got `%s`", element.toString()));
+                }
+                {{/isNumber}}
+                {{^isNumber}}
+                if (!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                    throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", element.toString()));
+                }
+                {{/isNumber}}
+            }
+            {{/isAnyType}}
+            {{/items}}
+            {{/isArray}}
+            {{^isArray}}
+            {{#isMap}}
+            if (!jsonElement.isJsonObject()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            {{#items}}
+            {{^isAnyType}}
+            for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
+                {{#isNumber}}
+                if (!entry.getValue().getAsJsonPrimitive().isNumber()) {
+                    throw new IllegalArgumentException(String.format("Expected map values to be of type Number in the JSON string but got `%s`", entry.getValue().toString()));
+                }
+                {{/isNumber}}
+                {{^isNumber}}
+                if (!entry.getValue().getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                    throw new IllegalArgumentException(String.format("Expected map values to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", entry.getValue().toString()));
+                }
+                {{/isNumber}}
+            }
+            {{/isAnyType}}
+            {{/items}}
+            {{/isMap}}
+            {{^isMap}}
+            {{^isAnyType}}
+            if (!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            {{/isAnyType}}
+            {{/isMap}}
+            {{/isArray}}
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            {{#isArray}}
+            if (!jsonElement.isJsonArray()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            for (JsonElement element : jsonElement.getAsJsonArray()) {
+                {{#items.isModel}}
+                {{{items.dataType}}}.validateJsonElement(element);
+                {{/items.isModel}}
+                {{^items.isModel}}
+                {{#items.isUuid}}
+                UUID.fromString(element.getAsString());
+                {{/items.isUuid}}
+                {{^items.isUuid}}
+                if (!element.isJsonPrimitive()) {
+                    throw new IllegalArgumentException(String.format("Expected array items to be a primitive type in the JSON string but got `%s`", element.toString()));
+                }
+                {{/items.isUuid}}
+                {{/items.isModel}}
+            }
+            {{/isArray}}
+            {{^isArray}}
+            {{#isMap}}
+            if (!jsonElement.isJsonObject()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
+                {{#items.isModel}}
+                {{{items.dataType}}}.validateJsonElement(entry.getValue());
+                {{/items.isModel}}
+                {{^items.isModel}}
+                {{#items.isUuid}}
+                UUID.fromString(entry.getValue().getAsString());
+                {{/items.isUuid}}
+                {{^items.isUuid}}
+                if (!entry.getValue().isJsonPrimitive()) {
+                    throw new IllegalArgumentException(String.format("Expected map values to be a primitive type in the JSON string but got `%s`", entry.getValue().toString()));
+                }
+                {{/items.isUuid}}
+                {{/items.isModel}}
+            }
+            {{/isMap}}
+            {{^isMap}}
+            {{#isUuid}}
+            UUID.fromString(jsonElement.getAsString());
+            {{/isUuid}}
+            {{^isUuid}}
+            {{{dataType}}}.validateJsonElement(jsonElement);
+            {{/isUuid}}
+            {{/isMap}}
+            {{/isArray}}
+            {{/isPrimitiveType}}
+            {{/isNumber}}
+            {{/isModel}}
+            matches++;
+        } catch (Exception e) {
+            // deserialization failed, continue
+            errorMessages.add(String.format("Deserialization for {{{dataType}}} failed with `%s`.", e.getMessage()));
+        }
+
+        {{/vendorExtensions.x-duplicated-data-type}}
+        {{/oneOf}}
+        {{/composedSchemas}}
+        if (matches != 1) {
+            throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1. %s", matches, errorMessages));
+        }
+    }
+
+    public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+        @SuppressWarnings("unchecked")
+        @Override
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (!{{classname}}.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes '{{classname}}' and its subtypes
+            }
+            final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            {{#composedSchemas}}
+            {{#oneOf}}
+            {{^isArray}}
+            {{^isMap}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = gson.getDelegateAdapter(this, TypeToken.get({{{dataType}}}.class));
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/isMap}}
+            {{/isArray}}
+            {{#isArray}}
+            final Type typeInstance{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = new TypeToken<{{{dataType}}}>(){}.getType();
+            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}));
+            {{/isArray}}
+            {{#isMap}}
+            final Type typeInstance{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = new TypeToken<{{{dataType}}}>(){}.getType();
+            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}));
+            {{/isMap}}
+            {{/oneOf}}
+            {{/composedSchemas}}
+
+            return (TypeAdapter<T>) new TypeAdapter<{{classname}}>() {
+                @Override
+                public void write(JsonWriter out, {{classname}} value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
+                    JsonElement element = null;
+                    {{#composedSchemas}}
+                    {{#oneOf}}
+                    {{^vendorExtensions.x-duplicated-data-type}}
+                    // check if the actual instance is of the type `{{{dataType}}}`
+                    if (value.getActualInstance() instanceof {{#isArray}}List<?>{{/isArray}}{{#isMap}}Map<?, ?>{{/isMap}}{{^isMap}}{{^isArray}}{{{dataType}}}{{/isArray}}{{/isMap}}) {
+                        element = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}.toJsonTree(({{{dataType}}})value.getActualInstance());
+                    }
+                    {{/vendorExtensions.x-duplicated-data-type}}
+                    {{/oneOf}}
+                    {{/composedSchemas}}
+
+                    if (element == null) {
+                        throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");
+                    }
+
+                    {{#isAdditionalPropertiesTrue}}
+                    if (element.isJsonObject()) {
+                        writeUnconsumedProperties(value, element.getAsJsonObject(), gson);
+                    }
+                    {{/isAdditionalPropertiesTrue}}
+                    elementAdapter.write(out, element);
+                }
+
+                @Override
+                public {{classname}} read(JsonReader in) throws IOException {
+                    Object deserialized = null;
+                    JsonElement jsonElement = elementAdapter.read(in);
+
+                    {{#useOneOfDiscriminatorLookup}}
+                    {{#discriminator}}
+                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+                    if (jsonObject.get("{{{propertyBaseName}}}") == null) {
+                        throw new IOException("Failed to deserialize as the discriminator field '{{{propertyBaseName}}}' is missing.");
+                    }
+                    String discriminatorValue = jsonObject.get("{{{propertyBaseName}}}").getAsString();
+                    {{#mappedModels}}
+                    if ("{{{mappingName}}}".equals(discriminatorValue)) {
+                        deserialized = adapter{{#sanitizeDataType}}{{{modelName}}}{{/sanitizeDataType}}.fromJsonTree(jsonElement);
+                        {{classname}} ret = new {{classname}}();
+                        ret.setActualInstance(deserialized);
+                        {{#isAdditionalPropertiesTrue}}
+                        collectUnconsumedProperties(ret, jsonElement, gson);
+                        {{/isAdditionalPropertiesTrue}}
+                        return ret;
+                    }
+                    {{/mappedModels}}
+                    {{/discriminator}}
+                    {{/useOneOfDiscriminatorLookup}}
+
+                    int match = 0;
+                    ArrayList<String> errorMessages = new ArrayList<>();
+                    TypeAdapter actualAdapter = null;
+
+                    {{#composedSchemas}}
+                    {{#oneOf}}
+                    {{^vendorExtensions.x-duplicated-data-type}}
+                    // deserialize {{{dataType}}}
+                    try {
+                        // validate the JSON object to see if any exception is thrown
+                        {{#isModel}}
+                        {{#hasChildren}}
+                        {{{dataType}}}.validateJsonElement(jsonElement);
+                        {{/hasChildren}}
+                        {{^hasChildren}}
+                        {{#isArray}}
+                        if (!jsonElement.isJsonArray()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        {{/isArray}}
+                        {{^isArray}}
+                        {{#isMap}}
+                        if (!jsonElement.isJsonObject()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        {{/isMap}}
+                        {{^isMap}}
+                        {{{dataType}}}.validateJsonElement(jsonElement);
+                        {{/isMap}}
+                        {{/isArray}}
+                        {{/hasChildren}}
+                        {{/isModel}}
+                        {{^isModel}}
+                        {{#isNumber}}
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        {{/isNumber}}
+                        {{^isNumber}}
+                        {{#isPrimitiveType}}
+                        {{#isArray}}
+                        if (!jsonElement.isJsonArray()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        {{#items}}
+                        {{^isAnyType}}
+                        for (JsonElement element : jsonElement.getAsJsonArray()) {
+                            {{#isNumber}}
+                            if (!element.getAsJsonPrimitive().isNumber()) {
+                                throw new IllegalArgumentException(String.format("Expected array items to be of type Number in the JSON string but got `%s`", element.toString()));
+                            }
+                            {{/isNumber}}
+                            {{^isNumber}}
+                            if (!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                                throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", element.toString()));
+                            }
+                            {{/isNumber}}
+                        }
+                        {{/isAnyType}}
+                        {{/items}}
+                        {{/isArray}}
+                        {{^isArray}}
+                        {{#isMap}}
+                        if (!jsonElement.isJsonObject()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        {{#items}}
+                        {{^isAnyType}}
+                        for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
+                            {{#isNumber}}
+                            if (!entry.getValue().getAsJsonPrimitive().isNumber()) {
+                                throw new IllegalArgumentException(String.format("Expected map values to be of type Number in the JSON string but got `%s`", entry.getValue().toString()));
+                            }
+                            {{/isNumber}}
+                            {{^isNumber}}
+                            if (!entry.getValue().getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                                throw new IllegalArgumentException(String.format("Expected map values to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", entry.getValue().toString()));
+                            }
+                            {{/isNumber}}
+                        }
+                        {{/isAnyType}}
+                        {{/items}}
+                        {{/isMap}}
+                        {{^isMap}}
+                        {{^isAnyType}}
+                        if (!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        {{/isAnyType}}
+                        {{/isMap}}
+                        {{/isArray}}
+                        {{/isPrimitiveType}}
+                        {{^isPrimitiveType}}
+                        {{#isArray}}
+                        if (!jsonElement.isJsonArray()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        for (JsonElement element : jsonElement.getAsJsonArray()) {
+                            {{#items.isModel}}
+                            {{{items.dataType}}}.validateJsonElement(element);
+                            {{/items.isModel}}
+                            {{^items.isModel}}
+                            {{#items.isUuid}}
+                            UUID.fromString(element.getAsString());
+                            {{/items.isUuid}}
+                            {{^items.isUuid}}
+                            if (!element.isJsonPrimitive()) {
+                                throw new IllegalArgumentException(String.format("Expected array items to be a primitive type in the JSON string but got `%s`", element.toString()));
+                            }
+                            {{/items.isUuid}}
+                            {{/items.isModel}}
+                        }
+                        {{/isArray}}
+                        {{^isArray}}
+                        {{#isMap}}
+                        if (!jsonElement.isJsonObject()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a object type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
+                            {{#items.isModel}}
+                            {{{items.dataType}}}.validateJsonElement(entry.getValue());
+                            {{/items.isModel}}
+                            {{^items.isModel}}
+                            {{#items.isUuid}}
+                            UUID.fromString(entry.getValue().getAsString());
+                            {{/items.isUuid}}
+                            {{^items.isUuid}}
+                            if (!entry.getValue().isJsonPrimitive()) {
+                                throw new IllegalArgumentException(String.format("Expected map values to be a primitive type in the JSON string but got `%s`", entry.getValue().toString()));
+                            }
+                            {{/items.isUuid}}
+                            {{/items.isModel}}
+                        }
+                        {{/isMap}}
+                        {{^isMap}}
+                        {{#isUuid}}
+                        UUID.fromString(jsonElement.getAsString());
+                        {{/isUuid}}
+                        {{^isUuid}}
+                        {{{dataType}}}.validateJsonElement(jsonElement);
+                        {{/isUuid}}
+                        {{/isMap}}
+                        {{/isArray}}
+                        {{/isPrimitiveType}}
+                        {{/isNumber}}
+                        {{/isModel}}
+                        actualAdapter = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}};
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema '{{{dataType}}}'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for {{{dataType}}} failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema '{{{dataType}}}'", e);
+                    }
+
+                    {{/vendorExtensions.x-duplicated-data-type}}
+                    {{/oneOf}}
+                    {{/composedSchemas}}
+                    if (match == 1) {
+                        {{classname}} ret = new {{classname}}();
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
+                        {{#isAdditionalPropertiesTrue}}
+                        collectUnconsumedProperties(ret, jsonElement, gson);
+                        {{/isAdditionalPropertiesTrue}}
+                        return ret;
+                    }
+
+                    throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1. %s", match, errorMessages));
+                }
+            };
+        }
+    }
+    {{/isGson}}
+
+    {{#isJackson}}
+    public static class {{classname}}Serializer extends StdSerializer<{{classname}}> {
+        public {{classname}}Serializer(Class<{{classname}}> t) {
+            super(t);
+        }
+
+        public {{classname}}Serializer() {
+            this(null);
+        }
+
+        @Override
+        public void serialize({{classname}} value, JsonGenerator jgen, {{^useJackson3}}SerializerProvider provider{{/useJackson3}}{{#useJackson3}}SerializationContext serializationContext{{/useJackson3}}) throws {{^useJackson3}}IOException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
+            {{#isAdditionalPropertiesTrue}}
+            {{! @JsonAnyGetter is ignored on a class with a custom serializer, so the unconsumed
+                properties have to be merged into the child's tree by hand. }}
+            if (value.getActualInstance() != null && value.getAdditionalProperties() != null
+                    && !value.getAdditionalProperties().isEmpty()) {
+                JsonNode node = JSON.getMapper().valueToTree(value.getActualInstance());
+                if (node != null && node.isObject()) {
+                    {{jacksonPackage}}.databind.node.ObjectNode objectNode = ({{jacksonPackage}}.databind.node.ObjectNode) node;
+                    for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+                        if (objectNode.has(entry.getKey())) {
+                            // the child schema owns this property
+                            continue;
+                        }
+                        objectNode.set(entry.getKey(), JSON.getMapper().valueToTree(entry.getValue()));
+                    }
+                    {{^useJackson3}}
+                    jgen.writeTree(node);
+                    {{/useJackson3}}
+                    {{#useJackson3}}
+                    serializationContext.writeValue(jgen, node);
+                    {{/useJackson3}}
+                    return;
+                }
+            }
+            {{/isAdditionalPropertiesTrue}}
+            {{^useJackson3}}
+            jgen.writeObject(value.getActualInstance());
+            {{/useJackson3}}
+            {{#useJackson3}}
+            serializationContext.writeValue(jgen, value.getActualInstance());
+            {{/useJackson3}}
+        }
+    }
+
+    public static class {{classname}}Deserializer extends StdDeserializer<{{classname}}> {
+        public {{classname}}Deserializer() {
+            this({{classname}}.class);
+        }
+
+        public {{classname}}Deserializer(Class<?> vc) {
+            super(vc);
+        }
+
+        @Override
+        public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws {{^useJackson3}}IOException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
+            JsonNode tree = ctxt.readTree(jp);
+            Object deserialized = null;
+            {{#useOneOfDiscriminatorLookup}}
+            {{#discriminator}}
+            {{classname}} new{{classname}} = new {{classname}}();
+            {{^useJackson3}}
+            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            String discriminatorValue = (String)result2.get("{{{propertyBaseName}}}");
+            {{/useJackson3}}
+            {{#useJackson3}}
+            String discriminatorValue = tree.path("{{{propertyBaseName}}}").asText(null);
+            {{/useJackson3}}
+            if (discriminatorValue != null) {
+                switch (discriminatorValue) {
+                {{#mappedModels}}
+                    case "{{{mappingName}}}":
+                        {{^useJackson3}}
+                        deserialized = tree.traverse(jp.getCodec()).readValueAs({{{modelName}}}.class);
+                        {{/useJackson3}}
+                        {{#useJackson3}}
+                        deserialized = ctxt.readTreeAsValue(tree, {{{modelName}}}.class);
+                        {{/useJackson3}}
+                        new{{classname}}.setActualInstance(deserialized);
+                        {{#isAdditionalPropertiesTrue}}
+                        collectUnconsumedProperties(new{{classname}}, tree);
+                        {{/isAdditionalPropertiesTrue}}
+                        return new{{classname}};
+                {{/mappedModels}}
+                    default:
+                        log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+                }
+            }
+
+            {{/discriminator}}
+            {{/useOneOfDiscriminatorLookup}}
+            {{^useJackson3}}
+            boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
+            {{/useJackson3}}
+            {{#useJackson3}}
+            boolean typeCoercion = false;
+            {{/useJackson3}}
+            int match = 0;
+            {{^useJackson3}}
+            JsonToken token = tree.traverse(jp.getCodec()).nextToken();
+            {{/useJackson3}}
+            {{#useJackson3}}
+            JsonToken token = tree.asToken();
+            {{/useJackson3}}
+            {{#composedSchemas.oneOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            // deserialize {{{dataType}}}
+            try {
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if ({{{baseType}}}.class.equals(Integer.class) || {{{baseType}}}.class.equals(Long.class) || {{{baseType}}}.class.equals(Float.class) || {{{baseType}}}.class.equals(Double.class) || {{{baseType}}}.class.equals(Boolean.class) || {{{baseType}}}.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= (({{{baseType}}}.class.equals(Integer.class) || {{{baseType}}}.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= (({{{baseType}}}.class.equals(Float.class) || {{{baseType}}}.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= ({{{baseType}}}.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= ({{{baseType}}}.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        {{#isNullable}}
+                        attemptParsing |= (token == JsonToken.VALUE_NULL);
+                        {{/isNullable}}
+                    }
+                }
+                if (attemptParsing) {
+                    {{^useJackson3}}
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<{{{dataType}}}>() {});
+                    {{/useJackson3}}
+                    {{#useJackson3}}
+                    deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new TypeReference<{{{dataType}}}>() {}));
+                    {{/useJackson3}}
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema '{{{dataType}}}'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema '{{{dataType}}}'", e);
+            }
+
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/composedSchemas.oneOf}}
+            if (match == 1) {
+                {{classname}} ret = new {{classname}}();
+                ret.setActualInstance(deserialized);
+                {{#isAdditionalPropertiesTrue}}
+                collectUnconsumedProperties(ret, tree);
+                {{/isAdditionalPropertiesTrue}}
+                return ret;
+            }
+            {{^useJackson3}}
+            throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+            {{/useJackson3}}
+            {{#useJackson3}}
+            throw DatabindException.from(jp, String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+            {{/useJackson3}}
+        }
+
+        /**
+         * Handle deserialization of the 'null' value.
+         */
+        @Override
+        {{^useJackson3}}
+        public {{classname}} getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+        {{/useJackson3}}
+        {{#useJackson3}}
+        public {{classname}} getNullValue(DeserializationContext ctxt) {
+        {{/useJackson3}}
+        {{#isNullable}}
+            return null;
+        {{/isNullable}}
+        {{^isNullable}}
+        {{^useJackson3}}
+            throw new JsonMappingException(ctxt.getParser(), "{{classname}} cannot be null");
+        {{/useJackson3}}
+        {{#useJackson3}}
+            throw DatabindException.from(ctxt.getParser(), "{{classname}} cannot be null");
+        {{/useJackson3}}
+        {{/isNullable}}
+        }
+    }
+    {{/isJackson}}
+
+    {{#isJsonb}}
+    public static class {{classname}}Serializer implements JsonbSerializer<{{classname}}> {
+        @Override
+        public void serialize({{classname}} obj, JsonGenerator generator, SerializationContext ctx) {
+            if (obj.getActualInstance() == null) {
+                generator.writeNull();
+                return;
+            }
+            {{#isAdditionalPropertiesTrue}}
+            if (obj.getAdditionalProperties() != null && !obj.getAdditionalProperties().isEmpty()) {
+                JsonObject childObject = toJsonObject(obj.getActualInstance());
+                if (childObject != null) {
+                    jakarta.json.JsonObjectBuilder builder = jakarta.json.Json.createObjectBuilder(childObject);
+                    for (Map.Entry<String, Object> entry : obj.getAdditionalProperties().entrySet()) {
+                        if (childObject.containsKey(entry.getKey())) {
+                            // the child schema owns this property
+                            continue;
+                        }
+                        builder.add(entry.getKey(), toJsonValue(entry.getValue()));
+                    }
+                    ctx.serialize(builder.build(), generator);
+                    return;
+                }
+            }
+            {{/isAdditionalPropertiesTrue}}
+            ctx.serialize(obj.getActualInstance(), generator);
+        }
+    }
+    {{#isAdditionalPropertiesTrue}}
+
+    /**
+     * Render a value through JSON-B and read it back as a JsonObject, or null if it is not an object.
+     */
+    private static JsonObject toJsonObject(Object value) {
+        try (jakarta.json.JsonReader reader = jakarta.json.Json.createReader(
+                new java.io.StringReader(JSON.getJsonb().toJson(value)))) {
+            jakarta.json.JsonStructure structure = reader.read();
+            return structure instanceof JsonObject ? (JsonObject) structure : null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static jakarta.json.JsonValue toJsonValue(Object value) {
+        if (value == null) {
+            return jakarta.json.JsonValue.NULL;
+        }
+        try (jakarta.json.JsonReader reader = jakarta.json.Json.createReader(
+                new java.io.StringReader(JSON.getJsonb().toJson(value)))) {
+            return reader.readValue();
+        }
+    }
+
+    /**
+     * Record the properties that the matched oneOf schema did not consume.
+     *
+     * <p>The wrapper only owns what the selected child schema left behind. When that child accepts
+     * additional properties itself it absorbs them all and this records nothing, so a property is
+     * never stored — and therefore never written — twice.</p>
+     */
+    private static void collectUnconsumedProperties({{classname}} instance, JsonObject jsonObject) {
+        if (jsonObject == null || instance.getActualInstance() == null) {
+            return;
+        }
+        JsonObject consumed = toJsonObject(instance.getActualInstance());
+        if (consumed == null) {
+            return;
+        }
+        for (Map.Entry<String, jakarta.json.JsonValue> entry : jsonObject.entrySet()) {
+            if (consumed.containsKey(entry.getKey())) {
+                continue;
+            }
+            instance.putAdditionalProperty(entry.getKey(), fromJsonValue(entry.getValue()));
+        }
+    }
+
+    private static Object fromJsonValue(jakarta.json.JsonValue value) {
+        switch (value.getValueType()) {
+            case STRING:
+                return ((jakarta.json.JsonString) value).getString();
+            case NUMBER:
+                return ((jakarta.json.JsonNumber) value).numberValue();
+            case TRUE:
+                return Boolean.TRUE;
+            case FALSE:
+                return Boolean.FALSE;
+            case NULL:
+                return null;
+            default:
+                return JSON.getJsonb().fromJson(value.toString(),
+                        value.getValueType() == jakarta.json.JsonValue.ValueType.ARRAY
+                                ? List.class : HashMap.class);
+        }
+    }
+    {{/isAdditionalPropertiesTrue}}
+
+    public static class {{classname}}Deserializer implements JsonbDeserializer<{{classname}}> {
+        @Override
+        public {{classname}} deserialize(JsonParser parser, DeserializationContext ctx, Type rt) {
+            JsonObject jsonObject = parser.getObject();
+            Object deserialized = null;
+            {{#useOneOfDiscriminatorLookup}}
+            {{#discriminator}}
+            if (jsonObject.containsKey("{{{propertyBaseName}}}")) {
+                String discriminatorValue = jsonObject.getString("{{{propertyBaseName}}}");
+                {{#mappedModels}}
+                if ("{{{mappingName}}}".equals(discriminatorValue)) {
+                    deserialized = ctx.deserialize({{{modelName}}}.class, jakarta.json.Json.createParser(new java.io.StringReader(jsonObject.toString())));
+                    {{classname}} new{{classname}} = new {{classname}}();
+                    new{{classname}}.setActualInstance(deserialized);
+                    {{#isAdditionalPropertiesTrue}}
+                    collectUnconsumedProperties(new{{classname}}, jsonObject);
+                    {{/isAdditionalPropertiesTrue}}
+                    return new{{classname}};
+                }
+                {{/mappedModels}}
+            }
+            {{/discriminator}}
+            {{/useOneOfDiscriminatorLookup}}
+            int match = 0;
+            {{#composedSchemas.oneOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            // deserialize {{{dataType}}}
+            try {
+                deserialized = ctx.deserialize({{{baseType}}}.class, jakarta.json.Json.createParser(new java.io.StringReader(jsonObject.toString())));
+                match++;
+            } catch (Exception e) {
+                // deserialization failed, continue
+            }
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/composedSchemas.oneOf}}
+            if (match == 1) {
+                {{classname}} ret = new {{classname}}();
+                ret.setActualInstance(deserialized);
+                {{#isAdditionalPropertiesTrue}}
+                collectUnconsumedProperties(ret, jsonObject);
+                {{/isAdditionalPropertiesTrue}}
+                return ret;
+            }
+            throw new RuntimeException(String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+        }
+    }
+    {{/isJsonb}}
+
+    // store a list of schema names defined in oneOf
+    public static final Map<String, Class<?>> schemas = new HashMap<>();
+
+    public {{classname}}() {
+        super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+    }
+
+    {{#composedSchemas.oneOf}}
+    {{^vendorExtensions.x-duplicated-data-type}}
+    public {{classname}}({{{dataType}}} o) {
+        super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+        setActualInstance(o);
+    }
+    {{/vendorExtensions.x-duplicated-data-type}}
+
+    {{/composedSchemas.oneOf}}
+    static {
+        {{#composedSchemas.oneOf}}
+        schemas.put("{{{dataType}}}", {{{baseType}}}.class);
+        {{/composedSchemas.oneOf}}
+        {{#isJackson}}
+        JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
+        {{#discriminator}}
+        // Initialize and register the discriminator mappings.
+        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        {{#mappedModels}}
+        mappings.put("{{mappingName}}", {{modelName}}.class);
+        {{/mappedModels}}
+        mappings.put("{{name}}", {{classname}}.class);
+        JSON.registerDiscriminator({{classname}}.class, "{{propertyBaseName}}", mappings);
+        {{/discriminator}}
+        {{/isJackson}}
+    }
+
+    @Override
+    public Map<String, Class<?>> getSchemas() {
+        return {{classname}}.schemas;
+    }
+
+    /**
+     * Set the instance that matches the oneOf child schema, check
+     * the instance parameter is valid against the oneOf child schemas:
+     * {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}
+     *
+     * It could be an instance of the 'oneOf' schemas.
+     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
+     */
+    @Override
+    public void setActualInstance(Object instance) {
+        {{#isNullable}}
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
+        {{/isNullable}}
+        {{#composedSchemas.oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
+        if (JSON.isInstanceOf({{{baseType}}}.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        {{/vendorExtensions.x-duplicated-data-type}}
+        {{/composedSchemas.oneOf}}
+        throw new RuntimeException("Invalid instance type. Must be {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");
+    }
+
+    /**
+     * Get the actual instance, which can be the following:
+     * {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}
+     *
+     * @return The actual instance ({{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}})
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
+
+    {{#composedSchemas.oneOf}}
+    {{^vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
+    /**
+     * Get the actual instance of `{{{dataType}}}`. If the actual instance is not `{{{dataType}}}`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `{{{dataType}}}`
+     * @throws ClassCastException if the instance is not `{{{dataType}}}`
+     */
+    @SuppressWarnings("unchecked")
+    public {{{dataType}}} get{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}() throws ClassCastException {
+        return ({{{dataType}}})super.getActualInstance();
+    }
+
+    {{/vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
+    {{/composedSchemas.oneOf}}
+
+{{#supportUrlQuery}}
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    {{#composedSchemas.oneOf}}
+    {{^vendorExtensions.x-duplicated-data-type}}
+    if (getActualInstance() instanceof {{{dataType}}}) {
+        {{#isArray}}
+        {{#items.isPrimitiveType}}
+        {{#uniqueItems}}
+        if (getActualInstance() != null) {
+          int i = 0;
+          for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
+            joiner.add(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+                ApiClient.urlEncode(String.valueOf(_item))));
+          }
+          i++;
+        }
+        {{/uniqueItems}}
+        {{^uniqueItems}}
+        if (getActualInstance() != null) {
+          for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
+            joiner.add(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+                ApiClient.urlEncode(String.valueOf((({{{dataType}}})getActualInstance()).get(i)))));
+          }
+        }
+        {{/uniqueItems}}
+        {{/items.isPrimitiveType}}
+        {{^items.isPrimitiveType}}
+        {{#items.isModel}}
+        {{#uniqueItems}}
+        if (getActualInstance() != null) {
+          int i = 0;
+          for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
+            if (_item != null) {
+              joiner.add(_item.toUrlQueryString(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
+                  "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
+            }
+          }
+          i++;
+        }
+        {{/uniqueItems}}
+        {{^uniqueItems}}
+        if (getActualInstance() != null) {
+          for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
+            if ((({{{dataType}}})getActualInstance()).get(i) != null) {
+              joiner.add((({{{dataType}}})getActualInstance()).get(i).toUrlQueryString(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
+            }
+          }
+        }
+        {{/uniqueItems}}
+        {{/items.isModel}}
+        {{^items.isModel}}
+        {{#uniqueItems}}
+        if (getActualInstance() != null) {
+          int i = 0;
+          for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
+            if (_item != null) {
+              joiner.add(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+                  "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+                  ApiClient.urlEncode(String.valueOf(_item))));
+            }
+            i++;
+          }
+        }
+        {{/uniqueItems}}
+        {{^uniqueItems}}
+        if (getActualInstance() != null) {
+          for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
+            if (getActualInstance().get(i) != null) {
+              joiner.add(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+                  "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+                  ApiClient.urlEncode(String.valueOf((({{{dataType}}})getActualInstance()).get(i)))));
+            }
+          }
+        }
+        {{/uniqueItems}}
+        {{/items.isModel}}
+        {{/items.isPrimitiveType}}
+        {{/isArray}}
+        {{^isArray}}
+        {{#isMap}}
+        {{#items.isPrimitiveType}}
+        if (getActualInstance() != null) {
+          for (String _key : (({{{dataType}}})getActualInstance()).keySet()) {
+            joiner.add(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+                getActualInstance().get(_key), ApiClient.urlEncode(String.valueOf((({{{dataType}}})getActualInstance()).get(_key)))));
+          }
+        }
+        {{/items.isPrimitiveType}}
+        {{^items.isPrimitiveType}}
+        if (getActualInstance() != null) {
+          for (String _key : (({{{dataType}}})getActualInstance()).keySet()) {
+            if ((({{{dataType}}})getActualInstance()).get(_key) != null) {
+              joiner.add((({{{items.dataType}}})getActualInstance()).get(_key).toUrlQueryString(String.format(java.util.Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
+                  "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix))));
+            }
+          }
+        }
+        {{/items.isPrimitiveType}}
+        {{/isMap}}
+        {{^isMap}}
+        {{#isPrimitiveType}}
+        if (getActualInstance() != null) {
+          joiner.add(String.format(java.util.Locale.ROOT, "%s{{{baseName}}}%s=%s", prefix, suffix, ApiClient.urlEncode(String.valueOf(getActualInstance()))));
+        }
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isModel}}
+        if (getActualInstance() != null) {
+          joiner.add((({{{dataType}}})getActualInstance()).toUrlQueryString(prefix + "{{{baseName}}}" + suffix));
+        }
+        {{/isModel}}
+        {{^isModel}}
+        if (getActualInstance() != null) {
+          joiner.add(String.format(java.util.Locale.ROOT, "%s{{{baseName}}}%s=%s", prefix, suffix, ApiClient.urlEncode(String.valueOf(getActualInstance()))));
+        }
+        {{/isModel}}
+        {{/isPrimitiveType}}
+        {{/isMap}}
+        {{/isArray}}
+        return joiner.toString();
+    }
+    {{/vendorExtensions.x-duplicated-data-type}}
+    {{/composedSchemas.oneOf}}
+    return null;
+  }
+{{/supportUrlQuery}}
+
+{{#isGson}}
+    /**
+     * Create an instance of {{classname}} given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of {{classname}}
+     * @throws IOException if the JSON string is invalid with respect to {{classname}}
+     */
+    public static {{{classname}}} fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, {{{classname}}}.class);
+    }
+
+    /**
+     * Convert an instance of {{classname}} to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
+{{/isGson}}
+}
