@@ -163,20 +163,21 @@ components:
         huntingSkill:
           type: string
       required:
-        - enumRefType
+        - typeAllOf
         - huntingSkill
     DogWithAllOf:
       description: A representation of a dog
       type: object
       properties:
         typeAllOf:
-          $ref: '#/components/schemas/PetEnumType'
-          description: dog type
+          allOf:
+            - $ref: '#/components/schemas/PetEnumType'
+              description: dog type
         packSize:
           type: integer
           format: int32
       required:
-        - enumRefType
+        - typeAllOf
         - packSize
     PetNoMapping:
       oneOf:
