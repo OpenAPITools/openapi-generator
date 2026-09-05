@@ -96,6 +96,7 @@ components:
       properties:
         enumRefType:
           $ref: '#/components/schemas/PetEnumType'
+          description: dog type
         packSize:
           type: integer
           format: int32
@@ -107,3 +108,71 @@ components:
       enum:
         - CAT
         - DOG
+    ParentType:
+      type: object
+      properties:
+        petType:
+          $ref: '#/components/schemas/PetEnumType'
+    PetWithParent:
+      oneOf:
+        - $ref: '#/components/schemas/CatWithParent'
+        - $ref: '#/components/schemas/DogWithParent'
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/CatWithParent'
+          DOG: '#/components/schemas/DogWithParent'
+    CatWithParent:
+      description: A representation of a cat
+      allOf:
+        - $ref: '#/components/schemas/ParentType'
+        - type: object
+          properties:
+            huntingSkill:
+              type: string
+      required:
+        - petType
+        - huntingSkill
+    DogWithParent:
+      description: A representation of a dog
+      allOf:
+        - $ref: '#/components/schemas/ParentType'
+        - type: object
+          properties:
+            packSize:
+              type: integer
+              format: int32
+      required:
+        - petType
+        - packSize
+    PetNoMapping:
+      oneOf:
+        - $ref: '#/components/schemas/CatNoMapping'
+        - $ref: '#/components/schemas/DogNoMapping'
+      discriminator:
+        propertyName: type
+    CatNoMapping:
+      description: A representation of a cat
+      type: object
+      properties:
+        type:
+          type: string
+          const: CAT
+        huntingSkill:
+          type: string
+      required:
+        - type
+        - huntingSkill
+    DogNoMapping:
+      description: A representation of a dog
+      type: object
+      properties:
+        type:
+          type: string
+          const: DOG
+        packSize:
+          type: integer
+          format: int32
+      required:
+        - type
+        - packSize

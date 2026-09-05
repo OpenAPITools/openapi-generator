@@ -333,11 +333,21 @@ public class DiscriminatorUtils {
     public static List<Schema> getDistinctTypes(OpenAPI openAPI, Schema schema, String discPropName) {
         List<Schema> mappedSchemas = getMappedSchemas(openAPI, schema);
 
-        List<Schema> properties = mappedSchemas.stream().map(sc -> findProperty(openAPI, sc, discPropName, new HashSet<>())).collect(Collectors.toList());;
-        return mappedSchemas.stream().map(sc -> findProperty(openAPI, sc, discPropName, new HashSet<>()))
-                .filter(Objects::nonNull)
-                .distinct()
-                .collect(Collectors.toList());
+
+        //List<Schema> properties = mappedSchemas.stream().map(sc -> findProperty(openAPI, sc, discPropName, new HashSet<>())).collect(Collectors.toList());;
+
+        List<Schema> properties = new ArrayList<>();
+        for (Schema s: mappedSchemas) {
+            Schema prop = findProperty(openAPI, s, discPropName, new HashSet<>());
+            if (properties.stream().noneMatch(p ->
+                    Objects.equals(p.getType(), prop.getType()) &&
+                    Objects.equals(p.get$ref(), prop.get$ref()) &&
+                    Objects.equals(p.getEnum(), prop.getEnum()) &&
+                    Objects.equals(p.getFormat(), prop.getFormat()))) {
+                properties.add(prop);
+            }
+        }
+        return properties;
     }
 
     /**
@@ -392,19 +402,53 @@ public class DiscriminatorUtils {
         if (properties != null) {
             Schema property = properties.get(propertyName);
             if (property != null) {
-                return property;
+                Schema found = simplifyProperty(property, visitedSchemas);
+                return found;
             }
         }
+        // loop into parent allOfs
         List<Schema> allOfs = schema.getAllOf();
         if (allOfs != null) {
             for (Schema child : allOfs) {
                 Schema found = findProperty(openAPI, child, propertyName, visitedSchemas);
                 if (found != null) {
-                    return found;
+                    return simplifyProperty(found, visitedSchemas);
                 }
             }
         }
         return null;
+    }
+
+    private static Schema simplifyProperty(Schema schema, Set<Schema> visitedSchemas) {
+        if (!ModelUtils.isAllOf(schema)) {
+            return schema;
+        }
+        if (visitedSchemas.contains(schema)) {
+            return null;
+        }
+        visitedSchemas.add(schema);
+
+        /*
+         * handle type+description. For Example:
+         * petType:
+         *  $ref: '#/components/schemas/PetType'
+         *  description: DOG
+         */
+        Schema found = null;
+        int count = 0;
+        for (Schema sc: (List<Schema>)schema.getAllOf()) {
+            if (ModelUtils.isAnyType(sc) || ModelUtils.hasRef(sc) ) {
+                found = sc;
+            } else {
+                count++;
+            }
+        }
+        if (count == schema.getAllOf().size()-1) {
+            return found;
+        }
+        // multiple types, too complex.
+        return null;
+
     }
 
     public static class DiscriminatorData {

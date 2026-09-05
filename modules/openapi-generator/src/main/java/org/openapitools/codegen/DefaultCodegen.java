@@ -3913,6 +3913,17 @@ public class DefaultCodegen implements CodegenConfig {
             default:
                 break;
         }
+
+//        boolean allRef = schemas.stream().allMatch(s -> s.get$ref() != null);
+//        if (allRef) {
+//            Set<String> modelNames = schemas.stream()
+//                    .map(s -> toModelName(ModelUtils.getSimpleRef(s.get$ref())))
+//                    .filter(Objects::nonNull)
+//                    .collect(Collectors.toSet());
+//            if (modelNames.size() == 1) {
+//                return modelNames.iterator().next();
+//            }
+//        }
         schemas = schemas.stream().map(s -> ModelUtils.getReferencedSchema(openAPI, s)).collect(Collectors.toList());
         return getCommonTypeMapping(schemas);
     }
@@ -3928,7 +3939,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         boolean allEnums = schemas.stream().allMatch(ModelUtils::isEnumSchema);
         if (allEnums) {
-            // non matching enums
+            // non matching enums.  Use enum if if the langage can map it.
             if (typeMapping.containsKey("enum")) {
                 simpleType = "enum";
             }
