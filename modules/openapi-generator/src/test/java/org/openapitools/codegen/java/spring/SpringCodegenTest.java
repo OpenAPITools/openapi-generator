@@ -9362,11 +9362,19 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("PetWithParent.java"))
                 .fileContains("public PetEnumType getPetType();");
 
+        JavaFileAssert.assertThat(files.get("PetWithAllOf.java"))
+                .fileContains("public PetEnumType getTypeAllOf()");
+
+        JavaFileAssert.assertThat(files.get("PetWithEnum.java"))
+                .fileContains("public Enum getEnumType()");
+        JavaFileAssert.assertThat(files.get("CatWithEnum.java"))
+                .fileContains("public enum EnumTypeEnum {",
+                        "CAT(\"CAT\");");
+
+
         JavaFileAssert.assertThat(files.get("PetNoMapping.java"))
                 .fileContains("public Enum getType();");
 
-        JavaFileAssert.assertThat(files.get("PetWithAllOf.java"))
-                .fileContains("public PetEnumType getTypeAllOf()");
     }
 
     @DataProvider(name = "oneOfDiscriminatorType")
