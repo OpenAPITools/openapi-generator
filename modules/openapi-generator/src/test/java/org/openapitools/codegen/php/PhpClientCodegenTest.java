@@ -136,6 +136,15 @@ public class PhpClientCodegenTest {
 
         Assert.assertListContains(modelContent, a -> a.equals("$color = self::COLOR_UNKNOWN_DEFAULT_OPEN_API;"), "");
         Assert.assertListNotContains(modelContent, a -> a.equals("\"Invalid value '%s' for 'color', must be one of '%s'\","), "");
+
+        List<String> serializerContent = Files
+                .readAllLines(files.get("ObjectSerializer.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        Assert.assertListContains(serializerContent, a -> a.equals("if (defined(\"$class::UNKNOWN_DEFAULT_OPEN_API\")) {"), "");
+        Assert.assertListContains(serializerContent, a -> a.equals("return constant(\"$class::UNKNOWN_DEFAULT_OPEN_API\");"), "");
     }
 
     @Test
@@ -164,6 +173,15 @@ public class PhpClientCodegenTest {
 
         Assert.assertListNotContains(modelContent, a -> a.equals("$color = self::COLOR_UNKNOWN_DEFAULT_OPEN_API;"), "");
         Assert.assertListContains(modelContent, a -> a.equalsIgnoreCase("\"Invalid value '%s' for 'color', must be one of '%s'\","), "");
+
+        List<String> serializerContent = Files
+                .readAllLines(files.get("ObjectSerializer.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        Assert.assertListNotContains(serializerContent, a -> a.equals("if (defined(\"$class::UNKNOWN_DEFAULT_OPEN_API\")) {"), "");
+        Assert.assertListNotContains(serializerContent, a -> a.equals("return constant(\"$class::UNKNOWN_DEFAULT_OPEN_API\");"), "");
     }
     @Test
     public void testDateTimeLengthValidationIsNotGenerated() throws Exception {
