@@ -24,7 +24,7 @@
 {{/returnTypeIsPrimitive}}
 {{^returnTypeIsPrimitive}}
 {{#isArray}}
-            return new runtime.JSONApiResponse(response{{^withoutRuntimeChecks}}, (jsonValue) => {{#uniqueItems}}new Set({{/uniqueItems}}jsonValue.map({{returnBaseType}}FromJSON){{/withoutRuntimeChecks}}){{#uniqueItems}}){{/uniqueItems}} as any;
+            return new runtime.JSONApiResponse(response{{^withoutRuntimeChecks}}, (jsonValue) => {{#usesSet}}new Set({{/usesSet}}jsonValue.map({{returnBaseType}}FromJSON){{/withoutRuntimeChecks}}){{#usesSet}}){{/usesSet}} as any;
 {{/isArray}}
 {{^isArray}}
 {{#isMap}}

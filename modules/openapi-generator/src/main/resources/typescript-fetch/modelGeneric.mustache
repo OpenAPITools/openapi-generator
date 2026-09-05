@@ -89,8 +89,13 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         {{#isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
+        {{#usesSet}}
         {{! For optional nullable fields, return null (not undefined) when API returns null. See #5670 }}
         '{{name}}': {{^required}}{{#isNullable}}json['{{baseName}}'] === undefined ? undefined : json['{{baseName}}'] === null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? undefined : {{/isNullable}}{{/required}}{{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}new Set(json['{{baseName}}']),
+        {{/usesSet}}
+        {{^usesSet}}
+        '{{name}}': {{^required}}{{#isNullable}}json['{{baseName}}'] === undefined ? undefined : json['{{baseName}}'] === null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? undefined : {{/isNullable}}{{/required}}{{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}json['{{baseName}}'],
+        {{/usesSet}}
         {{/uniqueItems}}
         {{^uniqueItems}}
         '{{name}}': {{^required}}{{#isNullable}}json['{{baseName}}'] === undefined ? undefined : json['{{baseName}}'] === null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? undefined : {{/isNullable}}{{/required}}{{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}json['{{baseName}}'],
@@ -113,7 +118,12 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         {{^isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
+        {{#usesSet}}
         '{{name}}': {{^required}}{{#isNullable}}json['{{baseName}}'] === undefined ? undefined : json['{{baseName}}'] === null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? undefined : {{/isNullable}}{{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}new Set((json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON))),
+        {{/usesSet}}
+        {{^usesSet}}
+        '{{name}}': {{^required}}{{#isNullable}}json['{{baseName}}'] === undefined ? undefined : json['{{baseName}}'] === null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? undefined : {{/isNullable}}{{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON)),
+        {{/usesSet}}
         {{/uniqueItems}}
         {{^uniqueItems}}
         '{{name}}': {{^required}}{{#isNullable}}json['{{baseName}}'] === undefined ? undefined : json['{{baseName}}'] === null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? undefined : {{/isNullable}}{{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON)),
@@ -179,7 +189,7 @@ export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classnam
         '{{baseName}}': value['{{name}}'] == null ? value['{{name}}'] : serializeDateTime(value['{{name}}']),
         {{/isDateTimeType}}
         {{#isArray}}
-        '{{baseName}}': {{#uniqueItems}}{{^required}}value['{{name}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}Array.from(value['{{name}}'] as Set<any>){{/uniqueItems}}{{^uniqueItems}}value['{{name}}']{{/uniqueItems}},
+        '{{baseName}}': {{#uniqueItems}}{{#usesSet}}{{^required}}value['{{name}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}Array.from(value['{{name}}'] as Set<any>){{/usesSet}}{{^usesSet}}value['{{name}}']{{/usesSet}}{{/uniqueItems}}{{^uniqueItems}}value['{{name}}']{{/uniqueItems}},
         {{/isArray}}
         {{^isDateType}}
         {{^isDateTimeType}}
@@ -192,7 +202,12 @@ export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classnam
         {{^isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
+        {{#usesSet}}
         '{{baseName}}': {{^required}}value['{{name}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}Array.from(value['{{name}}'] as Set<any>).map({{#items}}{{datatype}}{{/items}}ToJSON)),
+        {{/usesSet}}
+        {{^usesSet}}
+        '{{baseName}}': {{^required}}value['{{name}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}(value['{{name}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON)),
+        {{/usesSet}}
         {{/uniqueItems}}
         {{^uniqueItems}}
         '{{baseName}}': {{^required}}value['{{name}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}(value['{{name}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON)),

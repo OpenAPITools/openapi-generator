@@ -1,0 +1,326 @@
+openapi: 3.0.0
+info:
+  title: uniqueItems test spec
+  version: 1.0.0
+  description: >-
+    Spec used to test arrays with uniqueItems across every OpenAPI location
+    and item type (string, integer, number, boolean, object, array, $ref).
+paths:
+  /unique-query-params:
+    get:
+      operationId: uniqueQueryParams
+      parameters:
+        - name: uniqueStrings
+          in: query
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+        - name: uniqueIntegers
+          in: query
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: integer
+        - name: uniqueNumbers
+          in: query
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: number
+        - name: uniqueBooleans
+          in: query
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: boolean
+        - name: uniqueObjects
+          in: query
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: object
+        - name: uniqueArrays
+          in: query
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: array
+              items:
+                type: string
+        - name: uniqueRefs
+          in: query
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/Tag'
+      responses:
+        '200':
+          description: OK
+  /unique-request-body:
+    post:
+      operationId: uniqueRequestBody
+      requestBody:
+        $ref: '#/components/requestBodies/UniqueArrayRequest'
+      responses:
+        '200':
+          description: OK
+  /unique-response-body:
+    get:
+      operationId: uniqueResponseBody
+      responses:
+        '200':
+          $ref: '#/components/responses/UniqueArrayResponse'
+  /unique-header-param:
+    get:
+      operationId: uniqueHeaderParam
+      parameters:
+        - name: X-Unique-Header
+          in: header
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Unique-Response-Header:
+              $ref: '#/components/headers/UniqueHeader'
+  /unique-cookie-param:
+    get:
+      operationId: uniqueCookieParam
+      parameters:
+        - name: uniqueCookie
+          in: cookie
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+  /unique-path-param/{values}:
+    get:
+      operationId: uniquePathParam
+      parameters:
+        - name: values
+          in: path
+          required: true
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+  /unique-callback:
+    post:
+      operationId: uniqueCallback
+      callbacks:
+        onData:
+          '{$request.body#/callbackUrl}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: array
+                      uniqueItems: true
+                      items:
+                        $ref: '#/components/schemas/Tag'
+              responses:
+                '200':
+                  description: OK
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    UniqueStringArray:
+      type: array
+      uniqueItems: true
+      items:
+        type: string
+    UniqueIntegerArray:
+      type: array
+      uniqueItems: true
+      items:
+        type: integer
+        format: int64
+    UniqueNumberArray:
+      type: array
+      uniqueItems: true
+      items:
+        type: number
+        format: double
+    UniqueBooleanArray:
+      type: array
+      uniqueItems: true
+      items:
+        type: boolean
+    UniqueObjectArray:
+      type: array
+      uniqueItems: true
+      items:
+        type: object
+        properties:
+          key:
+            type: string
+          value:
+            type: string
+    UniqueArrayArray:
+      type: array
+      uniqueItems: true
+      items:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+    UniqueRefArray:
+      type: array
+      uniqueItems: true
+      items:
+        $ref: '#/components/schemas/Tag'
+    UniqueEnumArray:
+      type: array
+      uniqueItems: true
+      items:
+        type: string
+        enum:
+          - available
+          - pending
+          - sold
+    UniqueNullableArray:
+      type: array
+      uniqueItems: true
+      nullable: true
+      items:
+        type: string
+        nullable: true
+    UniqueItemsObject:
+      type: object
+      properties:
+        uniqueStrings:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        uniqueIntegers:
+          type: array
+          uniqueItems: true
+          items:
+            type: integer
+        uniqueNumbers:
+          type: array
+          uniqueItems: true
+          items:
+            type: number
+        uniqueBooleans:
+          type: array
+          uniqueItems: true
+          items:
+            type: boolean
+        uniqueObjects:
+          type: array
+          uniqueItems: true
+          items:
+            type: object
+        uniqueArrays:
+          type: array
+          uniqueItems: true
+          items:
+            type: array
+            items:
+              type: string
+        uniqueRefs:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Tag'
+        uniqueEnums:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+              - a
+              - b
+              - c
+        uniqueNullable:
+          type: array
+          uniqueItems: true
+          nullable: true
+          items:
+            type: string
+            nullable: true
+      required:
+        - uniqueStrings
+  requestBodies:
+    UniqueArrayRequest:
+      description: Request body that is an array with uniqueItems
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/Tag'
+        application/xml:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/Tag'
+  responses:
+    UniqueArrayResponse:
+      description: Response body that is an array with uniqueItems
+      content:
+        application/json:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/Tag'
+        application/xml:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/Tag'
+  parameters:
+    UniqueStringParam:
+      name: uniqueStringParam
+      in: query
+      schema:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+  headers:
+    UniqueHeader:
+      description: Header that is an array with uniqueItems
+      schema:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
