@@ -576,6 +576,73 @@ public class CSharpClientCodegenTest {
         Assert.assertTrue(cr1.isMap);
     }
 
+    @Test(description = "conditionalSerialization: an all-optional model's public constructor must not raise the serialization flag for value-typed properties the caller never passed")
+    public void testConditionalSerializationValueTypeConstructorFlags() throws IOException {
+        Map<String, File> files = generateConditionalSerializationValueTypeModels(true);
+
+        File updateCommand = files.get("UpdateThingCommand.cs");
+        assertNotNull(updateCommand);
+        // value-typed parameters become nullable so "not passed" is representable ...
+        assertFileContains(updateCommand.toPath(),
+                "public UpdateThingCommand(bool? autoRenew = default, int? period = default, string note = default)");
+        // ... and the flag is only raised for arguments that were actually provided
+        assertFileContains(updateCommand.toPath(),
+                "if (autoRenew != null)\n" +
+                        "        {\n" +
+                        "            this._AutoRenew = autoRenew.Value;\n" +
+                        "            this._flagAutoRenew = true;\n" +
+                        "        }");
+        assertFileContains(updateCommand.toPath(),
+                "if (period != null)\n" +
+                        "        {\n" +
+                        "            this._Period = period.Value;\n" +
+                        "            this._flagPeriod = true;\n" +
+                        "        }");
+        // the always-true guard on the non-nullable backing state is gone
+        assertFileNotContains(updateCommand.toPath(), "if (this.AutoRenew != null)");
+        assertFileNotContains(updateCommand.toPath(), "if (this.Period != null)");
+        // the public property surface is untouched: plain value types, flag-raising setters
+        assertFileContains(updateCommand.toPath(), "public bool AutoRenew", "public int Period");
+        assertFileNotContains(updateCommand.toPath(), "public bool? AutoRenew", "public int? Period");
+
+        // required value-typed properties keep their non-nullable parameter and unconditional assignment
+        File createCommand = files.get("CreateThingCommand.cs");
+        assertNotNull(createCommand);
+        assertFileContains(createCommand.toPath(),
+                "public CreateThingCommand(string name = default, bool autoRenew = default, string note = default)");
+        assertFileContains(createCommand.toPath(), "this._AutoRenew = autoRenew;");
+        assertFileNotContains(createCommand.toPath(), "autoRenew.Value");
+    }
+
+    @Test(description = "without conditionalSerialization the constructor keeps plain value-typed parameters")
+    public void testValueTypeConstructorUnchangedWithoutConditionalSerialization() throws IOException {
+        Map<String, File> files = generateConditionalSerializationValueTypeModels(false);
+
+        File updateCommand = files.get("UpdateThingCommand.cs");
+        assertNotNull(updateCommand);
+        assertFileContains(updateCommand.toPath(),
+                "public UpdateThingCommand(bool autoRenew = default, int period = default, string note = default)");
+        assertFileNotContains(updateCommand.toPath(), "_flagAutoRenew");
+    }
+
+    private Map<String, File> generateConditionalSerializationValueTypeModels(boolean conditionalSerialization) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/csharp/conditional-serialization-value-types.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("httpclient");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.additionalProperties().put(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION, String.valueOf(conditionalSerialization));
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        return defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity(), (first, second) -> first));
+    }
+
     private Map<String, File> generateIssue23046Models(boolean nonPublicApi) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

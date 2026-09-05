@@ -83,9 +83,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="zeroBasedEnum">zeroBasedEnum.</param>
         public ZeroBasedEnumClass(ZeroBasedEnumEnum? zeroBasedEnum = default)
         {
-            this._ZeroBasedEnum = zeroBasedEnum;
-            if (this.ZeroBasedEnum != null)
+            if (zeroBasedEnum != null)
             {
+                this._ZeroBasedEnum = zeroBasedEnum.Value;
                 this._flagZeroBasedEnum = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();

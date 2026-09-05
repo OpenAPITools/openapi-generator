@@ -38,11 +38,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="myNumber">myNumber.</param>
         /// <param name="myString">myString.</param>
         /// <param name="myBoolean">myBoolean.</param>
-        public OuterComposite(decimal myNumber = default, string myString = default, bool myBoolean = default)
+        public OuterComposite(decimal? myNumber = default, string myString = default, bool? myBoolean = default)
         {
-            this._MyNumber = myNumber;
-            if (this.MyNumber != null)
+            if (myNumber != null)
             {
+                this._MyNumber = myNumber.Value;
                 this._flagMyNumber = true;
             }
             this._MyString = myString;
@@ -50,9 +50,9 @@ namespace Org.OpenAPITools.Model
             {
                 this._flagMyString = true;
             }
-            this._MyBoolean = myBoolean;
-            if (this.MyBoolean != null)
+            if (myBoolean != null)
             {
+                this._MyBoolean = myBoolean.Value;
                 this._flagMyBoolean = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
