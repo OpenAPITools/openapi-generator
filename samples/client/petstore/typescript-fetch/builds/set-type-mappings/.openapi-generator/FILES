@@ -1,0 +1,12 @@
+apis/DefaultApi.ts
+apis/index.ts
+docs/DefaultApi.md
+docs/Tag.md
+docs/UniqueItemsObject.md
+docs/UniqueObjectArrayInner.md
+index.ts
+models/Tag.ts
+models/UniqueItemsObject.ts
+models/UniqueObjectArrayInner.ts
+models/index.ts
+runtime.ts

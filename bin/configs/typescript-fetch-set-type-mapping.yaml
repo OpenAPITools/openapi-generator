@@ -1,0 +1,6 @@
+generatorName: typescript-fetch
+outputDir: samples/client/petstore/typescript-fetch/builds/set-type-mappings
+inputSpec: modules/openapi-generator/src/test/resources/3_0/uniqueItems-test.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
+typeMappings:
+  set: "Array"

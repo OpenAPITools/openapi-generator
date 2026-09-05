@@ -6,11 +6,13 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.Generator;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
@@ -25,9 +27,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -1175,6 +1180,32 @@ public class TypeScriptFetchClientCodegenTest {
         // date-time keeps the full timestamp.
         TestUtils.assertFileContains(api, "queryParameters['updatedSince'] = runtime.serializeDateTime(requestParameters['updatedSince'] as any)");
         TestUtils.assertFileContains(api, "formParams.append('createdAt', runtime.serializeDateTime(requestParameters['createdAt'] as any))");
+    }
+
+    @Test
+    public void testTypeMappingSetToArrayDoesNotUseSetConversions() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addTypeMapping("set", "Array");
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path pet = Paths.get(output + "/models/Pet.ts");
+        TestUtils.assertFileContains(pet,
+                "photoUrls: Array<string>;",
+                "tags?: Array<Tag>;");
+        TestUtils.assertFileNotContains(pet,
+                "'photoUrls': new Set(json['photoUrls'])",
+                "'tags': json['tags'] == null ? undefined : (new Set((json['tags'] as Array<any>).map(TagFromJSON)))",
+                "'photoUrls': Array.from(value['photoUrls'] as Set<any>)",
+                "'tags': value['tags'] == null ? undefined : (Array.from(value['tags'] as Set<any>).map(TagToJSON))");
     }
 
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
