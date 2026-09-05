@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: conditional serialization value-type flags
+  version: 1.0.0
+paths:
+  /things:
+    post:
+      operationId: createThing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateThingCommand'
+      responses:
+        '200':
+          description: created
+    patch:
+      operationId: updateThing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateThingCommand'
+      responses:
+        '200':
+          description: updated
+components:
+  schemas:
+    UpdateThingCommand:
+      type: object
+      description: an all-optional partial-update command; its only constructor is the public one
+      properties:
+        autoRenew:
+          type: boolean
+        period:
+          type: integer
+        note:
+          type: string
+    CreateThingCommand:
+      type: object
+      description: required value type keeps its non-nullable constructor parameter
+      required:
+        - name
+        - autoRenew
+      properties:
+        name:
+          type: string
+        autoRenew:
+          type: boolean
+        note:
+          type: string
