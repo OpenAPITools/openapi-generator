@@ -415,6 +415,9 @@ public class DiscriminatorUtils {
         return null;
     }
 
+    /**
+     * simplify allOf property represented as [$ref, {description: ...}].
+     */
     private static Schema simplifyProperty(Schema schema, Set<Schema> visitedSchemas) {
         if (!ModelUtils.isAllOf(schema)) {
             return schema;
@@ -433,13 +436,12 @@ public class DiscriminatorUtils {
         Schema found = null;
         int count = 0;
         for (Schema sc: (List<Schema>)schema.getAllOf()) {
-            if (ModelUtils.isAnyType(sc) || ModelUtils.hasRef(sc) ) {
+            if (ModelUtils.getType(sc) != null || ModelUtils.hasRef(sc)) {
                 found = sc;
-            } else {
                 count++;
             }
         }
-        if (count == schema.getAllOf().size()-1) {
+        if (count == 1) {
             return found;
         }
         // multiple types, too complex.

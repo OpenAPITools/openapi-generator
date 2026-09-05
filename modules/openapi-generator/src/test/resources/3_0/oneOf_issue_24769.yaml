@@ -145,6 +145,39 @@ components:
       required:
         - petType
         - packSize
+    PetWithAllOf:
+      oneOf:
+        - $ref: '#/components/schemas/CatWithAllOf'
+        - $ref: '#/components/schemas/DogWithAllOf'
+      discriminator:
+        propertyName: typeAllOf
+    CatWithAllOf:
+      description: A representation of a cat
+      type: object
+      properties:
+        typeAllOf:
+          allOf:
+            - $ref: '#/components/schemas/PetEnumType'
+            - deprecated: true
+              description: CAT
+        huntingSkill:
+          type: string
+      required:
+        - enumRefType
+        - huntingSkill
+    DogWithAllOf:
+      description: A representation of a dog
+      type: object
+      properties:
+        typeAllOf:
+          $ref: '#/components/schemas/PetEnumType'
+          description: dog type
+        packSize:
+          type: integer
+          format: int32
+      required:
+        - enumRefType
+        - packSize
     PetNoMapping:
       oneOf:
         - $ref: '#/components/schemas/CatNoMapping'

@@ -9364,6 +9364,9 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("PetNoMapping.java"))
                 .fileContains("public Enum getType();");
+
+        JavaFileAssert.assertThat(files.get("PetWithAllOf.java"))
+                .fileContains("public PetEnumType getTypeAllOf()");
     }
 
     @DataProvider(name = "oneOfDiscriminatorType")
