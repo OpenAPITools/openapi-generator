@@ -358,7 +358,7 @@ export class DefaultApi extends runtime.BaseAPI {
         const requestOptions = await this.uniqueResponseBodyRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => new Set(jsonValue.map(TagFromJSON)));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TagFromJSON));
     }
 
     /**

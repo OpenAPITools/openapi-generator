@@ -1208,6 +1208,42 @@ public class TypeScriptFetchClientCodegenTest {
                 "'tags': value['tags'] == null ? undefined : (Array.from(value['tags'] as Set<any>).map(TagToJSON))");
     }
 
+    @Test
+    public void testResponseTypeUsesSetForUniqueItemArraysByDefault() throws IOException {
+        File output = generate(new HashMap<>(), "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+
+        Path petApi = Paths.get(output + "/apis/PetApi.ts");
+        TestUtils.assertFileContains(petApi,
+                "async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Set<Pet>>> {",
+                "async findPetsByTags(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Set<Pet>> {",
+                "return new runtime.JSONApiResponse(response, (jsonValue) => new Set(jsonValue.map(PetFromJSON)));");
+    }
+
+    @Test
+    public void testTypeMappingSetToArrayDoesNotUseSetConversionsForResponseTypes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addTypeMapping("set", "Array");
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path petApi = Paths.get(output + "/apis/PetApi.ts");
+        TestUtils.assertFileContains(petApi,
+                "async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {",
+                "async findPetsByTags(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Pet>> {",
+                "return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));");
+        TestUtils.assertFileNotContains(petApi,
+                "Set<Pet>",
+                "new Set(jsonValue.map(PetFromJSON))");
+    }
+
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
     private static File generate(

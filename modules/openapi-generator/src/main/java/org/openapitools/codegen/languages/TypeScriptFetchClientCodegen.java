@@ -820,6 +820,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
+        op.returnTypeUsesSet = op.returnType != null && op.returnType.startsWith("Set<");
+
         return op;
     }
 
@@ -1213,6 +1215,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     entry.isArray = variant.isArray;
                     entry.isMap = variant.isMap;
                     entry.uniqueItems = variant.uniqueItems;
+                    entry.usesSet = isReturnTypeUsesSet(variant);
                     entry.produces = variant.produces;
                 });
     }
@@ -1241,6 +1244,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return new ArrayList<>(byRank.values());
     }
 
+    private static boolean isReturnTypeUsesSet(CodegenOperation op) {
+        return op instanceof ExtendedCodegenOperation && ((ExtendedCodegenOperation) op).returnTypeUsesSet;
+    }
+
     /**
      * One content-type of a merged operation, on one axis. Read by the templates through their own field
      * names, so a mistyped one fails to compile rather than rendering as nothing.
@@ -1256,7 +1263,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public List<Map<String, String>> consumes, produces;
 
         // response axis
-        public boolean isResponseFile, returnTypeIsPrimitive, returnSimpleType, isArray, isMap, uniqueItems;
+        public boolean isResponseFile, returnTypeIsPrimitive, returnSimpleType, isArray, isMap, uniqueItems, usesSet;
         public String returnType, returnBaseType;
     }
 
@@ -1838,7 +1845,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     public class ExtendedCodegenOperation extends CodegenOperation {
-        boolean hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsArray;
+        boolean hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsArray, returnTypeUsesSet;
         String returnTypeAlternate, returnBaseTypeAlternate, returnPassthrough;
 
         /**
@@ -1937,6 +1944,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     returnTypeSupportsEntities == that.returnTypeSupportsEntities &&
                     returnTypeIsArray == that.returnTypeIsArray &&
                     returnTypeIsModel == that.returnTypeIsModel &&
+                    returnTypeUsesSet == that.returnTypeUsesSet &&
                     Objects.equals(returnTypeAlternate, that.returnTypeAlternate) &&
                     Objects.equals(returnBaseTypeAlternate, that.returnBaseTypeAlternate) &&
                     Objects.equals(returnPassthrough, that.returnPassthrough);
@@ -1945,7 +1953,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         @Override
         public int hashCode() {
             int superHash = super.hashCode();
-            return Objects.hash(superHash, returnPassthrough, hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsArray, returnTypeIsModel, returnTypeAlternate, returnBaseTypeAlternate);
+            return Objects.hash(superHash, returnPassthrough, hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsArray, returnTypeIsModel, returnTypeUsesSet, returnTypeAlternate, returnBaseTypeAlternate);
         }
 
         @Override
