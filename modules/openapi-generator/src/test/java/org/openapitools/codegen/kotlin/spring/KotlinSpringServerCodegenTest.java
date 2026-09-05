@@ -3202,11 +3202,61 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @DataProvider
+    public Object[][] nonGenericResponseEntityModes() {
+        return new Object[][] {{null}, {"NEVER"}};
+    }
+
+    @Test(dataProvider = "nonGenericResponseEntityModes")
+    public void genericResponseEntityKeepsTypedResponses(String mode) throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        if (mode != null) {
+            additionalProperties.put(GENERATE_GENERIC_RESPONSE_ENTITY, mode);
+        }
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/issue_24804.yaml", additionalProperties);
+
+        assertFileContains(files.get("OperationsApiController.kt").toPath(),
+                "fun startOperation(): ResponseEntity<Unit>");
+        assertFileContains(files.get("OperationsApiTest.kt").toPath(),
+                "val response: ResponseEntity<Unit> = api.startOperation()");
+    }
+
+    @DataProvider
+    public Object[][] invalidGenericResponseEntityModes() {
+        return new Object[][] {{true}, {false}, {"true"}, {"false"}, {"NONE"}, {"WHEN_NEEDED_SUCCESS"}, {""}};
+    }
+
+    @Test(dataProvider = "invalidGenericResponseEntityModes")
+    public void genericResponseEntityRejectsInvalidModes(Object mode) {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.additionalProperties().put(GENERATE_GENERIC_RESPONSE_ENTITY, mode);
+
+        IllegalArgumentException error = Assert.expectThrows(IllegalArgumentException.class, codegen::processOpts);
+        Assert.assertTrue(error.getMessage().contains(GENERATE_GENERIC_RESPONSE_ENTITY));
+        Assert.assertTrue(error.getMessage().contains("[NEVER, ALWAYS]"));
+    }
+
+    @Test
+    public void genericResponseEntityModeSurvivesRepeatedProcessing() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.additionalProperties().put(GENERATE_GENERIC_RESPONSE_ENTITY, "ALWAYS");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, false);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get(GENERATE_GENERIC_RESPONSE_ENTITY), "ALWAYS");
+        Assert.assertEquals(codegen.additionalProperties().get("useGenericResponseEntity"), false);
+
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, true);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get(GENERATE_GENERIC_RESPONSE_ENTITY), "ALWAYS");
+        Assert.assertEquals(codegen.additionalProperties().get("useGenericResponseEntity"), true);
+    }
+
     @Test
     public void genericResponseEntityForMultipleResponseShapes() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
-        additionalProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, true);
+        additionalProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, "ALWAYS");
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/issue_24804.yaml", additionalProperties);
@@ -3221,7 +3271,7 @@ public class KotlinSpringServerCodegenTest {
     public void genericResponseEntityForInterfaceAndDelegate() throws Exception {
         Map<String, Object> interfaceProperties = new HashMap<>();
         interfaceProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
-        interfaceProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, true);
+        interfaceProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, "ALWAYS");
         interfaceProperties.put(INTERFACE_ONLY, true);
 
         Map<String, File> interfaceFiles = generateFromContract(
@@ -3231,7 +3281,7 @@ public class KotlinSpringServerCodegenTest {
 
         Map<String, Object> delegateProperties = new HashMap<>();
         delegateProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
-        delegateProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, true);
+        delegateProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, "ALWAYS");
         delegateProperties.put(DELEGATE_PATTERN, true);
 
         Map<String, File> delegateFiles = generateFromContract(
@@ -3246,7 +3296,7 @@ public class KotlinSpringServerCodegenTest {
     public void genericResponseEntityIsIgnoredWithoutResponseEntity() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false);
-        additionalProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, true);
+        additionalProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, "ALWAYS");
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/issue_24804.yaml", additionalProperties);
@@ -3260,7 +3310,7 @@ public class KotlinSpringServerCodegenTest {
     public void genericResponseEntityForDeclarativeHttpInterface() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
-        additionalProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, true);
+        additionalProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, "ALWAYS");
         additionalProperties.put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
 
         Map<String, File> files = generateFromContract(

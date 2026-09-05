@@ -120,6 +120,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SUSPEND_FUNCTIONS = "suspendFunctions";
 
     @Getter
+    public enum GenericResponseEntityMode {
+        NEVER("Keep the declared response body type."),
+        ALWAYS("Use ResponseEntity<*> for all generated API methods.");
+
+        private final String description;
+
+        GenericResponseEntityMode(String description) {
+            this.description = description;
+        }
+    }
+
+    @Getter
     public enum DeclarativeInterfaceReactiveMode {
         coroutines("Use kotlin-idiomatic 'suspend' functions", "reactiveModeCoroutines"),
         reactor("Use reactor return wrappers 'Mono' and 'Flux'", "reactiveModeReactor");
@@ -177,7 +189,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean beanQualifiers = false;
     @Setter private DeclarativeInterfaceReactiveMode declarativeInterfaceReactiveMode = DeclarativeInterfaceReactiveMode.coroutines;
     @Setter private boolean useResponseEntity = true;
-    @Setter private boolean generateGenericResponseEntity = false;
+    @Setter private GenericResponseEntityMode generateGenericResponseEntity = GenericResponseEntityMode.NEVER;
     @Setter private boolean autoXSpringPaginated = false;
     @Setter private boolean generateSortValidation = false;
     @Setter private boolean generatePageableConstraintValidation = false;
@@ -306,9 +318,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_RESPONSE_ENTITY,
                 "Whether (when false) to return actual type (e.g. List<Fruit>) and handle non-happy path responses via exceptions flow or (when true) return entire ResponseEntity (e.g. ResponseEntity<List<Fruit>>). If disabled, method are annotated using a @ResponseStatus annotation, which has the status of the first response declared in the Api definition",
                 useResponseEntity);
-        addSwitch(GENERATE_GENERIC_RESPONSE_ENTITY,
-                "Use a generic type for the ResponseEntity wrapping return values of generated API methods. If enabled, methods are generated with return type ResponseEntity<*>",
-                generateGenericResponseEntity);
+        CliOption genericResponseEntityOpt = CliOption.newString(GENERATE_GENERIC_RESPONSE_ENTITY,
+                "Select when to use ResponseEntity<*> for generated API methods. Ignored when useResponseEntity=false.");
+        for (GenericResponseEntityMode mode : GenericResponseEntityMode.values()) {
+            genericResponseEntityOpt.addEnum(mode.name(), mode.getDescription());
+        }
+        genericResponseEntityOpt.setDefault(generateGenericResponseEntity.name());
+        cliOptions.add(genericResponseEntityOpt);
         addSwitch(USE_SEALED_RESPONSE_INTERFACES,
                 "Generate sealed interfaces for endpoint responses that all possible response types implement. Allows controllers to return any valid response type in a type-safe manner (e.g., sealed interface CreateUserResponse implemented by User, ConflictResponse, ErrorResponse)",
                 useSealedResponseInterfaces);
@@ -624,12 +640,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         writePropertyBack(USE_RESPONSE_ENTITY, useResponseEntity);
 
         if (additionalProperties.containsKey(GENERATE_GENERIC_RESPONSE_ENTITY)) {
-            this.setGenerateGenericResponseEntity(Boolean.parseBoolean(additionalProperties.get(GENERATE_GENERIC_RESPONSE_ENTITY).toString()));
+            try {
+                this.setGenerateGenericResponseEntity(GenericResponseEntityMode.valueOf(
+                        String.valueOf(additionalProperties.get(GENERATE_GENERIC_RESPONSE_ENTITY))));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid value for additional property '" + GENERATE_GENERIC_RESPONSE_ENTITY
+                        + "'. Supported values are " + Arrays.toString(GenericResponseEntityMode.values()) + ".", e);
+            }
         }
-        if (!useResponseEntity) {
-            this.setGenerateGenericResponseEntity(false);
-        }
-        writePropertyBack(GENERATE_GENERIC_RESPONSE_ENTITY, generateGenericResponseEntity);
+        writePropertyBack(GENERATE_GENERIC_RESPONSE_ENTITY, generateGenericResponseEntity.name());
+        writePropertyBack("useGenericResponseEntity", useResponseEntity && generateGenericResponseEntity == GenericResponseEntityMode.ALWAYS);
 
         if(additionalProperties.containsKey(USE_SEALED_RESPONSE_INTERFACES)) {
             this.setUseSealedResponseInterfaces(Boolean.parseBoolean(additionalProperties.get(USE_SEALED_RESPONSE_INTERFACES).toString()));
