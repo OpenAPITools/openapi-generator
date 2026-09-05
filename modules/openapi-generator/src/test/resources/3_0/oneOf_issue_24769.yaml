@@ -185,7 +185,7 @@ components:
         huntingSkill:
           type: string
       required:
-        - type
+        - enumType
         - huntingSkill
     DogWithEnum:
       description: A representation of a dog
@@ -199,7 +199,7 @@ components:
           type: integer
           format: int32
       required:
-        - type
+        - enumType
         - packSize
     DogWithAllOf:
       description: A representation of a dog
