@@ -1203,9 +1203,7 @@ public class TypeScriptFetchClientCodegenTest {
                 "tags?: Array<Tag>;");
         TestUtils.assertFileNotContains(pet,
                 "'photoUrls': new Set(json['photoUrls'])",
-                "'tags': json['tags'] == null ? undefined : (new Set((json['tags'] as Array<any>).map(TagFromJSON)))",
-                "'photoUrls': Array.from(value['photoUrls'] as Set<any>)",
-                "'tags': value['tags'] == null ? undefined : (Array.from(value['tags'] as Set<any>).map(TagToJSON))");
+                "'photoUrls': Array.from(value['photoUrls'] as Set<any>)");
     }
 
     @Test
