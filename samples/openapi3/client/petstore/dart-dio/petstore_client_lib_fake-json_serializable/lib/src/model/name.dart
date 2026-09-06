@@ -17,15 +17,11 @@ part 'name.g.dart';
   explicitToJson: true,
 )
 class Name {
-  /// Returns a new [Name] instance.
+/// Returns a new [Name] instance.
   Name({
-
     required  this.name,
-
      this.snakeCase,
-
      this.property,
-
      this.n123number,
   });
 
@@ -81,6 +77,7 @@ class Name {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Name &&
+    runtimeType == other.runtimeType &&
       other.name == name &&
       other.snakeCase == snakeCase &&
       other.property == property &&

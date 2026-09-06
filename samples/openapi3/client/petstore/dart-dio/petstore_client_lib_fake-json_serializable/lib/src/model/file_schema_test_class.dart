@@ -18,11 +18,9 @@ part 'file_schema_test_class.g.dart';
   explicitToJson: true,
 )
 class FileSchemaTestClass {
-  /// Returns a new [FileSchemaTestClass] instance.
+/// Returns a new [FileSchemaTestClass] instance.
   FileSchemaTestClass({
-
      this.file,
-
      this.files,
   });
 
@@ -54,6 +52,7 @@ class FileSchemaTestClass {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is FileSchemaTestClass &&
+    runtimeType == other.runtimeType &&
       other.file == file &&
       other.files == files;
 

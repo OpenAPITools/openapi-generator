@@ -17,9 +17,8 @@ part 'model_list.g.dart';
   explicitToJson: true,
 )
 class ModelList {
-  /// Returns a new [ModelList] instance.
+/// Returns a new [ModelList] instance.
   ModelList({
-
      this.n123list,
   });
 
@@ -39,6 +38,7 @@ class ModelList {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ModelList &&
+    runtimeType == other.runtimeType &&
       other.n123list == n123list;
 
     @override
