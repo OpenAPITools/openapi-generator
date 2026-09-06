@@ -27,21 +27,6 @@ components:
         - $ref: '#/components/schemas/banana'
         - $ref: '#/components/schemas/orange'
 
-    inlineOneOfModel:
-      title: inlineOneOfModel
-      type: object
-      properties:
-        value:
-          oneOf:
-            - type: string
-            - type: integer
-
-    union:
-      title: union
-      oneOf:
-        - type: string
-        - type: integer
-
     apple:
       title: apple
       type: object

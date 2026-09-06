@@ -136,12 +136,35 @@
                 startingTokenType != JsonTokenType.StartArray)
             {
                 {{#oneOf}}
+                {{#isPrimitiveType}}
+                {{^isAnyType}}
+                {{^isFreeFormObject}}
+                {{^isContainer}}
                 Utf8JsonReader utf8JsonReader{{name}} = utf8JsonReader;
                 ClientUtils.TryDeserialize<{{{datatypeWithEnum}}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}>(ref utf8JsonReader{{name}}, jsonSerializerOptions, out {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}});
-                {{^-last}}
-
-                {{/-last}}
+                {{/isContainer}}
+                {{/isFreeFormObject}}
+                {{/isAnyType}}
+                {{/isPrimitiveType}}
                 {{/oneOf}}
+
+                {{#oneOf}}
+                {{^vendorExtensions.x-duplicated-data-type}}
+                {{#isPrimitiveType}}
+                {{^isAnyType}}
+                {{^isFreeFormObject}}
+                {{^isContainer}}
+                if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} != null)
+                    return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}.Value{{/vendorExtensions.x-is-value-type}}  {{#model.composedSchemas.anyOf}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{^isDiscriminator}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#required}}ParsedValue{{/required}}  {{/isDiscriminator}}{{/allVars}}{{/lambda.joinWithComma}});
+
+                {{/isContainer}}
+                {{/isFreeFormObject}}
+                {{/isAnyType}}
+                {{/isPrimitiveType}}
+                {{/vendorExtensions.x-duplicated-data-type}}
+                {{/oneOf}}
+
+                throw new JsonException();
             }
             else
             {
@@ -323,7 +346,7 @@
                         default:
                             break;
                     }
-                }
+            }
             }
 
             {{#allVars}}
@@ -411,6 +434,23 @@
             {{/discriminator}}
             {{^model.discriminator}}
             {{#composedSchemas}}
+
+            {{#oneOf}}
+            {{#-first}}
+            int oneOfCount = 0;
+            {{/-first}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} != null)
+                oneOfCount++;
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{#-last}}
+
+            if (oneOfCount > 1)
+                throw new JsonException("Only one oneOf value can be set.");
+
+            {{/-last}}
+            {{/oneOf}}
+
             {{#oneOf}}
             {{#isPrimitiveType}}
             {{#isContainer}}
