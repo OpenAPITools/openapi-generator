@@ -78,6 +78,12 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/UniqueArrayResponse'
+  /unique-primitive-response-body:
+    get:
+      operationId: uniquePrimitiveResponseBody
+      responses:
+        '200':
+          $ref: '#/components/responses/UniquePrimitiveArrayResponse'
   /unique-header-param:
     get:
       operationId: uniqueHeaderParam
@@ -307,6 +313,15 @@ components:
             uniqueItems: true
             items:
               $ref: '#/components/schemas/Tag'
+    UniquePrimitiveArrayResponse:
+      description: Response body that is a primitive array with uniqueItems
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UniqueStringArray'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/UniqueStringArray'
   parameters:
     UniqueStringParam:
       name: uniqueStringParam

@@ -8,6 +8,7 @@ All URIs are relative to *http://localhost*
 | [**uniqueCookieParam**](DefaultApi.md#uniquecookieparam) | **GET** /unique-cookie-param |  |
 | [**uniqueHeaderParam**](DefaultApi.md#uniqueheaderparam) | **GET** /unique-header-param |  |
 | [**uniquePathParam**](DefaultApi.md#uniquepathparam) | **GET** /unique-path-param/{values} |  |
+| [**uniquePrimitiveResponseBody**](DefaultApi.md#uniqueprimitiveresponsebody) | **GET** /unique-primitive-response-body |  |
 | [**uniqueQueryParams**](DefaultApi.md#uniquequeryparams) | **GET** /unique-query-params |  |
 | [**uniqueRequestBody**](DefaultApi.md#uniquerequestbody) | **POST** /unique-request-body |  |
 | [**uniqueResponseBody**](DefaultApi.md#uniqueresponsebody) | **GET** /unique-response-body |  |
@@ -262,6 +263,63 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## uniquePrimitiveResponseBody
+
+> Array&lt;string&gt; uniquePrimitiveResponseBody()
+
+
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '';
+import type { UniquePrimitiveResponseBodyRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const api = new DefaultApi();
+
+  try {
+    const data = await api.uniquePrimitiveResponseBody();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**Array<string>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`, `application/xml`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Response body that is a primitive array with uniqueItems |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

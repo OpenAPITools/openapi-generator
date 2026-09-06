@@ -13,7 +13,11 @@
  */
 
 import * as runtime from '../runtime';
-import {type Tag, TagFromJSON, TagToJSON,} from '../models/Tag';
+import {
+    type Tag,
+    TagFromJSON,
+    TagToJSON,
+} from '../models/Tag';
 
 export interface UniqueCookieParamRequest {
     /**
@@ -225,6 +229,41 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async uniquePathParam(requestParameters: UniquePathParamRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.uniquePathParamRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Creates request options for uniquePrimitiveResponseBody without sending the request
+     */
+    async uniquePrimitiveResponseBodyRequestOpts(): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/unique-primitive-response-body`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     */
+    async uniquePrimitiveResponseBodyRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
+        const requestOptions = await this.uniquePrimitiveResponseBodyRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     */
+    async uniquePrimitiveResponseBody(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
+        const response = await this.uniquePrimitiveResponseBodyRaw(initOverrides);
+        return await response.value();
     }
 
     /**

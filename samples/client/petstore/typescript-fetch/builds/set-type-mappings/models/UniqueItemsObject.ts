@@ -12,8 +12,14 @@
  * Do not edit the class manually.
  */
 
-import type {Tag} from './Tag';
-import {TagFromJSON, TagToJSON,} from './Tag';
+import { mapValues } from '../runtime';
+import type { Tag } from './Tag';
+import {
+    TagFromJSON,
+    TagFromJSONTyped,
+    TagToJSON,
+    TagToJSONTyped,
+} from './Tag';
 
 /**
  * 

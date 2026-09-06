@@ -1244,6 +1244,41 @@ public class TypeScriptFetchClientCodegenTest {
                 "new Set(jsonValue.map(PetFromJSON))");
     }
 
+    @Test
+    public void testResponseTypeUsesSetForPrimitiveUniqueItemArrays() throws IOException {
+        File output = generate(new HashMap<>(), "src/test/resources/3_0/uniqueItems-test.yaml");
+
+        Path defaultApi = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(defaultApi,
+                "async uniquePrimitiveResponseBodyRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Set<string>>> {",
+                "async uniquePrimitiveResponseBody(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Set<string>> {",
+                "return new runtime.JSONApiResponse<any>(response, (jsonValue) => new Set(jsonValue));");
+    }
+
+    @Test
+    public void testTypeMappingSetToArrayDoesNotUseSetConversionsForPrimitiveUniqueItemArrays() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/uniqueItems-test.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addTypeMapping("set", "Array");
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(defaultApi,
+                "async uniquePrimitiveResponseBodyRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {",
+                "async uniquePrimitiveResponseBody(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {");
+        TestUtils.assertFileNotContains(defaultApi,
+                "Set<string>",
+                "new Set(jsonValue)");
+    }
+
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
     private static File generate(
