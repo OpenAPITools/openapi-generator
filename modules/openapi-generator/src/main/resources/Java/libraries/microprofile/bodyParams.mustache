@@ -1,1 +1,1 @@
-{{#isBodyParam}}{{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{dataType}}} {{paramName}}{{/isBodyParam}}
+{{#isBodyParam}}{{#useBeanValidation}}@Valid {{/useBeanValidation}}{{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDataType}} {{paramName}}{{/isBodyParam}}
