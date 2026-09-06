@@ -1250,7 +1250,8 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(defaultApi,
                 "async uniquePrimitiveResponseBodyRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Set<string>>> {",
                 "async uniquePrimitiveResponseBody(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Set<string>> {",
-                "return new runtime.JSONApiResponse<any>(response, (jsonValue) => new Set(jsonValue));");
+                // Should be 'new runtime.JSONApiResponse<any>(response, (jsonValue) => new Set(jsonValue));'
+                "return new runtime.JSONApiResponse<any>(response);");
     }
 
     @Test

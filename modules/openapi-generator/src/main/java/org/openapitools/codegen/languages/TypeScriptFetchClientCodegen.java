@@ -820,7 +820,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
-        op.returnTypeUsesSet = op.returnType != null && op.returnType.startsWith("Set<");
+        op.returnTypeUsesSet = isSetType(op.uniqueItems);
 
         return op;
     }
@@ -1246,6 +1246,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     private static boolean isReturnTypeUsesSet(CodegenOperation op) {
         return op instanceof ExtendedCodegenOperation && ((ExtendedCodegenOperation) op).returnTypeUsesSet;
+    }
+
+    private boolean isSetType(boolean uniqueItems) {
+        return uniqueItems && "Set".equals(typeMapping.get("set"));
     }
 
     /**
@@ -1804,7 +1808,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.xmlNamespace = cp.xmlNamespace;
             this.isXmlWrapped = cp.isXmlWrapped;
             this.setHasSanitizedName(cp.getHasSanitizedName());
-            this.usesSet = this.getUniqueItems() && "Set".equals(typeMapping.get("set"));
+            this.usesSet = isSetType(this.getUniqueItems());
         }
 
         @Override
