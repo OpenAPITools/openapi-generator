@@ -204,11 +204,23 @@ module Petstore
     # Returns the object in the form of hash
     # @return [Hash] Returns the object in the form of hash
     def to_hash
+      # collect the attributes this model knows about, including the ones defined
+      # in its parent(s): attribute_map and openapi_nullable resolve to the child
+      # class in every ancestor frame, so the inherited super chain only repeated
+      # the child's own attributes and dropped the inherited ones
+      map = self.class.attribute_map
+      nullable = self.class.openapi_nullable
+      klass = self.class.superclass
+      while klass.respond_to?(:openapi_types)
+        map = klass.attribute_map.merge(map)
+        nullable = nullable | klass.openapi_nullable
+        klass = klass.superclass
+      end
       hash = {}
-      self.class.attribute_map.each_pair do |attr, param|
+      map.each_pair do |attr, param|
         value = self.send(attr)
         if value.nil?
-          is_nullable = self.class.openapi_nullable.include?(attr)
+          is_nullable = nullable.include?(attr)
           next if !is_nullable || (is_nullable && !instance_variable_defined?(:"@#{attr}"))
         end
 
