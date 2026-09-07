@@ -26,8 +26,8 @@ export class {{apiModuleClassName}} {
         };
     }
 
-    private parentModule: {{apiModuleClassName}} = inject({{apiModuleClassName}}, { optional: true, skipSelf: true });
-    private http: HttpClient = inject(HttpClient, { optional: true });
+    private parentModule: {{apiModuleClassName}} | null = inject({{apiModuleClassName}}, { optional: true, skipSelf: true });
+    private http: HttpClient | null = inject(HttpClient, { optional: true });
 
     constructor() {
         if (this.parentModule) {
