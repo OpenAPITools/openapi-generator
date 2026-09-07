@@ -313,6 +313,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         typeMapping.put("file", "File");
         typeMapping.put("AnyType", "Object");
         typeMapping.put("BigInteger", "BigInteger");
+        typeMapping.put("enum", "Enum");
 
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("BigInteger", "java.math.BigInteger");

@@ -257,6 +257,9 @@ samples/client/petstore/R-httr2/man/
 samples/client/petstore/elixir/_build/
 samples/client/petstore/elixir/deps/
 samples/client/petstore/elixir/mix.lock
+samples/client/petstore/elixir-req/_build/
+samples/client/petstore/elixir-req/deps/
+samples/client/petstore/elixir-req/mix.lock
 
 # groovy
 samples/client/petstore/groovy/build

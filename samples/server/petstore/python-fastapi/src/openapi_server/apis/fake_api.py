@@ -22,11 +22,9 @@ from fastapi import (  # noqa: F401
     status,
 )
 
-from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from pydantic import Field
 from typing import Any, Optional
 from typing_extensions import Annotated
-
 
 router = APIRouter()
 
