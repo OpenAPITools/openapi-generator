@@ -133,7 +133,7 @@ export class {{classname}} {
 {{/isBasicBearer}}
 {{#isOAuth}}
 
-    set accessToken(token: string) {
+    set accessToken{{name}}(token: string) {
         this.authentications.{{name}}.accessToken = token;
     }
 {{/isOAuth}}
