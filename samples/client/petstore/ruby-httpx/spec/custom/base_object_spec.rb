@@ -176,5 +176,11 @@ describe 'BaseObject' do
       expect(cat.color).to eq('black')
       expect(cat.declawed).to eq(true)
     end
+
+    it 'to_hash serializes the parent attributes too' do
+      cat = Petstore::Cat.build_from_hash({ 'className' => 'Cat', 'color' => 'black', 'declawed' => true })
+
+      expect(cat.to_hash).to eq({ className: 'Cat', color: 'black', declawed: true })
+    end
   end
 end

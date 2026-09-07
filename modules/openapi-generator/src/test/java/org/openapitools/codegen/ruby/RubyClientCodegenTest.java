@@ -791,5 +791,17 @@ public class RubyClientCodegenTest {
         // dispatch on the child class in the parent's frame too, so it never
         // contributed the parent's attributes - it only built a second instance
         TestUtils.assertFileNotContains(lizard, "super(attributes)\n      attributes = attributes.transform_keys(&:to_sym)");
+        // to_hash walks the same ancestry: attribute_map/openapi_nullable dispatch on the
+        // child in every ancestor frame, so the old super chain only repeated the child's
+        // own attributes and a round-tripped model lost its inherited fields
+        TestUtils.assertFileContains(lizard,
+                "map = self.class.attribute_map\n" +
+                "      nullable = self.class.openapi_nullable\n" +
+                "      klass = self.class.superclass\n" +
+                "      while klass.respond_to?(:openapi_types)\n" +
+                "        map = klass.attribute_map.merge(map)\n" +
+                "        nullable = nullable | klass.openapi_nullable\n" +
+                "        klass = klass.superclass\n" +
+                "      end");
     }
 }
