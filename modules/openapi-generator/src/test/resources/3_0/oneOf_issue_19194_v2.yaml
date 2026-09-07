@@ -1,0 +1,88 @@
+openapi: 3.0.3
+info:
+  title: test
+  contact:
+    email: support@company.de
+  license:
+    name: company Licence
+    url: https://company.de/
+  version: 0.1.1
+servers:
+  - url: https://webservice.company.org
+paths:
+  /doSomething:
+    post:
+      summary: test
+      description: description for test operation
+      operationId: doSomething
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/doSomethingRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/doSomethingResponse'
+components:
+  schemas:
+    doSomethingRequest:
+      title: doSomethingRequest
+      type: object
+      properties:
+        cargo:
+          $ref: '#/components/schemas/cargoParent'
+      required:
+        - cargo
+    doSomethingResponse:
+      title: doSomethingResponse
+      type: object
+    TonsUnitEnum:
+      type: string
+      enum:
+        - Tons
+    TONS:
+      title: TONS
+      type: object
+      properties:
+        unit:
+          $ref: '#/components/schemas/TonsUnitEnum'
+        amount:
+          type: number
+          format: double
+          example: 40
+          minimum: 0
+      required:
+        - unit
+        - amount
+    KILOGRAMS:
+      title: KILOGRAMS
+      type: object
+      properties:
+        unit:
+          type: string
+          pattern: ^KILOGRAMS$
+          example: KILOGRAMS
+        amount:
+          type: number
+          format: double
+          example: 1000
+          minimum: 0
+      required:
+        - unit
+        - amount
+    cargoParent:
+      title: cargoParent
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/TONS'
+        - $ref: '#/components/schemas/KILOGRAMS'
+      discriminator:
+        propertyName: unit
+        mapping:
+          TONS: '#/components/schemas/TONS'
+          KILOGRAMS: '#/components/schemas/KILOGRAMS'

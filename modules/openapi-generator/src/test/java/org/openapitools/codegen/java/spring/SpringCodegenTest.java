@@ -9335,4 +9335,67 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("Dummy.java"))
                 .fileContains("import org.myorg.MyCustomId;", "import org.myorg.MyCustomKey;");
     }
+
+    @Test
+    public void issue_24769() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneOf_issue_24769.yaml", SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, true)
+        );
+
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .fileContains("public enum TypeEnum {",
+                        "DOG(\"DOG\");");
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .fileContains("public enum TypeEnum {",
+                        "CAT(\"CAT\");");
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileDoesNotContain("public enum TypeEnum {")
+                .fileContains("public Enum getType();");
+
+        JavaFileAssert.assertThat(files.get("PetInteger.java"))
+                .fileContains("public Integer getIntType();");
+
+        JavaFileAssert.assertThat(files.get("PetEnumRef.java"))
+                .fileContains("public PetEnumType getEnumRefType();");
+
+        JavaFileAssert.assertThat(files.get("PetWithParent.java"))
+                .fileContains("public PetEnumType getPetType();");
+
+        JavaFileAssert.assertThat(files.get("PetWithAllOf.java"))
+                .fileContains("public PetEnumType getTypeAllOf()");
+
+        JavaFileAssert.assertThat(files.get("PetWithEnum.java"))
+                .fileContains("public Enum getEnumType()");
+        JavaFileAssert.assertThat(files.get("CatWithEnum.java"))
+                .fileContains("public enum EnumTypeEnum {",
+                        "CAT(\"CAT\");");
+
+
+        JavaFileAssert.assertThat(files.get("PetNoMapping.java"))
+                .fileContains("public Enum getType();");
+
+    }
+
+    @DataProvider(name = "oneOfDiscriminatorType")
+    public Object[][] oneOfDiscriminatorType() {
+        return new Object[][]{
+                {"/3_0/oneOf_issue_19194.yaml", true, "CargoInterface.java", "public CargoGeneralParameterUnit getUnit();"},
+                {"/3_0/oneOf_issue_19194.yaml", false, "CargoInterface.java", "public Enum getUnit();"},
+                {"/3_0/oneOf_issue_19194_v2.yaml", false, "CargoParent.java", "public Object getUnit()"},
+                {"/3_0/oneof_polymorphism_and_inheritance.yaml", false, "FooRefOrValue.java", "public String getAtType()"}
+        };
+    }
+
+    @Test(dataProvider = "oneOfDiscriminatorType")
+    public void oneOfDiscriminatorType(String filename, boolean resolveInlineEnum, String fileToCheck, String expectedContains) throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources" + filename, SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, true), configurator->
+                        configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", Boolean.toString(resolveInlineEnum))
+        );
+        JavaFileAssert.assertThat(files.get(fileToCheck))
+                .fileContains(expectedContains);
+    }
+
 }

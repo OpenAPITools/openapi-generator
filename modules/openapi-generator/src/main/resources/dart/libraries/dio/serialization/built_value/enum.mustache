@@ -13,13 +13,15 @@ part '{{classFilename}}.g.dart';
 class {{classname}} extends EnumClass {
 
   {{#allowableValues}}
-    {{#enumVars}}
-      {{#enumDescription}}
-  /// {{{.}}}
-      {{/enumDescription}}
+  {{#enumVars}}
+  {{#enumDescription}}
+  /**
+   * {{#lambda.dartdoc_2}}{{{.}}}{{/lambda.dartdoc_2}}
+   */
+  {{/enumDescription}}
   @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{#isLong}}wireNumber: {{{value}}}{{/isLong}}{{^isInteger}}{{^isLong}}wireName: r{{{value}}}{{/isLong}}{{/isInteger}}{{#enumUnknownDefaultCase}}{{#-last}}, fallback: true{{/-last}}{{/enumUnknownDefaultCase}})
   static const {{classname}} {{name}} = _${{name}};
-    {{/enumVars}}
+  {{/enumVars}}
   {{/allowableValues}}
 
   static Serializer<{{classname}}> get serializer => _${{#lambda.camelcase}}{{{classname}}}{{/lambda.camelcase}}Serializer;
