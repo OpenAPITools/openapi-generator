@@ -26,6 +26,17 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.bind.serializer.JsonbSerializer;
+import jakarta.json.bind.serializer.SerializationContext;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -258,6 +269,51 @@ public class Pet {
     this.status = status;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  @JsonbTransient
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the Pet instance itself
+   */
+  public Pet putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
+   */
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
 
 
   @Override
@@ -280,6 +336,7 @@ public class Pet {
     sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
     sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -305,5 +362,132 @@ public class Pet {
   }
 
 
+
+  /**
+   * Custom JSON-B serializer that flattens the additional (undeclared) properties into the
+   * serialized object. JSON-B has no equivalent of Jackson's {@code @JsonAnyGetter}, so without
+   * this serializer values added through {@code putAdditionalProperty} would not be emitted
+   * under their original names. Registered with the Jsonb instance built by {@code JSON}.
+   */
+  public static class CustomJsonbSerializer implements JsonbSerializer<Pet> {
+    @Override
+    public void serialize(Pet value, JsonGenerator generator, SerializationContext context) {
+      generator.writeStartObject();
+      if (value.getId() != null) {
+        context.serialize("id", value.getId(), generator);
+      }
+      if (value.getCategory() != null) {
+        context.serialize("category", value.getCategory(), generator);
+      }
+      if (value.getName() != null) {
+        context.serialize("name", value.getName(), generator);
+      }
+      if (value.getPhotoUrls() != null) {
+        context.serialize("photoUrls", value.getPhotoUrls(), generator);
+      }
+      if (value.getTags() != null) {
+        context.serialize("tags", value.getTags(), generator);
+      }
+      if (value.getStatus() != null) {
+        context.serialize("status", value.getStatus(), generator);
+      }
+      if (value.getAdditionalProperties() != null) {
+        for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+          // a declared property always wins over an additional property with the same name
+          if (!openapiFields.contains(entry.getKey())) {
+            context.serialize(entry.getKey(), entry.getValue(), generator);
+          }
+        }
+      }
+      generator.writeEnd();
+    }
+  }
+
+  /**
+   * Custom JSON-B deserializer that captures undeclared fields into the additional-properties
+   * map. JSON-B has no equivalent of Jackson's {@code @JsonAnySetter}, so without this
+   * deserializer unknown response keys would be silently dropped. Registered with the Jsonb
+   * instance built by {@code JSON}.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<Pet> {
+    @Override
+    public Pet deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      JsonObject jsonObj = parser.getObject();
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
+      Pet instance = new Pet();
+      if (jsonObj.containsKey("id")) {
+        instance.setId(jsonObj.get("id").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("id").toString(), fieldType("id")));
+      }
+      if (jsonObj.containsKey("category")) {
+        instance.setCategory(jsonObj.get("category").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("category").toString(), fieldType("category")));
+      }
+      if (jsonObj.containsKey("name")) {
+        instance.setName(jsonObj.get("name").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("name").toString(), fieldType("name")));
+      }
+      if (jsonObj.containsKey("photoUrls")) {
+        instance.setPhotoUrls(jsonObj.get("photoUrls").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("photoUrls").toString(), fieldType("photoUrls")));
+      }
+      if (jsonObj.containsKey("tags")) {
+        instance.setTags(jsonObj.get("tags").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("tags").toString(), fieldType("tags")));
+      }
+      if (jsonObj.containsKey("status")) {
+        instance.setStatus(jsonObj.get("status").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("status").toString(), fieldType("status")));
+      }
+      for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
+        if (!openapiFields.contains(entry.getKey())) {
+          instance.putAdditionalProperty(entry.getKey(),
+              entry.getValue().getValueType() == JsonValue.ValueType.NULL
+                  ? null
+                  : jsonb.fromJson(entry.getValue().toString(), Object.class));
+        }
+      }
+      return instance;
+    }
+
+    private static java.lang.reflect.Field declaredField(String fieldName) {
+      // walk up the hierarchy: inherited properties are declared on a parent class
+      for (Class<?> clazz = Pet.class; clazz != null; clazz = clazz.getSuperclass()) {
+        try {
+          return clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+          // not declared on this class; check the parent
+        }
+      }
+      throw new IllegalArgumentException("Field " + fieldName + " not found on Pet");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField(Pet instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on Pet", e);
+      }
+    }
+  }
 }
 

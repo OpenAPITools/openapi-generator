@@ -50,6 +50,9 @@ import {{jacksonPackage}}.databind.SerializationContext;
 {{/isJackson}}
 
 {{#isJsonb}}
+{{! additional_properties.mustache annotates its holder field with @JsonbTransient, so the
+    import has to be here too - a pojo gets it from pojo.mustache, a composed model does not. }}
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
 import jakarta.json.bind.serializer.DeserializationContext;
@@ -59,6 +62,7 @@ import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 {{/isJsonb}}
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -894,22 +898,39 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
     {{/isAdditionalPropertiesTrue}}
 
+    {{! ctx.deserialize drives a fresh JsonParser, which Yasson cannot bind to a root-level
+        scalar - a oneOf/anyOf branch of "type: string" or "type: number" fails there. Route
+        structured values through the context as before, scalars through the binding API. }}
+    private static Object deserializeBranch(DeserializationContext ctx, Class<?> type, JsonValue value) {
+        if (value.getValueType() == JsonValue.ValueType.OBJECT
+                || value.getValueType() == JsonValue.ValueType.ARRAY) {
+            return ctx.deserialize(type, jakarta.json.Json.createParser(new java.io.StringReader(value.toString())));
+        }
+        return JSON.getPlainJsonb().fromJson(value.toString(), type);
+    }
+
     public static class {{classname}}Deserializer implements JsonbDeserializer<{{classname}}> {
         @Override
         public {{classname}} deserialize(JsonParser parser, DeserializationContext ctx, Type rt) {
-            JsonObject jsonObject = parser.getObject();
+            {{! A composed branch can be an array or a scalar, not only an object, and
+                parser.getObject() throws IllegalStateException on START_ARRAY. Read the
+                generic JsonValue and narrow only for the object-shaped paths below. }}
+            JsonValue jsonValue = parser.getValue();
+            JsonObject jsonObject = jsonValue instanceof JsonObject ? (JsonObject) jsonValue : null;
             Object deserialized = null;
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
-            if (jsonObject.containsKey("{{{propertyBaseName}}}")) {
+            if (jsonObject != null && jsonObject.containsKey("{{{propertyBaseName}}}")) {
                 String discriminatorValue = jsonObject.getString("{{{propertyBaseName}}}");
                 {{#mappedModels}}
                 if ("{{{mappingName}}}".equals(discriminatorValue)) {
-                    deserialized = ctx.deserialize({{{modelName}}}.class, jakarta.json.Json.createParser(new java.io.StringReader(jsonObject.toString())));
+                    deserialized = deserializeBranch(ctx, {{{modelName}}}.class, jsonValue);
                     {{classname}} new{{classname}} = new {{classname}}();
                     new{{classname}}.setActualInstance(deserialized);
                     {{#isAdditionalPropertiesTrue}}
-                    collectUnconsumedProperties(new{{classname}}, jsonObject);
+                    if (jsonObject != null) {
+                        collectUnconsumedProperties(new{{classname}}, jsonObject);
+                    }
                     {{/isAdditionalPropertiesTrue}}
                     return new{{classname}};
                 }
@@ -922,7 +943,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{^vendorExtensions.x-duplicated-data-type}}
             // deserialize {{{dataType}}}
             try {
-                deserialized = ctx.deserialize({{{baseType}}}.class, jakarta.json.Json.createParser(new java.io.StringReader(jsonObject.toString())));
+                deserialized = deserializeBranch(ctx, {{{baseType}}}.class, jsonValue);
                 match++;
             } catch (Exception e) {
                 // deserialization failed, continue
@@ -933,7 +954,9 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 {{classname}} ret = new {{classname}}();
                 ret.setActualInstance(deserialized);
                 {{#isAdditionalPropertiesTrue}}
-                collectUnconsumedProperties(ret, jsonObject);
+                if (jsonObject != null) {
+                    collectUnconsumedProperties(ret, jsonObject);
+                }
                 {{/isAdditionalPropertiesTrue}}
                 return ret;
             }

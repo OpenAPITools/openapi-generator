@@ -27,6 +27,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Quadrilateral;
 import org.openapitools.client.model.Triangle;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tools.jackson.core.JsonGenerator;
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.JsonToken;
@@ -64,6 +67,78 @@ import org.openapitools.client.JSON;
 public class NullableShape extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(NullableShape.class.getName());
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  @JsonIgnore
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the NullableShape instance itself
+   */
+  @JsonAnySetter
+  public NullableShape putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+    /**
+     * Record the properties that the matched oneOf schema did not consume.
+     *
+     * <p>The wrapper only owns what the selected child schema left behind. When that child accepts
+     * additional properties itself it absorbs them all and this records nothing, so a property is
+     * never stored — and therefore never written — twice.</p>
+     */
+    private static void collectUnconsumedProperties(NullableShape instance, JsonNode tree) {
+        if (tree == null || !tree.isObject() || instance.getActualInstance() == null) {
+            return;
+        }
+        JsonNode consumed = JSON.getMapper().valueToTree(instance.getActualInstance());
+        if (consumed == null || !consumed.isObject()) {
+            return;
+        }
+        java.util.Iterator<Map.Entry<String, JsonNode>> fields = tree.properties().iterator();
+        while (fields.hasNext()) {
+            Map.Entry<String, JsonNode> entry = fields.next();
+            if (consumed.has(entry.getKey())) {
+                continue;
+            }
+            instance.putAdditionalProperty(entry.getKey(),
+                    JSON.getMapper().convertValue(entry.getValue(), Object.class));
+        }
+    }
 
 
     public static class NullableShapeSerializer extends StdSerializer<NullableShape> {
@@ -77,6 +152,22 @@ public class NullableShape extends AbstractOpenApiSchema {
 
         @Override
         public void serialize(NullableShape value, JsonGenerator jgen, SerializationContext serializationContext) throws JacksonException {
+            if (value.getActualInstance() != null && value.getAdditionalProperties() != null
+                    && !value.getAdditionalProperties().isEmpty()) {
+                JsonNode node = JSON.getMapper().valueToTree(value.getActualInstance());
+                if (node != null && node.isObject()) {
+                    tools.jackson.databind.node.ObjectNode objectNode = (tools.jackson.databind.node.ObjectNode) node;
+                    for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+                        if (objectNode.has(entry.getKey())) {
+                            // the child schema owns this property
+                            continue;
+                        }
+                        objectNode.set(entry.getKey(), JSON.getMapper().valueToTree(entry.getValue()));
+                    }
+                    serializationContext.writeValue(jgen, node);
+                    return;
+                }
+            }
             serializationContext.writeValue(jgen, value.getActualInstance());
         }
     }
@@ -94,6 +185,25 @@ public class NullableShape extends AbstractOpenApiSchema {
         public NullableShape deserialize(JsonParser jp, DeserializationContext ctxt) throws JacksonException {
             JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
+            NullableShape newNullableShape = new NullableShape();
+            String discriminatorValue = tree.path("shapeType").asText(null);
+            if (discriminatorValue != null) {
+                switch (discriminatorValue) {
+                    case "Quadrilateral":
+                        deserialized = ctxt.readTreeAsValue(tree, Quadrilateral.class);
+                        newNullableShape.setActualInstance(deserialized);
+                        collectUnconsumedProperties(newNullableShape, tree);
+                        return newNullableShape;
+                    case "Triangle":
+                        deserialized = ctxt.readTreeAsValue(tree, Triangle.class);
+                        newNullableShape.setActualInstance(deserialized);
+                        collectUnconsumedProperties(newNullableShape, tree);
+                        return newNullableShape;
+                    default:
+                        log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for NullableShape. Possible values: Quadrilateral Triangle", discriminatorValue));
+                }
+            }
+
             boolean typeCoercion = false;
             int match = 0;
             JsonToken token = tree.asToken();
@@ -152,6 +262,7 @@ public class NullableShape extends AbstractOpenApiSchema {
             if (match == 1) {
                 NullableShape ret = new NullableShape();
                 ret.setActualInstance(deserialized);
+                collectUnconsumedProperties(ret, tree);
                 return ret;
             }
             throw DatabindException.from(jp, String.format(java.util.Locale.ROOT, "Failed deserialization for NullableShape: %d classes match result, expected 1", match));

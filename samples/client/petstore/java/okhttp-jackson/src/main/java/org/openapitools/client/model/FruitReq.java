@@ -159,7 +159,7 @@ public class FruitReq extends AbstractOpenApiSchema {
          */
         @Override
         public FruitReq getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException(ctxt.getParser(), "FruitReq cannot be null");
+            return null;
         }
     }
 
@@ -168,7 +168,7 @@ public class FruitReq extends AbstractOpenApiSchema {
     public static final Map<String, Class<?>> schemas = new HashMap<>();
 
     public FruitReq() {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
     }
 
     public FruitReq(AppleReq o) {
@@ -202,6 +202,11 @@ public class FruitReq extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
         if (JSON.isInstanceOf(AppleReq.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;

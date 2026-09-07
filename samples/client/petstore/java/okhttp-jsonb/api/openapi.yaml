@@ -62,7 +62,6 @@ paths:
         "405":
           description: Invalid input
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -85,7 +84,6 @@ paths:
         "405":
           description: Validation exception
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -110,6 +108,7 @@ paths:
         name: status
         required: true
         schema:
+          default: []
           items:
             default: available
             enum:
@@ -124,11 +123,13 @@ paths:
           content:
             application/xml:
               schema:
+                default: []
                 items:
                   $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
+                default: []
                 items:
                   $ref: "#/components/schemas/Pet"
                 type: array
@@ -136,7 +137,6 @@ paths:
         "400":
           description: Invalid status value
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -159,6 +159,7 @@ paths:
         name: tags
         required: true
         schema:
+          default: []
           items:
             type: string
           type: array
@@ -168,11 +169,13 @@ paths:
           content:
             application/xml:
               schema:
+                default: []
                 items:
                   $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
+                default: []
                 items:
                   $ref: "#/components/schemas/Pet"
                 type: array
@@ -180,7 +183,6 @@ paths:
         "400":
           description: Invalid tag value
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -244,7 +246,8 @@ paths:
                 $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: "#/components/schemas/Pet"
+                allOf:
+                - $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -303,6 +306,14 @@ paths:
           format: int64
           type: integer
         style: simple
+      - description: Content type header parameter
+        explode: false
+        in: header
+        name: Content-Type
+        required: false
+        schema:
+          type: string
+        style: simple
       requestBody:
         content:
           multipart/form-data:
@@ -337,6 +348,7 @@ paths:
                 additionalProperties:
                   format: int32
                   type: integer
+                default: []
                 type: object
           description: successful operation
       security:
@@ -734,6 +746,7 @@ paths:
         name: enum_header_string_array
         required: false
         schema:
+          default: []
           items:
             default: $
             enum:
@@ -761,6 +774,7 @@ paths:
         name: enum_query_string_array
         required: false
         schema:
+          default: []
           items:
             default: $
             enum:
@@ -957,22 +971,6 @@ paths:
       x-content-type: application/json
       x-accepts:
       - '*/*'
-  /fake/BigDecimalMap:
-    get:
-      description: "for Java apache and Java native, test toUrlQueryString for maps\
-        \ with BegDecimal keys"
-      operationId: fakeBigDecimalMap
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/fakeBigDecimalMap_200_response"
-          description: successful operation
-      tags:
-      - fake
-      x-accepts:
-      - '*/*'
   /fake/jsonFormData:
     get:
       description: ""
@@ -1011,6 +1009,48 @@ paths:
       x-content-type: application/json
       x-accepts:
       - application/json
+  /fake/oneOfWIthSameErasure:
+    get:
+      description: "Test route, this shouldn't cause a compiler error"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/_fake_oneOfWIthSameErasure_get_200_response"
+          description: successful response
+      x-accepts:
+      - application/json
+  /fake/nullable-required-fields-anyof:
+    get:
+      description: "Tests that anyOf deserialization works when object values contain\
+        \ required fields that are nullable (e.g. Record<string, { before: string\
+        \ | null, after: string | null }>)"
+      operationId: testNullableRequiredFieldsAnyOf
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NullableFieldsMapResponse"
+          description: successful operation
+      summary: test anyOf with map of objects containing nullable required fields
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /fake/anyOfWIthSameErasure:
+    get:
+      description: "Test route, this shouldn't cause a compiler error"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/_fake_anyOfWIthSameErasure_get_200_response"
+          description: successful response
+      x-accepts:
+      - application/json
   /fake/stringMap-reference:
     post:
       description: ""
@@ -1041,6 +1081,7 @@ paths:
             schema:
               additionalProperties:
                 type: string
+              default: []
               type: object
         description: request body
         required: true
@@ -1136,6 +1177,42 @@ paths:
       x-content-type: application/json
       x-accepts:
       - application/json
+  /fake/get-free-form-object:
+    get:
+      description: Get a free form object or Json string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FreeFormObjectTestClass"
+          description: Success
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /fake/free-form-query-parameters:
+    get:
+      parameters:
+      - explode: true
+        in: query
+        name: fixed
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: free-form
+        required: false
+        schema:
+          type: object
+        style: form
+      responses:
+        "200":
+          description: OK
+      x-accepts:
+      - application/json
   /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
@@ -1146,6 +1223,7 @@ paths:
         name: pipe
         required: true
         schema:
+          default: []
           items:
             type: string
           type: array
@@ -1155,6 +1233,7 @@ paths:
         name: ioutil
         required: true
         schema:
+          default: []
           items:
             type: string
           type: array
@@ -1164,6 +1243,7 @@ paths:
         name: http
         required: true
         schema:
+          default: []
           items:
             type: string
           type: array
@@ -1173,6 +1253,7 @@ paths:
         name: url
         required: true
         schema:
+          default: []
           items:
             type: string
           type: array
@@ -1182,6 +1263,7 @@ paths:
         name: context
         required: true
         schema:
+          default: []
           items:
             type: string
           type: array
@@ -1258,23 +1340,210 @@ paths:
       - fake
       x-accepts:
       - application/json
-  /fake/application_json_utf8:
+  /fake/parameter-name-mapping:
     get:
-      operationId: get_application_json_utf8
+      operationId: getParameterNameMapping
+      parameters:
+      - description: _type
+        explode: false
+        in: header
+        name: _type
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: type
+        explode: true
+        in: query
+        name: type
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: type_
+        explode: false
+        in: header
+        name: type_
+        required: true
+        schema:
+          type: string
+        style: simple
       responses:
         "200":
-          content:
-            application/json;charset=utf-8:
-              schema:
-                $ref: "#/components/schemas/ArrayOfEnums"
-          description: test
-      summary: application/json UTF8
+          description: OK
+      summary: parameter name mapping test
       tags:
       - fake
       x-accepts:
-      - application/json;charset=utf-8
+      - application/json
+  /fake/parameter-string-number:
+    get:
+      operationId: getParameterStringNumber
+      parameters:
+      - description: string number
+        explode: false
+        in: header
+        name: string_number
+        required: true
+        schema:
+          format: number
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: OK
+      summary: parameter string number
+      tags:
+      - another_fake
+      x-accepts:
+      - application/json
+  /fake/parameter-array-number:
+    get:
+      operationId: getParameterArrayNumber
+      parameters:
+      - description: array integer
+        explode: false
+        in: header
+        name: array
+        required: true
+        schema:
+          default:
+          - 1
+          items:
+            type: integer
+          type: array
+        style: simple
+      responses:
+        "200":
+          description: OK
+      summary: parameter array number default value
+      tags:
+      - another_fake
+      x-accepts:
+      - application/json
+  /fake/pet/{petId}/uploadImage:
+    post:
+      description: ""
+      operationId: fake-upload-ref-request-bodies
+      parameters:
+      - description: ID of pet to update
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        $ref: "#/components/requestBodies/upload_body"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+          description: successful operation
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+      summary: fake reference parameter
+      tags:
+      - fake
+      x-content-type: multipart/form-data
+      x-accepts:
+      - application/json
+  /fake/pet/{petId}/reference/parameter:
+    post:
+      description: ""
+      operationId: fake-ref-parameter
+      parameters:
+      - description: to test oneOf in parameter $ref
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          $ref: "#/components/schemas/fake_ref_parameter_petId_parameter"
+        style: simple
+      responses:
+        "200":
+          description: successful operation
+      summary: fake reference parameter
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /values:
+    get:
+      description: ""
+      operationId: getSomeValues
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Variable"
+          description: successful operation
+        "400":
+          description: Invalid Value
+      summary: Get some primitive variable values
+      tags:
+      - values
+      x-accepts:
+      - application/json
+  /internal/only:
+    get:
+      description: ""
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Variable"
+          description: successful operation
+        "400":
+          description: Invalid Value
+      summary: internal only
+      tags:
+      - values
+      x-internal: true
+      x-accepts:
+      - application/json
+  /fake/required-nullable-body:
+    get:
+      description: ""
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequiredNullableBody"
+          description: success
+      summary: "fields in the response body, required and nullable are both true"
+      tags:
+      - fake
+      x-accepts:
+      - application/json
 components:
+  parameters:
+    pet_id:
+      description: to test oneOf in parameter $ref
+      explode: false
+      in: path
+      name: petId
+      required: true
+      schema:
+        $ref: "#/components/schemas/fake_ref_parameter_petId_parameter"
+      style: simple
   requestBodies:
+    upload_body:
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/uploadFile_request"
     UserArray:
       content:
         application/json:
@@ -1286,6 +1555,7 @@ components:
               - username: foo
               - username: bar
           schema:
+            default: []
             items:
               $ref: "#/components/schemas/User"
             type: array
@@ -1302,7 +1572,8 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Pet"
+            allOf:
+            - $ref: "#/components/schemas/Pet"
         application/xml:
           schema:
             $ref: "#/components/schemas/Pet"
@@ -1468,6 +1739,7 @@ components:
           example: doggie
           type: string
         photoUrls:
+          default: []
           items:
             type: string
           type: array
@@ -1475,6 +1747,7 @@ components:
             name: photoUrl
             wrapped: true
         tags:
+          default: []
           items:
             $ref: "#/components/schemas/Tag"
           type: array
@@ -1568,6 +1841,7 @@ components:
     Address:
       additionalProperties:
         type: integer
+      default: []
       type: object
     Animal:
       discriminator:
@@ -1637,6 +1911,10 @@ components:
           type: string
         uuid:
           example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          format: uuid
+          type: string
+        uuid_with_default:
+          default: 11111111-206d-4f12-9f12-3d1e525a8e84
           format: uuid
           type: string
         password:
@@ -1713,12 +1991,15 @@ components:
         map_property:
           additionalProperties:
             type: string
+          default: []
           type: object
         map_of_map_property:
           additionalProperties:
             additionalProperties:
               type: string
+            default: []
             type: object
+          default: []
           type: object
         anytype_1: {}
         map_with_undeclared_properties_anytype_1:
@@ -1728,6 +2009,7 @@ components:
           type: object
         map_with_undeclared_properties_anytype_3:
           additionalProperties: true
+          default: []
           type: object
         empty_map:
           additionalProperties: false
@@ -1737,6 +2019,7 @@ components:
         map_with_undeclared_properties_string:
           additionalProperties:
             type: string
+          default: []
           type: object
       type: object
     MixedPropertiesAndAdditionalPropertiesClass:
@@ -1750,6 +2033,7 @@ components:
         map:
           additionalProperties:
             $ref: "#/components/schemas/Animal"
+          default: []
           type: object
       type: object
     List:
@@ -1804,7 +2088,9 @@ components:
           additionalProperties:
             additionalProperties:
               type: string
+            default: []
             type: object
+          default: []
           type: object
         map_of_enum_string:
           additionalProperties:
@@ -1812,31 +2098,39 @@ components:
             - UPPER
             - lower
             type: string
+          default: []
           type: object
         direct_map:
           additionalProperties:
             type: boolean
+          default: []
           type: object
         indirect_map:
           additionalProperties:
             type: boolean
+          default: []
           type: object
       type: object
     ArrayTest:
       properties:
         array_of_string:
+          default: []
           items:
             type: string
           type: array
         array_array_of_integer:
+          default: []
           items:
+            default: []
             items:
               format: int64
               type: integer
             type: array
           type: array
         array_array_of_model:
+          default: []
           items:
+            default: []
             items:
               $ref: "#/components/schemas/ReadOnlyFirst"
             type: array
@@ -1850,6 +2144,7 @@ components:
     ArrayOfNumberOnly:
       properties:
         ArrayNumber:
+          default: []
           items:
             type: number
           type: array
@@ -1857,7 +2152,9 @@ components:
     ArrayOfArrayOfNumberOnly:
       properties:
         ArrayArrayNumber:
+          default: []
           items:
+            default: []
             items:
               type: number
             type: array
@@ -1871,6 +2168,7 @@ components:
           - $
           type: string
         array_enum:
+          default: []
           items:
             enum:
             - fish
@@ -1880,11 +2178,13 @@ components:
       type: object
     FreeFormObject:
       additionalProperties: true
+      default: []
       description: A schema consisting only of additional properties
       type: object
     MapOfString:
       additionalProperties:
         type: string
+      default: []
       description: A schema consisting only of additional properties of type string
       type: object
     OuterEnum:
@@ -1892,9 +2192,12 @@ components:
       - placed
       - approved
       - delivered
+      - s
+      - S
       nullable: true
       type: string
     OuterEnumInteger:
+      deprecated: true
       enum:
       - 0
       - 1
@@ -1938,6 +2241,7 @@ components:
     StringBooleanMap:
       additionalProperties:
         type: boolean
+      default: []
       type: object
     FileSchemaTestClass:
       example:
@@ -1950,9 +2254,20 @@ components:
         file:
           $ref: "#/components/schemas/File"
         files:
+          default: []
           items:
             $ref: "#/components/schemas/File"
           type: array
+      type: object
+    FreeFormObjectTestClass:
+      example:
+        name: name
+        properties: FreeFormObjectTestClass_properties
+      properties:
+        name:
+          type: string
+        properties:
+          $ref: "#/components/schemas/FreeFormObjectTestClass_properties"
       type: object
     File:
       description: Must be named `File` for test.
@@ -2019,6 +2334,7 @@ components:
           nullable: true
           type: array
         array_items_nullable:
+          default: []
           items:
             nullable: true
             type: object
@@ -2038,6 +2354,7 @@ components:
           additionalProperties:
             nullable: true
             type: object
+          default: []
           type: object
       type: object
     fruit:
@@ -2070,6 +2387,13 @@ components:
       - $ref: "#/components/schemas/whale"
       - $ref: "#/components/schemas/zebra"
       - $ref: "#/components/schemas/Pig"
+    mammal_anyof:
+      anyOf:
+      - $ref: "#/components/schemas/whale"
+      - $ref: "#/components/schemas/zebra"
+      - $ref: "#/components/schemas/Pig"
+      discriminator:
+        propertyName: className
     whale:
       properties:
         hasBaleen:
@@ -2125,6 +2449,7 @@ components:
           type: string
     fruitReq:
       additionalProperties: false
+      nullable: true
       oneOf:
       - $ref: "#/components/schemas/appleReq"
       - $ref: "#/components/schemas/bananaReq"
@@ -2159,6 +2484,7 @@ components:
         nullableShape:
           $ref: "#/components/schemas/NullableShape"
         shapes:
+          default: []
           items:
             $ref: "#/components/schemas/Shape"
           type: array
@@ -2174,6 +2500,7 @@ components:
         in OAS schema >= 3.1.
       discriminator:
         propertyName: shapeType
+      nullable: true
       oneOf:
       - $ref: "#/components/schemas/Triangle"
       - $ref: "#/components/schemas/Quadrilateral"
@@ -2252,20 +2579,8 @@ components:
       allOf:
       - $ref: "#/components/schemas/GrandparentAnimal"
       type: object
-    ChildCat:
-      allOf:
-      - $ref: "#/components/schemas/ParentPet"
-      - properties:
-          name:
-            type: string
-          pet_type:
-            default: ChildCat
-            enum:
-            - ChildCat
-            type: string
-            x-enum-as-string: true
-        type: object
     ArrayOfEnums:
+      default: []
       items:
         $ref: "#/components/schemas/OuterEnum"
       type: array
@@ -2290,9 +2605,379 @@ components:
         deprecatedRef:
           $ref: "#/components/schemas/DeprecatedObject"
         bars:
+          default: []
           deprecated: true
           items:
             $ref: "#/components/schemas/Bar"
+          type: array
+      type: object
+    PetWithRequiredTags:
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category:
+          $ref: "#/components/schemas/Category"
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          default: []
+          items:
+            type: string
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          default: []
+          items:
+            $ref: "#/components/schemas/Tag"
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      - tags
+      type: object
+      xml:
+        name: Pet
+    ArrayOfInlineAllOf:
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          example: doggie
+          type: string
+        array_allof_dog_property:
+          default: []
+          items:
+            $ref: "#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner"
+          type: array
+      required:
+      - name
+      type: object
+    EnumStringDiscriminator:
+      description: An object to test discriminator of enum string
+      discriminator:
+        propertyName: enum_str_type
+      properties:
+        enum_str_type:
+          description: enum string type
+          enum:
+          - type_a
+          - type_b
+          type: string
+      required:
+      - enum_str_type
+      type: object
+    ArrayDefault:
+      properties:
+        WithDefaultEmptyBracket:
+          default: []
+          items:
+            type: string
+          type: array
+        WithoutDefault:
+          default: []
+          items:
+            type: string
+          type: array
+    Variable:
+      description: Value object
+      example:
+        name: variable_1
+        value: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        name:
+          example: variable_1
+          type: string
+        value:
+          $ref: "#/components/schemas/Value"
+      required:
+      - name
+      - value
+    Value:
+      oneOf:
+      - $ref: "#/components/schemas/Scalar"
+      - $ref: "#/components/schemas/Array"
+    Scalar:
+      description: Values of scalar type
+      oneOf:
+      - format: uuid
+        type: string
+      - maxLength: 1089
+        type: string
+      - type: number
+      - type: boolean
+    ScalarAnyOf:
+      anyOf:
+      - format: uuid
+        type: string
+      - maxLength: 1089
+        type: string
+      - type: number
+      - type: boolean
+      description: Values of scalar type using anyOf
+    Array:
+      default: []
+      description: Values of array type
+      items:
+        $ref: "#/components/schemas/Scalar"
+      minItems: 1
+      type: array
+    NewPet:
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category_inline_allof:
+          $ref: "#/components/schemas/NewPet_category_inline_allof"
+        category_allOf_ref:
+          allOf:
+          - $ref: "#/components/schemas/Category"
+        category_allOf_ref_description:
+          allOf:
+          - $ref: "#/components/schemas/Category"
+          description: |
+            Adding description to property using allOf
+        category_allOf_ref_description_readonly:
+          allOf:
+          - $ref: "#/components/schemas/Category"
+          description: |
+            Adding description to readonly property using allOf
+          readOnly: true
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          default: []
+          items:
+            type: string
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          default: []
+          items:
+            allOf:
+            - $ref: "#/components/schemas/Tag"
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      type: object
+    PropertyNameCollision:
+      properties:
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
+      type: object
+      x-internal: false
+    InteralOnly:
+      properties:
+        type:
+          type: string
+      type: object
+      x-internal: true
+    AllOfModelArrayAnyOf:
+      allOf:
+      - $ref: "#/components/schemas/Category"
+      - properties:
+          linkListColumn1:
+            $ref: "#/components/schemas/AllOfModelArrayAnyOf_allOf_linkListColumn1"
+          attributes:
+            $ref: "#/components/schemas/AllOfModelArrayAnyOf_allOf_attributes"
+        type: object
+    PetUsingAllOf:
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category:
+          allOf:
+          - $ref: "#/components/schemas/Category"
+          description: |
+            multi line description
+            2nd line
+            last line
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          default: []
+          items:
+            type: string
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          default: []
+          items:
+            allOf:
+            - $ref: "#/components/schemas/Tag"
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      type: object
+    PetComposition:
+      allOf:
+      - $ref: "#/components/schemas/Pet"
+    PetRef:
+      properties:
+        id:
+          $ref: "#/components/schemas/Pet/properties/id"
+        category:
+          $ref: "#/components/schemas/Pet/properties/category"
+        name:
+          $ref: "#/components/schemas/Pet/properties/name"
+        photoUrls:
+          $ref: "#/components/schemas/Pet/properties/photoUrls"
+        tags:
+          $ref: "#/components/schemas/Pet/properties/tags"
+        status:
+          $ref: "#/components/schemas/Pet/properties/status"
+      required:
+      - name
+      - photoUrls
+      type: object
+      xml:
+        name: Pet
+    ArrayOneOf:
+      oneOf:
+      - type: integer
+      - default: []
+        items:
+          type: string
+        type: array
+    ArrayAnyOf:
+      anyOf:
+      - type: integer
+      - default: []
+        items:
+          type: string
+        type: array
+    ModelWithOneOfAnyOfProperties:
+      properties:
+        oneof_prop:
+          $ref: "#/components/schemas/ArrayOneOf"
+        anyof_prop:
+          $ref: "#/components/schemas/ArrayAnyOf"
+      type: object
+    NullableEnum:
+      enum:
+      - custom
+      nullable: true
+      type: string
+    RequiredNullableBody:
+      allOf:
+      - $ref: "#/components/schemas/NullableClass"
+      - properties:
+          custom_ref_enum:
+            $ref: "#/components/schemas/NullableEnum"
+          custom_enum:
+            enum:
+            - custom
+            nullable: true
+            type: string
+        required:
+        - array_and_items_nullable_prop
+        - array_items_nullable
+        - array_nullable_prop
+        - boolean_prop
+        - custom_enum
+        - custom_ref_enum
+        - date_prop
+        - datetime_prop
+        - integer_prop
+        - number_prop
+        - object_and_items_nullable_prop
+        - object_items_nullable
+        - object_nullable_prop
+        - string_prop
+        type: object
+      example:
+        integer_prop: 0
+        number_prop: 6.027456183070403
+        boolean_prop: true
+        string_prop: string_prop
+        date_prop: 2000-01-23
+        datetime_prop: 2000-01-23T04:56:07.000+00:00
+        array_nullable_prop:
+        - "{}"
+        - "{}"
+        array_and_items_nullable_prop:
+        - "{}"
+        - "{}"
+        array_items_nullable:
+        - "{}"
+        - "{}"
+        object_nullable_prop:
+          key: "{}"
+        object_and_items_nullable_prop:
+          key: "{}"
+        object_items_nullable:
+          key: "{}"
+        custom_ref_enum: custom
+        custom_enum: custom
+    NestedArrayWithDefaultValues:
+      properties:
+        nestedArray:
+          default:
+          - - h1
+            - Header 1
+          - - h2
+            - Header 2
+          - - h3
+            - Header 3
+          - - h4
+            - Header 4
+          items:
+            default:
+            - value1
+            - value2
+            items:
+              type: string
+            type: array
           type: array
       type: object
     LongId:
@@ -2331,6 +3016,58 @@ components:
           - $ref: "#/components/schemas/Height"
           default: 32.1
       type: object
+    NullableFieldsValue:
+      description: Object with required but nullable string fields
+      example:
+        before: before
+        after: after
+      properties:
+        before:
+          nullable: true
+          type: string
+        after:
+          nullable: true
+          type: string
+      required:
+      - after
+      - before
+      type: object
+    NullableFieldsMapSuccess:
+      additionalProperties: false
+      description: Success response containing a map of objects with nullable fields
+      example:
+        status: status
+        positions:
+          key:
+            before: before
+            after: after
+      properties:
+        status:
+          type: string
+        positions:
+          additionalProperties:
+            $ref: "#/components/schemas/NullableFieldsValue"
+          type: object
+      required:
+      - positions
+      - status
+      type: object
+    NullableFieldsMapError:
+      additionalProperties: false
+      description: Error response
+      properties:
+        status:
+          type: string
+        reason:
+          type: string
+      required:
+      - reason
+      - status
+      type: object
+    NullableFieldsMapResponse:
+      anyOf:
+      - $ref: "#/components/schemas/NullableFieldsMapSuccess"
+      - $ref: "#/components/schemas/NullableFieldsMapError"
     _foo_get_default_response:
       example:
         string:
@@ -2361,6 +3098,7 @@ components:
     testEnumParameters_request:
       properties:
         enum_form_string_array:
+          default: []
           description: Form parameter enum test (string array)
           items:
             default: $
@@ -2452,19 +3190,6 @@ components:
       - number
       - pattern_without_delimiter
       type: object
-    fakeBigDecimalMap_200_response:
-      example:
-        someId: 0.8008281904610115
-        someMap:
-          key: 6.027456183070403
-      properties:
-        someId:
-          type: number
-        someMap:
-          additionalProperties:
-            type: number
-          type: object
-      type: object
     testJsonFormData_request:
       properties:
         param:
@@ -2477,6 +3202,26 @@ components:
       - param
       - param2
       type: object
+    _fake_oneOfWIthSameErasure_get_200_response:
+      oneOf:
+      - default: []
+        items:
+          type: string
+        type: array
+      - default: []
+        items:
+          type: integer
+        type: array
+    _fake_anyOfWIthSameErasure_get_200_response:
+      anyOf:
+      - default: []
+        items:
+          type: string
+        type: array
+      - default: []
+        items:
+          type: integer
+        type: array
     testInlineFreeformAdditionalProperties_request:
       additionalProperties: true
       properties:
@@ -2494,6 +3239,71 @@ components:
           type: string
       required:
       - requiredFile
+      type: object
+    fake_ref_parameter_petId_parameter:
+      oneOf:
+      - type: string
+      - type: integer
+    FreeFormObjectTestClass_properties:
+      oneOf:
+      - type: string
+      - additionalProperties: true
+        default: []
+        type: object
+    ArrayOfInlineAllOf_array_allof_dog_property_inner:
+      allOf:
+      - properties:
+          breed:
+            type: string
+        type: object
+      - properties:
+          color:
+            type: string
+        type: object
+    NewPet_category_inline_allof_allOf_category_tag:
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+      type: object
+    NewPet_category_inline_allof:
+      allOf:
+      - properties:
+          id:
+            format: int64
+            type: integer
+          name:
+            default: default-name
+            type: string
+          category_tag:
+            $ref: "#/components/schemas/NewPet_category_inline_allof_allOf_category_tag"
+        required:
+        - name
+        type: object
+    AllOfModelArrayAnyOf_allOf_linkListColumn1_value:
+      anyOf:
+      - $ref: "#/components/schemas/User"
+      - $ref: "#/components/schemas/Tag"
+    AllOfModelArrayAnyOf_allOf_linkListColumn1:
+      properties:
+        value:
+          default: []
+          items:
+            $ref: "#/components/schemas/AllOfModelArrayAnyOf_allOf_linkListColumn1_value"
+          type: array
+      required:
+      - value
+      type: object
+    AllOfModelArrayAnyOf_allOf_attributes_C:
+      oneOf:
+      - $ref: "#/components/schemas/Pet"
+      - $ref: "#/components/schemas/Order"
+    AllOfModelArrayAnyOf_allOf_attributes:
+      properties:
+        C:
+          $ref: "#/components/schemas/AllOfModelArrayAnyOf_allOf_attributes_C"
       type: object
   securitySchemes:
     petstore_auth:
@@ -2518,8 +3328,5 @@ components:
     bearer_test:
       bearerFormat: JWT
       scheme: bearer
-      type: http
-    http_signature_test:
-      scheme: signature
       type: http
 

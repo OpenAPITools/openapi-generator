@@ -21,6 +21,7 @@ import org.openapitools.client.model.Apple;
 import org.openapitools.client.model.Banana;
 
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
 import jakarta.json.bind.serializer.DeserializationContext;
@@ -30,6 +31,7 @@ import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.logging.Level;
@@ -65,22 +67,31 @@ public class Fruit extends AbstractOpenApiSchema {
         }
     }
 
+    private static Object deserializeBranch(DeserializationContext ctx, Class<?> type, JsonValue value) {
+        if (value.getValueType() == JsonValue.ValueType.OBJECT
+                || value.getValueType() == JsonValue.ValueType.ARRAY) {
+            return ctx.deserialize(type, jakarta.json.Json.createParser(new java.io.StringReader(value.toString())));
+        }
+        return JSON.getPlainJsonb().fromJson(value.toString(), type);
+    }
+
     public static class FruitDeserializer implements JsonbDeserializer<Fruit> {
         @Override
         public Fruit deserialize(JsonParser parser, DeserializationContext ctx, Type rt) {
-            JsonObject jsonObject = parser.getObject();
+            JsonValue jsonValue = parser.getValue();
+            JsonObject jsonObject = jsonValue instanceof JsonObject ? (JsonObject) jsonValue : null;
             Object deserialized = null;
             int match = 0;
             // deserialize Apple
             try {
-                deserialized = ctx.deserialize(Apple.class, jakarta.json.Json.createParser(new java.io.StringReader(jsonObject.toString())));
+                deserialized = deserializeBranch(ctx, Apple.class, jsonValue);
                 match++;
             } catch (Exception e) {
                 // deserialization failed, continue
             }
             // deserialize Banana
             try {
-                deserialized = ctx.deserialize(Banana.class, jakarta.json.Json.createParser(new java.io.StringReader(jsonObject.toString())));
+                deserialized = deserializeBranch(ctx, Banana.class, jsonValue);
                 match++;
             } catch (Exception e) {
                 // deserialization failed, continue

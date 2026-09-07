@@ -4,14 +4,17 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**fakeBigDecimalMap**](FakeApi.md#fakeBigDecimalMap) | **GET** /fake/BigDecimalMap |  |
-| [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
+| [**fakeGetFreeFormObjectGet**](FakeApi.md#fakeGetFreeFormObjectGet) | **GET** /fake/get-free-form-object |  |
 | [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
 | [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
 | [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
-| [**getApplicationJsonUtf8**](FakeApi.md#getApplicationJsonUtf8) | **GET** /fake/application_json_utf8 | application/json UTF8 |
-| [**getArrayOfEnums**](FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums |
+| [**fakeRefParameter**](FakeApi.md#fakeRefParameter) | **POST** /fake/pet/{petId}/reference/parameter | fake reference parameter |
+| [**fakeRequiredNullableBodyGet**](FakeApi.md#fakeRequiredNullableBodyGet) | **GET** /fake/required-nullable-body | fields in the response body, required and nullable are both true |
+| [**fakeUploadRefRequestBodies**](FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake reference parameter |
+| [**getFakeArrayofenums**](FakeApi.md#getFakeArrayofenums) | **GET** /fake/array-of-enums | Array of Enums |
+| [**getFakeHealth**](FakeApi.md#getFakeHealth) | **GET** /fake/health | Health check endpoint |
+| [**getParameterNameMapping**](FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test |
 | [**testAdditionalPropertiesReference**](FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties |
 | [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
 | [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params |  |
@@ -22,73 +25,18 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
 | [**testInlineFreeformAdditionalProperties**](FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties |
 | [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data |
+| [**testNullableRequiredFieldsAnyOf**](FakeApi.md#testNullableRequiredFieldsAnyOf) | **GET** /fake/nullable-required-fields-anyof | test anyOf with map of objects containing nullable required fields |
 | [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 | [**testStringMapReference**](FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map |
 
 
-<a id="fakeBigDecimalMap"></a>
-# **fakeBigDecimalMap**
-> FakeBigDecimalMap200Response fakeBigDecimalMap()
+<a id="fakeGetFreeFormObjectGet"></a>
+# **fakeGetFreeFormObjectGet**
+> FreeFormObjectTestClass fakeGetFreeFormObjectGet()
 
 
 
-for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
-
-### Example
-```java
-// Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.FakeApi;
-
-public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-
-    FakeApi apiInstance = new FakeApi(defaultClient);
-    try {
-      FakeBigDecimalMap200Response result = apiInstance.fakeBigDecimalMap();
-      System.out.println(result);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#fakeBigDecimalMap");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
-    }
-  }
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**FakeBigDecimalMap200Response**](FakeBigDecimalMap200Response.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: */*
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | successful operation |  -  |
-
-<a id="fakeHealthGet"></a>
-# **fakeHealthGet**
-> HealthCheckResult fakeHealthGet()
-
-Health check endpoint
+Get a free form object or Json string
 
 ### Example
 ```java
@@ -106,10 +54,10 @@ public class Example {
 
     FakeApi apiInstance = new FakeApi(defaultClient);
     try {
-      HealthCheckResult result = apiInstance.fakeHealthGet();
+      FreeFormObjectTestClass result = apiInstance.fakeGetFreeFormObjectGet();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#fakeHealthGet");
+      System.err.println("Exception when calling FakeApi#fakeGetFreeFormObjectGet");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -124,7 +72,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**HealthCheckResult**](HealthCheckResult.md)
+[**FreeFormObjectTestClass**](FreeFormObjectTestClass.md)
 
 ### Authorization
 
@@ -138,7 +86,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | The instance started successfully |  -  |
+| **200** | Success |  -  |
 
 <a id="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
@@ -388,11 +336,74 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Output string |  -  |
 
-<a id="getApplicationJsonUtf8"></a>
-# **getApplicationJsonUtf8**
-> List&lt;OuterEnum&gt; getApplicationJsonUtf8()
+<a id="fakeRefParameter"></a>
+# **fakeRefParameter**
+> fakeRefParameter(petId)
 
-application/json UTF8
+fake reference parameter
+
+
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    FakeRefParameterPetIdParameter petId = new FakeRefParameterPetIdParameter(); // FakeRefParameterPetIdParameter | to test oneOf in parameter $ref
+    try {
+      apiInstance.fakeRefParameter(petId);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#fakeRefParameter");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | [**FakeRefParameterPetIdParameter**](.md)| to test oneOf in parameter $ref | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
+<a id="fakeRequiredNullableBodyGet"></a>
+# **fakeRequiredNullableBodyGet**
+> RequiredNullableBody fakeRequiredNullableBodyGet()
+
+fields in the response body, required and nullable are both true
+
+
 
 ### Example
 ```java
@@ -410,10 +421,10 @@ public class Example {
 
     FakeApi apiInstance = new FakeApi(defaultClient);
     try {
-      List<OuterEnum> result = apiInstance.getApplicationJsonUtf8();
+      RequiredNullableBody result = apiInstance.fakeRequiredNullableBodyGet();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#getApplicationJsonUtf8");
+      System.err.println("Exception when calling FakeApi#fakeRequiredNullableBodyGet");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -428,7 +439,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List&lt;OuterEnum&gt;**](OuterEnum.md)
+[**RequiredNullableBody**](RequiredNullableBody.md)
 
 ### Authorization
 
@@ -437,16 +448,87 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json;charset=utf-8
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | test |  -  |
+| **200** | success |  -  |
 
-<a id="getArrayOfEnums"></a>
-# **getArrayOfEnums**
-> List&lt;OuterEnum&gt; getArrayOfEnums()
+<a id="fakeUploadRefRequestBodies"></a>
+# **fakeUploadRefRequestBodies**
+> ModelApiResponse fakeUploadRefRequestBodies(petId, additionalMetadata, _file)
+
+fake reference parameter
+
+
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+    
+    // Configure OAuth2 access token for authorization: petstore_auth
+    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    Long petId = 56L; // Long | ID of pet to update
+    String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
+    File _file = new File("/path/to/file"); // File | file to upload
+    try {
+      ModelApiResponse result = apiInstance.fakeUploadRefRequestBodies(petId, additionalMetadata, _file);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#fakeUploadRefRequestBodies");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to update | |
+| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
+| **_file** | **File**| file to upload | [optional] |
+
+### Return type
+
+[**ModelApiResponse**](ModelApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
+<a id="getFakeArrayofenums"></a>
+# **getFakeArrayofenums**
+> List&lt;OuterEnum&gt; getFakeArrayofenums()
 
 Array of Enums
 
@@ -466,10 +548,10 @@ public class Example {
 
     FakeApi apiInstance = new FakeApi(defaultClient);
     try {
-      List<OuterEnum> result = apiInstance.getArrayOfEnums();
+      List<OuterEnum> result = apiInstance.getFakeArrayofenums();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#getArrayOfEnums");
+      System.err.println("Exception when calling FakeApi#getFakeArrayofenums");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -499,6 +581,125 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Got named array of enums |  -  |
+
+<a id="getFakeHealth"></a>
+# **getFakeHealth**
+> HealthCheckResult getFakeHealth()
+
+Health check endpoint
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    try {
+      HealthCheckResult result = apiInstance.getFakeHealth();
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#getFakeHealth");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**HealthCheckResult**](HealthCheckResult.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The instance started successfully |  -  |
+
+<a id="getParameterNameMapping"></a>
+# **getParameterNameMapping**
+> getParameterNameMapping(underscoreType, type, typeWithUnderscore)
+
+parameter name mapping test
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    Long underscoreType = 56L; // Long | _type
+    String type = "type_example"; // String | type
+    String typeWithUnderscore = "typeWithUnderscore_example"; // String | type_
+    try {
+      apiInstance.getParameterNameMapping(underscoreType, type, typeWithUnderscore);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#getParameterNameMapping");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **underscoreType** | **Long**| _type | |
+| **type** | **String**| type | |
+| **typeWithUnderscore** | **String**| type_ | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
 
 <a id="testAdditionalPropertiesReference"></a>
 # **testAdditionalPropertiesReference**
@@ -1174,6 +1375,64 @@ No authorization required
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
+<a id="testNullableRequiredFieldsAnyOf"></a>
+# **testNullableRequiredFieldsAnyOf**
+> NullableFieldsMapResponse testNullableRequiredFieldsAnyOf()
+
+test anyOf with map of objects containing nullable required fields
+
+Tests that anyOf deserialization works when object values contain required fields that are nullable (e.g. Record&lt;string, { before: string | null, after: string | null }&gt;)
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    try {
+      NullableFieldsMapResponse result = apiInstance.testNullableRequiredFieldsAnyOf();
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#testNullableRequiredFieldsAnyOf");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**NullableFieldsMapResponse**](NullableFieldsMapResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

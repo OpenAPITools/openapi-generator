@@ -24,6 +24,7 @@ import jakarta.json.bind.annotation.JsonbTypeAdapter;
 /**
  * Gets or Sets OuterEnumInteger
  */
+@Deprecated
 
 @JsonbTypeAdapter(OuterEnumInteger.Adapter.class)
 public enum OuterEnumInteger {

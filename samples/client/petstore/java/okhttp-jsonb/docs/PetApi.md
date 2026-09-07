@@ -42,7 +42,6 @@ public class Example {
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
     PetApi apiInstance = new PetApi(defaultClient);
     Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
     try {
@@ -70,7 +69,7 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -177,7 +176,6 @@ public class Example {
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
     PetApi apiInstance = new PetApi(defaultClient);
     List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
     try {
@@ -206,7 +204,7 @@ public class Example {
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -246,7 +244,6 @@ public class Example {
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
     PetApi apiInstance = new PetApi(defaultClient);
     List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
     try {
@@ -275,7 +272,7 @@ public class Example {
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -386,7 +383,6 @@ public class Example {
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
     PetApi apiInstance = new PetApi(defaultClient);
     Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
     try {
@@ -414,7 +410,7 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -500,7 +496,7 @@ null (empty response body)
 
 <a id="uploadFile"></a>
 # **uploadFile**
-> ModelApiResponse uploadFile(petId, additionalMetadata, _file)
+> ModelApiResponse uploadFile(petId, contentType, additionalMetadata, _file)
 
 uploads an image
 
@@ -527,10 +523,11 @@ public class Example {
 
     PetApi apiInstance = new PetApi(defaultClient);
     Long petId = 56L; // Long | ID of pet to update
+    String contentType = "contentType_example"; // String | Content type header parameter
     String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
     File _file = new File("/path/to/file"); // File | file to upload
     try {
-      ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, _file);
+      ModelApiResponse result = apiInstance.uploadFile(petId, contentType, additionalMetadata, _file);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling PetApi#uploadFile");
@@ -548,6 +545,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **petId** | **Long**| ID of pet to update | |
+| **contentType** | **String**| Content type header parameter | [optional] |
 | **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
 | **_file** | **File**| file to upload | [optional] |
 

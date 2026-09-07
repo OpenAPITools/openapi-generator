@@ -26,6 +26,17 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.bind.serializer.JsonbSerializer;
+import jakarta.json.bind.serializer.SerializationContext;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -105,6 +116,11 @@ public class FormatTest {
   @JsonbProperty(SERIALIZED_NAME_UUID)
   @javax.annotation.Nullable
   private UUID uuid;
+
+  public static final String SERIALIZED_NAME_UUID_WITH_DEFAULT = "uuid_with_default";
+  @JsonbProperty(SERIALIZED_NAME_UUID_WITH_DEFAULT)
+  @javax.annotation.Nullable
+  private UUID uuidWithDefault = UUID.fromString("11111111-206d-4f12-9f12-3d1e525a8e84");
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @JsonbProperty(SERIALIZED_NAME_PASSWORD)
@@ -394,6 +410,26 @@ public class FormatTest {
   }
 
 
+  public FormatTest uuidWithDefault(@javax.annotation.Nullable UUID uuidWithDefault) {
+    this.uuidWithDefault = uuidWithDefault;
+    return this;
+  }
+
+  /**
+   * Get uuidWithDefault
+   * @return uuidWithDefault
+   */
+  @javax.annotation.Nullable
+
+  public UUID getUuidWithDefault() {
+    return uuidWithDefault;
+  }
+
+  public void setUuidWithDefault(@javax.annotation.Nullable UUID uuidWithDefault) {
+    this.uuidWithDefault = uuidWithDefault;
+  }
+
+
   public FormatTest password(@javax.annotation.Nonnull String password) {
     this.password = password;
     return this;
@@ -453,6 +489,51 @@ public class FormatTest {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  @JsonbTransient
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the FormatTest instance itself
+   */
+  public FormatTest putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
+   */
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
 
 
   @Override
@@ -482,9 +563,11 @@ public class FormatTest {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    uuidWithDefault: ").append(toIndentedString(uuidWithDefault)).append("\n");
     sb.append("    password: ").append("*").append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
     sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -503,12 +586,227 @@ public class FormatTest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("integer", "int32", "int64", "number", "float", "double", "decimal", "string", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"));
+    openapiFields = new HashSet<String>(Arrays.asList("integer", "int32", "int64", "number", "float", "double", "decimal", "string", "byte", "binary", "date", "dateTime", "uuid", "uuid_with_default", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("number", "byte", "date", "password"));
   }
 
 
+
+  /**
+   * Custom JSON-B serializer that flattens the additional (undeclared) properties into the
+   * serialized object. JSON-B has no equivalent of Jackson's {@code @JsonAnyGetter}, so without
+   * this serializer values added through {@code putAdditionalProperty} would not be emitted
+   * under their original names. Registered with the Jsonb instance built by {@code JSON}.
+   */
+  public static class CustomJsonbSerializer implements JsonbSerializer<FormatTest> {
+    @Override
+    public void serialize(FormatTest value, JsonGenerator generator, SerializationContext context) {
+      generator.writeStartObject();
+      if (value.getInteger() != null) {
+        context.serialize("integer", value.getInteger(), generator);
+      }
+      if (value.getInt32() != null) {
+        context.serialize("int32", value.getInt32(), generator);
+      }
+      if (value.getInt64() != null) {
+        context.serialize("int64", value.getInt64(), generator);
+      }
+      if (value.getNumber() != null) {
+        context.serialize("number", value.getNumber(), generator);
+      }
+      if (value.getFloat() != null) {
+        context.serialize("float", value.getFloat(), generator);
+      }
+      if (value.getDouble() != null) {
+        context.serialize("double", value.getDouble(), generator);
+      }
+      if (value.getDecimal() != null) {
+        context.serialize("decimal", value.getDecimal(), generator);
+      }
+      if (value.getString() != null) {
+        context.serialize("string", value.getString(), generator);
+      }
+      if (value.getByte() != null) {
+        context.serialize("byte", value.getByte(), generator);
+      }
+      if (value.getBinary() != null) {
+        context.serialize("binary", value.getBinary(), generator);
+      }
+      if (value.getDate() != null) {
+        context.serialize("date", value.getDate(), generator);
+      }
+      if (value.getDateTime() != null) {
+        context.serialize("dateTime", value.getDateTime(), generator);
+      }
+      if (value.getUuid() != null) {
+        context.serialize("uuid", value.getUuid(), generator);
+      }
+      if (value.getUuidWithDefault() != null) {
+        context.serialize("uuid_with_default", value.getUuidWithDefault(), generator);
+      }
+      if (value.getPassword() != null) {
+        context.serialize("password", value.getPassword(), generator);
+      }
+      if (value.getPatternWithDigits() != null) {
+        context.serialize("pattern_with_digits", value.getPatternWithDigits(), generator);
+      }
+      if (value.getPatternWithDigitsAndDelimiter() != null) {
+        context.serialize("pattern_with_digits_and_delimiter", value.getPatternWithDigitsAndDelimiter(), generator);
+      }
+      if (value.getAdditionalProperties() != null) {
+        for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+          // a declared property always wins over an additional property with the same name
+          if (!openapiFields.contains(entry.getKey())) {
+            context.serialize(entry.getKey(), entry.getValue(), generator);
+          }
+        }
+      }
+      generator.writeEnd();
+    }
+  }
+
+  /**
+   * Custom JSON-B deserializer that captures undeclared fields into the additional-properties
+   * map. JSON-B has no equivalent of Jackson's {@code @JsonAnySetter}, so without this
+   * deserializer unknown response keys would be silently dropped. Registered with the Jsonb
+   * instance built by {@code JSON}.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<FormatTest> {
+    @Override
+    public FormatTest deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      JsonObject jsonObj = parser.getObject();
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
+      FormatTest instance = new FormatTest();
+      if (jsonObj.containsKey("integer")) {
+        instance.setInteger(jsonObj.get("integer").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("integer").toString(), fieldType("integer")));
+      }
+      if (jsonObj.containsKey("int32")) {
+        instance.setInt32(jsonObj.get("int32").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("int32").toString(), fieldType("int32")));
+      }
+      if (jsonObj.containsKey("int64")) {
+        instance.setInt64(jsonObj.get("int64").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("int64").toString(), fieldType("int64")));
+      }
+      if (jsonObj.containsKey("number")) {
+        instance.setNumber(jsonObj.get("number").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("number").toString(), fieldType("number")));
+      }
+      if (jsonObj.containsKey("float")) {
+        instance.setFloat(jsonObj.get("float").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("float").toString(), fieldType("_float")));
+      }
+      if (jsonObj.containsKey("double")) {
+        instance.setDouble(jsonObj.get("double").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("double").toString(), fieldType("_double")));
+      }
+      if (jsonObj.containsKey("decimal")) {
+        instance.setDecimal(jsonObj.get("decimal").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("decimal").toString(), fieldType("decimal")));
+      }
+      if (jsonObj.containsKey("string")) {
+        instance.setString(jsonObj.get("string").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("string").toString(), fieldType("string")));
+      }
+      if (jsonObj.containsKey("byte")) {
+        instance.setByte(jsonObj.get("byte").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("byte").toString(), fieldType("_byte")));
+      }
+      if (jsonObj.containsKey("binary")) {
+        instance.setBinary(jsonObj.get("binary").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("binary").toString(), fieldType("binary")));
+      }
+      if (jsonObj.containsKey("date")) {
+        instance.setDate(jsonObj.get("date").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("date").toString(), fieldType("date")));
+      }
+      if (jsonObj.containsKey("dateTime")) {
+        instance.setDateTime(jsonObj.get("dateTime").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("dateTime").toString(), fieldType("dateTime")));
+      }
+      if (jsonObj.containsKey("uuid")) {
+        instance.setUuid(jsonObj.get("uuid").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("uuid").toString(), fieldType("uuid")));
+      }
+      if (jsonObj.containsKey("uuid_with_default")) {
+        instance.setUuidWithDefault(jsonObj.get("uuid_with_default").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("uuid_with_default").toString(), fieldType("uuidWithDefault")));
+      }
+      if (jsonObj.containsKey("password")) {
+        instance.setPassword(jsonObj.get("password").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("password").toString(), fieldType("password")));
+      }
+      if (jsonObj.containsKey("pattern_with_digits")) {
+        instance.setPatternWithDigits(jsonObj.get("pattern_with_digits").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("pattern_with_digits").toString(), fieldType("patternWithDigits")));
+      }
+      if (jsonObj.containsKey("pattern_with_digits_and_delimiter")) {
+        instance.setPatternWithDigitsAndDelimiter(jsonObj.get("pattern_with_digits_and_delimiter").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("pattern_with_digits_and_delimiter").toString(), fieldType("patternWithDigitsAndDelimiter")));
+      }
+      for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
+        if (!openapiFields.contains(entry.getKey())) {
+          instance.putAdditionalProperty(entry.getKey(),
+              entry.getValue().getValueType() == JsonValue.ValueType.NULL
+                  ? null
+                  : jsonb.fromJson(entry.getValue().toString(), Object.class));
+        }
+      }
+      return instance;
+    }
+
+    private static java.lang.reflect.Field declaredField(String fieldName) {
+      // walk up the hierarchy: inherited properties are declared on a parent class
+      for (Class<?> clazz = FormatTest.class; clazz != null; clazz = clazz.getSuperclass()) {
+        try {
+          return clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+          // not declared on this class; check the parent
+        }
+      }
+      throw new IllegalArgumentException("Field " + fieldName + " not found on FormatTest");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField(FormatTest instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on FormatTest", e);
+      }
+    }
+  }
 }
 

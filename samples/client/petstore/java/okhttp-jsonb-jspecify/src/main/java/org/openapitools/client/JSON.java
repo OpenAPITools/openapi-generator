@@ -19,6 +19,7 @@ import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.adapter.JsonbAdapter;
+import java.io.File;
 
 
 import okio.ByteString;
@@ -127,6 +128,7 @@ public class JSON {
      */
     private static void rebuildJsonb() {
         JsonbConfig config = new JsonbConfig();
+        config.withAdapters(new FileAdapter());
         if (dateFormat != null) {
             config.withAdapters(new DateAdapter(dateFormat));
         }
@@ -156,6 +158,34 @@ public class JSON {
         rebuildJsonb();
     }
 
+
+    /**
+     * JSON-B adapter for java.io.File, the mapping of {@code format: binary}.
+     *
+     * <p>Without it JSON-B introspects {@code File} as a bean and fails both ways: serializing
+     * recurses through {@code getAbsoluteFile()} and aborts with "Recursive reference has been
+     * found in class java.io.File", while deserializing demands {@code START_OBJECT} where the
+     * schema carries a string. The representation matches the Jackson serialization library:
+     * the absolute path on the way out, {@code new File(String)} on the way in.</p>
+     */
+    private static class FileAdapter implements JsonbAdapter<File, String> {
+
+        @Override
+        public String adaptToJson(File file) {
+            if (file == null) {
+                return null;
+            }
+            return file.getAbsolutePath();
+        }
+
+        @Override
+        public File adaptFromJson(String value) {
+            if (value == null) {
+                return null;
+            }
+            return new File(value);
+        }
+    }
 
     /**
      * JSON-B adapter for java.util.Date driven by a configurable DateFormat.

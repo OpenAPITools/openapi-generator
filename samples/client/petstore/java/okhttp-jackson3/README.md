@@ -115,15 +115,23 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+*AnotherFakeApi* | [**getParameterArrayNumber**](docs/AnotherFakeApi.md#getParameterArrayNumber) | **GET** /fake/parameter-array-number | parameter array number default value
+*AnotherFakeApi* | [**getParameterStringNumber**](docs/AnotherFakeApi.md#getParameterStringNumber) | **GET** /fake/parameter-string-number | parameter string number
+*DefaultApi* | [**fakeAnyOfWIthSameErasureGet**](docs/DefaultApi.md#fakeAnyOfWIthSameErasureGet) | **GET** /fake/anyOfWIthSameErasure | 
+*DefaultApi* | [**fakeFreeFormQueryParametersGet**](docs/DefaultApi.md#fakeFreeFormQueryParametersGet) | **GET** /fake/free-form-query-parameters | 
+*DefaultApi* | [**fakeOneOfWIthSameErasureGet**](docs/DefaultApi.md#fakeOneOfWIthSameErasureGet) | **GET** /fake/oneOfWIthSameErasure | 
 *DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
-*FakeApi* | [**fakeBigDecimalMap**](docs/FakeApi.md#fakeBigDecimalMap) | **GET** /fake/BigDecimalMap | 
-*FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
+*FakeApi* | [**fakeGetFreeFormObjectGet**](docs/FakeApi.md#fakeGetFreeFormObjectGet) | **GET** /fake/get-free-form-object | 
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
-*FakeApi* | [**getApplicationJsonUtf8**](docs/FakeApi.md#getApplicationJsonUtf8) | **GET** /fake/application_json_utf8 | application/json UTF8
-*FakeApi* | [**getArrayOfEnums**](docs/FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
+*FakeApi* | [**fakeRefParameter**](docs/FakeApi.md#fakeRefParameter) | **POST** /fake/pet/{petId}/reference/parameter | fake reference parameter
+*FakeApi* | [**fakeRequiredNullableBodyGet**](docs/FakeApi.md#fakeRequiredNullableBodyGet) | **GET** /fake/required-nullable-body | fields in the response body, required and nullable are both true
+*FakeApi* | [**fakeUploadRefRequestBodies**](docs/FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake reference parameter
+*FakeApi* | [**getFakeArrayofenums**](docs/FakeApi.md#getFakeArrayofenums) | **GET** /fake/array-of-enums | Array of Enums
+*FakeApi* | [**getFakeHealth**](docs/FakeApi.md#getFakeHealth) | **GET** /fake/health | Health check endpoint
+*FakeApi* | [**getParameterNameMapping**](docs/FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
 *FakeApi* | [**testAdditionalPropertiesReference**](docs/FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
@@ -134,6 +142,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**testNullableRequiredFieldsAnyOf**](docs/FakeApi.md#testNullableRequiredFieldsAnyOf) | **GET** /fake/nullable-required-fields-anyof | test anyOf with map of objects containing nullable required fields
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *FakeApi* | [**testStringMapReference**](docs/FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -158,19 +167,30 @@ Class | Method | HTTP request | Description
 *UserApi* | [**loginUser**](docs/UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
 *UserApi* | [**logoutUser**](docs/UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
 *UserApi* | [**updateUser**](docs/UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
+*ValuesApi* | [**getSomeValues**](docs/ValuesApi.md#getSomeValues) | **GET** /values | Get some primitive variable values
 
 
 ## Documentation for Models
 
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [AllOfModelArrayAnyOf](docs/AllOfModelArrayAnyOf.md)
+ - [AllOfModelArrayAnyOfAllOfAttributes](docs/AllOfModelArrayAnyOfAllOfAttributes.md)
+ - [AllOfModelArrayAnyOfAllOfAttributesC](docs/AllOfModelArrayAnyOfAllOfAttributesC.md)
+ - [AllOfModelArrayAnyOfAllOfLinkListColumn1](docs/AllOfModelArrayAnyOfAllOfLinkListColumn1.md)
+ - [AllOfModelArrayAnyOfAllOfLinkListColumn1Value](docs/AllOfModelArrayAnyOfAllOfLinkListColumn1Value.md)
  - [AllOfRefToDouble](docs/AllOfRefToDouble.md)
  - [AllOfRefToFloat](docs/AllOfRefToFloat.md)
  - [AllOfRefToLong](docs/AllOfRefToLong.md)
  - [Animal](docs/Animal.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
+ - [ArrayAnyOf](docs/ArrayAnyOf.md)
+ - [ArrayDefault](docs/ArrayDefault.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
+ - [ArrayOfInlineAllOf](docs/ArrayOfInlineAllOf.md)
+ - [ArrayOfInlineAllOfArrayAllofDogPropertyInner](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
+ - [ArrayOneOf](docs/ArrayOneOf.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [Banana](docs/Banana.md)
  - [BananaReq](docs/BananaReq.md)
@@ -178,7 +198,6 @@ Class | Method | HTTP request | Description
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
- - [ChildCat](docs/ChildCat.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
@@ -188,13 +207,18 @@ Class | Method | HTTP request | Description
  - [Drawing](docs/Drawing.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
+ - [EnumStringDiscriminator](docs/EnumStringDiscriminator.md)
  - [EnumTest](docs/EnumTest.md)
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
- - [FakeBigDecimalMap200Response](docs/FakeBigDecimalMap200Response.md)
+ - [FakeAnyOfWIthSameErasureGet200Response](docs/FakeAnyOfWIthSameErasureGet200Response.md)
+ - [FakeOneOfWIthSameErasureGet200Response](docs/FakeOneOfWIthSameErasureGet200Response.md)
+ - [FakeRefParameterPetIdParameter](docs/FakeRefParameterPetIdParameter.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
+ - [FreeFormObjectTestClass](docs/FreeFormObjectTestClass.md)
+ - [FreeFormObjectTestClassProperties](docs/FreeFormObjectTestClassProperties.md)
  - [Fruit](docs/Fruit.md)
  - [FruitReq](docs/FruitReq.md)
  - [GmFruit](docs/GmFruit.md)
@@ -203,6 +227,7 @@ Class | Method | HTTP request | Description
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [IsoscelesTriangle](docs/IsoscelesTriangle.md)
  - [Mammal](docs/Mammal.md)
+ - [MammalAnyof](docs/MammalAnyof.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
@@ -210,8 +235,18 @@ Class | Method | HTTP request | Description
  - [ModelFile](docs/ModelFile.md)
  - [ModelList](docs/ModelList.md)
  - [ModelReturn](docs/ModelReturn.md)
+ - [ModelWithOneOfAnyOfProperties](docs/ModelWithOneOfAnyOfProperties.md)
  - [Name](docs/Name.md)
+ - [NestedArrayWithDefaultValues](docs/NestedArrayWithDefaultValues.md)
+ - [NewPet](docs/NewPet.md)
+ - [NewPetCategoryInlineAllof](docs/NewPetCategoryInlineAllof.md)
+ - [NewPetCategoryInlineAllofAllOfCategoryTag](docs/NewPetCategoryInlineAllofAllOfCategoryTag.md)
  - [NullableClass](docs/NullableClass.md)
+ - [NullableEnum](docs/NullableEnum.md)
+ - [NullableFieldsMapError](docs/NullableFieldsMapError.md)
+ - [NullableFieldsMapResponse](docs/NullableFieldsMapResponse.md)
+ - [NullableFieldsMapSuccess](docs/NullableFieldsMapSuccess.md)
+ - [NullableFieldsValue](docs/NullableFieldsValue.md)
  - [NullableShape](docs/NullableShape.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
@@ -223,10 +258,18 @@ Class | Method | HTTP request | Description
  - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [ParentPet](docs/ParentPet.md)
  - [Pet](docs/Pet.md)
+ - [PetComposition](docs/PetComposition.md)
+ - [PetRef](docs/PetRef.md)
+ - [PetUsingAllOf](docs/PetUsingAllOf.md)
+ - [PetWithRequiredTags](docs/PetWithRequiredTags.md)
  - [Pig](docs/Pig.md)
+ - [PropertyNameCollision](docs/PropertyNameCollision.md)
  - [Quadrilateral](docs/Quadrilateral.md)
  - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [RequiredNullableBody](docs/RequiredNullableBody.md)
+ - [Scalar](docs/Scalar.md)
+ - [ScalarAnyOf](docs/ScalarAnyOf.md)
  - [ScaleneTriangle](docs/ScaleneTriangle.md)
  - [Shape](docs/Shape.md)
  - [ShapeInterface](docs/ShapeInterface.md)
@@ -238,6 +281,8 @@ Class | Method | HTTP request | Description
  - [Triangle](docs/Triangle.md)
  - [TriangleInterface](docs/TriangleInterface.md)
  - [User](docs/User.md)
+ - [Value](docs/Value.md)
+ - [Variable](docs/Variable.md)
  - [Whale](docs/Whale.md)
  - [Zebra](docs/Zebra.md)
 
@@ -280,11 +325,6 @@ Authentication schemes defined for the API:
 ### bearer_test
 
 - **Type**: HTTP Bearer Token authentication (JWT)
-
-<a id="http_signature_test"></a>
-### http_signature_test
-
-- **Type**: HTTP signature authentication
 
 
 ## Recommendation

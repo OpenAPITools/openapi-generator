@@ -21,6 +21,7 @@ import org.openapitools.client.model.AppleReq;
 import org.openapitools.client.model.BananaReq;
 
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
 import jakarta.json.bind.serializer.DeserializationContext;
@@ -30,6 +31,7 @@ import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.logging.Level;
@@ -65,22 +67,31 @@ public class FruitReq extends AbstractOpenApiSchema {
         }
     }
 
+    private static Object deserializeBranch(DeserializationContext ctx, Class<?> type, JsonValue value) {
+        if (value.getValueType() == JsonValue.ValueType.OBJECT
+                || value.getValueType() == JsonValue.ValueType.ARRAY) {
+            return ctx.deserialize(type, jakarta.json.Json.createParser(new java.io.StringReader(value.toString())));
+        }
+        return JSON.getPlainJsonb().fromJson(value.toString(), type);
+    }
+
     public static class FruitReqDeserializer implements JsonbDeserializer<FruitReq> {
         @Override
         public FruitReq deserialize(JsonParser parser, DeserializationContext ctx, Type rt) {
-            JsonObject jsonObject = parser.getObject();
+            JsonValue jsonValue = parser.getValue();
+            JsonObject jsonObject = jsonValue instanceof JsonObject ? (JsonObject) jsonValue : null;
             Object deserialized = null;
             int match = 0;
             // deserialize AppleReq
             try {
-                deserialized = ctx.deserialize(AppleReq.class, jakarta.json.Json.createParser(new java.io.StringReader(jsonObject.toString())));
+                deserialized = deserializeBranch(ctx, AppleReq.class, jsonValue);
                 match++;
             } catch (Exception e) {
                 // deserialization failed, continue
             }
             // deserialize BananaReq
             try {
-                deserialized = ctx.deserialize(BananaReq.class, jakarta.json.Json.createParser(new java.io.StringReader(jsonObject.toString())));
+                deserialized = deserializeBranch(ctx, BananaReq.class, jsonValue);
                 match++;
             } catch (Exception e) {
                 // deserialization failed, continue
@@ -98,7 +109,7 @@ public class FruitReq extends AbstractOpenApiSchema {
     public static final Map<String, Class<?>> schemas = new HashMap<>();
 
     public FruitReq() {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
     }
 
     public FruitReq(AppleReq o) {
@@ -131,6 +142,11 @@ public class FruitReq extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
         if (JSON.isInstanceOf(AppleReq.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;

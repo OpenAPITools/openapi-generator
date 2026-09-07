@@ -135,6 +135,14 @@ public class FormatTestTest {
     }
 
     /**
+     * Test the property 'uuidWithDefault'
+     */
+    @Test
+    public void uuidWithDefaultTest() {
+        // TODO: test uuidWithDefault
+    }
+
+    /**
      * Test the property 'password'
      */
     @Test

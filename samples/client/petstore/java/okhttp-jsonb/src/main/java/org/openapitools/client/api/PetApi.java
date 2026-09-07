@@ -128,7 +128,7 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+        String[] localVarAuthNames = new String[] { "petstore_auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -387,7 +387,7 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+        String[] localVarAuthNames = new String[] { "petstore_auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -526,7 +526,7 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+        String[] localVarAuthNames = new String[] { "petstore_auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -805,7 +805,7 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "petstore_auth", "http_signature_test" };
+        String[] localVarAuthNames = new String[] { "petstore_auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -1022,6 +1022,7 @@ public class PetApi {
     /**
      * Build call for uploadFile
      * @param petId ID of pet to update (required)
+     * @param contentType Content type header parameter (optional)
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param _file file to upload (optional)
      * @param _callback Callback for upload/download progress
@@ -1034,7 +1035,7 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call uploadFileCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call uploadFileCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String contentType, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1084,18 +1085,23 @@ public class PetApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
+        if (contentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarApiClient.parameterToString(contentType));
+        }
+
+
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call uploadFileValidateBeforeCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call uploadFileValidateBeforeCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String contentType, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling uploadFile(Async)");
         }
 
-        return uploadFileCall(petId, additionalMetadata, _file, _callback);
+        return uploadFileCall(petId, contentType, additionalMetadata, _file, _callback);
 
     }
 
@@ -1103,6 +1109,7 @@ public class PetApi {
      * uploads an image
      * 
      * @param petId ID of pet to update (required)
+     * @param contentType Content type header parameter (optional)
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param _file file to upload (optional)
      * @return ModelApiResponse
@@ -1114,8 +1121,8 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ModelApiResponse uploadFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
-        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, additionalMetadata, _file);
+    public ModelApiResponse uploadFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String contentType, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
+        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, contentType, additionalMetadata, _file);
         return localVarResp.getData();
     }
 
@@ -1123,6 +1130,7 @@ public class PetApi {
      * uploads an image
      * 
      * @param petId ID of pet to update (required)
+     * @param contentType Content type header parameter (optional)
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param _file file to upload (optional)
      * @return ApiResponse&lt;ModelApiResponse&gt;
@@ -1134,8 +1142,8 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
-        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, _file, null);
+    public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String contentType, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
+        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, contentType, additionalMetadata, _file, null);
         
         
         Type localVarReturnType = new JSON.GenericType<ModelApiResponse>(){}.getType();
@@ -1146,6 +1154,7 @@ public class PetApi {
      * uploads an image (asynchronously)
      * 
      * @param petId ID of pet to update (required)
+     * @param contentType Content type header parameter (optional)
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param _file file to upload (optional)
      * @param _callback The callback to be executed when the API call finishes
@@ -1158,9 +1167,9 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call uploadFileAsync(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
+    public okhttp3.Call uploadFileAsync(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String contentType, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, _file, _callback);
+        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, contentType, additionalMetadata, _file, _callback);
         Type localVarReturnType = new JSON.GenericType<ModelApiResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

@@ -19,6 +19,7 @@ import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.adapter.JsonbAdapter;
+import java.io.File;
 
 
 import okio.ByteString;
@@ -127,6 +128,7 @@ public class JSON {
      */
     private static void rebuildJsonb() {
         JsonbConfig config = new JsonbConfig();
+        config.withAdapters(new FileAdapter());
         if (dateFormat != null) {
             config.withAdapters(new DateAdapter(dateFormat));
         }
@@ -142,12 +144,158 @@ public class JSON {
         if (localDateTimeFormat != null) {
             config.withAdapters(new LocalDateTimeAdapter(localDateTimeFormat));
         }
+        config.withSerializers(new org.openapitools.client.model.AdditionalPropertiesClass.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.AdditionalPropertiesClass.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.AllOfModelArrayAnyOf.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.AllOfModelArrayAnyOf.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.AllOfModelArrayAnyOfAllOfAttributes.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.AllOfModelArrayAnyOfAllOfAttributes.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.AllOfModelArrayAnyOfAllOfLinkListColumn1.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.AllOfModelArrayAnyOfAllOfLinkListColumn1.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.AllOfRefToDouble.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.AllOfRefToDouble.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.AllOfRefToFloat.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.AllOfRefToFloat.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.AllOfRefToLong.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.AllOfRefToLong.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Apple.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Apple.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ArrayDefault.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ArrayDefault.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ArrayOfArrayOfNumberOnly.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ArrayOfArrayOfNumberOnly.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ArrayOfInlineAllOf.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ArrayOfInlineAllOf.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyInner.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyInner.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ArrayOfNumberOnly.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ArrayOfNumberOnly.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ArrayTest.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ArrayTest.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Banana.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Banana.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.BasquePig.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.BasquePig.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Capitalization.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Capitalization.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Cat.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Cat.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Category.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Category.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ClassModel.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ClassModel.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Client.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Client.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ComplexQuadrilateral.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ComplexQuadrilateral.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.DanishPig.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.DanishPig.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.DeprecatedObject.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.DeprecatedObject.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Dog.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Dog.CustomJsonbDeserializer());
         config.withSerializers(new org.openapitools.client.model.Drawing.CustomJsonbSerializer());
         config.withDeserializers(new org.openapitools.client.model.Drawing.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.EnumArrays.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.EnumArrays.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.EnumStringDiscriminator.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.EnumStringDiscriminator.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.EnumTest.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.EnumTest.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.EquilateralTriangle.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.EquilateralTriangle.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.FileSchemaTestClass.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.FileSchemaTestClass.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Foo.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Foo.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.FooGetDefaultResponse.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.FooGetDefaultResponse.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.FormatTest.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.FormatTest.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.FreeFormObjectTestClass.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.FreeFormObjectTestClass.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.HasOnlyReadOnly.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.HasOnlyReadOnly.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.HealthCheckResult.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.HealthCheckResult.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.MapTest.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.MapTest.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Model200Response.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Model200Response.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ModelApiResponse.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ModelApiResponse.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ModelFile.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ModelFile.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ModelList.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ModelList.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ModelReturn.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ModelReturn.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ModelWithOneOfAnyOfProperties.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ModelWithOneOfAnyOfProperties.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Name.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Name.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.NestedArrayWithDefaultValues.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.NestedArrayWithDefaultValues.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.NewPet.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.NewPet.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.NewPetCategoryInlineAllof.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.NewPetCategoryInlineAllof.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.NewPetCategoryInlineAllofAllOfCategoryTag.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.NewPetCategoryInlineAllofAllOfCategoryTag.CustomJsonbDeserializer());
         config.withSerializers(new org.openapitools.client.model.NullableClass.CustomJsonbSerializer());
         config.withDeserializers(new org.openapitools.client.model.NullableClass.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.NullableFieldsValue.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.NullableFieldsValue.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.NumberOnly.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.NumberOnly.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ObjectWithDeprecatedFields.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ObjectWithDeprecatedFields.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Order.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Order.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.OuterComposite.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.OuterComposite.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ParentPet.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ParentPet.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Pet.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Pet.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.PetComposition.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.PetComposition.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.PetRef.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.PetRef.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.PetUsingAllOf.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.PetUsingAllOf.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.PetWithRequiredTags.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.PetWithRequiredTags.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.PropertyNameCollision.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.PropertyNameCollision.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.QuadrilateralInterface.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.QuadrilateralInterface.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ReadOnlyFirst.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ReadOnlyFirst.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.RequiredNullableBody.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.RequiredNullableBody.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ScaleneTriangle.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ScaleneTriangle.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.ShapeInterface.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.ShapeInterface.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.SimpleQuadrilateral.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.SimpleQuadrilateral.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.SpecialModelName.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.SpecialModelName.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Tag.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Tag.CustomJsonbDeserializer());
         config.withSerializers(new org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest.CustomJsonbSerializer());
         config.withDeserializers(new org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.TriangleInterface.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.TriangleInterface.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.User.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.User.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Variable.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Variable.CustomJsonbDeserializer());
+        config.withSerializers(new org.openapitools.client.model.Whale.CustomJsonbSerializer());
+        config.withDeserializers(new org.openapitools.client.model.Whale.CustomJsonbDeserializer());
         config.withSerializers(new org.openapitools.client.model.Zebra.CustomJsonbSerializer());
         config.withDeserializers(new org.openapitools.client.model.Zebra.CustomJsonbDeserializer());
         plainJsonb = JsonbBuilder.create(config);
@@ -155,8 +303,6 @@ public class JSON {
         config.withDeserializers(new org.openapitools.client.model.Animal.CustomJsonbDeserializer());
         config.withSerializers(new org.openapitools.client.model.GrandparentAnimal.CustomJsonbSerializer());
         config.withDeserializers(new org.openapitools.client.model.GrandparentAnimal.CustomJsonbDeserializer());
-        config.withSerializers(new org.openapitools.client.model.ParentPet.CustomJsonbSerializer());
-        config.withDeserializers(new org.openapitools.client.model.ParentPet.CustomJsonbDeserializer());
         jsonb = JsonbBuilder.create(config);
     }
 
@@ -170,6 +316,34 @@ public class JSON {
         rebuildJsonb();
     }
 
+
+    /**
+     * JSON-B adapter for java.io.File, the mapping of {@code format: binary}.
+     *
+     * <p>Without it JSON-B introspects {@code File} as a bean and fails both ways: serializing
+     * recurses through {@code getAbsoluteFile()} and aborts with "Recursive reference has been
+     * found in class java.io.File", while deserializing demands {@code START_OBJECT} where the
+     * schema carries a string. The representation matches the Jackson serialization library:
+     * the absolute path on the way out, {@code new File(String)} on the way in.</p>
+     */
+    private static class FileAdapter implements JsonbAdapter<File, String> {
+
+        @Override
+        public String adaptToJson(File file) {
+            if (file == null) {
+                return null;
+            }
+            return file.getAbsolutePath();
+        }
+
+        @Override
+        public File adaptFromJson(String value) {
+            if (value == null) {
+                return null;
+            }
+            return new File(value);
+        }
+    }
 
     /**
      * JSON-B adapter for java.util.Date driven by a configurable DateFormat.

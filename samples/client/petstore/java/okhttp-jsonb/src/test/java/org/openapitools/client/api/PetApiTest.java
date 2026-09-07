@@ -144,9 +144,10 @@ public class PetApiTest {
     @Test
     public void uploadFileTest() throws ApiException {
         Long petId = null;
+        String contentType = null;
         String additionalMetadata = null;
         File _file = null;
-        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
+        ModelApiResponse response = api.uploadFile(petId, contentType, additionalMetadata, _file);
         // TODO: test validations
     }
 

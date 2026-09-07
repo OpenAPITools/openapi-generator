@@ -25,6 +25,17 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.bind.serializer.JsonbSerializer;
+import jakarta.json.bind.serializer.SerializationContext;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -310,6 +321,7 @@ public class EnumTest {
   private OuterEnum outerEnum;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM_INTEGER = "outerEnumInteger";
+  @Deprecated
   @JsonbProperty(SERIALIZED_NAME_OUTER_ENUM_INTEGER)
   @javax.annotation.Nullable
   private OuterEnumInteger outerEnumInteger;
@@ -447,6 +459,7 @@ public class EnumTest {
   }
 
 
+  @Deprecated
   public EnumTest outerEnumInteger(@javax.annotation.Nullable OuterEnumInteger outerEnumInteger) {
     this.outerEnumInteger = outerEnumInteger;
     return this;
@@ -455,13 +468,16 @@ public class EnumTest {
   /**
    * Get outerEnumInteger
    * @return outerEnumInteger
+   * @deprecated
    */
+  @Deprecated
   @javax.annotation.Nullable
 
   public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
   }
 
+  @Deprecated
   public void setOuterEnumInteger(@javax.annotation.Nullable OuterEnumInteger outerEnumInteger) {
     this.outerEnumInteger = outerEnumInteger;
   }
@@ -506,6 +522,51 @@ public class EnumTest {
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  @JsonbTransient
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the EnumTest instance itself
+   */
+  public EnumTest putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
+   */
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
 
 
   @Override
@@ -531,6 +592,7 @@ public class EnumTest {
     sb.append("    outerEnumInteger: ").append(toIndentedString(outerEnumInteger)).append("\n");
     sb.append("    outerEnumDefaultValue: ").append(toIndentedString(outerEnumDefaultValue)).append("\n");
     sb.append("    outerEnumIntegerDefaultValue: ").append(toIndentedString(outerEnumIntegerDefaultValue)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -556,5 +618,156 @@ public class EnumTest {
   }
 
 
+
+  /**
+   * Custom JSON-B serializer that flattens the additional (undeclared) properties into the
+   * serialized object. JSON-B has no equivalent of Jackson's {@code @JsonAnyGetter}, so without
+   * this serializer values added through {@code putAdditionalProperty} would not be emitted
+   * under their original names. Registered with the Jsonb instance built by {@code JSON}.
+   */
+  public static class CustomJsonbSerializer implements JsonbSerializer<EnumTest> {
+    @Override
+    public void serialize(EnumTest value, JsonGenerator generator, SerializationContext context) {
+      generator.writeStartObject();
+      if (value.getEnumString() != null) {
+        context.serialize("enum_string", value.getEnumString(), generator);
+      }
+      if (value.getEnumStringRequired() != null) {
+        context.serialize("enum_string_required", value.getEnumStringRequired(), generator);
+      }
+      if (value.getEnumInteger() != null) {
+        context.serialize("enum_integer", value.getEnumInteger(), generator);
+      }
+      if (value.getEnumIntegerOnly() != null) {
+        context.serialize("enum_integer_only", value.getEnumIntegerOnly(), generator);
+      }
+      if (value.getEnumNumber() != null) {
+        context.serialize("enum_number", value.getEnumNumber(), generator);
+      }
+      if (value.getOuterEnum() != null) {
+        context.serialize("outerEnum", value.getOuterEnum(), generator);
+      }
+      if (value.getOuterEnumInteger() != null) {
+        context.serialize("outerEnumInteger", value.getOuterEnumInteger(), generator);
+      }
+      if (value.getOuterEnumDefaultValue() != null) {
+        context.serialize("outerEnumDefaultValue", value.getOuterEnumDefaultValue(), generator);
+      }
+      if (value.getOuterEnumIntegerDefaultValue() != null) {
+        context.serialize("outerEnumIntegerDefaultValue", value.getOuterEnumIntegerDefaultValue(), generator);
+      }
+      if (value.getAdditionalProperties() != null) {
+        for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+          // a declared property always wins over an additional property with the same name
+          if (!openapiFields.contains(entry.getKey())) {
+            context.serialize(entry.getKey(), entry.getValue(), generator);
+          }
+        }
+      }
+      generator.writeEnd();
+    }
+  }
+
+  /**
+   * Custom JSON-B deserializer that captures undeclared fields into the additional-properties
+   * map. JSON-B has no equivalent of Jackson's {@code @JsonAnySetter}, so without this
+   * deserializer unknown response keys would be silently dropped. Registered with the Jsonb
+   * instance built by {@code JSON}.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<EnumTest> {
+    @Override
+    public EnumTest deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      JsonObject jsonObj = parser.getObject();
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
+      EnumTest instance = new EnumTest();
+      if (jsonObj.containsKey("enum_string")) {
+        instance.setEnumString(jsonObj.get("enum_string").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("enum_string").toString(), fieldType("enumString")));
+      }
+      if (jsonObj.containsKey("enum_string_required")) {
+        instance.setEnumStringRequired(jsonObj.get("enum_string_required").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("enum_string_required").toString(), fieldType("enumStringRequired")));
+      }
+      if (jsonObj.containsKey("enum_integer")) {
+        instance.setEnumInteger(jsonObj.get("enum_integer").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("enum_integer").toString(), fieldType("enumInteger")));
+      }
+      if (jsonObj.containsKey("enum_integer_only")) {
+        instance.setEnumIntegerOnly(jsonObj.get("enum_integer_only").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("enum_integer_only").toString(), fieldType("enumIntegerOnly")));
+      }
+      if (jsonObj.containsKey("enum_number")) {
+        instance.setEnumNumber(jsonObj.get("enum_number").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("enum_number").toString(), fieldType("enumNumber")));
+      }
+      if (jsonObj.containsKey("outerEnum")) {
+        instance.setOuterEnum(jsonObj.get("outerEnum").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("outerEnum").toString(), fieldType("outerEnum")));
+      }
+      if (jsonObj.containsKey("outerEnumInteger")) {
+        instance.setOuterEnumInteger(jsonObj.get("outerEnumInteger").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("outerEnumInteger").toString(), fieldType("outerEnumInteger")));
+      }
+      if (jsonObj.containsKey("outerEnumDefaultValue")) {
+        instance.setOuterEnumDefaultValue(jsonObj.get("outerEnumDefaultValue").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("outerEnumDefaultValue").toString(), fieldType("outerEnumDefaultValue")));
+      }
+      if (jsonObj.containsKey("outerEnumIntegerDefaultValue")) {
+        instance.setOuterEnumIntegerDefaultValue(jsonObj.get("outerEnumIntegerDefaultValue").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("outerEnumIntegerDefaultValue").toString(), fieldType("outerEnumIntegerDefaultValue")));
+      }
+      for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
+        if (!openapiFields.contains(entry.getKey())) {
+          instance.putAdditionalProperty(entry.getKey(),
+              entry.getValue().getValueType() == JsonValue.ValueType.NULL
+                  ? null
+                  : jsonb.fromJson(entry.getValue().toString(), Object.class));
+        }
+      }
+      return instance;
+    }
+
+    private static java.lang.reflect.Field declaredField(String fieldName) {
+      // walk up the hierarchy: inherited properties are declared on a parent class
+      for (Class<?> clazz = EnumTest.class; clazz != null; clazz = clazz.getSuperclass()) {
+        try {
+          return clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+          // not declared on this class; check the parent
+        }
+      }
+      throw new IllegalArgumentException("Field " + fieldName + " not found on EnumTest");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField(EnumTest instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on EnumTest", e);
+      }
+    }
+  }
 }
 

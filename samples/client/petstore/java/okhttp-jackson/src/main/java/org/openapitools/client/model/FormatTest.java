@@ -28,6 +28,9 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -56,6 +59,7 @@ import org.openapitools.client.JSON;
   FormatTest.JSON_PROPERTY_DATE,
   FormatTest.JSON_PROPERTY_DATE_TIME,
   FormatTest.JSON_PROPERTY_UUID,
+  FormatTest.JSON_PROPERTY_UUID_WITH_DEFAULT,
   FormatTest.JSON_PROPERTY_PASSWORD,
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS,
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
@@ -126,6 +130,11 @@ public class FormatTest {
   @JsonProperty(value = JSON_PROPERTY_UUID)
   @javax.annotation.Nullable
   private UUID uuid;
+
+  public static final String JSON_PROPERTY_UUID_WITH_DEFAULT = "uuid_with_default";
+  @JsonProperty(value = JSON_PROPERTY_UUID_WITH_DEFAULT)
+  @javax.annotation.Nullable
+  private UUID uuidWithDefault = UUID.fromString("11111111-206d-4f12-9f12-3d1e525a8e84");
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   @JsonProperty(value = JSON_PROPERTY_PASSWORD)
@@ -467,6 +476,30 @@ public class FormatTest {
   }
 
 
+  public FormatTest uuidWithDefault(@javax.annotation.Nullable UUID uuidWithDefault) {
+    this.uuidWithDefault = uuidWithDefault;
+    return this;
+  }
+
+  /**
+   * Get uuidWithDefault
+   * @return uuidWithDefault
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(value = JSON_PROPERTY_UUID_WITH_DEFAULT, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public UUID getUuidWithDefault() {
+    return uuidWithDefault;
+  }
+
+  @JsonProperty(value = JSON_PROPERTY_UUID_WITH_DEFAULT, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUuidWithDefault(@javax.annotation.Nullable UUID uuidWithDefault) {
+    this.uuidWithDefault = uuidWithDefault;
+  }
+
+
   public FormatTest password(@javax.annotation.Nonnull String password) {
     this.password = password;
     return this;
@@ -538,6 +571,53 @@ public class FormatTest {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  @JsonIgnore
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the FormatTest instance itself
+   */
+  @JsonAnySetter
+  public FormatTest putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
 
 
   @Override
@@ -567,9 +647,11 @@ public class FormatTest {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    uuidWithDefault: ").append(toIndentedString(uuidWithDefault)).append("\n");
     sb.append("    password: ").append("*").append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
     sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -588,7 +670,7 @@ public class FormatTest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("integer", "int32", "int64", "number", "float", "double", "decimal", "string", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"));
+    openapiFields = new HashSet<String>(Arrays.asList("integer", "int32", "int64", "number", "float", "double", "decimal", "string", "byte", "binary", "date", "dateTime", "uuid", "uuid_with_default", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("number", "byte", "date", "password"));

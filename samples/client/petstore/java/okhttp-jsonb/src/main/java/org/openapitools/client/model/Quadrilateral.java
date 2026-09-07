@@ -20,6 +20,7 @@ import org.openapitools.client.model.ComplexQuadrilateral;
 import org.openapitools.client.model.SimpleQuadrilateral;
 
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
 import jakarta.json.bind.serializer.DeserializationContext;
@@ -29,6 +30,7 @@ import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.logging.Level;
@@ -50,6 +52,51 @@ import org.openapitools.client.JSON;
 public class Quadrilateral extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Quadrilateral.class.getName());
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  @JsonbTransient
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the Quadrilateral instance itself
+   */
+  public Quadrilateral putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
+   */
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
 
 
 
@@ -60,26 +107,136 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                 generator.writeNull();
                 return;
             }
+            if (obj.getAdditionalProperties() != null && !obj.getAdditionalProperties().isEmpty()) {
+                JsonObject childObject = toJsonObject(obj.getActualInstance());
+                if (childObject != null) {
+                    jakarta.json.JsonObjectBuilder builder = jakarta.json.Json.createObjectBuilder(childObject);
+                    for (Map.Entry<String, Object> entry : obj.getAdditionalProperties().entrySet()) {
+                        if (childObject.containsKey(entry.getKey())) {
+                            // the child schema owns this property
+                            continue;
+                        }
+                        builder.add(entry.getKey(), toJsonValue(entry.getValue()));
+                    }
+                    ctx.serialize(builder.build(), generator);
+                    return;
+                }
+            }
             ctx.serialize(obj.getActualInstance(), generator);
         }
+    }
+
+    /**
+     * Render a value through JSON-B and read it back as a JsonObject, or null if it is not an object.
+     */
+    private static JsonObject toJsonObject(Object value) {
+        try (jakarta.json.JsonReader reader = jakarta.json.Json.createReader(
+                new java.io.StringReader(JSON.getJsonb().toJson(value)))) {
+            jakarta.json.JsonStructure structure = reader.read();
+            return structure instanceof JsonObject ? (JsonObject) structure : null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static jakarta.json.JsonValue toJsonValue(Object value) {
+        if (value == null) {
+            return jakarta.json.JsonValue.NULL;
+        }
+        try (jakarta.json.JsonReader reader = jakarta.json.Json.createReader(
+                new java.io.StringReader(JSON.getJsonb().toJson(value)))) {
+            return reader.readValue();
+        }
+    }
+
+    /**
+     * Record the properties that the matched oneOf schema did not consume.
+     *
+     * <p>The wrapper only owns what the selected child schema left behind. When that child accepts
+     * additional properties itself it absorbs them all and this records nothing, so a property is
+     * never stored — and therefore never written — twice.</p>
+     */
+    private static void collectUnconsumedProperties(Quadrilateral instance, JsonObject jsonObject) {
+        if (jsonObject == null || instance.getActualInstance() == null) {
+            return;
+        }
+        JsonObject consumed = toJsonObject(instance.getActualInstance());
+        if (consumed == null) {
+            return;
+        }
+        for (Map.Entry<String, jakarta.json.JsonValue> entry : jsonObject.entrySet()) {
+            if (consumed.containsKey(entry.getKey())) {
+                continue;
+            }
+            instance.putAdditionalProperty(entry.getKey(), fromJsonValue(entry.getValue()));
+        }
+    }
+
+    private static Object fromJsonValue(jakarta.json.JsonValue value) {
+        switch (value.getValueType()) {
+            case STRING:
+                return ((jakarta.json.JsonString) value).getString();
+            case NUMBER:
+                return ((jakarta.json.JsonNumber) value).numberValue();
+            case TRUE:
+                return Boolean.TRUE;
+            case FALSE:
+                return Boolean.FALSE;
+            case NULL:
+                return null;
+            default:
+                return JSON.getJsonb().fromJson(value.toString(),
+                        value.getValueType() == jakarta.json.JsonValue.ValueType.ARRAY
+                                ? List.class : HashMap.class);
+        }
+    }
+
+    private static Object deserializeBranch(DeserializationContext ctx, Class<?> type, JsonValue value) {
+        if (value.getValueType() == JsonValue.ValueType.OBJECT
+                || value.getValueType() == JsonValue.ValueType.ARRAY) {
+            return ctx.deserialize(type, jakarta.json.Json.createParser(new java.io.StringReader(value.toString())));
+        }
+        return JSON.getPlainJsonb().fromJson(value.toString(), type);
     }
 
     public static class QuadrilateralDeserializer implements JsonbDeserializer<Quadrilateral> {
         @Override
         public Quadrilateral deserialize(JsonParser parser, DeserializationContext ctx, Type rt) {
-            JsonObject jsonObject = parser.getObject();
+            JsonValue jsonValue = parser.getValue();
+            JsonObject jsonObject = jsonValue instanceof JsonObject ? (JsonObject) jsonValue : null;
             Object deserialized = null;
+            if (jsonObject != null && jsonObject.containsKey("quadrilateralType")) {
+                String discriminatorValue = jsonObject.getString("quadrilateralType");
+                if ("ComplexQuadrilateral".equals(discriminatorValue)) {
+                    deserialized = deserializeBranch(ctx, ComplexQuadrilateral.class, jsonValue);
+                    Quadrilateral newQuadrilateral = new Quadrilateral();
+                    newQuadrilateral.setActualInstance(deserialized);
+                    if (jsonObject != null) {
+                        collectUnconsumedProperties(newQuadrilateral, jsonObject);
+                    }
+                    return newQuadrilateral;
+                }
+                if ("SimpleQuadrilateral".equals(discriminatorValue)) {
+                    deserialized = deserializeBranch(ctx, SimpleQuadrilateral.class, jsonValue);
+                    Quadrilateral newQuadrilateral = new Quadrilateral();
+                    newQuadrilateral.setActualInstance(deserialized);
+                    if (jsonObject != null) {
+                        collectUnconsumedProperties(newQuadrilateral, jsonObject);
+                    }
+                    return newQuadrilateral;
+                }
+            }
             int match = 0;
             // deserialize SimpleQuadrilateral
             try {
-                deserialized = ctx.deserialize(SimpleQuadrilateral.class, jakarta.json.Json.createParser(new java.io.StringReader(jsonObject.toString())));
+                deserialized = deserializeBranch(ctx, SimpleQuadrilateral.class, jsonValue);
                 match++;
             } catch (Exception e) {
                 // deserialization failed, continue
             }
             // deserialize ComplexQuadrilateral
             try {
-                deserialized = ctx.deserialize(ComplexQuadrilateral.class, jakarta.json.Json.createParser(new java.io.StringReader(jsonObject.toString())));
+                deserialized = deserializeBranch(ctx, ComplexQuadrilateral.class, jsonValue);
                 match++;
             } catch (Exception e) {
                 // deserialization failed, continue
@@ -87,6 +244,9 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             if (match == 1) {
                 Quadrilateral ret = new Quadrilateral();
                 ret.setActualInstance(deserialized);
+                if (jsonObject != null) {
+                    collectUnconsumedProperties(ret, jsonObject);
+                }
                 return ret;
             }
             throw new RuntimeException(String.format(java.util.Locale.ROOT, "Failed deserialization for Quadrilateral: %d classes match result, expected 1", match));

@@ -16,14 +16,18 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiException;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
-import org.openapitools.client.model.FakeBigDecimalMap200Response;
+import org.openapitools.client.model.FakeRefParameterPetIdParameter;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import org.openapitools.client.model.FreeFormObjectTestClass;
 import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
+import org.openapitools.client.model.ModelApiResponse;
+import org.openapitools.client.model.NullableFieldsMapResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
+import org.openapitools.client.model.RequiredNullableBody;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 import org.junit.jupiter.api.Disabled;
@@ -43,24 +47,13 @@ public class FakeApiTest {
     private final FakeApi api = new FakeApi();
 
     /**
-     * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+     * Get a free form object or Json string
      *
      * @throws ApiException if the Api call fails
      */
     @Test
-    public void fakeBigDecimalMapTest() throws ApiException {
-        FakeBigDecimalMap200Response response = api.fakeBigDecimalMap();
-        // TODO: test validations
-    }
-
-    /**
-     * Health check endpoint
-     *
-     * @throws ApiException if the Api call fails
-     */
-    @Test
-    public void fakeHealthGetTest() throws ApiException {
-        HealthCheckResult response = api.fakeHealthGet();
+    public void fakeGetFreeFormObjectGetTest() throws ApiException {
+        FreeFormObjectTestClass response = api.fakeGetFreeFormObjectGet();
         // TODO: test validations
     }
 
@@ -113,13 +106,45 @@ public class FakeApiTest {
     }
 
     /**
-     * application/json UTF8
+     * fake reference parameter
+     *
+     * 
      *
      * @throws ApiException if the Api call fails
      */
     @Test
-    public void getApplicationJsonUtf8Test() throws ApiException {
-        List<OuterEnum> response = api.getApplicationJsonUtf8();
+    public void fakeRefParameterTest() throws ApiException {
+        FakeRefParameterPetIdParameter petId = null;
+        api.fakeRefParameter(petId);
+        // TODO: test validations
+    }
+
+    /**
+     * fields in the response body, required and nullable are both true
+     *
+     * 
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void fakeRequiredNullableBodyGetTest() throws ApiException {
+        RequiredNullableBody response = api.fakeRequiredNullableBodyGet();
+        // TODO: test validations
+    }
+
+    /**
+     * fake reference parameter
+     *
+     * 
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void fakeUploadRefRequestBodiesTest() throws ApiException {
+        Long petId = null;
+        String additionalMetadata = null;
+        File _file = null;
+        ModelApiResponse response = api.fakeUploadRefRequestBodies(petId, additionalMetadata, _file);
         // TODO: test validations
     }
 
@@ -129,8 +154,33 @@ public class FakeApiTest {
      * @throws ApiException if the Api call fails
      */
     @Test
-    public void getArrayOfEnumsTest() throws ApiException {
-        List<OuterEnum> response = api.getArrayOfEnums();
+    public void getFakeArrayofenumsTest() throws ApiException {
+        List<OuterEnum> response = api.getFakeArrayofenums();
+        // TODO: test validations
+    }
+
+    /**
+     * Health check endpoint
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void getFakeHealthTest() throws ApiException {
+        HealthCheckResult response = api.getFakeHealth();
+        // TODO: test validations
+    }
+
+    /**
+     * parameter name mapping test
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void getParameterNameMappingTest() throws ApiException {
+        Long underscoreType = null;
+        String type = null;
+        String typeWithUnderscore = null;
+        api.getParameterNameMapping(underscoreType, type, typeWithUnderscore);
         // TODO: test validations
     }
 
@@ -296,6 +346,19 @@ public class FakeApiTest {
         String param = null;
         String param2 = null;
         api.testJsonFormData(param, param2);
+        // TODO: test validations
+    }
+
+    /**
+     * test anyOf with map of objects containing nullable required fields
+     *
+     * Tests that anyOf deserialization works when object values contain required fields that are nullable (e.g. Record&lt;string, { before: string | null, after: string | null }&gt;)
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void testNullableRequiredFieldsAnyOfTest() throws ApiException {
+        NullableFieldsMapResponse response = api.testNullableRequiredFieldsAnyOf();
         // TODO: test validations
     }
 

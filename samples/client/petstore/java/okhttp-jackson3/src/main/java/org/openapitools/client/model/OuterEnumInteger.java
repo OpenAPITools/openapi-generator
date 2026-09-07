@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Gets or Sets OuterEnumInteger
  */
+@Deprecated
 public enum OuterEnumInteger {
   
   NUMBER_0(0),

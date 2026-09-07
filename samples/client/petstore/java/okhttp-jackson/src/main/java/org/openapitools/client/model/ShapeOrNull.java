@@ -27,6 +27,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Quadrilateral;
 import org.openapitools.client.model.Triangle;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -63,6 +66,78 @@ import org.openapitools.client.JSON;
 public class ShapeOrNull extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(ShapeOrNull.class.getName());
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  @JsonIgnore
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the ShapeOrNull instance itself
+   */
+  @JsonAnySetter
+  public ShapeOrNull putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+    /**
+     * Record the properties that the matched oneOf schema did not consume.
+     *
+     * <p>The wrapper only owns what the selected child schema left behind. When that child accepts
+     * additional properties itself it absorbs them all and this records nothing, so a property is
+     * never stored — and therefore never written — twice.</p>
+     */
+    private static void collectUnconsumedProperties(ShapeOrNull instance, JsonNode tree) {
+        if (tree == null || !tree.isObject() || instance.getActualInstance() == null) {
+            return;
+        }
+        JsonNode consumed = JSON.getMapper().valueToTree(instance.getActualInstance());
+        if (consumed == null || !consumed.isObject()) {
+            return;
+        }
+        java.util.Iterator<Map.Entry<String, JsonNode>> fields = tree.fields();
+        while (fields.hasNext()) {
+            Map.Entry<String, JsonNode> entry = fields.next();
+            if (consumed.has(entry.getKey())) {
+                continue;
+            }
+            instance.putAdditionalProperty(entry.getKey(),
+                    JSON.getMapper().convertValue(entry.getValue(), Object.class));
+        }
+    }
 
 
     public static class ShapeOrNullSerializer extends StdSerializer<ShapeOrNull> {
@@ -76,6 +151,22 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
 
         @Override
         public void serialize(ShapeOrNull value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+            if (value.getActualInstance() != null && value.getAdditionalProperties() != null
+                    && !value.getAdditionalProperties().isEmpty()) {
+                JsonNode node = JSON.getMapper().valueToTree(value.getActualInstance());
+                if (node != null && node.isObject()) {
+                    com.fasterxml.jackson.databind.node.ObjectNode objectNode = (com.fasterxml.jackson.databind.node.ObjectNode) node;
+                    for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+                        if (objectNode.has(entry.getKey())) {
+                            // the child schema owns this property
+                            continue;
+                        }
+                        objectNode.set(entry.getKey(), JSON.getMapper().valueToTree(entry.getValue()));
+                    }
+                    jgen.writeTree(node);
+                    return;
+                }
+            }
             jgen.writeObject(value.getActualInstance());
         }
     }
@@ -93,6 +184,26 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
         public ShapeOrNull deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
             JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
+            ShapeOrNull newShapeOrNull = new ShapeOrNull();
+            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            String discriminatorValue = (String)result2.get("shapeType");
+            if (discriminatorValue != null) {
+                switch (discriminatorValue) {
+                    case "Quadrilateral":
+                        deserialized = tree.traverse(jp.getCodec()).readValueAs(Quadrilateral.class);
+                        newShapeOrNull.setActualInstance(deserialized);
+                        collectUnconsumedProperties(newShapeOrNull, tree);
+                        return newShapeOrNull;
+                    case "Triangle":
+                        deserialized = tree.traverse(jp.getCodec()).readValueAs(Triangle.class);
+                        newShapeOrNull.setActualInstance(deserialized);
+                        collectUnconsumedProperties(newShapeOrNull, tree);
+                        return newShapeOrNull;
+                    default:
+                        log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for ShapeOrNull. Possible values: Quadrilateral Triangle", discriminatorValue));
+                }
+            }
+
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
@@ -151,6 +262,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
             if (match == 1) {
                 ShapeOrNull ret = new ShapeOrNull();
                 ret.setActualInstance(deserialized);
+                collectUnconsumedProperties(ret, tree);
                 return ret;
             }
             throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for ShapeOrNull: %d classes match result, expected 1", match));
@@ -161,7 +273,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
          */
         @Override
         public ShapeOrNull getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException(ctxt.getParser(), "ShapeOrNull cannot be null");
+            return null;
         }
     }
 
@@ -170,7 +282,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
     public static final Map<String, Class<?>> schemas = new HashMap<>();
 
     public ShapeOrNull() {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
     }
 
     public ShapeOrNull(Triangle o) {
@@ -210,6 +322,11 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
         if (JSON.isInstanceOf(Triangle.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
