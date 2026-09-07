@@ -762,4 +762,34 @@ public class RubyClientCodegenTest {
         assertTrue(op.queryParams.stream().allMatch(p -> p.queryIsJsonMimeType),
                 "All content:application/json query params should have queryIsJsonMimeType=true");
     }
+
+    @Test(description = "an allOf child's build_from_hash maps the attributes inherited from its parents")
+    public void testBuildFromHashMapsInheritedAttributes() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        // Lizard < Reptile < Pet: the walk has to collect openapi_types and
+        // attribute_map from the whole ancestry, not just the child's own
+        java.nio.file.Path lizard = new File(output, "lib/openapi_client/models/lizard.rb").toPath();
+        TestUtils.assertFileContains(lizard,
+                "types = openapi_types\n" +
+                "      map = attribute_map\n" +
+                "      klass = superclass\n" +
+                "      while klass.respond_to?(:openapi_types)\n" +
+                "        types = klass.openapi_types.merge(types)\n" +
+                "        map = klass.attribute_map.merge(map)\n" +
+                "        klass = klass.superclass\n" +
+                "      end");
+        // the discarded-result super call is gone: openapi_types/attribute_map
+        // dispatch on the child class in the parent's frame too, so it never
+        // contributed the parent's attributes - it only built a second instance
+        TestUtils.assertFileNotContains(lizard, "super(attributes)\n      attributes = attributes.transform_keys(&:to_sym)");
+    }
 }

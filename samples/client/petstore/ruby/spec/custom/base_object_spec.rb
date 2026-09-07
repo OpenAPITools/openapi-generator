@@ -166,4 +166,15 @@ describe 'BaseObject' do
       expect(obj.to_hash).to eq(expect_data)
     end
   end
+
+  describe 'attributes inherited from an allOf parent' do
+    it 'build_from_hash maps the parent attributes too' do
+      cat = Petstore::Cat.build_from_hash({ 'className' => 'Cat', 'color' => 'black', 'declawed' => true })
+
+      expect(cat).to be_instance_of(Petstore::Cat)
+      expect(cat.class_name).to eq('Cat')
+      expect(cat.color).to eq('black')
+      expect(cat.declawed).to eq(true)
+    end
+  end
 end
