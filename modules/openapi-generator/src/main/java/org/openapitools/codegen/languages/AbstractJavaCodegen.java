@@ -51,6 +51,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.EscapeJavaDocLambda;
 import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -2897,7 +2898,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         };
         return super.addMustacheLambdas()
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
-                .put("jSpecifyNullable", jSpecifyNullableLambda);
+                .put("jSpecifyNullable", jSpecifyNullableLambda)
+                .put("escapeJavaDoc", new EscapeJavaDocLambda());
 
     }
 
