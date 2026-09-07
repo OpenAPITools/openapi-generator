@@ -36,6 +36,22 @@ public class Swift5ClientCodegenTest {
     Swift5ClientCodegen swiftCodegen = new Swift5ClientCodegen();
 
     @Test(enabled = true)
+    public void testToRegularExpressionRemainsValidInSwiftStringLiteral() throws Exception {
+        // patterns are passed verbatim to NSRegularExpression at runtime, so no
+        // "/.../" delimiters are added and, in particular, no "\/" escape is
+        // produced ("\/" is not a valid escape sequence in a Swift string
+        // literal, see issue #15604)
+        Assert.assertEquals(swiftCodegen.toRegularExpression("http(s)?://x"), "http(s)?://x");
+        Assert.assertEquals(swiftCodegen.toRegularExpression("[a-z/]+"), "[a-z/]+");
+        // "\/" in the spec (a JSON-style escaped slash) is normalized to "/"
+        Assert.assertEquals(swiftCodegen.toRegularExpression("http(s)?:\\/\\/x"), "http(s)?://x");
+        // backslashes are escaped for the Swift string literal
+        Assert.assertEquals(swiftCodegen.toRegularExpression("[a-z0-9\\-]+\\.[a-z]{2,63}"), "[a-z0-9\\\\-]+\\\\.[a-z]{2,63}");
+        // a pattern that already carries delimiters is left untouched
+        Assert.assertEquals(swiftCodegen.toRegularExpression("/[a-z]/i"), "/[a-z]/i");
+    }
+
+    @Test(enabled = true)
     public void testCapitalizedReservedWord() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("AS", null), "_as");
     }
