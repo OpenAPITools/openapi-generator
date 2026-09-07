@@ -15,8 +15,8 @@ GEM
     diff-lcs (1.5.1)
     faraday (2.9.0)
       faraday-net_http (>= 2.0, < 3.2)
-    faraday-multipart (1.0.4)
-      multipart-post (~> 2)
+    faraday-multipart (1.2.0)
+      multipart-post (~> 2.0)
     faraday-net_http (3.1.0)
       net-http
     jaro_winkler (1.5.6)
