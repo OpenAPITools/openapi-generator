@@ -911,7 +911,7 @@ public class {{classname}} {
     {{/requiredParams}}
     {{#optionalParams}}
     {{>nullable_var_annotations}}{{! prevent indent}}
-    private {{>nullableDataType}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{#escapeJavaDoc}}{{.}}{{/escapeJavaDoc}}{{/defaultValue}}{{/isContainer}})
+    private {{>nullableDataType}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}})
     {{/optionalParams}}
 
     private API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request(Builder builder) {
