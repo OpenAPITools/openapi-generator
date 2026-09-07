@@ -3861,9 +3861,93 @@ public class DefaultCodegen implements CodegenConfig {
      * @param discriminatorPropertyName The name of the discriminator property.
      */
     protected String getDiscriminatorPropertyType(Schema schema, String discriminatorPropertyName) {
-        return DiscriminatorUtils.getDiscriminatorPropertyType(schema, discriminatorPropertyName)
+        String type = DiscriminatorUtils.getDiscriminatorPropertyType(schema, discriminatorPropertyName)
                 .map(this::toModelName)
-                .orElseGet(() -> typeMapping.get("string"));
+                .orElse(null);
+        if (type != null) {
+            return type;
+        }
+        List<Schema> schemas = DiscriminatorUtils.getDistinctTypes(openAPI, schema, discriminatorPropertyName);
+        return getCommonSchemaType(schemas);
+    }
+
+    /**
+     * Get the most commons denominator schemaType for several schemas.
+     * <p>
+     * @param schemas  the list of schemas to compare.
+     *
+     * @Return the comman type
+     */
+    protected String getCommonSchemaType(List<Schema> schemas) {
+        switch (schemas.size()) {
+            case 0:
+                //. keep string for backward compatibility
+                return typeMapping.get("string");
+            case 1:
+
+                Schema first = schemas.get(0);
+                try {
+                    if (StringUtils.isNotEmpty(first.get$ref())) {
+                        return toModelName(ModelUtils.getSimpleRef(first.get$ref()));
+                    }
+                    if (ModelUtils.isEnumSchema(first)) {
+                        // inline enum, use the least common denominator
+                        String simpleType = typeMapping.get("enum");
+
+                        return simpleType != null? simpleType:  typeMapping.get("object");
+                    }
+                    return typeMapping.get(getPrimitiveType(first));
+                } catch (Exception e) {
+                    // fallback for some unit test misconfigurations...
+                    LOGGER.warn("Unable to model name for " + first, e);
+                    return typeMapping.get("string");
+                }
+            default:
+                break;
+        }
+
+//        boolean allRef = schemas.stream().allMatch(s -> s.get$ref() != null);
+//        if (allRef) {
+//            Set<String> modelNames = schemas.stream()
+//                    .map(s -> toModelName(ModelUtils.getSimpleRef(s.get$ref())))
+//                    .filter(Objects::nonNull)
+//                    .collect(Collectors.toSet());
+//            if (modelNames.size() == 1) {
+//                return modelNames.iterator().next();
+//            }
+//        }
+        schemas = schemas.stream().map(s -> ModelUtils.getReferencedSchema(openAPI, s)).collect(Collectors.toList());
+        return getCommonTypeMapping(schemas);
+    }
+
+    /**
+     * Find the common type between different schemas.
+     *
+     * @param schemas list of more than one schema.
+     * @return the common matching mapped type
+     */
+    protected String getCommonTypeMapping(List<Schema> schemas) {
+        String simpleType = "object";
+
+        boolean allEnums = schemas.stream().allMatch(ModelUtils::isEnumSchema);
+        if (allEnums) {
+            // non matching enums.  Use enum if if the langage can map it.
+            if (typeMapping.containsKey("enum")) {
+                simpleType = "enum";
+            }
+            return typeMapping.get(simpleType);
+        }
+        if (schemas.stream().noneMatch(ModelUtils::isEnumSchema)) {
+            Set<String> types = schemas.stream().map(this::getPrimitiveType).collect(Collectors.toSet());
+            if (types.size() == 1) {
+                String foundPrimitiveType = types.iterator().next();
+                if (typeMapping.containsKey(foundPrimitiveType)) {
+                    // matching simple type
+                    simpleType = foundPrimitiveType;
+                }
+            }
+        }
+        return typeMapping.get(simpleType);
     }
 
     /**

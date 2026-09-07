@@ -490,6 +490,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         return objs;
     }
 
+    /**
+     * Kotlin has its own implementation in postProcessAllModels
+     *
+     * @return
+     */
+    @Override
+    protected String getCommonSchemaType(List<Schema> schemas) {
+        return typeMapping.get("string");
+    }
+
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
