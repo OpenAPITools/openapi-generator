@@ -793,9 +793,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             Set<String> refs = new LinkedHashSet<>();
             collectInlineModelRefs(cm.allVars, modelsByClassname, refs);
             if (cm.getComposedSchemas() != null) {
+                // oneOf/anyOf render as enums with inline associated values, so they carry the
+                // recursion; allOf is flattened into allVars and is deliberately not an edge
                 collectInlineModelRefs(cm.getComposedSchemas().getOneOf(), modelsByClassname, refs);
                 collectInlineModelRefs(cm.getComposedSchemas().getAnyOf(), modelsByClassname, refs);
-                collectInlineModelRefs(cm.getComposedSchemas().getAllOf(), modelsByClassname, refs);
             }
             inlineRefs.put(cm.classname, refs);
         }
