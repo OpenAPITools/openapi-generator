@@ -1,0 +1,13 @@
+{{#imports}}
+import { {{import}} } from './{{import}}.js';
+{{/imports}}
+
+{{#models}}
+{{#model}}
+export interface {{{classname}}} {
+{{#vars}}
+    {{^isContainer}}{{name}}: {{dataType}},{{/isContainer}}{{#isContainer}}{{name}}: {{complexType}}[],{{/isContainer}}
+{{/vars}}
+}
+{{/model}}
+{{/models}}
