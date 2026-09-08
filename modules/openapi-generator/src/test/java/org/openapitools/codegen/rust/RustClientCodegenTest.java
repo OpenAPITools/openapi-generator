@@ -313,12 +313,14 @@ public class RustClientCodegenTest {
         TestUtils.assertFileNotContains(unionPath, "ObjectExists {");
 
         // serde's internally-tagged deserialization consumes the tag key, so the wrapped
-        // child's own discriminator property defaults instead of failing "missing field",
-        // and skips back out while empty so the tag stays the only occurrence on the wire
+        // child cannot require it - the property is removed from mapped children the same
+        // way it is removed from the discriminating parent, and the variant name carries
+        // the type information (also keeping the tag the only occurrence on serialization)
         Path childPath = Path.of(target.toString(), "/src/models/object_exists.rs");
-        TestUtils.assertFileContains(childPath,
-                "#[serde(rename = \"type\", default, skip_serializing_if = \"String::is_empty\")]");
+        TestUtils.assertFileNotContains(childPath, "pub r#type");
+        TestUtils.assertFileNotContains(childPath, "r#type: String");
         TestUtils.assertFileContains(childPath, "pub identifier: String,");
+        TestUtils.assertFileContains(childPath, "pub fn new(message: String, identifier: String) -> ObjectExists {");
     }
 
     @Test

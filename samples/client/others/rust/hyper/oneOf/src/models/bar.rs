@@ -24,9 +24,6 @@ pub struct Bar {
     /// When sub-classing, this defines the super-class
     #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
     pub at_base_type: Option<String>,
-    /// When sub-classing, this defines the sub-class Extensible name
-    #[serde(rename = "@type", default, skip_serializing_if = "String::is_empty")]
-    pub at_type: String,
     #[serde(rename = "barPropA", skip_serializing_if = "Option::is_none")]
     pub bar_prop_a: Option<String>,
     #[serde(rename = "fooPropB", skip_serializing_if = "Option::is_none")]
@@ -36,13 +33,12 @@ pub struct Bar {
 }
 
 impl Bar {
-    pub fn new(id: String, at_type: String) -> Bar {
+    pub fn new(id: String) -> Bar {
         Bar {
             href: None,
             id,
             at_schema_location: None,
             at_base_type: None,
-            at_type,
             bar_prop_a: None,
             foo_prop_b: None,
             foo: None,

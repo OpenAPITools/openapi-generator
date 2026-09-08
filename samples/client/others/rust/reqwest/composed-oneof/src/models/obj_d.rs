@@ -13,8 +13,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ObjD {
-    #[serde(rename = "realtype", skip_serializing_if = "Option::is_none")]
-    pub realtype: Option<String>,
     #[serde(rename = "color", skip_serializing_if = "Option::is_none")]
     pub color: Option<String>,
 }
@@ -22,7 +20,6 @@ pub struct ObjD {
 impl ObjD {
     pub fn new() -> ObjD {
         ObjD {
-            realtype: None,
             color: None,
         }
     }

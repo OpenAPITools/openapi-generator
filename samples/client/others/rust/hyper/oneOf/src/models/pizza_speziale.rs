@@ -25,9 +25,6 @@ pub struct PizzaSpeziale {
     /// When sub-classing, this defines the super-class
     #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
     pub at_base_type: Option<String>,
-    /// When sub-classing, this defines the sub-class Extensible name
-    #[serde(rename = "@type", default, skip_serializing_if = "String::is_empty")]
-    pub at_type: String,
     #[serde(rename = "pizzaSize", skip_serializing_if = "Option::is_none")]
     pub pizza_size: Option<f64>,
     #[serde(rename = "toppings", skip_serializing_if = "Option::is_none")]
@@ -35,13 +32,12 @@ pub struct PizzaSpeziale {
 }
 
 impl PizzaSpeziale {
-    pub fn new(at_type: String) -> PizzaSpeziale {
+    pub fn new() -> PizzaSpeziale {
         PizzaSpeziale {
             href: None,
             id: None,
             at_schema_location: None,
             at_base_type: None,
-            at_type,
             pizza_size: None,
             toppings: None,
         }

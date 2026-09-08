@@ -25,9 +25,6 @@ pub struct FooRef {
     /// When sub-classing, this defines the super-class
     #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
     pub at_base_type: Option<String>,
-    /// When sub-classing, this defines the sub-class Extensible name
-    #[serde(rename = "@type", default, skip_serializing_if = "String::is_empty")]
-    pub at_type: String,
     /// Name of the related entity.
     #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
@@ -39,13 +36,12 @@ pub struct FooRef {
 }
 
 impl FooRef {
-    pub fn new(at_type: String) -> FooRef {
+    pub fn new() -> FooRef {
         FooRef {
             href: None,
             id: None,
             at_schema_location: None,
             at_base_type: None,
-            at_type,
             name: None,
             at_referred_type: None,
             fooref_prop_a: None,

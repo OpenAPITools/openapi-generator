@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **id** | **String** |  | 
 **at_schema_location** | Option<**String**> | A URI to a JSON-Schema file that defines additional attributes and relationships | [optional]
 **at_base_type** | Option<**String**> | When sub-classing, this defines the super-class | [optional]
-**at_type** | **String** | When sub-classing, this defines the sub-class Extensible name | 
 **bar_prop_a** | Option<**String**> |  | [optional]
 **foo_prop_b** | Option<**String**> |  | [optional]
 **foo** | Option<[**models::FooRefOrValue**](FooRefOrValue.md)> |  | [optional]

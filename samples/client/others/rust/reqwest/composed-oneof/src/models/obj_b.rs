@@ -13,8 +13,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ObjB {
-    #[serde(rename = "realtype", skip_serializing_if = "Option::is_none")]
-    pub realtype: Option<String>,
     #[serde(rename = "description", skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
     #[serde(rename = "code", skip_serializing_if = "Option::is_none")]
@@ -24,7 +22,6 @@ pub struct ObjB {
 impl ObjB {
     pub fn new() -> ObjB {
         ObjB {
-            realtype: None,
             description: None,
             code: None,
         }

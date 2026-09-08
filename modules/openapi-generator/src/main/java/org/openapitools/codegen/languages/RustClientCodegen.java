@@ -337,9 +337,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
         // The discriminator enum is internally tagged, and serde's tag consumes the
         // discriminator key before the wrapped child model deserializes - so the child's own
-        // (typically required) discriminator property would fail with "missing field". Mark it,
-        // so the template can default it and skip serializing it while empty: the variant name
-        // carries the type information and the tag stays the only occurrence on the wire.
+        // (typically required) discriminator property would fail with "missing field", and
+        // serializing it back out would duplicate the tag. Remove the property from the mapped
+        // children, exactly as postProcessModels already removes it from the discriminating
+        // parent: the variant name carries the type information.
         Map<String, CodegenModel> modelsByClassname = new HashMap<>();
         for (ModelsMap modelsMap : objs.values()) {
             for (ModelMap modelMap : modelsMap.getModels()) {
@@ -360,13 +361,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 if (child == null) {
                     continue;
                 }
-                for (List<CodegenProperty> vars : List.of(child.vars, child.allVars, child.requiredVars, child.readWriteVars)) {
-                    for (CodegenProperty var : vars) {
-                        if (propertyBaseName.equals(var.baseName)) {
-                            var.isDiscriminator = true;
-                        }
-                    }
+                for (List<CodegenProperty> vars : List.of(child.vars, child.allVars, child.requiredVars, child.readWriteVars, child.optionalVars)) {
+                    vars.removeIf(var -> propertyBaseName.equals(var.baseName));
                 }
+                child.setHasRequired(!child.requiredVars.isEmpty());
             }
         }
 
