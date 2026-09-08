@@ -29,18 +29,19 @@ jobs:
           # NOTE: disabled as vaporLibrary doesnt build when adding this CI config
           #- samples/client/petstore/swift5/vaporLibrary
         include:
+        # the ubuntu builds run in the official swift image: swift-actions/setup-swift
+        # fails on current ubuntu runners while verifying the toolchain signature
         - os: ubuntu-latest
           sample: samples/client/petstore/swift5/alamofireLibrary
+          container: swift:5.10-noble
         - os: ubuntu-latest
           sample: samples/client/petstore/swift5/urlsessionLibrary
+          container: swift:5.10-noble
     name: Build Swift samples
     runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
     steps:
       - uses: actions/checkout@v7
-      - uses: swift-actions/setup-swift@v3
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        with:
-          swift-version: '5'
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: swift build

@@ -31,16 +31,16 @@ jobs:
           # NOTE: disabled like its swift5 counterpart, vaporLibrary doesnt build when adding this CI config
           #- samples/client/petstore/swift6/vaporLibrary
         include:
+        # the ubuntu build runs in the official swift image: swift-actions/setup-swift
+        # fails on current ubuntu runners while verifying the toolchain signature
         - os: ubuntu-latest
           sample: samples/client/petstore/swift6/urlsessionLibrary
+          container: swift:6.2-noble
     name: Build Swift 6 samples
     runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
     steps:
       - uses: actions/checkout@v7
-      - uses: swift-actions/setup-swift@v3
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        with:
-          swift-version: '6'
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: swift build
