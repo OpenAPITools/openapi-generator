@@ -1,3 +1,6 @@
+// {{#useJackson3}}Jackson 3 requires Java 17.{{/useJackson3}}{{^useJackson3}}Keep the bytecode level in sync with the Maven and Gradle builds.{{/useJackson3}}
+val javaVersion = "{{#useJackson3}}17{{/useJackson3}}{{^useJackson3}}{{#java17}}17{{/java17}}{{^java17}}{{#java11}}11{{/java11}}{{^java11}}1.8{{/java11}}{{/java17}}{{/useJackson3}}"
+
 lazy val root = (project in file(".")).
   settings(
     organization := "{{groupId}}",
@@ -5,7 +8,7 @@ lazy val root = (project in file(".")).
     version := "{{artifactVersion}}",
     scalaVersion := "2.13.6",
     scalacOptions ++= Seq("-feature"),
-    compile / javacOptions ++= Seq("-Xlint:deprecation"),
+    compile / javacOptions ++= Seq("-Xlint:deprecation", "-source", javaVersion, "-target", javaVersion),
     Compile / packageDoc / publishArtifact := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
@@ -29,9 +32,7 @@ lazy val root = (project in file(".")).
       {{/isGson}}
       {{#isJackson}}
       "{{jacksonPackage}}.core" % "jackson-core" % "{{#useJackson3}}3.2.1{{/useJackson3}}{{^useJackson3}}2.22.1{{/useJackson3}}",
-      {{^useJackson3}}
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.22",
-      {{/useJackson3}}
       "{{jacksonPackage}}.core" % "jackson-databind" % "{{#useJackson3}}3.2.1{{/useJackson3}}{{^useJackson3}}2.22.1{{/useJackson3}}",
       {{^useJackson3}}
       "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.22.1",

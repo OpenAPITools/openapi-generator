@@ -2,14 +2,11 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.JsonPrimitive;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+{{! TypeAdapter, JsonAdapter, SerializedName, JsonReader and JsonWriter are contributed via
+    model.imports by JavaClientCodegen; emitting them here as well produced duplicates. }}
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonSerializationContext;
@@ -64,17 +61,17 @@ import jakarta.json.stream.JsonParser;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 {{/isJsonb}}
-import java.io.IOException;
+{{! java.io.IOException, java.util.ArrayList, java.util.HashMap, java.util.List and
+    java.util.Map are contributed via model.imports by JavaClientCodegen.fromModel, which is
+    also where codegen imports them for container properties. Emitting them here as well
+    produced duplicate import lines. The rest have no Java importMapping entry and are not
+    duplicated, so they stay. }}
 import java.lang.reflect.Type;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+{{! java.util.Objects is already imported by model.mustache for every model it renders. }}
 import java.util.StringJoiner;
 
 import {{invokerPackage}}.JSON;

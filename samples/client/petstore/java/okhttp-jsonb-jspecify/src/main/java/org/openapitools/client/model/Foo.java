@@ -28,6 +28,13 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.json.bind.JsonbException;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -445,5 +452,29 @@ public class Foo {
   }
 
 
+
+  /**
+   * Custom JSON-B deserializer that rejects a JSON object which does not carry every required
+   * property. Yasson binds a model that forbids additional properties by plain bean mapping,
+   * which has no notion of a required property, so without this deserializer any JSON object
+   * would bind - and an ambiguous {@code oneOf}/{@code anyOf} schema could not tell its
+   * branches apart. Registered with the Jsonb instance built by {@code JSON}.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<Foo> {
+    @Override
+    public Foo deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      JsonValue value = parser.getValue();
+      if (value == null || value.getValueType() == JsonValue.ValueType.NULL) {
+        return null;
+      }
+      JsonObject jsonObj = value.asJsonObject();
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      return JSON.getUncheckedJsonb().fromJson(jsonObj.toString(), Foo.class);
+    }
+  }
 }
 

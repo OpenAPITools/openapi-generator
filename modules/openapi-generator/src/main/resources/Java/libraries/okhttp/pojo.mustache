@@ -10,11 +10,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
+{{! TypeAdapter, JsonReader, JsonWriter, JsonAdapter and SerializedName are contributed via
+    model.imports by JavaClientCodegen (postProcessModelProperty and fromModel); emitting them
+    here as well produced duplicate import lines. }}
 {{/isGson}}
 {{#isJackson}}
 {{! JsonCreator, JsonInclude, JsonProperty, JsonValue and JsonTypeName are contributed via
@@ -59,19 +57,27 @@ import jakarta.json.stream.JsonParser;
 import java.lang.reflect.Type;
 {{/hasChildren}}
 {{/isAdditionalPropertiesTrue}}
+{{^isAdditionalPropertiesTrue}}
+{{^hasChildren}}
+{{#hasRequired}}
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.json.bind.JsonbException;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
+{{/hasRequired}}
+{{/hasChildren}}
+{{/isAdditionalPropertiesTrue}}
 {{/isJsonb}}
-{{#isGson}}
-import java.io.IOException;
-{{/isGson}}
-import java.util.Arrays;
-import java.util.HashMap;
+{{! java.io.IOException, java.util.Arrays, java.util.HashMap, java.util.Map and (for Gson)
+    java.util.List and java.util.Set are contributed via model.imports by
+    JavaClientCodegen.fromModel, which is also where codegen imports them for container
+    properties. Emitting them here as well produced duplicate import lines. HashSet stays: it
+    has no Java importMapping entry, and it is not duplicated. }}
 import java.util.HashSet;
 {{#isGson}}
-import java.util.List;
-{{/isGson}}
-import java.util.Map;
-{{#isGson}}
-import java.util.Set;
 
 import {{invokerPackage}}.JSON;
 {{/isGson}}
@@ -936,6 +942,46 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       }
     }
   }
+{{/hasChildren}}
+{{/isAdditionalPropertiesTrue}}
+{{^isAdditionalPropertiesTrue}}
+{{^hasChildren}}
+{{#hasRequired}}
+
+  /**
+   * Custom JSON-B deserializer that rejects a JSON object which does not carry every required
+   * property. Yasson binds a model that forbids additional properties by plain bean mapping,
+   * which has no notion of a required property, so without this deserializer any JSON object
+   * would bind - and an ambiguous {@code oneOf}/{@code anyOf} schema could not tell its
+   * branches apart. Registered with the Jsonb instance built by {@code JSON}.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<{{classname}}> {
+    @Override
+    public {{classname}} deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      {{! Yasson routes a JSON null through the deserializer of the declared type instead of
+          short-circuiting it, and asJsonObject() would then fail on a payload that plain bean
+          mapping - and the Gson type adapter - bind as null. }}
+      JsonValue value = parser.getValue();
+      if (value == null || value.getValueType() == JsonValue.ValueType.NULL) {
+        return null;
+      }
+      JsonObject jsonObj = value.asJsonObject();
+      {{! containsKey, not a null check on the value: a required property that is present but
+          explicitly null passes here, exactly as it does in the additional-properties
+          deserializer above and in the Gson type adapter's required-field loop. }}
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      {{! The instance that carries no required-field check, so binding the validated object
+          cannot re-enter this deserializer. It is otherwise the fully configured instance, so
+          a nested discriminated hierarchy still binds to its concrete subtype and a nested
+          model still captures its additional properties. }}
+      return JSON.getUncheckedJsonb().fromJson(jsonObj.toString(), {{classname}}.class);
+    }
+  }
+{{/hasRequired}}
 {{/hasChildren}}
 {{/isAdditionalPropertiesTrue}}
 {{/isJsonb}}

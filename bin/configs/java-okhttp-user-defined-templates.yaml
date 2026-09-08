@@ -8,11 +8,9 @@ additionalProperties:
   artifactId: echo-api-okhttp-user-defined-templates
   hideGenerationTimestamp: "true"
 files:
-  README.mustache:
-    destinationFilename: info.md
   api_doc.mustache:
     templateType: APIDocs
-    destinationFilename: Documentation.md
+    destinationFilename: .md
   pojo.mustache:
       templateType: Model
       folder: modelCopy

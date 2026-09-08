@@ -1235,7 +1235,74 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             codegenModel.imports.add("Nullable");
         }
 
+        if (isLibrary(OKHTTP) && !codegenModel.isEnum
+                && !Boolean.TRUE.equals(codegenModel.vendorExtensions.get("x-is-one-of-interface"))) {
+            // The okhttp library drives Gson, Jackson and JSON-B from one template set, so its model
+            // templates used to hardcode every symbol the generated class needs. Codegen already
+            // contributes several of the same symbols through model.imports - Arrays/HashMap/ArrayList for
+            // container properties, the Gson annotation set from postProcessModelProperty - and
+            // model.mustache renders that list too, so each of them was emitted twice. Contributing them
+            // here instead collapses the two sources: model.imports is a Set, and it becomes the single
+            // place the import can come from.
+            //
+            // The branch below mirrors the dispatch in model.mustache, so a model is only handed the
+            // symbols the partial that renders it actually emits. That is what makes this different from
+            // the blanket `model.imports.add("Arrays")` AbstractJavaCodegen does for jersey2/jersey3/
+            // native/okhttp-gson, which leaves those libraries with an unused Arrays import on every
+            // composed and enum model. Symbols the templates still hardcode - HashSet, Collections,
+            // StringJoiner, Logger, Level, java.lang.reflect.Type - have no Java importMapping entry, so
+            // they cannot be routed this way; none of them is duplicated.
+            final boolean gson = additionalProperties.containsKey(SERIALIZATION_LIBRARY_GSON);
+            if (rendersAsPojo(codegenModel)) {
+                codegenModel.imports.add("Arrays"); // openapiFields/openapiRequiredFields, byte[] equals/hashCode
+                codegenModel.imports.add("Map");    // additionalProperties holder, Map.Entry iteration
+                if (codegenModel.isAdditionalPropertiesTrue) {
+                    // The only other `new HashMap<>()` in pojo.mustache is the default of a map property,
+                    // and AbstractJavaCodegen.postProcessModelProperty already imports HashMap for those.
+                    codegenModel.imports.add("HashMap"); // additionalProperties holder
+                }
+                if (gson) {
+                    codegenModel.imports.add("List");        // List.class in the additionalProperties adapter
+                    codegenModel.imports.add("Set");         // Set<Map.Entry<..>> in validateJsonElement
+                    codegenModel.imports.add("IOException"); // validateJsonElement, TypeAdapter read/write
+                    codegenModel.imports.add("SerializedName");
+                    codegenModel.imports.add("TypeAdapter");
+                    codegenModel.imports.add("JsonAdapter");
+                    codegenModel.imports.add("JsonReader");
+                    codegenModel.imports.add("JsonWriter");
+                }
+            } else { // oneof_model.mustache / anyof_model.mustache
+                codegenModel.imports.add("ArrayList");   // the schema registry built in the static block
+                codegenModel.imports.add("HashMap");
+                codegenModel.imports.add("List");
+                codegenModel.imports.add("Map");
+                codegenModel.imports.add("IOException"); // the (de)serializer signatures
+                if (gson) {
+                    codegenModel.imports.add("SerializedName");
+                    codegenModel.imports.add("TypeAdapter");
+                    codegenModel.imports.add("JsonAdapter");
+                    codegenModel.imports.add("JsonReader");
+                    codegenModel.imports.add("JsonWriter");
+                }
+            }
+        }
+
         return codegenModel;
+    }
+
+    /**
+     * Whether {@code model.mustache} renders this model through {@code pojo.mustache} rather than through
+     * {@code modelEnum.mustache}, {@code oneof_interface.mustache}, {@code oneof_model.mustache} or
+     * {@code anyof_model.mustache}. Mirrors the dispatch expression in model.mustache.
+     *
+     * @param model the model about to be rendered
+     * @return true when pojo.mustache is the partial that will render it
+     */
+    private static boolean rendersAsPojo(CodegenModel model) {
+        return !model.isEnum
+                && !Boolean.TRUE.equals(model.vendorExtensions.get("x-is-one-of-interface"))
+                && (model.oneOf == null || model.oneOf.isEmpty())
+                && (model.anyOf == null || model.anyOf.isEmpty());
     }
 
     @Override

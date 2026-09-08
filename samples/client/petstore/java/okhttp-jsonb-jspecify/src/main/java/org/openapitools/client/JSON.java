@@ -52,6 +52,7 @@ import java.util.HashMap;
 public class JSON {
     private static volatile Jsonb jsonb;
     private static volatile Jsonb plainJsonb;
+    private static volatile Jsonb uncheckedJsonb;
     private static DateFormat dateFormat;
     private static DateFormat sqlDateFormat;
     private static DateTimeFormatter offsetDateTimeFormat;
@@ -115,6 +116,18 @@ public class JSON {
         return plainJsonb;
     }
 
+    /**
+     * The Jsonb instance without the required-field checks of the models that forbid
+     * additional properties. The deserializers performing those checks bind the validated
+     * object through it, which keeps them from re-entering themselves; application code
+     * should use {@link #getJsonb()}.
+     *
+     * @return the Jsonb instance that does not enforce required properties
+     */
+    public static Jsonb getUncheckedJsonb() {
+        return uncheckedJsonb;
+    }
+
     public static void setJsonb(Jsonb jsonb) {
         JSON.jsonb = jsonb;
     }
@@ -145,6 +158,10 @@ public class JSON {
             config.withAdapters(new LocalDateTimeAdapter(localDateTimeFormat));
         }
         plainJsonb = JsonbBuilder.create(config);
+        uncheckedJsonb = JsonbBuilder.create(config);
+        config.withDeserializers(new org.openapitools.client.model.FileContent.CustomJsonbDeserializer());
+        config.withDeserializers(new org.openapitools.client.model.Foo.CustomJsonbDeserializer());
+        config.withDeserializers(new org.openapitools.client.model.RequiredAndNullable.CustomJsonbDeserializer());
         jsonb = JsonbBuilder.create(config);
     }
 
