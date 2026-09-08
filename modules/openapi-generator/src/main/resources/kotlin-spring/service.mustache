@@ -11,22 +11,22 @@ interface {{classname}}Service {
 {{#operation}}
 
     /**
-     * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
-    {{#notes}}
-     * {{.}}
-    {{/notes}}
+     * {{httpMethod}} {{#kotlinDocText}}{{{unescapedPath}}}{{/kotlinDocText}}{{#unescapedSummary}} : {{#kotlinDocText}}{{{unescapedSummary}}}{{/kotlinDocText}}{{/unescapedSummary}}
+    {{#unescapedNotes}}
+     * {{#kotlinDocText}}{{{unescapedNotes}}}{{/kotlinDocText}}
+    {{/unescapedNotes}}
      *
     {{#allParams}}
-     * @param {{{paramName}}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+     * @param {{{paramName}}} {{#kotlinDocText}}{{{unescapedDescription}}}{{/kotlinDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#hasDefaultValue}}, default to {{#kotlinDocText}}{{{rawDefaultValueText}}}{{/kotlinDocText}}{{/hasDefaultValue}}){{/required}}
     {{/allParams}}
-     * @return {{#responses}}{{message}} (status code {{code}}){{^-last}}
+     * @return {{#responses}}{{#kotlinDocText}}{{{unescapedMessage}}}{{/kotlinDocText}} (status code {{code}}){{^-last}}
      *         or {{/-last}}{{/responses}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
     {{#externalDocs}}
-     * {{description}}
-     * @see <a href="{{url}}">{{summary}} Documentation</a>
+     * {{#kotlinDocText}}{{{description}}}{{/kotlinDocText}}
+     * @see <a href="{{#kotlinDocText}}{{{url}}}{{/kotlinDocText}}">{{#kotlinDocText}}{{{summary}}}{{/kotlinDocText}} Documentation</a>
     {{/externalDocs}}
      * @see {{classname}}#{{operationId}}
      */

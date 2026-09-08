@@ -1,5 +1,5 @@
   /**
-   * {{^description}}Gets or Sets {{{name}}}{{/description}}{{{description}}}{{#deprecated}}
+   * {{^description}}Gets or Sets {{{name}}}{{/description}}{{#javaDocText}}{{{unescapedDescription}}}{{/javaDocText}}{{#deprecated}}
    * @deprecated deprecated{{/deprecated}}
    */
   {{>additionalEnumTypeAnnotations}}{{#deprecated}}@Deprecated
@@ -9,7 +9,7 @@
             {{#enumVars}}
     {{#enumDescription}}
     /**
-     * {{.}}
+     * {{#javaDocText}}{{{.}}}{{/javaDocText}}
      */
     {{/enumDescription}}
     @SerializedName({{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}})
@@ -23,7 +23,7 @@
             {{#enumVars}}
     {{#enumDescription}}
     /**
-     * {{.}}
+     * {{#javaDocText}}{{{.}}}{{/javaDocText}}
      */
     {{/enumDescription}}
     {{{name}}}({{{value}}}){{^-last}},

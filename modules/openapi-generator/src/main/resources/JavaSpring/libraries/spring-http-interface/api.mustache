@@ -48,22 +48,22 @@ public interface {{classname}} {
 {{#operation}}
 
     /**
-     * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
-    {{#notes}}
-     * {{.}}
-    {{/notes}}
+     * {{httpMethod}} {{#javaDocText}}{{{unescapedPath}}}{{/javaDocText}}{{#summary}} : {{#javaDocText}}{{{unescapedSummary}}}{{/javaDocText}}{{/summary}}
+    {{#unescapedNotes}}
+     * {{#javaDocText}}{{{.}}}{{/javaDocText}}
+    {{/unescapedNotes}}
      *
     {{#allParams}}
-     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+     * @param {{paramName}} {{#javaDocText}}{{{unescapedDescription}}}{{/javaDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#hasDefaultValue}}, default to {{#javaDocText}}{{{rawDefaultValueText}}}{{/javaDocText}}{{/hasDefaultValue}}){{/required}}
     {{/allParams}}
-     * @return {{#responses}}{{message}} (status code {{code}}){{^-last}}
+     * @return {{#responses}}{{#javaDocText}}{{{unescapedMessage}}}{{/javaDocText}} (status code {{code}}){{^-last}}
      *         or {{/-last}}{{/responses}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
     {{#externalDocs}}
-     * {{description}}
-     * @see <a href="{{url}}">{{summary}} Documentation</a>
+     * {{#javaDocText}}{{{description}}}{{/javaDocText}}
+     * @see <a href="{{#javaDocText}}{{{url}}}{{/javaDocText}}">{{#javaDocText}}{{{unescapedSummary}}}{{/javaDocText}} Documentation</a>
     {{/externalDocs}}
      */
     {{#isDeprecated}}
@@ -74,7 +74,7 @@ public interface {{classname}} {
     {{/useResponseEntity}}
     @HttpExchange(
         method = "{{{httpMethod}}}",
-        value = "{{{path}}}",
+        value = {{#javaStringLiteral}}{{{path}}}{{/javaStringLiteral}},
         accept = { {{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{#vendorExtensions.x-content-type}},
         contentType = "{{{vendorExtensions.x-content-type}}}"{{/vendorExtensions.x-content-type}}
     )

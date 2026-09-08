@@ -109,10 +109,10 @@ import {{javaxPackage}}.annotation.Generated;
 {{/useResponseEntity}}
 {{/useSpringController}}
 {{#swagger2AnnotationLibrary}}
-@Tag(name = "{{{tagName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{{tagName}}} API"{{/tagDescription}})
+@Tag(name = {{#javaStringLiteral}}{{{tagNameRaw}}}{{/javaStringLiteral}}, description = {{#hasTagDescription}}{{#javaStringLiteral}}{{{tagDescriptionRaw}}}{{/javaStringLiteral}}{{/hasTagDescription}}{{^hasTagDescription}}{{#javaStringLiteral}}the {{{tagNameRaw}}} API{{/javaStringLiteral}}{{/hasTagDescription}})
 {{/swagger2AnnotationLibrary}}
 {{#swagger1AnnotationLibrary}}
-@Api(value = "{{{tagName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{{tagName}}} API"{{/tagDescription}})
+@Api(value = {{#javaStringLiteral}}{{{tagNameRaw}}}{{/javaStringLiteral}}, description = {{#hasTagDescription}}{{#javaStringLiteral}}{{{tagDescriptionRaw}}}{{/javaStringLiteral}}{{/hasTagDescription}}{{^hasTagDescription}}{{#javaStringLiteral}}the {{{tagNameRaw}}} API{{/javaStringLiteral}}{{/hasTagDescription}})
 {{/swagger1AnnotationLibrary}}
 {{#operations}}
 {{#virtualService}}
@@ -142,24 +142,24 @@ public interface {{classname}} {
 {{/jdk8-default-interface}}
 {{#operation}}
 
-    String PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = "{{{path}}}";
+    String PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = {{#javaStringLiteral}}{{{path}}}{{/javaStringLiteral}};
     /**
-     * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
-    {{#notes}}
-     * {{.}}
-    {{/notes}}
+     * {{httpMethod}} {{#javaDocText}}{{{unescapedPath}}}{{/javaDocText}}{{#summary}} : {{#javaDocText}}{{{unescapedSummary}}}{{/javaDocText}}{{/summary}}
+    {{#unescapedNotes}}
+     * {{#javaDocText}}{{{.}}}{{/javaDocText}}
+    {{/unescapedNotes}}
      *
     {{#allParams}}
-     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+     * @param {{paramName}} {{#javaDocText}}{{{unescapedDescription}}}{{/javaDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#hasDefaultValue}}, default to {{#javaDocText}}{{{rawDefaultValueText}}}{{/javaDocText}}{{/hasDefaultValue}}){{/required}}
     {{/allParams}}
-     * @return {{#responses}}{{message}} (status code {{code}}){{^-last}}
+     * @return {{#responses}}{{#javaDocText}}{{{unescapedMessage}}}{{/javaDocText}} (status code {{code}}){{^-last}}
      *         or {{/-last}}{{/responses}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
     {{#externalDocs}}
-     * {{description}}
-     * @see <a href="{{url}}">{{summary}} Documentation</a>
+     * {{#javaDocText}}{{{description}}}{{/javaDocText}}
+     * @see <a href="{{#javaDocText}}{{{url}}}{{/javaDocText}}">{{#javaDocText}}{{{unescapedSummary}}}{{/javaDocText}} Documentation</a>
     {{/externalDocs}}
      */
     {{#isDeprecated}}
@@ -170,28 +170,28 @@ public interface {{classname}} {
     {{/virtualService}}
     {{#swagger2AnnotationLibrary}}
     @Operation(
-        operationId = "{{{operationId}}}",
+        operationId = {{#javaStringLiteral}}{{{operationId}}}{{/javaStringLiteral}},
         {{#summary}}
-        summary = "{{{.}}}",
+        summary = {{#javaStringLiteral}}{{{unescapedSummary}}}{{/javaStringLiteral}},
         {{/summary}}
         {{#notes}}
-        description = "{{{.}}}",
+        description = {{#javaStringLiteral}}{{{unescapedNotes}}}{{/javaStringLiteral}},
         {{/notes}}
         {{#isDeprecated}}
         deprecated = true,
         {{/isDeprecated}}
         {{#vendorExtensions.x-tags.size}}
-        tags = { {{#vendorExtensions.x-tags}}"{{{tag}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
+        tags = { {{#vendorExtensions.x-tags}}{{#javaStringLiteral}}{{{tagRaw}}}{{/javaStringLiteral}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         {{/vendorExtensions.x-tags.size}}
         responses = {
             {{#responses}}
-            @ApiResponse(responseCode = {{#isDefault}}"default"{{/isDefault}}{{^isDefault}}"{{{code}}}"{{/isDefault}}, description = "{{{message}}}"{{#baseType}}, content = {
+            @ApiResponse(responseCode = {{#isDefault}}{{#javaStringLiteral}}default{{/javaStringLiteral}}{{/isDefault}}{{^isDefault}}{{#javaStringLiteral}}{{{code}}}{{/javaStringLiteral}}{{/isDefault}}, description = {{#javaStringLiteral}}{{{unescapedMessage}}}{{/javaStringLiteral}}{{#baseType}}, content = {
                 {{#produces}}
                 @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}{{^isJson}}){{^-last}},{{/-last}}{{/isJson}}{{#isJson}}{{^examples.0}}){{^-last}},{{/-last}}{{/examples.0}}{{#examples.0}}, examples = {
                 {{#examples}}
                     @ExampleObject(
-                        name = "{{{exampleName}}}",
-                        value = "{{{exampleValue}}}"
+                        name = {{#javaStringLiteral}}{{{exampleName}}}{{/javaStringLiteral}},
+                        value = {{#javaStringLiteral}}{{{exampleValueRaw}}}{{/javaStringLiteral}}
                     ){{^-last}},{{/-last}}
                 {{/examples}}
                 {{#-last}}
@@ -206,39 +206,39 @@ public interface {{classname}} {
         }{{#hasAuthMethods}},
         security = {
             {{#authMethods}}
-            @SecurityRequirement(name = "{{name}}"{{#scopes.0}}, scopes={ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} }{{/scopes.0}}){{^-last}},{{/-last}}
+            @SecurityRequirement(name = {{#javaStringLiteral}}{{{name}}}{{/javaStringLiteral}}{{#scopes.0}}, scopes={ {{#scopes}}{{#javaStringLiteral}}{{{scope}}}{{/javaStringLiteral}}{{^-last}}, {{/-last}}{{/scopes}} }{{/scopes.0}}){{^-last}},{{/-last}}
             {{/authMethods}}
         }{{/hasAuthMethods}}{{#externalDocs}},
-        externalDocs = @ExternalDocumentation(description = "{{externalDocs.description}}", url = "{{externalDocs.url}}"){{/externalDocs}}
+        externalDocs = @ExternalDocumentation(description = {{#javaStringLiteral}}{{{description}}}{{/javaStringLiteral}}, url = {{#javaStringLiteral}}{{{url}}}{{/javaStringLiteral}}){{/externalDocs}}
     )
     {{/swagger2AnnotationLibrary}}
     {{#swagger1AnnotationLibrary}}
     @ApiOperation(
         {{#vendorExtensions.x-tags.size}}
-        tags = { {{#vendorExtensions.x-tags}}"{{{tag}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
+        tags = { {{#vendorExtensions.x-tags}}{{#javaStringLiteral}}{{{tagRaw}}}{{/javaStringLiteral}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         {{/vendorExtensions.x-tags.size}}
-        value = "{{{summary}}}",
-        nickname = "{{{operationId}}}",
-        notes = "{{{notes}}}"{{#returnBaseType}},
+        value = {{#javaStringLiteral}}{{{unescapedSummary}}}{{/javaStringLiteral}},
+        nickname = {{#javaStringLiteral}}{{{operationId}}}{{/javaStringLiteral}},
+        notes = {{#javaStringLiteral}}{{{unescapedNotes}}}{{/javaStringLiteral}}{{#returnBaseType}},
         response = {{{.}}}.class{{/returnBaseType}}{{#returnContainer}},
         responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}},
         authorizations = {
         {{#authMethods}}
         {{#scopes.0}}
-            @Authorization(value = "{{name}}", scopes = {
+            @Authorization(value = {{#javaStringLiteral}}{{{name}}}{{/javaStringLiteral}}, scopes = {
             {{#scopes}}
-                @AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},{{/-last}}
+                @AuthorizationScope(scope = {{#javaStringLiteral}}{{{scope}}}{{/javaStringLiteral}}, description = {{#javaStringLiteral}}{{{description}}}{{/javaStringLiteral}}){{^-last}},{{/-last}}
             {{/scopes}}
             }){{^-last}},{{/-last}}
         {{/scopes.0}}
         {{^scopes.0}}
-            @Authorization(value = "{{name}}"){{^-last}},{{/-last}}
+            @Authorization(value = {{#javaStringLiteral}}{{{name}}}{{/javaStringLiteral}}){{^-last}},{{/-last}}
         {{/scopes.0}}
         {{/authMethods}} }{{/hasAuthMethods}}
     )
     @ApiResponses({
         {{#responses}}
-        @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}
+        @ApiResponse(code = {{{code}}}, message = {{#javaStringLiteral}}{{{unescapedMessage}}}{{/javaStringLiteral}}{{#baseType}}, response = {{{.}}}.class{{/baseType}}{{#containerType}}, responseContainer = {{#javaStringLiteral}}{{{.}}}{{/javaStringLiteral}}{{/containerType}}){{^-last}},{{/-last}}
         {{/responses}}
     })
     {{/swagger1AnnotationLibrary}}

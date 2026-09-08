@@ -1,4 +1,4 @@
-  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = {{#javaStringLiteral}}{{#items.xmlName}}{{{items.xmlName}}}{{/items.xmlName}}{{^items.xmlName}}{{#xmlName}}{{{xmlName}}}{{/xmlName}}{{^xmlName}}{{{baseName}}}{{/xmlName}}{{/items.xmlName}}{{/javaStringLiteral}}{{#xmlNamespace}}, namespace = {{#javaStringLiteral}}{{{.}}}{{/javaStringLiteral}}{{/xmlNamespace}})
 {{#isXmlWrapped}}
-  @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+  @XmlElementWrapper(name = {{#javaStringLiteral}}{{#xmlName}}{{{xmlName}}}{{/xmlName}}{{^xmlName}}{{{baseName}}}{{/xmlName}}{{/javaStringLiteral}}{{#xmlNamespace}}, namespace = {{#javaStringLiteral}}{{{.}}}{{/javaStringLiteral}}{{/xmlNamespace}})
 {{/isXmlWrapped}}

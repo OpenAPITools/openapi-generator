@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -61,6 +62,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String max; // TODO: is this really used?
     @Getter @Setter
     public String defaultValue;
+    /** Typed snapshot of the schema default captured before language conversion. */
+    public JsonNode rawDefaultValue;
+    public String rawDefaultValueText;
+    public boolean hasDefaultValue;
     @Getter @Setter
     public String defaultValueWithParam;
     @Setter public String baseType;
@@ -98,6 +103,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      */
     @Getter @Setter
     public String example;
+    /** Original schema example before language-specific escaping. */
+    public String rawExample;
 
     @Getter @Setter
     public String jsonSchema;
@@ -996,6 +1003,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", minLength=").append(minLength);
         sb.append(", pattern='").append(pattern).append('\'');
         sb.append(", example='").append(example).append('\'');
+        sb.append(", rawExample='").append(rawExample).append('\'');
         sb.append(", jsonSchema='").append(jsonSchema).append('\'');
         sb.append(", minimum='").append(minimum).append('\'');
         sb.append(", maximum='").append(maximum).append('\'');
@@ -1173,6 +1181,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(min, that.min) &&
                 Objects.equals(max, that.max) &&
                 Objects.equals(defaultValue, that.defaultValue) &&
+                Objects.equals(rawDefaultValue, that.rawDefaultValue) &&
+                Objects.equals(rawDefaultValueText, that.rawDefaultValueText) &&
+                hasDefaultValue == that.hasDefaultValue &&
                 Objects.equals(defaultValueWithParam, that.defaultValueWithParam) &&
                 Objects.equals(baseType, that.baseType) &&
                 Objects.equals(containerType, that.containerType) &&
@@ -1183,6 +1194,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(minLength, that.minLength) &&
                 Objects.equals(pattern, that.pattern) &&
                 Objects.equals(example, that.example) &&
+                Objects.equals(rawExample, that.rawExample) &&
                 Objects.equals(jsonSchema, that.jsonSchema) &&
                 Objects.equals(minimum, that.minimum) &&
                 Objects.equals(maximum, that.maximum) &&
@@ -1212,8 +1224,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
         return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
                 dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
-                defaultValueWithParam, baseType, containerType, containerTypeMapped, title, unescapedDescription,
-                maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
+                rawDefaultValue, rawDefaultValueText, hasDefaultValue, defaultValueWithParam, baseType,
+                containerType, containerTypeMapped, title, unescapedDescription,
+                maxLength, minLength, pattern, example, rawExample, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, required, deprecated,
                 isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,

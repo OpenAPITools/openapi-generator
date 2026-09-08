@@ -817,13 +817,13 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(
                 Paths.get(
                         outputPath + "/src/main/kotlin/org/openapitools/api/" + pingApiFileName),
-                "description = \"\"\"# Multi-line descriptions\n"
-                        + "\n"
-                        + "This is an example of a multi-line description.\n"
-                        + "\n"
-                        + "It:\n"
-                        + "- has multiple lines\n"
-                        + "- uses Markdown (CommonMark) for rich text representation\"\"\""
+                "description = \"# Multi-line descriptions\\n"
+                        + "\\n"
+                        + "This is an example of a multi-line description.\\n"
+                        + "\\n"
+                        + "It:\\n"
+                        + "- has multiple lines\\n"
+                        + "- uses Markdown (CommonMark) for rich text representation\""
         );
     }
 
@@ -4480,6 +4480,93 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(apiPath, "Mono<ResponseEntity<List<kotlin.String>>>", "Mono<ResponseEntity<Set<kotlin.String>>>");
         assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux",
                 "kotlin.collections.Set<", "Mono<ResponseEntity<set<");
+    }
+
+    @Test
+    public void escapedValuesRetainKotlinDefaultAndFormParameterContracts() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml");
+
+        assertFileContains(files.get("RequiredDecimal.kt").toPath(), "BigDecimal(\"12.34\")");
+        assertFileContains(files.get("OptionalDecimal.kt").toPath(), "BigDecimal(\"56.78\")");
+        assertFileContains(files.get("FormFeed.kt").toPath(), "description = \"form feed \\u000c\"");
+        assertFileContains(files.get("EscapedApiController.kt").toPath(),
+                "defaultValue = \"raw &amp; <tag> */ \\\\u002a/\"");
+        assertFileContains(files.get("FormApiController.kt").toPath(),
+                "description = \"Form &amp; <tag> \\\"quote\\\" \\\\u002a/\"");
+    }
+
+    @Test
+    public void serviceExternalDocumentationUsesItsOwnDescription() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml",
+                Map.of(SERVICE_INTERFACE, true));
+        String serviceSource = Files.readString(files.get("EscapedApiService.kt").toPath());
+
+        Assert.assertTrue(serviceSource.contains("External docs &amp;amp; &lt;literal&gt; *&#47; &#92;u002a/"));
+        Assert.assertFalse(serviceSource.contains("Operation docs *&#47; &#92;u002a/\n     * @see"));
+
+        Map<String, File> rawPathFiles = generateFromContract(
+                "src/test/resources/3_0/spring/kotlin-escaping-regressions.yaml",
+                Map.of(SERVICE_INTERFACE, true));
+        assertFileContains(rawPathFiles.get("KdocU002aApiService.kt").toPath(),
+                "* GET /kdoc-&#92;u002a/");
+    }
+
+    @Test
+    public void kotlinSourceLiteralsEscapePathsContextPathsAndOAuthAnnotations() throws IOException {
+        final String input = "src/test/resources/3_0/spring/kotlin-escaping-regressions.yaml";
+
+        Map<String, File> controllerFiles = generateFromContract(input);
+        assertKotlinEscapedPaths(controllerFiles.get("EscapingApiController.kt"));
+        assertFileContains(controllerFiles.get("EscapingApiController.kt").toPath(),
+                "SecurityRequirement(name = \"oauth\\$\\\"name\", scopes = [ \"scope\\$\\\"name\" ])");
+        assertFileContains(controllerFiles.get("UriDefault.kt").toPath(),
+                "URI.create(\"https://example.test/\\$uri\")");
+        assertFileContains(controllerFiles.get("SpringDocConfiguration.kt").toPath(),
+                ".title(\"Kotlin \\$ & \\\" \\\\ title\")",
+                ".description(\"Description \\$ & \\\" \\\\ details\")",
+                ".termsOfService(\"https://example.test/\\$terms?value=one&two\")",
+                ".name(\"Contact \\$ & \\\" \\\\ name\")",
+                ".url(\"https://example.test/\\$contact\")",
+                ".email(\"contact\\$@example.test\")",
+                ".name(\"License \\$ & \\\" \\\\ name\")",
+                ".url(\"https://example.test/\\$license\")",
+                ".version(\"1.0.\\$version\")",
+                ".addSecuritySchemes(\"oauth\\$\\\"name\", SecurityScheme()");
+
+        Map<String, File> interfaceFiles = generateFromContract(input, Map.of(
+                INTERFACE_ONLY, true,
+                REQUEST_MAPPING_OPTION, KotlinSpringServerCodegen.RequestMappingMode.api_interface));
+        assertKotlinEscapedPaths(interfaceFiles.get("EscapingApi.kt"));
+
+        Map<String, File> controllerWrapperFiles = generateFromContract(input, Map.of(
+                DELEGATE_PATTERN, true,
+                REQUEST_MAPPING_OPTION, KotlinSpringServerCodegen.RequestMappingMode.controller));
+        assertFileContains(controllerWrapperFiles.get("EscapingApiController.kt").toPath(),
+                "@RequestMapping(\"\\${api.base-path:/server-\\$context}\")",
+                "const val BASE_PATH: String = \"/server-\\$context\"");
+
+        Map<String, File> swagger1Files = generateFromContract(input, Map.of(
+                INTERFACE_ONLY, true,
+                ANNOTATION_LIBRARY, AnnotationLibrary.SWAGGER1.toCliOptValue(),
+                DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue()));
+        assertFileContains(swagger1Files.get("EscapingApi.kt").toPath(),
+                "Authorization(value = \"oauth\\$\\\"name\", scopes = [AuthorizationScope(scope = \"scope\\$\\\"name\", description = \"Scope description \\$ \\\" \\\\u002a/\")])");
+
+        Map<String, File> declarativeFiles = generateFromContract(input, new HashMap<>(), new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+        Path declarativeApi = declarativeFiles.get("EscapingApi.kt").toPath();
+        assertFileContains(declarativeApi,
+                "const val BASE_PATH: String = \"/server-\\$context\"",
+                "const val PATH_ESCAPED: String = \"/escaping/operations-\\$path\"");
+    }
+
+    private void assertKotlinEscapedPaths(File source) throws IOException {
+        assertFileContains(source.toPath(),
+                "@RequestMapping(\"\\${api.base-path:/server-\\$context}\")",
+                "const val BASE_PATH: String = \"/server-\\$context\"",
+                "const val PATH_ESCAPED: String = \"/escaping/operations-\\$path\"");
     }
 
     private Map<String, File> generateFromContract(String url) throws IOException {

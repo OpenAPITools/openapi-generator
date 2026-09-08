@@ -1,6 +1,6 @@
 {{#withXml}}
 {{#jackson}}
-@JacksonXmlRootElement({{#xmlNamespace}}namespace = "{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{classname}}{{/xmlName}}")
+@JacksonXmlRootElement({{#xmlNamespace}}namespace = {{#javaStringLiteral}}{{{.}}}{{/javaStringLiteral}}, {{/xmlNamespace}}localName = {{#javaStringLiteral}}{{#xmlName}}{{{xmlName}}}{{/xmlName}}{{^xmlName}}{{{classname}}}{{/xmlName}}{{/javaStringLiteral}})
 {{/jackson}}
-@XmlRootElement({{#xmlNamespace}}namespace = "{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{classname}}{{/xmlName}}")
+@XmlRootElement({{#xmlNamespace}}namespace = {{#javaStringLiteral}}{{{.}}}{{/javaStringLiteral}}, {{/xmlNamespace}}name = {{#javaStringLiteral}}{{#xmlName}}{{{xmlName}}}{{/xmlName}}{{^xmlName}}{{{classname}}}{{/xmlName}}{{/javaStringLiteral}})
 @XmlAccessorType(XmlAccessType.FIELD){{/withXml}}

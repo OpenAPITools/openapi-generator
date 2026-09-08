@@ -26,6 +26,31 @@ OpenAPI Generator supports user-defined templates. This approach is often the ea
 
 > **Note:** You cannot use this approach to create new templates, only override existing ones. If you'd like to create a new generator to contribute back to the project, see `new.sh` in the repository root. If you'd like to create a private generator for more templating control, see the [customization](./customization.md) docs.
 
+### Raw values and source-literal helpers
+
+Specification text is data and must be encoded at its destination. The
+`spring` and `kotlin-spring` generators expose additive Mustache helpers:
+
+* `javaStringLiteral` and `kotlinStringLiteral` accept raw contents and emit a
+  complete quoted literal. Do not add another pair of quotes.
+* `javaStringContent` and `kotlinStringContent` emit escaped contents for a
+  template-owned literal.
+* `javaDocText` and `kotlinDocText` emit literal documentation text: they
+  HTML-escape text, protect comment delimiters (including Java Unicode-escape
+  preprocessing), and preserve line breaks.
+
+Use triple-brace values inside these helpers so Mustache HTML escaping does not
+run before source escaping:
+
+```mustache
+description = {{#kotlinStringLiteral}}{{{unescapedNotes}}}{{/kotlinStringLiteral}}
+```
+
+These helpers are scoped to the Spring generators and their supported
+libraries. Keep raw specification fields separate from generated expressions,
+identifiers, and intentional vendor-extension code. Other generators,
+including Java `okhttp-gson`, are not covered by this contract.
+
 OpenAPI Generator not only supports local files for templating, but also templates defined on the classpath. This is a great option if you want to reuse templates across multiple projects. To load a template via classpath, you'll need to generate a little differently. For example, if you've created an artifact called `template-classpath-example` which contains extended templates for the `htmlDocs` generator with the following structure:
 
 ```

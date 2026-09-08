@@ -1,0 +1,162 @@
+openapi: 3.0.3
+info:
+  title: Escaping regressions
+  version: 1.0.0
+security:
+  - 'oauth&"\name':
+      - 'scope&"\name'
+paths:
+  /escaped:
+    get:
+      tags:
+        - escaped
+      summary: Operation summary
+      description: 'Operation docs */ \u002a/'
+      operationId: escaped
+      externalDocs:
+        description: 'External docs &amp; <literal> */ \u002a/'
+        url: 'https://example.test/docs?value=\u002a/'
+      parameters:
+        - name: cookie
+          in: cookie
+          required: false
+          description: Cookie description
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/CookieText'
+            default: 'raw &amp; <tag> */ \u002a/'
+        - name: numericEnum
+          in: query
+          required: false
+          description: Numeric enum default
+          schema:
+            type: number
+            enum:
+              - 1
+              - 2
+            default: 1
+      responses:
+        '200':
+          description: Response description
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                escapedExample:
+                  value:
+                    message: 'quote " and slash \'
+  /form:
+    post:
+      tags:
+        - escaped
+      operationId: escapedForm
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - text
+              properties:
+                text:
+                  type: string
+                  description: 'Form &amp; <tag> "quote" \u002a/'
+                defaulted:
+                  type: string
+                  description: Form default
+                  default: form default
+      responses:
+        '204':
+          description: Form accepted
+components:
+  securitySchemes:
+    'oauth&"\name':
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.test/token
+          scopes:
+            'scope&"\name': Security scope
+  schemas:
+    CookieText:
+      type: string
+    RequiredDecimal:
+      type: object
+      required:
+        - amount
+      properties:
+        amount:
+          type: number
+          default: 12.34
+    OptionalDecimal:
+      type: object
+      properties:
+        amount:
+          type: number
+          default: 56.78
+    FormFeed:
+      type: object
+      properties:
+        value:
+          type: string
+          description: "form feed \f"
+    WireNames:
+      type: object
+      properties:
+        'wire&"\name':
+          type: string
+          xml:
+            name: 'element&"\name'
+            namespace: 'urn:wire&"\namespace'
+        'wrapped&"\name':
+          type: array
+          xml:
+            name: 'wrapper&"\name'
+            namespace: 'urn:wrapper&"\namespace'
+            wrapped: true
+          items:
+            type: string
+            xml:
+              name: 'item&"\name'
+    EscapedDocumentation:
+      type: object
+      description: 'Model docs */ \u002a/'
+      properties:
+        text:
+          type: string
+          description: 'Property docs */ \u002a/'
+          example: 'Property example " $ \u002a/'
+        inline:
+          type: string
+          enum:
+            - inline
+          x-enum-descriptions:
+            - 'Inline enum docs */ \u002a/'
+    EscapedEnum:
+      type: string
+      description: 'Enum docs */ \u002a/'
+      enum:
+        - value
+      x-enum-descriptions:
+        - 'Enum value docs */ \u002a/'
+    TemporalDefaults:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          default: '2026-01-02'
+        dateTime:
+          type: string
+          format: date-time
+          default: '2026-01-02T03:04:05Z'
+        localTime:
+          type: string
+          format: time-local
+          default: '10:15:30'
+        localDateTime:
+          type: string
+          format: date-time-local
+          default: '2026-01-02T03:04:05'

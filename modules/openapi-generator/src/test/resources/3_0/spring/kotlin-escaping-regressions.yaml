@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  title: 'Kotlin $ & " \ title'
+  description: 'Description $ & " \ details'
+  termsOfService: 'https://example.test/$terms?value=one&two'
+  contact:
+    name: 'Contact $ & " \ name'
+    url: 'https://example.test/$contact'
+    email: 'contact$@example.test'
+  license:
+    name: 'License $ & " \ name'
+    url: 'https://example.test/$license'
+  version: '1.0.$version'
+servers:
+  - url: /server-$context
+security:
+  - 'oauth$"name':
+      - 'scope$"name'
+paths:
+  /escaping/operations-$path:
+    get:
+      tags:
+        - escaping
+      operationId: escaped
+      responses:
+        '204':
+          description: No content
+  '/kdoc-\u002a/':
+    get:
+      tags:
+        - escaping
+      operationId: escapedKdoc
+      responses:
+        '204':
+          description: No content
+components:
+  securitySchemes:
+    'oauth$"name':
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.test/token
+          scopes:
+            'scope$"name': 'Scope description $ " \u002a/'
+  schemas:
+    UriDefault:
+      type: object
+      properties:
+        value:
+          type: string
+          format: uri
+          default: 'https://example.test/$uri'

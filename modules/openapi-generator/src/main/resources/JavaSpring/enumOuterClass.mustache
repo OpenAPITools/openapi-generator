@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 {{/jackson}}
 
 /**
- * {{^description}}Gets or Sets {{{name}}}{{/description}}{{{description}}}{{#isDeprecated}}
+ * {{^description}}Gets or Sets {{{name}}}{{/description}}{{#javaDocText}}{{{unescapedDescription}}}{{/javaDocText}}{{#isDeprecated}}
  * @deprecated deprecated{{/isDeprecated}}
  */
 {{>additionalEnumTypeAnnotations}}
@@ -19,7 +19,7 @@ public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatyp
   {{#allowableValues}}{{#enumVars}}
   {{#enumDescription}}
   /**
-   * {{.}}
+   * {{#javaDocText}}{{{.}}}{{/javaDocText}}
    */
   {{/enumDescription}}
   @SerializedName({{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}})
@@ -30,7 +30,7 @@ public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatyp
   {{#allowableValues}}{{#enumVars}}
   {{#enumDescription}}
   /**
-   * {{.}}
+   * {{#javaDocText}}{{{.}}}{{/javaDocText}}
    */
   {{/enumDescription}}
   {{{name}}}({{{value}}}){{^-last}},

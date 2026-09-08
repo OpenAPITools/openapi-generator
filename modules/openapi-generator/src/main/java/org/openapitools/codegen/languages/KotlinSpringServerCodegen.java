@@ -22,6 +22,7 @@ import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
@@ -33,6 +34,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.SourceStringEscaper;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.utils.JsonAnnotationPolicyUtils;
 import org.openapitools.codegen.utils.JsonIncludePolicy;
@@ -1056,12 +1058,35 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("([$\"\\\\])", "\\\\$1")));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
+        additionalProperties.put("kotlinStringLiteral",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(SourceStringEscaper.kotlinStringLiteral(fragment.execute())));
+        additionalProperties.put("kotlinStringContent",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(SourceStringEscaper.kotlinStringContent(fragment.execute())));
+        additionalProperties.put("kotlinDocText",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(SourceStringEscaper.docText(fragment.execute())));
     }
 
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""));
+    }
+
+    @Override
+    public String toDefaultValue(CodegenProperty property, Schema schema) {
+        String value = super.toDefaultValue(property, schema);
+        Schema resolved = ModelUtils.getReferencedSchema(openAPI, schema);
+        if (resolved != null && ModelUtils.isURISchema(resolved)
+                && resolved.getDefault() instanceof String) {
+            return "URI.create(" + SourceStringEscaper.kotlinStringLiteral((String) resolved.getDefault()) + ")";
+        }
+        if (resolved != null && ModelUtils.isStringSchema(resolved)
+                && !ModelUtils.isURISchema(resolved)
+                && (resolved.getEnum() == null || resolved.getEnum().isEmpty())
+                && resolved.getDefault() instanceof String) {
+            return SourceStringEscaper.kotlinStringLiteral((String) resolved.getDefault());
+        }
+        return value;
     }
 
     @Override
