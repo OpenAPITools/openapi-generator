@@ -20,6 +20,16 @@ paths:
           explode: true
           schema:
             type: object
+        - name: scope
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            nullable: true
+            additionalProperties:
+              type: string
       responses:
         '200':
           description: ok

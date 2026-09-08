@@ -297,7 +297,9 @@ public class RustClientCodegenTest {
     public void testDeepObjectFreeFormQueryParamCompiles() throws IOException {
         // the exploded deepObject branch walked every map-flagged parameter with
         // .len()/.iter() - fine for a HashMap-typed map, but a bare free-form object is a
-        // serde_json::Value, which has neither, so the generated crate did not compile
+        // serde_json::Value, which has neither, so the generated crate did not compile;
+        // both shapes now take parse_deep_object, the route the non-explode branch already
+        // uses, which also yields the deepObject wire format the style asks for
         for (String library : new String[] {"reqwest", "reqwest-trait"}) {
             Path target = Files.createTempDirectory("test");
             target.toFile().deleteOnExit();
@@ -307,14 +309,17 @@ public class RustClientCodegenTest {
                     .setInputSpec("src/test/resources/3_0/rust/deep-object-free-form-query-param.yaml")
                     .setSkipOverwrite(false)
                     .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
-            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            files.forEach(File::deleteOnExit);
             Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
             TestUtils.assertFileExists(outputPath);
-            // the free-form parameter walks the Value through as_object(); the typed map
-            // keeps its direct iteration
-            TestUtils.assertFileContains(outputPath, "param_value.as_object()");
-            TestUtils.assertFileContains(outputPath, "for (key, value) in param_value.iter()");
-            TestUtils.assertFileContains(outputPath, "for (key, value) in object.iter()");
+            // the optional typed map, the optional free-form object, and the
+            // required-nullable map all route through parse_deep_object
+            TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"filter\"");
+            TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"extra\"");
+            TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"scope\"");
+            TestUtils.assertFileNotContains(outputPath, "param_value.len()");
+            TestUtils.assertFileNotContains(outputPath, "param_value.iter()");
         }
     }
 
