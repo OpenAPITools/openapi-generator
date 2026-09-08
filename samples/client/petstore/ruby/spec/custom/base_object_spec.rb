@@ -182,5 +182,35 @@ describe 'BaseObject' do
 
       expect(cat.to_hash).to eq({ className: 'Cat', color: 'black', declawed: true })
     end
+
+    it 'a child redeclaring an attribute as non-nullable wins over the ancestor nullability' do
+      parent = Class.new(Petstore::Animal) do
+        def self.attribute_map
+          { :flag => :flag }
+        end
+
+        def self.openapi_types
+          { :flag => :'String' }
+        end
+
+        def self.openapi_nullable
+          Set.new([:flag])
+        end
+        attr_accessor :flag
+      end
+      child = Class.new(parent) do
+        def self.openapi_nullable
+          Set.new([])
+        end
+      end
+
+      nullable_instance = parent.allocate
+      nullable_instance.instance_variable_set(:@flag, nil)
+      expect(nullable_instance.to_hash).to eq({ flag: nil })
+
+      non_nullable_instance = child.allocate
+      non_nullable_instance.instance_variable_set(:@flag, nil)
+      expect(non_nullable_instance.to_hash).not_to have_key(:flag)
+    end
   end
 end

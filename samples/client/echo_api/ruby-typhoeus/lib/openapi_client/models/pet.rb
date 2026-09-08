@@ -11,6 +11,7 @@ Generator version: 7.26.0-SNAPSHOT
 =end
 
 require 'date'
+require 'set'
 require 'time'
 
 module OpenapiClient
@@ -266,8 +267,9 @@ module OpenapiClient
       nullable = self.class.openapi_nullable
       klass = self.class.superclass
       while klass.respond_to?(:openapi_types)
+        # an ancestor's nullability only applies to attributes no nearer class redeclares
+        nullable |= klass.openapi_nullable & (klass.attribute_map.keys - map.keys)
         map = klass.attribute_map.merge(map)
-        nullable = nullable | klass.openapi_nullable
         klass = klass.superclass
       end
       hash = {}

@@ -799,9 +799,13 @@ public class RubyClientCodegenTest {
                 "      nullable = self.class.openapi_nullable\n" +
                 "      klass = self.class.superclass\n" +
                 "      while klass.respond_to?(:openapi_types)\n" +
+                "        # an ancestor's nullability only applies to attributes no nearer class redeclares\n" +
+                "        nullable |= klass.openapi_nullable & (klass.attribute_map.keys - map.keys)\n" +
                 "        map = klass.attribute_map.merge(map)\n" +
-                "        nullable = nullable | klass.openapi_nullable\n" +
                 "        klass = klass.superclass\n" +
                 "      end");
+        // the walk evaluates openapi_nullable eagerly, so Set must be loaded on rubies
+        // where it is not yet a builtin autoload
+        TestUtils.assertFileContains(lizard, "require 'set'");
     }
 }
