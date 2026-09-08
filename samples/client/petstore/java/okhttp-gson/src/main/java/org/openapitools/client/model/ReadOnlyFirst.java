@@ -104,8 +104,12 @@ public class ReadOnlyFirst {
    * A container for additional, undeclared properties.
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
+   *
+   * Transient: the bag is read and written by this model's TypeAdapterFactory, and hiding
+   * it from gson's reflection keeps an allOf child (which also inherits the field from its
+   * parent) from declaring two JSON fields of one name.
    */
-  private Map<String, Object> additionalProperties;
+  private transient Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.

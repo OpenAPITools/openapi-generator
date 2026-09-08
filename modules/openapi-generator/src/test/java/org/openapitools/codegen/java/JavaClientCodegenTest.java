@@ -2025,6 +2025,36 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testAdditionalPropertiesFieldIsTransientForGson() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                // use default `okhttp-gson`
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty("disallowAdditionalPropertiesIfNotPresent", "false")
+                .setInputSpec("src/test/resources/3_0/allOf_extension_parent.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        // gson's reflective adapter refuses a class with two JSON fields of one name; without
+        // `transient` an allOf child declares additionalProperties itself and inherits it too,
+        // making it undeserializable ("declares multiple JSON fields named
+        // 'additionalProperties'"). The bag is read and written by the model's own
+        // TypeAdapterFactory, never by gson reflection, so hiding the field changes nothing else.
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
+                .content()
+                .contains("public class Child extends Person {")
+                .contains("private transient Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Person.java"))
+                .content().contains("private transient Map<String, Object> additionalProperties;");
+    }
+
+    @Test
     public void allOfWithSeveralRefsAndRefAsParentInAllOfNormalizationIsTrue() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
