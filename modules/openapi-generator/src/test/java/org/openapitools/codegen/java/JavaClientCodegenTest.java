@@ -2044,14 +2044,19 @@ public class JavaClientCodegenTest {
         // gson's reflective adapter refuses a class with two JSON fields of one name; without
         // `transient` an allOf child declares additionalProperties itself and inherits it too,
         // making it undeserializable ("declares multiple JSON fields named
-        // 'additionalProperties'"). The bag is read and written by the model's own
-        // TypeAdapterFactory, never by gson reflection, so hiding the field changes nothing else.
+        // 'additionalProperties'"). The child's bag is read and written by its own
+        // TypeAdapterFactory, so hiding the field from reflection changes nothing else.
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
                 .content()
                 .contains("public class Child extends Person {")
                 .contains("private transient Map<String, Object> additionalProperties;");
+        // a parent with children gets no TypeAdapterFactory of its own ({{^hasChildren}} in
+        // pojo.mustache), so its field stays visible to reflection - the child's transient
+        // declaration shadows it, and no duplicate JSON field arises
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Person.java"))
-                .content().contains("private transient Map<String, Object> additionalProperties;");
+                .content().contains("private Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Person.java"))
+                .content().doesNotContain("private transient Map<String, Object> additionalProperties;");
     }
 
     @Test
