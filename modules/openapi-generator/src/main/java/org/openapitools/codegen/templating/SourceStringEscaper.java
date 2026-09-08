@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.templating;
 
+import java.util.Locale;
+
 /**
  * Encoders for values inserted into generated source. These methods accept
  * parsed, unescaped data and return either literal contents or a complete
@@ -104,10 +106,9 @@ public final class SourceStringEscaper {
                 default:
                     if (c < 0x20) {
                         if (kotlin) {
-                            result.append(String.format("\\u%04x", (int) c));
+                            result.append(String.format(Locale.ROOT, "\\u%04x", (int) c));
                         } else {
-                            result.append('\\');
-                            result.append((char) ('0' + ((c >> 6) & 7)));
+                            result.append("\\0");
                             result.append((char) ('0' + ((c >> 3) & 7)));
                             result.append((char) ('0' + (c & 7)));
                         }
