@@ -294,6 +294,34 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testDiscriminatedUnionKeepsChildFields() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_0/rust/discriminated-union.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // the variants wrap the mapped models, so the child's own fields survive - an inline
+        // struct built from the parent's vars silently dropped every field the child adds
+        Path unionPath = Path.of(target.toString(), "/src/models/api_error.rs");
+        TestUtils.assertFileContains(unionPath, "ObjectExists(Box<models::ObjectExists>),");
+        TestUtils.assertFileContains(unionPath, "ValidationError(Box<models::ValidationError>),");
+        TestUtils.assertFileContains(unionPath, "Self::ObjectExists(Default::default())");
+        TestUtils.assertFileNotContains(unionPath, "ObjectExists {");
+
+        // serde's internally-tagged deserialization consumes the tag key, so the wrapped
+        // child's own discriminator property defaults instead of failing "missing field",
+        // and skips back out while empty so the tag stays the only occurrence on the wire
+        Path childPath = Path.of(target.toString(), "/src/models/object_exists.rs");
+        TestUtils.assertFileContains(childPath,
+                "#[serde(rename = \"type\", default, skip_serializing_if = \"String::is_empty\")]");
+        TestUtils.assertFileContains(childPath, "pub identifier: String,");
+    }
+
+    @Test
     public void testArrayWithObjectEnumValues() throws IOException {
         Path target = Files.createTempDirectory("test");
         target.toFile().deleteOnExit();

@@ -332,6 +332,48 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        // The discriminator enum is internally tagged, and serde's tag consumes the
+        // discriminator key before the wrapped child model deserializes - so the child's own
+        // (typically required) discriminator property would fail with "missing field". Mark it,
+        // so the template can default it and skip serializing it while empty: the variant name
+        // carries the type information and the tag stays the only occurrence on the wire.
+        Map<String, CodegenModel> modelsByClassname = new HashMap<>();
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                modelsByClassname.put(modelMap.getModel().classname, modelMap.getModel());
+            }
+        }
+        for (CodegenModel cm : modelsByClassname.values()) {
+            if (cm.discriminator == null || cm.discriminator.getMappedModels() == null) {
+                continue;
+            }
+            String propertyBaseName = cm.discriminator.getPropertyBaseName();
+            for (CodegenDiscriminator.MappedModel mappedModel : cm.discriminator.getMappedModels()) {
+                // getModel() survives the duplicate-mapping rename above, which suffixes
+                // modelName for variant uniqueness while the model keeps its classname
+                CodegenModel child = mappedModel.getModel() != null
+                        ? mappedModel.getModel()
+                        : modelsByClassname.get(mappedModel.getModelName());
+                if (child == null) {
+                    continue;
+                }
+                for (List<CodegenProperty> vars : List.of(child.vars, child.allVars, child.requiredVars, child.readWriteVars)) {
+                    for (CodegenProperty var : vars) {
+                        if (propertyBaseName.equals(var.baseName)) {
+                            var.isDiscriminator = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return objs;
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         for (ModelMap model : objs.getModels()) {
             CodegenModel cm = model.getModel();

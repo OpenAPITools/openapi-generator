@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: discriminated union
+  version: 1.0.0
+paths:
+  /errors:
+    get:
+      operationId: getError
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+components:
+  schemas:
+    ApiError:
+      type: object
+      required:
+        - type
+        - message
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          ObjectExists: '#/components/schemas/ObjectExists'
+          ValidationError: '#/components/schemas/ValidationError'
+    ObjectExists:
+      allOf:
+        - $ref: '#/components/schemas/ApiError'
+        - type: object
+          required:
+            - identifier
+          properties:
+            identifier:
+              type: string
+            objectType:
+              type: string
+    ValidationError:
+      allOf:
+        - $ref: '#/components/schemas/ApiError'
+        - type: object
+          properties:
+            field:
+              type: string
