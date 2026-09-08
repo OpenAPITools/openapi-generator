@@ -5711,6 +5711,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenProperty.isEnum) {
             codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
             codegenParameter.enumName = codegenProperty.enumName;
+            if(codegenParameter.dataType != null && !codegenParameter.dataType.contains("&") && !codegenParameter.dataType.contains("<")) {
+                imports.add(codegenParameter.dataType);
+            }
             if (codegenProperty.defaultValue != null) {
                 codegenParameter.enumDefaultValue = codegenProperty.defaultValue.replace(codegenProperty.enumName + ".", "");
             }
@@ -5721,6 +5724,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.enumName = codegenProperty.enumName;
             codegenParameter.items = codegenProperty.items;
             codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
+            if(codegenParameter.items.dataType != null && !codegenParameter.items.dataType.contains("&") && !codegenParameter.items.dataType.contains("<")) {
+                imports.add(codegenParameter.items.dataType);
+            }
         }
 
         codegenParameter.collectionFormat = collectionFormat;

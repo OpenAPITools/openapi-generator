@@ -1,0 +1,26 @@
+openapi: 3.1.0
+info:
+  title: Enum parameter import
+  version: 1.0.0
+paths:
+  /archives:
+    get:
+      operationId: listArchives
+      parameters:
+        - name: state
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Archive/properties/state"
+      responses:
+        "200":
+          description: Success
+components:
+  schemas:
+    Archive:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+            - ACTIVE
