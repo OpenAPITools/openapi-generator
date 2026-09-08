@@ -34,6 +34,9 @@ jobs:
         # the ubuntu build runs in the official swift image: swift-actions/setup-swift
         # fails on current ubuntu runners while verifying the toolchain signature
         - os: ubuntu-latest
+          sample: samples/client/petstore/swift6/alamofireLibrary
+          container: swift:6.2-noble
+        - os: ubuntu-latest
           sample: samples/client/petstore/swift6/urlsessionLibrary
           container: swift:6.2-noble
     name: Build Swift 6 samples
