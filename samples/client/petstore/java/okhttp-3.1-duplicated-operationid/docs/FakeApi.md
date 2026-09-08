@@ -19,7 +19,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {

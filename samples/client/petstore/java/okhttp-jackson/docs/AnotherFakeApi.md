@@ -23,7 +23,7 @@ To test special tags and operation ID starting with number
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.AnotherFakeApi;
 
 public class Example {
@@ -83,7 +83,7 @@ parameter array number default value
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.AnotherFakeApi;
 
 public class Example {
@@ -142,7 +142,7 @@ parameter string number
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.AnotherFakeApi;
 
 public class Example {

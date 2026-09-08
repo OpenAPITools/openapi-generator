@@ -5,6 +5,7 @@ package {{invokerPackage}};
 import java.util.List;
 import java.util.Map;
 {{#caseInsensitiveResponseHeaders}}
+import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 {{/caseInsensitiveResponseHeaders}}
@@ -39,7 +40,7 @@ public class ApiResponse<T> {
         {{#caseInsensitiveResponseHeaders}}
         Map<String, List<String>> responseHeaders = new TreeMap<String, List<String>>(String.CASE_INSENSITIVE_ORDER);
         for(Entry<String, List<String>> entry : headers.entrySet()){
-           responseHeaders.put(entry.getKey().toLowerCase(), entry.getValue());
+           responseHeaders.put(entry.getKey().toLowerCase(Locale.ROOT), entry.getValue());
         }
         {{/caseInsensitiveResponseHeaders}}
         this.headers = {{#caseInsensitiveResponseHeaders}}responseHeaders{{/caseInsensitiveResponseHeaders}}{{^caseInsensitiveResponseHeaders}}headers{{/caseInsensitiveResponseHeaders}};

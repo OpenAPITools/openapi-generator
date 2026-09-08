@@ -61,9 +61,16 @@ lazy val root = (project in file(".")).
       {{#dynamicOperations}}
       "io.swagger.parser.v3" % "swagger-parser-v3" % "2.0.30",
       {{/dynamicOperations}}
+      {{#parcelableModel}}
+      "com.google.android" % "android" % "4.1.1.4" % "provided",
+      {{/parcelableModel}}
       {{#useBeanValidation}}
       "jakarta.validation" % "jakarta.validation-api" % "{{#useJakartaEe}}3.0.2{{/useJakartaEe}}{{^useJakartaEe}}2.0.2{{/useJakartaEe}}",
       {{/useBeanValidation}}
+      {{#performBeanValidation}}
+      "org.hibernate.validator" % "hibernate-validator" % "8.0.3.Final",
+      "jakarta.el" % "jakarta.el-api" % "3.0.3",
+      {{/performBeanValidation}}
       "org.junit.jupiter" % "junit-jupiter-api" % "5.10.3" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )

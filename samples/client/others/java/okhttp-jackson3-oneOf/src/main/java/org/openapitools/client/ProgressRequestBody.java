@@ -36,6 +36,27 @@ public class ProgressRequestBody extends RequestBody {
         this.callback = Objects.requireNonNull(callback);
     }
 
+    /**
+     * The body this one wraps. Package-private so that {@link GzipRequestInterceptor} can compress
+     * that body directly: draining this wrapper to compress it would report the upload as finished
+     * before the request reached the network.
+     *
+     * @return the wrapped request body
+     */
+    RequestBody getDelegate() {
+        return requestBody;
+    }
+
+    /**
+     * The callback this body reports upload progress to. Package-private so that
+     * {@link GzipRequestInterceptor} can re-wrap the compressed body with the same callback.
+     *
+     * @return the progress callback
+     */
+    ApiCallback getCallback() {
+        return callback;
+    }
+
     @Override
     public MediaType contentType() {
         return requestBody.contentType();
@@ -44,6 +65,16 @@ public class ProgressRequestBody extends RequestBody {
     @Override
     public long contentLength() throws IOException {
         return requestBody.contentLength();
+    }
+
+    @Override
+    public boolean isDuplex() {
+        return requestBody.isDuplex();
+    }
+
+    @Override
+    public boolean isOneShot() {
+        return requestBody.isOneShot();
     }
 
     @Override

@@ -711,8 +711,35 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   public static class CustomJsonbSerializer implements JsonbSerializer<{{classname}}> {
     @Override
     public void serialize({{classname}} value, JsonGenerator generator, SerializationContext context) {
+      {{^isAdditionalPropertiesTrue}}
       generator.write(jakarta.json.Json.createReader(
           new java.io.StringReader(JSON.getPlainJsonb().toJson(value))).readValue());
+      {{/isAdditionalPropertiesTrue}}
+      {{#isAdditionalPropertiesTrue}}
+      JsonObject serialized = jakarta.json.Json.createReader(
+          new java.io.StringReader(JSON.getPlainJsonb().toJson(value))).readObject();
+      {{! The polymorphism-free instance carries no serializer for this class, so a value whose
+          runtime type is this root is written by plain bean mapping and the @JsonbTransient
+          additional-properties holder is dropped. A subtype was already flattened by its own
+          serializer, and the containsKey guard leaves that output untouched. }}
+      if (value.getAdditionalProperties() != null) {
+        jakarta.json.JsonObjectBuilder builder = jakarta.json.Json.createObjectBuilder(serialized);
+        for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+          // a declared property always wins over an additional property with the same name
+          if (openapiFields.contains(entry.getKey()) || serialized.containsKey(entry.getKey())) {
+            continue;
+          }
+          if (entry.getValue() == null) {
+            builder.addNull(entry.getKey());
+          } else {
+            builder.add(entry.getKey(), jakarta.json.Json.createReader(new java.io.StringReader(
+                JSON.getPlainJsonb().toJson(entry.getValue()))).readValue());
+          }
+        }
+        serialized = builder.build();
+      }
+      generator.write(serialized);
+      {{/isAdditionalPropertiesTrue}}
     }
   }
 

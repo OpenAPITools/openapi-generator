@@ -16,8 +16,8 @@ sourceSets {
 
 {{/sourceFolder}}
 
-sourceCompatibility = {{#java17}}JavaVersion.VERSION_17{{/java17}}{{^java17}}{{#java11}}JavaVersion.VERSION_11{{/java11}}{{^java11}}JavaVersion.VERSION_1_8{{/java11}}{{/java17}}
-targetCompatibility = {{#java17}}JavaVersion.VERSION_17{{/java17}}{{^java17}}{{#java11}}JavaVersion.VERSION_11{{/java11}}{{^java11}}JavaVersion.VERSION_1_8{{/java11}}{{/java17}}
+sourceCompatibility = {{#useJackson3}}JavaVersion.VERSION_17{{/useJackson3}}{{^useJackson3}}{{#java17}}JavaVersion.VERSION_17{{/java17}}{{^java17}}{{#java11}}JavaVersion.VERSION_11{{/java11}}{{^java11}}JavaVersion.VERSION_1_8{{/java11}}{{/java17}}{{/useJackson3}}
+targetCompatibility = {{#useJackson3}}JavaVersion.VERSION_17{{/useJackson3}}{{^useJackson3}}{{#java17}}JavaVersion.VERSION_17{{/java17}}{{^java17}}{{#java11}}JavaVersion.VERSION_11{{/java11}}{{^java11}}JavaVersion.VERSION_1_8{{/java11}}{{/java17}}{{/useJackson3}}
 
 publishing {
     publications {
@@ -122,6 +122,11 @@ dependencies {
     {{#useBeanValidation}}
     compileOnly "jakarta.validation:jakarta.validation-api:$bean_validation_version"
     {{/useBeanValidation}}
+    {{#performBeanValidation}}
+    // Bean Validation Impl. used to perform BeanValidation
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.3.Final'
+    implementation 'jakarta.el:jakarta.el-api:3.0.3'
+    {{/performBeanValidation}}
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.3'
 }

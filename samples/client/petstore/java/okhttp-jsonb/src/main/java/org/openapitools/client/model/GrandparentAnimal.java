@@ -171,8 +171,25 @@ public class GrandparentAnimal {
   public static class CustomJsonbSerializer implements JsonbSerializer<GrandparentAnimal> {
     @Override
     public void serialize(GrandparentAnimal value, JsonGenerator generator, SerializationContext context) {
-      generator.write(jakarta.json.Json.createReader(
-          new java.io.StringReader(JSON.getPlainJsonb().toJson(value))).readValue());
+      JsonObject serialized = jakarta.json.Json.createReader(
+          new java.io.StringReader(JSON.getPlainJsonb().toJson(value))).readObject();
+      if (value.getAdditionalProperties() != null) {
+        jakarta.json.JsonObjectBuilder builder = jakarta.json.Json.createObjectBuilder(serialized);
+        for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+          // a declared property always wins over an additional property with the same name
+          if (openapiFields.contains(entry.getKey()) || serialized.containsKey(entry.getKey())) {
+            continue;
+          }
+          if (entry.getValue() == null) {
+            builder.addNull(entry.getKey());
+          } else {
+            builder.add(entry.getKey(), jakarta.json.Json.createReader(new java.io.StringReader(
+                JSON.getPlainJsonb().toJson(entry.getValue()))).readValue());
+          }
+        }
+        serialized = builder.build();
+      }
+      generator.write(serialized);
     }
   }
 

@@ -23,7 +23,7 @@ Test form parameter(s)
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FormApi;
 
 public class Example {
@@ -89,7 +89,7 @@ Test form parameter(s) for multipart schema
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FormApi;
 
 public class Example {
@@ -151,7 +151,7 @@ Test form parameter(s) for oneOf schema
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FormApi;
 
 public class Example {
