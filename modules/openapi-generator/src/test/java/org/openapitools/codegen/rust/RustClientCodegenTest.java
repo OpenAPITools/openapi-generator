@@ -294,6 +294,32 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testMapQueryParamsSerializeAsJson() throws IOException {
+        // HashMap implements neither Display nor ToString, so the .to_string() the templates
+        // emitted for a map-typed query parameter did not compile (E0599) - for a required map
+        // in both libraries, and for optional/nullable maps in reqwest-trait too
+        for (String library : new String[] {"reqwest", "reqwest-trait"}) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary(library)
+                    .setInputSpec("src/test/resources/3_0/rust/map-query-params.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
+            TestUtils.assertFileExists(outputPath);
+            // the required and the optional map both serialize as one json-encoded parameter,
+            // like the other libraries' non-primitive parameters
+            TestUtils.assertFileContains(outputPath, "serde_json::to_string(&");
+            TestUtils.assertFileContains(outputPath, "(\"counts\", &serde_json::to_string(param_value)?)");
+            TestUtils.assertFileNotContains(outputPath, "labels.to_string()");
+            TestUtils.assertFileNotContains(outputPath, "param_value.to_string()");
+        }
+    }
+
+    @Test
     public void testArrayWithObjectEnumValues() throws IOException {
         Path target = Files.createTempDirectory("test");
         target.toFile().deleteOnExit();
