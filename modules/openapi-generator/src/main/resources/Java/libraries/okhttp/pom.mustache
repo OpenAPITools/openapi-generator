@@ -397,13 +397,29 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>8.0.3.Final</version>
+            <version>${hibernate-validator-version}</version>
         </dependency>
+        {{#useJakartaEe}}
+        <!-- Jakarta EL API + implementation, required by Hibernate Validator to interpolate constraint messages -->
         <dependency>
             <groupId>jakarta.el</groupId>
             <artifactId>jakarta.el-api</artifactId>
             <version>${jakarta.el-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.expressly</groupId>
+            <artifactId>expressly</artifactId>
+            <version>${expressly-version}</version>
+        </dependency>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
+        <!-- javax.el API + implementation, required by Hibernate Validator to interpolate constraint messages -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
+            <version>${glassfish-el-version}</version>
+        </dependency>
+        {{/useJakartaEe}}
         {{/performBeanValidation}}
         {{#withAWSV4Signature}}
         <dependency>
@@ -499,7 +515,15 @@
         {{/useBeanValidation}}
         {{/useJakartaEe}}
         {{#performBeanValidation}}
-        <jakarta.el-version>3.0.3</jakarta.el-version>
+        {{#useJakartaEe}}
+        <hibernate-validator-version>8.0.3.Final</hibernate-validator-version>
+        <jakarta.el-version>5.0.1</jakarta.el-version>
+        <expressly-version>5.0.0</expressly-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
+        <hibernate-validator-version>6.2.5.Final</hibernate-validator-version>
+        <glassfish-el-version>3.0.4</glassfish-el-version>
+        {{/useJakartaEe}}
         {{/performBeanValidation}}
         <junit-version>5.10.3</junit-version>
         <junit-platform-runner.version>1.10.0</junit-platform-runner.version>

@@ -1149,9 +1149,9 @@ public class ApiClient {
     public File downloadFileFromResponse(Response response) throws ApiException {
         try {
             File file = prepareDownloadFile(response);
-            BufferedSink sink = Okio.buffer(Okio.sink(file));
-            sink.writeAll(response.body().source());
-            sink.close();
+            try(ResponseBody body = response.body(); BufferedSink sink = Okio.buffer(Okio.sink(file))) {
+                sink.writeAll(body.source());
+            }
             return file;
         } catch (IOException e) {
             throw new ApiException(e);
@@ -1225,8 +1225,7 @@ public class ApiClient {
      * @throws org.openapitools.client.ApiException If fail to execute the call
      */
     public <T> ApiResponse<T> execute(Call call, Type returnType) throws ApiException {
-        try {
-            Response response = call.execute();
+        try (Response response = call.execute()){
             T data = handleResponse(response, returnType);
             return new ApiResponse<T>(response.code(), response.headers().toMultimap(), data);
         } catch (IOException e) {
@@ -1269,9 +1268,11 @@ public class ApiClient {
                     result = (T) handleResponse(response, returnType);
                 } catch (ApiException e) {
                     callback.onFailure(e, response.code(), response.headers().toMultimap());
+                    response.close();
                     return;
                 } catch (Exception e) {
                     callback.onFailure(new ApiException(e), response.code(), response.headers().toMultimap());
+                    response.close();
                     return;
                 }
                 callback.onSuccess(result, response.code(), response.headers().toMultimap());

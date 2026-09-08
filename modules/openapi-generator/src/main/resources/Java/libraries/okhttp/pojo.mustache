@@ -60,15 +60,25 @@ import java.lang.reflect.Type;
 {{/hasChildren}}
 {{/isAdditionalPropertiesTrue}}
 {{/isJsonb}}
+{{#isGson}}
 import java.io.IOException;
+{{/isGson}}
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+{{#isGson}}
 import java.util.List;
+{{/isGson}}
 import java.util.Map;
+{{#isGson}}
 import java.util.Set;
 
 import {{invokerPackage}}.JSON;
+{{/isGson}}
+{{#isJsonb}}
+
+import {{invokerPackage}}.JSON;
+{{/isJsonb}}
 
 /**
  * {{description}}{{^description}}{{classname}}{{/description}}{{#isDeprecated}}
@@ -405,12 +415,17 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
   static {
     // a set of all properties/fields (JSON key names)
-    {{#hasVars}}
+    {{! the set is filled from allVars, so it has to be guarded on allVars too: a pure allOf
+        refinement declares no property of its own but still inherits every declared property,
+        and an empty set here makes every consumer treat a declared field as an undeclared one }}
+    {{#allVars}}
+    {{#-first}}
     openapiFields = new HashSet<String>(Arrays.asList({{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}));
-    {{/hasVars}}
-    {{^hasVars}}
+    {{/-first}}
+    {{/allVars}}
+    {{^allVars}}
     openapiFields = new HashSet<String>(0);
-    {{/hasVars}}
+    {{/allVars}}
 
     // a set of required properties/fields (JSON key names)
     {{#hasRequired}}
@@ -712,12 +727,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     @Override
     public void serialize({{classname}} value, JsonGenerator generator, SerializationContext context) {
       {{^isAdditionalPropertiesTrue}}
-      generator.write(jakarta.json.Json.createReader(
-          new java.io.StringReader(JSON.getPlainJsonb().toJson(value))).readValue());
+      generator.write(toJsonValue(value));
       {{/isAdditionalPropertiesTrue}}
       {{#isAdditionalPropertiesTrue}}
-      JsonObject serialized = jakarta.json.Json.createReader(
-          new java.io.StringReader(JSON.getPlainJsonb().toJson(value))).readObject();
+      JsonObject serialized = toJsonValue(value).asJsonObject();
       {{! The polymorphism-free instance carries no serializer for this class, so a value whose
           runtime type is this root is written by plain bean mapping and the @JsonbTransient
           additional-properties holder is dropped. A subtype was already flattened by its own
@@ -732,14 +745,23 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
           if (entry.getValue() == null) {
             builder.addNull(entry.getKey());
           } else {
-            builder.add(entry.getKey(), jakarta.json.Json.createReader(new java.io.StringReader(
-                JSON.getPlainJsonb().toJson(entry.getValue()))).readValue());
+            builder.add(entry.getKey(), toJsonValue(entry.getValue()));
           }
         }
         serialized = builder.build();
       }
       generator.write(serialized);
       {{/isAdditionalPropertiesTrue}}
+    }
+
+    /**
+     * Render a value through the polymorphism-free Jsonb and read it back as a JsonValue.
+     */
+    private static jakarta.json.JsonValue toJsonValue(Object value) {
+      try (jakarta.json.JsonReader reader = jakarta.json.Json.createReader(
+          new java.io.StringReader(JSON.getPlainJsonb().toJson(value)))) {
+        return reader.readValue();
+      }
     }
   }
 
@@ -756,10 +778,54 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       String discriminatorValue = jsonObj.getString("{{{discriminator.propertyBaseName}}}", null);
       {{#discriminator.mappedModels}}
       if ("{{mappingName}}".equals(discriminatorValue)) {
+        {{#model}}
+        {{#hasChildren}}
+        {{#isAdditionalPropertiesTrue}}
+        {{! This subtype has children of its own, so the polymorphism-free instance carries no
+            additional-properties deserializer for it either and would discard its undeclared
+            keys; collect them the way its own deserializer does. }}
+        {{modelName}} mapped = JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{modelName}}.class);
+        for (Map.Entry<String, jakarta.json.JsonValue> entry : jsonObj.entrySet()) {
+          if (!{{modelName}}.openapiFields.contains(entry.getKey())) {
+            mapped.putAdditionalProperty(entry.getKey(),
+                entry.getValue().getValueType() == jakarta.json.JsonValue.ValueType.NULL
+                    ? null
+                    : JSON.getPlainJsonb().fromJson(entry.getValue().toString(), Object.class));
+          }
+        }
+        return mapped;
+        {{/isAdditionalPropertiesTrue}}
+        {{^isAdditionalPropertiesTrue}}
         return JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{modelName}}.class);
+        {{/isAdditionalPropertiesTrue}}
+        {{/hasChildren}}
+        {{^hasChildren}}
+        return JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{modelName}}.class);
+        {{/hasChildren}}
+        {{/model}}
+        {{^model}}
+        return JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{modelName}}.class);
+        {{/model}}
       }
       {{/discriminator.mappedModels}}
+      {{^isAdditionalPropertiesTrue}}
       return JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{classname}}.class);
+      {{/isAdditionalPropertiesTrue}}
+      {{#isAdditionalPropertiesTrue}}
+      {{! Binding the root itself goes through plain bean mapping, which cannot see the
+          @JsonbTransient additional-properties holder and silently discards every undeclared
+          key. Collect them here, mirroring the flattening the serializer above performs. }}
+      {{classname}} instance = JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{classname}}.class);
+      for (Map.Entry<String, jakarta.json.JsonValue> entry : jsonObj.entrySet()) {
+        if (!openapiFields.contains(entry.getKey())) {
+          instance.putAdditionalProperty(entry.getKey(),
+              entry.getValue().getValueType() == jakarta.json.JsonValue.ValueType.NULL
+                  ? null
+                  : JSON.getPlainJsonb().fromJson(entry.getValue().toString(), Object.class));
+        }
+      }
+      return instance;
+      {{/isAdditionalPropertiesTrue}}
     }
   }
 {{/discriminator}}
@@ -786,7 +852,12 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
           // a declared property always wins over an additional property with the same name
           if (!openapiFields.contains(entry.getKey())) {
-            context.serialize(entry.getKey(), entry.getValue(), generator);
+            // SerializationContext.serialize rejects a null value, so write the JSON null here
+            if (entry.getValue() == null) {
+              generator.writeNull(entry.getKey());
+            } else {
+              context.serialize(entry.getKey(), entry.getValue(), generator);
+            }
           }
         }
       }

@@ -124,8 +124,17 @@ dependencies {
     {{/useBeanValidation}}
     {{#performBeanValidation}}
     // Bean Validation Impl. used to perform BeanValidation
+    {{#useJakartaEe}}
     implementation 'org.hibernate.validator:hibernate-validator:8.0.3.Final'
-    implementation 'jakarta.el:jakarta.el-api:3.0.3'
+    // Jakarta EL API + implementation, required by Hibernate Validator to interpolate constraint messages
+    implementation 'jakarta.el:jakarta.el-api:5.0.1'
+    implementation 'org.glassfish.expressly:expressly:5.0.0'
+    {{/useJakartaEe}}
+    {{^useJakartaEe}}
+    implementation 'org.hibernate.validator:hibernate-validator:6.2.5.Final'
+    // javax.el API + implementation, required by Hibernate Validator to interpolate constraint messages
+    implementation 'org.glassfish:jakarta.el:3.0.4'
+    {{/useJakartaEe}}
     {{/performBeanValidation}}
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.3'

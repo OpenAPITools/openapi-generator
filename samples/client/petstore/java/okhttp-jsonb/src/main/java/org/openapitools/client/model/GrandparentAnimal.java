@@ -29,13 +29,10 @@ import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 import java.lang.reflect.Type;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.openapitools.client.JSON;
 
@@ -171,8 +168,7 @@ public class GrandparentAnimal {
   public static class CustomJsonbSerializer implements JsonbSerializer<GrandparentAnimal> {
     @Override
     public void serialize(GrandparentAnimal value, JsonGenerator generator, SerializationContext context) {
-      JsonObject serialized = jakarta.json.Json.createReader(
-          new java.io.StringReader(JSON.getPlainJsonb().toJson(value))).readObject();
+      JsonObject serialized = toJsonValue(value).asJsonObject();
       if (value.getAdditionalProperties() != null) {
         jakarta.json.JsonObjectBuilder builder = jakarta.json.Json.createObjectBuilder(serialized);
         for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
@@ -183,13 +179,22 @@ public class GrandparentAnimal {
           if (entry.getValue() == null) {
             builder.addNull(entry.getKey());
           } else {
-            builder.add(entry.getKey(), jakarta.json.Json.createReader(new java.io.StringReader(
-                JSON.getPlainJsonb().toJson(entry.getValue()))).readValue());
+            builder.add(entry.getKey(), toJsonValue(entry.getValue()));
           }
         }
         serialized = builder.build();
       }
       generator.write(serialized);
+    }
+
+    /**
+     * Render a value through the polymorphism-free Jsonb and read it back as a JsonValue.
+     */
+    private static jakarta.json.JsonValue toJsonValue(Object value) {
+      try (jakarta.json.JsonReader reader = jakarta.json.Json.createReader(
+          new java.io.StringReader(JSON.getPlainJsonb().toJson(value)))) {
+        return reader.readValue();
+      }
     }
   }
 
@@ -207,7 +212,16 @@ public class GrandparentAnimal {
       if ("ParentPet".equals(discriminatorValue)) {
         return JSON.getPlainJsonb().fromJson(jsonObj.toString(), ParentPet.class);
       }
-      return JSON.getPlainJsonb().fromJson(jsonObj.toString(), GrandparentAnimal.class);
+      GrandparentAnimal instance = JSON.getPlainJsonb().fromJson(jsonObj.toString(), GrandparentAnimal.class);
+      for (Map.Entry<String, jakarta.json.JsonValue> entry : jsonObj.entrySet()) {
+        if (!openapiFields.contains(entry.getKey())) {
+          instance.putAdditionalProperty(entry.getKey(),
+              entry.getValue().getValueType() == jakarta.json.JsonValue.ValueType.NULL
+                  ? null
+                  : JSON.getPlainJsonb().fromJson(entry.getValue().toString(), Object.class));
+        }
+      }
+      return instance;
     }
   }
 }

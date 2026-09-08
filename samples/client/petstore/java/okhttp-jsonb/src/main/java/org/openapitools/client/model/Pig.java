@@ -191,24 +191,73 @@ public class Pig extends AbstractOpenApiSchema {
         }
     }
 
-    private static Object deserializeBranch(DeserializationContext ctx, Class<?> type, JsonValue value) {
-        if (value.getValueType() == JsonValue.ValueType.OBJECT
-                || value.getValueType() == JsonValue.ValueType.ARRAY) {
-            return ctx.deserialize(type, jakarta.json.Json.createParser(new java.io.StringReader(value.toString())));
+    private static Object deserializeBranch(Class<?> type, JsonValue value) {
+        if (!branchAcceptsValueType(type, value)) {
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT,
+                    "Expected the JSON value to bind as %s but got `%s`", type.getSimpleName(), value));
         }
-        return JSON.getPlainJsonb().fromJson(value.toString(), type);
+        return JSON.getJsonb().fromJson(value.toString(), type);
+    }
+
+    private static boolean branchAcceptsValueType(Class<?> type, JsonValue value) {
+        if (type == Object.class) {
+            // an 'any type' branch takes whatever it is handed
+            return true;
+        }
+        if (AbstractOpenApiSchema.class.isAssignableFrom(type)) {
+            // a branch that is itself a composed schema decides for itself which JSON shapes
+            // it accepts - a oneOf of scalars nested inside another oneOf binds a scalar here
+            return true;
+        }
+        boolean sequence = java.util.Collection.class.isAssignableFrom(type)
+                || (type.isArray() && type != byte[].class);
+        switch (value.getValueType()) {
+            case ARRAY:
+                return sequence;
+            case OBJECT:
+                return !sequence && !bindsFromJsonScalar(type);
+            case TRUE:
+            case FALSE:
+                return type == Boolean.class || type == boolean.class;
+            case NUMBER:
+                return Number.class.isAssignableFrom(type)
+                        || (type.isPrimitive() && type != boolean.class && type != char.class);
+            case STRING:
+                return !sequence
+                        && !Number.class.isAssignableFrom(type)
+                        && type != Boolean.class && type != boolean.class;
+            default:
+                return true;
+        }
+    }
+
+    /**
+     * Whether a branch of this type binds from a JSON scalar rather than from a JSON object.
+     */
+    private static boolean bindsFromJsonScalar(Class<?> type) {
+        return type.isPrimitive()
+                || Number.class.isAssignableFrom(type)
+                || type == Boolean.class
+                || type == Character.class
+                || CharSequence.class.isAssignableFrom(type)
+                || type == java.util.UUID.class
+                || type == byte[].class
+                || type.isEnum();
     }
 
     public static class PigDeserializer implements JsonbDeserializer<Pig> {
         @Override
         public Pig deserialize(JsonParser parser, DeserializationContext ctx, Type rt) {
             JsonValue jsonValue = parser.getValue();
+            if (jsonValue == null || jsonValue.getValueType() == JsonValue.ValueType.NULL) {
+                throw new RuntimeException("Pig cannot be null");
+            }
             JsonObject jsonObject = jsonValue instanceof JsonObject ? (JsonObject) jsonValue : null;
             Object deserialized = null;
             if (jsonObject != null && jsonObject.containsKey("className")) {
                 String discriminatorValue = jsonObject.getString("className");
                 if ("BasquePig".equals(discriminatorValue)) {
-                    deserialized = deserializeBranch(ctx, BasquePig.class, jsonValue);
+                    deserialized = deserializeBranch(BasquePig.class, jsonValue);
                     Pig newPig = new Pig();
                     newPig.setActualInstance(deserialized);
                     if (jsonObject != null) {
@@ -217,7 +266,7 @@ public class Pig extends AbstractOpenApiSchema {
                     return newPig;
                 }
                 if ("DanishPig".equals(discriminatorValue)) {
-                    deserialized = deserializeBranch(ctx, DanishPig.class, jsonValue);
+                    deserialized = deserializeBranch(DanishPig.class, jsonValue);
                     Pig newPig = new Pig();
                     newPig.setActualInstance(deserialized);
                     if (jsonObject != null) {
@@ -229,14 +278,14 @@ public class Pig extends AbstractOpenApiSchema {
             int match = 0;
             // deserialize BasquePig
             try {
-                deserialized = deserializeBranch(ctx, BasquePig.class, jsonValue);
+                deserialized = deserializeBranch(BasquePig.class, jsonValue);
                 match++;
             } catch (Exception e) {
                 // deserialization failed, continue
             }
             // deserialize DanishPig
             try {
-                deserialized = deserializeBranch(ctx, DanishPig.class, jsonValue);
+                deserialized = deserializeBranch(DanishPig.class, jsonValue);
                 match++;
             } catch (Exception e) {
                 // deserialization failed, continue

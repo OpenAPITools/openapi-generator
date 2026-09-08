@@ -68,8 +68,15 @@ lazy val root = (project in file(".")).
       "jakarta.validation" % "jakarta.validation-api" % "{{#useJakartaEe}}3.0.2{{/useJakartaEe}}{{^useJakartaEe}}2.0.2{{/useJakartaEe}}",
       {{/useBeanValidation}}
       {{#performBeanValidation}}
+      {{#useJakartaEe}}
       "org.hibernate.validator" % "hibernate-validator" % "8.0.3.Final",
-      "jakarta.el" % "jakarta.el-api" % "3.0.3",
+      "jakarta.el" % "jakarta.el-api" % "5.0.1",
+      "org.glassfish.expressly" % "expressly" % "5.0.0",
+      {{/useJakartaEe}}
+      {{^useJakartaEe}}
+      "org.hibernate.validator" % "hibernate-validator" % "6.2.5.Final",
+      "org.glassfish" % "jakarta.el" % "3.0.4",
+      {{/useJakartaEe}}
       {{/performBeanValidation}}
       "org.junit.jupiter" % "junit-jupiter-api" % "5.10.3" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"

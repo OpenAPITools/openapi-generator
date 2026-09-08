@@ -898,15 +898,76 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
     {{/isAdditionalPropertiesTrue}}
 
-    {{! ctx.deserialize drives a fresh JsonParser, which Yasson cannot bind to a root-level
-        scalar - a oneOf/anyOf branch of "type: string" or "type: number" fails there. Route
-        structured values through the context as before, scalars through the binding API. }}
-    private static Object deserializeBranch(DeserializationContext ctx, Class<?> type, JsonValue value) {
-        if (value.getValueType() == JsonValue.ValueType.OBJECT
-                || value.getValueType() == JsonValue.ValueType.ARRAY) {
-            return ctx.deserialize(type, jakarta.json.Json.createParser(new java.io.StringReader(value.toString())));
+    {{! The DeserializationContext handed to a JsonbDeserializer belongs to the parse that is
+        already running: Yasson wraps whatever parser reaches ctx.deserialize in a YassonParser
+        whose scope bookkeeping is taken from the context, not from that parser. Handing it a
+        second, freshly created parser therefore produces a wrapper that believes it already
+        sits at the end of the outer value, so the branch's own deserializer fails in
+        getObject()/getValue() with NoSuchElementException or an NPE - and once one attempt has
+        left those counters askew a later branch binds whatever it is handed. Bind the branch
+        through the binding API instead, which runs a parse of its own. }}
+    private static Object deserializeBranch(Class<?> type, JsonValue value) {
+        if (!branchAcceptsValueType(type, value)) {
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT,
+                    "Expected the JSON value to bind as %s but got `%s`", type.getSimpleName(), value));
         }
-        return JSON.getPlainJsonb().fromJson(value.toString(), type);
+        {{! getJsonb(), not getPlainJsonb(): a branch can itself be a discriminated-hierarchy
+            root, and the concrete-subtype dispatch for those lives in a deserializer that only
+            the main instance carries. Binding a branch never re-enters this wrapper, so there
+            is no recursion to break by dropping to the plain instance. }}
+        return JSON.getJsonb().fromJson(value.toString(), type);
+    }
+
+    {{! Yasson binds by coercion, so a branch whose Java type has nothing to do with the JSON
+        value at hand still "matches": String swallows a number or a boolean and a numeric type
+        swallows a numeric string, which leaves a composed schema of scalars permanently
+        ambiguous. Gate on the JSON value type first - the Gson branch of this template does
+        the same thing through its generated per-branch validateJsonElement checks. }}
+    private static boolean branchAcceptsValueType(Class<?> type, JsonValue value) {
+        if (type == Object.class) {
+            // an 'any type' branch takes whatever it is handed
+            return true;
+        }
+        if (AbstractOpenApiSchema.class.isAssignableFrom(type)) {
+            // a branch that is itself a composed schema decides for itself which JSON shapes
+            // it accepts - a oneOf of scalars nested inside another oneOf binds a scalar here
+            return true;
+        }
+        boolean sequence = java.util.Collection.class.isAssignableFrom(type)
+                || (type.isArray() && type != byte[].class);
+        switch (value.getValueType()) {
+            case ARRAY:
+                return sequence;
+            case OBJECT:
+                return !sequence && !bindsFromJsonScalar(type);
+            case TRUE:
+            case FALSE:
+                return type == Boolean.class || type == boolean.class;
+            case NUMBER:
+                return Number.class.isAssignableFrom(type)
+                        || (type.isPrimitive() && type != boolean.class && type != char.class);
+            case STRING:
+                return !sequence
+                        && !Number.class.isAssignableFrom(type)
+                        && type != Boolean.class && type != boolean.class;
+            default:
+                return true;
+        }
+    }
+
+    /**
+     * Whether a branch of this type binds from a JSON scalar rather than from a JSON object.
+     */
+    private static boolean bindsFromJsonScalar(Class<?> type) {
+        {{! byte[] is a scalar here on purpose: 'format: byte' arrives as a base64 string. }}
+        return type.isPrimitive()
+                || Number.class.isAssignableFrom(type)
+                || type == Boolean.class
+                || type == Character.class
+                || CharSequence.class.isAssignableFrom(type)
+                || type == java.util.UUID.class
+                || type == byte[].class
+                || type.isEnum();
     }
 
     public static class {{classname}}Deserializer implements JsonbDeserializer<{{classname}}> {
@@ -916,6 +977,18 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 parser.getObject() throws IllegalStateException on START_ARRAY. Read the
                 generic JsonValue and narrow only for the object-shaped paths below. }}
             JsonValue jsonValue = parser.getValue();
+            {{! Yasson routes a JSON null through this deserializer instead of short-circuiting
+                it, and every branch then fails to bind. Mirror the Jackson branch's
+                getNullValue: a nullable composed schema yields null, a non-nullable one is an
+                error. }}
+            if (jsonValue == null || jsonValue.getValueType() == JsonValue.ValueType.NULL) {
+                {{#isNullable}}
+                return null;
+                {{/isNullable}}
+                {{^isNullable}}
+                throw new RuntimeException("{{classname}} cannot be null");
+                {{/isNullable}}
+            }
             JsonObject jsonObject = jsonValue instanceof JsonObject ? (JsonObject) jsonValue : null;
             Object deserialized = null;
             {{#useOneOfDiscriminatorLookup}}
@@ -924,7 +997,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 String discriminatorValue = jsonObject.getString("{{{propertyBaseName}}}");
                 {{#mappedModels}}
                 if ("{{{mappingName}}}".equals(discriminatorValue)) {
-                    deserialized = deserializeBranch(ctx, {{{modelName}}}.class, jsonValue);
+                    deserialized = deserializeBranch({{{modelName}}}.class, jsonValue);
                     {{classname}} new{{classname}} = new {{classname}}();
                     new{{classname}}.setActualInstance(deserialized);
                     {{#isAdditionalPropertiesTrue}}
@@ -943,7 +1016,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{^vendorExtensions.x-duplicated-data-type}}
             // deserialize {{{dataType}}}
             try {
-                deserialized = deserializeBranch(ctx, {{{baseType}}}.class, jsonValue);
+                deserialized = deserializeBranch({{{baseType}}}.class, jsonValue);
                 match++;
             } catch (Exception e) {
                 // deserialization failed, continue

@@ -35,13 +35,10 @@ import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 import java.lang.reflect.Type;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.openapitools.client.JSON;
 
@@ -411,7 +408,12 @@ public class PetWithRequiredNullableCases1 {
         for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
           // a declared property always wins over an additional property with the same name
           if (!openapiFields.contains(entry.getKey())) {
-            context.serialize(entry.getKey(), entry.getValue(), generator);
+            // SerializationContext.serialize rejects a null value, so write the JSON null here
+            if (entry.getValue() == null) {
+              generator.writeNull(entry.getKey());
+            } else {
+              context.serialize(entry.getKey(), entry.getValue(), generator);
+            }
           }
         }
       }
