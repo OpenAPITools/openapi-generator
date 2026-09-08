@@ -1299,9 +1299,9 @@ public class ApiClient {
     public File downloadFileFromResponse(Response response) throws ApiException {
         try {
             File file = prepareDownloadFile(response);
-            BufferedSink sink = Okio.buffer(Okio.sink(file));
-            sink.writeAll(response.body().source());
-            sink.close();
+            try(ResponseBody body = response.body(); BufferedSink sink = Okio.buffer(Okio.sink(file))) {
+                sink.writeAll(body.source());
+            }
             return file;
         } catch (IOException e) {
             throw new ApiException(e);
