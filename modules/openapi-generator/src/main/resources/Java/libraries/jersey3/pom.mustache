@@ -359,6 +359,20 @@
             <artifactId>jersey-media-jaxb</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+        {{^useJackson3}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        {{/useJackson3}}
+        {{#useJackson3}}
+        <dependency>
+            <groupId>tools.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson3-version}</version>
+        </dependency>
+        {{/useJackson3}}
         {{/withXml}}
         {{#joda}}
         {{^useJackson3}}
