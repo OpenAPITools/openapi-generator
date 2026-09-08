@@ -206,11 +206,23 @@ impl {{classname}} for {{classname}}Client {
         {{/isModel}}
         {{#isMap}}
         if let Some(ref param_value) = {{{paramName}}} {
+            {{#isContainer}}
             let mut query_params = Vec::with_capacity(param_value.len());
             for (key, value) in param_value.iter() {
                 query_params.push((key.to_string(), serde_json::to_string(value)?));
             }
             local_var_req_builder = local_var_req_builder.query(&query_params);
+            {{/isContainer}}
+            {{^isContainer}}
+            // a free-form object is a serde_json::Value, only walkable through as_object()
+            if let Some(object) = param_value.as_object() {
+                let mut query_params = Vec::with_capacity(object.len());
+                for (key, value) in object.iter() {
+                    query_params.push((key.to_string(), serde_json::to_string(value)?));
+                }
+                local_var_req_builder = local_var_req_builder.query(&query_params);
+            }
+            {{/isContainer}}
         }
         {{/isMap}}
         {{/isExplode}}
@@ -256,11 +268,23 @@ impl {{classname}} for {{classname}}Client {
             local_var_req_builder = local_var_req_builder.query(&param_value);
             {{/isModel}}
             {{#isMap}}
+            {{#isContainer}}
             let mut query_params = Vec::with_capacity(param_value.len());
             for (key, value) in param_value.iter() {
                 query_params.push((key.to_string(), serde_json::to_string(value)?));
             }
             local_var_req_builder = local_var_req_builder.query(&query_params);
+            {{/isContainer}}
+            {{^isContainer}}
+            // a free-form object is a serde_json::Value, only walkable through as_object()
+            if let Some(object) = param_value.as_object() {
+                let mut query_params = Vec::with_capacity(object.len());
+                for (key, value) in object.iter() {
+                    query_params.push((key.to_string(), serde_json::to_string(value)?));
+                }
+                local_var_req_builder = local_var_req_builder.query(&query_params);
+            }
+            {{/isContainer}}
             {{/isMap}}
             {{/isExplode}}
             {{/isDeepObject}}

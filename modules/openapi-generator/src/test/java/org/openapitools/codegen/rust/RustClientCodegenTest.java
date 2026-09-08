@@ -294,6 +294,31 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testDeepObjectFreeFormQueryParamCompiles() throws IOException {
+        // the exploded deepObject branch walked every map-flagged parameter with
+        // .len()/.iter() - fine for a HashMap-typed map, but a bare free-form object is a
+        // serde_json::Value, which has neither, so the generated crate did not compile
+        for (String library : new String[] {"reqwest", "reqwest-trait"}) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary(library)
+                    .setInputSpec("src/test/resources/3_0/rust/deep-object-free-form-query-param.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
+            TestUtils.assertFileExists(outputPath);
+            // the free-form parameter walks the Value through as_object(); the typed map
+            // keeps its direct iteration
+            TestUtils.assertFileContains(outputPath, "param_value.as_object()");
+            TestUtils.assertFileContains(outputPath, "for (key, value) in param_value.iter()");
+            TestUtils.assertFileContains(outputPath, "for (key, value) in object.iter()");
+        }
+    }
+
+    @Test
     public void testArrayWithObjectEnumValues() throws IOException {
         Path target = Files.createTempDirectory("test");
         target.toFile().deleteOnExit();

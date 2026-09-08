@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: deep object params
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      operationId: listItems
+      parameters:
+        - name: filter
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            additionalProperties: true
+        - name: extra
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: ok
