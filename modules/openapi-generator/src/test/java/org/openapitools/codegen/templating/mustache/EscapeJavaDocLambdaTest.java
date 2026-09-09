@@ -18,7 +18,6 @@ package org.openapitools.codegen.templating.mustache;
 
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class EscapeJavaDocLambdaTest extends LambdaTest {

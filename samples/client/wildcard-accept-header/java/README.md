@@ -92,7 +92,7 @@ public class Example {
     defaultClient.setBasePath("http://localhost");
 
     DefaultApi apiInstance = new DefaultApi(defaultClient);
-    String accept = "*_/_*"; // String | 
+    String accept = "*/*"; // String | 
     try {
       apiInstance.ping(accept);
     } catch (ApiException e) {
