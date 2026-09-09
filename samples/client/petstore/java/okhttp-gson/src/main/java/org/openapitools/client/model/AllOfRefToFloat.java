@@ -83,10 +83,11 @@ public class AllOfRefToFloat {
    * the 'additionalProperties' keyword in the OAS document.
    *
    * Transient (on models without children): the bag is read and written by this model's
-   * TypeAdapterFactory, and hiding it from gson's reflection keeps an allOf child (which
-   * also inherits the field from its parent) from declaring two JSON fields of one name.
-   * A parent with children has no factory of its own and keeps the field visible, which
-   * the child's transient declaration shadows.
+   * TypeAdapterFactory, so gson's reflection does not need to see it. Gson collects the
+   * declared fields of every class in the hierarchy and rejects two bound to one JSON
+   * name, which is what an allOf child - declaring the field itself and inheriting it -
+   * used to hit. A parent with children has no factory of its own, so it keeps the field
+   * bound for reflection; the child excludes only its own copy, leaving exactly one.
    */
   private transient Map<String, Object> additionalProperties;
 
