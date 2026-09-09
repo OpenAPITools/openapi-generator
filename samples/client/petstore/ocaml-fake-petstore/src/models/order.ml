@@ -46,7 +46,21 @@
                 
                 
                 ; [@key "complete"]
-                        } [@@deriving yojson { strict = false }, show, eq ];;
+                                      payment_method: Enums.paymentmethod
+                           option [@default
+                    Some(`_1)
+                    
+                  ]
+                ; [@key "paymentMethod"]
+                            (** Various payment methods *)
+                              order_status: Enums.orderstatus
+                           option [@default
+                    
+                    None
+                  ]
+                ; [@key "OrderStatus"]
+                            (** Order status *)
+                } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             id = None;
@@ -55,6 +69,8 @@
             ship_date = None;
             status = None;
             complete = None;
+            payment_method = None;
+            order_status = None;
         }
     
 

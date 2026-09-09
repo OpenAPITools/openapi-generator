@@ -147,13 +147,13 @@ module Petstore
     end
 
     # To test enum parameters To test enum parameters
-    def list(enum_form_string_array : Array(String)? = nil, enum_form_string : String? = nil, *, enum_header_string_array : Array(String)? = nil, enum_header_string : String? = nil, enum_query_string_array : Array(String)? = nil, enum_query_string : String? = nil, enum_query_integer : Int32? = nil, enum_query_double : Float64? = nil, enum_query_model_array : Array(Petstore::EnumClass)? = nil) : Response(Nil)
+    def list(enum_form_string_array : Array(String)? = nil, enum_form_string : String? = nil, enum_form_integer : Int32? = nil, enum_form_double : Float64? = nil, *, enum_header_string_array : Array(String)? = nil, enum_header_string : String? = nil, enum_query_string_array : Array(String)? = nil, enum_query_string : String? = nil, enum_query_integer : Int32? = nil, enum_query_double : Float64? = nil, enum_query_model_array : Array(Petstore::EnumClass)? = nil) : Response(Nil)
       @conn.request(Nil,
         method: :GET,
         path: "/fake",
         header: { "enum_header_string_array" => enum_header_string_array.try &.to_s, "enum_header_string" => enum_header_string.try &.to_s },
         query: { "enum_query_string_array" => enum_query_string_array, "enum_query_string" => enum_query_string, "enum_query_integer" => enum_query_integer, "enum_query_double" => enum_query_double, "enum_query_model_array" => enum_query_model_array },
-        form: Hash(String, Crest::ParamsValue){ "enum_form_string_array" => enum_form_string_array, "enum_form_string" => enum_form_string },
+        form: Hash(String, Crest::ParamsValue){ "enum_form_string_array" => enum_form_string_array, "enum_form_string" => enum_form_string, "enum_form_integer" => enum_form_integer, "enum_form_double" => enum_form_double },
         accept: %w[],
         auth: %w[])
     end

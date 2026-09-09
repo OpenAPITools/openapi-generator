@@ -254,6 +254,14 @@ export interface TestEnumParametersRequest {
      * Form parameter enum test (string)
      */
     enumFormString?: TestEnumParametersEnumFormStringEnum;
+    /**
+     * Form parameter enum test (integer)
+     */
+    enumFormInteger?: TestEnumParametersEnumFormIntegerEnum;
+    /**
+     * Form parameter enum test (double)
+     */
+    enumFormDouble?: TestEnumParametersEnumFormDoubleEnum;
 }
 
 export interface TestGroupParametersRequest {
@@ -1149,6 +1157,14 @@ export class FakeApi extends runtime.BaseAPI {
             formParams.append('enum_form_string', requestParameters['enumFormString'] as any);
         }
 
+        if (requestParameters['enumFormInteger'] != null) {
+            formParams.append('enum_form_integer', requestParameters['enumFormInteger'] as any);
+        }
+
+        if (requestParameters['enumFormDouble'] != null) {
+            formParams.append('enum_form_double', requestParameters['enumFormDouble'] as any);
+        }
+
 
         let urlPath = `/fake`;
 
@@ -1715,3 +1731,22 @@ export const TestEnumParametersEnumFormStringEnum = {
     Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumFormIntegerEnum = {
+    NUMBER_1: 1,
+    NUMBER_MINUS_1: -1,
+    NUMBER_0: 0,
+} as const;
+export type TestEnumParametersEnumFormIntegerEnum = typeof TestEnumParametersEnumFormIntegerEnum[keyof typeof TestEnumParametersEnumFormIntegerEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumFormDoubleEnum = {
+    NUMBER_1_DOT_1: 1.1,
+    NUMBER_MINUS_1_DOT_1: -1.1,
+    NUMBER_0_DOT_1: 0.1,
+    NUMBER_0_DOT_0: 0.0,
+} as const;
+export type TestEnumParametersEnumFormDoubleEnum = typeof TestEnumParametersEnumFormDoubleEnum[keyof typeof TestEnumParametersEnumFormDoubleEnum];

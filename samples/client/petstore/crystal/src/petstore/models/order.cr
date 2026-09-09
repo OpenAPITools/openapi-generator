@@ -33,11 +33,21 @@ module Petstore
     @[JSON::Field(key: "complete", emit_null: false)]
     property complete : Bool? = false
 
+    # Various payment methods
+    @[JSON::Field(key: "paymentMethod", emit_null: false)]
+    property payment_method : Float64?
+
+    # Order status
+    @[JSON::Field(key: "OrderStatus", emit_null: false)]
+    property order_status : JSON::Any?
+
     validates(status, String, true, enum: ["placed", "approved", "delivered"])
+    validates(payment_method, Float64, true, enum: [1, 2])
+    validates(order_status, JSON::Any, true, enum: ["PENDING", "PROCESSING"])
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : Int64? = nil, @pet_id : Int64? = nil, @quantity : Int32? = nil, @ship_date : Time? = nil, @status : String? = nil, @complete : Bool? = false)
+    def initialize(@id : Int64? = nil, @pet_id : Int64? = nil, @quantity : Int32? = nil, @ship_date : Time? = nil, @status : String? = nil, @complete : Bool? = false, @payment_method : Float64? = nil, @order_status : JSON::Any? = nil)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -45,6 +55,12 @@ module Petstore
     def list_invalid_properties
       invalid_properties = Array(String).new
       if (msg = status_validation_error(@status))
+        invalid_properties.push(msg)
+      end
+      if (msg = payment_method_validation_error(@payment_method))
+        invalid_properties.push(msg)
+      end
+      if (msg = order_status_validation_error(@order_status))
         invalid_properties.push(msg)
       end
       invalid_properties
@@ -56,7 +72,7 @@ module Petstore
       list_invalid_properties.empty?
     end
 
-    def_equals_and_hash(id, pet_id, quantity, ship_date, status, complete)
+    def_equals_and_hash(id, pet_id, quantity, ship_date, status, complete, payment_method, order_status)
   end
 
 end

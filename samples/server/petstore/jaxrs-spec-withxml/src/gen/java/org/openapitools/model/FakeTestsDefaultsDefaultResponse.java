@@ -91,7 +91,7 @@ public enum StringEnumInlineEnum {
 @XmlEnum(Integer.class)
 public enum IntegerEnumInlineEnum {
 
-    @XmlEnumValue("1")NUMBER_1(Integer.valueOf(1)), @XmlEnumValue("2")NUMBER_2(Integer.valueOf(2)), @XmlEnumValue("3")NUMBER_3(Integer.valueOf(3));
+    @XmlEnumValue("1")NUMBER_1(1), @XmlEnumValue("2")NUMBER_2(2), @XmlEnumValue("3")NUMBER_3(3);
 
 
     private Integer value;

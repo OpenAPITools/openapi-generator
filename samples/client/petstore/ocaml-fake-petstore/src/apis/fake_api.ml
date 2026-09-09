@@ -521,7 +521,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
-let test_enum_parameters ?(enum_header_string_array = []) ?(enum_header_string = `Minusefg) ?(enum_query_string_array = []) ?(enum_query_string = `Minusefg) ?enum_query_integer ?enum_query_double ?(enum_query_model_array = []) ?(enum_form_string_array = [`Dollar]) ?(enum_form_string = `Minusefg) () =
+let test_enum_parameters ?(enum_header_string_array = []) ?(enum_header_string = `Minusefg) ?(enum_query_string_array = []) ?(enum_query_string = `Minusefg) ?enum_query_integer ?enum_query_double ?(enum_query_model_array = []) ?(enum_form_string_array = [`Dollar]) ?(enum_form_string = `Minusefg) ?(enum_form_integer = `_1) ?(enum_form_double = `_1Period1) () =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake" in
     let headers = Request.default_headers in
@@ -581,6 +581,12 @@ let test_enum_parameters ?(enum_header_string_array = []) ?(enum_header_string =
     let body = Request.add_form_encoded_body_param body "enum_form_string"         Enums.show_enumclass
         
  enum_form_string in
+    let body = Request.add_form_encoded_body_param body "enum_form_integer"         Enums.show_enum_form_integer
+        
+ enum_form_integer in
+    let body = Request.add_form_encoded_body_param body "enum_form_double"         Enums.show_enum_form_double
+        
+ enum_form_double in
     let body = Request.finalize_form_encoded_body body in
     Cohttp_lwt_unix.Client.call `GET uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp

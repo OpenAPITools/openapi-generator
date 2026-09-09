@@ -12,6 +12,8 @@ Name | Type
 `shipDate` | Date
 `status` | string
 `complete` | boolean
+`paymentMethod` | number
+`orderStatus` | object
 
 ## Example
 
@@ -26,6 +28,8 @@ const example = {
   "shipDate": null,
   "status": null,
   "complete": null,
+  "paymentMethod": 1,
+  "orderStatus": null,
 } satisfies Order
 
 console.log(example)

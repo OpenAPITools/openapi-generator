@@ -153,7 +153,7 @@ public interface FakeApi  {
     @GET
     
     @Consumes({ "application/x-www-form-urlencoded" })
-    void testEnumParameters(@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray, @HeaderParam("enum_header_string") String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @QueryParam("enum_query_model_array") List<EnumClass> enumQueryModelArray, @FormParam("enum_form_string_array") List<String> enumFormStringArray, @FormParam("enum_form_string") String enumFormString) throws ApiException, ProcessingException;
+    void testEnumParameters(@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray, @HeaderParam("enum_header_string") String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @QueryParam("enum_query_model_array") List<EnumClass> enumQueryModelArray, @FormParam("enum_form_string_array") List<String> enumFormStringArray, @FormParam("enum_form_string") String enumFormString, @FormParam("enum_form_integer") Integer enumFormInteger, @FormParam("enum_form_double") BigDecimal enumFormDouble) throws ApiException, ProcessingException;
 
     /**
      * Fake endpoint to test group parameters (optional)

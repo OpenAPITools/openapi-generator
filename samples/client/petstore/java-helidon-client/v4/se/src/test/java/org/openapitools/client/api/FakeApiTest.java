@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -368,9 +368,13 @@ public class FakeApiTest {
         List<String> enumFormStringArray = null;
         // TODO - assign values to the input arguments.
         String enumFormString = null;
+        // TODO - assign values to the input arguments.
+        Integer enumFormInteger = null;
+        // TODO - assign values to the input arguments.
+        BigDecimal enumFormDouble = null;
 
         // TODO - uncomment the following two lines to invoke the service with valid parameters.
-        //ApiResponse<Void> response = api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+        //ApiResponse<Void> response = api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
         //response.webClientResponse().await();
         // TODO - check for appropriate return status
         // assertThat("Return status", response.get().status().code(), is(expectedStatus));

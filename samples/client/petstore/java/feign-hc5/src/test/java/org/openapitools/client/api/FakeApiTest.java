@@ -300,7 +300,9 @@ class FakeApiTest {
         List<EnumClass> enumQueryModelArray = null;
         List<String> enumFormStringArray = null;
         String enumFormString = null;
-        // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+        Integer enumFormInteger = null;
+        BigDecimal enumFormDouble = null;
+        // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
 
         // TODO: test validations
     }
@@ -319,13 +321,15 @@ class FakeApiTest {
         String enumHeaderString = null;
         List<String> enumFormStringArray = null;
         String enumFormString = null;
+        Integer enumFormInteger = null;
+        BigDecimal enumFormDouble = null;
         FakeApi.TestEnumParametersQueryParams queryParams = new FakeApi.TestEnumParametersQueryParams()
             .enumQueryStringArray(null)
             .enumQueryString(null)
             .enumQueryInteger(null)
             .enumQueryDouble(null)
             .enumQueryModelArray(null);
-        // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumFormStringArray, enumFormString, queryParams);
+        // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble, queryParams);
 
     // TODO: test validations
     }

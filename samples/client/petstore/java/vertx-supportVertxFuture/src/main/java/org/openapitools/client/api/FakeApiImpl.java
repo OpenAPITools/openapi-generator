@@ -772,10 +772,12 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
         * @param enumQueryModelArray  (optional)
         * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
         * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+        * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+        * @param enumFormDouble Form parameter enum test (double) (optional, default to 1.1)
     * @param resultHandler Asynchronous result handler
     */
-    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Handler<AsyncResult<Void>> resultHandler) {
-        testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, null, resultHandler);
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble, Handler<AsyncResult<Void>> resultHandler) {
+        testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble, null, resultHandler);
     }
 
     /**
@@ -790,10 +792,12 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
     * @param enumQueryModelArray  (optional)
     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+    * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+    * @param enumFormDouble Form parameter enum test (double) (optional, default to 1.1)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // create path and map variables
@@ -822,6 +826,8 @@ if (enumHeaderString != null)
         Map<String, Object> localVarFormParams = new HashMap<>();
         if (enumFormStringArray != null) localVarFormParams.put("enum_form_string_array", enumFormStringArray);
 if (enumFormString != null) localVarFormParams.put("enum_form_string", enumFormString);
+if (enumFormInteger != null) localVarFormParams.put("enum_form_integer", enumFormInteger);
+if (enumFormDouble != null) localVarFormParams.put("enum_form_double", enumFormDouble);
 
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/x-www-form-urlencoded" };

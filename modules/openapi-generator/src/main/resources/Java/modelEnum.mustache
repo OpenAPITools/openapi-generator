@@ -34,7 +34,7 @@ import java.net.URI;
    */
      {{/enumDescription}}
   {{#withXml}}
-  @XmlEnumValue({{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}})
+  {{^isUri}}{{^isUuid}}{{^isNumber}}@XmlEnumValue({{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}){{/isNumber}}{{/isUuid}}{{/isUri}}
   {{/withXml}}
   {{{name}}}({{{value}}}){{^-last}},
   {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
@@ -100,7 +100,7 @@ import java.net.URI;
   public static final class Serializer implements JsonbSerializer<{{datatypeWithEnum}}> {
     @Override
     public void serialize({{datatypeWithEnum}} obj, JsonGenerator generator, SerializationContext ctx) {
-      generator.write(obj.value);
+      generator.write({{#isFreeFormObject}}String.valueOf(obj.value){{/isFreeFormObject}}{{^isFreeFormObject}}obj.value{{/isFreeFormObject}});
     }
   }
 {{/jsonb}}

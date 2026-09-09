@@ -74,7 +74,7 @@ public class FakeTestsDefaultsDefaultResponse  implements Serializable {
   private StringEnumInlineEnum stringEnumInline = StringEnumInlineEnum.FOO;
   public enum IntegerEnumInlineEnum {
 
-    NUMBER_1(Integer.valueOf(1)), NUMBER_2(Integer.valueOf(2)), NUMBER_3(Integer.valueOf(3));
+    NUMBER_1(1), NUMBER_2(2), NUMBER_3(3);
 
 
     private Integer value;
