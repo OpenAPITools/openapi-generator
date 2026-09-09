@@ -1080,9 +1080,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 basePath = "default";
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
-                // sanitize the raw path segment so it can be safely used as a Java identifier
-                // (e.g. "another-fake" -> "anotherFake") when deriving classVarName etc.
-                basePath = camelize(sanitizeName(basePath), LOWERCASE_FIRST_LETTER);
+            }
+            if (SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
+                super.addOperationToGroup(getUniquePathGroupName(basePath, operations), resourcePath, operation, co, operations);
+                return;
             }
             List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);
@@ -1090,6 +1091,23 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         } else {
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         }
+    }
+
+    private String getUniquePathGroupName(String basePath, Map<String, List<CodegenOperation>> operations) {
+        String groupName = camelize(sanitizeName(basePath), LOWERCASE_FIRST_LETTER);
+        String uniqueGroupName = groupName;
+        int suffix = 2;
+        while (operations.containsKey(uniqueGroupName)
+                && !getFirstPathSegment(operations.get(uniqueGroupName).get(0).path).equals(basePath)) {
+            uniqueGroupName = groupName + suffix++;
+        }
+        return uniqueGroupName;
+    }
+
+    private String getFirstPathSegment(String path) {
+        String basePath = path.startsWith("/") ? path.substring(1) : path;
+        int pos = basePath.indexOf("/");
+        return pos > 0 ? basePath.substring(0, pos) : basePath;
     }
 
     /**
