@@ -743,8 +743,9 @@ paths:
         name: enum_header_string_array
         required: false
         schema:
+          default:
+          - $
           items:
-            default: $
             enum:
             - '>'
             - $
@@ -770,8 +771,9 @@ paths:
         name: enum_query_string_array
         required: false
         schema:
+          default:
+          - $
           items:
-            default: $
             enum:
             - '>'
             - $
@@ -2308,9 +2310,10 @@ components:
     testEnumParameters_request:
       properties:
         enum_form_string_array:
+          default:
+          - $
           description: Form parameter enum test (string array)
           items:
-            default: $
             enum:
             - '>'
             - $

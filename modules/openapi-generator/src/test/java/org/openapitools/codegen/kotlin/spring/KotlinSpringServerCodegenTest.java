@@ -4498,6 +4498,12 @@ public class KotlinSpringServerCodegenTest {
                 "(\"quote\\\" slash\\\\ \\$value\")");
         assertFileContains(files.get("EscapedApiController.kt").toPath(),
                 "allowableValues = [\"quote\\\" slash\\\\ \\$value\"]");
+
+        Map<String, File> serviceFiles = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml",
+                Map.of(SERVICE_INTERFACE, true));
+        assertFileContains(serviceFiles.get("FormApiService.kt").toPath(),
+                "@param defaulted Form default (optional, OpenAPI schema default to form default)");
     }
 
     @Test

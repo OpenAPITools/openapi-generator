@@ -1172,6 +1172,17 @@ public class SpringCodegen extends AbstractJavaCodegen
         return value;
     }
 
+    @Override
+    public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
+        CodegenParameter parameter = super.fromFormProperty(name, propertySchema, imports);
+        if (parameter.hasDefaultValue) {
+            parameter.vendorExtensions.put("x-spring-form-default-not-applied", true);
+            LOGGER.warn("OpenAPI default for form parameter '{}' is not applied when the field is omitted; "
+                    + "the generated Spring binding does not apply it.", parameter.baseName);
+        }
+        return parameter;
+    }
+
     /**
      * Adds a Spring Security expression that preserves the OpenAPI security requirement semantics:
      * entries in a {@code security} array are OR alternatives, while schemes and scopes in one

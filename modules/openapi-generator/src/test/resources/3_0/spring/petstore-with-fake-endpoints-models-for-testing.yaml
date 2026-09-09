@@ -579,9 +579,10 @@ paths:
           description: Header parameter enum test (string array)
           schema:
             type: array
+            default:
+              - $
             items:
               type: string
-              default: $
               enum:
                 - ">"
                 - $
@@ -600,9 +601,10 @@ paths:
           description: Query parameter enum test (string array)
           schema:
             type: array
+            default:
+              - $
             items:
               type: string
-              default: $
               enum:
                 - ">"
                 - $
@@ -643,9 +645,10 @@ paths:
                 enum_form_string_array:
                   description: Form parameter enum test (string array)
                   type: array
+                  default:
+                    - $
                   items:
                     type: string
-                    default: $
                     enum:
                       - ">"
                       - $

@@ -216,7 +216,7 @@ public interface FakeApiDelegate {
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional)
-     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormString Form parameter enum test (string) (optional, OpenAPI schema default to -efg)
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)
      * @see FakeApi#testEnumParameters

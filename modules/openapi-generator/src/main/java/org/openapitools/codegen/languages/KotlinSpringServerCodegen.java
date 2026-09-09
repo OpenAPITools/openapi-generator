@@ -1087,6 +1087,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     @Override
+    public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
+        CodegenParameter parameter = super.fromFormProperty(name, propertySchema, imports);
+        if (parameter.hasDefaultValue) {
+            parameter.vendorExtensions.put("x-spring-form-default-not-applied", true);
+            LOGGER.warn("OpenAPI default for form parameter '{}' is not applied when the field is omitted; "
+                    + "the generated Spring binding does not apply it.", parameter.baseName);
+        }
+        return parameter;
+    }
+
+    @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         if (library.equals(SPRING_BOOT) && !useTags) {
             String basePath = resourcePath;

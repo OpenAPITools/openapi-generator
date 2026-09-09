@@ -3332,6 +3332,22 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void arrayParameterDefaultsUseOneItemArraySchemaDefault() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml",
+                SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("FakeApi.java"))
+                .fileContains(
+                        "@param enumHeaderStringArray Header parameter enum test (string array) (optional, default to [&quot;$&quot;])",
+                        "@param enumQueryStringArray Query parameter enum test (string array) (optional, default to [&quot;$&quot;])",
+                        "@param enumFormStringArray Form parameter enum test (string array) (optional, OpenAPI schema default to [&quot;$&quot;])",
+                        "@RequestHeader(value = \"enum_header_string_array\", required = false, defaultValue = \"$\")",
+                        "@RequestParam(value = \"enum_query_string_array\", required = false, defaultValue = \"$\")",
+                        "@RequestPart(value = \"enum_form_string_array\", required = false)");
+    }
+
+    @Test
     public void shouldUseTheSameTagNameForTheInterfaceAndTheMethod_issue11570() throws IOException {
         final Map<String, File> output = generateFromContract(
                 "src/test/resources/bugs/issue_11570.yml", SPRING_BOOT, Map.of(INTERFACE_ONLY, "true")
