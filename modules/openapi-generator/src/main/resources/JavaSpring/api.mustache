@@ -150,7 +150,7 @@ public interface {{classname}} {
     {{/unescapedNotes}}
      *
     {{#allParams}}
-     * @param {{paramName}} {{#lambda.javaDocText}}{{{unescapedDescription}}}{{/lambda.javaDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#vendorExtensions.x-documentation-default-value-text}}, default to {{#lambda.javaDocText}}{{{.}}}{{/lambda.javaDocText}}{{/vendorExtensions.x-documentation-default-value-text}}){{/required}}
+     * @param {{paramName}} {{#lambda.javaDocText}}{{{unescapedDescription}}}{{/lambda.javaDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#hasDefaultValue}}, default to {{#lambda.javaDocText}}{{{rawDefaultValueText}}}{{/lambda.javaDocText}}{{/hasDefaultValue}}){{/required}}
     {{/allParams}}
      * @return {{#responses}}{{#lambda.javaDocText}}{{{unescapedMessage}}}{{/lambda.javaDocText}} (status code {{code}}){{^-last}}
      *         or {{/-last}}{{/responses}}
@@ -159,7 +159,7 @@ public interface {{classname}} {
     {{/isDeprecated}}
     {{#externalDocs}}
      * {{#lambda.javaDocText}}{{{description}}}{{/lambda.javaDocText}}
-     * @see <a href="{{#lambda.javaDocText}}{{{url}}}{{/lambda.javaDocText}}">{{#lambda.javaDocText}}{{{unescapedSummary}}}{{/lambda.javaDocText}} Documentation</a>
+     * @see <a href="{{#lambda.javaDocText}}{{{url}}}{{/lambda.javaDocText}}">{{#lambda.javaDocText}}{{{description}}}{{/lambda.javaDocText}} Documentation</a>
     {{/externalDocs}}
      */
     {{#isDeprecated}}

@@ -5886,8 +5886,6 @@ public class DefaultCodegen implements CodegenConfig {
                 && codegenParameter.defaultValue != null) {
             codegenParameter.rawDefaultValueText = codegenParameter.defaultValue;
         }
-        setParameterDocumentationDefaultValue(codegenParameter);
-
         finishUpdatingParameter(codegenParameter, parameter);
         return codegenParameter;
     }
@@ -5909,16 +5907,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
         JsonNode node = snapshotDefaultValue(value);
         return node != null && node.isTextual() ? node.textValue() : String.valueOf(value);
-    }
-
-    private void setParameterDocumentationDefaultValue(CodegenParameter parameter) {
-        String defaultValueText = parameter.rawDefaultValueText;
-        if (defaultValueText == null && parameter.items != null) {
-            defaultValueText = parameter.items.rawDefaultValueText;
-        }
-        if (defaultValueText != null) {
-            parameter.vendorExtensions.put("x-documentation-default-value-text", defaultValueText);
-        }
     }
 
     private Schema getReferencedSchemaWhenNotEnum(Schema parameterSchema) {
@@ -8046,8 +8034,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set nullable
         setParameterNullable(codegenParameter, codegenProperty);
-        setParameterDocumentationDefaultValue(codegenParameter);
-
         return codegenParameter;
     }
 

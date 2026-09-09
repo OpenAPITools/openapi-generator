@@ -57,6 +57,7 @@ public final class SourceStringEscaper {
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
                 .replace("'", "&#39;")
+                .replace("@", "&#64;")
                 // Java processes Unicode escapes before recognizing comments.
                 .replace("\\", "&#92;")
                 .replace("/*", "&#47;*")

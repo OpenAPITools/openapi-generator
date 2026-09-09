@@ -17,7 +17,7 @@ interface {{classname}}Service {
     {{/unescapedNotes}}
      *
     {{#allParams}}
-     * @param {{{paramName}}} {{#lambda.kotlinDocText}}{{{unescapedDescription}}}{{/lambda.kotlinDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#vendorExtensions.x-documentation-default-value-text}}, default to {{#lambda.kotlinDocText}}{{{.}}}{{/lambda.kotlinDocText}}{{/vendorExtensions.x-documentation-default-value-text}}){{/required}}
+     * @param {{{paramName}}} {{#lambda.kotlinDocText}}{{{unescapedDescription}}}{{/lambda.kotlinDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#hasDefaultValue}}, default to {{#lambda.kotlinDocText}}{{{rawDefaultValueText}}}{{/lambda.kotlinDocText}}{{/hasDefaultValue}}){{/required}}
     {{/allParams}}
      * @return {{#responses}}{{#lambda.kotlinDocText}}{{{unescapedMessage}}}{{/lambda.kotlinDocText}} (status code {{code}}){{^-last}}
      *         or {{/-last}}{{/responses}}
