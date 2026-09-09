@@ -245,7 +245,7 @@ public interface FakeApi {
     String PATH_TEST_BODY_WITH_FILE_SCHEMA = "/fake/body-with-file-schema";
     /**
      * PUT /fake/body-with-file-schema
-     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * For this test, the body for this request much reference a schema named `File`.
      *
      * @param fileSchemaTestClass  (required)
      * @return Success (status code 200)
@@ -302,8 +302,8 @@ public interface FakeApi {
 
     String PATH_TEST_CLIENT_MODEL = "/fake";
     /**
-     * PATCH /fake : To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
+     * PATCH /fake : To test &quot;client&quot; model
+     * To test &quot;client&quot; model
      *
      * @param client client model (required)
      * @return successful operation (status code 200)
@@ -335,8 +335,14 @@ public interface FakeApi {
 
     String PATH_TEST_ENDPOINT_PARAMETERS = "/fake";
     /**
-     * POST /fake : Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * POST /fake : Fake endpoint for testing various parameters
+ *  假端點
+ *  偽のエンドポイント
+ *  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters
+ *  假端點
+ *  偽のエンドポイント
+ *  가짜 엔드 포인트
      *
      * @param number None (required)
      * @param _double None (required)
@@ -357,8 +363,8 @@ public interface FakeApi {
      */
     @Operation(
         operationId = "testEndpointParameters",
-        summary = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
-        description = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
+        summary = "Fake endpoint for testing various parameters\n 假端點\n 偽のエンドポイント\n 가짜 엔드 포인트",
+        description = "Fake endpoint for testing various parameters\n 假端點\n 偽のエンドポイント\n 가짜 엔드 포인트",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
@@ -405,7 +411,7 @@ public interface FakeApi {
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)

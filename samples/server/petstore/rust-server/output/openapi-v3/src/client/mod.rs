@@ -1778,7 +1778,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
             if let Some(param_uuid) = param_uuid {
                 query_string.append_pair("uuid",
-                    &param_uuid.to_string());
+                    &param_uuid);
             }
             if let Some(param_some_object) = param_some_object {
                 query_string.append_pair("someObject",

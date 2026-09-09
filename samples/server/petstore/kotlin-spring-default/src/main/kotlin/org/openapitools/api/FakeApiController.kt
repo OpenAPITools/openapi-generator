@@ -36,7 +36,7 @@ class FakeApiController() {
     @Operation(
         summary = "annotate",
         operationId = "annotations",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "200", description = "OK") ]
     )
@@ -55,7 +55,7 @@ class FakeApiController() {
     @Operation(
         summary = "Updates a pet in the store with form data (number)",
         operationId = "updatePetWithFormNumber",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "405", description = "Invalid input") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]

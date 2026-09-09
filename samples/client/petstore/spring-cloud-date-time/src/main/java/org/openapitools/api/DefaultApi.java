@@ -45,7 +45,7 @@ public interface DefaultApi {
      * @param date A date path parameter (required)
      * @param dateTime A date-time query parameter (required)
      * @param xOrderDate A date header parameter (required)
-     * @param loginDate A date cookie parameter (optional, default to 1975-01-01)
+     * @param loginDate A date cookie parameter (optional, default to 1975-01-01T00:00:00.000+00:00)
      * @return OK (status code 200)
      */
     @Operation(

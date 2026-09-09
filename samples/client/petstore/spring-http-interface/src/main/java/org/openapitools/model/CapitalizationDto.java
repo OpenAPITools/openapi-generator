@@ -147,7 +147,8 @@ public class CapitalizationDto {
   }
 
   /**
-   * Name of the pet 
+   * Name of the pet
+ * 
    * @return ATT_NAME
    */
   

@@ -37,7 +37,7 @@ class MultipartMixedApiController() {
     @Operation(
         summary = "",
         operationId = "multipartMixed",
-        description = """Mixed MultipartFile test""",
+        description = "Mixed MultipartFile test",
         responses = [
             ApiResponse(responseCode = "204", description = "Successful operation") ]
     )

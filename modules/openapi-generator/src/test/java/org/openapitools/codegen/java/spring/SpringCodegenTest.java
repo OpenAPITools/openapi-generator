@@ -2320,6 +2320,11 @@ public class SpringCodegenTest {
 
         generator.opts(input).generate();
 
+        Operation multipleTagsOperation = openAPI.getPaths().get("/multiple").getGet();
+        assertEquals(multipleTagsOperation.getExtensions().get("x-tags"), List.of(
+                Map.of("tag", "tag1"),
+                Map.of("tag", "tag2")));
+
         assertFunction.accept(outputPath);
     }
 

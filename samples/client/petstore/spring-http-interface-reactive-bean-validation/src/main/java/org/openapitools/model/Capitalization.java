@@ -146,7 +146,8 @@ public class Capitalization {
   }
 
   /**
-   * Name of the pet 
+   * Name of the pet
+ * 
    * @return ATT_NAME
    */
   

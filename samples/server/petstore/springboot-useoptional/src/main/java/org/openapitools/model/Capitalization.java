@@ -152,11 +152,12 @@ public class Capitalization {
   }
 
   /**
-   * Name of the pet 
+   * Name of the pet
+ * 
    * @return ATT_NAME
    */
   
-  @Schema(name = "ATT_NAME", description = "Name of the pet ", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "ATT_NAME", description = "Name of the pet\n", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("ATT_NAME")
   public Optional<String> getATTNAME() {
     return ATT_NAME;

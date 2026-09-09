@@ -222,6 +222,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     // Holds scan results for Spring Pageable features (populated during preprocessOpenAPI)
     private final SpringPageableScanUtils pageableUtils = new SpringPageableScanUtils();
+    // Preserves all operation tags for generated annotations without mutating the parsed OpenAPI model.
+    private final Map<Operation, List<Map<String, String>>> operationTagValues = new IdentityHashMap<>();
 
     public SpringCodegen() {
         super();
@@ -946,6 +948,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        operationTagValues.clear();
         super.preprocessOpenAPI(openAPI);
 
         if (SPRING_BOOT.equals(library) && ModelUtils.containsEnums(this.openAPI)) {
@@ -1039,17 +1042,21 @@ public class SpringCodegen extends AbstractJavaCodegen
                     for (final Operation operation : path.readOperations()) {
                         if (operation.getTags() != null) {
                             final List<Map<String, String>> tags = new ArrayList<>();
+                            final List<Map<String, String>> publicTags = new ArrayList<>();
                             for (final String tag : operation.getTags()) {
                                 final Map<String, String> value = new HashMap<>();
-                                value.put("tag", escapeText(tag));
+                                String escapedTag = escapeText(tag);
+                                value.put("tag", escapedTag);
                                 value.put("tagRaw", tag);
                                 tags.add(value);
+                                publicTags.add(Collections.singletonMap("tag", escapedTag));
                             }
                             if (!operation.getTags().isEmpty()) {
                                 final String tag = operation.getTags().get(0);
                                 operation.setTags(Collections.singletonList(tag));
                             }
-                            operation.addExtension("x-tags", tags);
+                            operation.addExtension("x-tags", publicTags);
+                            operationTagValues.put(operation, tags);
                         }
                     }
                 }
@@ -1488,6 +1495,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         Set<String> provideArgsClassSet = reformatProvideArgsParams(operation);
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+        List<Map<String, String>> tags = operationTagValues.get(operation);
+        if (tags != null) {
+            codegenOperation.vendorExtensions.put("x-tags", tags);
+        }
 
         // add org.springframework.format.annotation.DateTimeFormat when needed
         codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
