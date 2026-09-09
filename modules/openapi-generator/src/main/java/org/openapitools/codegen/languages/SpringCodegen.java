@@ -376,6 +376,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 optionalAcceptNullable));
 
         cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        cliOptions.add(new CliOption(TYPE_INFO_DEFAULT_IMPLS, TYPE_INFO_DEFAULT_IMPLS_DESC).defaultValue("empty map"));
         cliOptions.add(CliOption.newString(SPRING_API_VERSION, "Value for 'version' attribute in @RequestMapping (for Spring 7 and above)."));
         cliOptions.add(CliOption.newString(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATOR,
             "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.")
@@ -511,6 +512,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Please refrain from updating values of Config Options after super.ProcessOpts() is called
         super.processOpts();
 
+        if (additionalProperties.containsKey(TYPE_INFO_DEFAULT_IMPLS)) {
+            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(TYPE_INFO_DEFAULT_IMPLS));
+        }
+
         if (SPRING_HTTP_INTERFACE.equals(library)) {
             if (documentationProvider != null) {
                 additionalProperties.remove(documentationProvider.getPropertyName());
@@ -631,6 +636,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(OPTIONAL_ACCEPT_NULLABLE, this::setOptionalAcceptNullable);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BUILT_IN_VALIDATION, this::setUseSpringBuiltInValidation);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
+
         convertPropertyToStringAndWriteBack(CLIENT_REGISTRATION_ID, this::setClientRegistrationId);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_SECURITY_PRE_AUTHORIZE, this::setUseSpringSecurityPreAuthorize);
         convertPropertyToStringAndWriteBack(SPRING_SECURITY_AUTHORITY_PREFIX, this::setSpringSecurityAuthorityPrefix);
@@ -1614,6 +1620,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         objs = super.postProcessAllModels(objs);
 
         Map<String, CodegenModel> allModels = getAllModels(objs);
+
         // conditionally force the generation of no args constructor
         for (CodegenModel cm : allModels.values()) {
             boolean hasLombokNoArgsConstructor = lombokAnnotations != null && lombokAnnotations.containsKey("NoArgsConstructor");
@@ -1729,6 +1736,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_MINIMUM_MESSAGE);
         extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
         extensions.add(VendorExtension.X_SPRING_API_VERSION);
+        extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         extensions.add(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY);
         extensions.add(VendorExtension.X_JACKSON_JSON_SETTER_NULLS);
         return extensions;

@@ -1,0 +1,12 @@
+generatorName: kotlin
+outputDir: samples/client/others/kotlin-oneof-jackson-default-impl
+inputSpec: modules/openapi-generator/src/test/resources/3_0/jackson-default-impl-oneof.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-oneof-jackson-default-impl
+  serializationLibrary: jackson
+  library: jvm-retrofit2
+  enumUnknownDefaultCase: true
+  useOneOfInterfaces: "true"
+  typeInfoDefaultImpls:
+    Fruit: Apple

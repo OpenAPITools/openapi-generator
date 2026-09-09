@@ -20,6 +20,37 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    swagger_annotations_version = "1.6.5"
+    {{^useJackson3}}
+    jackson_version = "2.21.5"
+    jackson_annotations_version = "2.21"
+    jackson_databind_version = "2.21.5"
+    {{/useJackson3}}
+    {{#useJackson3}}
+    jackson3_version = "3.1.5"
+    jackson_annotations_version = "2.21"
+    {{/useJackson3}}
+    {{#openApiNullable}}
+    jackson_databind_nullable_version = "0.2.11"
+    {{/openApiNullable}}
+    jakarta_annotation_version = "3.0.0"
+    {{#useBeanValidation}}
+    bean_validation_version = "3.1.1"
+    {{/useBeanValidation}}
+    jersey_version = "3.0.4"
+    junit_version = "5.8.2"
+    {{#hasOAuthMethods}}
+    scribejava_apis_version = "8.3.1"
+    {{/hasOAuthMethods}}
+    {{#hasHttpSignatureMethods}}
+    tomitribe_http_signatures_version = "1.7"
+    {{/hasHttpSignatureMethods}}
+    {{#useReflectionEqualsHashCode}}
+    commons_lang3_version = "3.17.0"
+    {{/useReflectionEqualsHashCode}}
+}
+
 if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
@@ -97,37 +128,6 @@ if(hasProperty('target') && target == 'android') {
        mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
-}
-
-ext {
-    swagger_annotations_version = "1.6.5"
-    {{^useJackson3}}
-    jackson_version = "2.21.5"
-    jackson_annotations_version = "2.21"
-    jackson_databind_version = "2.21.5"
-    {{/useJackson3}}
-    {{#useJackson3}}
-    jackson3_version = "3.1.5"
-    jackson_annotations_version = "2.21"
-    {{/useJackson3}}
-    {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.11"
-    {{/openApiNullable}}
-    jakarta_annotation_version = "3.0.0"
-    {{#useBeanValidation}}
-    bean_validation_version = "3.1.1"
-    {{/useBeanValidation}}
-    jersey_version = "3.0.4"
-    junit_version = "5.8.2"
-    {{#hasOAuthMethods}}
-    scribejava_apis_version = "8.3.1"
-    {{/hasOAuthMethods}}
-    {{#hasHttpSignatureMethods}}
-    tomitribe_http_signatures_version = "1.7"
-    {{/hasHttpSignatureMethods}}
-    {{#useReflectionEqualsHashCode}}
-    commons_lang3_version = "3.17.0"
-    {{/useReflectionEqualsHashCode}}
 }
 
 dependencies {
