@@ -48,3 +48,25 @@ components:
           properties:
             field:
               type: string
+    # a nullable discriminator: the skip predicate must be Option::is_none, not String::is_empty
+    NullableTagged:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+          nullable: true
+        label:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          Alpha: '#/components/schemas/Alpha'
+    Alpha:
+      allOf:
+        - $ref: '#/components/schemas/NullableTagged'
+        - type: object
+          properties:
+            alphaOnly:
+              type: string

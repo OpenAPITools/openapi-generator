@@ -338,9 +338,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         // The discriminator enum is internally tagged, and serde's tag consumes the
         // discriminator key before the wrapped child model deserializes - so the child's own
         // (typically required) discriminator property would fail with "missing field", and
-        // serializing it back out would duplicate the tag. Remove the property from the mapped
-        // children, exactly as postProcessModels already removes it from the discriminating
-        // parent: the variant name carries the type information.
+        // serializing it back out would duplicate the tag. Mark it, so the template can default
+        // it and skip serializing it while unset. The property stays declared: getMappedModels()
+        // covers every allOf descendant, and those models are also returned and accepted
+        // standalone, where the caller sets and reads the discriminator normally.
         Map<String, CodegenModel> modelsByClassname = new HashMap<>();
         for (ModelsMap modelsMap : objs.values()) {
             for (ModelMap modelMap : modelsMap.getModels()) {
@@ -361,10 +362,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 if (child == null) {
                     continue;
                 }
-                for (List<CodegenProperty> vars : List.of(child.vars, child.allVars, child.requiredVars, child.readWriteVars, child.optionalVars)) {
-                    vars.removeIf(var -> propertyBaseName.equals(var.baseName));
+                for (List<CodegenProperty> vars : List.of(child.vars, child.allVars, child.requiredVars, child.readWriteVars)) {
+                    for (CodegenProperty var : vars) {
+                        if (propertyBaseName.equals(var.baseName)) {
+                            var.isDiscriminator = true;
+                        }
+                    }
                 }
-                child.setHasRequired(!child.requiredVars.isEmpty());
             }
         }
 

@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**realtype** | Option<**String**> |  | [optional]
 **description** | Option<**String**> |  | [optional]
 **code** | Option<**i32**> |  | [optional]
 

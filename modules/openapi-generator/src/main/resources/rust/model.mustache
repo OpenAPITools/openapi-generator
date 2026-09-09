@@ -125,7 +125,12 @@ pub struct {{{classname}}} {
     {{#isByteArray}}
     {{#vendorExtensions.isMandatory}}#[serde_as(as = "serde_with::base64::Base64")]{{/vendorExtensions.isMandatory}}{{^vendorExtensions.isMandatory}}#[serde_as(as = "{{^serdeAsDoubleOption}}Option{{/serdeAsDoubleOption}}{{#serdeAsDoubleOption}}super::DoubleOption{{/serdeAsDoubleOption}}<serde_with::base64::Base64>")]{{/vendorExtensions.isMandatory}}
     {{/isByteArray}}
-    #[serde(rename = "{{{baseName}}}"{{^required}}{{#isNullable}}, default{{^isByteArray}}, with = "::serde_with::rust::double_option"{{/isByteArray}}{{/isNullable}}{{/required}}{{^required}}, skip_serializing_if = "Option::is_none"{{/required}}{{#required}}{{#isNullable}}, deserialize_with = "Option::deserialize"{{/isNullable}}{{/required}})]
+    {{!-- a mapped child's discriminator property doubles as the union's serde tag, which is
+          consumed before this struct deserializes: default it so the missing key is not an
+          error, and skip it back out while unset so the tag stays the only occurrence. The
+          property itself stays declared - these models are also used standalone, where the
+          caller sets and reads it normally. --}}
+    #[serde(rename = "{{{baseName}}}"{{#isDiscriminator}}{{#required}}, default{{#isNullable}}, skip_serializing_if = "Option::is_none"{{/isNullable}}{{^isNullable}}{{#isString}}, skip_serializing_if = "String::is_empty"{{/isString}}{{/isNullable}}{{/required}}{{/isDiscriminator}}{{^required}}{{#isNullable}}, default{{^isByteArray}}, with = "::serde_with::rust::double_option"{{/isByteArray}}{{/isNullable}}{{/required}}{{^required}}, skip_serializing_if = "Option::is_none"{{/required}}{{#required}}{{#isNullable}}{{^isDiscriminator}}, deserialize_with = "Option::deserialize"{{/isDiscriminator}}{{/isNullable}}{{/required}})]
     pub {{{name}}}: {{!
     ### Option Start
     }}{{#isNullable}}Option<{{/isNullable}}{{^required}}Option<{{/required}}{{!

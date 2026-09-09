@@ -13,6 +13,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ObjA {
+    #[serde(rename = "realtype", skip_serializing_if = "Option::is_none")]
+    pub realtype: Option<String>,
     #[serde(rename = "message", skip_serializing_if = "Option::is_none")]
     pub message: Option<String>,
 }
@@ -20,6 +22,7 @@ pub struct ObjA {
 impl ObjA {
     pub fn new() -> ObjA {
         ObjA {
+            realtype: None,
             message: None,
         }
     }
