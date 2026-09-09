@@ -171,16 +171,17 @@ public class GrandparentAnimal {
     public void serialize(GrandparentAnimal value, JsonGenerator generator, SerializationContext context) {
       JsonObject serialized = toJsonValue(value).asJsonObject();
       if (value.getAdditionalProperties() != null) {
+        java.util.Set<String> declaredFields = declaredFields(value);
         jakarta.json.JsonObjectBuilder builder = jakarta.json.Json.createObjectBuilder(serialized);
         for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
           // a declared property always wins over an additional property with the same name
-          if (openapiFields.contains(entry.getKey()) || serialized.containsKey(entry.getKey())) {
+          if (declaredFields.contains(entry.getKey()) || serialized.containsKey(entry.getKey())) {
             continue;
           }
           if (entry.getValue() == null) {
             builder.addNull(entry.getKey());
           } else {
-            builder.add(entry.getKey(), toJsonValue(entry.getValue()));
+            builder.add(entry.getKey(), toNestedJsonValue(entry.getValue()));
           }
         }
         serialized = builder.build();
@@ -189,11 +190,39 @@ public class GrandparentAnimal {
     }
 
     /**
+     * The declared property names of the value's runtime type. A subtype serializer omits a
+     * declared property whose value is null, so the serialized object alone cannot tell whether
+     * a name is declared; consulting the runtime type keeps an additional property from being
+     * written under a subtype's declared name. Falls back to this class' own names for a
+     * runtime type that is not a mapped subtype.
+     */
+    private static java.util.Set<String> declaredFields(GrandparentAnimal value) {
+      if (ParentPet.class.equals(value.getClass())) {
+        return ParentPet.openapiFields;
+      }
+      return openapiFields;
+    }
+
+    /**
      * Render a value through the polymorphism-free Jsonb and read it back as a JsonValue.
      */
     private static jakarta.json.JsonValue toJsonValue(Object value) {
       try (jakarta.json.JsonReader reader = jakarta.json.Json.createReader(
           new java.io.StringReader(JSON.getPlainJsonb().toJson(value)))) {
+        return reader.readValue();
+      }
+    }
+
+    /**
+     * Render an additional-property value through the configured Jsonb and read it back as a
+     * JsonValue. A nested value is a different object from the one being serialized here, so
+     * this cannot re-enter the serializer currently in hand; the polymorphism-free instance
+     * carries no serializer for a hierarchy root, and using it here would drop the additional
+     * properties of a nested value whose runtime type is one.
+     */
+    private static jakarta.json.JsonValue toNestedJsonValue(Object value) {
+      try (jakarta.json.JsonReader reader = jakarta.json.Json.createReader(
+          new java.io.StringReader(JSON.getJsonb().toJson(value)))) {
         return reader.readValue();
       }
     }
