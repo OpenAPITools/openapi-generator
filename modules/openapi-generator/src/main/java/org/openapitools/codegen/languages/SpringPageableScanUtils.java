@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * <p>Can be used as a static utility or instantiated to hold the scan results
  * ({@link #sortValidationEnums}, {@link #pageableDefaultsRegistry},
  * {@link #pageableConstraintsRegistry}) so that callers do not need to maintain
- * those maps themselves. Call {@link #scanAll(OpenAPI, boolean)} once in
+ * those maps themselves. Call {@link #scanAll(OpenAPI, AutoPaginationMode)} once in
  * {@code preprocessOpenAPI} to populate them, then access the fields directly.</p>
  *
  * <p>Used by both kotlin {@link KotlinSpringServerCodegen} and java {@link SpringCodegen} to share
