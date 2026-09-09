@@ -944,7 +944,11 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     private String getUniquePathGroupName(String basePath, Map<String, List<CodegenOperation>> operations) {
-        String groupName = camelize(sanitizeName(basePath), LOWERCASE_FIRST_LETTER);
+        String sanitizedBasePath = sanitizeName(basePath);
+        if (sanitizedBasePath.matches("^\\d.*")) {
+            sanitizedBasePath = "Class" + sanitizedBasePath;
+        }
+        String groupName = camelize(sanitizedBasePath, LOWERCASE_FIRST_LETTER);
         String uniqueGroupName = groupName;
         int suffix = 2;
         while (operations.containsKey(uniqueGroupName)
@@ -957,7 +961,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     private String getFirstPathSegment(String path) {
         String basePath = path.startsWith("/") ? path.substring(1) : path;
         int pos = basePath.indexOf("/");
-        return pos > 0 ? basePath.substring(0, pos) : basePath;
+        basePath = pos > 0 ? basePath.substring(0, pos) : basePath;
+        return basePath.isEmpty() ? "default" : basePath;
     }
 
     @Override

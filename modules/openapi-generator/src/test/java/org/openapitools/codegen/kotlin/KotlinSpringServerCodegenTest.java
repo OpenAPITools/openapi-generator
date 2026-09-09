@@ -294,4 +294,25 @@ public class KotlinSpringServerCodegenTest {
         assertEquals(colliding.baseName, "anotherFake2");
     }
 
+    @Test(description = "useTags=false should group root operations in default for spring-declarative-http-interface")
+    public void useTags_false_groupsRootOperations_springDeclarativeHttpInterface() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(USE_TAGS, false);
+        codegen.processOpts();
+
+        CodegenOperation rootGet = new CodegenOperation();
+        rootGet.operationId = "getRoot";
+        rootGet.path = "/";
+        CodegenOperation rootPost = new CodegenOperation();
+        rootPost.operationId = "postRoot";
+        rootPost.path = "/";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Root", "/", new Operation(), rootGet, groups);
+        codegen.addOperationToGroup("Root", "/", new Operation(), rootPost, groups);
+
+        assertEquals(groups.get("default").size(), 2);
+    }
+
 }
