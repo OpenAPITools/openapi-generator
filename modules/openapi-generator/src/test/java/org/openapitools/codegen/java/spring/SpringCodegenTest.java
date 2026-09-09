@@ -1385,6 +1385,29 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void useTags_false_pathGroupsWithEmptySanitizedNamesRemainDistinct_springHttpInterface() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(USE_TAGS, "false");
+        codegen.processOpts();
+
+        CodegenOperation first = new CodegenOperation();
+        first.operationId = "first";
+        first.path = "/@/first";
+        CodegenOperation second = new CodegenOperation();
+        second.operationId = "second";
+        second.path = "/!/second";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("First", "/@/first", new Operation(), first, groups);
+        codegen.addOperationToGroup("Second", "/!/second", new Operation(), second, groups);
+
+        assertTrue(groups.containsKey("path"));
+        assertTrue(groups.containsKey("path2"));
+        assertEquals(codegen.toApiName(second.baseName), "Path2Api");
+    }
+
+    @Test
     public void useTags_false_preservesRawPathGroupName_springCloud() {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_CLOUD_LIBRARY);

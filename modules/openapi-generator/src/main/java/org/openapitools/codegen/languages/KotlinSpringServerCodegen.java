@@ -1095,7 +1095,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     private String getUniquePathGroupName(String basePath, Map<String, List<CodegenOperation>> operations) {
         String sanitizedBasePath = sanitizeName(basePath);
-        if (sanitizedBasePath.matches("^\\d.*")) {
+        if (sanitizedBasePath.isEmpty()) {
+            sanitizedBasePath = "Path";
+        } else if (sanitizedBasePath.matches("^\\d.*")) {
             sanitizedBasePath = "Class" + sanitizedBasePath;
         }
         String groupName = camelize(sanitizedBasePath, LOWERCASE_FIRST_LETTER);
