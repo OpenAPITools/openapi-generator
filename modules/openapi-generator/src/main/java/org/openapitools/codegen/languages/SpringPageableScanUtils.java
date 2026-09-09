@@ -71,6 +71,25 @@ public class SpringPageableScanUtils {
     /** Deprecated legacy alias of {@link #AUTO_PAGINATION_MODE_PAGE_SIZE_SORT}. */
     public static final String AUTO_PAGINATION_MODE_LEGACY_TRUE = "true";
 
+    private static final Map<String, String> AUTO_PAGINATION_MODE_ENUM_VALUES;
+
+    static {
+        Map<String, String> values = new LinkedHashMap<>();
+        values.put(AUTO_PAGINATION_MODE_NONE, "Disable auto-detection.");
+        values.put(AUTO_PAGINATION_MODE_PAGE_SIZE_SORT, "Require 'page', 'size', and 'sort' query parameters.");
+        values.put(AUTO_PAGINATION_MODE_PAGE_SIZE, "Require only 'page' and 'size' query parameters.");
+        values.put(AUTO_PAGINATION_MODE_LEGACY_TRUE, "(deprecated) alias for 'page-size-sort'.");
+        values.put(AUTO_PAGINATION_MODE_LEGACY_FALSE, "(deprecated) alias for 'none'.");
+        AUTO_PAGINATION_MODE_ENUM_VALUES = Collections.unmodifiableMap(values);
+    }
+
+    /**
+     * Returns the accepted {@code autoXSpringPaginated} option values and their descriptions.
+     */
+    public static Map<String, String> getAutoPaginationModeEnumValues() {
+        return AUTO_PAGINATION_MODE_ENUM_VALUES;
+    }
+
     /**
      * The auto-detection mode for {@code autoXSpringPaginated}, controlling which query
      * parameters must be present on an operation for it to be treated as Pageable.

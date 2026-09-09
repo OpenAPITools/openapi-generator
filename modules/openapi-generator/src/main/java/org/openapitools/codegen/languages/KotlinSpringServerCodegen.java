@@ -333,23 +333,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP, "A list of fields per schema name that should NOT be created with `override` keyword despite their presence in vendor extension `x-kotlin-implements-fields` for the schema. Example: yaml `xKotlinImplementsFieldsSkip: Pet: [photoUrls]` skips `override` for `photoUrls` in schema `Pet`", "empty map");
         addOption(SCHEMA_IMPLEMENTS, "A map of single interface or a list of interfaces per schema name that should be implemented (serves similar purpose as `x-kotlin-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map");
         addOption(SCHEMA_IMPLEMENTS_FIELDS, "A map of single field or a list of fields per schema name that should be prepended with `override` (serves similar purpose as `x-kotlin-implements-fields`, but is fully decoupled from the api spec). Example: yaml `schemaImplementsFields: {Pet: id, Category: [name, id], Dog: [bark, breed]}` marks fields to be prepended with `override` in schemas `Pet` (field `id`), `Category` (fields `name`, `id`) and `Dog` (fields `bark`, `breed`)", "empty map");
-        Map<String, String> autoXSpringPaginatedValues = new LinkedHashMap<>();
-        autoXSpringPaginatedValues.put(SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE, "Disable auto-detection.");
-        autoXSpringPaginatedValues.put(SpringPageableScanUtils.AUTO_PAGINATION_MODE_PAGE_SIZE_SORT,
-                "Require 'page', 'size', and 'sort' query parameters.");
-        autoXSpringPaginatedValues.put(SpringPageableScanUtils.AUTO_PAGINATION_MODE_PAGE_SIZE,
-                "Require only 'page' and 'size' query parameters.");
-        autoXSpringPaginatedValues.put(SpringPageableScanUtils.AUTO_PAGINATION_MODE_LEGACY_TRUE,
-                "(deprecated) alias for 'page-size-sort'.");
-        autoXSpringPaginatedValues.put(SpringPageableScanUtils.AUTO_PAGINATION_MODE_LEGACY_FALSE,
-                "(deprecated) alias for 'none'.");
         addOption(AUTO_X_SPRING_PAGINATED,
                 "Automatically add x-spring-paginated to operations that have the given set of pagination query "
                 + "parameters. 'page-size-sort' requires 'page', 'size', and 'sort'; 'page-size' requires only "
                 + "'page' and 'size' (sort may be absent). Operations with x-spring-paginated explicitly set to "
                 + "false will not be auto-detected. The legacy values 'true' (alias for 'page-size-sort') and "
                 + "'false' (alias for 'none') are deprecated and will be removed in a future release.",
-                autoXSpringPaginated, autoXSpringPaginatedValues);
+                autoXSpringPaginated, SpringPageableScanUtils.getAutoPaginationModeEnumValues());
         addSwitch(GENERATE_SORT_VALIDATION, "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generateSortValidation);
         addSwitch(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generatePageableConstraintValidation);
         addSwitch(SUBSTITUTE_GENERIC_PAGED_MODEL,

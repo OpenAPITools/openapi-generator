@@ -432,17 +432,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 + "The legacy values 'true' (alias for 'page-size-sort') and 'false' (alias for 'none') are "
                 + "deprecated and will be removed in a future release.")
                 .defaultValue(autoXSpringPaginated);
-        Map<String, String> autoXSpringPaginatedValues = new LinkedHashMap<>();
-        autoXSpringPaginatedValues.put(SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE, "Disable auto-detection.");
-        autoXSpringPaginatedValues.put(SpringPageableScanUtils.AUTO_PAGINATION_MODE_PAGE_SIZE_SORT,
-                "Require 'page', 'size', and 'sort' query parameters.");
-        autoXSpringPaginatedValues.put(SpringPageableScanUtils.AUTO_PAGINATION_MODE_PAGE_SIZE,
-                "Require only 'page' and 'size' query parameters.");
-        autoXSpringPaginatedValues.put(SpringPageableScanUtils.AUTO_PAGINATION_MODE_LEGACY_TRUE,
-                "(deprecated) alias for 'page-size-sort'.");
-        autoXSpringPaginatedValues.put(SpringPageableScanUtils.AUTO_PAGINATION_MODE_LEGACY_FALSE,
-                "(deprecated) alias for 'none'.");
-        autoXSpringPaginatedOption.setEnum(autoXSpringPaginatedValues);
+        autoXSpringPaginatedOption.setEnum(SpringPageableScanUtils.getAutoPaginationModeEnumValues());
         cliOptions.add(autoXSpringPaginatedOption);
         cliOptions.add(CliOption.newBoolean(GENERATE_SORT_VALIDATION,
                 "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to "
