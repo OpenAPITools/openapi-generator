@@ -5776,7 +5776,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isModel = true;
         }
         if (codegenProperty.isString && !codegenParameter.isByteArray && !codegenParameter.isBinary
-                && !codegenParameter.isDate && !codegenParameter.isDateTime && !codegenParameter.isDecimal) {
+                && !codegenParameter.isDate && !codegenParameter.isDateTime && !codegenParameter.isDecimal
+                && !codegenParameter.isUuid && !codegenParameter.isUri && !codegenParameter.isEmail
+                && !codegenParameter.isPassword) {
             codegenParameter.isString = true;
         }
 
