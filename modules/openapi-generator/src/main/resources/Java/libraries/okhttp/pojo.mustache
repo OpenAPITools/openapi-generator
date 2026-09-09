@@ -33,6 +33,7 @@ import jakarta.json.bind.annotation.JsonbTypeAdapter;
 {{#hasChildren}}
 {{#discriminator}}
 import jakarta.json.JsonObject;
+import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
 import jakarta.json.bind.serializer.JsonbSerializer;
@@ -59,15 +60,18 @@ import java.lang.reflect.Type;
 {{/isAdditionalPropertiesTrue}}
 {{^isAdditionalPropertiesTrue}}
 {{^hasChildren}}
-{{#hasRequired}}
+{{#allVars}}
+{{#-first}}
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
 import jakarta.json.stream.JsonParser;
 import java.lang.reflect.Type;
-{{/hasRequired}}
+{{/-first}}
+{{/allVars}}
 {{/hasChildren}}
 {{/isAdditionalPropertiesTrue}}
 {{/isJsonb}}
@@ -786,6 +790,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       if ("{{mappingName}}".equals(discriminatorValue)) {
         {{#model}}
         {{#hasChildren}}
+        {{! A subtype that has children of its own is itself a hierarchy root, so it carries no
+            required-field deserializer on any Jsonb instance; check its required properties
+            here, the way the deserializer of a leaf subtype would. }}
+        validateRequiredFields(jsonObj, {{modelName}}.openapiRequiredFields, "{{modelName}}");
         {{#isAdditionalPropertiesTrue}}
         {{! This subtype has children of its own, so the polymorphism-free instance carries no
             additional-properties deserializer for it either and would discard its undeclared
@@ -814,6 +822,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         {{/model}}
       }
       {{/discriminator.mappedModels}}
+      {{! The discriminator value matches no mapping, so the payload binds as the root itself.
+          The root has children, so it carries no required-field deserializer either. }}
+      validateRequiredFields(jsonObj, openapiRequiredFields, "{{classname}}");
       {{^isAdditionalPropertiesTrue}}
       return JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{classname}}.class);
       {{/isAdditionalPropertiesTrue}}
@@ -832,6 +843,20 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       }
       return instance;
       {{/isAdditionalPropertiesTrue}}
+    }
+
+    /**
+     * Reject a JSON object that does not carry every required property of the target model.
+     * Used for the models of this hierarchy that have children of their own: they bind by
+     * plain bean mapping, which has no notion of a required property, and - unlike a leaf
+     * subtype - they carry no required-field deserializer of their own.
+     */
+    private static void validateRequiredFields(JsonObject jsonObj, java.util.Set<String> requiredFields, String modelName) {
+      for (String requiredField : requiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object for `%s`: %s", requiredField, modelName, jsonObj));
+        }
+      }
     }
   }
 {{/discriminator}}
@@ -946,14 +971,17 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{/isAdditionalPropertiesTrue}}
 {{^isAdditionalPropertiesTrue}}
 {{^hasChildren}}
-{{#hasRequired}}
+{{#allVars}}
+{{#-first}}
 
   /**
-   * Custom JSON-B deserializer that rejects a JSON object which does not carry every required
-   * property. Yasson binds a model that forbids additional properties by plain bean mapping,
-   * which has no notion of a required property, so without this deserializer any JSON object
-   * would bind - and an ambiguous {@code oneOf}/{@code anyOf} schema could not tell its
-   * branches apart. Registered with the Jsonb instance built by {@code JSON}.
+   * Custom JSON-B deserializer for a model that forbids additional properties: it rejects a
+   * JSON object carrying an undeclared field or missing a required one. Yasson binds such a
+   * model by plain bean mapping, which silently drops an unknown key and has no notion of a
+   * required property, so without this deserializer any JSON object would bind - and an
+   * ambiguous {@code oneOf}/{@code anyOf} schema could not tell its branches apart. The
+   * checks mirror the Gson type adapter's {@code validateJsonElement}. Registered with the
+   * Jsonb instances built by {@code JSON}.
    */
   public static class CustomJsonbDeserializer implements JsonbDeserializer<{{classname}}> {
     @Override
@@ -966,6 +994,12 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         return null;
       }
       JsonObject jsonObj = value.asJsonObject();
+      // check that the JSON object carries no field this model does not declare
+      for (String field : jsonObj.keySet()) {
+        if (!openapiFields.contains(field)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON object is not defined in the `{{classname}}` properties. JSON: %s", field, jsonObj));
+        }
+      }
       {{! containsKey, not a null check on the value: a required property that is present but
           explicitly null passes here, exactly as it does in the additional-properties
           deserializer above and in the Gson type adapter's required-field loop. }}
@@ -974,14 +1008,63 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
           throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
         }
       }
-      {{! The instance that carries no required-field check, so binding the validated object
-          cannot re-enter this deserializer. It is otherwise the fully configured instance, so
-          a nested discriminated hierarchy still binds to its concrete subtype and a nested
-          model still captures its additional properties. }}
-      return JSON.getUncheckedJsonb().fromJson(jsonObj.toString(), {{classname}}.class);
+      {{! Bind property by property rather than handing the whole object back to a Jsonb
+          instance: a whole-object bind would have to go through an instance that carries no
+          required-field checker at all - which then skips the checks of every NESTED model
+          too. Binding each property through the fully configured instance cannot re-enter
+          this deserializer (the target type is the property's, not this class') and keeps a
+          nested model's own checks, discriminated-subtype dispatch and additional-properties
+          capture in place. }}
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
+      {{classname}} instance = new {{classname}}();
+      {{#allVars}}
+      if (jsonObj.containsKey("{{baseName}}")) {
+        {{^isReadOnly}}
+        instance.{{setter}}(jsonObj.get("{{baseName}}").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")));
+        {{/isReadOnly}}
+        {{#isReadOnly}}
+        // readOnly properties have no setter; bind the declared field directly
+        setField(instance, "{{name}}", jsonObj.get("{{baseName}}").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")));
+        {{/isReadOnly}}
+      }
+      {{/allVars}}
+      return instance;
+    }
+
+    private static java.lang.reflect.Field declaredField(String fieldName) {
+      // walk up the hierarchy: inherited properties are declared on a parent class
+      for (Class<?> clazz = {{classname}}.class; clazz != null; clazz = clazz.getSuperclass()) {
+        try {
+          return clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+          // not declared on this class; check the parent
+        }
+      }
+      throw new IllegalArgumentException("Field " + fieldName + " not found on {{classname}}");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField({{classname}} instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on {{classname}}", e);
+      }
     }
   }
-{{/hasRequired}}
+{{/-first}}
+{{/allVars}}
 {{/hasChildren}}
 {{/isAdditionalPropertiesTrue}}
 {{/isJsonb}}

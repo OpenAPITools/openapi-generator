@@ -25,6 +25,7 @@ import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
+import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
 import jakarta.json.bind.serializer.JsonbSerializer;
@@ -241,6 +242,7 @@ public class Animal {
       if ("Dog".equals(discriminatorValue)) {
         return JSON.getPlainJsonb().fromJson(jsonObj.toString(), Dog.class);
       }
+      validateRequiredFields(jsonObj, openapiRequiredFields, "Animal");
       Animal instance = JSON.getPlainJsonb().fromJson(jsonObj.toString(), Animal.class);
       for (Map.Entry<String, jakarta.json.JsonValue> entry : jsonObj.entrySet()) {
         if (!openapiFields.contains(entry.getKey())) {
@@ -251,6 +253,20 @@ public class Animal {
         }
       }
       return instance;
+    }
+
+    /**
+     * Reject a JSON object that does not carry every required property of the target model.
+     * Used for the models of this hierarchy that have children of their own: they bind by
+     * plain bean mapping, which has no notion of a required property, and - unlike a leaf
+     * subtype - they carry no required-field deserializer of their own.
+     */
+    private static void validateRequiredFields(JsonObject jsonObj, java.util.Set<String> requiredFields, String modelName) {
+      for (String requiredField : requiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object for `%s`: %s", requiredField, modelName, jsonObj));
+        }
+      }
     }
   }
 }

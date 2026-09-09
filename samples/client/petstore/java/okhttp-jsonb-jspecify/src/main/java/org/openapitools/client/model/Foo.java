@@ -31,6 +31,7 @@ import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
@@ -452,11 +453,13 @@ public class Foo {
 
 
   /**
-   * Custom JSON-B deserializer that rejects a JSON object which does not carry every required
-   * property. Yasson binds a model that forbids additional properties by plain bean mapping,
-   * which has no notion of a required property, so without this deserializer any JSON object
-   * would bind - and an ambiguous {@code oneOf}/{@code anyOf} schema could not tell its
-   * branches apart. Registered with the Jsonb instance built by {@code JSON}.
+   * Custom JSON-B deserializer for a model that forbids additional properties: it rejects a
+   * JSON object carrying an undeclared field or missing a required one. Yasson binds such a
+   * model by plain bean mapping, which silently drops an unknown key and has no notion of a
+   * required property, so without this deserializer any JSON object would bind - and an
+   * ambiguous {@code oneOf}/{@code anyOf} schema could not tell its branches apart. The
+   * checks mirror the Gson type adapter's {@code validateJsonElement}. Registered with the
+   * Jsonb instances built by {@code JSON}.
    */
   public static class CustomJsonbDeserializer implements JsonbDeserializer<Foo> {
     @Override
@@ -466,12 +469,113 @@ public class Foo {
         return null;
       }
       JsonObject jsonObj = value.asJsonObject();
+      // check that the JSON object carries no field this model does not declare
+      for (String field : jsonObj.keySet()) {
+        if (!openapiFields.contains(field)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON object is not defined in the `Foo` properties. JSON: %s", field, jsonObj));
+        }
+      }
       for (String requiredField : openapiRequiredFields) {
         if (!jsonObj.containsKey(requiredField)) {
           throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
         }
       }
-      return JSON.getUncheckedJsonb().fromJson(jsonObj.toString(), Foo.class);
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
+      Foo instance = new Foo();
+      if (jsonObj.containsKey("dt")) {
+        instance.setDt(jsonObj.get("dt").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("dt").toString(), fieldType("dt")));
+      }
+      if (jsonObj.containsKey("nullableDt")) {
+        instance.setNullableDt(jsonObj.get("nullableDt").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("nullableDt").toString(), fieldType("nullableDt")));
+      }
+      if (jsonObj.containsKey("binary")) {
+        instance.setBinary(jsonObj.get("binary").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("binary").toString(), fieldType("binary")));
+      }
+      if (jsonObj.containsKey("nullableBinary")) {
+        instance.setNullableBinary(jsonObj.get("nullableBinary").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("nullableBinary").toString(), fieldType("nullableBinary")));
+      }
+      if (jsonObj.containsKey("listOfDt")) {
+        instance.setListOfDt(jsonObj.get("listOfDt").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("listOfDt").toString(), fieldType("listOfDt")));
+      }
+      if (jsonObj.containsKey("listMinIntems")) {
+        instance.setListMinIntems(jsonObj.get("listMinIntems").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("listMinIntems").toString(), fieldType("listMinIntems")));
+      }
+      if (jsonObj.containsKey("nullableListMinIntems")) {
+        instance.setNullableListMinIntems(jsonObj.get("nullableListMinIntems").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("nullableListMinIntems").toString(), fieldType("nullableListMinIntems")));
+      }
+      if (jsonObj.containsKey("requiredDt")) {
+        instance.setRequiredDt(jsonObj.get("requiredDt").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("requiredDt").toString(), fieldType("requiredDt")));
+      }
+      if (jsonObj.containsKey("number")) {
+        instance.setNumber(jsonObj.get("number").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("number").toString(), fieldType("number")));
+      }
+      if (jsonObj.containsKey("nullableNumber")) {
+        instance.setNullableNumber(jsonObj.get("nullableNumber").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("nullableNumber").toString(), fieldType("nullableNumber")));
+      }
+      if (jsonObj.containsKey("color")) {
+        instance.setColor(jsonObj.get("color").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("color").toString(), fieldType("color")));
+      }
+      if (jsonObj.containsKey("requiredColor")) {
+        instance.setRequiredColor(jsonObj.get("requiredColor").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("requiredColor").toString(), fieldType("requiredColor")));
+      }
+      if (jsonObj.containsKey("nullableColor")) {
+        instance.setNullableColor(jsonObj.get("nullableColor").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("nullableColor").toString(), fieldType("nullableColor")));
+      }
+      return instance;
+    }
+
+    private static java.lang.reflect.Field declaredField(String fieldName) {
+      // walk up the hierarchy: inherited properties are declared on a parent class
+      for (Class<?> clazz = Foo.class; clazz != null; clazz = clazz.getSuperclass()) {
+        try {
+          return clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+          // not declared on this class; check the parent
+        }
+      }
+      throw new IllegalArgumentException("Field " + fieldName + " not found on Foo");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField(Foo instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on Foo", e);
+      }
     }
   }
 }

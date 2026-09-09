@@ -26,6 +26,7 @@ import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.serializer.DeserializationContext;
 import jakarta.json.bind.serializer.JsonbDeserializer;
@@ -197,11 +198,13 @@ public class FileContent {
 
 
   /**
-   * Custom JSON-B deserializer that rejects a JSON object which does not carry every required
-   * property. Yasson binds a model that forbids additional properties by plain bean mapping,
-   * which has no notion of a required property, so without this deserializer any JSON object
-   * would bind - and an ambiguous {@code oneOf}/{@code anyOf} schema could not tell its
-   * branches apart. Registered with the Jsonb instance built by {@code JSON}.
+   * Custom JSON-B deserializer for a model that forbids additional properties: it rejects a
+   * JSON object carrying an undeclared field or missing a required one. Yasson binds such a
+   * model by plain bean mapping, which silently drops an unknown key and has no notion of a
+   * required property, so without this deserializer any JSON object would bind - and an
+   * ambiguous {@code oneOf}/{@code anyOf} schema could not tell its branches apart. The
+   * checks mirror the Gson type adapter's {@code validateJsonElement}. Registered with the
+   * Jsonb instances built by {@code JSON}.
    */
   public static class CustomJsonbDeserializer implements JsonbDeserializer<FileContent> {
     @Override
@@ -211,12 +214,66 @@ public class FileContent {
         return null;
       }
       JsonObject jsonObj = value.asJsonObject();
+      // check that the JSON object carries no field this model does not declare
+      for (String field : jsonObj.keySet()) {
+        if (!openapiFields.contains(field)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON object is not defined in the `FileContent` properties. JSON: %s", field, jsonObj));
+        }
+      }
       for (String requiredField : openapiRequiredFields) {
         if (!jsonObj.containsKey(requiredField)) {
           throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
         }
       }
-      return JSON.getUncheckedJsonb().fromJson(jsonObj.toString(), FileContent.class);
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
+      FileContent instance = new FileContent();
+      if (jsonObj.containsKey("name")) {
+        // readOnly properties have no setter; bind the declared field directly
+        setField(instance, "name", jsonObj.get("name").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("name").toString(), fieldType("name")));
+      }
+      if (jsonObj.containsKey("size")) {
+        // readOnly properties have no setter; bind the declared field directly
+        setField(instance, "size", jsonObj.get("size").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("size").toString(), fieldType("size")));
+      }
+      if (jsonObj.containsKey("virusScan")) {
+        // readOnly properties have no setter; bind the declared field directly
+        setField(instance, "virusScan", jsonObj.get("virusScan").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : jsonb.fromJson(jsonObj.get("virusScan").toString(), fieldType("virusScan")));
+      }
+      return instance;
+    }
+
+    private static java.lang.reflect.Field declaredField(String fieldName) {
+      // walk up the hierarchy: inherited properties are declared on a parent class
+      for (Class<?> clazz = FileContent.class; clazz != null; clazz = clazz.getSuperclass()) {
+        try {
+          return clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+          // not declared on this class; check the parent
+        }
+      }
+      throw new IllegalArgumentException("Field " + fieldName + " not found on FileContent");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField(FileContent instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on FileContent", e);
+      }
     }
   }
 }

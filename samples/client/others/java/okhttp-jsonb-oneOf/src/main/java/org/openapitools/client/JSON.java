@@ -52,7 +52,6 @@ import java.util.HashMap;
 public class JSON {
     private static volatile Jsonb jsonb;
     private static volatile Jsonb plainJsonb;
-    private static volatile Jsonb uncheckedJsonb;
     private static DateFormat dateFormat;
     private static DateFormat sqlDateFormat;
     private static DateTimeFormatter offsetDateTimeFormat;
@@ -60,7 +59,7 @@ public class JSON {
     private static DateTimeFormatter localDateTimeFormat;
 
     public JSON() {
-        if (jsonb == null) {
+        if (jsonb == null || plainJsonb == null) {
             rebuildJsonb();
         }
     }
@@ -81,7 +80,7 @@ public class JSON {
      * @param serializer serialization object
      */
     public static void setSerializer(Object serializer) {
-        JSON.jsonb = (Jsonb) serializer;
+        setJsonb((Jsonb) serializer);
     }
 
     /**
@@ -117,18 +116,18 @@ public class JSON {
     }
 
     /**
-     * The Jsonb instance without the required-field checks of the models that forbid
-     * additional properties. The deserializers performing those checks bind the validated
-     * object through it, which keeps them from re-entering themselves; application code
-     * should use {@link #getJsonb()}.
+     * Set the Jsonb instance the application (de)serializes through.
      *
-     * @return the Jsonb instance that does not enforce required properties
+     * <p>The internal companion instance the generated models delegate through is built first
+     * if it does not exist yet, so a custom instance may be installed before the first
+     * {@link JSON} is constructed.</p>
+     *
+     * @param jsonb the Jsonb instance to use
      */
-    public static Jsonb getUncheckedJsonb() {
-        return uncheckedJsonb;
-    }
-
     public static void setJsonb(Jsonb jsonb) {
+        if (plainJsonb == null) {
+            rebuildJsonb();
+        }
         JSON.jsonb = jsonb;
     }
 
@@ -158,7 +157,6 @@ public class JSON {
             config.withAdapters(new LocalDateTimeAdapter(localDateTimeFormat));
         }
         plainJsonb = JsonbBuilder.create(config);
-        uncheckedJsonb = JsonbBuilder.create(config);
         jsonb = JsonbBuilder.create(config);
     }
 

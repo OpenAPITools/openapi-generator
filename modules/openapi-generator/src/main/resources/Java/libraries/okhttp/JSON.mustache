@@ -114,7 +114,6 @@ public class JSON {
         OkHttp dispatcher threads may be reading them. }}
     private static volatile Jsonb jsonb;
     private static volatile Jsonb plainJsonb;
-    private static volatile Jsonb uncheckedJsonb;
     {{! A Jsonb instance is immutable, so the configured formats are kept here and the instance is
         rebuilt from scratch whenever one of them changes. }}
     private static DateFormat dateFormat;
@@ -237,7 +236,10 @@ public class JSON {
         }
         {{/isJackson}}
         {{#isJsonb}}
-        if (jsonb == null) {
+        {{! plainJsonb is checked too: setJsonb()/setSerializer() may have installed a custom
+            instance before the first JSON was constructed, and the models delegate through the
+            companion instance regardless of which instance serves the application. }}
+        if (jsonb == null || plainJsonb == null) {
             rebuildJsonb();
         }
         {{/isJsonb}}
@@ -469,7 +471,7 @@ public class JSON {
         JSON.mapper = (ObjectMapper) serializer;
         {{/isJackson}}
         {{#isJsonb}}
-        JSON.jsonb = (Jsonb) serializer;
+        setJsonb((Jsonb) serializer);
         {{/isJsonb}}
     }
 
@@ -626,18 +628,18 @@ public class JSON {
     }
 
     /**
-     * The Jsonb instance without the required-field checks of the models that forbid
-     * additional properties. The deserializers performing those checks bind the validated
-     * object through it, which keeps them from re-entering themselves; application code
-     * should use {@link #getJsonb()}.
+     * Set the Jsonb instance the application (de)serializes through.
      *
-     * @return the Jsonb instance that does not enforce required properties
+     * <p>The internal companion instance the generated models delegate through is built first
+     * if it does not exist yet, so a custom instance may be installed before the first
+     * {@link JSON} is constructed.</p>
+     *
+     * @param jsonb the Jsonb instance to use
      */
-    public static Jsonb getUncheckedJsonb() {
-        return uncheckedJsonb;
-    }
-
     public static void setJsonb(Jsonb jsonb) {
+        if (plainJsonb == null) {
+            rebuildJsonb();
+        }
         JSON.jsonb = jsonb;
     }
 
@@ -700,9 +702,36 @@ public class JSON {
         {{/isEnum}}
         {{/model}}
         {{/models}}
+        {{! A model that forbids additional properties binds by plain bean mapping, which drops
+            an undeclared key silently and ignores whether a required property is there at all;
+            these deserializers reject such a JSON object. They bind property by property
+            through the fully configured instance, so registering them here - on the companion
+            instance too - is what keeps a NESTED model's own checks in force. }}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^vendorExtensions.x-is-one-of-interface}}
+        {{^oneOf}}
+        {{^anyOf}}
+        {{^hasChildren}}
+        {{^isAdditionalPropertiesTrue}}
+        {{#allVars}}
+        {{#-first}}
+        config.withDeserializers(new {{modelPackage}}.{{classname}}.CustomJsonbDeserializer());
+        {{/-first}}
+        {{/allVars}}
+        {{/isAdditionalPropertiesTrue}}
+        {{/hasChildren}}
+        {{/anyOf}}
+        {{/oneOf}}
+        {{/vendorExtensions.x-is-one-of-interface}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
         {{! Built before the polymorphism components are added: the root (de)serializers of the
             discriminated hierarchies bind concrete subtypes through this instance, which keeps
-            them from recursing into themselves. }}
+            them from recursing into themselves. Everything else is already registered, so a
+            subtype bound through it still enforces its own required and undeclared fields. }}
         plainJsonb = JsonbBuilder.create(config);
         {{#models}}
         {{#model}}
@@ -713,33 +742,6 @@ public class JSON {
         config.withDeserializers(new {{modelPackage}}.{{classname}}.CustomJsonbDeserializer());
         {{/discriminator}}
         {{/hasChildren}}
-        {{/isEnum}}
-        {{/model}}
-        {{/models}}
-        {{! Built before the required-field checks are added: the deserializers performing
-            those checks bind the validated object through this instance, which keeps them
-            from re-entering themselves. }}
-        uncheckedJsonb = JsonbBuilder.create(config);
-        {{! A model that forbids additional properties binds by plain bean mapping, which
-            ignores whether a required property is there at all; these deserializers reject
-            such a JSON object. Only the models that declare a required property need one,
-            and only the fully configured instance carries them. }}
-        {{#models}}
-        {{#model}}
-        {{^isEnum}}
-        {{^vendorExtensions.x-is-one-of-interface}}
-        {{^oneOf}}
-        {{^anyOf}}
-        {{^hasChildren}}
-        {{^isAdditionalPropertiesTrue}}
-        {{#hasRequired}}
-        config.withDeserializers(new {{modelPackage}}.{{classname}}.CustomJsonbDeserializer());
-        {{/hasRequired}}
-        {{/isAdditionalPropertiesTrue}}
-        {{/hasChildren}}
-        {{/anyOf}}
-        {{/oneOf}}
-        {{/vendorExtensions.x-is-one-of-interface}}
         {{/isEnum}}
         {{/model}}
         {{/models}}
