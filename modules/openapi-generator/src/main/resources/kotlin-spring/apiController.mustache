@@ -8,7 +8,7 @@ import java.util.Optional
 
 @Controller{{#beanQualifiers}}("{{package}}.{{classname}}Controller"){{/beanQualifiers}}
 {{#useRequestMappingOnController}}
-@RequestMapping("\${api.base-path:{{#kotlinStringContent}}{{{contextPathRaw}}}{{/kotlinStringContent}}}")
+@RequestMapping("\${api.base-path:{{#lambda.kotlinStringContent}}{{{contextPathRaw}}}{{/lambda.kotlinStringContent}}}")
 {{/useRequestMappingOnController}}
 {{#operations}}
 class {{classname}}Controller(
@@ -32,7 +32,7 @@ class {{classname}}Controller(
 
     companion object {
     //for your own safety never directly reuse these path definitions in tests
-        const val BASE_PATH: String = "{{#kotlinStringContent}}{{=<% %>=}}<%>defaultBasePath%><%={{ }}=%>{{/kotlinStringContent}}"
+        const val BASE_PATH: String = "{{#lambda.kotlinStringContent}}{{=<% %>=}}<%>defaultBasePath%><%={{ }}=%>{{/lambda.kotlinStringContent}}"
     }
 
 {{/useRequestMappingOnController}}

@@ -3426,6 +3426,8 @@ public class SpringCodegenTest {
                 "Model docs", "Property docs", "Inline enum docs");
         assertJavaDocumentationEscaped(files.get("EscapedEnum.java"),
                 "Enum docs", "Enum value docs");
+        assertTrue(Files.readString(files.get("EscapedEnum.java").toPath())
+                .contains("(\"quote\\\" slash\\\\ $value\")"));
         assertTrue(Files.readString(files.get("EscapedDocumentation.java").toPath())
                 .contains("example = \"Property example \\\" $ \\\\u002a/\""));
 
@@ -3444,6 +3446,8 @@ public class SpringCodegenTest {
                         USE_SPRING_BOOT3, false));
         assertTrue(Files.readString(swagger1Files.get("EscapedDocumentation.java").toPath())
                 .contains("example = \"Property example \\\" $ \\\\u002a/\""));
+        assertTrue(Files.readString(swagger1Files.get("EscapedApi.java").toPath())
+                .contains("allowableValues = \"quote\\\" slash\\\\ $value\""));
 
         Map<String, File> lombokFiles = generateFromContract(
                 "src/test/resources/3_0/spring/escaping-regressions.yaml",
@@ -3517,8 +3521,8 @@ public class SpringCodegenTest {
 
     private void assertExternalDocumentationTemplate(String template) throws IOException {
         String content = Files.readString(Paths.get("src/main/resources", template));
-        assertTrue(content.contains("{{#javaDocText}}{{{description}}}{{/javaDocText}}"));
-        assertTrue(content.contains("{{#unescapedNotes}}\n     * {{#javaDocText}}{{{.}}}{{/javaDocText}}"));
+        assertTrue(content.contains("{{#lambda.javaDocText}}{{{description}}}{{/lambda.javaDocText}}"));
+        assertTrue(content.contains("{{#unescapedNotes}}\n     * {{#lambda.javaDocText}}{{{.}}}{{/lambda.javaDocText}}"));
     }
 
     /**

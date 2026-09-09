@@ -1,14 +1,14 @@
 {{#swagger2AnnotationLibrary}}
     @Parameters(value = [
         {{#implicitHeadersParams}}
-        Parameter(name = {{#kotlinStringLiteral}}{{{baseName}}}{{/kotlinStringLiteral}}{{#isDeprecated}}, deprecated = true{{/isDeprecated}}, description = {{#kotlinStringLiteral}}{{{unescapedDescription}}}{{/kotlinStringLiteral}}{{#required}}, required = true{{/required}}, `in` = ParameterIn.HEADER){{^-last}},{{/-last}}
+        Parameter(name = {{#lambda.kotlinStringLiteral}}{{{baseName}}}{{/lambda.kotlinStringLiteral}}{{#isDeprecated}}, deprecated = true{{/isDeprecated}}, description = {{#lambda.kotlinStringLiteral}}{{{unescapedDescription}}}{{/lambda.kotlinStringLiteral}}{{#required}}, required = true{{/required}}, `in` = ParameterIn.HEADER){{^-last}},{{/-last}}
         {{/implicitHeadersParams}}
     ])
 {{/swagger2AnnotationLibrary}}
 {{#swagger1AnnotationLibrary}}
     @ApiImplicitParams(value = [
         {{#implicitHeadersParams}}
-        ApiImplicitParam(name = {{#kotlinStringLiteral}}{{{baseName}}}{{/kotlinStringLiteral}}, value = {{#kotlinStringLiteral}}{{{unescapedDescription}}}{{/kotlinStringLiteral}}, {{#required}}required = true,{{/required}} dataType = {{#kotlinStringLiteral}}{{{dataType}}}{{/kotlinStringLiteral}}, paramType = "header"){{^-last}},{{/-last}}
+        ApiImplicitParam(name = {{#lambda.kotlinStringLiteral}}{{{baseName}}}{{/lambda.kotlinStringLiteral}}, value = {{#lambda.kotlinStringLiteral}}{{{unescapedDescription}}}{{/lambda.kotlinStringLiteral}}, {{#required}}required = true,{{/required}} dataType = {{#lambda.kotlinStringLiteral}}{{{dataType}}}{{/lambda.kotlinStringLiteral}}, paramType = "header"){{^-last}},{{/-last}}
         {{/implicitHeadersParams}}
     ])
 {{/swagger1AnnotationLibrary}}

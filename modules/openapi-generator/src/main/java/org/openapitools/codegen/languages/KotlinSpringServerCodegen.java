@@ -1058,18 +1058,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("([$\"\\\\])", "\\\\$1")));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
-        additionalProperties.put("kotlinStringLiteral",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(SourceStringEscaper.kotlinStringLiteral(fragment.execute())));
-        additionalProperties.put("kotlinStringContent",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(SourceStringEscaper.kotlinStringContent(fragment.execute())));
-        additionalProperties.put("kotlinDocText",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(SourceStringEscaper.docText(fragment.execute())));
     }
 
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""));
+                .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""))
+                .put("kotlinStringLiteral", (fragment, writer) -> writer.write(SourceStringEscaper.kotlinStringLiteral(fragment.execute())))
+                .put("kotlinStringContent", (fragment, writer) -> writer.write(SourceStringEscaper.kotlinStringContent(fragment.execute())))
+                .put("kotlinDocText", (fragment, writer) -> writer.write(SourceStringEscaper.docText(fragment.execute())));
     }
 
     @Override

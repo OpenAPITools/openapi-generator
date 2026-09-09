@@ -48,22 +48,22 @@ public interface {{classname}} {
 {{#operation}}
 
     /**
-     * {{httpMethod}} {{#javaDocText}}{{{unescapedPath}}}{{/javaDocText}}{{#summary}} : {{#javaDocText}}{{{unescapedSummary}}}{{/javaDocText}}{{/summary}}
+     * {{httpMethod}} {{#lambda.javaDocText}}{{{unescapedPath}}}{{/lambda.javaDocText}}{{#summary}} : {{#lambda.javaDocText}}{{{unescapedSummary}}}{{/lambda.javaDocText}}{{/summary}}
     {{#unescapedNotes}}
-     * {{#javaDocText}}{{{.}}}{{/javaDocText}}
+     * {{#lambda.javaDocText}}{{{.}}}{{/lambda.javaDocText}}
     {{/unescapedNotes}}
      *
     {{#allParams}}
-     * @param {{paramName}} {{#javaDocText}}{{{unescapedDescription}}}{{/javaDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#hasDefaultValue}}, default to {{#javaDocText}}{{{rawDefaultValueText}}}{{/javaDocText}}{{/hasDefaultValue}}){{/required}}
+     * @param {{paramName}} {{#lambda.javaDocText}}{{{unescapedDescription}}}{{/lambda.javaDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#hasDefaultValue}}, default to {{#lambda.javaDocText}}{{{rawDefaultValueText}}}{{/lambda.javaDocText}}{{/hasDefaultValue}}){{/required}}
     {{/allParams}}
-     * @return {{#responses}}{{#javaDocText}}{{{unescapedMessage}}}{{/javaDocText}} (status code {{code}}){{^-last}}
+     * @return {{#responses}}{{#lambda.javaDocText}}{{{unescapedMessage}}}{{/lambda.javaDocText}} (status code {{code}}){{^-last}}
      *         or {{/-last}}{{/responses}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
     {{#externalDocs}}
-     * {{#javaDocText}}{{{description}}}{{/javaDocText}}
-     * @see <a href="{{#javaDocText}}{{{url}}}{{/javaDocText}}">{{#javaDocText}}{{{unescapedSummary}}}{{/javaDocText}} Documentation</a>
+     * {{#lambda.javaDocText}}{{{description}}}{{/lambda.javaDocText}}
+     * @see <a href="{{#lambda.javaDocText}}{{{url}}}{{/lambda.javaDocText}}">{{#lambda.javaDocText}}{{{unescapedSummary}}}{{/lambda.javaDocText}} Documentation</a>
     {{/externalDocs}}
      */
     {{#isDeprecated}}
@@ -74,7 +74,7 @@ public interface {{classname}} {
     {{/useResponseEntity}}
     @HttpExchange(
         method = "{{{httpMethod}}}",
-        value = {{#javaStringLiteral}}{{{path}}}{{/javaStringLiteral}},
+        value = {{#lambda.javaStringLiteral}}{{{path}}}{{/lambda.javaStringLiteral}},
         accept = { {{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{#vendorExtensions.x-content-type}},
         contentType = "{{{vendorExtensions.x-content-type}}}"{{/vendorExtensions.x-content-type}}
     )

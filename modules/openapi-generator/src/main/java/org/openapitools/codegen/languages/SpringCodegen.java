@@ -17,7 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -874,13 +876,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
-        additionalProperties.put("javaStringLiteral",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(SourceStringEscaper.javaStringLiteral(fragment.execute())));
-        additionalProperties.put("javaStringContent",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(SourceStringEscaper.javaStringContent(fragment.execute())));
-        additionalProperties.put("javaDocText",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(SourceStringEscaper.docText(fragment.execute())));
-
         additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
@@ -896,6 +891,15 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (useJspecify) {
             applyJspecify();
         }
+
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("javaStringLiteral", (fragment, writer) -> writer.write(SourceStringEscaper.javaStringLiteral(fragment.execute())))
+                .put("javaStringContent", (fragment, writer) -> writer.write(SourceStringEscaper.javaStringContent(fragment.execute())))
+                .put("javaDocText", (fragment, writer) -> writer.write(SourceStringEscaper.docText(fragment.execute())));
     }
 
     protected void applyJackson2Package() {

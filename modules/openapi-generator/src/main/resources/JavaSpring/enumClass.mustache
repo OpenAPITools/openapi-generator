@@ -1,5 +1,5 @@
   /**
-   * {{^description}}Gets or Sets {{{name}}}{{/description}}{{#javaDocText}}{{{unescapedDescription}}}{{/javaDocText}}{{#deprecated}}
+   * {{^description}}Gets or Sets {{{name}}}{{/description}}{{#lambda.javaDocText}}{{{unescapedDescription}}}{{/lambda.javaDocText}}{{#deprecated}}
    * @deprecated deprecated{{/deprecated}}
    */
   {{>additionalEnumTypeAnnotations}}{{#deprecated}}@Deprecated
@@ -9,11 +9,11 @@
             {{#enumVars}}
     {{#enumDescription}}
     /**
-     * {{#javaDocText}}{{{.}}}{{/javaDocText}}
+     * {{#lambda.javaDocText}}{{{.}}}{{/lambda.javaDocText}}
      */
     {{/enumDescription}}
-    @SerializedName({{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}})
-    {{{name}}}({{{value}}}){{^-last}},
+    @SerializedName({{#lambda.javaStringLiteral}}{{{valueRaw}}}{{/lambda.javaStringLiteral}})
+    {{{name}}}({{#isString}}{{#lambda.javaStringLiteral}}{{{valueRaw}}}{{/lambda.javaStringLiteral}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}){{^-last}},
     {{/-last}}{{#-last}};{{/-last}}
             {{/enumVars}}
         {{/allowableValues}}
@@ -23,10 +23,10 @@
             {{#enumVars}}
     {{#enumDescription}}
     /**
-     * {{#javaDocText}}{{{.}}}{{/javaDocText}}
+     * {{#lambda.javaDocText}}{{{.}}}{{/lambda.javaDocText}}
      */
     {{/enumDescription}}
-    {{{name}}}({{{value}}}){{^-last}},
+    {{{name}}}({{#isString}}{{#lambda.javaStringLiteral}}{{{valueRaw}}}{{/lambda.javaStringLiteral}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}){{^-last}},
     {{/-last}}{{#-last}};{{/-last}}
             {{/enumVars}}
         {{/allowableValues}}

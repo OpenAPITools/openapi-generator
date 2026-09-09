@@ -80,9 +80,9 @@ interface {{classname}} {
 {{/operation}}
     companion object {
         //for your own safety never directly reuse these path definitions in tests
-        const val BASE_PATH: String = {{#kotlinStringLiteral}}{{{contextPathRaw}}}{{/kotlinStringLiteral}}
+        const val BASE_PATH: String = {{#lambda.kotlinStringLiteral}}{{{contextPathRaw}}}{{/lambda.kotlinStringLiteral}}
     {{#operation}}
-        const val PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}: String = {{#kotlinStringLiteral}}{{{path}}}{{/kotlinStringLiteral}}
+        const val PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}: String = {{#lambda.kotlinStringLiteral}}{{{path}}}{{/lambda.kotlinStringLiteral}}
     {{/operation}}
     }
 }

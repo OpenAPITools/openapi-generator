@@ -43,7 +43,7 @@ Use triple-brace values inside these helpers so Mustache HTML escaping does not
 run before source escaping:
 
 ```mustache
-description = {{#kotlinStringLiteral}}{{{unescapedNotes}}}{{/kotlinStringLiteral}}
+description = {{#lambda.kotlinStringLiteral}}{{{unescapedNotes}}}{{/lambda.kotlinStringLiteral}}
 ```
 
 These helpers are scoped to the Spring generators and their supported

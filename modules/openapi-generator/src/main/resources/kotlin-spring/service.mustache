@@ -11,22 +11,22 @@ interface {{classname}}Service {
 {{#operation}}
 
     /**
-     * {{httpMethod}} {{#kotlinDocText}}{{{unescapedPath}}}{{/kotlinDocText}}{{#unescapedSummary}} : {{#kotlinDocText}}{{{unescapedSummary}}}{{/kotlinDocText}}{{/unescapedSummary}}
+     * {{httpMethod}} {{#lambda.kotlinDocText}}{{{unescapedPath}}}{{/lambda.kotlinDocText}}{{#unescapedSummary}} : {{#lambda.kotlinDocText}}{{{unescapedSummary}}}{{/lambda.kotlinDocText}}{{/unescapedSummary}}
     {{#unescapedNotes}}
-     * {{#kotlinDocText}}{{{unescapedNotes}}}{{/kotlinDocText}}
+     * {{#lambda.kotlinDocText}}{{{unescapedNotes}}}{{/lambda.kotlinDocText}}
     {{/unescapedNotes}}
      *
     {{#allParams}}
-     * @param {{{paramName}}} {{#kotlinDocText}}{{{unescapedDescription}}}{{/kotlinDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#hasDefaultValue}}, default to {{#kotlinDocText}}{{{rawDefaultValueText}}}{{/kotlinDocText}}{{/hasDefaultValue}}){{/required}}
+     * @param {{{paramName}}} {{#lambda.kotlinDocText}}{{{unescapedDescription}}}{{/lambda.kotlinDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#hasDefaultValue}}, default to {{#lambda.kotlinDocText}}{{{rawDefaultValueText}}}{{/lambda.kotlinDocText}}{{/hasDefaultValue}}){{/required}}
     {{/allParams}}
-     * @return {{#responses}}{{#kotlinDocText}}{{{unescapedMessage}}}{{/kotlinDocText}} (status code {{code}}){{^-last}}
+     * @return {{#responses}}{{#lambda.kotlinDocText}}{{{unescapedMessage}}}{{/lambda.kotlinDocText}} (status code {{code}}){{^-last}}
      *         or {{/-last}}{{/responses}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
     {{#externalDocs}}
-     * {{#kotlinDocText}}{{{description}}}{{/kotlinDocText}}
-     * @see <a href="{{#kotlinDocText}}{{{url}}}{{/kotlinDocText}}">{{#kotlinDocText}}{{{summary}}}{{/kotlinDocText}} Documentation</a>
+     * {{#lambda.kotlinDocText}}{{{description}}}{{/lambda.kotlinDocText}}
+     * @see <a href="{{#lambda.kotlinDocText}}{{{url}}}{{/lambda.kotlinDocText}}">{{#lambda.kotlinDocText}}{{{summary}}}{{/lambda.kotlinDocText}} Documentation</a>
     {{/externalDocs}}
      * @see {{classname}}#{{operationId}}
      */

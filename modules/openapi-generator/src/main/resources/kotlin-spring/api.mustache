@@ -67,10 +67,10 @@ import kotlin.collections.Map
 {{/useSpringBuiltInValidation}}
 {{/useBeanValidation}}
 {{#swagger1AnnotationLibrary}}
-@Api(value = {{#kotlinStringLiteral}}{{{baseName}}}{{/kotlinStringLiteral}}, description = {{#kotlinStringLiteral}}The {{{baseName}}} API{{/kotlinStringLiteral}})
+@Api(value = {{#lambda.kotlinStringLiteral}}{{{baseName}}}{{/lambda.kotlinStringLiteral}}, description = {{#lambda.kotlinStringLiteral}}The {{{baseName}}} API{{/lambda.kotlinStringLiteral}})
 {{/swagger1AnnotationLibrary}}
 {{#useRequestMappingOnController}}
-@RequestMapping("\${api.base-path:{{#kotlinStringContent}}{{{contextPathRaw}}}{{/kotlinStringContent}}}")
+@RequestMapping("\${api.base-path:{{#lambda.kotlinStringContent}}{{{contextPathRaw}}}{{/lambda.kotlinStringContent}}}")
 {{/useRequestMappingOnController}}
 {{#operations}}
 class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) val service: {{classname}}Service{{/serviceInterface}}) {
@@ -81,22 +81,22 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
 }}{{/useResponseEntity}}{{!
 }}{{#swagger2AnnotationLibrary}}{{!
 }}    @Operation(
-        summary = {{#kotlinStringLiteral}}{{{unescapedSummary}}}{{/kotlinStringLiteral}},
-        operationId = {{#kotlinStringLiteral}}{{{operationId}}}{{/kotlinStringLiteral}},
-        description = {{#kotlinStringLiteral}}{{{unescapedNotes}}}{{/kotlinStringLiteral}},
+        summary = {{#lambda.kotlinStringLiteral}}{{{unescapedSummary}}}{{/lambda.kotlinStringLiteral}},
+        operationId = {{#lambda.kotlinStringLiteral}}{{{operationId}}}{{/lambda.kotlinStringLiteral}},
+        description = {{#lambda.kotlinStringLiteral}}{{{unescapedNotes}}}{{/lambda.kotlinStringLiteral}},
         responses = [{{#responses}}
-            ApiResponse(responseCode = {{#kotlinStringLiteral}}{{#isDefault}}default{{/isDefault}}{{^isDefault}}{{{code}}}{{/isDefault}}{{/kotlinStringLiteral}}, description = {{#kotlinStringLiteral}}{{{unescapedMessage}}}{{/kotlinStringLiteral}}{{#baseType}}, content = [Content({{#isArray}}array = ArraySchema({{/isArray}}schema = Schema(implementation = {{{baseType}}}::class)){{#isArray}}){{/isArray}}]{{/baseType}}){{^-last}},{{/-last}}{{/responses}} ]{{#hasAuthMethods}},
-        security = [ {{#authMethods}}SecurityRequirement(name = {{#kotlinStringLiteral}}{{{name}}}{{/kotlinStringLiteral}}{{#isOAuth}}, scopes = [ {{#scopes}}{{#kotlinStringLiteral}}{{{scope}}}{{/kotlinStringLiteral}}{{^-last}}, {{/-last}}{{/scopes}} ]{{/isOAuth}}){{^-last}},{{/-last}}{{/authMethods}} ]{{/hasAuthMethods}}
+            ApiResponse(responseCode = {{#lambda.kotlinStringLiteral}}{{#isDefault}}default{{/isDefault}}{{^isDefault}}{{{code}}}{{/isDefault}}{{/lambda.kotlinStringLiteral}}, description = {{#lambda.kotlinStringLiteral}}{{{unescapedMessage}}}{{/lambda.kotlinStringLiteral}}{{#baseType}}, content = [Content({{#isArray}}array = ArraySchema({{/isArray}}schema = Schema(implementation = {{{baseType}}}::class)){{#isArray}}){{/isArray}}]{{/baseType}}){{^-last}},{{/-last}}{{/responses}} ]{{#hasAuthMethods}},
+        security = [ {{#authMethods}}SecurityRequirement(name = {{#lambda.kotlinStringLiteral}}{{{name}}}{{/lambda.kotlinStringLiteral}}{{#isOAuth}}, scopes = [ {{#scopes}}{{#lambda.kotlinStringLiteral}}{{{scope}}}{{/lambda.kotlinStringLiteral}}{{^-last}}, {{/-last}}{{/scopes}} ]{{/isOAuth}}){{^-last}},{{/-last}}{{/authMethods}} ]{{/hasAuthMethods}}
     ){{/swagger2AnnotationLibrary}}{{#swagger1AnnotationLibrary}}
     @ApiOperation(
-        value = {{#kotlinStringLiteral}}{{{unescapedSummary}}}{{/kotlinStringLiteral}},
-        nickname = {{#kotlinStringLiteral}}{{{operationId}}}{{/kotlinStringLiteral}},
-        notes = {{#kotlinStringLiteral}}{{{unescapedNotes}}}{{/kotlinStringLiteral}}{{#returnBaseType}},
+        value = {{#lambda.kotlinStringLiteral}}{{{unescapedSummary}}}{{/lambda.kotlinStringLiteral}},
+        nickname = {{#lambda.kotlinStringLiteral}}{{{operationId}}}{{/lambda.kotlinStringLiteral}},
+        notes = {{#lambda.kotlinStringLiteral}}{{{unescapedNotes}}}{{/lambda.kotlinStringLiteral}}{{#returnBaseType}},
         response = {{{.}}}::class{{/returnBaseType}}{{#returnContainer}},
         responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}},
-        authorizations = [{{#authMethods}}Authorization(value = {{#kotlinStringLiteral}}{{{name}}}{{/kotlinStringLiteral}}{{#isOAuth}}, scopes = [{{#scopes}}AuthorizationScope(scope = {{#kotlinStringLiteral}}{{{scope}}}{{/kotlinStringLiteral}}, description = {{#kotlinStringLiteral}}{{{descriptionRaw}}}{{/kotlinStringLiteral}}){{^-last}}, {{/-last}}{{/scopes}}]{{/isOAuth}}){{^-last}}, {{/-last}}{{/authMethods}}]{{/hasAuthMethods}})
+        authorizations = [{{#authMethods}}Authorization(value = {{#lambda.kotlinStringLiteral}}{{{name}}}{{/lambda.kotlinStringLiteral}}{{#isOAuth}}, scopes = [{{#scopes}}AuthorizationScope(scope = {{#lambda.kotlinStringLiteral}}{{{scope}}}{{/lambda.kotlinStringLiteral}}, description = {{#lambda.kotlinStringLiteral}}{{{descriptionRaw}}}{{/lambda.kotlinStringLiteral}}){{^-last}}, {{/-last}}{{/scopes}}]{{/isOAuth}}){{^-last}}, {{/-last}}{{/authMethods}}]{{/hasAuthMethods}})
     @ApiResponses(
-        value = [{{#responses}}ApiResponse(code = {{{code}}}, message = {{#kotlinStringLiteral}}{{{unescapedMessage}}}{{/kotlinStringLiteral}}{{#baseType}}, response = {{{.}}}::class{{/baseType}}{{#containerType}}, responseContainer = {{#kotlinStringLiteral}}{{{.}}}{{/kotlinStringLiteral}}{{/containerType}}){{^-last}},{{/-last}}{{/responses}}]){{/swagger1AnnotationLibrary}}
+        value = [{{#responses}}ApiResponse(code = {{{code}}}, message = {{#lambda.kotlinStringLiteral}}{{{unescapedMessage}}}{{/lambda.kotlinStringLiteral}}{{#baseType}}, response = {{{.}}}::class{{/baseType}}{{#containerType}}, responseContainer = {{#lambda.kotlinStringLiteral}}{{{.}}}{{/lambda.kotlinStringLiteral}}{{/containerType}}){{^-last}},{{/-last}}{{/responses}}]){{/swagger1AnnotationLibrary}}
 {{#implicitHeadersParams.0}}
 {{>implicitHeaders}}
 {{/implicitHeadersParams.0}}
@@ -128,10 +128,10 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
     companion object {
         //for your own safety never directly reuse these path definitions in tests
     {{#useRequestMappingOnController}}
-        const val BASE_PATH: String = {{#kotlinStringLiteral}}{{{contextPathRaw}}}{{/kotlinStringLiteral}}
+        const val BASE_PATH: String = {{#lambda.kotlinStringLiteral}}{{{contextPathRaw}}}{{/lambda.kotlinStringLiteral}}
     {{/useRequestMappingOnController}}
     {{#operation}}
-        const val PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}: String = {{#kotlinStringLiteral}}{{{path}}}{{/kotlinStringLiteral}}
+        const val PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}: String = {{#lambda.kotlinStringLiteral}}{{{path}}}{{/lambda.kotlinStringLiteral}}
     {{/operation}}
     }
 }

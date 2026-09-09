@@ -35,6 +35,14 @@ paths:
               - 1
               - 2
             default: 1
+        - name: stringEnum
+          in: query
+          required: false
+          description: String enum
+          schema:
+            type: string
+            enum:
+              - 'quote" slash\ $value'
       responses:
         '200':
           description: Response description
@@ -138,7 +146,7 @@ components:
       type: string
       description: 'Enum docs */ \u002a/'
       enum:
-        - value
+        - 'quote" slash\ $value'
       x-enum-descriptions:
         - 'Enum value docs */ \u002a/'
     TemporalDefaults:

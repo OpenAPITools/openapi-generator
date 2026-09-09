@@ -18,34 +18,34 @@ class SpringDocConfiguration {
         return OpenAPI()
             .info(
                 Info(){{#appName}}
-                    .title({{#kotlinStringLiteral}}{{{appNameRaw}}}{{/kotlinStringLiteral}}){{/appName}}
-                    .description({{#kotlinStringLiteral}}{{{unescapedAppDescription}}}{{/kotlinStringLiteral}}){{#termsOfService}}
-                    .termsOfService({{#kotlinStringLiteral}}{{{termsOfServiceRaw}}}{{/kotlinStringLiteral}}){{/termsOfService}}{{#openAPI}}{{#info}}{{#contact}}
+                    .title({{#lambda.kotlinStringLiteral}}{{{appNameRaw}}}{{/lambda.kotlinStringLiteral}}){{/appName}}
+                    .description({{#lambda.kotlinStringLiteral}}{{{unescapedAppDescription}}}{{/lambda.kotlinStringLiteral}}){{#termsOfService}}
+                    .termsOfService({{#lambda.kotlinStringLiteral}}{{{termsOfServiceRaw}}}{{/lambda.kotlinStringLiteral}}){{/termsOfService}}{{#openAPI}}{{#info}}{{#contact}}
                     .contact(
                         Contact(){{#infoName}}
-                            .name({{#kotlinStringLiteral}}{{{infoNameRaw}}}{{/kotlinStringLiteral}}){{/infoName}}{{#infoUrl}}
-                            .url({{#kotlinStringLiteral}}{{{infoUrlRaw}}}{{/kotlinStringLiteral}}){{/infoUrl}}{{#infoEmail}}
-                            .email({{#kotlinStringLiteral}}{{{infoEmailRaw}}}{{/kotlinStringLiteral}}){{/infoEmail}}
+                            .name({{#lambda.kotlinStringLiteral}}{{{infoNameRaw}}}{{/lambda.kotlinStringLiteral}}){{/infoName}}{{#infoUrl}}
+                            .url({{#lambda.kotlinStringLiteral}}{{{infoUrlRaw}}}{{/lambda.kotlinStringLiteral}}){{/infoUrl}}{{#infoEmail}}
+                            .email({{#lambda.kotlinStringLiteral}}{{{infoEmailRaw}}}{{/lambda.kotlinStringLiteral}}){{/infoEmail}}
                     ){{/contact}}{{#license}}
                     .license(
                         License()
-                            {{#licenseInfo}}.name({{#kotlinStringLiteral}}{{{licenseInfoRaw}}}{{/kotlinStringLiteral}})
-                            {{/licenseInfo}}{{#licenseUrl}}.url({{#kotlinStringLiteral}}{{{licenseUrlRaw}}}{{/kotlinStringLiteral}})
+                            {{#licenseInfo}}.name({{#lambda.kotlinStringLiteral}}{{{licenseInfoRaw}}}{{/lambda.kotlinStringLiteral}})
+                            {{/licenseInfo}}{{#licenseUrl}}.url({{#lambda.kotlinStringLiteral}}{{{licenseUrlRaw}}}{{/lambda.kotlinStringLiteral}})
                             {{/licenseUrl}}
                     ){{/license}}{{/info}}{{/openAPI}}
-                    .version({{#kotlinStringLiteral}}{{{appVersionRaw}}}{{/kotlinStringLiteral}})
+                    .version({{#lambda.kotlinStringLiteral}}{{{appVersionRaw}}}{{/lambda.kotlinStringLiteral}})
             ){{#hasAuthMethods}}
             .components(
                 Components(){{#authMethods}}
-                    .addSecuritySchemes({{#kotlinStringLiteral}}{{{name}}}{{/kotlinStringLiteral}}, SecurityScheme(){{#isBasic}}
+                    .addSecuritySchemes({{#lambda.kotlinStringLiteral}}{{{name}}}{{/lambda.kotlinStringLiteral}}, SecurityScheme(){{#isBasic}}
                         .type(SecurityScheme.Type.HTTP)
-                        .scheme({{#kotlinStringLiteral}}{{{scheme}}}{{/kotlinStringLiteral}}){{#bearerFormat}}
-                        .bearerFormat({{#kotlinStringLiteral}}{{{bearerFormat}}}{{/kotlinStringLiteral}}){{/bearerFormat}}{{/isBasic}}{{#isApiKey}}
+                        .scheme({{#lambda.kotlinStringLiteral}}{{{scheme}}}{{/lambda.kotlinStringLiteral}}){{#bearerFormat}}
+                        .bearerFormat({{#lambda.kotlinStringLiteral}}{{{bearerFormat}}}{{/lambda.kotlinStringLiteral}}){{/bearerFormat}}{{/isBasic}}{{#isApiKey}}
                         .type(SecurityScheme.Type.APIKEY){{#isKeyInHeader}}
                         .`in`(SecurityScheme.In.HEADER){{/isKeyInHeader}}{{#isKeyInQuery}}
                         .`in`(SecurityScheme.In.QUERY){{/isKeyInQuery}}{{#isKeyInCookie}}
                         .`in`(SecurityScheme.In.COOKIE){{/isKeyInCookie}}
-                        .name({{#kotlinStringLiteral}}{{{keyParamName}}}{{/kotlinStringLiteral}}){{/isApiKey}}{{#isOAuth}}
+                        .name({{#lambda.kotlinStringLiteral}}{{{keyParamName}}}{{/lambda.kotlinStringLiteral}}){{/isApiKey}}{{#isOAuth}}
                         .type(SecurityScheme.Type.OAUTH2){{/isOAuth}}
                     ){{/authMethods}}
             ){{/hasAuthMethods}}

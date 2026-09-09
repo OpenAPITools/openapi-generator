@@ -4494,6 +4494,10 @@ public class KotlinSpringServerCodegenTest {
                 "defaultValue = \"raw &amp; <tag> */ \\\\u002a/\"");
         assertFileContains(files.get("FormApiController.kt").toPath(),
                 "description = \"Form &amp; <tag> \\\"quote\\\" \\\\u002a/\"");
+        assertFileContains(files.get("EscapedEnum.kt").toPath(),
+                "(\"quote\\\" slash\\\\ \\$value\")");
+        assertFileContains(files.get("EscapedApiController.kt").toPath(),
+                "allowableValues = [\"quote\\\" slash\\\\ \\$value\"]");
     }
 
     @Test
