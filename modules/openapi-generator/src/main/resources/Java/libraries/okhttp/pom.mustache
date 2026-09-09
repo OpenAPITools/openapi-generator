@@ -382,6 +382,13 @@
             <artifactId>joda-time</artifactId>
             <version>${jodatime-version}</version>
         </dependency>
+        {{#isJackson}}
+        <dependency>
+            <groupId>{{jacksonPackage}}.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        {{/isJackson}}
         {{/joda}}
         {{#useBeanValidation}}
         <!-- Bean Validation API support -->

@@ -54,6 +54,9 @@ lazy val root = (project in file(".")).
       {{/useReflectionEqualsHashCode}}
       {{#joda}}
       "joda-time" % "joda-time" % "2.12.0",
+      {{#isJackson}}
+      "{{jacksonPackage}}.datatype" % "jackson-datatype-joda" % "{{#useJackson3}}3.2.1{{/useJackson3}}{{^useJackson3}}2.22.1{{/useJackson3}}",
+      {{/isJackson}}
       {{/joda}}
       "jakarta.annotation" % "jakarta.annotation-api" % "{{#useJakartaEe}}2.1.1{{/useJakartaEe}}{{^useJakartaEe}}1.3.5{{/useJakartaEe}}",
       {{#withAWSV4Signature}}

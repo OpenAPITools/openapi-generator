@@ -110,6 +110,9 @@ dependencies {
     {{/useReflectionEqualsHashCode}}
     {{#joda}}
     implementation 'joda-time:joda-time:2.12.0'
+    {{#isJackson}}
+    implementation "{{jacksonPackage}}.datatype:jackson-datatype-joda:$jackson_version"
+    {{/isJackson}}
     {{/joda}}
     {{#dynamicOperations}}
     implementation 'io.swagger.parser.v3:swagger-parser-v3:2.0.30'
