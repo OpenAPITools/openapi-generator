@@ -109,7 +109,7 @@ public interface {{classname}}  {
         {{^isBodyParam}}
         /**
          * Set {{paramName}}{{>formParamsNameSuffix}}
-         * @param {{paramName}}{{>formParamsNameSuffix}} {{description}} ({{^required}}optional{{^isContainer}}{{#defaultValue}}, default to {{#escapeJavaDoc}}{{.}}{{/escapeJavaDoc}}{{/defaultValue}}{{/isContainer}}{{/required}}{{#required}}required{{/required}})
+         * @param {{paramName}}{{>formParamsNameSuffix}} {{description}} ({{^required}}optional{{^isContainer}}{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}{{/isContainer}}{{/required}}{{#required}}required{{/required}})
          * @return {{operationIdCamelCase}}Request
          */
         public {{operationIdCamelCase}}Request {{paramName}}{{>formParamsNameSuffix}}({{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>formParamsImpl}}{{>cookieParamsImpl}}) {

@@ -18,20 +18,32 @@ package org.openapitools.codegen.templating.mustache;
 
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class EscapeJavaDocLambdaTest extends LambdaTest {
-    @Test
-    public void escapesCommentTerminator() {
-        Map<String, Object> ctx = context("escapeJavaDoc", new EscapeJavaDocLambda());
-
-        test("*&#47;*", "{{#escapeJavaDoc}}*/*{{/escapeJavaDoc}}", ctx);
+    private Map<String, Object> codegenContext(String defaultValue) {
+        Map<String, Object> ctx = context("lambda", context("escapeJavaDoc", new EscapeJavaDocLambda()));
+        Map<String, Object> param = context("defaultValue", defaultValue);
+        ctx.put("allParams", java.util.Collections.singletonList(param));
+        return ctx;
     }
 
     @Test
-    public void leavesOtherValuesUnchanged() {
-        Map<String, Object> ctx = context("escapeJavaDoc", new EscapeJavaDocLambda());
+    public void escapesCommentTerminatorInDefaultValue() {
+        Map<String, Object> ctx = codegenContext("*/*");
 
-        test("application/json", "{{#escapeJavaDoc}}application/json{{/escapeJavaDoc}}", ctx);
+        test("get|*&#47;*|",
+                "{{#allParams}}{{#defaultValue}}get|{{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}|{{/defaultValue}}{{/allParams}}",
+                ctx);
+    }
+
+    @Test
+    public void leavesOtherDefaultValuesUnchanged() {
+        Map<String, Object> ctx = codegenContext("application/json");
+
+        test("get|application/json|",
+                "{{#allParams}}{{#defaultValue}}get|{{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}|{{/defaultValue}}{{/allParams}}",
+                ctx);
     }
 }
