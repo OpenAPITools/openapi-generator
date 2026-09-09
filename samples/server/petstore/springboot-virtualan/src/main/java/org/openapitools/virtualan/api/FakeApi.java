@@ -375,13 +375,13 @@ public interface FakeApi {
     String PATH_TEST_ENDPOINT_PARAMETERS = "/fake";
     /**
      * POST /fake : Fake endpoint for testing various parameters
- *  假端點
- *  偽のエンドポイント
- *  가짜 엔드 포인트
+     *  假端點
+     *  偽のエンドポイント
+     *  가짜 엔드 포인트
      * Fake endpoint for testing various parameters
- *  假端點
- *  偽のエンドポイント
- *  가짜 엔드 포인트
+     *  假端點
+     *  偽のエンドポイント
+     *  가짜 엔드 포인트
      *
      * @param number None (required)
      * @param _double None (required)
@@ -445,13 +445,13 @@ public interface FakeApi {
      * GET /fake : To test enum parameters
      * To test enum parameters
      *
-     * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
+     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to $)
      * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-     * @param enumQueryStringArray Query parameter enum test (string array) (optional)
+     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to $)
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)

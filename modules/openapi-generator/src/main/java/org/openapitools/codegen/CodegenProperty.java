@@ -993,6 +993,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", min='").append(min).append('\'');
         sb.append(", max='").append(max).append('\'');
         sb.append(", defaultValue='").append(defaultValue).append('\'');
+        sb.append(", rawDefaultValue=").append(rawDefaultValue);
+        sb.append(", rawDefaultValueText='").append(rawDefaultValueText).append('\'');
+        sb.append(", hasDefaultValue=").append(hasDefaultValue);
         sb.append(", defaultValueWithParam='").append(defaultValueWithParam).append('\'');
         sb.append(", baseType='").append(baseType).append('\'');
         sb.append(", containerType='").append(containerType).append('\'');

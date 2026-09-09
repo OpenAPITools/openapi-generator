@@ -51,7 +51,7 @@ public final class SourceStringEscaper {
         if (input == null) {
             return "";
         }
-        return input
+        return input.stripTrailing()
                 .replace("&", "&amp;")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;")
@@ -63,7 +63,7 @@ public final class SourceStringEscaper {
                 .replace("*/", "*&#47;")
                 .replace("\r\n", "\n")
                 .replace("\r", "\n")
-                .replace("\n", "\n * ");
+                .replace("\n", "\n     * ");
     }
 
     private static String escape(String input, boolean kotlin) {

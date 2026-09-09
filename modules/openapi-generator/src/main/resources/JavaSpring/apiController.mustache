@@ -104,7 +104,7 @@ public class {{classname}}Controller implements {{classname}} {
     {{/unescapedNotes}}
      *
     {{#allParams}}
-     * @param {{paramName}} {{#lambda.javaDocText}}{{{unescapedDescription}}}{{/lambda.javaDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#hasDefaultValue}}, default to {{#lambda.javaDocText}}{{{rawDefaultValueText}}}{{/lambda.javaDocText}}{{/hasDefaultValue}}){{/required}}
+     * @param {{paramName}} {{#lambda.javaDocText}}{{{unescapedDescription}}}{{/lambda.javaDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#vendorExtensions.x-documentation-default-value-text}}, default to {{#lambda.javaDocText}}{{{.}}}{{/lambda.javaDocText}}{{/vendorExtensions.x-documentation-default-value-text}}){{/required}}
     {{/allParams}}
      * @return {{#responses}}{{#lambda.javaDocText}}{{{unescapedMessage}}}{{/lambda.javaDocText}} (status code {{code}}){{^-last}}
      *         or {{/-last}}{{/responses}}

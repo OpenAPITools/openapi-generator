@@ -32,7 +32,7 @@ class {{classname}}Controller(
 
     companion object {
     //for your own safety never directly reuse these path definitions in tests
-        const val BASE_PATH: String = "{{#lambda.kotlinStringContent}}{{=<% %>=}}<%>defaultBasePath%><%={{ }}=%>{{/lambda.kotlinStringContent}}"
+        const val BASE_PATH: String = {{#lambda.kotlinStringLiteral}}{{{contextPathRaw}}}{{/lambda.kotlinStringLiteral}}
     }
 
 {{/useRequestMappingOnController}}

@@ -26,6 +26,11 @@ public class SourceStringEscaperTest {
     @Test
     public void documentationProtectsCommentDelimitersUnicodeEscapesAndLiteralHtml() {
         assertEquals(SourceStringEscaper.docText("first\n/* data */ \\u002a/ &amp; <tag>\nlast"),
-                "first\n * &#47;* data *&#47; &#92;u002a/ &amp;amp; &lt;tag&gt;\n * last");
+                "first\n     * &#47;* data *&#47; &#92;u002a/ &amp;amp; &lt;tag&gt;\n     * last");
+    }
+
+    @Test
+    public void documentationTrimsTrailingWhitespace() {
+        assertEquals(SourceStringEscaper.docText("description\n \t\r\n"), "description");
     }
 }
