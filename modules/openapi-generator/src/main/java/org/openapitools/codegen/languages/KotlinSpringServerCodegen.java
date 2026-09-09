@@ -178,6 +178,27 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean useResponseEntity = true;
     @Getter private String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
     @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
+
+    /**
+     * Configures automatic Spring Pageable detection using a canonical mode or legacy boolean alias.
+     *
+     * @param autoXSpringPaginated the configured mode
+     */
+    public void setAutoXSpringPaginated(String autoXSpringPaginated) {
+        autoXSpringPaginatedMode =
+                SpringPageableScanUtils.resolveAutoPaginationMode(autoXSpringPaginated, LOGGER::warn);
+        this.autoXSpringPaginated = autoXSpringPaginatedMode.getCanonicalValue();
+    }
+
+    /**
+     * @deprecated Use {@link #setAutoXSpringPaginated(String)} with {@code page-size-sort} or
+     * {@code none}.
+     */
+    @Deprecated
+    public void setAutoXSpringPaginated(boolean autoXSpringPaginated) {
+        setAutoXSpringPaginated(Boolean.toString(autoXSpringPaginated));
+    }
+
     @Setter private boolean generateSortValidation = false;
     @Setter private boolean generatePageableConstraintValidation = false;
     @Setter private boolean substituteGenericPagedModel = false;
@@ -842,11 +863,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
         if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED) && isPageableSupported()) {
             String rawAutoXSpringPaginated = String.valueOf(additionalProperties.get(AUTO_X_SPRING_PAGINATED));
-            this.autoXSpringPaginatedMode =
-                    SpringPageableScanUtils.resolveAutoPaginationMode(rawAutoXSpringPaginated, LOGGER::warn);
-            this.autoXSpringPaginated = autoXSpringPaginatedMode.getCanonicalValue();
+            setAutoXSpringPaginated(rawAutoXSpringPaginated);
+            writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
         }
-        writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
         if (additionalProperties.containsKey(GENERATE_SORT_VALIDATION) && isPageableSupported()) {
             this.setGenerateSortValidation(convertPropertyToBoolean(GENERATE_SORT_VALIDATION));
         }

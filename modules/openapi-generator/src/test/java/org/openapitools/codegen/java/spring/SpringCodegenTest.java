@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen.java.spring;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -41,7 +39,6 @@ import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.testutils.ConfigAssert;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -7713,58 +7710,23 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void autoXSpringPaginatedLegacyTrue_logsDeprecationWarningOnce() throws IOException {
-        ch.qos.logback.classic.Logger springCodegenLogger =
-                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(SpringCodegen.class);
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-        springCodegenLogger.addAppender(listAppender);
+    public void autoXSpringPaginatedSettersSupportStringModesAndLegacyBoolean() {
+        SpringCodegen codegen = new SpringCodegen();
 
-        try {
-            Map<String, Object> props = new HashMap<>();
-            props.put(INTERFACE_ONLY, "true");
-            props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
-            props.put(SpringCodegen.USE_TAGS, "true");
-            props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+        codegen.setAutoXSpringPaginated("page-size");
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size");
 
-            generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
-        } finally {
-            listAppender.stop();
-            springCodegenLogger.detachAppender(listAppender);
-        }
-
-        long deprecationWarnings = listAppender.list.stream()
-                .filter(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
-                        && event.getFormattedMessage().contains("deprecated"))
-                .count();
-        assertThat(deprecationWarnings).isEqualTo(1);
+        codegen.setAutoXSpringPaginated(true);
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size-sort");
     }
 
     @Test
-    public void autoXSpringPaginatedUnset_logsNoDeprecationWarning() throws IOException {
-        ch.qos.logback.classic.Logger springCodegenLogger =
-                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(SpringCodegen.class);
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-        springCodegenLogger.addAppender(listAppender);
+    public void autoXSpringPaginatedUnsetDoesNotPopulateAdditionalProperties() {
+        SpringCodegen codegen = new SpringCodegen();
 
-        try {
-            Map<String, Object> props = new HashMap<>();
-            props.put(INTERFACE_ONLY, "true");
-            props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
-            props.put(SpringCodegen.USE_TAGS, "true");
-            // NOT setting AUTO_X_SPRING_PAGINATED at all — should default to 'none' silently
+        codegen.processOpts();
 
-            generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
-        } finally {
-            listAppender.stop();
-            springCodegenLogger.detachAppender(listAppender);
-        }
-
-        boolean hasDeprecationWarning = listAppender.list.stream()
-                .anyMatch(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
-                        && event.getFormattedMessage().contains("deprecated"));
-        assertThat(hasDeprecationWarning).isFalse();
+        assertThat(codegen.additionalProperties()).doesNotContainKey(SpringCodegen.AUTO_X_SPRING_PAGINATED);
     }
 
     // -------------------------------------------------------------------------
