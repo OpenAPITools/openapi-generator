@@ -272,7 +272,7 @@ public interface FakeApi {
     String PATH_TEST_BODY_WITH_FILE_SCHEMA = "/fake/body-with-file-schema";
     /**
      * PUT /fake/body-with-file-schema
-     * For this test, the body for this request much reference a schema named `File`.
+     * For this test, the body for this request must reference a schema named `File`.
      *
      * @param fileSchemaTestClass  (required)
      * @return Success (status code 200)
@@ -280,7 +280,7 @@ public interface FakeApi {
     @ApiVirtual
     @Operation(
         operationId = "testBodyWithFileSchema",
-        description = "For this test, the body for this request much reference a schema named `File`.",
+        description = "For this test, the body for this request must reference a schema named `File`.",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Success")

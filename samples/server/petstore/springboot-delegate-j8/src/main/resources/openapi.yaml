@@ -1133,7 +1133,7 @@ paths:
       - tag: $another-fake?
   /fake/body-with-file-schema:
     put:
-      description: "For this test, the body for this request much reference a schema\
+      description: "For this test, the body for this request must reference a schema\
         \ named `File`."
       operationId: testBodyWithFileSchema
       requestBody:

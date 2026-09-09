@@ -303,7 +303,7 @@ public interface PetApi {
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
      * API documentation for the updatePet operation
-     * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">API documentation for the updatePet operation Documentation</a>
+     * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">API documentation for the updatePet operation</a>
      */
     @Operation(
         operationId = "updatePet",

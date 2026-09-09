@@ -3516,7 +3516,7 @@ public class SpringCodegenTest {
     private void assertExternalDocumentation(File source) throws IOException {
         String content = Files.readString(source.toPath());
         assertTrue(content.contains("External docs &amp;amp; &lt;literal&gt; *&#47; &#92;u002a/"));
-        assertTrue(content.contains("External docs &amp;amp; &lt;literal&gt; *&#47; &#92;u002a/ Documentation</a>"));
+        assertTrue(content.contains("External docs &amp;amp; &lt;literal&gt; *&#47; &#92;u002a/</a>"));
         assertFalse(content.contains("Operation docs *&#47; &#92;u002a/\n     * @see"));
     }
 

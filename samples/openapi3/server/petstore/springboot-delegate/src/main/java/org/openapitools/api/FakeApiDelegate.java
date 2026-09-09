@@ -135,7 +135,7 @@ public interface FakeApiDelegate {
 
     /**
      * PUT /fake/body-with-file-schema
-     * For this test, the body for this request much reference a schema named `File`.
+     * For this test, the body for this request must reference a schema named `File`.
      *
      * @param fileSchemaTestClass  (required)
      * @return Success (status code 200)

@@ -1013,7 +1013,7 @@ paths:
     put:
       tags:
         - fake
-      description: For this test, the body for this request much reference a schema named
+      description: For this test, the body for this request must reference a schema named
         `File`.
       operationId: testBodyWithFileSchema
       requestBody:
