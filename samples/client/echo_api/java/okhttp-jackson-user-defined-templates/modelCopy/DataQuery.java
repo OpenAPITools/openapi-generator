@@ -1,8 +1,5 @@
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 /**
  * DataQuery

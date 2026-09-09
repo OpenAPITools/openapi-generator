@@ -16,7 +16,9 @@ package org.openapitools.client.model;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 
@@ -35,10 +37,7 @@ import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonParser;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 import org.openapitools.client.JSON;
 

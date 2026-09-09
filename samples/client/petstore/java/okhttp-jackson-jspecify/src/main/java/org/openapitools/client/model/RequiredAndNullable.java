@@ -25,13 +25,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import org.jspecify.annotations.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 /**
  * RequiredAndNullable

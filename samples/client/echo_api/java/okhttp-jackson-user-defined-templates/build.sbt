@@ -1,3 +1,6 @@
+// Keep the bytecode level in sync with the Maven and Gradle builds.
+val javaVersion = "1.8"
+
 lazy val root = (project in file(".")).
   settings(
     organization := "org.openapitools",
@@ -5,7 +8,7 @@ lazy val root = (project in file(".")).
     version := "0.1.0",
     scalaVersion := "2.13.6",
     scalacOptions ++= Seq("-feature"),
-    compile / javacOptions ++= Seq("-Xlint:deprecation"),
+    compile / javacOptions ++= Seq("-Xlint:deprecation", "-source", javaVersion, "-target", javaVersion),
     Compile / packageDoc / publishArtifact := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(

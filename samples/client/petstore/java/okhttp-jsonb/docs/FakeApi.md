@@ -377,7 +377,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **petId** | [**FakeRefParameterPetIdParameter**](.md)| to test oneOf in parameter $ref | |
+| **petId** | [**FakeRefParameterPetIdParameter**](FakeRefParameterPetIdParameter.md)| to test oneOf in parameter $ref | |
 
 ### Return type
 

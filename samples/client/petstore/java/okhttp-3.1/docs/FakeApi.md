@@ -516,7 +516,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **refToAnyof** | [**RefToRefParameterAnyofRefToAnyofParameter**](.md)| to test ref to parameter (anyof) | |
+| **refToAnyof** | [**RefToRefParameterAnyofRefToAnyofParameter**](RefToRefParameterAnyofRefToAnyofParameter.md)| to test ref to parameter (anyof) | |
 
 ### Return type
 
@@ -577,7 +577,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **refToOneof** | [**RefRefToPathLevelParameterOneofRefToOneofParameter**](.md)| to test ref to parameter (oneof) | |
+| **refToOneof** | [**RefRefToPathLevelParameterOneofRefToOneofParameter**](RefRefToPathLevelParameterOneofRefToOneofParameter.md)| to test ref to parameter (oneof) | |
 
 ### Return type
 
