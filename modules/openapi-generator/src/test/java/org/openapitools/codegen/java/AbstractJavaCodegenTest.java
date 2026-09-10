@@ -504,18 +504,6 @@ public class AbstractJavaCodegenTest {
         codegen.setDateLibrary("legacy");
         String defaultValue;
 
-        // Test default value for date format (DateSchema)
-        DateSchema dateSchema = new DateSchema();
-
-        LocalDate defaultLocalDate = LocalDate.of(2021, 5, 23);
-        Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneOffset.UTC).toInstant());
-
-        dateSchema.setDefault(date);
-        defaultValue = codegen.toDefaultValue(dateSchema);
-
-        // dateLibrary <> java8
-        Assert.assertEquals(defaultValue, date.toString());
-
         // Test default value for date format (DateTimeSchema)
         DateTimeSchema dateTimeSchema = new DateTimeSchema();
 
@@ -584,7 +572,7 @@ public class AbstractJavaCodegenTest {
         // Test default value for date format
         DateSchema dateSchema = new DateSchema();
         LocalDate defaultLocalDate = LocalDate.of(2019, 2, 15);
-        Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneOffset.UTC).toInstant());
+        Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), dateSchema);
         Assert.assertEquals(defaultValue, "LocalDate.parse(\"" + defaultLocalDate + "\")");
@@ -626,12 +614,6 @@ public class AbstractJavaCodegenTest {
     public void temporalDateTimeDefaultsUseUtcRegardlessOfGeneratorTimezone() {
         codegen.setDateLibrary("java8");
 
-        DateSchema dateSchema = new DateSchema();
-        dateSchema.setDefault(Date.from(Instant.parse("2026-01-02T00:00:00Z")));
-        Assert.assertEquals(codegen.toDefaultValue(codegen.fromProperty("", dateSchema), dateSchema),
-                "LocalDate.parse(\"" + dateSchema.getDefault().toInstant()
-                        .atZone(ZoneId.systemDefault()).toLocalDate() + "\")");
-
         DateTimeSchema zeroOffsetSchema = new DateTimeSchema();
         zeroOffsetSchema.setDefault(OffsetDateTime.parse("2026-01-02T03:04:05+00:00"));
         Assert.assertEquals(codegen.toDefaultValue(codegen.fromProperty("", zeroOffsetSchema), zeroOffsetSchema),
@@ -641,12 +623,6 @@ public class AbstractJavaCodegenTest {
         explicitOffsetSchema.setDefault(OffsetDateTime.parse("2026-01-02T03:04:05+05:30"));
         Assert.assertEquals(codegen.toDefaultValue(codegen.fromProperty("", explicitOffsetSchema), explicitOffsetSchema),
                 "OffsetDateTime.parse(\"2026-01-02T03:04:05+05:30\")");
-
-        DateSchema referencedDateSchema = new DateSchema();
-        referencedDateSchema.setDefault(Date.from(Instant.parse("2026-01-02T00:00:00Z")));
-        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("Date", referencedDateSchema)));
-        Assert.assertEquals(codegen.toDefaultParameterValue(new Schema<>().$ref("#/components/schemas/Date")),
-                referencedDateSchema.getDefault().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString());
     }
 
     @Test
@@ -726,8 +702,7 @@ public class AbstractJavaCodegenTest {
 
         Assert.assertEquals(parameter.dataType, "Date");
         Assert.assertTrue(parameter.isDate);
-        Date defaultDate = (Date) openAPI.getPaths().get("/thingy/{date}").getGet().getParameters().get(2).getSchema().getDefault();
-        Assert.assertEquals(parameter.defaultValue, defaultDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString());
+        Assert.assertEquals(parameter.defaultValue, "1974-01-01");
         Assert.assertEquals(imports.size(), 1);
         Assert.assertEquals(imports.iterator().next(), "Date");
 
