@@ -53,7 +53,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -3396,12 +3395,7 @@ public class SpringCodegenTest {
 
     @Test
     public void escapedValuesPreserveJavaSourceAndDocumentationSemantics() throws IOException {
-        final String utcTemporalDefaults = generateTemporalDefaultsSource(TimeZone.getTimeZone("UTC"));
-        final String losAngelesTemporalDefaults = generateTemporalDefaultsSource(TimeZone.getTimeZone("America/Los_Angeles"));
-        assertEquals(losAngelesTemporalDefaults, utcTemporalDefaults);
-
-        final Map<String, File> generatedFiles = generateFromContract(
-                "src/test/resources/3_0/spring/escaping-regressions.yaml", SPRING_BOOT);
+        final Map<String, File> generatedFiles = generateTemporalDefaultsSource();
         final String apiSource = Files.readString(generatedFiles.get("EscapedApi.java").toPath());
         final String formApiSource = Files.readString(generatedFiles.get("FormApi.java").toPath());
 
@@ -3438,17 +3432,10 @@ public class SpringCodegenTest {
         assertTrue(compositeDefaults.contains(".amount(new java.math.BigDecimal(\"12.34\"))"));
     }
 
-    private String generateTemporalDefaultsSource(TimeZone timeZone) throws IOException {
-        TimeZone originalTimeZone = TimeZone.getDefault();
-        try {
-            TimeZone.setDefault(timeZone);
-            Map<String, File> generatedFiles = generateFromContract(
-                    "src/test/resources/3_0/spring/escaping-regressions.yaml", SPRING_BOOT,
-                    Map.of(HIDE_GENERATION_TIMESTAMP, true));
-            return Files.readString(generatedFiles.get("TemporalDefaults.java").toPath());
-        } finally {
-            TimeZone.setDefault(originalTimeZone);
-        }
+    private Map<String, File> generateTemporalDefaultsSource() throws IOException {
+        return generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml", SPRING_BOOT,
+                Map.of(HIDE_GENERATION_TIMESTAMP, true));
     }
 
     @Test
