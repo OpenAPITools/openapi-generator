@@ -170,6 +170,22 @@ components:
           type: string
           format: date-time
           default: '2026-01-02T03:04:05Z'
+        offsetDateTime:
+          type: string
+          format: date-time
+          default: '2026-01-02T03:04:05+05:30'
+        nested:
+          type: object
+          properties:
+            offsetlessDateTime:
+              type: string
+              format: date-time
+            explicitOffsetDateTime:
+              type: string
+              format: date-time
+          default:
+            offsetlessDateTime: '2026-01-02T06:07:08'
+            explicitOffsetDateTime: '2026-01-02T06:07:08+05:30'
         localTime:
           type: string
           format: time-local
@@ -185,6 +201,13 @@ components:
           type: string
           format: date
           example: 2026-01-02
+    DateTimeExample:
+      type: object
+      properties:
+        value:
+          type: string
+          format: date-time
+          example: '2026-01-02T03:04:05Z'
     CompositeDefaults:
       type: object
       properties:

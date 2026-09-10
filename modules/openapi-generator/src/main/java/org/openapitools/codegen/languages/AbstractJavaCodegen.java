@@ -63,9 +63,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.function.Predicate;
@@ -1484,11 +1488,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     } else {
                         return null;
                     }
-                } else if (schema.getDefault() instanceof java.time.OffsetDateTime) {
+                } else if (schema.getDefault() instanceof OffsetDateTime) {
                     if ("java8".equals(getDateLibrary())) {
-                        return String.format(Locale.ROOT, "OffsetDateTime.parse(\"%s\", %s)",
-                                ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()),
-                                "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
+                        return toOffsetDateTimeDefaultValue((OffsetDateTime) schema.getDefault());
                     } else {
                         return null;
                     }
@@ -1598,9 +1600,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         }
                     } else if(ModelUtils.isDateTimeSchema(propertySchema)) {
                         if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = "java.time.OffsetDateTime.parse("
-                                    + SourceStringEscaper.javaStringLiteral(value.asText())
-                                    + ", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
+                            defaultPropertyExpression = toOffsetDateTimeDefaultValue(value.asText());
                         }
                     } else if(ModelUtils.isTimeLocalSchema(propertySchema)) {
                         if("java8".equals(getDateLibrary())) {
@@ -1630,6 +1630,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } catch (ClassCastException e) {
             LOGGER.error("Can't resolve default value: "+defaultValue, e);
             return null;
+        }
+    }
+
+    private String toOffsetDateTimeDefaultValue(OffsetDateTime value) {
+        return "OffsetDateTime.parse(" + SourceStringEscaper.javaStringLiteral(
+                DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(value)) + ")";
+    }
+
+    private String toOffsetDateTimeDefaultValue(String value) {
+        try {
+            return toOffsetDateTimeDefaultValue(OffsetDateTime.parse(value));
+        } catch (DateTimeParseException ignored) {
+            return toOffsetDateTimeDefaultValue(LocalDateTime.parse(value).atOffset(ZoneOffset.UTC));
         }
     }
 
@@ -1701,7 +1714,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         }
         if (defaultValue instanceof Date) {
-            Date date = (Date) schema.getDefault();
+            Date date = (Date) defaultValue;
             LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             return localDate.toString();
         }

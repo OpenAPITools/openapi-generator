@@ -53,6 +53,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -3395,6 +3396,10 @@ public class SpringCodegenTest {
 
     @Test
     public void escapedValuesPreserveJavaSourceAndDocumentationSemantics() throws IOException {
+        final String utcTemporalDefaults = generateTemporalDefaultsSource(TimeZone.getTimeZone("UTC"));
+        final String losAngelesTemporalDefaults = generateTemporalDefaultsSource(TimeZone.getTimeZone("America/Los_Angeles"));
+        assertEquals(losAngelesTemporalDefaults, utcTemporalDefaults);
+
         final Map<String, File> generatedFiles = generateFromContract(
                 "src/test/resources/3_0/spring/escaping-regressions.yaml", SPRING_BOOT);
         final String apiSource = Files.readString(generatedFiles.get("EscapedApi.java").toPath());
@@ -3410,18 +3415,40 @@ public class SpringCodegenTest {
 
         final String temporalDefaults = Files.readString(generatedFiles.get("TemporalDefaults.java").toPath());
         assertTrue(temporalDefaults.contains("LocalDate.parse(\"2026-01-02\")"));
-        assertTrue(temporalDefaults.contains("private OffsetDateTime dateTime = OffsetDateTime.parse(\""));
+        assertTrue(temporalDefaults.contains("OffsetDateTime.parse(\"2026-01-02T03:04:05Z\")"));
+        assertTrue(temporalDefaults.contains("OffsetDateTime.parse(\"2026-01-02T03:04:05+05:30\")"));
+        assertTrue(temporalDefaults.contains(".offsetlessDateTime(OffsetDateTime.parse(\"2026-01-02T06:07:08Z\"))"));
+        assertTrue(temporalDefaults.contains(".explicitOffsetDateTime(OffsetDateTime.parse(\"2026-01-02T06:07:08+05:30\"))"));
         assertFalse(temporalDefaults.contains("private OffsetDateTime dateTime = \""));
+        assertFalse(temporalDefaults.contains("ISO_ZONED_DATE_TIME"));
+        assertFalse(temporalDefaults.contains("ZoneId.systemDefault"));
+        assertFalse(temporalDefaults.contains("[UTC]"));
         assertTrue(temporalDefaults.contains("LocalTime.parse(\"10:15:30\")"));
         assertTrue(temporalDefaults.contains("LocalDateTime.parse(\"2026-01-02T03:04:05\")"));
+        JavaFileAssert.assertThat(temporalDefaults).isNormalClass();
         assertTrue(Files.readString(generatedFiles.get("DateExample.java").toPath())
                 .contains("example = \"2026-01-02\""));
+        assertTrue(Files.readString(generatedFiles.get("DateTimeExample.java").toPath())
+                .contains("example = \"2026-01-02T03:04:05Z\""));
 
         final String compositeDefaults = Files.readString(generatedFiles.get("CompositeDefaults.java").toPath());
         assertTrue(compositeDefaults.contains("Arrays.asList(\"a\\\"b\", \"literal\\\\n\")"));
         assertTrue(compositeDefaults.contains(".text(\"a\\\"b\\\\c\")"));
         assertTrue(compositeDefaults.contains(".uri(java.net.URI.create(\"https://example.test/a\\\"b\\\\c\"))"));
         assertTrue(compositeDefaults.contains(".amount(new java.math.BigDecimal(\"12.34\"))"));
+    }
+
+    private String generateTemporalDefaultsSource(TimeZone timeZone) throws IOException {
+        TimeZone originalTimeZone = TimeZone.getDefault();
+        try {
+            TimeZone.setDefault(timeZone);
+            Map<String, File> generatedFiles = generateFromContract(
+                    "src/test/resources/3_0/spring/escaping-regressions.yaml", SPRING_BOOT,
+                    Map.of(HIDE_GENERATION_TIMESTAMP, true));
+            return Files.readString(generatedFiles.get("TemporalDefaults.java").toPath());
+        } finally {
+            TimeZone.setDefault(originalTimeZone);
+        }
     }
 
     @Test
