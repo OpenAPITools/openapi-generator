@@ -72,16 +72,30 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{#items}}
     {{#isDateType}}
     if (Array.isArray(json)) {
+    {{#isDateLibraryTemporal}}
+        try {
+            return json.map(value => parseDate(value));
+        } catch {}
+    {{/isDateLibraryTemporal}}
+    {{^isDateLibraryTemporal}}
         if (json.every(item => !(isNaN(parseDate(item).getTime())))) {
             return json.map(value => parseDate(value));
         }
+    {{/isDateLibraryTemporal}}
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (Array.isArray(json)) {
+    {{#isDateLibraryTemporal}}
+        try {
+            return json.map(value => parseDateTime(value));
+        } catch {}
+    {{/isDateLibraryTemporal}}
+    {{^isDateLibraryTemporal}}
         if (json.every(item => !(isNaN(parseDateTime(item).getTime())))) {
             return json.map(value => parseDateTime(value));
         }
+    {{/isDateLibraryTemporal}}
     }
     {{/isDateTimeType}}
     {{#isNumeric}}
@@ -118,15 +132,29 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{#oneOfPrimitives}}
     {{^isArray}}
     {{#isDateType}}
+    {{#isDateLibraryTemporal}}
+    try {
+        return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}parseDate(json));
+    } catch {}
+    {{/isDateLibraryTemporal}}
+    {{^isDateLibraryTemporal}}
     if (!(isNaN(parseDate(json).getTime()))) {
         return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}parseDate(json));
     }
+    {{/isDateLibraryTemporal}}
     {{/isDateType}}
     {{^isDateType}}
     {{#isDateTimeType}}
+    {{#isDateLibraryTemporal}}
+    try {
+        return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}parseDateTime(json));
+    } catch {}
+    {{/isDateLibraryTemporal}}
+    {{^isDateLibraryTemporal}}
     if (!(isNaN(parseDateTime(json).getTime()))) {
         return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}parseDateTime(json));
     }
+    {{/isDateLibraryTemporal}}
     {{/isDateTimeType}}
     {{/isDateType}}
     {{#isNumeric}}
@@ -197,16 +225,30 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{#items}}
     {{#isDateType}}
     if (Array.isArray(value)) {
+    {{#isDateLibraryTemporal}}
+        if (value.every(item => item instanceof Temporal.PlainDate)) {
+            return value.map(value => serializeDate(value));
+        }
+    {{/isDateLibraryTemporal}}
+    {{^isDateLibraryTemporal}}
         if (value.every(item => item instanceof Date)) {
             return value.map(value => serializeDate(value));
         }
+    {{/isDateLibraryTemporal}}
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (Array.isArray(value)) {
+    {{#isDateLibraryTemporal}}
+        if (value.every(item => item instanceof Temporal.Instant)) {
+            return value.map(item => serializeDateTime(item));
+        }
+    {{/isDateLibraryTemporal}}
+    {{^isDateLibraryTemporal}}
         if (value.every(item => item instanceof Date)) {
             return value.map(item => serializeDateTime(item));
         }
+    {{/isDateLibraryTemporal}}
     }
     {{/isDateTimeType}}
     {{#isNumeric}}
@@ -243,14 +285,28 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{#oneOfPrimitives}}
     {{^isArray}}
     {{#isDateType}}
+    {{#isDateLibraryTemporal}}
+    if (value instanceof Temporal.PlainDate) {
+        return (serializeDate(value{{#isNullable}} as any{{/isNullable}}));
+    }
+    {{/isDateLibraryTemporal}}
+    {{^isDateLibraryTemporal}}
     if (value instanceof Date) {
         return (serializeDate(value{{#isNullable}} as any{{/isNullable}}));
     }
+    {{/isDateLibraryTemporal}}
     {{/isDateType}}
     {{#isDateTimeType}}
+    {{#isDateLibraryTemporal}}
+    if (value instanceof Temporal.Instant) {
+        return {{^required}}{{#isNullable}}value === null ? null : {{/isNullable}}{{^isNullable}}value == null ? undefined : {{/isNullable}}{{/required}}(serializeDateTime(value{{#isNullable}} as any{{/isNullable}}));
+    }
+    {{/isDateLibraryTemporal}}
+    {{^isDateLibraryTemporal}}
     if (value instanceof Date) {
         return {{^required}}{{#isNullable}}value === null ? null : {{/isNullable}}{{^isNullable}}value == null ? undefined : {{/isNullable}}{{/required}}(serializeDateTime(value{{#isNullable}} as any{{/isNullable}}));
     }
+    {{/isDateLibraryTemporal}}
     {{/isDateTimeType}}
     {{#isNumeric}}
     if (typeof value === 'number'{{#isEnum}} && ({{#allowableValues}}{{#values}}value === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {

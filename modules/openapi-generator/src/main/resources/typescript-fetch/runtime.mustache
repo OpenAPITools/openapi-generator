@@ -350,9 +350,19 @@ function querystringSingleKey(key: string, value: string | number | null | undef
         const valueAsArray = Array.from(value);
         return querystringSingleKey(key, valueAsArray, keyPrefix);
     }
+    {{#isDateLibraryTemporal}}
+    if (value instanceof Temporal.Instant) {
+        return `${encodeURIComponent(fullKey)}=${encodeURIComponent(serializeDateTime(value))}`;
+    }
+    if (value instanceof Temporal.PlainDate) {
+        return `${encodeURIComponent(fullKey)}=${encodeURIComponent(serializeDate(value))}`;
+    }
+    {{/isDateLibraryTemporal}}
+    {{^isDateLibraryTemporal}}
     if (value instanceof Date) {
         return `${encodeURIComponent(fullKey)}=${encodeURIComponent(serializeDateTime(value))}`;
     }
+    {{/isDateLibraryTemporal}}
     if (value instanceof Object) {
         return querystring(value as HTTPQuery, fullKey);
     }
@@ -364,6 +374,30 @@ export function exists(json: any, key: string) {
     return value !== null && value !== undefined;
 }
 
+{{#isDateLibraryTemporal}}
+export function serializeDateTime(value: Temporal.Instant): string {
+    return value.toString();
+}
+
+export function serializeDate(value: Temporal.PlainDate): string {
+    return value.toString();
+}
+
+export function parseDateTime(value: Temporal.Instant | string): Temporal.Instant {
+    if (value instanceof Temporal.Instant) {
+        return value;
+    }
+    return Temporal.Instant.from(value);
+}
+
+export function parseDate(value: Temporal.PlainDate | string): Temporal.PlainDate {
+    if (value instanceof Temporal.PlainDate) {
+        return value;
+    }
+    return Temporal.PlainDate.from(value);
+}
+{{/isDateLibraryTemporal}}
+{{^isDateLibraryTemporal}}
 /**
  * Every generated date call site routes through these.
  *
@@ -416,6 +450,7 @@ export function parseDateTime(value: any): Date {
     return new Date(value);
 }
 {{/isDateLibraryDate}}
+{{/isDateLibraryTemporal}}
 
 {{^withoutRuntimeChecks}}
 export function mapValues(data: any, fn: (item: any) => any) {
