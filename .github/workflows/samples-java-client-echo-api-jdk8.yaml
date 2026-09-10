@@ -6,6 +6,7 @@ on:
       - samples/client/echo_api/java/apache-httpclient/**
       - samples/client/echo_api/java/feign-gson/**
       - samples/client/echo_api/java/okhttp-gson/**
+      - samples/client/echo_api/java/okhttp/**
       - samples/client/echo_api/java/resttemplate/**
       - samples/client/echo_api/java/resteasy/**
   pull_request:
@@ -13,6 +14,7 @@ on:
       - samples/client/echo_api/java/apache-httpclient/**
       - samples/client/echo_api/java/feign-gson/**
       - samples/client/echo_api/java/okhttp-gson/**
+      - samples/client/echo_api/java/okhttp/**
       - samples/client/echo_api/java/resteasy/**
 jobs:
   build:
@@ -26,6 +28,7 @@ jobs:
           - samples/client/echo_api/java/apache-httpclient
           - samples/client/echo_api/java/feign-gson
           - samples/client/echo_api/java/okhttp-gson
+          - samples/client/echo_api/java/okhttp
           - samples/client/echo_api/java/resttemplate
           - samples/client/echo_api/java/resteasy
     steps:

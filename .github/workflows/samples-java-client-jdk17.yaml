@@ -9,6 +9,9 @@ on:
       - samples/client/petstore/java/restclient-*/**
       - samples/client/petstore/java/native-jackson3/**
       - samples/client/petstore/java/apache-httpclient-jackson3/**
+      - samples/client/petstore/java/okhttp-jackson3/**
+      - samples/client/petstore/java/okhttp-jackson3-jspecify/**
+      - samples/client/others/java/okhttp-jackson3-oneOf/**
       - samples/client/petstore/java/native-jackson3-jspecify/**
       - samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify/**
       - samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify-openapiNullable/**
@@ -29,6 +32,9 @@ on:
       - samples/client/petstore/java/restclient-*/**
       - samples/client/petstore/java/native-jackson3/**
       - samples/client/petstore/java/apache-httpclient-jackson3/**
+      - samples/client/petstore/java/okhttp-jackson3/**
+      - samples/client/petstore/java/okhttp-jackson3-jspecify/**
+      - samples/client/others/java/okhttp-jackson3-oneOf/**
       - samples/client/petstore/java/native-jackson3-jspecify/**
       - samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify/**
       - samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify-openapiNullable/**
@@ -66,6 +72,9 @@ jobs:
           - samples/client/petstore/java/restclient-useSingleRequestParameter-static
           - samples/client/petstore/java/native-jackson3
           - samples/client/petstore/java/apache-httpclient-jackson3
+          - samples/client/petstore/java/okhttp-jackson3
+          - samples/client/petstore/java/okhttp-jackson3-jspecify
+          - samples/client/others/java/okhttp-jackson3-oneOf
           - samples/client/others/java/webclient-sealedInterface
           - samples/client/others/java/webclient-sealedInterface_3_1
           - samples/client/petstore/java/webclient-springBoot4-jackson3
