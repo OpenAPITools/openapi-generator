@@ -254,9 +254,10 @@ open class FakeAPI {
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryParameters: [String: (wrappedValue: Any?, isExplode: Bool)] = [
             "query": (wrappedValue: query.encodeToJSON(), isExplode: false),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: Any?] = [
             "Content-Type": "application/json",
@@ -523,12 +524,13 @@ open class FakeAPI {
         let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryParameters: [String: (wrappedValue: Any?, isExplode: Bool)] = [
             "enum_query_string_array": (wrappedValue: enumQueryStringArray?.encodeToJSON(), isExplode: false),
             "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(), isExplode: false),
             "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(), isExplode: false),
             "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(), isExplode: false),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: Any?] = [
             "Content-Type": "application/x-www-form-urlencoded",
@@ -585,12 +587,13 @@ open class FakeAPI {
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryParameters: [String: (wrappedValue: Any?, isExplode: Bool)] = [
             "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(), isExplode: false),
             "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(), isExplode: false),
             "string_group": (wrappedValue: stringGroup?.encodeToJSON(), isExplode: false),
             "int64_group": (wrappedValue: int64Group?.encodeToJSON(), isExplode: false),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: Any?] = [
             "required_boolean_group": requiredBooleanGroup.encodeToJSON(),

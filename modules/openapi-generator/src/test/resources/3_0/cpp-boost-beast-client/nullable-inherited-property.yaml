@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: Cpp Boost Beast nullable inheritance regression
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    NullablePropertyBase:
+      type: object
+      discriminator:
+        propertyName: kind
+      properties:
+        kind:
+          type: string
+        nullableValue:
+          type: number
+          nullable: true
+    NullablePropertyDerived:
+      allOf:
+        - $ref: '#/components/schemas/NullablePropertyBase'
+        - type: object
+          properties:
+            localValue:
+              type: string

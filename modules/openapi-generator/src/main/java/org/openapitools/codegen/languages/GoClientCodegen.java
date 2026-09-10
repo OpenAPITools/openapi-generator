@@ -65,6 +65,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public static final String MODEL_FILE_FOLDER = "modelFileFolder";
     public static final String WITH_GO_MOD = "withGoMod";
     public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
+    public static final String USE_HTTP_HEADER_SET = "useHttpHeaderSet";
     public static final String IMPORT_VALIDATOR = "importValidator";
     @Setter protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
@@ -138,6 +139,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         cliOptions.add(CliOption.newBoolean(WITH_AWSV4_SIGNATURE, "whether to include AWS v4 signature support"));
         cliOptions.add(CliOption.newBoolean(GENERATE_INTERFACES, "Generate interfaces for api classes"));
         cliOptions.add(CliOption.newBoolean(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS, "Use default values for required variables when available"));
+        cliOptions.add(CliOption.newBoolean(USE_HTTP_HEADER_SET, "When setting HTTP request headers, use http.Header.Set with canonicalized header names"));
 
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(
@@ -274,6 +276,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
         if (additionalProperties.containsKey(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS)) {
             setUseDefaultValuesForRequiredVars(Boolean.parseBoolean(additionalProperties.get(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS).toString()));
             additionalProperties.put(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS, useDefaultValuesForRequiredVars);
+        }
+
+        if (additionalProperties.containsKey(USE_HTTP_HEADER_SET)) {
+            setUseHttpHeaderSet(Boolean.parseBoolean(additionalProperties.get(USE_HTTP_HEADER_SET).toString()));
+            additionalProperties.put(USE_HTTP_HEADER_SET, useHttpHeaderSet);
         }
 
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.

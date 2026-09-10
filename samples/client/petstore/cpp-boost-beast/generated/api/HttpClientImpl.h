@@ -1,5 +1,5 @@
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_IMPL_
-#define BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_IMPL_
+#ifndef ORG_OPENAPITOOLS_CLIENT_API_HTTP_CLIENT_IMPL_H_
+#define ORG_OPENAPITOOLS_CLIENT_API_HTTP_CLIENT_IMPL_H_
 
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
@@ -12,7 +12,7 @@
 #include <mutex>
 #include <string>
 
-#include "api/HttpClient.h"
+#include "HttpClient.h"
 
 
 namespace org {
@@ -52,6 +52,18 @@ public:
             const std::string &body,
             const std::map<std::string, std::string> &headers) override;
 
+    HttpResponseData
+    executeWithMetadata(const std::string &verb, const std::string &target,
+                        const std::string &body,
+                        const std::map<std::string, std::string> &headers) override;
+
+    HttpResponseData
+    executeStream(const std::string &verb, const std::string &target,
+                  const std::string &body,
+                  const std::map<std::string, std::string> &headers,
+                  SseEventCallback onEvent,
+                  const SseStreamOptions &options = {}) override;
+
 protected:
     using HttpRequest =
         boost::beast::http::request<boost::beast::http::string_body>;
@@ -85,6 +97,18 @@ protected:
     virtual void configureTlsContext(boost::asio::ssl::context &tlsContext);
 
 private:
+    HttpResponseData
+    executeHttpStream(
+        HttpRequest &request,
+        SseEventCallback onEvent,
+        const SseStreamOptions &options);
+
+    HttpResponseData
+    executeHttpsStream(
+        HttpRequest &request,
+        SseEventCallback onEvent,
+        const SseStreamOptions &options);
+
     const std::string m_host;
     const std::string m_port;
     const int m_httpVersion;
@@ -101,4 +125,4 @@ private:
 }
 }
 
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_IMPL_ */
+#endif /* ORG_OPENAPITOOLS_CLIENT_API_HTTP_CLIENT_IMPL_H_ */

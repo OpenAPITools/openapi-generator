@@ -1,0 +1,72 @@
+openapi: 3.0.3
+info:
+  title: Cpp Boost Beast response union regression
+  version: 1.0.0
+  description: >
+    OAS 3.0 response union regression fixture.  An endpoint with multiple
+    successful response status codes (200, 201, 204) must generate a
+    status-aware tagged response union where each branch carries the
+    declared body type or void for 204 No Content.
+paths:
+  /response-union:
+    post:
+      operationId: postResponseUnion
+      summary: Return different shapes per status code
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRequest'
+      responses:
+        '200':
+          description: Standard success — full resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullResource'
+        '201':
+          description: Created — summary only
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummaryResource'
+        '204':
+          description: No Content — bodyless success
+components:
+  schemas:
+    CreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: integer
+          format: int32
+
+    FullResource:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: integer
+          format: int32
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+
+    SummaryResource:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id

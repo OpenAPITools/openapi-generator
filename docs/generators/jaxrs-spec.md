@@ -48,6 +48,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
 |generateJsonCreator|Whether to generate @JsonCreator constructor for required properties.| |true|
 |generatePom|Whether to generate pom.xml if the file does not already exist.| |true|
+|generateRootResources|Whether to generate the root resource and application classes, only useful if interfaceOnly is true.| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|

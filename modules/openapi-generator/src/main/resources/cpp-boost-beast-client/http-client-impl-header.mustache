@@ -1,5 +1,5 @@
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_IMPL_
-#define BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_IMPL_
+#ifndef {{apiHeaderGuardPrefix}}_HTTP_CLIENT_IMPL_H_
+#define {{apiHeaderGuardPrefix}}_HTTP_CLIENT_IMPL_H_
 
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
@@ -12,7 +12,10 @@
 #include <mutex>
 #include <string>
 
-#include "api/HttpClient.h"
+#include "HttpClient.h"
+{{#hasExportMacro}}
+#include "ApiExport.h"
+{{/hasExportMacro}}
 
 
 {{#apiNamespaceDeclarations}}
@@ -20,7 +23,7 @@ namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
 
-class HttpClientImpl : public HttpClient {
+class {{#hasExportMacro}}{{exportMacro}} {{/hasExportMacro}}HttpClientImpl : public HttpClient {
 
 public:
     enum class Transport {
@@ -50,6 +53,18 @@ public:
     execute(const std::string &verb, const std::string &target,
             const std::string &body,
             const std::map<std::string, std::string> &headers) override;
+
+    HttpResponseData
+    executeWithMetadata(const std::string &verb, const std::string &target,
+                        const std::string &body,
+                        const std::map<std::string, std::string> &headers) override;
+
+    HttpResponseData
+    executeStream(const std::string &verb, const std::string &target,
+                  const std::string &body,
+                  const std::map<std::string, std::string> &headers,
+                  SseEventCallback onEvent,
+                  const SseStreamOptions &options = {}) override;
 
 protected:
     using HttpRequest =
@@ -84,6 +99,18 @@ protected:
     virtual void configureTlsContext(boost::asio::ssl::context &tlsContext);
 
 private:
+    HttpResponseData
+    executeHttpStream(
+        HttpRequest &request,
+        SseEventCallback onEvent,
+        const SseStreamOptions &options);
+
+    HttpResponseData
+    executeHttpsStream(
+        HttpRequest &request,
+        SseEventCallback onEvent,
+        const SseStreamOptions &options);
+
     const std::string m_host;
     const std::string m_port;
     const int m_httpVersion;
@@ -99,4 +126,4 @@ private:
 }
 {{/apiNamespaceDeclarations}}
 
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_HTTP_CLIENT_IMPL_ */
+#endif /* {{apiHeaderGuardPrefix}}_HTTP_CLIENT_IMPL_H_ */

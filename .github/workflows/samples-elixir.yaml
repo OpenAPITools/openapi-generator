@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - samples/client/petstore/elixir/**
+      - samples/client/petstore/elixir-req/**
   pull_request:
     paths:
       - samples/client/petstore/elixir/**
+      - samples/client/petstore/elixir-req/**
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,6 +19,7 @@ jobs:
         elixir: ['1.18.3']
         sample:
           - samples/client/petstore/elixir/
+          - samples/client/petstore/elixir-req/
     services:
       petstore-api:
         image: swaggerapi/petstore

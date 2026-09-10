@@ -94,12 +94,6 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
-    public static void applyForcedGenerateSchemasKvpList(List<String> schemas, CodegenConfigurator configurator) {
-        for (String schema : schemas) {
-            configurator.addForcedGenerateSchema(schema.trim());
-        }
-    }
-
     public static void applyInlineSchemaNameMappingsKvpList(List<String> inlineSchemaNameMappings, CodegenConfigurator configurator) {
         for (String propString : inlineSchemaNameMappings) {
             applyInlineSchemaNameMappingsKvp(propString, configurator);

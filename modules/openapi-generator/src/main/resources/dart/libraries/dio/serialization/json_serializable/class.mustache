@@ -59,11 +59,20 @@ class {{{classname}}} {
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
     includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/required}}{{^required}}false{{/required}},{{^required}}{{#useOptional}}
     readValue: readOptionalValue,{{/useOptional}}{{/required}}
-  {{#isEnumOrRef}}
   {{#enumUnknownDefaultCase}}
+  {{#isArray}}
+  {{#items.isEnumOrRef}}
+  unknownEnumValue: {{{items.datatypeWithEnum}}}.unknownDefaultOpenApi,
+  {{/items.isEnumOrRef}}
+  {{/isArray}}
+  {{^isArray}}
+  {{^isMap}}
+  {{#isEnumOrRef}}
   unknownEnumValue: {{{datatypeWithEnum}}}.unknownDefaultOpenApi,
-  {{/enumUnknownDefaultCase}}
   {{/isEnumOrRef}}
+  {{/isMap}}
+  {{/isArray}}
+  {{/enumUnknownDefaultCase}}
   )
   {{/isBinary}}
   {{#isBinary}}
