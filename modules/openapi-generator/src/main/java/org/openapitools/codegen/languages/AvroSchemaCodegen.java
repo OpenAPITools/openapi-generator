@@ -252,14 +252,16 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    protected List<EnumVarMap> buildEnumVars(List<Object> values, String dataType) {
-        List<Object> sanitizedValues = values.stream()
-                .filter(x -> x != null)
+    protected List<EnumVarMap> buildEnumVars(List<Object> rawValues, String dataType) {
+        List<Object> originalValues = rawValues.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        List<Object> sanitizedValues = originalValues.stream()
                 .map(Object::toString)
                 .map(this::sanitizeEnumValue)
                 .collect(Collectors.toList());
         removeEnumValueCollisions(sanitizedValues);
-        return super.buildEnumVars(sanitizedValues, dataType);
+        return super.buildEnumVars(sanitizedValues, dataType, originalValues);
     }
 
     /**
