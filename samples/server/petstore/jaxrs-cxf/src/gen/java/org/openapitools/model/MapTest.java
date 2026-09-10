@@ -16,8 +16,6 @@ public class MapTest  {
   
   @ApiModelProperty(value = "")
 
-  @Valid
-
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
 public enum InnerEnum {

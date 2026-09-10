@@ -81,7 +81,7 @@ public class FakeBigDecimalMap200Response   {
    **/
   @JsonProperty(value = "someMap")
   @Schema(description = "")
-  @Valid 
+  
   public Map<String, BigDecimal> getSomeMap() {
     return someMap;
   }

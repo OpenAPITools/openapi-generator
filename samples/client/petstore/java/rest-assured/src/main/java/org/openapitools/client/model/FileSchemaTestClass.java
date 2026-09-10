@@ -89,7 +89,6 @@ public class FileSchemaTestClass {
    * @return files
    */
   @javax.annotation.Nullable
-  @Valid
 
 
   public List<@Valid ModelFile> getFiles() {

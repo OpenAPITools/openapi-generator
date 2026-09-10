@@ -1,1 +1,1 @@
-{{#isBodyParam}}{{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{dataType}}} {{paramName}}{{/isBodyParam}}
+{{#isBodyParam}}{{#useBeanValidation}}{{^isContainer}}@Valid {{/isContainer}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{/isBodyParam}}

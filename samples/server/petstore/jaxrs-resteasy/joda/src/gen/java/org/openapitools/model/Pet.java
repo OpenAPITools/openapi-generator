@@ -105,7 +105,6 @@ public class Pet   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
-  @Valid
   public List<@Valid Tag> getTags() {
     return tags;
   }

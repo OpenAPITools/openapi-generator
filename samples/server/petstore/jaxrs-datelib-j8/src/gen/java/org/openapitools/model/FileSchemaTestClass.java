@@ -83,7 +83,7 @@ public class FileSchemaTestClass  implements Serializable {
    **/
   @JsonProperty(value = "files")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public List<@Valid ModelFile> getFiles() {
     return files;
   }

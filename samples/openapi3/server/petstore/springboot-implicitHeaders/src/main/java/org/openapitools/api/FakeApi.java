@@ -455,11 +455,11 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> testEnumParameters(
-        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
+        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
         @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
         @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
         @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
-        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
         @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -529,7 +529,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testInlineAdditionalProperties(
-        @Parameter(name = "request_body", description = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
+        @Parameter(name = "request_body", description = "request body", required = true) @RequestBody Map<String, String> requestBody
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -622,10 +622,10 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT
     )
     default ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull @Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "context", required = true) List<String> context
+        @NotNull @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "pipe", required = true) List<String> pipe,
+        @NotNull @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "http", required = true) List<String> http,
+        @NotNull @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "url", required = true) List<String> url,
+        @NotNull @Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "context", required = true) List<String> context
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

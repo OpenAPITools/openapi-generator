@@ -43,7 +43,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   @JsonSetter(nulls = Nulls.SKIP)
-  private Map<String, AnimalDto> map = new HashMap<>();
+  private Map<String, @Valid AnimalDto> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClassDto uuid(@Nullable UUID uuid) {
     this.uuid = uuid;
@@ -85,7 +85,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     this.dateTime = dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClassDto map(Map<String, AnimalDto> map) {
+  public MixedPropertiesAndAdditionalPropertiesClassDto map(Map<String, @Valid AnimalDto> map) {
     this.map = map;
     return this;
   }
@@ -102,14 +102,14 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * Get map
    * @return map
    */
-  @Valid 
+  
   @JsonProperty("map")
-  public Map<String, AnimalDto> getMap() {
+  public Map<String, @Valid AnimalDto> getMap() {
     return map;
   }
 
   @JsonProperty("map")
-  public void setMap(Map<String, AnimalDto> map) {
+  public void setMap(Map<String, @Valid AnimalDto> map) {
     this.map = map;
   }
 
