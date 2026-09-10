@@ -2149,134 +2149,156 @@ public class SpringCodegenTest {
 
     @Test
     void testOneOfWithInheritedEnumDiscriminator() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions()).getOpenAPI();
-
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
-        codegen.setUseOneOfInterfaces(true);
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        codegen.setHateoas(true);
-        generator.setGenerateMetadata(false);
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
-
-        codegen.setUseOneOfInterfaces(true);
-        codegen.setLegacyDiscriminatorBehavior(false);
-
-        generator.opts(input).generate();
-
-        // The discriminator (inline enum) is inherited from the base PetEnumDisc via allOf. The
-        // oneOf interface getter must use the same enum type as the concrete base class, not
-        // String, otherwise the generated code does not compile (issue #22541).
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetResponseEnumDisc.java"),
-                "public PetTypeEnum getPetType();"
-        );
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetEnumDisc.java"),
-                "public PetTypeEnum getPetType()"
-        );
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOfDiscriminator.yaml", SPRING_BOOT, Map.of());
+        JavaFileAssert.assertThat(files.get("PetResponseEnumDisc.java"))
+                .fileContains("public PetTypeEnum getPetType();");
+        JavaFileAssert.assertThat(files.get("PetEnumDisc.java"))
+                .fileContains("public PetTypeEnum getPetType()");
+//        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+//        output.deleteOnExit();
+//        String outputPath = output.getAbsolutePath().replace('\\', '/');
+//        OpenAPI openAPI = new OpenAPIParser()
+//                .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions()).getOpenAPI();
+//
+//        SpringCodegen codegen = new SpringCodegen();
+//        codegen.setOutputDir(output.getAbsolutePath());
+//        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+//        codegen.setUseOneOfInterfaces(true);
+//
+//        ClientOptInput input = new ClientOptInput();
+//        input.openAPI(openAPI);
+//        input.config(codegen);
+//
+//        DefaultGenerator generator = new DefaultGenerator();
+//        codegen.setHateoas(true);
+//        generator.setGenerateMetadata(false);
+//        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+//        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+//        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+//        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+//
+//        codegen.setUseOneOfInterfaces(true);
+//        codegen.setLegacyDiscriminatorBehavior(false);
+//
+//        generator.opts(input).generate();
+//
+//        // The discriminator (inline enum) is inherited from the base PetEnumDisc via allOf. The
+//        // oneOf interface getter must use the same enum type as the concrete base class, not
+//        // String, otherwise the generated code does not compile (issue #22541).
+//        assertFileContains(
+//                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetResponseEnumDisc.java"),
+//                "public PetTypeEnum getPetType();"
+//        );
+//        assertFileContains(
+//                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetEnumDisc.java"),
+//                "public PetTypeEnum getPetType()"
+//        );
     }
 
     @Test
     void testOneOfWithInheritedUriDiscriminator() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions()).getOpenAPI();
-
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
-        codegen.setUseOneOfInterfaces(true);
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        codegen.setHateoas(true);
-        generator.setGenerateMetadata(false);
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
-
-        codegen.setUseOneOfInterfaces(true);
-        codegen.setLegacyDiscriminatorBehavior(false);
-
-        generator.opts(input).generate();
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOfDiscriminator.yaml", SPRING_BOOT, Map.of());
+        JavaFileAssert.assertThat(files.get("PetResponseUriDisc.java"))
+                .fileContains("public URI getPetType();");
+        JavaFileAssert.assertThat(files.get("PetUriDisc.java"))
+                .fileContains("public URI getPetType()");
+//        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+//        output.deleteOnExit();
+//        String outputPath = output.getAbsolutePath().replace('\\', '/');
+//        OpenAPI openAPI = new OpenAPIParser()
+//                .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions()).getOpenAPI();
+//
+//        SpringCodegen codegen = new SpringCodegen();
+//        codegen.setOutputDir(output.getAbsolutePath());
+//        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+//        codegen.setUseOneOfInterfaces(true);
+//
+//        ClientOptInput input = new ClientOptInput();
+//        input.openAPI(openAPI);
+//        input.config(codegen);
+//
+//        DefaultGenerator generator = new DefaultGenerator();
+//        codegen.setHateoas(true);
+//        generator.setGenerateMetadata(false);
+//        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+//        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+//        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+//        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+//
+//        codegen.setUseOneOfInterfaces(true);
+//        codegen.setLegacyDiscriminatorBehavior(false);
+//
+//        generator.opts(input).generate();
 
         // The discriminator (string, format: uri) is inherited from the base PetUriDisc via allOf.
         // The oneOf interface getter must use URI, matching the concrete base class, not String,
         // otherwise the generated code does not compile (issue #18693).
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetResponseUriDisc.java"),
-                "public URI getPetType();"
-        );
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetUriDisc.java"),
-                "public URI getPetType()"
-        );
+//        assertFileContains(
+//                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetResponseUriDisc.java"),
+//                "public URI getPetType();"
+//        );
+//        assertFileContains(
+//                Paths.get(outputPath + "/src/main/java/org/openapitools/model/PetUriDisc.java"),
+//                "public URI getPetType()"
+//        );
     }
 
     @Test
     void testOneOfWithEnumDiscriminator() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions()).getOpenAPI();
 
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
-        codegen.setUseOneOfInterfaces(true);
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOfDiscriminator.yaml", SPRING_BOOT, Map.of());
+        JavaFileAssert.assertThat(files.get("FruitOneOfEnumMappingDisc.java"))
+                .fileContains("public FruitTypeEnum getFruitType();");
+        JavaFileAssert.assertThat(files.get("AppleOneOfEnumMappingDisc.java"))
+                .fileContains("private FruitTypeEnum fruitType;",
+                "public FruitTypeEnum getFruitType() {");
+        JavaFileAssert.assertThat(files.get("BananaOneOfEnumMappingDisc.java"))
+                .fileContains("private FruitTypeEnum fruitType;",
+                "public FruitTypeEnum getFruitType() {");
 
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
 
-        DefaultGenerator generator = new DefaultGenerator();
-        codegen.setHateoas(true);
-        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
-
-        codegen.setUseOneOfInterfaces(true);
-        codegen.setLegacyDiscriminatorBehavior(false);
-
-        generator.opts(input).generate();
-
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/model/FruitOneOfEnumMappingDisc.java"),
-                "public FruitTypeEnum getFruitType();"
-        );
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/model/AppleOneOfEnumMappingDisc.java"),
-                "private FruitTypeEnum fruitType;",
-                "public FruitTypeEnum getFruitType() {"
-        );
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/model/BananaOneOfEnumMappingDisc.java"),
-                "private FruitTypeEnum fruitType;",
-                "public FruitTypeEnum getFruitType() {"
-        );
+//        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+//        output.deleteOnExit();
+//        String outputPath = output.getAbsolutePath().replace('\\', '/');
+//        OpenAPI openAPI = new OpenAPIParser()
+//                .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions()).getOpenAPI();
+//
+//        SpringCodegen codegen = new SpringCodegen();
+//        codegen.setOutputDir(output.getAbsolutePath());
+//        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+//        codegen.setUseOneOfInterfaces(true);
+//
+//        ClientOptInput input = new ClientOptInput();
+//        input.openAPI(openAPI);
+//        input.config(codegen);
+//
+//        DefaultGenerator generator = new DefaultGenerator();
+//        codegen.setHateoas(true);
+//        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+//        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+//        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+//        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+//        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+//
+//        codegen.setUseOneOfInterfaces(true);
+//        codegen.setLegacyDiscriminatorBehavior(false);
+//
+//        generator.opts(input).generate();
+//
+//        assertFileContains(
+//                Paths.get(outputPath + "/src/main/java/org/openapitools/model/FruitOneOfEnumMappingDisc.java"),
+//                "public FruitTypeEnum getFruitType();"
+//        );
+//        assertFileContains(
+//                Paths.get(outputPath + "/src/main/java/org/openapitools/model/AppleOneOfEnumMappingDisc.java"),
+//                "private FruitTypeEnum fruitType;",
+//                "public FruitTypeEnum getFruitType() {"
+//        );
+//        assertFileContains(
+//                Paths.get(outputPath + "/src/main/java/org/openapitools/model/BananaOneOfEnumMappingDisc.java"),
+//                "private FruitTypeEnum fruitType;",
+//                "public FruitTypeEnum getFruitType() {"
+//        );
     }
 
     @Test
