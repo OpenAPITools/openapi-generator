@@ -256,5 +256,74 @@ public class AllOfModelArrayAnyOf {
   }
 
 
+
+  public static class Builder {
+
+    private AllOfModelArrayAnyOf instance;
+
+    public Builder() {
+      this(new AllOfModelArrayAnyOf());
+    }
+
+    protected Builder(AllOfModelArrayAnyOf instance) {
+      this.instance = instance;
+    }
+
+    public AllOfModelArrayAnyOf.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+    public AllOfModelArrayAnyOf.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+    public AllOfModelArrayAnyOf.Builder linkListColumn1(AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1) {
+      this.instance.linkListColumn1 = linkListColumn1;
+      return this;
+    }
+    public AllOfModelArrayAnyOf.Builder attributes(AllOfModelArrayAnyOfAllOfAttributes attributes) {
+      this.instance.attributes = attributes;
+      return this;
+    }
+
+
+    /**
+    * returns a built AllOfModelArrayAnyOf instance.
+    *
+    * The builder is not reusable.
+    */
+    public AllOfModelArrayAnyOf build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AllOfModelArrayAnyOf.Builder builder() {
+    return new AllOfModelArrayAnyOf.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AllOfModelArrayAnyOf.Builder toBuilder() {
+    return new AllOfModelArrayAnyOf.Builder()
+      .id(getId())
+      .name(getName())
+      .linkListColumn1(getLinkListColumn1())
+      .attributes(getAttributes());
+  }
+
 }
 

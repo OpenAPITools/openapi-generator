@@ -150,5 +150,64 @@ public class NullableFieldsMapSuccess {
   }
 
 
+
+  public static class Builder {
+
+    private NullableFieldsMapSuccess instance;
+
+    public Builder() {
+      this(new NullableFieldsMapSuccess());
+    }
+
+    protected Builder(NullableFieldsMapSuccess instance) {
+      this.instance = instance;
+    }
+
+    public NullableFieldsMapSuccess.Builder status(String status) {
+      this.instance.status = status;
+      return this;
+    }
+    public NullableFieldsMapSuccess.Builder positions(Map<String, NullableFieldsValue> positions) {
+      this.instance.positions = positions;
+      return this;
+    }
+
+
+    /**
+    * returns a built NullableFieldsMapSuccess instance.
+    *
+    * The builder is not reusable.
+    */
+    public NullableFieldsMapSuccess build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static NullableFieldsMapSuccess.Builder builder() {
+    return new NullableFieldsMapSuccess.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NullableFieldsMapSuccess.Builder toBuilder() {
+    return new NullableFieldsMapSuccess.Builder()
+      .status(getStatus())
+      .positions(getPositions());
+  }
+
 }
 

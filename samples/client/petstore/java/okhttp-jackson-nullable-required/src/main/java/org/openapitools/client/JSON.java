@@ -67,9 +67,17 @@ public class JSON {
                 .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
                 .defaultDateFormat(new RFC3339DateFormat())
                 .addModule(new JavaTimeModule())
-                .addModule(new RFC3339JavaTimeModule())
+                .addModule(rfc3339JavaTimeModule())
                 .build();
         }
+    }
+
+    private static SimpleModule rfc3339JavaTimeModule() {
+        SimpleModule module = new SimpleModule("RFC3339JavaTimeModule");
+        module.addDeserializer(java.time.Instant.class, RFC3339InstantDeserializer.INSTANT);
+        module.addDeserializer(java.time.OffsetDateTime.class, RFC3339InstantDeserializer.OFFSET_DATE_TIME);
+        module.addDeserializer(java.time.ZonedDateTime.class, RFC3339InstantDeserializer.ZONED_DATE_TIME);
+        return module;
     }
 
     /**

@@ -490,5 +490,84 @@ public class PetWithRequiredTags {
       }
     }
   }
+
+  public static class Builder {
+
+    private PetWithRequiredTags instance;
+
+    public Builder() {
+      this(new PetWithRequiredTags());
+    }
+
+    protected Builder(PetWithRequiredTags instance) {
+      this.instance = instance;
+    }
+
+    public PetWithRequiredTags.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+    public PetWithRequiredTags.Builder category(Category category) {
+      this.instance.category = category;
+      return this;
+    }
+    public PetWithRequiredTags.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+    public PetWithRequiredTags.Builder photoUrls(List<String> photoUrls) {
+      this.instance.photoUrls = photoUrls;
+      return this;
+    }
+    public PetWithRequiredTags.Builder tags(List<Tag> tags) {
+      this.instance.tags = tags;
+      return this;
+    }
+    public PetWithRequiredTags.Builder status(StatusEnum status) {
+      this.instance.status = status;
+      return this;
+    }
+
+
+    /**
+    * returns a built PetWithRequiredTags instance.
+    *
+    * The builder is not reusable.
+    */
+    public PetWithRequiredTags build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static PetWithRequiredTags.Builder builder() {
+    return new PetWithRequiredTags.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public PetWithRequiredTags.Builder toBuilder() {
+    return new PetWithRequiredTags.Builder()
+      .id(getId())
+      .category(getCategory())
+      .name(getName())
+      .photoUrls(getPhotoUrls())
+      .tags(getTags())
+      .status(getStatus());
+  }
+
 }
 

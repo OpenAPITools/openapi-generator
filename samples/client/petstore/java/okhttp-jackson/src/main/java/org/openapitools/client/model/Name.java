@@ -49,7 +49,7 @@ public class Name {
   private Integer name;
 
   public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
-  @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE, access = JsonProperty.Access.READ_ONLY)
+  @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE)
   @javax.annotation.Nullable
   private Integer snakeCase;
 
@@ -59,16 +59,20 @@ public class Name {
   private String property;
 
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
-  @JsonProperty(value = JSON_PROPERTY_123NUMBER, access = JsonProperty.Access.READ_ONLY)
+  @JsonProperty(value = JSON_PROPERTY_123NUMBER)
   @javax.annotation.Nullable
   private Integer _123number;
 
   public Name() {
   }
 
+  /**
+   * Constructor with only readonly parameters
+   */
+  @JsonCreator
   public Name(
-     Integer snakeCase, 
-     Integer _123number
+     @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
+     @JsonProperty(value = JSON_PROPERTY_123NUMBER) Integer _123number
   ) {
     this();
     this.snakeCase = snakeCase;
@@ -242,6 +246,75 @@ public class Name {
     openapiRequiredFields = new HashSet<String>(Arrays.asList("name"));
   }
 
+
+
+  public static class Builder {
+
+    private Name instance;
+
+    public Builder() {
+      this(new Name());
+    }
+
+    protected Builder(Name instance) {
+      this.instance = instance;
+    }
+
+    public Name.Builder name(Integer name) {
+      this.instance.name = name;
+      return this;
+    }
+    public Name.Builder snakeCase(Integer snakeCase) {
+      this.instance.snakeCase = snakeCase;
+      return this;
+    }
+    public Name.Builder property(String property) {
+      this.instance.property = property;
+      return this;
+    }
+    public Name.Builder _123number(Integer _123number) {
+      this.instance._123number = _123number;
+      return this;
+    }
+
+
+    /**
+    * returns a built Name instance.
+    *
+    * The builder is not reusable.
+    */
+    public Name build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Name.Builder builder() {
+    return new Name.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Name.Builder toBuilder() {
+    return new Name.Builder()
+      .name(getName())
+      .snakeCase(getSnakeCase())
+      .property(getProperty())
+      ._123number(get123number());
+  }
 
 }
 

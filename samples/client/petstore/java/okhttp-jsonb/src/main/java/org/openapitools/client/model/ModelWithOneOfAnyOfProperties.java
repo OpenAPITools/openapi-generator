@@ -287,5 +287,64 @@ public class ModelWithOneOfAnyOfProperties {
       }
     }
   }
+
+  public static class Builder {
+
+    private ModelWithOneOfAnyOfProperties instance;
+
+    public Builder() {
+      this(new ModelWithOneOfAnyOfProperties());
+    }
+
+    protected Builder(ModelWithOneOfAnyOfProperties instance) {
+      this.instance = instance;
+    }
+
+    public ModelWithOneOfAnyOfProperties.Builder oneofProp(ArrayOneOf oneofProp) {
+      this.instance.oneofProp = oneofProp;
+      return this;
+    }
+    public ModelWithOneOfAnyOfProperties.Builder anyofProp(ArrayAnyOf anyofProp) {
+      this.instance.anyofProp = anyofProp;
+      return this;
+    }
+
+
+    /**
+    * returns a built ModelWithOneOfAnyOfProperties instance.
+    *
+    * The builder is not reusable.
+    */
+    public ModelWithOneOfAnyOfProperties build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ModelWithOneOfAnyOfProperties.Builder builder() {
+    return new ModelWithOneOfAnyOfProperties.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ModelWithOneOfAnyOfProperties.Builder toBuilder() {
+    return new ModelWithOneOfAnyOfProperties.Builder()
+      .oneofProp(getOneofProp())
+      .anyofProp(getAnyofProp());
+  }
+
 }
 

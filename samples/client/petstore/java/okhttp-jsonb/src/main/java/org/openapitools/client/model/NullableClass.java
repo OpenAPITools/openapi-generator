@@ -678,5 +678,114 @@ public class NullableClass {
       }
     }
   }
+
+  public static class Builder {
+
+    private NullableClass instance;
+
+    public Builder() {
+      this(new NullableClass());
+    }
+
+    protected Builder(NullableClass instance) {
+      this.instance = instance;
+    }
+
+    public NullableClass.Builder integerProp(Integer integerProp) {
+      this.instance.integerProp = integerProp;
+      return this;
+    }
+    public NullableClass.Builder numberProp(BigDecimal numberProp) {
+      this.instance.numberProp = numberProp;
+      return this;
+    }
+    public NullableClass.Builder booleanProp(Boolean booleanProp) {
+      this.instance.booleanProp = booleanProp;
+      return this;
+    }
+    public NullableClass.Builder stringProp(String stringProp) {
+      this.instance.stringProp = stringProp;
+      return this;
+    }
+    public NullableClass.Builder dateProp(LocalDate dateProp) {
+      this.instance.dateProp = dateProp;
+      return this;
+    }
+    public NullableClass.Builder datetimeProp(OffsetDateTime datetimeProp) {
+      this.instance.datetimeProp = datetimeProp;
+      return this;
+    }
+    public NullableClass.Builder arrayNullableProp(List<Object> arrayNullableProp) {
+      this.instance.arrayNullableProp = arrayNullableProp;
+      return this;
+    }
+    public NullableClass.Builder arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+      this.instance.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
+      return this;
+    }
+    public NullableClass.Builder arrayItemsNullable(List<Object> arrayItemsNullable) {
+      this.instance.arrayItemsNullable = arrayItemsNullable;
+      return this;
+    }
+    public NullableClass.Builder objectNullableProp(Map<String, Object> objectNullableProp) {
+      this.instance.objectNullableProp = objectNullableProp;
+      return this;
+    }
+    public NullableClass.Builder objectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
+      this.instance.objectAndItemsNullableProp = objectAndItemsNullableProp;
+      return this;
+    }
+    public NullableClass.Builder objectItemsNullable(Map<String, Object> objectItemsNullable) {
+      this.instance.objectItemsNullable = objectItemsNullable;
+      return this;
+    }
+
+
+    /**
+    * returns a built NullableClass instance.
+    *
+    * The builder is not reusable.
+    */
+    public NullableClass build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static NullableClass.Builder builder() {
+    return new NullableClass.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NullableClass.Builder toBuilder() {
+    return new NullableClass.Builder()
+      .integerProp(getIntegerProp())
+      .numberProp(getNumberProp())
+      .booleanProp(getBooleanProp())
+      .stringProp(getStringProp())
+      .dateProp(getDateProp())
+      .datetimeProp(getDatetimeProp())
+      .arrayNullableProp(getArrayNullableProp())
+      .arrayAndItemsNullableProp(getArrayAndItemsNullableProp())
+      .arrayItemsNullable(getArrayItemsNullable())
+      .objectNullableProp(getObjectNullableProp())
+      .objectAndItemsNullableProp(getObjectAndItemsNullableProp())
+      .objectItemsNullable(getObjectItemsNullable());
+  }
+
 }
 

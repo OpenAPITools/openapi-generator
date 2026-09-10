@@ -286,5 +286,64 @@ public class Variable {
       }
     }
   }
+
+  public static class Builder {
+
+    private Variable instance;
+
+    public Builder() {
+      this(new Variable());
+    }
+
+    protected Builder(Variable instance) {
+      this.instance = instance;
+    }
+
+    public Variable.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+    public Variable.Builder value(Value value) {
+      this.instance.value = value;
+      return this;
+    }
+
+
+    /**
+    * returns a built Variable instance.
+    *
+    * The builder is not reusable.
+    */
+    public Variable build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Variable.Builder builder() {
+    return new Variable.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Variable.Builder toBuilder() {
+    return new Variable.Builder()
+      .name(getName())
+      .value(getValue());
+  }
+
 }
 

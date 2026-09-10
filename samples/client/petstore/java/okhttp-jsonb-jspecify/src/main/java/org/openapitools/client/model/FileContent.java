@@ -106,6 +106,9 @@ public class FileContent {
   public FileContent() {
   }
 
+  /**
+   * Constructor with only readonly parameters
+   */
   public FileContent(
      String name, 
      Integer size, 
@@ -276,5 +279,69 @@ public class FileContent {
       }
     }
   }
+
+  public static class Builder {
+
+    private FileContent instance;
+
+    public Builder() {
+      this(new FileContent());
+    }
+
+    protected Builder(FileContent instance) {
+      this.instance = instance;
+    }
+
+    public FileContent.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+    public FileContent.Builder size(@Nullable Integer size) {
+      this.instance.size = size;
+      return this;
+    }
+    public FileContent.Builder virusScan(@Nullable VirusScanEnum virusScan) {
+      this.instance.virusScan = virusScan;
+      return this;
+    }
+
+
+    /**
+    * returns a built FileContent instance.
+    *
+    * The builder is not reusable.
+    */
+    public FileContent build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static FileContent.Builder builder() {
+    return new FileContent.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public FileContent.Builder toBuilder() {
+    return new FileContent.Builder()
+      .name(getName())
+      .size(getSize())
+      .virusScan(getVirusScan());
+  }
+
 }
 

@@ -160,15 +160,48 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/deprecated}}
   {{#isGson}}
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
+  {{#legacyDates}}
+  {{#isDate}}
+  {{! See JSON.DateOnlyTypeAdapter: under dateLibrary=legacy a `format: date` property is a
+      java.util.Date, indistinguishable by type from a `format: date-time` one, so the
+      date-only representation has to be selected per property. }}
+  @com.google.gson.annotations.JsonAdapter({{invokerPackage}}.JSON.DateOnlyTypeAdapter.class)
+  {{/isDate}}
+  {{/legacyDates}}
   {{/isGson}}
   {{#isJackson}}
-  @JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}{{#isReadOnly}}, access = JsonProperty.Access.READ_ONLY{{/isReadOnly}}{{#isWriteOnly}}, access = JsonProperty.Access.WRITE_ONLY{{/isWriteOnly}})
+  {{! No `access = ...` here: Jackson's Access.READ_ONLY means "serialize out, ignore on input",
+      which is the SERVER reading of OpenAPI readOnly. A client must do the opposite - populate
+      the value FROM the response - so emitting it silently discarded every readOnly property on
+      deserialization. Readonly properties are instead populated through the @JsonCreator
+      constructor below, which is what the shared root pojo.mustache does. }}
+  @JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}})
+  {{#legacyDates}}
+  {{#isDate}}
+  {{! Under dateLibrary=legacy a `format: date` property is a java.util.Date, indistinguishable
+      by type from a `format: date-time` one, so the mapper-wide RFC3339 date format rendered it
+      as a full UTC instant - both appending a time component and shifting the calendar day
+      backwards at positive UTC offsets. Pin the date-only pattern per property instead.
+      jackson-annotations stays under com.fasterxml.jackson for Jackson 3 too. }}
+  {{! See JSON.DateOnlySerializer - a bare @JsonFormat pattern is not enough, because with no
+      explicit timezone it resolves against the mapper default (UTC in Jackson, NOT the JVM
+      zone) and keeps shifting the day. }}
+  @{{jacksonPackage}}.databind.annotation.JsonSerialize(using = {{invokerPackage}}.JSON.DateOnlySerializer.class)
+  @{{jacksonPackage}}.databind.annotation.JsonDeserialize(using = {{invokerPackage}}.JSON.DateOnlyDeserializer.class)
+  {{/isDate}}
+  {{/legacyDates}}
   {{#includeIfNull}}
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   {{/includeIfNull}}
   {{/isJackson}}
   {{#isJsonb}}
   @JsonbProperty(SERIALIZED_NAME_{{nameInSnakeCase}})
+  {{#legacyDates}}
+  {{#isDate}}
+  {{! See JSON.DateOnlyJsonbAdapter - same per-property selection as the Gson path. }}
+  @jakarta.json.bind.annotation.JsonbTypeAdapter({{invokerPackage}}.JSON.DateOnlyJsonbAdapter.class)
+  {{/isDate}}
+  {{/legacyDates}}
   {{/isJsonb}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{.}}}
@@ -197,9 +230,19 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#vendorExtensions.x-has-readonly-properties}}
   {{^withXml}}
 
+  /**
+   * Constructor with only readonly parameters
+   */
+  {{! @JsonCreator is required, not decorative: readonly properties get no setter (the setter
+      block below is guarded on the inverted isReadOnly section) and Jackson does not
+      auto-detect private fields, so without an annotated creator there is no path to
+      populate a readonly property from a response. }}
+  {{#isJackson}}
+  @JsonCreator
+  {{/isJackson}}
   public {{classname}}(
   {{#readOnlyVars}}
-     {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+     {{#isJackson}}@JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}) {{/isJackson}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
   {{/readOnlyVars}}
   ) {
     this();
@@ -209,6 +252,20 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   }
   {{/withXml}}
   {{/vendorExtensions.x-has-readonly-properties}}
+{{#vendorExtensions.x-java-all-args-constructor}}
+
+  /**
+   * Constructor with all args parameters
+   */
+  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{>nullableArgumentWithEnum}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
+  {{#parent}}
+    super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});
+  {{/parent}}
+  {{#vars}}
+    this.{{name}} = {{name}};
+  {{/vars}}
+  }
+{{/vendorExtensions.x-java-all-args-constructor}}
   {{#vars}}
 
   {{^isReadOnly}}
@@ -957,13 +1014,13 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         {{^isReadOnly}}
         instance.{{setter}}(jsonObj.get("{{baseName}}").getValueType() == JsonValue.ValueType.NULL
             ? null
-            : jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")));
+            : {{#isDate}}{{#legacyDates}}JSON.dateOnlyFromJson(jsonObj.get("{{baseName}}")){{/legacyDates}}{{^legacyDates}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/legacyDates}}{{/isDate}}{{^isDate}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/isDate}});
         {{/isReadOnly}}
         {{#isReadOnly}}
         // readOnly properties have no setter; bind the declared field directly
         setField(instance, "{{name}}", jsonObj.get("{{baseName}}").getValueType() == JsonValue.ValueType.NULL
             ? null
-            : jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")));
+            : {{#isDate}}{{#legacyDates}}JSON.dateOnlyFromJson(jsonObj.get("{{baseName}}")){{/legacyDates}}{{^legacyDates}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/legacyDates}}{{/isDate}}{{^isDate}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/isDate}});
         {{/isReadOnly}}
       }
       {{/allVars}}
@@ -1061,13 +1118,13 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         {{^isReadOnly}}
         instance.{{setter}}(jsonObj.get("{{baseName}}").getValueType() == JsonValue.ValueType.NULL
             ? null
-            : jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")));
+            : {{#isDate}}{{#legacyDates}}JSON.dateOnlyFromJson(jsonObj.get("{{baseName}}")){{/legacyDates}}{{^legacyDates}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/legacyDates}}{{/isDate}}{{^isDate}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/isDate}});
         {{/isReadOnly}}
         {{#isReadOnly}}
         // readOnly properties have no setter; bind the declared field directly
         setField(instance, "{{name}}", jsonObj.get("{{baseName}}").getValueType() == JsonValue.ValueType.NULL
             ? null
-            : jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")));
+            : {{#isDate}}{{#legacyDates}}JSON.dateOnlyFromJson(jsonObj.get("{{baseName}}")){{/legacyDates}}{{^legacyDates}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/legacyDates}}{{/isDate}}{{^isDate}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/isDate}});
         {{/isReadOnly}}
       }
       {{/allVars}}
@@ -1105,4 +1162,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{/hasChildren}}
 {{/isAdditionalPropertiesTrue}}
 {{/isJsonb}}
+{{#generateBuilders}}
+
+  {{>javaBuilder}}{{! prevent indent}}
+{{/generateBuilders}}
 }

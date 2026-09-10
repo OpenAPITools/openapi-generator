@@ -251,5 +251,59 @@ public class AllOfRefToFloat {
       }
     }
   }
+
+  public static class Builder {
+
+    private AllOfRefToFloat instance;
+
+    public Builder() {
+      this(new AllOfRefToFloat());
+    }
+
+    protected Builder(AllOfRefToFloat instance) {
+      this.instance = instance;
+    }
+
+    public AllOfRefToFloat.Builder weight(Float weight) {
+      this.instance.weight = weight;
+      return this;
+    }
+
+
+    /**
+    * returns a built AllOfRefToFloat instance.
+    *
+    * The builder is not reusable.
+    */
+    public AllOfRefToFloat build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AllOfRefToFloat.Builder builder() {
+    return new AllOfRefToFloat.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AllOfRefToFloat.Builder toBuilder() {
+    return new AllOfRefToFloat.Builder()
+      .weight(getWeight());
+  }
+
 }
 

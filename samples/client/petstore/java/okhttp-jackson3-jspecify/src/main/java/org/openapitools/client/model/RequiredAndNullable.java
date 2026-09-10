@@ -245,5 +245,79 @@ public class RequiredAndNullable {
   }
 
 
+
+  public static class Builder {
+
+    private RequiredAndNullable instance;
+
+    public Builder() {
+      this(new RequiredAndNullable());
+    }
+
+    protected Builder(RequiredAndNullable instance) {
+      this.instance = instance;
+    }
+
+    public RequiredAndNullable.Builder str(@Nullable String str) {
+      this.instance.str = str;
+      return this;
+    }
+    public RequiredAndNullable.Builder _file(@Nullable File _file) {
+      this.instance._file = _file;
+      return this;
+    }
+    public RequiredAndNullable.Builder color(@Nullable String color) {
+      this.instance.color = color;
+      return this;
+    }
+    public RequiredAndNullable.Builder onlyRequired(String onlyRequired) {
+      this.instance.onlyRequired = onlyRequired;
+      return this;
+    }
+    public RequiredAndNullable.Builder _list(@Nullable List<String> _list) {
+      this.instance._list = _list;
+      return this;
+    }
+
+
+    /**
+    * returns a built RequiredAndNullable instance.
+    *
+    * The builder is not reusable.
+    */
+    public RequiredAndNullable build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static RequiredAndNullable.Builder builder() {
+    return new RequiredAndNullable.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public RequiredAndNullable.Builder toBuilder() {
+    return new RequiredAndNullable.Builder()
+      .str(getStr())
+      ._file(getFile())
+      .color(getColor())
+      .onlyRequired(getOnlyRequired())
+      ._list(getList());
+  }
+
 }
 

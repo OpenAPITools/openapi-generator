@@ -58,6 +58,9 @@ public class ReadOnlyFirst {
   public ReadOnlyFirst() {
   }
 
+  /**
+   * Constructor with only readonly parameters
+   */
   public ReadOnlyFirst(
      String bar
   ) {

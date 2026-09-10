@@ -262,5 +262,59 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
       }
     }
   }
+
+  public static class Builder {
+
+    private AllOfModelArrayAnyOfAllOfLinkListColumn1 instance;
+
+    public Builder() {
+      this(new AllOfModelArrayAnyOfAllOfLinkListColumn1());
+    }
+
+    protected Builder(AllOfModelArrayAnyOfAllOfLinkListColumn1 instance) {
+      this.instance = instance;
+    }
+
+    public AllOfModelArrayAnyOfAllOfLinkListColumn1.Builder value(List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value) {
+      this.instance.value = value;
+      return this;
+    }
+
+
+    /**
+    * returns a built AllOfModelArrayAnyOfAllOfLinkListColumn1 instance.
+    *
+    * The builder is not reusable.
+    */
+    public AllOfModelArrayAnyOfAllOfLinkListColumn1 build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AllOfModelArrayAnyOfAllOfLinkListColumn1.Builder builder() {
+    return new AllOfModelArrayAnyOfAllOfLinkListColumn1.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AllOfModelArrayAnyOfAllOfLinkListColumn1.Builder toBuilder() {
+    return new AllOfModelArrayAnyOfAllOfLinkListColumn1.Builder()
+      .value(getValue());
+  }
+
 }
 

@@ -192,5 +192,64 @@ public class NewPetCategoryInlineAllofAllOfCategoryTag {
   }
 
 
+
+  public static class Builder {
+
+    private NewPetCategoryInlineAllofAllOfCategoryTag instance;
+
+    public Builder() {
+      this(new NewPetCategoryInlineAllofAllOfCategoryTag());
+    }
+
+    protected Builder(NewPetCategoryInlineAllofAllOfCategoryTag instance) {
+      this.instance = instance;
+    }
+
+    public NewPetCategoryInlineAllofAllOfCategoryTag.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+    public NewPetCategoryInlineAllofAllOfCategoryTag.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+
+
+    /**
+    * returns a built NewPetCategoryInlineAllofAllOfCategoryTag instance.
+    *
+    * The builder is not reusable.
+    */
+    public NewPetCategoryInlineAllofAllOfCategoryTag build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static NewPetCategoryInlineAllofAllOfCategoryTag.Builder builder() {
+    return new NewPetCategoryInlineAllofAllOfCategoryTag.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NewPetCategoryInlineAllofAllOfCategoryTag.Builder toBuilder() {
+    return new NewPetCategoryInlineAllofAllOfCategoryTag.Builder()
+      .id(getId())
+      .name(getName());
+  }
+
 }
 

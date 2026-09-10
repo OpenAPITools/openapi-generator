@@ -652,5 +652,124 @@ public class RequiredNullableBody {
   }
 
 
+
+  public static class Builder {
+
+    private RequiredNullableBody instance;
+
+    public Builder() {
+      this(new RequiredNullableBody());
+    }
+
+    protected Builder(RequiredNullableBody instance) {
+      this.instance = instance;
+    }
+
+    public RequiredNullableBody.Builder integerProp(Integer integerProp) {
+      this.instance.integerProp = integerProp;
+      return this;
+    }
+    public RequiredNullableBody.Builder numberProp(BigDecimal numberProp) {
+      this.instance.numberProp = numberProp;
+      return this;
+    }
+    public RequiredNullableBody.Builder booleanProp(Boolean booleanProp) {
+      this.instance.booleanProp = booleanProp;
+      return this;
+    }
+    public RequiredNullableBody.Builder stringProp(String stringProp) {
+      this.instance.stringProp = stringProp;
+      return this;
+    }
+    public RequiredNullableBody.Builder dateProp(LocalDate dateProp) {
+      this.instance.dateProp = dateProp;
+      return this;
+    }
+    public RequiredNullableBody.Builder datetimeProp(OffsetDateTime datetimeProp) {
+      this.instance.datetimeProp = datetimeProp;
+      return this;
+    }
+    public RequiredNullableBody.Builder arrayNullableProp(List<Object> arrayNullableProp) {
+      this.instance.arrayNullableProp = arrayNullableProp;
+      return this;
+    }
+    public RequiredNullableBody.Builder arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+      this.instance.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
+      return this;
+    }
+    public RequiredNullableBody.Builder arrayItemsNullable(List<Object> arrayItemsNullable) {
+      this.instance.arrayItemsNullable = arrayItemsNullable;
+      return this;
+    }
+    public RequiredNullableBody.Builder objectNullableProp(Map<String, Object> objectNullableProp) {
+      this.instance.objectNullableProp = objectNullableProp;
+      return this;
+    }
+    public RequiredNullableBody.Builder objectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
+      this.instance.objectAndItemsNullableProp = objectAndItemsNullableProp;
+      return this;
+    }
+    public RequiredNullableBody.Builder objectItemsNullable(Map<String, Object> objectItemsNullable) {
+      this.instance.objectItemsNullable = objectItemsNullable;
+      return this;
+    }
+    public RequiredNullableBody.Builder customRefEnum(NullableEnum customRefEnum) {
+      this.instance.customRefEnum = customRefEnum;
+      return this;
+    }
+    public RequiredNullableBody.Builder customEnum(CustomEnumEnum customEnum) {
+      this.instance.customEnum = customEnum;
+      return this;
+    }
+
+
+    /**
+    * returns a built RequiredNullableBody instance.
+    *
+    * The builder is not reusable.
+    */
+    public RequiredNullableBody build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static RequiredNullableBody.Builder builder() {
+    return new RequiredNullableBody.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public RequiredNullableBody.Builder toBuilder() {
+    return new RequiredNullableBody.Builder()
+      .integerProp(getIntegerProp())
+      .numberProp(getNumberProp())
+      .booleanProp(getBooleanProp())
+      .stringProp(getStringProp())
+      .dateProp(getDateProp())
+      .datetimeProp(getDatetimeProp())
+      .arrayNullableProp(getArrayNullableProp())
+      .arrayAndItemsNullableProp(getArrayAndItemsNullableProp())
+      .arrayItemsNullable(getArrayItemsNullable())
+      .objectNullableProp(getObjectNullableProp())
+      .objectAndItemsNullableProp(getObjectAndItemsNullableProp())
+      .objectItemsNullable(getObjectItemsNullable())
+      .customRefEnum(getCustomRefEnum())
+      .customEnum(getCustomEnum());
+  }
+
 }
 

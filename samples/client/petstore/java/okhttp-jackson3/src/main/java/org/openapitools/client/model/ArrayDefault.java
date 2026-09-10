@@ -210,5 +210,64 @@ public class ArrayDefault {
   }
 
 
+
+  public static class Builder {
+
+    private ArrayDefault instance;
+
+    public Builder() {
+      this(new ArrayDefault());
+    }
+
+    protected Builder(ArrayDefault instance) {
+      this.instance = instance;
+    }
+
+    public ArrayDefault.Builder withDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
+      this.instance.withDefaultEmptyBracket = withDefaultEmptyBracket;
+      return this;
+    }
+    public ArrayDefault.Builder withoutDefault(List<String> withoutDefault) {
+      this.instance.withoutDefault = withoutDefault;
+      return this;
+    }
+
+
+    /**
+    * returns a built ArrayDefault instance.
+    *
+    * The builder is not reusable.
+    */
+    public ArrayDefault build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ArrayDefault.Builder builder() {
+    return new ArrayDefault.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ArrayDefault.Builder toBuilder() {
+    return new ArrayDefault.Builder()
+      .withDefaultEmptyBracket(getWithDefaultEmptyBracket())
+      .withoutDefault(getWithoutDefault());
+  }
+
 }
 

@@ -251,5 +251,59 @@ public class AllOfRefToDouble {
       }
     }
   }
+
+  public static class Builder {
+
+    private AllOfRefToDouble instance;
+
+    public Builder() {
+      this(new AllOfRefToDouble());
+    }
+
+    protected Builder(AllOfRefToDouble instance) {
+      this.instance = instance;
+    }
+
+    public AllOfRefToDouble.Builder height(Double height) {
+      this.instance.height = height;
+      return this;
+    }
+
+
+    /**
+    * returns a built AllOfRefToDouble instance.
+    *
+    * The builder is not reusable.
+    */
+    public AllOfRefToDouble build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AllOfRefToDouble.Builder builder() {
+    return new AllOfRefToDouble.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AllOfRefToDouble.Builder toBuilder() {
+    return new AllOfRefToDouble.Builder()
+      .height(getHeight());
+  }
+
 }
 

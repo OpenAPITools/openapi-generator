@@ -154,6 +154,9 @@ public class NewPet {
   public NewPet() {
   }
 
+  /**
+   * Constructor with only readonly parameters
+   */
   public NewPet(
      Category categoryAllOfRefDescriptionReadonly
   ) {

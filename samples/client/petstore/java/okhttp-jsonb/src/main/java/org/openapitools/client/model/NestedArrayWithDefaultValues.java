@@ -261,5 +261,59 @@ public class NestedArrayWithDefaultValues {
       }
     }
   }
+
+  public static class Builder {
+
+    private NestedArrayWithDefaultValues instance;
+
+    public Builder() {
+      this(new NestedArrayWithDefaultValues());
+    }
+
+    protected Builder(NestedArrayWithDefaultValues instance) {
+      this.instance = instance;
+    }
+
+    public NestedArrayWithDefaultValues.Builder nestedArray(List<List<String>> nestedArray) {
+      this.instance.nestedArray = nestedArray;
+      return this;
+    }
+
+
+    /**
+    * returns a built NestedArrayWithDefaultValues instance.
+    *
+    * The builder is not reusable.
+    */
+    public NestedArrayWithDefaultValues build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static NestedArrayWithDefaultValues.Builder builder() {
+    return new NestedArrayWithDefaultValues.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NestedArrayWithDefaultValues.Builder toBuilder() {
+    return new NestedArrayWithDefaultValues.Builder()
+      .nestedArray(getNestedArray());
+  }
+
 }
 

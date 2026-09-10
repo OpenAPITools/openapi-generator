@@ -490,5 +490,84 @@ public class PetRef {
       }
     }
   }
+
+  public static class Builder {
+
+    private PetRef instance;
+
+    public Builder() {
+      this(new PetRef());
+    }
+
+    protected Builder(PetRef instance) {
+      this.instance = instance;
+    }
+
+    public PetRef.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+    public PetRef.Builder category(Category category) {
+      this.instance.category = category;
+      return this;
+    }
+    public PetRef.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+    public PetRef.Builder photoUrls(List<String> photoUrls) {
+      this.instance.photoUrls = photoUrls;
+      return this;
+    }
+    public PetRef.Builder tags(List<Tag> tags) {
+      this.instance.tags = tags;
+      return this;
+    }
+    public PetRef.Builder status(StatusEnum status) {
+      this.instance.status = status;
+      return this;
+    }
+
+
+    /**
+    * returns a built PetRef instance.
+    *
+    * The builder is not reusable.
+    */
+    public PetRef build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static PetRef.Builder builder() {
+    return new PetRef.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public PetRef.Builder toBuilder() {
+    return new PetRef.Builder()
+      .id(getId())
+      .category(getCategory())
+      .name(getName())
+      .photoUrls(getPhotoUrls())
+      .tags(getTags())
+      .status(getStatus());
+  }
+
 }
 

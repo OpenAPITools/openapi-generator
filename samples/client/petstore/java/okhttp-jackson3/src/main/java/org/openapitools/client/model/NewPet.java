@@ -74,7 +74,7 @@ public class NewPet {
   private Category categoryAllOfRefDescription;
 
   public static final String JSON_PROPERTY_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY = "category_allOf_ref_description_readonly";
-  @JsonProperty(value = JSON_PROPERTY_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY, access = JsonProperty.Access.READ_ONLY)
+  @JsonProperty(value = JSON_PROPERTY_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY)
   @javax.annotation.Nullable
   private Category categoryAllOfRefDescriptionReadonly;
 
@@ -139,8 +139,12 @@ public class NewPet {
   public NewPet() {
   }
 
+  /**
+   * Constructor with only readonly parameters
+   */
+  @JsonCreator
   public NewPet(
-     Category categoryAllOfRefDescriptionReadonly
+     @JsonProperty(value = JSON_PROPERTY_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY) Category categoryAllOfRefDescriptionReadonly
   ) {
     this();
     this.categoryAllOfRefDescriptionReadonly = categoryAllOfRefDescriptionReadonly;
@@ -464,6 +468,100 @@ public class NewPet {
     openapiRequiredFields = new HashSet<String>(Arrays.asList("name", "photoUrls"));
   }
 
+
+
+  public static class Builder {
+
+    private NewPet instance;
+
+    public Builder() {
+      this(new NewPet());
+    }
+
+    protected Builder(NewPet instance) {
+      this.instance = instance;
+    }
+
+    public NewPet.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+    public NewPet.Builder categoryInlineAllof(NewPetCategoryInlineAllof categoryInlineAllof) {
+      this.instance.categoryInlineAllof = categoryInlineAllof;
+      return this;
+    }
+    public NewPet.Builder categoryAllOfRef(Category categoryAllOfRef) {
+      this.instance.categoryAllOfRef = categoryAllOfRef;
+      return this;
+    }
+    public NewPet.Builder categoryAllOfRefDescription(Category categoryAllOfRefDescription) {
+      this.instance.categoryAllOfRefDescription = categoryAllOfRefDescription;
+      return this;
+    }
+    public NewPet.Builder categoryAllOfRefDescriptionReadonly(Category categoryAllOfRefDescriptionReadonly) {
+      this.instance.categoryAllOfRefDescriptionReadonly = categoryAllOfRefDescriptionReadonly;
+      return this;
+    }
+    public NewPet.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+    public NewPet.Builder photoUrls(List<String> photoUrls) {
+      this.instance.photoUrls = photoUrls;
+      return this;
+    }
+    public NewPet.Builder tags(List<Tag> tags) {
+      this.instance.tags = tags;
+      return this;
+    }
+    public NewPet.Builder status(StatusEnum status) {
+      this.instance.status = status;
+      return this;
+    }
+
+
+    /**
+    * returns a built NewPet instance.
+    *
+    * The builder is not reusable.
+    */
+    public NewPet build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static NewPet.Builder builder() {
+    return new NewPet.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NewPet.Builder toBuilder() {
+    return new NewPet.Builder()
+      .id(getId())
+      .categoryInlineAllof(getCategoryInlineAllof())
+      .categoryAllOfRef(getCategoryAllOfRef())
+      .categoryAllOfRefDescription(getCategoryAllOfRefDescription())
+      .categoryAllOfRefDescriptionReadonly(getCategoryAllOfRefDescriptionReadonly())
+      .name(getName())
+      .photoUrls(getPhotoUrls())
+      .tags(getTags())
+      .status(getStatus());
+  }
 
 }
 

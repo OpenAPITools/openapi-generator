@@ -252,5 +252,59 @@ public class AllOfModelArrayAnyOfAllOfAttributes {
       }
     }
   }
+
+  public static class Builder {
+
+    private AllOfModelArrayAnyOfAllOfAttributes instance;
+
+    public Builder() {
+      this(new AllOfModelArrayAnyOfAllOfAttributes());
+    }
+
+    protected Builder(AllOfModelArrayAnyOfAllOfAttributes instance) {
+      this.instance = instance;
+    }
+
+    public AllOfModelArrayAnyOfAllOfAttributes.Builder C(AllOfModelArrayAnyOfAllOfAttributesC C) {
+      this.instance.C = C;
+      return this;
+    }
+
+
+    /**
+    * returns a built AllOfModelArrayAnyOfAllOfAttributes instance.
+    *
+    * The builder is not reusable.
+    */
+    public AllOfModelArrayAnyOfAllOfAttributes build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AllOfModelArrayAnyOfAllOfAttributes.Builder builder() {
+    return new AllOfModelArrayAnyOfAllOfAttributes.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AllOfModelArrayAnyOfAllOfAttributes.Builder toBuilder() {
+    return new AllOfModelArrayAnyOfAllOfAttributes.Builder()
+      .C(getC());
+  }
+
 }
 

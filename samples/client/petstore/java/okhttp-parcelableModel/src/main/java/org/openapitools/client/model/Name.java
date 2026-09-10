@@ -70,6 +70,9 @@ public class Name implements Parcelable {
   public Name() {
   }
 
+  /**
+   * Constructor with only readonly parameters
+   */
   public Name(
      Integer snakeCase, 
      Integer _123number

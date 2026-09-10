@@ -140,5 +140,64 @@ public class NullableFieldsMapError {
   }
 
 
+
+  public static class Builder {
+
+    private NullableFieldsMapError instance;
+
+    public Builder() {
+      this(new NullableFieldsMapError());
+    }
+
+    protected Builder(NullableFieldsMapError instance) {
+      this.instance = instance;
+    }
+
+    public NullableFieldsMapError.Builder status(String status) {
+      this.instance.status = status;
+      return this;
+    }
+    public NullableFieldsMapError.Builder reason(String reason) {
+      this.instance.reason = reason;
+      return this;
+    }
+
+
+    /**
+    * returns a built NullableFieldsMapError instance.
+    *
+    * The builder is not reusable.
+    */
+    public NullableFieldsMapError build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static NullableFieldsMapError.Builder builder() {
+    return new NullableFieldsMapError.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NullableFieldsMapError.Builder toBuilder() {
+    return new NullableFieldsMapError.Builder()
+      .status(getStatus())
+      .reason(getReason());
+  }
+
 }
 

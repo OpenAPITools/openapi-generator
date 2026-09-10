@@ -60,6 +60,9 @@ public class ReadOnlyFirst implements Parcelable {
   public ReadOnlyFirst() {
   }
 
+  /**
+   * Constructor with only readonly parameters
+   */
   public ReadOnlyFirst(
      String bar
   ) {

@@ -42,7 +42,7 @@ import java.util.HashSet;
 @JsonTypeName("ReadOnlyFirst")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
-  @JsonProperty(value = JSON_PROPERTY_BAR, access = JsonProperty.Access.READ_ONLY)
+  @JsonProperty(value = JSON_PROPERTY_BAR)
   @javax.annotation.Nullable
   private String bar;
 
@@ -54,8 +54,12 @@ public class ReadOnlyFirst {
   public ReadOnlyFirst() {
   }
 
+  /**
+   * Constructor with only readonly parameters
+   */
+  @JsonCreator
   public ReadOnlyFirst(
-     String bar
+     @JsonProperty(value = JSON_PROPERTY_BAR) String bar
   ) {
     this();
     this.bar = bar;
@@ -188,6 +192,65 @@ public class ReadOnlyFirst {
     openapiRequiredFields = new HashSet<String>(0);
   }
 
+
+
+  public static class Builder {
+
+    private ReadOnlyFirst instance;
+
+    public Builder() {
+      this(new ReadOnlyFirst());
+    }
+
+    protected Builder(ReadOnlyFirst instance) {
+      this.instance = instance;
+    }
+
+    public ReadOnlyFirst.Builder bar(String bar) {
+      this.instance.bar = bar;
+      return this;
+    }
+    public ReadOnlyFirst.Builder baz(String baz) {
+      this.instance.baz = baz;
+      return this;
+    }
+
+
+    /**
+    * returns a built ReadOnlyFirst instance.
+    *
+    * The builder is not reusable.
+    */
+    public ReadOnlyFirst build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ReadOnlyFirst.Builder builder() {
+    return new ReadOnlyFirst.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ReadOnlyFirst.Builder toBuilder() {
+    return new ReadOnlyFirst.Builder()
+      .bar(getBar())
+      .baz(getBaz());
+  }
 
 }
 

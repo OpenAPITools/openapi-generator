@@ -207,5 +207,59 @@ public class EnumStringDiscriminator {
   }
 
 
+
+  public static class Builder {
+
+    private EnumStringDiscriminator instance;
+
+    public Builder() {
+      this(new EnumStringDiscriminator());
+    }
+
+    protected Builder(EnumStringDiscriminator instance) {
+      this.instance = instance;
+    }
+
+    public EnumStringDiscriminator.Builder enumStrType(EnumStrTypeEnum enumStrType) {
+      this.instance.enumStrType = enumStrType;
+      return this;
+    }
+
+
+    /**
+    * returns a built EnumStringDiscriminator instance.
+    *
+    * The builder is not reusable.
+    */
+    public EnumStringDiscriminator build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static EnumStringDiscriminator.Builder builder() {
+    return new EnumStringDiscriminator.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public EnumStringDiscriminator.Builder toBuilder() {
+    return new EnumStringDiscriminator.Builder()
+      .enumStrType(getEnumStrType());
+  }
+
 }
 

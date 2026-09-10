@@ -55,6 +55,14 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.ISODateTimeFormat;
 {{/isGson}}
+{{#isJsonb}}
+{{! Required: the JSON-B joda adapters below, their format fields and their setters are all
+    typed on joda's DateTimeFormatter, and java.time's is only imported for the jsr310 date
+    libraries. Without these two imports JSON.java references DateTimeFormatter in 8 places
+    with no import at all and does not compile. }}
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+{{/isJsonb}}
 {{#isJackson}}
 import {{jacksonPackage}}.datatype.joda.JodaModule;
 {{/isJackson}}
@@ -200,7 +208,7 @@ public class JSON {
                 .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
                 .defaultDateFormat(new RFC3339DateFormat())
                 .addModule(new JavaTimeModule())
-                .addModule(new RFC3339JavaTimeModule())
+                .addModule(rfc3339JavaTimeModule())
                 .build();
             {{#joda}}
             mapper.registerModule(new JodaModule());
@@ -263,6 +271,26 @@ public class JSON {
     }
     {{/isGson}}
     {{#isJackson}}
+    {{^useJackson3}}
+    {{! Deliberately NOT `new RFC3339JavaTimeModule()`. That class is a shared root template,
+        byte-identical to master, and on Jackson 2 it registers its deserializers from
+        setupModule() only AFTER calling super.setupModule(context). SimpleModule forwards
+        _deserializers to the context just once, and that map is created lazily by the first
+        addDeserializer call - so on Jackson 2 the registrations are lost entirely and the
+        lenient RFC3339 parsing never takes effect (e.g. "2020-01-01 12:00:00.000+02:00", with
+        a space instead of T, is rejected instead of normalised). Jackson 3 is unaffected
+        because its constructor does the registering. Building the equivalent module here fixes
+        the okhttp library without touching a template shared by six libraries; the upstream fix
+        belongs in RFC3339JavaTimeModule itself. }}
+    private static SimpleModule rfc3339JavaTimeModule() {
+        SimpleModule module = new SimpleModule("RFC3339JavaTimeModule");
+        module.addDeserializer(java.time.Instant.class, RFC3339InstantDeserializer.INSTANT);
+        module.addDeserializer(java.time.OffsetDateTime.class, RFC3339InstantDeserializer.OFFSET_DATE_TIME);
+        module.addDeserializer(java.time.ZonedDateTime.class, RFC3339InstantDeserializer.ZONED_DATE_TIME);
+        return module;
+    }
+
+    {{/useJackson3}}
     /**
      * Returns the target model class that should be used to deserialize the input data.
      * The discriminator mappings are used to determine the target model class.
@@ -673,12 +701,14 @@ public class JSON {
         }
         {{/jsr310}}
         {{#joda}}
-        if (dateTimeFormat != null) {
-            config.withAdapters(new JodaDateTimeAdapter(dateTimeFormat));
-        }
-        if (jodaLocalDateFormat != null) {
-            config.withAdapters(new JodaLocalDateAdapter(jodaLocalDateFormat));
-        }
+        {{! Registered unconditionally, mirroring the FileAdapter: Yasson has no built-in support
+            for joda types, so leaving these out until the application calls a format setter left
+            DateTime/LocalDate to plain bean mapping. Defaults are the ISO forms that match what
+            the Jackson JodaModule and the Gson joda type adapters produce. }}
+        config.withAdapters(new JodaDateTimeAdapter(
+                dateTimeFormat != null ? dateTimeFormat : ISODateTimeFormat.dateTime()));
+        config.withAdapters(new JodaLocalDateAdapter(
+                jodaLocalDateFormat != null ? jodaLocalDateFormat : ISODateTimeFormat.date()));
         {{/joda}}
         {{! JSON-B has no any-getter/any-setter, so models with 'additionalProperties: true'
             round-trip their undeclared fields through custom (de)serializers generated into
@@ -1640,4 +1670,132 @@ public class JSON {
         }
     }
     {{/isGson}}
+{{#legacyDates}}
+
+    {{! `dateLibrary=legacy` maps BOTH `format: date` and `format: date-time` onto
+        java.util.Date, so a single type-keyed (de)serializer cannot serve both. The
+        date-time form (a full instant, rendered in UTC) was therefore applied to
+        date-only properties too, which appends a time component the server rejects AND
+        shifts the calendar day backwards on any JVM at a positive UTC offset. The
+        adapter below is attached per-property from pojo.mustache, for `isDate` only, so
+        the public API stays java.util.Date. Jackson needs no adapter - it expresses the
+        same thing with a per-property @JsonFormat pattern. }}
+    {{! Deliberately left on the DEFAULT time zone. A `format: date` value carries no zone, so
+        the only sane contract is that the calendar day written out is the day the caller set:
+        pinning UTC re-introduces the very off-by-one-day shift this fixes, because a Date at
+        local midnight on the 15th is the 14th at 23:00Z. Both directions use this same format,
+        so the value round-trips exactly. }}
+    private static java.text.DateFormat dateOnlyFormat() {
+        return new java.text.SimpleDateFormat("yyyy-MM-dd");
+    }
+{{#isJackson}}
+
+    {{! A per-property @JsonFormat(pattern="yyyy-MM-dd") would look simpler but is WRONG here:
+        with no explicit `timezone` it resolves against the MAPPER's default zone, and Jackson
+        defaults that to UTC rather than the JVM zone - so a Date at local midnight on the 15th
+        still serialised as "2020-01-14", and Jackson would disagree with the Gson and JSON-B
+        paths. Going through dateOnlyFormat() keeps all four serializers byte-identical on the
+        wire. }}
+    {{^useJackson3}}
+    public static class DateOnlySerializer extends JsonSerializer<Date> {
+        @Override
+        public void serialize(Date value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+            gen.writeString(dateOnlyFormat().format(value));
+        }
+    }
+
+    public static class DateOnlyDeserializer extends JsonDeserializer<Date> {
+        @Override
+        public Date deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+            try {
+                return dateOnlyFormat().parse(p.getText());
+            } catch (ParseException e) {
+                throw new IOException(e);
+            }
+        }
+    }
+    {{/useJackson3}}
+    {{#useJackson3}}
+    public static class DateOnlySerializer extends ValueSerializer<Date> {
+        @Override
+        public void serialize(Date value, JsonGenerator gen, SerializationContext serializers) throws JacksonException {
+            gen.writeString(dateOnlyFormat().format(value));
+        }
+    }
+
+    public static class DateOnlyDeserializer extends ValueDeserializer<Date> {
+        @Override
+        public Date deserialize(JsonParser p, DeserializationContext ctxt) throws JacksonException {
+            try {
+                return dateOnlyFormat().parse(p.getString());
+            } catch (ParseException e) {
+                throw new IllegalArgumentException("Failed to parse a date-only java.util.Date", e);
+            }
+        }
+    }
+    {{/useJackson3}}
+{{/isJackson}}
+{{#isGson}}
+
+    /**
+     * Gson type adapter for a date-only java.util.Date (OpenAPI {@code format: date}).
+     */
+    public static class DateOnlyTypeAdapter extends TypeAdapter<Date> {
+        @Override
+        public void write(JsonWriter out, Date value) throws IOException {
+            if (value == null) {
+                out.nullValue();
+                return;
+            }
+            out.value(dateOnlyFormat().format(value));
+        }
+
+        @Override
+        public Date read(JsonReader in) throws IOException {
+            {{! Fully qualified: the Gson import block does not pull in JsonToken (the unqualified
+                JsonToken in this file is Jackson's, imported only for the Jackson serializer). }}
+            if (in.peek() == com.google.gson.stream.JsonToken.NULL) {
+                in.nextNull();
+                return null;
+            }
+            String date = in.nextString();
+            try {
+                return dateOnlyFormat().parse(date);
+            } catch (ParseException e) {
+                throw new JsonParseException(e);
+            }
+        }
+    }
+{{/isGson}}
+{{#isJsonb}}
+
+    /**
+     * JSON-B adapter for a date-only java.util.Date (OpenAPI {@code format: date}).
+     */
+    public static class DateOnlyJsonbAdapter implements JsonbAdapter<Date, String> {
+        @Override
+        public String adaptToJson(Date value) {
+            return value == null ? null : dateOnlyFormat().format(value);
+        }
+
+        @Override
+        public Date adaptFromJson(String value) throws ParseException {
+            return value == null ? null : dateOnlyFormat().parse(value);
+        }
+    }
+
+    {{! The generated CustomJsonbDeserializer binds each property with
+        jsonb.fromJson(value, fieldType(name)) - i.e. by DECLARED TYPE - so a field-level
+        @JsonbTypeAdapter is never consulted on that path and Yasson falls back to its own
+        java.util.Date parsing, which rejects a bare "yyyy-MM-dd". Deserialization of a
+        date-only property therefore has to go through this helper explicitly. }}
+    public static Date dateOnlyFromJson(jakarta.json.JsonValue value) {
+        try {
+            return dateOnlyFormat().parse(((jakarta.json.JsonString) value).getString());
+        } catch (ParseException e) {
+            throw new jakarta.json.bind.JsonbException("Failed to parse a date-only java.util.Date: " + value, e);
+        }
+    }
+{{/isJsonb}}
+{{/legacyDates}}
 }

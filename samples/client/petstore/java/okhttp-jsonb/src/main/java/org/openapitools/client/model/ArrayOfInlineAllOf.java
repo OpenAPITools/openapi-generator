@@ -330,5 +330,69 @@ public class ArrayOfInlineAllOf {
       }
     }
   }
+
+  public static class Builder {
+
+    private ArrayOfInlineAllOf instance;
+
+    public Builder() {
+      this(new ArrayOfInlineAllOf());
+    }
+
+    protected Builder(ArrayOfInlineAllOf instance) {
+      this.instance = instance;
+    }
+
+    public ArrayOfInlineAllOf.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+    public ArrayOfInlineAllOf.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+    public ArrayOfInlineAllOf.Builder arrayAllofDogProperty(List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
+      this.instance.arrayAllofDogProperty = arrayAllofDogProperty;
+      return this;
+    }
+
+
+    /**
+    * returns a built ArrayOfInlineAllOf instance.
+    *
+    * The builder is not reusable.
+    */
+    public ArrayOfInlineAllOf build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ArrayOfInlineAllOf.Builder builder() {
+    return new ArrayOfInlineAllOf.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ArrayOfInlineAllOf.Builder toBuilder() {
+    return new ArrayOfInlineAllOf.Builder()
+      .id(getId())
+      .name(getName())
+      .arrayAllofDogProperty(getArrayAllofDogProperty());
+  }
+
 }
 

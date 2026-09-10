@@ -61,6 +61,9 @@ public class HasOnlyReadOnly {
   public HasOnlyReadOnly() {
   }
 
+  /**
+   * Constructor with only readonly parameters
+   */
   public HasOnlyReadOnly(
      String bar, 
      String foo

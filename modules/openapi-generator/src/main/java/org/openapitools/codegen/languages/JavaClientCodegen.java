@@ -897,6 +897,28 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         if (libOkHttp) {
+            // `defaultToEmptyContainer` is a RULE STRING, not a boolean, but nothing validates it:
+            // DefaultCodegen parses the value and merely LOGs unrecognised tokens, then sets the
+            // defaultToEmptyContainer flag to true unconditionally. So `defaultToEmptyContainer=true`
+            // - the spelling every other boolean option in the generator uses - matches no rule, and
+            // the result is silently the OPPOSITE of the option's documented effect: containers end
+            // up defaulting to null. Fail fast instead of generating misleading code. Validating it
+            // for every generator belongs upstream in DefaultCodegen; this is gated to okhttp.
+            Object emptyContainerRule = additionalProperties.get(CodegenConstants.DEFAULT_TO_EMPTY_CONTAINER);
+            if (emptyContainerRule instanceof String && !StringUtils.isBlank((String) emptyContainerRule)) {
+                for (String rule : ((String) emptyContainerRule).split("\\|")) {
+                    String containerType = rule.replaceAll("^\\?|\\?$", "");
+                    if (!"array".equalsIgnoreCase(containerType) && !"map".equalsIgnoreCase(containerType)) {
+                        throw new IllegalArgumentException(String.format(Locale.ROOT,
+                                "Invalid %s value '%s': '%s' is not a container type. This option takes "
+                                        + "'|'-separated rules over 'array' and 'map', each optionally "
+                                        + "prefixed with '?' (nullable) and/or suffixed with '?' (optional), "
+                                        + "e.g. 'array|map' or '?array?|map'. It is not a boolean - passing "
+                                        + "'true' silently makes containers default to null instead.",
+                                CodegenConstants.DEFAULT_TO_EMPTY_CONTAINER, emptyContainerRule, rule));
+                    }
+                }
+            }
             // The okhttp templates emit Gson, Jackson or JSON-B from one source, so they need the
             // resolved serialization library as three mutually exclusive mustache flags. This must run
             // after the switch above, which is where getSerializationLibrary() becomes authoritative.

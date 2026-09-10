@@ -223,5 +223,69 @@ public class PropertyNameCollision {
   }
 
 
+
+  public static class Builder {
+
+    private PropertyNameCollision instance;
+
+    public Builder() {
+      this(new PropertyNameCollision());
+    }
+
+    protected Builder(PropertyNameCollision instance) {
+      this.instance = instance;
+    }
+
+    public PropertyNameCollision.Builder underscoreType(String underscoreType) {
+      this.instance.underscoreType = underscoreType;
+      return this;
+    }
+    public PropertyNameCollision.Builder type(String type) {
+      this.instance.type = type;
+      return this;
+    }
+    public PropertyNameCollision.Builder typeWithUnderscore(String typeWithUnderscore) {
+      this.instance.typeWithUnderscore = typeWithUnderscore;
+      return this;
+    }
+
+
+    /**
+    * returns a built PropertyNameCollision instance.
+    *
+    * The builder is not reusable.
+    */
+    public PropertyNameCollision build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static PropertyNameCollision.Builder builder() {
+    return new PropertyNameCollision.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public PropertyNameCollision.Builder toBuilder() {
+    return new PropertyNameCollision.Builder()
+      .underscoreType(getUnderscoreType())
+      .type(getType())
+      .typeWithUnderscore(getTypeWithUnderscore());
+  }
+
 }
 

@@ -192,5 +192,64 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
   }
 
 
+
+  public static class Builder {
+
+    private ArrayOfInlineAllOfArrayAllofDogPropertyInner instance;
+
+    public Builder() {
+      this(new ArrayOfInlineAllOfArrayAllofDogPropertyInner());
+    }
+
+    protected Builder(ArrayOfInlineAllOfArrayAllofDogPropertyInner instance) {
+      this.instance = instance;
+    }
+
+    public ArrayOfInlineAllOfArrayAllofDogPropertyInner.Builder breed(String breed) {
+      this.instance.breed = breed;
+      return this;
+    }
+    public ArrayOfInlineAllOfArrayAllofDogPropertyInner.Builder color(String color) {
+      this.instance.color = color;
+      return this;
+    }
+
+
+    /**
+    * returns a built ArrayOfInlineAllOfArrayAllofDogPropertyInner instance.
+    *
+    * The builder is not reusable.
+    */
+    public ArrayOfInlineAllOfArrayAllofDogPropertyInner build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ArrayOfInlineAllOfArrayAllofDogPropertyInner.Builder builder() {
+    return new ArrayOfInlineAllOfArrayAllofDogPropertyInner.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ArrayOfInlineAllOfArrayAllofDogPropertyInner.Builder toBuilder() {
+    return new ArrayOfInlineAllOfArrayAllofDogPropertyInner.Builder()
+      .breed(getBreed())
+      .color(getColor());
+  }
+
 }
 

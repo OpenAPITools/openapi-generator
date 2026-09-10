@@ -251,5 +251,59 @@ public class AllOfRefToLong {
       }
     }
   }
+
+  public static class Builder {
+
+    private AllOfRefToLong instance;
+
+    public Builder() {
+      this(new AllOfRefToLong());
+    }
+
+    protected Builder(AllOfRefToLong instance) {
+      this.instance = instance;
+    }
+
+    public AllOfRefToLong.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+
+
+    /**
+    * returns a built AllOfRefToLong instance.
+    *
+    * The builder is not reusable.
+    */
+    public AllOfRefToLong build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AllOfRefToLong.Builder builder() {
+    return new AllOfRefToLong.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AllOfRefToLong.Builder toBuilder() {
+    return new AllOfRefToLong.Builder()
+      .id(getId());
+  }
+
 }
 

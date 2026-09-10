@@ -250,7 +250,12 @@ public class {{classname}} {
     {{/isDeprecated}}
     @SuppressWarnings("rawtypes")
     private okhttp3.Call {{operationId}}ValidateBeforeCall({{#allParams}}{{>nullableArgument}} {{paramName}}, {{/allParams}}final ApiCallback _callback) throws ApiException {
-        {{^performBeanValidation}}
+        {{! The required-parameter checks are deliberately NOT guarded by performBeanValidation.
+            They used to live inside the inverted performBeanValidation section, so enabling
+            bean validation REMOVED them and substituted a validator that never fires for a
+            plain null argument - turning a clear ApiException into a NullPointerException
+            further down, or letting the null reach the server. Bean validation is additive
+            on top of these checks, never a replacement. }}
         {{#allParams}}
         {{#required}}
         // verify the required parameter '{{paramName}}' is set
@@ -260,6 +265,7 @@ public class {{classname}} {
 
         {{/required}}
         {{/allParams}}
+        {{^performBeanValidation}}
         return {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}_callback);
 
         {{/performBeanValidation}}

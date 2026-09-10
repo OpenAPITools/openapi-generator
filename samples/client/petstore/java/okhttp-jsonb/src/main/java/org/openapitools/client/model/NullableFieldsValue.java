@@ -285,5 +285,64 @@ public class NullableFieldsValue {
       }
     }
   }
+
+  public static class Builder {
+
+    private NullableFieldsValue instance;
+
+    public Builder() {
+      this(new NullableFieldsValue());
+    }
+
+    protected Builder(NullableFieldsValue instance) {
+      this.instance = instance;
+    }
+
+    public NullableFieldsValue.Builder before(String before) {
+      this.instance.before = before;
+      return this;
+    }
+    public NullableFieldsValue.Builder after(String after) {
+      this.instance.after = after;
+      return this;
+    }
+
+
+    /**
+    * returns a built NullableFieldsValue instance.
+    *
+    * The builder is not reusable.
+    */
+    public NullableFieldsValue build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static NullableFieldsValue.Builder builder() {
+    return new NullableFieldsValue.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NullableFieldsValue.Builder toBuilder() {
+    return new NullableFieldsValue.Builder()
+      .before(getBefore())
+      .after(getAfter());
+  }
+
 }
 

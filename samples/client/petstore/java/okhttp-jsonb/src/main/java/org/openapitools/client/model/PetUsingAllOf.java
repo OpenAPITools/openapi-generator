@@ -490,5 +490,84 @@ public class PetUsingAllOf {
       }
     }
   }
+
+  public static class Builder {
+
+    private PetUsingAllOf instance;
+
+    public Builder() {
+      this(new PetUsingAllOf());
+    }
+
+    protected Builder(PetUsingAllOf instance) {
+      this.instance = instance;
+    }
+
+    public PetUsingAllOf.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+    public PetUsingAllOf.Builder category(Category category) {
+      this.instance.category = category;
+      return this;
+    }
+    public PetUsingAllOf.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+    public PetUsingAllOf.Builder photoUrls(List<String> photoUrls) {
+      this.instance.photoUrls = photoUrls;
+      return this;
+    }
+    public PetUsingAllOf.Builder tags(List<Tag> tags) {
+      this.instance.tags = tags;
+      return this;
+    }
+    public PetUsingAllOf.Builder status(StatusEnum status) {
+      this.instance.status = status;
+      return this;
+    }
+
+
+    /**
+    * returns a built PetUsingAllOf instance.
+    *
+    * The builder is not reusable.
+    */
+    public PetUsingAllOf build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static PetUsingAllOf.Builder builder() {
+    return new PetUsingAllOf.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public PetUsingAllOf.Builder toBuilder() {
+    return new PetUsingAllOf.Builder()
+      .id(getId())
+      .category(getCategory())
+      .name(getName())
+      .photoUrls(getPhotoUrls())
+      .tags(getTags())
+      .status(getStatus());
+  }
+
 }
 
