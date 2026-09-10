@@ -204,6 +204,35 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testUserAgentIsNotUrlEncoded() throws IOException {
+        // both restsharp Configuration templates: the default one and the useIntForTimeout v7.9.0 fallback
+        for (boolean useIntForTimeout : new boolean[]{false, true}) {
+            File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+            output.deleteOnExit();
+            final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+            final DefaultGenerator defaultGenerator = new DefaultGenerator();
+            final ClientOptInput clientOptInput = new ClientOptInput();
+            clientOptInput.openAPI(openAPI);
+            CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+            cSharpClientCodegen.setLibrary("restsharp");
+            cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+            cSharpClientCodegen.additionalProperties().put(CodegenConstants.HTTP_USER_AGENT, "my-client/1.2.3 (linux)");
+            cSharpClientCodegen.additionalProperties().put("useIntForTimeout", useIntForTimeout);
+            clientOptInput.config(cSharpClientCodegen);
+            defaultGenerator.opts(clientOptInput);
+
+            Map<String, File> files = defaultGenerator.generate().stream()
+                    .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+            File configuration = files
+                    .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Client", "Configuration.cs").toString());
+            assertNotNull(configuration);
+            assertFileContains(configuration.toPath(), "UserAgent = \"my-client/1.2.3 (linux)\";");
+            assertFileNotContains(configuration.toPath(), "UserAgent = WebUtility.UrlEncode(");
+        }
+    }
+
+    @Test
     public void test31specAdditionalPropertiesOfOneOf() throws IOException {
         // for https://github.com/OpenAPITools/openapi-generator/pull/18772
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
