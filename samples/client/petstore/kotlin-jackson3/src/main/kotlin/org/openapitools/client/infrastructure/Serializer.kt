@@ -11,6 +11,7 @@ import tools.jackson.module.kotlin.kotlinModule
 object Serializer {
     @JvmStatic
     val jacksonObjectMapper: JsonMapper = jsonMapper {
+        findAndAddModules()
         addModule(kotlinModule())
         changeDefaultPropertyInclusion { it.withValueInclusion(JsonInclude.Include.NON_ABSENT) }
         enable(EnumFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
