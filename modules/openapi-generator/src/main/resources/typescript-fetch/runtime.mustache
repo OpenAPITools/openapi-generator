@@ -380,7 +380,7 @@ export function serializeDateTime(value: Temporal.Instant): string {
 }
 
 export function serializeDate(value: Temporal.PlainDate): string {
-    return value.toString();
+    return value.toString({ calendarName: "never" });
 }
 
 export function parseDateTime(value: Temporal.Instant | string): Temporal.Instant {

@@ -1178,8 +1178,8 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(event, "'startsOn': value['startsOn'] == null ? value['startsOn'] : serializeDate(value['startsOn'])");
 
         Path runtime = Paths.get(output + "/runtime.ts");
-        TestUtils.assertFileContains(runtime, "export function parseDate(");
-        TestUtils.assertFileContains(runtime, "export function parseDateTime(");
+        TestUtils.assertFileContains(runtime, "export function parseDate(value: Temporal.PlainDate");
+        TestUtils.assertFileContains(runtime, "export function parseDateTime(value: Temporal.Instant");
 
         // A model without a date must not import the helpers it cannot use.
         Path venue = Paths.get(output + "/models/Venue.ts");

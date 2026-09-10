@@ -1,6 +1,6 @@
-{{#isDateLibraryDate}}
+{{^isDateLibraryString}}
 import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime{{importFileExtension}}';
-{{/isDateLibraryDate}}
+{{/isDateLibraryString}}
 {{#hasImports}}
 {{#oneOfArrays}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
