@@ -4251,7 +4251,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInPascalCase);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
-        property.rawExample = p.getExample() == null ? null : String.valueOf(p.getExample());
+        property.rawExample = rawExampleValue(p.getExample());
         property.title = p.getTitle();
         property.getter = toGetter(name);
         property.setter = toSetter(name);
@@ -4485,7 +4485,7 @@ public class DefaultCodegen implements CodegenConfig {
             // instead of falling back to the literal "null".
             if (original.getExample() != null) {
                 property.example = toExampleValue(original);
-                property.rawExample = String.valueOf(original.getExample());
+                property.rawExample = rawExampleValue(original.getExample());
             }
         }
 
@@ -4506,6 +4506,19 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging from property return: {}", property);
         schemaCodegenPropertyCache.put(ns, property);
         return property;
+    }
+
+    /**
+     * Returns the unescaped example text consumed by source templates.
+     * {@link Date#toString()} is locale and timezone dependent, unlike the ISO date representation
+     * used by Java code generation for date examples.
+     */
+    private String rawExampleValue(Object example) {
+        if (example instanceof Date) {
+            return java.time.format.DateTimeFormatter.ISO_LOCAL_DATE.format(
+                    java.time.ZonedDateTime.ofInstant(((Date) example).toInstant(), java.time.ZoneOffset.UTC));
+        }
+        return example == null ? null : String.valueOf(example);
     }
 
     /**

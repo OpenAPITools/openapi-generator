@@ -3414,6 +3414,14 @@ public class SpringCodegenTest {
         assertFalse(temporalDefaults.contains("private OffsetDateTime dateTime = \""));
         assertTrue(temporalDefaults.contains("LocalTime.parse(\"10:15:30\")"));
         assertTrue(temporalDefaults.contains("LocalDateTime.parse(\"2026-01-02T03:04:05\")"));
+        assertTrue(Files.readString(generatedFiles.get("DateExample.java").toPath())
+                .contains("example = \"2026-01-02\""));
+
+        final String compositeDefaults = Files.readString(generatedFiles.get("CompositeDefaults.java").toPath());
+        assertTrue(compositeDefaults.contains("Arrays.asList(\"a\\\"b\", \"literal\\\\n\")"));
+        assertTrue(compositeDefaults.contains(".text(\"a\\\"b\\\\c\")"));
+        assertTrue(compositeDefaults.contains(".uri(java.net.URI.create(\"https://example.test/a\\\"b\\\\c\"))"));
+        assertTrue(compositeDefaults.contains(".amount(new java.math.BigDecimal(\"12.34\"))"));
     }
 
     @Test
@@ -3464,6 +3472,8 @@ public class SpringCodegenTest {
                 .contains("example = \"Property example \\\" $ \\\\u002a/\""));
         assertTrue(Files.readString(swagger1Files.get("EscapedApi.java").toPath())
                 .contains("allowableValues = \"quote\\\" slash\\\\ $value\""));
+        assertTrue(Files.readString(swagger1Files.get("EscapedApi.java").toPath())
+                .contains("AuthorizationScope(scope = \"scope&\\\"\\\\name\", description = \"Security \\\"scope\\\" slash \\\\ line\\nnext\")"));
 
         Map<String, File> lombokFiles = generateFromContract(
                 "src/test/resources/3_0/spring/escaping-regressions.yaml",
@@ -3527,6 +3537,18 @@ public class SpringCodegenTest {
 
         assertTrue(source.contains(
                 "@SecurityRequirement(name = \"oauth&\\\"\\\\name\", scopes={ \"scope&\\\"\\\\name\" })"));
+    }
+
+    @Test
+    public void discriminatorAnnotationsUseEscapedJavaSourceLiterals() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml", SPRING_BOOT);
+        String source = Files.readString(files.get("DiscriminatorParent.java").toPath());
+
+        assertTrue(source.contains("property = \"$kind\""));
+        assertTrue(source.contains("name = \"kind$\\\"\\\\name\""));
+        assertTrue(source.contains("name = \"mapping$\\\"\\\\name\""));
+        validateJavaSourceFiles(List.of(files.get("DiscriminatorParent.java")));
     }
 
     private void assertExternalDocumentation(File source) throws IOException {

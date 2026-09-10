@@ -1075,7 +1075,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         Schema resolved = ModelUtils.getReferencedSchema(openAPI, schema);
         if (resolved != null && ModelUtils.isURISchema(resolved)
                 && resolved.getDefault() instanceof String) {
-            return "URI.create(" + SourceStringEscaper.kotlinStringLiteral((String) resolved.getDefault()) + ")";
+            return "java.net.URI.create(" + SourceStringEscaper.kotlinStringLiteral((String) resolved.getDefault()) + ")";
         }
         if (resolved != null && ModelUtils.isStringSchema(resolved)
                 && !ModelUtils.isURISchema(resolved)
@@ -1608,7 +1608,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         if (isEnumDiscriminator) {
                             p.defaultValue = dataType + "." + toEnumVarName(discriminatorValue, dataType);
                         } else {
-                            p.defaultValue = "\"" + escapeText(discriminatorValue) + "\"";
+                            p.defaultValue = SourceStringEscaper.kotlinStringLiteral(discriminatorValue);
                         }
                     }
                 });

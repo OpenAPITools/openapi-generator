@@ -51,6 +51,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.SourceStringEscaper;
 import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -1343,14 +1344,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     defaultValue = StringUtils.join(defaultValues, ", ");
                 } else if (_values.size() > 0) {
                     if (cp.items.isString) { // array item is string
-                        defaultValue = String.format(Locale.ROOT, "\"%s\"", StringUtils.join(_values, "\", \""));
+                        defaultValue = _values.stream()
+                                .map(SourceStringEscaper::javaStringLiteral)
+                                .collect(Collectors.joining(", "));
                     } else if (cp.items.isNumeric) {
                         defaultValue = _values.stream()
                                 .map(v -> {
                                     if ("BigInteger".equals(cp.items.dataType)) {
-                                        return "new BigInteger(\"" + v + "\")";
+                                        return "new BigInteger(" + SourceStringEscaper.javaStringLiteral(v) + ")";
                                     } else if ("BigDecimal".equals(cp.items.dataType)) {
-                                        return "new BigDecimal(\"" + v + "\")";
+                                        return "new BigDecimal(" + SourceStringEscaper.javaStringLiteral(v) + ")";
                                     } else if (cp.items.isFloat) {
                                         return v + "f";
                                     } else {
@@ -1586,31 +1589,31 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     } else if(ModelUtils.isFloatSchema(propertySchema)) {
                         defaultPropertyExpression = value.asText()+"f";
                     } else if(ModelUtils.isNumberSchema(propertySchema)) {
-                        defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
+                        defaultPropertyExpression = "new java.math.BigDecimal(" + SourceStringEscaper.javaStringLiteral(value.asText()) + ")";
                     } else if(ModelUtils.isURISchema(propertySchema)) {
-                        defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
+                        defaultPropertyExpression = "java.net.URI.create(" + SourceStringEscaper.javaStringLiteral(value.asText()) + ")";
                     } else if(ModelUtils.isDateSchema(propertySchema)) {
                         if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDate.parse(\"%s\")", value.asText());
+                            defaultPropertyExpression = "java.time.LocalDate.parse(" + SourceStringEscaper.javaStringLiteral(value.asText()) + ")";
                         }
                     } else if(ModelUtils.isDateTimeSchema(propertySchema)) {
                         if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.OffsetDateTime.parse(\"%s\", %s)",
-                                    value.asText(),
-                                    "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
+                            defaultPropertyExpression = "java.time.OffsetDateTime.parse("
+                                    + SourceStringEscaper.javaStringLiteral(value.asText())
+                                    + ", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
                         }
                     } else if(ModelUtils.isTimeLocalSchema(propertySchema)) {
                         if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalTime.parse(\"%s\")", value.asText());
+                            defaultPropertyExpression = "java.time.LocalTime.parse(" + SourceStringEscaper.javaStringLiteral(value.asText()) + ")";
                         }
                     } else if(ModelUtils.isDateTimeLocalSchema(propertySchema)) {
                         if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDateTime.parse(\"%s\")", value.asText());
+                            defaultPropertyExpression = "java.time.LocalDateTime.parse(" + SourceStringEscaper.javaStringLiteral(value.asText()) + ")";
                         }
                     } else if(ModelUtils.isUUIDSchema(propertySchema)) {
-                        defaultPropertyExpression = "java.util.UUID.fromString(\"" + value.asText() + "\")";
+                        defaultPropertyExpression = "java.util.UUID.fromString(" + SourceStringEscaper.javaStringLiteral(value.asText()) + ")";
                     } else if(ModelUtils.isStringSchema(propertySchema)) {
-                        defaultPropertyExpression = "\"" + value.asText() + "\"";
+                        defaultPropertyExpression = SourceStringEscaper.javaStringLiteral(value.asText());
                     } else if(ModelUtils.isBooleanSchema(propertySchema)) {
                         defaultPropertyExpression = value.asText();
                     }

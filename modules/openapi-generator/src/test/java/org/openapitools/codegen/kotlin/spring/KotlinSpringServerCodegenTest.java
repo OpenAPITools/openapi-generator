@@ -4532,7 +4532,13 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(controllerFiles.get("EscapingApiController.kt").toPath(),
                 "SecurityRequirement(name = \"oauth\\$\\\"name\", scopes = [ \"scope\\$\\\"name\" ])");
         assertFileContains(controllerFiles.get("UriDefault.kt").toPath(),
-                "URI.create(\"https://example.test/\\$uri\")");
+                "java.net.URI.create(\"https://example.test/\\$uri\")");
+        assertFileContains(controllerFiles.get("DiscriminatorParent.kt").toPath(),
+                "property = \"\\$kind\"",
+                "name = \"kind\\$\\\"\\\\name\"",
+                "name = \"mapping\\$\\\"\\\\name\"");
+        assertFileContains(controllerFiles.get("DiscriminatorChild.kt").toPath(),
+                "= \"kind\\$\\\"\\\\name\"");
         assertFileContains(controllerFiles.get("SpringDocConfiguration.kt").toPath(),
                 ".title(\"Kotlin \\$ & \\\" \\\\ title\")",
                 ".description(\"Description \\$ & \\\" \\\\ details\")",

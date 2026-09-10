@@ -227,7 +227,7 @@ public interface {{classname}} {
         {{#scopes.0}}
             @Authorization(value = {{#lambda.javaStringLiteral}}{{{name}}}{{/lambda.javaStringLiteral}}, scopes = {
             {{#scopes}}
-                @AuthorizationScope(scope = {{#lambda.javaStringLiteral}}{{{scope}}}{{/lambda.javaStringLiteral}}, description = {{#lambda.javaStringLiteral}}{{{description}}}{{/lambda.javaStringLiteral}}){{^-last}},{{/-last}}
+                @AuthorizationScope(scope = {{#lambda.javaStringLiteral}}{{{scope}}}{{/lambda.javaStringLiteral}}, description = {{#lambda.javaStringLiteral}}{{{descriptionRaw}}}{{/lambda.javaStringLiteral}}){{^-last}},{{/-last}}
             {{/scopes}}
             }){{^-last}},{{/-last}}
         {{/scopes.0}}

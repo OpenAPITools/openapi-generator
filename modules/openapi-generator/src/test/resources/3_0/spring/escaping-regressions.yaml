@@ -78,6 +78,16 @@ paths:
       responses:
         '204':
           description: Form accepted
+  /discriminator:
+    get:
+      operationId: getDiscriminator
+      responses:
+        '200':
+          description: Discriminator response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscriminatorParent'
 components:
   securitySchemes:
     'oauth&"\name':
@@ -86,7 +96,7 @@ components:
         clientCredentials:
           tokenUrl: https://example.test/token
           scopes:
-            'scope&"\name': Security scope
+            'scope&"\name': "Security \"scope\" slash \\ line\nnext"
   schemas:
     CookieText:
       type: string
@@ -168,3 +178,55 @@ components:
           type: string
           format: date-time-local
           default: '2026-01-02T03:04:05'
+    DateExample:
+      type: object
+      properties:
+        value:
+          type: string
+          format: date
+          example: 2026-01-02
+    CompositeDefaults:
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            type: string
+          default:
+            - 'a"b'
+            - 'literal\n'
+        details:
+          type: object
+          properties:
+            text:
+              type: string
+            uri:
+              type: string
+              format: uri
+            amount:
+              type: number
+          default:
+            text: 'a"b\c'
+            uri: 'https://example.test/a"b\c'
+            amount: 12.34
+    DiscriminatorParent:
+      oneOf:
+        - $ref: '#/components/schemas/DiscriminatorChild'
+        - $ref: '#/components/schemas/OtherDiscriminatorChild'
+      discriminator:
+        propertyName: '$kind'
+        mapping:
+          'kind$"\name': '#/components/schemas/DiscriminatorChild'
+          'mapping$"\name': '#/components/schemas/OtherDiscriminatorChild'
+    DiscriminatorChild:
+      type: object
+      properties:
+        '$kind':
+          type: string
+        payload:
+          type: string
+    OtherDiscriminatorChild:
+      type: object
+      properties:
+        '$kind':
+          type: string

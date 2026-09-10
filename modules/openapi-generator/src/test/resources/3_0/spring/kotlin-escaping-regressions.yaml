@@ -33,6 +33,18 @@ paths:
       responses:
         '204':
           description: No content
+  /discriminator:
+    get:
+      tags:
+        - escaping
+      operationId: getDiscriminator
+      responses:
+        '200':
+          description: Discriminator response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscriminatorParent'
 components:
   securitySchemes:
     'oauth$"name':
@@ -50,3 +62,24 @@ components:
           type: string
           format: uri
           default: 'https://example.test/$uri'
+    DiscriminatorParent:
+      oneOf:
+        - $ref: '#/components/schemas/DiscriminatorChild'
+        - $ref: '#/components/schemas/OtherDiscriminatorChild'
+      discriminator:
+        propertyName: '$kind'
+        mapping:
+          'kind$"\name': '#/components/schemas/DiscriminatorChild'
+          'mapping$"\name': '#/components/schemas/OtherDiscriminatorChild'
+    DiscriminatorChild:
+      type: object
+      properties:
+        '$kind':
+          type: string
+        payload:
+          type: string
+    OtherDiscriminatorChild:
+      type: object
+      properties:
+        '$kind':
+          type: string
