@@ -2895,7 +2895,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 writer.write(dataType);
             }
         };
+        Mustache.Lambda javaStringLiteralLambda = (fragment, writer) ->
+                writer.write(toEnumValue(fragment.execute(), "String"));
         return super.addMustacheLambdas()
+                .put("javaStringLiteral", javaStringLiteralLambda)
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
                 .put("jSpecifyNullable", jSpecifyNullableLambda);
 

@@ -7194,6 +7194,7 @@ public class DefaultCodegen implements CodegenConfig {
             final String finalEnumName = toEnumVarName(enumName, dataType);
 
             enumVar.enumVar(finalEnumName, toEnumValue(String.valueOf(value), dataType), isDataTypeString(dataType));
+            enumVar.setEnumRawValue(value);
             // TODO: add isNumeric
             enumVars.add(enumVar);
         }
@@ -7227,6 +7228,7 @@ public class DefaultCodegen implements CodegenConfig {
                 String.valueOf(11184809);
 
         enumVar.enumVar(toEnumVarName(enumName, dataType), toEnumValue(enumValue, dataType), isDataTypeString(dataType));
+        enumVar.setEnumRawValue(enumValue);
         // TODO: add isNumeric
         enumVars.add(enumVar);
     }

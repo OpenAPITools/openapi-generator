@@ -2829,6 +2829,58 @@ public class JavaClientCodegenTest {
         testHandleURIEnum(JavaClientCodegen.MICROPROFILE, expectedInnerEnumLines, expectedEnumLines);
     }
 
+    @Test
+    public void testHandleURIEnumWithXml() {
+        for (String library : List.of(
+                JavaClientCodegen.OKHTTP_GSON,
+                JavaClientCodegen.RESTTEMPLATE,
+                JavaClientCodegen.NATIVE)) {
+            final Path output = newTempFolder();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName(JAVA_GENERATOR)
+                    .setLibrary(library)
+                    .addAdditionalProperty(CodegenConstants.WITH_XML, true)
+                    .setInputSpec("src/test/resources/3_0/enum-and-inner-enum-uri.yaml")
+                    .setOutputDir(output.toString().replace("\\", "/"));
+
+            Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                    .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+            File modelFile = files.get("Metadata.java");
+            Assertions.assertNotNull(modelFile);
+            JavaFileAssert.assertThat(modelFile).fileContains(
+                    "@XmlEnumValue(\"https://example.com/v1/metadata.json\")",
+                    "V1_METADATA_JSON(URI.create(\"https://example.com/v1/metadata.json\"))");
+
+            File innerEnumFile = files.get("V1SchemasGetDefaultResponse.java");
+            Assertions.assertNotNull(innerEnumFile);
+            JavaFileAssert.assertThat(innerEnumFile).fileContains(
+                    "@XmlEnumValue(\"https://example.com/v1/schema.json\")",
+                    "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))");
+        }
+    }
+
+    @Test
+    public void testXmlEnumEscapesRawValueAsJavaStringLiteral() {
+        StringSchema enumSchema = new StringSchema();
+        enumSchema.setEnum(List.of("say \"hello\" \\ path"));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("EscapedEnum", enumSchema);
+
+        final Path output = newTempFolder();
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+        codegen.additionalProperties().put(CodegenConstants.WITH_XML, true);
+
+        Map<String, File> files = new DefaultGenerator()
+                .opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File modelFile = files.get("EscapedEnum.java");
+        Assertions.assertNotNull(modelFile);
+        JavaFileAssert.assertThat(modelFile).fileContains(
+                "@XmlEnumValue(\"say \\\"hello\\\" \\\\ path\")");
+    }
+
     private void testHandleURIEnum(String library, String[] expectedInnerEnumLines, String[] expectedEnumLines) {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()

@@ -898,6 +898,7 @@ public class DefaultCodegenTest {
         Assertions.assertNotNull(testedEnumVar);
         assertEquals("_1", testedEnumVar.getOrDefault("name", ""));
         assertEquals("\"1\"", testedEnumVar.getOrDefault("value", ""));
+        assertEquals(1, testedEnumVar.getOrDefault("rawValue", ""));
         assertEquals(false, testedEnumVar.getOrDefault("isString", ""));
     }
 
