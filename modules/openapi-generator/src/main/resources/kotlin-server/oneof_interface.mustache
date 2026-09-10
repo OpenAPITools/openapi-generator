@@ -1,0 +1,19 @@
+/**
+ * {{{description}}}
+ */
+{{#discriminator}}
+{{>typeInfoAnnotation}}
+{{/discriminator}}
+{{#additionalModelTypeAnnotations}}
+{{{.}}}
+{{/additionalModelTypeAnnotations}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{.}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+sealed interface {{classname}}{{#vendorExtensions.x-kotlin-implements}}{{#-first}} : {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-kotlin-implements}} {
+{{#discriminator}}
+{{#vendorExtensions.x-one-of-interface-declares-discriminator}}
+    val {{propertyName}}: {{{propertyType}}}
+{{/vendorExtensions.x-one-of-interface-declares-discriminator}}
+{{/discriminator}}
+}

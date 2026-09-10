@@ -16,37 +16,7 @@ import org.openapitools.server.models.Dog
 
 /**
  * 
- * @param name 
- * @param petType 
- * @param huntingSkill The measured skill for hunting
- * @param packSize the size of the pack the dog is from
  */
-data class Pet(
-    
-    @field:com.fasterxml.jackson.annotation.JsonProperty("name")
-    val name: kotlin.String,
-    
-    @field:com.fasterxml.jackson.annotation.JsonProperty("petType")
-    val petType: kotlin.Any?,
-    /* The measured skill for hunting */
-    
-    @field:com.fasterxml.jackson.annotation.JsonProperty("huntingSkill")
-    val huntingSkill: Pet.HuntingSkill,
-    /* the size of the pack the dog is from */
-    
-    @field:com.fasterxml.jackson.annotation.JsonProperty("packSize")
-    val packSize: kotlin.Int = 0
-)
-{
-    /**
-    * The measured skill for hunting
-    * Values: clueless,lazy,adventurous,aggressive
-    */
-    enum class HuntingSkill(val value: kotlin.String){
-        clueless("clueless"),
-        lazy("lazy"),
-        adventurous("adventurous"),
-        aggressive("aggressive");
-    }
+sealed interface Pet {
 }
 
