@@ -86,6 +86,7 @@ jobs:
           - samples/client/petstore/java/microprofile-rest-client-3.0-jackson-mutiny
           - samples/client/petstore/java/microprofile-rest-client-3.0-jackson-with-xml
           - samples/client/petstore/java/microprofile-rest-client-3.0-mutiny
+          - samples/client/petstore/java/microprofile-rest-client-3.0-jspecify
           - samples/client/petstore/java/microprofile-rest-client-with-useSingleRequestParameter
           - samples/client/petstore/java/microprofile-oneof-interface
           - samples/client/petstore/java/apache-httpclient

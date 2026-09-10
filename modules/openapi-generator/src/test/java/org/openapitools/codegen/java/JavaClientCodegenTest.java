@@ -4856,6 +4856,159 @@ public class JavaClientCodegenTest {
                 .fileContains("@org.jspecify.annotations.NullMarked");
     }
 
+    @Test
+    public void testJspecify_microprofile() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", MICROPROFILE,
+                Map.of(USE_JSPECIFY, true,
+                        "containerDefaultToNull", true,
+                        JavaClientCodegen.OPENAPI_NULLABLE, false,
+                        CodegenConstants.SERIALIZATION_LIBRARY, "jackson",
+                        ANNOTATION_LIBRARY, "none"
+                ),
+                codegenConfigurator ->
+                        codegenConfigurator
+                                .setValidateSpec(false)
+                                .addTypeMapping("BigDecimal", "java.math.BigDecimal"));
+
+        // microprofile has no build.gradle, only a pom
+        assertThat(files.get("pom.xml")).content()
+                .contains(
+                        "<groupId>org.jspecify</groupId>",
+                        "<artifactId>jspecify</artifactId>",
+                        "<version>1.0.0</version>");
+
+        // @Nullable on optional properties, and nothing on required ones. Annotations on a
+        // qualified type must be placed type-use style (java.math.@Nullable BigDecimal).
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "protected @Nullable File binary;",
+                        "protected java.math.@Nullable BigDecimal number;",
+                        "public java.math.@Nullable BigDecimal getNumber() {",
+                        "public void setNumber(java.math.@Nullable BigDecimal number) {",
+                        "public Foo number(java.math.@Nullable BigDecimal number) {",
+                        "public void setBinary(@Nullable File binary) {")
+                .fileDoesNotContain(
+                        "@Nullable Date requiredDt",
+                        "@Nullable String requiredColor");
+
+        // JAX-RS parameter annotations and @Nullable coexist on operation parameters.
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "@PathParam(\"dtParam\") @Nullable Date dtParam",
+                        "@QueryParam(\"dtQuery\") @Nullable Date dtQuery");
+
+        // readOnly properties are set through a generated constructor; its parameters are
+        // assigned to @Nullable fields, so they must carry the annotation too.
+        JavaFileAssert.assertThat(files.get("FileContent.java"))
+                .fileContains("@JsonProperty(value = JSON_PROPERTY_SIZE) @Nullable Integer size,");
+
+        // an optional enum-typed property: its getter must be annotated like any other
+        JavaFileAssert.assertThat(files.get("FileContent.java"))
+                .fileContains(
+                        "protected @Nullable VirusScanEnum virusScan;",
+                        "public @Nullable VirusScanEnum getVirusScan() {");
+
+        // optional file form parameters. Their type is a literal in the template rather than a
+        // {{>nullableDataType}} call, so it must still be routed through the jSpecifyDatatype
+        // lambda, or the annotation stashed by nullable_var_annotations is silently dropped.
+        JavaFileAssert.assertThat(files.get("UploadApi.java"))
+                .fileContains(
+                        "@FormParam(\"file\") @Nullable File _fileDetail",
+                        "@FormParam(\"file\") @Nullable List<File> _fileDetail");
+
+        JavaFileAssert.assertThat(files.get("api/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("model/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("client/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+    }
+
+    /**
+     * The withXml enum getter is a separate template branch that returns null explicitly
+     * ("if (x == null) return null;"). Under @NullMarked an unannotated return type there is a
+     * direct contradiction, so it must be annotated like every other getter.
+     */
+    @Test
+    public void testJspecify_microprofile_withXmlEnumGetter() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", MICROPROFILE,
+                Map.of(USE_JSPECIFY, true,
+                        JavaClientCodegen.OPENAPI_NULLABLE, false,
+                        CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        ANNOTATION_LIBRARY, "none",
+                        "withXml", true
+                ),
+                codegenConfigurator -> codegenConfigurator.setValidateSpec(false));
+
+        JavaFileAssert.assertThat(files.get("FileContent.java"))
+                .fileContains("public @Nullable String getVirusScan() {")
+                .fileDoesNotContain("public String getVirusScan() {");
+    }
+
+    /**
+     * useJspecify and useSealedOneOfInterfaces are independent, and must compose: the oneOf
+     * interface is sealed, its children are final, and JSpecify annotates only the optional
+     * properties of those children.
+     */
+    @Test
+    public void testJspecify_microprofile_sealedOneOfInterfaces() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(MICROPROFILE)
+                .addTypeMapping("Double", "java.lang.Double")
+                .setAdditionalProperties(Map.of(
+                        USE_JSPECIFY, true,
+                        USE_ONE_OF_INTERFACES, "true",
+                        USE_SEALED_ONE_OF_INTERFACES, "true",
+                        CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0"
+                ))
+                .setInputSpec("src/test/resources/3_0/java/jspecify_sealed_oneof.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path model = output.resolve("src/main/java/org/openapitools/client/model");
+
+        // the sealing is unaffected by jspecify
+        assertFileContains(model.resolve("PetRequest.java"),
+                "public sealed interface PetRequest permits CatRequest, DogRequest {");
+        assertFileContains(model.resolve("CatRequest.java"), "public final class CatRequest");
+        assertFileContains(model.resolve("CatRequest.java"), "implements PetRequest");
+
+        // optional properties of a sealed child are annotated, required ones are not
+        assertFileContains(model.resolve("CatRequest.java"),
+                "import org.jspecify.annotations.Nullable;",
+                "protected @Nullable String nickname;",
+                "protected @Nullable Boolean declawed;",
+                "public @Nullable Boolean getDeclawed() {",
+                "public void setDeclawed(@Nullable Boolean declawed) {");
+        assertFileNotContains(model.resolve("CatRequest.java"),
+                "@Nullable PetType petType",
+                "@Nullable String name;",
+                "@Nullable Boolean indoor");
+
+        // a qualified type keeps type-use placement inside a sealed child
+        assertFileContains(model.resolve("CatRequest.java"),
+                "protected java.lang.@Nullable Double weightKg;",
+                "public java.lang.@Nullable Double getWeightKg() {");
+
+        assertFileContains(model.resolve("DogRequest.java"),
+                "public final class DogRequest",
+                "protected @Nullable String breed;");
+
+        assertFileContains(output.resolve("src/main/java/org/openapitools/client/model/package-info.java"),
+                "@org.jspecify.annotations.NullMarked");
+
+        // sealed still forces Java 17, and jspecify still contributes its dependency
+        assertFileContains(output.resolve("pom.xml"),
+                "<java.version>17</java.version>",
+                "<artifactId>jspecify</artifactId>");
+    }
+
     @DataProvider(name = "replaceOneOf")
     public Object[][] replaceOneOf() {
         return new Object[][]{
