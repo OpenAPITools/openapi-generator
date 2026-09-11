@@ -762,4 +762,50 @@ public class RubyClientCodegenTest {
         assertTrue(op.queryParams.stream().allMatch(p -> p.queryIsJsonMimeType),
                 "All content:application/json query params should have queryIsJsonMimeType=true");
     }
+
+    @Test(description = "an allOf child's build_from_hash maps the attributes inherited from its parents")
+    public void testBuildFromHashMapsInheritedAttributes() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        // Lizard < Reptile < Pet: the walk has to collect openapi_types and
+        // attribute_map from the whole ancestry, not just the child's own
+        java.nio.file.Path lizard = new File(output, "lib/openapi_client/models/lizard.rb").toPath();
+        TestUtils.assertFileContains(lizard,
+                "types = openapi_types\n" +
+                "      map = attribute_map\n" +
+                "      klass = superclass\n" +
+                "      while klass.respond_to?(:openapi_types)\n" +
+                "        types = klass.openapi_types.merge(types)\n" +
+                "        map = klass.attribute_map.merge(map)\n" +
+                "        klass = klass.superclass\n" +
+                "      end");
+        // the discarded-result super call is gone: openapi_types/attribute_map
+        // dispatch on the child class in the parent's frame too, so it never
+        // contributed the parent's attributes - it only built a second instance
+        TestUtils.assertFileNotContains(lizard, "super(attributes)\n      attributes = attributes.transform_keys(&:to_sym)");
+        // to_hash walks the same ancestry: attribute_map/openapi_nullable dispatch on the
+        // child in every ancestor frame, so the old super chain only repeated the child's
+        // own attributes and a round-tripped model lost its inherited fields
+        TestUtils.assertFileContains(lizard,
+                "map = self.class.attribute_map\n" +
+                "      nullable = self.class.openapi_nullable\n" +
+                "      klass = self.class.superclass\n" +
+                "      while klass.respond_to?(:openapi_types)\n" +
+                "        # an ancestor's nullability only applies to attributes no nearer class redeclares\n" +
+                "        nullable |= klass.openapi_nullable & (klass.attribute_map.keys - map.keys)\n" +
+                "        map = klass.attribute_map.merge(map)\n" +
+                "        klass = klass.superclass\n" +
+                "      end");
+        // the walk evaluates openapi_nullable eagerly, so Set must be loaded on rubies
+        // where it is not yet a builtin autoload
+        TestUtils.assertFileContains(lizard, "require 'set'");
+    }
 }

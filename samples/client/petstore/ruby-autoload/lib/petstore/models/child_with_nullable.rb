@@ -11,6 +11,7 @@ Generator version: 7.26.0-SNAPSHOT
 =end
 
 require 'date'
+require 'set'
 require 'time'
 
 module Petstore
@@ -140,20 +141,30 @@ module Petstore
     # @return [Object] Returns the model itself
     def self.build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
-      super(attributes)
       attributes = attributes.transform_keys(&:to_sym)
+      # collect the attributes this model knows about, including the ones
+      # defined in its parent(s), so an allOf child also maps its inherited
+      # attributes (the child's own declaration wins on a name clash)
+      types = openapi_types
+      map = attribute_map
+      klass = superclass
+      while klass.respond_to?(:openapi_types)
+        types = klass.openapi_types.merge(types)
+        map = klass.attribute_map.merge(map)
+        klass = klass.superclass
+      end
       transformed_hash = {}
-      openapi_types.each_pair do |key, type|
-        if attributes.key?(attribute_map[key]) && attributes[attribute_map[key]].nil?
+      types.each_pair do |key, type|
+        if attributes.key?(map[key]) && attributes[map[key]].nil?
           transformed_hash["#{key}"] = nil
         elsif type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the attribute
           # is documented as an array but the input is not
-          if attributes[attribute_map[key]].is_a?(Array)
-            transformed_hash["#{key}"] = attributes[attribute_map[key]].map { |v| _deserialize($1, v) }
+          if attributes[map[key]].is_a?(Array)
+            transformed_hash["#{key}"] = attributes[map[key]].map { |v| _deserialize($1, v) }
           end
-        elsif !attributes[attribute_map[key]].nil?
-          transformed_hash["#{key}"] = _deserialize(type, attributes[attribute_map[key]])
+        elsif !attributes[map[key]].nil?
+          transformed_hash["#{key}"] = _deserialize(type, attributes[map[key]])
         end
       end
       new(transformed_hash)
@@ -162,11 +173,24 @@ module Petstore
     # Returns the object in the form of hash
     # @return [Hash] Returns the object in the form of hash
     def to_hash
-      hash = super
-      self.class.attribute_map.each_pair do |attr, param|
+      # collect the attributes this model knows about, including the ones defined
+      # in its parent(s): attribute_map and openapi_nullable resolve to the child
+      # class in every ancestor frame, so the inherited super chain only repeated
+      # the child's own attributes and dropped the inherited ones
+      map = self.class.attribute_map
+      nullable = self.class.openapi_nullable
+      klass = self.class.superclass
+      while klass.respond_to?(:openapi_types)
+        # an ancestor's nullability only applies to attributes no nearer class redeclares
+        nullable |= klass.openapi_nullable & (klass.attribute_map.keys - map.keys)
+        map = klass.attribute_map.merge(map)
+        klass = klass.superclass
+      end
+      hash = {}
+      map.each_pair do |attr, param|
         value = self.send(attr)
         if value.nil?
-          is_nullable = self.class.openapi_nullable.include?(attr)
+          is_nullable = nullable.include?(attr)
           next if !is_nullable || (is_nullable && !instance_variable_defined?(:"@#{attr}"))
         end
 
