@@ -1,0 +1,49 @@
+name: Samples Swift 6
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/swift6/**
+  pull_request:
+    paths:
+      - samples/client/petstore/swift6/**
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        sample:
+          - samples/client/petstore/swift6/alamofireLibrary
+          - samples/client/petstore/swift6/apiNonStaticMethod
+          - samples/client/petstore/swift6/asyncAwaitLibrary
+          - samples/client/petstore/swift6/combineDeferredLibrary
+          - samples/client/petstore/swift6/combineLibrary
+          - samples/client/petstore/swift6/default
+          - samples/client/petstore/swift6/objcCompatible
+          - samples/client/petstore/swift6/oneOf
+          - samples/client/petstore/swift6/promisekitLibrary
+          - samples/client/petstore/swift6/resultLibrary
+          - samples/client/petstore/swift6/rxswiftLibrary
+          - samples/client/petstore/swift6/urlsessionLibrary
+          - samples/client/petstore/swift6/validation
+          # NOTE: disabled like its swift5 counterpart, vaporLibrary doesnt build when adding this CI config
+          #- samples/client/petstore/swift6/vaporLibrary
+        include:
+        # the ubuntu build runs in the official swift image: swift-actions/setup-swift
+        # fails on current ubuntu runners while verifying the toolchain signature
+        - os: ubuntu-latest
+          sample: samples/client/petstore/swift6/alamofireLibrary
+          container: swift:6.2-noble
+        - os: ubuntu-latest
+          sample: samples/client/petstore/swift6/urlsessionLibrary
+          container: swift:6.2-noble
+    name: Build Swift 6 samples
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: swift build
