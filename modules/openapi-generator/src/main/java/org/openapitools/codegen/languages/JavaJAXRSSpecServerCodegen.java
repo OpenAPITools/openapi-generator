@@ -171,6 +171,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate @JsonCreator constructor for required properties.", generateJsonCreator));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(USE_SEALED, "Whether to generate sealed model interfaces and classes.", useSealed));
+        cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use JSpecify for null checks: @NullMarked package-info and @Nullable on optional properties and parameters.", useJspecify));
     }
 
     @Override
@@ -254,6 +255,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
                 .doNotOverwrite());
+
+        // after the clear() above, which would otherwise drop the @NullMarked package-info files
+        if (useJspecify) {
+            applyJspecify();
+        }
 
         if ((!interfaceOnly) || generateRootResources) {
             supportingFiles.add(new SupportingFile("RestResourceRoot.mustache",
@@ -348,6 +354,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             codegenModel.imports.remove("JsonProperty");
             codegenModel.imports.remove("JsonTypeName");
         }
+        if (useJspecify) {
+            codegenModel.imports.add("Nullable");
+        }
+
         return codegenModel;
     }
 
@@ -481,6 +491,18 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         if (QUARKUS_LIBRARY.equals(getLibrary()) && useJakartaSecurityAnnotations) {
             jakartaSecurityAnnotationProcessor.applyTo(op, operation, openAPI);
         }
+        if (useJspecify) {
+            addNullableImportForOperation(op);
+        }
         return op;
     }
+
+    @Override
+    protected void applyJspecify() {
+        super.applyJspecify();
+        // nullable_var_annotations.mustache emits @{{javaxPackage}}.annotation.Nullable; the lambda
+        // finds that and re-injects a bare @Nullable in type-use position, so tell it what to look for.
+        jSpecifyNullableLambda.setNullableAnnotation("@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable");
+    }
+
 }

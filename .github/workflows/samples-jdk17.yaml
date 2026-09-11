@@ -24,6 +24,7 @@ on:
       - samples/server/petstore/java-helidon-server/v3/se/**
       - samples/server/petstore/jaxrs-spec-sealed/**
       - samples/server/petstore/jaxrs-spec/quarkus-security/**
+      - samples/server/petstore/jaxrs-spec-quarkus-jspecify/**
   pull_request:
     paths:
       # clients
@@ -48,6 +49,7 @@ on:
       - samples/server/petstore/java-helidon-server/v3/se/**
       - samples/server/petstore/jaxrs-spec-sealed/**
       - samples/server/petstore/jaxrs-spec/quarkus-security/**
+      - samples/server/petstore/jaxrs-spec-quarkus-jspecify/**
 jobs:
   build:
     name: Build with JDK17
@@ -78,6 +80,7 @@ jobs:
           - samples/server/petstore/java-helidon-server/v3/se
           - samples/server/petstore/jaxrs-spec-sealed
           - samples/server/petstore/jaxrs-spec/quarkus-security
+          - samples/server/petstore/jaxrs-spec-quarkus-jspecify
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6.0.0

@@ -34,6 +34,7 @@ import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES;
 import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.*;
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -2586,4 +2587,120 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "List<InputStream>");
         assertFileContains(Paths.get(outputPath + "/pom.xml"), "<artifactId>quarkus-resteasy</artifactId>");
     }
+
+    /**
+     * useJspecify is generator-wide (the model/param templates are shared by every jaxrs-spec
+     * library), so the annotations must appear whichever library is selected.
+     */
+    @Test
+    public void testUseJspecify() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(USE_JSPECIFY, true);
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+        properties.put(INTERFACE_ONLY, true);
+        properties.put(CodegenConstants.OPENAPI_NULLABLE, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary("quarkus")
+                .setAdditionalProperties(properties)
+                .addTypeMapping("BigDecimal", "java.math.BigDecimal")
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/java/jspecify.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path model = Paths.get(output.toPath() + "/src/gen/java/org/openapitools/model/Foo.java");
+        // optional properties are annotated, required ones are not
+        assertFileContains(model,
+                "import org.jspecify.annotations.Nullable;",
+                "private @Nullable Date dt;",
+                "private Date requiredDt;");
+        // a qualified type keeps the annotation in type-use position
+        assertFileContains(model, "private java.math.@Nullable BigDecimal number;");
+
+        // the getter's return type must be annotated too. It renders via beanValidatedType,
+        // which emits the type directly, so the outer type has to be routed through the
+        // jSpecifyDatatype lambda or the annotation stashed by nullable_var_annotations is
+        // dropped and the getter falsely promises non-null under @NullMarked.
+        assertFileContains(model,
+                "public @Nullable Date getDt() {",
+                "public java.math.@Nullable BigDecimal getNumber() {");
+        assertFileNotContains(model, "public Date getDt() {");
+
+        // @NullMarked is what makes the unannotated types mean non-null
+        assertFileContains(Paths.get(output.toPath() + "/src/gen/java/org/openapitools/model/package-info.java"),
+                "@org.jspecify.annotations.NullMarked");
+        assertFileContains(Paths.get(output.toPath() + "/src/gen/java/org/openapitools/api/package-info.java"),
+                "@org.jspecify.annotations.NullMarked");
+
+        // operation parameters, alongside the JAX-RS annotations
+        final Path api = Paths.get(output.toPath() + "/src/gen/java/org/openapitools/api/FooApi.java");
+        assertFileContains(api, "import org.jspecify.annotations.Nullable;", "@Nullable Date dtParam");
+    }
+
+    /**
+     * With the flag off, no nullability annotations are emitted and the pom keeps jsr305.
+     */
+    @Test
+    public void testUseJspecifyDisabledByDefault() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+        properties.put(INTERFACE_ONLY, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/java/jspecify.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertFileNotContains(Paths.get(output.toPath() + "/src/gen/java/org/openapitools/model/Foo.java"),
+                "org.jspecify", "@Nullable");
+        assertFileContains(Paths.get(output.toPath() + "/pom.xml"), "jsr305");
+        assertFileNotContains(Paths.get(output.toPath() + "/pom.xml"), "jspecify");
+    }
+
+
+    /**
+     * jaxrs-cxf-cdi extends this generator but uses its own template directory, which has no
+     * jspecify support. removeOption() only hides the option from the CLI listing, so the flag
+     * must also be forced off — otherwise a config file setting useJspecify=true emits the
+     * jspecify import into files that have no annotations and no @NullMarked package-info.
+     */
+    @Test
+    public void testUseJspecifyIsDisabledForCxfCdi() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(USE_JSPECIFY, true);
+        properties.put(AbstractJavaJAXRSServerCodegen.USE_JAKARTA_EE, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-cxf-cdi")
+                .setAdditionalProperties(properties)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/java/jspecify.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        for (File file : files) {
+            if (file.getName().endsWith(".java")) {
+                assertFileNotContains(file.toPath(), "org.jspecify");
+            }
+            assertNotEquals(file.getName(), "package-info.java");
+        }
+    }
+
 }
