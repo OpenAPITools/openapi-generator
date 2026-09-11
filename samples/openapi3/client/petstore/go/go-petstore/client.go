@@ -198,10 +198,16 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 				for i:=0;i<lenIndValue;i++ {
 					var arrayValue = indValue.Index(i)
 					var keyPrefixForCollectionType = keyPrefix
+					var styleForElement = style
 					if style == "deepObject" {
 						keyPrefixForCollectionType = keyPrefix + "[" + strconv.Itoa(i) + "]"
+					} else if style == "form" {
+						// the property-name flattening applies only to a map that is the
+						// parameter's direct value: an element of an array keeps the path
+						// it has accumulated
+						styleForElement = ""
 					}
-					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), style, collectionType)
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), styleForElement, collectionType)
 				}
 				return
 
@@ -213,7 +219,18 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 				iter := indValue.MapRange()
 				for iter.Next() {
 					k,v := iter.Key(), iter.Value()
-					parameterAddToHeaderOrQuery(headerOrQueryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface(), style, collectionType)
+					var keyPrefixForMapEntry = fmt.Sprintf("%s[%s]", keyPrefix, k.String())
+					var styleForMapEntry = style
+					if style == "form" {
+						// form style explodes an object into one parameter per entry, keyed by the
+						// property name alone. Only deepObject nests the property under the
+						// parameter name. The flattening applies to the top level only: anything
+						// nested inside an entry keeps the path it has accumulated, so that two
+						// siblings holding the same property name stay distinct.
+						keyPrefixForMapEntry = k.String()
+						styleForMapEntry = ""
+					}
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, v.Interface(), styleForMapEntry, collectionType)
 				}
 				return
 

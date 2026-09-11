@@ -141,6 +141,52 @@ public class GoClientCodegenTest {
         TestUtils.assertFileNotContains(modelFile, "dst.int32");
     }
 
+    @Test(description = "Verify form style query parameters explode an object instead of bracketing it")
+    public void testExplodedObjectQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // The style reaches the runtime, which decides between an exploded entry and a
+        // bracketed one. Before, every map was bracketed whatever the style said.
+        TestUtils.assertFileContains(Paths.get(output + "/client.go"),
+                "var keyPrefixForMapEntry = fmt.Sprintf(\"%s[%s]\", keyPrefix, k.String())",
+                "if style == \"form\" {",
+                "keyPrefixForMapEntry = k.String()",
+                "styleForMapEntry = \"\"",
+                "parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, v.Interface(), styleForMapEntry, collectionType)",
+                // an array element does not inherit the form flattening: a map nested one
+                // level down keeps its accumulated path instead of being keyed by its
+                // property names alone
+                "var styleForElement = style",
+                "} else if style == \"form\" {",
+                "styleForElement = \"\"",
+                "parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), styleForElement, collectionType)");
+
+        // and the api hands the declared style over. Note that explode is not passed, so a
+        // form style object is treated as exploded whether or not it says explode: false -
+        // that combination was bracketed before this change and is exploded after it, both
+        // of which differ from the comma joined pairs the specification asks for.
+        Path api = Paths.get(output + "/api_default.go");
+        TestUtils.assertFileContains(api,
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"filter\", r.filter, \"form\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"typedFilter\", r.typedFilter, \"form\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"deepFilter\", r.deepFilter, \"deepObject\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"flatFilter\", r.flatFilter, \"form\", \"\")",
+                // the array of objects the element reset exists for: not exploded, so the
+                // whole slice reaches the runtime as one form style value and enters the
+                // array branch that must not pass the flattening down to its elements
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"arrayFilter\", r.arrayFilter, \"form\", \"csv\")");
+    }
+
     @Test
     public void testNullableComposition() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
