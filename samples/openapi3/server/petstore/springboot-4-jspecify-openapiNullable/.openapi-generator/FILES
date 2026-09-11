@@ -3,7 +3,7 @@ pom.xml
 src/main/java/org/openapitools/api/ApiUtil.java
 src/main/java/org/openapitools/api/FileApi.java
 src/main/java/org/openapitools/api/FooApi.java
-src/main/java/org/openapitools/api/RequiredAndNullableApi.java
+src/main/java/org/openapitools/api/NbleApi.java
 src/main/java/org/openapitools/api/UploadApi.java
 src/main/java/org/openapitools/api/UploadFilesApi.java
 src/main/java/org/openapitools/api/package-info.java

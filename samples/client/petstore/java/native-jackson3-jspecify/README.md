@@ -111,8 +111,10 @@ Class | Method | HTTP request | Description
 *FileApi* | [**fileIdGetWithHttpInfo**](docs/FileApi.md#fileIdGetWithHttpInfo) | **GET** /file/{id} | 
 *FooApi* | [**fooDtParamGet**](docs/FooApi.md#fooDtParamGet) | **GET** /foo/{dtParam} | 
 *FooApi* | [**fooDtParamGetWithHttpInfo**](docs/FooApi.md#fooDtParamGetWithHttpInfo) | **GET** /foo/{dtParam} | 
-*RequiredAndNullableApi* | [**requiredAndNullablePost**](docs/RequiredAndNullableApi.md#requiredAndNullablePost) | **POST** /requiredAndNullable | 
-*RequiredAndNullableApi* | [**requiredAndNullablePostWithHttpInfo**](docs/RequiredAndNullableApi.md#requiredAndNullablePostWithHttpInfo) | **POST** /requiredAndNullable | 
+*NbleApi* | [**nbleGet**](docs/NbleApi.md#nbleGet) | **GET** /nble | 
+*NbleApi* | [**nbleGetWithHttpInfo**](docs/NbleApi.md#nbleGetWithHttpInfo) | **GET** /nble | 
+*NbleApi* | [**nblePost**](docs/NbleApi.md#nblePost) | **POST** /nble | 
+*NbleApi* | [**nblePostWithHttpInfo**](docs/NbleApi.md#nblePostWithHttpInfo) | **POST** /nble | 
 *UploadApi* | [**uploadFilesPost**](docs/UploadApi.md#uploadFilesPost) | **POST** /uploadFiles | 
 *UploadApi* | [**uploadFilesPostWithHttpInfo**](docs/UploadApi.md#uploadFilesPostWithHttpInfo) | **POST** /uploadFiles | 
 *UploadApi* | [**uploadPost**](docs/UploadApi.md#uploadPost) | **POST** /upload | 

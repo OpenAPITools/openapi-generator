@@ -13,6 +13,7 @@
 
 package org.openapitools.client.api;
 
+import org.jspecify.annotations.Nullable;
 import org.openapitools.client.model.RequiredAndNullable;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -26,12 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * API tests for RequiredAndNullableApi
+ * API tests for NbleApi
  */
 @Disabled
-class RequiredAndNullableApiTest {
+class NbleApiTest {
 
-    private final RequiredAndNullableApi api = new RequiredAndNullableApi();
+    private final NbleApi api = new NbleApi();
 
     
     /**
@@ -43,10 +44,27 @@ class RequiredAndNullableApiTest {
      *          if the Api call fails
      */
     @Test
-    void requiredAndNullablePostTest() {
+    void nbleGetTest() {
+        String filter = null;
+
+        api.nbleGet(filter);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * 
+     *
+     * @throws RestClientException
+     *          if the Api call fails
+     */
+    @Test
+    void nblePostTest() {
         RequiredAndNullable requiredAndNullable = null;
 
-        RequiredAndNullable response = api.requiredAndNullablePost(requiredAndNullable);
+        RequiredAndNullable response = api.nblePost(requiredAndNullable);
 
         // TODO: test validations
     }

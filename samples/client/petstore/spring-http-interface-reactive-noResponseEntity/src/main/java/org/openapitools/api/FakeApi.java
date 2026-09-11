@@ -259,9 +259,9 @@ public interface FakeApi {
     )
     Mono<Void> testEnumParameters(
          @RequestHeader(value = "enum_header_string_array", required = false) @Nullable List<String> enumHeaderStringArray,
-         @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
+         @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") @Nullable String enumHeaderString,
          @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
-         @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
+         @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") @Nullable String enumQueryString,
          @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
          @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
          @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
