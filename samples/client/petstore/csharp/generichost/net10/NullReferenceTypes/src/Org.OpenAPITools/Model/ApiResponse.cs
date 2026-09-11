@@ -187,13 +187,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (code.IsSet && code.Value == null)
-                throw new ArgumentNullException(nameof(code), "Property is not nullable for class ApiResponse.");
+                throw new JsonException("Property is not nullable for class ApiResponse: code.");
 
             if (message.IsSet && message.Value == null)
-                throw new ArgumentNullException(nameof(message), "Property is not nullable for class ApiResponse.");
+                throw new JsonException("Property is not nullable for class ApiResponse: message.");
 
             if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class ApiResponse.");
+                throw new JsonException("Property is not nullable for class ApiResponse: type.");
 
             return new ApiResponse(code, message, type);
         }

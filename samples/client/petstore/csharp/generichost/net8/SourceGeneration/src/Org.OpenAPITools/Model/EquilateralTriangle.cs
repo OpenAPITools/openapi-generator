@@ -154,16 +154,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class EquilateralTriangle.", nameof(shapeType));
+                throw new JsonException("Property is required for class EquilateralTriangle: shapeType.");
 
             if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class EquilateralTriangle.", nameof(triangleType));
+                throw new JsonException("Property is required for class EquilateralTriangle: triangleType.");
 
             if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class EquilateralTriangle.");
+                throw new JsonException("Property is not nullable for class EquilateralTriangle: shapeType.");
 
             if (triangleType.IsSet && triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class EquilateralTriangle.");
+                throw new JsonException("Property is not nullable for class EquilateralTriangle: triangleType.");
 
             return new EquilateralTriangle(shapeType.Value!, triangleType.Value!);
         }

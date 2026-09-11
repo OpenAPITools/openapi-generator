@@ -151,16 +151,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class ScaleneTriangle.", nameof(shapeType));
+                throw new JsonException("Property is required for class ScaleneTriangle: shapeType.");
 
             if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class ScaleneTriangle.", nameof(triangleType));
+                throw new JsonException("Property is required for class ScaleneTriangle: triangleType.");
 
             if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ScaleneTriangle.");
+                throw new JsonException("Property is not nullable for class ScaleneTriangle: shapeType.");
 
             if (triangleType.IsSet && triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class ScaleneTriangle.");
+                throw new JsonException("Property is not nullable for class ScaleneTriangle: triangleType.");
 
             return new ScaleneTriangle(shapeType.Value, triangleType.Value);
         }

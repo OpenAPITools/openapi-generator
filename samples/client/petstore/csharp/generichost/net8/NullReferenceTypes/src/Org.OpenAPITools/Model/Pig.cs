@@ -195,10 +195,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Pig.", nameof(className));
+                throw new JsonException("Property is required for class Pig: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Pig.");
+                throw new JsonException("Property is not nullable for class Pig: className.");
 
             if (basquePig != null)
                 return new Pig(basquePig);

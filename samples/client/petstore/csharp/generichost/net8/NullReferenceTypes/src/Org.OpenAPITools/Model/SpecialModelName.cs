@@ -167,10 +167,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varSpecialModelName.IsSet && varSpecialModelName.Value == null)
-                throw new ArgumentNullException(nameof(varSpecialModelName), "Property is not nullable for class SpecialModelName.");
+                throw new JsonException("Property is not nullable for class SpecialModelName: _special_model.name_.");
 
             if (specialPropertyName.IsSet && specialPropertyName.Value == null)
-                throw new ArgumentNullException(nameof(specialPropertyName), "Property is not nullable for class SpecialModelName.");
+                throw new JsonException("Property is not nullable for class SpecialModelName: $special[property.name].");
 
             return new SpecialModelName(varSpecialModelName, specialPropertyName);
         }

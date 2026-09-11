@@ -208,10 +208,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (bar.IsSet && bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class HasOnlyReadOnly.");
+                throw new JsonException("Property is not nullable for class HasOnlyReadOnly: bar.");
 
             if (foo.IsSet && foo.Value == null)
-                throw new ArgumentNullException(nameof(foo), "Property is not nullable for class HasOnlyReadOnly.");
+                throw new JsonException("Property is not nullable for class HasOnlyReadOnly: foo.");
 
             return new HasOnlyReadOnly(bar, foo);
         }

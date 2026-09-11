@@ -167,10 +167,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (escapedLiteralString.IsSet && escapedLiteralString.Value == null)
-                throw new ArgumentNullException(nameof(escapedLiteralString), "Property is not nullable for class LiteralStringClass.");
+                throw new JsonException("Property is not nullable for class LiteralStringClass: escapedLiteralString.");
 
             if (unescapedLiteralString.IsSet && unescapedLiteralString.Value == null)
-                throw new ArgumentNullException(nameof(unescapedLiteralString), "Property is not nullable for class LiteralStringClass.");
+                throw new JsonException("Property is not nullable for class LiteralStringClass: unescapedLiteralString.");
 
             return new LiteralStringClass(escapedLiteralString, unescapedLiteralString);
         }

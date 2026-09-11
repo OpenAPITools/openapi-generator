@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (content.IsSet && content.Value == null)
-                throw new ArgumentNullException(nameof(content), "Property is not nullable for class MixedOneOf.");
+                throw new JsonException("Property is not nullable for class MixedOneOf: content.");
 
             return new MixedOneOf(content);
         }

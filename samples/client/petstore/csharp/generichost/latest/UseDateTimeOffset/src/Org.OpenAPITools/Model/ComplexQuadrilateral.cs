@@ -145,16 +145,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!quadrilateralType.IsSet)
-                throw new ArgumentException("Property is required for class ComplexQuadrilateral.", nameof(quadrilateralType));
+                throw new JsonException("Property is required for class ComplexQuadrilateral: quadrilateralType.");
 
             if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class ComplexQuadrilateral.", nameof(shapeType));
+                throw new JsonException("Property is required for class ComplexQuadrilateral: shapeType.");
 
             if (quadrilateralType.IsSet && quadrilateralType.Value == null)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class ComplexQuadrilateral.");
+                throw new JsonException("Property is not nullable for class ComplexQuadrilateral: quadrilateralType.");
 
             if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ComplexQuadrilateral.");
+                throw new JsonException("Property is not nullable for class ComplexQuadrilateral: shapeType.");
 
             return new ComplexQuadrilateral(quadrilateralType.Value!, shapeType.Value!);
         }

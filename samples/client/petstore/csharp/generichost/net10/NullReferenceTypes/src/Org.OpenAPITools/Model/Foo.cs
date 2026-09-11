@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (bar.IsSet && bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class Foo.");
+                throw new JsonException("Property is not nullable for class Foo: bar.");
 
             return new Foo(bar);
         }

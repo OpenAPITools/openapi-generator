@@ -168,10 +168,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (file.IsSet && file.Value == null)
-                throw new ArgumentNullException(nameof(file), "Property is not nullable for class FileSchemaTestClass.");
+                throw new JsonException("Property is not nullable for class FileSchemaTestClass: file.");
 
             if (files.IsSet && files.Value == null)
-                throw new ArgumentNullException(nameof(files), "Property is not nullable for class FileSchemaTestClass.");
+                throw new JsonException("Property is not nullable for class FileSchemaTestClass: files.");
 
             return new FileSchemaTestClass(file, files);
         }

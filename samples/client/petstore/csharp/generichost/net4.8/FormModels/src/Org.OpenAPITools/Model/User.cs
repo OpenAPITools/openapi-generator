@@ -370,31 +370,31 @@ namespace Org.OpenAPITools.Model
             }
 
             if (email.IsSet && email.Value == null)
-                throw new ArgumentNullException(nameof(email), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: email.");
 
             if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: firstName.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: id.");
 
             if (lastName.IsSet && lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: lastName.");
 
             if (objectWithNoDeclaredProps.IsSet && objectWithNoDeclaredProps.Value == null)
-                throw new ArgumentNullException(nameof(objectWithNoDeclaredProps), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: objectWithNoDeclaredProps.");
 
             if (password.IsSet && password.Value == null)
-                throw new ArgumentNullException(nameof(password), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: password.");
 
             if (phone.IsSet && phone.Value == null)
-                throw new ArgumentNullException(nameof(phone), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: phone.");
 
             if (userStatus.IsSet && userStatus.Value == null)
-                throw new ArgumentNullException(nameof(userStatus), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: userStatus.");
 
             if (username.IsSet && username.Value == null)
-                throw new ArgumentNullException(nameof(username), "Property is not nullable for class User.");
+                throw new JsonException("Property is not nullable for class User: username.");
 
             return new User(anyTypeProp, anyTypePropNullable, email, firstName, id, lastName, objectWithNoDeclaredProps, objectWithNoDeclaredPropsNullable, password, phone, userStatus, username);
         }

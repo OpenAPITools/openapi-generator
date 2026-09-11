@@ -187,10 +187,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class NullableShape.", nameof(shapeType));
+                throw new JsonException("Property is required for class NullableShape: shapeType.");
 
             if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class NullableShape.");
+                throw new JsonException("Property is not nullable for class NullableShape: shapeType.");
 
             if (quadrilateral != null)
                 return new NullableShape(quadrilateral);
