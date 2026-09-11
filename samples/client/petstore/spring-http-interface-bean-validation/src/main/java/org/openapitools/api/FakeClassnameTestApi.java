@@ -6,10 +6,13 @@
 package org.openapitools.api;
 
 import org.openapitools.model.ClientDto;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Map;
@@ -17,9 +20,9 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
-
+@Validated
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
-public interface FakeClassnameTags123Api {
+public interface FakeClassnameTestApi {
 
     /**
      * PATCH /fake_classname_test : To test class name in snake case
@@ -28,15 +31,14 @@ public interface FakeClassnameTags123Api {
      * @param clientDto client model (required)
      * @return successful operation (status code 200)
      */
-    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "PATCH",
         value = "/fake_classname_test",
         accept = { "application/json" },
         contentType = "application/json"
     )
-    ClientDto testClassname(
-         @RequestBody ClientDto clientDto
+    ResponseEntity<ClientDto> testClassname(
+         @Valid @RequestBody ClientDto clientDto
     );
 
 }

@@ -8,7 +8,6 @@ package org.openapitools.api;
 import org.openapitools.model.ApiResponseDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.model.PetDto;
-import org.openapitools.model.ResponseObjectWithDifferentFieldNamesDto;
 import java.util.Set;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -125,22 +124,6 @@ public interface PetApi {
 
 
     /**
-     * GET /fake/{petId}/response-object-different-names
-     *
-     * @param petId ID of pet to update (required)
-     * @return successful operation (status code 200)
-     */
-    @HttpExchange(
-        method = "GET",
-        value = "/fake/{petId}/response-object-different-names",
-        accept = { "application/json" }
-    )
-    ResponseEntity<ResponseObjectWithDifferentFieldNamesDto> responseObjectDifferentNames(
-         @PathVariable("petId") Long petId
-    );
-
-
-    /**
      * PUT /pet : Update an existing pet
      * 
      *
@@ -202,28 +185,6 @@ public interface PetApi {
          @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file
-    );
-
-
-    /**
-     * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
-     * 
-     *
-     * @param petId ID of pet to update (required)
-     * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @return successful operation (status code 200)
-     */
-    @HttpExchange(
-        method = "POST",
-        value = "/fake/{petId}/uploadImageWithRequiredFile",
-        accept = { "application/json" },
-        contentType = "multipart/form-data"
-    )
-    ResponseEntity<ApiResponseDto> uploadFileWithRequiredFile(
-         @PathVariable("petId") Long petId,
-         @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
-         @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     );
 
 }
