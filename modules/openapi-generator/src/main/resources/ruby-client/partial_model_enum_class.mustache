@@ -18,6 +18,11 @@
     # @return [String] The enum value
     def build_from_hash(value)
       return value if {{classname}}.all_vars.include?(value)
+      {{#enumUnknownDefaultCase}}
+      {{#allowableValues}}{{#enumVars}}{{#-last}}{{{name}}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+      {{/enumUnknownDefaultCase}}
+      {{^enumUnknownDefaultCase}}
       raise "Invalid ENUM value #{value} for class #{{{classname}}}"
+      {{/enumUnknownDefaultCase}}
     end
   end

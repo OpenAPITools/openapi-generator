@@ -762,4 +762,58 @@ public class RubyClientCodegenTest {
         assertTrue(op.queryParams.stream().allMatch(p -> p.queryIsJsonMimeType),
                 "All content:application/json query params should have queryIsJsonMimeType=true");
     }
+
+    @Test(description = "enumUnknownDefaultCase=true makes build_from_hash fall back to the unknown default member")
+    public void testEnumUnknownDefaultCaseBuildFromHashFallback() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/enum.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        java.nio.file.Path stringEnum = new File(output, "lib/openapi_client/models/type.rb").toPath();
+        TestUtils.assertFileContains(stringEnum, "UNKNOWN_DEFAULT_OPEN_API = \"unknown_default_open_api\".freeze");
+        TestUtils.assertFileContains(stringEnum,
+                "def build_from_hash(value)\n" +
+                "      return value if Type.all_vars.include?(value)\n" +
+                "      UNKNOWN_DEFAULT_OPEN_API\n" +
+                "    end");
+        TestUtils.assertFileNotContains(stringEnum, "raise \"Invalid ENUM value");
+
+        // the integer enum's unknown-default member keeps its (pre-existing) numeric-prefixed name
+        java.nio.file.Path integerEnum = new File(output, "lib/openapi_client/models/integer_enum.rb").toPath();
+        TestUtils.assertFileContains(integerEnum, "Nunknown_default_open_api = 11184809.freeze");
+        TestUtils.assertFileContains(integerEnum,
+                "def build_from_hash(value)\n" +
+                "      return value if IntegerEnum.all_vars.include?(value)\n" +
+                "      Nunknown_default_open_api\n" +
+                "    end");
+        TestUtils.assertFileNotContains(integerEnum, "raise \"Invalid ENUM value");
+    }
+
+    @Test(description = "without enumUnknownDefaultCase build_from_hash still raises on unknown values")
+    public void testEnumBuildFromHashRaisesByDefault() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/enum.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        java.nio.file.Path stringEnum = new File(output, "lib/openapi_client/models/type.rb").toPath();
+        TestUtils.assertFileNotContains(stringEnum, "UNKNOWN_DEFAULT_OPEN_API");
+        TestUtils.assertFileContains(stringEnum,
+                "def build_from_hash(value)\n" +
+                "      return value if Type.all_vars.include?(value)\n" +
+                "      raise \"Invalid ENUM value #{value} for class #Type\"\n" +
+                "    end");
+    }
 }
