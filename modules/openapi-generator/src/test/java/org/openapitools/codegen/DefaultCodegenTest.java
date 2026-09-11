@@ -31,6 +31,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -57,6 +58,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
+import static com.fasterxml.jackson.databind.util.ClassUtil.name;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.*;
@@ -5426,5 +5428,24 @@ public class DefaultCodegenTest {
         DefaultCodegen off = new DefaultCodegen();
         off.processOpts();
         assertThat(off.splitOperationsByContentType).isFalse();
+    }
+
+    @Test
+    public void testFromParameterEnumImports() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue24875-enum-parameter-import.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation operation = openAPI.getPaths().get("/archives").getGet();
+        Parameter parameter = operation.getParameters().get(0);
+
+        Set<String> imports = new HashSet<>();
+        codegen.fromParameter(parameter, imports);
+
+        // Assert enum type is present in imports
+        Assert.assertTrue(
+                imports.contains("State"),
+                "Expected enum 'State' to be present in imports but got: " + imports
+        );
     }
 }
