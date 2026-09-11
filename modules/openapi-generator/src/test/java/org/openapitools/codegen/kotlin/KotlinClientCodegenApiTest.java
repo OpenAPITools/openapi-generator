@@ -229,6 +229,33 @@ public class KotlinClientCodegenApiTest {
         assertFileNotContains(defaultApi.toPath(), "mapDeep?.apply {");
     }
 
+    @Test(description = "Verify an object query parameter is exploded, whether or not it declares its properties")
+    public void testExplodedObjectQueryParameterJvmOkhttp() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/exploded-object-query-param.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_OKHTTP4);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+
+        // form style with explode - the default - puts every entry on the wire under its own
+        // property name. Serializing the whole map with toString() is what used to happen.
+        assertFileContains(defaultApi.toPath(),
+                "(filter as? kotlin.collections.Map<*, *>)?.forEach { (key, value) -> put(key.toString(), listOf(value.toString())) }");
+        assertFileNotContains(defaultApi.toPath(), "put(\"filter\", listOf(filter.toString()))");
+
+        // a declared map behaves the same way
+        assertFileContains(defaultApi.toPath(),
+                "(typedFilter as? kotlin.collections.Map<*, *>)?.forEach { (key, value) -> put(key.toString(), listOf(value.toString())) }");
+
+        // deepObject and form without explode both keep a single parameter
+        assertFileContains(defaultApi.toPath(),
+                "put(\"deepFilter\", listOf(deepFilter.toString()))",
+                "put(\"flatFilter\", listOf(flatFilter.toString()))");
+    }
+
     private static void assertFileContainsLine(List<String> lines, String line) {
         Assert.assertListContains(lines, s -> s.equals(line), line);
     }

@@ -219,7 +219,23 @@ import {{packageName}}.infrastructure.Serializer
                     {{/vars}}
                     {{/isModel}}
                     {{^isModel}}
+                    {{#isMap}}
+                    {{#isExplode}}
+                    {{^isDeepObject}}
+                    // form style explodes an object into one query parameter per entry, keyed by the property name alone
+                    ({{{paramName}}} as? kotlin.collections.Map<*, *>)?.forEach { (key, value) -> put(key.toString(), listOf(value.toString())) }
+                    {{/isDeepObject}}
+                    {{#isDeepObject}}
                     put("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.value{{/isString}}{{^isString}}{{{paramName}}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                    {{/isDeepObject}}
+                    {{/isExplode}}
+                    {{^isExplode}}
+                    put("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.value{{/isString}}{{^isString}}{{{paramName}}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                    {{/isExplode}}
+                    {{/isMap}}
+                    {{^isMap}}
+                    put("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.value{{/isString}}{{^isString}}{{{paramName}}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                    {{/isMap}}
                     {{/isModel}}
                 }
                 {{/required}}
@@ -234,7 +250,23 @@ import {{packageName}}.infrastructure.Serializer
                     {{/vars}}
                     {{/isModel}}
                     {{^isModel}}
+                    {{#isMap}}
+                    {{#isExplode}}
+                    {{^isDeepObject}}
+                    // form style explodes an object into one query parameter per entry, keyed by the property name alone
+                    ({{{paramName}}} as? kotlin.collections.Map<*, *>)?.forEach { (key, value) -> put(key.toString(), listOf(value.toString())) }
+                    {{/isDeepObject}}
+                    {{#isDeepObject}}
                     put("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.value{{/isString}}{{^isString}}{{{paramName}}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                    {{/isDeepObject}}
+                    {{/isExplode}}
+                    {{^isExplode}}
+                    put("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.value{{/isString}}{{^isString}}{{{paramName}}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                    {{/isExplode}}
+                    {{/isMap}}
+                    {{^isMap}}
+                    put("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.value{{/isString}}{{^isString}}{{{paramName}}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                    {{/isMap}}
                     {{/isModel}}
                 }
                 {{/isNullable}}
@@ -247,7 +279,23 @@ import {{packageName}}.infrastructure.Serializer
                 {{/vars}}
                 {{/isModel}}
                 {{^isModel}}
+                {{#isMap}}
+                {{#isExplode}}
+                {{^isDeepObject}}
+                // form style explodes an object into one query parameter per entry, keyed by the property name alone
+                ({{{paramName}}} as? kotlin.collections.Map<*, *>)?.forEach { (key, value) -> put(key.toString(), listOf(value.toString())) }
+                {{/isDeepObject}}
+                {{#isDeepObject}}
                 put("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.value{{/isString}}{{^isString}}{{{paramName}}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                {{/isDeepObject}}
+                {{/isExplode}}
+                {{^isExplode}}
+                put("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.value{{/isString}}{{^isString}}{{{paramName}}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                {{/isExplode}}
+                {{/isMap}}
+                {{^isMap}}
+                put("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.value{{/isString}}{{^isString}}{{{paramName}}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                {{/isMap}}
                 {{/isModel}}
                 {{/isNullable}}
                 {{/required}}
