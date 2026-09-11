@@ -26,7 +26,7 @@ public abstract class HttpInterfacesAbstractConfigurator {
 
     private final {{#reactive}}WebClient{{/reactive}}{{^reactive}}RestClient{{/reactive}} client;
 
-    public HttpInterfacesAbstractConfigurator(final {{#reactive}}WebClient{{/reactive}}{{^reactive}}RestClient{{/reactive}} client) {
+    public HttpInterfacesAbstractConfigurator({{#reactive}}WebClient{{/reactive}}{{^reactive}}RestClient{{/reactive}} client) {
         this.client = client;
     }
 
