@@ -65,8 +65,8 @@ export function DashedOptionOneFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function DashedOptionOneToJSON(json: any): DashedOptionOne {
-    return DashedOptionOneToJSONTyped(json, false);
+export function DashedOptionOneToJSON(value?: DashedOptionOne | null): any {
+    return DashedOptionOneToJSONTyped(value, false);
 }
 
 export function DashedOptionOneToJSONTyped(value?: DashedOptionOne | null, ignoreDiscriminator: boolean = false): any {

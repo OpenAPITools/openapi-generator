@@ -54,8 +54,8 @@ export function CatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cat {
     };
 }
 
-export function CatToJSON(json: any): Cat {
-    return CatToJSONTyped(json, false);
+export function CatToJSON(value?: Cat | null): any {
+    return CatToJSONTyped(value, false);
 }
 
 export function CatToJSONTyped(value?: Cat | null, ignoreDiscriminator: boolean = false): any {

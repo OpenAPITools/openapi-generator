@@ -75,8 +75,8 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function AbstractUserDtoToJSON(json: any): AbstractUserDto {
-    return AbstractUserDtoToJSONTyped(json, false);
+export function AbstractUserDtoToJSON(value?: AbstractUserDto | null): any {
+    return AbstractUserDtoToJSONTyped(value, false);
 }
 
 export function AbstractUserDtoToJSONTyped(value?: AbstractUserDto | null, ignoreDiscriminator: boolean = false): any {

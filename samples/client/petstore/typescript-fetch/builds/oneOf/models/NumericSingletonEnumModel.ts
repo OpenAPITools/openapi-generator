@@ -59,8 +59,8 @@ export function NumericSingletonEnumModelFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-export function NumericSingletonEnumModelToJSON(json: any): NumericSingletonEnumModel {
-    return NumericSingletonEnumModelToJSONTyped(json, false);
+export function NumericSingletonEnumModelToJSON(value?: NumericSingletonEnumModel | null): any {
+    return NumericSingletonEnumModelToJSONTyped(value, false);
 }
 
 export function NumericSingletonEnumModelToJSONTyped(value?: NumericSingletonEnumModel | null, ignoreDiscriminator: boolean = false): any {

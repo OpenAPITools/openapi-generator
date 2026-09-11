@@ -69,8 +69,8 @@ export function GetBehaviorTypeResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function GetBehaviorTypeResponseToJSON(json: any): GetBehaviorTypeResponse {
-    return GetBehaviorTypeResponseToJSONTyped(json, false);
+export function GetBehaviorTypeResponseToJSON(value?: GetBehaviorTypeResponse | null): any {
+    return GetBehaviorTypeResponseToJSONTyped(value, false);
 }
 
 export function GetBehaviorTypeResponseToJSONTyped(value?: GetBehaviorTypeResponse | null, ignoreDiscriminator: boolean = false): any {

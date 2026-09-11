@@ -46,8 +46,8 @@ export function NumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function NumberOnlyToJSON(json: any): NumberOnly {
-    return NumberOnlyToJSONTyped(json, false);
+export function NumberOnlyToJSON(value?: NumberOnly | null): any {
+    return NumberOnlyToJSONTyped(value, false);
 }
 
 export function NumberOnlyToJSONTyped(value?: NumberOnly | null, ignoreDiscriminator: boolean = false): any {

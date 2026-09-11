@@ -53,8 +53,8 @@ export function TestDiscriminatorResponseFromJSONTyped(json: any, ignoreDiscrimi
     }
 }
 
-export function TestDiscriminatorResponseToJSON(json: any): any {
-    return TestDiscriminatorResponseToJSONTyped(json, false);
+export function TestDiscriminatorResponseToJSON(value?: TestDiscriminatorResponse | null): any {
+    return TestDiscriminatorResponseToJSONTyped(value, false);
 }
 
 export function TestDiscriminatorResponseToJSONTyped(value?: TestDiscriminatorResponse | null, ignoreDiscriminator: boolean = false): any {

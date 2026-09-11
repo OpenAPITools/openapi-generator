@@ -67,8 +67,8 @@ export function FindPetsByUserResponseFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function FindPetsByUserResponseToJSON(json: any): FindPetsByUserResponse {
-    return FindPetsByUserResponseToJSONTyped(json, false);
+export function FindPetsByUserResponseToJSON(value?: FindPetsByUserResponse | null): any {
+    return FindPetsByUserResponseToJSONTyped(value, false);
 }
 
 export function FindPetsByUserResponseToJSONTyped(value?: FindPetsByUserResponse | null, ignoreDiscriminator: boolean = false): any {

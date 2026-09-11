@@ -46,8 +46,8 @@ export function FooFromJSONTyped(json: any, ignoreDiscriminator: boolean): Foo {
     };
 }
 
-export function FooToJSON(json: any): Foo {
-    return FooToJSONTyped(json, false);
+export function FooToJSON(value?: Foo | null): any {
+    return FooToJSONTyped(value, false);
 }
 
 export function FooToJSONTyped(value?: Foo | null, ignoreDiscriminator: boolean = false): any {

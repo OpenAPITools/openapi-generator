@@ -64,8 +64,8 @@ export function MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json: a
     };
 }
 
-export function MixedPropertiesAndAdditionalPropertiesClassToJSON(json: any): MixedPropertiesAndAdditionalPropertiesClass {
-    return MixedPropertiesAndAdditionalPropertiesClassToJSONTyped(json, false);
+export function MixedPropertiesAndAdditionalPropertiesClassToJSON(value?: MixedPropertiesAndAdditionalPropertiesClass | null): any {
+    return MixedPropertiesAndAdditionalPropertiesClassToJSONTyped(value, false);
 }
 
 export function MixedPropertiesAndAdditionalPropertiesClassToJSONTyped(value?: MixedPropertiesAndAdditionalPropertiesClass | null, ignoreDiscriminator: boolean = false): any {

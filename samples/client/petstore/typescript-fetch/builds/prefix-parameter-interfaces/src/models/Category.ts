@@ -51,8 +51,8 @@ export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     };
 }
 
-export function CategoryToJSON(json: any): Category {
-    return CategoryToJSONTyped(json, false);
+export function CategoryToJSON(value?: Category | null): any {
+    return CategoryToJSONTyped(value, false);
 }
 
 export function CategoryToJSONTyped(value?: Category | null, ignoreDiscriminator: boolean = false): any {
