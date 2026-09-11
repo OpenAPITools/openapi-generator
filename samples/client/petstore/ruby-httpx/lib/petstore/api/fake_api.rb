@@ -1571,7 +1571,8 @@ module Petstore
       query_params[:'url'] = @api_client.build_collection_param(url, :csv)
       query_params[:'context'] = @api_client.build_collection_param(context, :multi)
       query_params[:'allowEmpty'] = allow_empty
-      query_params[:'language'] = opts[:'language'] if !opts[:'language'].nil?
+      # form style explodes an object into one query parameter per entry, keyed by the property name alone
+      opts[:'language'].each { |name, value| query_params[name.to_s] = value } if !opts[:'language'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
