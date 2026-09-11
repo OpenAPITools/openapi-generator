@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: Free-form object query parameter
+  version: 1.0.0
+paths:
+  /things:
+    get:
+      operationId: listThings
+      parameters:
+        - name: filter
+          in: query
+          description: A free-form object query parameter.
+          schema:
+            type: object
+        - name: tags
+          in: query
+          description: A free-form object with typed additionalProperties (a map).
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: meta
+          in: query
+          description: A free-form object with additionalProperties true (also a map).
+          schema:
+            type: object
+            additionalProperties: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
