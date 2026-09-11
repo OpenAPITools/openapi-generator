@@ -39,7 +39,12 @@ from {{packageName}}.exceptions import (
 
 {{#compatibleWithPythonLegacy}}
 
+{{#useLegacyModelHelpersModule}}
+from {{packageName}}._legacy_model_helpers import _get_openapi_to_dict
+{{/useLegacyModelHelpersModule}}
+{{^useLegacyModelHelpersModule}}
 {{>_legacy_model_identity}}
+{{/useLegacyModelHelpersModule}}
 
 
 {{/compatibleWithPythonLegacy}}
