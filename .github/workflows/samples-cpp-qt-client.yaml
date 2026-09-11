@@ -1,28 +1,40 @@
 name: Samples cpp qt client
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - "samples/client/petstore/cpp-qt*/**"
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - "samples/client/petstore/cpp-qt*/**"
 
 env:
   GRADLE_VERSION: 6.9
 
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-cpp-qt-client.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Build cpp qt client
     strategy:
-      matrix:
-        sample:
-          - samples/client/petstore/cpp-qt
-          - samples/client/petstore/cpp-qt-addDownloadProgress
-        os:
-          - ubuntu-latest
-          - macOS-latest
-          - windows-latest
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7

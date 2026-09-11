@@ -1,36 +1,43 @@
 name: Gradle tests (Java samples)
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - 'samples/client/petstore/java/**'
-      - 'samples/openapi3/client/petstore/java/**'
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - 'samples/client/petstore/java/**'
-      - 'samples/openapi3/client/petstore/java/**'
+
 env:
   GRADLE_VERSION: 8.7
 
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: gradle-test.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Gradle tests
     runs-on: ubuntu-latest
     container: gradle:jdk11
     strategy:
       fail-fast: true
-      matrix:
-        sample:
-          - samples/openapi3/client/extensions/x-auth-id-alias/java/jersey2-java8
-          - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
-          - samples/openapi3/client/petstore/java/jersey2-java8
-          - samples/client/petstore/java/jersey2-java8-localdatetime
-          - samples/client/petstore/java/jersey2-java8
-          - samples/client/petstore/java/okhttp-gson
-          - samples/client/petstore/java/okhttp-gson-group-parameter
-          - samples/client/petstore/java/webclient-swagger2
-          - samples/client/petstore/java/native
-          - samples/client/petstore/java/native-jakarta
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6.0.0

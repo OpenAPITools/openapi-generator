@@ -1,30 +1,39 @@
 name: Samples Erlang
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - samples/server/echo_api/erlang-server/**
-      - samples/server/petstore/erlang-server/**
-      - samples/client/petstore/erlang-client/**
-      - samples/client/petstore/erlang-proper/**
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - samples/server/echo_api/erlang-server/**
-      - samples/server/petstore/erlang-server/**
-      - samples/client/petstore/erlang-client/**
-      - samples/client/petstore/erlang-proper/**
+
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-erlang.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Build Erlang projects
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          - samples/server/echo_api/erlang-server/
-          - samples/server/petstore/erlang-server/
-          - samples/client/petstore/erlang-client/
-          - samples/client/petstore/erlang-proper/
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     steps:
       - uses: actions/checkout@v7
       - uses: erlef/setup-beam@v1

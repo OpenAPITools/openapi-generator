@@ -1,44 +1,39 @@
 name: Samples C# .Net 9 Clients
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - samples/client/petstore/csharp/generichost/net9/**
-      - samples/client/petstore/csharp/httpclient/net9/**
-      - samples/client/petstore/csharp/restsharp/net9/**
-      - samples/client/petstore/csharp/unityWebRequest/net9/**
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - samples/client/petstore/csharp/generichost/net9/**
-      - samples/client/petstore/csharp/httpclient/net9/**
-      - samples/client/petstore/csharp/restsharp/net9/**
-      - samples/client/petstore/csharp/unityWebRequest/net9/**
+
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-dotnet9.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Build .Net 9 projects
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          - samples/client/petstore/csharp/generichost/net9/AllOf
-          - samples/client/petstore/csharp/generichost/net9/AnyOf
-          - samples/client/petstore/csharp/generichost/net9/AnyOfNoCompare
-          - samples/client/petstore/csharp/generichost/net9/FormModels
-          # - samples/client/petstore/csharp/generichost/net9/ManualPetstoreTests
-          # - samples/client/petstore/csharp/generichost/net9/ManualSourceGenerationTests
-          - samples/client/petstore/csharp/generichost/net9/NullReferenceTypes
-          - samples/client/petstore/csharp/generichost/net9/OneOf
-          - samples/client/petstore/csharp/generichost/net9/Petstore
-          - samples/client/petstore/csharp/generichost/net9/SourceGeneration
-          - samples/client/petstore/csharp/generichost/net9/UseDateTimeForDate
-          # restsharp
-          - samples/client/petstore/csharp/restsharp/net9/EnumMappings
-          # httpclient
-          - samples/client/petstore/csharp/httpclient/net9/Petstore
-          - samples/client/petstore/csharp/httpclient/net9/Petstore-nonPublicApi
-          # unity
-          #- samples/client/petstore/csharp/unityWebRequest/net9/Petstore
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-dotnet@v6.0.0

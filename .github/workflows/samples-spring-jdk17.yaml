@@ -1,77 +1,39 @@
 name: Samples Java Spring (JDK17)
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - samples/openapi3/client/petstore/spring-cloud-3-with-optional/**
-      - samples/openapi3/client/petstore/spring-cloud-4-with-optional/**
-      - samples/client/petstore/spring-http-interface-springboot-4/**
-      - samples/openapi3/server/petstore/springboot-3/**
-      - samples/openapi3/server/petstore/springboot-4/**
-      - samples/openapi3/server/petstore/springboot-4-jspecify/**
-      - samples/openapi3/server/petstore/springboot-4-jspecify-openapiNullable/**
-      - samples/openapi3/server/petstore/springboot-4-jspecify-useOptional/**
-      - samples/server/petstore/springboot-api-response-examples/**
-      - samples/server/petstore/springboot-lombok-data/**
-      - samples/server/petstore/springboot-lombok-tostring/**
-      - samples/server/petstore/springboot-file-delegate-optional/**
-      - samples/server/petstore/springboot-petstore-with-api-response-examples/**
-      - samples/server/petstore/springboot-sort-validation/**
-      - samples/server/petstore/springboot-paged-model/**
-      - samples/server/others/springboot-pre-authorize/**
-      - samples/openapi3/server/petstore/spring-boot-oneof-sealed/**
-      - samples/openapi3/server/petstore/spring-boot-oneof-interface/**
-      - samples/client/petstore/spring-http-interface-oauth/**
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - samples/openapi3/client/petstore/spring-cloud-3-with-optional/**
-      - samples/openapi3/client/petstore/spring-cloud-4-with-optional/**
-      - samples/client/petstore/spring-http-interface-springboot-4/**
-      - samples/openapi3/server/petstore/springboot-3/**
-      - samples/openapi3/server/petstore/springboot-4/**
-      - samples/openapi3/server/petstore/springboot-4-jspecify/**
-      - samples/openapi3/server/petstore/springboot-4-jspecify-openapiNullable/**
-      - samples/openapi3/server/petstore/springboot-4-jspecify-useOptional/**
-      - samples/server/petstore/springboot-api-response-examples/**
-      - samples/server/petstore/springboot-lombok-data/**
-      - samples/server/petstore/springboot-lombok-tostring/**
-      - samples/server/petstore/springboot-file-delegate-optional/**
-      - samples/server/petstore/springboot-petstore-with-api-response-examples/**
-      - samples/server/petstore/springboot-sort-validation/**
-      - samples/server/petstore/springboot-paged-model/**
-      - samples/server/others/springboot-pre-authorize/**
-      - samples/openapi3/server/petstore/spring-boot-oneof-sealed/**
-      - samples/openapi3/server/petstore/spring-boot-oneof-interface/**
-      - samples/client/petstore/spring-http-interface-oauth/**
+
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-spring-jdk17.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Build Java Spring (JDK17)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          # clients
-          - samples/openapi3/client/petstore/spring-cloud-3-with-optional
-          - samples/openapi3/client/petstore/spring-cloud-4-with-optional
-          - samples/client/petstore/spring-http-interface-springboot-4
-          # servers
-          - samples/openapi3/server/petstore/springboot-3
-          - samples/openapi3/server/petstore/springboot-4
-          - samples/openapi3/server/petstore/springboot-4-jspecify
-          - samples/openapi3/server/petstore/springboot-4-jspecify-openapiNullable
-          - samples/openapi3/server/petstore/springboot-4-jspecify-useOptional
-          - samples/server/petstore/springboot-api-response-examples
-          - samples/server/petstore/springboot-lombok-data
-          - samples/server/petstore/springboot-lombok-tostring
-          - samples/server/petstore/springboot-file-delegate-optional
-          - samples/server/petstore/springboot-petstore-with-api-response-examples
-          - samples/server/petstore/springboot-sort-validation
-          - samples/server/petstore/springboot-paged-model
-          - samples/server/others/springboot-pre-authorize
-          - samples/openapi3/server/petstore/spring-boot-oneof-sealed
-          - samples/openapi3/server/petstore/spring-boot-oneof-interface
-          - samples/client/petstore/spring-http-interface-oauth
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6.0.0

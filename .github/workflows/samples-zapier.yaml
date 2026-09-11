@@ -1,22 +1,39 @@
 name: Samples Zapier
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - 'samples/client/petstore/zapier/**'
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - 'samples/client/petstore/zapier/**'
 
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      validate_changed: ${{ steps.validate.outputs.has_changes }}
+      validate_matrix: ${{ steps.validate.outputs.matrix }}
+      validate_samples: ${{ steps.validate.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: validate
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-zapier.validate
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   validate:
+    needs: setup
+    if: ${{ needs.setup.outputs.validate_changed == 'true' }}
     name: Test zapier generation
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          - samples/client/petstore/zapier
+      matrix: ${{ fromJSON(needs.setup.outputs.validate_matrix) }}
     steps:
     - uses: actions/checkout@v7
     - name: Setup node

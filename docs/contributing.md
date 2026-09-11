@@ -127,6 +127,49 @@ To start the CI tests, you can:
 
 See [OpenAPI Tools wiki](https://github.com/OpenAPITools/openapi-generator/wiki/Integration-Tests) for more information about the integration tests.
 
+### Change-aware CI
+
+Repository test workflows use `CI/change-scopes.json` to select affected suites on pull requests.
+Changes to a sample's source, tests, build files, or generated metadata count as relevant; CI does not
+normalize whitespace or attempt semantic equivalence. Shared build/test inputs select all their
+consumers. Generator changes still run generator tests and generated-output freshness checks even
+when checked-in samples are unchanged. Selected jobs keep their existing clean builds and runtime
+coverage.
+
+The rollout defaults to **shadow** mode: compute and report the proposed selection, but execute the
+full suite. Maintainers can set the repository variable `CI_SELECTION_MODE_PILOT=enforce` for the
+Spring, Python Petstore, Swift, and Go pilot workflows, then set `CI_SELECTION_MODE=enforce` for the
+remaining migrated GitHub workflows after reviewing hosted results and required checks. Set these
+variables back to `shadow` to disable skipping. Workflow dispatch and master/release-branch pushes
+always run the full applicable suite. CircleCI has independent `selection_mode` and `force_full`
+pipeline parameters and also defaults to shadow mode.
+
+Add or update the appropriate suite when registering a new sample or changing shared dependencies.
+The manifest owns sample matrices, including runtime axes and special `include` rows; do not add a
+second static matrix to the workflow. Register inputs outside the sample directory, such as a sibling
+package installed through an npm `file:` dependency. Samples without a runnable CI suite need an
+exact-root exclusion with an explanation; existing exclusions record pre-selection coverage, not
+an assertion that those samples are tested. Generated-output freshness is separate from compilation.
+The TypeScript typecheck suite discovers eligible tracked samples rather than maintaining another list.
+
+The Misc tests workflow checks ownership and runs the selector's focused regression suite. These
+checks can also be run locally without building the generator:
+
+```shell
+node .github/.test/ci-scopes.js
+python3 -m unittest discover -s CI/tests -p 'test_*.py'
+```
+
+Selection summaries explain which inputs selected each suite and when comparison uncertainty forced
+a full run. Missing PR history never means "no changes". A failed selector or policy check must be
+treated as a failure, not as an intentional skip; include the selector/policy checks in repository
+rulesets before enabling enforcement. Test-report publication distinguishes intentional unit-test
+skips from missing results after an executed job.
+
+Filtering compares the cumulative PR change, not the last commit or a previous successful CI run.
+It does not cache successful test results across runs. Full branch/manual runs remain important for
+detecting changes in external dependencies and services that are not reflected in a repository diff.
+
 ### Tips
 - Smaller changes are easier to review
 - [Optional] For bug fixes, provide a OpenAPI Spec to repeat the issue so that the reviewer can use it to confirm the fix

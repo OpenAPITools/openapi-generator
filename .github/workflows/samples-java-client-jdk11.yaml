@@ -1,119 +1,39 @@
 name: Samples Java Client JDK11
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - 'samples/client/petstore/java/**'
-      - samples/client/petstore/jaxrs-cxf-client/**
-      - samples/client/petstore/jaxrs-cxf-client-swagger2/**
-      - samples/client/petstore/java-micronaut-client/**
-      - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
-      - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
-      - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**
-      - samples/openapi3/client/petstore/java/native**
-      - samples/client/others/java/okhttp-gson-oneOf/**
-      - samples/client/others/java/okhttp-gson-oneOf-array/**
-      - samples/client/others/java/resttemplate-useAbstractionForFiles/**
-      - samples/client/others/java/webclient-useAbstractionForFiles/**
-      - samples/client/petstore/java/webclient-useSingleRequestParameter/**
-      - samples/client/others/java/jersey2-oneOf-duplicates/**
-      - samples/client/others/java/jersey2-oneOf-Mixed/**
-      - samples/client/others/java/okhttp-gson-streaming/**
-      - samples/client/others/java/resteasy/**
-      - samples/client/others/java/apache-httpclient/**
-      - samples/client/others/java/resttemplate-list-schema-validation/**
-      - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - 'samples/client/petstore/java/**'
-      - samples/client/petstore/jaxrs-cxf-client/**
-      - samples/client/petstore/jaxrs-cxf-client-swagger2/**
-      - samples/client/petstore/java-micronaut-client/**
-      - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
-      - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
-      - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**
-      - samples/openapi3/client/petstore/java/native**
-      - samples/client/others/java/okhttp-gson-oneOf/**
-      - samples/client/others/java/okhttp-gson-oneOf-array/**
-      - samples/client/others/java/resttemplate-useAbstractionForFiles/**
-      - samples/client/others/java/webclient-useAbstractionForFiles/**
-      - samples/client/petstore/java/webclient-useSingleRequestParameter/**
-      - samples/client/others/java/jersey2-oneOf-duplicates/**
-      - samples/client/others/java/jersey2-oneOf-Mixed/**
-      - samples/client/others/java/okhttp-gson-streaming/**
-      - samples/client/others/java/resteasy/**
-      - samples/client/others/java/apache-httpclient/**
-      - samples/client/others/java/resttemplate-list-schema-validation/**
-      - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
+
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-java-client-jdk11.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Build Java Client JDK11
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          # clients
-          - samples/client/petstore/jaxrs-cxf-client-swagger2
-          - samples/client/petstore/jaxrs-cxf-client
-          - samples/client/petstore/java/native
-          - samples/client/petstore/java/native-async
-          - samples/client/petstore/java/native-jakarta
-          - samples/client/petstore/java/native-useGzipFeature
-          - samples/client/petstore/java/retrofit2
-          - samples/client/petstore/java/retrofit2rx2
-          - samples/client/petstore/java/retrofit2rx3
-          - samples/client/petstore/java/retrofit2-play26
-          - samples/client/petstore/java/resttemplate
-          - samples/client/petstore/java/resttemplate-withXml
-          - samples/client/petstore/java/webclient
-          - samples/client/petstore/java/webclient-nullable-arrays
-          - samples/client/petstore/java/webclient-swagger2
-          - samples/client/petstore/java/webclient-useSingleRequestParameter
-          - samples/client/petstore/java/vertx
-          - samples/client/petstore/java/vertx5
-          - samples/client/petstore/java/vertx5-supportVertxFuture
-          - samples/client/petstore/java/vertx-no-nullable
-          - samples/client/petstore/java/vertx-supportVertxFuture
-          - samples/client/petstore/java/jersey2-java8-localdatetime
-          - samples/client/petstore/java/google-api-client
-          - samples/client/petstore/java/rest-assured
-          - samples/client/petstore/java/rest-assured-jackson
-          - samples/client/petstore/java/microprofile-rest-client
-          - samples/client/petstore/java/microprofile-rest-client-mutiny
-          - samples/client/petstore/java/microprofile-rest-client-3.0
-          - samples/client/petstore/java/microprofile-rest-client-3.0-jackson
-          - samples/client/petstore/java/microprofile-rest-client-3.0-jackson-mutiny
-          - samples/client/petstore/java/microprofile-rest-client-3.0-jackson-with-xml
-          - samples/client/petstore/java/microprofile-rest-client-3.0-mutiny
-          - samples/client/petstore/java/microprofile-rest-client-3.0-jspecify
-          - samples/client/petstore/java/microprofile-rest-client-with-useSingleRequestParameter
-          - samples/client/petstore/java/microprofile-oneof-interface
-          - samples/client/petstore/java/apache-httpclient
-          - samples/client/petstore/java/feign
-          - samples/client/petstore/java/feign-hc5
-          - samples/client/petstore/java/feign-no-nullable
-          - samples/client/petstore/java/okhttp-gson-awsv4signature
-          - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
-          - samples/openapi3/client/petstore/java/native
-          - samples/client/petstore/java/okhttp-gson-swagger1/
-          - samples/client/petstore/java/resttemplate-swagger1/
-          - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/
-          - samples/client/petstore/java/okhttp-gson-swagger2/
-          - samples/client/petstore/java/resttemplate-swagger2/
-          - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/
-          - samples/client/others/java/okhttp-gson-oneOf/
-          - samples/client/others/java/okhttp-gson-oneOf-array/
-          - samples/client/echo_api/java/okhttp-gson-user-defined-templates/
-          - samples/client/others/java/resttemplate-useAbstractionForFiles/
-          - samples/client/others/java/webclient-useAbstractionForFiles/
-          - samples/client/others/java/jersey2-oneOf-duplicates/
-          - samples/client/others/java/jersey2-oneOf-Mixed/
-          - samples/client/others/java/resttemplate-list-schema-validation/
-          - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/
-          - samples/client/others/java/okhttp-gson-streaming/
-          - samples/client/petstore/java/resteasy/
-          - samples/client/petstore/java/apache-httpclient/
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6.0.0

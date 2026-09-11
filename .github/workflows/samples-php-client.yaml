@@ -1,27 +1,39 @@
 name: Samples PHP clients
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - samples/client/petstore/php/OpenAPIClient-php/**
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - samples/client/petstore/php/OpenAPIClient-php/**
+
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-php-client.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Build PHP projects
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        php:
-          - "8.1"
-          - "8.2"
-          - "8.3"
-          - "8.4"
-        sample:
-          # clients
-          - samples/client/petstore/php/OpenAPIClient-php/
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     services:
       petstore-api:
         image: swaggerapi/petstore
