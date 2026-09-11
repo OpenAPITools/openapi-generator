@@ -1,5 +1,5 @@
 {{#additionalModelObjectAttributes}}{{{.}}}
-{{/additionalModelObjectAttributes}}{{^objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#useClasses}}final class{{/useClasses}}{{^useClasses}}struct{{/useClasses}} {{{classname}}}: {{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable{{#useJsonEncodable}}, JSONEncodable{{/useJsonEncodable}}{{/useVapor}}{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}} {
+{{/additionalModelObjectAttributes}}{{^objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#vendorExtensions.x-swift-use-class}}final class{{/vendorExtensions.x-swift-use-class}}{{^vendorExtensions.x-swift-use-class}}struct{{/vendorExtensions.x-swift-use-class}} {{{classname}}}: {{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable{{#useJsonEncodable}}, JSONEncodable{{/useJsonEncodable}}{{/useVapor}}{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}} {
 {{/objcCompatible}}{{#objcCompatible}}@objcMembers {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class {{classname}}: NSObject, Codable{{#useJsonEncodable}}, JSONEncodable{{/useJsonEncodable}} {
 {{/objcCompatible}}
 
@@ -121,7 +121,7 @@
         {{/allVars}}
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         additionalProperties = try additionalPropertiesContainer.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
-    }{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}{{^objcCompatible}}{{#useClasses}}{{#vendorExtensions.x-swift-hashable}}
+    }{{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}{{^objcCompatible}}{{#vendorExtensions.x-swift-use-class}}{{#vendorExtensions.x-swift-hashable}}
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func == (lhs: {{classname}}, rhs: {{classname}}) -> Bool {
         {{#allVars}}
@@ -135,5 +135,5 @@
         hasher.combine({{{name}}}{{^vendorExtensions.x-null-encodable}}{{^required}}?{{/required}}{{/vendorExtensions.x-null-encodable}}.hashValue)
         {{/allVars}}
         {{#generateModelAdditionalProperties}}{{#additionalPropertiesType}}hasher.combine(additionalProperties.hashValue){{/additionalPropertiesType}}{{/generateModelAdditionalProperties}}
-    }{{/vendorExtensions.x-swift-hashable}}{{/useClasses}}{{/objcCompatible}}
+    }{{/vendorExtensions.x-swift-hashable}}{{/vendorExtensions.x-swift-use-class}}{{/objcCompatible}}
 }

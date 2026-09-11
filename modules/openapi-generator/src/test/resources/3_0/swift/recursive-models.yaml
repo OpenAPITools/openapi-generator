@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: recursive models
+  version: 1.0.0
+paths:
+  /contacts:
+    get:
+      operationId: getContact
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainInfo'
+components:
+  schemas:
+    ContactInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        internationalizedPostalInfo:
+          $ref: '#/components/schemas/ContactInfo'
+    DomainInfo:
+      type: object
+      properties:
+        domainName:
+          type: string
+        registrant:
+          $ref: '#/components/schemas/ContactInfo'
+    NodeA:
+      type: object
+      properties:
+        b:
+          $ref: '#/components/schemas/NodeB'
+    NodeB:
+      type: object
+      properties:
+        a:
+          $ref: '#/components/schemas/NodeA'
+    Category:
+      type: object
+      properties:
+        name:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
