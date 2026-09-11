@@ -1421,6 +1421,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator),
                     "package-info.java"));
         }
+        // the authentication classes live in a sub-package of the invoker package, so they are not
+        // covered by the invoker package-info.java. Libraries such as "native" generate no
+        // authentication class at all, and an empty package must not get a package-info.java.
+        if (supportingFiles.stream().anyMatch(sf -> sf.getTemplateFile().startsWith("auth/"))) {
+            supportingFiles.add(new SupportingFile("authPackageInfo.mustache", authFolder, "package-info.java"));
+        }
         String nullableAnnotation = "@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable";
         //  nullable_var_annotations.mustache generates nullable annotations as @{{javaxPackage}}.annotation.Nullable
         // override the default pattern for the "find and replace"
