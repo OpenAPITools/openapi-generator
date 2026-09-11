@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: allOf nullable without type
+  version: 1.0.0
+paths:
+  /firm/{firmId}:
+    patch:
+      operationId: updateFirm
+      parameters:
+        - in: path
+          name: firmId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateFirm"
+      responses:
+        "204":
+          description: Updated
+components:
+  schemas:
+    FirmProperties:
+      properties:
+        addressId:
+          type: string
+          x-base-marker: keep
+    UpdateFirm:
+      allOf:
+        - $ref: "#/components/schemas/FirmProperties"
+        - properties:
+            firmName:
+              type: string
+              nullable: true
+            addressId:
+              nullable: true
+              maxLength: 36
+              x-overlay-marker: added
