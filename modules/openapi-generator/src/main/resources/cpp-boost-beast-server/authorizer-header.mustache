@@ -1,0 +1,37 @@
+{{>licenseInfo}}
+// ============================================================================
+// Authorizer.h - security enforcement seam. The runtime extracts credentials
+// from the request per the operation's declared security schemes; verifying
+// them is the application's job. Deny by default when no authorizer is set.
+// ============================================================================
+#ifndef {{apiHeaderGuardPrefix}}_SERVER_AUTHORIZER_H_
+#define {{apiHeaderGuardPrefix}}_SERVER_AUTHORIZER_H_
+
+#include <map>
+#include <string>
+
+namespace {{apiNamespace}} {
+
+/// Credentials extracted from an incoming request, keyed by scheme name.
+struct AuthCredentials {
+    /// API-key values by declared parameter location and name
+    /// ("header:X-API-KEY", "query:token", "cookie:session").
+    std::map<std::string, std::string> apiKeyValues;
+    /// Raw Authorization header value (empty when absent). Never logged.
+    std::string httpAuthorization;
+};
+
+/// Application-provided authorization decision point.
+class Authorizer {
+public:
+    virtual ~Authorizer() = default;
+
+    /// Return true to allow the operation to proceed. Called only after the
+    /// request structurally satisfied at least one declared security group.
+    virtual bool authorize(std::string const& operationId,
+                           AuthCredentials const& credentials) = 0;
+};
+
+} // namespace {{apiNamespace}}
+
+#endif // {{apiHeaderGuardPrefix}}_SERVER_AUTHORIZER_H_

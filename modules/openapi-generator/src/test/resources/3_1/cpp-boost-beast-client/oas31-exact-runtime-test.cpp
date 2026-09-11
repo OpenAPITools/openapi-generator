@@ -186,21 +186,64 @@ void testNumericConversionBoundaries() {
     require(!tryGetMathematicalInteger(tooLargeSigned, signedValue),
             "2^63 must not convert to int64");
 
+    // The largest integral double below 2^63 is a trustworthy IMAGE of no
+    // specific integer: every token in a 1024-wide rounding band produces
+    // it, and past 2^53 the cast-based exactness check agrees with the
+    // band's centre. Without a wire lexeme there is nothing to prove which
+    // token arrived, so the decode refuses it (fail closed) ...
     boost::json::value const largestDoubleBelowSignedUpper(
             std::nextafter(signedUpper, 0.0));
-    require(tryGetMathematicalInteger(
+    require(!tryGetMathematicalInteger(
                     largestDoubleBelowSignedUpper, signedValue),
-            "the largest integral double below 2^63 must convert to int64");
-
+            "integral doubles past the exact window must refuse without a lexeme");
+    // ... while the same magnitude inside an ExactInstanceScope converts
+    // exactly from the decimal text it was parsed from.
+    {
+        schema_validation::ExactJsonValue document =
+                schema_validation::parseExactJson("[9223372036854774784.0]");
+        schema_validation::ExactInstanceScope scope(document);
+        require(tryGetMathematicalInteger(document.value.as_array()[0], signedValue)
+                        && signedValue == 9223372036854774784LL,
+                "the lexeme must convert exactly inside a scope");
+    }
     boost::json::value const signedLower(-signedUpper);
-    require(tryGetMathematicalInteger(signedLower, signedValue)
-                    && signedValue == (std::numeric_limits<std::int64_t>::min)(),
-            "-2^63 must convert to int64 exactly");
+    require(!tryGetMathematicalInteger(signedLower, signedValue),
+            "-2^63 image must refuse without a lexeme: in- AND out-of-range "
+            "tokens both round into it and cannot be told apart");
+    {
+        schema_validation::ExactJsonValue document =
+                schema_validation::parseExactJson("[-9223372036854775808.0]");
+        schema_validation::ExactInstanceScope scope(document);
+        require(tryGetMathematicalInteger(document.value.as_array()[0], signedValue)
+                        && signedValue == (std::numeric_limits<std::int64_t>::min)(),
+                "-2^63 must convert to int64 exactly from its lexeme");
+    }
 
     std::uint64_t unsignedValue = 0;
     boost::json::value const tooLargeUnsigned(std::ldexp(1.0, 64));
     require(!tryGetMathematicalInteger(tooLargeUnsigned, unsignedValue),
             "2^64 must not convert to uint64");
+    // A signed destination whose FULL range fits inside the double exact
+    // window must accept its own minimum: every integer up to 2^53 has an
+    // unambiguous double image, so -2^31 names exactly one int32 and the
+    // trust window closes there.
+    std::int32_t narrow = 0;
+    boost::json::value const int32Lower(
+            static_cast<double>((std::numeric_limits<std::int32_t>::min)()));
+    require(tryGetMathematicalInteger(int32Lower, narrow)
+                    && narrow == (std::numeric_limits<std::int32_t>::min)(),
+            "-2^31 must convert to int32: the image names exactly one integer");
+    boost::json::value const int32Upper(
+            static_cast<double>((std::numeric_limits<std::int32_t>::max)()));
+    require(tryGetMathematicalInteger(int32Upper, narrow)
+                    && narrow == (std::numeric_limits<std::int32_t>::max)(),
+            "2^31-1 must convert to int32: the image names exactly one integer");
+    // Destinations reaching the ambiguous precision boundary keep the open
+    // edge: -2^53 is the image of both -2^53 and -2^53 - 1 (both in int64's
+    // range), so without a lexeme it must still fail closed.
+    boost::json::value const ambiguousSignedLower(-std::ldexp(1.0, 53));
+    require(!tryGetMathematicalInteger(ambiguousSignedLower, signedValue),
+            "-2^53 must refuse for int64: tokens on both sides round into it");
     requireThrows(
             [&]() { (void)convertJsonNumber<std::int64_t>(tooLargeSigned); },
             "out-of-range floating-to-integer conversion must throw");
@@ -433,6 +476,61 @@ void testAnnotationPayloadsLocationsAndRollback() {
             "a failing parent schema must roll back earlier child annotations");
 }
 
+void testUnicodePropertyEscapesFailClosed() {
+    auto validateAgainstPattern = [](std::string const& pattern,
+                                     std::string const& payload)
+            -> schema_validation::ValidationResult {
+        schema_validation::SchemaResourceRegistry registry;
+        registry.nodes.resize(1);
+        registry.nodes[0].hasPattern = true;
+        registry.nodes[0].pattern = pattern;
+        schema_validation::SchemaEvaluator const evaluator(registry);
+        schema_validation::ExactJsonValue document =
+                schema_validation::parseExactJson(payload);
+        schema_validation::ExactInstanceScope scope(document);
+        schema_validation::RawInstance instance(&document.value);
+        schema_validation::ValidationPath path;
+        schema_validation::ValidationContext context;
+        return evaluator.validate(0, instance, path, context);
+    };
+
+    // \p{L} has no representation in std::regex's ECMAScript subset, and a
+    // hand-maintained range list would mis-accept/mis-reject. The validator
+    // must refuse the schema explicitly instead of approximating it.
+    {
+        schema_validation::ValidationResult const result =
+                validateAgainstPattern("^\\p{L}+$", "\"abc\"");
+        require(!result.success,
+                "a property-escape pattern must never validate a value");
+        require(result.failureMessage.find("unsupported pattern")
+                        != std::string::npos,
+                ("property escapes must be reported as unsupported, got: "
+                        + result.failureMessage).c_str());
+    }
+    {
+        schema_validation::ValidationResult const result =
+                validateAgainstPattern("\\P{Letter}x", "\"zy\"");
+        require(!result.success && result.failureMessage.find(
+                        "unsupported pattern") != std::string::npos,
+                "negated property escapes must fail closed too");
+    }
+    // An escaped backslash before p is literal text, not a property escape:
+    // the pattern bytes are '\\' + 'p' (matching the two-character text
+    // "\p"), and must compile and search normally.
+    {
+        schema_validation::ValidationResult const hit =
+                validateAgainstPattern("\\\\p", "\"x\\\\p\"");
+        require(hit.success,
+                "a doubled-backslash pattern must match its literal text");
+        schema_validation::ValidationResult const miss =
+                validateAgainstPattern("\\\\p", "\"ab\"");
+        require(!miss.success
+                        && miss.failureMessage.find("does not match")
+                                != std::string::npos,
+                "a doubled-backslash pattern must still reject other text");
+    }
+}
+
 } // namespace
 
 int main() {
@@ -448,6 +546,7 @@ int main() {
         testConditionalGuardOutputsDoNotLeak();
         testDynamicAnchorChainsAreNotDepthLimited();
         testAnnotationPayloadsLocationsAndRollback();
+        testUnicodePropertyEscapesFailClosed();
         std::cout << "oas31 exact runtime tests passed\n";
         return EXIT_SUCCESS;
     } catch (std::exception const& exception) {

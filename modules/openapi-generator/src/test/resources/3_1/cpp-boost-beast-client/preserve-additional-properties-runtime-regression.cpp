@@ -47,7 +47,11 @@ int main() {
     conflictingExtras.emplace("future", boost::json::value("retained"));
     extraFields.setExtraJsonProperties2(std::move(conflictingExtras));
     extraFields.setName("typed");
-    const boost::json::object& conflictOutput = extraFields.toJsonValue().as_object();
+    // Own the serialized value: as_object() returns a reference INTO the
+    // temporary returned by toJsonValue(), which would die at the end of
+    // this statement (a dangling reference, not a diagnostic failure).
+    const boost::json::value conflictValue = extraFields.toJsonValue();
+    const boost::json::object& conflictOutput = conflictValue.as_object();
     expect(conflictOutput.at("name") == "typed",
             "an extra field overrode a typed model property");
     expect(conflictOutput.at("future") == "retained",

@@ -1174,6 +1174,32 @@ struct JsonValueConverter<double>
     }
 };
 
+// Integer destinations honour the exact wire lexeme when the decode runs
+// inside an ExactInstanceScope (see tryGetMathematicalInteger). Plain
+// value_to<std::int64_t> would accept the ROUNDED double image of any
+// integral token above 2^53 — 9007199254740993.0 arriving as ...92 —
+// because its static_cast equality check agrees with the image.
+template <>
+struct JsonValueConverter<std::int64_t>
+{
+    static boost::json::value toJsonValue(const std::int64_t& sourceValue)
+    {
+        return boost::json::value_from(sourceValue);
+    }
+
+    static std::int64_t fromJsonValue(const boost::json::value& jsonValue)
+    {
+        std::int64_t result = 0;
+        if (!tryGetMathematicalInteger(jsonValue, result)) {
+            throw std::invalid_argument(
+                "Decode failed: value not representable as int64 "
+                "(non-integral, out of range, or past the exact window "
+                "with no wire lexeme to recover from)");
+        }
+        return result;
+    }
+};
+
 template <>
 struct JsonValueConverter<std::nullptr_t>
 {
@@ -1674,13 +1700,23 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{#vars}}
     {{^vendorExtensions.x-cpp-reject-if-present}}
     {{^vendorExtensions.x-cpp-const}}
+    {{! Reset every decodable member to its fresh-construction state before
+        reading JSON, so a decode into a reused instance cannot observe a
+        value left by a previous decode or setter. Required members included:
+        a required member whose JSON value is skipped by the null-tolerance
+        policy must show the declared default, not a stale one. The IsSet
+        bookkeeping line exists only for non-required plain members. }}
     {{^required}}
     {{^vendorExtensions.x-cpp-no-is-set}}
     m_{{name}}IsSet = false;
     {{/vendorExtensions.x-cpp-no-is-set}}
+    {{/required}}
     {{#vendorExtensions.x-cpp-has-explicit-default}}
     {{#parent}}
     if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
+        // With a parent the member is the ModelPropertyStorage wrapper; the
+        // reset must write its .value (the wrapper itself has no assignment
+        // from ValueType).
         m_{{name}}.value = {{{defaultValue}}};
     }
     {{/parent}}
@@ -1698,8 +1734,8 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{^parent}}
     m_{{name}}.resetMissing();
     {{/parent}}
-    {{/vendorExtensions.x-cpp-nullable-field}}
-    {{#vendorExtensions.x-cpp-no-is-set}}
+        {{/vendorExtensions.x-cpp-nullable-field}}
+        {{#vendorExtensions.x-cpp-no-is-set}}
         {{^vendorExtensions.x-cpp-nullable-field}}
     {{#parent}}
     if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
@@ -1709,10 +1745,21 @@ void {{classname}}::fromJsonObject_internal(boost::json::object const& object)
     {{^parent}}
     m_{{name}}.reset();
     {{/parent}}
-    {{/vendorExtensions.x-cpp-nullable-field}}
-    {{/vendorExtensions.x-cpp-no-is-set}}
+        {{/vendorExtensions.x-cpp-nullable-field}}
+        {{/vendorExtensions.x-cpp-no-is-set}}
+        {{^vendorExtensions.x-cpp-nullable-field}}
+        {{^vendorExtensions.x-cpp-no-is-set}}
+    {{#parent}}
+    if constexpr (!{{classname}}{{name}}PropertyIsInherited<{{{parent}}}>::value) {
+        m_{{name}} = {};
+    }
+    {{/parent}}
+    {{^parent}}
+    m_{{name}} = {};
+    {{/parent}}
+        {{/vendorExtensions.x-cpp-no-is-set}}
+        {{/vendorExtensions.x-cpp-nullable-field}}
     {{/vendorExtensions.x-cpp-has-explicit-default}}
-    {{/required}}
     {{/vendorExtensions.x-cpp-const}}
     {{/vendorExtensions.x-cpp-reject-if-present}}
     {{/vars}}
