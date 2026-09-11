@@ -178,6 +178,18 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ParentWithPluralOneOfPropertyNumber parentWithPluralOneOfPropertyNumber, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (parentWithPluralOneOfPropertyNumber.Number != null)
+            {
+                JsonSerializer.Serialize(writer, parentWithPluralOneOfPropertyNumber.Number, jsonSerializerOptions);
+                return;
+            }
+
+            if (parentWithPluralOneOfPropertyNumber.Number2 != null)
+            {
+                JsonSerializer.Serialize(writer, parentWithPluralOneOfPropertyNumber.Number2, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             WriteProperties(writer, parentWithPluralOneOfPropertyNumber, jsonSerializerOptions);
