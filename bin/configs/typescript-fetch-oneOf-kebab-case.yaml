@@ -1,0 +1,9 @@
+generatorName: typescript-fetch
+outputDir: samples/client/petstore/typescript-fetch/builds/oneOf-kebab-case
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-fetch/oneOf.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
+additionalProperties:
+  fileNaming: kebab-case
+  npmName: '@openapitools/typescript-fetch-oneof-kebab-case'
+  npmVersion: 1.0.0
+  snapshot: false
