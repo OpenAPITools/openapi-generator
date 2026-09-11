@@ -5397,6 +5397,51 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void autoXSpringPaginatedPageSizeMode_detectsPageAndSizeOnlyOperation() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "page-size");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsMissingSort has only page+size (no sort) → 'page-size' mode must still inject Pageable
+        int methodStart = content.indexOf("fun findPetsMissingSort(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertTrue(methodSignature.contains("pageable: Pageable"),
+                "findPetsMissingSort should have pageable when autoXSpringPaginated=page-size");
+        Assert.assertFalse(methodSignature.contains("page:"), "page query param should be removed");
+        Assert.assertFalse(methodSignature.contains("size:"), "size query param should be removed");
+    }
+
+    @Test
+    public void autoXSpringPaginatedSettersSupportStringModesAndLegacyBoolean() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        codegen.setAutoXSpringPaginated("page-size");
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size");
+
+        codegen.setAutoXSpringPaginated(true);
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size-sort");
+    }
+
+    @Test
+    public void autoXSpringPaginatedUnsetDoesNotPopulateAdditionalProperties() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties()).doesNotContainKey(AUTO_X_SPRING_PAGINATED);
+    }
+
+    @Test
     public void testSealedResponseInterfaces() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

@@ -7673,6 +7673,62 @@ public class SpringCodegenTest {
                 .doesNotHaveParameter("pageable");
     }
 
+    @Test
+    public void autoXSpringPaginatedPageSizeMode_detectsPageAndSizeOnlyOperation() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "page-size");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsMissingSort has only page+size (no sort) → 'page-size' mode must still inject Pageable
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsMissingSort")
+                .doesNotHaveParameter("page")
+                .doesNotHaveParameter("size")
+                .assertParameter("pageable").hasType("Pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedPageSizeMode_alsoDetectsPageSizeAndSortOperation() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "page-size");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsWithAutoDetect has page+size+sort → 'page-size' mode must also detect it
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithAutoDetect")
+                .assertParameter("pageable").hasType("Pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedSettersSupportStringModesAndLegacyBoolean() {
+        SpringCodegen codegen = new SpringCodegen();
+
+        codegen.setAutoXSpringPaginated("page-size");
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size");
+
+        codegen.setAutoXSpringPaginated(true);
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size-sort");
+    }
+
+    @Test
+    public void autoXSpringPaginatedUnsetDoesNotPopulateAdditionalProperties() {
+        SpringCodegen codegen = new SpringCodegen();
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties()).doesNotContainKey(SpringCodegen.AUTO_X_SPRING_PAGINATED);
+    }
+
     // -------------------------------------------------------------------------
     // generateSortValidation tests
     // -------------------------------------------------------------------------
