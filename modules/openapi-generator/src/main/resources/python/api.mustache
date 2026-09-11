@@ -347,7 +347,25 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
                 _query_params.append(('{{baseName}}', {{paramName}}))
             {{/isDate}}
             {{^isDateTime}}{{^isDate}}
+            {{#isMap}}
+            {{#isExplode}}
+            {{#isDeepObject}}
+            _query_params.append(('{{baseName}}', {{paramName}}))
+            {{/isDeepObject}}
+            {{^isDeepObject}}
+            # form style explodes an object into one parameter per entry, keyed by the
+            # property name alone
+            for _key, _value in {{paramName}}.items():
+                _query_params.append((_key, _value))
+            {{/isDeepObject}}
+            {{/isExplode}}
+            {{^isExplode}}
+            _query_params.append(('{{baseName}}', {{paramName}}))
+            {{/isExplode}}
+            {{/isMap}}
+            {{^isMap}}
             _query_params.append(('{{baseName}}', {{paramName}}{{#isEnumRef}}.value{{/isEnumRef}}))
+            {{/isMap}}
             {{/isDate}}{{/isDateTime}}
 {{/queryParams}}
         # process the header parameters
