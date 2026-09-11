@@ -61,7 +61,7 @@ std::string CreditCard::CardTypeEnumToString(CreditCard::CardTypeEnum value)
         case CardTypeEnum::VISA: return "visa";
         case CardTypeEnum::MASTERCARD: return "mastercard";
         case CardTypeEnum::AMEX: return "amex";
-        default: return {};
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for CreditCard::CardTypeEnum");
     }
 }
 
@@ -83,7 +83,7 @@ CreditCard::CardTypeEnum CreditCard::CardTypeEnumFromString(const std::string& s
     {
         return CardTypeEnum::AMEX;
     }
-    throw std::invalid_argument("Invalid enum value");
+    throw nlohmann::json::type_error::create(302, "Invalid value for CreditCard::CardTypeEnum");
 }
 
 

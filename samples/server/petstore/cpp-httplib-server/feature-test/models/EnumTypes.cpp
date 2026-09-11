@@ -61,7 +61,7 @@ std::string EnumTypes::StringEnumEnumToString(EnumTypes::StringEnumEnum value)
         case StringEnumEnum::PENDING: return "pending";
         case StringEnumEnum::APPROVED: return "approved";
         case StringEnumEnum::REJECTED: return "rejected";
-        default: return {};
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for EnumTypes::StringEnumEnum");
     }
 }
 
@@ -83,7 +83,7 @@ EnumTypes::StringEnumEnum EnumTypes::StringEnumEnumFromString(const std::string&
     {
         return StringEnumEnum::REJECTED;
     }
-    throw std::invalid_argument("Invalid enum value");
+    throw nlohmann::json::type_error::create(302, "Invalid value for EnumTypes::StringEnumEnum");
 }
 
 // =========================================
@@ -99,7 +99,7 @@ std::string EnumTypes::NumericEnumEnumToString(EnumTypes::NumericEnumEnum value)
         case NumericEnumEnum::_300: return "300";
         case NumericEnumEnum::_404: return "404";
         case NumericEnumEnum::_500: return "500";
-        default: return {};
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for EnumTypes::NumericEnumEnum");
     }
 }
 
@@ -129,7 +129,7 @@ EnumTypes::NumericEnumEnum EnumTypes::NumericEnumEnumFromString(const std::strin
     {
         return NumericEnumEnum::_500;
     }
-    throw std::invalid_argument("Invalid enum value");
+    throw nlohmann::json::type_error::create(302, "Invalid value for EnumTypes::NumericEnumEnum");
 }
 
 // =========================================
@@ -143,7 +143,7 @@ std::string EnumTypes::StatusCodeEnumToString(EnumTypes::StatusCodeEnum value)
         case StatusCodeEnum::_200: return "200";
         case StatusCodeEnum::_404: return "404";
         case StatusCodeEnum::_500: return "500";
-        default: return {};
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for EnumTypes::StatusCodeEnum");
     }
 }
 
@@ -165,7 +165,7 @@ EnumTypes::StatusCodeEnum EnumTypes::StatusCodeEnumFromString(const std::string&
     {
         return StatusCodeEnum::_500;
     }
-    throw std::invalid_argument("Invalid enum value");
+    throw nlohmann::json::type_error::create(302, "Invalid value for EnumTypes::StatusCodeEnum");
 }
 
 

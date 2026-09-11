@@ -16,6 +16,38 @@
 
 namespace {{vendorExtensions.modelNamespace}} {
 
+{{#isEnum}}
+enum class {{vendorExtensions.modelClassName}} {
+    {{#allowableValues}}{{#enumVars}}
+    {{name}}{{^-last}},{{/-last}}
+    {{/enumVars}}{{/allowableValues}}
+};
+
+inline void to_json(nlohmann::json& j, const {{vendorExtensions.modelClassName}}& value)
+{
+    switch (value)
+    {
+        {{#allowableValues}}{{#enumVars}}
+        case {{vendorExtensions.modelClassName}}::{{name}}: j = {{#vendorExtensions.isStringEnum}}"{{{value}}}"{{/vendorExtensions.isStringEnum}}{{^vendorExtensions.isStringEnum}}{{value}}{{/vendorExtensions.isStringEnum}}; break;
+        {{/enumVars}}{{/allowableValues}}
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for {{vendorExtensions.modelClassName}}", &j);
+    }
+}
+
+inline void from_json(const nlohmann::json& j, {{vendorExtensions.modelClassName}}& value)
+{
+    {{#allowableValues}}{{#enumVars}}
+    if (j == {{#vendorExtensions.isStringEnum}}"{{{value}}}"{{/vendorExtensions.isStringEnum}}{{^vendorExtensions.isStringEnum}}{{value}}{{/vendorExtensions.isStringEnum}})
+    {
+        value = {{vendorExtensions.modelClassName}}::{{name}};
+        return;
+    }
+    {{/enumVars}}{{/allowableValues}}
+    throw nlohmann::json::type_error::create(302, "Invalid value for {{vendorExtensions.modelClassName}}", &j);
+}
+
+{{/isEnum}}
+{{^isEnum}}
 {{#vendorExtensions.isOneOfSchema}}
 // oneOf schema - type alias for std::variant
 using {{vendorExtensions.modelClassName}} = std::variant<
@@ -250,6 +282,7 @@ private:
 {{/vendorExtensions.isAnyOfSchema}}
 {{/vendorExtensions.isOneOfSchema}}
 
+{{/isEnum}}
 } // namespace {{vendorExtensions.modelNamespace}}
 
 {{/model}}

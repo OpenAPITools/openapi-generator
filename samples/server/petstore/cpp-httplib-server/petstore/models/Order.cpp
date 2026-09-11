@@ -88,7 +88,7 @@ std::string Order::StatusEnumToString(Order::StatusEnum value)
         case StatusEnum::PLACED: return "placed";
         case StatusEnum::APPROVED: return "approved";
         case StatusEnum::DELIVERED: return "delivered";
-        default: return {};
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for Order::StatusEnum");
     }
 }
 
@@ -110,7 +110,7 @@ Order::StatusEnum Order::StatusEnumFromString(const std::string& str)
     {
         return StatusEnum::DELIVERED;
     }
-    throw std::invalid_argument("Invalid enum value");
+    throw nlohmann::json::type_error::create(302, "Invalid value for Order::StatusEnum");
 }
 
 
