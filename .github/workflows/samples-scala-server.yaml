@@ -1,27 +1,39 @@
 name: Samples Scala/sbt server
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - 'samples/server/petstore/scala**'
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - 'samples/server/petstore/scala**'
+
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-scala-server.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Build sbt/Scala
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          # servers
-          - samples/server/petstore/scala-play-server
-          - samples/server/petstore/scala-akka-http-server
-          - samples/server/petstore/scala-pekko-http-server
-          - samples/server/petstore/scalatra
-          - samples/server/petstore/scala-http4s-server
-          - samples/server/petstore/scala-cask
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6.0.0

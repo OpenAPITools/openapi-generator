@@ -1,64 +1,34 @@
 name: Samples TS clients
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - samples/client/others/typescript-angular/**
-      - samples/client/others/typescript-angular-v20/**
-      - samples/client/petstore/typescript-angular-v18-provided-in-root/**
-      - samples/client/petstore/typescript-angular-v19-provided-in-root/**
-      - samples/client/petstore/typescript-angular-v20-provided-in-root/**
-      - samples/client/petstore/typescript-angular-v21-provided-in-root/**
-      - samples/client/petstore/typescript-angular-v22-provided-in-root/**
-      - samples/openapi3/client/petstore/typescript/builds/default/**
-      # comment out due to build failure
-      #- samples/openapi3/client/petstore/typescript/tests/default/**
-      - samples/openapi3/client/petstore/typescript/builds/jquery/**
-      # comment out due to build failure
-      #- samples/openapi3/client/petstore/typescript/tests/jquery/**
-      - samples/openapi3/client/petstore/typescript/builds/object_params/**
-      # comment out due to build failure
-      #- samples/openapi3/client/petstore/typescript/tests/object_params/**
-      #- samples/openapi3/client/petstore/typescript/builds/inversify/**
-      #- samples/openapi3/client/petstore/typescript/tests/inversify/**
-      #- samples/openapi3/client/petstore/typescript/tests/deno/**
-      - samples/openapi3/client/petstore/typescript/builds/browser/**
-      # comment out due to build failure
-      #- samples/openapi3/client/petstore/typescript/tests/browser/**
-      #- samples/openapi3/client/petstore/typescript/builds/nullable-enum/**
-      # comment out due to build failure
-      #- samples/client/petstore/typescript-node/npm/**
-      - samples/client/petstore/typescript-rxjs/builds/with-npm-version/**
-      - samples/client/petstore/typescript-axios/builds/with-npm-version/**
-      # comment out due to build failure
-      #- samples/client/petstore/typescript-axios/tests/default/**
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - samples/client/others/typescript-angular/**
-      - samples/client/others/typescript-angular-v20/**
-      - samples/client/petstore/typescript-angular-v18-provided-in-root/**
-      - samples/client/petstore/typescript-angular-v19-provided-in-root/**
-      - samples/client/petstore/typescript-angular-v20-provided-in-root/**
-      - samples/client/petstore/typescript-angular-v21-provided-in-root/**
-      - samples/client/petstore/typescript-angular-v22-provided-in-root/**
-      - samples/openapi3/client/petstore/typescript/builds/default/**
-      #- samples/openapi3/client/petstore/typescript/tests/default/**
-      - samples/openapi3/client/petstore/typescript/builds/jquery/**
-      #- samples/openapi3/client/petstore/typescript/tests/jquery/**
-      - samples/openapi3/client/petstore/typescript/builds/object_params/**
-      #- samples/openapi3/client/petstore/typescript/tests/object_params/**
-      #- samples/openapi3/client/petstore/typescript/builds/inversify/**
-      #- samples/openapi3/client/petstore/typescript/tests/inversify/**
-      #- samples/openapi3/client/petstore/typescript/tests/deno/**
-      - samples/openapi3/client/petstore/typescript/builds/browser/**
-      #- samples/openapi3/client/petstore/typescript/tests/browser/**
-      #- samples/openapi3/client/petstore/typescript/builds/nullable-enum/**
-      #- samples/client/petstore/typescript-node/npm/**
-      - samples/client/petstore/typescript-rxjs/builds/with-npm-version/**
-      - samples/client/petstore/typescript-axios/builds/with-npm-version/**
-      #- samples/client/petstore/typescript-axios/tests/default/**
+
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-typescript-client.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Build projects
     runs-on: ubuntu-latest
     services:
@@ -71,34 +41,7 @@ jobs:
           SWAGGER_BASE_PATH: /v2
     strategy:
       fail-fast: false
-      matrix:
-        node:
-          #- "18.x"
-          - "22.x"
-        sample:
-          - samples/client/others/typescript-angular/
-          - samples/client/others/typescript-angular-v20/
-          - samples/client/petstore/typescript-angular-v18-provided-in-root/
-          - samples/client/petstore/typescript-angular-v19-provided-in-root/
-          - samples/client/petstore/typescript-angular-v20-provided-in-root/
-          - samples/client/petstore/typescript-angular-v21-provided-in-root/
-          - samples/client/petstore/typescript-angular-v22-provided-in-root/
-          - samples/openapi3/client/petstore/typescript/builds/default/
-          #- samples/openapi3/client/petstore/typescript/tests/default/
-          - samples/openapi3/client/petstore/typescript/builds/jquery/
-          #- samples/openapi3/client/petstore/typescript/tests/jquery/
-          - samples/openapi3/client/petstore/typescript/builds/object_params/
-          #- samples/openapi3/client/petstore/typescript/tests/object_params/
-          #- samples/openapi3/client/petstore/typescript/builds/inversify/
-          #- samples/openapi3/client/petstore/typescript/tests/inversify/
-          #- samples/openapi3/client/petstore/typescript/tests/deno/
-          - samples/openapi3/client/petstore/typescript/builds/browser/
-          #- samples/openapi3/client/petstore/typescript/tests/browser/
-          #- samples/openapi3/client/petstore/typescript/builds/nullable-enum/
-          #- samples/client/petstore/typescript-node/npm/
-          - samples/client/petstore/typescript-rxjs/builds/with-npm-version/
-          - samples/client/petstore/typescript-axios/builds/with-npm-version/
-          #- samples/client/petstore/typescript-axios/tests/default/
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     steps:
       - uses: actions/checkout@v7
       - name: Add hosts to /etc/hosts

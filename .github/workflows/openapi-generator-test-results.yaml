@@ -8,8 +8,54 @@ on:
 
 # separate workflow required due to https://github.com/dorny/test-reporter#recommended-setup-for-public-repositories
 jobs:
-  report:
+  inspect:
+    name: Inspect unit test outcome
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    outputs:
+      publish: ${{ steps.outcome.outputs.publish }}
+    steps:
+      - uses: actions/github-script@v8
+        id: outcome
+        with:
+          script: |
+            const run = context.payload.workflow_run;
+            const parameters = { ...context.repo, run_id: run.id, per_page: 100 };
+            const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun,
+              { ...parameters, filter: 'latest' });
+            const tests = jobs.filter(job => job.name === 'Unit tests');
+            if (tests.length !== 1) {
+              throw new Error(`Expected one Unit tests job in run ${run.id}, found ${tests.length}`);
+            }
+            const test = tests[0];
+            if (test.conclusion === 'skipped') {
+              const setup = jobs.find(job => job.name === 'Select changes');
+              if (!setup || setup.conclusion !== 'success' || run.conclusion === 'cancelled') {
+                throw new Error('Unit tests did not run because selection failed or the run was cancelled');
+              }
+              core.setOutput('publish', 'false');
+              await core.summary.addHeading('Unit tests not run')
+                .addRaw('The upstream change selector intentionally skipped unit tests.').write();
+              return;
+            }
+            if (!['success', 'failure'].includes(test.conclusion)) {
+              throw new Error(`Unit tests did not complete: ${test.conclusion}`);
+            }
+            const artifacts = await github.paginate(github.rest.actions.listWorkflowRunArtifacts, parameters);
+            if (!artifacts.some(artifact => artifact.name === 'surefire-test-results' && !artifact.expired)) {
+              throw new Error('Executed unit tests have no available surefire-test-results artifact');
+            }
+            core.setOutput('publish', 'true');
+
+  report:
+    needs: inspect
+    if: needs.inspect.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      checks: write
     steps:
       - uses: dorny/test-reporter@v3
         with:

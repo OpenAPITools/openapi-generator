@@ -31,10 +31,31 @@ elif [ "$NODE_INDEX" = "3" ]; then
   echo "Running node $NODE_INDEX ... "
 
   echo "Testing ruby"
-  (cd samples/client/petstore/ruby && mvn integration-test)
-  (cd samples/client/petstore/ruby-faraday && mvn integration-test)
-  (cd samples/client/petstore/ruby-httpx && mvn integration-test)
-  (cd samples/client/petstore/ruby-autoload && mvn integration-test)
+  ruby_samples=(
+    samples/client/petstore/ruby
+    samples/client/petstore/ruby-faraday
+    samples/client/petstore/ruby-httpx
+    samples/client/petstore/ruby-autoload
+  )
+  if [ "${CIRCLE_SELECTED_SAMPLES_JSON+x}" ]; then
+    selected=$(python3 - "${ruby_samples[@]}" <<'PY'
+import json
+import os
+import sys
+
+samples = json.loads(os.environ["CIRCLE_SELECTED_SAMPLES_JSON"])
+if (not isinstance(samples, list) or not samples
+        or any(not isinstance(sample, str) or sample not in sys.argv[1:] for sample in samples)
+        or len(samples) != len(set(samples))):
+    raise ValueError("Invalid selected CircleCI Ruby samples")
+print("\n".join(samples))
+PY
+)
+    readarray -t ruby_samples <<< "$selected"
+  fi
+  for sample in "${ruby_samples[@]}"; do
+    (cd "$sample" && mvn integration-test)
+  done
 
 else
   echo "Running node $NODE_INDEX ..."

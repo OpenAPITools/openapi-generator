@@ -1,33 +1,47 @@
 name: Samples Go
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - 'samples/server/petstore/go-echo-server/**'
-      - 'samples/server/petstore/go-api-server/**'
-      - 'samples/server/petstore/go-chi-server/**'
-      - 'samples/server/others/go-server/**'
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - 'samples/server/petstore/go-echo-server/**'
-      - 'samples/server/petstore/go-api-server/**'
-      - 'samples/server/petstore/go-chi-server/**'
-      - 'samples/server/others/go-server/**'
 
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+      verify_changed: ${{ steps.verify.outputs.has_changes }}
+      verify_matrix: ${{ steps.verify.outputs.matrix }}
+      verify_samples: ${{ steps.verify.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-go.build
+          mode: ${{ vars.CI_SELECTION_MODE_PILOT || vars.CI_SELECTION_MODE || 'shadow' }}
+      - id: verify
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-go.verify
+          mode: ${{ vars.CI_SELECTION_MODE_PILOT || vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Build Go
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          - samples/server/petstore/go-echo-server/
-          - samples/server/petstore/go-api-server/
-          - samples/server/petstore/go-chi-server/
-          - samples/server/others/go-server/no-body-path-params/
-          - samples/server/others/go-server/optional-body/
-          - samples/server/others/go-server/required-zero-value/
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-go@v7
@@ -39,15 +53,13 @@ jobs:
         run: go test -mod=mod ./... -v
 
   verify:
+    needs: setup
+    if: ${{ needs.setup.outputs.verify_changed == 'true' }}
     name: Verify generated Go files with Go tests
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          - samples/server/petstore/go-api-server/
-        go-version:
-          - "1.25"
+      matrix: ${{ fromJSON(needs.setup.outputs.verify_matrix) }}
     steps:
       - uses: actions/checkout@v7
       - name: Set up Go

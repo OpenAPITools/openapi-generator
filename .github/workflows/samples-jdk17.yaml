@@ -1,83 +1,38 @@
 name: Samples JDK17
 on:
+  workflow_dispatch:
   push:
-    paths:
-      # clients
-      - samples/openapi3/client/petstore/spring-cloud-3/**
-      - samples/client/petstore/java-helidon-client/v3/mp/**
-      - samples/client/petstore/java-helidon-client/v3/se/**
-      - samples/client/petstore/spring-http-interface-reactive/**
-      - samples/client/petstore/spring-http-interface-reactive-bean-validation/**
-      - samples/client/petstore/spring-http-interface-bean-validation/**
-      - samples/client/petstore/spring-http-interface/**
-      - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
-      - samples/client/petstore/spring-http-interface-noResponseEntity/**
-      - samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator/**
-      - samples/client/petstore/java/webclient-jakarta/**
-      - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
-      # servers
-      - samples/openapi3/server/petstore/springboot-3/**
-      - samples/openapi3/server/petstore/springboot-3-include-http-request-context/**
-      - samples/server/petstore/springboot-x-implements-skip/**
-      - samples/server/petstore/java-camel/**
-      - samples/server/petstore/java-helidon-server/v3/mp/**
-      - samples/server/petstore/java-helidon-server/v3/se/**
-      - samples/server/petstore/jaxrs-spec-sealed/**
-      - samples/server/petstore/jaxrs-spec/quarkus-security/**
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      # clients
-      - samples/openapi3/client/petstore/spring-cloud-3/**
-      - samples/client/petstore/java-helidon-client/v3/mp/**
-      - samples/client/petstore/java-helidon-client/v3/se/**
-      - samples/client/petstore/spring-http-interface-reactive/**
-      - samples/client/petstore/spring-http-interface-reactive-bean-validation/**
-      - samples/client/petstore/spring-http-interface-bean-validation/**
-      - samples/client/petstore/spring-http-interface/**
-      - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
-      - samples/client/petstore/spring-http-interface-noResponseEntity/**
-      - samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator/**
-      - samples/client/petstore/java/webclient-jakarta/**
-      - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
-      # servers
-      - samples/openapi3/server/petstore/springboot-3/**
-      - samples/openapi3/server/petstore/springboot-3-include-http-request-context/**
-      - samples/server/petstore/springboot-x-implements-skip/**
-      - samples/server/petstore/java-camel/**
-      - samples/server/petstore/java-helidon-server/v3/mp/**
-      - samples/server/petstore/java-helidon-server/v3/se/**
-      - samples/server/petstore/jaxrs-spec-sealed/**
-      - samples/server/petstore/jaxrs-spec/quarkus-security/**
+
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-jdk17.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Build with JDK17
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          # clients
-          - samples/openapi3/client/petstore/spring-cloud-3
-          - samples/client/petstore/java-helidon-client/v3/mp/
-          - samples/client/petstore/java-helidon-client/v3/se
-          - samples/client/petstore/spring-http-interface-reactive
-          - samples/client/petstore/spring-http-interface-reactive-bean-validation
-          - samples/client/petstore/spring-http-interface-bean-validation
-          - samples/client/petstore/spring-http-interface
-          - samples/client/petstore/spring-http-interface-reactive-noResponseEntity
-          - samples/client/petstore/spring-http-interface-noResponseEntity
-          - samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator
-          - samples/client/petstore/java/webclient-jakarta
-          - samples/client/petstore/java/microprofile-rest-client-outer-enum
-          # servers
-          - samples/openapi3/server/petstore/springboot-3
-          - samples/openapi3/server/petstore/springboot-3-include-http-request-context
-          - samples/server/petstore/springboot-x-implements-skip
-          - samples/server/petstore/java-camel/
-          - samples/server/petstore/java-helidon-server/v3/mp/
-          - samples/server/petstore/java-helidon-server/v3/se
-          - samples/server/petstore/jaxrs-spec-sealed
-          - samples/server/petstore/jaxrs-spec/quarkus-security
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6.0.0

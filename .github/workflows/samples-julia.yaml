@@ -1,17 +1,34 @@
 name: Samples Julia
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - 'samples/client/petstore/julia/**'
-      - 'samples/server/petstore/julia/**'
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - 'samples/client/petstore/julia/**'
-      - 'samples/server/petstore/julia/**'
 
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      tests_julia_changed: ${{ steps.tests_julia.outputs.has_changes }}
+      tests_julia_matrix: ${{ steps.tests_julia.outputs.matrix }}
+      tests_julia_samples: ${{ steps.tests_julia.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: tests_julia
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-julia.tests-julia
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   tests-julia:
+    needs: setup
+    if: ${{ needs.setup.outputs.tests_julia_changed == 'true' }}
     name: Tests Julia
     runs-on: ubuntu-latest
     steps:

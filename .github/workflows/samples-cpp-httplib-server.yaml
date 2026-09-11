@@ -1,30 +1,40 @@
 name: Samples cpp httplib server
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - "samples/server/petstore/cpp-httplib-server/**"
-      - ".github/workflows/samples-cpp-httplib-server.yaml"
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - "samples/server/petstore/cpp-httplib-server/**"
-      - ".github/workflows/samples-cpp-httplib-server.yaml"
 
 env:
   GRADLE_VERSION: 6.9
 
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-cpp-httplib-server.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Build cpp httplib server
     strategy:
-      matrix:
-        sample:
-          - samples/server/petstore/cpp-httplib-server/petstore
-          - samples/server/petstore/cpp-httplib-server/feature-test
-        os:
-          - ubuntu-latest
-          - macOS-latest
-          - windows-latest
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7
