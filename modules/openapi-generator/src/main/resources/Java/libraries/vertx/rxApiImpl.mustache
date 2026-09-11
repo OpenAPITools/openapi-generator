@@ -40,7 +40,7 @@ public class {{classname}} {
     * {{summary}}
     * {{notes}}
     {{#allParams}}
-    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}){{/required}}
     {{/allParams}}
     * @param resultHandler Asynchronous result handler
     */
@@ -52,7 +52,7 @@ public class {{classname}} {
     * {{summary}}
     * {{notes}}
     {{#allParams}}
-    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}){{/required}}
     {{/allParams}}
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
@@ -65,7 +65,7 @@ public class {{classname}} {
     * {{summary}}
     * {{notes}}
     {{#allParams}}
-    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}){{/required}}
     {{/allParams}}
     * @return Asynchronous result handler (RxJava Single)
     */
@@ -88,7 +88,7 @@ public class {{classname}} {
     * {{summary}}
     * {{notes}}
     {{#allParams}}
-    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}){{/required}}
     {{/allParams}}
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)

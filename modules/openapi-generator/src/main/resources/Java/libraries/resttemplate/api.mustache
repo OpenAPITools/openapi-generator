@@ -59,7 +59,7 @@ public class {{classname}} extends BaseApi {
      * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
      {{/responses}}
      {{#allParams}}
-     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}){{/required}}
      {{/allParams}}
      {{#returnType}}
      * @return {{.}}
@@ -92,7 +92,7 @@ public class {{classname}} extends BaseApi {
      * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
      {{/responses}}
      {{#allParams}}
-     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}){{/required}}
      {{/allParams}}
      * @return ResponseEntity&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API

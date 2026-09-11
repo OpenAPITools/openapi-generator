@@ -51,6 +51,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.EscapeJavaDocLambda;
 import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -1803,7 +1804,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "\"" + escapeText(example) + "\"";
+            example = "\"" + escapeStringLiteral(example) + "\"";
         } else if ("Integer".equals(type) || "Short".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -1893,6 +1894,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         p.example = example;
+    }
+
+    private String escapeStringLiteral(String input) {
+        if (input == null) {
+            return null;
+        }
+
+        // Escapes text for use inside a double-quoted Java string literal.
+        // Unlike escapeText(), this deliberately keeps "*/" and "/*" intact
+        // because they are harmless within a string literal (e.g. "*/*" media types).
+        return StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                .replaceAll("[\\t\\n\\r]", " ")
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"");
     }
 
     @Override
@@ -2900,7 +2917,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.addMustacheLambdas()
                 .put("javaStringLiteral", javaStringLiteralLambda)
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
-                .put("jSpecifyNullable", jSpecifyNullableLambda);
+                .put("jSpecifyNullable", jSpecifyNullableLambda)
+                .put("escapeJavaDoc", new EscapeJavaDocLambda());
 
     }
 
