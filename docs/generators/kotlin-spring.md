@@ -91,6 +91,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-discriminator-value|Used with model inheritance to specify value for discriminator that identifies current model|MODEL|
 |x-field-extra-annotation|Custom annotation(s) to be added to property; accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
 |x-operation-extra-annotation|Custom annotation(s) to be added to operation; accepts a string or list of strings|OPERATION|null
+|x-request-body-extra-annotation|Custom annotation(s) to be added to the request body parameter; accepts a string or list of strings. Declared on the operation because the request body typically `$ref`s a shared model (so the annotation cannot be placed next to the `$ref`); the value is rendered by being merged into the body parameter's `x-field-extra-annotation`|OPERATION|null
 |x-extra-imports|Custom import(s) to add to the generated file that declares the annotated model, property, operation, or parameter (e.g. so custom annotations can be referenced by their short name); accepts a string or list of strings. Values are emitted verbatim (Kotlin alias imports supported) and only exact duplicates are removed|MODEL, FIELD, OPERATION, OPERATION_PARAMETER|null
 |x-pattern-message|Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
 |x-size-message|Add this property whenever you need to customize the invalidation error message for the size or length of a variable|FIELD, OPERATION_PARAMETER|null

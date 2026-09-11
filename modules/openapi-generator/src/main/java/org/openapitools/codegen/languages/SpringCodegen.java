@@ -1102,6 +1102,11 @@ public class SpringCodegen extends AbstractJavaCodegen
                 handleImplicitHeaders(operation);
                 normalizeVendorExtensionWithStringList(operation.vendorExtensions, VendorExtension.X_OPERATION_EXTRA_ANNOTATION.getName());
                 normalizeOperationParameterVendorExtensions(operation, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
+                // x-request-body-extra-annotation is authored on the operation (the request body usually
+                // $refs a shared model, so it cannot be placed next to the $ref). Merge its values into the
+                // body parameter's x-field-extra-annotation so it renders through the same template path.
+                normalizeVendorExtensionWithStringList(operation.vendorExtensions, VendorExtension.X_REQUEST_BODY_EXTRA_ANNOTATION.getName());
+                mergeOperationVendorExtensionIntoBodyParams(operation, VendorExtension.X_REQUEST_BODY_EXTRA_ANNOTATION.getName(), VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
 
                 if (useSpringSecurityPreAuthorize) {
                     addSpringSecurityPreAuthorize(operation);
@@ -1722,6 +1727,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_OPERATION_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_REQUEST_BODY_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
         extensions.add(VendorExtension.X_VERSION_PARAM);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);

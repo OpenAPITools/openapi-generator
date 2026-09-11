@@ -20,6 +20,7 @@ import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
@@ -189,5 +190,14 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
 
     private Boolean manageBooleanAdditionalProperty(String propertyValue) {
         return Boolean.parseBoolean(propertyValue);
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        // The Camel REST DSL templates do not render a request-body parameter annotation,
+        // so this generator does not support the extension inherited from SpringCodegen.
+        extensions.remove(VendorExtension.X_REQUEST_BODY_EXTRA_ANNOTATION);
+        return extensions;
     }
 }

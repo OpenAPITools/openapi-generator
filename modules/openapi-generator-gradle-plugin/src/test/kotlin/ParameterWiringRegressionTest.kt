@@ -226,4 +226,41 @@ class ParameterWiringRegressionTest : TestBase() {
 
         assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
     }
+
+    // -------------------------------------------------------------------------
+    // injectOperationVendorExtensions (side-loading, was not exposed on the plugin)
+    // -------------------------------------------------------------------------
+
+    @Test
+    fun `injectOperationVendorExtensions is wired from extension to task`() {
+        // Before the fix injectOperationVendorExtensions was not exposed on the Gradle plugin,
+        // so vendor extensions could only be side-loaded via a configFile. We inject
+        // x-operation-extra-annotation onto the listPets operation and verify the Spring
+        // generator renders the injected annotation into the generated API interface.
+        val result = runOpenApiGenerate("""
+            plugins { id 'org.openapi.generator' }
+            openApiGenerate {
+                generatorName = "spring"
+                inputSpec = file("spec.yaml").absolutePath
+                outputDir = file("build/spring").absolutePath
+                configOptions = ["interfaceOnly": "true"]
+                injectOperationVendorExtensions = ["listPets.x-operation-extra-annotation": "@Deprecated"]
+            }
+        """.trimIndent(), "spec.yaml" to "specs/petstore-v3.0.yaml")
+
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Generation failed after wiring injectOperationVendorExtensions — check plugin wiring"
+        )
+
+        val generatedSrcRoot = File(temp, "build/spring/src/main/java")
+        val allJavaSources = generatedSrcRoot.walkTopDown().filter { it.extension == "java" }.toList()
+        assertTrue(allJavaSources.isNotEmpty(), "No Java source files were generated")
+
+        val allSourceText = allJavaSources.joinToString("\n") { it.readText() }
+        assertTrue(
+            allSourceText.contains("@Deprecated"),
+            "Expected injected operation annotation '@Deprecated' not found in generated sources — injectOperationVendorExtensions may not be wired"
+        )
+    }
 }

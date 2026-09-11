@@ -138,7 +138,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<Order> getOrderById(
-        @Min(value = 1L) @Max(value = 5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
+        @org.springframework.lang.NonNull @Min(value = 1L) @Max(value = 5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -188,7 +188,7 @@ public interface StoreApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Order> placeOrder(
-        @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
+        @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @org.springframework.lang.NonNull @Valid @RequestBody Order order
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

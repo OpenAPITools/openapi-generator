@@ -1,0 +1,95 @@
+openapi: 3.0.3
+info:
+  title: inject operation vendor extensions
+  version: 1.0.0
+paths:
+  /orgs/{orgId}/employees:
+    post:
+      tags:
+        - employee
+      operationId: createEmployee
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/OrgId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: created
+  /orgs/{orgId}/employees/plain:
+    post:
+      tags:
+        - employee
+      operationId: createEmployeePlain
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/OrgId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: created
+  /orgs/{orgId}/employees/snake:
+    post:
+      tags:
+        - employee
+      operationId: create_employee_snake
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/OrgId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: created
+  /orgs/{orgId}/employees/blank:
+    post:
+      tags:
+        - employee
+      operationId: ""
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/OrgId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: created
+components:
+  schemas:
+    OrgId:
+      type: string
+      format: uuid
+    Employee:
+      type: object
+      properties:
+        name:
+          type: string

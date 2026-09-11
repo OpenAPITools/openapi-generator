@@ -256,8 +256,25 @@ public class Generate extends OpenApiGeneratorCommand {
             description = "injects vendor extensions into model classes or their properties."
                     + " Class-level format: ModelName.x-extension-name=value."
                     + " Property-level format: ModelName.propertyBaseName.x-extension-name=value."
+                    + " Values are strings, applied at render time, and overwrite existing values."
+                    + " For the extra-annotation extensions, separate multiple annotations in a single"
+                    + " value with spaces (e.g. ModelName.x-class-extra-annotation=@Foo @Bar), not"
+                    + " commas, since an unquoted comma separates different injection targets."
                     + " You can also have multiple occurrences of this option.")
     private List<String> injectModelVendorExtensions = new ArrayList<>();
+
+    @Option(
+            name = {"--inject-operation-vendor-extensions"},
+            title = "inject operation vendor extensions",
+            description = "injects vendor extensions into operations or their parameters."
+                    + " Operation-level format: operationId.x-extension-name=value."
+                    + " Parameter-level format: operationId.paramBaseName.x-extension-name=value."
+                    + " Values are strings, applied at render time, and overwrite existing values."
+                    + " For the extra-annotation extensions, separate multiple annotations in a single"
+                    + " value with spaces (e.g. operationId.x-operation-extra-annotation=@Foo @Bar), not"
+                    + " commas, since an unquoted comma separates different injection targets."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> injectOperationVendorExtensions = new ArrayList<>();
 
     @Option(
             name = {"--openapi-normalizer"},
@@ -606,6 +623,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applyEnumNameMappingsKvpList(enumNameMappings, configurator);
         applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
         applyInjectModelVendorExtensionsKvpList(injectModelVendorExtensions, configurator);
+        applyInjectOperationVendorExtensionsKvpList(injectOperationVendorExtensions, configurator);
         applyOpenapiNormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
