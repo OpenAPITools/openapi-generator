@@ -311,4 +311,24 @@ public class RustClientCodegenTest {
         TestUtils.assertFileExists(outputPath);
         TestUtils.assertFileContains(outputPath, enumSpec);
     }
+
+    @Test
+    public void testReqwestTraitUuidParamsUseNamedLifetimes() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary("reqwest-trait")
+                .addAdditionalProperty("mockall", true)
+                .setInputSpec("src/test/resources/3_0/rust/reqwest-trait-uuid-params.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path outputPath = Path.of(target.toString(), "/src/apis/widget_api.rs");
+        TestUtils.assertFileExists(outputPath);
+        // mockall's #[automock] cannot elide the lifetime of a reference nested in Option<..>
+        TestUtils.assertFileContains(outputPath,
+                "async fn list_widget_items<'id, 'run_id>(&self, id: &'id str, run_id: Option<&'run_id str>)");
+        TestUtils.assertFileNotContains(outputPath, "Option<&str>");
+    }
 }
