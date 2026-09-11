@@ -1,4 +1,4 @@
-  @JsonProperty("{{baseName}}")
+  @JsonProperty({{#isReadOnly}}value = {{/isReadOnly}}"{{baseName}}"{{#isReadOnly}}, access = JsonProperty.Access.READ_ONLY{{/isReadOnly}})
 {{#withXml}}
   @JacksonXmlProperty(localName = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#isXmlAttribute}}, isAttribute = true{{/isXmlAttribute}}{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
   {{#isContainer}}
