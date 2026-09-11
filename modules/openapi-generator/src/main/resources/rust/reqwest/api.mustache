@@ -180,11 +180,10 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         req_builder = req_builder.query(&param_value);
         {{/isModel}}
         {{#isMap}}
-        let mut query_params = Vec::with_capacity(param_value.len());
-        for (key, value) in param_value.iter() {
-            query_params.push((key.to_string(), serde_json::to_string(value)?));
-        }
-        req_builder = req_builder.query(&query_params);
+        {{!-- one route for the HashMap and the free-form serde_json::Value shape alike,
+              and the same deepObject wire format the non-explode branch produces --}}
+        let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+        req_builder = req_builder.query(&params);
         {{/isMap}}
         {{/isExplode}}
     };
@@ -251,11 +250,10 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         req_builder = req_builder.query(&param_value);
         {{/isModel}}
         {{#isMap}}
-        let mut query_params = Vec::with_capacity(param_value.len());
-        for (key, value) in param_value.iter() {
-            query_params.push((key.to_string(), serde_json::to_string(value)?));
-        }
-        req_builder = req_builder.query(&query_params);
+        {{!-- one route for the HashMap and the free-form serde_json::Value shape alike,
+              and the same deepObject wire format the non-explode branch produces --}}
+        let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+        req_builder = req_builder.query(&params);
         {{/isMap}}
         {{/isExplode}}
         {{/isDeepObject}}
