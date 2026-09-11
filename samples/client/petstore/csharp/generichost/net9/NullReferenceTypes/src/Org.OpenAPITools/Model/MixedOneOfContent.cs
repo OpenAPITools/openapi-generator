@@ -252,7 +252,36 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, MixedOneOfContent mixedOneOfContent, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (mixedOneOfContent.String != null)
+            {
+                JsonSerializer.Serialize(writer, mixedOneOfContent.String, jsonSerializerOptions);
+                return;
+            }
+
+            if (mixedOneOfContent.Bool != null)
+            {
+                JsonSerializer.Serialize(writer, mixedOneOfContent.Bool, jsonSerializerOptions);
+                return;
+            }
+
+            if (mixedOneOfContent.Int != null)
+            {
+                JsonSerializer.Serialize(writer, mixedOneOfContent.Int, jsonSerializerOptions);
+                return;
+            }
+
+            if (mixedOneOfContent.Decimal != null)
+            {
+                JsonSerializer.Serialize(writer, mixedOneOfContent.Decimal, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
+            if (mixedOneOfContent.MixedSubId != null)
+            {
+                MixedSubIdJsonConverter mixedSubIdJsonConverter = (MixedSubIdJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mixedOneOfContent.MixedSubId.GetType()));
+                mixedSubIdJsonConverter.WriteProperties(writer, mixedOneOfContent.MixedSubId, jsonSerializerOptions);
+            }
 
             WriteProperties(writer, mixedOneOfContent, jsonSerializerOptions);
             writer.WriteEndObject();

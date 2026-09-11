@@ -103,9 +103,6 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             string varString = default;
@@ -146,6 +143,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OneOfString oneOfString, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (oneOfString.String != null)
+            {
+                JsonSerializer.Serialize(writer, oneOfString.String, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             WriteProperties(writer, oneOfString, jsonSerializerOptions);

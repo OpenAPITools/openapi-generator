@@ -129,9 +129,6 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<string> color = default;
@@ -139,22 +136,33 @@ namespace Org.OpenAPITools.Model
             Apple apple = default;
             Banana banana = default;
 
-            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (utf8JsonReaderOneOf.Read())
+            if (startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray)
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
+                Utf8JsonReader utf8JsonReaderApple = utf8JsonReader;
+                ClientUtils.TryDeserialize<Apple>(ref utf8JsonReaderApple, jsonSerializerOptions, out apple);
 
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
+                Utf8JsonReader utf8JsonReaderBanana = utf8JsonReader;
+                ClientUtils.TryDeserialize<Banana>(ref utf8JsonReaderBanana, jsonSerializerOptions, out banana);
+            }
+            else
+            {
+                Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
+                while (utf8JsonReaderOneOf.Read())
                 {
-                    Utf8JsonReader utf8JsonReaderApple = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Apple>(ref utf8JsonReaderApple, jsonSerializerOptions, out apple);
+                    if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
+                        break;
 
-                    Utf8JsonReader utf8JsonReaderBanana = utf8JsonReader;
-                    ClientUtils.TryDeserialize<Banana>(ref utf8JsonReaderBanana, jsonSerializerOptions, out banana);
+                    if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
+                        break;
+
+                    if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
+                    {
+                        Utf8JsonReader utf8JsonReaderApple = utf8JsonReader;
+                        ClientUtils.TryDeserialize<Apple>(ref utf8JsonReaderApple, jsonSerializerOptions, out apple);
+
+                        Utf8JsonReader utf8JsonReaderBanana = utf8JsonReader;
+                        ClientUtils.TryDeserialize<Banana>(ref utf8JsonReaderBanana, jsonSerializerOptions, out banana);
+                    }
                 }
             }
 
@@ -204,6 +212,17 @@ namespace Org.OpenAPITools.Model
         public override void Write(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
+            if (fruit.Apple != null)
+            {
+                AppleJsonConverter appleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.Apple.GetType()));
+                appleJsonConverter.WriteProperties(writer, fruit.Apple, jsonSerializerOptions);
+            }
+
+            if (fruit.Banana != null)
+            {
+                BananaJsonConverter bananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.Banana.GetType()));
+                bananaJsonConverter.WriteProperties(writer, fruit.Banana, jsonSerializerOptions);
+            }
 
             WriteProperties(writer, fruit, jsonSerializerOptions);
             writer.WriteEndObject();
