@@ -6,11 +6,13 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.Generator;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
@@ -25,9 +27,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -1175,6 +1180,102 @@ public class TypeScriptFetchClientCodegenTest {
         // date-time keeps the full timestamp.
         TestUtils.assertFileContains(api, "queryParameters['updatedSince'] = runtime.serializeDateTime(requestParameters['updatedSince'] as any)");
         TestUtils.assertFileContains(api, "formParams.append('createdAt', runtime.serializeDateTime(requestParameters['createdAt'] as any))");
+    }
+
+    @Test
+    public void testTypeMappingSetToArrayDoesNotUseSetConversions() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addTypeMapping("set", "Array");
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path pet = Paths.get(output + "/models/Pet.ts");
+        TestUtils.assertFileContains(pet,
+                "photoUrls: Array<string>;",
+                "tags?: Array<Tag>;");
+        TestUtils.assertFileNotContains(pet,
+                "'photoUrls': new Set(json['photoUrls'])",
+                "'photoUrls': Array.from(value['photoUrls'] as Set<any>)");
+    }
+
+    @Test
+    public void testResponseTypeUsesSetForUniqueItemArraysByDefault() throws IOException {
+        File output = generate(new HashMap<>(), "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+
+        Path petApi = Paths.get(output + "/apis/PetApi.ts");
+        TestUtils.assertFileContains(petApi,
+                "async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Set<Pet>>> {",
+                "async findPetsByTags(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Set<Pet>> {",
+                "return new runtime.JSONApiResponse(response, (jsonValue) => new Set(jsonValue.map(PetFromJSON)));");
+    }
+
+    @Test
+    public void testTypeMappingSetToArrayDoesNotUseSetConversionsForResponseTypes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addTypeMapping("set", "Array");
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path petApi = Paths.get(output + "/apis/PetApi.ts");
+        TestUtils.assertFileContains(petApi,
+                "async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {",
+                "async findPetsByTags(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Pet>> {",
+                "return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));");
+        TestUtils.assertFileNotContains(petApi,
+                "Set<Pet>",
+                "new Set(jsonValue.map(PetFromJSON))");
+    }
+
+    @Test
+    public void testResponseTypeUsesSetForPrimitiveUniqueItemArrays() throws IOException {
+        File output = generate(new HashMap<>(), "src/test/resources/3_0/uniqueItems-test.yaml");
+
+        Path defaultApi = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(defaultApi,
+                "async uniquePrimitiveResponseBodyRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Set<string>>> {",
+                "async uniquePrimitiveResponseBody(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Set<string>> {",
+                // Should be 'new runtime.JSONApiResponse<any>(response, (jsonValue) => new Set(jsonValue));'
+                "return new runtime.JSONApiResponse<any>(response);");
+    }
+
+    @Test
+    public void testTypeMappingSetToArrayDoesNotUseSetConversionsForPrimitiveUniqueItemArrays() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/uniqueItems-test.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addTypeMapping("set", "Array");
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path defaultApi = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(defaultApi,
+                "async uniquePrimitiveResponseBodyRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {",
+                "async uniquePrimitiveResponseBody(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {");
+        TestUtils.assertFileNotContains(defaultApi,
+                "Set<string>",
+                "new Set(jsonValue)");
     }
 
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";

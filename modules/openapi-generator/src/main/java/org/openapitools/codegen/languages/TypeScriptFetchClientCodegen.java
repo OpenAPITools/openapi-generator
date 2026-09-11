@@ -28,7 +28,15 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Getter;
 import lombok.Setter;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenComposedSchemas;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenDiscriminator;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
@@ -50,7 +58,9 @@ import static org.openapitools.codegen.model.EnumVarMap.ENUM_VARS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.OnceLogger.once;
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.dashize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 /**
  * <p>Mustache templates are located in {@code src/main/resources/typescript-fetch/}.
@@ -810,6 +820,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
+        op.returnTypeUsesSet = isSetType(op.uniqueItems);
+
         return op;
     }
 
@@ -1203,6 +1215,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     entry.isArray = variant.isArray;
                     entry.isMap = variant.isMap;
                     entry.uniqueItems = variant.uniqueItems;
+                    entry.usesSet = isReturnTypeUsesSet(variant);
                     entry.produces = variant.produces;
                 });
     }
@@ -1231,6 +1244,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return new ArrayList<>(byRank.values());
     }
 
+    private static boolean isReturnTypeUsesSet(CodegenOperation op) {
+        return op instanceof ExtendedCodegenOperation && ((ExtendedCodegenOperation) op).returnTypeUsesSet;
+    }
+
+    private boolean isSetType(boolean uniqueItems) {
+        return uniqueItems && "Set".equals(typeMapping.get("set"));
+    }
+
     /**
      * One content-type of a merged operation, on one axis. Read by the templates through their own field
      * names, so a mistyped one fails to compile rather than rendering as nothing.
@@ -1246,7 +1267,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public List<Map<String, String>> consumes, produces;
 
         // response axis
-        public boolean isResponseFile, returnTypeIsPrimitive, returnSimpleType, isArray, isMap, uniqueItems;
+        public boolean isResponseFile, returnTypeIsPrimitive, returnSimpleType, isArray, isMap, uniqueItems, usesSet;
         public String returnType, returnBaseType;
     }
 
@@ -1678,6 +1699,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public boolean isUniqueId; // The property represents a unique id (x-isUniqueId: true)
         public boolean keepAsJSObject;
         public boolean isReservedRecordField;
+        public boolean usesSet;
 
         public boolean itemsAreUniqueId() {
             return TypeScriptFetchClientCodegen.itemsAreUniqueId(this.items);
@@ -1786,6 +1808,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.xmlNamespace = cp.xmlNamespace;
             this.isXmlWrapped = cp.isXmlWrapped;
             this.setHasSanitizedName(cp.getHasSanitizedName());
+            this.usesSet = isSetType(this.getUniqueItems());
         }
 
         @Override
@@ -1826,7 +1849,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     public class ExtendedCodegenOperation extends CodegenOperation {
-        boolean hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsArray;
+        boolean hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsArray, returnTypeUsesSet;
         String returnTypeAlternate, returnBaseTypeAlternate, returnPassthrough;
 
         /**
@@ -1925,6 +1948,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     returnTypeSupportsEntities == that.returnTypeSupportsEntities &&
                     returnTypeIsArray == that.returnTypeIsArray &&
                     returnTypeIsModel == that.returnTypeIsModel &&
+                    returnTypeUsesSet == that.returnTypeUsesSet &&
                     Objects.equals(returnTypeAlternate, that.returnTypeAlternate) &&
                     Objects.equals(returnBaseTypeAlternate, that.returnBaseTypeAlternate) &&
                     Objects.equals(returnPassthrough, that.returnPassthrough);
@@ -1933,7 +1957,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         @Override
         public int hashCode() {
             int superHash = super.hashCode();
-            return Objects.hash(superHash, returnPassthrough, hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsArray, returnTypeIsModel, returnTypeAlternate, returnBaseTypeAlternate);
+            return Objects.hash(superHash, returnPassthrough, hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsArray, returnTypeIsModel, returnTypeUsesSet, returnTypeAlternate, returnBaseTypeAlternate);
         }
 
         @Override
