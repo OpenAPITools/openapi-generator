@@ -787,13 +787,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             List<CodegenProperty> codegenProperties = new ArrayList<>();
-            if (model.getComposedSchemas() == null || (model.getComposedSchemas() != null && model.getComposedSchemas().getAllOf() != null)) {
-                // If the model is an allOf or does not have any composed schemas, then we can use the model's properties.
+            if (model.vars != null && !model.vars.isEmpty()) {
                 codegenProperties.addAll(model.vars);
             } else {
-                // If the model is no model, but is a
-                // anyOf or oneOf, add all first level options
-                // from anyOf or oneOf.
                 codegenProperties.addAll(inheritedProperties);
             }
 
