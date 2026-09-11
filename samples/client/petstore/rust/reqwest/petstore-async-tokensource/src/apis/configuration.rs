@@ -12,6 +12,7 @@
 use std::sync::Arc;
 use google_cloud_token::TokenSource;
 use async_trait::async_trait;
+pub use reqwest::Client;
 
 #[derive(Debug, Clone)]
 pub struct Configuration {
