@@ -603,6 +603,7 @@ public class DefaultCodegen implements CodegenConfig {
                 objsValue.put("classname", cm.classname);
                 objsValue.putAll(additionalProperties);
                 objs.put(cm.name, objsValue);
+                objsValue.put("javaxPackage", additionalProperties.getOrDefault("javaxPackage", "javax"));
             }
 
             // Gather data from all the models that contain oneOf into OneOfImplementorAdditionalData classes
