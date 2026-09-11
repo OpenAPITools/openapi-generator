@@ -243,4 +243,41 @@ public class YamlGeneratorTest {
         Assert.assertTrue(mammalsGet != -1 && mammalsDelete != -1, "Expected HTTP methods must be present within /mammals");
         Assert.assertTrue(mammalsGet < mammalsDelete, "GET must appear before DELETE within /mammals");
     }
+
+    @Test
+    public void testIssue24528NestedExternalRefsLocalized() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(OpenAPIYamlGenerator.OUTPUT_NAME, "issue_24528.yaml");
+
+        File output = Files.createTempDirectory("issue_24528").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("openapi-yaml")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue_24528/swagger.yml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path generated = Path.of(output.getAbsolutePath(), "issue_24528.yaml");
+        String generatedYaml = new String(Files.readAllBytes(generated), StandardCharsets.UTF_8);
+
+        // Nested multi-file $refs must be rewritten to internal component refs.
+        Assert.assertFalse(generatedYaml.contains("swagger.yml#/components/schemas/ComplexType"),
+                "Nested ComplexType $refs must not keep an external file path. Output was:\n" + generatedYaml);
+        Assert.assertTrue(generatedYaml.contains("#/components/schemas/ComplexType"),
+                "Nested ComplexType $refs must be localized. Output was:\n" + generatedYaml);
+
+        OpenAPI actual = TestUtils.parseSpec(generated.toString());
+        Schema<?> arrayOfComplex = actual.getComponents().getSchemas().get("ArrayOfComplexTypes");
+        Schema<?> complexArrayItems = (Schema<?>) arrayOfComplex.getProperties().get("complexArray");
+        Assert.assertEquals(complexArrayItems.getItems().get$ref(), "#/components/schemas/ComplexType");
+
+        Schema<?> nullableComplex = actual.getComponents().getSchemas().get("NullableComplexType");
+        Schema<?> complexOrNull = (Schema<?>) nullableComplex.getProperties().get("complexOrNull");
+        // nullable + anyOf is normalized to allOf + nullable
+        Assert.assertNotNull(complexOrNull.getAllOf());
+        Assert.assertEquals(complexOrNull.getAllOf().get(0).get$ref(), "#/components/schemas/ComplexType");
+    }
 }

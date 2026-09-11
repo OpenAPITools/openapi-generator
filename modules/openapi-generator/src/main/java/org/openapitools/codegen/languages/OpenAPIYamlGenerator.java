@@ -19,16 +19,22 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.mustache.OnChangeLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OpenAPISorter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -99,9 +105,146 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        // swagger-parser can leave nested multi-file $refs as relative paths into the root
+        // document (e.g. ./swagger.yml#/components/schemas/ComplexType). Rewrite those to
+        // internal refs when the target already exists in local components so the bundled
+        // openapi.yaml is self-contained and valid. See #24528.
+        // Run in preprocessOpenAPI (before models / info processing) rather than processOpenAPI.
+        localizeExternalComponentRefs(openAPI);
+        super.preprocessOpenAPI(openAPI);
+    }
+
+    @Override
     public void processOpenAPI(OpenAPI openAPI) {
         if (sortOutput) {
             OpenAPISorter.sort(openAPI);
+        }
+    }
+
+    /**
+     * Rewrite external-looking component $refs that still point at a local component to
+     * internal {@code #/components/...} form.
+     *
+     * @param openAPI OpenAPI document being processed
+     */
+    void localizeExternalComponentRefs(OpenAPI openAPI) {
+        if (openAPI == null || openAPI.getComponents() == null
+                || openAPI.getComponents().getSchemas() == null) {
+            return;
+        }
+        // Walk component schemas directly so we do not call getSimpleRef (and its warnings)
+        // on still-external nested refs before they are rewritten.
+        for (Schema<?> schema : openAPI.getComponents().getSchemas().values()) {
+            walkAndRewriteSchemaRefs(schema, openAPI);
+        }
+    }
+
+    private void walkAndRewriteSchemaRefs(Schema<?> schema, OpenAPI openAPI) {
+        if (schema == null) {
+            return;
+        }
+        rewriteSchemaRefIfLocal(schema, openAPI);
+        if (schema.getProperties() != null) {
+            for (Object property : schema.getProperties().values()) {
+                walkAndRewriteSchemaRefs((Schema<?>) property, openAPI);
+            }
+        }
+        if (ModelUtils.isArraySchema(schema) && schema.getItems() != null) {
+            walkAndRewriteSchemaRefs(schema.getItems(), openAPI);
+        }
+        if (schema.getAdditionalProperties() instanceof Schema) {
+            walkAndRewriteSchemaRefs((Schema<?>) schema.getAdditionalProperties(), openAPI);
+        }
+        if (schema.getAllOf() != null) {
+            for (Object s : schema.getAllOf()) {
+                walkAndRewriteSchemaRefs((Schema<?>) s, openAPI);
+            }
+        }
+        if (schema.getAnyOf() != null) {
+            for (Object s : schema.getAnyOf()) {
+                walkAndRewriteSchemaRefs((Schema<?>) s, openAPI);
+            }
+        }
+        if (schema.getOneOf() != null) {
+            for (Object s : schema.getOneOf()) {
+                walkAndRewriteSchemaRefs((Schema<?>) s, openAPI);
+            }
+        }
+        if (schema.getNot() != null) {
+            walkAndRewriteSchemaRefs(schema.getNot(), openAPI);
+        }
+    }
+
+    private void rewriteSchemaRefIfLocal(Schema<?> schema, OpenAPI openAPI) {
+        if (schema == null || StringUtils.isEmpty(schema.get$ref())) {
+            return;
+        }
+        String localRef = toLocalComponentRef(schema.get$ref(), openAPI);
+        if (localRef != null) {
+            schema.set$ref(localRef);
+        }
+    }
+
+    /**
+     * If {@code ref} is an external (file-relative or absolute) reference into a local
+     * component, return the internal {@code #/components/...} form; otherwise return null.
+     *
+     * @param ref     original $ref value
+     * @param openAPI OpenAPI document used to verify the target exists locally
+     * @return internal ref, or null when no rewrite should be applied
+     */
+    String toLocalComponentRef(String ref, OpenAPI openAPI) {
+        if (ref == null || ref.startsWith("#/")) {
+            return null;
+        }
+        int fragmentIndex = ref.indexOf("#/components/");
+        if (fragmentIndex < 0) {
+            return null;
+        }
+        String fragment = ref.substring(fragmentIndex);
+        // fragment is "#/components/{section}/{name}[/...]" — strip "#/" before splitting
+        String path = fragment.startsWith("#/") ? fragment.substring(2) : fragment.substring(1);
+        String[] parts = path.split("/");
+        // parts[0]=components, parts[1]=section, parts[2]=name
+        if (parts.length < 3 || !"components".equals(parts[0])) {
+            return null;
+        }
+        String section = parts[1];
+        String name = URLDecoder.decode(parts[2], StandardCharsets.UTF_8)
+                .replace("~1", "/")
+                .replace("~0", "~");
+        if (!componentExists(openAPI.getComponents(), section, name)) {
+            return null;
+        }
+        return fragment;
+    }
+
+    private static boolean componentExists(Components components, String section, String name) {
+        if (components == null || StringUtils.isEmpty(name)) {
+            return false;
+        }
+        switch (section) {
+            case "schemas":
+                return components.getSchemas() != null && components.getSchemas().containsKey(name);
+            case "parameters":
+                return components.getParameters() != null && components.getParameters().containsKey(name);
+            case "responses":
+                return components.getResponses() != null && components.getResponses().containsKey(name);
+            case "requestBodies":
+                return components.getRequestBodies() != null && components.getRequestBodies().containsKey(name);
+            case "headers":
+                return components.getHeaders() != null && components.getHeaders().containsKey(name);
+            case "examples":
+                return components.getExamples() != null && components.getExamples().containsKey(name);
+            case "links":
+                return components.getLinks() != null && components.getLinks().containsKey(name);
+            case "callbacks":
+                return components.getCallbacks() != null && components.getCallbacks().containsKey(name);
+            case "securitySchemes":
+                return components.getSecuritySchemes() != null && components.getSecuritySchemes().containsKey(name);
+            default:
+                return false;
         }
     }
 
