@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="hasBaleen">hasBaleen.</param>
         /// <param name="hasTeeth">hasTeeth.</param>
         /// <param name="className">className (required).</param>
-        public Whale(bool hasBaleen = default, bool hasTeeth = default, string className = default)
+        public Whale(bool? hasBaleen = default, bool? hasTeeth = default, string className = default)
         {
             // to ensure "className" is required (not null)
             if (className == null)
@@ -54,14 +54,14 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("className is a required property for Whale and cannot be null");
             }
             this._ClassName = className;
-            this._HasBaleen = hasBaleen;
-            if (this.HasBaleen != null)
+            if (hasBaleen != null)
             {
+                this._HasBaleen = hasBaleen.Value;
                 this._flagHasBaleen = true;
             }
-            this._HasTeeth = hasTeeth;
-            if (this.HasTeeth != null)
+            if (hasTeeth != null)
             {
+                this._HasTeeth = hasTeeth.Value;
                 this._flagHasTeeth = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
