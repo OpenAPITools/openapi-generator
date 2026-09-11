@@ -109,10 +109,10 @@ import {{javaxPackage}}.annotation.Generated;
 {{/useResponseEntity}}
 {{/useSpringController}}
 {{#swagger2AnnotationLibrary}}
-@Tag(name = "{{{tagName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{{tagName}}} API"{{/tagDescription}})
+@Tag(name = {{#lambda.javaStringLiteral}}{{{tagNameRaw}}}{{/lambda.javaStringLiteral}}, description = {{#hasTagDescription}}{{#lambda.javaStringLiteral}}{{{tagDescriptionRaw}}}{{/lambda.javaStringLiteral}}{{/hasTagDescription}}{{^hasTagDescription}}{{#lambda.javaStringLiteral}}the {{{tagNameRaw}}} API{{/lambda.javaStringLiteral}}{{/hasTagDescription}})
 {{/swagger2AnnotationLibrary}}
 {{#swagger1AnnotationLibrary}}
-@Api(value = "{{{tagName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{{tagName}}} API"{{/tagDescription}})
+@Api(value = {{#lambda.javaStringLiteral}}{{{tagNameRaw}}}{{/lambda.javaStringLiteral}}, description = {{#hasTagDescription}}{{#lambda.javaStringLiteral}}{{{tagDescriptionRaw}}}{{/lambda.javaStringLiteral}}{{/hasTagDescription}}{{^hasTagDescription}}{{#lambda.javaStringLiteral}}the {{{tagNameRaw}}} API{{/lambda.javaStringLiteral}}{{/hasTagDescription}})
 {{/swagger1AnnotationLibrary}}
 {{#operations}}
 {{#virtualService}}
@@ -142,24 +142,24 @@ public interface {{classname}} {
 {{/jdk8-default-interface}}
 {{#operation}}
 
-    String PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = "{{{path}}}";
+    String PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = {{#lambda.javaStringLiteral}}{{{path}}}{{/lambda.javaStringLiteral}};
     /**
-     * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
-    {{#notes}}
-     * {{.}}
-    {{/notes}}
+     * {{httpMethod}} {{#lambda.javaDocText}}{{{unescapedPath}}}{{/lambda.javaDocText}}{{#summary}} : {{#lambda.javaDocText}}{{{unescapedSummary}}}{{/lambda.javaDocText}}{{/summary}}
+    {{#unescapedNotes}}
+     * {{#lambda.javaDocText}}{{{.}}}{{/lambda.javaDocText}}
+    {{/unescapedNotes}}
      *
     {{#allParams}}
-     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+     * @param {{paramName}} {{#lambda.javaDocText}}{{{unescapedDescription}}}{{/lambda.javaDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#vendorExtensions.x-spring-form-default-not-applied}}, OpenAPI schema default to {{#lambda.javaDocText}}{{{rawDefaultValueText}}}{{/lambda.javaDocText}}{{/vendorExtensions.x-spring-form-default-not-applied}}{{^vendorExtensions.x-spring-form-default-not-applied}}{{#hasDefaultValue}}, default to {{#lambda.javaDocText}}{{{rawDefaultValueText}}}{{/lambda.javaDocText}}{{/hasDefaultValue}}{{/vendorExtensions.x-spring-form-default-not-applied}}){{/required}}
     {{/allParams}}
-     * @return {{#responses}}{{message}} (status code {{code}}){{^-last}}
+     * @return {{#responses}}{{#lambda.javaDocText}}{{{unescapedMessage}}}{{/lambda.javaDocText}} (status code {{code}}){{^-last}}
      *         or {{/-last}}{{/responses}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
     {{#externalDocs}}
-     * {{description}}
-     * @see <a href="{{url}}">{{summary}} Documentation</a>
+     * {{#lambda.javaDocText}}{{{description}}}{{/lambda.javaDocText}}
+     * @see <a href="{{#lambda.javaDocText}}{{{url}}}{{/lambda.javaDocText}}">{{#lambda.javaDocText}}{{{description}}}{{/lambda.javaDocText}}</a>
     {{/externalDocs}}
      */
     {{#isDeprecated}}
@@ -170,28 +170,28 @@ public interface {{classname}} {
     {{/virtualService}}
     {{#swagger2AnnotationLibrary}}
     @Operation(
-        operationId = "{{{operationId}}}",
+        operationId = {{#lambda.javaStringLiteral}}{{{operationId}}}{{/lambda.javaStringLiteral}},
         {{#summary}}
-        summary = "{{{.}}}",
+        summary = {{#lambda.javaStringLiteral}}{{{unescapedSummary}}}{{/lambda.javaStringLiteral}},
         {{/summary}}
         {{#notes}}
-        description = "{{{.}}}",
+        description = {{#lambda.javaStringLiteral}}{{{unescapedNotes}}}{{/lambda.javaStringLiteral}},
         {{/notes}}
         {{#isDeprecated}}
         deprecated = true,
         {{/isDeprecated}}
         {{#vendorExtensions.x-tags.size}}
-        tags = { {{#vendorExtensions.x-tags}}"{{{tag}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
+        tags = { {{#vendorExtensions.x-tags}}{{#lambda.javaStringLiteral}}{{{tagRaw}}}{{/lambda.javaStringLiteral}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         {{/vendorExtensions.x-tags.size}}
         responses = {
             {{#responses}}
-            @ApiResponse(responseCode = {{#isDefault}}"default"{{/isDefault}}{{^isDefault}}"{{{code}}}"{{/isDefault}}, description = "{{{message}}}"{{#baseType}}, content = {
+            @ApiResponse(responseCode = {{#isDefault}}{{#lambda.javaStringLiteral}}default{{/lambda.javaStringLiteral}}{{/isDefault}}{{^isDefault}}{{#lambda.javaStringLiteral}}{{{code}}}{{/lambda.javaStringLiteral}}{{/isDefault}}, description = {{#lambda.javaStringLiteral}}{{{unescapedMessage}}}{{/lambda.javaStringLiteral}}{{#baseType}}, content = {
                 {{#produces}}
                 @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}{{^isJson}}){{^-last}},{{/-last}}{{/isJson}}{{#isJson}}{{^examples.0}}){{^-last}},{{/-last}}{{/examples.0}}{{#examples.0}}, examples = {
                 {{#examples}}
                     @ExampleObject(
-                        name = "{{{exampleName}}}",
-                        value = "{{{exampleValue}}}"
+                        name = {{#lambda.javaStringLiteral}}{{{exampleName}}}{{/lambda.javaStringLiteral}},
+                        value = {{#lambda.javaStringLiteral}}{{{exampleValueRaw}}}{{/lambda.javaStringLiteral}}
                     ){{^-last}},{{/-last}}
                 {{/examples}}
                 {{#-last}}
@@ -206,39 +206,39 @@ public interface {{classname}} {
         }{{#hasAuthMethods}},
         security = {
             {{#authMethods}}
-            @SecurityRequirement(name = "{{name}}"{{#scopes.0}}, scopes={ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} }{{/scopes.0}}){{^-last}},{{/-last}}
+            @SecurityRequirement(name = {{#lambda.javaStringLiteral}}{{{name}}}{{/lambda.javaStringLiteral}}{{#scopes.0}}, scopes={ {{#scopes}}{{#lambda.javaStringLiteral}}{{{scope}}}{{/lambda.javaStringLiteral}}{{^-last}}, {{/-last}}{{/scopes}} }{{/scopes.0}}){{^-last}},{{/-last}}
             {{/authMethods}}
         }{{/hasAuthMethods}}{{#externalDocs}},
-        externalDocs = @ExternalDocumentation(description = "{{externalDocs.description}}", url = "{{externalDocs.url}}"){{/externalDocs}}
+        externalDocs = @ExternalDocumentation(description = {{#lambda.javaStringLiteral}}{{{description}}}{{/lambda.javaStringLiteral}}, url = {{#lambda.javaStringLiteral}}{{{url}}}{{/lambda.javaStringLiteral}}){{/externalDocs}}
     )
     {{/swagger2AnnotationLibrary}}
     {{#swagger1AnnotationLibrary}}
     @ApiOperation(
         {{#vendorExtensions.x-tags.size}}
-        tags = { {{#vendorExtensions.x-tags}}"{{{tag}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
+        tags = { {{#vendorExtensions.x-tags}}{{#lambda.javaStringLiteral}}{{{tagRaw}}}{{/lambda.javaStringLiteral}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} },
         {{/vendorExtensions.x-tags.size}}
-        value = "{{{summary}}}",
-        nickname = "{{{operationId}}}",
-        notes = "{{{notes}}}"{{#returnBaseType}},
+        value = {{#lambda.javaStringLiteral}}{{{unescapedSummary}}}{{/lambda.javaStringLiteral}},
+        nickname = {{#lambda.javaStringLiteral}}{{{operationId}}}{{/lambda.javaStringLiteral}},
+        notes = {{#lambda.javaStringLiteral}}{{{unescapedNotes}}}{{/lambda.javaStringLiteral}}{{#returnBaseType}},
         response = {{{.}}}.class{{/returnBaseType}}{{#returnContainer}},
         responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}},
         authorizations = {
         {{#authMethods}}
         {{#scopes.0}}
-            @Authorization(value = "{{name}}", scopes = {
+            @Authorization(value = {{#lambda.javaStringLiteral}}{{{name}}}{{/lambda.javaStringLiteral}}, scopes = {
             {{#scopes}}
-                @AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},{{/-last}}
+                @AuthorizationScope(scope = {{#lambda.javaStringLiteral}}{{{scope}}}{{/lambda.javaStringLiteral}}, description = {{#lambda.javaStringLiteral}}{{{descriptionRaw}}}{{/lambda.javaStringLiteral}}){{^-last}},{{/-last}}
             {{/scopes}}
             }){{^-last}},{{/-last}}
         {{/scopes.0}}
         {{^scopes.0}}
-            @Authorization(value = "{{name}}"){{^-last}},{{/-last}}
+            @Authorization(value = {{#lambda.javaStringLiteral}}{{{name}}}{{/lambda.javaStringLiteral}}){{^-last}},{{/-last}}
         {{/scopes.0}}
         {{/authMethods}} }{{/hasAuthMethods}}
     )
     @ApiResponses({
         {{#responses}}
-        @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}
+        @ApiResponse(code = {{{code}}}, message = {{#lambda.javaStringLiteral}}{{{unescapedMessage}}}{{/lambda.javaStringLiteral}}{{#baseType}}, response = {{{.}}}.class{{/baseType}}{{#containerType}}, responseContainer = {{#lambda.javaStringLiteral}}{{{.}}}{{/lambda.javaStringLiteral}}{{/containerType}}){{^-last}},{{/-last}}
         {{/responses}}
     })
     {{/swagger1AnnotationLibrary}}

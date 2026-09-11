@@ -11,22 +11,22 @@ interface {{classname}}Service {
 {{#operation}}
 
     /**
-     * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
-    {{#notes}}
-     * {{.}}
-    {{/notes}}
+     * {{httpMethod}} {{#lambda.kotlinDocText}}{{{unescapedPath}}}{{/lambda.kotlinDocText}}{{#unescapedSummary}} : {{#lambda.kotlinDocText}}{{{unescapedSummary}}}{{/lambda.kotlinDocText}}{{/unescapedSummary}}
+    {{#unescapedNotes}}
+     * {{#lambda.kotlinDocText}}{{{unescapedNotes}}}{{/lambda.kotlinDocText}}
+    {{/unescapedNotes}}
      *
     {{#allParams}}
-     * @param {{{paramName}}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+     * @param {{{paramName}}} {{#lambda.kotlinDocText}}{{{unescapedDescription}}}{{/lambda.kotlinDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#vendorExtensions.x-spring-form-default-not-applied}}, OpenAPI schema default to {{#lambda.kotlinDocText}}{{{rawDefaultValueText}}}{{/lambda.kotlinDocText}}{{/vendorExtensions.x-spring-form-default-not-applied}}{{^vendorExtensions.x-spring-form-default-not-applied}}{{#hasDefaultValue}}, default to {{#lambda.kotlinDocText}}{{{rawDefaultValueText}}}{{/lambda.kotlinDocText}}{{/hasDefaultValue}}{{/vendorExtensions.x-spring-form-default-not-applied}}){{/required}}
     {{/allParams}}
-     * @return {{#responses}}{{message}} (status code {{code}}){{^-last}}
+     * @return {{#responses}}{{#lambda.kotlinDocText}}{{{unescapedMessage}}}{{/lambda.kotlinDocText}} (status code {{code}}){{^-last}}
      *         or {{/-last}}{{/responses}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
     {{#externalDocs}}
-     * {{description}}
-     * @see <a href="{{url}}">{{summary}} Documentation</a>
+     * {{#lambda.kotlinDocText}}{{{description}}}{{/lambda.kotlinDocText}}
+     * @see <a href="{{#lambda.kotlinDocText}}{{{url}}}{{/lambda.kotlinDocText}}">{{#lambda.kotlinDocText}}{{{summary}}}{{/lambda.kotlinDocText}} Documentation</a>
     {{/externalDocs}}
      * @see {{classname}}#{{operationId}}
      */

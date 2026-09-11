@@ -504,20 +504,6 @@ public class AbstractJavaCodegenTest {
         codegen.setDateLibrary("legacy");
         String defaultValue;
 
-        // Test default value for date format (DateSchema)
-        DateSchema dateSchema = new DateSchema();
-
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-        LocalDate defaultLocalDate = LocalDate.of(2021, 5, 23);
-        Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Assert.assertEquals(date.toString(), "Sun May 23 00:00:00 UTC 2021");
-
-        dateSchema.setDefault(date);
-        defaultValue = codegen.toDefaultValue(dateSchema);
-
-        // dateLibrary <> java8
-        Assert.assertEquals(defaultValue, "Sun May 23 00:00:00 UTC 2021");
-
         // Test default value for date format (DateTimeSchema)
         DateTimeSchema dateTimeSchema = new DateTimeSchema();
 
@@ -593,10 +579,9 @@ public class AbstractJavaCodegenTest {
 
         DateTimeSchema dateTimeSchema = new DateTimeSchema();
         OffsetDateTime defaultDateTime = OffsetDateTime.parse("1984-12-19T03:39:57-08:00");
-        ZonedDateTime expectedDateTime = defaultDateTime.atZoneSameInstant(ZoneId.systemDefault());
         dateTimeSchema.setDefault(defaultDateTime);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), dateTimeSchema);
-        Assert.assertTrue(defaultValue.startsWith("OffsetDateTime.parse(\"" + expectedDateTime));
+        Assert.assertEquals(defaultValue, "OffsetDateTime.parse(\"1984-12-19T03:39:57-08:00\")");
 
         // Test default value for number without format
         NumberSchema numberSchema = new NumberSchema();
@@ -623,6 +608,21 @@ public class AbstractJavaCodegenTest {
         dateTimeLocalSchema.setDefault("2007-12-03T10:15:30");
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", dateTimeLocalSchema), dateTimeLocalSchema);
         Assert.assertEquals(defaultValue, "LocalDateTime.parse(\"2007-12-03T10:15:30\")");
+    }
+
+    @Test
+    public void temporalDateTimeDefaultsUseUtcRegardlessOfGeneratorTimezone() {
+        codegen.setDateLibrary("java8");
+
+        DateTimeSchema zeroOffsetSchema = new DateTimeSchema();
+        zeroOffsetSchema.setDefault(OffsetDateTime.parse("2026-01-02T03:04:05+00:00"));
+        Assert.assertEquals(codegen.toDefaultValue(codegen.fromProperty("", zeroOffsetSchema), zeroOffsetSchema),
+                "OffsetDateTime.parse(\"2026-01-02T03:04:05Z\")");
+
+        DateTimeSchema explicitOffsetSchema = new DateTimeSchema();
+        explicitOffsetSchema.setDefault(OffsetDateTime.parse("2026-01-02T03:04:05+05:30"));
+        Assert.assertEquals(codegen.toDefaultValue(codegen.fromProperty("", explicitOffsetSchema), explicitOffsetSchema),
+                "OffsetDateTime.parse(\"2026-01-02T03:04:05+05:30\")");
     }
 
     @Test

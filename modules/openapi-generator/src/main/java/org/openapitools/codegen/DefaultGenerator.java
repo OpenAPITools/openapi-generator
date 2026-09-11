@@ -86,6 +86,7 @@ public class DefaultGenerator implements Generator {
     private String basePath;
     private String basePathWithoutHost;
     private String contextPath;
+    private String contextPathRaw;
     private final Map<String, String> generatorPropertyDefaults = new HashMap<>();
     /**
      * Retrieves an instance to the configured template processor, available after user-defined options are
@@ -299,6 +300,7 @@ public class DefaultGenerator implements Generator {
         // TODO: Allow user to define _which_ servers object in the array to target.
         // Configures contextPath/basePath according to api document's servers
         URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
+        contextPathRaw = removeTrailingSlash(url.getPath());
         contextPath = removeTrailingSlash(config.escapeText(url.getPath())); // for backward compatibility
         basePathWithoutHost = contextPath;
         if (URLPathUtils.isRelativeUrl(openAPI.getServers())) {
@@ -315,12 +317,15 @@ public class DefaultGenerator implements Generator {
         }
         if (info.getTitle() != null) {
             config.additionalProperties().put("appName", config.escapeText(info.getTitle()));
+            config.additionalProperties().put("appNameRaw", info.getTitle());
         }
         if (info.getVersion() != null) {
             config.additionalProperties().put("appVersion", config.escapeText(info.getVersion()));
+            config.additionalProperties().put("appVersionRaw", info.getVersion());
         } else {
             LOGGER.error("Missing required field info version. Default appVersion set to 1.0.0");
             config.additionalProperties().put("appVersion", "1.0.0");
+            config.additionalProperties().put("appVersionRaw", "1.0.0");
         }
 
         if (StringUtils.isEmpty(info.getDescription())) {
@@ -345,12 +350,15 @@ public class DefaultGenerator implements Generator {
             Contact contact = info.getContact();
             if (contact.getEmail() != null) {
                 config.additionalProperties().put("infoEmail", config.escapeText(contact.getEmail()));
+                config.additionalProperties().put("infoEmailRaw", contact.getEmail());
             }
             if (contact.getName() != null) {
                 config.additionalProperties().put("infoName", config.escapeText(contact.getName()));
+                config.additionalProperties().put("infoNameRaw", contact.getName());
             }
             if (contact.getUrl() != null) {
                 config.additionalProperties().put("infoUrl", config.escapeText(contact.getUrl()));
+                config.additionalProperties().put("infoUrlRaw", contact.getUrl());
             }
         }
 
@@ -358,9 +366,11 @@ public class DefaultGenerator implements Generator {
             License license = info.getLicense();
             if (license.getName() != null) {
                 config.additionalProperties().put("licenseInfo", config.escapeText(license.getName()));
+                config.additionalProperties().put("licenseInfoRaw", license.getName());
             }
             if (license.getUrl() != null) {
                 config.additionalProperties().put("licenseUrl", config.escapeText(license.getUrl()));
+                config.additionalProperties().put("licenseUrlRaw", license.getUrl());
             }
         }
 
@@ -373,6 +383,7 @@ public class DefaultGenerator implements Generator {
 
         if (info.getTermsOfService() != null) {
             config.additionalProperties().put("termsOfService", config.escapeText(info.getTermsOfService()));
+            config.additionalProperties().put("termsOfServiceRaw", info.getTermsOfService());
         }
     }
 
@@ -708,6 +719,7 @@ public class DefaultGenerator implements Generator {
                 operation.put("basePath", basePath);
                 operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
                 operation.put("contextPath", contextPath);
+                operation.put("contextPathRaw", contextPathRaw);
                 operation.put("baseName", tag);
                 Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
                         .map(Tag::getName)
@@ -867,6 +879,7 @@ public class DefaultGenerator implements Generator {
                 operation.put("basePath", basePath);
                 operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
                 operation.put("contextPath", contextPath);
+                operation.put("contextPathRaw", contextPathRaw);
                 operation.put("baseName", tag);
                 Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
                         .map(Tag::getName)
@@ -1172,6 +1185,7 @@ public class DefaultGenerator implements Generator {
             bundle.put("port", url.getPort());
         }
         bundle.put("contextPath", contextPath);
+        bundle.put("contextPathRaw", contextPathRaw);
         bundle.put("apiInfo", apis);
         bundle.put("webhooks", allWebhooks);
         bundle.put("models", allModels);

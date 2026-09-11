@@ -14,6 +14,8 @@ public class EnumVarMap extends HashMap<String, Object> {
     public static final String ENUM_NAME = "name";
     // The on-the-line value, i.e., the one present in the "values"
     public static final String ENUM_VALUE = "value";
+    // The unescaped enum value from the OpenAPI specification
+    public static final String ENUM_VALUE_RAW = "valueRaw";
     // If the enum is typed as a string
     public static final String ENUM_IS_STRING = "isString";
     // The description that should be attached to an entry in "enumVars"
@@ -47,6 +49,10 @@ public class EnumVarMap extends HashMap<String, Object> {
 
     public void setEnumValue(String value) {
         put(ENUM_VALUE, value);
+    }
+
+    public void setEnumValueRaw(String value) {
+        put(ENUM_VALUE_RAW, value);
     }
 
     public Object getEnumValue() {

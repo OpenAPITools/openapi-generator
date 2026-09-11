@@ -743,8 +743,9 @@ paths:
         name: enum_header_string_array
         required: false
         schema:
+          default:
+          - $
           items:
-            default: $
             enum:
             - '>'
             - $
@@ -770,8 +771,9 @@ paths:
         name: enum_query_string_array
         required: false
         schema:
+          default:
+          - $
           items:
-            default: $
             enum:
             - '>'
             - $
@@ -1133,7 +1135,7 @@ paths:
       - tag: $another-fake?
   /fake/body-with-file-schema:
     put:
-      description: "For this test, the body for this request much reference a schema\
+      description: "For this test, the body for this request must reference a schema\
         \ named `File`."
       operationId: testBodyWithFileSchema
       requestBody:
@@ -2296,9 +2298,10 @@ components:
     testEnumParameters_request:
       properties:
         enum_form_string_array:
+          default:
+          - $
           description: Form parameter enum test (string array)
           items:
-            default: $
             enum:
             - '>'
             - $

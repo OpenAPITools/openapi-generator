@@ -2320,6 +2320,11 @@ public class SpringCodegenTest {
 
         generator.opts(input).generate();
 
+        Operation multipleTagsOperation = openAPI.getPaths().get("/multiple").getGet();
+        assertEquals(multipleTagsOperation.getExtensions().get("x-tags"), List.of(
+                Map.of("tag", "tag1"),
+                Map.of("tag", "tag2")));
+
         assertFunction.accept(outputPath);
     }
 
@@ -3327,6 +3332,22 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void arrayParameterDefaultsUseOneItemArraySchemaDefault() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml",
+                SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("FakeApi.java"))
+                .fileContains(
+                        "@param enumHeaderStringArray Header parameter enum test (string array) (optional, default to [&quot;$&quot;])",
+                        "@param enumQueryStringArray Query parameter enum test (string array) (optional, default to [&quot;$&quot;])",
+                        "@param enumFormStringArray Form parameter enum test (string array) (optional, OpenAPI schema default to [&quot;$&quot;])",
+                        "@RequestHeader(value = \"enum_header_string_array\", required = false, defaultValue = \"$\")",
+                        "@RequestParam(value = \"enum_query_string_array\", required = false, defaultValue = \"$\")",
+                        "@RequestPart(value = \"enum_form_string_array\", required = false)");
+    }
+
+    @Test
     public void shouldUseTheSameTagNameForTheInterfaceAndTheMethod_issue11570() throws IOException {
         final Map<String, File> output = generateFromContract(
                 "src/test/resources/bugs/issue_11570.yml", SPRING_BOOT, Map.of(INTERFACE_ONLY, "true")
@@ -3370,6 +3391,191 @@ public class SpringCodegenTest {
     private Map<String, File> generateFromContract(String url, String library, Map<String, Object> additionalProperties) throws IOException {
         return generateFromContract(url, library, additionalProperties, codegen -> {
         });
+    }
+
+    @Test
+    public void escapedValuesPreserveJavaSourceAndDocumentationSemantics() throws IOException {
+        final Map<String, File> generatedFiles = generateTemporalDefaultsSource();
+        final String apiSource = Files.readString(generatedFiles.get("EscapedApi.java").toPath());
+        final String formApiSource = Files.readString(generatedFiles.get("FormApi.java").toPath());
+
+        assertTrue(apiSource.contains("External docs &amp;amp; &lt;literal&gt; *&#47; &#92;u002a/"));
+        assertFalse(apiSource.contains("Operation docs */ \\u002a/\n     * @see"));
+        assertTrue(apiSource.contains("default to raw &amp;amp; &lt;tag&gt; *&#47; &#92;u002a/"));
+        assertTrue(apiSource.contains(
+                "defaultValue = \"raw &amp; <tag> */ \\\\u002a/\""));
+        assertTrue(apiSource.contains("value = \"{\\\"message\\\""));
+        assertTrue(formApiSource.contains("description = \"Form &amp; <tag> \\\"quote\\\" \\\\u002a/\""));
+
+        final String temporalDefaults = Files.readString(generatedFiles.get("TemporalDefaults.java").toPath());
+        assertTrue(temporalDefaults.contains("LocalDate.parse(\"2026-01-02\")"));
+        assertTrue(temporalDefaults.contains("OffsetDateTime.parse(\"2026-01-02T03:04:05Z\")"));
+        assertTrue(temporalDefaults.contains("OffsetDateTime.parse(\"2026-01-02T03:04:05+05:30\")"));
+        assertTrue(temporalDefaults.contains(".offsetlessDateTime(OffsetDateTime.parse(\"2026-01-02T06:07:08Z\"))"));
+        assertTrue(temporalDefaults.contains(".explicitOffsetDateTime(OffsetDateTime.parse(\"2026-01-02T06:07:08+05:30\"))"));
+        assertFalse(temporalDefaults.contains("private OffsetDateTime dateTime = \""));
+        assertFalse(temporalDefaults.contains("ISO_ZONED_DATE_TIME"));
+        assertFalse(temporalDefaults.contains("ZoneId.systemDefault"));
+        assertFalse(temporalDefaults.contains("[UTC]"));
+        assertTrue(temporalDefaults.contains("LocalTime.parse(\"10:15:30\")"));
+        assertTrue(temporalDefaults.contains("LocalDateTime.parse(\"2026-01-02T03:04:05\")"));
+        JavaFileAssert.assertThat(temporalDefaults).isNormalClass();
+        assertTrue(Files.readString(generatedFiles.get("DateExample.java").toPath())
+                .contains("example = \"2026-01-02\""));
+        assertTrue(Files.readString(generatedFiles.get("DateTimeExample.java").toPath())
+                .contains("example = \"2026-01-02T03:04:05Z\""));
+
+        final String compositeDefaults = Files.readString(generatedFiles.get("CompositeDefaults.java").toPath());
+        assertTrue(compositeDefaults.contains("Arrays.asList(\"a\\\"b\", \"literal\\\\n\")"));
+        assertTrue(compositeDefaults.contains(".text(\"a\\\"b\\\\c\")"));
+        assertTrue(compositeDefaults.contains(".uri(java.net.URI.create(\"https://example.test/a\\\"b\\\\c\"))"));
+        assertTrue(compositeDefaults.contains(".amount(new java.math.BigDecimal(\"12.34\"))"));
+    }
+
+    private Map<String, File> generateTemporalDefaultsSource() throws IOException {
+        return generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml", SPRING_BOOT,
+                Map.of(HIDE_GENERATION_TIMESTAMP, true));
+    }
+
+    @Test
+    public void externalDocumentationUsesItsOwnDescriptionInEveryJavaTemplate() throws IOException {
+        for (String library : new String[]{SPRING_BOOT, SPRING_CLOUD_LIBRARY, SPRING_HTTP_INTERFACE}) {
+            Map<String, File> files = generateFromContract(
+                    "src/test/resources/3_0/spring/escaping-regressions.yaml", library);
+            assertExternalDocumentation(files.get("EscapedApi.java"));
+            assertJavaDocumentationEscaped(files.get("EscapedApi.java"), "Operation docs");
+        }
+
+        Map<String, Object> delegateProperties = new HashMap<>();
+        delegateProperties.put(DELEGATE_PATTERN, true);
+        Map<String, File> delegateFiles = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml", SPRING_BOOT, delegateProperties);
+        assertExternalDocumentation(delegateFiles.get("EscapedApiDelegate.java"));
+        assertExternalDocumentationTemplate("JavaSpring/apiController.mustache");
+    }
+
+    @Test
+    public void javaDocumentationAndPropertyExamplesUseRawValuesInGeneratedSources() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml", SPRING_BOOT);
+        assertJavaDocumentationEscaped(files.get("EscapedApi.java"), "Operation docs");
+        assertJavaDocumentationEscaped(files.get("EscapedDocumentation.java"),
+                "Model docs", "Property docs", "Inline enum docs");
+        assertJavaDocumentationEscaped(files.get("EscapedEnum.java"),
+                "Enum docs", "Enum value docs");
+        assertTrue(Files.readString(files.get("EscapedEnum.java").toPath())
+                .contains("(\"quote\\\" slash\\\\ $value\")"));
+        assertTrue(Files.readString(files.get("EscapedDocumentation.java").toPath())
+                .contains("example = \"Property example \\\" $ \\\\u002a/\""));
+
+        Map<String, File> delegateFiles = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml",
+                SPRING_BOOT,
+                Map.of(DELEGATE_PATTERN, true));
+        assertJavaDocumentationEscaped(delegateFiles.get("EscapedApiDelegate.java"), "Operation docs");
+
+        Map<String, File> swagger1Files = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml",
+                SPRING_BOOT,
+                Map.of(
+                        ANNOTATION_LIBRARY, DocumentationProviderFeatures.AnnotationLibrary.SWAGGER1.toCliOptValue(),
+                        DOCUMENTATION_PROVIDER, DocumentationProviderFeatures.DocumentationProvider.NONE.toCliOptValue(),
+                        USE_SPRING_BOOT3, false));
+        assertTrue(Files.readString(swagger1Files.get("EscapedDocumentation.java").toPath())
+                .contains("example = \"Property example \\\" $ \\\\u002a/\""));
+        assertTrue(Files.readString(swagger1Files.get("EscapedApi.java").toPath())
+                .contains("allowableValues = \"quote\\\" slash\\\\ $value\""));
+        assertTrue(Files.readString(swagger1Files.get("EscapedApi.java").toPath())
+                .contains("AuthorizationScope(scope = \"scope&\\\"\\\\name\", description = \"Security \\\"scope\\\" slash \\\\ line\\nnext\")"));
+
+        Map<String, File> lombokFiles = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Data"));
+        assertTrue(Files.readString(lombokFiles.get("EscapedDocumentation.java").toPath())
+                .contains("example = \"Property example \\\" $ \\\\u002a/\""));
+    }
+
+    private void assertJavaDocumentationEscaped(File source, String... descriptions) throws IOException {
+        String content = Files.readString(source.toPath());
+        for (String description : descriptions) {
+            assertTrue(content.contains("* " + description + " *&#47; &#92;u002a/"));
+            assertFalse(content.contains("* " + description + " */ \\u002a/"));
+        }
+    }
+
+    @Test
+    public void swagger1NumericEnumParameterHasOneDefaultValueAttribute() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(ANNOTATION_LIBRARY, DocumentationProviderFeatures.AnnotationLibrary.SWAGGER1.toCliOptValue());
+        properties.put(DOCUMENTATION_PROVIDER, DocumentationProviderFeatures.DocumentationProvider.NONE.toCliOptValue());
+        properties.put(USE_SPRING_BOOT3, false);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml", SPRING_BOOT, properties);
+        String apiSource = Files.readString(files.get("EscapedApi.java").toPath());
+        int parameterStart = apiSource.indexOf("@ApiParam(value = \"Numeric enum default\"");
+        int parameterEnd = apiSource.indexOf("@RequestParam", parameterStart);
+        assertTrue(parameterStart >= 0 && parameterEnd > parameterStart);
+        assertEquals(apiSource.substring(parameterStart, parameterEnd).split("defaultValue = \"1\"", -1).length - 1, 1);
+        assertTrue(Files.readString(files.get("FormApi.java").toPath()).contains("defaultValue = \"form default\""));
+    }
+
+    @Test
+    public void jacksonWireNamesUseJavaSourceLiteralsIncludingXmlAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml",
+                SPRING_BOOT,
+                Map.of(CodegenConstants.WITH_XML, true));
+        String source = Files.readString(files.get("WireNames.java").toPath());
+
+        assertTrue(source.contains("@JsonProperty(\"wire&\\\"\\\\name\")"));
+        assertTrue(source.contains(
+                "@JacksonXmlProperty(localName = \"element&\\\"\\\\name\", namespace = \"urn:wire&\\\"\\\\namespace\")"));
+        assertTrue(source.contains(
+                "@JacksonXmlProperty(localName = \"item&\\\"\\\\name\", namespace = \"urn:wrapper&\\\"\\\\namespace\")"));
+        assertTrue(source.contains(
+                "@JacksonXmlElementWrapper(localName = \"wrapper&\\\"\\\\name\", namespace = \"urn:wrapper&\\\"\\\\namespace\", useWrapping = true)"));
+        assertTrue(source.contains(
+                "@XmlElement(name = \"element&\\\"\\\\name\", namespace = \"urn:wire&\\\"\\\\namespace\")"));
+        assertTrue(source.contains(
+                "@XmlElementWrapper(name = \"wrapper&\\\"\\\\name\", namespace = \"urn:wrapper&\\\"\\\\namespace\")"));
+    }
+
+    @Test
+    public void swagger2SecurityRequirementUsesJavaSourceLiterals() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml", SPRING_BOOT);
+        String source = Files.readString(files.get("EscapedApi.java").toPath());
+
+        assertTrue(source.contains(
+                "@SecurityRequirement(name = \"oauth&\\\"\\\\name\", scopes={ \"scope&\\\"\\\\name\" })"));
+    }
+
+    @Test
+    public void discriminatorAnnotationsUseEscapedJavaSourceLiterals() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml", SPRING_BOOT);
+        String source = Files.readString(files.get("DiscriminatorParent.java").toPath());
+
+        assertTrue(source.contains("property = \"$kind\""));
+        assertTrue(source.contains("name = \"kind$\\\"\\\\name\""));
+        assertTrue(source.contains("name = \"mapping$\\\"\\\\name\""));
+        validateJavaSourceFiles(List.of(files.get("DiscriminatorParent.java")));
+    }
+
+    private void assertExternalDocumentation(File source) throws IOException {
+        String content = Files.readString(source.toPath());
+        assertTrue(content.contains("External docs &amp;amp; &lt;literal&gt; *&#47; &#92;u002a/"));
+        assertTrue(content.contains("External docs &amp;amp; &lt;literal&gt; *&#47; &#92;u002a/</a>"));
+        assertFalse(content.contains("Operation docs *&#47; &#92;u002a/\n     * @see"));
+    }
+
+    private void assertExternalDocumentationTemplate(String template) throws IOException {
+        String content = Files.readString(Paths.get("src/main/resources", template));
+        assertTrue(content.contains("{{#lambda.javaDocText}}{{{description}}}{{/lambda.javaDocText}}"));
+        assertTrue(content.contains("{{#unescapedNotes}}\n     * {{#lambda.javaDocText}}{{{.}}}{{/lambda.javaDocText}}"));
     }
 
     /**
@@ -5226,7 +5432,7 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
 
-        String expectedDescription = "# Multi-line descriptions  This is an example of a multi-line description.  It: - has multiple lines - uses Markdown (CommonMark) for rich text representation";
+        String expectedDescription = "description = \"# Multi-line descriptions\\n\\nThis is an example of a multi-line description.\\n\\nIt:\\n- has multiple lines\\n- uses Markdown (CommonMark) for rich text representation\"";
         JavaFileAssert.assertThat(files.get("PingTagApi.java"))
                 .fileContains(expectedDescription);
     }
@@ -5241,7 +5447,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("PingTagApi.java"))
-                .fileContains("This is a multine tag : * tag item 1 * tag item 2 ");
+                .fileContains("This is a multine tag :\\n* tag item 1\\n* tag item 2\\n");
     }
 
     @Test
@@ -9173,12 +9379,12 @@ public class SpringCodegenTest {
         // 1. Verify the @Tag annotations have escaped double quotes, backslashes, and newlines
         assertFileContains(endpoint1ApiFile.toPath(), "name = \"My \\\"quoted\\\" api\"");
         assertFileContains(endpoint2ApiFile.toPath(), "name = \"My\\\\backslash\\\\api\"");
-        assertFileContains(endpoint3ApiFile.toPath(), "name = \"My newline api\"");
+        assertFileContains(endpoint3ApiFile.toPath(), "name = \"My\\nnewline\\napi\"");
 
         // 2. Verify the @Operation tags attributes have escaped double quotes, backslashes, and newlines
         assertFileContains(endpoint1ApiFile.toPath(), "tags = { \"My \\\"quoted\\\" api\" }");
         assertFileContains(endpoint2ApiFile.toPath(), "tags = { \"My\\\\backslash\\\\api\" }");
-        assertFileContains(endpoint3ApiFile.toPath(), "tags = { \"My newline api\" }");
+        assertFileContains(endpoint3ApiFile.toPath(), "tags = { \"My\\nnewline\\napi\" }");
     }
 
     @Test

@@ -35,7 +35,7 @@ export interface GetOrderByIdRequest {
 
 export interface PlaceOrderRequest {
     /**
-     * 
+     * order placed for purchasing the pet
      */
     order: Order;
 }

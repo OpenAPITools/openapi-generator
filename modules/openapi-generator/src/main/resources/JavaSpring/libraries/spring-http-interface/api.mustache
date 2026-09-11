@@ -48,22 +48,22 @@ public interface {{classname}} {
 {{#operation}}
 
     /**
-     * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
-    {{#notes}}
-     * {{.}}
-    {{/notes}}
+     * {{httpMethod}} {{#lambda.javaDocText}}{{{unescapedPath}}}{{/lambda.javaDocText}}{{#summary}} : {{#lambda.javaDocText}}{{{unescapedSummary}}}{{/lambda.javaDocText}}{{/summary}}
+    {{#unescapedNotes}}
+     * {{#lambda.javaDocText}}{{{.}}}{{/lambda.javaDocText}}
+    {{/unescapedNotes}}
      *
     {{#allParams}}
-     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+     * @param {{paramName}} {{#lambda.javaDocText}}{{{unescapedDescription}}}{{/lambda.javaDocText}}{{#required}} (required){{/required}}{{^required}} (optional{{#vendorExtensions.x-spring-form-default-not-applied}}, OpenAPI schema default to {{#lambda.javaDocText}}{{{rawDefaultValueText}}}{{/lambda.javaDocText}}{{/vendorExtensions.x-spring-form-default-not-applied}}{{^vendorExtensions.x-spring-form-default-not-applied}}{{#hasDefaultValue}}, default to {{#lambda.javaDocText}}{{{rawDefaultValueText}}}{{/lambda.javaDocText}}{{/hasDefaultValue}}{{/vendorExtensions.x-spring-form-default-not-applied}}){{/required}}
     {{/allParams}}
-     * @return {{#responses}}{{message}} (status code {{code}}){{^-last}}
+     * @return {{#responses}}{{#lambda.javaDocText}}{{{unescapedMessage}}}{{/lambda.javaDocText}} (status code {{code}}){{^-last}}
      *         or {{/-last}}{{/responses}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
     {{#externalDocs}}
-     * {{description}}
-     * @see <a href="{{url}}">{{summary}} Documentation</a>
+     * {{#lambda.javaDocText}}{{{description}}}{{/lambda.javaDocText}}
+     * @see <a href="{{#lambda.javaDocText}}{{{url}}}{{/lambda.javaDocText}}">{{#lambda.javaDocText}}{{{description}}}{{/lambda.javaDocText}}</a>
     {{/externalDocs}}
      */
     {{#isDeprecated}}
@@ -74,7 +74,7 @@ public interface {{classname}} {
     {{/useResponseEntity}}
     @HttpExchange(
         method = "{{{httpMethod}}}",
-        value = "{{{path}}}",
+        value = {{#lambda.javaStringLiteral}}{{{path}}}{{/lambda.javaStringLiteral}},
         accept = { {{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{#vendorExtensions.x-content-type}},
         contentType = "{{{vendorExtensions.x-content-type}}}"{{/vendorExtensions.x-content-type}}
     )

@@ -129,7 +129,7 @@ public interface FakeApi {
 
     /**
      * PUT /fake/body-with-file-schema
-     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * For this test, the body for this request must reference a schema named `File`.
      *
      * @param fileSchemaTestClassDto  (required)
      * @return Success (status code 200)
@@ -167,8 +167,8 @@ public interface FakeApi {
 
 
     /**
-     * PATCH /fake : To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
+     * PATCH /fake : To test &quot;client&quot; model
+     * To test &quot;client&quot; model
      *
      * @param clientDto client model (required)
      * @return successful operation (status code 200)
@@ -186,8 +186,14 @@ public interface FakeApi {
 
 
     /**
-     * POST /fake : Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * POST /fake : Fake endpoint for testing various parameters
+     *  假端點
+     *  偽のエンドポイント
+     *  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters
+     *  假端點
+     *  偽のエンドポイント
+     *  가짜 엔드 포인트
      *
      * @param number None (required)
      * @param _double None (required)
@@ -235,14 +241,14 @@ public interface FakeApi {
      * GET /fake : To test enum parameters
      * To test enum parameters
      *
-     * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
+     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to [&quot;$&quot;])
      * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-     * @param enumQueryStringArray Query parameter enum test (string array) (optional)
+     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to [&quot;$&quot;])
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
-     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, OpenAPI schema default to [&quot;$&quot;])
+     * @param enumFormString Form parameter enum test (string) (optional, OpenAPI schema default to -efg)
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)
      */
@@ -254,9 +260,9 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     void testEnumParameters(
-         @RequestHeader(value = "enum_header_string_array", required = false) @Nullable List<String> enumHeaderStringArray,
+         @RequestHeader(value = "enum_header_string_array", required = false, defaultValue = "$") List<String> enumHeaderStringArray,
          @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
-         @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
+         @RequestParam(value = "enum_query_string_array", required = false, defaultValue = "$") List<String> enumQueryStringArray,
          @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
          @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
          @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,

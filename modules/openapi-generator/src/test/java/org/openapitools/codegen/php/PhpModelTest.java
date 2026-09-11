@@ -314,10 +314,12 @@ public class PhpModelTest {
         HashMap<String, Object> fish = new HashMap<String, Object>();
         fish.put("name", "FISH");
         fish.put("value", "\'fish\'");
+        fish.put("valueRaw", "fish");
         fish.put("isString", true);
         HashMap<String, Object> crab = new HashMap<String, Object>();
         crab.put("name", "CRAB");
         crab.put("value", "\'crab\'");
+        crab.put("valueRaw", "crab");
         crab.put("isString", true);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
@@ -350,10 +352,12 @@ public class PhpModelTest {
         HashMap<String, Object> one = new HashMap<String, Object>();
         one.put("name", "NUMBER_1");
         one.put("value", "1");
+        one.put("valueRaw", "1");
         one.put("isString", false);
         HashMap<String, Object> minusOne = new HashMap<String, Object>();
         minusOne.put("name", "MINUS_1");
         minusOne.put("value", "-1");
+        minusOne.put("valueRaw", "-1");
         minusOne.put("isString", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
     }
