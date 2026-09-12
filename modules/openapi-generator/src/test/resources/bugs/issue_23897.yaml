@@ -1,0 +1,13 @@
+openapi: 3.0.3
+info:
+  title: Flask UUID missing import reproduction
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Pushnotification:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
