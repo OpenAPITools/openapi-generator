@@ -232,9 +232,27 @@ public:
 
 {{/isArray}}{{/isEnum}}{{/vars}}
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE({{vendorExtensions.modelClassName}},
-        {{#vars}} {{nameInCamelCase}}{{^-last}},{{/-last}}{{/vars}})
+friend void to_json(nlohmann::json& j, const {{vendorExtensions.modelClassName}}& o)
+{
+    {{#vars}}
+    j["{{baseName}}"] = o.{{nameInCamelCase}};
+    {{/vars}}
+}
+
+friend void from_json(const nlohmann::json& j, {{vendorExtensions.modelClassName}}& o)
+{
+    {{#requiredVars}}
+    j.at("{{baseName}}").get_to(o.{{nameInCamelCase}});
+    {{/requiredVars}}
+
+    {{#optionalVars}}
+    if (j.contains("{{baseName}}") && !j.at("{{baseName}}").is_null())
+    {
+        j.at("{{baseName}}").get_to(o.{{nameInCamelCase}});
+    }
+    {{/optionalVars}}
+}
+
 
 private:
     {{#vars}}
