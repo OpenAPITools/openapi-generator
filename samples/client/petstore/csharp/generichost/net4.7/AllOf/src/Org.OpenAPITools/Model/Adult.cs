@@ -182,13 +182,13 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Adult adult, JsonSerializerOptions jsonSerializerOptions)
         {
             if (adult.ChildrenOption.IsSet && adult.Children == null)
-                throw new ArgumentNullException(nameof(adult.Children), "Property is required for class Adult.");
+                throw new JsonException("Cannot write null property Adult.Children to non-nullable JSON property 'children'.");
 
             if (adult.FirstNameOption.IsSet && adult.FirstName == null)
-                throw new ArgumentNullException(nameof(adult.FirstName), "Property is required for class Adult.");
+                throw new JsonException("Cannot write null property Adult.FirstName to non-nullable JSON property 'firstName'.");
 
             if (adult.LastNameOption.IsSet && adult.LastName == null)
-                throw new ArgumentNullException(nameof(adult.LastName), "Property is required for class Adult.");
+                throw new JsonException("Cannot write null property Adult.LastName to non-nullable JSON property 'lastName'.");
 
             if (adult.ChildrenOption.IsSet)
             {

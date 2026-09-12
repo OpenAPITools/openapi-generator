@@ -281,7 +281,13 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Name name, JsonSerializerOptions jsonSerializerOptions)
         {
             if (name.PropertyOption.IsSet && name.Property == null)
-                throw new ArgumentNullException(nameof(name.Property), "Property is required for class Name.");
+                throw new JsonException("Cannot write null property Name.Property to non-nullable JSON property 'property'.");
+
+            if (name.SnakeCaseOption.IsSet && name.SnakeCase == null)
+                throw new JsonException("Cannot write null property Name.SnakeCase to non-nullable JSON property 'snake_case'.");
+
+            if (name.Var123NumberOption.IsSet && name.Var123Number == null)
+                throw new JsonException("Cannot write null property Name.Var123Number to non-nullable JSON property '123Number'.");
 
             writer.WriteNumber("name", name.VarName);
 

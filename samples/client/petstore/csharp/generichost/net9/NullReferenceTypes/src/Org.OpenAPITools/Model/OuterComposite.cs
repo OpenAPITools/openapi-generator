@@ -222,8 +222,14 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (outerComposite.MyBooleanOption.IsSet && outerComposite.MyBoolean == null)
+                throw new JsonException("Cannot write null property OuterComposite.MyBoolean to non-nullable JSON property 'my_boolean'.");
+
+            if (outerComposite.MyNumberOption.IsSet && outerComposite.MyNumber == null)
+                throw new JsonException("Cannot write null property OuterComposite.MyNumber to non-nullable JSON property 'my_number'.");
+
             if (outerComposite.MyStringOption.IsSet && outerComposite.MyString == null)
-                throw new ArgumentNullException(nameof(outerComposite.MyString), "Property is required for class OuterComposite.");
+                throw new JsonException("Cannot write null property OuterComposite.MyString to non-nullable JSON property 'my_string'.");
 
             if (outerComposite.MyBooleanOption.IsSet)
                 writer.WriteBoolean("my_boolean", outerComposite.MyBooleanOption.Value!.Value);

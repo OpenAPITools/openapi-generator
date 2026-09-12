@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, ModelClient modelClient, JsonSerializerOptions jsonSerializerOptions)
         {
             if (modelClient.VarClientOption.IsSet && modelClient.VarClient == null)
-                throw new ArgumentNullException(nameof(modelClient.VarClient), "Property is required for class ModelClient.");
+                throw new JsonException("Cannot write null property ModelClient.VarClient to non-nullable JSON property 'client'.");
 
             if (modelClient.VarClientOption.IsSet)
                 writer.WriteString("client", modelClient.VarClient);

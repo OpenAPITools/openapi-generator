@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet && testInlineFreeformAdditionalPropertiesRequest.SomeProperty == null)
-                throw new ArgumentNullException(nameof(testInlineFreeformAdditionalPropertiesRequest.SomeProperty), "Property is required for class TestInlineFreeformAdditionalPropertiesRequest.");
+                throw new JsonException("Cannot write null property TestInlineFreeformAdditionalPropertiesRequest.SomeProperty to non-nullable JSON property 'someProperty'.");
 
             if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet)
                 writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty);

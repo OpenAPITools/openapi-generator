@@ -313,16 +313,16 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mapTest.DirectMapOption.IsSet && mapTest.DirectMap == null)
-                throw new ArgumentNullException(nameof(mapTest.DirectMap), "Property is required for class MapTest.");
+                throw new JsonException("Cannot write null property MapTest.DirectMap to non-nullable JSON property 'direct_map'.");
 
             if (mapTest.IndirectMapOption.IsSet && mapTest.IndirectMap == null)
-                throw new ArgumentNullException(nameof(mapTest.IndirectMap), "Property is required for class MapTest.");
+                throw new JsonException("Cannot write null property MapTest.IndirectMap to non-nullable JSON property 'indirect_map'.");
 
             if (mapTest.MapMapOfStringOption.IsSet && mapTest.MapMapOfString == null)
-                throw new ArgumentNullException(nameof(mapTest.MapMapOfString), "Property is required for class MapTest.");
+                throw new JsonException("Cannot write null property MapTest.MapMapOfString to non-nullable JSON property 'map_map_of_string'.");
 
             if (mapTest.MapOfEnumStringOption.IsSet && mapTest.MapOfEnumString == null)
-                throw new ArgumentNullException(nameof(mapTest.MapOfEnumString), "Property is required for class MapTest.");
+                throw new JsonException("Cannot write null property MapTest.MapOfEnumString to non-nullable JSON property 'map_of_enum_string'.");
 
             if (mapTest.DirectMapOption.IsSet)
             {

@@ -282,8 +282,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (zebra.ClassName == null)
-                throw new ArgumentNullException(nameof(zebra.ClassName), "Property is required for class Zebra.");
+            if (zebra.TypeOption.IsSet && zebra.Type == null)
+                throw new JsonException("Cannot write null property Zebra.Type to non-nullable JSON property 'type'.");
 
             writer.WriteString("className", zebra.ClassName);
 

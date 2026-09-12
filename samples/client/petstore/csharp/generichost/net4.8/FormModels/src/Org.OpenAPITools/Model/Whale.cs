@@ -216,8 +216,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Whale whale, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (whale.ClassName == null)
-                throw new ArgumentNullException(nameof(whale.ClassName), "Property is required for class Whale.");
+            if (whale.HasBaleenOption.IsSet && whale.HasBaleen == null)
+                throw new JsonException("Cannot write null property Whale.HasBaleen to non-nullable JSON property 'hasBaleen'.");
+
+            if (whale.HasTeethOption.IsSet && whale.HasTeeth == null)
+                throw new JsonException("Cannot write null property Whale.HasTeeth to non-nullable JSON property 'hasTeeth'.");
 
             writer.WriteString("className", whale.ClassName);
 

@@ -337,25 +337,25 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, AdditionalPropertiesClass additionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (additionalPropertiesClass.EmptyMapOption.IsSet && additionalPropertiesClass.EmptyMap == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.EmptyMap), "Property is required for class AdditionalPropertiesClass.");
+                throw new JsonException("Cannot write null property AdditionalPropertiesClass.EmptyMap to non-nullable JSON property 'empty_map'.");
 
             if (additionalPropertiesClass.MapOfMapPropertyOption.IsSet && additionalPropertiesClass.MapOfMapProperty == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapOfMapProperty), "Property is required for class AdditionalPropertiesClass.");
+                throw new JsonException("Cannot write null property AdditionalPropertiesClass.MapOfMapProperty to non-nullable JSON property 'map_of_map_property'.");
 
             if (additionalPropertiesClass.MapPropertyOption.IsSet && additionalPropertiesClass.MapProperty == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapProperty), "Property is required for class AdditionalPropertiesClass.");
+                throw new JsonException("Cannot write null property AdditionalPropertiesClass.MapProperty to non-nullable JSON property 'map_property'.");
 
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1Option.IsSet && additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1 == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1), "Property is required for class AdditionalPropertiesClass.");
+                throw new JsonException("Cannot write null property AdditionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1 to non-nullable JSON property 'map_with_undeclared_properties_anytype_1'.");
 
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2Option.IsSet && additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2 == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2), "Property is required for class AdditionalPropertiesClass.");
+                throw new JsonException("Cannot write null property AdditionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2 to non-nullable JSON property 'map_with_undeclared_properties_anytype_2'.");
 
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3Option.IsSet && additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3 == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3), "Property is required for class AdditionalPropertiesClass.");
+                throw new JsonException("Cannot write null property AdditionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3 to non-nullable JSON property 'map_with_undeclared_properties_anytype_3'.");
 
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesStringOption.IsSet && additionalPropertiesClass.MapWithUndeclaredPropertiesString == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesString), "Property is required for class AdditionalPropertiesClass.");
+                throw new JsonException("Cannot write null property AdditionalPropertiesClass.MapWithUndeclaredPropertiesString to non-nullable JSON property 'map_with_undeclared_properties_string'.");
 
             if (additionalPropertiesClass.Anytype1Option.IsSet)
                 if (additionalPropertiesClass.Anytype1Option.Value != null)

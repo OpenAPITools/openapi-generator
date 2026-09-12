@@ -177,6 +177,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (numberOnly.JustNumberOption.IsSet && numberOnly.JustNumber == null)
+                throw new JsonException("Cannot write null property NumberOnly.JustNumber to non-nullable JSON property 'JustNumber'.");
+
             if (numberOnly.JustNumberOption.IsSet)
                 writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value!.Value);
         }

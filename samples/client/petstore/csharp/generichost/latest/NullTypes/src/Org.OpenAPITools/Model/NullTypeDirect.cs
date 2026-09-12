@@ -189,6 +189,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NullTypeDirect nullTypeDirect, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (nullTypeDirect.IdOption.IsSet && nullTypeDirect.Id == null)
+                throw new JsonException("Cannot write null property NullTypeDirect.Id to non-nullable JSON property 'id'.");
+
             if (nullTypeDirect.AlwaysNullOption.IsSet)
                 if (nullTypeDirect.AlwaysNullOption.Value != null)
                 {

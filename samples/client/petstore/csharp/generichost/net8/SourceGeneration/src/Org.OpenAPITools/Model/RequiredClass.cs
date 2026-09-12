@@ -2238,17 +2238,38 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, RequiredClass requiredClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (requiredClass.RequiredNotnullableArrayOfString == null)
-                throw new ArgumentNullException(nameof(requiredClass.RequiredNotnullableArrayOfString), "Property is required for class RequiredClass.");
+            if (requiredClass.NotRequiredNotnullableDatePropOption.IsSet && requiredClass.NotRequiredNotnullableDateProp == null)
+                throw new JsonException("Cannot write null property RequiredClass.NotRequiredNotnullableDateProp to non-nullable JSON property 'not_required_notnullable_date_prop'.");
 
-            if (requiredClass.RequiredNotnullableStringProp == null)
-                throw new ArgumentNullException(nameof(requiredClass.RequiredNotnullableStringProp), "Property is required for class RequiredClass.");
+            if (requiredClass.NotRequiredNotnullableintegerPropOption.IsSet && requiredClass.NotRequiredNotnullableintegerProp == null)
+                throw new JsonException("Cannot write null property RequiredClass.NotRequiredNotnullableintegerProp to non-nullable JSON property 'not_required_notnullableinteger_prop'.");
 
             if (requiredClass.NotrequiredNotnullableArrayOfStringOption.IsSet && requiredClass.NotrequiredNotnullableArrayOfString == null)
-                throw new ArgumentNullException(nameof(requiredClass.NotrequiredNotnullableArrayOfString), "Property is required for class RequiredClass.");
+                throw new JsonException("Cannot write null property RequiredClass.NotrequiredNotnullableArrayOfString to non-nullable JSON property 'notrequired_notnullable_array_of_string'.");
+
+            if (requiredClass.NotrequiredNotnullableBooleanPropOption.IsSet && requiredClass.NotrequiredNotnullableBooleanProp == null)
+                throw new JsonException("Cannot write null property RequiredClass.NotrequiredNotnullableBooleanProp to non-nullable JSON property 'notrequired_notnullable_boolean_prop'.");
+
+            if (requiredClass.NotrequiredNotnullableDatetimePropOption.IsSet && requiredClass.NotrequiredNotnullableDatetimeProp == null)
+                throw new JsonException("Cannot write null property RequiredClass.NotrequiredNotnullableDatetimeProp to non-nullable JSON property 'notrequired_notnullable_datetime_prop'.");
+
+            if (requiredClass.NotrequiredNotnullableEnumIntegerOption.IsSet && requiredClass.NotrequiredNotnullableEnumInteger == null)
+                throw new JsonException("Cannot write null property RequiredClass.NotrequiredNotnullableEnumInteger to non-nullable JSON property 'notrequired_notnullable_enum_integer'.");
+
+            if (requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.IsSet && requiredClass.NotrequiredNotnullableEnumIntegerOnly == null)
+                throw new JsonException("Cannot write null property RequiredClass.NotrequiredNotnullableEnumIntegerOnly to non-nullable JSON property 'notrequired_notnullable_enum_integer_only'.");
+
+            if (requiredClass.NotrequiredNotnullableEnumStringOption.IsSet && requiredClass.NotrequiredNotnullableEnumString == null)
+                throw new JsonException("Cannot write null property RequiredClass.NotrequiredNotnullableEnumString to non-nullable JSON property 'notrequired_notnullable_enum_string'.");
+
+            if (requiredClass.NotrequiredNotnullableOuterEnumDefaultValueOption.IsSet && requiredClass.NotrequiredNotnullableOuterEnumDefaultValue == null)
+                throw new JsonException("Cannot write null property RequiredClass.NotrequiredNotnullableOuterEnumDefaultValue to non-nullable JSON property 'notrequired_notnullable_outerEnumDefaultValue'.");
 
             if (requiredClass.NotrequiredNotnullableStringPropOption.IsSet && requiredClass.NotrequiredNotnullableStringProp == null)
-                throw new ArgumentNullException(nameof(requiredClass.NotrequiredNotnullableStringProp), "Property is required for class RequiredClass.");
+                throw new JsonException("Cannot write null property RequiredClass.NotrequiredNotnullableStringProp to non-nullable JSON property 'notrequired_notnullable_string_prop'.");
+
+            if (requiredClass.NotrequiredNotnullableUuidOption.IsSet && requiredClass.NotrequiredNotnullableUuid == null)
+                throw new JsonException("Cannot write null property RequiredClass.NotrequiredNotnullableUuid to non-nullable JSON property 'notrequired_notnullable_uuid'.");
 
             writer.WriteString("required_not_nullable_date_prop", requiredClass.RequiredNotNullableDateProp.ToString(RequiredNotNullableDatePropFormat));
 

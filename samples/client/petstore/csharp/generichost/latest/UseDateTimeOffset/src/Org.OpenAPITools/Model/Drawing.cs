@@ -239,10 +239,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Drawing drawing, JsonSerializerOptions jsonSerializerOptions)
         {
             if (drawing.MainShapeOption.IsSet && drawing.MainShape == null)
-                throw new ArgumentNullException(nameof(drawing.MainShape), "Property is required for class Drawing.");
+                throw new JsonException("Cannot write null property Drawing.MainShape to non-nullable JSON property 'mainShape'.");
 
             if (drawing.ShapesOption.IsSet && drawing.Shapes == null)
-                throw new ArgumentNullException(nameof(drawing.Shapes), "Property is required for class Drawing.");
+                throw new JsonException("Cannot write null property Drawing.Shapes to non-nullable JSON property 'shapes'.");
 
             if (drawing.MainShapeOption.IsSet)
             {
