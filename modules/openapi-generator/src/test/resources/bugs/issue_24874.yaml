@@ -1,0 +1,35 @@
+openapi: "3.1.0"
+info:
+  title: Shared category discriminator
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    CategorySource:
+      type: object
+      required:
+        - category
+      properties:
+        category:
+          type: string
+          enum:
+            - ARCHIVE
+    CategoryEvent:
+      type: object
+      required:
+        - category
+      properties:
+        category:
+          description: Event category
+          $ref: "#/components/schemas/CategorySource/properties/category"
+      discriminator:
+        propertyName: category
+        mapping:
+          ARCHIVE: "#/components/schemas/ArchiveCategoryEvent"
+    ArchiveCategoryEvent:
+      allOf:
+        - $ref: "#/components/schemas/CategoryEvent"
+        - type: object
+          properties:
+            value:
+              type: string
