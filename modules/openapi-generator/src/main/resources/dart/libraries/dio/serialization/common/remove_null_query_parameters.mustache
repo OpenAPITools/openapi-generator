@@ -1,0 +1,6 @@
+void removeNullParametersExcept(
+  Map<String, dynamic> parameters,
+  Set<String> requiredParameters,
+) {
+  parameters.removeWhere((key, value) => value == null && !requiredParameters.contains(key));
+}

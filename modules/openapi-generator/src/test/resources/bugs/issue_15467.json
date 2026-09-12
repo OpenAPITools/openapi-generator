@@ -1,0 +1,80 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Test API",
+    "version": "v1"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Animal": {
+        "type": "object",
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "Bird": "#/components/schemas/Bird",
+            "Reptile": "#/components/schemas/Reptile",
+            "Crocodile": "#/components/schemas/Crocodile",
+            "Turtle": "#/components/schemas/Turtle"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "nullable": true},
+          "name": {"type": "string", "nullable": true},
+          "age": {"type": "integer", "format": "int32"},
+          "type": {"type": "string", "nullable": true}
+        }
+      },
+      "Bird": {
+        "allOf": [
+          {"$ref": "#/components/schemas/Animal"},
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "wingSpan": {"type": "number", "format": "double"}
+            }
+          }
+        ]
+      },
+      "Reptile": {
+        "allOf": [
+          {"$ref": "#/components/schemas/Animal"},
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "scaleColor": {"type": "string", "nullable": true}
+            }
+          }
+        ]
+      },
+      "Crocodile": {
+        "allOf": [
+          {"$ref": "#/components/schemas/Reptile"},
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "numberOfTeeth": {"type": "integer", "format": "int32"}
+            }
+          }
+        ]
+      },
+      "Turtle": {
+        "allOf": [
+          {"$ref": "#/components/schemas/Reptile"},
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "shellDiameter": {"type": "number", "format": "double"}
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+

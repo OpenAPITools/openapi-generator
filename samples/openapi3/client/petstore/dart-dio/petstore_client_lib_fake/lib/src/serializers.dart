@@ -204,7 +204,7 @@ Serializers serializers = (_$serializers.toBuilder()
       )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType.nullable(JsonObject)]),
-        () => ListBuilder<JsonObject>(),
+        () => ListBuilder<JsonObject?>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(Tag)]),
