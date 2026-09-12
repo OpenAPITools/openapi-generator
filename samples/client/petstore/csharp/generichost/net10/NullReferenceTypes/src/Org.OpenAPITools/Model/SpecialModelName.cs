@@ -200,7 +200,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, SpecialModelName specialModelName, JsonSerializerOptions jsonSerializerOptions)
         {
             if (specialModelName.VarSpecialModelNameOption.IsSet && specialModelName.VarSpecialModelName == null)
-                throw new ArgumentNullException(nameof(specialModelName.VarSpecialModelName), "Property is required for class SpecialModelName.");
+                throw new JsonException("Cannot write null property SpecialModelName.VarSpecialModelName to non-nullable JSON property '_special_model.name_'.");
 
             if (specialModelName.VarSpecialModelNameOption.IsSet)
                 writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName);

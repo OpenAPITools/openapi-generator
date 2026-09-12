@@ -187,9 +187,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Category category, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (category.Name == null)
-                throw new ArgumentNullException(nameof(category.Name), "Property is required for class Category.");
-
             if (category.IdOption.IsSet)
                 writer.WriteNumber("id", category.IdOption.Value!.Value);
 

@@ -172,9 +172,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, DanishPig danishPig, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (danishPig.ClassName == null)
-                throw new ArgumentNullException(nameof(danishPig.ClassName), "Property is required for class DanishPig.");
-
             writer.WriteString("className", danishPig.ClassName);
         }
     }

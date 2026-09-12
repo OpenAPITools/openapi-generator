@@ -226,11 +226,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (varReturn.Lock == null)
-                throw new ArgumentNullException(nameof(varReturn.Lock), "Property is required for class Return.");
-
             if (varReturn.UnsafeOption.IsSet && varReturn.Unsafe == null)
-                throw new ArgumentNullException(nameof(varReturn.Unsafe), "Property is required for class Return.");
+                throw new JsonException("Cannot write null property Return.Unsafe to non-nullable JSON property 'unsafe'.");
 
             writer.WriteString("lock", varReturn.Lock);
 

@@ -951,32 +951,26 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, FormatTest formatTest, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (formatTest.Byte == null)
-                throw new ArgumentNullException(nameof(formatTest.Byte), "Property is required for class FormatTest.");
-
-            if (formatTest.Password == null)
-                throw new ArgumentNullException(nameof(formatTest.Password), "Property is required for class FormatTest.");
-
             if (formatTest.BinaryOption.IsSet && formatTest.Binary == null)
-                throw new ArgumentNullException(nameof(formatTest.Binary), "Property is required for class FormatTest.");
+                throw new JsonException("Cannot write null property FormatTest.Binary to non-nullable JSON property 'binary'.");
 
             if (formatTest.DuplicatePropertyName2Option.IsSet && formatTest.DuplicatePropertyName2 == null)
-                throw new ArgumentNullException(nameof(formatTest.DuplicatePropertyName2), "Property is required for class FormatTest.");
+                throw new JsonException("Cannot write null property FormatTest.DuplicatePropertyName2 to non-nullable JSON property 'duplicate_property_name'.");
 
             if (formatTest.DuplicatePropertyNameOption.IsSet && formatTest.DuplicatePropertyName == null)
-                throw new ArgumentNullException(nameof(formatTest.DuplicatePropertyName), "Property is required for class FormatTest.");
+                throw new JsonException("Cannot write null property FormatTest.DuplicatePropertyName to non-nullable JSON property '@duplicate_property_name'.");
 
             if (formatTest.PatternWithBackslashOption.IsSet && formatTest.PatternWithBackslash == null)
-                throw new ArgumentNullException(nameof(formatTest.PatternWithBackslash), "Property is required for class FormatTest.");
+                throw new JsonException("Cannot write null property FormatTest.PatternWithBackslash to non-nullable JSON property 'pattern_with_backslash'.");
 
             if (formatTest.PatternWithDigitsOption.IsSet && formatTest.PatternWithDigits == null)
-                throw new ArgumentNullException(nameof(formatTest.PatternWithDigits), "Property is required for class FormatTest.");
+                throw new JsonException("Cannot write null property FormatTest.PatternWithDigits to non-nullable JSON property 'pattern_with_digits'.");
 
             if (formatTest.PatternWithDigitsAndDelimiterOption.IsSet && formatTest.PatternWithDigitsAndDelimiter == null)
-                throw new ArgumentNullException(nameof(formatTest.PatternWithDigitsAndDelimiter), "Property is required for class FormatTest.");
+                throw new JsonException("Cannot write null property FormatTest.PatternWithDigitsAndDelimiter to non-nullable JSON property 'pattern_with_digits_and_delimiter'.");
 
             if (formatTest.StringOption.IsSet && formatTest.String == null)
-                throw new ArgumentNullException(nameof(formatTest.String), "Property is required for class FormatTest.");
+                throw new JsonException("Cannot write null property FormatTest.String to non-nullable JSON property 'string'.");
 
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.Byte, jsonSerializerOptions);

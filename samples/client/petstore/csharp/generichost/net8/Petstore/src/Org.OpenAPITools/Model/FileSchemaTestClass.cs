@@ -198,10 +198,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (fileSchemaTestClass.FileOption.IsSet && fileSchemaTestClass.File == null)
-                throw new ArgumentNullException(nameof(fileSchemaTestClass.File), "Property is required for class FileSchemaTestClass.");
+                throw new JsonException("Cannot write null property FileSchemaTestClass.File to non-nullable JSON property 'file'.");
 
             if (fileSchemaTestClass.FilesOption.IsSet && fileSchemaTestClass.Files == null)
-                throw new ArgumentNullException(nameof(fileSchemaTestClass.Files), "Property is required for class FileSchemaTestClass.");
+                throw new JsonException("Cannot write null property FileSchemaTestClass.Files to non-nullable JSON property 'files'.");
 
             if (fileSchemaTestClass.FileOption.IsSet)
             {

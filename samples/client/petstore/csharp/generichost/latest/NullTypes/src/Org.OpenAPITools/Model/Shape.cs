@@ -189,9 +189,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Shape shape, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (shape.ShapeType == null)
-                throw new ArgumentNullException(nameof(shape.ShapeType), "Property is required for class Shape.");
-
             writer.WriteString("shapeType", shape.ShapeType);
 
             if (shape.AreaOption.IsSet)

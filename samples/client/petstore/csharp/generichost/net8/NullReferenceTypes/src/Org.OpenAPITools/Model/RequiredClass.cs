@@ -2237,17 +2237,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, RequiredClass requiredClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (requiredClass.RequiredNotnullableArrayOfString == null)
-                throw new ArgumentNullException(nameof(requiredClass.RequiredNotnullableArrayOfString), "Property is required for class RequiredClass.");
-
-            if (requiredClass.RequiredNotnullableStringProp == null)
-                throw new ArgumentNullException(nameof(requiredClass.RequiredNotnullableStringProp), "Property is required for class RequiredClass.");
-
             if (requiredClass.NotrequiredNotnullableArrayOfStringOption.IsSet && requiredClass.NotrequiredNotnullableArrayOfString == null)
-                throw new ArgumentNullException(nameof(requiredClass.NotrequiredNotnullableArrayOfString), "Property is required for class RequiredClass.");
+                throw new JsonException("Cannot write null property RequiredClass.NotrequiredNotnullableArrayOfString to non-nullable JSON property 'notrequired_notnullable_array_of_string'.");
 
             if (requiredClass.NotrequiredNotnullableStringPropOption.IsSet && requiredClass.NotrequiredNotnullableStringProp == null)
-                throw new ArgumentNullException(nameof(requiredClass.NotrequiredNotnullableStringProp), "Property is required for class RequiredClass.");
+                throw new JsonException("Cannot write null property RequiredClass.NotrequiredNotnullableStringProp to non-nullable JSON property 'notrequired_notnullable_string_prop'.");
 
             writer.WriteString("required_not_nullable_date_prop", requiredClass.RequiredNotNullableDateProp.ToString(RequiredNotNullableDatePropFormat));
 

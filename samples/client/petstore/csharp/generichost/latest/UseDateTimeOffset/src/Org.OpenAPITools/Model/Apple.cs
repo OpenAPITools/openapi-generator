@@ -245,13 +245,13 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
             if (apple.ColorCodeOption.IsSet && apple.ColorCode == null)
-                throw new ArgumentNullException(nameof(apple.ColorCode), "Property is required for class Apple.");
+                throw new JsonException("Cannot write null property Apple.ColorCode to non-nullable JSON property 'color_code'.");
 
             if (apple.CultivarOption.IsSet && apple.Cultivar == null)
-                throw new ArgumentNullException(nameof(apple.Cultivar), "Property is required for class Apple.");
+                throw new JsonException("Cannot write null property Apple.Cultivar to non-nullable JSON property 'cultivar'.");
 
             if (apple.OriginOption.IsSet && apple.Origin == null)
-                throw new ArgumentNullException(nameof(apple.Origin), "Property is required for class Apple.");
+                throw new JsonException("Cannot write null property Apple.Origin to non-nullable JSON property 'origin'.");
 
             if (apple.ColorCodeOption.IsSet)
                 writer.WriteString("color_code", apple.ColorCode);

@@ -241,10 +241,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
             if (person.FirstNameOption.IsSet && person.FirstName == null)
-                throw new ArgumentNullException(nameof(person.FirstName), "Property is required for class Person.");
+                throw new JsonException("Cannot write null property Person.FirstName to non-nullable JSON property 'firstName'.");
 
             if (person.LastNameOption.IsSet && person.LastName == null)
-                throw new ArgumentNullException(nameof(person.LastName), "Property is required for class Person.");
+                throw new JsonException("Cannot write null property Person.LastName to non-nullable JSON property 'lastName'.");
 
             if (person.FirstNameOption.IsSet)
                 writer.WriteString("firstName", person.FirstName);

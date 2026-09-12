@@ -172,9 +172,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, CopyActivity copyActivity, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (copyActivity.CopyActivitytt == null)
-                throw new ArgumentNullException(nameof(copyActivity.CopyActivitytt), "Property is required for class CopyActivity.");
-
             writer.WriteString("copyActivitytt", copyActivity.CopyActivitytt);
 
             writer.WriteString("$schema", CopyActivityAllOfSchemaValueConverter.ToJsonValue(copyActivity.Schema));

@@ -242,10 +242,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, HasOnlyReadOnly hasOnlyReadOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             if (hasOnlyReadOnly.BarOption.IsSet && hasOnlyReadOnly.Bar == null)
-                throw new ArgumentNullException(nameof(hasOnlyReadOnly.Bar), "Property is required for class HasOnlyReadOnly.");
+                throw new JsonException("Cannot write null property HasOnlyReadOnly.Bar to non-nullable JSON property 'bar'.");
 
             if (hasOnlyReadOnly.FooOption.IsSet && hasOnlyReadOnly.Foo == null)
-                throw new ArgumentNullException(nameof(hasOnlyReadOnly.Foo), "Property is required for class HasOnlyReadOnly.");
+                throw new JsonException("Cannot write null property HasOnlyReadOnly.Foo to non-nullable JSON property 'foo'.");
 
             if (hasOnlyReadOnly.BarOption.IsSet)
                 writer.WriteString("bar", hasOnlyReadOnly.Bar);

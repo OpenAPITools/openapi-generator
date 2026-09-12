@@ -187,9 +187,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, AppleReq appleReq, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (appleReq.Cultivar == null)
-                throw new ArgumentNullException(nameof(appleReq.Cultivar), "Property is required for class AppleReq.");
-
             writer.WriteString("cultivar", appleReq.Cultivar);
 
             if (appleReq.MealyOption.IsSet)

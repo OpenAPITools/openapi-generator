@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, HelloWorldPostRequest helloWorldPostRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (helloWorldPostRequest.MessageOption.IsSet && helloWorldPostRequest.Message == null)
-                throw new ArgumentNullException(nameof(helloWorldPostRequest.Message), "Property is required for class HelloWorldPostRequest.");
+                throw new JsonException("Cannot write null property HelloWorldPostRequest.Message to non-nullable JSON property 'message'.");
 
             if (helloWorldPostRequest.MessageOption.IsSet)
                 writer.WriteString("message", helloWorldPostRequest.Message);

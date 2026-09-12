@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, FooGetDefaultResponse fooGetDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (fooGetDefaultResponse.StringOption.IsSet && fooGetDefaultResponse.String == null)
-                throw new ArgumentNullException(nameof(fooGetDefaultResponse.String), "Property is required for class FooGetDefaultResponse.");
+                throw new JsonException("Cannot write null property FooGetDefaultResponse.String to non-nullable JSON property 'string'.");
 
             if (fooGetDefaultResponse.StringOption.IsSet)
             {

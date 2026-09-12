@@ -173,9 +173,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, BasquePig basquePig, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (basquePig.ClassName == null)
-                throw new ArgumentNullException(nameof(basquePig.ClassName), "Property is required for class BasquePig.");
-
             writer.WriteString("className", basquePig.ClassName);
         }
     }

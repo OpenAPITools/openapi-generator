@@ -189,9 +189,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NotificationtestGetElementsV1ResponseMPayload notificationtestGetElementsV1ResponseMPayload, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (notificationtestGetElementsV1ResponseMPayload.AObjVariableobject == null)
-                throw new ArgumentNullException(nameof(notificationtestGetElementsV1ResponseMPayload.AObjVariableobject), "Property is required for class NotificationtestGetElementsV1ResponseMPayload.");
-
             writer.WritePropertyName("a_objVariableobject");
             JsonSerializer.Serialize(writer, notificationtestGetElementsV1ResponseMPayload.AObjVariableobject, jsonSerializerOptions);
             writer.WriteNumber("pkiNotificationtestID", notificationtestGetElementsV1ResponseMPayload.PkiNotificationtestID);

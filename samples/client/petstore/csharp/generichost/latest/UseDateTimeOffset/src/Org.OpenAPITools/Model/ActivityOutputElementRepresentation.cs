@@ -192,10 +192,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions jsonSerializerOptions)
         {
             if (activityOutputElementRepresentation.Prop1Option.IsSet && activityOutputElementRepresentation.Prop1 == null)
-                throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop1), "Property is required for class ActivityOutputElementRepresentation.");
+                throw new JsonException("Cannot write null property ActivityOutputElementRepresentation.Prop1 to non-nullable JSON property 'prop1'.");
 
             if (activityOutputElementRepresentation.Prop2Option.IsSet && activityOutputElementRepresentation.Prop2 == null)
-                throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop2), "Property is required for class ActivityOutputElementRepresentation.");
+                throw new JsonException("Cannot write null property ActivityOutputElementRepresentation.Prop2 to non-nullable JSON property 'prop2'.");
 
             if (activityOutputElementRepresentation.Prop1Option.IsSet)
                 writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);

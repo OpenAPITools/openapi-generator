@@ -456,9 +456,11 @@
             {{^isDiscriminator}}
             {{^isNullable}}
             {{#vendorExtensions.x-is-reference-type}}
-            if ({{^required}}{{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet && {{/required}}{{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} == null)
-                throw new ArgumentNullException(nameof({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}), "Property is required for class {{classname}}.");
+            {{^required}}
+            if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet && {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} == null)
+                throw new JsonException("Cannot write null property {{classname}}.{{name}} to non-nullable JSON property '{{baseName}}'.");
 
+            {{/required}}
             {{/vendorExtensions.x-is-reference-type}}
             {{/isNullable}}
             {{/isDiscriminator}}
