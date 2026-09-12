@@ -342,6 +342,9 @@ namespace Org.OpenAPITools.Model
             if (enumArrays.ArrayEnumOption.IsSet && enumArrays.ArrayEnum == null)
                 throw new JsonException("Cannot write null property EnumArrays.ArrayEnum to non-nullable JSON property 'array_enum'.");
 
+            if (enumArrays.JustSymbolOption.IsSet && enumArrays.JustSymbol == null)
+                throw new JsonException("Cannot write null property EnumArrays.JustSymbol to non-nullable JSON property 'just_symbol'.");
+
             if (enumArrays.ArrayEnumOption.IsSet)
             {
                 writer.WritePropertyName("array_enum");

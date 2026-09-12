@@ -189,6 +189,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Shape shape, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (shape.AreaOption.IsSet && shape.Area == null)
+                throw new JsonException("Cannot write null property Shape.Area to non-nullable JSON property 'area'.");
+
             writer.WriteString("shapeType", shape.ShapeType);
 
             if (shape.AreaOption.IsSet)

@@ -180,6 +180,9 @@ namespace Org.OpenAPITools.Model
             if (cat.ColorOption.IsSet && cat.Color == null)
                 throw new JsonException("Cannot write null property Cat.Color to non-nullable JSON property 'color'.");
 
+            if (cat.DeclawedOption.IsSet && cat.Declawed == null)
+                throw new JsonException("Cannot write null property Cat.Declawed to non-nullable JSON property 'declawed'.");
+
             writer.WriteString("className", cat.ClassName);
 
             if (cat.ColorOption.IsSet)

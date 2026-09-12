@@ -956,11 +956,47 @@ namespace Org.OpenAPITools.Model
             if (formatTest.BinaryOption.IsSet && formatTest.Binary == null)
                 throw new JsonException("Cannot write null property FormatTest.Binary to non-nullable JSON property 'binary'.");
 
+            if (formatTest.DateTimeOption.IsSet && formatTest.DateTime == null)
+                throw new JsonException("Cannot write null property FormatTest.DateTime to non-nullable JSON property 'dateTime'.");
+
+            if (formatTest.DecimalOption.IsSet && formatTest.Decimal == null)
+                throw new JsonException("Cannot write null property FormatTest.Decimal to non-nullable JSON property 'decimal'.");
+
+            if (formatTest.DoubleOption.IsSet && formatTest.Double == null)
+                throw new JsonException("Cannot write null property FormatTest.Double to non-nullable JSON property 'double'.");
+
             if (formatTest.DuplicatePropertyName2Option.IsSet && formatTest.DuplicatePropertyName2 == null)
                 throw new JsonException("Cannot write null property FormatTest.DuplicatePropertyName2 to non-nullable JSON property 'duplicate_property_name'.");
 
             if (formatTest.DuplicatePropertyNameOption.IsSet && formatTest.DuplicatePropertyName == null)
                 throw new JsonException("Cannot write null property FormatTest.DuplicatePropertyName to non-nullable JSON property '@duplicate_property_name'.");
+
+            if (formatTest.FloatOption.IsSet && formatTest.Float == null)
+                throw new JsonException("Cannot write null property FormatTest.Float to non-nullable JSON property 'float'.");
+
+            if (formatTest.Int32Option.IsSet && formatTest.Int32 == null)
+                throw new JsonException("Cannot write null property FormatTest.Int32 to non-nullable JSON property 'int32'.");
+
+            if (formatTest.Int32RangeOption.IsSet && formatTest.Int32Range == null)
+                throw new JsonException("Cannot write null property FormatTest.Int32Range to non-nullable JSON property 'int32Range'.");
+
+            if (formatTest.Int64Option.IsSet && formatTest.Int64 == null)
+                throw new JsonException("Cannot write null property FormatTest.Int64 to non-nullable JSON property 'int64'.");
+
+            if (formatTest.Int64NegativeOption.IsSet && formatTest.Int64Negative == null)
+                throw new JsonException("Cannot write null property FormatTest.Int64Negative to non-nullable JSON property 'int64Negative'.");
+
+            if (formatTest.Int64NegativeExclusiveOption.IsSet && formatTest.Int64NegativeExclusive == null)
+                throw new JsonException("Cannot write null property FormatTest.Int64NegativeExclusive to non-nullable JSON property 'int64NegativeExclusive'.");
+
+            if (formatTest.Int64PositiveOption.IsSet && formatTest.Int64Positive == null)
+                throw new JsonException("Cannot write null property FormatTest.Int64Positive to non-nullable JSON property 'int64Positive'.");
+
+            if (formatTest.Int64PositiveExclusiveOption.IsSet && formatTest.Int64PositiveExclusive == null)
+                throw new JsonException("Cannot write null property FormatTest.Int64PositiveExclusive to non-nullable JSON property 'int64PositiveExclusive'.");
+
+            if (formatTest.IntegerOption.IsSet && formatTest.Integer == null)
+                throw new JsonException("Cannot write null property FormatTest.Integer to non-nullable JSON property 'integer'.");
 
             if (formatTest.PatternWithBackslashOption.IsSet && formatTest.PatternWithBackslash == null)
                 throw new JsonException("Cannot write null property FormatTest.PatternWithBackslash to non-nullable JSON property 'pattern_with_backslash'.");
@@ -973,6 +1009,18 @@ namespace Org.OpenAPITools.Model
 
             if (formatTest.StringOption.IsSet && formatTest.String == null)
                 throw new JsonException("Cannot write null property FormatTest.String to non-nullable JSON property 'string'.");
+
+            if (formatTest.StringFormattedAsDecimalOption.IsSet && formatTest.StringFormattedAsDecimal == null)
+                throw new JsonException("Cannot write null property FormatTest.StringFormattedAsDecimal to non-nullable JSON property 'string_formatted_as_decimal'.");
+
+            if (formatTest.UnsignedIntegerOption.IsSet && formatTest.UnsignedInteger == null)
+                throw new JsonException("Cannot write null property FormatTest.UnsignedInteger to non-nullable JSON property 'unsigned_integer'.");
+
+            if (formatTest.UnsignedLongOption.IsSet && formatTest.UnsignedLong == null)
+                throw new JsonException("Cannot write null property FormatTest.UnsignedLong to non-nullable JSON property 'unsigned_long'.");
+
+            if (formatTest.UuidOption.IsSet && formatTest.Uuid == null)
+                throw new JsonException("Cannot write null property FormatTest.Uuid to non-nullable JSON property 'uuid'.");
 
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.Byte, jsonSerializerOptions);

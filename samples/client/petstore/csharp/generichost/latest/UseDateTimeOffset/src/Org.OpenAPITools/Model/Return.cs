@@ -226,6 +226,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (varReturn.VarReturnOption.IsSet && varReturn.VarReturn == null)
+                throw new JsonException("Cannot write null property Return.VarReturn to non-nullable JSON property 'return'.");
+
             if (varReturn.UnsafeOption.IsSet && varReturn.Unsafe == null)
                 throw new JsonException("Cannot write null property Return.Unsafe to non-nullable JSON property 'unsafe'.");
 

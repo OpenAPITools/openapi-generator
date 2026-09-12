@@ -368,6 +368,12 @@ namespace Org.OpenAPITools.Model
             if (pet.CategoryOption.IsSet && pet.Category == null)
                 throw new JsonException("Cannot write null property Pet.Category to non-nullable JSON property 'category'.");
 
+            if (pet.IdOption.IsSet && pet.Id == null)
+                throw new JsonException("Cannot write null property Pet.Id to non-nullable JSON property 'id'.");
+
+            if (pet.StatusOption.IsSet && pet.Status == null)
+                throw new JsonException("Cannot write null property Pet.Status to non-nullable JSON property 'status'.");
+
             if (pet.TagsOption.IsSet && pet.Tags == null)
                 throw new JsonException("Cannot write null property Pet.Tags to non-nullable JSON property 'tags'.");
 

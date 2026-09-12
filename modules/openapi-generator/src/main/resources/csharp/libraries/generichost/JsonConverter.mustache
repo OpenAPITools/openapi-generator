@@ -455,13 +455,11 @@
             {{#allVars}}
             {{^isDiscriminator}}
             {{^isNullable}}
-            {{#vendorExtensions.x-is-reference-type}}
             {{^required}}
             if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet && {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} == null)
                 throw new JsonException("Cannot write null property {{classname}}.{{name}} to non-nullable JSON property '{{baseName}}'.");
 
             {{/required}}
-            {{/vendorExtensions.x-is-reference-type}}
             {{/isNullable}}
             {{/isDiscriminator}}
             {{/allVars}}

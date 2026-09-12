@@ -194,6 +194,9 @@ namespace Org.OpenAPITools.Model
             if (model200Response.ClassOption.IsSet && model200Response.Class == null)
                 throw new JsonException("Cannot write null property Model200Response.Class to non-nullable JSON property 'class'.");
 
+            if (model200Response.NameOption.IsSet && model200Response.Name == null)
+                throw new JsonException("Cannot write null property Model200Response.Name to non-nullable JSON property 'name'.");
+
             if (model200Response.ClassOption.IsSet)
                 writer.WriteString("class", model200Response.Class);
 

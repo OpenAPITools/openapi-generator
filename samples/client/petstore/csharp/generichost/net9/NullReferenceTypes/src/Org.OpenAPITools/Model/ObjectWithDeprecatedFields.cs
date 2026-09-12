@@ -254,6 +254,9 @@ namespace Org.OpenAPITools.Model
             if (objectWithDeprecatedFields.DeprecatedRefOption.IsSet && objectWithDeprecatedFields.DeprecatedRef == null)
                 throw new JsonException("Cannot write null property ObjectWithDeprecatedFields.DeprecatedRef to non-nullable JSON property 'deprecatedRef'.");
 
+            if (objectWithDeprecatedFields.IdOption.IsSet && objectWithDeprecatedFields.Id == null)
+                throw new JsonException("Cannot write null property ObjectWithDeprecatedFields.Id to non-nullable JSON property 'id'.");
+
             if (objectWithDeprecatedFields.UuidOption.IsSet && objectWithDeprecatedFields.Uuid == null)
                 throw new JsonException("Cannot write null property ObjectWithDeprecatedFields.Uuid to non-nullable JSON property 'uuid'.");
 

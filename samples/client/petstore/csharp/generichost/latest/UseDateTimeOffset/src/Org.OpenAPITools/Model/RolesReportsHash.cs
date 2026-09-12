@@ -194,6 +194,9 @@ namespace Org.OpenAPITools.Model
             if (rolesReportsHash.RoleOption.IsSet && rolesReportsHash.Role == null)
                 throw new JsonException("Cannot write null property RolesReportsHash.Role to non-nullable JSON property 'role'.");
 
+            if (rolesReportsHash.RoleUuidOption.IsSet && rolesReportsHash.RoleUuid == null)
+                throw new JsonException("Cannot write null property RolesReportsHash.RoleUuid to non-nullable JSON property 'role_uuid'.");
+
             if (rolesReportsHash.RoleOption.IsSet)
             {
                 writer.WritePropertyName("role");

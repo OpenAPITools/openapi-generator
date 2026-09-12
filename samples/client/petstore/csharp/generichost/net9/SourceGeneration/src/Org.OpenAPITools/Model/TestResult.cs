@@ -225,6 +225,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, TestResult testResult, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (testResult.CodeOption.IsSet && testResult.Code == null)
+                throw new JsonException("Cannot write null property TestResult.Code to non-nullable JSON property 'code'.");
+
             if (testResult.DataOption.IsSet && testResult.Data == null)
                 throw new JsonException("Cannot write null property TestResult.Data to non-nullable JSON property 'data'.");
 

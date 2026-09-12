@@ -174,6 +174,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Orange orange, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (orange.SweetOption.IsSet && orange.Sweet == null)
+                throw new JsonException("Cannot write null property Orange.Sweet to non-nullable JSON property 'sweet'.");
+
             if (orange.SweetOption.IsSet)
                 writer.WriteBoolean("sweet", orange.SweetOption.Value.Value);
         }

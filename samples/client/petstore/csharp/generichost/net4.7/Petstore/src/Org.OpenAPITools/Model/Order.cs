@@ -384,6 +384,24 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (order.CompleteOption.IsSet && order.Complete == null)
+                throw new JsonException("Cannot write null property Order.Complete to non-nullable JSON property 'complete'.");
+
+            if (order.IdOption.IsSet && order.Id == null)
+                throw new JsonException("Cannot write null property Order.Id to non-nullable JSON property 'id'.");
+
+            if (order.PetIdOption.IsSet && order.PetId == null)
+                throw new JsonException("Cannot write null property Order.PetId to non-nullable JSON property 'petId'.");
+
+            if (order.QuantityOption.IsSet && order.Quantity == null)
+                throw new JsonException("Cannot write null property Order.Quantity to non-nullable JSON property 'quantity'.");
+
+            if (order.ShipDateOption.IsSet && order.ShipDate == null)
+                throw new JsonException("Cannot write null property Order.ShipDate to non-nullable JSON property 'shipDate'.");
+
+            if (order.StatusOption.IsSet && order.Status == null)
+                throw new JsonException("Cannot write null property Order.Status to non-nullable JSON property 'status'.");
+
             if (order.CompleteOption.IsSet)
                 writer.WriteBoolean("complete", order.CompleteOption.Value.Value);
 

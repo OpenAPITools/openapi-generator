@@ -431,6 +431,9 @@ namespace Org.OpenAPITools.Model
             if (user.FirstNameOption.IsSet && user.FirstName == null)
                 throw new JsonException("Cannot write null property User.FirstName to non-nullable JSON property 'firstName'.");
 
+            if (user.IdOption.IsSet && user.Id == null)
+                throw new JsonException("Cannot write null property User.Id to non-nullable JSON property 'id'.");
+
             if (user.LastNameOption.IsSet && user.LastName == null)
                 throw new JsonException("Cannot write null property User.LastName to non-nullable JSON property 'lastName'.");
 
@@ -442,6 +445,9 @@ namespace Org.OpenAPITools.Model
 
             if (user.PhoneOption.IsSet && user.Phone == null)
                 throw new JsonException("Cannot write null property User.Phone to non-nullable JSON property 'phone'.");
+
+            if (user.UserStatusOption.IsSet && user.UserStatus == null)
+                throw new JsonException("Cannot write null property User.UserStatus to non-nullable JSON property 'userStatus'.");
 
             if (user.UsernameOption.IsSet && user.Username == null)
                 throw new JsonException("Cannot write null property User.Username to non-nullable JSON property 'username'.");

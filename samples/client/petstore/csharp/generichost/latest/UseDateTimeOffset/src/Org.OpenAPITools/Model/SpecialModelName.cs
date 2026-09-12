@@ -194,6 +194,9 @@ namespace Org.OpenAPITools.Model
             if (specialModelName.VarSpecialModelNameOption.IsSet && specialModelName.VarSpecialModelName == null)
                 throw new JsonException("Cannot write null property SpecialModelName.VarSpecialModelName to non-nullable JSON property '_special_model.name_'.");
 
+            if (specialModelName.SpecialPropertyNameOption.IsSet && specialModelName.SpecialPropertyName == null)
+                throw new JsonException("Cannot write null property SpecialModelName.SpecialPropertyName to non-nullable JSON property '$special[property.name]'.");
+
             if (specialModelName.VarSpecialModelNameOption.IsSet)
                 writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName);
 
