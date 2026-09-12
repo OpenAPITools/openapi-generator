@@ -7155,7 +7155,18 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             if (enumName != null) {
-                var.defaultValue = toEnumDefaultValue(var, enumName);
+                if (var.isEnum || referencedSchema.isPresent()) {
+                    var.defaultValue = toEnumDefaultValue(var, enumName);
+                } else {
+                    // Neither an inline nested enum (var.isEnum) nor a ref to a named enum
+                    // schema (referencedSchema): var.datatypeWithEnum is just the raw scalar
+                    // type (e.g. a discriminator property that is a `$ref` into another
+                    // schema's property rather than a ref to the enum schema itself).
+                    // allowableValues/enum matching still ran, but there's no enum constant to
+                    // qualify the value with. Drop the default rather than emit a bare,
+                    // unqualified token that would not compile (see #24874).
+                    var.defaultValue = null;
+                }
             }
         }
     }
