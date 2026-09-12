@@ -90,6 +90,48 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAnyPropertyMatchesHandlesCyclesAndSharedProperties() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final CodegenProperty root = new CodegenProperty();
+        final CodegenProperty child = new CodegenProperty();
+        root.items = child;
+        root.additionalProperties = child;
+        child.items = root;
+        final List<CodegenProperty> visited = new ArrayList<>();
+
+        assertFalse(codegen.anyPropertyMatches(root, property -> {
+            visited.add(property);
+            return property.isUuid;
+        }));
+        assertEquals(2, visited.size());
+
+        final CodegenProperty uuid = new CodegenProperty();
+        uuid.isUuid = true;
+        child.vars.add(uuid);
+        assertTrue(codegen.anyPropertyMatches(root, property -> property.isUuid));
+    }
+
+    @Test
+    public void testAnyPropertyMatchesUsesIdentityAndStopsAtMatch() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final CodegenProperty root = new CodegenProperty();
+        final CodegenProperty first = new CodegenProperty();
+        final CodegenProperty second = new CodegenProperty();
+        assertEquals(first, second);
+        root.vars = Arrays.asList(first, second);
+
+        assertTrue(codegen.anyPropertyMatches(root, property -> property == second));
+        assertTrue(codegen.anyPropertyMatches(root, property -> {
+            assertSame(root, property);
+            return true;
+        }));
+        assertFalse(codegen.anyPropertyMatches(null, property -> {
+            fail("A null root must not invoke the predicate");
+            return true;
+        }));
+    }
+
+    @Test
     public void testDeeplyNestedAdditionalPropertiesImports() {
         final DefaultCodegen codegen = new DefaultCodegen();
         final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/additional-properties-deeply-nested.yaml");
