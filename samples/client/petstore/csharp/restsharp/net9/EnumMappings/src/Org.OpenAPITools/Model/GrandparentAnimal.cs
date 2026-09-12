@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets PetType
         /// </summary>
-        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
         public string PetType { get; set; }
 
         /// <summary>
