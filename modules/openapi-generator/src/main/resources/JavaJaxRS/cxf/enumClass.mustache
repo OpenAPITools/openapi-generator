@@ -32,7 +32,7 @@
     {{/jackson}}
     public static {{datatypeWithEnum}} fromValue({{dataType}} value) {
         for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
-            if (b.value.equals{{#isString}}{{#useEnumCaseInsensitive}}IgnoreCase{{/useEnumCaseInsensitive}}{{/isString}}(value)) {
+            if ({{#isString}}{{#useEnumCaseInsensitive}}b.value{{#dataFormat}}.toString(){{/dataFormat}}.equalsIgnoreCase({{#dataFormat}}value == null ? null : value.toString(){{/dataFormat}}{{^dataFormat}}value{{/dataFormat}}){{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}b.value.equals(value){{/useEnumCaseInsensitive}}{{/isString}}{{^isString}}b.value.equals(value){{/isString}}) {
                 return b;
             }
         }
