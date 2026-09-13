@@ -45,6 +45,16 @@ public class PythonFlaskConnexionServerCodegenTest {
     }
 
 
+    @Test(description = "UUID model properties require the standard-library UUID import (issue #23897)")
+    public void testUuidModelImport() throws IOException {
+        final DefaultCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/bugs/issue_23897.yaml");
+
+        final Path model = Paths.get(outputPath, "openapi_server/models/pushnotification.py");
+        assertFileExists(model);
+        assertFileContains(model, "from uuid import UUID", "'id': UUID", "def id(self) -> UUID:");
+    }
+
     @Test(description = "test requestBody")
     public void testRequestBody() throws IOException {
         final DefaultCodegen codegen = new PythonFlaskConnexionServerCodegen();
