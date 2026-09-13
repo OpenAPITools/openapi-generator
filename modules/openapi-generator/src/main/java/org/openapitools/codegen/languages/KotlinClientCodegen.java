@@ -1223,7 +1223,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
      * @param param codegen parameter
      */
     private void adjustEnumRefDefault(CodegenParameter param) {
-        if (StringUtils.isEmpty(param.defaultValue) || !(param.isEnum || param.isEnumRef)) {
+        if (StringUtils.isEmpty(param.defaultValue) || param.isContainer || !(param.isEnum || param.isEnumRef)) {
             return;
         }
 
