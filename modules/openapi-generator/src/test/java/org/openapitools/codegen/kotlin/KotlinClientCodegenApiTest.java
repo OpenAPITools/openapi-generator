@@ -137,6 +137,30 @@ public class KotlinClientCodegenApiTest {
         assertFileContains(statusApi.toPath(), "state: PetStatus? = PetStatus.AVAILABLE");
     }
 
+    @DataProvider(name = "librariesWithPlainInlineEnumParams")
+    public static Object[][] librariesWithPlainInlineEnumParams() {
+        return new Object[][]{
+                {ClientLibrary.JVM_KTOR},
+                {ClientLibrary.JVM_VOLLEY}
+        };
+    }
+
+    @Test(dataProvider = "librariesWithPlainInlineEnumParams")
+    public void testInlineEnumArrayDefaultUsesItemValues_24851(ClientLibrary library) throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/kotlin/issue24851-enum-array-default-query.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(library);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+
+        assertFileContains(defaultApi.toPath(), "colors: kotlin.collections.Set<kotlin.String>? = setOf(\"red\",\"blue\")");
+        assertFileContains(defaultApi.toPath(), "sizes: kotlin.collections.List<kotlin.Int>? = arrayListOf(2)");
+        assertFileContains(defaultApi.toPath(), "refColors: kotlin.collections.List<Color>? = arrayListOf(Color.RED)");
+    }
+
     @Test(dataProvider = "clientLibraries")
     void testEnumReservedDefaultNotHtmlEscaped(ClientLibrary library) throws IOException {
         OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/enum-default-query-reserved-word.json");
