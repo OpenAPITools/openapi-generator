@@ -271,6 +271,20 @@ public class ModelFile {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link ModelFile#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public ModelFile.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built ModelFile instance.
     *
     * The builder is not reusable.
@@ -302,7 +316,8 @@ public class ModelFile {
   */
   public ModelFile.Builder toBuilder() {
     return new ModelFile.Builder()
-      .sourceURI(getSourceURI());
+      .sourceURI(getSourceURI())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

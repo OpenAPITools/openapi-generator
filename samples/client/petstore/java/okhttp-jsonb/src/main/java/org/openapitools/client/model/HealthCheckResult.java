@@ -271,6 +271,20 @@ public class HealthCheckResult {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link HealthCheckResult#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public HealthCheckResult.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built HealthCheckResult instance.
     *
     * The builder is not reusable.
@@ -302,7 +316,8 @@ public class HealthCheckResult {
   */
   public HealthCheckResult.Builder toBuilder() {
     return new HealthCheckResult.Builder()
-      .nullableMessage(getNullableMessage());
+      .nullableMessage(getNullableMessage())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

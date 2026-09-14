@@ -272,6 +272,20 @@ public class NumberOnly {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link NumberOnly#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public NumberOnly.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built NumberOnly instance.
     *
     * The builder is not reusable.
@@ -303,7 +317,8 @@ public class NumberOnly {
   */
   public NumberOnly.Builder toBuilder() {
     return new NumberOnly.Builder()
-      .justNumber(getJustNumber());
+      .justNumber(getJustNumber())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

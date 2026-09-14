@@ -724,6 +724,20 @@ public class RequiredNullableBody {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link RequiredNullableBody#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public RequiredNullableBody.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built RequiredNullableBody instance.
     *
     * The builder is not reusable.
@@ -768,7 +782,8 @@ public class RequiredNullableBody {
       .objectAndItemsNullableProp(getObjectAndItemsNullableProp())
       .objectItemsNullable(getObjectItemsNullable())
       .customRefEnum(getCustomRefEnum())
-      .customEnum(getCustomEnum());
+      .customEnum(getCustomEnum())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

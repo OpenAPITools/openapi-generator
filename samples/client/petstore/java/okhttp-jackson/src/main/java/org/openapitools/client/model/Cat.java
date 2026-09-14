@@ -204,6 +204,20 @@ public class Cat extends Animal {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link Cat#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public Cat.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built Cat instance.
     *
     * The builder is not reusable.
@@ -238,7 +252,8 @@ public class Cat extends Animal {
     return new Cat.Builder()
       .className(getClassName())
       .color(getColor())
-      .declawed(getDeclawed());
+      .declawed(getDeclawed())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

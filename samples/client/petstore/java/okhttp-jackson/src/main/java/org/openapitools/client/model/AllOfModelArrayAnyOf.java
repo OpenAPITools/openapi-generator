@@ -288,6 +288,20 @@ public class AllOfModelArrayAnyOf {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link AllOfModelArrayAnyOf#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public AllOfModelArrayAnyOf.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built AllOfModelArrayAnyOf instance.
     *
     * The builder is not reusable.
@@ -322,7 +336,8 @@ public class AllOfModelArrayAnyOf {
       .id(getId())
       .name(getName())
       .linkListColumn1(getLinkListColumn1())
-      .attributes(getAttributes());
+      .attributes(getAttributes())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

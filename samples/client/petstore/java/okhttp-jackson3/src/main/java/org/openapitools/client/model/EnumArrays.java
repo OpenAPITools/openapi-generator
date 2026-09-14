@@ -298,6 +298,20 @@ public class EnumArrays {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link EnumArrays#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public EnumArrays.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built EnumArrays instance.
     *
     * The builder is not reusable.
@@ -330,7 +344,8 @@ public class EnumArrays {
   public EnumArrays.Builder toBuilder() {
     return new EnumArrays.Builder()
       .justSymbol(getJustSymbol())
-      .arrayEnum(getArrayEnum());
+      .arrayEnum(getArrayEnum())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

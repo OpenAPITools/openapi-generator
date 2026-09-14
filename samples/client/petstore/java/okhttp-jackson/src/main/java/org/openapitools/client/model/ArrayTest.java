@@ -278,6 +278,20 @@ public class ArrayTest {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link ArrayTest#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public ArrayTest.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built ArrayTest instance.
     *
     * The builder is not reusable.
@@ -311,7 +325,8 @@ public class ArrayTest {
     return new ArrayTest.Builder()
       .arrayOfString(getArrayOfString())
       .arrayArrayOfInteger(getArrayArrayOfInteger())
-      .arrayArrayOfModel(getArrayArrayOfModel());
+      .arrayArrayOfModel(getArrayArrayOfModel())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

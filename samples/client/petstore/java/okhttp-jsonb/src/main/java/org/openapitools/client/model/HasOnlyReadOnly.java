@@ -307,6 +307,20 @@ public class HasOnlyReadOnly {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link HasOnlyReadOnly#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public HasOnlyReadOnly.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built HasOnlyReadOnly instance.
     *
     * The builder is not reusable.
@@ -339,7 +353,8 @@ public class HasOnlyReadOnly {
   public HasOnlyReadOnly.Builder toBuilder() {
     return new HasOnlyReadOnly.Builder()
       .bar(getBar())
-      .foo(getFoo());
+      .foo(getFoo())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

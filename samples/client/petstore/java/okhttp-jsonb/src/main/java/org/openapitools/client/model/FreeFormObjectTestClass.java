@@ -310,6 +310,20 @@ public class FreeFormObjectTestClass {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link FreeFormObjectTestClass#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public FreeFormObjectTestClass.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built FreeFormObjectTestClass instance.
     *
     * The builder is not reusable.
@@ -342,7 +356,8 @@ public class FreeFormObjectTestClass {
   public FreeFormObjectTestClass.Builder toBuilder() {
     return new FreeFormObjectTestClass.Builder()
       .name(getName())
-      .properties(getProperties());
+      .properties(getProperties())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

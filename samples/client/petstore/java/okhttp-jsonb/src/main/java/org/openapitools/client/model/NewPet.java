@@ -648,6 +648,20 @@ public class NewPet {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link NewPet#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public NewPet.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built NewPet instance.
     *
     * The builder is not reusable.
@@ -687,7 +701,8 @@ public class NewPet {
       .name(getName())
       .photoUrls(getPhotoUrls())
       .tags(getTags())
-      .status(getStatus());
+      .status(getStatus())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

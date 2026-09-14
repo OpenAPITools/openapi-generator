@@ -309,6 +309,20 @@ public class NullableFieldsValue {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link NullableFieldsValue#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public NullableFieldsValue.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built NullableFieldsValue instance.
     *
     * The builder is not reusable.
@@ -341,7 +355,8 @@ public class NullableFieldsValue {
   public NullableFieldsValue.Builder toBuilder() {
     return new NullableFieldsValue.Builder()
       .before(getBefore())
-      .after(getAfter());
+      .after(getAfter())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

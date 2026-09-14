@@ -354,6 +354,20 @@ public class MapTest {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link MapTest#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public MapTest.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built MapTest instance.
     *
     * The builder is not reusable.
@@ -388,7 +402,8 @@ public class MapTest {
       .mapMapOfString(getMapMapOfString())
       .mapOfEnumString(getMapOfEnumString())
       .directMap(getDirectMap())
-      .indirectMap(getIndirectMap());
+      .indirectMap(getIndirectMap())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

@@ -348,6 +348,20 @@ public class OuterComposite {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link OuterComposite#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public OuterComposite.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built OuterComposite instance.
     *
     * The builder is not reusable.
@@ -381,7 +395,8 @@ public class OuterComposite {
     return new OuterComposite.Builder()
       .myNumber(getMyNumber())
       .myString(getMyString())
-      .myBoolean(getMyBoolean());
+      .myBoolean(getMyBoolean())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

@@ -309,6 +309,20 @@ public class NewPetCategoryInlineAllofAllOfCategoryTag {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link NewPetCategoryInlineAllofAllOfCategoryTag#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public NewPetCategoryInlineAllofAllOfCategoryTag.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built NewPetCategoryInlineAllofAllOfCategoryTag instance.
     *
     * The builder is not reusable.
@@ -341,7 +355,8 @@ public class NewPetCategoryInlineAllofAllOfCategoryTag {
   public NewPetCategoryInlineAllofAllOfCategoryTag.Builder toBuilder() {
     return new NewPetCategoryInlineAllofAllOfCategoryTag.Builder()
       .id(getId())
-      .name(getName());
+      .name(getName())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

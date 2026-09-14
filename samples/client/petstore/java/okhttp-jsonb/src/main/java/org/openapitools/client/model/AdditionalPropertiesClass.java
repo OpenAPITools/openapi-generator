@@ -569,6 +569,20 @@ public class AdditionalPropertiesClass {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link AdditionalPropertiesClass#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public AdditionalPropertiesClass.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built AdditionalPropertiesClass instance.
     *
     * The builder is not reusable.
@@ -607,7 +621,8 @@ public class AdditionalPropertiesClass {
       .mapWithUndeclaredPropertiesAnytype2(getMapWithUndeclaredPropertiesAnytype2())
       .mapWithUndeclaredPropertiesAnytype3(getMapWithUndeclaredPropertiesAnytype3())
       .emptyMap(getEmptyMap())
-      .mapWithUndeclaredPropertiesString(getMapWithUndeclaredPropertiesString());
+      .mapWithUndeclaredPropertiesString(getMapWithUndeclaredPropertiesString())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

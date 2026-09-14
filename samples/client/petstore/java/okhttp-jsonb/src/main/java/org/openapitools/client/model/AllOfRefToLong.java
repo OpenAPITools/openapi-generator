@@ -271,6 +271,20 @@ public class AllOfRefToLong {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link AllOfRefToLong#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public AllOfRefToLong.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built AllOfRefToLong instance.
     *
     * The builder is not reusable.
@@ -302,7 +316,8 @@ public class AllOfRefToLong {
   */
   public AllOfRefToLong.Builder toBuilder() {
     return new AllOfRefToLong.Builder()
-      .id(getId());
+      .id(getId())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

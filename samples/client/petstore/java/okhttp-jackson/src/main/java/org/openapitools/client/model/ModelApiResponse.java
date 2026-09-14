@@ -251,6 +251,20 @@ public class ModelApiResponse {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link ModelApiResponse#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public ModelApiResponse.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built ModelApiResponse instance.
     *
     * The builder is not reusable.
@@ -284,7 +298,8 @@ public class ModelApiResponse {
     return new ModelApiResponse.Builder()
       .code(getCode())
       .type(getType())
-      .message(getMessage());
+      .message(getMessage())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

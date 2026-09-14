@@ -216,6 +216,20 @@ public class Model200Response {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link Model200Response#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public Model200Response.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built Model200Response instance.
     *
     * The builder is not reusable.
@@ -248,7 +262,8 @@ public class Model200Response {
   public Model200Response.Builder toBuilder() {
     return new Model200Response.Builder()
       .name(getName())
-      .propertyClass(getPropertyClass());
+      .propertyClass(getPropertyClass())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

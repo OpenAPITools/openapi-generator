@@ -164,6 +164,20 @@ public class ParentPet extends GrandparentAnimal {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link ParentPet#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public ParentPet.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built ParentPet instance.
     *
     * The builder is not reusable.
@@ -196,7 +210,8 @@ public class ParentPet extends GrandparentAnimal {
   */
   public ParentPet.Builder toBuilder() {
     return new ParentPet.Builder()
-      .petType(getPetType());
+      .petType(getPetType())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

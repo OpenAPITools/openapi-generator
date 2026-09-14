@@ -191,6 +191,20 @@ public class NestedArrayWithDefaultValues {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link NestedArrayWithDefaultValues#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public NestedArrayWithDefaultValues.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built NestedArrayWithDefaultValues instance.
     *
     * The builder is not reusable.
@@ -222,7 +236,8 @@ public class NestedArrayWithDefaultValues {
   */
   public NestedArrayWithDefaultValues.Builder toBuilder() {
     return new NestedArrayWithDefaultValues.Builder()
-      .nestedArray(getNestedArray());
+      .nestedArray(getNestedArray())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

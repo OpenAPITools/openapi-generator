@@ -216,6 +216,20 @@ public class ComplexQuadrilateral {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link ComplexQuadrilateral#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public ComplexQuadrilateral.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built ComplexQuadrilateral instance.
     *
     * The builder is not reusable.
@@ -248,7 +262,8 @@ public class ComplexQuadrilateral {
   public ComplexQuadrilateral.Builder toBuilder() {
     return new ComplexQuadrilateral.Builder()
       .shapeType(getShapeType())
-      .quadrilateralType(getQuadrilateralType());
+      .quadrilateralType(getQuadrilateralType())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

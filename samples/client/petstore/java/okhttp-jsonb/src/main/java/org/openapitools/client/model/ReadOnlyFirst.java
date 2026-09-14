@@ -312,6 +312,20 @@ public class ReadOnlyFirst {
 
 
     /**
+    * Copies the additional (undeclared) properties into the instance under construction.
+    *
+    * The values are put through {@link ReadOnlyFirst#putAdditionalProperty}, so the map is
+    * rebuilt on the instance that actually owns it: a subclass declares its own holder that
+    * shadows the parent one, and the virtual call always reaches the subclass field.
+    */
+    public ReadOnlyFirst.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      if (additionalProperties != null) {
+        additionalProperties.forEach(this.instance::putAdditionalProperty);
+      }
+      return this;
+    }
+
+    /**
     * returns a built ReadOnlyFirst instance.
     *
     * The builder is not reusable.
@@ -344,7 +358,8 @@ public class ReadOnlyFirst {
   public ReadOnlyFirst.Builder toBuilder() {
     return new ReadOnlyFirst.Builder()
       .bar(getBar())
-      .baz(getBaz());
+      .baz(getBaz())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }
