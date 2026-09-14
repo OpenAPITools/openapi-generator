@@ -102,14 +102,14 @@ public class FileContent {
    */
   
   @Schema(name = "name", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("name")
+  @JsonProperty(value = "name", access = JsonProperty.Access.READ_ONLY)
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
   public String getName() {
     return name;
   }
 
-  @JsonProperty("name")
+  @JsonProperty(value = "name", access = JsonProperty.Access.READ_ONLY)
   @JacksonXmlProperty(localName = "name")
   public void setName(String name) {
     this.name = name;
@@ -126,14 +126,14 @@ public class FileContent {
    */
   
   @Schema(name = "size", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("size")
+  @JsonProperty(value = "size", access = JsonProperty.Access.READ_ONLY)
   @JacksonXmlProperty(localName = "size")
   @XmlElement(name = "size")
   public Optional<Integer> getSize() {
     return size;
   }
 
-  @JsonProperty("size")
+  @JsonProperty(value = "size", access = JsonProperty.Access.READ_ONLY)
   @JacksonXmlProperty(localName = "size")
   public void setSize(Optional<Integer> size) {
     this.size = size;
@@ -150,14 +150,14 @@ public class FileContent {
    */
   
   @Schema(name = "virusScan", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("virusScan")
+  @JsonProperty(value = "virusScan", access = JsonProperty.Access.READ_ONLY)
   @JacksonXmlProperty(localName = "virusScan")
   @XmlElement(name = "virusScan")
   public Optional<VirusScanEnum> getVirusScan() {
     return virusScan;
   }
 
-  @JsonProperty("virusScan")
+  @JsonProperty(value = "virusScan", access = JsonProperty.Access.READ_ONLY)
   @JacksonXmlProperty(localName = "virusScan")
   public void setVirusScan(Optional<VirusScanEnum> virusScan) {
     this.virusScan = virusScan;
