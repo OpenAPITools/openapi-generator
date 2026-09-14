@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -226,12 +224,23 @@ public class Drawing {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Drawing drawing = (Drawing) o;
+    return Objects.equals(this.mainShape, drawing.mainShape) &&
+        Objects.equals(this.shapeOrNull, drawing.shapeOrNull) &&
+        Objects.equals(this.nullableShape, drawing.nullableShape) &&
+        Objects.equals(this.shapes, drawing.shapes)&&
+        Objects.equals(this.additionalProperties, drawing.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes, additionalProperties);
   }
 
   @Override

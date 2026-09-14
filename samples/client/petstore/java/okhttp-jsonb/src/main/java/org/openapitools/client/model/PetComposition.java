@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -314,12 +312,25 @@ public class PetComposition {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    PetComposition petComposition = (PetComposition) o;
+    return Objects.equals(this.id, petComposition.id) &&
+        Objects.equals(this.category, petComposition.category) &&
+        Objects.equals(this.name, petComposition.name) &&
+        Objects.equals(this.photoUrls, petComposition.photoUrls) &&
+        Objects.equals(this.tags, petComposition.tags) &&
+        Objects.equals(this.status, petComposition.status)&&
+        Objects.equals(this.additionalProperties, petComposition.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(id, category, name, photoUrls, tags, status, additionalProperties);
   }
 
   @Override

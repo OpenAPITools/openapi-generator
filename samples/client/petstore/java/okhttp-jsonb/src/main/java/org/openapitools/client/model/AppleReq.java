@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -96,12 +94,20 @@ public class AppleReq {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AppleReq appleReq = (AppleReq) o;
+    return Objects.equals(this.cultivar, appleReq.cultivar) &&
+        Objects.equals(this.mealy, appleReq.mealy);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(cultivar, mealy);
   }
 
   @Override

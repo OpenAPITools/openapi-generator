@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -171,12 +169,22 @@ public class NewPetCategoryInlineAllof {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    NewPetCategoryInlineAllof newPetCategoryInlineAllof = (NewPetCategoryInlineAllof) o;
+    return Objects.equals(this.id, newPetCategoryInlineAllof.id) &&
+        Objects.equals(this.name, newPetCategoryInlineAllof.name) &&
+        Objects.equals(this.categoryTag, newPetCategoryInlineAllof.categoryTag)&&
+        Objects.equals(this.additionalProperties, newPetCategoryInlineAllof.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(id, name, categoryTag, additionalProperties);
   }
 
   @Override

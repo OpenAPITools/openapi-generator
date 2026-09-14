@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -131,12 +129,20 @@ public class ArrayOfNumberOnly {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ArrayOfNumberOnly arrayOfNumberOnly = (ArrayOfNumberOnly) o;
+    return Objects.equals(this.arrayNumber, arrayOfNumberOnly.arrayNumber)&&
+        Objects.equals(this.additionalProperties, arrayOfNumberOnly.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(arrayNumber, additionalProperties);
   }
 
   @Override

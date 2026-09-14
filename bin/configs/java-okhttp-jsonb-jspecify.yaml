@@ -9,7 +9,6 @@ additionalProperties:
   artifactId: petstore-okhttp-jsonb-jspecify
   hideGenerationTimestamp: "true"
   generateBuilders: true
-  useReflectionEqualsHashCode: "true"
   useJspecify: true
 typeMappings:
   OffsetDateTime: java.time.Instant

@@ -18,7 +18,6 @@ additionalProperties:
   useOneOfDiscriminatorLookup: true
   disallowAdditionalPropertiesIfNotPresent: false
   generateBuilders: true
-  useReflectionEqualsHashCode: "true"
   removeEnumValuePrefix: true
 enumNameMappings:
   s: LOWER_CASE_S

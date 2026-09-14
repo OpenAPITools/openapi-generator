@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -156,12 +154,21 @@ public class FileSchemaTestClass {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
+    return Objects.equals(this._file, fileSchemaTestClass._file) &&
+        Objects.equals(this.files, fileSchemaTestClass.files)&&
+        Objects.equals(this.additionalProperties, fileSchemaTestClass.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(_file, files, additionalProperties);
   }
 
   @Override

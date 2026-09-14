@@ -9,7 +9,6 @@ additionalProperties:
   artifactId: petstore-okhttp-jackson3-jspecify
   hideGenerationTimestamp: "true"
   generateBuilders: true
-  useReflectionEqualsHashCode: "true"
   useJackson3: "true"
   openApiNullable: "false"
   useJspecify: true

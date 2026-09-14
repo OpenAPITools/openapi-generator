@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -152,12 +150,21 @@ public class NullableFieldsValue {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    NullableFieldsValue nullableFieldsValue = (NullableFieldsValue) o;
+    return Objects.equals(this.before, nullableFieldsValue.before) &&
+        Objects.equals(this.after, nullableFieldsValue.after)&&
+        Objects.equals(this.additionalProperties, nullableFieldsValue.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(before, after, additionalProperties);
   }
 
   @Override

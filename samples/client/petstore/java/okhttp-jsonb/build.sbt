@@ -19,7 +19,6 @@ lazy val root = (project in file(".")).
       "org.eclipse" % "yasson" % "3.0.4",
       "jakarta.json" % "jakarta.json-api" % "2.1.3",
       "org.eclipse.parsson" % "parsson" % "1.1.7",
-      "org.apache.commons" % "commons-lang3" % "3.18.0",
       "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5",
       "org.junit.jupiter" % "junit-jupiter-api" % "5.10.3" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"

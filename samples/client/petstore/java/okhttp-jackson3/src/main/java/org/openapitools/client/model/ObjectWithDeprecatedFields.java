@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -239,12 +237,23 @@ public class ObjectWithDeprecatedFields {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ObjectWithDeprecatedFields objectWithDeprecatedFields = (ObjectWithDeprecatedFields) o;
+    return Objects.equals(this.uuid, objectWithDeprecatedFields.uuid) &&
+        Objects.equals(this.id, objectWithDeprecatedFields.id) &&
+        Objects.equals(this.deprecatedRef, objectWithDeprecatedFields.deprecatedRef) &&
+        Objects.equals(this.bars, objectWithDeprecatedFields.bars)&&
+        Objects.equals(this.additionalProperties, objectWithDeprecatedFields.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(uuid, id, deprecatedRef, bars, additionalProperties);
   }
 
   @Override

@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
@@ -450,12 +448,31 @@ public class NullableClass {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    NullableClass nullableClass = (NullableClass) o;
+    return Objects.equals(this.integerProp, nullableClass.integerProp) &&
+        Objects.equals(this.numberProp, nullableClass.numberProp) &&
+        Objects.equals(this.booleanProp, nullableClass.booleanProp) &&
+        Objects.equals(this.stringProp, nullableClass.stringProp) &&
+        Objects.equals(this.dateProp, nullableClass.dateProp) &&
+        Objects.equals(this.datetimeProp, nullableClass.datetimeProp) &&
+        Objects.equals(this.arrayNullableProp, nullableClass.arrayNullableProp) &&
+        Objects.equals(this.arrayAndItemsNullableProp, nullableClass.arrayAndItemsNullableProp) &&
+        Objects.equals(this.arrayItemsNullable, nullableClass.arrayItemsNullable) &&
+        Objects.equals(this.objectNullableProp, nullableClass.objectNullableProp) &&
+        Objects.equals(this.objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
+        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable)&&
+        Objects.equals(this.additionalProperties, nullableClass.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(integerProp, numberProp, booleanProp, stringProp, dateProp, datetimeProp, arrayNullableProp, arrayAndItemsNullableProp, arrayItemsNullable, objectNullableProp, objectAndItemsNullableProp, objectItemsNullable, additionalProperties);
   }
 
   @Override

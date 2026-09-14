@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -146,12 +144,21 @@ public class Variable {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Variable variable = (Variable) o;
+    return Objects.equals(this.name, variable.name) &&
+        Objects.equals(this.value, variable.value)&&
+        Objects.equals(this.additionalProperties, variable.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(name, value, additionalProperties);
   }
 
   @Override

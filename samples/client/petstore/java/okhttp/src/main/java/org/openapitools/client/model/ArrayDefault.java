@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
@@ -165,12 +163,21 @@ public class ArrayDefault {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ArrayDefault arrayDefault = (ArrayDefault) o;
+    return Objects.equals(this.withDefaultEmptyBracket, arrayDefault.withDefaultEmptyBracket) &&
+        Objects.equals(this.withoutDefault, arrayDefault.withoutDefault)&&
+        Objects.equals(this.additionalProperties, arrayDefault.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(withDefaultEmptyBracket, withoutDefault, additionalProperties);
   }
 
   @Override

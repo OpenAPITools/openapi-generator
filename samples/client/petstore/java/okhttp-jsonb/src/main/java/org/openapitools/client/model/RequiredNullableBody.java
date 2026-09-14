@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -544,12 +542,33 @@ public class RequiredNullableBody {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    RequiredNullableBody requiredNullableBody = (RequiredNullableBody) o;
+    return Objects.equals(this.integerProp, requiredNullableBody.integerProp) &&
+        Objects.equals(this.numberProp, requiredNullableBody.numberProp) &&
+        Objects.equals(this.booleanProp, requiredNullableBody.booleanProp) &&
+        Objects.equals(this.stringProp, requiredNullableBody.stringProp) &&
+        Objects.equals(this.dateProp, requiredNullableBody.dateProp) &&
+        Objects.equals(this.datetimeProp, requiredNullableBody.datetimeProp) &&
+        Objects.equals(this.arrayNullableProp, requiredNullableBody.arrayNullableProp) &&
+        Objects.equals(this.arrayAndItemsNullableProp, requiredNullableBody.arrayAndItemsNullableProp) &&
+        Objects.equals(this.arrayItemsNullable, requiredNullableBody.arrayItemsNullable) &&
+        Objects.equals(this.objectNullableProp, requiredNullableBody.objectNullableProp) &&
+        Objects.equals(this.objectAndItemsNullableProp, requiredNullableBody.objectAndItemsNullableProp) &&
+        Objects.equals(this.objectItemsNullable, requiredNullableBody.objectItemsNullable) &&
+        Objects.equals(this.customRefEnum, requiredNullableBody.customRefEnum) &&
+        Objects.equals(this.customEnum, requiredNullableBody.customEnum)&&
+        Objects.equals(this.additionalProperties, requiredNullableBody.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(integerProp, numberProp, booleanProp, stringProp, dateProp, datetimeProp, arrayNullableProp, arrayAndItemsNullableProp, arrayItemsNullable, objectNullableProp, objectAndItemsNullableProp, objectItemsNullable, customRefEnum, customEnum, additionalProperties);
   }
 
   @Override

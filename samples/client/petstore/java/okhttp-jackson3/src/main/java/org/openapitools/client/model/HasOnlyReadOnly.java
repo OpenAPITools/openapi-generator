@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -145,12 +143,21 @@ public class HasOnlyReadOnly {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
+    return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
+        Objects.equals(this.foo, hasOnlyReadOnly.foo)&&
+        Objects.equals(this.additionalProperties, hasOnlyReadOnly.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(bar, foo, additionalProperties);
   }
 
   @Override

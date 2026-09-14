@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -395,12 +393,31 @@ public class User {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return Objects.equals(this.id, user.id) &&
+        Objects.equals(this.username, user.username) &&
+        Objects.equals(this.firstName, user.firstName) &&
+        Objects.equals(this.lastName, user.lastName) &&
+        Objects.equals(this.email, user.email) &&
+        Objects.equals(this.password, user.password) &&
+        Objects.equals(this.phone, user.phone) &&
+        Objects.equals(this.userStatus, user.userStatus) &&
+        Objects.equals(this.objectWithNoDeclaredProps, user.objectWithNoDeclaredProps) &&
+        Objects.equals(this.objectWithNoDeclaredPropsNullable, user.objectWithNoDeclaredPropsNullable) &&
+        Objects.equals(this.anyTypeProp, user.anyTypeProp) &&
+        Objects.equals(this.anyTypePropNullable, user.anyTypePropNullable)&&
+        Objects.equals(this.additionalProperties, user.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus, objectWithNoDeclaredProps, objectWithNoDeclaredPropsNullable, anyTypeProp, anyTypePropNullable, additionalProperties);
   }
 
   @Override

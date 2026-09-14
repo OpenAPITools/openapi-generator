@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -152,12 +150,21 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ArrayOfInlineAllOfArrayAllofDogPropertyInner arrayOfInlineAllOfArrayAllofDogPropertyInner = (ArrayOfInlineAllOfArrayAllofDogPropertyInner) o;
+    return Objects.equals(this.breed, arrayOfInlineAllOfArrayAllofDogPropertyInner.breed) &&
+        Objects.equals(this.color, arrayOfInlineAllOfArrayAllofDogPropertyInner.color)&&
+        Objects.equals(this.additionalProperties, arrayOfInlineAllOfArrayAllofDogPropertyInner.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(breed, color, additionalProperties);
   }
 
   @Override

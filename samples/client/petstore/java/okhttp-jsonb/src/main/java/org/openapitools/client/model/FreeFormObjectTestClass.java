@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -146,12 +144,21 @@ public class FreeFormObjectTestClass {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    FreeFormObjectTestClass freeFormObjectTestClass = (FreeFormObjectTestClass) o;
+    return Objects.equals(this.name, freeFormObjectTestClass.name) &&
+        Objects.equals(this.properties, freeFormObjectTestClass.properties)&&
+        Objects.equals(this.additionalProperties, freeFormObjectTestClass.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(name, properties, additionalProperties);
   }
 
   @Override

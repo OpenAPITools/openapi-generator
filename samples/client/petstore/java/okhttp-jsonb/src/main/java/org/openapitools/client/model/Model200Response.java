@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -145,12 +143,21 @@ public class Model200Response {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Model200Response _200response = (Model200Response) o;
+    return Objects.equals(this.name, _200response.name) &&
+        Objects.equals(this.propertyClass, _200response.propertyClass)&&
+        Objects.equals(this.additionalProperties, _200response.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(name, propertyClass, additionalProperties);
   }
 
   @Override

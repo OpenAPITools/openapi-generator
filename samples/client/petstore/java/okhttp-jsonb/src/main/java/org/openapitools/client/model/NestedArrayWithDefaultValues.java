@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -130,12 +128,20 @@ public class NestedArrayWithDefaultValues {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    NestedArrayWithDefaultValues nestedArrayWithDefaultValues = (NestedArrayWithDefaultValues) o;
+    return Objects.equals(this.nestedArray, nestedArrayWithDefaultValues.nestedArray)&&
+        Objects.equals(this.additionalProperties, nestedArrayWithDefaultValues.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(nestedArray, additionalProperties);
   }
 
   @Override

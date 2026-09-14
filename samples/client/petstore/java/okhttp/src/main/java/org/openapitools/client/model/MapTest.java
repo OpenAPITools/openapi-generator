@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
@@ -282,12 +280,23 @@ public class MapTest {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    MapTest mapTest = (MapTest) o;
+    return Objects.equals(this.mapMapOfString, mapTest.mapMapOfString) &&
+        Objects.equals(this.mapOfEnumString, mapTest.mapOfEnumString) &&
+        Objects.equals(this.directMap, mapTest.directMap) &&
+        Objects.equals(this.indirectMap, mapTest.indirectMap)&&
+        Objects.equals(this.additionalProperties, mapTest.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap, additionalProperties);
   }
 
   @Override

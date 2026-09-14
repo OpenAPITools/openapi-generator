@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -555,12 +553,28 @@ public class EnumTest {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    EnumTest enumTest = (EnumTest) o;
+    return Objects.equals(this.enumString, enumTest.enumString) &&
+        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
+        Objects.equals(this.enumIntegerOnly, enumTest.enumIntegerOnly) &&
+        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
+        Objects.equals(this.outerEnum, enumTest.outerEnum) &&
+        Objects.equals(this.outerEnumInteger, enumTest.outerEnumInteger) &&
+        Objects.equals(this.outerEnumDefaultValue, enumTest.outerEnumDefaultValue) &&
+        Objects.equals(this.outerEnumIntegerDefaultValue, enumTest.outerEnumIntegerDefaultValue)&&
+        Objects.equals(this.additionalProperties, enumTest.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(enumString, enumStringRequired, enumInteger, enumIntegerOnly, enumNumber, outerEnum, outerEnumInteger, outerEnumDefaultValue, outerEnumIntegerDefaultValue, additionalProperties);
   }
 
   @Override

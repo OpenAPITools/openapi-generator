@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.io.File;
 import java.math.BigDecimal;
@@ -401,12 +399,31 @@ public class Foo {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Foo foo = (Foo) o;
+    return Objects.equals(this.dt, foo.dt) &&
+        Objects.equals(this.nullableDt, foo.nullableDt) &&
+        Objects.equals(this.binary, foo.binary) &&
+        Objects.equals(this.nullableBinary, foo.nullableBinary) &&
+        Objects.equals(this.listOfDt, foo.listOfDt) &&
+        Objects.equals(this.listMinIntems, foo.listMinIntems) &&
+        Objects.equals(this.nullableListMinIntems, foo.nullableListMinIntems) &&
+        Objects.equals(this.requiredDt, foo.requiredDt) &&
+        Objects.equals(this.number, foo.number) &&
+        Objects.equals(this.nullableNumber, foo.nullableNumber) &&
+        Objects.equals(this.color, foo.color) &&
+        Objects.equals(this.requiredColor, foo.requiredColor) &&
+        Objects.equals(this.nullableColor, foo.nullableColor);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(dt, nullableDt, binary, nullableBinary, listOfDt, listMinIntems, nullableListMinIntems, requiredDt, number, nullableNumber, color, requiredColor, nullableColor);
   }
 
   @Override

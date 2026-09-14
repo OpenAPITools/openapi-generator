@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -203,12 +201,23 @@ public class RequiredAndNullable {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    RequiredAndNullable requiredAndNullable = (RequiredAndNullable) o;
+    return Objects.equals(this.str, requiredAndNullable.str) &&
+        Objects.equals(this._file, requiredAndNullable._file) &&
+        Objects.equals(this.color, requiredAndNullable.color) &&
+        Objects.equals(this.onlyRequired, requiredAndNullable.onlyRequired) &&
+        Objects.equals(this._list, requiredAndNullable._list);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(str, _file, color, onlyRequired, _list);
   }
 
   @Override

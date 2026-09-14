@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
@@ -150,12 +148,21 @@ public class ModelWithOneOfAnyOfProperties {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ModelWithOneOfAnyOfProperties modelWithOneOfAnyOfProperties = (ModelWithOneOfAnyOfProperties) o;
+    return Objects.equals(this.oneofProp, modelWithOneOfAnyOfProperties.oneofProp) &&
+        Objects.equals(this.anyofProp, modelWithOneOfAnyOfProperties.anyofProp)&&
+        Objects.equals(this.additionalProperties, modelWithOneOfAnyOfProperties.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(oneofProp, anyofProp, additionalProperties);
   }
 
   @Override

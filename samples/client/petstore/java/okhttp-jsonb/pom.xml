@@ -265,11 +265,6 @@
             <version>1.1.7</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3-version}</version>
-        </dependency>
-        <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
             <version>${jakarta-annotation-version}</version>
@@ -297,7 +292,6 @@
         <okhttp-version>5.4.0</okhttp-version>
         <jsonb-api-version>3.0.1</jsonb-api-version>
         <yasson-version>3.0.4</yasson-version>
-        <commons-lang3-version>3.18.0</commons-lang3-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <junit-version>5.10.3</junit-version>
         <junit-platform-runner.version>1.10.0</junit-platform-runner.version>

@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -133,12 +131,20 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
 
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AllOfModelArrayAnyOfAllOfLinkListColumn1 allOfModelArrayAnyOfAllOfLinkListColumn1 = (AllOfModelArrayAnyOfAllOfLinkListColumn1) o;
+    return Objects.equals(this.value, allOfModelArrayAnyOfAllOfLinkListColumn1.value)&&
+        Objects.equals(this.additionalProperties, allOfModelArrayAnyOfAllOfLinkListColumn1.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(value, additionalProperties);
   }
 
   @Override
