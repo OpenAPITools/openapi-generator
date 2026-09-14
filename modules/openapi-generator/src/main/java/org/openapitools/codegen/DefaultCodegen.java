@@ -7170,13 +7170,38 @@ public class DefaultCodegen implements CodegenConfig {
         return enumDefaultValue;
     }
 
+    /**
+     * Builds enum metadata using the original OpenAPI values for both generation and raw metadata.
+     *
+     * @param values original enum values from the OpenAPI schema; null entries are skipped
+     * @param dataType target data type of the enum
+     * @return enum entries containing generated names, formatted values, and original raw values
+     */
     protected List<EnumVarMap> buildEnumVars(List<Object> values, String dataType) {
+        return buildEnumVars(values, dataType, values);
+    }
+
+    /**
+     * Builds enum metadata using separate values for generation and raw metadata.
+     *
+     * @param values values used to generate enum names and formatted values; null entries are skipped
+     * @param dataType target data type of the enum
+     * @param rawValues original OpenAPI values, in the same order and with the same number of
+     *                  entries as values; each emitted entry retains its corresponding raw value and type
+     * @return enum entries containing generated names, formatted values, and original raw values
+     * @throws IllegalArgumentException if the lists have different sizes
+     */
+    protected List<EnumVarMap> buildEnumVars(List<Object> values, String dataType, List<Object> rawValues) {
+        if (values.size() != rawValues.size()) {
+            throw new IllegalArgumentException("values and rawValues must have the same number of entries");
+        }
         List<EnumVarMap> enumVars = new ArrayList<>();
         int truncateIdx = isRemoveEnumValuePrefix()
                 ? findCommonPrefixOfVars(values).length()
                 : 0;
 
-        for (Object value : values) {
+        for (int i = 0; i < values.size(); i++) {
+            Object value = values.get(i);
             if (value == null) {
                 // raw null values in enums are unions for nullable
                 // attributes, not actual enum values, so we remove them here
@@ -7194,6 +7219,7 @@ public class DefaultCodegen implements CodegenConfig {
             final String finalEnumName = toEnumVarName(enumName, dataType);
 
             enumVar.enumVar(finalEnumName, toEnumValue(String.valueOf(value), dataType), isDataTypeString(dataType));
+            enumVar.setEnumRawValue(rawValues.get(i));
             // TODO: add isNumeric
             enumVars.add(enumVar);
         }
@@ -7227,6 +7253,7 @@ public class DefaultCodegen implements CodegenConfig {
                 String.valueOf(11184809);
 
         enumVar.enumVar(toEnumVarName(enumName, dataType), toEnumValue(enumValue, dataType), isDataTypeString(dataType));
+        enumVar.setEnumRawValue(enumValue);
         // TODO: add isNumeric
         enumVars.add(enumVar);
     }
