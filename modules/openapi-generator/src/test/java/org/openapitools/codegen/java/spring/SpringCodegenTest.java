@@ -2287,6 +2287,56 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void schemaNamedSchemaDoesNotCollideWithSwagger2Annotation_issue16584() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_16584.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        // The api must reference the generated model, not the swagger annotation. Importing both
+        // would be a compile error: two single-type imports for the same simple name.
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SchemasApi.java"))
+                .hasImports("org.openapitools.model.Schema")
+                .hasNoImports("io.swagger.v3.oas.annotations.media.Schema")
+                .fileContains("ResponseEntity<Schema> getSchema")
+                .fileContains("@io.swagger.v3.oas.annotations.media.Schema(implementation = Schema.class)");
+
+        // In the model the declared class shadows the annotation, so the annotation is qualified.
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Schema.java"))
+                .hasNoImports("io.swagger.v3.oas.annotations.media.Schema")
+                .fileContains("@io.swagger.v3.oas.annotations.media.Schema(name = \"id\"");
+    }
+
+    @Test
+    public void schemaNamedSchemaKeepsExplicitImportMapping_issue16584() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.processOpts();
+        // DefaultGenerator applies --import-mappings after processOpts(), so mirror that order.
+        codegen.importMapping().put("Schema", "com.example.custom.Schema");
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_16584.yaml", null, new ParseOptions()).getOpenAPI();
+        codegen.preprocessOpenAPI(openAPI);
+
+        // A user-supplied --import-mappings entry must survive the collision workaround.
+        Assert.assertEquals(codegen.importMapping().get("Schema"), "com.example.custom.Schema");
+    }
+
+    @Test
     public void testImportMappings() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put("useSpringBoot3", false);
@@ -6764,9 +6814,12 @@ public class SpringCodegenTest {
         File apiFile = files.get("Schema.java");
         assertNotNull(apiFile);
 
-        JavaFileAssert.assertThat(apiFile).fileContains(
-            "import io.swagger.v3.oas.annotations.media.Schema;"
-        );
+        // The spec names a schema "Schema". A single-type import of the annotation cannot coexist
+        // with the model class of the same name declared in this compilation unit (JLS 7.5.1), so
+        // the annotation is emitted fully qualified instead of imported. See issue #16584.
+        JavaFileAssert.assertThat(apiFile)
+            .fileDoesNotContain("import io.swagger.v3.oas.annotations.media.Schema;")
+            .fileContains("@io.swagger.v3.oas.annotations.media.Schema(");
     }
 
     @Test

@@ -29,7 +29,9 @@ import {{jacksonPackage}}.dataformat.xml.annotation.JacksonXmlElementWrapper;
 {{/withXml}}
 {{/jackson}}
 {{#swagger2AnnotationLibrary}}
+{{#importSwagger2SchemaAnnotation}}
 import io.swagger.v3.oas.annotations.media.Schema;
+{{/importSwagger2SchemaAnnotation}}
 {{/swagger2AnnotationLibrary}}
 
 {{#withXml}}
