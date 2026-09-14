@@ -166,7 +166,12 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/isArray}}
     {{^isArray}}
     {{^isNullable}}
+    {{#isMap}}
+    req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(&{{{vendorExtensions.x-rust-param-identifier}}})?)]);
+    {{/isMap}}
+    {{^isMap}}
     req_builder = req_builder.query(&[("{{{baseName}}}", &{{{vendorExtensions.x-rust-param-identifier}}}.to_string())]);
+    {{/isMap}}
     {{/isNullable}}
     {{#isNullable}}
     {{#isDeepObject}}
