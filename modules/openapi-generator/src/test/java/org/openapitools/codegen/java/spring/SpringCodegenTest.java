@@ -9398,4 +9398,37 @@ public class SpringCodegenTest {
                 .fileContains(expectedContains);
     }
 
+    @Test
+    public void readOnlyPropertiesGetJsonPropertyAnnotation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/readonly-properties-test.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        // Verify that readOnly properties generate @JsonProperty with access=READ_ONLY
+        // while non-readOnly properties keep the simple @JsonProperty("name") format
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/User.java"))
+                .fileContains("@JsonProperty(value = \"id\", access = JsonProperty.Access.READ_ONLY)")
+                .fileContains("@JsonProperty(value = \"createdAt\", access = JsonProperty.Access.READ_ONLY)")
+                .fileContains("@JsonProperty(\"username\")")
+                .fileContains("@JsonProperty(\"email\")");
+    }
+
 }
