@@ -1251,22 +1251,16 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Whether {@code operation} is one of the variants {@link #divideOperationsByContentType} split an
-     * operation into.
-     */
-    protected static boolean isContentTypeVariant(Operation operation) {
-        return operation != null && operation.getExtensions() != null
-                && operation.getExtensions().containsKey(CodegenConstants.X_CONTENT_TYPE_VARIANT_GROUP);
-    }
-
-    /**
      * The media-type a content-type variant was narrowed to on one axis — {@code axisExtension} being
      * {@link CodegenConstants#X_CONTENT_TYPE_VARIANT_REQUEST} or
-     * {@link CodegenConstants#X_CONTENT_TYPE_VARIANT_RESPONSE} — or {@code null} when the operation is not a
-     * variant or that axis was not split.
+     * {@link CodegenConstants#X_CONTENT_TYPE_VARIANT_RESPONSE} — or {@code null} when the operation is not
+     * one of the variants {@link #divideOperationsByContentType} split an operation into (every variant
+     * carries the group extension) or that axis was not split.
      */
     protected static String contentTypeVariantMediaType(Operation operation, String axisExtension) {
-        Object mediaType = isContentTypeVariant(operation) ? operation.getExtensions().get(axisExtension) : null;
+        Map<String, Object> extensions = operation.getExtensions();
+        Object mediaType = extensions != null && extensions.containsKey(CodegenConstants.X_CONTENT_TYPE_VARIANT_GROUP)
+                ? extensions.get(axisExtension) : null;
         return mediaType instanceof String ? (String) mediaType : null;
     }
 
@@ -4962,7 +4956,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
             // a content-type variant produces only what its method response, the one the split narrowed,
-            // declares (see getProducesInfo); any other operation produces the union of its responses
+            // declares (see getProducesInfo)
             boolean producesNarrowed = contentTypeVariantMediaType(operation, CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE) != null;
             if (producesNarrowed) {
                 addProducesInfo(methodResponse, op);

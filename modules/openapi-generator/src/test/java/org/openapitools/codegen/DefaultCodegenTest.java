@@ -5475,7 +5475,7 @@ public class DefaultCodegenTest {
     }
 
     private static List<String> mediaTypes(List<Map<String, String>> media) {
-        return media.stream().map(m -> m.get("mediaType")).collect(Collectors.toList());
+        return media.stream().map(m -> m.get(MEDIA_TYPE)).collect(Collectors.toList());
     }
 
     @Test
