@@ -25,16 +25,37 @@ main() {
     local root_dir
     root_dir=$(git rev-parse --show-toplevel)
     local dir
+    local selection_file
+    selection_file=$(mktemp)
+    trap 'rm -f -- "$selection_file"' EXIT
 
-    for dir in $(git ls-files samples | grep 'tsconfig.json$' | xargs -n1 dirname | sort -u); do
-        if [[ ! -f "${root_dir}/${dir}/.openapi-generator-ignore" ]]; then
-            # This is not a generated sample; skip it
-            continue
-        fi
-        if [[ ! -f "${root_dir}/${dir}/package.json" ]]; then
-            # we can't really guarantee that all dependencies are there to do a typecheck...
-            continue            
-        fi
+    node - "$root_dir" "$@" > "$selection_file" <<'NODE'
+const {execFileSync} = require('child_process');
+const fs = require('fs');
+const nativePath = require('path');
+const path = require('path').posix;
+const [root, ...args] = process.argv.slice(2);
+const tracked = new Set(execFileSync('git', ['ls-files', '-z', '--', 'samples'], {
+    cwd: root, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024
+}).split('\0').filter(Boolean));
+const eligible = new Set([...tracked].filter(file => file.endsWith('/tsconfig.json'))
+    .map(file => path.dirname(file))
+    .filter(dir => fs.existsSync(nativePath.join(root, dir, '.openapi-generator-ignore')) &&
+        fs.existsSync(nativePath.join(root, dir, 'package.json'))));
+let selected = [...eligible].sort();
+if (args.length) {
+    if (args.length !== 2 || args[0] !== '--samples-json') {
+        throw new Error('Usage: ts-typecheck-all.sh [--samples-json \'["sample/path"]\']');
+    }
+    selected = JSON.parse(args[1]);
+    if (!Array.isArray(selected) || selected.some(dir => typeof dir !== 'string' || !eligible.has(dir))) {
+        throw new Error('Selection must contain only eligible tracked TypeScript sample directories');
+    }
+}
+for (const dir of new Set(selected)) process.stdout.write(`${dir}\0`);
+NODE
+
+    while IFS= read -r -d '' dir; do
         log "➤ ${dir}"
         pushd "${root_dir}/${dir}" > /dev/null
         npm_install \
@@ -43,7 +64,9 @@ main() {
         log "✓ ${dir}"
         log
         popd > /dev/null
-    done
+    done < "$selection_file"
+    rm -f -- "$selection_file"
+    trap - EXIT
 }
 
 main "$@"

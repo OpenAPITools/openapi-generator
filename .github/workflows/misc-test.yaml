@@ -16,6 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Check CI scope coverage
+        run: node .github/.test/ci-scopes.js
+      - name: Test CI change selection
+        run: python3 -m unittest discover -s CI/tests -p 'test_*.py'
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.6'

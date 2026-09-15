@@ -1,39 +1,39 @@
 name: Samples Go Clients
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
-      - 'samples/openapi3/client/petstore/go-petstore-withXml/**'
-      - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/**
-      - samples/client/others/go/allof_multiple_ref_and_discriminator/**
-      - samples/client/others/go/oneof-anyof-required/**
-      - samples/client/others/go/oneof-discriminator-lookup/**
-      - samples/client/others/go/issue_20079_go_regex_wrongly_translated/**
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
-      - 'samples/openapi3/client/petstore/go-petstore-withXml/**'
-      - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/**
-      - samples/client/others/go/allof_multiple_ref_and_discriminator/**
-      - samples/client/others/go/oneof-anyof-required/**
-      - samples/client/others/go/oneof-discriminator-lookup/**
-      - samples/client/others/go/issue_20079_go_regex_wrongly_translated/**
+
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-go-client.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Build Go
     runs-on: windows-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/'
-          - 'samples/openapi3/client/petstore/go-petstore-withXml/'
-          - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/
-          - samples/client/others/go/allof_multiple_ref_and_discriminator/
-          - samples/client/others/go/oneof-anyof-required/
-          - samples/client/others/go/oneof-discriminator-lookup/
-          - samples/client/others/go/issue_20079_go_regex_wrongly_translated/
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-go@v7

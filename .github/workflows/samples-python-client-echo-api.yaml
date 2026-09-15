@@ -1,28 +1,39 @@
 name: Python Client (Echo API)
 
 on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - samples/client/echo_api/python/**
-      - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent/**
-      - .github/workflows/samples-python-client-echo-api.yaml
+
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-python-client-echo-api.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Test Python client
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          # clients
-          - samples/client/echo_api/python
-          - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent
-        python-version:
-          - "3.10"
-          - "3.11"
-          - "3.12"
-          - "3.13"
-          - "3.14"
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7

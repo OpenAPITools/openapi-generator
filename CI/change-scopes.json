@@ -1,0 +1,3506 @@
+{
+  "version": 1,
+  "suites": {
+    "gradle-test.build": {
+      "workflow": ".github/workflows/gradle-test.yaml",
+      "matrix": {
+        "sample": [
+          "samples/openapi3/client/extensions/x-auth-id-alias/java/jersey2-java8",
+          "samples/openapi3/client/petstore/java/jersey2-java8-special-characters",
+          "samples/openapi3/client/petstore/java/jersey2-java8",
+          "samples/client/petstore/java/jersey2-java8-localdatetime",
+          "samples/client/petstore/java/jersey2-java8",
+          "samples/client/petstore/java/okhttp-gson",
+          "samples/client/petstore/java/okhttp-gson-group-parameter",
+          "samples/client/petstore/java/webclient-swagger2",
+          "samples/client/petstore/java/native",
+          "samples/client/petstore/java/native-jakarta"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/java/**",
+        "samples/openapi3/client/petstore/java/**"
+      ]
+    },
+    "samples-aspnet-fastenpoints-server.build": {
+      "workflow": ".github/workflows/samples-aspnet-fastenpoints-server.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/aspnet/fastendpoints",
+          "samples/server/petstore/aspnet/fastendpoints-useApiVersioning",
+          "samples/server/petstore/aspnet/fastendpoints-useAuthentication",
+          "samples/server/petstore/aspnet/fastendpoints-useProblemDetails",
+          "samples/server/petstore/aspnet/fastendpoints-useRecords",
+          "samples/server/petstore/aspnet/fastendpoints-useResponseCaching",
+          "samples/server/petstore/aspnet/fastendpoints-useValidators"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/aspnet/fastendpoints/**",
+        "samples/server/petstore/aspnet/fastendpoints-*/**"
+      ]
+    },
+    "samples-c-libcurl-client.build": {
+      "workflow": ".github/workflows/samples-c-libcurl-client.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/c/",
+          "samples/client/petstore/c-useJsonUnformatted/",
+          "samples/client/others/c/bearerAuth/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/c/**",
+        "samples/client/petstore/c-useJsonUnformatted/**",
+        "samples/client/others/c/bearerAuth/**"
+      ]
+    },
+    "samples-clojure.build": {
+      "workflow": ".github/workflows/samples-clojure.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/clojure/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/clojure/**"
+      ]
+    },
+    "samples-cpp-httplib-server.build": {
+      "workflow": ".github/workflows/samples-cpp-httplib-server.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/cpp-httplib-server/petstore",
+          "samples/server/petstore/cpp-httplib-server/feature-test"
+        ],
+        "os": [
+          "ubuntu-latest",
+          "macOS-latest",
+          "windows-latest"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/cpp-httplib-server/**",
+        ".github/workflows/samples-cpp-httplib-server.yaml"
+      ]
+    },
+    "samples-cpp-oatpp-client.build": {
+      "workflow": ".github/workflows/samples-cpp-oatpp-client.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/cpp-oatpp"
+        ],
+        "os": [
+          "ubuntu-latest",
+          "macOS-latest",
+          "windows-latest"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/cpp-oatpp/**"
+      ]
+    },
+    "samples-cpp-oatpp-server.build": {
+      "workflow": ".github/workflows/samples-cpp-oatpp-server.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/cpp-oatpp"
+        ],
+        "os": [
+          "ubuntu-latest",
+          "macOS-latest",
+          "windows-latest"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/cpp-oatpp/**"
+      ]
+    },
+    "samples-cpp-qt-client.build": {
+      "workflow": ".github/workflows/samples-cpp-qt-client.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/cpp-qt",
+          "samples/client/petstore/cpp-qt-addDownloadProgress"
+        ],
+        "os": [
+          "ubuntu-latest",
+          "macOS-latest",
+          "windows-latest"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/cpp-qt*/**"
+      ]
+    },
+    "samples-crystal.build": {
+      "workflow": ".github/workflows/samples-crystal.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/crystal/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/crystal/**"
+      ]
+    },
+    "samples-dart-build-test.test": {
+      "workflow": ".github/workflows/samples-dart-build-test.yaml",
+      "matrix": {
+        "os": [
+          "ubuntu-latest",
+          "windows-latest"
+        ],
+        "sdk": [
+          "3.9.0"
+        ],
+        "sample": [
+          "samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/",
+          "samples/openapi3/client/petstore/dart-dio/oneof/",
+          "samples/openapi3/client/petstore/dart-dio/anyof/",
+          "samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/",
+          "samples/openapi3/client/petstore/dart-dio/binary_response/",
+          "samples/openapi3/client/petstore/dart-dio/petstore-timemachine/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**",
+        "samples/openapi3/client/petstore/dart-dio/oneof/**",
+        "samples/openapi3/client/petstore/dart-dio/anyof/**",
+        "samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**",
+        "samples/openapi3/client/petstore/dart-dio/binary_response/**",
+        "samples/openapi3/client/petstore/dart-dio/petstore-timemachine/**"
+      ]
+    },
+    "samples-dart.tests-dart": {
+      "workflow": ".github/workflows/samples-dart.yaml",
+      "paths": [
+        "samples/openapi3/client/petstore/dart*/**"
+      ],
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml",
+        "modules/**",
+        ".github/actions/run-samples/**",
+        "samples/pom.xml"
+      ],
+      "shadow_paths": [
+        "samples/openapi3/client/petstore/dart*/**"
+      ]
+    },
+    "samples-dotnet-fx.build": {
+      "workflow": ".github/workflows/samples-dotnet-fx.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/csharp/generichost/net4.7/AllOf",
+          "samples/client/petstore/csharp/generichost/net4.7/AnyOf",
+          "samples/client/petstore/csharp/generichost/net4.7/AnyOfNoCompare",
+          "samples/client/petstore/csharp/generichost/net4.7/FormModels",
+          "samples/client/petstore/csharp/generichost/net4.7/OneOf",
+          "samples/client/petstore/csharp/generichost/net4.7/Petstore",
+          "samples/client/petstore/csharp/generichost/net4.7/UseDateTimeForDate",
+          "samples/client/petstore/csharp/generichost/net4.8/AllOf",
+          "samples/client/petstore/csharp/generichost/net4.8/AnyOf",
+          "samples/client/petstore/csharp/generichost/net4.8/AnyOfNoCompare",
+          "samples/client/petstore/csharp/generichost/net4.8/FormModels",
+          "samples/client/petstore/csharp/generichost/net4.8/OneOf",
+          "samples/client/petstore/csharp/generichost/net4.8/Petstore",
+          "samples/client/petstore/csharp/generichost/net4.8/UseDateTimeForDate"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/csharp/generichost/net4.7/**",
+        "samples/client/petstore/csharp/generichost/net4.8/**"
+      ]
+    },
+    "samples-dotnet-petstore-net10.build": {
+      "workflow": ".github/workflows/samples-dotnet-petstore-net10.yml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/csharp/restsharp/net10/Petstore/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/csharp/restsharp/net10/Petstore/**"
+      ]
+    },
+    "samples-dotnet-petstore.build": {
+      "workflow": ".github/workflows/samples-dotnet-petstore.yml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/csharp/restsharp/standard2.0/Petstore/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/csharp/restsharp/standard2.0/Petstore/**"
+      ]
+    },
+    "samples-dotnet-standard.build": {
+      "workflow": ".github/workflows/samples-dotnet-standard.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/csharp/generichost/standard2.0/Petstore/",
+          "samples/client/petstore/csharp/httpclient/standard2.0/Petstore/",
+          "samples/client/petstore/csharp/restsharp/standard2.0/Petstore/",
+          "samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/csharp/generichost/standard2.0/**",
+        "samples/client/petstore/csharp/httpclient/standard2.0/**",
+        "samples/client/petstore/csharp/restsharp/standard2.0/**",
+        "samples/client/petstore/csharp/unityWebRequest/standard2.0/**"
+      ]
+    },
+    "samples-dotnet10.build": {
+      "workflow": ".github/workflows/samples-dotnet10.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/csharp/generichost/latest/AnnotatedEnum",
+          "samples/client/petstore/csharp/generichost/latest/ComposedEnum",
+          "samples/client/petstore/csharp/generichost/latest/InlineEnumAnyOf",
+          "samples/client/petstore/csharp/generichost/latest/Tags",
+          "samples/client/petstore/csharp/generichost/latest/HelloWorld",
+          "samples/client/petstore/csharp/generichost/latest/NullTypes",
+          "samples/client/petstore/csharp/generichost/latest/OneOfList",
+          "samples/client/petstore/csharp/generichost/latest/UseDateTimeOffset",
+          "samples/client/petstore/csharp/generichost/net10/AllOf",
+          "samples/client/petstore/csharp/generichost/net10/AnyOf",
+          "samples/client/petstore/csharp/generichost/net10/AnyOfNoCompare",
+          "samples/client/petstore/csharp/generichost/net10/FormModels",
+          "samples/client/petstore/csharp/generichost/net10/NullReferenceTypes",
+          "samples/client/petstore/csharp/generichost/net10/OneOf",
+          "samples/client/petstore/csharp/generichost/net10/Petstore",
+          "samples/client/petstore/csharp/generichost/net10/SourceGeneration",
+          "samples/client/petstore/csharp/generichost/net10/UseDateTimeForDate",
+          "samples/client/petstore/csharp/restsharp/net10/EnumMappings",
+          "samples/client/petstore/csharp/httpclient/net10/Petstore",
+          "samples/client/petstore/csharp/httpclient/net10/Petstore-nonPublicApi"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/csharp/generichost/latest/**",
+        "samples/client/petstore/csharp/generichost/net10/**",
+        "samples/client/petstore/csharp/httpclient/net10/**",
+        "samples/client/petstore/csharp/restsharp/net10/**",
+        "samples/client/petstore/csharp/unityWebRequest/net10/**"
+      ]
+    },
+    "samples-dotnet6-server.build": {
+      "workflow": ".github/workflows/samples-dotnet6-server.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/aspnetcore-6.0",
+          "samples/server/petstore/aspnetcore-6.0-NewtonsoftFalse",
+          "samples/server/petstore/aspnetcore-6.0-nullableReferenceTypes",
+          "samples/server/petstore/aspnetcore-6.0-pocoModels",
+          "samples/server/petstore/aspnetcore-6.0-project4Models",
+          "samples/server/petstore/aspnetcore-6.0-useSwashBuckle"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/aspnetcore-6.0/**",
+        "samples/server/petstore/aspnetcore-6.0-*/**"
+      ]
+    },
+    "samples-dotnet7-client.build": {
+      "workflow": ".github/workflows/samples-dotnet7-client.yml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/",
+          "samples/client/petstore/csharp/restsharp/net4.7/Petstore/",
+          "samples/client/petstore/csharp/restsharp/net4.8/Petstore/",
+          "samples/client/petstore/csharp/restsharp/net8/ParameterMappings/",
+          "samples/client/petstore/csharp/restsharp/net8/EnumMappings/",
+          "samples/client/petstore/csharp/restsharp/net8/Petstore/",
+          "samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate/",
+          "samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/**",
+        "samples/client/petstore/csharp/restsharp/net4.7/Petstore/**",
+        "samples/client/petstore/csharp/restsharp/net4.8/Petstore/**",
+        "samples/client/petstore/csharp/restsharp/net8/ParameterMappings/**",
+        "samples/client/petstore/csharp/restsharp/net8/EnumMappings/**",
+        "samples/client/petstore/csharp/restsharp/net8/Petstore/**",
+        "samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate/**",
+        "samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/**"
+      ]
+    },
+    "samples-dotnet8-client-echo-api.build": {
+      "workflow": ".github/workflows/samples-dotnet8-client-echo-api.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/echo_api/csharp/restsharp/net8/EchoApi"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/echo_api/csharp/restsharp/net8/**"
+      ]
+    },
+    "samples-dotnet8-client.build": {
+      "workflow": ".github/workflows/samples-dotnet8-client.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/csharp/restsharp/net8/ParameterMappings/",
+          "samples/client/petstore/csharp/restsharp/net8/useVirtualForHooks/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/csharp/restsharp/net8/**"
+      ]
+    },
+    "samples-dotnet8-server.build": {
+      "workflow": ".github/workflows/samples-dotnet8-server.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/aspnetcore-8.0",
+          "samples/server/petstore/aspnetcore-8.0-NewtonsoftFalse",
+          "samples/server/petstore/aspnetcore-8.0-nullableReferenceTypes",
+          "samples/server/petstore/aspnetcore-8.0-pocoModels",
+          "samples/server/petstore/aspnetcore-8.0-project4Models",
+          "samples/server/petstore/aspnetcore-8.0-useSwashBuckle",
+          "samples/server/petstore/aspnetcore-8.0-use-centralized-package-version-management"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/aspnetcore-8.0/**",
+        "samples/server/petstore/aspnetcore-8.0-*/**"
+      ]
+    },
+    "samples-dotnet8.build": {
+      "workflow": ".github/workflows/samples-dotnet8.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/csharp/generichost/net8/AllOf",
+          "samples/client/petstore/csharp/generichost/net8/AnyOf",
+          "samples/client/petstore/csharp/generichost/net8/AnyOfNoCompare",
+          "samples/client/petstore/csharp/generichost/net8/FormModels",
+          "samples/client/petstore/csharp/generichost/net8/ManualPetstoreTests",
+          "samples/client/petstore/csharp/generichost/net8/ManualSourceGenerationTests",
+          "samples/client/petstore/csharp/generichost/net8/NullReferenceTypes",
+          "samples/client/petstore/csharp/generichost/net8/OneOf",
+          "samples/client/petstore/csharp/generichost/net8/Petstore",
+          "samples/client/petstore/csharp/generichost/net8/SourceGeneration",
+          "samples/client/petstore/csharp/generichost/net8/UseDateTimeForDate"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/csharp/generichost/net8/**",
+        "samples/client/petstore/csharp/httpclient/net8/**",
+        "samples/client/petstore/csharp/restsharp/net8/**",
+        "samples/client/petstore/csharp/unityWebRequest/net8/**"
+      ]
+    },
+    "samples-dotnet9.build": {
+      "workflow": ".github/workflows/samples-dotnet9.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/csharp/generichost/net9/AllOf",
+          "samples/client/petstore/csharp/generichost/net9/AnyOf",
+          "samples/client/petstore/csharp/generichost/net9/AnyOfNoCompare",
+          "samples/client/petstore/csharp/generichost/net9/FormModels",
+          "samples/client/petstore/csharp/generichost/net9/NullReferenceTypes",
+          "samples/client/petstore/csharp/generichost/net9/OneOf",
+          "samples/client/petstore/csharp/generichost/net9/Petstore",
+          "samples/client/petstore/csharp/generichost/net9/SourceGeneration",
+          "samples/client/petstore/csharp/generichost/net9/UseDateTimeForDate",
+          "samples/client/petstore/csharp/restsharp/net9/EnumMappings",
+          "samples/client/petstore/csharp/httpclient/net9/Petstore",
+          "samples/client/petstore/csharp/httpclient/net9/Petstore-nonPublicApi"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/csharp/generichost/net9/**",
+        "samples/client/petstore/csharp/httpclient/net9/**",
+        "samples/client/petstore/csharp/restsharp/net9/**",
+        "samples/client/petstore/csharp/unityWebRequest/net9/**"
+      ]
+    },
+    "samples-elixir.build": {
+      "workflow": ".github/workflows/samples-elixir.yaml",
+      "matrix": {
+        "otp": [
+          "25.3.2",
+          "26.2.5",
+          "27.3.3"
+        ],
+        "elixir": [
+          "1.18.3"
+        ],
+        "sample": [
+          "samples/client/petstore/elixir/",
+          "samples/client/petstore/elixir-req/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/elixir/**",
+        "samples/client/petstore/elixir-req/**"
+      ]
+    },
+    "samples-elm.build": {
+      "workflow": ".github/workflows/samples-elm.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/elm",
+          "samples/openapi3/client/elm"
+        ]
+      },
+      "shadow_paths": [
+        ".github/workflows/samples-elm.yaml",
+        "samples/client/petstore/elm/**",
+        "samples/openapi3/client/elm/**"
+      ]
+    },
+    "samples-erlang.build": {
+      "workflow": ".github/workflows/samples-erlang.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/echo_api/erlang-server/",
+          "samples/server/petstore/erlang-server/",
+          "samples/client/petstore/erlang-client/",
+          "samples/client/petstore/erlang-proper/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/echo_api/erlang-server/**",
+        "samples/server/petstore/erlang-server/**",
+        "samples/client/petstore/erlang-client/**",
+        "samples/client/petstore/erlang-proper/**"
+      ]
+    },
+    "samples-go-client-echo-api.build": {
+      "workflow": ".github/workflows/samples-go-client-echo-api.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/echo_api/go"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/echo_api/go/**",
+        ".github/workflows/samples-go-client-echo-api.yaml"
+      ]
+    },
+    "samples-go-client-petstore.build": {
+      "workflow": ".github/workflows/samples-go-client-petstore.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/go/",
+          "samples/openapi3/client/petstore/go/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/go/**",
+        "samples/openapi3/client/petstore/go/**"
+      ]
+    },
+    "samples-go-client.build": {
+      "workflow": ".github/workflows/samples-go-client.yaml",
+      "matrix": {
+        "sample": [
+          "samples/openapi3/client/petstore/go/go-petstore-aws-signature/",
+          "samples/openapi3/client/petstore/go-petstore-withXml/",
+          "samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/",
+          "samples/client/others/go/allof_multiple_ref_and_discriminator/",
+          "samples/client/others/go/oneof-anyof-required/",
+          "samples/client/others/go/oneof-discriminator-lookup/",
+          "samples/client/others/go/issue_20079_go_regex_wrongly_translated/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/openapi3/client/petstore/go/go-petstore-aws-signature/**",
+        "samples/openapi3/client/petstore/go-petstore-withXml/**",
+        "samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/**",
+        "samples/client/others/go/allof_multiple_ref_and_discriminator/**",
+        "samples/client/others/go/oneof-anyof-required/**",
+        "samples/client/others/go/oneof-discriminator-lookup/**",
+        "samples/client/others/go/issue_20079_go_regex_wrongly_translated/**"
+      ]
+    },
+    "samples-go-gin.build": {
+      "workflow": ".github/workflows/samples-go-gin.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/go-gin-api-server/",
+          "samples/server/petstore/go-gin-api-server-interface-only/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/go-gin-api-server/**",
+        "samples/server/petstore/go-gin-api-server-interface-only/**"
+      ]
+    },
+    "samples-go.build": {
+      "workflow": ".github/workflows/samples-go.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/go-echo-server/",
+          "samples/server/petstore/go-api-server/",
+          "samples/server/petstore/go-chi-server/",
+          "samples/server/others/go-server/no-body-path-params/",
+          "samples/server/others/go-server/optional-body/",
+          "samples/server/others/go-server/required-zero-value/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/go-echo-server/**",
+        "samples/server/petstore/go-api-server/**",
+        "samples/server/petstore/go-chi-server/**",
+        "samples/server/others/go-server/**"
+      ]
+    },
+    "samples-go.verify": {
+      "workflow": ".github/workflows/samples-go.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/go-api-server/"
+        ],
+        "go-version": [
+          "1.25"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/go-echo-server/**",
+        "samples/server/petstore/go-api-server/**",
+        "samples/server/petstore/go-chi-server/**",
+        "samples/server/others/go-server/**"
+      ]
+    },
+    "samples-groovy.build": {
+      "workflow": ".github/workflows/samples-groovy.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/groovy"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/groovy**"
+      ]
+    },
+    "samples-haskell.build": {
+      "workflow": ".github/workflows/samples-haskell.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/haskell-yesod/",
+          "samples/server/petstore/haskell-servant/",
+          "samples/server/others/haskell-servant-ping/",
+          "samples/client/petstore/haskell-http-client/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/haskell-yesod/**",
+        "samples/server/petstore/haskell-servant/**",
+        "samples/server/others/haskell-servant-ping/**",
+        "samples/client/petstore/haskell-http-client/**"
+      ]
+    },
+    "samples-java-client-echo-api-jdk11.build": {
+      "workflow": ".github/workflows/samples-java-client-echo-api-jdk11.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/echo_api/java/apache-httpclient",
+          "samples/client/echo_api/java/native",
+          "samples/client/echo_api/java/feign-gson",
+          "samples/client/echo_api/java/resttemplate",
+          "samples/client/echo_api/java/resteasy"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/client/echo_api/java/**"
+      ]
+    },
+    "samples-java-client-echo-api-jdk17.build": {
+      "workflow": ".github/workflows/samples-java-client-echo-api-jdk17.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/echo_api/java/apache-httpclient",
+          "samples/client/echo_api/java/native",
+          "samples/client/echo_api/java/feign-gson",
+          "samples/client/echo_api/java/resttemplate",
+          "samples/client/echo_api/java/resteasy",
+          "samples/client/echo_api/java/restclient"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/client/echo_api/java/**"
+      ]
+    },
+    "samples-java-client-echo-api-jdk8.build": {
+      "workflow": ".github/workflows/samples-java-client-echo-api-jdk8.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/echo_api/java/apache-httpclient",
+          "samples/client/echo_api/java/feign-gson",
+          "samples/client/echo_api/java/okhttp-gson",
+          "samples/client/echo_api/java/resttemplate",
+          "samples/client/echo_api/java/resteasy"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/client/echo_api/java/apache-httpclient/**",
+        "samples/client/echo_api/java/feign-gson/**",
+        "samples/client/echo_api/java/okhttp-gson/**",
+        "samples/client/echo_api/java/resteasy/**"
+      ]
+    },
+    "samples-java-client-jdk11.build": {
+      "workflow": ".github/workflows/samples-java-client-jdk11.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/jaxrs-cxf-client-swagger2",
+          "samples/client/petstore/jaxrs-cxf-client",
+          "samples/client/petstore/java/native",
+          "samples/client/petstore/java/native-async",
+          "samples/client/petstore/java/native-jakarta",
+          "samples/client/petstore/java/native-useGzipFeature",
+          "samples/client/petstore/java/retrofit2",
+          "samples/client/petstore/java/retrofit2rx2",
+          "samples/client/petstore/java/retrofit2rx3",
+          "samples/client/petstore/java/retrofit2-play26",
+          "samples/client/petstore/java/resttemplate",
+          "samples/client/petstore/java/resttemplate-withXml",
+          "samples/client/petstore/java/webclient",
+          "samples/client/petstore/java/webclient-nullable-arrays",
+          "samples/client/petstore/java/webclient-swagger2",
+          "samples/client/petstore/java/webclient-useSingleRequestParameter",
+          "samples/client/petstore/java/vertx",
+          "samples/client/petstore/java/vertx5",
+          "samples/client/petstore/java/vertx5-supportVertxFuture",
+          "samples/client/petstore/java/vertx-no-nullable",
+          "samples/client/petstore/java/vertx-supportVertxFuture",
+          "samples/client/petstore/java/jersey2-java8-localdatetime",
+          "samples/client/petstore/java/google-api-client",
+          "samples/client/petstore/java/rest-assured",
+          "samples/client/petstore/java/rest-assured-jackson",
+          "samples/client/petstore/java/microprofile-rest-client",
+          "samples/client/petstore/java/microprofile-rest-client-mutiny",
+          "samples/client/petstore/java/microprofile-rest-client-3.0",
+          "samples/client/petstore/java/microprofile-rest-client-3.0-jackson",
+          "samples/client/petstore/java/microprofile-rest-client-3.0-jackson-mutiny",
+          "samples/client/petstore/java/microprofile-rest-client-3.0-jackson-with-xml",
+          "samples/client/petstore/java/microprofile-rest-client-3.0-mutiny",
+          "samples/client/petstore/java/microprofile-rest-client-3.0-jspecify",
+          "samples/client/petstore/java/microprofile-rest-client-with-useSingleRequestParameter",
+          "samples/client/petstore/java/microprofile-oneof-interface",
+          "samples/client/petstore/java/apache-httpclient",
+          "samples/client/petstore/java/feign",
+          "samples/client/petstore/java/feign-hc5",
+          "samples/client/petstore/java/feign-no-nullable",
+          "samples/client/petstore/java/okhttp-gson-awsv4signature",
+          "samples/openapi3/client/petstore/java/jersey2-java8-special-characters",
+          "samples/openapi3/client/petstore/java/native",
+          "samples/client/petstore/java/okhttp-gson-swagger1/",
+          "samples/client/petstore/java/resttemplate-swagger1/",
+          "samples/openapi3/client/petstore/java/jersey2-java8-swagger1/",
+          "samples/client/petstore/java/okhttp-gson-swagger2/",
+          "samples/client/petstore/java/resttemplate-swagger2/",
+          "samples/openapi3/client/petstore/java/jersey2-java8-swagger2/",
+          "samples/client/others/java/okhttp-gson-oneOf/",
+          "samples/client/others/java/okhttp-gson-oneOf-array/",
+          "samples/client/echo_api/java/okhttp-gson-user-defined-templates/",
+          "samples/client/others/java/resttemplate-useAbstractionForFiles/",
+          "samples/client/others/java/webclient-useAbstractionForFiles/",
+          "samples/client/others/java/jersey2-oneOf-duplicates/",
+          "samples/client/others/java/jersey2-oneOf-Mixed/",
+          "samples/client/others/java/resttemplate-list-schema-validation/",
+          "samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/",
+          "samples/client/others/java/okhttp-gson-streaming/",
+          "samples/client/petstore/java/resteasy/",
+          "samples/client/petstore/java/apache-httpclient/"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/client/petstore/java/**",
+        "samples/client/petstore/jaxrs-cxf-client/**",
+        "samples/client/petstore/jaxrs-cxf-client-swagger2/**",
+        "samples/client/petstore/java-micronaut-client/**",
+        "samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**",
+        "samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**",
+        "samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**",
+        "samples/openapi3/client/petstore/java/native**",
+        "samples/client/others/java/okhttp-gson-oneOf/**",
+        "samples/client/others/java/okhttp-gson-oneOf-array/**",
+        "samples/client/others/java/resttemplate-useAbstractionForFiles/**",
+        "samples/client/others/java/webclient-useAbstractionForFiles/**",
+        "samples/client/petstore/java/webclient-useSingleRequestParameter/**",
+        "samples/client/others/java/jersey2-oneOf-duplicates/**",
+        "samples/client/others/java/jersey2-oneOf-Mixed/**",
+        "samples/client/others/java/okhttp-gson-streaming/**",
+        "samples/client/others/java/resteasy/**",
+        "samples/client/others/java/apache-httpclient/**",
+        "samples/client/others/java/resttemplate-list-schema-validation/**",
+        "samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**"
+      ]
+    },
+    "samples-java-client-jdk17.build": {
+      "workflow": ".github/workflows/samples-java-client-jdk17.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/java/resttemplate-jakarta",
+          "samples/client/petstore/java/resttemplate-springBoot4-jackson2",
+          "samples/client/petstore/java/resttemplate-springBoot4-jackson3",
+          "samples/client/petstore/java/webclient-jakarta",
+          "samples/client/petstore/java/restclient",
+          "samples/client/petstore/java/restclient-nullable-arrays",
+          "samples/client/petstore/java/restclient-springBoot4-jackson2",
+          "samples/client/petstore/java/restclient-springBoot4-jackson3",
+          "samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify",
+          "samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify-openapiNullable",
+          "samples/client/petstore/java/native-jackson3-jspecify",
+          "samples/client/petstore/java/restclient-swagger2",
+          "samples/client/petstore/java/restclient-useSingleRequestParameter",
+          "samples/client/petstore/java/restclient-useSingleRequestParameter-static",
+          "samples/client/petstore/java/native-jackson3",
+          "samples/client/petstore/java/apache-httpclient-jackson3",
+          "samples/client/others/java/webclient-sealedInterface",
+          "samples/client/others/java/webclient-sealedInterface_3_1",
+          "samples/client/petstore/java/webclient-springBoot4-jackson3",
+          "samples/client/petstore/java/webclient-useSingleRequestParameter",
+          "samples/client/others/java/restclient-enum-in-multipart",
+          "samples/client/others/java/restclient-sealedInterface",
+          "samples/client/others/java/restclient-useAbstractionForFiles",
+          "samples/client/petstore/java/jersey3-oneOf",
+          "samples/client/petstore/java/jersey3-jackson3",
+          "samples/client/petstore/java/microprofile-oneof-sealed"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/client/petstore/java/resttemplate-jakarta/**",
+        "samples/client/petstore/java/resttemplate-springBoot4-*/**",
+        "samples/client/petstore/java/webclient-jakarta/**",
+        "samples/client/petstore/java/restclient-*/**",
+        "samples/client/petstore/java/native-jackson3/**",
+        "samples/client/petstore/java/apache-httpclient-jackson3/**",
+        "samples/client/petstore/java/native-jackson3-jspecify/**",
+        "samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify/**",
+        "samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify-openapiNullable/**",
+        "samples/client/others/java/webclient-sealedInterface/**",
+        "samples/client/others/java/webclient-sealedInterface_3_1/**",
+        "samples/client/petstore/java/webclient-useSingleRequestParameter/**",
+        "samples/client/others/java/restclient-enum-in-multipart/**",
+        "samples/client/others/java/restclient-sealedInterface/**",
+        "samples/client/others/java/restclient-useAbstractionForFiles/**",
+        "samples/client/petstore/java/jersey3-oneOf/**",
+        "samples/client/petstore/java/jersey3-jackson3/**",
+        "samples/client/petstore/java/microprofile-oneof-sealed/**"
+      ]
+    },
+    "samples-java-dubbo.build": {
+      "workflow": ".github/workflows/samples-java-dubbo.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/java-dubbo"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/server/petstore/java-dubbo/**"
+      ]
+    },
+    "samples-java-helidon-v3.build": {
+      "workflow": ".github/workflows/samples-java-helidon-v3.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/java-helidon-client/v3/mp",
+          "samples/client/petstore/java-helidon-client/v3/se",
+          "samples/server/petstore/java-helidon-server/v3/mp",
+          "samples/server/petstore/java-helidon-server/v3/se",
+          "samples/server/others/java-helidon-server/v3/mp-format-test"
+        ],
+        "version": [
+          17
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/client/petstore/java-helidon-client/v3/**",
+        "samples/server/petstore/java-helidon-server/v3/**",
+        "samples/server/others/java-helidon-server/v3/**"
+      ]
+    },
+    "samples-java-helidon-v4.build": {
+      "workflow": ".github/workflows/samples-java-helidon-v4.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/java-helidon-client/v4/mp",
+          "samples/client/petstore/java-helidon-client/v4/se",
+          "samples/server/petstore/java-helidon-server/v4/mp",
+          "samples/server/petstore/java-helidon-server/v4/se",
+          "samples/server/petstore/java-helidon-server/v4/se-uac",
+          "samples/server/others/java-helidon-server/v4/mp-format-test"
+        ],
+        "version": [
+          21
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/client/petstore/java-helidon-client/v4/**",
+        "samples/server/petstore/java-helidon-server/v4/**",
+        "samples/server/others/java-helidon-server/v4/**"
+      ]
+    },
+    "samples-java-petsore-client-jdk11.build": {
+      "workflow": ".github/workflows/samples-java-petsore-client-jdk11.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/java/jersey2-java8",
+          "samples/openapi3/client/petstore/java/jersey2-java8",
+          "samples/client/petstore/java/okhttp-gson",
+          "samples/client/petstore/java/okhttp-gson-3.1",
+          "samples/client/petstore/java/okhttp-gson-dynamicOperations",
+          "samples/client/petstore/java-micronaut-client"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/client/petstore/java/jersey2-java8/**",
+        "samples/openapi3/client/petstore/java/jersey2-java8/**",
+        "samples/client/petstore/java/okhttp-gson/**",
+        "samples/client/petstore/java/okhttp-gson-3.1/**",
+        "samples/client/petstore/java/okhttp-gson-dynamicOperations/**",
+        "samples/client/petstore/java-micronaut-client/**"
+      ]
+    },
+    "samples-java-petsore-client-jdk17.build": {
+      "workflow": ".github/workflows/samples-java-petsore-client-jdk17.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/java/jersey3"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/client/petstore/java/jersey3/**"
+      ]
+    },
+    "samples-java-play-framework.build": {
+      "workflow": ".github/workflows/samples-java-play-framework.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/java-play-framework",
+          "samples/server/petstore/java-play-framework-api-package-override",
+          "samples/server/petstore/java-play-framework-async",
+          "samples/server/petstore/java-play-framework-controller-only",
+          "samples/server/petstore/java-play-framework-fake-endpoints",
+          "samples/server/petstore/java-play-framework-fake-endpoints-with-security",
+          "samples/server/petstore/java-play-framework-no-bean-validation",
+          "samples/server/petstore/java-play-framework-no-excp-handling",
+          "samples/server/petstore/java-play-framework-no-interface",
+          "samples/server/petstore/java-play-framework-no-nullable",
+          "samples/server/petstore/java-play-framework-no-swagger-ui",
+          "samples/server/petstore/java-play-framework-no-wrap-calls"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/server/petstore/java-play-framework**"
+      ]
+    },
+    "samples-java-sbt.build": {
+      "workflow": ".github/workflows/samples-java-sbt.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/java/okhttp-gson"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/java/okhttp-gson/**"
+      ]
+    },
+    "samples-java-server-jdk8.build": {
+      "workflow": ".github/workflows/samples-java-server-jdk8.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/java-vertx-web/",
+          "samples/server/petstore/java-vertx-web-interface-only/",
+          "samples/server/petstore/java-inflector/",
+          "samples/server/petstore/java-pkmst/",
+          "samples/server/petstore/java-microprofile/"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/server/petstore/java-vertx-web/**",
+        "samples/server/petstore/java-vertx-web-interface-only/**",
+        "samples/server/petstore/java-inflector/**",
+        "samples/server/petstore/java-inflector/**",
+        "samples/server/petstore/java-pkmst/**",
+        "samples/server/petstore/java-microprofile/**"
+      ]
+    },
+    "samples-java-wiremock.build": {
+      "workflow": ".github/workflows/samples-java-wiremock.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/java-wiremock"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/server/petstore/java-wiremock/**"
+      ]
+    },
+    "samples-javascript.build": {
+      "workflow": ".github/workflows/samples-javascript.yaml",
+      "matrix": {
+        "node": [
+          "18.x",
+          "20.x"
+        ],
+        "sample": [
+          "samples/client/petstore/javascript-es6/",
+          "samples/client/petstore/javascript-promise-es6/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/javascript-es6/**",
+        "samples/client/petstore/javascript-promise-es6/**"
+      ]
+    },
+    "samples-jaxrs-jdk11.build": {
+      "workflow": ".github/workflows/samples-jaxrs-jdk11.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/jaxrs/jersey3"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/server/petstore/jaxrs/jersey3/**"
+      ]
+    },
+    "samples-jaxrs.build": {
+      "workflow": ".github/workflows/samples-jaxrs.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/jaxrs/jersey2",
+          "samples/server/petstore/jaxrs/jersey2-useTags",
+          "samples/server/petstore/jaxrs-jersey",
+          "samples/server/petstore/jaxrs-spec",
+          "samples/server/petstore/jaxrs-spec-withxml",
+          "samples/server/petstore/jaxrs-spec-interface",
+          "samples/server/petstore/jaxrs-spec-interface-response",
+          "samples/server/petstore/jaxrs-spec-oneof-interface",
+          "samples/server/petstore/jaxrs-datelib-j8",
+          "samples/server/petstore/jaxrs-resteasy/default",
+          "samples/server/petstore/jaxrs-resteasy/eap",
+          "samples/server/petstore/jaxrs-resteasy/eap-joda",
+          "samples/server/petstore/jaxrs-resteasy/eap-java8",
+          "samples/server/petstore/jaxrs-resteasy/joda",
+          "samples/server/petstore/jaxrs-cxf",
+          "samples/server/petstore/jaxrs-cxf-annotated-base-path",
+          "samples/server/petstore/jaxrs-cxf-cdi",
+          "samples/server/petstore/jaxrs-cxf-non-spring-app",
+          "samples/server/petstore/jaxrs-spec-microprofile-openapi-annotations",
+          "samples/server/petstore/jaxrs-spec-swagger-annotations",
+          "samples/server/petstore/jaxrs-spec-swagger-v3-annotations-jakarta",
+          "samples/server/petstore/jaxrs-spec-swagger-v3-annotations"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/server/petstore/jaxrs*/**"
+      ]
+    },
+    "samples-jdk17.build": {
+      "workflow": ".github/workflows/samples-jdk17.yaml",
+      "matrix": {
+        "sample": [
+          "samples/openapi3/client/petstore/spring-cloud-3",
+          "samples/client/petstore/java-helidon-client/v3/mp/",
+          "samples/client/petstore/java-helidon-client/v3/se",
+          "samples/client/petstore/spring-http-interface-reactive",
+          "samples/client/petstore/spring-http-interface-reactive-bean-validation",
+          "samples/client/petstore/spring-http-interface-bean-validation",
+          "samples/client/petstore/spring-http-interface",
+          "samples/client/petstore/spring-http-interface-reactive-noResponseEntity",
+          "samples/client/petstore/spring-http-interface-noResponseEntity",
+          "samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator",
+          "samples/client/petstore/java/webclient-jakarta",
+          "samples/client/petstore/java/microprofile-rest-client-outer-enum",
+          "samples/openapi3/server/petstore/springboot-3",
+          "samples/openapi3/server/petstore/springboot-3-include-http-request-context",
+          "samples/server/petstore/springboot-x-implements-skip",
+          "samples/server/petstore/java-camel/",
+          "samples/server/petstore/java-helidon-server/v3/mp/",
+          "samples/server/petstore/java-helidon-server/v3/se",
+          "samples/server/petstore/jaxrs-spec-sealed",
+          "samples/server/petstore/jaxrs-spec/quarkus-security"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/openapi3/client/petstore/spring-cloud-3/**",
+        "samples/client/petstore/java-helidon-client/v3/mp/**",
+        "samples/client/petstore/java-helidon-client/v3/se/**",
+        "samples/client/petstore/spring-http-interface-reactive/**",
+        "samples/client/petstore/spring-http-interface-reactive-bean-validation/**",
+        "samples/client/petstore/spring-http-interface-bean-validation/**",
+        "samples/client/petstore/spring-http-interface/**",
+        "samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**",
+        "samples/client/petstore/spring-http-interface-noResponseEntity/**",
+        "samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator/**",
+        "samples/client/petstore/java/webclient-jakarta/**",
+        "samples/client/petstore/java/microprofile-rest-client-outer-enum/**",
+        "samples/openapi3/server/petstore/springboot-3/**",
+        "samples/openapi3/server/petstore/springboot-3-include-http-request-context/**",
+        "samples/server/petstore/springboot-x-implements-skip/**",
+        "samples/server/petstore/java-camel/**",
+        "samples/server/petstore/java-helidon-server/v3/mp/**",
+        "samples/server/petstore/java-helidon-server/v3/se/**",
+        "samples/server/petstore/jaxrs-spec-sealed/**",
+        "samples/server/petstore/jaxrs-spec/quarkus-security/**"
+      ]
+    },
+    "samples-jdk21.build": {
+      "workflow": ".github/workflows/samples-jdk21.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/java-helidon-client/v4/mp/",
+          "samples/client/petstore/java-helidon-client/v4/se/",
+          "samples/server/petstore/java-helidon-server/v4/mp/",
+          "samples/server/petstore/java-helidon-server/v4/se/"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/client/petstore/java-helidon-client/v4/mp/**",
+        "samples/client/petstore/java-helidon-client/v4/se/**",
+        "samples/server/petstore/java-helidon-server/v4/mp/**",
+        "samples/server/petstore/java-helidon-server/v4/se/**"
+      ]
+    },
+    "samples-julia.tests-julia": {
+      "workflow": ".github/workflows/samples-julia.yaml",
+      "paths": [
+        "samples/client/petstore/julia/**",
+        "samples/server/petstore/julia/**"
+      ],
+      "shadow_paths": [
+        "samples/client/petstore/julia/**",
+        "samples/server/petstore/julia/**"
+      ]
+    },
+    "samples-kotlin-client.build": {
+      "workflow": ".github/workflows/samples-kotlin-client.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/kotlin",
+          "samples/client/petstore/kotlin-explicit",
+          "samples/client/petstore/kotlin-gson",
+          "samples/client/petstore/kotlin-jackson",
+          "samples/client/petstore/kotlin-jackson3",
+          "samples/client/petstore/kotlin-model-prefix-type-mappings",
+          "samples/client/petstore/kotlin-jvm-okhttp4-coroutines",
+          "samples/client/petstore/kotlin-moshi-codegen",
+          "samples/client/petstore/kotlin-multiplatform",
+          "samples/client/petstore/kotlin-multiplatform-kotlinx-datetime",
+          "samples/client/petstore/kotlin-multiplatform-allOf-discriminator",
+          "samples/client/petstore/kotlin-nonpublic",
+          "samples/client/petstore/kotlin-nullable",
+          "samples/client/petstore/kotlin-retrofit2",
+          "samples/client/petstore/kotlin-retrofit2-kotlinx_serialization",
+          "samples/client/petstore/kotlin-retrofit2-jackson",
+          "samples/client/petstore/kotlin-retrofit2-rx3",
+          "samples/client/petstore/kotlin-string",
+          "samples/client/petstore/kotlin-threetenbp",
+          "samples/client/petstore/kotlin-kotlinx-datetime",
+          "samples/client/petstore/kotlin-uppercase-enum",
+          "samples/client/petstore/kotlin-array-integer-enum",
+          "samples/client/petstore/kotlin-default-values-jvm-okhttp4",
+          "samples/client/petstore/kotlin-default-values-jvm-retrofit2",
+          "samples/client/petstore/kotlin-default-values-multiplatform",
+          "samples/client/petstore/kotlin-enum-integers-multiplatform",
+          "samples/client/petstore/kotlin-array-simple-string-jvm-okhttp4",
+          "samples/client/petstore/kotlin-array-simple-string-multiplatform",
+          "samples/client/petstore/kotlin-array-nullable-items",
+          "samples/client/petstore/kotlin-array-nullable-items-multiplatform",
+          "samples/client/petstore/kotlin-bigdecimal-default-multiplatform",
+          "samples/client/petstore/kotlin-bigdecimal-default-okhttp4",
+          "samples/client/petstore/kotlin-jvm-jackson",
+          "samples/client/petstore/kotlin-jvm-ktor-jackson",
+          "samples/client/petstore/kotlin-jvm-ktor-gson",
+          "samples/client/petstore/kotlin-jvm-ktor-kotlinx_serialization",
+          "samples/client/petstore/kotlin-jvm-vertx-gson",
+          "samples/client/petstore/kotlin-jvm-vertx-jackson",
+          "samples/client/petstore/kotlin-jvm-vertx-jackson-coroutines",
+          "samples/client/petstore/kotlin-jvm-vertx-moshi",
+          "samples/client/petstore/kotlin-jvm-spring-2-webclient",
+          "samples/client/petstore/kotlin-jvm-spring-3-webclient",
+          "samples/client/echo_api/kotlin-jvm-spring-3-webclient",
+          "samples/client/petstore/kotlin-jvm-spring-3-restclient",
+          "samples/client/echo_api/kotlin-jvm-spring-3-restclient",
+          "samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return",
+          "samples/client/petstore/kotlin-jvm-spring-4-restclient-jackson3",
+          "samples/client/petstore/kotlin-name-parameter-mappings",
+          "samples/client/others/kotlin-jvm-okhttp-parameter-tests",
+          "samples/client/others/kotlin-jvm-okhttp-path-comments",
+          "samples/client/others/kotlin-integer-enum",
+          "samples/client/petstore/kotlin-allOf-discriminator-kotlinx-serialization",
+          "samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization",
+          "samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization",
+          "samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-nonPublicApi",
+          "samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-explicitApi",
+          "samples/client/petstore/kotlin-allOf-special-discriminator-kotlinx-serialization",
+          "samples/client/petstore/kotlin-multiplatform-allOf-special-discriminator"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/kotlin*/**",
+        "samples/client/others/kotlin-jvm-okhttp-parameter-tests/**",
+        "samples/client/others/kotlin-integer-enum/**",
+        "samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return/**",
+        "samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization*/**",
+        "samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization*/**"
+      ]
+    },
+    "samples-kotlin-echo-api.build": {
+      "workflow": ".github/workflows/samples-kotlin-echo-api.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/echo_api/kotlin-jvm-spring-3-restclient",
+          "samples/client/echo_api/kotlin-model-prefix-type-mappings",
+          "samples/client/echo_api/kotlin-jvm-okhttp",
+          "samples/client/echo_api/kotlin-jvm-okhttp-multipart-json"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/echo_api/kotlin**"
+      ]
+    },
+    "samples-kotlin-server-jdk17.build": {
+      "workflow": ".github/workflows/samples-kotlin-server-jdk17.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/others/kotlin-springboot/oneOf-discriminator",
+          "samples/server/others/kotlin-springboot/oneOf-discriminator-const",
+          "samples/server/others/kotlin-springboot/oneOf-enum-discriminator",
+          "samples/server/others/kotlin-server/polymorphism-allof-and-discriminator",
+          "samples/server/others/kotlin-server/polymorphism-and-discriminator-disabled-jackson-fix",
+          "samples/server/others/kotlin-server/polymorphism-and-discriminator",
+          "samples/server/others/kotlin-server/polymorphism",
+          "samples/server/petstore/kotlin-server-required-and-nullable-properties",
+          "samples/server/petstore/kotlin-springboot-3",
+          "samples/server/petstore/kotlin-springboot-3-no-response-entity",
+          "samples/server/petstore/kotlin-springboot-additionalproperties",
+          "samples/server/petstore/kotlin-springboot-delegate-nodefaults",
+          "samples/server/petstore/kotlin-springboot-request-cookie",
+          "samples/server/petstore/kotlin-springboot-4",
+          "samples/server/petstore/kotlin-server/jaxrs-spec",
+          "samples/server/petstore/kotlin-server/jaxrs-spec-mutiny",
+          "samples/server/petstore/kotlin-server/javalin",
+          "samples/server/petstore/kotlin-server/javalin-6",
+          "samples/server/petstore/kotlin-server/ktor",
+          "samples/server/petstore/kotlin-server/ktor-delegate-pattern/generated",
+          "samples/server/petstore/kotlin-server/ktor2",
+          "samples/server/petstore/kotlin-server-modelMutable",
+          "samples/server/petstore/kotlin-misk",
+          "samples/server/petstore/kotlin-spring-declarative-interface",
+          "samples/server/petstore/kotlin-spring-declarative-interface-bean-validation",
+          "samples/server/petstore/kotlin-spring-declarative-interface-reactive-coroutines",
+          "samples/server/petstore/kotlin-spring-declarative-interface-reactive-reactor-wrapped",
+          "samples/server/petstore/kotlin-spring-declarative-interface-wrapped",
+          "samples/server/petstore/kotlin-spring-sealed-interfaces",
+          "samples/server/petstore/kotlin-springboot-sort-validation",
+          "samples/server/petstore/kotlin-springboot-paged-model"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/others/kotlin-server/**",
+        "samples/server/others/kotlin-springboot/**",
+        "samples/server/petstore/kotlin-springboot-3*/**",
+        "samples/server/petstore/kotlin-server/**",
+        "samples/server/petstore/kotlin-server-modelMutable/**",
+        "samples/server/petstore/kotlin-springboot-*/**",
+        "samples/server/petstore/kotlin-server-required-and-nullable-properties/**",
+        "samples/server/petstore/kotlin-spring-declarative*/**",
+        "samples/server/petstore/kotlin-spring-sealed-interfaces/**",
+        "samples/server/petstore/kotlin-springboot-sort-validation/**",
+        "samples/server/petstore/kotlin-springboot-paged-model/**",
+        "samples/server/petstore/kotlin-server/ktor-delegate-pattern/generated/**"
+      ]
+    },
+    "samples-kotlin-server-jdk21.build": {
+      "workflow": ".github/workflows/samples-kotlin-server-jdk21.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/others/kotlin-springboot/oneOf-discriminator",
+          "samples/server/others/kotlin-springboot/oneOf-discriminator-const",
+          "samples/server/others/kotlin-springboot/oneOf-enum-discriminator",
+          "samples/server/others/kotlin-server/polymorphism-allof-and-discriminator",
+          "samples/server/others/kotlin-server/polymorphism-and-discriminator-disabled-jackson-fix",
+          "samples/server/others/kotlin-server/polymorphism-and-discriminator",
+          "samples/server/others/kotlin-server/polymorphism",
+          "samples/server/petstore/kotlin-server/javalin-6",
+          "samples/server/petstore/kotlin-server/ktor",
+          "samples/server/petstore/kotlin-server/ktor2",
+          "samples/server/petstore/kotlin-server-required-and-nullable-properties",
+          "samples/server/petstore/kotlin-misk"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/others/kotlin-server/**",
+        "samples/server/others/kotlin-springboot/**",
+        "samples/server/petstore/kotlin-server/**",
+        "samples/server/petstore/kotlin-server-required-and-nullable-properties/**"
+      ]
+    },
+    "samples-kotlin-server.build": {
+      "workflow": ".github/workflows/samples-kotlin-server.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/kotlin-springboot",
+          "samples/server/petstore/kotlin-springboot-no-response-entity",
+          "samples/server/petstore/kotlin-springboot-no-response-entity-delegate",
+          "samples/server/petstore/kotlin-springboot-multipart-request-model",
+          "samples/server/petstore/kotlin-springboot-bigdecimal-default",
+          "samples/server/petstore/kotlin-springboot-delegate",
+          "samples/server/petstore/kotlin-springboot-modelMutable",
+          "samples/server/petstore/kotlin-springboot-reactive",
+          "samples/server/petstore/kotlin-springboot-reactive-without-flow",
+          "samples/server/petstore/kotlin-springboot-source-swagger1",
+          "samples/server/petstore/kotlin-springboot-source-swagger2",
+          "samples/server/petstore/kotlin-springboot-x-kotlin-implements",
+          "samples/server/petstore/kotlin-springboot-include-http-request-context-delegate",
+          "samples/server/petstore/kotlin-server/ktor2",
+          "samples/server/petstore/kotlin-server/jaxrs-spec",
+          "samples/server/petstore/kotlin-server/jaxrs-spec-mutiny",
+          "samples/server/petstore/kotlin-server/javalin",
+          "samples/server/others/kotlin-server/jaxrs-spec",
+          "samples/server/others/kotlin-server/jaxrs-spec-array-response",
+          "samples/server/petstore/kotlin-spring-cloud",
+          "samples/server/petstore/kotlin-misk",
+          "samples/server/petstore/kotlin-misk-config"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/others/kotlin-server/jaxrs-spec/**",
+        "samples/server/petstore/kotlin*/**",
+        "samples/server/others/kotlin-server/jaxrs-spec-array-response/**"
+      ]
+    },
+    "samples-kotlin-wiremock.build": {
+      "workflow": ".github/workflows/samples-kotlin-wiremock.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/kotlin-wiremock",
+          "samples/server/petstore/kotlin-wiremock-responses",
+          "samples/server/echo_api/kotlin-wiremock"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/kotlin-wiremock*/**",
+        "samples/server/echo_api/kotlin-wiremock/**"
+      ]
+    },
+    "samples-ocaml.build": {
+      "workflow": ".github/workflows/samples-ocaml.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/ocaml/",
+          "samples/client/petstore/ocaml-fake-petstore/",
+          "samples/client/petstore/ocaml-oneOf-primitive/",
+          "samples/client/petstore/ocaml-additional-properties/",
+          "samples/client/petstore/ocaml-enum-in-composed-schema/",
+          "samples/client/petstore/ocaml-recursion-test/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/ocaml/**",
+        "samples/client/petstore/ocaml-fake-petstore/**",
+        "samples/client/petstore/ocaml-oneOf-primitive/**",
+        "samples/client/petstore/ocaml-additional-properties/**",
+        "samples/client/petstore/ocaml-enum-in-composed-schema/**",
+        "samples/client/petstore/ocaml-recursion-test/**"
+      ]
+    },
+    "samples-php-client.build": {
+      "workflow": ".github/workflows/samples-php-client.yaml",
+      "matrix": {
+        "php": [
+          "8.1",
+          "8.2",
+          "8.3",
+          "8.4"
+        ],
+        "sample": [
+          "samples/client/petstore/php/OpenAPIClient-php/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/php/OpenAPIClient-php/**"
+      ]
+    },
+    "samples-php-nextgen-phpstan.build": {
+      "workflow": ".github/workflows/samples-php-nextgen-phpstan.yaml",
+      "matrix": {
+        "php": [
+          "8.1",
+          "8.2",
+          "8.3",
+          "8.4"
+        ],
+        "sample": [
+          "samples/client/petstore/php-nextgen/OpenAPIClient-php/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/php-nextgen/OpenAPIClient-php/**"
+      ]
+    },
+    "samples-php-server-syntax-check.build": {
+      "workflow": ".github/workflows/samples-php-server-syntax-check.yaml",
+      "matrix": {
+        "php": [
+          "8.1",
+          "8.2",
+          "8.3",
+          "8.4"
+        ],
+        "sample": [
+          "samples/server/petstore/php-symfony/SymfonyBundle-php/",
+          "samples/server/petstore/php-flight/",
+          "samples/server/petstore/php-mezzio-ph-modern/",
+          "samples/server/petstore/php-mezzio-ph/",
+          "samples/server/petstore/php-slim4/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/php-symfony/SymfonyBundle-php/**",
+        "samples/server/petstore/php-flight/**",
+        "samples/server/petstore/php-mezzio-ph-modern/**",
+        "samples/server/petstore/php-mezzio-ph/**",
+        "samples/server/petstore/php-slim4/**"
+      ]
+    },
+    "samples-php-servers-phpstan.build": {
+      "workflow": ".github/workflows/samples-php-servers-phpstan.yaml",
+      "matrix": {
+        "php": [
+          "8.3",
+          "8.4"
+        ],
+        "sample": [
+          "samples/server/petstore/php-laravel-issue-21334/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/php-laravel/**",
+        "samples/server/petstore/php-laravel-issue-21334/**"
+      ]
+    },
+    "samples-php-syntax-check.build": {
+      "workflow": ".github/workflows/samples-php-syntax-check.yaml",
+      "matrix": {
+        "php": [
+          "8.1",
+          "8.2",
+          "8.3",
+          "8.4"
+        ],
+        "sample": [
+          "samples/client/petstore/php/OpenAPIClient-php/",
+          "samples/client/petstore/php-nextgen/OpenAPIClient-php/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/php/OpenAPIClient-php/**",
+        "samples/client/petstore/php-nextgen/OpenAPIClient-php/**"
+      ]
+    },
+    "samples-php8.build": {
+      "workflow": ".github/workflows/samples-php8.yaml",
+      "matrix": {
+        "php": [
+          "8.1",
+          "8.2",
+          "8.3",
+          "8.4"
+        ],
+        "sample": [
+          "samples/server/petstore/php-symfony/SymfonyBundle-php/",
+          "samples/server/petstore/php-flight/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/php-symfony/SymfonyBundle-php/**",
+        "samples/server/petstore/php-flight/**"
+      ]
+    },
+    "samples-postman.build": {
+      "workflow": ".github/workflows/samples-postman.yaml",
+      "matrix": {
+        "sample": [
+          "samples/schema/postman-collection"
+        ],
+        "python-version": [
+          "3.12"
+        ]
+      },
+      "shadow_paths": [
+        "samples/schema/postman-collection/python/**",
+        "samples/schema/postman-collection/postman.json",
+        ".github/workflows/samples-postman.yaml"
+      ]
+    },
+    "samples-powershell.build": {
+      "workflow": ".github/workflows/samples-powershell.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/powershell/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/powershell/**"
+      ]
+    },
+    "samples-protobuf.build": {
+      "workflow": ".github/workflows/samples-protobuf.yaml",
+      "matrix": {
+        "sample": [
+          "samples/config/petstore/protobuf-schema/",
+          "samples/config/petstore/protobuf-schema-config/",
+          "samples/config/petstore/protobuf-schema-config-complex/"
+        ]
+      },
+      "shadow_paths": [
+        ".github/workflows/samples-protobuf.yaml",
+        "samples/config/petstore/protobuf-schema/**",
+        "samples/config/petstore/protobuf-schema-config/**"
+      ]
+    },
+    "samples-python-client-echo-api.build": {
+      "workflow": ".github/workflows/samples-python-client-echo-api.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/echo_api/python",
+          "samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent"
+        ],
+        "python-version": [
+          "3.10",
+          "3.11",
+          "3.12",
+          "3.13",
+          "3.14"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/echo_api/python/**",
+        "samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent/**",
+        ".github/workflows/samples-python-client-echo-api.yaml"
+      ]
+    },
+    "samples-python-client-legacy-model-dictionaries.build": {
+      "workflow": ".github/workflows/samples-python-client-legacy-model-dictionaries.yaml",
+      "matrix": {
+        "python-version": [
+          "3.10",
+          "3.11",
+          "3.12",
+          "3.13",
+          "3.14"
+        ]
+      },
+      "paths": [
+        "samples/client/others/python-legacy-model-dictionaries/**"
+      ],
+      "shadow_paths": [
+        "samples/client/others/python-legacy-model-dictionaries/**",
+        ".github/workflows/samples-python-client-legacy-model-dictionaries.yaml"
+      ]
+    },
+    "samples-python-fastapi-server.build": {
+      "workflow": ".github/workflows/samples-python-fastapi-server.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/python-fastapi/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/python-fastapi/**"
+      ]
+    },
+    "samples-python-flask-connexion3-server.build": {
+      "workflow": ".github/workflows/samples-python-flask-connexion3-server.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/python-flask-connexion3/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/python-flask-connexion3/**",
+        ".github/workflows/samples-python-flask-connexion3-server.yaml"
+      ]
+    },
+    "samples-python-petstore.validate-pyproject-toml": {
+      "workflow": ".github/workflows/samples-python-petstore.yaml",
+      "paths": [
+        "samples/openapi3/client/petstore/python/pyproject.toml"
+      ],
+      "shadow_paths": [
+        "samples/openapi3/client/petstore/python-aiohttp/**",
+        "samples/openapi3/client/petstore/python-httpx/**",
+        "samples/openapi3/client/petstore/python-httpx-sync/**",
+        "samples/openapi3/client/petstore/python/**",
+        "samples/openapi3/client/petstore/python-lazyImports/**",
+        ".github/workflows/samples-python-petstore.yaml"
+      ]
+    },
+    "samples-python-petstore.build": {
+      "workflow": ".github/workflows/samples-python-petstore.yaml",
+      "matrix": {
+        "python-version": [
+          "3.10",
+          "3.11",
+          "3.12",
+          "3.13",
+          "3.14"
+        ],
+        "sample": [
+          "samples/openapi3/client/petstore/python-aiohttp",
+          "samples/openapi3/client/petstore/python-httpx",
+          "samples/openapi3/client/petstore/python-httpx-sync",
+          "samples/openapi3/client/petstore/python",
+          "samples/openapi3/client/petstore/python-lazyImports"
+        ]
+      },
+      "shadow_paths": [
+        "samples/openapi3/client/petstore/python-aiohttp/**",
+        "samples/openapi3/client/petstore/python-httpx/**",
+        "samples/openapi3/client/petstore/python-httpx-sync/**",
+        "samples/openapi3/client/petstore/python/**",
+        "samples/openapi3/client/petstore/python-lazyImports/**",
+        ".github/workflows/samples-python-petstore.yaml"
+      ]
+    },
+    "samples-python-pydantic-v1-client-echo-api.build": {
+      "workflow": ".github/workflows/samples-python-pydantic-v1-client-echo-api.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/echo_api/python-pydantic-v1/"
+        ],
+        "python-version": [
+          "3.10",
+          "3.11",
+          "3.12",
+          "3.13"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/echo_api/python-pydantic-v1/**",
+        ".github/workflows/samples-python-pydantic-v1-client-echo-api.yaml"
+      ]
+    },
+    "samples-python-pydantic-v1-petstore.build": {
+      "workflow": ".github/workflows/samples-python-pydantic-v1-petstore.yaml",
+      "matrix": {
+        "python-version": [
+          "3.10",
+          "3.11",
+          "3.12",
+          "3.13",
+          "3.14"
+        ],
+        "sample": [
+          "samples/openapi3/client/petstore/python-pydantic-v1-aiohttp",
+          "samples/openapi3/client/petstore/python-pydantic-v1"
+        ]
+      },
+      "shadow_paths": [
+        "samples/openapi3/client/petstore/python-pydantic-v1-aiohttp/**",
+        "samples/openapi3/client/petstore/python-pydantic-v1/**",
+        ".github/workflows/samples-python-pydantic-v1-petstore.yaml"
+      ]
+    },
+    "samples-python-server.build": {
+      "workflow": ".github/workflows/samples-python-server.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/python-aiohttp-srclayout/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/python-aiohttp-srclayout/**"
+      ]
+    },
+    "samples-r.build": {
+      "workflow": ".github/workflows/samples-r.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/R/",
+          "samples/client/petstore/R-httr2/",
+          "samples/client/petstore/R-httr2-wrapper/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/R/**",
+        "samples/client/petstore/R-httr2/**",
+        "samples/client/petstore/R-httr2-wrapper/**"
+      ]
+    },
+    "samples-ruby-nextgen.build": {
+      "workflow": ".github/workflows/samples-ruby-nextgen.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/ruby-nextgen"
+        ],
+        "ruby-version": [
+          "3.0",
+          "3.3"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/ruby-nextgen/**",
+        "samples/client/others/ruby-nextgen-qdrant/**"
+      ]
+    },
+    "samples-ruby.build": {
+      "workflow": ".github/workflows/samples-ruby.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/echo_api/ruby-httpx/",
+          "samples/client/echo_api/ruby-faraday/",
+          "samples/client/echo_api/ruby-typhoeus/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/echo_api/ruby-httpx/**",
+        "samples/client/echo_api/ruby-faraday/**",
+        "samples/client/echo_api/ruby-typhoeus/**"
+      ]
+    },
+    "samples-rust-client.build": {
+      "workflow": ".github/workflows/samples-rust-client.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/others/rust/",
+          "samples/client/petstore/rust/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/others/rust/**",
+        "samples/client/petstore/rust/**"
+      ]
+    },
+    "samples-rust-server.build": {
+      "workflow": ".github/workflows/samples-rust-server.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/rust-server/",
+          "samples/server/petstore/rust-axum/",
+          "samples/server/petstore/rust-salvo/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/rust-server/**",
+        "samples/server/petstore/rust-axum/**",
+        "samples/server/petstore/rust-salvo/**"
+      ]
+    },
+    "samples-scala-client.build": {
+      "workflow": ".github/workflows/samples-scala-client.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/scalaz",
+          "samples/client/petstore/scala-pekko",
+          "samples/client/petstore/scala-http4s",
+          "samples/client/petstore/scala-sttp4-jsoniter",
+          "samples/client/petstore/scala-akka",
+          "samples/client/petstore/scala-sttp",
+          "samples/client/petstore/scala-sttp-circe",
+          "samples/client/petstore/scala-sttp4",
+          "samples/client/petstore/scala-sttp4-circe"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/scalaz/**",
+        "samples/client/petstore/scala-pekko/**",
+        "samples/client/petstore/scala-http4s/**",
+        "samples/client/petstore/scala-sttp4-jsoniter/**",
+        "samples/client/petstore/scala-akka/**",
+        "samples/client/petstore/scala-sttp/**",
+        "samples/client/petstore/scala-sttp-circe/**",
+        "samples/client/petstore/scala-sttp4/**",
+        "samples/client/petstore/scala-sttp4-circe/**"
+      ]
+    },
+    "samples-scala-server.build": {
+      "workflow": ".github/workflows/samples-scala-server.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/scala-play-server",
+          "samples/server/petstore/scala-akka-http-server",
+          "samples/server/petstore/scala-pekko-http-server",
+          "samples/server/petstore/scalatra",
+          "samples/server/petstore/scala-http4s-server",
+          "samples/server/petstore/scala-cask"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/scala**"
+      ]
+    },
+    "samples-spring-jdk11.build": {
+      "workflow": ".github/workflows/samples-spring-jdk11.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/springboot-implicitHeaders",
+          "samples/server/petstore/springboot-implicitHeaders-annotationLibrary"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/server/petstore/springboot-implicitHeaders/**",
+        "samples/server/petstore/springboot-implicitHeaders-annotationLibrary/**"
+      ]
+    },
+    "samples-spring-jdk17.build": {
+      "workflow": ".github/workflows/samples-spring-jdk17.yaml",
+      "matrix": {
+        "sample": [
+          "samples/openapi3/client/petstore/spring-cloud-3-with-optional",
+          "samples/openapi3/client/petstore/spring-cloud-4-with-optional",
+          "samples/client/petstore/spring-http-interface-springboot-4",
+          "samples/openapi3/server/petstore/springboot-3",
+          "samples/openapi3/server/petstore/springboot-4",
+          "samples/openapi3/server/petstore/springboot-4-jspecify",
+          "samples/openapi3/server/petstore/springboot-4-jspecify-openapiNullable",
+          "samples/openapi3/server/petstore/springboot-4-jspecify-useOptional",
+          "samples/server/petstore/springboot-api-response-examples",
+          "samples/server/petstore/springboot-lombok-data",
+          "samples/server/petstore/springboot-lombok-tostring",
+          "samples/server/petstore/springboot-file-delegate-optional",
+          "samples/server/petstore/springboot-petstore-with-api-response-examples",
+          "samples/server/petstore/springboot-sort-validation",
+          "samples/server/petstore/springboot-paged-model",
+          "samples/server/others/springboot-pre-authorize",
+          "samples/openapi3/server/petstore/spring-boot-oneof-sealed",
+          "samples/openapi3/server/petstore/spring-boot-oneof-interface",
+          "samples/client/petstore/spring-http-interface-oauth"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/openapi3/client/petstore/spring-cloud-3-with-optional/**",
+        "samples/openapi3/client/petstore/spring-cloud-4-with-optional/**",
+        "samples/client/petstore/spring-http-interface-springboot-4/**",
+        "samples/openapi3/server/petstore/springboot-3/**",
+        "samples/openapi3/server/petstore/springboot-4/**",
+        "samples/openapi3/server/petstore/springboot-4-jspecify/**",
+        "samples/openapi3/server/petstore/springboot-4-jspecify-openapiNullable/**",
+        "samples/openapi3/server/petstore/springboot-4-jspecify-useOptional/**",
+        "samples/server/petstore/springboot-api-response-examples/**",
+        "samples/server/petstore/springboot-lombok-data/**",
+        "samples/server/petstore/springboot-lombok-tostring/**",
+        "samples/server/petstore/springboot-file-delegate-optional/**",
+        "samples/server/petstore/springboot-petstore-with-api-response-examples/**",
+        "samples/server/petstore/springboot-sort-validation/**",
+        "samples/server/petstore/springboot-paged-model/**",
+        "samples/server/others/springboot-pre-authorize/**",
+        "samples/openapi3/server/petstore/spring-boot-oneof-sealed/**",
+        "samples/openapi3/server/petstore/spring-boot-oneof-interface/**",
+        "samples/client/petstore/spring-http-interface-oauth/**"
+      ]
+    },
+    "samples-spring.build": {
+      "workflow": ".github/workflows/samples-spring.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/spring-cloud",
+          "samples/client/petstore/spring-cloud-auth",
+          "samples/client/petstore/spring-cloud-date-time",
+          "samples/client/petstore/spring-cloud-deprecated",
+          "samples/client/petstore/spring-cloud-tags",
+          "samples/openapi3/client/petstore/spring-cloud",
+          "samples/openapi3/client/petstore/spring-cloud-async",
+          "samples/openapi3/client/petstore/spring-cloud-date-time",
+          "samples/openapi3/client/petstore/spring-cloud-http-basic",
+          "samples/openapi3/client/petstore/spring-cloud-spring-pageable",
+          "samples/openapi3/client/petstore/spring-stubs",
+          "samples/openapi3/client/petstore/spring-stubs-skip-default-interface",
+          "samples/openapi3/server/petstore/springboot",
+          "samples/openapi3/server/petstore/springboot-implicitHeaders",
+          "samples/openapi3/server/petstore/springboot-delegate",
+          "samples/openapi3/server/petstore/spring-boot-oneof",
+          "samples/server/petstore/spring-boot-nullable-set",
+          "samples/server/petstore/spring-boot-defaultInterface-unhandledExcp",
+          "samples/server/petstore/springboot",
+          "samples/server/petstore/springboot-include-http-request-context",
+          "samples/server/petstore/springboot-beanvalidation",
+          "samples/server/petstore/springboot-builtin-validation",
+          "samples/server/petstore/springboot-delegate",
+          "samples/server/petstore/springboot-delegate-no-response-entity",
+          "samples/server/petstore/springboot-implicitHeaders",
+          "samples/server/petstore/springboot-implicitHeaders-annotationLibrary",
+          "samples/server/petstore/springboot-lombok-data",
+          "samples/server/petstore/springboot-reactive",
+          "samples/server/petstore/springboot-reactive-noResponseEntity",
+          "samples/server/petstore/springboot-spring-pageable-delegatePattern-without-j8",
+          "samples/server/petstore/springboot-spring-pageable-delegatePattern",
+          "samples/server/petstore/springboot-spring-pageable-without-j8",
+          "samples/server/petstore/springboot-spring-pageable",
+          "samples/server/petstore/springboot-spring-provide-args",
+          "samples/server/petstore/springboot-useoptional",
+          "samples/server/petstore/springboot-virtualan",
+          "samples/openapi3/server/petstore/spring-boot-oneof-interface"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/client/petstore/spring*/**",
+        "samples/server/petstore/spring*/**",
+        "samples/openapi3/server/petstore/spring*/**"
+      ]
+    },
+    "samples-swift5.build": {
+      "workflow": ".github/workflows/samples-swift5.yaml",
+      "matrix": {
+        "os": [
+          "macos-latest"
+        ],
+        "sample": [
+          "samples/client/petstore/swift5/alamofireLibrary",
+          "samples/client/petstore/swift5/asyncAwaitLibrary",
+          "samples/client/petstore/swift5/combineLibrary",
+          "samples/client/petstore/swift5/default",
+          "samples/client/petstore/swift5/objcCompatible",
+          "samples/client/petstore/swift5/oneOf",
+          "samples/client/petstore/swift5/promisekitLibrary",
+          "samples/client/petstore/swift5/resultLibrary",
+          "samples/client/petstore/swift5/rxswiftLibrary",
+          "samples/client/petstore/swift5/urlsessionLibrary",
+          "samples/client/petstore/swift5/validation"
+        ],
+        "include": [
+          {
+            "os": "ubuntu-latest",
+            "sample": "samples/client/petstore/swift5/alamofireLibrary"
+          }
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/swift5/**"
+      ]
+    },
+    "samples-terraform.build": {
+      "workflow": ".github/workflows/samples-terraform.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/terraform/",
+          "samples/client/petstore/terraform-addpet/",
+          "samples/client/petstore/terraform-server/",
+          "samples/client/others/terraform/allof-discriminator/",
+          "samples/client/others/terraform/oneof-anyof-required/",
+          "samples/client/others/terraform/oneof-discriminator-lookup/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/terraform/**",
+        "samples/client/petstore/terraform-addpet/**",
+        "samples/client/petstore/terraform-server/**",
+        "samples/client/others/terraform/**"
+      ]
+    },
+    "samples-typescript-axios-echo-api.build": {
+      "workflow": ".github/workflows/samples-typescript-axios-echo-api.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/echo_api/typescript-axios/test"
+        ],
+        "node-version": [
+          16,
+          18,
+          20
+        ]
+      },
+      "paths": [
+        "samples/client/echo_api/typescript-axios/**"
+      ],
+      "shadow_paths": [
+        "samples/client/echo_api/typescript-axios/**",
+        ".github/workflows/samples-typescript-axios-echo-api.yaml"
+      ]
+    },
+    "samples-typescript-client.build": {
+      "workflow": ".github/workflows/samples-typescript-client.yaml",
+      "matrix": {
+        "node": [
+          "22.x"
+        ],
+        "sample": [
+          "samples/client/others/typescript-angular/",
+          "samples/client/others/typescript-angular-v20/",
+          "samples/client/petstore/typescript-angular-v18-provided-in-root/",
+          "samples/client/petstore/typescript-angular-v19-provided-in-root/",
+          "samples/client/petstore/typescript-angular-v20-provided-in-root/",
+          "samples/client/petstore/typescript-angular-v21-provided-in-root/",
+          "samples/client/petstore/typescript-angular-v22-provided-in-root/",
+          "samples/openapi3/client/petstore/typescript/builds/default/",
+          "samples/openapi3/client/petstore/typescript/builds/jquery/",
+          "samples/openapi3/client/petstore/typescript/builds/object_params/",
+          "samples/openapi3/client/petstore/typescript/builds/browser/",
+          "samples/client/petstore/typescript-rxjs/builds/with-npm-version/",
+          "samples/client/petstore/typescript-axios/builds/with-npm-version/"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml"
+      ],
+      "shadow_paths": [
+        "samples/client/others/typescript-angular/**",
+        "samples/client/others/typescript-angular-v20/**",
+        "samples/client/petstore/typescript-angular-v18-provided-in-root/**",
+        "samples/client/petstore/typescript-angular-v19-provided-in-root/**",
+        "samples/client/petstore/typescript-angular-v20-provided-in-root/**",
+        "samples/client/petstore/typescript-angular-v21-provided-in-root/**",
+        "samples/client/petstore/typescript-angular-v22-provided-in-root/**",
+        "samples/openapi3/client/petstore/typescript/builds/default/**",
+        "samples/openapi3/client/petstore/typescript/builds/jquery/**",
+        "samples/openapi3/client/petstore/typescript/builds/object_params/**",
+        "samples/openapi3/client/petstore/typescript/builds/browser/**",
+        "samples/client/petstore/typescript-rxjs/builds/with-npm-version/**",
+        "samples/client/petstore/typescript-axios/builds/with-npm-version/**"
+      ]
+    },
+    "samples-typescript-encode-decode.build": {
+      "workflow": ".github/workflows/samples-typescript-encode-decode.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/others/typescript/encode-decode/test"
+        ],
+        "node-version": [
+          20,
+          22,
+          24
+        ]
+      },
+      "paths": [
+        "samples/client/others/typescript/encode-decode/**"
+      ],
+      "shadow_paths": [
+        "samples/client/others/typescript/encode-decode/**",
+        ".github/workflows/samples-typescript-encode-decode.yaml"
+      ]
+    },
+    "samples-typescript-fetch-client.build": {
+      "workflow": ".github/workflows/samples-typescript-fetch-client.yaml",
+      "matrix": {
+        "node": [
+          "20.x"
+        ],
+        "sample": [
+          "samples/client/petstore/typescript-fetch/builds/default/",
+          "samples/client/petstore/typescript-fetch/builds/es6-target/",
+          "samples/client/petstore/typescript-fetch/builds/with-npm-version/",
+          "samples/client/petstore/typescript-fetch/tests/default/"
+        ]
+      },
+      "shared_paths": [
+        "pom.xml",
+        ".mvn/**",
+        "mvnw",
+        "mvnw.cmd",
+        "CI/settings.xml",
+        "samples/client/petstore/typescript-fetch/builds/with-npm-version"
+      ],
+      "shadow_paths": [
+        "samples/client/petstore/typescript-fetch/builds/default/**",
+        "samples/client/petstore/typescript-fetch/builds/es6-target/**",
+        "samples/client/petstore/typescript-fetch/builds/with-npm-version/**",
+        "samples/client/petstore/typescript-fetch/tests/default/**"
+      ]
+    },
+    "samples-typescript-nestjs-server.build": {
+      "workflow": ".github/workflows/samples-typescript-nestjs-server.yaml",
+      "matrix": {
+        "sample": [
+          "samples/server/petstore/typescript-nestjs-server"
+        ],
+        "node-version": [
+          20,
+          22
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/typescript-nestjs-server/**",
+        ".github/workflows/samples-typescript-nestjs-server.yaml",
+        ".github/workflows/samples-typescript-nestjs-server-parameters.yaml"
+      ]
+    },
+    "samples-typescript-node-encode-decode.build": {
+      "workflow": ".github/workflows/samples-typescript-node-encode-decode.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/others/typescript-node/encode-decode/test"
+        ],
+        "node-version": [
+          16,
+          18,
+          20
+        ]
+      },
+      "paths": [
+        "samples/client/others/typescript-node/encode-decode/**"
+      ],
+      "shadow_paths": [
+        "samples/client/others/typescript-node/encode-decode/**",
+        ".github/workflows/samples-typescript-node-encode-decode.yaml"
+      ]
+    },
+    "samples-typescript-server.build": {
+      "workflow": ".github/workflows/samples-typescript-server.yaml",
+      "matrix": {
+        "node": [
+          "18.x",
+          "20.x"
+        ],
+        "sample": [
+          "samples/server/petstore/typescript-nestjs-server/"
+        ]
+      },
+      "shadow_paths": [
+        "samples/server/petstore/typescript-nestjs-server/**"
+      ]
+    },
+    "samples-typescript-typecheck.build": {
+      "workflow": ".github/workflows/samples-typescript-typecheck.yaml",
+      "matrix": {
+        "node-version": [
+          20
+        ]
+      },
+      "discovery": "typescript",
+      "shared_paths": [
+        "bin/ts-typecheck-all.sh",
+        "samples/client/petstore/typescript-fetch/builds/with-npm-version"
+      ],
+      "shadow_paths": [
+        "samples/client/petstore/typescript*/**",
+        "samples/client/others/typescript*/**",
+        "samples/client/echo_api/typescript*/**",
+        "samples/openapi3/client/petstore*/typescript/**",
+        "samples/server/petstore/typescript-nestjs-server/**",
+        "bin/ts-typecheck-all.sh",
+        ".github/workflows/samples-typescript-typecheck.yaml"
+      ]
+    },
+    "samples-zapier.validate": {
+      "workflow": ".github/workflows/samples-zapier.yaml",
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/zapier"
+        ]
+      },
+      "shadow_paths": [
+        "samples/client/petstore/zapier/**"
+      ]
+    },
+    "openapi-generator.build": {
+      "workflow": ".github/workflows/openapi-generator.yaml",
+      "paths": [
+        "samples",
+        "bin/configs",
+        "bin/generate-samples.sh",
+        "docs",
+        "bin/meta-codegen.sh",
+        "bin/utils/export*",
+        "bin/utils/copy-to-website.sh",
+        "CONTRIBUTING.md",
+        "CODE_OF_CONDUCT.md"
+      ],
+      "shared_paths": [
+        "modules",
+        "pom.xml",
+        "mvnw",
+        "mvnw.cmd",
+        ".mvn",
+        "google_checkstyle.xml",
+        "spotbugs-exclude.xml",
+        ".gitattributes",
+        ".gitignore",
+        "conf"
+      ]
+    },
+    "openapi-generator.test": {
+      "workflow": ".github/workflows/openapi-generator.yaml",
+      "paths": [
+        "modules"
+      ],
+      "shared_paths": [
+        "pom.xml",
+        "mvnw",
+        "mvnw.cmd",
+        ".mvn",
+        "google_checkstyle.xml",
+        "spotbugs-exclude.xml",
+        ".gitattributes",
+        ".github/workflows/openapi-generator-test-results.yaml"
+      ]
+    },
+    "openapi-generator.documentation": {
+      "workflow": ".github/workflows/openapi-generator.yaml",
+      "paths": [
+        "docs",
+        "samples/meta-codegen",
+        "bin/meta-codegen.sh",
+        "bin/utils/export*",
+        "bin/utils/copy-to-website.sh",
+        "CONTRIBUTING.md",
+        "CODE_OF_CONDUCT.md"
+      ],
+      "shared_paths": [
+        "modules",
+        "pom.xml",
+        "mvnw",
+        "mvnw.cmd",
+        ".mvn",
+        "google_checkstyle.xml",
+        "spotbugs-exclude.xml",
+        ".gitattributes",
+        ".gitignore",
+        "conf"
+      ]
+    },
+    "openapi-generator.samples": {
+      "workflow": ".github/workflows/openapi-generator.yaml",
+      "paths": [
+        "samples",
+        "bin/configs",
+        "bin/generate-samples.sh"
+      ],
+      "shared_paths": [
+        "modules",
+        "pom.xml",
+        "mvnw",
+        "mvnw.cmd",
+        ".mvn",
+        "google_checkstyle.xml",
+        "spotbugs-exclude.xml",
+        ".gitattributes",
+        ".gitignore",
+        "conf"
+      ]
+    },
+    "linux.build": {
+      "workflow": ".github/workflows/linux.yaml",
+      "paths": [
+        "modules"
+      ],
+      "shared_paths": [
+        "pom.xml",
+        "mvnw",
+        "mvnw.cmd",
+        ".mvn",
+        "google_checkstyle.xml",
+        "spotbugs-exclude.xml",
+        ".gitattributes"
+      ]
+    },
+    "linux.verify": {
+      "workflow": ".github/workflows/linux.yaml",
+      "paths": [
+        "bin/generate-samples.sh",
+        "bin/configs/java-jersey2-8.yaml",
+        "bin/configs/go-petstore.yaml",
+        "samples/openapi3/client/petstore/java/jersey2-java8",
+        "samples/openapi3/client/petstore/go/go-petstore"
+      ],
+      "shared_paths": [
+        "modules",
+        "pom.xml",
+        "mvnw",
+        "mvnw.cmd",
+        ".mvn",
+        "google_checkstyle.xml",
+        "spotbugs-exclude.xml",
+        ".gitattributes"
+      ]
+    },
+    "windows.build": {
+      "workflow": ".github/workflows/windows.yaml",
+      "paths": [
+        "modules"
+      ],
+      "shared_paths": [
+        "pom.xml",
+        "mvnw",
+        "mvnw.cmd",
+        ".mvn",
+        "google_checkstyle.xml",
+        "spotbugs-exclude.xml",
+        ".gitattributes"
+      ]
+    },
+    "maven-plugin-tests.test": {
+      "workflow": ".github/workflows/maven-plugin-tests.yaml",
+      "paths": [
+        "modules"
+      ],
+      "shared_paths": [
+        "pom.xml",
+        "mvnw",
+        "mvnw.cmd",
+        ".mvn",
+        "google_checkstyle.xml",
+        "spotbugs-exclude.xml",
+        ".gitattributes"
+      ]
+    },
+    "maven-plugin-tests-jdk17.test": {
+      "workflow": ".github/workflows/maven-plugin-tests-jdk17.yaml",
+      "paths": [
+        "modules"
+      ],
+      "shared_paths": [
+        "pom.xml",
+        "mvnw",
+        "mvnw.cmd",
+        ".mvn",
+        "google_checkstyle.xml",
+        "spotbugs-exclude.xml",
+        ".gitattributes"
+      ]
+    },
+    "gradle-plugin-tests.test": {
+      "workflow": ".github/workflows/gradle-plugin-tests.yaml",
+      "paths": [
+        "modules"
+      ],
+      "shared_paths": [
+        "pom.xml",
+        "mvnw",
+        "mvnw.cmd",
+        ".mvn",
+        "google_checkstyle.xml",
+        "spotbugs-exclude.xml",
+        ".gitattributes"
+      ]
+    },
+    "mill-plugin-tests.test": {
+      "workflow": ".github/workflows/mill-plugin-tests.yaml",
+      "paths": [
+        "modules"
+      ],
+      "shared_paths": [
+        "pom.xml",
+        "mvnw",
+        "mvnw.cmd",
+        ".mvn",
+        "google_checkstyle.xml",
+        "spotbugs-exclude.xml",
+        ".gitattributes"
+      ]
+    },
+    "docker.build": {
+      "workflow": ".github/workflows/docker.yaml",
+      "paths": [
+        "modules",
+        "Dockerfile",
+        ".dockerignore",
+        "docker-entrypoint.sh",
+        "run-in-docker.sh",
+        "CI/run-in-docker-settings.xml",
+        "LICENSE"
+      ],
+      "shared_paths": [
+        "pom.xml",
+        "mvnw",
+        "mvnw.cmd",
+        ".mvn",
+        "google_checkstyle.xml",
+        "spotbugs-exclude.xml",
+        ".gitattributes"
+      ]
+    },
+    "circle.node0": {
+      "workflow": ".circleci/config.yml",
+      "paths": [],
+      "shared_paths": [
+        "CI/circle_parallel.sh",
+        "CI/circle_select.sh"
+      ]
+    },
+    "circle.node1": {
+      "workflow": ".circleci/config.yml",
+      "paths": [
+        "samples/client/petstore/perl"
+      ],
+      "shared_paths": [
+        "CI/circle_parallel.sh",
+        "CI/circle_select.sh"
+      ]
+    },
+    "circle.node2": {
+      "workflow": ".circleci/config.yml",
+      "paths": [
+        "samples/client/petstore/cpp-restsdk/client"
+      ],
+      "shared_paths": [
+        "CI/circle_parallel.sh",
+        "CI/circle_select.sh",
+        ".mvn/**"
+      ]
+    },
+    "circle.node3": {
+      "workflow": ".circleci/config.yml",
+      "paths": [],
+      "shared_paths": [
+        "CI/circle_parallel.sh",
+        "CI/circle_select.sh",
+        ".mvn/**"
+      ],
+      "matrix": {
+        "sample": [
+          "samples/client/petstore/ruby",
+          "samples/client/petstore/ruby-faraday",
+          "samples/client/petstore/ruby-httpx",
+          "samples/client/petstore/ruby-autoload"
+        ]
+      }
+    }
+  },
+  "exclusions": [
+    {
+      "path": "samples/client/echo_api/go-external-refs",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/echo_api/php-nextgen",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/echo_api/php-nextgen-streaming",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/echo_api/powershell",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/echo_api/r",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/github/jetbrains/http/client",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/jetbrains/adyen/adyen/http/client",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/jetbrains/adyen/checkoutbasic/http/client",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/opendota/jetbrains/http/client",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/crystal-qdrant",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/csharp-complex-files",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/csharp-complex-files/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/csharp-complex-files/src/Org.OpenAPITools.Test",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/k6/basicAuth",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/k6/bearerAuth",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/kotlin-jvm-okhttp-non-ascii-headers",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/ruby-nextgen-qdrant",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/typescript-axios/with-separate-models-and-api-inheritance",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/typescript-fetch/additional-properties-in-multipart-issue",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/typescript-fetch/infinite-recursion-issue",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/typescript-fetch/multipart-file-array",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/typescript-fetch/self-import-issue",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/others/typescript-rxjs/allOf-composition",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/ada",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/android/httpclient",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/android/volley",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/apex",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/bash",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/cpp-boost-beast",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/cpp-boost-beast/generated",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/cpp-restsdk",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/cpp-restsdk/client",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/cpp-tiny",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/cpp-tizen",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/cpp-ue4",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/csharp/unityWebRequest/net10/Petstore",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/csharp/unityWebRequest/net9/Petstore",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/csharp/unityWebRequest/standard2.0/Petstore",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/eiffel",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/gdscript/addons/oas.petstore.client",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/java/microprofile-rest-client-3.0-jackson-ignore-case",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/java/okhttp-gson-nullable-required",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/java/okhttp-gson-parcelableModel",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/java/resttemplate-springBoot4-jackson3-jspecify",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/java/retrofit",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/java/webclient-springBoot4-jackson3-jspecify",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/javascript-apollo",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/javascript-closure-angular",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/javascript-flowtyped",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/jaxrs-cxf-client-jackson",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/jetbrains/http/client",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/jmeter",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/k6",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/kotlin-allOf-discriminator",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/kotlin-array-simple-string-jvm-retrofit2",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/kotlin-default-values-numbers",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/kotlin-enum-default-value",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/kotlin-json-request-string",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/kotlin-jvm-retrofit2-coroutines",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/kotlin-modelMutable",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/lua",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/n4js",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/nim",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/objc/core-data",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/objc/core-data/SwaggerClientTests",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/objc/default",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/objc/default/SwaggerClientTests",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/perl",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/perl/deep_module_test",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/php-dt",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/php-dt-modern",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/php/psr-18",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/ruby",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/ruby-autoload",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/ruby-faraday",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/ruby-httpx",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/scala-gatling",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/spring-cloud-feign-without-url",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift-combine/client",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift5/vaporLibrary",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/alamofireLibrary",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/alamofireLibrary/SwaggerClientTests",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/apiNonStaticMethod",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/apiNonStaticMethod/SwaggerClientTests",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/asyncAwaitLibrary",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/asyncAwaitLibrary/SwaggerClientTests",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/combineDeferredLibrary",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/combineDeferredLibrary/SwaggerClientTests",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/combineLibrary",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/combineLibrary/SwaggerClientTests",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/default",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/default/SwaggerClientTests",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/objcCompatible",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/oneOf",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/promisekitLibrary",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/promisekitLibrary/SwaggerClientTests",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/resultLibrary",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/rxswiftLibrary",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/rxswiftLibrary/SwaggerClientTests",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/urlsessionLibrary",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/urlsessionLibrary/SwaggerClientTests",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/validation",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/swift6/vaporLibrary",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-angular-v19",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-axios/builds/composed-schemas",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-axios/builds/default",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-axios/builds/test-petstore",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-axios/builds/with-fake-endpoints-models-for-testing-with-http-signature",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-axios/builds/with-interfaces",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-axios/builds/with-interfaces-and-with-single-request-param",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-axios/builds/with-node-imports",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-axios/builds/with-single-request-parameters",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-axios/builds/with-string-enums",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-axios/tests/default",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-axios/tests/with-complex-headers",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/allOf-nullable",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/allOf-readonly",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/date-library-date",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/date-library-string",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/default-v3.0",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/enum",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/kebab-case",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/multiple-parameters",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/oneOf",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/snakecase-discriminator",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/validation-attributes",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/with-interfaces",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-fetch/builds/with-string-enums",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-inversify",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-jquery/default",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-nestjs/builds/reservedParamNames",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-node/3_0",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-node/default",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-rxjs/builds/default",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/typescript-rxjs/builds/with-progress-subscriber",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/xojo/client",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/client/petstore/xojo/client-synchronous",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/config/petstore/apache2",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/config/petstore/graphql-schema",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/documentation/asciidoc",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/documentation/cwiki",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/documentation/dynamic-html",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/documentation/html",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/documentation/html.md",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/documentation/html2",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/documentation/markdown",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/documentation/petstore/plantuml",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/documentation/postman-collection",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/meta-codegen",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/meta-codegen-kotlin/lib",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/meta-codegen-kotlin/usage",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/meta-codegen/lib",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/meta-codegen/usage",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/extensions/x-auth-id-alias/go-experimental",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/extensions/x-auth-id-alias/ruby-client",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/features/dynamic-servers/ruby",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/features/generate-alias-as-model/ruby-client",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/kotlin",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/kotlin-jvm-retrofit2-coroutines",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/kotlin-multiplatform",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/php",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/spring-cloud-oas3-fakeapi",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/typescript/builds/deno",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/typescript/builds/deno_object_params",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/typescript/tests/browser",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/typescript/tests/default",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/typescript/tests/deno",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/typescript/tests/inversify",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/typescript/tests/jquery",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/client/petstore/typescript/tests/object_params",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/schema/petstore/avro",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/schema/petstore/avro-schema",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/schema/petstore/avro-schema-issue6268",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/schema/valid-enums/avro-schema-enum",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/server/petstore/go",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/server/petstore/go/go-petstore",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/server/petstore/kotlin-springboot",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/server/petstore/kotlin-springboot-reactive",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/server/petstore/php-symfony/SymfonyBundle-php",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/server/petstore/spring-boot-springdoc",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/openapi3/server/petstore/springboot-source",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/schema/petstore/ktorm",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/schema/petstore/ktorm-modelMutable",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/schema/petstore/mysql",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/schema/petstore/postgresql",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/schema/petstore/wsdl-schema",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/aspnetcore",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/aspnetcore-3.0",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/aspnetcore-3.0/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/aspnetcore-3.1",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/aspnetcore-3.1/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/aspnetcore-5.0",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/aspnetcore-5.0/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/aspnetcore-8.0-abstract-class",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/aspnetcore-8.0-abstract-class/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/aspnetcore/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/cpp-pistache",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/cpp-pistache-everything",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/cpp-pistache-nested-schema-refs",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/cpp-qt-qhttpengine-server",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/cpp-restbed",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/cpp-restbed-deprecated",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/cpp-restbed/generated/3_0",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/cpp-restbed/test/java_client_tests/java_client",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions-abstract-class",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions-abstract-class/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions-isolated",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions-isolated-builtin",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions-isolated-builtin-newtonsoft",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions-isolated-builtin-newtonsoft/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions-isolated-builtin/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions-isolated-newtonsoft",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions-isolated-newtonsoft/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions-isolated-openapi",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions-isolated-openapi/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions-isolated/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/csharp-functions/src/Org.OpenAPITools",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/fsharp-functions",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/fsharp-giraffe",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/graphql-nodejs-express-server",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/graphql-nodejs-express-server/petstore",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/java-helidon-server/v4/se-uac-group-by-file-path",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/java-micronaut-server",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/java-msf4j",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/java-undertow",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/jaxrs-cxf-cdi-default-value",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/jaxrs-cxf-test-data",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/jaxrs-resteasy/default-value",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/jaxrs-resteasy/java8",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/jaxrs-spec-enum",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/jaxrs-spec-jakarta",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/jaxrs-spec-quarkus-mutiny",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/jaxrs-spec-required-and-readonly-property",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/kotlin-server/ktor-delegate-pattern",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/kotlin-server/ktor2-usetags-false",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/kotlin-spring-cloud-4",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/kotlin-spring-default",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/kotlin-springboot-integer-enum",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/kotlin-vertx-modelMutable",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/kotlin/vertx",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/nodejs-express-server",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/php-laravel",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/php-lumen",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/php-symfony",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/python-blueplanet",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/python-flask",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/ruby-on-rails",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/ruby-sinatra",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/rust-server-deprecated",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/springboot-beanvalidation-no-nullable",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    },
+    {
+      "path": "samples/server/petstore/springboot-delegate-j8",
+      "reason": "No sample build/test job in the pre-selection CI baseline; generated-output freshness remains covered."
+    }
+  ]
+}

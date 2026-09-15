@@ -1,47 +1,37 @@
 name: Samples Dart (build, test)
 
 on:
+  workflow_dispatch:
   push:
     branches:
-    paths:
-      #- samples/openapi3/client/petstore/dart2/petstore_client_lib_fake/**
-      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/**
-      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
-      - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
-      - samples/openapi3/client/petstore/dart-dio/oneof/**
-      - samples/openapi3/client/petstore/dart-dio/anyof/**
-      - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
-      - samples/openapi3/client/petstore/dart-dio/binary_response/**
-      - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/**
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      #- samples/openapi3/client/petstore/dart2/petstore_client_lib_fake/**
-      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/**
-      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
-      - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
-      - samples/openapi3/client/petstore/dart-dio/oneof/**
-      - samples/openapi3/client/petstore/dart-dio/anyof/**
-      - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
-      - samples/openapi3/client/petstore/dart-dio/binary_response/**
-      - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/**
 
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      test_changed: ${{ steps.test.outputs.has_changes }}
+      test_matrix: ${{ steps.test.outputs.matrix }}
+      test_samples: ${{ steps.test.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: test
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-dart-build-test.test
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   test:
+    needs: setup
+    if: ${{ needs.setup.outputs.test_changed == 'true' }}
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        sdk: ["3.9.0"]
-        sample:
-          #- samples/openapi3/client/petstore/dart2/petstore_client_lib_fake/
-          #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/
-          #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/
-          - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/
-          - samples/openapi3/client/petstore/dart-dio/oneof/
-          - samples/openapi3/client/petstore/dart-dio/anyof/
-          - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/
-          - samples/openapi3/client/petstore/dart-dio/binary_response/
-          - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/
+      matrix: ${{ fromJSON(needs.setup.outputs.test_matrix) }}
     steps:
       - uses: actions/checkout@v7
 

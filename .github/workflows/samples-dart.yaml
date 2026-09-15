@@ -1,19 +1,37 @@
 name: Samples Dart
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - master
+      - 'master'
       - '[5-9]+.[0-9]+.x'
   pull_request:
     branches:
-      - master
+      - 'master'
       - '[5-9]+.[0-9]+.x'
-    paths:
-      - 'samples/openapi3/client/petstore/dart*/**'
 
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      tests_dart_changed: ${{ steps.tests_dart.outputs.has_changes }}
+      tests_dart_matrix: ${{ steps.tests_dart.outputs.matrix }}
+      tests_dart_samples: ${{ steps.tests_dart.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: tests_dart
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-dart.tests-dart
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   tests-dart:
+    needs: setup
+    if: ${{ needs.setup.outputs.tests_dart_changed == 'true' }}
     name: Tests Dart
     runs-on: ubuntu-latest
     steps:

@@ -1,16 +1,35 @@
 name: Gradle plugin tests
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - modules/openapi-generator-gradle-plugin/**
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - modules/openapi-generator-gradle-plugin/**
 
 jobs:
+  setup:
+    name: Select changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      test_changed: ${{ steps.test.outputs.has_changes }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - uses: ./.github/actions/compute-matrix
+        id: test
+        with:
+          suite: gradle-plugin-tests.test
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   test:
     name: Gradle plugin tests
+    needs: setup
+    if: needs.setup.outputs.test_changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

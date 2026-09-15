@@ -1,35 +1,39 @@
 name: TypeScript clients type checks
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - master
-    paths:
-      - samples/client/petstore/typescript*/**
-      - samples/client/others/typescript*/**
-      - samples/client/echo_api/typescript*/**
-      - samples/openapi3/client/petstore*/typescript/**
-      - samples/server/petstore/typescript-nestjs-server/**
-      - bin/ts-typecheck-all.sh
-      - .github/workflows/samples-typescript-typecheck.yaml
+      - 'master'
+      - '[5-9]+.[0-9]+.x'
   pull_request:
-    paths:
-      - samples/client/petstore/typescript*/**
-      - samples/client/others/typescript*/**
-      - samples/client/echo_api/typescript*/**
-      - samples/openapi3/client/petstore*/typescript/**
-      - samples/server/petstore/typescript-nestjs-server/**
-      - bin/ts-typecheck-all.sh
-      - .github/workflows/samples-typescript-typecheck.yaml
+
 jobs:
+  setup:
+    name: Select affected samples
+    runs-on: ubuntu-latest
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      build_matrix: ${{ steps.build.outputs.matrix }}
+      build_samples: ${{ steps.build.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - id: build
+        uses: ./.github/actions/compute-matrix
+        with:
+          suite: samples-typescript-typecheck.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
+    needs: setup
+    if: ${{ needs.setup.outputs.build_changed == 'true' }}
     name: Typecheck TypeScript samples
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        node-version:
-          - 20
+      matrix: ${{ fromJSON(needs.setup.outputs.build_matrix) }}
     steps:
       - uses: actions/checkout@v7
 
@@ -38,4 +42,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Run type checker
-        run: ./bin/ts-typecheck-all.sh
+        env:
+          SELECTED_SAMPLES: ${{ needs.setup.outputs.build_samples }}
+        run: ./bin/ts-typecheck-all.sh --samples-json "$SELECTED_SAMPLES"

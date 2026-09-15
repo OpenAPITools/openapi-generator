@@ -1,0 +1,49 @@
+name: Select changed CI scope
+description: Compute a conservative PR matrix using the shared ownership policy.
+inputs:
+  suite:
+    description: Suite ID in CI/change-scopes.json
+    required: true
+  mode:
+    description: enforce filters matrices; shadow preserves historical workflow gating and executes full matrices
+    default: shadow
+  force-full:
+    description: Execute the original complete matrix
+    default: 'false'
+outputs:
+  matrix:
+    description: JSON matrix object
+    value: ${{ steps.select.outputs.matrix }}
+  samples:
+    description: JSON array of selected sample paths
+    value: ${{ steps.select.outputs.samples }}
+  has_changes:
+    description: Whether the suite should execute
+    value: ${{ steps.select.outputs.has_changes }}
+  run_all:
+    description: Whether execution uses the full suite
+    value: ${{ steps.select.outputs.run_all }}
+  reasons:
+    description: JSON array of decision reasons
+    value: ${{ steps.select.outputs.reasons }}
+  proposed_selection:
+    description: Proposed filtered decision in shadow mode
+    value: ${{ steps.select.outputs.proposed_selection }}
+runs:
+  using: composite
+  steps:
+    - id: select
+      shell: bash
+      env:
+        CI_SUITE: ${{ inputs.suite }}
+        CI_SELECTION_MODE: ${{ inputs.mode }}
+        CI_ACTION_FORCE_FULL: ${{ inputs.force-full }}
+      run: |
+        args=()
+        if [[ "$CI_ACTION_FORCE_FULL" == "true" ]]; then
+          args+=(--force-full)
+        elif [[ "$CI_ACTION_FORCE_FULL" != "false" ]]; then
+          echo "force-full must be true or false" >&2
+          exit 2
+        fi
+        python3 CI/select_changes.py --provider github --suite "$CI_SUITE" --mode "$CI_SELECTION_MODE" "${args[@]}"

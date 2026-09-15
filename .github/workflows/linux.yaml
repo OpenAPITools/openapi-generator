@@ -1,6 +1,7 @@
 name: Linux tests
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -11,8 +12,33 @@ on:
       - '[5-9]+.[0-9]+.x'
 
 jobs:
+  setup:
+    name: Select changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      build_changed: ${{ steps.build.outputs.has_changes }}
+      verify_changed: ${{ steps.verify.outputs.has_changes }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - uses: ./.github/actions/compute-matrix
+        id: build
+        with:
+          suite: linux.build
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+      - uses: ./.github/actions/compute-matrix
+        id: verify
+        with:
+          suite: linux.verify
+          mode: ${{ vars.CI_SELECTION_MODE || 'shadow' }}
+
   build:
     name: 'Build: JDK ${{ matrix.java }} (${{ matrix.os }})'
+    needs: setup
+    if: needs.setup.outputs.build_changed == 'true' || needs.setup.outputs.verify_changed == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -84,7 +110,8 @@ jobs:
 
   verify:
     name: Verify outputs on ${{ matrix.os }}
-    needs: build
+    needs: [setup, build]
+    if: needs.setup.outputs.verify_changed == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -102,13 +129,14 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: artifact
+          path: modules/openapi-generator-cli/target
       - name: Run Ensures Script
         shell: bash
         run: |
           git config --global core.fileMode false
           git config --global core.safecrlf false
           git config --global core.autocrlf true
-          ./mvnw clean package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+          test -s modules/openapi-generator-cli/target/openapi-generator-cli.jar
           # test with java (jersey2) client generation only as ensure-up-to-date script is run in another job instead
           ./bin/generate-samples.sh ./bin/configs/java-jersey2-8.yaml
           # test debugSupportingFiles

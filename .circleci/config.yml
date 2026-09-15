@@ -1,4 +1,11 @@
 version: 2.1
+parameters:
+  full_run:
+    type: boolean
+    default: false
+  selection_mode:
+    type: string
+    default: shadow
 commands: # a reusable command with parameters
   command_build_and_test:
     parameters:
@@ -6,13 +13,47 @@ commands: # a reusable command with parameters
         default: "0"
         type: string
     steps:
+      # Pin the event revision: a PR head ref may have advanced since scheduling.
+      - run:
+          name: Checkout source over HTTPS with retry
+          command: |
+            if [ -n "${CIRCLE_PULL_REQUEST:-}" ]; then
+              ref="refs/pull/${CIRCLE_PULL_REQUEST##*/}/head"
+            elif [[ "${CIRCLE_BRANCH:-}" =~ ^pull/[0-9]+$ ]]; then
+              ref="refs/${CIRCLE_BRANCH}/head"
+            else
+              ref="$CIRCLE_SHA1"
+            fi
+            [[ "$CIRCLE_SHA1" =~ ^[0-9a-fA-F]{40}$ ]] || exit 1
+            git init .
+            git remote add origin https://github.com/OpenAPITools/openapi-generator.git
+            for i in $(seq 1 5); do
+              if git fetch --no-tags --depth=1 origin "$CIRCLE_SHA1" ||
+                 git fetch --no-tags --depth=1 origin "$ref"; then
+                if [ "$(git rev-parse FETCH_HEAD)" = "$CIRCLE_SHA1" ] &&
+                   git checkout --detach "$CIRCLE_SHA1"; then
+                  exit 0
+                fi
+              fi
+              sleep 5
+            done
+            echo "Unable to check out the exact CircleCI event revision" >&2
+            exit 1
+      - run:
+          name: Select relevant CircleCI scope before setup
+          environment:
+            CIRCLE_NODE_INDEX: "<<parameters.nodeNo>>"
+            CI_FORCE_FULL: "<<pipeline.parameters.full_run>>"
+            CI_SELECTION_MODE: "<<pipeline.parameters.selection_mode>>"
+          command: bash CI/circle_select.sh
       # Restore the dependency cache
       - restore_cache:
           keys:
-            # Default branch if not
-            - source-v2-{{ .Branch }}-{{ .Revision }}
-            - source-v2-{{ .Branch }}-
-            - source-v2-
+            # Do not restore legacy source-v2 caches containing .git over the
+            # already verified checkout. Future caches must be dependency-only.
+            - dependencies-v3-{{ .Branch }}-{{ .Revision }}
+            - dependencies-v3-{{ .Branch }}-
+            - dependencies-v3-
       # Machine Setup
       #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
       - run:
@@ -24,26 +65,6 @@ commands: # a reusable command with parameters
             libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
             libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
             fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget libgbm1
-      # Avoid intermittent SSH checkout failures from CircleCI workers.
-      - run:
-          name: Checkout source over HTTPS with retry
-          command: |
-            if [ -n "${CIRCLE_PULL_REQUEST:-}" ]; then
-              ref="refs/pull/${CIRCLE_PULL_REQUEST##*/}/head"
-            elif [[ "${CIRCLE_BRANCH:-}" =~ ^pull/[0-9]+$ ]]; then
-              ref="refs/${CIRCLE_BRANCH}/head"
-            else
-              ref="$CIRCLE_SHA1"
-            fi
-            git init .
-            git remote add origin https://github.com/OpenAPITools/openapi-generator.git
-            for i in $(seq 1 5); do
-              if git fetch --depth=1 origin "$ref" && git checkout --detach FETCH_HEAD; then
-                exit 0
-              fi
-              sleep 5
-            done
-            exit 1
       # Prepare for artifact and test results  collection equivalent to how it was done on 1.0.
       # In many cases you can simplify this from what is generated here.
       # 'See docs on artifact collection here https://circleci.com/docs/2.0/artifacts/'
