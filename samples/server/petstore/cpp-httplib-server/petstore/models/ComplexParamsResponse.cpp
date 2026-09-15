@@ -88,7 +88,7 @@ std::string ComplexParamsResponse::EnumParamEnumToString(ComplexParamsResponse::
         case EnumParamEnum::A: return "A";
         case EnumParamEnum::B: return "B";
         case EnumParamEnum::C: return "C";
-        default: return {};
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for ComplexParamsResponse::EnumParamEnum");
     }
 }
 
@@ -110,7 +110,7 @@ ComplexParamsResponse::EnumParamEnum ComplexParamsResponse::EnumParamEnumFromStr
     {
         return EnumParamEnum::C;
     }
-    throw std::invalid_argument("Invalid enum value");
+    throw nlohmann::json::type_error::create(302, "Invalid value for ComplexParamsResponse::EnumParamEnum");
 }
 
 // =========================================
@@ -124,7 +124,7 @@ std::string ComplexParamsResponse::XEnumHeaderEnumToString(ComplexParamsResponse
         case XEnumHeaderEnum::X: return "X";
         case XEnumHeaderEnum::Y: return "Y";
         case XEnumHeaderEnum::Z: return "Z";
-        default: return {};
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for ComplexParamsResponse::XEnumHeaderEnum");
     }
 }
 
@@ -146,7 +146,7 @@ ComplexParamsResponse::XEnumHeaderEnum ComplexParamsResponse::XEnumHeaderEnumFro
     {
         return XEnumHeaderEnum::Z;
     }
-    throw std::invalid_argument("Invalid enum value");
+    throw nlohmann::json::type_error::create(302, "Invalid value for ComplexParamsResponse::XEnumHeaderEnum");
 }
 
 // =========================================
@@ -159,7 +159,7 @@ std::string ComplexParamsResponse::CookieEnumEnumToString(ComplexParamsResponse:
         case CookieEnumEnum::UNSPECIFIED: return "UNSPECIFIED";
         case CookieEnumEnum::COOKIEA: return "cookieA";
         case CookieEnumEnum::COOKIEB: return "cookieB";
-        default: return {};
+        default: throw nlohmann::json::type_error::create(302, "Invalid value for ComplexParamsResponse::CookieEnumEnum");
     }
 }
 
@@ -177,7 +177,7 @@ ComplexParamsResponse::CookieEnumEnum ComplexParamsResponse::CookieEnumEnumFromS
     {
         return CookieEnumEnum::COOKIEB;
     }
-    throw std::invalid_argument("Invalid enum value");
+    throw nlohmann::json::type_error::create(302, "Invalid value for ComplexParamsResponse::CookieEnumEnum");
 }
 
 
