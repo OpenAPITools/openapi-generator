@@ -7155,16 +7155,23 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             if (enumName != null) {
-                if (var.isEnum || referencedSchema.isPresent()) {
+                if (var.isEnum || !languageSpecificPrimitives.contains(varDataType)) {
                     var.defaultValue = toEnumDefaultValue(var, enumName);
                 } else {
-                    // Neither an inline nested enum (var.isEnum) nor a ref to a named enum
-                    // schema (referencedSchema): var.datatypeWithEnum is just the raw scalar
-                    // type (e.g. a discriminator property that is a `$ref` into another
-                    // schema's property rather than a ref to the enum schema itself).
-                    // allowableValues/enum matching still ran, but there's no enum constant to
-                    // qualify the value with. Drop the default rather than emit a bare,
-                    // unqualified token that would not compile (see #24874).
+                    // Not an inline nested enum (var.isEnum) and varDataType is a raw
+                    // language-specific primitive (e.g. "String"): there's no enum class at
+                    // this use site to qualify the value with (e.g. a discriminator property
+                    // that is a `$ref` into another schema's property rather than a ref to the
+                    // enum schema itself). allowableValues/enum matching still ran, but
+                    // emitting a bare, unqualified token like `String.ARCHIVE` would not
+                    // compile. Drop the default instead (see #24874).
+                    //
+                    // Note: this check is intentionally based on languageSpecificPrimitives
+                    // rather than referencedSchema.isPresent() — referencedSchema's name match
+                    // against the raw dataType string is brittle for codegens whose dataType is
+                    // namespace/package-qualified (e.g. PHP's `OpenAPI\Server\Model\Foo`), which
+                    // would never match `toModelName(...)` and incorrectly drop valid enum
+                    // defaults for genuine named-enum refs.
                     var.defaultValue = null;
                 }
             }
