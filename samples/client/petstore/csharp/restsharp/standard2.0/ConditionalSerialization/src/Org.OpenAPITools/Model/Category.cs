@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">id.</param>
         /// <param name="name">name (required) (default to &quot;default-name&quot;).</param>
-        public Category(long id = default, string name = @"default-name")
+        public Category(long? id = default, string name = @"default-name")
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -53,9 +53,9 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("name is a required property for Category and cannot be null");
             }
             this._Name = name;
-            this._Id = id;
-            if (this.Id != null)
+            if (id != null)
             {
+                this._Id = id.Value;
                 this._flagId = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
