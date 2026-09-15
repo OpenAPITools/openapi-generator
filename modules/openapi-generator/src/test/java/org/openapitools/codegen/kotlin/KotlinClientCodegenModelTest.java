@@ -1297,6 +1297,27 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileNotContains(serializerPath, "com.fasterxml.jackson.databind");
     }
 
+    @Test(description = "useJackson3 keeps the Jackson 2 behaviour of registering service-loaded modules")
+    public void shouldFindAndAddModulesWithJackson3() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(KotlinClientCodegen.USE_JACKSON_3, true);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path serializerPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
+        // the Jackson 2 branch calls findAndRegisterModules(), so third-party modules published
+        // through META-INF/services must be picked up on the Jackson 3 branch as well
+        TestUtils.assertFileContains(serializerPath, "findAndAddModules()");
+    }
+
     @Test(description = "useJackson3 swaps the Jackson 2 Gradle dependencies for their Jackson 3 equivalents")
     public void shouldGenerateBuildGradleWithJackson3Deps() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
