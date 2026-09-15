@@ -134,6 +134,13 @@ class RESTClientObject:
                 configuration.assert_hostname
             )
 
+        if configuration.disable_strict_ssl_verification:
+            ssl_context = ssl.create_default_context(
+                cafile=configuration.ssl_ca_cert,
+                cadata=configuration.ca_cert_data,
+            )
+            ssl_context.verify_flags &= ~ssl.VERIFY_X509_STRICT
+            pool_args['ssl_context'] = ssl_context
         if configuration.retries is not None:
             pool_args['retries'] = configuration.retries
 
