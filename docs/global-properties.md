@@ -36,6 +36,13 @@ one: `With<Subtype>` for the request axis, `As<Subtype>` for the response axis, 
 The content-type declared first on each axis is the default one, consistently with the rest of the
 generator. The option is opt-in and off by default, because it changes the shape of the generated API.
 
+Each variant speaks only the media-type it was narrowed to: its `consumes` and `produces` are that single
+media-type, and so are the `Content-Type` and `Accept` of the generators that derive them from those lists
+(most do; `kotlin-client`, for one, still filters `produces` down to the types it can deserialise). The other
+responses of the operation, error ones typically, are left as they are and keep typing their own body — a
+server that negotiates strictly on `Accept` may then refuse to send a JSON error body to a variant that only
+accepts, say, PDF.
+
 Each generated operation carries `x-content-type-variant-*` extensions recording the group it was split
 from, the content-type it was narrowed to on each axis and the rank of that content-type in its axis. A
 generator whose language can express the whole matrix in a single construct uses them to merge the variants
