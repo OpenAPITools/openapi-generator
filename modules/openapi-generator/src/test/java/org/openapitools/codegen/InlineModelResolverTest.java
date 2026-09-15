@@ -1739,4 +1739,96 @@ public class InlineModelResolverTest {
         assertRewritten("encoding headers", response.getContent().get("application/json")
                 .getEncoding().get("ok").getHeaders().get("X-Encoding").getSchema());
     }
+
+    @Test
+    public void inlineSchemaDoesNotOverwriteSpecDefinedSchemaWithMangledSameName() {
+        // The inline request body schema is registered as "importMembers_request" while the spec
+        // also defines "ImportMembersRequest". Both mangle to the same model name, so without
+        // normalization-aware collision detection one silently overwrites the other and the
+        // properties of the overwritten model disappear from the generated code.
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.setComponents(new Components());
+        openAPI.setPaths(new Paths());
+
+        openAPI.getComponents().addSchemas("ImportMembersRequest", new ObjectSchema()
+                .addProperty("declaredField", new StringSchema()));
+
+        Schema inlineBody = new ObjectSchema().addProperty("inlineOnly", new StringSchema());
+        openAPI.getPaths().addPathItem("/members/import", new PathItem().post(new Operation()
+                .operationId("importMembers")
+                .requestBody(new RequestBody().content(new Content()
+                        .addMediaType("application/json", new MediaType().schema(inlineBody))))));
+
+        new InlineModelResolver().flatten(openAPI);
+
+        // the spec-defined schema must survive untouched
+        Schema declared = openAPI.getComponents().getSchemas().get("ImportMembersRequest");
+        assertNotNull(declared);
+        assertNotNull(declared.getProperties().get("declaredField"));
+        assertNull(declared.getProperties().get("inlineOnly"));
+
+        // the inline schema must be registered under a name that does not mangle onto the
+        // spec-defined one
+        assertNull(openAPI.getComponents().getSchemas().get("importMembers_request"));
+        Schema inlined = openAPI.getComponents().getSchemas().get("importMembers_request_1");
+        assertNotNull(inlined);
+        assertNotNull(inlined.getProperties().get("inlineOnly"));
+    }
+
+    @Test
+    public void inlineSchemaDoesNotOverwriteSpecDefinedSchemaNamedWithOtherSeparators() {
+        // sanitizeName turns '-', '.', ' ' and friends into '_' before the name is camelized, so
+        // `Import-Members-Request` mangles onto the same model as the inline `importMembers_request`.
+        // Normalizing on '_' alone would miss this.
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.setComponents(new Components());
+        openAPI.setPaths(new Paths());
+
+        openAPI.getComponents().addSchemas("Import-Members-Request", new ObjectSchema()
+                .addProperty("declaredField", new StringSchema()));
+
+        Schema inlineBody = new ObjectSchema().addProperty("inlineOnly", new StringSchema());
+        openAPI.getPaths().addPathItem("/members/import", new PathItem().post(new Operation()
+                .operationId("importMembers")
+                .requestBody(new RequestBody().content(new Content()
+                        .addMediaType("application/json", new MediaType().schema(inlineBody))))));
+
+        new InlineModelResolver().flatten(openAPI);
+
+        Schema declared = openAPI.getComponents().getSchemas().get("Import-Members-Request");
+        assertNotNull(declared);
+        assertNotNull(declared.getProperties().get("declaredField"));
+        assertNull(declared.getProperties().get("inlineOnly"));
+
+        assertNull(openAPI.getComponents().getSchemas().get("importMembers_request"));
+        Schema inlined = openAPI.getComponents().getSchemas().get("importMembers_request_1");
+        assertNotNull(inlined);
+        assertNotNull(inlined.getProperties().get("inlineOnly"));
+    }
+
+    @Test
+    public void inlineSchemaKeepsItsNameWhenTheManglerKeepsNamesDistinct() {
+        // `Importmembersrequest` mangles to itself, not to `ImportMembersRequest`, so it is NOT a
+        // collision -- the inline schema must keep its own name rather than being pushed to _1.
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.setComponents(new Components());
+        openAPI.setPaths(new Paths());
+
+        openAPI.getComponents().addSchemas("Importmembersrequest", new ObjectSchema()
+                .addProperty("declaredField", new StringSchema()));
+
+        Schema inlineBody = new ObjectSchema().addProperty("inlineOnly", new StringSchema());
+        openAPI.getPaths().addPathItem("/members/import", new PathItem().post(new Operation()
+                .operationId("importMembers")
+                .requestBody(new RequestBody().content(new Content()
+                        .addMediaType("application/json", new MediaType().schema(inlineBody))))));
+
+        new InlineModelResolver().flatten(openAPI);
+
+        assertNotNull(openAPI.getComponents().getSchemas().get("Importmembersrequest"));
+        Schema inlined = openAPI.getComponents().getSchemas().get("importMembers_request");
+        assertNotNull("no real collision, the inline schema should keep its own name", inlined);
+        assertNotNull(inlined.getProperties().get("inlineOnly"));
+        assertNull(openAPI.getComponents().getSchemas().get("importMembers_request_1"));
+    }
 }
