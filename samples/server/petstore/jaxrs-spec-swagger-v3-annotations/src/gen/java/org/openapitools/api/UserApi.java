@@ -42,7 +42,7 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
     })
-    public Response createUsersWithArrayInput(@Valid @NotNull List<@Valid User> user) {
+    public Response createUsersWithArrayInput(@NotNull List<@Valid User> user) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -53,7 +53,7 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
     })
-    public Response createUsersWithListInput(@Valid @NotNull List<@Valid User> user) {
+    public Response createUsersWithListInput(@NotNull List<@Valid User> user) {
         return Response.ok().entity("magic!").build();
     }
 

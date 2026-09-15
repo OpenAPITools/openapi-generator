@@ -34,8 +34,8 @@ import javax.xml.bind.annotation.XmlEnumValue;
     @XmlRootElement(name="AdditionalPropertiesClass")
 
 public class AdditionalPropertiesClass  implements Serializable {
-  private @Valid Map<String, String> mapProperty = new HashMap<>();
-  private @Valid Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
+  private Map<String, String> mapProperty = new HashMap<>();
+  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   protected AdditionalPropertiesClass(AdditionalPropertiesClassBuilder<?, ?> b) {
     this.mapProperty = b.mapProperty;

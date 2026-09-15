@@ -82,7 +82,7 @@ public class FakeBigDecimalMap200Response   {
    **/
   @JsonProperty(value = "someMap")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, BigDecimal> getSomeMap() {
     return someMap;
   }
