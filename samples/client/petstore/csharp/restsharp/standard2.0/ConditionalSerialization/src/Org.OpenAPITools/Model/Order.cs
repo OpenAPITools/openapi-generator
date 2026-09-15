@@ -64,8 +64,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Order Status</value>
 
-        [DataMember(Name = "status", EmitDefaultValue = false)]
-        public StatusEnum? Status
+        [DataMember(Name = "status", EmitDefaultValue = true)]
+        public StatusEnum Status
         {
             get{ return _Status;}
             set
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
                 _flagStatus = true;
             }
         }
-        private StatusEnum? _Status;
+        private StatusEnum _Status;
         private bool _flagStatus;
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
+        [DataMember(Name = "id", EmitDefaultValue = true)]
         public long Id
         {
             get{ return _Id;}
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
-        [DataMember(Name = "petId", EmitDefaultValue = false)]
+        [DataMember(Name = "petId", EmitDefaultValue = true)]
         public long PetId
         {
             get{ return _PetId;}
@@ -175,7 +175,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
-        [DataMember(Name = "quantity", EmitDefaultValue = false)]
+        [DataMember(Name = "quantity", EmitDefaultValue = true)]
         public int Quantity
         {
             get{ return _Quantity;}

@@ -56,8 +56,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustSymbol
         /// </summary>
 
-        [DataMember(Name = "just_symbol", EmitDefaultValue = false)]
-        public JustSymbolEnum? JustSymbol
+        [DataMember(Name = "just_symbol", EmitDefaultValue = true)]
+        public JustSymbolEnum JustSymbol
         {
             get{ return _JustSymbol;}
             set
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
                 _flagJustSymbol = true;
             }
         }
-        private JustSymbolEnum? _JustSymbol;
+        private JustSymbolEnum _JustSymbol;
         private bool _flagJustSymbol;
 
         /// <summary>
