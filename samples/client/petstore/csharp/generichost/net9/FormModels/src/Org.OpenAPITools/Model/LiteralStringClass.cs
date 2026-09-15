@@ -198,10 +198,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, LiteralStringClass literalStringClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (literalStringClass.EscapedLiteralStringOption.IsSet && literalStringClass.EscapedLiteralString == null)
-                throw new ArgumentNullException(nameof(literalStringClass.EscapedLiteralString), "Property is required for class LiteralStringClass.");
+                throw new JsonException("Cannot write null property LiteralStringClass.EscapedLiteralString to non-nullable JSON property 'escapedLiteralString'.");
 
             if (literalStringClass.UnescapedLiteralStringOption.IsSet && literalStringClass.UnescapedLiteralString == null)
-                throw new ArgumentNullException(nameof(literalStringClass.UnescapedLiteralString), "Property is required for class LiteralStringClass.");
+                throw new JsonException("Cannot write null property LiteralStringClass.UnescapedLiteralString to non-nullable JSON property 'unescapedLiteralString'.");
 
             if (literalStringClass.EscapedLiteralStringOption.IsSet)
                 writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString);

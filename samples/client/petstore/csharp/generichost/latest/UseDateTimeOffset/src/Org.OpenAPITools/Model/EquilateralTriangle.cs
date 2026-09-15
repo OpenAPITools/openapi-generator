@@ -183,12 +183,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, EquilateralTriangle equilateralTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (equilateralTriangle.ShapeType == null)
-                throw new ArgumentNullException(nameof(equilateralTriangle.ShapeType), "Property is required for class EquilateralTriangle.");
-
-            if (equilateralTriangle.TriangleType == null)
-                throw new ArgumentNullException(nameof(equilateralTriangle.TriangleType), "Property is required for class EquilateralTriangle.");
-
             writer.WriteString("shapeType", equilateralTriangle.ShapeType);
 
             writer.WriteString("triangleType", equilateralTriangle.TriangleType);

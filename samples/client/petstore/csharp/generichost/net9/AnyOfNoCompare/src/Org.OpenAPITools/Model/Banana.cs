@@ -175,6 +175,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (banana.CountOption.IsSet && banana.Count == null)
+                throw new JsonException("Cannot write null property Banana.Count to non-nullable JSON property 'count'.");
+
             if (banana.CountOption.IsSet)
                 writer.WriteNumber("count", banana.CountOption.Value!.Value);
         }

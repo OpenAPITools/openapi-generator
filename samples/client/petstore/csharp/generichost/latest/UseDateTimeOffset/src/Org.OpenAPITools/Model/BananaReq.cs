@@ -187,6 +187,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, BananaReq bananaReq, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (bananaReq.SweetOption.IsSet && bananaReq.Sweet == null)
+                throw new JsonException("Cannot write null property BananaReq.Sweet to non-nullable JSON property 'sweet'.");
+
             writer.WriteNumber("lengthCm", bananaReq.LengthCm);
 
             if (bananaReq.SweetOption.IsSet)

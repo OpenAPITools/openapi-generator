@@ -182,12 +182,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Descendant1 descendant1, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (descendant1.AlternativeName == null)
-                throw new ArgumentNullException(nameof(descendant1.AlternativeName), "Property is required for class Descendant1.");
-
-            if (descendant1.DescendantName == null)
-                throw new ArgumentNullException(nameof(descendant1.DescendantName), "Property is required for class Descendant1.");
-
             writer.WriteString("alternativeName", descendant1.AlternativeName);
 
             writer.WriteString("descendantName", descendant1.DescendantName);

@@ -223,13 +223,13 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, ArrayTest arrayTest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (arrayTest.ArrayArrayOfIntegerOption.IsSet && arrayTest.ArrayArrayOfInteger == null)
-                throw new ArgumentNullException(nameof(arrayTest.ArrayArrayOfInteger), "Property is required for class ArrayTest.");
+                throw new JsonException("Cannot write null property ArrayTest.ArrayArrayOfInteger to non-nullable JSON property 'array_array_of_integer'.");
 
             if (arrayTest.ArrayArrayOfModelOption.IsSet && arrayTest.ArrayArrayOfModel == null)
-                throw new ArgumentNullException(nameof(arrayTest.ArrayArrayOfModel), "Property is required for class ArrayTest.");
+                throw new JsonException("Cannot write null property ArrayTest.ArrayArrayOfModel to non-nullable JSON property 'array_array_of_model'.");
 
             if (arrayTest.ArrayOfStringOption.IsSet && arrayTest.ArrayOfString == null)
-                throw new ArgumentNullException(nameof(arrayTest.ArrayOfString), "Property is required for class ArrayTest.");
+                throw new JsonException("Cannot write null property ArrayTest.ArrayOfString to non-nullable JSON property 'array_of_string'.");
 
             if (arrayTest.ArrayArrayOfIntegerOption.IsSet)
             {

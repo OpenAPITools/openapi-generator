@@ -178,10 +178,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
         {
             if (dog.BreedOption.IsSet && dog.Breed == null)
-                throw new ArgumentNullException(nameof(dog.Breed), "Property is required for class Dog.");
+                throw new JsonException("Cannot write null property Dog.Breed to non-nullable JSON property 'breed'.");
 
             if (dog.ColorOption.IsSet && dog.Color == null)
-                throw new ArgumentNullException(nameof(dog.Color), "Property is required for class Dog.");
+                throw new JsonException("Cannot write null property Dog.Color to non-nullable JSON property 'color'.");
 
             writer.WriteString("className", dog.ClassName);
 

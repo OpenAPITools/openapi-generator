@@ -249,8 +249,17 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet && mixedPropertiesAndAdditionalPropertiesClass.DateTime == null)
+                throw new JsonException("Cannot write null property MixedPropertiesAndAdditionalPropertiesClass.DateTime to non-nullable JSON property 'dateTime'.");
+
             if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet && mixedPropertiesAndAdditionalPropertiesClass.Map == null)
-                throw new ArgumentNullException(nameof(mixedPropertiesAndAdditionalPropertiesClass.Map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+                throw new JsonException("Cannot write null property MixedPropertiesAndAdditionalPropertiesClass.Map to non-nullable JSON property 'map'.");
+
+            if (mixedPropertiesAndAdditionalPropertiesClass.UuidOption.IsSet && mixedPropertiesAndAdditionalPropertiesClass.Uuid == null)
+                throw new JsonException("Cannot write null property MixedPropertiesAndAdditionalPropertiesClass.Uuid to non-nullable JSON property 'uuid'.");
+
+            if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.IsSet && mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern == null)
+                throw new JsonException("Cannot write null property MixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern to non-nullable JSON property 'uuid_with_pattern'.");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet)
                 writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value.ToString(DateTimeFormat));

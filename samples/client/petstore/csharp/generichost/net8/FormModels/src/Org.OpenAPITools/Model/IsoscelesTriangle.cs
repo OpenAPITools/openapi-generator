@@ -182,12 +182,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, IsoscelesTriangle isoscelesTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (isoscelesTriangle.ShapeType == null)
-                throw new ArgumentNullException(nameof(isoscelesTriangle.ShapeType), "Property is required for class IsoscelesTriangle.");
-
-            if (isoscelesTriangle.TriangleType == null)
-                throw new ArgumentNullException(nameof(isoscelesTriangle.TriangleType), "Property is required for class IsoscelesTriangle.");
-
             writer.WriteString("shapeType", isoscelesTriangle.ShapeType);
 
             writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
