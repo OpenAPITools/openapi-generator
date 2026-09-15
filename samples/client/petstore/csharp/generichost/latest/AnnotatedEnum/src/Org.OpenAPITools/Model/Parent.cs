@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (number.IsSet && number.Value == null)
-                throw new ArgumentNullException(nameof(number), "Property is not nullable for class Parent.");
+                throw new JsonException("Property is not nullable for class Parent: number.");
 
             return new Parent(number);
         }

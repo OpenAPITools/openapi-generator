@@ -168,10 +168,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (prop1.IsSet && prop1.Value == null)
-                throw new ArgumentNullException(nameof(prop1), "Property is not nullable for class ActivityOutputElementRepresentation.");
+                throw new JsonException("Property is not nullable for class ActivityOutputElementRepresentation: prop1.");
 
             if (prop2.IsSet && prop2.Value == null)
-                throw new ArgumentNullException(nameof(prop2), "Property is not nullable for class ActivityOutputElementRepresentation.");
+                throw new JsonException("Property is not nullable for class ActivityOutputElementRepresentation: prop2.");
 
             return new ActivityOutputElementRepresentation(prop1, prop2);
         }

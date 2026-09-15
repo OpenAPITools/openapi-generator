@@ -148,7 +148,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varClass.IsSet && varClass.Value == null)
-                throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class ClassModel.");
+                throw new JsonException("Property is not nullable for class ClassModel: _class.");
 
             return new ClassModel(varClass);
         }

@@ -210,16 +210,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!id.IsSet)
-                throw new ArgumentException("Property is required for class Widget.", nameof(id));
+                throw new JsonException("Property is required for class Widget: id.");
 
             if (!name.IsSet)
-                throw new ArgumentException("Property is required for class Widget.", nameof(name));
+                throw new JsonException("Property is required for class Widget: name.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Widget.");
+                throw new JsonException("Property is not nullable for class Widget: id.");
 
             if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Widget.");
+                throw new JsonException("Property is not nullable for class Widget: name.");
 
             return new Widget(id.Value!.Value!, name.Value!, color, debugInfo, shape);
         }

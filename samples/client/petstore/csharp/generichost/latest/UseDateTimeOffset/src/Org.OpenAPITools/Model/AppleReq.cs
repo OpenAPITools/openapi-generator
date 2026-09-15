@@ -152,13 +152,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!cultivar.IsSet)
-                throw new ArgumentException("Property is required for class AppleReq.", nameof(cultivar));
+                throw new JsonException("Property is required for class AppleReq: cultivar.");
 
             if (cultivar.IsSet && cultivar.Value == null)
-                throw new ArgumentNullException(nameof(cultivar), "Property is not nullable for class AppleReq.");
+                throw new JsonException("Property is not nullable for class AppleReq: cultivar.");
 
             if (mealy.IsSet && mealy.Value == null)
-                throw new ArgumentNullException(nameof(mealy), "Property is not nullable for class AppleReq.");
+                throw new JsonException("Property is not nullable for class AppleReq: mealy.");
 
             return new AppleReq(cultivar.Value!, mealy);
         }

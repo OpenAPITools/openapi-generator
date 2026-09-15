@@ -201,13 +201,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!petType.IsSet)
-                throw new ArgumentException("Property is required for class ChildCat.", nameof(petType));
+                throw new JsonException("Property is required for class ChildCat: pet_type.");
 
             if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class ChildCat.");
+                throw new JsonException("Property is not nullable for class ChildCat: name.");
 
             if (petType.IsSet && petType.Value == null)
-                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ChildCat.");
+                throw new JsonException("Property is not nullable for class ChildCat: pet_type.");
 
             return new ChildCat(name);
         }
