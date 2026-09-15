@@ -52,6 +52,28 @@ public class Swift6ClientCodegenTest {
         Assert.assertEquals(swiftCodegen.toRegularExpression("/[a-z]/i"), "/[a-z]/i");
     }
 
+    @Test(description = "models on an inline reference cycle become classes, everything else stays a struct")
+    public void testRecursiveModelsBecomeClasses() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("swift6")
+                .setInputSpec("src/test/resources/3_0/swift/recursive-models.yaml")
+                .setOutputDir(target.toAbsolutePath().toString());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path models = target.resolve("Sources/OpenAPIClient/Models");
+        // a struct that stores itself inline has infinite size and does not compile (#15240):
+        // the self-referencing model and both halves of the mutual cycle become final classes
+        TestUtils.assertFileContains(models.resolve("ContactInfo.swift"), "public final class ContactInfo: @unchecked Sendable,");
+        TestUtils.assertFileContains(models.resolve("NodeA.swift"), "public final class NodeA: @unchecked Sendable,");
+        TestUtils.assertFileContains(models.resolve("NodeB.swift"), "public final class NodeB: @unchecked Sendable,");
+        // embedding a cyclic class costs nothing, and containers already give heap
+        // indirection - these stay structs
+        TestUtils.assertFileContains(models.resolve("DomainInfo.swift"), "public struct DomainInfo: Sendable,");
+        TestUtils.assertFileContains(models.resolve("Category.swift"), "public struct Category: Sendable,");
+    }
+
     @Test(enabled = true)
     public void testCapitalizedReservedWord() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("AS", null), "_as");
