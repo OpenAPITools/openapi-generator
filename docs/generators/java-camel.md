@@ -108,6 +108,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
+|splitResponseTypes|Whether to generate one operation method per response content type when a response declares multiple content types.| |false|
 |springApiVersion|Value for 'version' attribute in @RequestMapping (for Spring 7 and above).| |null|
 |springSecurityAuthorityPrefix|Prefix added to OAuth2/OpenID Connect scopes when generating Spring Security authorities.| |SCOPE_|
 |substituteGenericPagedModel|Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' pagination-metadata property) and replace their generated references with PagedModel&lt;T&gt;. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata schema are suppressed from code generation.| |false|
