@@ -472,6 +472,9 @@ public class CodegenConstants {
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
 
+    public static final String USE_EXTERNAL_IMPLEMENTATION_PACKAGE = "useExternalImplementationPackage";
+    public static final String USE_EXTERNAL_IMPLEMENTATION_PACKAGE_DESC = "If true, fastapiImplementationPackage is a fully qualified python package that already exists outside the generated package: it is imported as-is (not prefixed with packageName) and its __init__.py is not generated.";
+
     public static final String WITH_XML = "withXml";
 
     public static final String WITH_GO_MOD = "withGoMod";
