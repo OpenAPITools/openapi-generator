@@ -125,6 +125,9 @@ namespace Org.OpenAPITools.Model
                 if (Bar != null)
                     hashCode = (hashCode * 59) + Bar.GetHashCode();
 
+                if (Baz != null)
+                    hashCode = (hashCode * 59) + Baz.GetHashCode();
+
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
 
                 return hashCode;

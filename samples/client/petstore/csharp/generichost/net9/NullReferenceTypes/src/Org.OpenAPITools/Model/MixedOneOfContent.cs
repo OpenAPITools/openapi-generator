@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Mixed oneOf types for testing
     /// </summary>
-    public partial class MixedOneOfContent : IValidatableObject
+    public partial class MixedOneOfContent : IEquatable<MixedOneOfContent?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedOneOfContent" /> class.
@@ -125,6 +125,41 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as MixedOneOfContent).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if MixedOneOfContent instances are equal
+        /// </summary>
+        /// <param name="input">Instance of MixedOneOfContent to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(MixedOneOfContent? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

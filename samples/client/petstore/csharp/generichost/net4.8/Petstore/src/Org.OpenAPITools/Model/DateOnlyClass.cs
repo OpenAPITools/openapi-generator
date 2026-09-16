@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// DateOnlyClass
     /// </summary>
-    public partial class DateOnlyClass : IValidatableObject
+    public partial class DateOnlyClass : IEquatable<DateOnlyClass>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DateOnlyClass" /> class.
@@ -74,6 +74,44 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as DateOnlyClass).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if DateOnlyClass instances are equal
+        /// </summary>
+        /// <param name="input">Instance of DateOnlyClass to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(DateOnlyClass input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (DateOnlyProperty != null)
+                    hashCode = (hashCode * 59) + DateOnlyProperty.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>
