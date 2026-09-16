@@ -655,20 +655,51 @@ func (e GenericOpenAPIError) Model() interface{} {
 
 // format error message using title and detail when model implements rfc7807
 func formatErrorMessage(status string, v interface{}) string {
-	str := ""
-	metaValue := reflect.ValueOf(v).Elem()
+	title := rfc7807Field(v, "Title")
+	detail := rfc7807Field(v, "Detail")
 
-	if metaValue.Kind() == reflect.Struct {
-		field := metaValue.FieldByName("Title")
-		if field != (reflect.Value{}) {
-			str = fmt.Sprintf("%s", field.Interface())
-		}
-
-		field = metaValue.FieldByName("Detail")
-		if field != (reflect.Value{}) {
-			str = fmt.Sprintf("%s (%s)", str, field.Interface())
-		}
+	var str string
+	switch {
+	case title != "" && detail != "":
+		str = title + " (" + detail + ")"
+	case title != "":
+		str = title
+	default:
+		str = detail
 	}
 
-	return strings.TrimSpace(fmt.Sprintf("%s %s", status, str))
+	return strings.TrimSpace(status + " " + str)
+}
+
+// rfc7807Field reads a string member of an rfc7807 model, following one level of pointer
+// indirection so that an optional field declared as *string yields its value rather than its
+// address. It returns the empty string when the member is absent, is a nil pointer, or holds the
+// empty string, so a member that was not set contributes nothing to the message.
+func rfc7807Field(v interface{}, name string) string {
+	value := reflect.ValueOf(v)
+	if value.Kind() == reflect.Pointer {
+		if value.IsNil() {
+			return ""
+		}
+		value = value.Elem()
+	}
+	if value.Kind() != reflect.Struct {
+		return ""
+	}
+
+	field := value.FieldByName(name)
+	if !field.IsValid() {
+		return ""
+	}
+	if field.Kind() == reflect.Pointer {
+		if field.IsNil() {
+			return ""
+		}
+		field = field.Elem()
+	}
+	if field.Kind() != reflect.String {
+		return ""
+	}
+
+	return field.String()
 }
