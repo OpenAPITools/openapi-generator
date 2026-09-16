@@ -535,9 +535,35 @@ export class VoidApiResponse {
 export class BlobApiResponse {
     constructor(public raw: Response) {}
 
-    async value(): Promise<Blob> {
-        return await this.raw.blob();
+    /**
+     * The body as a File named after the Content-Disposition header, so that a download keeps the
+     * name the server gave it. A File is a Blob: callers reading a Blob are unaffected, and the name
+     * is empty when the server did not send one.
+     */
+    async value(): Promise<File> {
+        const blob = await this.raw.blob();
+        return new File([blob], parseContentDispositionFilename(this.raw.headers) ?? '', { type: blob.type });
     };
+}
+
+/**
+ * The file name advertised by a Content-Disposition header, RFC 5987 encoded form first.
+ */
+export function parseContentDispositionFilename(headers: Headers): string | undefined {
+    const value = headers.get('Content-Disposition');
+    if (!value) {
+        return undefined;
+    }
+    const encoded = /filename\*=(?:UTF-8|utf-8)''([^;]+)/.exec(value);
+    if (encoded) {
+        try {
+            return decodeURIComponent(encoded[1].trim());
+        } catch {
+            // fall through to the plain form
+        }
+    }
+    const plain = /filename="?([^";]+)"?/.exec(value);
+    return plain ? plain[1].trim() : undefined;
 }
 
 export class TextApiResponse {
