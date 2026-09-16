@@ -32,7 +32,6 @@ src/Org.OpenAPITools/Client/RateLimitProvider`1.cs
 src/Org.OpenAPITools/Client/TokenBase.cs
 src/Org.OpenAPITools/Client/TokenContainer`1.cs
 src/Org.OpenAPITools/Client/TokenProvider`1.cs
-src/Org.OpenAPITools/Extensions/IHostApplicationBuilderExtensions.cs
 src/Org.OpenAPITools/Extensions/IHostBuilderExtensions.cs
 src/Org.OpenAPITools/Extensions/IHttpClientBuilderExtensions.cs
 src/Org.OpenAPITools/Extensions/IServiceCollectionExtensions.cs

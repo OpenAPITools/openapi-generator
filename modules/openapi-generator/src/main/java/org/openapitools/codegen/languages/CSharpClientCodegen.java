@@ -1152,7 +1152,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         String extensionsFolder = sourceFolder + File.separator + packageName + File.separator + "Extensions";
         supportingFiles.add(new SupportingFile("IHttpClientBuilderExtensions.mustache", extensionsFolder, "IHttpClientBuilderExtensions.cs"));
         supportingFiles.add(new SupportingFile("IHostBuilderExtensions.mustache", extensionsFolder, "IHostBuilderExtensions.cs"));
-        supportingFiles.add(new SupportingFile("IHostApplicationBuilderExtensions.mustache", extensionsFolder, "IHostApplicationBuilderExtensions.cs"));
+        // IHostApplicationBuilder is only available on .NET 8 or later
+        if (additionalProperties.containsKey(NET_80_OR_LATER)) {
+            supportingFiles.add(new SupportingFile("IHostApplicationBuilderExtensions.mustache", extensionsFolder, "IHostApplicationBuilderExtensions.cs"));
+        }
         supportingFiles.add(new SupportingFile("IServiceCollectionExtensions.mustache", extensionsFolder, "IServiceCollectionExtensions.cs"));
 
         String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();
