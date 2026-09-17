@@ -148,6 +148,9 @@ class RESTClientObject:
                 cafile=configuration.ssl_ca_cert,
                 cadata=configuration.ca_cert_data,
             )
+            if not configuration.verify_ssl:
+                ssl_context.check_hostname = False
+                ssl_context.verify_mode = ssl.CERT_NONE
             ssl_context.verify_flags &= ~ssl.VERIFY_X509_STRICT
             pool_args['ssl_context'] = ssl_context
         if configuration.retries is not None:
