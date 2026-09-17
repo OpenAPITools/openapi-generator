@@ -898,7 +898,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     private boolean supportLibraryUseTags() {
-        return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
+        return SPRING_BOOT.equals(library)
+               || SPRING_CLOUD_LIBRARY.equals(library)
+               || SPRING_HTTP_INTERFACE.equals(library);
     }
 
     /**
@@ -928,6 +930,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
             }
+            if (SPRING_HTTP_INTERFACE.equals(library)) {
+                super.addOperationToGroup(getUniquePathGroupName(basePath, operations), resourcePath, operation, co, operations);
+                return;
+            }
             final List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);
             co.baseName = basePath;
@@ -935,6 +941,30 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         super.addOperationToGroup(tag, resourcePath, operation, co, operations);
 
+    }
+
+    private String getUniquePathGroupName(String basePath, Map<String, List<CodegenOperation>> operations) {
+        String sanitizedBasePath = sanitizeName(basePath);
+        if (sanitizedBasePath.isEmpty()) {
+            sanitizedBasePath = "Path";
+        } else if (sanitizedBasePath.matches("^\\d.*")) {
+            sanitizedBasePath = "Class" + sanitizedBasePath;
+        }
+        String groupName = camelize(sanitizedBasePath, LOWERCASE_FIRST_LETTER);
+        String uniqueGroupName = groupName;
+        int suffix = 2;
+        while (operations.containsKey(uniqueGroupName)
+                && !getFirstPathSegment(operations.get(uniqueGroupName).get(0).path).equals(basePath)) {
+            uniqueGroupName = groupName + suffix++;
+        }
+        return uniqueGroupName;
+    }
+
+    private String getFirstPathSegment(String path) {
+        String basePath = path.startsWith("/") ? path.substring(1) : path;
+        int pos = basePath.indexOf("/");
+        basePath = pos > 0 ? basePath.substring(0, pos) : basePath;
+        return basePath.isEmpty() ? "default" : basePath;
     }
 
     @Override

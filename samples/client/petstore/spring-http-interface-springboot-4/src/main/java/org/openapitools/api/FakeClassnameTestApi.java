@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
 
 @Validated
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
-public interface FakeClassnameTags123Api {
+public interface FakeClassnameTestApi {
 
     /**
      * PATCH /fake_classname_test : To test class name in snake case

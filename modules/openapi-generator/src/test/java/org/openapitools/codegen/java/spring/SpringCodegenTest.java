@@ -1274,6 +1274,158 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void useTags_false_groupsByFirstPathSegment_springHttpInterface() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(USE_TAGS, "false");
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "findByStatus";
+        co.path = "/pet/findByStatus";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Pet", "/pet/findByStatus", new Operation(), co, groups);
+
+        assertTrue(groups.containsKey("pet"));
+        assertEquals(co.baseName, "pet");
+    }
+
+    @Test
+    public void useTags_true_groupsByTag_springHttpInterface() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "findByStatus";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Pet", "/pet/findByStatus", new Operation(), co, groups);
+
+        assertTrue(groups.containsKey("Pet"));
+    }
+
+    @Test
+    public void useTags_false_groupsByFirstPathSegment_sanitizesInvalidIdentifierChars_springHttpInterface() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(USE_TAGS, "false");
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "dummy";
+        co.path = "/another-fake/dummy";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("$another-fake?", "/another-fake/dummy", new Operation(), co, groups);
+
+        // the first path segment "another-fake" must be sanitized into a valid Java identifier
+        // (no hyphen) instead of being used as-is, which previously produced e.g.
+        // "AnotherFakeApi another-fakeHttpProxy()" - invalid Java syntax.
+        assertTrue(groups.containsKey("anotherFake"));
+        assertEquals(co.baseName, "anotherFake");
+    }
+
+    @Test
+    public void useTags_false_pathGroupsRemainDistinctAndOperationIdsUnique_springHttpInterface() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(USE_TAGS, "false");
+        codegen.processOpts();
+
+        CodegenOperation first = new CodegenOperation();
+        first.operationId = "dummy";
+        first.path = "/another-fake/dummy";
+        CodegenOperation duplicate = new CodegenOperation();
+        duplicate.operationId = "dummy";
+        duplicate.path = "/another-fake/other";
+        CodegenOperation colliding = new CodegenOperation();
+        colliding.operationId = "dummy";
+        colliding.path = "/another_fake/dummy";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("First", "/another-fake/dummy", new Operation(), first, groups);
+        codegen.addOperationToGroup("Second", "/another-fake/other", new Operation(), duplicate, groups);
+        codegen.addOperationToGroup("Third", "/another_fake/dummy", new Operation(), colliding, groups);
+
+        assertTrue(groups.containsKey("anotherFake"));
+        assertTrue(groups.containsKey("anotherFake2"));
+        assertEquals(duplicate.operationId, "dummy_0");
+        assertEquals(colliding.baseName, "anotherFake2");
+    }
+
+    @Test
+    public void useTags_false_groupsRootOperationsAndPrefixesDigitLeadingPath_springHttpInterface() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(USE_TAGS, "false");
+        codegen.processOpts();
+
+        CodegenOperation rootGet = new CodegenOperation();
+        rootGet.operationId = "getRoot";
+        rootGet.path = "/";
+        CodegenOperation rootPost = new CodegenOperation();
+        rootPost.operationId = "postRoot";
+        rootPost.path = "/";
+        CodegenOperation digitLeading = new CodegenOperation();
+        digitLeading.operationId = "getPets";
+        digitLeading.path = "/123/pets";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Root", "/", new Operation(), rootGet, groups);
+        codegen.addOperationToGroup("Root", "/", new Operation(), rootPost, groups);
+        codegen.addOperationToGroup("Pets", "/123/pets", new Operation(), digitLeading, groups);
+
+        assertEquals(groups.get("default").size(), 2);
+        assertTrue(groups.containsKey("class123"));
+        assertEquals(digitLeading.baseName, "class123");
+        assertEquals(codegen.toApiName(digitLeading.baseName), "Class123Api");
+    }
+
+    @Test
+    public void useTags_false_pathGroupsWithEmptySanitizedNamesRemainDistinct_springHttpInterface() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(USE_TAGS, "false");
+        codegen.processOpts();
+
+        CodegenOperation first = new CodegenOperation();
+        first.operationId = "first";
+        first.path = "/@/first";
+        CodegenOperation second = new CodegenOperation();
+        second.operationId = "second";
+        second.path = "/!/second";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("First", "/@/first", new Operation(), first, groups);
+        codegen.addOperationToGroup("Second", "/!/second", new Operation(), second, groups);
+
+        assertTrue(groups.containsKey("path"));
+        assertTrue(groups.containsKey("path2"));
+        assertEquals(codegen.toApiName(second.baseName), "Path2Api");
+    }
+
+    @Test
+    public void useTags_false_preservesRawPathGroupName_springCloud() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.additionalProperties().put(USE_TAGS, "false");
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "dummy";
+        co.path = "/another-fake/dummy";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("AnotherFake", "/another-fake/dummy", new Operation(), co, groups);
+
+        assertTrue(groups.containsKey("another-fake"));
+        assertEquals(co.baseName, "another-fake");
+    }
+
+    @Test
     public void shouldAddValidAnnotationIntoCollectionWhenBeanValidationIsEnabled_issue14723() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

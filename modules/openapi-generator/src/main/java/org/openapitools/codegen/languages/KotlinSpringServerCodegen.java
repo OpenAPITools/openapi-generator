@@ -1066,7 +1066,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if (library.equals(SPRING_BOOT) && !useTags) {
+        if ((library.equals(SPRING_BOOT) || library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)) && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -1081,12 +1081,40 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
             }
+            if (SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
+                super.addOperationToGroup(getUniquePathGroupName(basePath, operations), resourcePath, operation, co, operations);
+                return;
+            }
             List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);
             co.baseName = basePath;
         } else {
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         }
+    }
+
+    private String getUniquePathGroupName(String basePath, Map<String, List<CodegenOperation>> operations) {
+        String sanitizedBasePath = sanitizeName(basePath);
+        if (sanitizedBasePath.isEmpty()) {
+            sanitizedBasePath = "Path";
+        } else if (sanitizedBasePath.matches("^\\d.*")) {
+            sanitizedBasePath = "Class" + sanitizedBasePath;
+        }
+        String groupName = camelize(sanitizedBasePath, LOWERCASE_FIRST_LETTER);
+        String uniqueGroupName = groupName;
+        int suffix = 2;
+        while (operations.containsKey(uniqueGroupName)
+                && !getFirstPathSegment(operations.get(uniqueGroupName).get(0).path).equals(basePath)) {
+            uniqueGroupName = groupName + suffix++;
+        }
+        return uniqueGroupName;
+    }
+
+    private String getFirstPathSegment(String path) {
+        String basePath = path.startsWith("/") ? path.substring(1) : path;
+        int pos = basePath.indexOf("/");
+        basePath = pos > 0 ? basePath.substring(0, pos) : basePath;
+        return basePath.isEmpty() ? "default" : basePath;
     }
 
     /**
