@@ -6,6 +6,6 @@
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "{{{discriminator.propertyBaseName}}}", visible = true)
 @JsonSubTypes(
   {{#discriminator.mappedModels}}
-      JsonSubTypes.Type(value = {{modelName}}::class, name = "{{^vendorExtensions.x-discriminator-value}}{{mappingName}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}"){{^-last}},{{/-last}}
+      JsonSubTypes.Type(value = {{modelName}}{{#model.vendorExtensions.x-kotlin-poly-impl-needed}}Impl{{/model.vendorExtensions.x-kotlin-poly-impl-needed}}::class, name = "{{^vendorExtensions.x-discriminator-value}}{{mappingName}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}"){{^-last}},{{/-last}}
   {{/discriminator.mappedModels}}
 ){{/jackson}}

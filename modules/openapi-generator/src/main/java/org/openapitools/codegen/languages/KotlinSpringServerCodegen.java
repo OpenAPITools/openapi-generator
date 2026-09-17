@@ -329,7 +329,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 + "is used as an `allOf` parent by other schemas but has no `discriminator` of its own. When enabled, "
                 + "such a schema is generated as an `interface` (like a genuinely polymorphic root) instead of a `data class`, "
                 + "which Kotlin does not allow extending. This changes the generated type shape for affected schemas "
-                + "(they can no longer be instantiated directly), so it is opt-in.",
+                + "(they can no longer be instantiated directly), so it is opt-in. If a schema promoted to `interface` "
+                + "this way (or a genuinely-discriminated root) is itself named as a value in some `discriminator.mapping` "
+                + "(including a root that maps to itself), a synthetic concrete `<Schema>Impl` data class implementing the "
+                + "interface is also generated and substituted into the corresponding `@JsonSubTypes` entry, so Jackson can "
+                + "still construct a concrete instance for that discriminator value.",
                 fixPolymorphicInheritance);
 
         CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
@@ -1557,6 +1561,26 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // conveniences) so their children can still legally extend/override them. The map case
         // is a plain correctness fix applied unconditionally (that combination never compiled
         // before), independent of the opt-in flag.
+        //
+        // Build the set of model names referenced as discriminator mapping *values* anywhere in
+        // the document. A model rendered as an `interface` whose own name is one of these values
+        // needs a synthetic concrete `{{classname}}Impl` leaf (see below): Jackson resolves the
+        // discriminator value to a concrete class via `@JsonSubTypes`, and an `interface` can
+        // never be instantiated directly. This covers both (a) a `fixPolymorphicInheritance`-
+        // promoted model that is also referenced directly elsewhere as a standalone payload/field
+        // type (e.g. TMF645's `CheckServiceQualification`), and (b) a genuinely-discriminated root
+        // whose own `discriminator.mapping` includes an entry mapping back to itself (e.g.
+        // TMF645's `ServiceQualification: '#/components/schemas/ServiceQualification'`) — a
+        // pre-existing bug independent of `fixPolymorphicInheritance`.
+        Set<String> discriminatorMappedModelNames = new HashSet<>();
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (cm.discriminator != null && cm.discriminator.getMappedModels() != null) {
+                for (CodegenDiscriminator.MappedModel mm : cm.discriminator.getMappedModels()) {
+                    discriminatorMappedModelNames.add(mm.getModelName());
+                }
+            }
+        }
+
         for (CodegenModel cm : allModelsMap.values()) {
             boolean wouldBeInterface = cm.discriminator != null
                     || (fixPolymorphicInheritance && cm.hasChildren);
@@ -1564,6 +1588,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             boolean needsOpenMapFallback = wouldBeInterface && cm.isMap;
             cm.vendorExtensions.put("x-kotlin-poly-interface", isInterfaceShape);
             cm.vendorExtensions.put("x-kotlin-poly-open-map", needsOpenMapFallback);
+
+            boolean needsSyntheticImpl = isInterfaceShape
+                    && discriminatorMappedModelNames.contains(cm.classname);
+            cm.vendorExtensions.put("x-kotlin-poly-impl-needed", needsSyntheticImpl);
         }
 
         if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {

@@ -13,6 +13,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CheckServiceQualification_RES'
+  # Mirrors a real-world TMForum pattern (TMF645 Service Qualification Management): the
+  # non-"_RES" schema is also used directly as a standalone response/payload type, even
+  # though it is simultaneously an `allOf` parent for `CheckServiceQualification_RES`. This
+  # is the "dual purpose" pattern that requires the synthetic `CheckServiceQualificationImpl`
+  # concrete leaf so Jackson can still deserialize it at runtime.
+  /ping-check-task:
+    get:
+      operationId: pingCheckTask
+      responses:
+        '202':
+          description: Task Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckServiceQualification'
 components:
   schemas:
     Extensible:

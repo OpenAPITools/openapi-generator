@@ -7883,4 +7883,68 @@ public class KotlinSpringServerCodegenTest {
         Path geographicSite = files.get("GeographicSite.kt").toPath();
         assertFileContains(geographicSite, "override val externalIdentifier");
     }
+
+    @Test
+    public void allOfDiscriminatorInheritance_selfMappedDiscriminatorRootGetsSyntheticImplUnconditionally() throws IOException {
+        // A genuinely-discriminated root whose own discriminator mapping includes a self-referencing
+        // entry (ServiceQualification -> '#/components/schemas/ServiceQualification') is *always*
+        // rendered as an interface (independent of fixPolymorphicInheritance), so it can never be
+        // instantiated by Jackson for the "ServiceQualification" discriminator value unless a
+        // concrete leaf is generated. This is a pre-existing bug fixed unconditionally.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
+
+        Path serviceQualification = files.get("ServiceQualification.kt").toPath();
+        assertFileContains(serviceQualification,
+                "interface ServiceQualification",
+                "data class ServiceQualificationImpl(",
+                ") : ServiceQualification",
+                "JsonSubTypes.Type(value = ServiceQualificationImpl::class, name = \"ServiceQualification\")");
+
+        // CheckServiceQualification/QueryServiceQualification are plain (non-self-mapped) mapping
+        // entries; with the flag off they remain concrete data classes, so their @JsonSubTypes
+        // entries must NOT be redirected to a synthetic Impl class.
+        assertFileContains(serviceQualification,
+                "JsonSubTypes.Type(value = CheckServiceQualification::class, name = \"CheckServiceQualification\")",
+                "JsonSubTypes.Type(value = QueryServiceQualification::class, name = \"QueryServiceQualification\")");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_flagOn_promotedInterfaceUsedAsDiscriminatorValueGetsSyntheticImpl() throws IOException {
+        // The core Phase 2 fix: once fixPolymorphicInheritance promotes CheckServiceQualification to
+        // an `interface` (it has a child, CheckServiceQualification_RES, but no discriminator of its
+        // own), it can no longer be instantiated directly by Jackson -- but it IS still a valid
+        // discriminator value ("CheckServiceQualification") in ServiceQualification's own mapping, and
+        // is also used directly as a standalone response type (see the /ping-check-task path). A
+        // synthetic concrete CheckServiceQualificationImpl leaf must be generated, implementing the
+        // interface with every inherited + own property marked `override`, and ServiceQualification's
+        // @JsonSubTypes entry for "CheckServiceQualification" must be redirected to it.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml",
+                Map.of(FIX_POLYMORPHIC_INHERITANCE, "true"));
+
+        Path checkServiceQualification = files.get("CheckServiceQualification.kt").toPath();
+        assertFileContains(checkServiceQualification,
+                "interface CheckServiceQualification : ServiceQualification",
+                "data class CheckServiceQualificationImpl(",
+                ") : CheckServiceQualification",
+                "override val serviceQualificationItem",
+                "override val provideAlternative",
+                "override val atType",
+                "override val description");
+
+        Path serviceQualification = files.get("ServiceQualification.kt").toPath();
+        assertFileContains(serviceQualification,
+                "JsonSubTypes.Type(value = CheckServiceQualificationImpl::class, name = \"CheckServiceQualification\")");
+        assertFileNotContains(serviceQualification,
+                "JsonSubTypes.Type(value = CheckServiceQualification::class, name = \"CheckServiceQualification\")");
+
+        // QueryServiceQualification has no children of its own in this spec, so it stays a concrete
+        // data class even with the flag on, and must NOT get a synthetic Impl or redirection.
+        assertFileContains(serviceQualification,
+                "JsonSubTypes.Type(value = QueryServiceQualification::class, name = \"QueryServiceQualification\")");
+        Path queryServiceQualification = files.get("QueryServiceQualification.kt").toPath();
+        assertFileContains(queryServiceQualification, "data class QueryServiceQualification(");
+        assertFileNotContains(queryServiceQualification, "interface QueryServiceQualification");
+    }
 }

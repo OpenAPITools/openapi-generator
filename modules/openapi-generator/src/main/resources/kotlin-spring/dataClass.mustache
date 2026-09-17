@@ -69,3 +69,19 @@
 {{/serializableModel}}
 {{^serializableModel}}{{#companionObject}}    companion object { }
 {{/companionObject}}{{/serializableModel}}}
+{{#vendorExtensions.x-kotlin-poly-impl-needed}}
+/**
+ * Synthetic concrete implementation of [{{classname}}], generated because
+ * "{{classname}}" is used as a discriminator value elsewhere (either directly as a
+ * standalone payload/field type, or as its own discriminator's self-mapped value) but
+ * {{classname}} itself is emitted as an `interface` and therefore cannot be instantiated
+ * directly by Jackson during polymorphic deserialization.
+ */
+data class {{classname}}Impl(
+{{#requiredVars}}
+{{>implClassReqVar}}{{^-last}},
+{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
+{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>implClassOptVar}}{{^-last}},
+{{/-last}}{{/optionalVars}}
+) : {{classname}}
+{{/vendorExtensions.x-kotlin-poly-impl-needed}}
