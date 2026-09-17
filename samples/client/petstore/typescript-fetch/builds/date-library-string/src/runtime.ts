@@ -455,23 +455,29 @@ export class BlobApiResponse {
     /**
      * The body as a File named after the Content-Disposition header, so that a download keeps the
      * name the server gave it. A File is a Blob: callers reading a Blob are unaffected, and the name
-     * is empty when the server did not send one.
+     * is empty when the server did not send one. Runtimes without a global File (Node.js before 20)
+     * keep receiving the bare Blob.
      */
     async value(): Promise<File> {
         const blob = await this.raw.blob();
+        if (typeof File === 'undefined') {
+            return blob as File;
+        }
         return new File([blob], parseContentDispositionFilename(this.raw.headers) ?? '', { type: blob.type });
     };
 }
 
 /**
- * The file name advertised by a Content-Disposition header, RFC 5987 encoded form first.
+ * The file name advertised by a Content-Disposition header (RFC 6266): the RFC 5987 encoded
+ * `filename*` parameter first, then the plain `filename` as a quoted-string or a token. Parameter
+ * names are matched case-insensitively and only at a parameter boundary.
  */
 export function parseContentDispositionFilename(headers: Headers): string | undefined {
     const value = headers.get('Content-Disposition');
     if (!value) {
         return undefined;
     }
-    const encoded = /filename\*=(?:UTF-8|utf-8)''([^;]+)/.exec(value);
+    const encoded = /(?:^|;)\s*filename\*\s*=\s*utf-8'[^']*'([^;]*)/i.exec(value);
     if (encoded) {
         try {
             return decodeURIComponent(encoded[1].trim());
@@ -479,8 +485,11 @@ export function parseContentDispositionFilename(headers: Headers): string | unde
             // fall through to the plain form
         }
     }
-    const plain = /filename="?([^";]+)"?/.exec(value);
-    return plain ? plain[1].trim() : undefined;
+    const plain = /(?:^|;)\s*filename\s*=\s*(?:"((?:[^"\\]|\\.)*)"|([^;\s]+))/i.exec(value);
+    if (!plain) {
+        return undefined;
+    }
+    return plain[1] !== undefined ? plain[1].replace(/\\(.)/g, '$1') : plain[2];
 }
 
 export class TextApiResponse {
