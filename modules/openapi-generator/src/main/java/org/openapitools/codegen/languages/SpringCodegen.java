@@ -202,7 +202,29 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Getter @Setter
     protected boolean additionalNotNullAnnotations = false;
     @Setter boolean useHttpServiceProxyFactoryInterfacesConfigurator = false;
-    @Setter protected boolean autoXSpringPaginated = false;
+    @Getter protected String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
+    @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
+
+    /**
+     * Configures automatic Spring Pageable detection using a canonical mode or legacy boolean alias.
+     *
+     * @param autoXSpringPaginated the configured mode
+     */
+    public void setAutoXSpringPaginated(String autoXSpringPaginated) {
+        autoXSpringPaginatedMode =
+                SpringPageableScanUtils.resolveAutoPaginationMode(autoXSpringPaginated, LOGGER::warn);
+        this.autoXSpringPaginated = autoXSpringPaginatedMode.getCanonicalValue();
+    }
+
+    /**
+     * @deprecated Use {@link #setAutoXSpringPaginated(String)} with {@code page-size-sort} or
+     * {@code none}.
+     */
+    @Deprecated
+    public void setAutoXSpringPaginated(boolean autoXSpringPaginated) {
+        setAutoXSpringPaginated(Boolean.toString(autoXSpringPaginated));
+    }
+
     @Setter protected boolean generateSortValidation = false;
     @Setter protected boolean generatePageableConstraintValidation = false;
     @Setter protected boolean substituteGenericPagedModel = false;
@@ -402,12 +424,16 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(ADDITIONAL_NOT_NULL_ANNOTATIONS,
                 "Add @NotNull to path variables (required by default) and requestBody.",
                 additionalNotNullAnnotations));
-        cliOptions.add(CliOption.newBoolean(AUTO_X_SPRING_PAGINATED,
-                "Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. "
-                + "When enabled, operations with all three parameters will have Pageable support automatically applied. "
-                + "Operations with x-spring-paginated explicitly set to false will not be auto-detected. "
-                + "Only applies when library is spring-boot or spring-cloud.",
-                autoXSpringPaginated));
+        final CliOption autoXSpringPaginatedOption = new CliOption(AUTO_X_SPRING_PAGINATED,
+                "Automatically add x-spring-paginated to operations that have the given set of pagination query "
+                + "parameters. 'page-size-sort' requires 'page', 'size', and 'sort'; 'page-size' requires only "
+                + "'page' and 'size' (sort may be absent). Operations with x-spring-paginated explicitly set to "
+                + "false will not be auto-detected. Only applies when library is spring-boot or spring-cloud. "
+                + "The legacy values 'true' (alias for 'page-size-sort') and 'false' (alias for 'none') are "
+                + "deprecated and will be removed in a future release.")
+                .defaultValue(autoXSpringPaginated);
+        autoXSpringPaginatedOption.setEnum(SpringPageableScanUtils.getAutoPaginationModeEnumValues());
+        cliOptions.add(autoXSpringPaginatedOption);
         cliOptions.add(CliOption.newBoolean(GENERATE_SORT_VALIDATION,
                 "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to "
                 + "the injected Pageable parameter of operations whose 'sort' parameter has enum values. "
@@ -683,7 +709,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, this::setUseEnumValueInterface);
 
         if (isPageableSupported()) {
-            convertPropertyToBooleanAndWriteBack(AUTO_X_SPRING_PAGINATED, this::setAutoXSpringPaginated);
+            if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED)) {
+                String rawAutoXSpringPaginated = String.valueOf(additionalProperties.get(AUTO_X_SPRING_PAGINATED));
+                setAutoXSpringPaginated(rawAutoXSpringPaginated);
+                writePropertyBack(AUTO_X_SPRING_PAGINATED, this.autoXSpringPaginated);
+            }
             convertPropertyToBooleanAndWriteBack(GENERATE_SORT_VALIDATION, this::setGenerateSortValidation);
             convertPropertyToBooleanAndWriteBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, this::setGeneratePageableConstraintValidation);
         }
@@ -947,7 +977,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (isPageableSupported()) {
-            pageableUtils.scanAll(openAPI, autoXSpringPaginated);
+            pageableUtils.scanAll(openAPI, autoXSpringPaginatedMode);
 
             if (generateSortValidation && useBeanValidation && !pageableUtils.sortValidationEnums.isEmpty()) {
                 importMapping.putIfAbsent("ValidSort", configPackage + ".ValidSort");
@@ -1438,14 +1468,14 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
 
-        // Auto-detect pagination parameters and set x-spring-paginated if autoXSpringPaginated is enabled.
+        // Auto-detect pagination parameters and set x-spring-paginated if autoXSpringPaginated auto-detection is enabled.
         // Must be done BEFORE super.fromOperation() so that the base codegen populates
         // codegenOperation.vendorExtensions from the extension we just set on 'operation'.
         // Only for libraries that support Pageable (spring-boot, spring-cloud);
         // respect manual x-spring-paginated: false override.
         if (isPageableSupported()) {
             SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(
-                    openAPI, operation, autoXSpringPaginated);
+                    openAPI, operation, autoXSpringPaginatedMode);
         }
 
         // add Pageable import only if x-spring-paginated explicitly used AND it's a pageable-supporting library.
