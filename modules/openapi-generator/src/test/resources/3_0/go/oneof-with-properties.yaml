@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: oneOf with properties regression test
+  version: 1.0.0
+paths:
+  /thing:
+    get:
+      operationId: getThing
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+components:
+  schemas:
+    Thing:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+        first_value:
+          type: array
+          items:
+            type: number
+        second_value:
+          type: array
+          items:
+            type: number
+      oneOf:
+        - required:
+            - first_value
+          not:
+            required:
+              - second_value
+        - required:
+            - second_value
+          not:
+            required:
+              - first_value
