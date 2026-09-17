@@ -16,7 +16,17 @@ from pydantic import Field
 from pydantic_core import to_jsonable_python
 
 
+{{#useLegacyModelHelpersModule}}
+from {{packageName}}._legacy_model_helpers import (
+    _OPENAPI_GENERATOR_TO_DICT,
+    _get_openapi_to_dict,
+    _to_legacy_value,
+    _to_openapi_value,
+)
+{{/useLegacyModelHelpersModule}}
+{{^useLegacyModelHelpersModule}}
 {{>_legacy_model_dict_helpers}}
+{{/useLegacyModelHelpersModule}}
 
 {{/compatibleWithPythonLegacy}}
 
