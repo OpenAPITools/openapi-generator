@@ -69,8 +69,8 @@ export function GetPetPartTypeResponseFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function GetPetPartTypeResponseToJSON(json: any): GetPetPartTypeResponse {
-    return GetPetPartTypeResponseToJSONTyped(json, false);
+export function GetPetPartTypeResponseToJSON(value?: GetPetPartTypeResponse | null): any {
+    return GetPetPartTypeResponseToJSONTyped(value, false);
 }
 
 export function GetPetPartTypeResponseToJSONTyped(value?: GetPetPartTypeResponse | null, ignoreDiscriminator: boolean = false): any {

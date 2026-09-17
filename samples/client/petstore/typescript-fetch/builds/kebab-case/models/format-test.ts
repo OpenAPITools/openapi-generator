@@ -125,8 +125,8 @@ export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function FormatTestToJSON(json: any): FormatTest {
-    return FormatTestToJSONTyped(json, false);
+export function FormatTestToJSON(value?: FormatTest | null): any {
+    return FormatTestToJSONTyped(value, false);
 }
 
 export function FormatTestToJSONTyped(value?: FormatTest | null, ignoreDiscriminator: boolean = false): any {

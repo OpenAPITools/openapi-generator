@@ -71,8 +71,8 @@ export function TestBaseDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean
     };
 }
 
-export function TestBaseDtoToJSON(json: any): TestBaseDto {
-    return TestBaseDtoToJSONTyped(json, false);
+export function TestBaseDtoToJSON(value?: TestBaseDto | null): any {
+    return TestBaseDtoToJSONTyped(value, false);
 }
 
 export function TestBaseDtoToJSONTyped(value?: TestBaseDto | null, ignoreDiscriminator: boolean = false): any {

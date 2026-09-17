@@ -60,10 +60,10 @@ export function ErrorCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean):
 }
 
 export function ErrorCodeToJSON(value?: ErrorCode | null): any {
-    return value as any;
+    return ErrorCodeToJSONTyped(value, false);
 }
 
-export function ErrorCodeToJSONTyped(value: any, ignoreDiscriminator: boolean): ErrorCode {
-    return value as ErrorCode;
+export function ErrorCodeToJSONTyped(value?: ErrorCode | null, ignoreDiscriminator: boolean = false): any {
+    return value as any;
 }
 

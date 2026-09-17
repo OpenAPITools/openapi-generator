@@ -51,8 +51,8 @@ export function InternalAuthenticatedUserDtoFromJSONTyped(json: any, ignoreDiscr
     return json;
 }
 
-export function InternalAuthenticatedUserDtoToJSON(json: any): InternalAuthenticatedUserDto {
-    return InternalAuthenticatedUserDtoToJSONTyped(json, false);
+export function InternalAuthenticatedUserDtoToJSON(value?: InternalAuthenticatedUserDto | null): any {
+    return InternalAuthenticatedUserDtoToJSONTyped(value, false);
 }
 
 export function InternalAuthenticatedUserDtoToJSONTyped(value?: InternalAuthenticatedUserDto | null, ignoreDiscriminator: boolean = false): any {

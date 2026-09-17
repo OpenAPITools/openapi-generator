@@ -46,8 +46,8 @@ export function OwnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): Own
     };
 }
 
-export function OwnerToJSON(json: any): Owner {
-    return OwnerToJSONTyped(json, false);
+export function OwnerToJSON(value?: Owner | null): any {
+    return OwnerToJSONTyped(value, false);
 }
 
 export function OwnerToJSONTyped(value?: Owner | null, ignoreDiscriminator: boolean = false): any {
