@@ -7800,4 +7800,87 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(countOccurrences(widgets, "import org.openapitools.model.Widget"), 1L,
                 "Extra import duplicating a generated type import must be emitted only once");
     }
+
+    // ========== allOf/discriminator polymorphic inheritance (fixPolymorphicInheritance) ==========
+    //
+    // Regression tests for the compile-breaking Kotlin output produced for `allOf`/`discriminator`
+    // inheritance hierarchies where a schema is used as an `allOf` parent by other schemas but has
+    // no `discriminator` of its own (see src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml).
+
+    @Test
+    public void allOfDiscriminatorInheritance_flagOff_leavesNonDiscriminatedParentsAsDataClass() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
+
+        // Default (flag off) behavior is unchanged: a non-discriminated allOf parent that is
+        // extended by other models is still emitted as a `data class` (pre-existing, documented
+        // limitation -- Kotlin forbids extending it, but we must not silently change default output).
+        Path checkServiceQualification = files.get("CheckServiceQualification.kt").toPath();
+        assertFileContains(checkServiceQualification, "data class CheckServiceQualification(");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_flagOn_promotesNonDiscriminatedParentToInterface() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml",
+                Map.of(FIX_POLYMORPHIC_INHERITANCE, "true"));
+
+        // Issue 1/1b: with the flag enabled, a model with no discriminator of its own but that is
+        // extended by another model (CheckServiceQualification is extended by
+        // CheckServiceQualification_RES) is promoted to an `interface` instead of a `data class`,
+        // so the subtype can legally extend it.
+        Path checkServiceQualification = files.get("CheckServiceQualification.kt").toPath();
+        assertFileContains(checkServiceQualification, "interface CheckServiceQualification");
+        assertFileNotContains(checkServiceQualification, "data class CheckServiceQualification(");
+
+        Path checkServiceQualificationRes = files.get("CheckServiceQualificationRES.kt").toPath();
+        assertFileContains(checkServiceQualificationRes,
+                "override val serviceQualificationItem",
+                "override val provideAlternative");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_discriminatorPropertyNormalizedToStringAcrossAllOfChildren() throws IOException {
+        // Issue 2: PartyRef/PartyRoleRef both narrow the inherited `@type` discriminator property
+        // to a per-subtype single-value `enum`; the generator must still type it as `kotlin.String`
+        // (not the local enum) so it validly overrides PartyRefOrPartyRoleRef's `String`-typed
+        // discriminator property.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
+
+        Path partyRef = files.get("PartyRef.kt").toPath();
+        assertFileContains(partyRef, "override val atType: kotlin.String");
+        assertFileNotContains(partyRef, "override val atType: PartyRef.AtType");
+
+        Path partyRoleRef = files.get("PartyRoleRef.kt").toPath();
+        assertFileContains(partyRoleRef, "override val atType: kotlin.String");
+        assertFileNotContains(partyRoleRef, "override val atType: PartyRoleRef.AtType");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_freeFormMapWithDiscriminatorNeverEmitsInterfaceExtendingHashMap() throws IOException {
+        // Issue 3: a free-form/map-typed schema (additionalProperties, no fixed properties) that
+        // also declares its own `discriminator` must never be rendered as
+        // `interface X : HashMap<String, Any>()` (illegal in Kotlin -- an interface cannot extend a
+        // concrete class). It must instead be a concrete (non-interface) class extending HashMap.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
+
+        Path context = files.get("Context.kt").toPath();
+        assertFileNotContains(context, "interface Context : kotlin.collections.HashMap");
+        assertFileContains(context, "open class Context(", ": kotlin.collections.HashMap<String, kotlin.Any>()");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_reDeclaredInheritedPropertyGetsOverrideModifier() throws IOException {
+        // Issue 4: GeographicSite re-declares `externalIdentifier`, which is already defined on its
+        // (allOf-composed) parent Place. The override must be detected even though Place's own
+        // schema has no top-level `properties` (it's itself `allOf`-composed), requiring the parent's
+        // full flattened allOf property set to be considered, not just its direct schema properties.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
+
+        Path geographicSite = files.get("GeographicSite.kt").toPath();
+        assertFileContains(geographicSite, "override val externalIdentifier");
+    }
 }

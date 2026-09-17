@@ -117,6 +117,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
     public static final String COMPANION_OBJECT = "companionObject";
     public static final String SUSPEND_FUNCTIONS = "suspendFunctions";
+    public static final String FIX_POLYMORPHIC_INHERITANCE = "fixPolymorphicInheritance";
 
     @Getter
     public enum DeclarativeInterfaceReactiveMode {
@@ -185,6 +186,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean useEnumValueInterface = false;
     private String valuedEnumClassName = "ValuedEnum";
     @Setter private boolean suspendFunctions = false;
+    @Setter private boolean fixPolymorphicInheritance = false;
     @Getter @Setter private JsonIncludePolicy optionalNonNullPropertyJsonInclude = JsonIncludePolicy.NON_NULL;
     @Getter @Setter private JsonAnnotationPolicyUtils.JsonSetterNullsMode optionalNonNullPropertyJsonSetterNulls = null;
     @Getter @Setter private TriStateBoolean generateJsonIncludeAnnotations = TriStateBoolean.UNSET;
@@ -322,6 +324,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 substituteGenericPagedModel);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         addSwitch(SUSPEND_FUNCTIONS, "Whether to generate suspend functions for API operations. Useful for Spring MVC with Kotlin coroutines without requiring the full reactive stack.", suspendFunctions);
+        addSwitch(FIX_POLYMORPHIC_INHERITANCE,
+                "Fix compile-breaking Kotlin output for `allOf`/`discriminator` inheritance hierarchies where a schema "
+                + "is used as an `allOf` parent by other schemas but has no `discriminator` of its own. When enabled, "
+                + "such a schema is generated as an `interface` (like a genuinely polymorphic root) instead of a `data class`, "
+                + "which Kotlin does not allow extending. This changes the generated type shape for affected schemas "
+                + "(they can no longer be instantiated directly), so it is opt-in.",
+                fixPolymorphicInheritance);
 
         CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
                 JsonAnnotationPolicyUtils.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE_DESC);
@@ -843,6 +852,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseEnumValueInterface(convertPropertyToBoolean(CodegenConstants.USE_ENUM_VALUE_INTERFACE));
         }
         writePropertyBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, useEnumValueInterface);
+        if (additionalProperties.containsKey(FIX_POLYMORPHIC_INHERITANCE)) {
+            this.setFixPolymorphicInheritance(convertPropertyToBoolean(FIX_POLYMORPHIC_INHERITANCE));
+        }
+        writePropertyBack(FIX_POLYMORPHIC_INHERITANCE, fixPolymorphicInheritance);
         if (isUseSpringBoot3() && isUseSpringBoot4()) {
             throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
         }
@@ -1507,6 +1520,52 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
+        // Also normalize the discriminator property *type* for allOf-based polymorphic parents
+        // (not just oneOf interfaces): a schema's own discriminator property may be declared as
+        // a narrower per-subtype `enum` in a child schema (e.g. discriminator property typed as
+        // a single-value `enum` on the child), which Kotlin rejects as an invalid override of the
+        // parent's `String`-typed property. Force it back to the parent's type for every allOf
+        // child, running this after any self-discriminator enum generation on the child so the
+        // type isn't re-narrowed afterwards.
+        //
+        // Note: unlike the oneOf-interface loop above, we deliberately do NOT set a
+        // discriminator-mapping-derived default value here (discriminatorValue = null): plain
+        // allOf-based discriminator children never had such a default before this fix, and
+        // forcing one would change existing, already-correct generator output for ordinary
+        // (non-enum-narrowed) discriminator subtypes. This loop's only purpose is to fix the
+        // Kotlin override type-compatibility bug, not to add new default-value behavior.
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (cm.discriminator != null && cm.getChildren() != null) {
+                String discrimBaseName = cm.discriminator.getPropertyBaseName();
+                String discrimType = cm.discriminator.getPropertyType();
+                boolean isEnumDiscriminator = cm.discriminator.getIsEnum();
+
+                for (CodegenModel child : cm.getChildren()) {
+                    markPropertyAsInherited(child, discrimBaseName, discrimType, null, isEnumDiscriminator);
+                }
+            }
+        }
+
+        // Issue 1/1b (opt-in via fixPolymorphicInheritance): a schema used as an `allOf` parent
+        // by other schemas, but which has no `discriminator` of its own, is otherwise emitted as
+        // a Kotlin `data class` — which is `final` and cannot be extended. Mark such models so
+        // dataClass.mustache renders them as an `interface` instead (reusing the same
+        // interface/override machinery already used for genuinely-discriminated polymorphic
+        // roots). Free-form/map-typed (`isMap`) schemas can never be rendered as an `interface`
+        // in Kotlin (an interface cannot extend a concrete class like HashMap), so for those we
+        // instead flag that they need a concrete `open class` (losing `data class`
+        // conveniences) so their children can still legally extend/override them. The map case
+        // is a plain correctness fix applied unconditionally (that combination never compiled
+        // before), independent of the opt-in flag.
+        for (CodegenModel cm : allModelsMap.values()) {
+            boolean wouldBeInterface = cm.discriminator != null
+                    || (fixPolymorphicInheritance && cm.hasChildren);
+            boolean isInterfaceShape = wouldBeInterface && !cm.isMap;
+            boolean needsOpenMapFallback = wouldBeInterface && cm.isMap;
+            cm.vendorExtensions.put("x-kotlin-poly-interface", isInterfaceShape);
+            cm.vendorExtensions.put("x-kotlin-poly-open-map", needsOpenMapFallback);
+        }
+
         if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {
             if (getAnnotationLibrary() == AnnotationLibrary.NONE) {
                 // No @ApiResponse annotations are generated when annotationLibrary=none,
@@ -1570,6 +1629,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         p.datatypeWithEnum = dataType;
                         p.isNullable = false;
                         p.required = true;
+                        // If the child schema narrowed this property to its own inline `enum`
+                        // (e.g. `@type: {type: string, enum: [PartyRef]}`), the templates render
+                        // that nested enum type directly (`{{classname}}.{{nameInPascalCase}}`)
+                        // regardless of `dataType`, which would still produce a Kotlin override
+                        // type mismatch against the parent's plain type. Unless the discriminator
+                        // itself is meant to be enum-typed (isEnumDiscriminator), clear the local
+                        // enum flag so the plain `dataType` set above is actually honored.
+                        if (!isEnumDiscriminator) {
+                            p.isEnum = false;
+                        }
                     }
                     if (discriminatorValue != null) {
                         if (isEnumDiscriminator) {

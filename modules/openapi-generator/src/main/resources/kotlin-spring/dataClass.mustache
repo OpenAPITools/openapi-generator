@@ -14,13 +14,13 @@
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
-{{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
+{{#vendorExtensions.x-kotlin-poly-interface}}interface {{classname}}{{/vendorExtensions.x-kotlin-poly-interface}}{{^vendorExtensions.x-kotlin-poly-interface}}{{#vendorExtensions.x-kotlin-poly-open-map}}open {{/vendorExtensions.x-kotlin-poly-open-map}}{{^vendorExtensions.x-kotlin-poly-open-map}}{{#hasVars}}data {{/hasVars}}{{/vendorExtensions.x-kotlin-poly-open-map}}class {{classname}}(
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-){{/discriminator}}{{! no newline
+){{/vendorExtensions.x-kotlin-poly-interface}}{{! no newline
 }}{{#parent}} : {{{.}}}{{#isMap}}(){{/isMap}}{{! no newline
       }}{{#vendorExtensions.x-kotlin-implements}}, {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{! <- serializableModel is also handled via x-kotlin-implements
       }}{{#vendorExtensions.x-implements-sealed-interfaces}}{{#.}}, {{{.}}}{{/.}}{{/vendorExtensions.x-implements-sealed-interfaces}}{{! <- add sealed interface implementations
@@ -35,14 +35,14 @@
       }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
     }}{{/vendorExtensions.x-implements-sealed-interfaces}}{{! no newline
 }}{{/parent}} {
-{{#discriminator}}
+{{#vendorExtensions.x-kotlin-poly-interface}}
     {{#requiredVars}}
         {{>interfaceReqVar}}{{! prevent indent}}
     {{/requiredVars}}
     {{#optionalVars}}
         {{>interfaceOptVar}}{{! prevent indent}}
     {{/optionalVars}}
-{{/discriminator}}
+{{/vendorExtensions.x-kotlin-poly-interface}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}
     /**
     * {{{description}}}

@@ -1,0 +1,170 @@
+openapi: 3.0.3
+info:
+  title: Minimal repro of openapi-generator kotlin-spring allOf/discriminator issues
+  version: "1.0.0"
+paths:
+  /ping:
+    get:
+      operationId: ping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckServiceQualification_RES'
+components:
+  schemas:
+    Extensible:
+      type: object
+      properties:
+        '@type':
+          type: string
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+      required:
+        - '@type'
+
+    Addressable:
+      type: object
+      properties:
+        href:
+          type: string
+        id:
+          type: string
+
+    Entity:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Extensible'
+        - $ref: '#/components/schemas/Addressable'
+
+    ServiceQualification:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          properties:
+            description:
+              type: string
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          CheckServiceQualification: '#/components/schemas/CheckServiceQualification'
+          QueryServiceQualification: '#/components/schemas/QueryServiceQualification'
+          ServiceQualification: '#/components/schemas/ServiceQualification'
+
+    CheckServiceQualification:
+      allOf:
+        - $ref: '#/components/schemas/ServiceQualification'
+        - type: object
+          properties:
+            serviceQualificationItem:
+              type: array
+              items:
+                type: string
+            provideAlternative:
+              type: boolean
+              default: false
+
+    CheckServiceQualification_RES:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CheckServiceQualification'
+      required:
+        - id
+
+    QueryServiceQualification:
+      allOf:
+        - $ref: '#/components/schemas/ServiceQualification'
+        - type: object
+          properties:
+            searchCriteria:
+              type: string
+
+    EntityRef:
+      allOf:
+        - $ref: '#/components/schemas/Extensible'
+        - type: object
+          properties:
+            id:
+              type: string
+            href:
+              type: string
+
+    PartyRefOrPartyRoleRef:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/PartyRef'
+        - $ref: '#/components/schemas/PartyRoleRef'
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          PartyRef: '#/components/schemas/PartyRef'
+          PartyRoleRef: '#/components/schemas/PartyRoleRef'
+
+    PartyRef:
+      allOf:
+        - $ref: '#/components/schemas/EntityRef'
+        - type: object
+          properties:
+            '@type':
+              type: string
+              enum:
+                - PartyRef
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          PartyRef: '#/components/schemas/PartyRef'
+
+    PartyRoleRef:
+      allOf:
+        - $ref: '#/components/schemas/EntityRef'
+        - type: object
+          properties:
+            '@type':
+              type: string
+              enum:
+                - PartyRoleRef
+            partyId:
+              type: string
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          PartyRoleRef: '#/components/schemas/PartyRoleRef'
+
+    context:
+      additionalProperties: true
+      properties:
+        '@context':
+          type: object
+      discriminator:
+        propertyName: '@type'
+
+    Place:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          properties:
+            externalIdentifier:
+              type: array
+              items:
+                type: string
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          Place: '#/components/schemas/Place'
+          GeographicSite: '#/components/schemas/GeographicSite'
+
+    GeographicSite:
+      allOf:
+        - $ref: '#/components/schemas/Place'
+        - type: object
+          properties:
+            externalIdentifier:
+              type: array
+              items:
+                type: string
+            code:
+              type: string
