@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// Query
         /// </summary>
         /// <value>Query</value>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
+        [DataMember(Name = "id", EmitDefaultValue = true)]
         public long Id { get; set; }
 
         /// <summary>
