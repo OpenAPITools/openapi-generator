@@ -1,0 +1,1169 @@
+{{#isGson}}
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+{{! TypeAdapter, JsonReader, JsonWriter, JsonAdapter and SerializedName are contributed via
+    model.imports by JavaClientCodegen (postProcessModelProperty and fromModel); emitting them
+    here as well produced duplicate import lines. }}
+{{/isGson}}
+{{#isJackson}}
+{{! JsonCreator, JsonInclude, JsonProperty, JsonValue and JsonTypeName are contributed via
+    model.imports by JavaClientCodegen.postProcessModelProperty; emitting them here as well
+    produced duplicate import lines. }}
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+{{#isAdditionalPropertiesTrue}}
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+{{/isAdditionalPropertiesTrue}}
+{{/isJackson}}
+{{#isJsonb}}
+import jakarta.json.bind.annotation.JsonbProperty;
+import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.annotation.JsonbTransient;
+import jakarta.json.bind.annotation.JsonbTypeAdapter;
+{{#hasChildren}}
+{{#discriminator}}
+import jakarta.json.JsonObject;
+import jakarta.json.bind.JsonbException;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.bind.serializer.JsonbSerializer;
+import jakarta.json.bind.serializer.SerializationContext;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
+{{/discriminator}}
+{{/hasChildren}}
+{{#isAdditionalPropertiesTrue}}
+{{^hasChildren}}
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.bind.serializer.JsonbSerializer;
+import jakarta.json.bind.serializer.SerializationContext;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
+{{/hasChildren}}
+{{/isAdditionalPropertiesTrue}}
+{{^isAdditionalPropertiesTrue}}
+{{^hasChildren}}
+{{#allVars}}
+{{#-first}}
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbException;
+import jakarta.json.bind.serializer.DeserializationContext;
+import jakarta.json.bind.serializer.JsonbDeserializer;
+import jakarta.json.stream.JsonParser;
+import java.lang.reflect.Type;
+{{/-first}}
+{{/allVars}}
+{{/hasChildren}}
+{{/isAdditionalPropertiesTrue}}
+{{/isJsonb}}
+{{! java.io.IOException, java.util.Arrays, java.util.HashMap, java.util.Map and (for Gson)
+    java.util.List and java.util.Set are contributed via model.imports by
+    JavaClientCodegen.fromModel, which is also where codegen imports them for container
+    properties. Emitting them here as well produced duplicate import lines. HashSet stays: it
+    has no Java importMapping entry, and it is not duplicated. }}
+import java.util.HashSet;
+{{#isGson}}
+
+import {{invokerPackage}}.JSON;
+{{/isGson}}
+{{#isJsonb}}
+
+import {{invokerPackage}}.JSON;
+{{/isJsonb}}
+
+/**
+ * {{description}}{{^description}}{{classname}}{{/description}}{{#isDeprecated}}
+ * @deprecated{{/isDeprecated}}
+ */{{#isDeprecated}}
+@Deprecated{{/isDeprecated}}
+{{#swagger1AnnotationLibrary}}
+{{#description}}
+@ApiModel(description = "{{{.}}}")
+{{/description}}
+{{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+{{#description}}
+@Schema(description = "{{{.}}}")
+{{/description}}
+{{/swagger2AnnotationLibrary}}
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{.}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+{{#isJackson}}
+@JsonPropertyOrder({
+{{#vars}}
+  {{classname}}.JSON_PROPERTY_{{nameInSnakeCase}}{{^-last}},{{/-last}}
+{{/vars}}
+})
+{{! The models/model wrapper resolves the model name even when this template is rendered
+    directly as a user-defined Model template ("files" config), where the bundle root's
+    "name" key holds the generator name instead. The bundle always carries one model. }}
+@JsonTypeName("{{#models}}{{#model}}{{name}}{{/model}}{{/models}}")
+{{/isJackson}}
+public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
+{{#serializableModel}}
+  private static final long serialVersionUID = 1L;
+
+{{/serializableModel}}
+  {{#vars}}
+    {{#isEnum}}
+    {{^isContainer}}
+    {{^vendorExtensions.x-enum-as-string}}
+{{>modelInnerEnum}}
+
+    {{/vendorExtensions.x-enum-as-string}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#mostInnerItems}}
+{{>modelInnerEnum}}
+
+    {{/mostInnerItems}}
+    {{/isContainer}}
+    {{/isEnum}}
+  {{#isGson}}
+  public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
+  {{/isGson}}
+  {{#isJackson}}
+  public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
+  {{/isJackson}}
+  {{#isJsonb}}
+  public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
+  {{/isJsonb}}
+  {{#withXml}}
+  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{#isXmlWrapped}}
+  @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{/isXmlWrapped}}
+  {{/withXml}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
+  {{#isGson}}
+  @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
+  {{#legacyDates}}
+  {{#isDate}}
+  {{! See JSON.DateOnlyTypeAdapter: under dateLibrary=legacy a `format: date` property is a
+      java.util.Date, indistinguishable by type from a `format: date-time` one, so the
+      date-only representation has to be selected per property. }}
+  @com.google.gson.annotations.JsonAdapter({{invokerPackage}}.JSON.DateOnlyTypeAdapter.class)
+  {{/isDate}}
+  {{/legacyDates}}
+  {{/isGson}}
+  {{#isJackson}}
+  {{! No `access = ...` here: Jackson's Access.READ_ONLY means "serialize out, ignore on input",
+      which is the SERVER reading of OpenAPI readOnly. A client must do the opposite - populate
+      the value FROM the response - so emitting it silently discarded every readOnly property on
+      deserialization. Readonly properties are instead populated through the @JsonCreator
+      constructor below, which is what the shared root pojo.mustache does. }}
+  @JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}})
+  {{#legacyDates}}
+  {{#isDate}}
+  {{! Under dateLibrary=legacy a `format: date` property is a java.util.Date, indistinguishable
+      by type from a `format: date-time` one, so the mapper-wide RFC3339 date format rendered it
+      as a full UTC instant - both appending a time component and shifting the calendar day
+      backwards at positive UTC offsets. Pin the date-only pattern per property instead.
+      jackson-annotations stays under com.fasterxml.jackson for Jackson 3 too. }}
+  {{! See JSON.DateOnlySerializer - a bare @JsonFormat pattern is not enough, because with no
+      explicit timezone it resolves against the mapper default (UTC in Jackson, NOT the JVM
+      zone) and keeps shifting the day. }}
+  @{{jacksonPackage}}.databind.annotation.JsonSerialize(using = {{invokerPackage}}.JSON.DateOnlySerializer.class)
+  @{{jacksonPackage}}.databind.annotation.JsonDeserialize(using = {{invokerPackage}}.JSON.DateOnlyDeserializer.class)
+  {{/isDate}}
+  {{/legacyDates}}
+  {{#includeIfNull}}
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  {{/includeIfNull}}
+  {{/isJackson}}
+  {{#isJsonb}}
+  @JsonbProperty(SERIALIZED_NAME_{{nameInSnakeCase}})
+  {{#legacyDates}}
+  {{#isDate}}
+  {{! See JSON.DateOnlyJsonbAdapter - same per-property selection as the Gson path. }}
+  @jakarta.json.bind.annotation.JsonbTypeAdapter({{invokerPackage}}.JSON.DateOnlyJsonbAdapter.class)
+  {{/isDate}}
+  {{/legacyDates}}
+  {{/isJsonb}}
+  {{#vendorExtensions.x-field-extra-annotation}}
+  {{{.}}}
+  {{/vendorExtensions.x-field-extra-annotation}}
+  {{>nullable_var_annotations}}{{! prevent indent}}
+  {{#isDiscriminator}}protected{{/isDiscriminator}}{{^isDiscriminator}}private{{/isDiscriminator}} {{>nullableDatatypeWithEnum}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+
+  {{/vars}}
+  public {{classname}}() {
+    {{#parent}}
+    {{#parcelableModel}}
+    super();
+    {{/parcelableModel}}
+    {{/parent}}
+    {{#discriminator}}
+    {{#discriminator.isEnum}}
+{{#readWriteVars}}{{#isDiscriminator}}{{#defaultValue}}
+    this.{{name}} = {{defaultValue}};
+{{/defaultValue}}{{/isDiscriminator}}{{/readWriteVars}}
+    {{/discriminator.isEnum}}
+    {{^discriminator.isEnum}}
+    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
+    {{/discriminator.isEnum}}
+    {{/discriminator}}
+  }
+  {{#vendorExtensions.x-has-readonly-properties}}
+  {{^withXml}}
+
+  /**
+   * Constructor with only readonly parameters
+   */
+  {{! @JsonCreator is required, not decorative: readonly properties get no setter (the setter
+      block below is guarded on the inverted isReadOnly section) and Jackson does not
+      auto-detect private fields, so without an annotated creator there is no path to
+      populate a readonly property from a response. }}
+  {{#isJackson}}
+  @JsonCreator
+  {{/isJackson}}
+  public {{classname}}(
+  {{#readOnlyVars}}
+     {{#isJackson}}@JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}) {{/isJackson}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+  {{/readOnlyVars}}
+  ) {
+    this();
+  {{#readOnlyVars}}
+    this.{{name}} = {{name}};
+  {{/readOnlyVars}}
+  }
+  {{/withXml}}
+  {{/vendorExtensions.x-has-readonly-properties}}
+{{#vendorExtensions.x-java-all-args-constructor}}
+
+  /**
+   * Constructor with all args parameters
+   */
+  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{>nullableArgumentWithEnum}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
+  {{#parent}}
+    super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});
+  {{/parent}}
+  {{#vars}}
+    this.{{name}} = {{name}};
+  {{/vars}}
+  }
+{{/vendorExtensions.x-java-all-args-constructor}}
+  {{#vars}}
+
+  {{^isReadOnly}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
+  public {{classname}} {{name}}({{>nullableArgumentWithEnum}} {{name}}) {
+    this.{{name}} = {{name}};
+    return this;
+  }
+  {{#isArray}}
+
+  public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
+    }
+    this.{{name}}.add({{name}}Item);
+    return this;
+  }
+  {{/isArray}}
+  {{#isMap}}
+
+  public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
+    }
+    this.{{name}}.put(key, {{name}}Item);
+    return this;
+  }
+  {{/isMap}}
+
+  {{/isReadOnly}}
+  /**
+  {{#description}}
+   * {{.}}
+  {{/description}}
+  {{^description}}
+   * Get {{name}}
+  {{/description}}
+  {{#minimum}}
+   * minimum: {{.}}
+  {{/minimum}}
+  {{#maximum}}
+   * maximum: {{.}}
+  {{/maximum}}
+   * @return {{name}}
+   {{#deprecated}}
+   * @deprecated
+   {{/deprecated}}
+   */
+{{#deprecated}}
+  @Deprecated
+{{/deprecated}}
+  {{>nullable_var_annotations}}{{! prevent indent}}
+{{#useBeanValidation}}
+{{>beanValidation}}
+
+{{/useBeanValidation}}
+{{#swagger1AnnotationLibrary}}
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+  @Schema({{#example}}example = "{{{.}}}", {{/example}}requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}}, description = "{{{description}}}")
+{{/swagger2AnnotationLibrary}}
+{{#vendorExtensions.x-extra-annotation}}
+  {{{vendorExtensions.x-extra-annotation}}}
+{{/vendorExtensions.x-extra-annotation}}
+{{#jackson}}{{> jackson_annotations}}{{/jackson}}
+  public {{>nullableDatatypeWithEnum}} {{getter}}() {
+    return {{name}};
+  }
+
+  {{^isReadOnly}}
+{{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
+{{/vendorExtensions.x-setter-extra-annotation}}{{#deprecated}}  @Deprecated
+{{/deprecated}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  public void {{setter}}({{>nullableArgumentWithEnum}} {{name}}) {
+    this.{{name}} = {{name}};
+  }
+  {{/isReadOnly}}
+
+  {{/vars}}
+{{>additional_properties}}
+
+
+  @Override
+  public boolean equals(Object o) {
+  {{#useReflectionEqualsHashCode}}
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+  {{/useReflectionEqualsHashCode}}
+  {{^useReflectionEqualsHashCode}}
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }{{#hasVars}}
+    {{classname}} {{classVarName}} = ({{classname}}) o;
+    return {{#vars}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{/vars}}{{#isAdditionalPropertiesTrue}}&&
+        Objects.equals(this.additionalProperties, {{classVarName}}.additionalProperties){{/isAdditionalPropertiesTrue}}{{#parent}} &&
+        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
+    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
+  {{/useReflectionEqualsHashCode}}
+  }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
+
+  @Override
+  public int hashCode() {
+  {{#useReflectionEqualsHashCode}}
+    return HashCodeBuilder.reflectionHashCode(this);
+  {{/useReflectionEqualsHashCode}}
+  {{^useReflectionEqualsHashCode}}
+    return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}}{{#isAdditionalPropertiesTrue}}{{#hasVars}}, {{/hasVars}}{{^hasVars}}{{#parent}}, {{/parent}}{{/hasVars}}additionalProperties{{/isAdditionalPropertiesTrue}});
+  {{/useReflectionEqualsHashCode}}
+  }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+  }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class {{classname}} {\n");
+    {{#parent}}
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    {{/parent}}
+    {{#vars}}
+    sb.append("    {{name}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{name}}){{/isPassword}}).append("\n");
+    {{/vars}}
+{{#isAdditionalPropertiesTrue}}
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
+{{/isAdditionalPropertiesTrue}}
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
+  }
+
+{{#parcelableModel}}
+
+  public void writeToParcel(Parcel out, int flags) {
+{{#model}}
+{{#isArray}}
+    out.writeList(this);
+{{/isArray}}
+{{^isArray}}
+{{#parent}}
+    super.writeToParcel(out, flags);
+{{/parent}}
+{{#vars}}
+    out.writeValue({{name}});
+{{/vars}}
+{{/isArray}}
+{{/model}}
+  }
+
+  {{classname}}(Parcel in) {
+{{#isArray}}
+    in.readTypedList(this, {{arrayModelType}}.CREATOR);
+{{/isArray}}
+{{^isArray}}
+{{#parent}}
+    super(in);
+{{/parent}}
+{{#vars}}
+{{#isPrimitiveType}}
+    {{name}} = ({{{datatypeWithEnum}}})in.readValue(null);
+{{/isPrimitiveType}}
+{{^isPrimitiveType}}
+    {{name}} = ({{{datatypeWithEnum}}})in.readValue({{complexType}}.class.getClassLoader());
+{{/isPrimitiveType}}
+{{/vars}}
+{{/isArray}}
+  }
+
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Parcelable.Creator<{{classname}}> CREATOR = new Parcelable.Creator<{{classname}}>() {
+    public {{classname}} createFromParcel(Parcel in) {
+{{#model}}
+{{#isArray}}
+      {{classname}} result = new {{classname}}();
+      result.addAll(in.readArrayList({{arrayModelType}}.class.getClassLoader()));
+      return result;
+{{/isArray}}
+{{^isArray}}
+      return new {{classname}}(in);
+{{/isArray}}
+{{/model}}
+    }
+    public {{classname}}[] newArray(int size) {
+      return new {{classname}}[size];
+    }
+  };
+{{/parcelableModel}}
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    {{! the set is filled from allVars, so it has to be guarded on allVars too: a pure allOf
+        refinement declares no property of its own but still inherits every declared property,
+        and an empty set here makes every consumer treat a declared field as an undeclared one }}
+    {{#allVars}}
+    {{#-first}}
+    openapiFields = new HashSet<String>(Arrays.asList({{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}));
+    {{/-first}}
+    {{/allVars}}
+    {{^allVars}}
+    openapiFields = new HashSet<String>(0);
+    {{/allVars}}
+
+    // a set of required properties/fields (JSON key names)
+    {{#hasRequired}}
+    openapiRequiredFields = new HashSet<String>(Arrays.asList({{#requiredVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/requiredVars}}));
+    {{/hasRequired}}
+    {{^hasRequired}}
+    openapiRequiredFields = new HashSet<String>(0);
+    {{/hasRequired}}
+  }
+
+{{#isGson}}
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to {{classname}}
+   */
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!{{classname}}.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in {{{classname}}} is not found in the empty JSON string", {{classname}}.openapiRequiredFields.toString()));
+        }
+      }
+      {{^hasChildren}}
+      {{^isAdditionalPropertiesTrue}}
+
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Map.Entry<String, JsonElement> entry : entries) {
+        if (!{{classname}}.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `{{classname}}` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+        }
+      }
+      {{/isAdditionalPropertiesTrue}}
+      {{#requiredVars}}
+      {{#-first}}
+
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : {{classname}}.openapiRequiredFields) {
+        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+        }
+      }
+      {{/-first}}
+      {{/requiredVars}}
+      {{/hasChildren}}
+      {{^discriminator}}
+      {{#hasVars}}
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
+      {{/hasVars}}
+      {{#vars}}
+      {{#isArray}}
+      {{#items.isModel}}
+      {{#required}}
+      if (jsonObj.get("{{{baseName}}}") != null{{#isNullable}} && !jsonObj.get("{{{baseName}}}").isJsonNull(){{/isNullable}}) {
+        if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+        }
+        JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
+        // validate the required field `{{{baseName}}}` (array)
+        for (int i = 0; i < jsonArray{{name}}.size(); i++) {
+          {{{items.dataType}}}.validateJsonElement(jsonArray{{name}}.get(i));
+        }
+      }
+      {{/required}}
+      {{^required}}
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+        JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
+        if (jsonArray{{name}} != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+          }
+
+          // validate the optional field `{{{baseName}}}` (array)
+          for (int i = 0; i < jsonArray{{name}}.size(); i++) {
+            {{{items.dataType}}}.validateJsonElement(jsonArray{{name}}.get(i));
+          };
+        }
+      }
+      {{/required}}
+      {{/items.isModel}}
+      {{^items.isModel}}
+      {{^required}}
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull() && !jsonObj.get("{{{baseName}}}").isJsonArray()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+      }
+      {{/required}}
+      {{#required}}
+      // ensure the required json array is present
+      if (jsonObj.get("{{{baseName}}}") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("{{{baseName}}}").isJsonArray(){{#isNullable}} && !jsonObj.get("{{baseName}}").isJsonNull(){{/isNullable}}) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+      }
+      {{/required}}
+      {{/items.isModel}}
+      {{/isArray}}
+      {{^isContainer}}
+      {{#isString}}
+      if ({{#notRequiredOrIsNullable}}(jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) && {{/notRequiredOrIsNullable}}!jsonObj.get("{{{baseName}}}").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `{{{baseName}}}` to be a primitive type in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+      }
+      {{/isString}}
+      {{#isModel}}
+      {{^isEnum}}
+      {{#required}}
+      {{#isNullable}}
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+      {{/isNullable}}
+      // validate the required field `{{{baseName}}}`
+      {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      {{#isNullable}}
+      }
+      {{/isNullable}}
+      {{/required}}
+      {{^required}}
+      // validate the optional field `{{{baseName}}}`
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+        {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      }
+      {{/required}}
+      {{/isEnum}}
+      {{/isModel}}
+      {{#isEnum}}
+      {{#required}}
+      {{#isNullable}}
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+      {{/isNullable}}
+      // validate the required field `{{{baseName}}}`
+      {{{datatypeWithEnum}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      {{#isNullable}}
+      }
+      {{/isNullable}}
+      {{/required}}
+      {{^required}}
+      // validate the optional field `{{{baseName}}}`
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+        {{{datatypeWithEnum}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      }
+      {{/required}}
+      {{/isEnum}}
+      {{#isEnumRef}}
+      {{#required}}
+      {{#isNullable}}
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+      {{/isNullable}}
+      // validate the required field `{{{baseName}}}`
+      {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      {{#isNullable}}
+      }
+      {{/isNullable}}
+      {{/required}}
+      {{^required}}
+      // validate the optional field `{{{baseName}}}`
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+        {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      }
+      {{/required}}
+      {{/isEnumRef}}
+      {{/isContainer}}
+      {{/vars}}
+      {{/discriminator}}
+      {{#hasChildren}}
+      {{#discriminator}}
+
+      String discriminatorValue = jsonElement.getAsJsonObject().get("{{{propertyBaseName}}}").getAsString();
+      switch (discriminatorValue) {
+      {{#mappedModels}}
+        case "{{mappingName}}":
+          {{modelName}}.validateJsonElement(jsonElement);
+          break;
+      {{/mappedModels}}
+        default:
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The value of the `{{{propertyBaseName}}}` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
+      }
+      {{/discriminator}}
+      {{/hasChildren}}
+  }
+
+{{^hasChildren}}
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!{{classname}}.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes '{{classname}}' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<{{classname}}> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get({{classname}}.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<{{classname}}>() {
+           @Override
+           public void write(JsonWriter out, {{classname}} value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             {{#isAdditionalPropertiesTrue}}
+             obj.remove("additionalProperties");
+             // serialize additional properties
+             if (value.getAdditionalProperties() != null) {
+               for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+                 if (entry.getValue() instanceof String)
+                   obj.addProperty(entry.getKey(), (String) entry.getValue());
+                 else if (entry.getValue() instanceof Number)
+                   obj.addProperty(entry.getKey(), (Number) entry.getValue());
+                 else if (entry.getValue() instanceof Boolean)
+                   obj.addProperty(entry.getKey(), (Boolean) entry.getValue());
+                 else if (entry.getValue() instanceof Character)
+                   obj.addProperty(entry.getKey(), (Character) entry.getValue());
+                 else {
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonNull()) {
+                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                   } else if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
+                 }
+               }
+             }
+             {{/isAdditionalPropertiesTrue}}
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public {{classname}} read(JsonReader in) throws IOException {
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             {{#isAdditionalPropertiesTrue}}
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
+             // store additional fields in the deserialized instance
+             {{classname}} instance = thisAdapter.fromJsonTree(jsonObj);
+             for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
+               if (!openapiFields.contains(entry.getKey())) {
+                 if (entry.getValue().isJsonPrimitive()) { // primitive type
+                   if (entry.getValue().getAsJsonPrimitive().isString())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsString());
+                   else if (entry.getValue().getAsJsonPrimitive().isNumber())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsNumber());
+                   else if (entry.getValue().getAsJsonPrimitive().isBoolean())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
+                   else
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 }
+               }
+             }
+             return instance;
+             {{/isAdditionalPropertiesTrue}}
+             {{^isAdditionalPropertiesTrue}}
+             return thisAdapter.fromJsonTree(jsonElement);
+             {{/isAdditionalPropertiesTrue}}
+           }
+
+       }.nullSafe();
+    }
+  }
+{{/hasChildren}}
+{{/isGson}}
+
+{{#isGson}}
+  /**
+   * Create an instance of {{classname}} given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of {{classname}}
+   * @throws IOException if the JSON string is invalid with respect to {{classname}}
+   */
+  public static {{{classname}}} fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, {{{classname}}}.class);
+  }
+
+  /**
+   * Convert an instance of {{classname}} to an JSON string
+   *
+   * @return JSON string
+   */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
+{{/isGson}}
+{{#isJsonb}}
+{{#hasChildren}}
+{{#discriminator}}
+
+  /**
+   * Custom JSON-B serializer for the root of a discriminated hierarchy. Yasson serializes a
+   * value against its declared type, which would drop every subtype field, and its native
+   * polymorphism support (JsonbTypeInfo) rejects hierarchies whose discriminator is also a
+   * bean property. Delegating to the polymorphism-free Jsonb instance serializes the runtime
+   * type with all of its fields; the discriminator value is carried by the property itself.
+   */
+  public static class CustomJsonbSerializer implements JsonbSerializer<{{classname}}> {
+    @Override
+    public void serialize({{classname}} value, JsonGenerator generator, SerializationContext context) {
+      {{^isAdditionalPropertiesTrue}}
+      generator.write(toJsonValue(value));
+      {{/isAdditionalPropertiesTrue}}
+      {{#isAdditionalPropertiesTrue}}
+      JsonObject serialized = toJsonValue(value).asJsonObject();
+      {{! The polymorphism-free instance carries no serializer for this class, so a value whose
+          runtime type is this root is written by plain bean mapping and the @JsonbTransient
+          additional-properties holder is dropped. A subtype was already flattened by its own
+          serializer, and the declared-name guard leaves that output untouched. }}
+      if (value.getAdditionalProperties() != null) {
+        java.util.Set<String> declaredFields = declaredFields(value);
+        jakarta.json.JsonObjectBuilder builder = jakarta.json.Json.createObjectBuilder(serialized);
+        for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+          // a declared property always wins over an additional property with the same name
+          if (declaredFields.contains(entry.getKey()) || serialized.containsKey(entry.getKey())) {
+            continue;
+          }
+          if (entry.getValue() == null) {
+            builder.addNull(entry.getKey());
+          } else {
+            builder.add(entry.getKey(), toNestedJsonValue(entry.getValue()));
+          }
+        }
+        serialized = builder.build();
+      }
+      generator.write(serialized);
+      {{/isAdditionalPropertiesTrue}}
+    }
+    {{#isAdditionalPropertiesTrue}}
+
+    /**
+     * The declared property names of the value's runtime type. A subtype serializer omits a
+     * declared property whose value is null, so the serialized object alone cannot tell whether
+     * a name is declared; consulting the runtime type keeps an additional property from being
+     * written under a subtype's declared name. Falls back to this class' own names for a
+     * runtime type that is not a mapped subtype.
+     */
+    private static java.util.Set<String> declaredFields({{classname}} value) {
+      {{#discriminator.mappedModels}}
+      {{#model}}
+      if ({{modelName}}.class.equals(value.getClass())) {
+        return {{modelName}}.openapiFields;
+      }
+      {{/model}}
+      {{/discriminator.mappedModels}}
+      return openapiFields;
+    }
+    {{/isAdditionalPropertiesTrue}}
+
+    /**
+     * Render a value through the polymorphism-free Jsonb and read it back as a JsonValue.
+     */
+    private static jakarta.json.JsonValue toJsonValue(Object value) {
+      try (jakarta.json.JsonReader reader = jakarta.json.Json.createReader(
+          new java.io.StringReader(JSON.getPlainJsonb().toJson(value)))) {
+        return reader.readValue();
+      }
+    }
+    {{#isAdditionalPropertiesTrue}}
+
+    /**
+     * Render an additional-property value through the configured Jsonb and read it back as a
+     * JsonValue. A nested value is a different object from the one being serialized here, so
+     * this cannot re-enter the serializer currently in hand; the polymorphism-free instance
+     * carries no serializer for a hierarchy root, and using it here would drop the additional
+     * properties of a nested value whose runtime type is one.
+     */
+    private static jakarta.json.JsonValue toNestedJsonValue(Object value) {
+      try (jakarta.json.JsonReader reader = jakarta.json.Json.createReader(
+          new java.io.StringReader(JSON.getJsonb().toJson(value)))) {
+        return reader.readValue();
+      }
+    }
+    {{/isAdditionalPropertiesTrue}}
+  }
+
+  /**
+   * Custom JSON-B deserializer for the root of a discriminated hierarchy: picks the subtype
+   * from the discriminator value the way the Gson variant's TypeSelector does. Binding goes
+   * through the polymorphism-free Jsonb instance so this deserializer cannot recurse into
+   * itself.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<{{classname}}> {
+    @Override
+    public {{classname}} deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      JsonObject jsonObj = parser.getObject();
+      String discriminatorValue = jsonObj.getString("{{{discriminator.propertyBaseName}}}", null);
+      {{#discriminator.mappedModels}}
+      if ("{{mappingName}}".equals(discriminatorValue)) {
+        {{#model}}
+        {{#hasChildren}}
+        {{! A subtype that has children of its own is itself a hierarchy root, so it carries no
+            required-field deserializer on any Jsonb instance; check its required properties
+            here, the way the deserializer of a leaf subtype would. }}
+        validateRequiredFields(jsonObj, {{modelName}}.openapiRequiredFields, "{{modelName}}");
+        {{#isAdditionalPropertiesTrue}}
+        {{! This subtype has children of its own, so the polymorphism-free instance carries no
+            additional-properties deserializer for it either and would discard its undeclared
+            keys; collect them the way its own deserializer does. }}
+        {{modelName}} mapped = JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{modelName}}.class);
+        for (Map.Entry<String, jakarta.json.JsonValue> entry : jsonObj.entrySet()) {
+          if (!{{modelName}}.openapiFields.contains(entry.getKey())) {
+            mapped.putAdditionalProperty(entry.getKey(),
+                entry.getValue().getValueType() == jakarta.json.JsonValue.ValueType.NULL
+                    ? null
+                    : JSON.getPlainJsonb().fromJson(entry.getValue().toString(), Object.class));
+          }
+        }
+        return mapped;
+        {{/isAdditionalPropertiesTrue}}
+        {{^isAdditionalPropertiesTrue}}
+        return JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{modelName}}.class);
+        {{/isAdditionalPropertiesTrue}}
+        {{/hasChildren}}
+        {{^hasChildren}}
+        return JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{modelName}}.class);
+        {{/hasChildren}}
+        {{/model}}
+        {{^model}}
+        return JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{modelName}}.class);
+        {{/model}}
+      }
+      {{/discriminator.mappedModels}}
+      {{! The discriminator value matches no mapping, so the payload binds as the root itself.
+          The root has children, so it carries no required-field deserializer either. }}
+      validateRequiredFields(jsonObj, openapiRequiredFields, "{{classname}}");
+      {{^isAdditionalPropertiesTrue}}
+      return JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{classname}}.class);
+      {{/isAdditionalPropertiesTrue}}
+      {{#isAdditionalPropertiesTrue}}
+      {{! Binding the root itself goes through plain bean mapping, which cannot see the
+          @JsonbTransient additional-properties holder and silently discards every undeclared
+          key. Collect them here, mirroring the flattening the serializer above performs. }}
+      {{classname}} instance = JSON.getPlainJsonb().fromJson(jsonObj.toString(), {{classname}}.class);
+      for (Map.Entry<String, jakarta.json.JsonValue> entry : jsonObj.entrySet()) {
+        if (!openapiFields.contains(entry.getKey())) {
+          instance.putAdditionalProperty(entry.getKey(),
+              entry.getValue().getValueType() == jakarta.json.JsonValue.ValueType.NULL
+                  ? null
+                  : JSON.getPlainJsonb().fromJson(entry.getValue().toString(), Object.class));
+        }
+      }
+      return instance;
+      {{/isAdditionalPropertiesTrue}}
+    }
+
+    /**
+     * Reject a JSON object that does not carry every required property of the target model.
+     * Used for the models of this hierarchy that have children of their own: they bind by
+     * plain bean mapping, which has no notion of a required property, and - unlike a leaf
+     * subtype - they carry no required-field deserializer of their own.
+     */
+    private static void validateRequiredFields(JsonObject jsonObj, java.util.Set<String> requiredFields, String modelName) {
+      for (String requiredField : requiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object for `%s`: %s", requiredField, modelName, jsonObj));
+        }
+      }
+    }
+  }
+{{/discriminator}}
+{{/hasChildren}}
+{{#isAdditionalPropertiesTrue}}
+{{^hasChildren}}
+
+  /**
+   * Custom JSON-B serializer that flattens the additional (undeclared) properties into the
+   * serialized object. JSON-B has no equivalent of Jackson's {@code @JsonAnyGetter}, so without
+   * this serializer values added through {@code putAdditionalProperty} would not be emitted
+   * under their original names. Registered with the Jsonb instance built by {@code JSON}.
+   */
+  public static class CustomJsonbSerializer implements JsonbSerializer<{{classname}}> {
+    @Override
+    public void serialize({{classname}} value, JsonGenerator generator, SerializationContext context) {
+      generator.writeStartObject();
+      {{#allVars}}
+      if (value.{{getter}}() != null) {
+        context.serialize("{{baseName}}", value.{{getter}}(), generator);
+      }
+      {{/allVars}}
+      if (value.getAdditionalProperties() != null) {
+        for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+          // a declared property always wins over an additional property with the same name
+          if (!openapiFields.contains(entry.getKey())) {
+            // SerializationContext.serialize rejects a null value, so write the JSON null here
+            if (entry.getValue() == null) {
+              generator.writeNull(entry.getKey());
+            } else {
+              context.serialize(entry.getKey(), entry.getValue(), generator);
+            }
+          }
+        }
+      }
+      generator.writeEnd();
+    }
+  }
+
+  /**
+   * Custom JSON-B deserializer that captures undeclared fields into the additional-properties
+   * map. JSON-B has no equivalent of Jackson's {@code @JsonAnySetter}, so without this
+   * deserializer unknown response keys would be silently dropped. Registered with the Jsonb
+   * instance built by {@code JSON}.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<{{classname}}> {
+    @Override
+    public {{classname}} deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      JsonObject jsonObj = parser.getObject();
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
+      {{classname}} instance = new {{classname}}();
+      {{#allVars}}
+      if (jsonObj.containsKey("{{baseName}}")) {
+        {{^isReadOnly}}
+        instance.{{setter}}(jsonObj.get("{{baseName}}").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : {{#isDate}}{{#legacyDates}}JSON.dateOnlyFromJson(jsonObj.get("{{baseName}}")){{/legacyDates}}{{^legacyDates}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/legacyDates}}{{/isDate}}{{^isDate}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/isDate}});
+        {{/isReadOnly}}
+        {{#isReadOnly}}
+        // readOnly properties have no setter; bind the declared field directly
+        setField(instance, "{{name}}", jsonObj.get("{{baseName}}").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : {{#isDate}}{{#legacyDates}}JSON.dateOnlyFromJson(jsonObj.get("{{baseName}}")){{/legacyDates}}{{^legacyDates}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/legacyDates}}{{/isDate}}{{^isDate}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/isDate}});
+        {{/isReadOnly}}
+      }
+      {{/allVars}}
+      for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
+        if (!openapiFields.contains(entry.getKey())) {
+          instance.putAdditionalProperty(entry.getKey(),
+              entry.getValue().getValueType() == JsonValue.ValueType.NULL
+                  ? null
+                  : jsonb.fromJson(entry.getValue().toString(), Object.class));
+        }
+      }
+      return instance;
+    }
+
+    private static java.lang.reflect.Field declaredField(String fieldName) {
+      // walk up the hierarchy: inherited properties are declared on a parent class
+      for (Class<?> clazz = {{classname}}.class; clazz != null; clazz = clazz.getSuperclass()) {
+        try {
+          return clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+          // not declared on this class; check the parent
+        }
+      }
+      throw new IllegalArgumentException("Field " + fieldName + " not found on {{classname}}");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField({{classname}} instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on {{classname}}", e);
+      }
+    }
+  }
+{{/hasChildren}}
+{{/isAdditionalPropertiesTrue}}
+{{^isAdditionalPropertiesTrue}}
+{{^hasChildren}}
+{{#allVars}}
+{{#-first}}
+
+  /**
+   * Custom JSON-B deserializer for a model that forbids additional properties: it rejects a
+   * JSON object carrying an undeclared field or missing a required one. Yasson binds such a
+   * model by plain bean mapping, which silently drops an unknown key and has no notion of a
+   * required property, so without this deserializer any JSON object would bind - and an
+   * ambiguous {@code oneOf}/{@code anyOf} schema could not tell its branches apart. The
+   * checks mirror the Gson type adapter's {@code validateJsonElement}. Registered with the
+   * Jsonb instances built by {@code JSON}.
+   */
+  public static class CustomJsonbDeserializer implements JsonbDeserializer<{{classname}}> {
+    @Override
+    public {{classname}} deserialize(JsonParser parser, DeserializationContext context, Type rtType) {
+      {{! Yasson routes a JSON null through the deserializer of the declared type instead of
+          short-circuiting it, and asJsonObject() would then fail on a payload that plain bean
+          mapping - and the Gson type adapter - bind as null. }}
+      JsonValue value = parser.getValue();
+      if (value == null || value.getValueType() == JsonValue.ValueType.NULL) {
+        return null;
+      }
+      JsonObject jsonObj = value.asJsonObject();
+      // check that the JSON object carries no field this model does not declare
+      for (String field : jsonObj.keySet()) {
+        if (!openapiFields.contains(field)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON object is not defined in the `{{classname}}` properties. JSON: %s", field, jsonObj));
+        }
+      }
+      {{! containsKey, not a null check on the value: a required property that is present but
+          explicitly null passes here, exactly as it does in the additional-properties
+          deserializer above and in the Gson type adapter's required-field loop. }}
+      for (String requiredField : openapiRequiredFields) {
+        if (!jsonObj.containsKey(requiredField)) {
+          throw new JsonbException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON object: %s", requiredField, jsonObj));
+        }
+      }
+      {{! Bind property by property rather than handing the whole object back to a Jsonb
+          instance: a whole-object bind would have to go through an instance that carries no
+          required-field checker at all - which then skips the checks of every NESTED model
+          too. Binding each property through the fully configured instance cannot re-enter
+          this deserializer (the target type is the property's, not this class') and keeps a
+          nested model's own checks, discriminated-subtype dispatch and additional-properties
+          capture in place. }}
+      // capture once so every field of this object binds against the same configuration,
+      // even if a format setter rebuilds the shared instance concurrently
+      Jsonb jsonb = JSON.getJsonb();
+      {{classname}} instance = new {{classname}}();
+      {{#allVars}}
+      if (jsonObj.containsKey("{{baseName}}")) {
+        {{^isReadOnly}}
+        instance.{{setter}}(jsonObj.get("{{baseName}}").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : {{#isDate}}{{#legacyDates}}JSON.dateOnlyFromJson(jsonObj.get("{{baseName}}")){{/legacyDates}}{{^legacyDates}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/legacyDates}}{{/isDate}}{{^isDate}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/isDate}});
+        {{/isReadOnly}}
+        {{#isReadOnly}}
+        // readOnly properties have no setter; bind the declared field directly
+        setField(instance, "{{name}}", jsonObj.get("{{baseName}}").getValueType() == JsonValue.ValueType.NULL
+            ? null
+            : {{#isDate}}{{#legacyDates}}JSON.dateOnlyFromJson(jsonObj.get("{{baseName}}")){{/legacyDates}}{{^legacyDates}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/legacyDates}}{{/isDate}}{{^isDate}}jsonb.fromJson(jsonObj.get("{{baseName}}").toString(), fieldType("{{name}}")){{/isDate}});
+        {{/isReadOnly}}
+      }
+      {{/allVars}}
+      return instance;
+    }
+
+    private static java.lang.reflect.Field declaredField(String fieldName) {
+      // walk up the hierarchy: inherited properties are declared on a parent class
+      for (Class<?> clazz = {{classname}}.class; clazz != null; clazz = clazz.getSuperclass()) {
+        try {
+          return clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+          // not declared on this class; check the parent
+        }
+      }
+      throw new IllegalArgumentException("Field " + fieldName + " not found on {{classname}}");
+    }
+
+    private static Type fieldType(String fieldName) {
+      return declaredField(fieldName).getGenericType();
+    }
+
+    private static void setField({{classname}} instance, String fieldName, Object value) {
+      try {
+        java.lang.reflect.Field field = declaredField(fieldName);
+        field.setAccessible(true);
+        field.set(instance, value);
+      } catch (IllegalAccessException e) {
+        throw new JsonbException("Unable to bind the field " + fieldName + " on {{classname}}", e);
+      }
+    }
+  }
+{{/-first}}
+{{/allVars}}
+{{/hasChildren}}
+{{/isAdditionalPropertiesTrue}}
+{{/isJsonb}}
+{{#generateBuilders}}
+
+  {{>javaBuilder}}{{! prevent indent}}
+{{/generateBuilders}}
+}

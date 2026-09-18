@@ -1,0 +1,9 @@
+generatorName: java
+outputDir: samples/client/others/java/okhttp-oneOf
+library: okhttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf_twoPrimitives.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  serializationLibrary: gson
+  artifactId: okhttp-oneOf
+  hideGenerationTimestamp: "true"
