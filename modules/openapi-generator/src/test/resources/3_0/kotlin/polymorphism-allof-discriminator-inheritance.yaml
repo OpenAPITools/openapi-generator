@@ -183,3 +183,16 @@ components:
                 type: string
             code:
               type: string
+
+    # Deliberately collides with the default synthetic-Impl name that would otherwise be chosen
+    # for `Place` (which is a self-mapped discriminator root, so it always needs a synthetic
+    # concrete "PlaceImpl" leaf -- see the `discriminator.mapping` entry `Place: '#/components/schemas/Place'`
+    # above). This is an ordinary, unrelated schema that just happens to occupy the name
+    # "PlaceImpl"; the generator must fall back to a collision-free name (e.g. "PlaceImpl2") for
+    # Place's synthetic leaf instead of emitting two Kotlin declarations named `PlaceImpl` in the
+    # same file.
+    PlaceImpl:
+      type: object
+      properties:
+        note:
+          type: string

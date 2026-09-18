@@ -7947,4 +7947,34 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(queryServiceQualification, "data class QueryServiceQualification(");
         assertFileNotContains(queryServiceQualification, "interface QueryServiceQualification");
     }
+
+    @Test
+    public void allOfDiscriminatorInheritance_syntheticImplFallsBackToCollisionFreeNameWhenDefaultNameIsTaken() throws IOException {
+        // Place is a self-mapped discriminator root (discriminator.mapping includes
+        // `Place: '#/components/schemas/Place'`), so it always needs a synthetic concrete leaf --
+        // by default named "PlaceImpl". The spec also declares an ordinary, unrelated schema
+        // literally named `PlaceImpl` (see polymorphism-allof-discriminator-inheritance.yaml), so
+        // the generator must detect the collision and fall back to a free name ("PlaceImpl2")
+        // instead of emitting two Kotlin declarations named `PlaceImpl` in the same file.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
+
+        Path place = files.get("Place.kt").toPath();
+        assertFileContains(place,
+                "interface Place",
+                "data class PlaceImpl2(",
+                ") : Place");
+        assertFileNotContains(place, "data class PlaceImpl(");
+
+        // The real, unrelated `PlaceImpl` schema must still be generated as its own ordinary class,
+        // untouched by the collision-avoidance logic.
+        Path placeImpl = files.get("PlaceImpl.kt").toPath();
+        assertFileContains(placeImpl, "data class PlaceImpl(");
+
+        // Place's own @JsonSubTypes entry for the self-mapped "Place" discriminator value must be
+        // redirected to the fallback-named synthetic leaf, not the colliding real schema.
+        assertFileContains(place,
+                "JsonSubTypes.Type(value = PlaceImpl2::class, name = \"Place\")",
+                "JsonSubTypes.Type(value = GeographicSite::class, name = \"GeographicSite\")");
+    }
 }

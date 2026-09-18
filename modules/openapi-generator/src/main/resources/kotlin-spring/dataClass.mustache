@@ -75,9 +75,11 @@
  * "{{classname}}" is used as a discriminator value elsewhere (either directly as a
  * standalone payload/field type, or as its own discriminator's self-mapped value) but
  * {{classname}} itself is emitted as an `interface` and therefore cannot be instantiated
- * directly by Jackson during polymorphic deserialization.
+ * directly by Jackson during polymorphic deserialization. Named "{{vendorExtensions.x-kotlin-poly-impl-name}}"
+ * (rather than "{{classname}}Impl") if that default name collides with another schema
+ * already declared in the document.
  */
-data class {{classname}}Impl(
+data class {{vendorExtensions.x-kotlin-poly-impl-name}}(
 {{#requiredVars}}
 {{>implClassReqVar}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},

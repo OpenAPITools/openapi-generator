@@ -1564,14 +1564,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         //
         // Build the set of model names referenced as discriminator mapping *values* anywhere in
         // the document. A model rendered as an `interface` whose own name is one of these values
-        // needs a synthetic concrete `{{classname}}Impl` leaf (see below): Jackson resolves the
-        // discriminator value to a concrete class via `@JsonSubTypes`, and an `interface` can
-        // never be instantiated directly. This covers both (a) a `fixPolymorphicInheritance`-
-        // promoted model that is also referenced directly elsewhere as a standalone payload/field
-        // type (e.g. TMF645's `CheckServiceQualification`), and (b) a genuinely-discriminated root
-        // whose own `discriminator.mapping` includes an entry mapping back to itself (e.g.
-        // TMF645's `ServiceQualification: '#/components/schemas/ServiceQualification'`) — a
-        // pre-existing bug independent of `fixPolymorphicInheritance`.
+        // needs a synthetic concrete leaf (named "<classname>Impl", or "<classname>ImplN" if that
+        // collides with an existing schema — see below): Jackson resolves the discriminator value
+        // to a concrete class via `@JsonSubTypes`, and an `interface` can never be instantiated
+        // directly. This covers both (a) a `fixPolymorphicInheritance`-promoted model that is also
+        // referenced directly elsewhere as a standalone payload/field type (e.g. TMF645's
+        // `CheckServiceQualification`), and (b) a genuinely-discriminated root whose own
+        // `discriminator.mapping` includes an entry mapping back to itself (e.g. TMF645's
+        // `ServiceQualification: '#/components/schemas/ServiceQualification'`) — a pre-existing
+        // bug independent of `fixPolymorphicInheritance`.
         Set<String> discriminatorMappedModelNames = new HashSet<>();
         for (CodegenModel cm : allModelsMap.values()) {
             if (cm.discriminator != null && cm.discriminator.getMappedModels() != null) {
@@ -1579,6 +1580,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     discriminatorMappedModelNames.add(mm.getModelName());
                 }
             }
+        }
+
+        // All classnames already used by real (schema-backed) models in the document. Needed so
+        // the synthetic `Impl` class name below never collides with an existing schema (e.g. a
+        // spec that happens to already declare a schema literally named `FooImpl` alongside
+        // `Foo`) — colliding would otherwise emit two Kotlin declarations with the same name in
+        // the same file and fail to compile.
+        Set<String> existingClassnames = new HashSet<>();
+        for (CodegenModel cm : allModelsMap.values()) {
+            existingClassnames.add(cm.classname);
         }
 
         for (CodegenModel cm : allModelsMap.values()) {
@@ -1592,6 +1603,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             boolean needsSyntheticImpl = isInterfaceShape
                     && discriminatorMappedModelNames.contains(cm.classname);
             cm.vendorExtensions.put("x-kotlin-poly-impl-needed", needsSyntheticImpl);
+
+            if (needsSyntheticImpl) {
+                // Prefer the plain "<Schema>Impl" name; if that's already taken by another
+                // schema in the document, fall back to "<Schema>Impl2", "<Schema>Impl3", etc.
+                // until a free name is found. Since the candidate is always derived from this
+                // model's own (unique) classname, two different qualifying models can never
+                // produce the same fallback name, so no cross-model bookkeeping is needed beyond
+                // checking against the fixed set of real schema classnames.
+                String implName = cm.classname + "Impl";
+                int suffixCounter = 2;
+                while (existingClassnames.contains(implName)) {
+                    implName = cm.classname + "Impl" + suffixCounter;
+                    suffixCounter++;
+                }
+                cm.vendorExtensions.put("x-kotlin-poly-impl-name", implName);
+            }
         }
 
         if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {
