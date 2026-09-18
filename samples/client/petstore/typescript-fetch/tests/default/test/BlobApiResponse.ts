@@ -43,9 +43,32 @@ describe('parseContentDispositionFilename', () => {
         expect(nameOf("attachment; FILENAME*=utf-8''upper.pdf")).to.equal('upper.pdf');
     });
 
-    it('should only match filename at a parameter boundary', () => {
+    it('should only match filename as a parameter name', () => {
         expect(nameOf('attachment; xfilename="nope.pdf"')).to.be.undefined;
         expect(nameOf('attachment; name="filename*=UTF-8\'\'nope.pdf"; filename="real.pdf"')).to.equal('real.pdf');
+    });
+
+    it('should not split parameters on a semicolon inside a quoted-string', () => {
+        expect(nameOf('attachment; name="a; filename*=UTF-8\'\'evil.pdf"; filename="real.pdf"')).to.equal('real.pdf');
+        expect(nameOf('attachment; name="y; filename=evil"; filename="real.pdf"')).to.equal('real.pdf');
+    });
+
+    it('should accept a quoted encoded form and ignore a charset other than UTF-8', () => {
+        expect(nameOf("attachment; filename*=\"UTF-8''quoted.pdf\"")).to.equal('quoted.pdf');
+        expect(nameOf("attachment; filename*=iso-8859-1''latin.pdf; filename=\"plain.pdf\"")).to.equal('plain.pdf');
+    });
+
+    it('should keep the first occurrence of a repeated parameter', () => {
+        expect(nameOf('attachment; filename="first.pdf"; filename="second.pdf"')).to.equal('first.pdf');
+    });
+
+    it('should drop any directory part of the name', () => {
+        expect(nameOf('attachment; filename="../../etc/passwd"')).to.equal('passwd');
+        expect(nameOf("attachment; filename*=UTF-8''..%2F..%2Fetc%2Fpasswd")).to.equal('passwd');
+        expect(nameOf('attachment; filename=C:\\Users\\me\\report.pdf')).to.equal('report.pdf');
+        expect(nameOf('attachment; filename=".."')).to.be.undefined;
+        expect(nameOf('attachment; filename="/"')).to.be.undefined;
+        expect(nameOf('attachment; filename=""')).to.be.undefined;
     });
 });
 
