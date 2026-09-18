@@ -292,6 +292,7 @@ where
                         Err(err) => {
                             return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Invalid header Information - {err}")))
                                         .expect("Unable to create Bad Request response for invalid header Information"));
 
