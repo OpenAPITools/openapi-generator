@@ -2,16 +2,23 @@
       {{#isMultipart}}
       _bodyData = FormData.fromMap(<String, dynamic>{
         {{#formParams}}
-        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}{{{paramName}}}{{#isArray}}.toList(){{/isArray}}{{/isFile}}{{^isFile}}{{{paramName}}}{{/isFile}},
+        {{^required}}if ({{{paramName}}} != null) {{/required}}r'{{{baseName}}}': {{#isFile}}{{{paramName}}}{{#isArray}}.toList(){{/isArray}}{{/isFile}}{{^isFile}}{{{paramName}}}{{/isFile}},
         {{/formParams}}
       });
       {{/isMultipart}}
       {{^isMultipart}}
       _bodyData = <String, dynamic>{
         {{#formParams}}
-        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{{paramName}}},
+        {{^required}}if ({{{paramName}}} != null) {{/required}}r'{{{baseName}}}': {{{paramName}}},
         {{/formParams}}
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          {{#formParams}}{{#required}}{{#isNullable}}r'{{{baseName}}}',
+          {{/isNullable}}{{/required}}{{/formParams}}
+        },
+      );
       {{/isMultipart}}
       {{/hasFormParams}}
       {{#bodyParam}}
