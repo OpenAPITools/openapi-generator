@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (justNumber.IsSet && justNumber.Value == null)
-                throw new ArgumentNullException(nameof(justNumber), "Property is not nullable for class NumberOnly.");
+                throw new JsonException("Property is not nullable for class NumberOnly: JustNumber.");
 
             return new NumberOnly(justNumber);
         }

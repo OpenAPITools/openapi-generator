@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (kind.IsSet && kind.Value == null)
-                throw new ArgumentNullException(nameof(kind), "Property is not nullable for class Apple.");
+                throw new JsonException("Property is not nullable for class Apple: kind.");
 
             return new Apple(kind);
         }

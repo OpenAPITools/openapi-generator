@@ -153,13 +153,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!lengthCm.IsSet)
-                throw new ArgumentException("Property is required for class BananaReq.", nameof(lengthCm));
+                throw new JsonException("Property is required for class BananaReq: lengthCm.");
 
             if (lengthCm.IsSet && lengthCm.Value == null)
-                throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class BananaReq.");
+                throw new JsonException("Property is not nullable for class BananaReq: lengthCm.");
 
             if (sweet.IsSet && sweet.Value == null)
-                throw new ArgumentNullException(nameof(sweet), "Property is not nullable for class BananaReq.");
+                throw new JsonException("Property is not nullable for class BananaReq: sweet.");
 
             return new BananaReq(lengthCm.Value!.Value!, sweet);
         }

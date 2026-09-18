@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varString.IsSet && varString.Value == null)
-                throw new ArgumentNullException(nameof(varString), "Property is not nullable for class FooGetDefaultResponse.");
+                throw new JsonException("Property is not nullable for class FooGetDefaultResponse: string.");
 
             return new FooGetDefaultResponse(varString);
         }

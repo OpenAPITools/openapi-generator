@@ -206,10 +206,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (mainShape.IsSet && mainShape.Value == null)
-                throw new ArgumentNullException(nameof(mainShape), "Property is not nullable for class Drawing.");
+                throw new JsonException("Property is not nullable for class Drawing: mainShape.");
 
             if (shapes.IsSet && shapes.Value == null)
-                throw new ArgumentNullException(nameof(shapes), "Property is not nullable for class Drawing.");
+                throw new JsonException("Property is not nullable for class Drawing: shapes.");
 
             return new Drawing(mainShape, nullableShape, shapeOrNull, shapes);
         }
