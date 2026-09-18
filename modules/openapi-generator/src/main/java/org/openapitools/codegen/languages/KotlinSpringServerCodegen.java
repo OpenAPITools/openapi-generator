@@ -332,8 +332,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 + "(they can no longer be instantiated directly), so it is opt-in. If a schema promoted to `interface` "
                 + "this way (or a genuinely-discriminated root) is itself named as a value in some `discriminator.mapping` "
                 + "(including a root that maps to itself), a synthetic concrete `<Schema>Impl` data class implementing the "
-                + "interface is also generated and substituted into the corresponding `@JsonSubTypes` entry, so Jackson can "
-                + "still construct a concrete instance for that discriminator value.",
+                + "interface is also generated (in its own file, named after the resolved class) and substituted into "
+                + "the corresponding `@JsonSubTypes` entry, so Jackson can still construct a concrete instance for that "
+                + "discriminator value. Being a genuinely separate model, this synthetic class can be suppressed via the "
+                + "standard `--schema-mappings` mechanism if you want to substitute your own implementation.",
                 fixPolymorphicInheritance);
 
         CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
@@ -1618,6 +1620,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     suffixCounter++;
                 }
                 cm.vendorExtensions.put("x-kotlin-poly-impl-name", implName);
+
+                // Generate the synthetic leaf as a genuinely separate model entry (own file),
+                // via the same unmodified per-model file-generation pipeline every real schema
+                // goes through, instead of embedding it in cm's own generated file. This gets
+                // `schemaMapping` suppression "for free": DefaultGenerator's per-model
+                // file-generation loop checks `config.schemaMapping().containsKey(modelName)`
+                // generically against every key in the map returned by this method, real or
+                // synthetic alike.
+                objs.put(implName, buildSyntheticImplModelsMap(cm, implName));
             }
         }
 
@@ -1822,6 +1833,88 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         return objs;
+    }
+
+    /**
+     * Build a standalone {@link ModelsMap} for the synthetic "{@code <Schema>Impl}" concrete
+     * leaf class named by {@code implName}, so it can be injected into the map returned by
+     * {@link #postProcessAllModels} and rendered through the ordinary, unmodified per-model
+     * file-generation pipeline in {@code DefaultGenerator} — giving it its own generated file
+     * (instead of being embedded inside {@code interfaceModel}'s file) and, for free, standard
+     * {@code schemaMapping} suppression support, since {@code DefaultGenerator} checks
+     * {@code schemaMapping()} generically against every key in that map, real schema or
+     * synthetic alike.
+     *
+     * <p>The synthetic model deliberately reuses (by reference, not by cloning) the
+     * {@code requiredVars}/{@code optionalVars}/{@code vars}/{@code allVars} lists from
+     * {@code interfaceModel}: nothing mutates these per-render, and {@code implClassReqVar}/
+     * {@code implClassOptVar} already force an unconditional {@code override} modifier
+     * regardless of each property's {@code isInherited} flag, so no per-property adjustment is
+     * needed. {@code hasEnums} is deliberately NOT copied (left {@code false}): any nested enum
+     * classes for these properties are already declared once in {@code interfaceModel}'s own
+     * file, and the qualified enum type reference emitted by {@code implClassReqVar}/
+     * {@code implClassOptVar} points at {@code {{parent}}} (i.e. {@code interfaceModel}), so
+     * re-declaring them here would only be redundant, unused, dead code.
+     */
+    private ModelsMap buildSyntheticImplModelsMap(CodegenModel interfaceModel, String implName) {
+        CodegenModel implModel = new CodegenModel();
+        implModel.name = implName;
+        implModel.classname = implName;
+        implModel.classFilename = implName;
+        implModel.parent = interfaceModel.classname;
+        implModel.requiredVars = interfaceModel.requiredVars;
+        implModel.optionalVars = interfaceModel.optionalVars;
+        implModel.vars = interfaceModel.vars;
+        implModel.allVars = interfaceModel.allVars;
+        implModel.hasRequired = interfaceModel.hasRequired;
+        implModel.hasOptional = interfaceModel.hasOptional;
+        implModel.hasVars = interfaceModel.hasVars;
+        implModel.vendorExtensions.put("x-kotlin-poly-impl-class", true);
+
+        // Same raw imports as the interface, minus the discriminator-only Jackson annotations
+        // (JsonSubTypes/JsonTypeInfo/JsonIgnoreProperties) that only the interface itself needs.
+        implModel.imports = new TreeSet<>(interfaceModel.imports);
+        implModel.imports.removeAll(Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties"));
+
+        ModelMap modelMap = new ModelMap();
+        modelMap.setModel(implModel);
+        modelMap.put("importPath", toModelImport(implModel.classname));
+
+        // Mirrors DefaultGenerator.processModels()/generateModels()'s per-real-schema setup:
+        // "package"/import resolution happens in processModels(); "classname" and
+        // additionalProperties() are merged in generateModels()'s per-schema loop. Since our
+        // synthetic entry is injected here (inside postProcessAllModels, which runs strictly
+        // after both of those), none of that happens automatically for it - it must be
+        // replicated manually.
+        ModelsMap modelsMap = new ModelsMap();
+        modelsMap.put("package", modelPackage());
+        modelsMap.put("classname", implModel.classname);
+        modelsMap.putAll(additionalProperties());
+        modelsMap.setModels(Collections.singletonList(modelMap));
+
+        Set<String> importSet = new TreeSet<>();
+        for (String nextImport : implModel.imports) {
+            String mapping = importMapping().get(nextImport);
+            if (mapping == null) {
+                mapping = toModelImport(nextImport);
+            }
+            if (mapping != null && !defaultIncludes().contains(mapping)) {
+                importSet.add(mapping);
+            }
+            mapping = instantiationTypes().get(nextImport);
+            if (mapping != null && !defaultIncludes().contains(mapping)) {
+                importSet.add(mapping);
+            }
+        }
+        List<Map<String, String>> imports = new ArrayList<>();
+        for (String s : importSet) {
+            Map<String, String> item = new HashMap<>();
+            item.put("import", s);
+            imports.add(item);
+        }
+        modelsMap.setImports(imports);
+
+        return modelsMap;
     }
 
     @Override

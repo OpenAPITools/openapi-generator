@@ -7897,9 +7897,16 @@ public class KotlinSpringServerCodegenTest {
         Path serviceQualification = files.get("ServiceQualification.kt").toPath();
         assertFileContains(serviceQualification,
                 "interface ServiceQualification",
-                "data class ServiceQualificationImpl(",
-                ") : ServiceQualification",
                 "JsonSubTypes.Type(value = ServiceQualificationImpl::class, name = \"ServiceQualification\")");
+        assertFileNotContains(serviceQualification, "data class ServiceQualificationImpl(");
+
+        // The synthetic Impl class is generated in its own file, not embedded in
+        // ServiceQualification.kt, so it can be substituted via the standard `schemaMapping`
+        // mechanism if desired.
+        Path serviceQualificationImpl = files.get("ServiceQualificationImpl.kt").toPath();
+        assertFileContains(serviceQualificationImpl,
+                "data class ServiceQualificationImpl(",
+                ") : ServiceQualification");
 
         // CheckServiceQualification/QueryServiceQualification are plain (non-self-mapped) mapping
         // entries; with the flag off they remain concrete data classes, so their @JsonSubTypes
@@ -7925,7 +7932,13 @@ public class KotlinSpringServerCodegenTest {
 
         Path checkServiceQualification = files.get("CheckServiceQualification.kt").toPath();
         assertFileContains(checkServiceQualification,
-                "interface CheckServiceQualification : ServiceQualification",
+                "interface CheckServiceQualification : ServiceQualification");
+        assertFileNotContains(checkServiceQualification, "data class CheckServiceQualificationImpl(");
+
+        // The synthetic Impl class is generated in its own file, not embedded in
+        // CheckServiceQualification.kt.
+        Path checkServiceQualificationImpl = files.get("CheckServiceQualificationImpl.kt").toPath();
+        assertFileContains(checkServiceQualificationImpl,
                 "data class CheckServiceQualificationImpl(",
                 ") : CheckServiceQualification",
                 "override val serviceQualificationItem",
@@ -7960,11 +7973,13 @@ public class KotlinSpringServerCodegenTest {
                 "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
 
         Path place = files.get("Place.kt").toPath();
-        assertFileContains(place,
-                "interface Place",
-                "data class PlaceImpl2(",
-                ") : Place");
-        assertFileNotContains(place, "data class PlaceImpl(");
+        assertFileContains(place, "interface Place");
+        assertFileNotContains(place, "data class PlaceImpl2(", "data class PlaceImpl(");
+
+        // The synthetic Impl leaf is generated in its own file, named after the collision-free
+        // fallback name, distinct from the real, unrelated `PlaceImpl` schema's own file.
+        Path placeImpl2 = files.get("PlaceImpl2.kt").toPath();
+        assertFileContains(placeImpl2, "data class PlaceImpl2(", ") : Place");
 
         // The real, unrelated `PlaceImpl` schema must still be generated as its own ordinary class,
         // untouched by the collision-avoidance logic.
@@ -7976,5 +7991,31 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(place,
                 "JsonSubTypes.Type(value = PlaceImpl2::class, name = \"Place\")",
                 "JsonSubTypes.Type(value = GeographicSite::class, name = \"GeographicSite\")");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_syntheticImplCanBeSuppressedViaSchemaMapping() throws IOException {
+        // Since the synthetic Impl leaf is generated as a genuinely separate model entry (its own
+        // file, keyed by its resolved name in the map DefaultGenerator uses to drive per-model file
+        // generation), it automatically gets the same `schemaMapping` suppression support real
+        // schemas get: DefaultGenerator's per-model file-generation loop skips any model name
+        // present in `schemaMapping()`, with zero extra code required for this to work.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.addSchemaMapping("ServiceQualificationImpl", "com.example.custom.ServiceQualificationImpl"));
+
+        // The synthetic leaf's file must no longer be generated...
+        Assert.assertNull(files.get("ServiceQualificationImpl.kt"),
+                "ServiceQualificationImpl.kt should not be generated once its resolved name is schema-mapped");
+
+        // ...while ServiceQualification itself (the interface) is unaffected and still generated
+        // normally, still redirecting its @JsonSubTypes entry to the (now user-supplied)
+        // "ServiceQualificationImpl" name.
+        Path serviceQualification = files.get("ServiceQualification.kt").toPath();
+        assertFileContains(serviceQualification,
+                "interface ServiceQualification",
+                "JsonSubTypes.Type(value = ServiceQualificationImpl::class, name = \"ServiceQualification\")");
     }
 }
