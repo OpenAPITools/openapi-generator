@@ -266,6 +266,28 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(podAuthors, openAPIDevs);
     }
 
+    @Test(description = "models on an inline reference cycle become classes, everything else stays a struct")
+    public void testRecursiveModelsBecomeClasses() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("swift5")
+                .setInputSpec("src/test/resources/3_0/swift/recursive-models.yaml")
+                .setOutputDir(target.toAbsolutePath().toString());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path models = target.resolve("OpenAPIClient/Classes/OpenAPIs/Models");
+        // a struct that stores itself inline has infinite size and does not compile (#15240):
+        // the self-referencing model and both halves of the mutual cycle become final classes
+        TestUtils.assertFileContains(models.resolve("ContactInfo.swift"), "public final class ContactInfo:");
+        TestUtils.assertFileContains(models.resolve("NodeA.swift"), "public final class NodeA:");
+        TestUtils.assertFileContains(models.resolve("NodeB.swift"), "public final class NodeB:");
+        // embedding a cyclic class costs nothing, and containers already give heap
+        // indirection - these stay structs
+        TestUtils.assertFileContains(models.resolve("DomainInfo.swift"), "public struct DomainInfo:");
+        TestUtils.assertFileContains(models.resolve("Category.swift"), "public struct Category:");
+    }
+
     @Test(description = "Bug example code generation", enabled = true)
     public void crashSwift5ExampleCodeGenerationStackOverflowTest() throws IOException {
         //final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/Swift5CodeGenerationStackOverflow#2966.yaml");
