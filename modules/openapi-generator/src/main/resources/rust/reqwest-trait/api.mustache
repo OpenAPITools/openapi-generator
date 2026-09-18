@@ -47,7 +47,7 @@ pub trait {{{classname}}}: Send + Sync {
     ### &str and Vec<&str>
     }}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}} str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{!
     ### UUIDs
-    }}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{!
+    }}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}} str{{#isArray}}>{{/isArray}}{{/isUuid}}{{!
     ### Models and primative types
     }}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{!
     ### Option End
@@ -155,7 +155,7 @@ impl {{classname}} for {{classname}}Client {
     ### &str and Vec<&str>
     }}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}} str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{!
     ### UUIDs
-    }}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{!
+    }}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}} str{{#isArray}}>{{/isArray}}{{/isUuid}}{{!
     ### Models and primative types
     }}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{!
     ### Option End

@@ -168,6 +168,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Parent parent, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (parent.NumberOption.IsSet && parent.Number == null)
+                throw new JsonException("Cannot write null property Parent.Number to non-nullable JSON property 'number'.");
+
             if (parent.NumberOption.IsSet)
             {
                 var numberRawValue = NumberValueConverter.ToJsonValue(parent.Number!.Value);

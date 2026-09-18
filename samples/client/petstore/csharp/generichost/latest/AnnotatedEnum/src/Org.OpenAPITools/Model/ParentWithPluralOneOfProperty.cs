@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, ParentWithPluralOneOfProperty parentWithPluralOneOfProperty, JsonSerializerOptions jsonSerializerOptions)
         {
             if (parentWithPluralOneOfProperty.NumberOption.IsSet && parentWithPluralOneOfProperty.Number == null)
-                throw new ArgumentNullException(nameof(parentWithPluralOneOfProperty.Number), "Property is required for class ParentWithPluralOneOfProperty.");
+                throw new JsonException("Cannot write null property ParentWithPluralOneOfProperty.Number to non-nullable JSON property 'number'.");
 
             if (parentWithPluralOneOfProperty.NumberOption.IsSet)
             {

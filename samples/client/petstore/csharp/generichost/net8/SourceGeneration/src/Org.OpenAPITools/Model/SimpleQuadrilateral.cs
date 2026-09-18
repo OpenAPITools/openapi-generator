@@ -192,12 +192,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, SimpleQuadrilateral simpleQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (simpleQuadrilateral.QuadrilateralType == null)
-                throw new ArgumentNullException(nameof(simpleQuadrilateral.QuadrilateralType), "Property is required for class SimpleQuadrilateral.");
-
-            if (simpleQuadrilateral.ShapeType == null)
-                throw new ArgumentNullException(nameof(simpleQuadrilateral.ShapeType), "Property is required for class SimpleQuadrilateral.");
-
             writer.WriteString("quadrilateralType", simpleQuadrilateral.QuadrilateralType);
 
             writer.WriteString("shapeType", simpleQuadrilateral.ShapeType);

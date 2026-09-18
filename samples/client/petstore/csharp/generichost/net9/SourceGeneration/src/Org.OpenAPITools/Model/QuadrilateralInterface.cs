@@ -173,9 +173,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, QuadrilateralInterface quadrilateralInterface, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (quadrilateralInterface.QuadrilateralType == null)
-                throw new ArgumentNullException(nameof(quadrilateralInterface.QuadrilateralType), "Property is required for class QuadrilateralInterface.");
-
             writer.WriteString("quadrilateralType", quadrilateralInterface.QuadrilateralType);
         }
     }

@@ -178,7 +178,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, MixedSubId mixedSubId, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mixedSubId.IdOption.IsSet && mixedSubId.Id == null)
-                throw new ArgumentNullException(nameof(mixedSubId.Id), "Property is required for class MixedSubId.");
+                throw new JsonException("Cannot write null property MixedSubId.Id to non-nullable JSON property 'id'.");
 
             if (mixedSubId.IdOption.IsSet)
                 writer.WriteString("id", mixedSubId.Id);

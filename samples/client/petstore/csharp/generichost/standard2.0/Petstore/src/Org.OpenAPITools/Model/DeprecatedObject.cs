@@ -175,7 +175,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, DeprecatedObject deprecatedObject, JsonSerializerOptions jsonSerializerOptions)
         {
             if (deprecatedObject.NameOption.IsSet && deprecatedObject.Name == null)
-                throw new ArgumentNullException(nameof(deprecatedObject.Name), "Property is required for class DeprecatedObject.");
+                throw new JsonException("Cannot write null property DeprecatedObject.Name to non-nullable JSON property 'name'.");
 
             if (deprecatedObject.NameOption.IsSet)
                 writer.WriteString("name", deprecatedObject.Name);

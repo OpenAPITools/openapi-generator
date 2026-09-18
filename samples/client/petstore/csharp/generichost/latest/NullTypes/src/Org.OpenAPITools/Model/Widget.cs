@@ -248,9 +248,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Widget widget, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (widget.Name == null)
-                throw new ArgumentNullException(nameof(widget.Name), "Property is required for class Widget.");
-
             writer.WriteNumber("id", widget.Id);
 
             writer.WriteString("name", widget.Name);

@@ -11,6 +11,7 @@ use std::sync::Arc;
 use google_cloud_token::TokenSource;
 use async_trait::async_trait;
 {{/supportTokenSource}}
+pub use {{#supportMiddleware}}reqwest_middleware::ClientWithMiddleware{{/supportMiddleware}}{{^supportMiddleware}}reqwest{{^supportAsync}}::blocking{{/supportAsync}}::Client{{/supportMiddleware}};
 
 #[derive(Debug, Clone)]
 pub struct Configuration {

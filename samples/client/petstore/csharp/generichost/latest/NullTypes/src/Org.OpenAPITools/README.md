@@ -53,33 +53,33 @@ namespace YourProject
     {
         public static async Task Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
+            HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+
+            builder.ConfigureApi(options =>
+            {
+                options.ConfigureJsonOptions(jsonOptions =>
+                {
+                    // your custom converters if any
+                });
+
+                options.AddApiHttpClients(client =>
+                {
+                    // client configuration
+                }, clientBuilder =>
+                {
+                    clientBuilder
+                        .AddRetryPolicy(2)
+                        .AddTimeoutPolicy(TimeSpan.FromSeconds(5))
+                        .AddCircuitBreakerPolicy(10, TimeSpan.FromSeconds(30));
+                        // add whatever middleware you prefer
+                });
+            });
+
+            IHost host = builder.Build();
             var api = host.Services.GetRequiredService<IDefaultApi>();
             IGetWidgetApiResponse apiResponse = await api.GetWidgetAsync("todo");
             Widget? model = apiResponse.Ok();
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-          .ConfigureApi((context, options) =>
-          {
-              options.ConfigureJsonOptions((jsonOptions) =>
-              {
-                  // your custom converters if any
-              });
-
-              options.AddApiHttpClients(client =>
-              {
-                  // client configuration
-              }, builder =>
-              {
-                  builder
-                      .AddRetryPolicy(2)
-                      .AddTimeoutPolicy(TimeSpan.FromSeconds(5))
-                      .AddCircuitBreakerPolicy(10, TimeSpan.FromSeconds(30));
-                      // add whatever middleware you prefer
-                  }
-              );
-          });
     }
 }
 ```

@@ -805,7 +805,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Adds the object with the provided key to the MultiPart.
    * Based on the object type sets Content-Disposition and Content-Type.
    *
-   * @param obj Object
+   * @param value Object
    * @param key Key of the object
    * @param multiPart MultiPart to add the form param to
    */

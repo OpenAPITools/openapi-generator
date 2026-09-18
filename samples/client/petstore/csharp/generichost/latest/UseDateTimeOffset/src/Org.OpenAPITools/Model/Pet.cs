@@ -365,17 +365,17 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (pet.Name == null)
-                throw new ArgumentNullException(nameof(pet.Name), "Property is required for class Pet.");
-
-            if (pet.PhotoUrls == null)
-                throw new ArgumentNullException(nameof(pet.PhotoUrls), "Property is required for class Pet.");
-
             if (pet.CategoryOption.IsSet && pet.Category == null)
-                throw new ArgumentNullException(nameof(pet.Category), "Property is required for class Pet.");
+                throw new JsonException("Cannot write null property Pet.Category to non-nullable JSON property 'category'.");
+
+            if (pet.IdOption.IsSet && pet.Id == null)
+                throw new JsonException("Cannot write null property Pet.Id to non-nullable JSON property 'id'.");
+
+            if (pet.StatusOption.IsSet && pet.Status == null)
+                throw new JsonException("Cannot write null property Pet.Status to non-nullable JSON property 'status'.");
 
             if (pet.TagsOption.IsSet && pet.Tags == null)
-                throw new ArgumentNullException(nameof(pet.Tags), "Property is required for class Pet.");
+                throw new JsonException("Cannot write null property Pet.Tags to non-nullable JSON property 'tags'.");
 
             writer.WriteString("name", pet.Name);
 

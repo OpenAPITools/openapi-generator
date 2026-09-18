@@ -250,6 +250,15 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Color color, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (color.BOption.IsSet && color.B == null)
+                throw new JsonException("Cannot write null property Color.B to non-nullable JSON property 'b'.");
+
+            if (color.GOption.IsSet && color.G == null)
+                throw new JsonException("Cannot write null property Color.G to non-nullable JSON property 'g'.");
+
+            if (color.ROption.IsSet && color.R == null)
+                throw new JsonException("Cannot write null property Color.R to non-nullable JSON property 'r'.");
+
             if (color.BOption.IsSet)
                 writer.WriteNumber("b", color.BOption.Value!.Value);
 

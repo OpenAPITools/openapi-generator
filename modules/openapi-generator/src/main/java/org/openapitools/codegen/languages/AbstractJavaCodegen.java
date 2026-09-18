@@ -304,6 +304,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         typeMapping.put("date", "Date");
         typeMapping.put("file", "File");
         typeMapping.put("AnyType", "Object");
+        typeMapping.put("null", "Object");
         typeMapping.put("enum", "Enum");
 
         importMapping.put("BigDecimal", "java.math.BigDecimal");
@@ -2895,7 +2896,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 writer.write(dataType);
             }
         };
+        Mustache.Lambda javaStringLiteralLambda = (fragment, writer) ->
+                writer.write(toEnumValue(fragment.execute(), "String"));
         return super.addMustacheLambdas()
+                .put("javaStringLiteral", javaStringLiteralLambda)
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
                 .put("jSpecifyNullable", jSpecifyNullableLambda);
 

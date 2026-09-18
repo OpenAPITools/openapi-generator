@@ -177,7 +177,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Activity activity, JsonSerializerOptions jsonSerializerOptions)
         {
             if (activity.ActivityOutputsOption.IsSet && activity.ActivityOutputs == null)
-                throw new ArgumentNullException(nameof(activity.ActivityOutputs), "Property is required for class Activity.");
+                throw new JsonException("Cannot write null property Activity.ActivityOutputs to non-nullable JSON property 'activity_outputs'.");
 
             if (activity.ActivityOutputsOption.IsSet)
             {

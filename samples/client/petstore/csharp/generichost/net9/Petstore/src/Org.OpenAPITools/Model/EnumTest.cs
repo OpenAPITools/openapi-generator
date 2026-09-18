@@ -875,6 +875,27 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, EnumTest enumTest, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (enumTest.EnumIntegerOption.IsSet && enumTest.EnumInteger == null)
+                throw new JsonException("Cannot write null property EnumTest.EnumInteger to non-nullable JSON property 'enum_integer'.");
+
+            if (enumTest.EnumIntegerOnlyOption.IsSet && enumTest.EnumIntegerOnly == null)
+                throw new JsonException("Cannot write null property EnumTest.EnumIntegerOnly to non-nullable JSON property 'enum_integer_only'.");
+
+            if (enumTest.EnumNumberOption.IsSet && enumTest.EnumNumber == null)
+                throw new JsonException("Cannot write null property EnumTest.EnumNumber to non-nullable JSON property 'enum_number'.");
+
+            if (enumTest.EnumStringOption.IsSet && enumTest.EnumString == null)
+                throw new JsonException("Cannot write null property EnumTest.EnumString to non-nullable JSON property 'enum_string'.");
+
+            if (enumTest.OuterEnumDefaultValueOption.IsSet && enumTest.OuterEnumDefaultValue == null)
+                throw new JsonException("Cannot write null property EnumTest.OuterEnumDefaultValue to non-nullable JSON property 'outerEnumDefaultValue'.");
+
+            if (enumTest.OuterEnumIntegerOption.IsSet && enumTest.OuterEnumInteger == null)
+                throw new JsonException("Cannot write null property EnumTest.OuterEnumInteger to non-nullable JSON property 'outerEnumInteger'.");
+
+            if (enumTest.OuterEnumIntegerDefaultValueOption.IsSet && enumTest.OuterEnumIntegerDefaultValue == null)
+                throw new JsonException("Cannot write null property EnumTest.OuterEnumIntegerDefaultValue to non-nullable JSON property 'outerEnumIntegerDefaultValue'.");
+
             var enumStringRequiredRawValue = EnumTest.EnumStringRequiredEnumToJsonValue(enumTest.EnumStringRequired);
             writer.WriteString("enum_string_required", enumStringRequiredRawValue);
             if (enumTest.EnumIntegerOption.IsSet)

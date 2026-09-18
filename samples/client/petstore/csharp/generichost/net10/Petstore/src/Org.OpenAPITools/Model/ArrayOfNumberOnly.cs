@@ -175,7 +175,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, ArrayOfNumberOnly arrayOfNumberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             if (arrayOfNumberOnly.ArrayNumberOption.IsSet && arrayOfNumberOnly.ArrayNumber == null)
-                throw new ArgumentNullException(nameof(arrayOfNumberOnly.ArrayNumber), "Property is required for class ArrayOfNumberOnly.");
+                throw new JsonException("Cannot write null property ArrayOfNumberOnly.ArrayNumber to non-nullable JSON property 'ArrayNumber'.");
 
             if (arrayOfNumberOnly.ArrayNumberOption.IsSet)
             {

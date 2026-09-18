@@ -178,7 +178,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, RolesReportsHashRole rolesReportsHashRole, JsonSerializerOptions jsonSerializerOptions)
         {
             if (rolesReportsHashRole.NameOption.IsSet && rolesReportsHashRole.Name == null)
-                throw new ArgumentNullException(nameof(rolesReportsHashRole.Name), "Property is required for class RolesReportsHashRole.");
+                throw new JsonException("Cannot write null property RolesReportsHashRole.Name to non-nullable JSON property 'name'.");
 
             if (rolesReportsHashRole.NameOption.IsSet)
                 writer.WriteString("name", rolesReportsHashRole.Name);

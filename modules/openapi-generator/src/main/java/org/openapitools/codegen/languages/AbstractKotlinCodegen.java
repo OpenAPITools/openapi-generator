@@ -1279,6 +1279,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     private String toArrayDefaultValue(CodegenProperty cp, Schema schema) {
+        return toArrayDefaultValue(cp, schema, false);
+    }
+
+    private String toArrayDefaultValue(CodegenProperty cp, Schema schema, boolean inlineEnumItemsAsLiterals) {
         if (schema.getDefault() != null) {
             String arrInstantiationType = ModelUtils.isSet(schema) ? "set" : "arrayList";
 
@@ -1295,7 +1299,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             _default.elements().forEachRemaining((element) -> {
                 String defaultValue = element.asText();
                 if (defaultValue != null) {
-                    if (cp.items.getIsEnumOrRef()) {
+                    boolean itemIsLiteral = inlineEnumItemsAsLiterals && cp.items.isEnum;
+                    if (itemIsLiteral && ModelUtils.isStringSchema(itemsSchema)) {
+                        defaultContent.append("\"").append(escapeText(defaultValue)).append("\"").append(",");
+                    } else if (cp.items.getIsEnumOrRef() && !itemIsLiteral) {
                         String className = cp.items.datatypeWithEnum;
                         String enumVarName = toEnumVarName(defaultValue, cp.items.dataType);
                         defaultContent.append(className).append(".").append(enumVarName).append(",");
@@ -1314,6 +1321,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toDefaultParameterValue(CodegenProperty cp, Schema schema) {
+        Schema<?> referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        if (ModelUtils.isArraySchema(referencedSchema) && cp.items != null && cp.items.isEnum) {
+            // inline enum items of a parameter have no enum class of their own,
+            // so the default must use the plain item values (e.g. setOf("a", "b"))
+            return toArrayDefaultValue(cp, referencedSchema, true);
+        }
         return toDefaultValue(cp, schema);
     }
 

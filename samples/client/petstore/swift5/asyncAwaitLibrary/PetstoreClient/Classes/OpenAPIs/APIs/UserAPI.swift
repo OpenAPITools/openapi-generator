@@ -221,10 +221,11 @@ open class UserAPI {
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryParameters: [String: (wrappedValue: Any?, isExplode: Bool)] = [
             "username": (wrappedValue: username.encodeToJSON(), isExplode: false),
             "password": (wrappedValue: password.encodeToJSON(), isExplode: false),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: Any?] = [
             :
