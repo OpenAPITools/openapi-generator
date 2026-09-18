@@ -8018,4 +8018,67 @@ public class KotlinSpringServerCodegenTest {
                 "interface ServiceQualification",
                 "JsonSubTypes.Type(value = ServiceQualificationImpl::class, name = \"ServiceQualification\")");
     }
+
+    @Test
+    public void allOfDiscriminatorInheritance_deductionOneOfMemberPromotedToInterfaceGetsSyntheticImpl() throws IOException {
+        // Circle inherits a discriminator from Discriminated (making it a real Kotlin parent
+        // candidate for ColoredCircle), but has no discriminator of its own, and Discriminated's
+        // own explicit `mapping` deliberately lists only the leaf ColoredCircle -- not the
+        // intermediate Circle -- so Circle's classname never ends up in
+        // `discriminatorMappedModelNames` either. fixPolymorphicInheritance still promotes Circle
+        // to an `interface` purely because it has a child (ColoredCircle). Circle is ALSO a member
+        // of Shape's discriminator-free oneOf, rendered via useDeductionForOneOfInterfaces --
+        // discriminator-free oneOf has no discriminator.mapping at all, so without also treating
+        // deduction-oneOf membership as an Impl trigger, Shape's deduction @JsonSubTypes would keep
+        // naming the now-abstract `Circle` interface directly, compiling fine but failing at
+        // runtime since Jackson can never instantiate an interface.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphic-inheritance-deduction-oneof.yaml",
+                Map.of(FIX_POLYMORPHIC_INHERITANCE, "true", CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true"));
+
+        Path circle = files.get("Circle.kt").toPath();
+        assertFileContains(circle, "interface Circle");
+        assertFileNotContains(circle, "data class CircleImpl(");
+
+        // The synthetic Impl leaf is generated in its own file, not embedded in Circle.kt.
+        Path circleImpl = files.get("CircleImpl.kt").toPath();
+        assertFileContains(circleImpl,
+                "data class CircleImpl(",
+                ") : Circle");
+
+        // Shape's deduction @JsonSubTypes must redirect Circle's entry to the synthetic Impl leaf,
+        // not the now-abstract interface.
+        Path shape = files.get("Shape.kt").toPath();
+        assertFileContains(shape, "JsonSubTypes.Type(value = CircleImpl::class)");
+        assertFileNotContains(shape, "JsonSubTypes.Type(value = Circle::class)");
+
+        // Square has no allOf children, so it's untouched: stays a plain data class, referenced
+        // directly (no Impl needed) in Shape's deduction @JsonSubTypes.
+        Path square = files.get("Square.kt").toPath();
+        assertFileContains(square, "data class Square(");
+        assertFileNotContains(square, "interface Square");
+        assertFileContains(shape, "JsonSubTypes.Type(value = Square::class)");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_deductionOneOfFlagOff_leavesCircleAsDataClass() throws IOException {
+        // With fixPolymorphicInheritance off, Circle is never promoted to `interface` in the first
+        // place (pre-existing Issue 1/1b behavior: it would fail to compile once ColoredCircle
+        // extends it as a `data class`, but that's an orthogonal, already-covered concern) -- no
+        // synthetic Impl should be generated for it, and Shape's deduction @JsonSubTypes should
+        // keep referencing Circle directly, unaffected by this fix.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphic-inheritance-deduction-oneof.yaml",
+                Map.of(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true"));
+
+        Path circle = files.get("Circle.kt").toPath();
+        assertFileContains(circle, "data class Circle(");
+        assertFileNotContains(circle, "interface Circle");
+        Assert.assertNull(files.get("CircleImpl.kt"), "CircleImpl.kt should not be generated when fixPolymorphicInheritance is off");
+
+        Path shape = files.get("Shape.kt").toPath();
+        assertFileContains(shape,
+                "JsonSubTypes.Type(value = Circle::class)",
+                "JsonSubTypes.Type(value = Square::class)");
+    }
 }

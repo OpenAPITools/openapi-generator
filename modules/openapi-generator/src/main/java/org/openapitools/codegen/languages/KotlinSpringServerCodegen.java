@@ -1584,6 +1584,26 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
+        // A discriminator-free `oneOf` union (rendered via `useDeductionForOneOfInterfaces`,
+        // i.e. Jackson's JsonTypeInfo.Id.DEDUCTION) has no `discriminator`/mapping at all, so a
+        // model promoted to `interface` that is *only* referenced as a member of such a union
+        // would never be caught by `discriminatorMappedModelNames` above — yet
+        // `oneof_interface.mustache`'s deduction `@JsonSubTypes` block still names each member
+        // directly by classname, the same "interface not constructible" gap the `Impl`
+        // mechanism exists to close. `cm.interfaceModels` (populated by
+        // `DefaultCodegen.updateAllModels()`, which always runs before this method since
+        // `useOneOfInterfaces` is unconditionally enabled for kotlin-spring) holds the exact
+        // same `CodegenModel` object instances referenced elsewhere, so collecting their
+        // classnames here is enough for the `Impl` decision below to see them correctly.
+        Set<String> deductionOneOfMemberModelNames = new HashSet<>();
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (cm.discriminator == null && !cm.oneOf.isEmpty() && cm.interfaceModels != null) {
+                for (CodegenModel member : cm.interfaceModels) {
+                    deductionOneOfMemberModelNames.add(member.classname);
+                }
+            }
+        }
+
         // All classnames already used by real (schema-backed) models in the document. Needed so
         // the synthetic `Impl` class name below never collides with an existing schema (e.g. a
         // spec that happens to already declare a schema literally named `FooImpl` alongside
@@ -1603,7 +1623,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             cm.vendorExtensions.put("x-kotlin-poly-open-map", needsOpenMapFallback);
 
             boolean needsSyntheticImpl = isInterfaceShape
-                    && discriminatorMappedModelNames.contains(cm.classname);
+                    && (discriminatorMappedModelNames.contains(cm.classname)
+                        || deductionOneOfMemberModelNames.contains(cm.classname));
             cm.vendorExtensions.put("x-kotlin-poly-impl-needed", needsSyntheticImpl);
 
             if (needsSyntheticImpl) {
