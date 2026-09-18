@@ -22,6 +22,7 @@ public interface RequiredAndNullableApi {
     @POST
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    RequiredAndNullable requiredAndNullablePost(@Valid @NotNull RequiredAndNullable requiredAndNullable);
+    RequiredAndNullable requiredAndNullablePost(@Valid @NotNull RequiredAndNullable requiredAndNullable
+);
 
 }

@@ -20,8 +20,6 @@ public class AdditionalPropertiesClass  {
 
   @ApiModelProperty(value = "")
 
-  @Valid
-
   private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   @ApiModelProperty(value = "")
@@ -34,25 +32,17 @@ public class AdditionalPropertiesClass  {
 
   @ApiModelProperty(value = "")
 
-  @Valid
-
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   @ApiModelProperty(value = "")
-
-  @Valid
 
   private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   @ApiModelProperty(value = "")
 
-  @Valid
-
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   @ApiModelProperty(value = "")
-
-  @Valid
 
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 

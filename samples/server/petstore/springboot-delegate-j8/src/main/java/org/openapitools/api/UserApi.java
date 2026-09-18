@@ -91,7 +91,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithArrayInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+        @Parameter(name = "User", description = "List of user object", required = true) @RequestBody List<@Valid User> user
     ) {
         return getDelegate().createUsersWithArrayInput(user);
     }
@@ -120,7 +120,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithListInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+        @Parameter(name = "User", description = "List of user object", required = true) @RequestBody List<@Valid User> user
     ) {
         return getDelegate().createUsersWithListInput(user);
     }
