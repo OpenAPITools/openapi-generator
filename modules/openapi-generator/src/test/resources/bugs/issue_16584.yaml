@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: Schema name collision
+  description: A schema named "Schema" collides with io.swagger.v3.oas.annotations.media.Schema.
+  version: 1.0.0
+paths:
+  /schemas/{id}:
+    get:
+      operationId: getSchema
+      tags:
+        - schemas
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Schema found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schema'
+components:
+  schemas:
+    Schema:
+      type: object
+      title: Schema
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
