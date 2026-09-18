@@ -257,6 +257,7 @@ where
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
