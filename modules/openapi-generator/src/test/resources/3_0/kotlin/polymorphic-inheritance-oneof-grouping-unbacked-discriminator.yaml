@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  title: kotlin-spring regression -- oneOf/discriminator grouping interface's abstract property has no backing field in member schemas
+  version: "1.0.0"
+paths:
+  /ping:
+    get:
+      operationId: ping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartyOrPartyRole'
+components:
+  schemas:
+    # A "oneOf"+discriminator grouping schema ("PartyOrPartyRole") whose member schemas do
+    # NOT extend it via allOf at all -- they are only linked to it through the
+    # discriminator's `mapping`. The generator still makes each mapped member schema's
+    # generated interface/class implement "PartyOrPartyRole" (a sealed interface with one
+    # abstract member, "atType", synthesized from the discriminator's own propertyName since
+    # "PartyOrPartyRole" declares no properties of its own). The member schemas
+    # ("RelatedIndividual", "RelatedOrganization") extend an unrelated base schema
+    # ("Extensible" -- which does NOT declare "@type") via allOf instead, so neither of them
+    # ever supplies a value for "atType". This is valid, common OpenAPI discriminator usage:
+    # the wire value is implied by which `mapping` entry points at a given schema, not
+    # necessarily redeclared as an explicit property on every subtype.
+    Extensible:
+      type: object
+      properties:
+        '@baseType':
+          type: string
+
+    PartyOrPartyRole:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/RelatedIndividual'
+        - $ref: '#/components/schemas/RelatedOrganization'
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          RelatedIndividual: '#/components/schemas/RelatedIndividual'
+          RelatedOrganization: '#/components/schemas/RelatedOrganization'
+
+    # RelatedIndividual also has its OWN discriminator (mapping to itself), so a synthetic
+    # "RelatedIndividualImpl" concrete class is generated -- but that Impl never implements
+    # "atType" either, since nothing in its allOf chain provides it, only the unrelated
+    # "PartyOrPartyRole" interface requires it.
+    RelatedIndividual:
+      allOf:
+        - $ref: '#/components/schemas/Extensible'
+        - type: object
+          properties:
+            familyName:
+              type: string
+          required:
+            - familyName
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          RelatedIndividual: '#/components/schemas/RelatedIndividual'
+
+    RelatedOrganization:
+      allOf:
+        - $ref: '#/components/schemas/Extensible'
+        - type: object
+          properties:
+            tradingName:
+              type: string

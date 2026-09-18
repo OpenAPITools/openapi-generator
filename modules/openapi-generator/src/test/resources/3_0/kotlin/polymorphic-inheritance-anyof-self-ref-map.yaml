@@ -1,0 +1,56 @@
+openapi: 3.0.3
+info:
+  title: kotlin-spring regression -- anyOf-single-ref-to-discriminated-schema wrongly treated as Kotlin parent
+  version: "1.0.0"
+paths:
+  /ping:
+    get:
+      operationId: ping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common_FVO'
+components:
+  schemas:
+    # A free-form/map schema (additionalProperties) that ALSO has fixed properties, a
+    # discriminator, and a self-referencing "@reverse" map property whose inline value-type
+    # model is synthesized by the generator (named e.g. CommonFVOReverseValue). The
+    # synthesized inline model is an "anyOf: [$ref: common_FVO]" composition (a common
+    # recursive/self-referencing idiom) -- this is NOT allOf, so Kotlin never establishes a
+    # real supertype relationship (`m.parent` is only ever set for allOf composition). The
+    # bug: the synthesized model's properties are still incorrectly marked `override`, with
+    # no supertype declared at all in the class header, which does not compile.
+    common_FVO:
+      additionalProperties:
+        anyOf:
+          - $ref: '#/components/schemas/common_FVO'
+      properties:
+        '@id':
+          type: string
+          format: uri
+        '@type':
+          type: string
+        '@reverse':
+          description: Used to express reverse properties.
+          type: string
+          additionalProperties:
+            anyOf:
+              - $ref: '#/components/schemas/common_FVO'
+      required:
+        - '@type'
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          JsonLdExpressionValue: '#/components/schemas/JsonLdExpressionValue'
+
+    # In the real spec, the discriminator.mapping target is a sibling schema that does NOT
+    # actually extend the promoted schema via allOf (it just happens to redeclare the same
+    # property names). Included purely so the mapping target resolves.
+    JsonLdExpressionValue:
+      type: object
+      properties:
+        '@value':
+          type: string
