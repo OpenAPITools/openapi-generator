@@ -38,13 +38,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.URI;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.security.cert.X509Certificate;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -1461,43 +1454,10 @@ public class ApiClient extends JavaTimeFormatter {
    *    server endpoints from web targets created by the client instance that is using this SSL context.
    * 4. Set the client-side trust store.
    *
-   * To completely disable certificate validation (at your own risk), you can
-   * override this method and invoke disableCertificateValidation(clientBuilder).
-   *
    * @param clientBuilder a {@link jakarta.ws.rs.client.ClientBuilder} object.
    */
   protected void customizeClientBuilder(ClientBuilder clientBuilder) {
     // No-op extension point
-  }
-
-  /**
-   * Disable X.509 certificate validation in TLS connections.
-   *
-   * Please note that trusting all certificates is extremely risky.
-   * This may be useful in a development environment with self-signed certificates.
-   *
-   * @param clientBuilder a {@link jakarta.ws.rs.client.ClientBuilder} object.
-   * @throws java.security.KeyManagementException if any.
-   * @throws java.security.NoSuchAlgorithmException if any.
-   */
-  protected void disableCertificateValidation(ClientBuilder clientBuilder) throws KeyManagementException, NoSuchAlgorithmException {
-    TrustManager[] trustAllCerts = new X509TrustManager[] {
-      new X509TrustManager() {
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-          return null;
-        }
-        @Override
-        public void checkClientTrusted(X509Certificate[] certs, String authType) {
-        }
-        @Override
-        public void checkServerTrusted(X509Certificate[] certs, String authType) {
-        }
-      }
-    };
-    SSLContext sslContext = SSLContext.getInstance("TLS");
-    sslContext.init(null, trustAllCerts, new SecureRandom());
-    clientBuilder.sslContext(sslContext);
   }
 
   /**
