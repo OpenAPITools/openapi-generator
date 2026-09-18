@@ -1051,11 +1051,26 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // Each of these lists contains elements that are similar, but they are all cloned
         // via CodegenModel.removeAllDuplicatedProperty and therefore need to be updated
         // separately.
-        // First find only the parent vars via baseName matching
-        Map<String, CodegenProperty> allVarsMap = m.allVars.stream()
-                .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
-        allVarsMap.keySet()
-                .removeAll(m.vars.stream().map(CodegenProperty::getBaseName).collect(Collectors.toSet()));
+        // First find only the parent vars via baseName matching. This is only meaningful when
+        // `m.parent` is actually set (a real Kotlin supertype exists): `DefaultCodegen`'s
+        // composed-schema property merging can populate `m.allVars` with entries absent from
+        // `m.vars` even for schemas that never establish real Kotlin inheritance -- e.g. an
+        // inline `anyOf: [$ref: X]` schema (a common self-referencing "recursive map value"
+        // idiom) where `X` has a discriminator: `ModelUtils.getParentName()` resolves a parent
+        // candidate generically across allOf/anyOf/oneOf, and `DefaultCodegen`'s "single
+        // inheritance" property-merge branch matches by ref name alone (not gated on
+        // `composed.getAllOf() != null`), merging `X`'s properties into `allProperties`/
+        // `m.allVars` without adding them to `properties`/`m.vars` -- yet Kotlin only ever sets
+        // `m.parent`/emits a supertype clause for genuine `allOf` composition. Without this
+        // guard, such properties would be wrongly marked `isInherited` (emitting Kotlin
+        // `override`) even though the generated class declares no supertype at all.
+        Map<String, CodegenProperty> allVarsMap = new HashMap<>();
+        if (m.parent != null) {
+            allVarsMap.putAll(m.allVars.stream()
+                    .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity())));
+            allVarsMap.keySet()
+                    .removeAll(m.vars.stream().map(CodegenProperty::getBaseName).collect(Collectors.toSet()));
+        }
 
         // if there is a parent, find the redefined vars
         if (m.parent != null && m.parentSchema != null) {

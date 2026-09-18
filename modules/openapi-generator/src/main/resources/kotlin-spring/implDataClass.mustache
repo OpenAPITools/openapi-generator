@@ -13,4 +13,10 @@ data class {{classname}}(
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>implClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-) : {{parent}}
+) : {{parent}}{{#vendorExtensions.x-kotlin-poly-synthetic-discriminator-overrides}} {
+{{#vendorExtensions.x-kotlin-poly-synthetic-discriminator-overrides}}
+    override val {{name}}: {{{type}}}
+        get() = {{{value}}}
+{{/vendorExtensions.x-kotlin-poly-synthetic-discriminator-overrides}}
+}
+{{/vendorExtensions.x-kotlin-poly-synthetic-discriminator-overrides}}

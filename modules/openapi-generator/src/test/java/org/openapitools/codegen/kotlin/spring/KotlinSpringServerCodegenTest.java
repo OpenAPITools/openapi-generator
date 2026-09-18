@@ -8081,4 +8081,73 @@ public class KotlinSpringServerCodegenTest {
                 "JsonSubTypes.Type(value = Circle::class)",
                 "JsonSubTypes.Type(value = Square::class)");
     }
+
+    // ========== 3 additional real-world (TMForum-sourced) compile regressions ==========
+    //
+    // Pre-existing kotlin-spring bugs, unrelated to fixPolymorphicInheritance (reproduced
+    // identically whether the flag is on or off) -- fixes are unconditional/always-on.
+
+    @Test
+    public void anyOfSingleRefToDiscriminatedSchemaDoesNotGetFalseOverrideModifier() throws IOException {
+        // Regression A: CommonFVOReverseValue is an inline schema synthesized from
+        // `additionalProperties: { anyOf: [$ref: common_FVO] }` -- a common self-referencing
+        // "recursive map value" idiom. anyOf never sets a real Kotlin `parent`/supertype, but the
+        // override-detection step previously marked its properties `isInherited` anyway (false
+        // positive), emitting `override` with no supertype clause at all ("'atType' overrides
+        // nothing"). Fixed by only seeding that detection when a real `parent` exists.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphic-inheritance-anyof-self-ref-map.yaml");
+
+        Path commonFvoReverseValue = files.get("CommonFVOReverseValue.kt").toPath();
+        assertFileNotContains(commonFvoReverseValue, "override val");
+        assertFileContains(commonFvoReverseValue, "val atType");
+    }
+
+    @Test
+    public void oneOfGroupingDiscriminatorWithoutBackingPropertyGetsSyntheticComputedOverride() throws IOException {
+        // Regression B: PartyOrPartyRole is a `oneOf`+`discriminator` grouping schema with no
+        // properties of its own -- its abstract `val atType: kotlin.String` is synthesized purely
+        // from discriminator.propertyName. Its members (RelatedOrganization, and
+        // RelatedIndividual/RelatedIndividualImpl) extend an unrelated base (Extensible, via
+        // allOf) that does not declare `atType` at all, so neither ever supplies a value, failing
+        // with "is not abstract and does not implement abstract member 'atType'". Fixed by
+        // synthesizing a computed (getter-only) override using the model's own entry in the
+        // discriminator's mapping as the literal wire value.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphic-inheritance-oneof-grouping-unbacked-discriminator.yaml");
+
+        Path relatedOrganization = files.get("RelatedOrganization.kt").toPath();
+        assertFileContains(relatedOrganization,
+                "override val atType: kotlin.String",
+                "get() = \"RelatedOrganization\"");
+
+        Path relatedIndividualImpl = files.get("RelatedIndividualImpl.kt").toPath();
+        assertFileContains(relatedIndividualImpl,
+                "override val atType: kotlin.String",
+                "get() = \"RelatedIndividual\"");
+
+        // Bird/Animal-style genuine discriminator roots (where the interface deliberately does
+        // NOT declare the discriminator as an abstract Kotlin member -- it's handled purely via
+        // @JsonIgnoreProperties/@JsonTypeInfo) must be unaffected by this fix.
+        Map<String, File> polymorphismFiles = generateFromContract("src/test/resources/3_0/kotlin/polymorphism.yaml");
+        Path bird = polymorphismFiles.get("Bird.kt").toPath();
+        assertFileNotContains(bird, "val discriminator");
+    }
+
+    @Test
+    public void inheritedEnumPropertyIsQualifiedWithParentClassnameNotChildClassname() throws IOException {
+        // Regression C: Milestone (interface, own discriminator) declares a nested `enum class
+        // Status` inside its own generated class. ProductOrderMilestone (allOf child) does not
+        // redeclare `status`, so it should inherit/override the property with the SAME nested enum
+        // type (Milestone.Status). It was previously wrongly qualified with the child's own
+        // classname (ProductOrderMilestone.Status), a type that's never declared anywhere
+        // ("unresolved reference: Status").
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphic-inheritance-child-enum-dataType.yaml");
+
+        Path productOrderMilestone = files.get("ProductOrderMilestone.kt").toPath();
+        assertFileContains(productOrderMilestone, "override val status: Milestone.Status?");
+        assertFileNotContains(productOrderMilestone, "ProductOrderMilestone.Status");
+        assertFileNotContains(productOrderMilestone, "enum class Status");
+    }
 }

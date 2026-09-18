@@ -43,6 +43,12 @@
         {{>interfaceOptVar}}{{! prevent indent}}
     {{/optionalVars}}
 {{/vendorExtensions.x-kotlin-poly-interface}}
+{{^vendorExtensions.x-kotlin-poly-interface}}
+{{#vendorExtensions.x-kotlin-poly-synthetic-discriminator-overrides}}
+    override val {{name}}: {{{type}}}
+        get() = {{{value}}}
+{{/vendorExtensions.x-kotlin-poly-synthetic-discriminator-overrides}}
+{{/vendorExtensions.x-kotlin-poly-interface}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}
     /**
     * {{{description}}}
