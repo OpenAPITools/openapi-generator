@@ -1,25 +1,29 @@
 [project]
-name = "petstore-api"
-version = "1.0.0"
-description = "OpenAPI Petstore"
+name = {{{httpx2TomlprojectName}}}
+version = {{{httpx2TomlpackageVersion}}}
+description = {{{httpx2TomlappName}}}
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
-  { name = "OpenAPI Generator Community", email = "team@openapitools.org" },
+  { name = {{{httpx2TomlinfoName}}}, email = {{{httpx2TomlinfoEmail}}} },
 ]
-keywords = ["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"]
-license = "Apache-2.0"
+keywords = ["OpenAPI", "OpenAPI-Generator", {{{httpx2TomlappName}}}]
+{{#httpx2TomllicenseInfo}}
+license = {{{httpx2TomllicenseInfo}}}
+{{/httpx2TomllicenseInfo}}
 dependencies = [
   "python-dateutil>=2.8.2",
   "httpx2>=2.13.0,<3",
+{{#hasHttpSignatureMethods}}
   "pem>=19.3.0",
   "pycryptodome>=3.9.0",
+{{/hasHttpSignatureMethods}}
   "pydantic>=2.11",
   "typing-extensions>=4.7.1",
 ]
 
 [project.urls]
-Repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
+Repository = {{{httpx2Tomlrepository}}}
 
 [dependency-groups]
 dev = [
@@ -32,18 +36,30 @@ dev = [
 ]
 
 [build-system]
+{{#hatchling}}
 requires = ["hatchling>=1.27.0"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["petstore_api"]
+packages = [{{{httpx2TomlpackageRoot}}}]
+{{/hatchling}}
+{{^hatchling}}
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = [{{{httpx2TomlpackageRoot}}}, {{{httpx2TomlpackagePattern}}}]
+
+[tool.setuptools.package-data]
+"*" = ["py.typed"]
+{{/hatchling}}
 
 [tool.pylint.'MESSAGES CONTROL']
 extension-pkg-whitelist = "pydantic"
 
 [tool.mypy]
 files = [
-  "petstore_api",
+  "{{{packageName}}}",
   #"test",  # auto-generated tests
   "tests", # hand-written tests
 ]
@@ -81,7 +97,7 @@ disallow_any_generics = true
 
 [[tool.mypy.overrides]]
 module = [
-  "petstore_api.configuration",
+  "{{{packageName}}}.configuration",
 ]
 warn_unused_ignores = true
 strict_equality = true

@@ -1,42 +1,42 @@
 [project]
-name = "petstore_api"
+name = "petstore-api"
 version = "1.0.0"
 description = "OpenAPI Petstore"
-authors = [
-  {name = "OpenAPI Generator Community",email = "team@openapitools.org"},
-]
-license = { text = "Apache-2.0" }
 readme = "README.md"
-keywords = ["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"]
 requires-python = ">=3.10"
-
+authors = [
+  { name = "OpenAPI Generator Community", email = "team@openapitools.org" },
+]
+keywords = ["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"]
+license = "Apache-2.0"
 dependencies = [
-  "python-dateutil (>=2.8.2)",
-  "httpx2 (>=2.13.0,<3)",
-  "pem (>=19.3.0)",
-  "pycryptodome (>=3.9.0)",
-  "pydantic (>=2.11)",
-  "typing-extensions (>=4.7.1)",
+  "python-dateutil>=2.8.2",
+  "httpx2>=2.13.0,<3",
+  "pem>=19.3.0",
+  "pycryptodome>=3.9.0",
+  "pydantic>=2.11",
+  "typing-extensions>=4.7.1",
 ]
 
 [project.urls]
 Repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
 
-[tool.poetry]
-requires-poetry = ">=2.0"
-
-[tool.poetry.group.dev.dependencies]
-pytest = ">= 9.0.3"
-pytest-cov = ">= 2.8.1"
-tox = ">= 3.9.0"
-flake8 = ">= 4.0.0"
-types-python-dateutil = ">= 2.8.19.14"
-mypy = ">= 1.5"
-
+[dependency-groups]
+dev = [
+  "pytest>=9.0.3",
+  "pytest-cov>=2.8.1",
+  "tox>=3.9.0",
+  "flake8>=4.0.0",
+  "types-python-dateutil>=2.8.19.14",
+  "mypy>=1.5",
+]
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.27.0"]
 build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["petstore_api"]
 
 [tool.pylint.'MESSAGES CONTROL']
 extension-pkg-whitelist = "pydantic"

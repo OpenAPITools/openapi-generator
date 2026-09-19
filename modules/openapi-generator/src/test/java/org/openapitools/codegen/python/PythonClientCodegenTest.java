@@ -51,15 +51,22 @@ public class PythonClientCodegenTest {
 
     @DataProvider(name = "httpx2Options")
     public Object[][] httpx2Options() {
-        return new Object[][] {{false, false}, {true, false}, {false, true}, {true, true}};
+        return new Object[][] {
+                {false, null, "setuptools"}, {true, null, "hatchling"},
+                {false, false, "hatchling"}, {true, false, "setuptools"},
+                {false, "false", "setuptools"}, {true, "false", "hatchling"}
+        };
     }
 
     @Test(dataProvider = "httpx2Options")
-    public void testHttpx2Generation(boolean sync, boolean poetry1) throws IOException {
+    public void testHttpx2Generation(boolean sync, Object poetry1, String backend) throws IOException {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.setLibrary("httpx2");
         codegen.additionalProperties().put(PythonClientCodegen.SUPPORT_HTTPX_SYNC, sync);
-        codegen.additionalProperties().put("poetry1", poetry1);
+        if (poetry1 != null) {
+            codegen.additionalProperties().put("poetry1", poetry1);
+        }
+        codegen.additionalProperties().put("buildSystem", backend);
         final String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
         final Path rest = Paths.get(output, "openapi_client/rest.py");
         assertFileContains(rest, "import httpx2", "httpx2.AsyncClient", "httpx2.Response",
@@ -68,13 +75,42 @@ public class PythonClientCodegenTest {
         assertFileContains(Paths.get(output, "requirements.txt"), "httpx2 >= 2.13.0, < 3");
         assertFileContains(Paths.get(output, "setup.py"), "httpx2 >= 2.13.0, < 3");
         assertFileContains(Paths.get(output, "pyproject.toml"),
-                poetry1 ? "httpx2 = \">= 2.13.0, < 3\"" : "httpx2 (>=2.13.0,<3)");
+                "httpx2>=2.13.0,<3", "[project]", "[dependency-groups]");
+        final Path pyproject = Paths.get(output, "pyproject.toml");
+        Assert.assertFalse(Files.readString(pyproject).contains("[tool.poetry"));
+        assertFileContains(pyproject, "hatchling".equals(backend)
+                ? "packages = [\"openapi_client\"]" : "[tool.setuptools.package-data]");
         assertFileContains(Paths.get(output, "openapi_client/configuration.py"), "retries: Optional[int]");
         assertFileContains(Paths.get(output, "openapi_client/api/default_api.py"), "async def ");
         Assert.assertEquals(Files.exists(Paths.get(output, "openapi_client/sync_helper.py")), sync);
         Assert.assertEquals(Files.readString(Paths.get(output, "openapi_client/api/default_api.py"))
                 .contains("_sync_with_http_info("), sync);
         Assert.assertFalse(Files.readString(Paths.get(output, "requirements.txt")).contains("httpx >="));
+    }
+
+    @Test
+    public void testHttpx2RejectsLegacyPoetry() {
+        for (Object value : List.of(true, "true")) {
+            PythonClientCodegen codegen = new PythonClientCodegen();
+            codegen.setLibrary("httpx2");
+            codegen.additionalProperties().put("poetry1", value);
+            Assert.assertThrows(IllegalArgumentException.class, codegen::processOpts);
+        }
+    }
+
+    @Test
+    public void testHttpx2TomlMetadataEscaping() {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setLibrary("httpx2");
+        codegen.processOpts();
+        Map<String, Object> data = new HashMap<>();
+        data.put("appName", "API \"quoted\"\nsecond line");
+        data.put("infoName", "Name\\path\tvalue");
+        data.put("licenseInfo", "MIT");
+        codegen.postProcessSupportingFileData(data);
+        Assert.assertEquals(data.get("httpx2TomlappName"), "\"API \\\"quoted\\\" second line\"");
+        Assert.assertEquals(data.get("httpx2TomlinfoName"), "\"Name\\\\path\\u0009value\"");
+        Assert.assertEquals(data.get("httpx2TomllicenseInfo"), "\"MIT\"");
     }
 
     @Test
