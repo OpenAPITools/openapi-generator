@@ -1,0 +1,247 @@
+openapi: 3.0.1
+info:
+  title: httpResource petstore
+  description: Operations covering each shape of the resource methods generated with withHttpResource.
+  version: 1.0.0
+servers:
+  - url: http://localhost/api
+tags:
+  - name: pet
+  - name: store
+paths:
+  /pet:
+    get:
+      tags:
+        - pet
+      summary: List pets
+      description: Every parameter is optional.
+      operationId: listPets
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: tags
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: X-Request-Id
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+    post:
+      tags:
+        - pet
+      summary: Add a pet
+      operationId: addPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+  /pet/findByStatus:
+    get:
+      tags:
+        - pet
+      summary: Find pets by status
+      operationId: findPetsByStatus
+      parameters:
+        - name: status
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - available
+                - pending
+                - sold
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      security:
+        - bearer_auth: []
+  /pet/search:
+    get:
+      tags:
+        - pet
+      summary: Search pets with a request body
+      description: A GET with a body keeps only its Observable method.
+      operationId: searchPets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/{petId}:
+    get:
+      tags:
+        - pet
+      summary: Find pet by ID
+      operationId: getPetById
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - pet
+      summary: Delete a pet
+      operationId: deletePet
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: deleted
+  /pet/{petId}/notes:
+    get:
+      tags:
+        - pet
+      summary: Notes about a pet, as plain text
+      operationId: getPetNotes
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /pet/{petId}/photo:
+    get:
+      tags:
+        - pet
+      summary: Photo of a pet
+      operationId: getPetPhoto
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  /store/inventory:
+    get:
+      tags:
+        - store
+      summary: Pet inventories by status
+      description: No parameters, with the API key sent in the query.
+      operationId: getInventory
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+      security:
+        - api_key_query: []
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
+    api_key_query:
+      type: apiKey
+      name: api_key
+      in: query
+    bearer_auth:
+      type: http
+      scheme: bearer
+  schemas:
+    Pet:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: string
+          enum:
+            - available
+            - pending
+            - sold
