@@ -1,0 +1,33 @@
+{{>licenseInfo}}
+import { Injector, ValueEqualityFn } from '@angular/core';
+import { HttpContext } from '@angular/common/http';
+
+/**
+ * Options of the generated `...Resource` methods, which return an Angular `httpResource`.
+ */
+export interface ApiHttpResourceOptions<T> {
+    /**
+     * Value of the resource while no response is available, for example while it is idle or loading.
+     */
+    defaultValue?: T;
+    /**
+     * Injector the resource is created in. Required when the method is called outside an injection context.
+     */
+    injector?: Injector;
+    /**
+     * Equality function used to compare the values of the resource.
+     */
+    equal?: ValueEqualityFn<T>;
+    /**
+     * Debug name of the resource. Used by Angular 21.1 and later, ignored before.
+     */
+    debugName?: string;
+    /**
+     * Context of the request.
+     */
+    context?: HttpContext;
+    /**
+     * Whether the SSR transfer cache may be used for the request. Defaults to true.
+     */
+    transferCache?: boolean;
+}

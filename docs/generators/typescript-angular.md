@@ -55,6 +55,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |tsVersion|The version of typescript compatible with Angular (see ngVersion option).| |null|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 |useSquareBracketsInArrayNames|Setting this property to true will add brackets to array attribute names, e.g. my_values[].| |false|
+|withHttpResource|Setting this property to true will generate, next to the Observable method of each GET operation without a request body, a method returning a signal-based Angular httpResource. Requires Angular v20+.| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |zonejsVersion|The version of zone.js compatible with Angular (see ngVersion option).| |null|
 
