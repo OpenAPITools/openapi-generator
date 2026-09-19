@@ -20,6 +20,12 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 Python {{{generatorLanguageVersion}}}
 
+{{#httpx2}}
+The HTTP transport is HTTPX2 (`httpx2 >= 2.13.0, < 3`). API methods are asynchronous.
+{{#supportHttpxSync}}
+Synchronous `_sync` variants are also available through `supportHttpxSync=true`.
+{{/supportHttpxSync}}
+{{/httpx2}}
 ## Installation & Usage
 ### pip install
 

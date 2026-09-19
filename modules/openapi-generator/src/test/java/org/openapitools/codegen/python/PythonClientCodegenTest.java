@@ -49,6 +49,34 @@ import static org.openapitools.codegen.TestUtils.assertFileExists;
 
 public class PythonClientCodegenTest {
 
+    @DataProvider(name = "httpx2Options")
+    public Object[][] httpx2Options() {
+        return new Object[][] {{false, false}, {true, false}, {false, true}, {true, true}};
+    }
+
+    @Test(dataProvider = "httpx2Options")
+    public void testHttpx2Generation(boolean sync, boolean poetry1) throws IOException {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setLibrary("httpx2");
+        codegen.additionalProperties().put(PythonClientCodegen.SUPPORT_HTTPX_SYNC, sync);
+        codegen.additionalProperties().put("poetry1", poetry1);
+        final String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+        final Path rest = Paths.get(output, "openapi_client/rest.py");
+        assertFileContains(rest, "import httpx2", "httpx2.AsyncClient", "httpx2.Response",
+                "httpx2.Proxy", "httpx2.Limits");
+        Assert.assertFalse(Files.readString(rest).contains("import httpx\n"));
+        assertFileContains(Paths.get(output, "requirements.txt"), "httpx2 >= 2.13.0, < 3");
+        assertFileContains(Paths.get(output, "setup.py"), "httpx2 >= 2.13.0, < 3");
+        assertFileContains(Paths.get(output, "pyproject.toml"),
+                poetry1 ? "httpx2 = \">= 2.13.0, < 3\"" : "httpx2 (>=2.13.0,<3)");
+        assertFileContains(Paths.get(output, "openapi_client/configuration.py"), "retries: Optional[int]");
+        assertFileContains(Paths.get(output, "openapi_client/api/default_api.py"), "async def ");
+        Assert.assertEquals(Files.exists(Paths.get(output, "openapi_client/sync_helper.py")), sync);
+        Assert.assertEquals(Files.readString(Paths.get(output, "openapi_client/api/default_api.py"))
+                .contains("_sync_with_http_info("), sync);
+        Assert.assertFalse(Files.readString(Paths.get(output, "requirements.txt")).contains("httpx >="));
+    }
+
     @Test
     public void testInitialConfigValues() throws Exception {
         final PythonClientCodegen codegen = new PythonClientCodegen();
@@ -1420,15 +1448,20 @@ public class PythonClientCodegenTest {
         };
     }
 
-    @Test
-    public void testIndependentImplicitClientLifecycleOperationNames()
+    @DataProvider(name = "httpxLibraries")
+    public Object[][] httpxLibraries() {
+        return new Object[][] {{"httpx"}, {"httpx2"}};
+    }
+
+    @Test(dataProvider = "httpxLibraries")
+    public void testIndependentImplicitClientLifecycleOperationNames(String library)
             throws IOException {
         final PythonClientCodegen disabled = new PythonClientCodegen();
         disabled.processOpts();
         Assert.assertEquals(disabled.toOperationId("close"), "close");
 
         final PythonClientCodegen httpxSync = new PythonClientCodegen();
-        httpxSync.setLibrary("httpx");
+        httpxSync.setLibrary(library);
         httpxSync.additionalProperties().put(
                 PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS, true);
         httpxSync.additionalProperties().put(PythonClientCodegen.SUPPORT_HTTPX_SYNC, true);
