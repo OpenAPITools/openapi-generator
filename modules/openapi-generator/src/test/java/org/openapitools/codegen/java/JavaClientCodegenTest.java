@@ -1871,15 +1871,8 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testDiscriminatorPropertyRefToEnumDoesNotEmitInvalidDefault_issue24874() {
-        final Path output = newTempFolder();
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName(JAVA_GENERATOR)
-                .setInputSpec("src/test/resources/bugs/issue_24874.yaml")
-                .setAdditionalProperties(Map.of(MODEL_NAME_PREFIX, "Stock"))
-                .setOutputDir(output.toString().replace("\\", "/"));
-
-        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_24874.yaml", OKHTTP_GSON,
+                Map.of(MODEL_NAME_PREFIX, "Stock"));
 
         // CategoryEvent.category is a discriminator property that is a `$ref` to another schema's
         // (CategorySource) inline enum property, not to a named enum schema and not an inline enum
