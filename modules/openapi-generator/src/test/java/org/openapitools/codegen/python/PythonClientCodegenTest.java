@@ -49,6 +49,38 @@ import static org.openapitools.codegen.TestUtils.assertFileExists;
 
 public class PythonClientCodegenTest {
 
+    @DataProvider(name = "pythonPackagingOptions")
+    public Object[][] pythonPackagingOptions() {
+        List<Object[]> options = new ArrayList<>();
+        for (String library : List.of("urllib3", "httpx", "asyncio")) {
+            for (Object poetry1 : Arrays.asList(null, false, "false", true, "true")) {
+                options.add(new Object[] {library, poetry1});
+            }
+        }
+        return options.toArray(new Object[0][]);
+    }
+
+    @Test(dataProvider = "pythonPackagingOptions")
+    public void testPythonPackagingModes(String library, Object poetry1) throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setLibrary(library);
+        if (poetry1 != null) {
+            codegen.additionalProperties().put("poetry1", poetry1);
+        }
+        String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+        Path pyproject = Paths.get(output, "pyproject.toml");
+        String content = Files.readString(pyproject);
+        boolean legacy = Boolean.parseBoolean(String.valueOf(poetry1));
+        if (legacy) {
+            assertFileContains(pyproject, "[tool.poetry.dev-dependencies]", "Deprecated by Poetry");
+            Assert.assertFalse(content.contains("[project]"));
+            Assert.assertFalse(content.contains("[dependency-groups]"));
+        } else {
+            assertFileContains(pyproject, "[project]", "[dependency-groups]", "pytest>=9.0.3");
+            Assert.assertFalse(content.contains("[tool.poetry"));
+        }
+    }
+
     @DataProvider(name = "httpx2Options")
     public Object[][] httpx2Options() {
         return new Object[][] {
@@ -63,6 +95,7 @@ public class PythonClientCodegenTest {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.setLibrary("httpx2");
         codegen.additionalProperties().put(PythonClientCodegen.SUPPORT_HTTPX_SYNC, sync);
+        codegen.additionalProperties().put("licenseInfo", "Apache 2.0");
         if (poetry1 != null) {
             codegen.additionalProperties().put("poetry1", poetry1);
         }
@@ -75,11 +108,13 @@ public class PythonClientCodegenTest {
         assertFileContains(Paths.get(output, "requirements.txt"), "httpx2 >= 2.13.0, < 3");
         assertFileContains(Paths.get(output, "setup.py"), "httpx2 >= 2.13.0, < 3");
         assertFileContains(Paths.get(output, "pyproject.toml"),
-                "httpx2>=2.13.0,<3", "[project]", "[dependency-groups]");
+                "name = \"openapi_client\"", "license = { text = \"Apache 2.0\" }",
+                "httpx2 (>=2.13.0,<3)", "[project]", "[dependency-groups]");
         final Path pyproject = Paths.get(output, "pyproject.toml");
         Assert.assertFalse(Files.readString(pyproject).contains("[tool.poetry"));
-        assertFileContains(pyproject, "hatchling".equals(backend)
-                ? "packages = [\"openapi_client\"]" : "[tool.setuptools.package-data]");
+        assertFileContains(pyproject, "requires = [\"" + backend + "\"]");
+        Assert.assertFalse(Files.readString(pyproject).contains("[tool.hatch.build.targets.wheel]"));
+        Assert.assertFalse(Files.readString(pyproject).contains("[tool.setuptools.packages.find]"));
         assertFileContains(Paths.get(output, "openapi_client/configuration.py"), "retries: Optional[int]");
         assertFileContains(Paths.get(output, "openapi_client/api/default_api.py"), "async def ");
         Assert.assertEquals(Files.exists(Paths.get(output, "openapi_client/sync_helper.py")), sync);
@@ -96,21 +131,6 @@ public class PythonClientCodegenTest {
             codegen.additionalProperties().put("poetry1", value);
             Assert.assertThrows(IllegalArgumentException.class, codegen::processOpts);
         }
-    }
-
-    @Test
-    public void testHttpx2TomlMetadataEscaping() {
-        PythonClientCodegen codegen = new PythonClientCodegen();
-        codegen.setLibrary("httpx2");
-        codegen.processOpts();
-        Map<String, Object> data = new HashMap<>();
-        data.put("appName", "API \"quoted\"\nsecond line");
-        data.put("infoName", "Name\\path\tvalue");
-        data.put("licenseInfo", "MIT");
-        codegen.postProcessSupportingFileData(data);
-        Assert.assertEquals(data.get("httpx2TomlappName"), "\"API \\\"quoted\\\" second line\"");
-        Assert.assertEquals(data.get("httpx2TomlinfoName"), "\"Name\\\\path\\u0009value\"");
-        Assert.assertEquals(data.get("httpx2TomllicenseInfo"), "\"MIT\"");
     }
 
     @Test

@@ -416,7 +416,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             supportingFiles.add(new SupportingFile("github-workflow.mustache", ".github/workflows", "python.yml"));
             supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
-            supportingFiles.add(new SupportingFile("httpx2".equals(getLibrary()) ? "httpx2/pyproject.mustache" : "pyproject.mustache", "", "pyproject.toml"));
+            supportingFiles.add(new SupportingFile("pyproject.mustache", "", "pyproject.toml"));
             supportingFiles.add(new SupportingFile("py.typed.mustache", packagePath(), "py.typed"));
         }
         supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
@@ -670,72 +670,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     private boolean usesLegacyApiCompatibility() {
         return compatibleWithPythonLegacy && DEFAULT_LIBRARY.equals(getLibrary());
-    }
-
-    @Override
-    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> data) {
-        super.postProcessSupportingFileData(data);
-        if (!"httpx2".equals(getLibrary())) {
-            return data;
-        }
-        // OpenAPI metadata in the normal bundle is already escaped for Python source.
-        // Read its original values so TOML receives exactly one round of escaping.
-        Map<String, Object> metadata = new HashMap<>();
-        for (String key : List.of("projectName", "packageVersion", "appName", "infoName", "infoEmail", "licenseInfo")) {
-            metadata.put(key, data.get(key));
-        }
-        if (openAPI != null && openAPI.getInfo() != null) {
-            var info = openAPI.getInfo();
-            if (info.getTitle() != null) {
-                metadata.put("appName", info.getTitle());
-            }
-            if (info.getContact() != null) {
-                if (info.getContact().getName() != null) {
-                    metadata.put("infoName", info.getContact().getName());
-                }
-                if (info.getContact().getEmail() != null) {
-                    metadata.put("infoEmail", info.getContact().getEmail());
-                }
-            }
-            if (info.getLicense() != null) {
-                var license = info.getLicense();
-                metadata.put("licenseInfo", license.getIdentifier() != null
-                        ? license.getIdentifier() : license.getName());
-            }
-        }
-        if (metadata.get("infoName") == null) {
-            metadata.put("infoName", "OpenAPI Generator Community");
-        }
-        if (metadata.get("infoEmail") == null) {
-            metadata.put("infoEmail", "team@openapitools.org");
-        }
-        // Core Metadata requires a single-line summary.
-        metadata.put("appName", (metadata.get("appName") == null ? "" : metadata.get("appName").toString())
-                .replace('\n', ' ').replace('\r', ' '));
-        metadata.put("repository", "https://" + data.get("gitHost") + "/"
-                + data.get("gitUserId") + "/" + data.get("gitRepoId"));
-        metadata.put("packageRoot", packageName.split("\\.")[0]);
-        metadata.put("packagePattern", packageName.split("\\.")[0] + ".*");
-        for (Map.Entry<String, Object> entry : metadata.entrySet()) {
-            if (entry.getValue() != null) {
-                data.put("httpx2Toml" + entry.getKey(), tomlString(entry.getValue().toString()));
-            }
-        }
-        return data;
-    }
-
-    private String tomlString(String value) {
-        StringBuilder escaped = new StringBuilder("\"");
-        for (char character : value.toCharArray()) {
-            if (character == '\\' || character == '"') {
-                escaped.append('\\').append(character);
-            } else if (character < 0x20 || character == 0x7f) {
-                escaped.append(String.format(Locale.ROOT, "\\u%04X", (int) character));
-            } else {
-                escaped.append(character);
-            }
-        }
-        return escaped.append('"').toString();
     }
 
     private boolean isHttpxLibrary() {

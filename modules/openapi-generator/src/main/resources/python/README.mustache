@@ -20,16 +20,22 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 Python {{{generatorLanguageVersion}}}
 
-{{#httpx2}}
-The HTTP transport is HTTPX2 (`httpx2 >= 2.13.0, < 3`). API methods are asynchronous.
-
+{{#poetry1}}
+Packaging retains the deprecated `[tool.poetry.dev-dependencies]` table for
+compatibility with legacy Poetry 1 releases. Generate with `poetry1=false` to use
+standard project metadata and PEP 735 development dependency groups.
+{{/poetry1}}
+{{^poetry1}}
 Packaging uses standard `[project]` metadata and `[dependency-groups]` (PEP 621/735).
 Install the package with `python -m pip install .`; install development dependencies
 with Poetry 2.2 or newer using `poetry install`, or pip 25.1 or newer using
 `python -m pip install --group dev`. The latter installs the group, not the package.
+{{/poetry1}}
+
+{{#httpx2}}
+The HTTP transport is HTTPX2 (`httpx2 >= 2.13.0, < 3`). API methods are asynchronous.
+
 The `poetry1=true` generator option is not supported by HTTPX2.
-When supplying license metadata, use a valid SPDX expression (for example `MIT`
-or `Apache-2.0`); the build backend validates it according to PEP 639.
 {{#supportHttpxSync}}
 Synchronous `_sync` variants are also available through `supportHttpxSync=true`.
 {{/supportHttpxSync}}
@@ -72,4 +78,3 @@ Execute `pytest` to run the tests.
 Please follow the [installation procedure](#installation--usage) and then run the following:
 
 {{> common_README }}
-
