@@ -28,7 +28,7 @@ data class Dog(
     @Schema(required = true, description = "")
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("className", required = true)
-    @get:JsonProperty("className", required = true) override val className: kotlin.String,
+    @get:JsonProperty("className", required = true) override val className: kotlin.String = "DOG",
 
     @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
