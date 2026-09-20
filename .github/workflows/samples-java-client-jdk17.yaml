@@ -17,6 +17,7 @@ on:
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/restclient-enum-in-multipart/**
       - samples/client/others/java/restclient-sealedInterface/**
+      - samples/client/others/java/restclient-jackson-default-impl/**
       - samples/client/others/java/restclient-useAbstractionForFiles/**
       - samples/client/petstore/java/jersey3-oneOf/**
       - samples/client/petstore/java/jersey3-jackson3/**
@@ -37,6 +38,7 @@ on:
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/restclient-enum-in-multipart/**
       - samples/client/others/java/restclient-sealedInterface/**
+      - samples/client/others/java/restclient-jackson-default-impl/**
       - samples/client/others/java/restclient-useAbstractionForFiles/**
       - samples/client/petstore/java/jersey3-oneOf/**
       - samples/client/petstore/java/jersey3-jackson3/**
@@ -72,6 +74,7 @@ jobs:
           - samples/client/petstore/java/webclient-useSingleRequestParameter
           - samples/client/others/java/restclient-enum-in-multipart
           - samples/client/others/java/restclient-sealedInterface
+          - samples/client/others/java/restclient-jackson-default-impl
           - samples/client/others/java/restclient-useAbstractionForFiles
           - samples/client/petstore/java/jersey3-oneOf
           - samples/client/petstore/java/jersey3-jackson3
