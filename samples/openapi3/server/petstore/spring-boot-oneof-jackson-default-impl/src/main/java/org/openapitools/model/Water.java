@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  * Water
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Water implements Beverage {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
