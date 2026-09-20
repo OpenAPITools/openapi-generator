@@ -50,7 +50,7 @@ public class FooApi extends BaseApi {
      * @return Foo
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Foo fooDtParamGet(java.time.Instant dtParam, java.time.Instant dtQuery, java.time.Instant dtCookie, String color) throws RestClientException {
+    public Foo fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws RestClientException {
         return fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, color).getBody();
     }
 
@@ -65,7 +65,7 @@ public class FooApi extends BaseApi {
      * @return ResponseEntity&lt;Foo&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Foo> fooDtParamGetWithHttpInfo(java.time.Instant dtParam, java.time.Instant dtQuery, java.time.Instant dtCookie, String color) throws RestClientException {
+    public ResponseEntity<Foo> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color) throws RestClientException {
         Object localVarPostBody = null;
         
         // create path and map variables
