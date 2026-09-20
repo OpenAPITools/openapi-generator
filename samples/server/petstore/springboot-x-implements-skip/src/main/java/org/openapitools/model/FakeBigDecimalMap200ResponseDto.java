@@ -72,7 +72,7 @@ public class FakeBigDecimalMap200ResponseDto {
    * Get someMap
    * @return someMap
    */
-  @Valid 
+  
   @Schema(name = "someMap", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("someMap")
   public Map<String, BigDecimal> getSomeMap() {
