@@ -6866,6 +6866,24 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testPathConstantGeneratedForSpringHttpInterfaceLibrary() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-http-interface");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+
+        // Check that the path constant field is generated
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+            .fileContains("String PATH_GET_PET_BY_ID = \"/pet/{petId}\";");
+
+        // Check that @HttpExchange's value attribute reuses the constant instead of a hardcoded path
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+            .assertMethod("getPetById")
+            .assertMethodAnnotations()
+            .containsWithNameAndAttributes("HttpExchange", ImmutableMap.of("value", "PetApi.PATH_GET_PET_BY_ID"));
+    }
+
+    @Test
     public void testClientRegistrationIdAnnotationNotPresentWhenNotConfigured() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-http-interface");
