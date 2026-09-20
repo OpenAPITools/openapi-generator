@@ -272,9 +272,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         this.setLegacyDiscriminatorBehavior(false);
 
         super.processOpts();
-        if ("httpx2".equals(getLibrary()) && additionalProperties.containsKey(POETRY1_FALLBACK)
-                && convertPropertyToBooleanAndWriteBack(POETRY1_FALLBACK)) {
-            throw new IllegalArgumentException("httpx2 requires modern Python packaging; poetry1=true is not supported.");
+        if (additionalProperties.containsKey(POETRY1_FALLBACK)) {
+            convertPropertyToBooleanAndWriteBack(POETRY1_FALLBACK);
         }
 
         // map to Dot instead of Period

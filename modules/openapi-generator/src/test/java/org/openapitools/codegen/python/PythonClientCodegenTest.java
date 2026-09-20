@@ -52,7 +52,7 @@ public class PythonClientCodegenTest {
     @DataProvider(name = "pythonPackagingOptions")
     public Object[][] pythonPackagingOptions() {
         List<Object[]> options = new ArrayList<>();
-        for (String library : List.of("urllib3", "httpx", "asyncio")) {
+        for (String library : List.of("urllib3", "httpx", "httpx2", "asyncio")) {
             for (Object poetry1 : Arrays.asList(null, false, "false", true, "true")) {
                 options.add(new Object[] {library, poetry1});
             }
@@ -78,6 +78,11 @@ public class PythonClientCodegenTest {
         } else {
             assertFileContains(pyproject, "[project]", "[dependency-groups]", "pytest>=9.0.3");
             Assert.assertFalse(content.contains("[tool.poetry"));
+        }
+        if ("httpx2".equals(library)) {
+            assertFileContains(pyproject, legacy
+                    ? "httpx2 = \">= 2.13.0, < 3\""
+                    : "httpx2 (>=2.13.0,<3)");
         }
     }
 
@@ -121,16 +126,6 @@ public class PythonClientCodegenTest {
         Assert.assertEquals(Files.readString(Paths.get(output, "openapi_client/api/default_api.py"))
                 .contains("_sync_with_http_info("), sync);
         Assert.assertFalse(Files.readString(Paths.get(output, "requirements.txt")).contains("httpx >="));
-    }
-
-    @Test
-    public void testHttpx2RejectsLegacyPoetry() {
-        for (Object value : List.of(true, "true")) {
-            PythonClientCodegen codegen = new PythonClientCodegen();
-            codegen.setLibrary("httpx2");
-            codegen.additionalProperties().put("poetry1", value);
-            Assert.assertThrows(IllegalArgumentException.class, codegen::processOpts);
-        }
     }
 
     @Test
