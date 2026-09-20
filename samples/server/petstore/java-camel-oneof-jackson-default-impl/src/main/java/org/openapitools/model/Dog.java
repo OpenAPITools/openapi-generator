@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  * Dog
  */
 
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Dog implements Animal {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

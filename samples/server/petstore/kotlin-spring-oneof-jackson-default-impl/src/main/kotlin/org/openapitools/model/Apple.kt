@@ -26,7 +26,7 @@ import jakarta.validation.Valid
 data class Apple(
 
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("fruitType")
+    @param:JsonProperty("fruitType", required = true)
     @get:JsonProperty("fruitType", required = true) override val fruitType: kotlin.String = "APPLE",
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)

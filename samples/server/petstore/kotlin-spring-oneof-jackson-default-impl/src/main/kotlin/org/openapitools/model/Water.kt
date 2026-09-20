@@ -26,7 +26,7 @@ import jakarta.validation.Valid
 data class Water(
 
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("beverageType")
+    @param:JsonProperty("beverageType", required = true)
     @get:JsonProperty("beverageType", required = true) override val beverageType: kotlin.String = "WATER",
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
