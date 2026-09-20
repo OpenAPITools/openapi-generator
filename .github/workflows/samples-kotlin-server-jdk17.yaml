@@ -46,6 +46,7 @@ jobs:
       matrix:
         sample:
           # server
+          - samples/server/others/kotlin-springboot/allOf-multilevel
           - samples/server/others/kotlin-springboot/oneOf-discriminator
           - samples/server/others/kotlin-springboot/oneOf-discriminator-const
           - samples/server/others/kotlin-springboot/oneOf-enum-discriminator

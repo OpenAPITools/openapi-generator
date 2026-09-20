@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  title: Multi-level allOf with property names that are not Kotlin identifiers
+  version: "1.0"
+paths: {}
+components:
+  schemas:
+    Base:
+      type: object
+      discriminator:
+        propertyName: kind
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+    # Mid has a child, so it renders as an `open class` whose equals/hashCode/
+    # toString/copy are generated rather than supplied by the compiler. Its
+    # properties need back-ticks in Kotlin, which those members must handle.
+    Mid:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+        - type: object
+          properties:
+            2nd_field:
+              type: string
+            object:
+              type: string
+    Leaf:
+      allOf:
+        - $ref: '#/components/schemas/Mid'
+        - type: object
+          properties:
+            extra:
+              type: string
