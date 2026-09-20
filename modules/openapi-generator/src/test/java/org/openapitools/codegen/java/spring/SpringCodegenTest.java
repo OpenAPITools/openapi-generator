@@ -9398,4 +9398,29 @@ public class SpringCodegenTest {
                 .fileContains(expectedContains);
     }
 
+    @Test
+    public void testResponseProducesAnnotation_issue21385() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(USE_BEANVALIDATION, "false");
+        additionalProperties.put(USE_JAKARTA_EE, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_21385.yaml",
+                SPRING_BOOT,
+                additionalProperties
+        );
+
+        JavaFileAssert.assertThat(files.get("PetsApi.java"))
+                .fileContains(
+                        "@Content(mediaType = \"application/json\", schema = @Schema(implementation = PetDetailsResponse.class))",
+                        "@Content(mediaType = \"application/problem+json\", schema = @Schema(implementation = ProblemDetails.class))",
+                        "produces = { \"application/json\", \"application/problem+json\" }"
+                )
+                .fileDoesNotContain(
+                        "@Content(mediaType = \"application/problem+json\", schema = @Schema(implementation = PetDetailsResponse.class))",
+                        "@Content(mediaType = \"application/json\", schema = @Schema(implementation = ProblemDetails.class))"
+                );
+    }
+
 }

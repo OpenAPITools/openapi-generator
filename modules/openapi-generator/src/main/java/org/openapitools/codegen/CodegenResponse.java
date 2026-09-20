@@ -102,6 +102,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private boolean hasMultipleTypes = false;
     @Getter @Setter
     private LinkedHashMap<String, CodegenMediaType> content;
+    @Getter @Setter
+    private List<Map<String, String>> responseProduces;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
     public CodegenProperty returnProperty;
@@ -118,7 +120,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
                 is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, responseHeaders, content,
-                requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties);
+                requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties, responseProduces);
     }
 
     @Override
@@ -175,6 +177,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 Objects.equals(ref, that.getRef()) &&
                 Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
                 Objects.equals(content, that.getContent()) &&
+                Objects.equals(responseProduces, that.getResponseProduces()) &&
                 Objects.equals(responseHeaders, that.getResponseHeaders()) &&
                 Objects.equals(composedSchemas, that.getComposedSchemas()) &&
                 Objects.equals(vars, that.vars) &&
@@ -648,6 +651,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
         sb.append(", responseHeaders=").append(responseHeaders);
         sb.append(", content=").append(content);
+        sb.append(", responseProduces=").append(responseProduces);
         sb.append(", requiredVarsMap=").append(requiredVarsMap);
         sb.append(", ref=").append(ref);
         sb.append(", schemaIsFromAdditionalProperties=").append(schemaIsFromAdditionalProperties);

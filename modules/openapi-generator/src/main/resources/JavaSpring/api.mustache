@@ -186,7 +186,7 @@ public interface {{classname}} {
         responses = {
             {{#responses}}
             @ApiResponse(responseCode = {{#isDefault}}"default"{{/isDefault}}{{^isDefault}}"{{{code}}}"{{/isDefault}}, description = "{{{message}}}"{{#baseType}}, content = {
-                {{#produces}}
+                {{#responseProduces}}
                 @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}{{^isJson}}){{^-last}},{{/-last}}{{/isJson}}{{#isJson}}{{^examples.0}}){{^-last}},{{/-last}}{{/examples.0}}{{#examples.0}}, examples = {
                 {{#examples}}
                     @ExampleObject(
@@ -200,7 +200,7 @@ public interface {{classname}} {
                 {{^-last}}
                 }),
                 {{/-last}}{{/examples.0}}{{/isJson}}
-                {{/produces}}
+                {{/responseProduces}}
             }{{/baseType}}){{^-last}},{{/-last}}
             {{/responses}}
         }{{#hasAuthMethods}},

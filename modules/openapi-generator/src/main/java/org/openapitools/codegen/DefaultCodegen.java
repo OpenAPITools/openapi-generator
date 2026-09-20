@@ -4999,6 +4999,8 @@ public class DefaultCodegen implements CodegenConfig {
                 String mediaTypeSchemaSuffix = String.format(Locale.ROOT, "%sResponseBody", r.code);
                 r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
 
+                addResponseProducesInfo(response, r);
+
                 if (r.baseType != null &&
                         !defaultIncludes.contains(r.baseType) &&
                         !languageSpecificPrimitives.contains(r.baseType)) {
@@ -7736,6 +7738,36 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenOperation.hasProduces = Boolean.TRUE;
             }
         }
+    }
+
+    /**
+     * Populates the CodegenResponse's own `produces` list, scoped to only
+     * the media types declared on this specific response - unlike
+     * addProducesInfo(), which accumulates media types across all
+     * responses of the operation for use in @RequestMapping.
+     *
+     * @param inputResponse the raw spec response for a single status code
+     * @param codegenResponse the CodegenResponse being built for that response
+     */
+    private void addResponseProducesInfo(ApiResponse inputResponse, CodegenResponse codegenResponse) {
+        ApiResponse response = ModelUtils.getReferencedApiResponse(this.openAPI, inputResponse);
+        if (response == null || response.getContent() == null || response.getContent().isEmpty()) {
+            return;
+        }
+
+        List<Map<String, String>> responseProduces = new ArrayList<>();
+        for (String mediaTypeKey : response.getContent().keySet()) {
+            String encodedKey = "*/*".equals(mediaTypeKey) ? mediaTypeKey : escapeQuotationMark(mediaTypeKey);
+            Map<String, String> mediaType = new HashMap<>();
+            mediaType.put("mediaType", encodedKey);
+            if (isJsonMimeType(encodedKey)) {
+                mediaType.put("isJson", "true");
+            } else if (isXmlMimeType(encodedKey)) {
+                mediaType.put("isXml", "true");
+            }
+            responseProduces.add(mediaType);
+        }
+        codegenResponse.setResponseProduces(responseProduces);
     }
 
     /**
