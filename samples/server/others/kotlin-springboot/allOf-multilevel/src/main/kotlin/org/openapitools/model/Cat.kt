@@ -22,7 +22,7 @@ import jakarta.validation.Valid
 data class Cat(
 
     @param:JsonProperty("className", required = true)
-    @get:JsonProperty("className", required = true) override val className: kotlin.String,
+    @get:JsonProperty("className", required = true) override val className: kotlin.String = "Cat",
 
     @param:JsonProperty("breed")
     @get:JsonProperty("breed") val breed: kotlin.String? = null,
