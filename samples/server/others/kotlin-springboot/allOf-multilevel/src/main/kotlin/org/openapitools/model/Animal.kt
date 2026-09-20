@@ -31,7 +31,7 @@ import jakarta.validation.Valid
       JsonSubTypes.Type(value = Dog::class, name = "Dog")
 )
 
-interface Animal {
+sealed interface Animal {
         
         val className: kotlin.String
 

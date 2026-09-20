@@ -14,7 +14,7 @@
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
-{{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#vendorExtensions.x-is-open-class}}open {{/vendorExtensions.x-is-open-class}}{{^vendorExtensions.x-is-open-class}}{{#hasVars}}data {{/hasVars}}{{/vendorExtensions.x-is-open-class}}class {{classname}}(
+{{#discriminator}}{{#useSealedDiscriminatorInterfaces}}sealed {{/useSealedDiscriminatorInterfaces}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#vendorExtensions.x-is-open-class}}open {{/vendorExtensions.x-is-open-class}}{{^vendorExtensions.x-is-open-class}}{{#hasVars}}data {{/hasVars}}{{/vendorExtensions.x-is-open-class}}class {{classname}}(
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
