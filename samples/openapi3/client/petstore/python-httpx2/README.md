@@ -19,7 +19,6 @@ with Poetry 2.2 or newer using `poetry install`, or pip 25.1 or newer using
 
 The HTTP transport is HTTPX2 (`httpx2 >= 2.13.0, < 3`). API methods are asynchronous.
 
-The `poetry1=true` generator option is not supported by HTTPX2.
 ## Installation & Usage
 ### pip install
 
@@ -321,6 +320,5 @@ Authentication schemes defined for the API:
 
 
 ## Author
-
 
 
