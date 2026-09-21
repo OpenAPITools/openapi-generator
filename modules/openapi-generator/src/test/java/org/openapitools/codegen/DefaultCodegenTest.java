@@ -304,7 +304,10 @@ public class DefaultCodegenTest {
         // Simulates generators (e.g. Dart, TypeScript Fetch) that override the public
         // fromParameter(Parameter, Set<String>) and call super.fromParameter(...) internally.
         // fromOperation's parameter loop must dispatch through this override, not bypass it via
-        // the private 3-arg overload used for parameter-level vendor extension injection.
+        // the private 3-arg overload used for parameter-level vendor extension injection. Also
+        // registers an injected parameter-level vendor extension for the same parameter, to verify
+        // both mechanisms (override dispatch and parameter-level injection) still work together
+        // when a subclass overrides fromParameter and delegates to super.
         final class OverridingCodegen extends DefaultCodegen {
             @Override
             public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
@@ -316,6 +319,7 @@ public class DefaultCodegenTest {
 
         final OverridingCodegen codegen = new OverridingCodegen();
         codegen.setOpenAPI(new OpenAPI().components(new Components()));
+        codegen.injectOperationVendorExtensions().put("markedOperation.orgId.x-foo", List.of("bar"));
 
         Operation operation = new Operation()
                 .operationId("markedOperation")
@@ -329,6 +333,7 @@ public class DefaultCodegenTest {
 
         assertEquals(1, co.allParams.size());
         assertEquals(Boolean.TRUE, co.allParams.get(0).vendorExtensions.get("x-marked-by-override"));
+        assertEquals(List.of("bar"), co.allParams.get(0).vendorExtensions.get("x-foo"));
     }
 
     @Test

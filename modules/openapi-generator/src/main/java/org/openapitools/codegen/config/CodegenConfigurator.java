@@ -149,10 +149,16 @@ public class CodegenConfigurator {
                 configurator.operationIdNameMappings.putAll(generatorSettings.getOperationIdNameMappings());
             }
             if (generatorSettings.getInjectModelVendorExtensions() != null) {
-                configurator.injectModelVendorExtensions.putAll(generatorSettings.getInjectModelVendorExtensions());
+                // Deep-copy: getInjectModelVendorExtensions() returns unmodifiable lists, and this
+                // configurator's own injectModelVendorExtensions field must stay independently
+                // mutable so a later addInjectModelVendorExtension() call (e.g. a CLI flag adding
+                // to a key already present in the config file) can still append to it.
+                generatorSettings.getInjectModelVendorExtensions().forEach((key, value) ->
+                        configurator.injectModelVendorExtensions.put(key, new ArrayList<>(value)));
             }
             if (generatorSettings.getInjectOperationVendorExtensions() != null) {
-                configurator.injectOperationVendorExtensions.putAll(generatorSettings.getInjectOperationVendorExtensions());
+                generatorSettings.getInjectOperationVendorExtensions().forEach((key, value) ->
+                        configurator.injectOperationVendorExtensions.put(key, new ArrayList<>(value)));
             }
             if (generatorSettings.getOpenapiNormalizer() != null) {
                 configurator.openapiNormalizer.putAll(generatorSettings.getOpenapiNormalizer());
@@ -300,7 +306,7 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setInjectModelVendorExtensions(Map<String, List<String>> extensions) {
         this.injectModelVendorExtensions = extensions;
-        generatorSettingsBuilder.withInjectModelVendorExtensions(deepCopyInjectVendorExtensions(extensions));
+        generatorSettingsBuilder.withInjectModelVendorExtensions(extensions);
         return this;
     }
 
@@ -319,24 +325,8 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setInjectOperationVendorExtensions(Map<String, List<String>> extensions) {
         this.injectOperationVendorExtensions = extensions;
-        generatorSettingsBuilder.withInjectOperationVendorExtensions(deepCopyInjectVendorExtensions(extensions));
+        generatorSettingsBuilder.withInjectOperationVendorExtensions(extensions);
         return this;
-    }
-
-    /**
-     * Returns a deep copy of an {@code injectModelVendorExtensions}/{@code injectOperationVendorExtensions}
-     * map (a new outer map with a new list per entry), so this configurator's own field and the
-     * {@code generatorSettingsBuilder}'s copy never reference the same mutable {@code List}
-     * instances. Without this, calling {@code addInject*VendorExtension} for a key already present
-     * in a map previously passed to {@code setInject*VendorExtensions} would append {@code value} to
-     * that shared list twice (once via this configurator's field, once via the builder).
-     */
-    private static Map<String, List<String>> deepCopyInjectVendorExtensions(Map<String, List<String>> source) {
-        Map<String, List<String>> copy = new HashMap<>();
-        if (source != null) {
-            source.forEach((key, value) -> copy.put(key, new ArrayList<>(value)));
-        }
-        return copy;
     }
 
     public CodegenConfigurator addOpenapiNormalizer(String key, String value) {
