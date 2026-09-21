@@ -316,6 +316,20 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_RESPONSE_AS_RETURN_TYPE, "When using retrofit2 and coroutines, use `Response`<`T`> as return type instead of `T`.", true));
 
         cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Requires serializationLibrary=jackson. Incompatible with openApiNullable."));
+
+        // AbstractKotlinCodegen calls cliOptions.clear(), dropping DefaultCodegen's registration.
+        // Re-registered on kotlin alone: no other Kotlin generator's templates implement the fallback.
+        CliOption enumUnknownDefaultCaseOpt = CliOption.newBoolean(
+                CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE,
+                "Add an `unknown_default_open_api` enum case as a fallback for unrecognized values. Only `moshi`, `jackson` and `kotlinx_serialization`(serializationLibrary) decode unknown values to it; `gson` and `multiplatform` add the case but still fail on unknown values.")
+                .defaultValue(Boolean.FALSE.toString());
+        Map<String, String> enumUnknownDefaultCaseOpts = new HashMap<>();
+        enumUnknownDefaultCaseOpts.put("false",
+                "No changes to the enums are made, this is the default option.");
+        enumUnknownDefaultCaseOpts.put("true",
+                "Each enum gains an `unknown_default_open_api` case that unrecognized values decode to.");
+        enumUnknownDefaultCaseOpt.setEnum(enumUnknownDefaultCaseOpts);
+        cliOptions.add(enumUnknownDefaultCaseOpt);
     }
 
     @Override
