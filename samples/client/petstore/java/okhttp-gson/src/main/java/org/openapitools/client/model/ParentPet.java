@@ -56,55 +56,18 @@ public class ParentPet extends GrandparentAnimal {
     this.petType = this.getClass().getSimpleName();
   }
   /**
-   * A container for additional, undeclared properties.
-   * This is a holder for any undeclared properties as specified with
-   * the 'additionalProperties' keyword in the OAS document.
-   *
-   * Transient (on models without children): the bag is read and written by this model's
-   * TypeAdapterFactory, so gson's reflection does not need to see it. Gson collects the
-   * declared fields of every class in the hierarchy and rejects two bound to one JSON
-   * name, which is what an allOf child - declaring the field itself and inheriting it -
-   * used to hit. A parent with children has no factory of its own, so it keeps the field
-   * bound for reflection; the child excludes only its own copy, leaving exactly one.
-   */
-  private transient Map<String, Object> additionalProperties;
-
-  /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   * The bag itself is inherited: it is declared once, on the root of the hierarchy.
    *
    * @param key name of the property
    * @param value value of the property
    * @return the ParentPet instance itself
    */
+  @Override
   public ParentPet putAdditionalProperty(String key, Object value) {
-    if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
-    }
-    this.additionalProperties.put(key, value);
+    super.putAdditionalProperty(key, value);
     return this;
-  }
-
-  /**
-   * Return the additional (undeclared) property.
-   *
-   * @return a map of objects
-   */
-  public Map<String, Object> getAdditionalProperties() {
-    return additionalProperties;
-  }
-
-  /**
-   * Return the additional (undeclared) property with the specified name.
-   *
-   * @param key name of the property
-   * @return an object
-   */
-  public Object getAdditionalProperty(String key) {
-    if (this.additionalProperties == null) {
-        return null;
-    }
-    return this.additionalProperties.get(key);
   }
 
 
@@ -121,7 +84,7 @@ public class ParentPet extends GrandparentAnimal {
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), additionalProperties);
+    return Objects.hash(super.hashCode());
   }
 
   @Override
@@ -129,7 +92,6 @@ public class ParentPet extends GrandparentAnimal {
     StringBuilder sb = new StringBuilder();
     sb.append("class ParentPet {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }

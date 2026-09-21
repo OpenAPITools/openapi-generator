@@ -92,12 +92,12 @@ public class NestedArrayWithDefaultValues {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    *
-   * Transient (on models without children): the bag is read and written by this model's
-   * TypeAdapterFactory, so gson's reflection does not need to see it. Gson collects the
-   * declared fields of every class in the hierarchy and rejects two bound to one JSON
-   * name, which is what an allOf child - declaring the field itself and inheriting it -
-   * used to hit. A parent with children has no factory of its own, so it keeps the field
-   * bound for reflection; the child excludes only its own copy, leaving exactly one.
+   * Declared once per hierarchy: gson collects the declared fields of every class in the
+   * hierarchy and rejects two bound to one JSON name, so allOf descendants inherit this
+   * field instead of declaring their own. Transient on models without children: the bag is
+   * read and written by this model's TypeAdapterFactory, so gson's reflection does not need
+   * to see it. A parent with children has no factory of its own, so it keeps the field
+   * bound for reflection.
    */
   private transient Map<String, Object> additionalProperties;
 

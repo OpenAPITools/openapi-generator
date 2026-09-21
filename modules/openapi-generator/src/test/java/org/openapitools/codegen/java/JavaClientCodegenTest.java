@@ -2025,7 +2025,45 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testAdditionalPropertiesFieldIsTransientForGson() {
+    public void testAdditionalPropertiesFieldIsDeclaredOncePerHierarchyForGson() {
+        final Path output = generateOkHttpGsonWithAdditionalProperties("src/test/resources/3_0/allOf_extension_parent.yaml");
+
+        // gson's reflective adapter refuses a class whose hierarchy declares two fields bound to
+        // one JSON name ("declares multiple JSON fields named 'additionalProperties'"), so an
+        // allOf child inherits the bag instead of declaring its own copy. A parent with
+        // children gets no TypeAdapterFactory of its own ({{^hasChildren}} in pojo.mustache), so
+        // its field stays visible to reflection.
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Person.java"))
+                .content()
+                .contains("private Map<String, Object> additionalProperties;")
+                .doesNotContain("private transient Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
+                .content()
+                .contains("public class Child extends Person {")
+                .contains("public Child putAdditionalProperty(String key, Object value) {")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+    }
+
+    @Test
+    public void testAdditionalPropertiesFieldIsDeclaredOnceAcrossMultiLevelAllOfForGson() {
+        final Path output = generateOkHttpGsonWithAdditionalProperties("src/test/resources/3_0/java/okhttp-gson-additional-properties-allof-chain.yaml");
+
+        // Root <- Middle <- Leaf: Middle has children too, so hiding only the leaf's copy would
+        // still leave Root's and Middle's bound together - exactly one class may declare the bag
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Root.java"))
+                .content().contains("private Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Middle.java"))
+                .content()
+                .contains("public class Middle extends Root {")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Leaf.java"))
+                .content()
+                .contains("public class Leaf extends Middle {")
+                .contains("public Leaf putAdditionalProperty(String key, Object value) {")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+    }
+
+    private Path generateOkHttpGsonWithAdditionalProperties(String inputSpec) {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName(JAVA_GENERATOR)
@@ -2034,29 +2072,14 @@ public class JavaClientCodegenTest {
                 .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
                 .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
                 .addAdditionalProperty("disallowAdditionalPropertiesIfNotPresent", "false")
-                .setInputSpec("src/test/resources/3_0/allOf_extension_parent.yaml")
+                .setInputSpec(inputSpec)
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.opts(configurator.toClientOptInput()).generate();
-
-        // gson's reflective adapter refuses a class with two JSON fields of one name; without
-        // `transient` an allOf child declares additionalProperties itself and inherits it too,
-        // making it undeserializable ("declares multiple JSON fields named
-        // 'additionalProperties'"). The child's bag is read and written by its own
-        // TypeAdapterFactory, so hiding the field from reflection changes nothing else.
-        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
-                .content()
-                .contains("public class Child extends Person {")
-                .contains("private transient Map<String, Object> additionalProperties;");
-        // a parent with children gets no TypeAdapterFactory of its own ({{^hasChildren}} in
-        // pojo.mustache), so its field stays visible to reflection - the child's transient
-        // declaration shadows it, and no duplicate JSON field arises
-        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Person.java"))
-                .content().contains("private Map<String, Object> additionalProperties;");
-        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Person.java"))
-                .content().doesNotContain("private transient Map<String, Object> additionalProperties;");
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+        return output;
     }
 
     @Test
