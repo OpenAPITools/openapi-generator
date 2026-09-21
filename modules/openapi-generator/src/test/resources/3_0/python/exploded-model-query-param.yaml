@@ -1,0 +1,63 @@
+openapi: 3.0.3
+info:
+  title: Exploded model query parameters
+  description: >
+    Query parameters whose schema is an object with declared properties, so the python
+    generator turns them into models rather than dicts. With the form/true defaults a model
+    must be exploded like a map, keyed by the names its properties carry on the wire.
+  version: 1.0.0
+servers:
+  - url: localhost:8080
+paths:
+  /items:
+    get:
+      operationId: listItems
+      parameters:
+        # a $ref to a component schema, with style and explode left at their defaults
+        - in: query
+          name: refFilter
+          schema:
+            $ref: '#/components/schemas/Filter'
+        # an inline object with declared properties, which becomes a model of its own
+        - in: query
+          name: inlineFilter
+          schema:
+            type: object
+            properties:
+              category:
+                type: string
+        # a oneOf model may hold a primitive, which has no properties to explode
+        - in: query
+          name: oneOfFilter
+          schema:
+            $ref: '#/components/schemas/FilterOrTerm'
+        # deepObject and form without explode both keep a single parameter
+        - in: query
+          name: deepFilter
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Filter'
+        - in: query
+          name: flatFilter
+          style: form
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Filter'
+      responses:
+        '200':
+          description: a list of items
+components:
+  schemas:
+    Filter:
+      type: object
+      properties:
+        category:
+          type: string
+        # the wire name is not a python identifier, so the model attribute is renamed
+        createdDate:gte:
+          type: string
+    FilterOrTerm:
+      oneOf:
+        - $ref: '#/components/schemas/Filter'
+        - type: string

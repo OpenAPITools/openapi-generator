@@ -2204,7 +2204,18 @@ class QueryApi:
         # process the query parameters
         if query_object is not None:
             
-            _query_params.append(('query_object', query_object))
+            # form style explodes a model like a map, keyed by the names its properties
+            # carry on the wire. A oneOf or anyOf model holding a primitive has no
+            # properties to explode, so it stays a single parameter.
+            _serialized = self.api_client.sanitize_for_serialization(query_object)
+            if isinstance(_serialized, dict):
+                for _key, _value in _serialized.items():
+                    if isinstance(_value, (list, tuple)):
+                        _query_params.extend((_key, _item) for _item in _value)
+                    else:
+                        _query_params.append((_key, _value))
+            else:
+                _query_params.append(('query_object', query_object))
             
         # process the header parameters
         # process the form parameters
@@ -2466,7 +2477,18 @@ class QueryApi:
         # process the query parameters
         if query_object is not None:
             
-            _query_params.append(('query_object', query_object))
+            # form style explodes a model like a map, keyed by the names its properties
+            # carry on the wire. A oneOf or anyOf model holding a primitive has no
+            # properties to explode, so it stays a single parameter.
+            _serialized = self.api_client.sanitize_for_serialization(query_object)
+            if isinstance(_serialized, dict):
+                for _key, _value in _serialized.items():
+                    if isinstance(_value, (list, tuple)):
+                        _query_params.extend((_key, _item) for _item in _value)
+                    else:
+                        _query_params.append((_key, _value))
+            else:
+                _query_params.append(('query_object', query_object))
             
         # process the header parameters
         # process the form parameters
@@ -2728,7 +2750,18 @@ class QueryApi:
         # process the query parameters
         if query_object is not None:
             
-            _query_params.append(('query_object', query_object))
+            # form style explodes a model like a map, keyed by the names its properties
+            # carry on the wire. A oneOf or anyOf model holding a primitive has no
+            # properties to explode, so it stays a single parameter.
+            _serialized = self.api_client.sanitize_for_serialization(query_object)
+            if isinstance(_serialized, dict):
+                for _key, _value in _serialized.items():
+                    if isinstance(_value, (list, tuple)):
+                        _query_params.extend((_key, _item) for _item in _value)
+                    else:
+                        _query_params.append((_key, _value))
+            else:
+                _query_params.append(('query_object', query_object))
             
         # process the header parameters
         # process the form parameters

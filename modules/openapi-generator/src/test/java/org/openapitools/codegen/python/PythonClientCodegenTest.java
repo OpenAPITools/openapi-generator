@@ -767,6 +767,46 @@ public class PythonClientCodegenTest {
             "if k in collection_formats and isinstance(v, (list, tuple)):");
     }
 
+    @Test
+    public void testExplodedModelQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/3_0/python/exploded-model-query-param.yaml")
+            .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output.getAbsolutePath(), "openapi_client", "api", "default_api.py");
+
+        // an object with declared properties is a model, not a map, and form style with explode
+        // - the default - must still put every property on the wire under its own name. The
+        // model is serialized first so the names are the wire names (createdDate:gte, not the
+        // python attribute), and anything that does not serialize to a dict - a oneOf holding a
+        // primitive - stays a single parameter. The wire format itself is pinned by the
+        // echo_api python sample tests (test_query_style_form_explode_true_object*).
+        TestUtils.assertFileContains(api,
+            "_serialized = self.api_client.sanitize_for_serialization(ref_filter)",
+            "_serialized = self.api_client.sanitize_for_serialization(inline_filter)",
+            "_serialized = self.api_client.sanitize_for_serialization(one_of_filter)",
+            "for _key, _value in _serialized.items():",
+            "_query_params.extend((_key, _item) for _item in _value)",
+            "_query_params.append((_key, _value))",
+            "_query_params.append(('oneOfFilter', one_of_filter))");
+
+        // deepObject and form without explode both keep a single parameter
+        TestUtils.assertFileContains(api,
+            "_query_params.append(('deepFilter', deep_filter))",
+            "_query_params.append(('flatFilter', flat_filter))");
+        TestUtils.assertFileNotContains(api,
+            "sanitize_for_serialization(deep_filter)",
+            "sanitize_for_serialization(flat_filter)");
+    }
+
     @Test(description = "Verify default license format uses object notation when poetry1 is false")
     public void testLicenseFormatInPyprojectToml() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
