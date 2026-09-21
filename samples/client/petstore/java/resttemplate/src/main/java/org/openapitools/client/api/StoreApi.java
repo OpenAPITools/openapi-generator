@@ -45,7 +45,7 @@ public class StoreApi extends BaseApi {
      * @param orderId ID of the order that needs to be deleted (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void deleteOrder(String orderId) throws RestClientException {
+    public void deleteOrder(@javax.annotation.Nonnull String orderId) throws RestClientException {
         deleteOrderWithHttpInfo(orderId);
     }
 
@@ -58,7 +58,7 @@ public class StoreApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> deleteOrderWithHttpInfo(String orderId) throws RestClientException {
+    public ResponseEntity<Void> deleteOrderWithHttpInfo(@javax.annotation.Nonnull String orderId) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'orderId' is set
@@ -134,7 +134,7 @@ public class StoreApi extends BaseApi {
      * @return Order
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Order getOrderById(Long orderId) throws RestClientException {
+    public Order getOrderById(@javax.annotation.Nonnull Long orderId) throws RestClientException {
         return getOrderByIdWithHttpInfo(orderId).getBody();
     }
 
@@ -148,7 +148,7 @@ public class StoreApi extends BaseApi {
      * @return ResponseEntity&lt;Order&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Order> getOrderByIdWithHttpInfo(Long orderId) throws RestClientException {
+    public ResponseEntity<Order> getOrderByIdWithHttpInfo(@javax.annotation.Nonnull Long orderId) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'orderId' is set
@@ -186,7 +186,7 @@ public class StoreApi extends BaseApi {
      * @return Order
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Order placeOrder(Order order) throws RestClientException {
+    public Order placeOrder(@javax.annotation.Nonnull Order order) throws RestClientException {
         return placeOrderWithHttpInfo(order).getBody();
     }
 
@@ -199,7 +199,7 @@ public class StoreApi extends BaseApi {
      * @return ResponseEntity&lt;Order&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Order> placeOrderWithHttpInfo(Order order) throws RestClientException {
+    public ResponseEntity<Order> placeOrderWithHttpInfo(@javax.annotation.Nonnull Order order) throws RestClientException {
         Object localVarPostBody = order;
         
         // verify the required parameter 'order' is set

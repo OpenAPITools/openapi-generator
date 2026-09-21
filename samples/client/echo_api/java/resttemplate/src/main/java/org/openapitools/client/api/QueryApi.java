@@ -52,7 +52,7 @@ public class QueryApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws RestClientException {
+    public String testEnumRefString(@javax.annotation.Nullable String enumNonrefStringQuery, @javax.annotation.Nullable StringEnumRef enumRefStringQuery) throws RestClientException {
         return testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery).getBody();
     }
 
@@ -65,7 +65,7 @@ public class QueryApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testEnumRefStringWithHttpInfo(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws RestClientException {
+    public ResponseEntity<String> testEnumRefStringWithHttpInfo(@javax.annotation.Nullable String enumNonrefStringQuery, @javax.annotation.Nullable StringEnumRef enumRefStringQuery) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -100,7 +100,7 @@ public class QueryApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testQueryDatetimeDateString(OffsetDateTime datetimeQuery, LocalDate dateQuery, String stringQuery) throws RestClientException {
+    public String testQueryDatetimeDateString(@javax.annotation.Nullable OffsetDateTime datetimeQuery, @javax.annotation.Nullable LocalDate dateQuery, @javax.annotation.Nullable String stringQuery) throws RestClientException {
         return testQueryDatetimeDateStringWithHttpInfo(datetimeQuery, dateQuery, stringQuery).getBody();
     }
 
@@ -114,7 +114,7 @@ public class QueryApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryDatetimeDateStringWithHttpInfo(OffsetDateTime datetimeQuery, LocalDate dateQuery, String stringQuery) throws RestClientException {
+    public ResponseEntity<String> testQueryDatetimeDateStringWithHttpInfo(@javax.annotation.Nullable OffsetDateTime datetimeQuery, @javax.annotation.Nullable LocalDate dateQuery, @javax.annotation.Nullable String stringQuery) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -150,7 +150,7 @@ public class QueryApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testQueryIntegerBooleanString(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws RestClientException {
+    public String testQueryIntegerBooleanString(@javax.annotation.Nullable Integer integerQuery, @javax.annotation.Nullable Boolean booleanQuery, @javax.annotation.Nullable String stringQuery) throws RestClientException {
         return testQueryIntegerBooleanStringWithHttpInfo(integerQuery, booleanQuery, stringQuery).getBody();
     }
 
@@ -164,7 +164,7 @@ public class QueryApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryIntegerBooleanStringWithHttpInfo(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws RestClientException {
+    public ResponseEntity<String> testQueryIntegerBooleanStringWithHttpInfo(@javax.annotation.Nullable Integer integerQuery, @javax.annotation.Nullable Boolean booleanQuery, @javax.annotation.Nullable String stringQuery) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -198,7 +198,7 @@ public class QueryApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleDeepObjectExplodeTrueObject(Pet queryObject) throws RestClientException {
+    public String testQueryStyleDeepObjectExplodeTrueObject(@javax.annotation.Nullable Pet queryObject) throws RestClientException {
         return testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject).getBody();
     }
 
@@ -210,7 +210,7 @@ public class QueryApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(Pet queryObject) throws RestClientException {
+    public ResponseEntity<String> testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(@javax.annotation.Nullable Pet queryObject) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -249,7 +249,7 @@ public class QueryApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientException {
+    public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientException {
         return testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject).getBody();
     }
 
@@ -261,7 +261,7 @@ public class QueryApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientException {
+    public ResponseEntity<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(@javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -293,7 +293,7 @@ public class QueryApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleFormExplodeFalseArrayInteger(List<Integer> queryObject) throws RestClientException {
+    public String testQueryStyleFormExplodeFalseArrayInteger(@javax.annotation.Nullable List<Integer> queryObject) throws RestClientException {
         return testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject).getBody();
     }
 
@@ -305,7 +305,7 @@ public class QueryApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(List<Integer> queryObject) throws RestClientException {
+    public ResponseEntity<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(@javax.annotation.Nullable List<Integer> queryObject) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -337,7 +337,7 @@ public class QueryApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleFormExplodeFalseArrayString(List<String> queryObject) throws RestClientException {
+    public String testQueryStyleFormExplodeFalseArrayString(@javax.annotation.Nullable List<String> queryObject) throws RestClientException {
         return testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject).getBody();
     }
 
@@ -349,7 +349,7 @@ public class QueryApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(List<String> queryObject) throws RestClientException {
+    public ResponseEntity<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(@javax.annotation.Nullable List<String> queryObject) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -381,7 +381,7 @@ public class QueryApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleFormExplodeTrueArrayString(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientException {
+    public String testQueryStyleFormExplodeTrueArrayString(@javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientException {
         return testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject).getBody();
     }
 
@@ -393,7 +393,7 @@ public class QueryApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientException {
+    public ResponseEntity<String> testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(@javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -427,7 +427,7 @@ public class QueryApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleFormExplodeTrueObject(Pet queryObject) throws RestClientException {
+    public String testQueryStyleFormExplodeTrueObject(@javax.annotation.Nullable Pet queryObject) throws RestClientException {
         return testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject).getBody();
     }
 
@@ -439,7 +439,7 @@ public class QueryApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleFormExplodeTrueObjectWithHttpInfo(Pet queryObject) throws RestClientException {
+    public ResponseEntity<String> testQueryStyleFormExplodeTrueObjectWithHttpInfo(@javax.annotation.Nullable Pet queryObject) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -478,7 +478,7 @@ public class QueryApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleFormExplodeTrueObjectAllOf(DataQuery queryObject) throws RestClientException {
+    public String testQueryStyleFormExplodeTrueObjectAllOf(@javax.annotation.Nullable DataQuery queryObject) throws RestClientException {
         return testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(queryObject).getBody();
     }
 
@@ -490,7 +490,7 @@ public class QueryApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(DataQuery queryObject) throws RestClientException {
+    public ResponseEntity<String> testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(@javax.annotation.Nullable DataQuery queryObject) throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -523,7 +523,7 @@ public class QueryApi extends BaseApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleJsonSerializationObject(Pet jsonSerializedObjectRefStringQuery, List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientException {
+    public String testQueryStyleJsonSerializationObject(@javax.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @javax.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientException {
         return testQueryStyleJsonSerializationObjectWithHttpInfo(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery).getBody();
     }
 
@@ -536,7 +536,7 @@ public class QueryApi extends BaseApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleJsonSerializationObjectWithHttpInfo(Pet jsonSerializedObjectRefStringQuery, List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientException {
+    public ResponseEntity<String> testQueryStyleJsonSerializationObjectWithHttpInfo(@javax.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @javax.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientException {
         Object localVarPostBody = null;
         
 
