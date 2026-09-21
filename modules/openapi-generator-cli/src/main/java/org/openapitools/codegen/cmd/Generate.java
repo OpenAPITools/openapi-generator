@@ -268,9 +268,10 @@ public class Generate extends OpenApiGeneratorCommand {
                     + " 'ModelName.x-class-extra-annotation=@Bar'); templates that loop over the extension"
                     + " (such as class- and property-level extra-annotations) render each repeated"
                     + " occurrence on its own line, in the order given."
-                    + " Quote the whole key=value pair when the value contains spaces, and if your shell"
-                    + " requires double-quoting the whole argument instead, escape embedded double"
-                    + " quotes (e.g. \\\")."
+                    + " Quote the whole key=value pair when the value contains spaces (e.g."
+                    + " \"ModelName.x-class-extra-annotation=@Foo(\\\"some string with spaces\\\")\"),"
+                    + " and if your shell requires double-quoting the whole argument instead, escape"
+                    + " embedded double quotes (e.g. \\\")."
                     + " You can have multiple occurrences of this option, one per injection target.")
     private List<String> injectModelVendorExtensions = new ArrayList<>();
 
@@ -292,9 +293,10 @@ public class Generate extends OpenApiGeneratorCommand {
                     + " 'operationId.x-operation-extra-annotation=@Bar'); templates that loop over the"
                     + " extension (such as operation-level extra-annotations) render each repeated"
                     + " occurrence on its own line, in the order given."
-                    + " Quote the whole key=value pair when the value contains spaces, and if your shell"
-                    + " requires double-quoting the whole argument instead, escape embedded double"
-                    + " quotes (e.g. \\\")."
+                    + " Quote the whole key=value pair when the value contains spaces (e.g."
+                    + " \"operationId.x-operation-extra-annotation=@Foo(\\\"some string with spaces\\\")\"),"
+                    + " and if your shell requires double-quoting the whole argument instead, escape"
+                    + " embedded double quotes (e.g. \\\")."
                     + " You can have multiple occurrences of this option, one per injection target.")
     private List<String> injectOperationVendorExtensions = new ArrayList<>();
 

@@ -196,6 +196,11 @@ public class CodegenConfigurator {
 
         mapper.registerModule(new GuavaModule());
 
+        // Allows injectModelVendorExtensions/injectOperationVendorExtensions values to be authored
+        // as either a plain scalar string or a list of strings, so config files written before
+        // injected values became lists (e.g. `x-setter-visibility: private`) keep working.
+        mapper.registerModule(new VendorExtensionsCompatModule());
+
         try {
             return mapper.readValue(new File(configFile), DynamicSettings.class);
         } catch (IOException ex) {
