@@ -1,0 +1,51 @@
+openapi: 3.1.0
+info:
+  title: C++ Literal Escaping Regression
+  version: 1.0.0
+servers:
+  - url: 'https://example.test/"quoted"'
+security:
+  - api-key: ['read"scope']
+paths:
+  '/items/"quoted"/{id}':
+    get:
+      operationId: getLiteral
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: 'q"uery'
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'ok "quoted"'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiteralContainer'
+        '400':
+          description: |-
+            bad "quoted"
+            second line
+        default:
+          description: |-
+            bad "quoted"
+            second line
+components:
+  securitySchemes:
+    api-key:
+      type: apiKey
+      in: header
+      name: 'X-"Token'
+  schemas:
+    LiteralContainer:
+      type: object
+      required: ['quo"te']
+      properties:
+        'quo"te':
+          type: string
+          const: 'line\backslash"quote'

@@ -145,7 +145,6 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     openapiGeneratorIgnoreList.set(generate.openapiGeneratorIgnoreList)
                     importMappings.set(generate.importMappings)
                     schemaMappings.set(generate.schemaMappings)
-                    forcedGenerateSchemas.set(generate.forcedGenerateSchemas)
                     inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
                     inlineSchemaOptions.set(generate.inlineSchemaOptions)
                     nameMappings.set(generate.nameMappings)

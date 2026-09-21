@@ -48,6 +48,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
 |generateJsonCreator|Whether to generate @JsonCreator constructor for required properties.| |true|
 |generatePom|Whether to generate pom.xml if the file does not already exist.| |true|
+|generateRootResources|Whether to generate the root resource and application classes, only useful if interfaceOnly is true.| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
@@ -85,6 +86,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useJakartaSecurityAnnotations|Whether to generate Jakarta security annotations (@RolesAllowed, @PermitAll). Requires useJakartaEe=true. Currently only supported when library is set to quarkus.| |false|
+|useJspecify|Use JSpecify for null checks: @NullMarked package-info and @Nullable on optional properties and parameters.| |false|
 |useMicroProfileOpenAPIAnnotations|Whether to generate Microprofile OpenAPI annotations. Only valid when library is set to quarkus.| |false|
 |useMutiny|Whether to use Smallrye Mutiny instead of CompletionStage for asynchronous computation. Only valid when library is set to quarkus.| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|

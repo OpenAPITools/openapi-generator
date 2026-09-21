@@ -1,0 +1,30 @@
+openapi: 3.1.0
+info:
+  title: Wave1 Schema IR Lexeme Fidelity
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Amount:
+      oneOf:
+        - type: number
+          minimum: 0.3
+          maximum: 1000
+          multipleOf: 0.1
+          title: 'amount "branch"'
+          description: "line one\nline two"
+          default: 0.3
+          examples: [0.3, 0.4]
+          deprecated: false
+          contentEncoding: base64
+          contentMediaType: application/json
+          contentSchema:
+            type: integer
+          x-note:
+            enabled: true
+        - const: 42
+        - type: number
+          enum: [1.5, 2.25, 3.0]
+        - type: number
+          exclusiveMinimum: 0
+          exclusiveMaximum: 1.0

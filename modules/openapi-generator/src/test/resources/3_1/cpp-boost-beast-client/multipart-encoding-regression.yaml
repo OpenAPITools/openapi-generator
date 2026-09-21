@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: Multipart encoding regression
+  version: 1.0.0
+paths:
+  /uploads:
+    post:
+      operationId: uploadMultipart
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UploadPayload"
+            encoding:
+              image:
+                contentType: image/png
+              blob:
+                contentType: application/octet-stream
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+components:
+  schemas:
+    UploadPayload:
+      type: object
+      properties:
+        image:
+          type: string
+          format: binary
+        blob:
+          type: string
+          format: binary
+        label:
+          type: string

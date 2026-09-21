@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **rootGet**
 ```swift
-    open class func rootGet(completion: @escaping (_ data: Banana?, _ error: Error?) -> Void)
+    open class func rootGet(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Banana
 ```
 
 
@@ -20,15 +20,11 @@ Method | HTTP request | Description
 import PetstoreClient
 
 
-DefaultAPI.rootGet() { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await DefaultAPI.rootGet()
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 

@@ -9,6 +9,7 @@ Method | HTTP request | Description
 
 # **testClassname**
 ```swift
+    open func testClassname(body: Client) async throws(ErrorResponse) -> Client
     open class func testClassname( body: Client) -> Promise<Client>
     open class func testClassname(body: Client) -> Observable<Client>
 ```
@@ -24,6 +25,13 @@ import PetstoreClient
 
 let body = Client(client: "client_example") // Client | client model
 
+// To test class name in snake case
+do {
+    let response = try await FakeClassnameTags123API().testClassname(body: body)
+    dump(response)
+} catch {
+    print(error)
+}
 // To test class name in snake case
 FakeClassnameTags123API.testClassname(body: body).then {
          // when the promise is fulfilled

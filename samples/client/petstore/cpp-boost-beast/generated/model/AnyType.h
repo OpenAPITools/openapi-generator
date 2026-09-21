@@ -15,8 +15,8 @@
  * Represents any JSON type using boost::json::value
  */
 
-#ifndef BOOST_BEAST_OPENAPI_CLIENT_ANYTYPE_H
-#define BOOST_BEAST_OPENAPI_CLIENT_ANYTYPE_H
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_ANYTYPE_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_ANYTYPE_H_
 
 #include <boost/json.hpp>
 
@@ -35,4 +35,4 @@ using AnyType = boost::json::value;
 }
 }
 
-#endif /* BOOST_BEAST_OPENAPI_CLIENT_ANYTYPE_H */
+#endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_ANYTYPE_H_ */

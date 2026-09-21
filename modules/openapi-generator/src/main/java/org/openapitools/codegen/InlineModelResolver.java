@@ -850,6 +850,10 @@ public class InlineModelResolver {
         }
     }
 
+    private static boolean isEnumSchema(Schema model) {
+        return model != null && model.getEnum() != null && !model.getEnum().isEmpty();
+    }
+
     private String matchGenerated(Schema model) {
         if (skipSchemaReuse) { // skip reusing schema
             return null;
@@ -864,15 +868,22 @@ public class InlineModelResolver {
             // Structural match: compare with volatile fields stripped at every level.
             // See generatedStructuralSignature field for a full explanation of why this is needed.
             //
-            // Only applied to *titled* schemas. A title denotes a named type that should be reused
-            // wherever it appears, so parser-induced volatile differences (description, type,
-            // example) must not split it into numbered duplicates. Anonymous/untitled inline
+            // Only applied to *titled*, non-enum schemas. A title denotes a named type that should
+            // be reused wherever it appears, so parser-induced volatile differences (description,
+            // type, example) must not split it into numbered duplicates. Anonymous/untitled inline
             // schemas, however, may be intentionally distinct even when structurally identical once
             // those volatile fields are stripped (e.g. two response properties that differ only by
             // description) — unifying them silently changes the generated type of one property and
             // breaks user code. This mirrors the titled-only guards in flatten() pre-population and
             // deduplicateComponents().
-            if (model.getTitle() != null) {
+            //
+            // Enum schemas are excluded even when titled: the structural matcher strips
+            // 'description', but for an enum the description is the only thing distinguishing two
+            // schemas that share the same values yet represent different things (e.g. two properties
+            // whose enums happen to list the same values but mean different things). Stripping it
+            // would wrongly unify them and make the second usage silently reuse the first enum's type
+            // (#23978). Enum schemas therefore dedup on exact content only.
+            if (model.getTitle() != null && !isEnumSchema(model)) {
                 String structural = computeStructuralSignature(model);
                 if (generatedStructuralSignature.containsKey(structural)) {
                     return generatedStructuralSignature.get(structural);
@@ -888,9 +899,10 @@ public class InlineModelResolver {
     private void addGenerated(String name, Schema model) {
         try {
             generatedSignature.put(structureMapper.writeValueAsString(model), name);
-            // Only register the volatile-stripped structural signature for titled schemas; untitled
-            // inline schemas must not participate in the structural-match fallback (see matchGenerated).
-            if (model.getTitle() != null) {
+            // Only register the volatile-stripped structural signature for titled, non-enum schemas;
+            // untitled inline schemas and enums must not participate in the structural-match fallback
+            // (see matchGenerated).
+            if (model.getTitle() != null && !isEnumSchema(model)) {
                 generatedStructuralSignature.putIfAbsent(computeStructuralSignature(model), name);
             }
         } catch (JsonProcessingException e) {
@@ -1171,6 +1183,13 @@ public class InlineModelResolver {
         //check inlineSchemaNameMapping
         if (inlineSchemaNameMapping.containsKey(name)) {
             name = inlineSchemaNameMapping.get(name);
+        }
+
+        // Recursive flattening can add a nested schema after its parent's name
+        // was chosen. Re-check here so the parent cannot overwrite that child.
+        if (openAPI.getComponents().getSchemas().containsKey(name)
+                || uniqueNames.contains(name)) {
+            name = uniqueName(name);
         }
 
         addGenerated(name, schema);

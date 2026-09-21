@@ -1,0 +1,266 @@
+// ============================================================================
+// Oas31SchemaIr.h - densified schema IR tables (ADR D5).
+//
+// SchemaResourceRegistry owns the SchemaNode rows interpreted by
+// SchemaEvaluator. Java emission and C++ evaluation share this layout.
+//
+// HEADER-ONLY. Built under -Werror with g++ -std=c++17.
+// ============================================================================
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_SCHEMA_IR_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_SCHEMA_IR_H_
+
+#include "Oas31ExactJson.h"
+
+#include <boost/json.hpp>
+
+#include <cstddef>
+#include <cstdint>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
+namespace org::openapitools::client::model::detail::schema_validation {
+
+/// JSON value kinds supported by the raw-instance view.
+/// NOTE: `integer` is a schema-level type (JSON Schema `type: integer`), not a
+/// raw instance kind; RawInstance::kind() never returns it. It exists so the
+/// `typeFlags` bitmask can encode an integer type requirement. Its enum value
+/// (6) collides with no real kind, so existing bit positions 0..5 stay stable.
+enum class JsonType : std::uint8_t {
+    null_,    // 0
+    boolean,  // 1
+    number,   // 2
+    string,   // 3
+    array,    // 4
+    object,   // 5
+    integer   // 6 — schema-level type only (not a raw-instance kind)
+};
+
+/// A logical operator combining child schemas.
+enum class ApplicatorKind : std::uint8_t {
+    none,
+    allOf,
+    anyOf,
+    oneOf,
+    not_,       // single child in children[0]
+    ref,        // $ref
+    dynamicRef  // $dynamicRef
+};
+
+/// Index into SchemaResourceRegistry::nodes. kNoSchema means no child schema.
+using SchemaIndex = std::int32_t;
+inline constexpr SchemaIndex kNoSchema = -1;
+
+/// OAS/JSON Schema `additionalProperties` tri-state.
+///   absent : keyword not present  -> unlisted properties are allowed (no-op),
+///   allowed: `additionalProperties: true`  -> allowed (no-op),
+///   reject : `additionalProperties: false` -> REJECT any unlisted key,
+///   schema : `additionalProperties: <schema>` -> validate unlisted values.
+/// Listed (declared `properties`) keys are NEVER additionally evaluated.
+enum class AdditionalPropertiesKind : std::uint8_t {
+    absent,
+    allowed,
+    reject,
+    schema
+};
+
+/// One declared `properties` entry: property name -> child schema node index.
+struct PropertyBinding {
+    std::string name;
+    SchemaIndex node = kNoSchema;
+};
+
+/// OAS 3.1 boolean value-schema: true => always valid, false => never.
+enum class BooleanValue : std::uint8_t { notBoolean, true_, false_ };
+
+/// A single densified schema node. One row per schema object.
+struct SchemaNode {
+    // -- identity --
+    std::uint32_t resourceIdentity = 0;   // index into SchemaResourceRegistry::resources
+    SchemaIndex   parent = kNoSchema;
+    std::string   sourceName;             // emitter row id and schema-location path
+
+    // -- Dynamic scope ($dynamicRef / $dynamicAnchor) --
+    // Synthetic resource identity is stamped on resource-owned rows. Evaluation
+    // pushes a frame when a row enters a different resource or an explicit root;
+    // dynamicAnchorTables map names to declaration rows per resource.
+    int            dynamicResource = 0;
+    bool           resourceRoot = false;
+    std::string    dynamicAnchorName;
+    // $dynamicRef: the plain-name fragment anchor; evaluation walks the scope
+    // from OUTERMOST inward and applies the first resource whose anchor table
+    // has this name; if none, the static fallback (children[0]) is applied.
+    std::string    dynamicRefAnchor;
+
+    // -- value schema --
+    BooleanValue  booleanValue = BooleanValue::notBoolean;  // OAS 3.1 true/false value schema
+    std::uint8_t  typeFlags = 0;          // bitmask of JsonType (type or type-array)
+
+    // -- exact-number constraints (D1) --
+    ExactNumber   minimum;                bool hasMinimum = false;
+    ExactNumber   maximum;                bool hasMaximum = false;
+    ExactNumber   exclusiveMinimum;       bool hasExclusiveMinimum = false;
+    ExactNumber   exclusiveMaximum;       bool hasExclusiveMaximum = false;
+    ExactNumber   multipleOf;             bool hasMultipleOf = false;
+
+    // -- enum / const values --
+    std::vector<ExactNumber> enumNumbers;   // numeric enum values, exact
+    std::vector<std::string> enumStrings;
+    std::vector<bool>        enumBooleans;
+
+    bool               hasConst = false;
+    ExactNumber        constNumber;       bool constIsNumber = false;
+    std::string        constString;       bool constIsString = false;
+    bool               constBool = false; bool constIsBool = false;
+
+    // -- Deep-equality stores --
+    // Full JSON const values support exact equality across every JSON kind.
+    bool constIsJson = false;
+    boost::json::value constJson;
+    InstanceLexemeTable constJsonLexemes;
+    // Full JSON enum members use exact deep equality.
+    bool hasEnumJson = false;
+    std::vector<boost::json::value> enumJson;
+    InstanceLexemeTable enumJsonLexemes;
+    // uniqueItems rejects any pair of deeply equal values; 1 and 1.0 compare equal.
+    bool hasUniqueItems = false;
+
+    // -- Object structure --
+    bool                     hasObjectSchema = false;
+    std::vector<PropertyBinding> properties;   // declared property subschemas
+    std::vector<std::string> required;
+    AdditionalPropertiesKind additionalProperties = AdditionalPropertiesKind::absent;
+    SchemaIndex              additionalSchema = kNoSchema;  // schema-form child
+    ExactNumber              minProperties;  bool hasMinProperties = false;
+    ExactNumber              maxProperties;  bool hasMaxProperties = false;
+
+    // -- String constraints; lengths count Unicode code points --
+    ExactNumber              minLength;  bool hasMinLength = false;
+    ExactNumber              maxLength;  bool hasMaxLength = false;
+    std::string              pattern;    bool hasPattern  = false;  // ECMAScript subset, unanchored search
+
+    // -- patternProperties: regex source and child schema --
+    struct PatternPropertyBinding {
+        std::string regex;                 // raw ECMAScript source as written in the spec
+        SchemaIndex node = kNoSchema;      // child node applied to each matched member
+    };
+    std::vector<PatternPropertyBinding> patternProperties;
+
+    // -- propertyNames child applied to every member name --
+    SchemaIndex propertyNames = kNoSchema;
+
+    // -- Array structure --
+    std::vector<SchemaIndex> prefixItems;     // prefixItems[i] applies to index i
+    SchemaIndex              items = kNoSchema;  // applies to indices >= prefixItems.size()
+    ExactNumber              minItems;  bool hasMinItems = false;
+    ExactNumber              maxItems;  bool hasMaxItems = false;
+
+    // -- unevaluatedProperties --
+    bool         hasUnevaluatedProperties = false;
+    bool         unevaluatedPropertiesRejects = false;
+    SchemaIndex  unevaluatedSchema = kNoSchema;
+
+    // -- unevaluatedItems --
+    bool         hasUnevaluatedItems = false;
+    bool         unevaluatedItemsRejects = false;
+    SchemaIndex  unevaluatedItemsSchema = kNoSchema;
+
+    // -- contains family --
+    // containsSchema applies to every array item; matching indices are
+    // annotated as evaluated (they satisfy unevaluatedItems). minContains
+    // defaults to 1; explicit 0 waives the floor. maxContains caps matches.
+    // Both bounds are INERT when contains is absent (2020-12).
+    bool         hasContains = false;
+    SchemaIndex  containsSchema = kNoSchema;
+    ExactNumber  minContains;  bool hasMinContains = false;
+    ExactNumber  maxContains;  bool hasMaxContains = false;
+
+    // Applied then/else annotations contribute to unevaluated coverage; guard
+    // annotations never leak.
+    bool         hasIf = false;
+    SchemaIndex  ifSchema = kNoSchema;
+    bool         hasThen = false;
+    SchemaIndex  thenSchema = kNoSchema;
+    bool         hasElse = false;
+    SchemaIndex  elseSchema = kNoSchema;
+
+    // dependentSchemas: trigger key -> schema; the triggered dependent schema
+    // is validated in the current context (its annotations count).
+    std::vector<std::pair<std::string, SchemaIndex>> dependentSchemas;
+
+    // dependentRequired maps a trigger key to names that must also be present.
+    std::vector<std::pair<std::string, std::vector<std::string>>> dependentRequired;
+
+    // -- Annotation collection: every value is serialized JSON text. Empty
+    // string means absent, while a present empty string is stored as "\"\"".
+    // Annotation values are complete JSON texts and are collected only when
+    // their containing schema succeeds.
+    std::string annTitle;
+    std::string annDescription;
+    std::string annDefaultJson;
+    std::string annExamplesJson;
+    std::string annDeprecatedJson;
+    std::string annReadOnlyJson;
+    std::string annWriteOnlyJson;
+    std::string annFormat;
+    std::string annContentEncoding;
+    std::string annContentMediaType;
+    std::string annContentSchemaJson;
+    std::vector<std::pair<std::string, std::string>> annExtras;
+    std::string schemaPath;       // RFC 6901 fragment within the source document
+    std::string absSchemaUri;     // absolute keyword-location base + schemaPath
+
+    // -- applicators: ALL of allOf/anyOf/oneOf may coexist (2020-12); each
+    //    member is a densified child row. `children` is used by the REF
+    //    applicator only (children[0] = resolved target). Evaluation order is
+    //    allOf -> anyOf -> oneOf (irrelevant for validity).
+    ApplicatorKind         applicator = ApplicatorKind::none;
+    std::vector<SchemaIndex> children;    // REF applicator target (0/1)
+    std::vector<SchemaIndex> allOfChildren;
+    std::vector<SchemaIndex> anyOfChildren;
+    std::vector<SchemaIndex> oneOfChildren;
+    SchemaIndex            notSchema = kNoSchema;  // `not` subschema reference
+
+    // Reserved carrier for an absolute dynamic-ref URI.
+    std::string dynamicRefUri;
+};
+
+/// One schema resource (document): identity + its root schema indices.
+struct SchemaResource {
+    std::string             baseUri;
+    std::string             dialect;
+    std::string             anchor;    // $anchor / $dynamicAnchor on root
+    std::vector<SchemaIndex> rootNodes; // usually one
+};
+
+/// Registry of all resources + the densified node pool.
+struct SchemaResourceRegistry {
+    std::vector<SchemaResource> resources;
+    std::vector<SchemaNode>     nodes;
+    // Per-resource dynamic-anchor tables map an anchor name to its declaration row.
+    std::vector<std::vector<std::pair<std::string, SchemaIndex>>> dynamicAnchorTables;
+
+    // Resources whose dialect omits the validation vocabulary treat those
+    // keywords as inert annotations.
+    std::set<int> vocabInertResources;
+
+    /// Validation-vocabulary status for a row, resolved through ITS OWN
+    /// resource id: every emitted row records the resource it belongs to
+    /// (0 = the outermost document resource).
+    bool validationVocabActive(int resourceId) const {
+        return vocabInertResources.count(resourceId) == 0;
+    }
+
+    SchemaNode const& node(SchemaIndex i) const {
+        return nodes[static_cast<std::size_t>(i)];
+    }
+
+    SchemaResource const& resourceByIdentity(std::uint32_t id) const {
+        return resources[static_cast<std::size_t>(id)];
+    }
+};
+
+} // namespace org::openapitools::client::model::detail::schema_validation
+
+#endif // ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_SCHEMA_IR_H_

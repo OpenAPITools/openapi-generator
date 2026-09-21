@@ -63,6 +63,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean generateUnmarshalJSON = true;
     @Setter
     protected boolean useDefaultValuesForRequiredVars = false;
+    @Setter
+    protected boolean useHttpHeaderSet = false;
 
     @Setter
     protected String packageName = "openapi";

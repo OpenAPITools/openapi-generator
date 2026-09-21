@@ -136,7 +136,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    **/
   @JsonProperty(value = "map_number")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }

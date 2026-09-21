@@ -36,6 +36,22 @@ public class Swift5ClientCodegenTest {
     Swift5ClientCodegen swiftCodegen = new Swift5ClientCodegen();
 
     @Test(enabled = true)
+    public void testToRegularExpressionRemainsValidInSwiftStringLiteral() throws Exception {
+        // patterns are passed verbatim to NSRegularExpression at runtime, so no
+        // "/.../" delimiters are added and, in particular, no "\/" escape is
+        // produced ("\/" is not a valid escape sequence in a Swift string
+        // literal, see issue #15604)
+        Assert.assertEquals(swiftCodegen.toRegularExpression("http(s)?://x"), "http(s)?://x");
+        Assert.assertEquals(swiftCodegen.toRegularExpression("[a-z/]+"), "[a-z/]+");
+        // "\/" in the spec (a JSON-style escaped slash) is normalized to "/"
+        Assert.assertEquals(swiftCodegen.toRegularExpression("http(s)?:\\/\\/x"), "http(s)?://x");
+        // backslashes are escaped for the Swift string literal
+        Assert.assertEquals(swiftCodegen.toRegularExpression("[a-z0-9\\-]+\\.[a-z]{2,63}"), "[a-z0-9\\\\-]+\\\\.[a-z]{2,63}");
+        // a pattern that already carries delimiters is left untouched
+        Assert.assertEquals(swiftCodegen.toRegularExpression("/[a-z]/i"), "/[a-z]/i");
+    }
+
+    @Test(enabled = true)
     public void testCapitalizedReservedWord() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("AS", null), "_as");
     }
@@ -161,6 +177,31 @@ public class Swift5ClientCodegenTest {
 
         Assert.assertEquals(op.returnType, "OpenAPIDateWithoutTime");
         Assert.assertEquals(op.bodyParam.dataType, "OpenAPIDateWithoutTime");
+    }
+
+    @Test(description = "model names colliding with types declared by the generated client are renamed", enabled = true)
+    public void reservedTypeNamesDeclaredByClientTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+
+        // Names declared by the generated support files (Validation.swift, Models.swift, ...):
+        // a model with such a name would be an invalid redeclaration of the client's own type.
+        Assert.assertEquals(codegen.toModelName("ValidationError"), "ModelValidationError");
+        Assert.assertEquals(codegen.toModelName("Validator"), "ModelValidator");
+        Assert.assertEquals(codegen.toModelName("Configuration"), "ModelConfiguration");
+        Assert.assertEquals(codegen.toModelName("RequestBuilder"), "ModelRequestBuilder");
+    }
+
+    @Test(description = "model names shadowing Foundation types used by the generated client are renamed", enabled = true)
+    public void reservedFoundationTypeNamesTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+
+        // Foundation types the generated support files reference unqualified
+        // (e.g. OpenISO8601DateFormatter.swift assigns `formatter.locale = Locale(...)`):
+        // a model with such a name would shadow the Foundation type inside the module.
+        Assert.assertEquals(codegen.toModelName("Locale"), "ModelLocale");
+        Assert.assertEquals(codegen.toModelName("DateFormatter"), "ModelDateFormatter");
+        Assert.assertEquals(codegen.toModelName("TimeZone"), "ModelTimeZone");
+        Assert.assertEquals(codegen.toModelName("URLSession"), "ModelURLSession");
     }
 
     @Test(description = "type from languageSpecificPrimitives should not be prefixed", enabled = true)
@@ -355,6 +396,44 @@ public class Swift5ClientCodegenTest {
         }
     }
 
+    @Test(description = "query parameter dictionaries carry an explicit type annotation so swiftc does not have to infer them", enabled = true)
+    public void queryParameterDictionaryIsTypeAnnotatedTest() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("swift5")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            File apiFile = files.stream()
+                    .filter(f -> f.getName().equals("PetAPI.swift"))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("PetAPI.swift not found"));
+
+            String content = Files.readString(apiFile.toPath());
+
+            // The dictionary literal of (wrappedValue:, isExplode:) tuples must be bound to an
+            // explicitly typed local: without the annotation the constraint solver has to infer
+            // the type from every entry's encodeToJSON() overload at once, which times out
+            // ("the compiler is unable to type-check this expression in reasonable time")
+            // for operations with many query parameters.
+            Assert.assertTrue(content.contains("let localVariableQueryParameters: [String: (wrappedValue: Any?, isExplode: Bool)] = ["));
+            Assert.assertTrue(content.contains("APIHelper.mapValuesToQueryItems(localVariableQueryParameters)"));
+
+        } finally {
+            output.deleteOnExit();
+        }
+    }
+
     @Test
     public void testAdditionalModelObjectAttributesParsing() {
         Swift5ClientCodegen codegen = new Swift5ClientCodegen();
@@ -408,6 +487,37 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(imports.get(0), "FooKit");
         Assert.assertEquals(imports.get(1), "BarKit");
         Assert.assertEquals(imports.get(2), "BazKit");
+    }
+
+    @Test(description = "nullable array items are declared as optionals", enabled = true)
+    public void nullableArrayItemsTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_22355.yaml");
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final String model = "NullItemsNotNullItems";
+        final CodegenModel cm = codegen.fromModel(model, openAPI.getComponents().getSchemas().get(model));
+
+        Assert.assertEquals(cm.vars.size(), 9);
+
+        Assert.assertEquals(cm.vars.get(0).baseName, "nullableItems");
+        Assert.assertEquals(cm.vars.get(1).baseName, "notNullableItems");
+        Assert.assertEquals(cm.vars.get(2).baseName, "defaultItems");
+        Assert.assertEquals(cm.vars.get(3).baseName, "nullableDoubleItems");
+        Assert.assertEquals(cm.vars.get(4).baseName, "xNullableItems");
+        Assert.assertEquals(cm.vars.get(5).baseName, "aliasedNullableItems");
+        Assert.assertEquals(cm.vars.get(6).baseName, "nullableItemsSet");
+        Assert.assertEquals(cm.vars.get(7).baseName, "nestedNullableItems");
+        Assert.assertEquals(cm.vars.get(8).baseName, "modelRefNullableItems");
+
+        Assert.assertEquals(cm.vars.get(0).dataType, "[String?]");
+        Assert.assertEquals(cm.vars.get(1).dataType, "[String]");
+        Assert.assertEquals(cm.vars.get(2).dataType, "[String]");
+        Assert.assertEquals(cm.vars.get(3).dataType, "[Double?]");
+        Assert.assertEquals(cm.vars.get(4).dataType, "[String?]");
+        Assert.assertEquals(cm.vars.get(5).dataType, "[String?]");
+        Assert.assertEquals(cm.vars.get(6).dataType, "Set<String?>");
+        Assert.assertEquals(cm.vars.get(7).dataType, "[[String?]]");
+        Assert.assertEquals(cm.vars.get(8).dataType, "[NullablePet?]");
     }
 
 }

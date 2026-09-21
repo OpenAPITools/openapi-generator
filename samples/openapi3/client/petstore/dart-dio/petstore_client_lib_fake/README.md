@@ -137,6 +137,7 @@ Class | Method | HTTP request | Description
  - [Foo](doc/Foo.md)
  - [FooGetDefaultResponse](doc/FooGetDefaultResponse.md)
  - [FormatTest](doc/FormatTest.md)
+ - [GetUserInfoResponse](doc/GetUserInfoResponse.md)
  - [HasOnlyReadOnly](doc/HasOnlyReadOnly.md)
  - [HealthCheckResult](doc/HealthCheckResult.md)
  - [MapTest](doc/MapTest.md)

@@ -1,0 +1,391 @@
+openapi: 3.1.0
+info:
+  title: C++ Boost.Beast OAS 3.1 runtime regression
+  version: 1.0.0
+paths:
+  /probe:
+    get:
+      operationId: getProbe
+      responses:
+        '200':
+          description: Integer success
+          content:
+            application/json:
+              schema:
+                type: integer
+        default:
+          description: Composed fallback
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fallback'
+  /empty:
+    get:
+      operationId: getEmpty
+      responses:
+        '200':
+          description: Empty any-type composition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/allNull'
+  /stream:
+    get:
+      operationId: getStream
+      responses:
+        '200':
+          description: Nullable JSON event stream
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/StreamChunk'
+  /stream-wrong-content-type:
+    get:
+      operationId: getWrongContentTypeStream
+      responses:
+        '200':
+          description: Event stream returned with the wrong media type
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/StreamChunk'
+  /error:
+    get:
+      operationId: getError
+      responses:
+        '200':
+          description: Successful bodyless response
+  /stream-error:
+    get:
+      operationId: getStreamError
+      responses:
+        '200':
+          description: Successful event stream
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/StreamChunk'
+
+  /conditional-stream:
+    post:
+      operationId: createConditionalStream
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConditionalStreamRequest'
+      responses:
+        '200':
+          description: JSON or SSE selected by the nullable stream property
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Simple'
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/StreamChunk'
+
+components:
+  schemas:
+    Base:
+      type: object
+      required: [base]
+      properties:
+        base:
+          type: string
+    ModelBranchNullDefault:
+      type: object
+      properties:
+        conversation:
+          anyOf:
+            - default: null
+              $ref: '#/components/schemas/Base'
+            - type: "null"
+    A:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          const: a
+    B:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          const: b
+    mixed:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+      oneOf:
+        - $ref: '#/components/schemas/A'
+        - $ref: '#/components/schemas/B'
+    Fallback:
+      oneOf:
+        - $ref: '#/components/schemas/A'
+        - $ref: '#/components/schemas/B'
+    allNull:
+      anyOf:
+        - type: "null"
+        - type: "null"
+    duplicateNull:
+      oneOf:
+        - type: "null"
+        - type: "null"
+    nonAsciiPattern:
+      oneOf:
+        - patternProperties:
+            "^á": {}
+          additionalProperties: false
+    NestedUnion:
+      oneOf:
+        - type: string
+          maxLength: 3
+        - type: string
+          minLength: 4
+    OuterUnion:
+      oneOf:
+        - $ref: '#/components/schemas/NestedUnion'
+        - type: boolean
+    TaggedUnionContainer:
+      type: object
+      required: [direct, nested]
+      properties:
+        direct:
+          $ref: '#/components/schemas/NestedUnion'
+        nested:
+          $ref: '#/components/schemas/OuterUnion'
+    Simple:
+      title: Simple
+      type: object
+      properties:
+        value:
+          type: string
+    NullDriftResponse:
+      type: object
+      required: [id]
+      properties:
+        id:
+          type: string
+        user:
+          type: string
+        error:
+          $ref: '#/components/schemas/Simple'
+        status_details:
+          type: string
+    NullDriftEvent:
+      anyOf:
+        - type: object
+          required: [type, response]
+          properties:
+            type:
+              type: string
+              const: response.completed
+            response:
+              $ref: '#/components/schemas/NullDriftResponse'
+        - type: object
+          required: [type]
+          properties:
+            type:
+              type: string
+              const: other
+    Zeta:
+      title: Simple
+      type: object
+      properties:
+        value:
+          type: string
+    DeduplicatedRefContainer:
+      type: object
+      properties:
+        inner:
+          type: object
+          additionalProperties: false
+          properties:
+            first:
+              $ref: '#/components/schemas/Simple'
+            second:
+              $ref: '#/components/schemas/Zeta'
+    StreamChunk:
+      type: object
+      required: [id, required_nullable, required_referenced_nullable]
+      properties:
+        id:
+          type: string
+        inline_nullable:
+          type: object
+          nullable: true
+          properties:
+            value:
+              type: string
+        referenced_nullable:
+          $ref: '#/components/schemas/Simple'
+          nullable: true
+        required_nullable:
+          type: string
+          nullable: true
+        required_referenced_nullable:
+          $ref: '#/components/schemas/Simple'
+          nullable: true
+    NullableEnumBox:
+      type: object
+      required: [required_enum]
+      properties:
+        optional_enum:
+          type: string
+          enum: [standard, hd]
+          nullable: true
+        required_enum:
+          type: string
+          enum: [auto, low]
+          nullable: true
+    RepresentationChecks:
+      type: object
+      required: [count]
+      properties:
+        count:
+          type: integer
+          format: int32
+        ratio:
+          type: number
+          format: float
+    Toggle:
+      type: object
+      required: [enabled]
+      properties:
+        enabled:
+          type: boolean
+    UnevaluatedAllOf:
+      oneOf:
+        - type: object
+          unevaluatedProperties:
+            allOf:
+              - type: string
+              - minLength: 2
+    UnevaluatedItemsOnly:
+      oneOf:
+        - type: object
+          unevaluatedProperties:
+            unevaluatedItems: false
+    ValidationVocabularyInertUnique:
+      oneOf:
+        - type: array
+          uniqueItems: true
+          x-oas31-res: 77
+          x-oas31-res-root: true
+          x-oas31-vocab-inert: true
+    RefSiblingTarget:
+      type: object
+      required: [target]
+      properties:
+        target:
+          type: string
+    RefSiblingComposition:
+      $ref: '#/components/schemas/RefSiblingTarget'
+      anyOf:
+        - type: object
+    RefAnnotationTarget:
+      type: object
+      properties:
+        from_ref:
+          type: string
+    RefAnnotationIsolation:
+      $ref: '#/components/schemas/RefAnnotationTarget'
+      anyOf:
+        - type: object
+          properties:
+            from_branch:
+              type: string
+          unevaluatedProperties: false
+    ConditionalAnnotationIsolation:
+      type: object
+      properties:
+        from_parent:
+          type: string
+      if: {}
+      then:
+        type: object
+        properties:
+          from_then:
+            type: string
+        unevaluatedProperties: false
+    DependentAnnotationIsolation:
+      type: object
+      properties:
+        trigger:
+          type: boolean
+      dependentSchemas:
+        trigger:
+          type: object
+          properties:
+            from_dependency:
+              type: string
+          unevaluatedProperties: false
+    MixedPrimitiveEnum:
+      oneOf:
+        - enum: [true, "allowed", null]
+    ScalarDefaults:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        retries:
+          type: integer
+          format: int32
+          default: -7
+        sequence:
+          type: integer
+          format: int64
+          default: -9223372036854775808
+        ratio:
+          type: number
+          format: double
+          default: 0.125
+        threshold:
+          type: number
+          format: float
+          default: 1.5
+        label:
+          type: string
+          default: "quoted \"line\"\nnext"
+        mode:
+          type: string
+          enum: [alpha, beta]
+          default: beta
+        nullable_label:
+          type: [string, "null"]
+          default: null
+        nullable_fallback:
+          type: [string, "null"]
+          default: fallback
+    ConditionalStreamRequest:
+      type: object
+      properties:
+        stream:
+          type: [boolean, "null"]
+          default: false
+    DefaultVoiceIds:
+      anyOf:
+        - type: string
+          enum: [alloy, ash]
+        - type: string
+          enum: [alloy, echo]
+    DefaultCustomVoice:
+      type: object
+      required: [id]
+      properties:
+        id:
+          type: string
+    DefaultVoice:
+      anyOf:
+        - $ref: '#/components/schemas/DefaultVoiceIds'
+        - $ref: '#/components/schemas/DefaultCustomVoice'
+    ComposedDefaultContainer:
+      type: object
+      properties:
+        voice:
+          $ref: '#/components/schemas/DefaultVoice'
+          default: alloy

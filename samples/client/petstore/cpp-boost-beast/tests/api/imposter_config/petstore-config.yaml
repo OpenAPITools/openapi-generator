@@ -32,7 +32,7 @@ resources:
       statusCode: 200
       headers:
         Content-Type: "application/json"
-      staticData: '{ "id": 1, "name": "cat", "status": "available" }'
+      staticData: '{ "id": 1, "name": "cat", "photoUrls": [], "status": "available" }'
   - path: "/v2/pet"
     method: PUT
     requestHeaders:

@@ -63,6 +63,11 @@ public class PetWithTypesObjectNullAndRef {
   @javax.annotation.Nullable
   private Object secondProperty = null;
 
+  public static final String SERIALIZED_NAME_THIRD_PROPERTY = "third_property";
+  @SerializedName(SERIALIZED_NAME_THIRD_PROPERTY)
+  @javax.annotation.Nullable
+  private Object thirdProperty = null;
+
   public PetWithTypesObjectNullAndRef() {
   }
 
@@ -101,6 +106,25 @@ public class PetWithTypesObjectNullAndRef {
 
   public void setSecondProperty(@javax.annotation.Nullable Object secondProperty) {
     this.secondProperty = secondProperty;
+  }
+
+
+  public PetWithTypesObjectNullAndRef thirdProperty(@javax.annotation.Nullable Object thirdProperty) {
+    this.thirdProperty = thirdProperty;
+    return this;
+  }
+
+  /**
+   * null type declared as the OAS 3.1 quoted string
+   * @return thirdProperty
+   */
+  @javax.annotation.Nullable
+  public Object getThirdProperty() {
+    return thirdProperty;
+  }
+
+  public void setThirdProperty(@javax.annotation.Nullable Object thirdProperty) {
+    this.thirdProperty = thirdProperty;
   }
 
   /**
@@ -159,7 +183,8 @@ public class PetWithTypesObjectNullAndRef {
     }
     PetWithTypesObjectNullAndRef petWithTypesObjectNullAndRef = (PetWithTypesObjectNullAndRef) o;
     return Objects.equals(this.firstProperty, petWithTypesObjectNullAndRef.firstProperty) &&
-        Objects.equals(this.secondProperty, petWithTypesObjectNullAndRef.secondProperty)&&
+        Objects.equals(this.secondProperty, petWithTypesObjectNullAndRef.secondProperty) &&
+        Objects.equals(this.thirdProperty, petWithTypesObjectNullAndRef.thirdProperty)&&
         Objects.equals(this.additionalProperties, petWithTypesObjectNullAndRef.additionalProperties);
   }
 
@@ -169,7 +194,7 @@ public class PetWithTypesObjectNullAndRef {
 
   @Override
   public int hashCode() {
-    return Objects.hash(firstProperty, secondProperty, additionalProperties);
+    return Objects.hash(firstProperty, secondProperty, thirdProperty, additionalProperties);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -185,6 +210,7 @@ public class PetWithTypesObjectNullAndRef {
     sb.append("class PetWithTypesObjectNullAndRef {\n");
     sb.append("    firstProperty: ").append(toIndentedString(firstProperty)).append("\n");
     sb.append("    secondProperty: ").append(toIndentedString(secondProperty)).append("\n");
+    sb.append("    thirdProperty: ").append(toIndentedString(thirdProperty)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -204,7 +230,7 @@ public class PetWithTypesObjectNullAndRef {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("first_property", "second_property"));
+    openapiFields = new HashSet<String>(Arrays.asList("first_property", "second_property", "third_property"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);

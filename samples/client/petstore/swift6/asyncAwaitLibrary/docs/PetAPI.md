@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 # **addPet**
 ```swift
-    open class func addPet(body: Pet, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func addPet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 Add a new pet to the store
@@ -30,15 +30,10 @@ import PetstoreClient
 let body = Pet(id: 123, category: Category(id: 123, name: "name_example"), name: "name_example", photoUrls: ["photoUrls_example"], tags: [Tag(id: 123, name: "name_example")], status: "status_example") // Pet | Pet object that needs to be added to the store
 
 // Add a new pet to the store
-PetAPI.addPet(body: body) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await PetAPI.addPet(body: body)
+} catch {
+    print(error)
 }
 ```
 
@@ -65,7 +60,7 @@ Void (empty response body)
 
 # **deletePet**
 ```swift
-    open class func deletePet(petId: Int64, apiKey: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func deletePet(petId: Int64, apiKey: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 Deletes a pet
@@ -79,15 +74,10 @@ let petId = 987 // Int64 | Pet id to delete
 let apiKey = "apiKey_example" // String |  (optional)
 
 // Deletes a pet
-PetAPI.deletePet(petId: petId, apiKey: apiKey) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await PetAPI.deletePet(petId: petId, apiKey: apiKey)
+} catch {
+    print(error)
 }
 ```
 
@@ -115,7 +105,7 @@ Void (empty response body)
 
 # **findPetsByStatus**
 ```swift
-    open class func findPetsByStatus(status: [Status_findPetsByStatus], completion: @escaping (_ data: [Pet]?, _ error: Error?) -> Void)
+    open class func findPetsByStatus(status: [Status_findPetsByStatus], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> [Pet]
 ```
 
 Finds Pets by status
@@ -130,15 +120,11 @@ import PetstoreClient
 let status = ["status_example"] // [String] | Status values that need to be considered for filter
 
 // Finds Pets by status
-PetAPI.findPetsByStatus(status: status) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await PetAPI.findPetsByStatus(status: status)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 
@@ -165,7 +151,7 @@ Name | Type | Description  | Notes
 
 # **findPetsByTags**
 ```swift
-    open class func findPetsByTags(tags: [String], completion: @escaping (_ data: [Pet]?, _ error: Error?) -> Void)
+    open class func findPetsByTags(tags: [String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> [Pet]
 ```
 
 Finds Pets by tags
@@ -180,15 +166,11 @@ import PetstoreClient
 let tags = ["inner_example"] // [String] | Tags to filter by
 
 // Finds Pets by tags
-PetAPI.findPetsByTags(tags: tags) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await PetAPI.findPetsByTags(tags: tags)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 
@@ -215,7 +197,7 @@ Name | Type | Description  | Notes
 
 # **getPetById**
 ```swift
-    open class func getPetById(petId: Int64, completion: @escaping (_ data: Pet?, _ error: Error?) -> Void)
+    open class func getPetById(petId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Pet
 ```
 
 Find pet by ID
@@ -230,15 +212,11 @@ import PetstoreClient
 let petId = 987 // Int64 | ID of pet to return
 
 // Find pet by ID
-PetAPI.getPetById(petId: petId) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await PetAPI.getPetById(petId: petId)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 
@@ -265,7 +243,7 @@ Name | Type | Description  | Notes
 
 # **updatePet**
 ```swift
-    open class func updatePet(body: Pet, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func updatePet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 Update an existing pet
@@ -278,15 +256,10 @@ import PetstoreClient
 let body = Pet(id: 123, category: Category(id: 123, name: "name_example"), name: "name_example", photoUrls: ["photoUrls_example"], tags: [Tag(id: 123, name: "name_example")], status: "status_example") // Pet | Pet object that needs to be added to the store
 
 // Update an existing pet
-PetAPI.updatePet(body: body) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await PetAPI.updatePet(body: body)
+} catch {
+    print(error)
 }
 ```
 
@@ -313,7 +286,7 @@ Void (empty response body)
 
 # **updatePetWithForm**
 ```swift
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 Updates a pet in the store with form data
@@ -328,15 +301,10 @@ let name = "name_example" // String | Updated name of the pet (optional)
 let status = "status_example" // String | Updated status of the pet (optional)
 
 // Updates a pet in the store with form data
-PetAPI.updatePetWithForm(petId: petId, name: name, status: status) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await PetAPI.updatePetWithForm(petId: petId, name: name, status: status)
+} catch {
+    print(error)
 }
 ```
 
@@ -365,7 +333,7 @@ Void (empty response body)
 
 # **uploadFile**
 ```swift
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @escaping (_ data: ApiResponse?, _ error: Error?) -> Void)
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> ApiResponse
 ```
 
 uploads an image
@@ -380,15 +348,11 @@ let additionalMetadata = "additionalMetadata_example" // String | Additional dat
 let file = URL(string: "https://example.com")! // URL | file to upload (optional)
 
 // uploads an image
-PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 
@@ -417,7 +381,7 @@ Name | Type | Description  | Notes
 
 # **uploadFileWithRequiredFile**
 ```swift
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @escaping (_ data: ApiResponse?, _ error: Error?) -> Void)
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> ApiResponse
 ```
 
 uploads an image (required)
@@ -432,15 +396,11 @@ let requiredFile = URL(string: "https://example.com")! // URL | file to upload
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
 
 // uploads an image (required)
-PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 

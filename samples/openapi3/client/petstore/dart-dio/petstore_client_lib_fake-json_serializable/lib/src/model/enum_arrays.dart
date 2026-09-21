@@ -43,7 +43,7 @@ class EnumArrays {
     name: r'array_enum',
     required: false,
     includeIfNull: false,
-  unknownEnumValue: List<EnumArraysArrayEnumEnum>.unknownDefaultOpenApi,
+  unknownEnumValue: EnumArraysArrayEnumEnum.unknownDefaultOpenApi,
   )
 
 

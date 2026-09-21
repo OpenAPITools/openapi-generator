@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: Nullable object regression
+  version: 1.0.0
+paths:
+  /nullable-object:
+    get:
+      operationId: getNullableObject
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NullableObjectRoot"
+components:
+  schemas:
+    NullableObjectRoot:
+      type: object
+      nullable: true
+      properties:
+        id:
+          type: string
+        label:
+          type: string

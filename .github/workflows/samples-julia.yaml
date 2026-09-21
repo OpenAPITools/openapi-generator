@@ -25,12 +25,13 @@ jobs:
         working-directory: 'samples'
         run: |
           currdir=`pwd`
-          # Using a specific version of OpenAPI.jl helps avoid introducing version inter-dependencies
-          #   and allows breaking changes to be done in either repos independently
+          # The julia-client/julia-server generators target the OpenAPI.jl 0.2.x series,
+          #   maintained on the release-0.2 branch; OpenAPI.jl main hosts the 1.x rewrite
+          #   with a different API. Testing against release-0.2 covers the latest 0.2.x fixes.
           # Using develop mode to install package so that it is easier to modify the package test files
           julia -e "using Pkg; Pkg.develop(\"OpenAPI\");"
           cd ~/.julia/dev/OpenAPI
-          git checkout v0.2.0
+          git checkout release-0.2
           cd $currdir
           rm -rf ~/.julia/dev/OpenAPI/test/client/openapigenerator_petstore_v3/petstore
           rm -rf ~/.julia/dev/OpenAPI/test/server/openapigenerator_petstore_v3/petstore

@@ -28,6 +28,7 @@ doc/FileSchemaTestClass.md
 doc/Foo.md
 doc/FooGetDefaultResponse.md
 doc/FormatTest.md
+doc/GetUserInfoResponse.md
 doc/HasOnlyReadOnly.md
 doc/HealthCheckResult.md
 doc/MapTest.md
@@ -104,6 +105,7 @@ lib/model/file_schema_test_class.dart
 lib/model/foo.dart
 lib/model/foo_get_default_response.dart
 lib/model/format_test.dart
+lib/model/get_user_info_response.dart
 lib/model/has_only_read_only.dart
 lib/model/health_check_result.dart
 lib/model/map_test.dart

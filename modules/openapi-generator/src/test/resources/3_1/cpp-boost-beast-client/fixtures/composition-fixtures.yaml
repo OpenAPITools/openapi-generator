@@ -1,0 +1,903 @@
+openapi: "3.1.0"
+info:
+  title: OAS Composition Fixtures
+  version: "1.0.0"
+  description: >
+    Generic OpenAPI 3.1 document exercising every composed-schema lowering
+    rule that cpp-boost-beast-client must support.  No vendor-specific type
+    names or vendor extensions required.
+
+paths:
+  # ---------------------------------------------------------------------------
+  # 1. Response with same-status multi-content (application/json + text/event-stream)
+  # ---------------------------------------------------------------------------
+  /multi-content:
+    get:
+      operationId: getMultiContent
+      summary: Response that can produce JSON or SSE
+      responses:
+        "200":
+          description: OK — client picks representation via Accept
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MultiContentJsonBody"
+            text/event-stream:
+              schema:
+                $ref: "#/components/schemas/MultiContentStreamEvent"
+
+  # ---------------------------------------------------------------------------
+  # 2. Multipart endpoint with binary|object oneOf form field
+  # ---------------------------------------------------------------------------
+  /multipart-upload:
+    post:
+      operationId: uploadMultipart
+      summary: Upload with a variant form field
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                metadata:
+                  $ref: "#/components/schemas/MultipartMetaField"
+                file:
+                  type: string
+                  format: binary
+              required:
+                - file
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MultipartUploadResponse"
+
+  # ---------------------------------------------------------------------------
+  # 3. Endpoint exercising discriminator dispatch
+  # ---------------------------------------------------------------------------
+  /animals:
+    post:
+      operationId: createAnimal
+      summary: Create an animal (discriminator-driven oneOf)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiscriminatorOneOf"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiscriminatorOneOf"
+
+  # ---------------------------------------------------------------------------
+  # 4. Endpoint exercising nullable optional
+  # ---------------------------------------------------------------------------
+  /config:
+    post:
+      operationId: updateConfig
+      summary: Upsert a config value that may be null
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  $ref: "#/components/schemas/NullableString"
+                name:
+                  type: string
+              required:
+                - name
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NullableString"
+
+  # ---------------------------------------------------------------------------
+  # 5. Endpoint consuming an allOf merged object
+  # ---------------------------------------------------------------------------
+  /profiles:
+    post:
+      operationId: createProfile
+      summary: Submit a merged-profile object
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AllOfObjectMerge"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllOfObjectMerge"
+
+  # ---------------------------------------------------------------------------
+  # 6. Endpoint consuming anyOf string+enum alias
+  # ---------------------------------------------------------------------------
+  /labels:
+    post:
+      operationId: setLabel
+      summary: Set a label value (anyOf string alias)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnyOfStringStringEnum"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfStringStringEnum"
+
+  # ---------------------------------------------------------------------------
+  # 7. Endpoint consuming oneOf string|array
+  # ---------------------------------------------------------------------------
+  /compose:
+    post:
+      operationId: composeContent
+      summary: Submit content as string or structured items
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OneOfStringArray"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OneOfStringArray"
+
+  # ---------------------------------------------------------------------------
+  # 8. Endpoint exercising oneOf constrained numbers (multipleOf)
+  #     Acceptance matrix: oneOf constrained numbers
+  # ---------------------------------------------------------------------------
+  /constrained-number:
+    post:
+      operationId: postConstrainedNumber
+      summary: oneOf over two number branches with multipleOf constraints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConstrainedNumber"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConstrainedNumber"
+
+  # ---------------------------------------------------------------------------
+  # 9. Endpoint exercising anyOf enum union (two distinct enum schemas)
+  #     Acceptance matrix: anyOf enum union
+  # ---------------------------------------------------------------------------
+  /anyof-enum-union:
+    post:
+      operationId: postAnyOfEnumUnion
+      summary: anyOf over two string enums — values must belong to the union
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnyOfEnumUnion"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfEnumUnion"
+
+  # ---------------------------------------------------------------------------
+  # 10. Endpoint exercising all-null anyOf
+  #      Acceptance matrix: all-null anyOf
+  # ---------------------------------------------------------------------------
+  /allnull-anyof:
+    post:
+      operationId: postAllNullAnyOf
+      summary: anyOf over two null branches — only null is valid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AllNullAnyOf"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllNullAnyOf"
+
+  # ---------------------------------------------------------------------------
+  # 11. Endpoint exercising duplicate-null oneOf
+  #      Acceptance matrix: duplicate-null oneOf
+  # ---------------------------------------------------------------------------
+  /duplicate-null-oneof:
+    post:
+      operationId: postDuplicateNullOneOf
+      summary: oneOf over two null branches — null must be rejected as two matches
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DuplicateNullOneOf"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DuplicateNullOneOf"
+
+  # ---------------------------------------------------------------------------
+  # 12. Endpoint exercising allOf enum intersection
+  #      Acceptance matrix: allOf enum intersection
+  # ---------------------------------------------------------------------------
+  /allof-enum-intersection:
+    post:
+      operationId: postAllOfEnumIntersection
+      summary: allOf merge of two string enums — result must be the intersection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AllOfEnumIntersection"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllOfEnumIntersection"
+
+  # ---------------------------------------------------------------------------
+  # 13. Endpoint exercising optional impossible allOf property
+  #     Acceptance matrix: optional impossible allOf
+  # ---------------------------------------------------------------------------
+  /optional-impossible-allof:
+    post:
+      operationId: postOptionalImpossibleAllOf
+      summary: allOf with conflicting optional property types
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OptionalImpossibleAllOf"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OptionalImpossibleAllOf"
+
+  # ---------------------------------------------------------------------------
+  # 14. Endpoint exercising number-only accept (integer-as-number)
+  #     Acceptance matrix: number only
+  # ---------------------------------------------------------------------------
+  /number-only:
+    post:
+      operationId: postNumberOnly
+      summary: "type: number — accepts both 1 and 1.5"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: number
+      responses:
+        "200":
+          description: OK
+
+  # ---------------------------------------------------------------------------
+  # 15. Endpoint exercising response exact + 2XX + default
+  #     Acceptance matrix: range/default response
+  # ---------------------------------------------------------------------------
+  /range-default:
+    get:
+      operationId: getRangeDefault
+      summary: Response with exact 200, 2XX range, and default
+      responses:
+        "200":
+          description: Exact success
+          content:
+            application/json:
+              schema:
+                type: string
+        "2XX":
+          description: Other success
+          content:
+            application/json:
+              schema:
+                type: string
+        default:
+          description: Fallback
+          content:
+            application/json:
+              schema:
+                type: string
+
+  # ---------------------------------------------------------------------------
+  # 16. Endpoint exercising multipart binary without encoding metadata
+  #     Acceptance matrix: multipart default
+  # ---------------------------------------------------------------------------
+  /multipart-no-encoding:
+    post:
+      operationId: uploadMultipartNoEncoding
+      summary: Multipart with binary part, no encoding metadata
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                description:
+                  type: string
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+
+  # ---------------------------------------------------------------------------
+  # 17. Endpoint exercising discriminator known-overlap case
+  #     Acceptance matrix: discriminator known overlap
+  # ---------------------------------------------------------------------------
+  /discriminator-overlap:
+    post:
+      operationId: createOverlappingAnimal
+      summary: oneOf with discriminator where mapping branch also matches another branch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OverlappingAnimal"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OverlappingAnimal"
+
+  # ---------------------------------------------------------------------------
+  # 18. Endpoint exercising integer mathematical form (oneOf [integer, number])
+  #     Acceptance matrix: integer mathematical form
+  # ---------------------------------------------------------------------------
+  /int-or-number:
+    post:
+      operationId: postIntOrNumber
+      summary: oneOf over integer and number branches
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IntOrNumber"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IntOrNumber"
+
+components:
+  schemas:
+
+    # =========================================================================
+    # anyOf string + string-enum → std::string collapse
+    # ANYOF-STRING-ENUM-COLLAPSE-001
+    # =========================================================================
+    AnyOfStringStringEnum:
+      description: >
+        anyOf over a plain string and a string enum.  The generator SHOULD
+        collapse this to std::string since every enum value is already a valid
+        string (SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING).
+      anyOf:
+        - type: string
+        - type: string
+          enum:
+            - alpha
+            - beta
+            - gamma
+
+    # =========================================================================
+    # oneOf string + string-enum — must NOT collapse to plain string
+    # ONEOF-STRING-ENUM-NO-COLLAPSE-001
+    # =========================================================================
+    OneOfStringStringEnum:
+      description: >
+        oneOf over a plain string and a string enum. The generator preserves
+        branch identity with a std::variant of CompositionBranchValue-wrapped
+        strings, so enum members correctly match both branches and fail the
+        exactly-one rule rather than being type-erased.
+      oneOf:
+        - type: string
+        - type: string
+          enum:
+            - x
+            - y
+            - z
+
+    # =========================================================================
+    # oneOf string + array of objects
+    # ONEOF-STRING-ARRAY-001
+    # =========================================================================
+    OneOfStringArray:
+      description: >
+        oneOf between a plain string and an array of structured items.  Must
+        generate a std::variant<std::string, std::vector<ItemStruct>>.
+      oneOf:
+        - type: string
+        - type: array
+          items:
+            $ref: "#/components/schemas/ItemStruct"
+
+    ItemStruct:
+      type: object
+      properties:
+        id:
+          type: string
+        value:
+          type: integer
+          format: int32
+      required:
+        - id
+
+    # =========================================================================
+    # allOf object merge (compatible)
+    # ALLOF-OBJECT-MERGE-001
+    # =========================================================================
+    ProfileBase:
+      type: object
+      properties:
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - name
+
+    ProfileExtension:
+      type: object
+      properties:
+        displayName:
+          type: string
+        avatarUrl:
+          type: string
+          format: uri
+        score:
+          type: number
+
+    AllOfObjectMerge:
+      description: >
+        Compatible allOf merge of two object schemas.  Should flatten
+        properties from both into a single generated struct.
+      allOf:
+        - $ref: "#/components/schemas/ProfileBase"
+        - $ref: "#/components/schemas/ProfileExtension"
+
+    # =========================================================================
+    # nullable T / anyOf [T, null] → std::optional<T>
+    # NULLABLE-001
+    # =========================================================================
+    NullableString:
+      description: >
+        anyOf with exactly one non-null type and null.  Should lower to
+        std::optional<std::string>.
+      anyOf:
+        - type: string
+        - type: "null"
+
+    NullableEnum:
+      description: >
+        anyOf with a string enum and null.  Should lower to
+        std::optional<enum_class> or std::optional<std::string> depending on
+        enum handling.
+      anyOf:
+        - type: string
+          enum:
+            - active
+            - inactive
+            - paused
+        - type: "null"
+
+    # =========================================================================
+    # discriminator + oneOf object branches
+    # DISCRIMINATOR-ONEOF-001
+    # =========================================================================
+    Animal:
+      type: object
+      discriminator:
+        propertyName: kind
+        mapping:
+          mammal: "#/components/schemas/Mammal"
+          bird: "#/components/schemas/Bird"
+      oneOf:
+        - $ref: "#/components/schemas/Mammal"
+        - $ref: "#/components/schemas/Bird"
+      properties:
+        kind:
+          type: string
+      required:
+        - kind
+
+    Mammal:
+      type: object
+      properties:
+        kind:
+          type: string
+        furColor:
+          type: string
+        legCount:
+          type: integer
+          format: int32
+
+    Bird:
+      type: object
+      properties:
+        kind:
+          type: string
+        wingSpan:
+          type: number
+        canFly:
+          type: boolean
+      required:
+        - wingSpan
+
+    # Discriminator schema at top level referencing Animal.
+    # This is the top-level oneOf + discriminator schema used by the endpoint.
+    DiscriminatorOneOf:
+      description: >
+        oneOf with discriminator.  The discriminator property is only a
+        candidate-order hint; the oneOf/anyOf membership must always be
+        determined by structural validation, not by the discriminator value
+        alone.  A value matching the discriminator mapping but failing
+        structural validation MUST still be rejected.
+      oneOf:
+        - $ref: "#/components/schemas/Mammal"
+        - $ref: "#/components/schemas/Bird"
+      discriminator:
+        propertyName: kind
+        mapping:
+          mammal: "#/components/schemas/Mammal"
+          bird: "#/components/schemas/Bird"
+
+    # =========================================================================
+    # Response multi-content: JSON body
+    # =========================================================================
+    MultiContentJsonBody:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        result:
+          type: object
+          properties:
+            ok:
+              type: boolean
+      required:
+        - id
+        - status
+
+    # =========================================================================
+    # Response multi-content: SSE stream event
+    # =========================================================================
+    MultiContentStreamEvent:
+      description: >
+        Schema for the text/event-stream media type of the multi-content
+        response.  The client must use this schema when interpreting SSE
+        payload data.
+      oneOf:
+        - $ref: "#/components/schemas/StreamProgress"
+        - $ref: "#/components/schemas/StreamComplete"
+        - $ref: "#/components/schemas/StreamError"
+
+    StreamProgress:
+      type: object
+      properties:
+        event:
+          type: string
+          enum:
+            - progress
+        progress:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+      required:
+        - event
+        - progress
+
+    StreamComplete:
+      type: object
+      properties:
+        event:
+          type: string
+          enum:
+            - complete
+        summary:
+          type: string
+      required:
+        - event
+
+    StreamError:
+      type: object
+      properties:
+        event:
+          type: string
+          enum:
+            - error
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+      required:
+        - event
+        - code
+
+    # =========================================================================
+    # Multipart: oneOf form field (binary|object)
+    # =========================================================================
+    MultipartMetaField:
+      description: >
+        oneOf between a binary blob and a structured metadata object.  Used
+        as a multipart form field schema.  The generated client must handle
+        variant parts in multipart bodies.
+      oneOf:
+        - type: string
+          format: binary
+        - $ref: "#/components/schemas/MetaRecord"
+
+    MetaRecord:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+      required:
+        - key
+
+    # =========================================================================
+    # Multipart response
+    # =========================================================================
+    MultipartUploadResponse:
+      type: object
+      properties:
+        fileId:
+          type: string
+        metaKey:
+          type: string
+        size:
+          type: integer
+          format: int64
+      required:
+        - fileId
+        - size
+
+    # =========================================================================
+    # oneOf constrained numbers (multipleOf)
+    # ONEOF-CONSTRAINED-NUMBERS-001
+    # Acceptance matrix: oneOf constrained numbers — branch 0 multipleOf:3, branch 1 multipleOf:5
+    # =========================================================================
+    ConstrainedNumber:
+      description: >
+        oneOf over two number branches each with a multipleOf constraint.
+        Both branches are type: number (C++ double), so after deduplication
+        the generator MUST type-erase to boost::json::value to preserve
+        runtime validation.
+      oneOf:
+        - type: number
+          multipleOf: 3
+        - type: number
+          multipleOf: 5
+
+    # =========================================================================
+    # anyOf enum union (two distinct string enums)
+    # ANYOF-ENUM-UNION-001
+    # Acceptance matrix: anyOf enum union — [red] ∪ [blue]
+    # =========================================================================
+    AnyOfEnumUnion:
+      description: >
+        anyOf over two string enum schemas. Every value in [red] or [blue]
+        is accepted, while any other string is rejected. The generator keeps
+        CompositionBranchValue alternatives so each enum validator remains
+        enforceable instead of widening the result to std::string.
+      anyOf:
+        - type: string
+          enum:
+            - red
+        - type: string
+          enum:
+            - blue
+
+    # =========================================================================
+    # all-null anyOf
+    # ALLNULL-ANYOF-001
+    # Acceptance matrix: all-null anyOf — two null branches, only null is valid
+    # =========================================================================
+    AllNullAnyOf:
+      description: >
+        anyOf over two null branches. The only valid value is null. The
+        generator retains a CompositionBranchValue<std::nullptr_t> alternative
+        to preserve the null branch's composition semantics.
+      anyOf:
+        - type: "null"
+        - type: "null"
+
+    # =========================================================================
+    # duplicate-null oneOf
+    # DUPLICATE-NULL-ONEOF-001
+    # Acceptance matrix: duplicate-null oneOf — two null branches, null is two matches
+    # =========================================================================
+    DuplicateNullOneOf:
+      description: >
+        oneOf over two null branches.  A null value matches BOTH branches
+        (exactly-one invariant of oneOf is violated).  Should produce
+        boost::json::value to preserve runtime validation.
+      oneOf:
+        - type: "null"
+        - type: "null"
+
+    # =========================================================================
+    # allOf enum intersection
+    # ALLOF-ENUM-INTERSECTION-001
+    # Acceptance matrix: allOf enum intersection — [a,b] ∩ [b,c] = [b]
+    # =========================================================================
+    AllOfEnumIntersection:
+      description: >
+        allOf over two string enum schemas.  The allOf merge must compute
+        the enum intersection [b].  The generated C++ type is std::string.
+      allOf:
+        - type: string
+          enum:
+            - a
+            - b
+        - type: string
+          enum:
+            - b
+            - c
+
+    # =========================================================================
+    # optional impossible allOf property (conflicting types, no required)
+    # ALLOF-IMPOSSIBLE-OPTIONAL-001
+    # Acceptance matrix: optional impossible allOf property — string ⊓ int32
+    # =========================================================================
+    OptionalImpossibleAllOf:
+      description: >
+        allOf over two object schemas with the same optional property
+        name but incompatible types (string vs integer).  The allOf merge
+        must produce a valid object model; the value property should be
+        structurally present but cannot satisfy both contributors at
+        runtime (missing → accept, present → reject).
+      allOf:
+        - type: object
+          properties:
+            value:
+              type: string
+        - type: object
+          properties:
+            value:
+              type: integer
+              format: int32
+
+    # =========================================================================
+    # oneOf integer | number (mathematical integer form)
+    # ONEOF-INTEGER-NUMBER-001
+    # Acceptance matrix: integer mathematical form — oneOf [integer, number]
+    # =========================================================================
+    IntOrNumber:
+      description: >
+        oneOf over integer and number branches.  A value of 1.0 matches
+        BOTH branches (mathematically integral), causing a oneOf violation.
+        The expected C++ type is std::variant<int32_t, double>.
+      oneOf:
+        - type: integer
+          format: int32
+        - type: number
+
+    # =========================================================================
+    # discriminator overlap test — mapping points to Mammal but another
+    # branch may also structurally match
+    # OVERLAPPING-DISCRIMINATOR-001
+    # =========================================================================
+    OverlappingAnimal:
+      description: >
+        oneOf with discriminator where the mapping points to Mammal, but a
+        payload matching both Mammal AND another branch (OverlappingReptile)
+        structurally must still be rejected (oneOf exactly-one).
+      oneOf:
+        - $ref: "#/components/schemas/Mammal"
+        - $ref: "#/components/schemas/Bird"
+        - $ref: "#/components/schemas/OverlappingReptile"
+      discriminator:
+        propertyName: kind
+        mapping:
+          mammal: "#/components/schemas/Mammal"
+          bird: "#/components/schemas/Bird"
+          reptile: "#/components/schemas/OverlappingReptile"
+
+    OverlappingReptile:
+      description: >
+        Reptile schema that shares the furColor property with Mammal
+        (structurally overlapping).  Used to test known-overlap rejection.
+      type: object
+      properties:
+        kind:
+          type: string
+        furColor:
+          type: string
+        legCount:
+          type: integer
+          format: int32
+        scalePattern:
+          type: string
+      required:
+        - kind
+        - furColor
+
+    # =========================================================================
+    # format: unixtime property (non-standard format, but documented mapping)
+    # =========================================================================
+    TimestampedEvent:
+      type: object
+      properties:
+        id:
+          type: string
+        timestamp:
+          type: integer
+          format: unixtime
+        payload:
+          type: string
+      required:
+        - id
+        - timestamp

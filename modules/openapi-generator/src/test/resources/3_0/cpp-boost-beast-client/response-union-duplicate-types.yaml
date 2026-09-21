@@ -1,0 +1,54 @@
+openapi: 3.0.3
+info:
+  title: Cpp Boost Beast response union duplicate types
+  version: 1.0.0
+  description: >
+    OAS 3.0 response union regression with duplicate C++ body types.
+    Both 200 and 201 return the same FullResource model, plus a 204
+    no-content. This exercises StatusTaggedValue wrappers alongside
+    std::monostate in the same variant.
+paths:
+  /duplicate-types:
+    post:
+      operationId: postDuplicateTypes
+      summary: Return same shape with different status codes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRequest'
+      responses:
+        '200':
+          description: Standard success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullResource'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullResource'
+        '204':
+          description: No Content — bodyless success
+        '400':
+          description: Non-union client error after successful responses
+components:
+  schemas:
+    CreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+    FullResource:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: integer
+          format: int32

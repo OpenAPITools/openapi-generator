@@ -365,7 +365,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         if (!scheme.isEmpty()) {
             this.additionalProperties.put("scheme", scheme);
         }
-        if (!serverList.isEmpty()) {
+        if (serverList != null && !serverList.isEmpty()) {
             for (Server server : serverList) {
                 CodegenServer s = new CodegenServer();
                 s.description = server.getDescription();

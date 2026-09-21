@@ -67,6 +67,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String DATE_LIBRARY_DESC = "Option. Date library to use.";
     public static final String DATE_LIBRARY_DATE = "date";
     public static final String DATE_LIBRARY_STRING = "string";
+    public static final String DATE_LIBRARY_TEMPORAL = "temporal";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
@@ -112,6 +113,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String DATE_TYPE = "date";
     private static final String DATE_TIME_TYPE = "DateTime";
     private static final String TS_DATE_TYPE = "Date";
+    private static final String TS_TEMPORAL_INSTANT_TYPE = "Temporal.Instant";
+    private static final String TS_TEMPORAL_PLAIN_DATE_TYPE = "Temporal.PlainDate";
 
     protected boolean sagasAndRecords = false;
     @Getter @Setter
@@ -143,6 +146,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         this.addExtraReservedWords();
 
+        languageSpecificPrimitives.addAll(Arrays.asList(
+                TS_TEMPORAL_INSTANT_TYPE,
+                TS_TEMPORAL_PLAIN_DATE_TYPE
+        ));
+
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
@@ -154,6 +162,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DATE_LIBRARY_DATE, "Native Date. `format: date` and `format: date-time` are both mapped to Date and (de)serialized by the runtime.");
         dateOptions.put(DATE_LIBRARY_STRING, "Plain string. Values are passed through untouched, leaving date handling to the consumer.");
+        dateOptions.put(DATE_LIBRARY_TEMPORAL, "Native Temporal. `format: date` is mapped to Temporal.PlainDate and `format: date-time` is mapped to Temporal.Instant and (de)serialized by the runtime.");
         dateLibraryOption.setEnum(dateOptions);
         this.cliOptions.add(dateLibraryOption);
         this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
@@ -349,10 +358,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         // `date` needs the model (de)serialization to convert with, which
         // withoutRuntimeChecks removes: the raw string would just be cast to Date.
-        if (withoutRuntimeChecks && DATE_LIBRARY_DATE.equals(this.dateLibrary)) {
+        if (withoutRuntimeChecks && (DATE_LIBRARY_DATE.equals(this.dateLibrary) || DATE_LIBRARY_TEMPORAL.equals(this.dateLibrary))) {
             if (additionalProperties.containsKey(DATE_LIBRARY)) {
                 LOGGER.warn("{}={} is not compatible with {}=true; falling back to {}={}.",
-                        DATE_LIBRARY, DATE_LIBRARY_DATE, WITHOUT_RUNTIME_CHECKS, DATE_LIBRARY, DATE_LIBRARY_STRING);
+                        DATE_LIBRARY, this.dateLibrary, WITHOUT_RUNTIME_CHECKS, DATE_LIBRARY, DATE_LIBRARY_STRING);
             }
             this.dateLibrary = DATE_LIBRARY_STRING;
         }
@@ -360,6 +369,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (DATE_LIBRARY_DATE.equals(this.dateLibrary)) {
             typeMapping.put(DATE_TYPE, TS_DATE_TYPE);
             typeMapping.put(DATE_TIME_TYPE, TS_DATE_TYPE);
+        } else if (DATE_LIBRARY_TEMPORAL.equals(this.dateLibrary)) {
+            typeMapping.put(DATE_TYPE, TS_TEMPORAL_PLAIN_DATE_TYPE);
+            typeMapping.put(DATE_TIME_TYPE, TS_TEMPORAL_INSTANT_TYPE);
         } else {
             typeMapping.put(DATE_TYPE, "string");
             typeMapping.put(DATE_TIME_TYPE, "string");
@@ -367,6 +379,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         additionalProperties.put(DATE_LIBRARY, this.dateLibrary);
         // Mustache cannot compare strings, so expose the selected library as a flag.
         additionalProperties.put("isDateLibraryDate", DATE_LIBRARY_DATE.equals(this.dateLibrary));
+        additionalProperties.put("isDateLibraryString", DATE_LIBRARY_STRING.equals(this.dateLibrary));
+        additionalProperties.put("isDateLibraryTemporal", DATE_LIBRARY_TEMPORAL.equals(this.dateLibrary));
 
         if (additionalProperties.containsKey(SAGAS_AND_RECORDS)) {
             this.setSagasAndRecords(convertPropertyToBoolean(SAGAS_AND_RECORDS));
@@ -2125,10 +2139,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private static boolean isDateType(String dataType) {
-        return TS_DATE_TYPE.equals(dataType);
+        return TS_DATE_TYPE.equals(dataType) || TS_TEMPORAL_PLAIN_DATE_TYPE.equals(dataType);
     }
 
     private static boolean isDateTimeType(String dataType) {
-        return TS_DATE_TYPE.equals(dataType);
+        return TS_DATE_TYPE.equals(dataType) || TS_TEMPORAL_INSTANT_TYPE.equals(dataType);
     }
 }

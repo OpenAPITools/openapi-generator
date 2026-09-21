@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: Cpp Boost Beast multipart encoding regression
+  version: 1.0.0
+  description: >
+    OAS 3.0 multipart form-data with explicit Encoding Object metadata.
+    Tests encoding content-type propagation, defaults, and overrides.
+paths:
+  /upload-with-encoding:
+    post:
+      operationId: uploadWithEncoding
+      summary: Upload with explicit multipart encoding metadata
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                document:
+                  type: string
+                  format: binary
+                description:
+                  type: string
+            encoding:
+              image:
+                contentType: image/png
+              document:
+                contentType: application/pdf
+      responses:
+        '200':
+          description: Upload complete
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imageId:
+                    type: string
+                  documentId:
+                    type: string
+  /upload-text-plain:
+    post:
+      operationId: uploadTextWithEncoding
+      summary: Upload text/plain part with explicit encoding
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                textContent:
+                  type: string
+                notes:
+                  type: string
+                  format: binary
+            encoding:
+              textContent:
+                contentType: text/plain
+      responses:
+        '200':
+          description: Upload complete
+  /upload-json-object:
+    post:
+      operationId: uploadJsonObject
+      summary: Upload JSON object part (default encoding)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: object
+                  # Using additionalProperties for inline object to avoid inline model generation
+                  additionalProperties:
+                    type: string
+                metadata:
+                  type: string
+      responses:
+        '200':
+          description: Upload complete
+  /upload-array-part:
+    post:
+      operationId: uploadArrayPart
+      summary: Upload array part without explicit encoding
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                tags:
+                  type: array
+                  items:
+                    type: string
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Upload complete
+  /upload-binary-default:
+    post:
+      operationId: uploadBinaryDefault
+      summary: Upload binary part without encoding (octet-stream default)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                rawData:
+                  type: string
+                  format: binary
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Upload complete
+  /upload-mixed-encoding:
+    post:
+      operationId: uploadMixedEncoding
+      summary: Upload with mixed encoding (some parts with, some without)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+                report:
+                  type: string
+                  format: binary
+                signature:
+                  type: string
+                  format: binary
+            encoding:
+              avatar:
+                contentType: image/png
+              report:
+                contentType: application/pdf
+              # signature uses default encoding (application/octet-stream)
+      responses:
+        '200':
+          description: Upload complete

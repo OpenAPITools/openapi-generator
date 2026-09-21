@@ -37,6 +37,22 @@ public class Swift6ClientCodegenTest {
     Swift6ClientCodegen swiftCodegen = new Swift6ClientCodegen();
 
     @Test(enabled = true)
+    public void testToRegularExpressionRemainsValidInSwiftStringLiteral() throws Exception {
+        // patterns are passed verbatim to NSRegularExpression at runtime, so no
+        // "/.../" delimiters are added and, in particular, no "\/" escape is
+        // produced ("\/" is not a valid escape sequence in a Swift string
+        // literal, see issue #15604)
+        Assert.assertEquals(swiftCodegen.toRegularExpression("http(s)?://x"), "http(s)?://x");
+        Assert.assertEquals(swiftCodegen.toRegularExpression("[a-z/]+"), "[a-z/]+");
+        // "\/" in the spec (a JSON-style escaped slash) is normalized to "/"
+        Assert.assertEquals(swiftCodegen.toRegularExpression("http(s)?:\\/\\/x"), "http(s)?://x");
+        // backslashes are escaped for the Swift string literal
+        Assert.assertEquals(swiftCodegen.toRegularExpression("[a-z0-9\\-]+\\.[a-z]{2,63}"), "[a-z0-9\\\\-]+\\\\.[a-z]{2,63}");
+        // a pattern that already carries delimiters is left untouched
+        Assert.assertEquals(swiftCodegen.toRegularExpression("/[a-z]/i"), "/[a-z]/i");
+    }
+
+    @Test(enabled = true)
     public void testCapitalizedReservedWord() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("AS", null), "_as");
     }
@@ -169,6 +185,31 @@ public class Swift6ClientCodegenTest {
 
         Assert.assertEquals(op.returnType, "OpenAPIDateWithoutTime");
         Assert.assertEquals(op.bodyParam.dataType, "OpenAPIDateWithoutTime");
+    }
+
+    @Test(description = "model names colliding with types declared by the generated client are renamed", enabled = true)
+    public void reservedTypeNamesDeclaredByClientTest() {
+        final DefaultCodegen codegen = new Swift6ClientCodegen();
+
+        // Names declared by the generated support files (Validation.swift, Models.swift, ...):
+        // a model with such a name would be an invalid redeclaration of the client's own type.
+        Assert.assertEquals(codegen.toModelName("ValidationError"), "ModelValidationError");
+        Assert.assertEquals(codegen.toModelName("Validator"), "ModelValidator");
+        Assert.assertEquals(codegen.toModelName("OpenAPIMutex"), "ModelOpenAPIMutex");
+        Assert.assertEquals(codegen.toModelName("RequestBuilder"), "ModelRequestBuilder");
+    }
+
+    @Test(description = "model names shadowing Foundation types used by the generated client are renamed", enabled = true)
+    public void reservedFoundationTypeNamesTest() {
+        final DefaultCodegen codegen = new Swift6ClientCodegen();
+
+        // Foundation types the generated support files reference unqualified
+        // (e.g. OpenISO8601DateFormatter.swift assigns `formatter.locale = Locale(...)`):
+        // a model with such a name would shadow the Foundation type inside the module.
+        Assert.assertEquals(codegen.toModelName("Locale"), "ModelLocale");
+        Assert.assertEquals(codegen.toModelName("DateFormatter"), "ModelDateFormatter");
+        Assert.assertEquals(codegen.toModelName("TimeZone"), "ModelTimeZone");
+        Assert.assertEquals(codegen.toModelName("URLSession"), "ModelURLSession");
     }
 
     @Test(description = "type from languageSpecificPrimitives should not be prefixed", enabled = true)
@@ -504,5 +545,35 @@ public class Swift6ClientCodegenTest {
         Assert.assertEquals(nullableMap.getDataType(), "[String: String?]");
         Assert.assertEquals(notNullableMap.getDataType(), "[String: String]");
         Assert.assertEquals(defaultMap.getDataType(), "[String: String]");
+    }
+
+    @Test(description = "Issue #22355")
+    public void testNullableArrayItems() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/swift6/issue22355-nullable-array-items.yaml");
+        final DefaultCodegen codegen = new Swift6ClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("NullItemsNotNullItems");
+        CodegenModel cm1 = codegen.fromModel("NullItemsNotNullItems", test1);
+
+        // Assert the dataType properly generated
+        CodegenProperty nullableItems = cm1.vars.get(0);
+        CodegenProperty notNullableItems = cm1.vars.get(1);
+        CodegenProperty defaultItems = cm1.vars.get(2);
+        CodegenProperty nullableDoubleItems = cm1.vars.get(3);
+        CodegenProperty xNullableItems = cm1.vars.get(4);
+        CodegenProperty aliasedNullableItems = cm1.vars.get(5);
+        CodegenProperty nullableItemsSet = cm1.vars.get(6);
+        CodegenProperty nestedNullableItems = cm1.vars.get(7);
+        CodegenProperty modelRefNullableItems = cm1.vars.get(8);
+        Assert.assertEquals(nullableItems.getDataType(), "[String?]");
+        Assert.assertEquals(notNullableItems.getDataType(), "[String]");
+        Assert.assertEquals(defaultItems.getDataType(), "[String]");
+        Assert.assertEquals(nullableDoubleItems.getDataType(), "[Double?]");
+        Assert.assertEquals(xNullableItems.getDataType(), "[String?]");
+        Assert.assertEquals(aliasedNullableItems.getDataType(), "[String?]");
+        Assert.assertEquals(nullableItemsSet.getDataType(), "Set<String?>");
+        Assert.assertEquals(nestedNullableItems.getDataType(), "[[String?]]");
+        Assert.assertEquals(modelRefNullableItems.getDataType(), "[NullablePet?]");
     }
 }

@@ -141,10 +141,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class TriangleInterface.", nameof(triangleType));
+                throw new JsonException("Property is required for class TriangleInterface: triangleType.");
 
             if (triangleType.IsSet && triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class TriangleInterface.");
+                throw new JsonException("Property is not nullable for class TriangleInterface: triangleType.");
 
             return new TriangleInterface(triangleType.Value!);
         }
@@ -173,9 +173,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, TriangleInterface triangleInterface, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (triangleInterface.TriangleType == null)
-                throw new ArgumentNullException(nameof(triangleInterface.TriangleType), "Property is required for class TriangleInterface.");
-
             writer.WriteString("triangleType", triangleInterface.TriangleType);
         }
     }

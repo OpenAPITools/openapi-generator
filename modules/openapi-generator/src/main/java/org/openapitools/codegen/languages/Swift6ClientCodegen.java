@@ -221,8 +221,24 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         reservedWords = new HashSet<>(
                 Arrays.asList(
-                        // name used by swift client
+                        // Types declared by the generated code itself (support files and
+                        // per-library implementations). A model with one of these names
+                        // would be an invalid redeclaration of the client's own type.
                         "ErrorResponse", "Response",
+                        "APIHelper", "AlamofireDecodableRequestBuilder", "AlamofireRequestBuilder",
+                        "AlamofireRequestBuilderFactory", "AnyResponseSerializer", "ArrayRule",
+                        "ArrayValidationErrorKind", "CaseIterableDefaultsLast", "CodableHelper",
+                        "DecodableRequestBuilderError", "DefaultOpenAPIInterceptor", "DownloadException",
+                        "HTTPMethod", "JSONDataEncoding", "JSONEncodingHelper",
+                        "NullEncodable", "NumericRule", "NumericValidationErrorKind",
+                        "OpenAPIInterceptor", "OpenAPIInterceptorRetry",
+                        "OpenAPIMutex", "OpenISO8601DateFormatter", "ParameterConvertible",
+                        "ParameterEncoding", "RequestBuilder", "RequestBuilderFactory", "RequestTask",
+                        "StringRule", "StringValidationErrorKind", "SynchronizedDictionary",
+                        "UnknownCaseCheckable", "URLSessionDataTaskProtocol",
+                        "URLSessionDecodableRequestBuilder", "URLSessionProtocol",
+                        "URLSessionRequestBuilder", "URLSessionRequestBuilderFactory",
+                        "ValidationError", "Validator",
 
                         // Swift keywords. This list is taken from here:
                         // https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html#//apple_ref/doc/uid/TP40014097-CH30-ID410
@@ -259,8 +275,20 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                         // Collections
                         "Array", "Dictionary", "Set", "OptionSet", "CountableRange", "CountableClosedRange",
 
-                        // The following are commonly-used Foundation types
+                        // The following are commonly-used Foundation (and stdlib) types that
+                        // the generated support files reference unqualified: a model with one
+                        // of these names would shadow the real type inside the generated
+                        // module and break the client's own code.
                         "URL", "Data", "Codable", "Encodable", "Decodable",
+                        "AnyHashable", "Calendar", "DateFormatter", "DispatchQueue", "FileManager",
+                        "HTTPURLResponse", "JSONDecoder", "JSONEncoder",
+                        "KeyedDecodingContainerProtocol", "KeyedEncodingContainerProtocol",
+                        "Locale", "NSCoder", "NSDecimalNumber", "NSNumber", "NSObject",
+                        "NSRecursiveLock", "NSRegularExpression", "NSString", "Progress",
+                        "TimeZone", "URLAuthenticationChallenge", "URLComponents", "URLCredential",
+                        "URLQueryItem", "URLRequest", "URLResponse", "URLSession",
+                        "URLSessionConfiguration", "URLSessionDataTask", "URLSessionTask",
+                        "URLSessionTaskDelegate",
 
                         // The following are other words we want to reserve
                         "Void", "AnyObject", "Class", "dynamicType", "COLUMN", "FILE", "FUNCTION", "LINE"
@@ -815,7 +843,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema inner = ModelUtils.getSchemaItems(p);
-            return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
+            String innerTypeDeclaration = getItemsTypeDeclaration(inner);
+            return ModelUtils.isSet(p) ? "Set<" + innerTypeDeclaration + ">" : "[" + innerTypeDeclaration + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = unaliasSchema(ModelUtils.getAdditionalProperties(p));
             return "[String: " + getItemsTypeDeclaration(inner) + "]";
@@ -825,7 +854,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     private String getItemsTypeDeclaration(Schema items) {
         String itemsTypeDeclaration = getTypeDeclaration(items);
-        String nullable = items.getNullable() != null && items.getNullable() && !itemsTypeDeclaration.endsWith("?") ? "?" : "";
+        Schema itemsSchema = ModelUtils.getReferencedSchema(openAPI, unaliasSchema(items));
+        String nullable = ModelUtils.isNullable(itemsSchema) && !itemsTypeDeclaration.endsWith("?") ? "?" : "";
         return itemsTypeDeclaration + nullable;
     }
 
@@ -1317,6 +1347,16 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             // which provide Objective-C compatibility.
             property.vendorExtensions.put("x-swift-optional-scalar", true);
         }
+    }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        // Don't wrap the pattern in "/.../" delimiters: the generated
+        // Validator hands rule.pattern straight to NSRegularExpression, which
+        // has no delimiter syntax. Wrapping also escaped every inner "/" as
+        // "\/", which is not a valid escape sequence in a Swift string
+        // literal, so any pattern containing "/" failed to compile (#15604).
+        return escapeText(pattern);
     }
 
     @Override
