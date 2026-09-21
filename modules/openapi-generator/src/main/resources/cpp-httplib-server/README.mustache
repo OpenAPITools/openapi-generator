@@ -97,6 +97,18 @@ The server will start on `http://0.0.0.0:8080` with:
 #### {{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}
 
 ```cpp
+{{#isEnum}}
+// Select an enum value
+auto model = {{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}::{{#allowableValues}}{{#enumVars}}{{#-first}}{{name}}{{/-first}}{{/enumVars}}{{/allowableValues}};
+
+// Serialize to JSON via the generated to_json free function
+nlohmann::json json = model;
+std::string jsonString = json.dump();
+
+// Deserialize from JSON via the generated from_json free function
+auto parsedModel = nlohmann::json::parse(jsonString).get<{{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}>();
+{{/isEnum}}
+{{^isEnum}}
 // Create a model
 auto model = {{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}();
 {{#vars}}
@@ -109,6 +121,7 @@ std::string jsonString = json.dump();
 
 // Deserialize from JSON
 auto parsedModel = {{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}::fromJson(nlohmann::json::parse(jsonString));
+{{/isEnum}}
 ```
 {{/model}}
 {{/models}}

@@ -68,3 +68,7 @@ models/TestQueryParameters200Response.cpp
 models/TestQueryParameters200Response.h
 models/TestQueryParametersDeepObjectParameter.cpp
 models/TestQueryParametersDeepObjectParameter.h
+models/TopLevelPriority.cpp
+models/TopLevelPriority.h
+models/TopLevelStatus.cpp
+models/TopLevelStatus.h
