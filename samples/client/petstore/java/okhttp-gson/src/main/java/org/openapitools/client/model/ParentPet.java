@@ -186,6 +186,12 @@ public class ParentPet extends GrandparentAnimal {
              JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              ParentPet instance = thisAdapter.fromJsonTree(jsonObj);
+             // the inherited bag is visible to reflection, so the delegate above bound a
+             // literal `additionalProperties` key into it; drop that and let the loop below
+             // collect every undeclared key from the raw JSON, this one included
+             if (instance.getAdditionalProperties() != null) {
+               instance.getAdditionalProperties().clear();
+             }
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
                if (!openapiFields.contains(entry.getKey())) {
                  if (entry.getValue().isJsonPrimitive()) { // primitive type

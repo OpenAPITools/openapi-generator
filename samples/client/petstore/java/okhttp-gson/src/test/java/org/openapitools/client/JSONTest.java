@@ -41,6 +41,29 @@ public class JSONTest {
     }
 
     @Test
+    public void testLiteralAdditionalPropertiesKeyRoundTripsOnAllOfChild() {
+        Gson gson = json.getGson();
+
+        // Dog inherits the additionalProperties bag from Animal, where the field stays visible
+        // to gson's reflection, so the delegate adapter binds an undeclared property literally
+        // named `additionalProperties` into it. The adapter clears the bag before collecting
+        // the extras from the raw JSON, or the key would be stored twice - once nested, once
+        // flattened - and the nested entries would be written back as top-level properties.
+        String jsonStr = "{\"className\":\"Dog\",\"breed\":\"b\",\"additionalProperties\":{\"x\":1},\"extra\":\"e\"}";
+        Dog dog = gson.fromJson(jsonStr, Dog.class);
+
+        Map<String, Object> expected = new HashMap<>();
+        expected.put("additionalProperties", new HashMap<>(Collections.singletonMap("x", 1.0)));
+        expected.put("extra", "e");
+        assertEquals(expected, dog.getAdditionalProperties());
+
+        JsonObject written = gson.toJsonTree(dog).getAsJsonObject();
+        assertFalse(written.has("x"), "the nested entry must not leak to the top level: " + written);
+        assertEquals("{\"x\":1.0}", written.get("additionalProperties").toString());
+        assertEquals("e", written.get("extra").getAsString());
+    }
+
+    @Test
     public void testAnyOfWithNullableRequiredFields() {
         Gson gson = json.getGson();
 
