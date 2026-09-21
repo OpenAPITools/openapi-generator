@@ -256,6 +256,14 @@ public class DefaultCodegen implements CodegenConfig {
     // sort operations by default
     protected boolean skipSortingOperations = false;
 
+    // Carries the operationId used to match injected parameter-level vendor extensions
+    // (--inject-operation-vendor-extensions) across the fromOperation -> fromParameter(Parameter, Set<String>)
+    // virtual dispatch boundary, so overriding generators (e.g. Dart, TypeScript Fetch) still run
+    // their own fromParameter logic while parameter-level injection still applies before
+    // postProcessParameter. Set/restored around each call in fromOperation's parameter loop; null
+    // for any other caller of the public fromParameter(Parameter, Set<String>) method.
+    private String currentOperationVendorExtensionMatchOperationId;
+
     protected final static Pattern XML_MIME_PATTERN = Pattern.compile("(?i)application/(.*)[+]?xml(;.*)?");
     protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application/json(;.*)?");
     protected final static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application/vnd.(.*)+json(;.*)?");
@@ -5170,7 +5178,18 @@ public class DefaultCodegen implements CodegenConfig {
             for (Parameter param : parameters) {
                 param = ModelUtils.getReferencedParameter(this.openAPI, param);
 
-                CodegenParameter p = fromParameter(param, imports, operationVendorExtensionMatchOperationId);
+                // Call the public, overridable fromParameter(Parameter, Set<String>) (not the
+                // private 3-arg overload directly) so subclass overrides (e.g. Dart, TypeScript
+                // Fetch) still run; the match id is threaded through via an instance field so the
+                // base implementation can still apply parameter-level injection at the right point.
+                String previousOperationVendorExtensionMatchOperationId = currentOperationVendorExtensionMatchOperationId;
+                currentOperationVendorExtensionMatchOperationId = operationVendorExtensionMatchOperationId;
+                CodegenParameter p;
+                try {
+                    p = fromParameter(param, imports);
+                } finally {
+                    currentOperationVendorExtensionMatchOperationId = previousOperationVendorExtensionMatchOperationId;
+                }
                 p.setContent(getContent(param.getContent(), imports, "RequestParameter" + toModelName(param.getName())));
 
                 // ensure unique params
@@ -5721,7 +5740,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return Codegen Parameter object
      */
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
-        return fromParameter(parameter, imports, null);
+        return fromParameter(parameter, imports, currentOperationVendorExtensionMatchOperationId);
     }
 
     private CodegenParameter fromParameter(Parameter parameter, Set<String> imports, String operationVendorExtensionMatchOperationId) {

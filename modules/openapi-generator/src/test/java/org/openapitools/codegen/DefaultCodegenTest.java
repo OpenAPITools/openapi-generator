@@ -31,6 +31,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -296,6 +297,38 @@ public class DefaultCodegenTest {
         assertEquals(List.of("@com.example.ValidOrgId"), codegen.getObservedAnnotations().get("orgId"));
         assertEquals(List.of("@com.example.ValidEmployee"), codegen.getObservedAnnotations().get(discovered.bodyParam.baseName));
         assertEquals(List.of("@com.example.ValidEmployee"), operation.bodyParam.vendorExtensions.get("x-field-extra-annotation"));
+    }
+
+    @Test
+    public void testFromOperationPreservesFromParameterVirtualDispatch() {
+        // Simulates generators (e.g. Dart, TypeScript Fetch) that override the public
+        // fromParameter(Parameter, Set<String>) and call super.fromParameter(...) internally.
+        // fromOperation's parameter loop must dispatch through this override, not bypass it via
+        // the private 3-arg overload used for parameter-level vendor extension injection.
+        final class OverridingCodegen extends DefaultCodegen {
+            @Override
+            public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+                CodegenParameter param = super.fromParameter(parameter, imports);
+                param.vendorExtensions.put("x-marked-by-override", Boolean.TRUE);
+                return param;
+            }
+        }
+
+        final OverridingCodegen codegen = new OverridingCodegen();
+        codegen.setOpenAPI(new OpenAPI().components(new Components()));
+
+        Operation operation = new Operation()
+                .operationId("markedOperation")
+                .addParametersItem(new io.swagger.v3.oas.models.parameters.PathParameter()
+                        .name("orgId")
+                        .required(true)
+                        .schema(new StringSchema()))
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("ok")));
+
+        CodegenOperation co = codegen.fromOperation("/orgs/{orgId}", "get", operation, null);
+
+        assertEquals(1, co.allParams.size());
+        assertEquals(Boolean.TRUE, co.allParams.get(0).vendorExtensions.get("x-marked-by-override"));
     }
 
     @Test

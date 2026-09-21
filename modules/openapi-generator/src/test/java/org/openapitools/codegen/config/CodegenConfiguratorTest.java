@@ -133,4 +133,20 @@ public class CodegenConfiguratorTest {
 
         Assertions.assertNotNull(context.getSpecDocument().getPaths().get("/hello").getGet().getResponses().get("200").getContent());
     }
+
+    @Test
+    public void setInjectModelVendorExtensionsFollowedByAddDoesNotDoubleAppend() {
+        Map<String, java.util.List<String>> initial = new HashMap<>();
+        initial.put("Pet.x-class-extra-annotation", new java.util.ArrayList<>(java.util.List.of("@Foo")));
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setInjectModelVendorExtensions(initial)
+                .addInjectModelVendorExtension("Pet.x-class-extra-annotation", "@Bar");
+
+        GeneratorSettings generatorSettings = configurator.toContext().getGeneratorSettings();
+        Assertions.assertEquals(java.util.List.of("@Foo", "@Bar"),
+                generatorSettings.getInjectModelVendorExtensions().get("Pet.x-class-extra-annotation"));
+    }
 }

@@ -18,9 +18,13 @@ package org.openapitools.codegen.config;
 
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertThrows;
 
 public class GeneratorSettingsTest {
 
@@ -58,5 +62,49 @@ public class GeneratorSettingsTest {
 
         assertEquals(settings.getInjectOperationVendorExtensions().get("addPet.x-operation-extra-annotation"), List.of("@Foo"));
         assertEquals(settings.getInjectOperationVendorExtensions().get("addPet.orgId.x-field-extra-annotation"), List.of("@Bar"));
+    }
+
+    @Test
+    public void getInjectModelVendorExtensionsListIsUnmodifiable() {
+        GeneratorSettings settings = GeneratorSettings.newBuilder()
+                .withGeneratorName("spring")
+                .withInjectModelVendorExtension("Pet.x-class-extra-annotation", "@Foo")
+                .build();
+
+        List<String> values = settings.getInjectModelVendorExtensions().get("Pet.x-class-extra-annotation");
+        assertThrows(UnsupportedOperationException.class, () -> values.add("@Bar"));
+    }
+
+    @Test
+    public void copyingBuilderDoesNotLeakMutationsBetweenSettingsInstances() {
+        GeneratorSettings original = GeneratorSettings.newBuilder()
+                .withGeneratorName("spring")
+                .withInjectModelVendorExtension("Pet.x-class-extra-annotation", "@Foo")
+                .build();
+
+        // Derive a second settings instance from the first (as GenerateBatch does when several
+        // configurators share a base config) and append another value to the same key.
+        GeneratorSettings.newBuilder(original)
+                .withInjectModelVendorExtension("Pet.x-class-extra-annotation", "@Bar")
+                .build();
+
+        // The original, already-built settings must be unaffected by the copy's mutation.
+        assertEquals(original.getInjectModelVendorExtensions().get("Pet.x-class-extra-annotation"), List.of("@Foo"));
+    }
+
+    @Test
+    public void withInjectModelVendorExtensionsBulkSetterDoesNotShareListsWithCaller() {
+        Map<String, List<String>> extensions = new HashMap<>();
+        extensions.put("Pet.x-class-extra-annotation", new ArrayList<>(List.of("@Foo")));
+
+        GeneratorSettings settings = GeneratorSettings.newBuilder()
+                .withGeneratorName("spring")
+                .withInjectModelVendorExtensions(extensions)
+                .build();
+
+        // Mutating the caller's map/list after building must not affect the built settings.
+        extensions.get("Pet.x-class-extra-annotation").add("@Bar");
+
+        assertEquals(settings.getInjectModelVendorExtensions().get("Pet.x-class-extra-annotation"), List.of("@Foo"));
     }
 }

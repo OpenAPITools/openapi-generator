@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
@@ -196,10 +197,13 @@ public class CodegenConfigurator {
 
         mapper.registerModule(new GuavaModule());
 
-        // Allows injectModelVendorExtensions/injectOperationVendorExtensions values to be authored
-        // as either a plain scalar string or a list of strings, so config files written before
-        // injected values became lists (e.g. `x-setter-visibility: private`) keep working.
-        mapper.registerModule(new VendorExtensionsCompatModule());
+        // Allows injectModelVendorExtensions/injectOperationVendorExtensions values (and any other
+        // List-valued config property) to be authored as either a plain scalar or a list, so config
+        // files written before injected values became lists (e.g. `x-setter-visibility: private`)
+        // keep working. This is a standard Jackson feature scoped to List/Collection content
+        // deserialization, so Map key/value type validation and top-level shape validation
+        // elsewhere are unaffected.
+        mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
         try {
             return mapper.readValue(new File(configFile), DynamicSettings.class);
@@ -296,7 +300,7 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setInjectModelVendorExtensions(Map<String, List<String>> extensions) {
         this.injectModelVendorExtensions = extensions;
-        generatorSettingsBuilder.withInjectModelVendorExtensions(extensions);
+        generatorSettingsBuilder.withInjectModelVendorExtensions(deepCopyInjectVendorExtensions(extensions));
         return this;
     }
 
@@ -315,8 +319,24 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setInjectOperationVendorExtensions(Map<String, List<String>> extensions) {
         this.injectOperationVendorExtensions = extensions;
-        generatorSettingsBuilder.withInjectOperationVendorExtensions(extensions);
+        generatorSettingsBuilder.withInjectOperationVendorExtensions(deepCopyInjectVendorExtensions(extensions));
         return this;
+    }
+
+    /**
+     * Returns a deep copy of an {@code injectModelVendorExtensions}/{@code injectOperationVendorExtensions}
+     * map (a new outer map with a new list per entry), so this configurator's own field and the
+     * {@code generatorSettingsBuilder}'s copy never reference the same mutable {@code List}
+     * instances. Without this, calling {@code addInject*VendorExtension} for a key already present
+     * in a map previously passed to {@code setInject*VendorExtensions} would append {@code value} to
+     * that shared list twice (once via this configurator's field, once via the builder).
+     */
+    private static Map<String, List<String>> deepCopyInjectVendorExtensions(Map<String, List<String>> source) {
+        Map<String, List<String>> copy = new HashMap<>();
+        if (source != null) {
+            source.forEach((key, value) -> copy.put(key, new ArrayList<>(value)));
+        }
+        return copy;
     }
 
     public CodegenConfigurator addOpenapiNormalizer(String key, String value) {

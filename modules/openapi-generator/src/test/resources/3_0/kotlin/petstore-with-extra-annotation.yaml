@@ -93,7 +93,7 @@ paths:
           deprecated: true
           x-extra-imports:
             - org.springframework.lang.NonNull
-            - jakarta.validation.constraints.Size
+            - javax.validation.constraints.Size
           x-field-extra-annotation:
             - "@NonNull"
             - "@Size(min = 1)"

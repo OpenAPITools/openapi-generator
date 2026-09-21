@@ -3,7 +3,7 @@ package org.openapitools.api
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
 import org.springframework.lang.NonNull
-import jakarta.validation.constraints.Size
+import javax.validation.constraints.Size
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
 import io.swagger.v3.oas.annotations.media.*
