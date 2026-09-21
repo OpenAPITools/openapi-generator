@@ -225,6 +225,84 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testInjectOperationVendorExtensionsAvailableDuringFromOperation() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        codegen.setOpenAPI(openApi);
+        codegen.injectOperationVendorExtensions().put("createEmployee.x-codegen-request-body-name", "employeeRequest");
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees");
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees", "post", path.getPost(), path.getServers());
+
+        assertNotNull(operation.bodyParam);
+        assertEquals("employeeRequest", operation.bodyParam.baseName);
+        assertEquals("employeeRequest", operation.bodyParam.paramName);
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensionsVisibleToPostProcessParameter() {
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        final DefaultCodegen discoveryCodegen = new DefaultCodegen();
+        discoveryCodegen.setOpenAPI(openApi);
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees");
+        CodegenOperation discovered = discoveryCodegen.fromOperation("/orgs/{orgId}/employees", "post", path.getPost(), path.getServers());
+        assertNotNull(discovered.bodyParam);
+
+        final class RecordingCodegen extends DefaultCodegen {
+            private final Map<String, String> observedAnnotations = new HashMap<>();
+
+            @Override
+            public void postProcessParameter(CodegenParameter parameter) {
+                Object annotation = parameter.vendorExtensions.get("x-field-extra-annotation");
+                if (annotation instanceof String) {
+                    observedAnnotations.put(parameter.baseName, (String) annotation);
+                }
+            }
+
+            private Map<String, String> getObservedAnnotations() {
+                return observedAnnotations;
+            }
+        }
+
+        final RecordingCodegen codegen = new RecordingCodegen();
+        codegen.setOpenAPI(openApi);
+        codegen.injectOperationVendorExtensions().put("createEmployee.orgId.x-field-extra-annotation", "@com.example.ValidOrgId");
+        codegen.injectOperationVendorExtensions().put(
+                "createEmployee." + discovered.bodyParam.baseName + ".x-field-extra-annotation",
+                "@com.example.ValidEmployee");
+
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees", "post", path.getPost(), path.getServers());
+
+        assertEquals("@com.example.ValidOrgId", codegen.getObservedAnnotations().get("orgId"));
+        assertEquals("@com.example.ValidEmployee", codegen.getObservedAnnotations().get(discovered.bodyParam.baseName));
+        assertEquals("@com.example.ValidEmployee", operation.bodyParam.vendorExtensions.get("x-field-extra-annotation"));
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensionsMatchesOperationIdContainingDot() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(new OpenAPI().components(new Components()));
+        codegen.injectOperationVendorExtensions().put("my.operation.id.x-foo", "bar");
+        codegen.injectOperationVendorExtensions().put("my.operation.id.orgId.x-field-extra-annotation", "@com.example.ValidOrgId");
+
+        Operation operation = new Operation()
+                .operationId("my.operation.id")
+                .addParametersItem(new io.swagger.v3.oas.models.parameters.PathParameter()
+                        .name("orgId")
+                        .required(true)
+                        .schema(new StringSchema()))
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("ok")));
+
+        CodegenOperation codegenOperation = codegen.fromOperation("/orgs/{orgId}", "get", operation, null);
+
+        assertEquals("bar", codegenOperation.vendorExtensions.get("x-foo"));
+        CodegenParameter orgId = codegenOperation.pathParams.stream()
+                .filter(p -> "orgId".equals(p.baseName)).findFirst().orElseThrow();
+        assertEquals("@com.example.ValidOrgId", orgId.vendorExtensions.get("x-field-extra-annotation"));
+    }
+
+    @Test
     public void testHasBodyParameter() {
         final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
         Operation pingOperation = new Operation()

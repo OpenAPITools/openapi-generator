@@ -101,10 +101,10 @@ paths:
         style: form
         x-extra-imports:
         - org.springframework.lang.NonNull
-        - org.springframework.lang.Nullable
+        - jakarta.validation.constraints.Size
         x-field-extra-annotation:
         - '@NonNull'
-        - '@Nullable'
+        - '@Size(min = 1)'
       responses:
         "200":
           content:

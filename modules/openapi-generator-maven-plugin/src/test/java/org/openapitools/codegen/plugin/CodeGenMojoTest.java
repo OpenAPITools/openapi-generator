@@ -131,12 +131,10 @@ public class CodeGenMojoTest extends BaseTestCase {
                     .orElseThrow(() -> new AssertionError("PetApi.java was not generated under " + generatedDir));
         }
         final String petApiSource = Files.readString(petApi);
-
         final String addPetSignature = extractMethodSignature(petApiSource, "addPet");
-        assertTrue(
-                "Injected annotation should be rendered on addPet's request body parameter",
-                addPetSignature.contains("@com.example.MyValidation")
-                        && addPetSignature.contains("@RequestBody")
+        assertAnnotationPrecedesRequestBody(
+                addPetSignature,
+                "Injected annotation should be rendered on addPet's request body parameter before @RequestBody"
         );
 
         final String updatePetSignature = extractMethodSignature(petApiSource, "updatePet");
@@ -174,6 +172,12 @@ public class CodeGenMojoTest extends BaseTestCase {
             }
         }
         return source.substring(start, i);
+    }
+
+    private static void assertAnnotationPrecedesRequestBody(String methodSignature, String message) {
+        int injectedAnnotationIndex = methodSignature.indexOf("@com.example.MyValidation");
+        int requestBodyIndex = methodSignature.indexOf("@RequestBody");
+        assertTrue(message, injectedAnnotationIndex >= 0 && requestBodyIndex >= 0 && injectedAnnotationIndex < requestBodyIndex);
     }
 
     public void testHashGenerationFileContainsExecutionId() throws Exception {
