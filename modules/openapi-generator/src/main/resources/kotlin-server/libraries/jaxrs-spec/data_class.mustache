@@ -29,22 +29,28 @@ import java.io.Serializable
 {{/isDeprecated}}
 {{>additionalModelTypeAnnotations}}
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}}{{^discriminator}} (
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}{{#x-inheritance-mode-abstract}}abstract class{{/x-inheritance-mode-abstract}}{{^x-inheritance-mode-abstract}}interface{{/x-inheritance-mode-abstract}}{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}}{{^discriminator}} (
 
 {{#allVars}}
 {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
 
 {{/allVars}}
-){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#vendorExtensions.x-has-data-class-body}} {
+){{/discriminator}}{{#discriminator}}{{#x-inheritance-mode-abstract}}(
+
+{{#allVars}}
+{{#required}}{{>data_class_sealed_var}}{{/required}}{{^required}}{{>data_class_sealed_var}}{{/required}}{{^-last}},{{/-last}}
+
+{{/allVars}}
+){{/x-inheritance-mode-abstract}}{{/discriminator}}{{#parent}}{{#vendorExtensions.x-parent-ctor-args}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}({{{.}}}), Serializable, Parcelable{{/parcelizeModels}}{{^parcelizeModels}} : {{{parent}}}({{{.}}}), Serializable{{/parcelizeModels}}{{/serializableModel}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}({{{.}}}), Parcelable{{/parcelizeModels}}{{^parcelizeModels}} : {{{parent}}}({{{.}}}){{/parcelizeModels}}{{/serializableModel}}{{/vendorExtensions.x-parent-ctor-args}}{{^vendorExtensions.x-parent-ctor-args}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{/parcelizeModels}}{{/serializableModel}}{{/vendorExtensions.x-parent-ctor-args}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#vendorExtensions.x-has-data-class-body}} {
 {{/vendorExtensions.x-has-data-class-body}}
 {{#serializableModel}}
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
         private const val serialVersionUID: Long = 123
     }
 {{/serializableModel}}
-{{#discriminator}}{{#vars}}{{#required}}
+{{#discriminator}}{{^x-inheritance-mode-abstract}}{{#vars}}{{#required}}
 {{>interface_req_var}}{{/required}}{{^required}}
-{{>interface_opt_var}}{{/required}}{{/vars}}{{/discriminator}}
+{{>interface_opt_var}}{{/required}}{{/vars}}{{/x-inheritance-mode-abstract}}{{/discriminator}}
 {{#hasEnums}}
 {{#vars}}
 {{#isEnum}}
