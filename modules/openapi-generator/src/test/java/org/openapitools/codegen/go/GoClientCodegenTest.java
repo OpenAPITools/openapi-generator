@@ -166,15 +166,10 @@ public class GoClientCodegenTest {
                 // a nil entry, and a nil element of a list an entry holds, is left out
                 // instead of going on the wire as the literal "null"; a typed nil pointer
                 // is unwrapped with a nil check rather than panicking in Elem().Interface()
+                "entry, ok := parameterValueIndirect(v)",
                 "if element, ok := parameterValueIndirect(entry.Index(i)); ok {",
                 "func parameterValueIndirect(v reflect.Value) (reflect.Value, bool) {",
                 "case reflect.Ptr: if v.IsNil() { return }",
-                // and the entry check sits ahead of the form branch rather than inside it,
-                // so deepObject leaves a nil entry out instead of sending filter[k]=null
-                "entry, ok := parameterValueIndirect(v) if !ok { continue } if style == \"form\" {",
-                // the same for a nil element of a list under deepObject. The skip is in the
-                // array branch, so the elements that remain keep the index they had
-                "if _, ok := parameterValueIndirect(arrayValue); !ok { continue } var keyPrefixForCollectionType = keyPrefix",
                 // an array element does not inherit the form flattening: a map nested one
                 // level down keeps its accumulated path instead of being keyed by its
                 // property names alone

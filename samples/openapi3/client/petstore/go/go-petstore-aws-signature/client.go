@@ -183,11 +183,6 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 				var lenIndValue = indValue.Len()
 				for i:=0;i<lenIndValue;i++ {
 					var arrayValue = indValue.Index(i)
-					// a nil element is left out instead of going on the wire as the literal
-					// "null". The elements that remain keep the index they have here
-					if _, ok := parameterValueIndirect(arrayValue); !ok {
-						continue
-					}
 					var keyPrefixForCollectionType = keyPrefix
 					var styleForElement = style
 					if style == "deepObject" {
@@ -212,12 +207,6 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 					k,v := iter.Key(), iter.Value()
 					var keyPrefixForMapEntry = fmt.Sprintf("%s[%s]", keyPrefix, k.String())
 					var styleForMapEntry = style
-					// a nil entry is left out instead of going on the wire as the literal
-					// "null", whatever the style
-					entry, ok := parameterValueIndirect(v)
-					if !ok {
-						continue
-					}
 					if style == "form" {
 						// form style explodes an object into one parameter per entry, keyed by the
 						// property name alone. Only deepObject nests the property under the
@@ -226,8 +215,12 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 						// siblings holding the same property name stay distinct.
 						keyPrefixForMapEntry = k.String()
 						styleForMapEntry = ""
-						// form style has no index to hang a list element off, so the elements
-						// are walked here; a nil element is left out the same way
+						// a nil entry is left out instead of going on the wire as the literal
+						// "null", and so is a nil element of a list the entry holds
+						entry, ok := parameterValueIndirect(v)
+						if !ok {
+							continue
+						}
 						if entry.Kind() == reflect.Slice {
 							for i := 0; i < entry.Len(); i++ {
 								if element, ok := parameterValueIndirect(entry.Index(i)); ok {
