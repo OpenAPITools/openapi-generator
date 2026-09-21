@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -240,20 +241,35 @@ public class KotlinClientCodegenApiTest {
         List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
         File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
 
+        String content = new String(Files.readAllBytes(defaultApi.toPath()), StandardCharsets.UTF_8);
+
         // form style with explode - the default - puts every entry on the wire under its own
         // property name. Serializing the whole map with toString() is what used to happen.
-        assertFileContains(defaultApi.toPath(),
-                "(filter as? kotlin.collections.Map<*, *>)?.forEach { (key, value) -> put(key.toString(), listOf(value.toString())) }");
+        assertFileContains(defaultApi.toPath(), "(filter as? kotlin.collections.Map<*, *>)?.forEach { (key, value) ->");
         assertFileNotContains(defaultApi.toPath(), "put(\"filter\", listOf(filter.toString()))");
 
         // a declared map behaves the same way
+        assertFileContains(defaultApi.toPath(), "(typedFilter as? kotlin.collections.Map<*, *>)?.forEach { (key, value) ->");
+        assertFileNotContains(defaultApi.toPath(), "put(\"typedFilter\"");
+
+        // a null entry is left out rather than sent as "null", a collection repeats the key
+        // once per element rather than going out as its toString(), and an entry is appended
+        // rather than replacing a query parameter of the same name
         assertFileContains(defaultApi.toPath(),
-                "(typedFilter as? kotlin.collections.Map<*, *>)?.forEach { (key, value) -> put(key.toString(), listOf(value.toString())) }");
+                "null -> emptyList<kotlin.String>()",
+                "is kotlin.collections.Iterable<*> -> value.filterNotNull().map { parameterToString(it) }",
+                "else -> listOf(parameterToString(value))",
+                "put(name, getOrElse(name) { emptyList() } + values)");
 
         // deepObject and form without explode both keep a single parameter
         assertFileContains(defaultApi.toPath(),
                 "put(\"deepFilter\", listOf(deepFilter.toString()))",
                 "put(\"flatFilter\", listOf(flatFilter.toString()))");
+
+        // the exploded entries are added after every declared parameter, so a declared
+        // parameter's put cannot overwrite an entry that happens to share its name
+        Assert.assertTrue(content.indexOf("(filter as? kotlin.collections.Map") > content.indexOf("put(\"flatFilter\""),
+                "exploded entries must be added after the declared query parameters");
     }
 
     private static void assertFileContainsLine(List<String> lines, String line) {
