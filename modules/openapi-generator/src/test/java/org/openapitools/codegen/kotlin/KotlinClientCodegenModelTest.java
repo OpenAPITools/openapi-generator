@@ -39,11 +39,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.languages.KotlinClientCodegen.*;
@@ -1522,6 +1521,6 @@ public class KotlinClientCodegenModelTest {
 
         Assert.assertNotNull(option, CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE + " is not registered");
         Assert.assertEquals(option.getDefault(), "false");
-        Assert.assertEquals(option.getEnum().keySet(), new HashSet<>(Arrays.asList("true", "false")));
+        Assert.assertEquals(option.getEnum().keySet(), Set.of("true", "false"));
     }
 }
