@@ -44,6 +44,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
+<li>Date</li>
+<li>POSIXct</li>
 <li>character</li>
 <li>data.frame</li>
 <li>integer</li>

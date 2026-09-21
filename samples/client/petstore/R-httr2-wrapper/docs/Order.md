@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **id** | **integer** |  | [optional] 
 **petId** | **integer** |  | [optional] 
 **quantity** | **integer** |  | [optional] 
-**shipDate** | **character** |  | [optional] 
+**shipDate** | **POSIXct** |  | [optional] 
 **status** | **character** | Order Status | [optional] [Enum: [placed, approved, delivered]] 
 **complete** | **character** |  | [optional] [default to FALSE] 
 

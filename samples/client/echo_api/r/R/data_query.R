@@ -11,7 +11,7 @@
 #' @field outcomes  list(character) [optional]
 #' @field suffix test suffix character [optional]
 #' @field text Some text containing white spaces character [optional]
-#' @field date A date character [optional]
+#' @field date A date POSIXct [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -59,8 +59,8 @@ DataQuery <- R6::R6Class(
         self$`text` <- `text`
       }
       if (!is.null(`date`)) {
-        if (!is.character(`date`)) {
-          stop(paste("Error! Invalid data for `date`. Must be a string:", `date`))
+        if (!(inherits(`date`, "POSIXt") && length(`date`) == 1)) {
+          stop(paste("Error! Invalid data for `date`. Must be a POSIXct/POSIXlt datetime:", `date`))
         }
         self$`date` <- `date`
       }
@@ -115,7 +115,7 @@ DataQuery <- R6::R6Class(
       }
       if (!is.null(self$`date`)) {
         DataQueryObject[["date"]] <-
-          self$`date`
+          .format_datetime(self$`date`)
       }
       return(DataQueryObject)
     },
@@ -140,7 +140,7 @@ DataQuery <- R6::R6Class(
         self$`text` <- this_object$`text`
       }
       if (!is.null(this_object$`date`)) {
-        self$`date` <- this_object$`date`
+        self$`date` <- .parse_datetime(this_object$`date`)
       }
       self
     },
@@ -167,7 +167,7 @@ DataQuery <- R6::R6Class(
       self$`outcomes` <- ApiClient$new()$deserializeObj(this_object$`outcomes`, "array[character]", loadNamespace("openapi"))
       self$`suffix` <- this_object$`suffix`
       self$`text` <- this_object$`text`
-      self$`date` <- this_object$`date`
+      self$`date` <- if (is.null(this_object$`date`)) NULL else .parse_datetime(this_object$`date`)
       self
     },
 
