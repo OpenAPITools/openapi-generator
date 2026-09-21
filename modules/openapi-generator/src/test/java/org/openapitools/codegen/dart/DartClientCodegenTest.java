@@ -149,14 +149,16 @@ public class DartClientCodegenTest {
 
         // form style with explode - the default - puts every entry on the wire under its own
         // property name. Handing the whole map to _queryParams stringifies it with
-        // Map.toString(), which is what used to happen.
+        // Map.toString(), which is what used to happen. A collection value repeats the key once
+        // per non-null element ('multi') rather than going out comma joined, and a Set is turned
+        // into a List first, since _queryParams only expands a List.
         TestUtils.assertFileContains(apiFile.toPath(),
-                "(filter as Map).forEach((entryKey, entryValue) => queryParams.addAll(_queryParams('', entryKey.toString(), entryValue)));");
+                "(filter as Map).forEach((entryKey, dynamic entryValue) => queryParams.addAll(_queryParams('multi', entryKey.toString(), entryValue is Iterable ? entryValue.where((e) => e != null).toList() : entryValue)));");
         TestUtils.assertFileNotContains(apiFile.toPath(), "_queryParams('', 'filter', filter)");
 
         // a declared map behaves the same way, and needs no cast
         TestUtils.assertFileContains(apiFile.toPath(),
-                "typedFilter.forEach((entryKey, entryValue) => queryParams.addAll(_queryParams('', entryKey.toString(), entryValue)));");
+                "typedFilter.forEach((entryKey, dynamic entryValue) => queryParams.addAll(_queryParams('multi', entryKey.toString(), entryValue is Iterable ? entryValue.where((e) => e != null).toList() : entryValue)));");
 
         // deepObject and form without explode both keep a single parameter
         TestUtils.assertFileContains(apiFile.toPath(),

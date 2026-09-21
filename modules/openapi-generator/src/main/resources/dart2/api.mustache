@@ -70,8 +70,9 @@ class {{{classname}}} {
         {{#isMap}}
           {{#isExplode}}
             {{^isDeepObject}}
-      // form style explodes an object into one query parameter per entry, keyed by the property name alone
-      {{#isFreeFormObject}}({{{paramName}}} as Map){{/isFreeFormObject}}{{^isFreeFormObject}}{{{paramName}}}{{/isFreeFormObject}}.forEach((entryKey, entryValue) => queryParams.addAll(_queryParams('', entryKey.toString(), entryValue)));
+      // form style explodes an object into one query parameter per entry, keyed by the property name alone;
+      // a collection value repeats that key once per non-null element (dynamic, so a typed map value still type checks)
+      {{#isFreeFormObject}}({{{paramName}}} as Map){{/isFreeFormObject}}{{^isFreeFormObject}}{{{paramName}}}{{/isFreeFormObject}}.forEach((entryKey, dynamic entryValue) => queryParams.addAll(_queryParams('multi', entryKey.toString(), entryValue is Iterable ? entryValue.where((e) => e != null).toList() : entryValue)));
             {{/isDeepObject}}
             {{#isDeepObject}}
       queryParams.addAll(_queryParams('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
