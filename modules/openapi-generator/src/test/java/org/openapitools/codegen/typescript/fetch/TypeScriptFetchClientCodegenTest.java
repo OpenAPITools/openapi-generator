@@ -124,7 +124,7 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(api,
                 "async createReportRaw(requestParameters: CreateReportRequest & { accept?: 'application/json' }",
                 "async createReportRaw(requestParameters: CreateReportRequest & { accept: 'application/pdf' }",
-                "Promise<runtime.ApiResponse<Receipt | Blob>>");
+                "Promise<runtime.ApiResponse<Receipt | runtime.HttpFile>>");
 
         // Content-Type is set inside the branch that builds the body, Accept defaults to the response
         // content-type declared first, and deserialisation dispatches on what the server actually returned
@@ -218,7 +218,7 @@ public class TypeScriptFetchClientCodegenTest {
         Path api = Paths.get(output + "/apis/ReportApi.ts");
         TestUtils.assertFileContains(api,
                 "async getReport(requestParameters: GetReportRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Report | null | undefined>;",
-                "async getReport(requestParameters: GetReportRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob | null | undefined>;",
+                "async getReport(requestParameters: GetReportRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.HttpFile | null | undefined>;",
                 "switch (response.raw.status) {",
                 "            case 204:",
                 "                return null;");
