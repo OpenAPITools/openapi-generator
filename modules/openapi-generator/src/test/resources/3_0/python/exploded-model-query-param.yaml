@@ -26,7 +26,7 @@ paths:
             properties:
               category:
                 type: string
-        # a oneOf model may hold a primitive, which has no properties to explode
+        # a oneOf model may hold a primitive or a list, neither of which has properties to explode
         - in: query
           name: oneOfFilter
           schema:
@@ -61,3 +61,6 @@ components:
       oneOf:
         - $ref: '#/components/schemas/Filter'
         - type: string
+        - type: array
+          items:
+            type: string

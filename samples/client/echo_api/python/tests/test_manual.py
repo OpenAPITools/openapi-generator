@@ -102,6 +102,16 @@ class TestManual(unittest.TestCase):
         e = EchoServerResponseParser(api_response)
         self.assertEqual(e.path, "/query/style_form/explode_true/object?id=12345&name=Hello%20World&photoUrls=http%3A//a.com&photoUrls=http%3A//b.com&status=available")
 
+    def test_query_style_form_explode_true_object_leaves_out_unset_properties(self):
+        # a property that was never set contributes nothing; only the two required
+        # properties go on the wire. A property explicitly set to null is skipped the
+        # same way, so neither can reach the wire as the literal "None"
+        api_instance = openapi_client.QueryApi()
+        pet = openapi_client.Pet(name="Hello World", photoUrls=["http://a.com"])
+        api_response = api_instance.test_query_style_form_explode_true_object(pet)
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/query/style_form/explode_true/object?name=Hello%20World&photoUrls=http%3A//a.com")
+
     def test_query_style_form_explode_true_object_all_of_test(self):
         # an allOf model is exploded the same way; the var_date attribute goes on the wire as date
         api_instance = openapi_client.QueryApi()

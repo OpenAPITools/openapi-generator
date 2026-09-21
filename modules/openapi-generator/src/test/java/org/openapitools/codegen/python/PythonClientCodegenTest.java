@@ -748,6 +748,13 @@ public class PythonClientCodegenTest {
             "_query_params.append((_key, _value))");
         TestUtils.assertFileNotContains(api, "_query_params.append(('filter', filter))");
 
+        // a null entry, and a null item of an entry holding a list, contribute nothing. Without
+        // the guards they reach parameters_to_url_query, which quotes str(None) and puts the
+        // literal "None" on the wire.
+        TestUtils.assertFileContains(api,
+            "if _value is None:",
+            "_query_params.extend((_key, _item) for _item in _value if _item is not None)");
+
         // a declared map behaves the same way
         TestUtils.assertFileContains(api, "for _key, _value in typed_filter.items():");
 
@@ -787,16 +794,23 @@ public class PythonClientCodegenTest {
         // - the default - must still put every property on the wire under its own name. The
         // model is serialized first so the names are the wire names (createdDate:gte, not the
         // python attribute), and anything that does not serialize to a dict - a oneOf holding a
-        // primitive - stays a single parameter. The wire format itself is pinned by the
-        // echo_api python sample tests (test_query_style_form_explode_true_object*).
+        // primitive - stays a single parameter carrying the serialized value. A oneOf holding a
+        // list repeats the parameter name per item instead of sending the list's repr. The wire
+        // format itself is pinned by the echo_api python sample tests
+        // (test_query_style_form_explode_true_object*).
         TestUtils.assertFileContains(api,
             "_serialized = self.api_client.sanitize_for_serialization(ref_filter)",
             "_serialized = self.api_client.sanitize_for_serialization(inline_filter)",
             "_serialized = self.api_client.sanitize_for_serialization(one_of_filter)",
             "for _key, _value in _serialized.items():",
-            "_query_params.extend((_key, _item) for _item in _value)",
+            "_query_params.extend((_key, _item) for _item in _value if _item is not None)",
             "_query_params.append((_key, _value))",
-            "_query_params.append(('oneOfFilter', one_of_filter))");
+            "_query_params.extend(('oneOfFilter', _item) for _item in _serialized if _item is not None)",
+            "_query_params.append(('oneOfFilter', _serialized))");
+        TestUtils.assertFileNotContains(api, "_query_params.append(('oneOfFilter', one_of_filter))");
+
+        // a null property, and a null item of a property holding a list, contribute nothing
+        TestUtils.assertFileContains(api, "if _value is None:");
 
         // deepObject and form without explode both keep a single parameter
         TestUtils.assertFileContains(api,

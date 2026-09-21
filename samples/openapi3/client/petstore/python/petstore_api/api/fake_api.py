@@ -9517,9 +9517,12 @@ class FakeApi:
             
             # form style explodes an object into one parameter per entry, keyed by the
             # property name alone. An entry holding a list repeats that name per item.
+            # An entry that is null contributes nothing, as does a null list item.
             for _key, _value in language.items():
+                if _value is None:
+                    continue
                 if isinstance(_value, (list, tuple)):
-                    _query_params.extend((_key, _item) for _item in _value)
+                    _query_params.extend((_key, _item) for _item in _value if _item is not None)
                 else:
                     _query_params.append((_key, _value))
             

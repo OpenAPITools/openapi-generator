@@ -306,6 +306,16 @@ class ApiClientTests(unittest.TestCase):
             collection_formats={'context': 'multi'})
         self.assertEqual(params, "language=nl&context=a&context=b")
 
+    def test_parameters_to_url_query_quotes_reserved_characters_in_names(self):
+        # an exploded object contributes entries under its own property names, which are
+        # whatever the spec declares and need not be url safe. The name is quoted just
+        # like the value, so a property called "createdDate:gte" does not read as a
+        # separator on the wire.
+        params = self.api_client.parameters_to_url_query(
+            params=[('createdDate:gte', '2023-01-01'), ('a&b', 'c')],
+            collection_formats={})
+        self.assertEqual(params, "createdDate%3Agte=2023-01-01&a%26b=c")
+
     def test_parameters_to_url_query_list_value(self):
         params = self.api_client.parameters_to_url_query(params=[('list', [1, 2, 3])],
                                                          collection_formats={'list': 'multi'})
