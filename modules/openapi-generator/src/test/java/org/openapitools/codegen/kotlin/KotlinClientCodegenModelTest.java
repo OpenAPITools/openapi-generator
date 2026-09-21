@@ -42,6 +42,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.languages.KotlinClientCodegen.*;
@@ -1504,5 +1505,22 @@ public class KotlinClientCodegenModelTest {
         }
         Assert.assertTrue(sawJsonTypeInfo,
                 "Expected at least one generated model with @JsonTypeInfo to exercise the code path");
+    }
+
+    /**
+     * AbstractKotlinCodegen calls cliOptions.clear(), so an option inherited from DefaultCodegen stays
+     * functional while vanishing from config-help and docs/generators/kotlin.md. That is how
+     * enumUnknownDefaultCase went undocumented for years; this guards the re-registration.
+     */
+    @Test
+    public void testEnumUnknownDefaultCaseIsRegisteredAsCliOption() {
+        CliOption option = new KotlinClientCodegen().cliOptions().stream()
+                .filter(o -> CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE.equals(o.getOpt()))
+                .findFirst()
+                .orElse(null);
+
+        Assert.assertNotNull(option, CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE + " is not registered");
+        Assert.assertEquals(option.getDefault(), "false");
+        Assert.assertEquals(option.getEnum().keySet(), Set.of("true", "false"));
     }
 }
