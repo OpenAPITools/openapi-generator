@@ -81,8 +81,8 @@ export class ReportApi extends runtime.BaseAPI {
     /**
      */
     async createReportRaw(requestParameters: CreateReportRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Receipt>>;
-    async createReportRaw(requestParameters: CreateReportRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<runtime.NamedBlob>>;
-    async createReportRaw(requestParameters: CreateReportRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Receipt | runtime.NamedBlob>> {
+    async createReportRaw(requestParameters: CreateReportRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<runtime.HttpFile>>;
+    async createReportRaw(requestParameters: CreateReportRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Receipt | runtime.HttpFile>> {
         const requestOptions = await this.createReportRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
@@ -97,8 +97,8 @@ export class ReportApi extends runtime.BaseAPI {
     /**
      */
     async createReport(requestParameters: CreateReportRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Receipt>;
-    async createReport(requestParameters: CreateReportRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.NamedBlob>;
-    async createReport(requestParameters: CreateReportRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Receipt | runtime.NamedBlob> {
+    async createReport(requestParameters: CreateReportRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.HttpFile>;
+    async createReport(requestParameters: CreateReportRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Receipt | runtime.HttpFile> {
         const response = await this.createReportRaw(requestParameters as any, initOverrides);
         return await response.value();
     }
@@ -135,8 +135,8 @@ export class ReportApi extends runtime.BaseAPI {
     /**
      */
     async getReportRaw(requestParameters: GetReportRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Report>>;
-    async getReportRaw(requestParameters: GetReportRequest & { accept: 'application/directlog' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<runtime.NamedBlob>>;
-    async getReportRaw(requestParameters: GetReportRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Report | runtime.NamedBlob>> {
+    async getReportRaw(requestParameters: GetReportRequest & { accept: 'application/directlog' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<runtime.HttpFile>>;
+    async getReportRaw(requestParameters: GetReportRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Report | runtime.HttpFile>> {
         const requestOptions = await this.getReportRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
@@ -151,8 +151,8 @@ export class ReportApi extends runtime.BaseAPI {
     /**
      */
     async getReport(requestParameters: GetReportRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Report>;
-    async getReport(requestParameters: GetReportRequest & { accept: 'application/directlog' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.NamedBlob>;
-    async getReport(requestParameters: GetReportRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Report | runtime.NamedBlob> {
+    async getReport(requestParameters: GetReportRequest & { accept: 'application/directlog' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.HttpFile>;
+    async getReport(requestParameters: GetReportRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Report | runtime.HttpFile> {
         const response = await this.getReportRaw(requestParameters as any, initOverrides);
         return await response.value();
     }

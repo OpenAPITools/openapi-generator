@@ -451,9 +451,10 @@ export class VoidApiResponse {
 
 /**
  * A Blob carrying the file name the server advertised, empty when it did not send one. It is a File
- * wherever one can be built, and the bare Blob given a name otherwise.
+ * wherever one can be built, and the bare Blob given a name otherwise. Same name and shape as the
+ * `typescript` generator's HttpFile.
  */
-export type NamedBlob = Blob & { name: string };
+export type HttpFile = Blob & { readonly name: string };
 
 export class BlobApiResponse {
     constructor(public raw: Response) {}
@@ -465,7 +466,7 @@ export class BlobApiResponse {
      * native one, as returned by an injected fetch implementation such as node-fetch, which a File
      * would stringify instead of wrapping.
      */
-    async value(): Promise<NamedBlob> {
+    async value(): Promise<HttpFile> {
         const blob = await this.raw.blob();
         const name = parseContentDispositionFilename(this.raw.headers) ?? '';
         try {

@@ -151,8 +151,8 @@ export class FilesApi extends runtime.BaseAPI {
     /**
      */
     async uploadRaw(requestParameters: UploadRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Receipt>>;
-    async uploadRaw(requestParameters: UploadRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<runtime.NamedBlob>>;
-    async uploadRaw(requestParameters: UploadRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Receipt | runtime.NamedBlob>> {
+    async uploadRaw(requestParameters: UploadRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<runtime.HttpFile>>;
+    async uploadRaw(requestParameters: UploadRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Receipt | runtime.HttpFile>> {
         const requestOptions = await this.uploadRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
@@ -167,8 +167,8 @@ export class FilesApi extends runtime.BaseAPI {
     /**
      */
     async upload(requestParameters: UploadRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Receipt>;
-    async upload(requestParameters: UploadRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.NamedBlob>;
-    async upload(requestParameters: UploadRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Receipt | runtime.NamedBlob> {
+    async upload(requestParameters: UploadRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.HttpFile>;
+    async upload(requestParameters: UploadRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Receipt | runtime.HttpFile> {
         const response = await this.uploadRaw(requestParameters as any, initOverrides);
         return await response.value();
     }
