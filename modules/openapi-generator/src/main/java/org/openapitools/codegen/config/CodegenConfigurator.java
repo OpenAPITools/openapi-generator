@@ -276,8 +276,14 @@ public class CodegenConfigurator {
         return this;
     }
 
+    /**
+     * Adds a single {@code injectModelVendorExtension}. Calling this repeatedly for the same key appends
+     * the values together, space-separated, in call order, rather than the later call overwriting the
+     * earlier one — so multiple {@code --inject-model-vendor-extensions} occurrences targeting the same
+     * key accumulate instead of the last one silently winning.
+     */
     public CodegenConfigurator addInjectModelVendorExtension(String key, String value) {
-        this.injectModelVendorExtensions.put(key, value);
+        this.injectModelVendorExtensions.merge(key, value, (existing, added) -> existing + " " + added);
         generatorSettingsBuilder.withInjectModelVendorExtension(key, value);
         return this;
     }
@@ -288,8 +294,14 @@ public class CodegenConfigurator {
         return this;
     }
 
+    /**
+     * Adds a single {@code injectOperationVendorExtension}. Calling this repeatedly for the same key appends
+     * the values together, space-separated, in call order, rather than the later call overwriting the
+     * earlier one — so multiple {@code --inject-operation-vendor-extensions} occurrences targeting the same
+     * key accumulate instead of the last one silently winning.
+     */
     public CodegenConfigurator addInjectOperationVendorExtension(String key, String value) {
-        this.injectOperationVendorExtensions.put(key, value);
+        this.injectOperationVendorExtensions.merge(key, value, (existing, added) -> existing + " " + added);
         generatorSettingsBuilder.withInjectOperationVendorExtension(key, value);
         return this;
     }

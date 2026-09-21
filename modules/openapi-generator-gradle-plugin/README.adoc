@@ -580,8 +580,13 @@ Keep in mind:
   such as the Spring extra-annotation extensions.
 * For the extra-annotation extensions, put multiple annotations in one value separated by *spaces*
   (as in source), e.g. `"addPet.x-request-body-extra-annotation": "@com.example.MyValidation @Valid"`.
-  In the Gradle map form commas inside a value need no escaping, so `@Size(min = 0, max = 10)` works
-  directly (unlike the comma-separated CLI/Maven form).
+  Commas inside a value need no escaping in any form (Gradle map, CLI, or Maven), so
+  `@Size(min = 0, max = 10)` works directly; each CLI/Maven occurrence of
+  `--inject-model-vendor-extensions`/`--inject-operation-vendor-extensions` is exactly one
+  key=value pair (everything after the first `=` is taken literally). Use multiple occurrences
+  for multiple distinct targets, or repeat the *same* key across occurrences to append another
+  annotation to it (e.g. `@Foo` then `@Bar` becomes `@Foo @Bar`) instead of the later one
+  overwriting the earlier one.
 ====
 
 === openApiValidate

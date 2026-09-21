@@ -257,13 +257,18 @@ public class Generate extends OpenApiGeneratorCommand {
                     + " Class-level format: ModelName.x-extension-name=value."
                     + " Property-level format: ModelName.propertyBaseName.x-extension-name=value."
                     + " Values are strings, applied at render time, and overwrite existing values."
+                    + " Each occurrence of this option is exactly one key=value pair; everything after"
+                    + " the first '=' (including any commas, e.g. for @Size(min = 1, max = 100)) is"
+                    + " taken literally as the value, so annotation arguments do not need escaping."
                     + " For the extra-annotation extensions, separate multiple annotations in a single"
-                    + " value with spaces (e.g. 'ModelName.x-class-extra-annotation=@JsonProperty(value = \"example\") @Deprecated'), not"
-                    + " commas, since an unquoted comma separates different injection targets; quote"
-                    + " the whole key=value pair when the value contains spaces, and if your shell"
+                    + " value with spaces (e.g. 'ModelName.x-class-extra-annotation=@JsonProperty(value = \"example\") @Deprecated'),"
+                    + " or repeat this option with the same key to append another annotation (e.g. run it once"
+                    + " with 'ModelName.x-class-extra-annotation=@Foo' and again with"
+                    + " 'ModelName.x-class-extra-annotation=@Bar' to get '@Foo @Bar')."
+                    + " Quote the whole key=value pair when the value contains spaces, and if your shell"
                     + " requires double-quoting the whole argument instead, escape embedded double"
                     + " quotes (e.g. \\\")."
-                    + " You can also have multiple occurrences of this option.")
+                    + " You can have multiple occurrences of this option, one per injection target.")
     private List<String> injectModelVendorExtensions = new ArrayList<>();
 
     @Option(
@@ -273,13 +278,18 @@ public class Generate extends OpenApiGeneratorCommand {
                     + " Operation-level format: operationId.x-extension-name=value."
                     + " Parameter-level format: operationId.paramBaseName.x-extension-name=value."
                     + " Values are strings, applied at render time, and overwrite existing values."
+                    + " Each occurrence of this option is exactly one key=value pair; everything after"
+                    + " the first '=' (including any commas, e.g. for @Size(min = 1, max = 100)) is"
+                    + " taken literally as the value, so annotation arguments do not need escaping."
                     + " For the extra-annotation extensions, separate multiple annotations in a single"
-                    + " value with spaces (e.g. 'operationId.x-operation-extra-annotation=@JsonProperty(value = \"example\") @Deprecated'), not"
-                    + " commas, since an unquoted comma separates different injection targets; quote"
-                    + " the whole key=value pair when the value contains spaces, and if your shell"
+                    + " value with spaces (e.g. 'operationId.x-operation-extra-annotation=@JsonProperty(value = \"example\") @Deprecated'),"
+                    + " or repeat this option with the same key to append another annotation (e.g. run it once"
+                    + " with 'operationId.x-operation-extra-annotation=@Foo' and again with"
+                    + " 'operationId.x-operation-extra-annotation=@Bar' to get '@Foo @Bar')."
+                    + " Quote the whole key=value pair when the value contains spaces, and if your shell"
                     + " requires double-quoting the whole argument instead, escape embedded double"
                     + " quotes (e.g. \\\")."
-                    + " You can also have multiple occurrences of this option.")
+                    + " You can have multiple occurrences of this option, one per injection target.")
     private List<String> injectOperationVendorExtensions = new ArrayList<>();
 
     @Option(

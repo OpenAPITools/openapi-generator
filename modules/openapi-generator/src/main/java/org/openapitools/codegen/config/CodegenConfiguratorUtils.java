@@ -205,9 +205,9 @@ public final class CodegenConfiguratorUtils {
     }
 
     public static void applyInjectModelVendorExtensionsKvp(String injectModelVendorExtensions, CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(injectModelVendorExtensions);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addInjectModelVendorExtension(entry.getKey().trim(), entry.getValue().trim());
+        final Pair<String, String> pair = parseSingleInjectVendorExtensionKvp(injectModelVendorExtensions);
+        if (pair != null) {
+            configurator.addInjectModelVendorExtension(pair.getLeft().trim(), pair.getRight().trim());
         }
     }
 
@@ -218,10 +218,35 @@ public final class CodegenConfiguratorUtils {
     }
 
     public static void applyInjectOperationVendorExtensionsKvp(String injectOperationVendorExtensions, CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(injectOperationVendorExtensions);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addInjectOperationVendorExtension(entry.getKey().trim(), entry.getValue().trim());
+        final Pair<String, String> pair = parseSingleInjectVendorExtensionKvp(injectOperationVendorExtensions);
+        if (pair != null) {
+            configurator.addInjectOperationVendorExtension(pair.getLeft().trim(), pair.getRight().trim());
         }
+    }
+
+    /**
+     * Parses a single {@code key=value} pair for {@code --inject-model-vendor-extensions} /
+     * {@code --inject-operation-vendor-extensions} by splitting only on the first {@code =}.
+     * <p>
+     * Unlike {@link #createMapFromKeyValuePairs}, this deliberately does NOT treat an unquoted comma
+     * as a separator between multiple injection targets: injected values are frequently annotation
+     * literals containing their own commas (e.g. {@code @Size(min = 1, max = 100)}), and comma-splitting
+     * would either mis-parse such a value into bogus targets, or require quoting the value in a way
+     * that leaves stray quote characters embedded in the rendered annotation. Each occurrence of the
+     * option is therefore exactly one injection target; use multiple occurrences for multiple targets.
+     *
+     * @param kvp the raw {@code key=value} string for one option occurrence
+     * @return the parsed key/value pair, or {@code null} if {@code kvp} has no {@code =} (or starts with one)
+     */
+    private static Pair<String, String> parseSingleInjectVendorExtensionKvp(String kvp) {
+        if (kvp == null) {
+            return null;
+        }
+        int ix = kvp.indexOf('=');
+        if (ix <= 0) {
+            return null;
+        }
+        return Pair.of(kvp.substring(0, ix), kvp.substring(ix + 1));
     }
 
     public static void applyTypeMappingsKvpList(List<String> typeMappings, CodegenConfigurator configurator) {

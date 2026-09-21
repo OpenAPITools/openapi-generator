@@ -1193,6 +1193,11 @@ public final class GeneratorSettings implements Serializable {
 
         /**
          * Sets a single {@code injectModelVendorExtension} and returns a reference to this Builder so that the methods can be chained together.
+         * Calling this repeatedly for the same key (e.g. once per {@code --inject-model-vendor-extensions}
+         * occurrence targeting the same key) appends the values together, space-separated, in call order,
+         * rather than the later call silently overwriting the earlier one. This lets multiple annotations
+         * be added to the same extra-annotation target across separate option occurrences instead of having
+         * to pack them all into one comma-free value.
          *
          * @param key   A key in the format ModelName.x-extension-name or ModelName.propertyBaseName.x-extension-name
          * @param value The extension value
@@ -1202,7 +1207,7 @@ public final class GeneratorSettings implements Serializable {
             if (this.injectModelVendorExtensions == null) {
                 this.injectModelVendorExtensions = new HashMap<>();
             }
-            this.injectModelVendorExtensions.put(key, value);
+            this.injectModelVendorExtensions.merge(key, value, (existing, added) -> existing + " " + added);
             return this;
         }
 
@@ -1219,6 +1224,11 @@ public final class GeneratorSettings implements Serializable {
 
         /**
          * Sets a single {@code injectOperationVendorExtension} and returns a reference to this Builder so that the methods can be chained together.
+         * Calling this repeatedly for the same key (e.g. once per {@code --inject-operation-vendor-extensions}
+         * occurrence targeting the same key) appends the values together, space-separated, in call order,
+         * rather than the later call silently overwriting the earlier one. This lets multiple annotations
+         * be added to the same extra-annotation target across separate option occurrences instead of having
+         * to pack them all into one comma-free value.
          *
          * @param key   A key in the format operationId.x-extension-name or operationId.paramBaseName.x-extension-name
          * @param value The extension value
@@ -1228,7 +1238,7 @@ public final class GeneratorSettings implements Serializable {
             if (this.injectOperationVendorExtensions == null) {
                 this.injectOperationVendorExtensions = new HashMap<>();
             }
-            this.injectOperationVendorExtensions.put(key, value);
+            this.injectOperationVendorExtensions.merge(key, value, (existing, added) -> existing + " " + added);
             return this;
         }
 
