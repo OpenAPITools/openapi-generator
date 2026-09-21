@@ -1510,8 +1510,8 @@ public class KotlinClientCodegenModelTest {
 
     /**
      * AbstractKotlinCodegen calls cliOptions.clear(), so an option inherited from DefaultCodegen stays
-     * functional while vanishing from config-help and docs/generators/kotlin.md. This guards against
-     * enumUnknownDefaultCase silently disappearing again.
+     * functional while vanishing from config-help and docs/generators/kotlin.md. That is how
+     * enumUnknownDefaultCase went undocumented for years; this guards the re-registration.
      */
     @Test
     public void testEnumUnknownDefaultCaseIsRegisteredAsCliOption() {
