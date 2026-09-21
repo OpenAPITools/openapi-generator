@@ -29,7 +29,12 @@ repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
 {{/poetry1}}
 keywords = ["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"]
 {{#poetry1}}
-include = ["{{packageName}}/py.typed"]
+{{#sourceFolder}}
+packages = [
+  { include = "{{{packageName}}}", from = "{{{sourceFolder}}}" },
+]
+{{/sourceFolder}}
+include = ["{{#sourceFolder}}{{{sourceFolder}}}/{{/sourceFolder}}{{packageName}}/py.typed"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -122,7 +127,7 @@ extension-pkg-whitelist = "pydantic"
 
 [tool.mypy]
 files = [
-  "{{{packageName}}}",
+  "{{#sourceFolder}}{{{sourceFolder}}}/{{/sourceFolder}}{{{packageName}}}",
   #"test",  # auto-generated tests
   "tests", # hand-written tests
 ]
