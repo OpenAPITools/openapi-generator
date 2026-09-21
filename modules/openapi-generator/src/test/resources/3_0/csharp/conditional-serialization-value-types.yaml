@@ -36,6 +36,16 @@ components:
           type: boolean
         period:
           type: integer
+        graceDays:
+          type: integer
+          nullable: true
+        status:
+          type: string
+          enum: [active, suspended]
+        renewalMode:
+          type: string
+          enum: [manual, automatic]
+          nullable: true
         note:
           type: string
     CreateThingCommand:
