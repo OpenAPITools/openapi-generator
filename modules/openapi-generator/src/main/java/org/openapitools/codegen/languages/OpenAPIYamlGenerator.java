@@ -35,6 +35,8 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -202,6 +204,9 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         if (fragmentIndex < 0) {
             return null;
         }
+        if (!refTargetsRootDocument(ref, fragmentIndex)) {
+            return null;
+        }
         String fragment = ref.substring(fragmentIndex);
         // fragment is "#/components/{section}/{name}[/...]" — strip "#/" before splitting
         String path = fragment.startsWith("#/") ? fragment.substring(2) : fragment.substring(1);
@@ -211,13 +216,43 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
             return null;
         }
         String section = parts[1];
-        String name = URLDecoder.decode(parts[2], StandardCharsets.UTF_8)
+        String name = URLDecoder.decode(parts[2].replace("+", "%2B"), StandardCharsets.UTF_8)
                 .replace("~1", "/")
                 .replace("~0", "~");
         if (!componentExists(openAPI.getComponents(), section, name)) {
             return null;
         }
         return fragment;
+    }
+
+    /**
+     * Only rewrite refs that point at the parsed root/input spec file (e.g. {@code ./swagger.yml#/...}),
+     * not at a different bundled document that happens to define a component with the same name.
+     */
+    private boolean refTargetsRootDocument(String ref, int fragmentIndex) {
+        if (StringUtils.isEmpty(inputSpec) || fragmentIndex <= 0) {
+            return false;
+        }
+        String filePart = ref.substring(0, fragmentIndex);
+        if (StringUtils.isEmpty(filePart)) {
+            return false;
+        }
+        try {
+            Path rootSpec = Paths.get(inputSpec).toAbsolutePath().normalize();
+            Path baseDir = rootSpec.getParent();
+            if (baseDir == null) {
+                baseDir = Paths.get(".").toAbsolutePath().normalize();
+            }
+            Path refFile = Paths.get(filePart);
+            Path resolvedRef = (refFile.isAbsolute() ? refFile : baseDir.resolve(refFile))
+                    .normalize()
+                    .toAbsolutePath();
+            return resolvedRef.equals(rootSpec);
+        } catch (Exception e) {
+            LOGGER.debug("Could not resolve ref prefix {} against inputSpec {}: {}", filePart, inputSpec,
+                    e.getMessage());
+            return false;
+        }
     }
 
     private static boolean componentExists(Components components, String section, String name) {

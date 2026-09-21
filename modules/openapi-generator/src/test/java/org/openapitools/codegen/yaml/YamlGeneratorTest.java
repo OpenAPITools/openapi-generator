@@ -264,8 +264,8 @@ public class YamlGeneratorTest {
         String generatedYaml = new String(Files.readAllBytes(generated), StandardCharsets.UTF_8);
 
         // Nested multi-file $refs must be rewritten to internal component refs.
-        Assert.assertFalse(generatedYaml.contains("swagger.yml#/components/schemas/ComplexType"),
-                "Nested ComplexType $refs must not keep an external file path. Output was:\n" + generatedYaml);
+        Assert.assertFalse(generatedYaml.contains("swagger.yml#/components/"),
+                "Nested component $refs must not keep an external swagger.yml path. Output was:\n" + generatedYaml);
         Assert.assertTrue(generatedYaml.contains("#/components/schemas/ComplexType"),
                 "Nested ComplexType $refs must be localized. Output was:\n" + generatedYaml);
 
