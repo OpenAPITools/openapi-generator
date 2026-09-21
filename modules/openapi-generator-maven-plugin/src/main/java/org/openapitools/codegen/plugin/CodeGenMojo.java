@@ -1017,7 +1017,6 @@ public class CodeGenMojo extends AbstractMojo {
             // These *-name-mappings options are not generator CliOptions and have no configOptions
             // compatibility reader above, so a configOptions guard would protect nothing.
             if (nameMappings != null) {
-
                 applyNameMappingsKvpList(nameMappings, configurator);
             }
 
