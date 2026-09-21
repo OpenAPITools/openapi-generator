@@ -258,9 +258,11 @@ public class Generate extends OpenApiGeneratorCommand {
                     + " Property-level format: ModelName.propertyBaseName.x-extension-name=value."
                     + " Values are strings, applied at render time, and overwrite existing values."
                     + " For the extra-annotation extensions, separate multiple annotations in a single"
-                    + " value with spaces (e.g. 'ModelName.x-class-extra-annotation=@Size(min = 1, max = 100) @Deprecated'), not"
+                    + " value with spaces (e.g. 'ModelName.x-class-extra-annotation=@JsonProperty(value = \"example\") @Deprecated'), not"
                     + " commas, since an unquoted comma separates different injection targets; quote"
-                    + " the whole key=value pair when the value contains spaces."
+                    + " the whole key=value pair when the value contains spaces, and if your shell"
+                    + " requires double-quoting the whole argument instead, escape embedded double"
+                    + " quotes (e.g. \\\")."
                     + " You can also have multiple occurrences of this option.")
     private List<String> injectModelVendorExtensions = new ArrayList<>();
 
@@ -272,9 +274,11 @@ public class Generate extends OpenApiGeneratorCommand {
                     + " Parameter-level format: operationId.paramBaseName.x-extension-name=value."
                     + " Values are strings, applied at render time, and overwrite existing values."
                     + " For the extra-annotation extensions, separate multiple annotations in a single"
-                    + " value with spaces (e.g. 'operationId.x-operation-extra-annotation=@Size(min = 1, max = 100) @Deprecated'), not"
+                    + " value with spaces (e.g. 'operationId.x-operation-extra-annotation=@JsonProperty(value = \"example\") @Deprecated'), not"
                     + " commas, since an unquoted comma separates different injection targets; quote"
-                    + " the whole key=value pair when the value contains spaces."
+                    + " the whole key=value pair when the value contains spaces, and if your shell"
+                    + " requires double-quoting the whole argument instead, escape embedded double"
+                    + " quotes (e.g. \\\")."
                     + " You can also have multiple occurrences of this option.")
     private List<String> injectOperationVendorExtensions = new ArrayList<>();
 
