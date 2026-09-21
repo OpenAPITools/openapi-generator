@@ -327,7 +327,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         enumUnknownDefaultCaseOpts.put("false",
                 "No changes to the enums are made, this is the default option.");
         enumUnknownDefaultCaseOpts.put("true",
-                "Each enum gains an `unknown_default_open_api` case that unrecognized values decode to.");
+                "Each enum gains an `unknown_default_open_api` case.");
         enumUnknownDefaultCaseOpt.setEnum(enumUnknownDefaultCaseOpts);
         cliOptions.add(enumUnknownDefaultCaseOpt);
     }
