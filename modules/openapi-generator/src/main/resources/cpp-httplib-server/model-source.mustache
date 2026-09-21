@@ -61,7 +61,7 @@ std::string {{classname}}::{{enumName}}ToString({{classname}}::{{enumName}} valu
         {{#vendorExtensions.enumCases}}
         case {{enumName}}::{{name}}: return "{{value}}";
         {{/vendorExtensions.enumCases}}
-        default: throw nlohmann::json::type_error::create(302, "Invalid value for {{classname}}::{{enumName}}");
+        default: return {};
     }
 }
 
@@ -73,7 +73,7 @@ std::string {{classname}}::{{enumName}}ToString({{classname}}::{{enumName}} valu
         return {{enumName}}::{{name}};
     }
     {{/vendorExtensions.enumCases}}
-    throw nlohmann::json::type_error::create(302, "Invalid value for {{classname}}::{{enumName}}");
+    throw std::invalid_argument("Invalid enum value");
 }
 {{/isArray}}{{/isEnum}}{{/vars}}
 

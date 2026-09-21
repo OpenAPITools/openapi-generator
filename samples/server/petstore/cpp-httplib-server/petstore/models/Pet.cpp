@@ -88,7 +88,7 @@ std::string Pet::StatusEnumToString(Pet::StatusEnum value)
         case StatusEnum::AVAILABLE: return "available";
         case StatusEnum::PENDING: return "pending";
         case StatusEnum::SOLD: return "sold";
-        default: throw nlohmann::json::type_error::create(302, "Invalid value for Pet::StatusEnum");
+        default: return {};
     }
 }
 
@@ -110,7 +110,7 @@ Pet::StatusEnum Pet::StatusEnumFromString(const std::string& str)
     {
         return StatusEnum::SOLD;
     }
-    throw nlohmann::json::type_error::create(302, "Invalid value for Pet::StatusEnum");
+    throw std::invalid_argument("Invalid enum value");
 }
 
 

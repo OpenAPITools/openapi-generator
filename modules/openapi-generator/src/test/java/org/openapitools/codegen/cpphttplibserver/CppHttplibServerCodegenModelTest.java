@@ -395,9 +395,9 @@ public class CppHttplibServerCodegenModelTest {
     }
 
     @Test(description = "model-source.mustache's ToString and FromString for an enum property "
-            + "must both throw nlohmann::json::type_error, naming the enum, on an unrecognised "
-            + "value -- instead of ToString returning an empty string that hides the error, or "
-            + "FromString's prior message that didn't name the enum")
+            + "are plain C++ conversion helpers, not nlohmann (de)serializers, so an unrecognised "
+            + "value must not throw nlohmann::json::type_error: ToString falls back to an empty "
+            + "string and FromString throws plain std::invalid_argument")
     public void propertyEnumConversionRejectsUnknownValuesTest() throws IOException {
         final File output = Files.createTempDirectory("cpp-httplib-server-prop-enums").toFile();
         output.deleteOnExit();
@@ -420,12 +420,13 @@ public class CppHttplibServerCodegenModelTest {
         files.forEach(File::deleteOnExit);
 
         // Property enums (de)serialize through StatusEnumToString/StatusEnumFromString rather
-        // than the switch/if-chain in model-header.mustache's top-level to_json/from_json, so
-        // they need their own guard against unknown enumerators -- on both directions.
+        // than the switch/if-chain in model-header.mustache's top-level to_json/from_json, and
+        // those helpers don't depend on nlohmann::json at all.
         final Path source = output.toPath().resolve("models/Pet.cpp");
         TestUtils.assertFileContains(source,
-                "default: throw nlohmann::json::type_error::create(302, \"Invalid value for Pet::StatusEnum\");",
-                "throw nlohmann::json::type_error::create(302, \"Invalid value for Pet::StatusEnum\");");
+                "default: return {};",
+                "throw std::invalid_argument(\"Invalid enum value\");");
+        TestUtils.assertFileNotContains(source, "nlohmann::json::type_error::create(302, \"Invalid value for Pet::StatusEnum\")");
     }
 
     @Test(description = "convert model with nullable property")

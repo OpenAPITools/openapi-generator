@@ -106,7 +106,7 @@ std::string User::UserStatusEnumToString(User::UserStatusEnum value)
         case UserStatusEnum::_0: return "0";
         case UserStatusEnum::_1: return "1";
         case UserStatusEnum::_2: return "2";
-        default: throw nlohmann::json::type_error::create(302, "Invalid value for User::UserStatusEnum");
+        default: return {};
     }
 }
 
@@ -128,7 +128,7 @@ User::UserStatusEnum User::UserStatusEnumFromString(const std::string& str)
     {
         return UserStatusEnum::_2;
     }
-    throw nlohmann::json::type_error::create(302, "Invalid value for User::UserStatusEnum");
+    throw std::invalid_argument("Invalid enum value");
 }
 
 
