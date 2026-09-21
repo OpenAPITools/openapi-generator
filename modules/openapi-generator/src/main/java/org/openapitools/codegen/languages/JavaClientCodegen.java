@@ -67,6 +67,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
 
     static final String MEDIA_TYPE = "mediaType";
+    private static final String JAVA_DEFAULT_VALUE_FOR_JAVADOC = "x-java-default-value-for-javadoc";
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
@@ -1136,6 +1137,19 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
         return false;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+
+        if (parameter.defaultValue != null) {
+            // Keep the runtime default unchanged. This escaped value is only used when the
+            // default is rendered inside a JavaDoc comment, where Java block-comment delimiters
+            // would otherwise terminate or start a comment block in generated source.
+            parameter.vendorExtensions.put(
+                    JAVA_DEFAULT_VALUE_FOR_JAVADOC, escapeUnsafeCharacters(parameter.defaultValue));
+        }
     }
 
     @Override
