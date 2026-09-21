@@ -258,7 +258,7 @@ public class Generate extends OpenApiGeneratorCommand {
                     + " Property-level format: ModelName.propertyBaseName.x-extension-name=value."
                     + " Values are strings, applied at render time, and overwrite existing values."
                     + " For the extra-annotation extensions, separate multiple annotations in a single"
-                    + " value with spaces (e.g. \"ModelName.x-class-extra-annotation=@Foo @Bar\"), not"
+                    + " value with spaces (e.g. 'ModelName.x-class-extra-annotation=@Foo(value = \"fdsfsdfs\") @Bar'), not"
                     + " commas, since an unquoted comma separates different injection targets; quote"
                     + " the whole key=value pair when the value contains spaces."
                     + " You can also have multiple occurrences of this option.")
@@ -272,7 +272,7 @@ public class Generate extends OpenApiGeneratorCommand {
                     + " Parameter-level format: operationId.paramBaseName.x-extension-name=value."
                     + " Values are strings, applied at render time, and overwrite existing values."
                     + " For the extra-annotation extensions, separate multiple annotations in a single"
-                    + " value with spaces (e.g. \"operationId.x-operation-extra-annotation=@Foo @Bar\"), not"
+                    + " value with spaces (e.g. 'operationId.x-operation-extra-annotation=@Foo(value = \"fdsfsdfs\") @Bar'), not"
                     + " commas, since an unquoted comma separates different injection targets; quote"
                     + " the whole key=value pair when the value contains spaces."
                     + " You can also have multiple occurrences of this option.")
