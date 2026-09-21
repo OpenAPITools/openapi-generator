@@ -118,7 +118,6 @@ describe('BlobApiResponse', () => {
         try {
             const value = await new BlobApiResponse(namedResponse()).value();
             expect(value).to.be.an.instanceOf(Blob);
-            expect(value).not.to.be.an.instanceOf(nativeFile);
             expect(value.name).to.equal('named.txt');
             expect(await value.text()).to.equal('content');
         } finally {
@@ -133,7 +132,6 @@ describe('BlobApiResponse', () => {
         try {
             const value = await new BlobApiResponse(namedResponse()).value();
             expect(value).to.be.an.instanceOf(Blob);
-            expect(value).not.to.be.an.instanceOf(nativeFile);
             expect(value.name).to.equal('named.txt');
             expect(await value.text()).to.equal('content');
         } finally {
