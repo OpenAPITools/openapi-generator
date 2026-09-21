@@ -101,10 +101,11 @@ paths:
         style: form
         x-extra-imports:
         - org.springframework.lang.NonNull
-        - javax.validation.constraints.Size
+        - javax.validation.constraints.NotEmpty
         x-field-extra-annotation:
         - '@NonNull'
         - '@Size(min = 1)'
+        - '@NotEmpty'
       responses:
         "200":
           content:

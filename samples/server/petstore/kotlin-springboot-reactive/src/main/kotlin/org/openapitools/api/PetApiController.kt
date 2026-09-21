@@ -3,7 +3,7 @@ package org.openapitools.api
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
 import org.springframework.lang.NonNull
-import javax.validation.constraints.Size
+import javax.validation.constraints.NotEmpty
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
 import io.swagger.v3.oas.annotations.media.*
@@ -95,7 +95,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByStatus(
-        @NonNull @Size(min = 1) @NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
+        @NonNull @Size(min = 1) @NotEmpty @NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
     ): ResponseEntity<Flow<Pet>> {
         return ResponseEntity(service.findPetsByStatus(status), HttpStatus.valueOf(200))
     }
