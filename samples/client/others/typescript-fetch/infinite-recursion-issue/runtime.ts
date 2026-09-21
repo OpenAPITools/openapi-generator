@@ -491,7 +491,7 @@ export class VoidApiResponse {
 /**
  * A Blob carrying the file name the server advertised, empty when it did not send one. It is a File
  * wherever one can be built, and the bare Blob given a name otherwise. Same name and shape as the
- * `typescript` generator's HttpFile.
+ * `typescript` generator's browser HttpFile.
  */
 export type HttpFile = Blob & { readonly name: string };
 
