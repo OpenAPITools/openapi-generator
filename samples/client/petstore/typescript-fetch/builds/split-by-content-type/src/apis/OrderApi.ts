@@ -56,8 +56,8 @@ export class OrderApi extends runtime.BaseAPI {
     /**
      */
     async getOrdersRaw(requestParameters: GetOrdersRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>>;
-    async getOrdersRaw(requestParameters: GetOrdersRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>>;
-    async getOrdersRaw(requestParameters: GetOrdersRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order | Blob>> {
+    async getOrdersRaw(requestParameters: GetOrdersRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<runtime.NamedBlob>>;
+    async getOrdersRaw(requestParameters: GetOrdersRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order | runtime.NamedBlob>> {
         const requestOptions = await this.getOrdersRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
@@ -72,8 +72,8 @@ export class OrderApi extends runtime.BaseAPI {
     /**
      */
     async getOrders(requestParameters: GetOrdersRequest & { accept?: 'application/json' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Order>;
-    async getOrders(requestParameters: GetOrdersRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob>;
-    async getOrders(requestParameters: GetOrdersRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Order | Blob> {
+    async getOrders(requestParameters: GetOrdersRequest & { accept: 'application/pdf' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.NamedBlob>;
+    async getOrders(requestParameters: GetOrdersRequest & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Order | runtime.NamedBlob> {
         const response = await this.getOrdersRaw(requestParameters as any, initOverrides);
         return await response.value();
     }

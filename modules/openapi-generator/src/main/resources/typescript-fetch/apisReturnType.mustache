@@ -1,0 +1,1 @@
+{{! The declared type of an operation's response. A file response is handed back by BlobApiResponse as a NamedBlob, which the type mapping alone (file -> Blob, shared with request bodies) cannot express. Inline partial: no newline. }}{{#isResponseFile}}runtime.NamedBlob{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}

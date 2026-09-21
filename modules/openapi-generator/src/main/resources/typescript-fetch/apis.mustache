@@ -94,11 +94,11 @@ export interface {{classname}}Interface {
      */
     {{#hasContentTypeResponseVariants}}
     {{#contentTypeResponseVariants}}
-    {{nickname}}Raw(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept{{#isDefault}}?{{/isDefault}}: '{{mediaType}}' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+    {{nickname}}Raw(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept{{#isDefault}}?{{/isDefault}}: '{{mediaType}}' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{>apisReturnType}}{{^returnType}}void{{/returnType}}>>;
     {{/contentTypeResponseVariants}}
     {{/hasContentTypeResponseVariants}}
     {{^hasContentTypeResponseVariants}}
-    {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+    {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{>apisReturnType}}{{^returnType}}void{{/returnType}}>>;
     {{/hasContentTypeResponseVariants}}
 
     /**
@@ -113,16 +113,16 @@ export interface {{classname}}Interface {
      {{/isDeprecated}}
      */
     {{^useSingleRequestParameter}}
-    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{#returnType}}{{#isResponseOptional}} | null | undefined {{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{>apisReturnType}}{{#returnType}}{{#isResponseOptional}} | null | undefined {{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
     {{/useSingleRequestParameter}}
     {{#useSingleRequestParameter}}
     {{#hasContentTypeResponseVariants}}
     {{#contentTypeResponseVariants}}
-    {{nickname}}(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept{{#isDefault}}?{{/isDefault}}: '{{mediaType}}' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{#returnType}}{{{returnType}}}{{#isResponseOptional}} | null | undefined{{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+    {{nickname}}(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept{{#isDefault}}?{{/isDefault}}: '{{mediaType}}' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{#returnType}}{{>apisReturnType}}{{#isResponseOptional}} | null | undefined{{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
     {{/contentTypeResponseVariants}}
     {{/hasContentTypeResponseVariants}}
     {{^hasContentTypeResponseVariants}}
-    {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{#returnType}}{{#isResponseOptional}} | null | undefined {{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+    {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{>apisReturnType}}{{#returnType}}{{#isResponseOptional}} | null | undefined {{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
     {{/hasContentTypeResponseVariants}}
     {{/useSingleRequestParameter}}
 
@@ -402,9 +402,9 @@ export class {{classname}} extends runtime.BaseAPI {
     {{! one overload per response content-type: `accept` selects the return type. The implementation
         signature unions them and is not callable from outside. }}
     {{#contentTypeResponseVariants}}
-    async {{nickname}}Raw(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept{{#isDefault}}?{{/isDefault}}: '{{mediaType}}' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+    async {{nickname}}Raw(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept{{#isDefault}}?{{/isDefault}}: '{{mediaType}}' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{>apisReturnType}}{{^returnType}}void{{/returnType}}>>;
     {{/contentTypeResponseVariants}}
-    async {{nickname}}Raw(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{#contentTypeResponseVariants}}{{{returnType}}}{{^returnType}}void{{/returnType}}{{^-last}} | {{/-last}}{{/contentTypeResponseVariants}}>> {
+    async {{nickname}}Raw(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{#contentTypeResponseVariants}}{{>apisReturnType}}{{^returnType}}void{{/returnType}}{{^-last}} | {{/-last}}{{/contentTypeResponseVariants}}>> {
         const requestOptions = await this.{{nickname}}RequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
@@ -432,7 +432,7 @@ export class {{classname}} extends runtime.BaseAPI {
     }
     {{/hasContentTypeResponseVariants}}
     {{^hasContentTypeResponseVariants}}
-    async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+    async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{>apisReturnType}}{{^returnType}}void{{/returnType}}>> {
         const requestOptions = await this.{{nickname}}RequestOpts({{#allParams.0}}requestParameters{{/allParams.0}});
         const response = await this.request(requestOptions, initOverrides);
 
@@ -489,7 +489,7 @@ export class {{classname}} extends runtime.BaseAPI {
      {{/isDeprecated}}
      */
     {{^useSingleRequestParameter}}
-    async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{#returnType}}{{#isResponseOptional}} | null | undefined {{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+    async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{>apisReturnType}}{{#returnType}}{{#isResponseOptional}} | null | undefined {{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
         {{#returnType}}
         const response = await this.{{nickname}}Raw({{#allParams.0}}{ {{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}} }, {{/allParams.0}}initOverrides);
         {{#isResponseOptional}}
@@ -516,9 +516,9 @@ export class {{classname}} extends runtime.BaseAPI {
     {{#useSingleRequestParameter}}
     {{#hasContentTypeResponseVariants}}
     {{#contentTypeResponseVariants}}
-    async {{nickname}}(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept{{#isDefault}}?{{/isDefault}}: '{{mediaType}}' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{#returnType}}{{{returnType}}}{{#isResponseOptional}} | null | undefined{{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+    async {{nickname}}(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept{{#isDefault}}?{{/isDefault}}: '{{mediaType}}' }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{#returnType}}{{>apisReturnType}}{{#isResponseOptional}} | null | undefined{{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
     {{/contentTypeResponseVariants}}
-    async {{nickname}}(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{#contentTypeResponseVariants}}{{{returnType}}}{{^returnType}}void{{/returnType}}{{^-last}} | {{/-last}}{{/contentTypeResponseVariants}}{{#isResponseOptional}} | null | undefined{{/isResponseOptional}}> {
+    async {{nickname}}(requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request & { accept?: string }, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{#contentTypeResponseVariants}}{{>apisReturnType}}{{^returnType}}void{{/returnType}}{{^-last}} | {{/-last}}{{/contentTypeResponseVariants}}{{#isResponseOptional}} | null | undefined{{/isResponseOptional}}> {
         {{! `as any`: from the outside only the overloads of ...Raw are visible, and the loose `accept`
             accepted here matches none of them }}
         const response = await this.{{nickname}}Raw(requestParameters as any, initOverrides);
@@ -542,7 +542,7 @@ export class {{classname}} extends runtime.BaseAPI {
     }
     {{/hasContentTypeResponseVariants}}
     {{^hasContentTypeResponseVariants}}
-    async {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{#returnType}}{{#isResponseOptional}} | null | undefined {{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+    async {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{>apisReturnType}}{{#returnType}}{{#isResponseOptional}} | null | undefined {{/isResponseOptional}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
         {{#returnType}}
         const response = await this.{{nickname}}Raw({{#allParams.0}}requestParameters, {{/allParams.0}}initOverrides);
         {{#isResponseOptional}}
