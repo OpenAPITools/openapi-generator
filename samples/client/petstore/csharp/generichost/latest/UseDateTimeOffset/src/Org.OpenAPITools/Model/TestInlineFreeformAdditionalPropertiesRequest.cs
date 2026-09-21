@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (someProperty.IsSet && someProperty.Value == null)
-                throw new ArgumentNullException(nameof(someProperty), "Property is not nullable for class TestInlineFreeformAdditionalPropertiesRequest.");
+                throw new JsonException("Property is not nullable for class TestInlineFreeformAdditionalPropertiesRequest: someProperty.");
 
             return new TestInlineFreeformAdditionalPropertiesRequest(someProperty);
         }

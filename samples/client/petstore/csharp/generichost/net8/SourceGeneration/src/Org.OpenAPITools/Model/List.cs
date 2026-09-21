@@ -148,7 +148,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (var123List.IsSet && var123List.Value == null)
-                throw new ArgumentNullException(nameof(var123List), "Property is not nullable for class List.");
+                throw new JsonException("Property is not nullable for class List: 123-list.");
 
             return new List(var123List);
         }

@@ -294,22 +294,22 @@ namespace Org.OpenAPITools.Model
             }
 
             if (potentiallyOverriddenPropertyAccessor.IsSet && potentiallyOverriddenPropertyAccessor.Value == null)
-                throw new ArgumentNullException(nameof(potentiallyOverriddenPropertyAccessor), "Property is not nullable for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Property is not nullable for class InjectedVendorExtensionsTest: potentiallyOverriddenPropertyAccessor.");
 
             if (potentiallyOverriddenPropertyToInternal.IsSet && potentiallyOverriddenPropertyToInternal.Value == null)
-                throw new ArgumentNullException(nameof(potentiallyOverriddenPropertyToInternal), "Property is not nullable for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Property is not nullable for class InjectedVendorExtensionsTest: potentiallyOverriddenPropertyToInternal.");
 
             if (potentiallyOverriddenPropertyToPrivate.IsSet && potentiallyOverriddenPropertyToPrivate.Value == null)
-                throw new ArgumentNullException(nameof(potentiallyOverriddenPropertyToPrivate), "Property is not nullable for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Property is not nullable for class InjectedVendorExtensionsTest: potentiallyOverriddenPropertyToPrivate.");
 
             if (potentiallyOverriddenPropertyToPublic.IsSet && potentiallyOverriddenPropertyToPublic.Value == null)
-                throw new ArgumentNullException(nameof(potentiallyOverriddenPropertyToPublic), "Property is not nullable for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Property is not nullable for class InjectedVendorExtensionsTest: potentiallyOverriddenPropertyToPublic.");
 
             if (unalteredProperty.IsSet && unalteredProperty.Value == null)
-                throw new ArgumentNullException(nameof(unalteredProperty), "Property is not nullable for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Property is not nullable for class InjectedVendorExtensionsTest: unalteredProperty.");
 
             if (unalteredPropertyAccessor.IsSet && unalteredPropertyAccessor.Value == null)
-                throw new ArgumentNullException(nameof(unalteredPropertyAccessor), "Property is not nullable for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Property is not nullable for class InjectedVendorExtensionsTest: unalteredPropertyAccessor.");
 
             return new InjectedVendorExtensionsTest(potentiallyOverriddenPropertyAccessor, potentiallyOverriddenPropertyToInternal, potentiallyOverriddenPropertyToPrivate, potentiallyOverriddenPropertyToPublic, unalteredProperty, unalteredPropertyAccessor);
         }
