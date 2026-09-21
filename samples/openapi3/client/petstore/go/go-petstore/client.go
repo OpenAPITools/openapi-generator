@@ -229,6 +229,20 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 						// siblings holding the same property name stay distinct.
 						keyPrefixForMapEntry = k.String()
 						styleForMapEntry = ""
+						// a nil entry is left out instead of going on the wire as the literal
+						// "null", and so is a nil element of a list the entry holds
+						entry, ok := parameterValueIndirect(v)
+						if !ok {
+							continue
+						}
+						if entry.Kind() == reflect.Slice {
+							for i := 0; i < entry.Len(); i++ {
+								if element, ok := parameterValueIndirect(entry.Index(i)); ok {
+									parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, element.Interface(), styleForMapEntry, collectionType)
+								}
+							}
+							continue
+						}
 					}
 					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, v.Interface(), styleForMapEntry, collectionType)
 				}
@@ -237,6 +251,9 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 			case reflect.Interface:
 				fallthrough
 			case reflect.Ptr:
+				if v.IsNil() {
+					return
+				}
 				parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, v.Elem().Interface(), style, collectionType)
 				return
 
@@ -269,6 +286,18 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 			valuesMap[keyPrefix] = value
 			break
 	}
+}
+
+// parameterValueIndirect unwraps interfaces and pointers down to the value they hold,
+// reporting false when that value is nil
+func parameterValueIndirect(v reflect.Value) (reflect.Value, bool) {
+	for v.Kind() == reflect.Interface || v.Kind() == reflect.Ptr {
+		if v.IsNil() {
+			return v, false
+		}
+		v = v.Elem()
+	}
+	return v, v.IsValid()
 }
 
 // helper for converting interface{} parameters to json strings

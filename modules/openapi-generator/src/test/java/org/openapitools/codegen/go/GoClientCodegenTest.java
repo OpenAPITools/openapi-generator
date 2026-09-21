@@ -163,6 +163,13 @@ public class GoClientCodegenTest {
                 "keyPrefixForMapEntry = k.String()",
                 "styleForMapEntry = \"\"",
                 "parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, v.Interface(), styleForMapEntry, collectionType)",
+                // a nil entry, and a nil element of a list an entry holds, is left out
+                // instead of going on the wire as the literal "null"; a typed nil pointer
+                // is unwrapped with a nil check rather than panicking in Elem().Interface()
+                "entry, ok := parameterValueIndirect(v)",
+                "if element, ok := parameterValueIndirect(entry.Index(i)); ok {",
+                "func parameterValueIndirect(v reflect.Value) (reflect.Value, bool) {",
+                "case reflect.Ptr: if v.IsNil() { return }",
                 // an array element does not inherit the form flattening: a map nested one
                 // level down keeps its accumulated path instead of being keyed by its
                 // property names alone
