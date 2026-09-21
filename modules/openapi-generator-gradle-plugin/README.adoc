@@ -594,7 +594,18 @@ openApiGenerate {
     inputSpec = "$rootDir/specs/petstore.yaml"
     schemaLocation = "specs/schemas"
     schemaLocations.from("specs/schemas/user.yaml", "specs/schemas/order.yaml")
-    // or, using the Groovy-friendly helper:
+}
+----
+
+Alternatively, the Groovy-friendly `setSchemaLocationsAsStrings(...)` helper can be used instead of
+`schemaLocations.from(...)` — note that it *replaces* any previously configured `schemaLocations`
+entries rather than adding to them, so do not combine the two on the same property:
+
+[source,groovy]
+----
+openApiGenerate {
+    inputSpec = "$rootDir/specs/petstore.yaml"
+    schemaLocation = "specs/schemas"
     setSchemaLocationsAsStrings("specs/schemas/user.yaml", "specs/schemas/order.yaml")
 }
 ----

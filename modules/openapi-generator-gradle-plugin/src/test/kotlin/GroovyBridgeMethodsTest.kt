@@ -160,8 +160,8 @@ class GroovyBridgeMethodsTest : TestBase() {
 
         withProjectFiles(buildContents, includeSchemas = true)
 
-        // Act
-        val result = GradleRunner.create()
+        // Act - first run should succeed and populate the task's schemaLocations input
+        val result1 = GradleRunner.create()
             .withProjectDir(temp)
             .withArguments("customGenerate")
             .withPluginClasspath()
@@ -169,12 +169,36 @@ class GroovyBridgeMethodsTest : TestBase() {
 
         // Assert
         assertTrue(
-            result.output.contains("Successfully generated code to"),
+            result1.output.contains("Successfully generated code to"),
             "Expected successful generation in custom task using setSchemaLocationsAsStrings"
         )
         assertEquals(
-            TaskOutcome.SUCCESS, result.task(":customGenerate")?.outcome,
+            TaskOutcome.SUCCESS, result1.task(":customGenerate")?.outcome,
             "Expected a successful run with custom task using setSchemaLocationsAsStrings"
+        )
+
+        // Act - second run with nothing changed must be UP-TO-DATE
+        val result2 = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("customGenerate")
+            .withPluginClasspath()
+            .build()
+        assertEquals(TaskOutcome.UP_TO_DATE, result2.task(":customGenerate")?.outcome)
+
+        // Act - modify a file tracked only via setSchemaLocationsAsStrings. If it were not
+        // actually wired to the task's schemaLocations input, the task would incorrectly
+        // remain UP-TO-DATE instead of re-executing.
+        File(temp, "schemas/extra.yaml").writeText("type: object\nadditionalProperties: false")
+        val result3 = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("customGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertEquals(
+            TaskOutcome.SUCCESS, result3.task(":customGenerate")?.outcome,
+            "Task stayed UP-TO-DATE after a schema file changed — setSchemaLocationsAsStrings is not wired to schemaLocations"
         )
     }
 

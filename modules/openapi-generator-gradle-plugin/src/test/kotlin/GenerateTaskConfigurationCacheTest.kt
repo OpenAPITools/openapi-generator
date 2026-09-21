@@ -147,7 +147,7 @@ class GenerateTaskConfigurationCacheTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `openApiGenerate with schemaLocation and schemaLocations should invalidate configuration cache on schema file change`(gradleVersion: String, format: String) {
+    fun `openApiGenerate with schemaLocation and schemaLocations should re-execute but reuse configuration cache on schema file change`(gradleVersion: String, format: String) {
         val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         withProject(schemaLocationsExtensionContents(propertyFormat))
