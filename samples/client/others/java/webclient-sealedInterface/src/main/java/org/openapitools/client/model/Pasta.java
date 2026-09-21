@@ -76,6 +76,36 @@ public class Pasta extends Entity {
 
 
   @Override
+  public Pasta href(@javax.annotation.Nullable String href) {
+    this.setHref(href);
+    return this;
+  }
+
+  @Override
+  public Pasta id(@javax.annotation.Nullable String id) {
+    this.setId(id);
+    return this;
+  }
+
+  @Override
+  public Pasta atSchemaLocation(@javax.annotation.Nullable String atSchemaLocation) {
+    this.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  @Override
+  public Pasta atBaseType(@javax.annotation.Nullable String atBaseType) {
+    this.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  @Override
+  public Pasta atType(@javax.annotation.Nonnull String atType) {
+    this.setAtType(atType);
+    return this;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;

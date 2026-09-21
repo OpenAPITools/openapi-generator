@@ -107,6 +107,12 @@ public class PizzaSpeziale extends Pizza {
   }
 
   @Override
+  public PizzaSpeziale pizzaSize(@javax.annotation.Nullable BigDecimal pizzaSize) {
+    this.setPizzaSize(pizzaSize);
+    return this;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;

@@ -77,6 +77,42 @@ public class PizzaSpeziale extends Pizza {
 
 
   @Override
+  public PizzaSpeziale href(@javax.annotation.Nullable String href) {
+    this.setHref(href);
+    return this;
+  }
+
+  @Override
+  public PizzaSpeziale id(@javax.annotation.Nullable String id) {
+    this.setId(id);
+    return this;
+  }
+
+  @Override
+  public PizzaSpeziale atSchemaLocation(@javax.annotation.Nullable String atSchemaLocation) {
+    this.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  @Override
+  public PizzaSpeziale atBaseType(@javax.annotation.Nullable String atBaseType) {
+    this.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  @Override
+  public PizzaSpeziale atType(@javax.annotation.Nonnull String atType) {
+    this.setAtType(atType);
+    return this;
+  }
+
+  @Override
+  public PizzaSpeziale pizzaSize(@javax.annotation.Nullable BigDecimal pizzaSize) {
+    this.setPizzaSize(pizzaSize);
+    return this;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;

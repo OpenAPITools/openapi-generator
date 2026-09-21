@@ -130,6 +130,12 @@ public class BigCat extends Cat {
   }
 
   @Override
+  public BigCat declawed(@jakarta.annotation.Nullable Boolean declawed) {
+    this.setDeclawed(declawed);
+    return this;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;

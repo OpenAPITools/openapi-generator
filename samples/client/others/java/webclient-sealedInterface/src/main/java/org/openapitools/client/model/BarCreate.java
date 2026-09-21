@@ -138,6 +138,36 @@ public class BarCreate extends Entity {
 
 
   @Override
+  public BarCreate href(@javax.annotation.Nullable String href) {
+    this.setHref(href);
+    return this;
+  }
+
+  @Override
+  public BarCreate id(@javax.annotation.Nullable String id) {
+    this.setId(id);
+    return this;
+  }
+
+  @Override
+  public BarCreate atSchemaLocation(@javax.annotation.Nullable String atSchemaLocation) {
+    this.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  @Override
+  public BarCreate atBaseType(@javax.annotation.Nullable String atBaseType) {
+    this.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  @Override
+  public BarCreate atType(@javax.annotation.Nonnull String atType) {
+    this.setAtType(atType);
+    return this;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
