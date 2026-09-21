@@ -120,6 +120,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Setter protected boolean useIndependentImplicitClients = false;
     @Setter protected boolean compatibleWithPythonLegacy = false;
 
+    private String sourceFolder;
     private String testFolder;
 
     public PythonClientCodegen() {
@@ -198,6 +199,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
+        sourceFolder = "";
         testFolder = "test";
 
         // default HIDE_GENERATION_TIMESTAMP to true
@@ -227,6 +229,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(POETRY1_FALLBACK, "Fallback to formatting pyproject.toml to Poetry 1.x format."));
         cliOptions.add(new CliOption(LAZY_IMPORTS, "Enable lazy imports.").defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(BUILD_SYSTEM, "Build system to use in pyproject.toml (setuptools, hatchling).").defaultValue("setuptools"));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "directory for generated python source code; 'src' for _src layout_, unset (or '.') for _flat layout_."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_HTTPX_SYNC, "Generate synchronous '_sync' variants of each API method (httpx and httpx2 libraries only). " +
                 "Each '_sync' method simply calls the corresponding async method and waits for its completion, " +
                 "so both synchronous and asynchronous methods are available from the same API class.").defaultValue(Boolean.FALSE.toString()));
@@ -296,6 +299,9 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
         }
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
+            this.sourceFolder = (String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER);
+        }
 
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
@@ -314,8 +320,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             // tests in <package>/test
             testFolder = packagePath() + File.separatorChar + testFolder;
             // api/model docs in <package>/docs
-            apiDocPath = packagePath() + "/" + apiDocPath;
-            modelDocPath = packagePath() + "/" + modelDocPath;
+            apiDocPath = packagePath() + File.separatorChar + apiDocPath;
+            modelDocPath = packagePath() + File.separatorChar + modelDocPath;
         }
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -392,8 +398,9 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                     USE_INDEPENDENT_IMPLICIT_CLIENTS, useIndependentImplicitClients);
         }
 
-        String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
-        String apiPath = packagePath() + File.separatorChar + apiPackage.replace('.', File.separatorChar);
+        String srcPath = sourceFolder.isEmpty() ? packagePath() : (sourceFolder + File.separatorChar + packagePath());
+        String modelPath = srcPath + File.separatorChar + modelPackage.replace('.', File.separatorChar);
+        String apiPath = srcPath + File.separatorChar + apiPackage.replace('.', File.separatorChar);
 
         String readmePath = "README.md";
         String readmeTemplate = "README.mustache";
@@ -416,10 +423,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
             supportingFiles.add(new SupportingFile("pyproject.mustache", "", "pyproject.toml"));
-            supportingFiles.add(new SupportingFile("py.typed.mustache", packagePath(), "py.typed"));
+            supportingFiles.add(new SupportingFile("py.typed.mustache", srcPath, "py.typed"));
         }
-        supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
-        supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", srcPath, "configuration.py"));
+        supportingFiles.add(new SupportingFile("__init__package.mustache", srcPath, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", modelPath, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", apiPath, "__init__.py"));
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
@@ -427,12 +434,12 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
         List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
         if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
-            supportingFiles.add(new SupportingFile("signing.mustache", packagePath(), "signing.py"));
+            supportingFiles.add(new SupportingFile("signing.mustache", srcPath, "signing.py"));
         }
 
         // If the package name consists of dots(openapi.client), then we need to create the directory structure like openapi/client with __init__ files.
         String[] packageNameSplits = packageName.split("\\.");
-        String currentPackagePath = "";
+        String currentPackagePath = sourceFolder.isEmpty() ? "" : (sourceFolder + File.separatorChar);
         for (int i = 0; i < packageNameSplits.length - 1; i++) {
             if (i > 0) {
                 currentPackagePath = currentPackagePath + File.separatorChar;
@@ -441,21 +448,21 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             supportingFiles.add(new SupportingFile("__init__.mustache", currentPackagePath, "__init__.py"));
         }
 
-        supportingFiles.add(new SupportingFile("exceptions.mustache", packagePath(), "exceptions.py"));
+        supportingFiles.add(new SupportingFile("exceptions.mustache", srcPath, "exceptions.py"));
 
         if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__.mustache", testFolder, "__init__.py"));
         }
 
-        supportingFiles.add(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
-        supportingFiles.add(new SupportingFile("api_response.mustache", packagePath(), "api_response.py"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", srcPath, "api_client.py"));
+        supportingFiles.add(new SupportingFile("api_response.mustache", srcPath, "api_response.py"));
 
         if ("asyncio".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
+            supportingFiles.add(new SupportingFile("asyncio/rest.mustache", srcPath, "rest.py"));
             additionalProperties.put("async", "true");
             additionalProperties.put("asyncio", "true");
         } else if (isHttpxLibrary()) {
-            supportingFiles.add(new SupportingFile("httpx/rest.mustache", packagePath(), "rest.py"));
+            supportingFiles.add(new SupportingFile("httpx/rest.mustache", srcPath, "rest.py"));
             additionalProperties.put("async", "true");
             additionalProperties.put(getLibrary(), "true");
             additionalProperties.put("httpxLibrary", true);
@@ -463,12 +470,12 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             if (Boolean.parseBoolean(String.valueOf(additionalProperties.get(SUPPORT_HTTPX_SYNC)))) {
                 // generate synchronous '_sync' method variants alongside the async ones
                 additionalProperties.put(SUPPORT_HTTPX_SYNC, true);
-                supportingFiles.add(new SupportingFile("httpx/sync_helper.mustache", packagePath(), "sync_helper.py"));
+                supportingFiles.add(new SupportingFile("httpx/sync_helper.mustache", srcPath, "sync_helper.py"));
             } else {
                 additionalProperties.remove(SUPPORT_HTTPX_SYNC);
             }
         } else {
-            supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
+            supportingFiles.add(new SupportingFile("rest.mustache", srcPath, "rest.py"));
         }
 
         // 'supportHttpxSync' only makes sense for the (async) httpx and httpx2 libraries
@@ -545,12 +552,26 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separatorChar + apiPackage().replace('.', File.separatorChar);
+        StringBuffer sb = new StringBuffer(outputFolder);
+        sb.append(File.separatorChar);
+        if (!sourceFolder.isEmpty()) {
+            sb.append(sourceFolder);
+            sb.append(File.separatorChar);
+        }
+        sb.append(apiPackage().replace('.', File.separatorChar));
+        return sb.toString();
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separatorChar + modelPackage().replace('.', File.separatorChar);
+        StringBuffer sb = new StringBuffer(outputFolder);
+        sb.append(File.separatorChar);
+        if (!sourceFolder.isEmpty()) {
+            sb.append(sourceFolder);
+            sb.append(File.separatorChar);
+        }
+        sb.append(modelPackage().replace('.', File.separatorChar));
+        return sb.toString();
     }
 
     @Override
