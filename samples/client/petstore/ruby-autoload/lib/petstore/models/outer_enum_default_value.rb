@@ -11,7 +11,6 @@ Generator version: 7.26.0-SNAPSHOT
 =end
 
 require 'date'
-require 'set'
 require 'time'
 
 module Petstore

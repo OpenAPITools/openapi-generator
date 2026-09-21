@@ -4,7 +4,17 @@
 =end
 
 require 'date'
+{{#models}}
+{{#model}}
+{{^isEnum}}
+{{^oneOf}}
+{{^anyOf}}
 require 'set'
+{{/anyOf}}
+{{/oneOf}}
+{{/isEnum}}
+{{/model}}
+{{/models}}
 require 'time'
 
 module {{moduleName}}

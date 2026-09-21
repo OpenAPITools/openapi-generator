@@ -212,5 +212,22 @@ describe 'BaseObject' do
       non_nullable_instance.instance_variable_set(:@flag, nil)
       expect(non_nullable_instance.to_hash).not_to have_key(:flag)
     end
+
+    it 'a subclass that narrows attribute_map is only handed the attributes it accepts' do
+      narrowed = Class.new(Petstore::Animal) do
+        def self.attribute_map
+          { :class_name => :className }
+        end
+
+        def self.openapi_types
+          { :class_name => :'String' }
+        end
+      end
+
+      obj = narrowed.build_from_hash({ 'className' => 'Cat', 'color' => 'black' })
+
+      expect(obj.class_name).to eq('Cat')
+      expect(obj.to_hash).to eq({ className: 'Cat' })
+    end
   end
 end
