@@ -226,4 +226,75 @@ class ParameterWiringRegressionTest : TestBase() {
 
         assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
     }
+
+    // -------------------------------------------------------------------------
+    // schemaLocation / schemaLocations (previously entirely absent from the
+    // extension and plugin wiring — `openApiGenerate { schemaLocation = ... }` had
+    // no effect at all: the property didn't exist on the extension, so Groovy would
+    // either fail to resolve it or the value would be silently dropped before ever
+    // reaching the task.)
+    // -------------------------------------------------------------------------
+
+    @Test
+    fun `schemaLocation extension property is wired to task`() {
+        val schemaDir = createDirectory(Paths.get("${temp.path}/schemas")).toFile()
+        File(schemaDir, "extra.yaml").writeText("type: object")
+
+        val result = runOpenApiGenerate("""
+            plugins { id 'org.openapi.generator' }
+            openApiGenerate {
+                generatorName = "kotlin"
+                inputSpec = file("spec.yaml").absolutePath
+                outputDir = file("build/kotlin").absolutePath
+                schemaLocation = file("schemas").absolutePath
+            }
+        """.trimIndent(), "spec.yaml" to "specs/petstore-v3.0.yaml")
+
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Generation failed after configuring schemaLocation via the extension — check plugin wiring"
+        )
+    }
+
+    @Test
+    fun `schemaLocations extension property is wired to task`() {
+        val schemaDir = createDirectory(Paths.get("${temp.path}/schemas")).toFile()
+        File(schemaDir, "extra.yaml").writeText("type: object")
+
+        val result = runOpenApiGenerate("""
+            plugins { id 'org.openapi.generator' }
+            openApiGenerate {
+                generatorName = "kotlin"
+                inputSpec = file("spec.yaml").absolutePath
+                outputDir = file("build/kotlin").absolutePath
+                schemaLocations.from(file("schemas/extra.yaml").absolutePath)
+            }
+        """.trimIndent(), "spec.yaml" to "specs/petstore-v3.0.yaml")
+
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Generation failed after configuring schemaLocations via the extension — check plugin wiring"
+        )
+    }
+
+    @Test
+    fun `setSchemaLocationsAsStrings extension bridge is wired to task`() {
+        val schemaDir = createDirectory(Paths.get("${temp.path}/schemas")).toFile()
+        File(schemaDir, "extra.yaml").writeText("type: object")
+
+        val result = runOpenApiGenerate("""
+            plugins { id 'org.openapi.generator' }
+            openApiGenerate {
+                generatorName = "kotlin"
+                inputSpec = file("spec.yaml").absolutePath
+                outputDir = file("build/kotlin").absolutePath
+                setSchemaLocationsAsStrings("schemas/extra.yaml")
+            }
+        """.trimIndent(), "spec.yaml" to "specs/petstore-v3.0.yaml")
+
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Generation failed after using setSchemaLocationsAsStrings — check extension bridge wiring"
+        )
+    }
 }

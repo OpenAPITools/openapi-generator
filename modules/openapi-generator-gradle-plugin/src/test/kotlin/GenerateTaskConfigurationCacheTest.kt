@@ -104,6 +104,90 @@ class GenerateTaskConfigurationCacheTest : TestBase() {
         assertTrue(result3.output.contains("Configuration cache entry reused."))
     }
 
+    // schemaLocation / schemaLocations tests
+
+    private fun schemaLocationsExtensionContents(format: PropertyFormat) = """
+        generatorName = "kotlin"
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
+        schemaLocation = ${"schemaDir".toPropertyReference(format)}
+        schemaLocations.from(${"schemaLocationsDir/schema.yaml".toPropertyReference(format)})
+        cleanupOutput.set(true)
+        """.trimIndent()
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `openApiGenerate with schemaLocation and schemaLocations should reuse configuration cache`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        // Arrange
+        withProject(schemaLocationsExtensionContents(propertyFormat))
+        projectDirCC.resolve("schemaDir").mkdir().also {
+            projectDirCC.resolve("schemaDir/schema.yaml").writeText("type: object")
+        }
+        projectDirCC.resolve("schemaLocationsDir").mkdir().also {
+            projectDirCC.resolve("schemaLocationsDir/schema.yaml").writeText("type: object")
+        }
+
+        // Act
+        val result1 = build {
+            withProjectDir(projectDirCC)
+            withArguments("--configuration-cache", "clean", "openApiGenerate")
+            withGradleVersion(gradleVersion)
+        }
+
+        val result2 = build {
+            withProjectDir(projectDirCC)
+            withArguments("--configuration-cache", "clean", "openApiGenerate")
+            withGradleVersion(gradleVersion)
+        }
+
+        // Assert
+        assertEquals(TaskOutcome.SUCCESS, result1.task(":openApiGenerate")?.outcome)
+        assertTrue(result1.output.contains("Configuration cache entry stored."))
+        assertEquals(TaskOutcome.SUCCESS, result2.task(":openApiGenerate")?.outcome)
+        assertTrue(result2.output.contains("Configuration cache entry reused."))
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `openApiGenerate with schemaLocation and schemaLocations should invalidate configuration cache on schema file change`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        // Arrange
+        withProject(schemaLocationsExtensionContents(propertyFormat))
+        projectDirCC.resolve("schemaDir").mkdir().also {
+            projectDirCC.resolve("schemaDir/schema.yaml").writeText("type: object")
+        }
+        projectDirCC.resolve("schemaLocationsDir").mkdir().also {
+            projectDirCC.resolve("schemaLocationsDir/schema.yaml").writeText("type: object")
+        }
+
+        // Act - First run: store the configuration cache
+        val result1 = build {
+            withProjectDir(projectDirCC)
+            withArguments("--configuration-cache", "openApiGenerate")
+            withGradleVersion(gradleVersion)
+        }
+        assertEquals(TaskOutcome.SUCCESS, result1.task(":openApiGenerate")?.outcome)
+        assertTrue(result1.output.contains("Configuration cache entry stored."))
+
+        // Act - Second run: change a file tracked via schemaLocation and re-run
+        projectDirCC.resolve("schemaDir/schema.yaml").writeText("type: object\nadditionalProperties: false")
+        val result2 = build {
+            withProjectDir(projectDirCC)
+            withArguments("--configuration-cache", "openApiGenerate")
+            withGradleVersion(gradleVersion)
+        }
+        assertEquals(TaskOutcome.SUCCESS, result2.task(":openApiGenerate")?.outcome)
+        assertTrue(result2.output.contains("Configuration cache entry reused."))
+
+        // Act - Third run: change a file tracked via schemaLocations and re-run
+        projectDirCC.resolve("schemaLocationsDir/schema.yaml").writeText("type: object\nadditionalProperties: false")
+        val result3 = build {
+            withProjectDir(projectDirCC)
+            withArguments("--configuration-cache", "openApiGenerate")
+            withGradleVersion(gradleVersion)
+        }
+        assertEquals(TaskOutcome.SUCCESS, result3.task(":openApiGenerate")?.outcome)
+        assertTrue(result3.output.contains("Configuration cache entry reused."))
+    }
+
     private fun getJavaVersion(): Int {
         val version = System.getProperty("java.version")
         val parts = version.split('.')

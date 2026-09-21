@@ -160,6 +160,16 @@ apply plugin: 'org.openapi.generator'
 |None
 |Local root folder with spec file(s)
 
+|schemaLocation
+|String / Provider<Directory>
+|None
+|Optional directory containing additional schema files referenced via `$ref` in the input specification. By default, Gradle only tracks `inputSpec` for up-to-date checks, so changes to `$ref`-referenced schema files elsewhere would not trigger re-generation. Declaring this directory makes Gradle track all files inside it too. This only affects up-to-date/cache tracking; it does not change how `$ref`s are resolved at generation time. For schemas that aren't all under one directory, use `schemaLocations` instead.
+
+|schemaLocations
+|ConfigurableFileCollection
+|empty
+|Like `schemaLocation`, but accepts any combination of individual files, multiple directories, or filtered file trees instead of a single whole directory, e.g. `schemaLocations.from("schemas/user.yaml", "schemas/order.yaml")` or `schemaLocations.from(fileTree("schemas") { include("*.yaml") })`. Since it isn't a `Provider`-based property, it does not support Groovy `=` assignment — use `.from(...)`, or the `setSchemaLocationsAsStrings(vararg paths)` convenience method.
+
 |mergedFileName
 |String / Provider<String>
 |`merged`
@@ -559,6 +569,36 @@ models: "User:Pet"
 ----
 ====
 
+==== Tracking additional schema files ($ref)
+
+By default, Gradle only watches `inputSpec` for up-to-date checks, so changes to `$ref`-referenced
+schema files elsewhere are not picked up automatically. Use `schemaLocation` (a single directory)
+or `schemaLocations` (any combination of files, directories, or filtered file trees) to have Gradle
+track them too. Neither property changes how `$ref`s are resolved at generation time — they only
+affect Gradle's up-to-date/cache tracking.
+
+[source,kotlin]
+----
+openApiGenerate {
+    inputSpec.set("$rootDir/specs/petstore.yaml")
+    // Track a single directory of referenced schemas
+    schemaLocation.set(file("$rootDir/specs/schemas"))
+    // Or track specific files / multiple locations / filtered trees
+    schemaLocations.from("specs/schemas/user.yaml", "specs/schemas/order.yaml")
+}
+----
+
+[source,groovy]
+----
+openApiGenerate {
+    inputSpec = "$rootDir/specs/petstore.yaml"
+    schemaLocation = "specs/schemas"
+    schemaLocations.from("specs/schemas/user.yaml", "specs/schemas/order.yaml")
+    // or, using the Groovy-friendly helper:
+    setSchemaLocationsAsStrings("specs/schemas/user.yaml", "specs/schemas/order.yaml")
+}
+----
+
 === openApiValidate
 
 .Options
@@ -777,7 +817,7 @@ When configuring project extensions like `openApiGenerate { }`, `openApiValidate
 |Extension |Available Methods
 
 |`openApiGenerate`
-|`setInputSpec(path)`, `setOutputDir(path)`, `setTemplateDir(path)`, `setConfigFile(path)`, `setIgnoreFileOverride(path)`, `setInputSpecRootDirectory(path)`
+|`setInputSpec(path)`, `setOutputDir(path)`, `setTemplateDir(path)`, `setConfigFile(path)`, `setIgnoreFileOverride(path)`, `setInputSpecRootDirectory(path)`, `setSchemaLocation(path)`, `setSchemaLocationsAsStrings(vararg paths)`
 
 |`openApiValidate`
 |`setInputSpec(path)`
@@ -881,7 +921,7 @@ Both patterns work identically for String-based property configuration in Groovy
 |Task Type |Available Methods
 
 |`GenerateTask`
-|`setInputSpecAsString(path)`, `setOutputDirAsString(path)`, `setTemplateDirAsString(path)`, `setConfigFileAsString(path)`, `setIgnoreFileOverrideAsString(path)`, `setInputSpecRootDirectoryAsString(path)`, `setSchemaLocationAsString(path)`
+|`setInputSpecAsString(path)`, `setOutputDirAsString(path)`, `setTemplateDirAsString(path)`, `setConfigFileAsString(path)`, `setIgnoreFileOverrideAsString(path)`, `setInputSpecRootDirectoryAsString(path)`, `setSchemaLocationAsString(path)`, `setSchemaLocationsAsStrings(vararg paths)`
 
 |`ValidateTask`
 |`setInputSpecAsString(path)`

@@ -139,8 +139,52 @@ class GroovyBridgeMethodsTest : TestBase() {
         )
     }
 
+    @Test
+    fun `Custom GenerateTask should accept setSchemaLocationsAsStrings bridge method`() {
+        // Arrange
+        val buildContents = """
+        plugins {
+          id 'org.openapi.generator'
+        }
+        
+        tasks.register('customGenerate', org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+            generatorName = "kotlin"
+            setInputSpecAsString("spec.yaml")
+            setOutputDirAsString("build/custom-kotlin")
+            setSchemaLocationsAsStrings("schemas/extra.yaml", "schemas/extra2.yaml")
+            apiPackage = "org.openapitools.custom.api"
+            invokerPackage = "org.openapitools.custom.invoker"
+            modelPackage = "org.openapitools.custom.model"
+        }
+        """.trimIndent()
+
+        withProjectFiles(buildContents, includeSchemas = true)
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("customGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Successfully generated code to"),
+            "Expected successful generation in custom task using setSchemaLocationsAsStrings"
+        )
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":customGenerate")?.outcome,
+            "Expected a successful run with custom task using setSchemaLocationsAsStrings"
+        )
+    }
+
     // Helper method to create project files
-    private fun withProjectFiles(buildContents: String, includeConfig: Boolean = false, includeTemplates: Boolean = false) {
+    private fun withProjectFiles(
+        buildContents: String,
+        includeConfig: Boolean = false,
+        includeTemplates: Boolean = false,
+        includeSchemas: Boolean = false
+    ) {
         File(temp, "build.gradle").writeText(buildContents)
 
         // Create spec file
@@ -158,6 +202,14 @@ class GroovyBridgeMethodsTest : TestBase() {
         if (includeTemplates) {
             val templatesDir = File(temp, "templates")
             templatesDir.mkdirs()
+        }
+
+        // Create schema files if needed
+        if (includeSchemas) {
+            val schemasDir = File(temp, "schemas")
+            schemasDir.mkdirs()
+            File(schemasDir, "extra.yaml").writeText("type: object")
+            File(schemasDir, "extra2.yaml").writeText("type: object")
         }
     }
 }

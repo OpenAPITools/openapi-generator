@@ -367,11 +367,35 @@ abstract class GenerateTask : DefaultTask() {
      * Declaring this directory tells Gradle to track all files inside it for up-to-date checks.
      * Without it, changes to `$ref`-referenced schemas will not trigger re-generation because
      * Gradle only watches [inputSpec] by default.
+     *
+     * For schemas that aren't all under one directory (individual files, multiple directories, or a
+     * filtered subset of a directory), use [schemaLocations] instead, which accepts any combination of
+     * files, directories, and file trees.
      */
     @get:Optional
     @get:InputDirectory
-    @get:PathSensitive(PathSensitivity.ABSOLUTE)
+    @get:PathSensitive(PathSensitivity.RELATIVE)
     abstract val schemaLocation: DirectoryProperty
+
+    /**
+     * Optional collection of additional schema files/directories referenced via `$ref` in the input
+     * specification, tracked for up-to-date checks.
+     *
+     * Unlike [schemaLocation], which only accepts a single whole directory, this property is a
+     * [ConfigurableFileCollection] and can be populated with any combination of individual files,
+     * multiple directories, or filtered file trees, e.g.:
+     * ```kotlin
+     * schemaLocations.from("schemas/user.yaml", "schemas/order.yaml")
+     * schemaLocations.from(fileTree("schemas") { include("*.yaml") })
+     * ```
+     *
+     * As with [schemaLocation], this only affects Gradle's up-to-date/cache tracking; it does not
+     * change how `$ref`s are resolved at generation time.
+     */
+    @get:InputFiles
+    @get:Optional
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    val schemaLocations: ConfigurableFileCollection = project.objects.fileCollection()
 
     /**
      * The output target directory into which code will be generated.
@@ -1356,5 +1380,18 @@ abstract class GenerateTask : DefaultTask() {
      */
     fun setSchemaLocationAsString(path: String) {
         schemaLocation.set(layout.projectDirectory.dir(path))
+    }
+
+    /**
+     * Groovy-compatible helper for schemaLocations property.
+     *
+     * [schemaLocations] is a [ConfigurableFileCollection], which does not support Groovy `=`
+     * assignment (it isn't a [org.gradle.api.provider.Property]). Use this method instead:
+     * ```groovy
+     * setSchemaLocationsAsStrings("schemas/user.yaml", "schemas/order.yaml")
+     * ```
+     */
+    fun setSchemaLocationsAsStrings(vararg paths: String) {
+        schemaLocations.setFrom(paths.map { layout.projectDirectory.asFile.resolve(it) })
     }
 }
