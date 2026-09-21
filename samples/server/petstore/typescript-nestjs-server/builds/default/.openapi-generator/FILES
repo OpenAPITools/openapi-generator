@@ -2,10 +2,12 @@
 README.md
 api-implementations.ts
 api.module.ts
+api/FakeApi.ts
 api/PetApi.ts
 api/StoreApi.ts
 api/UserApi.ts
 api/index.ts
+controllers/FakeApi.controller.ts
 controllers/PetApi.controller.ts
 controllers/StoreApi.controller.ts
 controllers/UserApi.controller.ts
