@@ -74,10 +74,10 @@ public class CodegenConfigurator {
     private Map<String, String> nameMappings = new HashMap<>();
     private Map<String, String> parameterNameMappings = new HashMap<>();
     private Map<String, String> modelNameMappings = new HashMap<>();
-    private Map<String, String> injectOperationVendorExtensions = new HashMap<>();
+    private Map<String, List<String>> injectOperationVendorExtensions = new HashMap<>();
     private Map<String, String> enumNameMappings = new HashMap<>();
     private Map<String, String> operationIdNameMappings = new HashMap<>();
-    private Map<String, String> injectModelVendorExtensions = new HashMap<>();
+    private Map<String, List<String>> injectModelVendorExtensions = new HashMap<>();
     private Map<String, String> openapiNormalizer = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Set<String> openapiGeneratorIgnoreList = new HashSet<>();
@@ -278,17 +278,18 @@ public class CodegenConfigurator {
 
     /**
      * Adds a single {@code injectModelVendorExtension}. Calling this repeatedly for the same key appends
-     * the values together, space-separated, in call order, rather than the later call overwriting the
-     * earlier one — so multiple {@code --inject-model-vendor-extensions} occurrences targeting the same
-     * key accumulate instead of the last one silently winning.
+     * {@code value} as a new element to the list stored under {@code key}, in call order, rather than
+     * the later call overwriting the earlier one — so multiple {@code --inject-model-vendor-extensions}
+     * occurrences targeting the same key accumulate as distinct list entries instead of the last one
+     * silently winning.
      */
     public CodegenConfigurator addInjectModelVendorExtension(String key, String value) {
-        this.injectModelVendorExtensions.merge(key, value, (existing, added) -> existing + " " + added);
+        this.injectModelVendorExtensions.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
         generatorSettingsBuilder.withInjectModelVendorExtension(key, value);
         return this;
     }
 
-    public CodegenConfigurator setInjectModelVendorExtensions(Map<String, String> extensions) {
+    public CodegenConfigurator setInjectModelVendorExtensions(Map<String, List<String>> extensions) {
         this.injectModelVendorExtensions = extensions;
         generatorSettingsBuilder.withInjectModelVendorExtensions(extensions);
         return this;
@@ -296,17 +297,18 @@ public class CodegenConfigurator {
 
     /**
      * Adds a single {@code injectOperationVendorExtension}. Calling this repeatedly for the same key appends
-     * the values together, space-separated, in call order, rather than the later call overwriting the
-     * earlier one — so multiple {@code --inject-operation-vendor-extensions} occurrences targeting the same
-     * key accumulate instead of the last one silently winning.
+     * {@code value} as a new element to the list stored under {@code key}, in call order, rather than
+     * the later call overwriting the earlier one — so multiple {@code --inject-operation-vendor-extensions}
+     * occurrences targeting the same key accumulate as distinct list entries instead of the last one
+     * silently winning.
      */
     public CodegenConfigurator addInjectOperationVendorExtension(String key, String value) {
-        this.injectOperationVendorExtensions.merge(key, value, (existing, added) -> existing + " " + added);
+        this.injectOperationVendorExtensions.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
         generatorSettingsBuilder.withInjectOperationVendorExtension(key, value);
         return this;
     }
 
-    public CodegenConfigurator setInjectOperationVendorExtensions(Map<String, String> extensions) {
+    public CodegenConfigurator setInjectOperationVendorExtensions(Map<String, List<String>> extensions) {
         this.injectOperationVendorExtensions = extensions;
         generatorSettingsBuilder.withInjectOperationVendorExtensions(extensions);
         return this;

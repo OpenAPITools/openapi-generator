@@ -179,9 +179,9 @@ public interface CodegenConfig {
 
     Map<String, String> operationIdNameMapping();
 
-    Map<String, String> injectModelVendorExtensions();
+    Map<String, List<String>> injectModelVendorExtensions();
 
-    Map<String, String> injectOperationVendorExtensions();
+    Map<String, List<String>> injectOperationVendorExtensions();
 
     Map<String, String> openapiNormalizer();
 

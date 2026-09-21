@@ -18,6 +18,8 @@ package org.openapitools.codegen.config;
 
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import static org.testng.Assert.assertEquals;
 
 public class GeneratorSettingsTest {
@@ -30,7 +32,7 @@ public class GeneratorSettingsTest {
                 .withInjectModelVendorExtension("Pet.x-class-extra-annotation", "@Bar")
                 .build();
 
-        assertEquals(settings.getInjectModelVendorExtensions().get("Pet.x-class-extra-annotation"), "@Foo @Bar");
+        assertEquals(settings.getInjectModelVendorExtensions().get("Pet.x-class-extra-annotation"), List.of("@Foo", "@Bar"));
     }
 
     @Test
@@ -43,7 +45,7 @@ public class GeneratorSettingsTest {
                 .build();
 
         assertEquals(settings.getInjectOperationVendorExtensions().get("addPet.x-operation-extra-annotation"),
-                "@Foo @Bar @Baz");
+                List.of("@Foo", "@Bar", "@Baz"));
     }
 
     @Test
@@ -54,7 +56,7 @@ public class GeneratorSettingsTest {
                 .withInjectOperationVendorExtension("addPet.orgId.x-field-extra-annotation", "@Bar")
                 .build();
 
-        assertEquals(settings.getInjectOperationVendorExtensions().get("addPet.x-operation-extra-annotation"), "@Foo");
-        assertEquals(settings.getInjectOperationVendorExtensions().get("addPet.orgId.x-field-extra-annotation"), "@Bar");
+        assertEquals(settings.getInjectOperationVendorExtensions().get("addPet.x-operation-extra-annotation"), List.of("@Foo"));
+        assertEquals(settings.getInjectOperationVendorExtensions().get("addPet.orgId.x-field-extra-annotation"), List.of("@Bar"));
     }
 }

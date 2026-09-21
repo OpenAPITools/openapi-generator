@@ -199,10 +199,10 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> enumNameMapping = new HashMap<>();
     // a map to store the mapping between operation id name and the name provided by the user
     protected Map<String, String> operationIdNameMapping = new HashMap<>();
-    // a map to inject vendor extensions into model classes or their properties: key=ModelName.x-extension-name or ModelName.propertyBaseName.x-extension-name, value=extensionValue
-    protected Map<String, String> injectModelVendorExtensions = new HashMap<>();
-    // a map to inject vendor extensions into operations or their parameters: key=operationId.x-extension-name or operationId.paramName.x-extension-name, value=extensionValue
-    protected Map<String, String> injectOperationVendorExtensions = new HashMap<>();
+    // a map to inject vendor extensions into model classes or their properties: key=ModelName.x-extension-name or ModelName.propertyBaseName.x-extension-name, value=list of extension values (one per injected occurrence)
+    protected Map<String, List<String>> injectModelVendorExtensions = new HashMap<>();
+    // a map to inject vendor extensions into operations or their parameters: key=operationId.x-extension-name or operationId.paramName.x-extension-name, value=list of extension values (one per injected occurrence)
+    protected Map<String, List<String>> injectOperationVendorExtensions = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
     @Setter
@@ -562,17 +562,17 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
                 if (model == null) continue;
 
-                for (Map.Entry<String, String> extEntry : injectModelVendorExtensions.entrySet()) {
+                for (Map.Entry<String, List<String>> extEntry : injectModelVendorExtensions.entrySet()) {
                     String[] parts = extEntry.getKey().split("\\.", 3);
                     if (parts.length < 2) continue;
                     String modelName = parts[0];
-                    String extensionValue = extEntry.getValue();
+                    List<String> extensionValues = extEntry.getValue();
 
                     if (!modelName.equals(entry.getKey())) continue;
 
                     if (parts.length == 2) {
                         // class-level extension: ModelName.x-extension-name
-                        model.vendorExtensions.put(parts[1], extensionValue);
+                        model.vendorExtensions.put(parts[1], extensionValues);
                     } else {
                         // property-level extension: ModelName.propertyBaseName.x-extension-name
                         String propertyBaseName = parts[1];
@@ -583,7 +583,7 @@ public class DefaultCodegen implements CodegenConfig {
                         for (List<CodegenProperty> properties : allPropertyLists) {
                             for (CodegenProperty property : properties) {
                                 if (propertyBaseName.equals(property.baseName)) {
-                                    property.vendorExtensions.put(extensionName, extensionValue);
+                                    property.vendorExtensions.put(extensionName, extensionValues);
                                 }
                             }
                         }
@@ -1665,12 +1665,12 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, String> injectModelVendorExtensions() {
+    public Map<String, List<String>> injectModelVendorExtensions() {
         return injectModelVendorExtensions;
     }
 
     @Override
-    public Map<String, String> injectOperationVendorExtensions() {
+    public Map<String, List<String>> injectOperationVendorExtensions() {
         return injectOperationVendorExtensions;
     }
 
@@ -5135,7 +5135,13 @@ public class DefaultCodegen implements CodegenConfig {
                 // process body parameter
                 String bodyParameterName = "";
                 if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
-                    bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
+                    // May be a plain String (spec-authored) or a List<String> (injected via
+                    // --inject-operation-vendor-extensions); this extension is scalar-by-nature so
+                    // only the first entry is honored when injected as a list.
+                    List<String> injectedNames = getObjectAsStringList(op.vendorExtensions.get("x-codegen-request-body-name"));
+                    if (!injectedNames.isEmpty()) {
+                        bodyParameterName = injectedNames.get(0);
+                    }
                 }
                 if (requestBody.getExtensions() != null && requestBody.getExtensions().containsKey("x-codegen-request-body-name")) {
                     bodyParameterName = (String) requestBody.getExtensions().get("x-codegen-request-body-name");
@@ -5292,7 +5298,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (matchOperationId == null) {
             return;
         }
-        for (Map.Entry<String, String> extEntry : injectOperationVendorExtensions.entrySet()) {
+        for (Map.Entry<String, List<String>> extEntry : injectOperationVendorExtensions.entrySet()) {
             String[] extensionParts = getInjectedVendorExtensionParts(matchOperationId, extEntry.getKey());
             if (extensionParts == null || extensionParts.length != 1) {
                 continue;
@@ -5314,7 +5320,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (matchOperationId == null || parameter == null) {
             return;
         }
-        for (Map.Entry<String, String> extEntry : injectOperationVendorExtensions.entrySet()) {
+        for (Map.Entry<String, List<String>> extEntry : injectOperationVendorExtensions.entrySet()) {
             String[] extensionParts = getInjectedVendorExtensionParts(matchOperationId, extEntry.getKey());
             if (extensionParts == null || extensionParts.length != 2) {
                 continue;

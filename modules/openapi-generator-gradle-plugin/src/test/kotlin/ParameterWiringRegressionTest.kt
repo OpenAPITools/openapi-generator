@@ -244,7 +244,7 @@ class ParameterWiringRegressionTest : TestBase() {
                 inputSpec = file("spec.yaml").absolutePath
                 outputDir = file("build/spring").absolutePath
                 configOptions = ["interfaceOnly": "true"]
-                injectOperationVendorExtensions = ["listPets.x-operation-extra-annotation": "@Deprecated"]
+                injectOperationVendorExtensions = ["listPets.x-operation-extra-annotation": ["@Deprecated"]]
             }
         """.trimIndent(), "spec.yaml" to "specs/petstore-v3.0.yaml")
 

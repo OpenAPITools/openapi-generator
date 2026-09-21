@@ -4270,8 +4270,8 @@ public class SpringCodegenTest {
 
         // operation-level injection drives the request-body annotation; parameter-level injection
         // annotates the path param, both without editing the spec
-        codegen.injectOperationVendorExtensions().put("createEmployee.x-request-body-extra-annotation", "@com.example.MyValidation");
-        codegen.injectOperationVendorExtensions().put("createEmployee.orgId.x-field-extra-annotation", "@com.example.ValidOrgId");
+        codegen.injectOperationVendorExtensions().put("createEmployee.x-request-body-extra-annotation", List.of("@com.example.MyValidation"));
+        codegen.injectOperationVendorExtensions().put("createEmployee.orgId.x-field-extra-annotation", List.of("@com.example.ValidOrgId"));
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
