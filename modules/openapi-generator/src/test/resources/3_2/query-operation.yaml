@@ -23,3 +23,14 @@ paths:
         responses:
           '204':
             description: done
+      customMethod:
+        operationId: customPets
+        responses:
+          '204':
+            description: done
+      # HTTP token punctuation must be preserved verbatim (RFC 9110 tchar)
+      "CHECK&FETCH":
+        operationId: checkFetchPets
+        responses:
+          '204':
+            description: done

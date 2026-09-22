@@ -110,7 +110,12 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#pathParams
 {{/isDeprecated}}
 func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error) {
 	var (
+	{{#vendorExtensions.x-go-http-method-literal}}
+		localVarHTTPMethod   = "{{{httpMethod}}}"{{! OpenAPI 3.2: non-standard method sent verbatim; unescaped so valid token punctuation (& ' ` etc.) is preserved }}
+	{{/vendorExtensions.x-go-http-method-literal}}
+	{{^vendorExtensions.x-go-http-method-literal}}
 		localVarHTTPMethod   = http.Method{{httpMethod}}
+	{{/vendorExtensions.x-go-http-method-literal}}
 		localVarPostBody     interface{}
 		formFiles            []formFile
 		{{#returnType}}
@@ -182,6 +187,18 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	{{/allParams}}
 
 	{{#queryParams}}
+	{{#isQueryStringParam}}
+	// OpenAPI 3.2 in: querystring - the value is the whole, already-encoded
+	// query string; append it verbatim instead of a name=value pair
+	if r.{{paramName}} != nil {
+		if strings.Contains(localVarPath, "?") {
+			localVarPath = localVarPath + "&" + *r.{{paramName}}
+		} else {
+			localVarPath = localVarPath + "?" + *r.{{paramName}}
+		}
+	}
+	{{/isQueryStringParam}}
+	{{^isQueryStringParam}}
 	{{#required}}
 	{{#isCollectionFormatMulti}}
 	{
@@ -229,6 +246,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	{{/isArray}}
 	{{/defaultValue}}}
 	{{/required}}
+	{{/isQueryStringParam}}
 	{{/queryParams}}
 	// to determine the Content-Type header
 {{=<% %>=}}
