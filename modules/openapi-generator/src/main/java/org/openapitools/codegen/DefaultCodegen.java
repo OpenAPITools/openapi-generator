@@ -199,8 +199,10 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> enumNameMapping = new HashMap<>();
     // a map to store the mapping between operation id name and the name provided by the user
     protected Map<String, String> operationIdNameMapping = new HashMap<>();
-    // a map to inject vendor extensions into model classes or their properties: key=ModelName.x-extension-name or ModelName.propertyBaseName.x-extension-name, value=extensionValue
-    protected Map<String, String> injectModelVendorExtensions = new HashMap<>();
+    // a map to inject vendor extensions into model classes or their properties: key=ModelName.x-extension-name or ModelName.propertyBaseName.x-extension-name, value=list of extension values (one per injected occurrence)
+    protected Map<String, List<String>> injectModelVendorExtensions = new HashMap<>();
+    // a map to inject vendor extensions into operations or their parameters: key=operationId.x-extension-name or operationId.paramName.x-extension-name, value=list of extension values (one per injected occurrence)
+    protected Map<String, List<String>> injectOperationVendorExtensions = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
     @Setter
@@ -253,6 +255,16 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean skipOperationExample;
     // sort operations by default
     protected boolean skipSortingOperations = false;
+
+    // Carries the operationId used to match injected parameter-level vendor extensions
+    // (--inject-operation-vendor-extensions) across the fromOperation -> fromParameter(Parameter, Set<String>)
+    // virtual dispatch boundary, so overriding generators (e.g. Dart, TypeScript Fetch) still run
+    // their own fromParameter logic while parameter-level injection still applies before
+    // postProcessParameter. Set/restored around each call in fromOperation's parameter loop; null
+    // for any other caller of the public fromParameter(Parameter, Set<String>) method. A ThreadLocal
+    // (rather than a plain instance field) so this stays correct even if a single codegen instance
+    // is ever used to process operations from multiple threads concurrently.
+    private final ThreadLocal<String> currentOperationVendorExtensionMatchOperationId = new ThreadLocal<>();
 
     protected final static Pattern XML_MIME_PATTERN = Pattern.compile("(?i)application/(.*)[+]?xml(;.*)?");
     protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application/json(;.*)?");
@@ -554,34 +566,31 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        // Inject vendor extensions from --inject-property-extensions into matching schema properties
+        // Inject vendor extensions from --inject-model-vendor-extensions into matching schema properties
         if (!injectModelVendorExtensions.isEmpty()) {
             for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
                 CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
                 if (model == null) continue;
 
-                for (Map.Entry<String, String> extEntry : injectModelVendorExtensions.entrySet()) {
-                    String[] parts = extEntry.getKey().split("\\.", 3);
-                    if (parts.length < 2) continue;
-                    String modelName = parts[0];
-                    String extensionValue = extEntry.getValue();
+                for (Map.Entry<String, List<String>> extEntry : injectModelVendorExtensions.entrySet()) {
+                    String[] parts = getInjectedVendorExtensionParts(entry.getKey(), extEntry.getKey());
+                    if (parts == null) continue;
+                    List<String> extensionValues = extEntry.getValue();
 
-                    if (!modelName.equals(entry.getKey())) continue;
-
-                    if (parts.length == 2) {
+                    if (parts.length == 1) {
                         // class-level extension: ModelName.x-extension-name
-                        model.vendorExtensions.put(parts[1], extensionValue);
+                        model.vendorExtensions.put(parts[0], extensionValues);
                     } else {
                         // property-level extension: ModelName.propertyBaseName.x-extension-name
-                        String propertyBaseName = parts[1];
-                        String extensionName = parts[2];
+                        String propertyBaseName = parts[0];
+                        String extensionName = parts[1];
                         List<List<CodegenProperty>> allPropertyLists = Arrays.asList(
                                 model.vars, model.allVars, model.readWriteVars, model.requiredVars,
                                 model.optionalVars, model.parentVars, model.readOnlyVars, model.nonNullableVars);
                         for (List<CodegenProperty> properties : allPropertyLists) {
                             for (CodegenProperty property : properties) {
                                 if (propertyBaseName.equals(property.baseName)) {
-                                    property.vendorExtensions.put(extensionName, extensionValue);
+                                    property.vendorExtensions.put(extensionName, extensionValues);
                                 }
                             }
                         }
@@ -1663,8 +1672,13 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, String> injectModelVendorExtensions() {
+    public Map<String, List<String>> injectModelVendorExtensions() {
         return injectModelVendorExtensions;
+    }
+
+    @Override
+    public Map<String, List<String>> injectOperationVendorExtensions() {
+        return injectOperationVendorExtensions;
     }
 
     @Override
@@ -4957,6 +4971,8 @@ public class DefaultCodegen implements CodegenConfig {
         // store the original operationId for plug-in
         op.operationIdOriginal = operation.getOperationId();
         op.operationId = getOrGenerateOperationId(operation, path, httpMethod);
+        String operationVendorExtensionMatchOperationId = getInjectedVendorExtensionsOperationId(op);
+        injectOperationLevelVendorExtensions(op, operationVendorExtensionMatchOperationId);
 
         if (isStrictSpecBehavior() && !path.startsWith("/")) {
             // modifies an operation.path to strictly conform to OpenAPI Spec
@@ -5113,6 +5129,7 @@ public class DefaultCodegen implements CodegenConfig {
                 op.isMultipart = contentType.startsWith("multipart");
                 for (CodegenParameter cp : formParams) {
                     setParameterEncodingValues(cp, requestBody.getContent().get(contentType));
+                    injectParameterLevelVendorExtensions(operationVendorExtensionMatchOperationId, cp);
                     postProcessParameter(cp);
                 }
                 // add form parameters to the beginning of all parameter list
@@ -5125,7 +5142,13 @@ public class DefaultCodegen implements CodegenConfig {
                 // process body parameter
                 String bodyParameterName = "";
                 if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
-                    bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
+                    // May be a plain String (spec-authored) or a List<String> (injected via
+                    // --inject-operation-vendor-extensions); this extension is scalar-by-nature so
+                    // only the first entry is honored when injected as a list.
+                    List<String> injectedNames = getObjectAsStringList(op.vendorExtensions.get("x-codegen-request-body-name"));
+                    if (!injectedNames.isEmpty()) {
+                        bodyParameterName = injectedNames.get(0);
+                    }
                 }
                 if (requestBody.getExtensions() != null && requestBody.getExtensions().containsKey("x-codegen-request-body-name")) {
                     bodyParameterName = (String) requestBody.getExtensions().get("x-codegen-request-body-name");
@@ -5135,6 +5158,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 if (bodyParam != null) {
                     bodyParam.description = escapeText(requestBody.getDescription());
+                    injectParameterLevelVendorExtensions(operationVendorExtensionMatchOperationId, bodyParam);
                     postProcessParameter(bodyParam);
                     bodyParams.add(bodyParam);
                     if (prependFormOrBodyParameters) {
@@ -5153,7 +5177,18 @@ public class DefaultCodegen implements CodegenConfig {
             for (Parameter param : parameters) {
                 param = ModelUtils.getReferencedParameter(this.openAPI, param);
 
-                CodegenParameter p = fromParameter(param, imports);
+                // Call the public, overridable fromParameter(Parameter, Set<String>) (not the
+                // private 3-arg overload directly) so subclass overrides (e.g. Dart, TypeScript
+                // Fetch) still run; the match id is threaded through via a ThreadLocal so the
+                // base implementation can still apply parameter-level injection at the right point.
+                String previousOperationVendorExtensionMatchOperationId = currentOperationVendorExtensionMatchOperationId.get();
+                currentOperationVendorExtensionMatchOperationId.set(operationVendorExtensionMatchOperationId);
+                CodegenParameter p;
+                try {
+                    p = fromParameter(param, imports);
+                } finally {
+                    currentOperationVendorExtensionMatchOperationId.set(previousOperationVendorExtensionMatchOperationId);
+                }
                 p.setContent(getContent(param.getContent(), imports, "RequestParameter" + toModelName(param.getName())));
 
                 // ensure unique params
@@ -5250,6 +5285,98 @@ public class DefaultCodegen implements CodegenConfig {
         op.nickname = op.operationId;
 
         return op;
+    }
+
+    /**
+     * Resolves the operationId segment used to match entries in {@code injectOperationVendorExtensions}.
+     * The spec-authored operationId is preferred when present; otherwise the generated operationId is
+     * used.
+     *
+     * @param op the operation being built
+     * @return the operationId segment to match, or {@code null} when injection is disabled
+     */
+    private String getInjectedVendorExtensionsOperationId(CodegenOperation op) {
+        if (injectOperationVendorExtensions.isEmpty()) {
+            return null;
+        }
+        // The operation always has a non-blank operationId at this point: getOrGenerateOperationId
+        // synthesizes one from the path and HTTP method when the spec omits or blanks it.
+        Objects.requireNonNull(op.operationId, "operationId must be set before injecting operation vendor extensions");
+        return StringUtils.isNotBlank(op.operationIdOriginal) ? op.operationIdOriginal : op.operationId;
+    }
+
+    /**
+     * Injects operation-level vendor extensions supplied via {@code injectOperationVendorExtensions}
+     * onto the given operation. Keys are dotted as {@code operationId.x-extension-name}.
+     *
+     * @param op the operation to update
+     * @param matchOperationId the operationId segment to match
+     */
+    private void injectOperationLevelVendorExtensions(CodegenOperation op, String matchOperationId) {
+        if (matchOperationId == null) {
+            return;
+        }
+        for (Map.Entry<String, List<String>> extEntry : injectOperationVendorExtensions.entrySet()) {
+            String[] extensionParts = getInjectedVendorExtensionParts(matchOperationId, extEntry.getKey());
+            if (extensionParts == null || extensionParts.length != 1) {
+                continue;
+            }
+            op.vendorExtensions.put(extensionParts[0], extEntry.getValue());
+        }
+    }
+
+    /**
+     * Injects parameter-level vendor extensions supplied via {@code injectOperationVendorExtensions}
+     * onto a parameter before {@code postProcessParameter} runs. Keys are dotted as
+     * {@code operationId.paramBaseName.x-extension-name}, where {@code paramBaseName} is matched
+     * against the parameter's spec-authored base name.
+     *
+     * @param matchOperationId the operationId segment to match
+     * @param parameter the parameter to update
+     */
+    private void injectParameterLevelVendorExtensions(String matchOperationId, CodegenParameter parameter) {
+        if (matchOperationId == null || parameter == null) {
+            return;
+        }
+        for (Map.Entry<String, List<String>> extEntry : injectOperationVendorExtensions.entrySet()) {
+            String[] extensionParts = getInjectedVendorExtensionParts(matchOperationId, extEntry.getKey());
+            if (extensionParts == null || extensionParts.length != 2) {
+                continue;
+            }
+            if (extensionParts[0].equals(parameter.baseName)) {
+                parameter.vendorExtensions.put(extensionParts[1], extEntry.getValue());
+            }
+        }
+    }
+
+    /**
+     * Parses an injection key after confirming it targets the matched prefix (an operationId or a
+     * model name). The known prefix is removed first so literal dots inside it do not break
+     * matching. The remainder is then split at the last {@code .x-} boundary — since vendor
+     * extension names always start with {@code x-}, this keeps a dotted parameter/property base
+     * name intact even when it contains dots itself. Returns either a single-element array
+     * {@code [x-extension-name]} for prefix-level injection (operation- or model-level), or a
+     * two-element array {@code [baseName, x-extension-name]} for parameter- or property-level
+     * injection.
+     *
+     * @param matchPrefix the operationId or model name segment to match
+     * @param injectionKey the configured injection key
+     * @return parsed parts after the prefix, or {@code null} when the key does not match
+     */
+    private String[] getInjectedVendorExtensionParts(String matchPrefix, String injectionKey) {
+        String prefix = matchPrefix + ".";
+        if (!injectionKey.startsWith(prefix)) {
+            return null;
+        }
+        String remainder = injectionKey.substring(prefix.length());
+        if (remainder.isEmpty()) {
+            return null;
+        }
+        int splitIndex = remainder.lastIndexOf(".x-");
+        if (splitIndex < 0) {
+            return new String[]{remainder};
+        }
+        return new String[]{remainder.substring(0, splitIndex), remainder.substring(splitIndex + 1)};
     }
 
     /**
@@ -5547,7 +5674,7 @@ public class DefaultCodegen implements CodegenConfig {
         return c;
     }
 
-    private void finishUpdatingParameter(CodegenParameter codegenParameter, Parameter parameter) {
+    private void finishUpdatingParameter(CodegenParameter codegenParameter, Parameter parameter, String operationVendorExtensionMatchOperationId) {
         // default to UNKNOWN_PARAMETER_NAME if paramName is null
         if (codegenParameter.paramName == null) {
             LOGGER.warn("Parameter name not defined properly. Default to UNKNOWN_PARAMETER_NAME");
@@ -5560,6 +5687,7 @@ public class DefaultCodegen implements CodegenConfig {
         // set the parameter examples (if available)
         setParameterExamples(codegenParameter, parameter);
 
+        injectParameterLevelVendorExtensions(operationVendorExtensionMatchOperationId, codegenParameter);
         postProcessParameter(codegenParameter);
         LOGGER.debug("debugging codegenParameter return: {}", codegenParameter);
     }
@@ -5618,6 +5746,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @return Codegen Parameter object
      */
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+        return fromParameter(parameter, imports, currentOperationVendorExtensionMatchOperationId.get());
+    }
+
+    private CodegenParameter fromParameter(Parameter parameter, Set<String> imports, String operationVendorExtensionMatchOperationId) {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
 
         codegenParameter.baseName = parameter.getName();
@@ -5694,7 +5826,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameterSchema == null) {
             LOGGER.error("Not handling {} as Body Parameter at the moment", parameter);
-            finishUpdatingParameter(codegenParameter, parameter);
+            finishUpdatingParameter(codegenParameter, parameter, operationVendorExtensionMatchOperationId);
             return codegenParameter;
         }
 
@@ -5702,7 +5834,7 @@ public class DefaultCodegen implements CodegenConfig {
         parameterSchema = unaliasSchema(parameterSchema);
         if (parameterSchema == null) {
             LOGGER.warn("warning!  Schema not found for parameter \" {} \"", parameter.getName());
-            finishUpdatingParameter(codegenParameter, parameter);
+            finishUpdatingParameter(codegenParameter, parameter, operationVendorExtensionMatchOperationId);
             return codegenParameter;
         }
 
@@ -5898,7 +6030,7 @@ public class DefaultCodegen implements CodegenConfig {
         // set default value
         codegenParameter.defaultValue = toDefaultParameterValue(codegenProperty, parameterSchema);
 
-        finishUpdatingParameter(codegenParameter, parameter);
+        finishUpdatingParameter(codegenParameter, parameter, operationVendorExtensionMatchOperationId);
         return codegenParameter;
     }
 
@@ -6088,7 +6220,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param operation  the operation object
      * @param path       the path of the operation
      * @param httpMethod the HTTP method of the operation
-     * @return the (generated) operationId
+     * @return the (generated) operationId; never null or blank
      */
     protected String getOrGenerateOperationId(Operation operation, String path, String httpMethod) {
         String operationId = operation.getOperationId();
@@ -7538,6 +7670,68 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public static void normalizeVendorExtensionWithStringList(Map<String, Object> vendorExtensions, String name) {
         vendorExtensions.put(name, new ArrayList<>(getObjectAsStringList(vendorExtensions.get(name))));
+    }
+
+    /**
+     * Normalizes a vendor extension across all of an operation's parameter collections into a mutable
+     * {@code List<String>}, so that a value authored as either a single string or a list is handled
+     * uniformly and further values can be appended. The same parameter can appear in several of the
+     * operation's parameter collections, so they are de-duplicated by identity before being updated.
+     *
+     * @param operation operation whose parameters should be updated
+     * @param name      vendor extension name
+     */
+    protected void normalizeOperationParameterVendorExtensions(CodegenOperation operation, String name) {
+        Set<CodegenParameter> parameters = Collections.newSetFromMap(new IdentityHashMap<>());
+        parameters.addAll(operation.allParams);
+        parameters.addAll(operation.bodyParams);
+        parameters.addAll(operation.pathParams);
+        parameters.addAll(operation.queryParams);
+        parameters.addAll(operation.headerParams);
+        parameters.addAll(operation.implicitHeadersParams);
+        parameters.addAll(operation.constantParams);
+        parameters.addAll(operation.formParams);
+        parameters.addAll(operation.cookieParams);
+        parameters.addAll(operation.requiredParams);
+        parameters.addAll(operation.optionalParams);
+        parameters.addAll(operation.requiredAndNotNullableParams);
+        parameters.addAll(operation.notNullableParams);
+        for (CodegenParameter parameter : parameters) {
+            normalizeVendorExtensionWithStringList(parameter.vendorExtensions, name);
+        }
+    }
+
+    /**
+     * Merges the values of an operation-level vendor extension into a list-valued vendor extension on
+     * each request body parameter. This lets an annotation authored on the operation be applied to the
+     * request body parameter, which is needed because a request body typically {@code $ref}s a shared
+     * model and so cannot carry the annotation itself. Any values already present on the body parameter
+     * are preserved (they appear first), then the operation-level values are appended. This is a no-op
+     * when the source extension is absent or empty, leaving existing body-parameter extensions untouched.
+     *
+     * @param operation  operation whose {@code bodyParams} should receive the merged values
+     * @param sourceName operation-level vendor extension name to read the values from
+     * @param targetName body-parameter vendor extension name to merge the values into
+     */
+    public static void mergeOperationVendorExtensionIntoBodyParams(CodegenOperation operation, String sourceName, String targetName) {
+        List<String> sourceValues = getObjectAsStringList(operation.vendorExtensions.get(sourceName));
+        if (sourceValues.isEmpty()) {
+            return;
+        }
+        // A request body parameter may be represented by more than one object; update every
+        // instance so the merged values are applied consistently.
+        Set<CodegenParameter> bodyParameters = Collections.newSetFromMap(new IdentityHashMap<>());
+        bodyParameters.addAll(operation.bodyParams);
+        for (CodegenParameter param : operation.allParams) {
+            if (param.isBodyParam) {
+                bodyParameters.add(param);
+            }
+        }
+        for (CodegenParameter bodyParam : bodyParameters) {
+            List<String> merged = new ArrayList<>(getObjectAsStringList(bodyParam.vendorExtensions.get(targetName)));
+            merged.addAll(sourceValues);
+            bodyParam.vendorExtensions.put(targetName, merged);
+        }
     }
 
     public Map<String, String> getPropertyAsStringMap(String propertyKey) {

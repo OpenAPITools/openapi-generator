@@ -133,4 +133,44 @@ public class CodegenConfiguratorTest {
 
         Assertions.assertNotNull(context.getSpecDocument().getPaths().get("/hello").getGet().getResponses().get("200").getContent());
     }
+
+    @Test
+    public void setInjectModelVendorExtensionsFollowedByAddDoesNotDoubleAppend() {
+        Map<String, java.util.List<String>> initial = new HashMap<>();
+        initial.put("Pet.x-class-extra-annotation", new java.util.ArrayList<>(java.util.List.of("@Foo")));
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setInjectModelVendorExtensions(initial)
+                .addInjectModelVendorExtension("Pet.x-class-extra-annotation", "@Bar");
+
+        GeneratorSettings generatorSettings = configurator.toContext().getGeneratorSettings();
+        Assertions.assertEquals(java.util.List.of("@Foo", "@Bar"),
+                generatorSettings.getInjectModelVendorExtensions().get("Pet.x-class-extra-annotation"));
+    }
+
+    @Test
+    public void fromFileConfigWithScalarInjectedExtensionCanBeAppendedToByCli() throws IOException {
+        // A config file authored before injected values became lists (scalar form), combined with
+        // a CLI-style addInjectModelVendorExtension call targeting the same key, must not throw
+        // UnsupportedOperationException (the parsed GeneratorSettings exposes unmodifiable lists).
+        File configFile = Files.createTempFile("inject-vendor-extensions", ".yaml").toFile();
+        configFile.deleteOnExit();
+        Files.writeString(configFile.toPath(), String.join(System.lineSeparator(),
+                "generatorName: java",
+                "inputSpec: src/test/resources/3_0/ping.yaml",
+                "injectModelVendorExtensions:",
+                "  Pet.x-class-extra-annotation: '@Foo'",
+                ""));
+
+        CodegenConfigurator configurator = CodegenConfigurator.fromFile(configFile.getAbsolutePath());
+        Assertions.assertNotNull(configurator);
+
+        configurator.addInjectModelVendorExtension("Pet.x-class-extra-annotation", "@Bar");
+
+        GeneratorSettings generatorSettings = configurator.toContext().getGeneratorSettings();
+        Assertions.assertEquals(java.util.List.of("@Foo", "@Bar"),
+                generatorSettings.getInjectModelVendorExtensions().get("Pet.x-class-extra-annotation"));
+    }
 }

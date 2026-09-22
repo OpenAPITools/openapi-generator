@@ -89,6 +89,8 @@ interface OpenApiWorkParameters : WorkParameters {
     val dryRun: Property<Boolean>
 
     val globalProperties: MapProperty<String, String>
+    val injectModelVendorExtensions: MapProperty<String, List<String>>
+    val injectOperationVendorExtensions: MapProperty<String, List<String>>
     val instantiationTypes: MapProperty<String, String>
     val importMappings: MapProperty<String, String>
     val schemaMappings: MapProperty<String, String>
@@ -211,6 +213,8 @@ abstract class OpenApiWorkAction : WorkAction<OpenApiWorkParameters> {
 
             // Maps and Lists
             params.globalProperties.orNull?.forEach { (k, v) -> configurator.addGlobalProperty(k, v) }
+            params.injectModelVendorExtensions.orNull?.forEach { (k, values) -> values.forEach { v -> configurator.addInjectModelVendorExtension(k, v) } }
+            params.injectOperationVendorExtensions.orNull?.forEach { (k, values) -> values.forEach { v -> configurator.addInjectOperationVendorExtension(k, v) } }
             params.instantiationTypes.orNull?.forEach { (k, v) -> configurator.addInstantiationType(k, v) }
             params.importMappings.orNull?.forEach { (k, v) -> configurator.addImportMapping(k, v) }
             params.schemaMappings.orNull?.forEach { (k, v) -> configurator.addSchemaMapping(k, v) }
@@ -520,6 +524,30 @@ abstract class GenerateTask : DefaultTask() {
     @get:Optional
     @get:Input
     abstract val globalProperties: MapProperty<String, String>
+
+    /**
+     * Injects vendor extensions into models or their properties without editing the input spec.
+     *
+     * Keys use the form {@code modelName.x-extension-name} for a model or
+     * {@code modelName.propertyBaseName.x-extension-name} for a model property; the value is a
+     * list of extension values, each rendered as a separate entry (e.g. one annotation per line,
+     * in list order, for templates that loop over the extension).
+     */
+    @get:Optional
+    @get:Input
+    abstract val injectModelVendorExtensions: MapProperty<String, List<String>>
+
+    /**
+     * Injects vendor extensions into operations or their parameters without editing the input spec.
+     *
+     * Keys use the form {@code operationId.x-extension-name} for an operation or
+     * {@code operationId.paramBaseName.x-extension-name} for a parameter (matched by its raw spec
+     * name); the value is a list of extension values, each rendered as a separate entry (e.g. one
+     * annotation per line, in list order, for templates that loop over the extension).
+     */
+    @get:Optional
+    @get:Input
+    abstract val injectOperationVendorExtensions: MapProperty<String, List<String>>
 
     /**
      * Path to json configuration file.
@@ -1225,6 +1253,8 @@ abstract class GenerateTask : DefaultTask() {
                 parameters.dryRun.set(dryRun)
 
                 parameters.globalProperties.set(globalProperties)
+                parameters.injectModelVendorExtensions.set(injectModelVendorExtensions)
+                parameters.injectOperationVendorExtensions.set(injectOperationVendorExtensions)
                 parameters.instantiationTypes.set(instantiationTypes)
                 parameters.importMappings.set(importMappings)
                 parameters.schemaMappings.set(schemaMappings)

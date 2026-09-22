@@ -200,6 +200,16 @@ apply plugin: 'org.openapi.generator'
 |None
 |Sets specified global properties.
 
+|injectModelVendorExtensions
+|Map<String, List<String>> / Provider<Map>
+|None
+|Injects vendor extensions into models or their properties without editing the input spec. Keys use the form `modelName.x-extension-name` (model) or `modelName.propertyBaseName.x-extension-name` (model property). Each key's value is a `List<String>`: templates that loop over the extension (such as the extra-annotation family) render each list entry as a separate item (e.g. one annotation per line), in list order. See the note below.
+
+|injectOperationVendorExtensions
+|Map<String, List<String>> / Provider<Map>
+|None
+|Injects vendor extensions into operations or their parameters without editing the input spec. Keys use the form `operationId.x-extension-name` (operation) or `operationId.paramBaseName.x-extension-name` (parameter, matched by its raw spec name). Each key's value is a `List<String>`: templates that loop over the extension (such as the extra-annotation family) render each list entry as a separate item (e.g. one annotation per line), in list order. See the note below.
+
 |configFile
 |String / Provider<RegularFile>
 |None
@@ -557,6 +567,30 @@ models: "User:Pet"
 ])
 }
 ----
+====
+
+[NOTE]
+====
+`injectModelVendorExtensions` and `injectOperationVendorExtensions` are a generic mechanism for
+setting *any* vendor extension on a model, property, operation, or parameter without editing the spec.
+Keep in mind:
+
+* Each key's value is a `List<String>`, applied *late* (at codegen/render time) and **overwrite** any
+  existing value; missing targets are a silent no-op. It is best suited to extensions consumed by
+  templates, such as the Spring extra-annotation extensions.
+* In Gradle, supply the list directly for a key, e.g.
+  `["addPet.x-request-body-extra-annotation": ["@com.example.MyValidation", "@Valid"]]` — each
+  list entry renders as a separate item (e.g. one annotation per line) for templates that loop
+  over the extension.
+* On the CLI/Maven side, each occurrence of `--inject-model-vendor-extensions`/
+  `--inject-operation-vendor-extensions` is exactly one key=value pair (everything after the first
+  `=` is taken literally, so commas inside a value, e.g. `@Size(min = 0, max = 10)`, need no
+  escaping). Repeating the *same* key across occurrences appends `value` as a new list entry
+  (e.g. `@Foo` then `@Bar` becomes the list `["@Foo", "@Bar"]`, rendered on separate lines by
+  templates that loop) instead of the later one overwriting the earlier one. To put multiple
+  annotations on the *same* rendered line/list entry, put them in one occurrence's value
+  separated by *spaces* (as in source), e.g.
+  `"addPet.x-request-body-extra-annotation=@com.example.MyValidation @Valid"`.
 ====
 
 === openApiValidate

@@ -31,12 +31,14 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -159,6 +161,247 @@ public class DefaultCodegenTest {
         PathItem path = openApi.getPaths().get("/pets/petType/{type}");
         CodegenOperation operation = codegen.fromOperation("/pets/petType/{type}", "get", path.getGet(), path.getServers());
         assertEquals(1, Sets.intersection(operation.imports, Sets.newHashSet("PetByType")).size());
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensions() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        codegen.setOpenAPI(openApi);
+        codegen.injectOperationVendorExtensions().put("createEmployee.x-request-body-extra-annotation", List.of("@com.example.MyValidation"));
+        codegen.injectOperationVendorExtensions().put("createEmployee.orgId.x-field-extra-annotation", List.of("@com.example.ValidOrgId"));
+        // non-matching operationId is a no-op
+        codegen.injectOperationVendorExtensions().put("noSuchOperation.x-foo", List.of("bar"));
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees");
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees", "post", path.getPost(), path.getServers());
+
+        // operation-level extension landed on the operation
+        assertEquals(List.of("@com.example.MyValidation"), operation.vendorExtensions.get("x-request-body-extra-annotation"));
+        assertNull(operation.vendorExtensions.get("x-foo"));
+
+        // parameter-level extension landed on the matching parameter across collections
+        CodegenParameter orgId = operation.allParams.stream()
+                .filter(p -> "orgId".equals(p.baseName)).findFirst().orElseThrow();
+        assertEquals(List.of("@com.example.ValidOrgId"), orgId.vendorExtensions.get("x-field-extra-annotation"));
+        CodegenParameter orgIdPath = operation.pathParams.stream()
+                .filter(p -> "orgId".equals(p.baseName)).findFirst().orElseThrow();
+        assertEquals(List.of("@com.example.ValidOrgId"), orgIdPath.vendorExtensions.get("x-field-extra-annotation"));
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensionsAppendsAcrossRepeatedOccurrences() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        codegen.setOpenAPI(openApi);
+        // Simulates two occurrences of --inject-operation-vendor-extensions targeting the same key:
+        // each occurrence's value becomes a distinct list entry, in call order.
+        codegen.injectOperationVendorExtensions().put("createEmployee.x-request-body-extra-annotation",
+                new ArrayList<>(List.of("@Foo")));
+        codegen.injectOperationVendorExtensions().get("createEmployee.x-request-body-extra-annotation").add("@Bar");
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees");
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees", "post", path.getPost(), path.getServers());
+
+        assertEquals(List.of("@Foo", "@Bar"), operation.vendorExtensions.get("x-request-body-extra-annotation"));
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensionsMatchesSpecOperationId() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        codegen.setOpenAPI(openApi);
+        // key uses the spec-authored (snake_case) operationId, not the generated/camelized one
+        codegen.injectOperationVendorExtensions().put("create_employee_snake.x-request-body-extra-annotation", List.of("@com.example.MyValidation"));
+        // the generated/camelized operationId must not match when the spec provides an operationId
+        codegen.injectOperationVendorExtensions().put("createEmployeeSnake.x-foo", List.of("bar"));
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees/snake");
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees/snake", "post", path.getPost(), path.getServers());
+
+        assertEquals("create_employee_snake", operation.operationIdOriginal);
+        assertEquals(List.of("@com.example.MyValidation"), operation.vendorExtensions.get("x-request-body-extra-annotation"));
+        assertNull(operation.vendorExtensions.get("x-foo"));
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensionsFallsBackToGeneratedIdWhenBlank() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        codegen.setOpenAPI(openApi);
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees/blank");
+        // first pass discovers the generated operationId (the spec leaves operationId blank)
+        CodegenOperation discovered = codegen.fromOperation("/orgs/{orgId}/employees/blank", "post", path.getPost(), path.getServers());
+        assertTrue(discovered.operationIdOriginal == null || discovered.operationIdOriginal.isEmpty());
+        assertTrue(StringUtils.isNotBlank(discovered.operationId));
+
+        // injecting via the generated operationId must apply, since the blank original cannot be matched
+        codegen.injectOperationVendorExtensions().put(discovered.operationId + ".x-request-body-extra-annotation", List.of("@com.example.MyValidation"));
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees/blank", "post", path.getPost(), path.getServers());
+        assertEquals(List.of("@com.example.MyValidation"), operation.vendorExtensions.get("x-request-body-extra-annotation"));
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensionsAvailableDuringFromOperation() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        codegen.setOpenAPI(openApi);
+        codegen.injectOperationVendorExtensions().put("createEmployee.x-codegen-request-body-name", List.of("employeeRequest"));
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees");
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees", "post", path.getPost(), path.getServers());
+
+        assertNotNull(operation.bodyParam);
+        assertEquals("employeeRequest", operation.bodyParam.baseName);
+        assertEquals("employeeRequest", operation.bodyParam.paramName);
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensionsVisibleToPostProcessParameter() {
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/inject-operation-vendor-extensions.yaml");
+        final DefaultCodegen discoveryCodegen = new DefaultCodegen();
+        discoveryCodegen.setOpenAPI(openApi);
+
+        PathItem path = openApi.getPaths().get("/orgs/{orgId}/employees");
+        CodegenOperation discovered = discoveryCodegen.fromOperation("/orgs/{orgId}/employees", "post", path.getPost(), path.getServers());
+        assertNotNull(discovered.bodyParam);
+
+        final class RecordingCodegen extends DefaultCodegen {
+            private final Map<String, List<String>> observedAnnotations = new HashMap<>();
+
+            @Override
+            public void postProcessParameter(CodegenParameter parameter) {
+                Object annotation = parameter.vendorExtensions.get("x-field-extra-annotation");
+                if (annotation instanceof List) {
+                    @SuppressWarnings("unchecked")
+                    List<String> annotationList = (List<String>) annotation;
+                    observedAnnotations.put(parameter.baseName, annotationList);
+                }
+            }
+
+            private Map<String, List<String>> getObservedAnnotations() {
+                return observedAnnotations;
+            }
+        }
+
+        final RecordingCodegen codegen = new RecordingCodegen();
+        codegen.setOpenAPI(openApi);
+        codegen.injectOperationVendorExtensions().put("createEmployee.orgId.x-field-extra-annotation", List.of("@com.example.ValidOrgId"));
+        codegen.injectOperationVendorExtensions().put(
+                "createEmployee." + discovered.bodyParam.baseName + ".x-field-extra-annotation",
+                List.of("@com.example.ValidEmployee"));
+
+        CodegenOperation operation = codegen.fromOperation("/orgs/{orgId}/employees", "post", path.getPost(), path.getServers());
+
+        assertEquals(List.of("@com.example.ValidOrgId"), codegen.getObservedAnnotations().get("orgId"));
+        assertEquals(List.of("@com.example.ValidEmployee"), codegen.getObservedAnnotations().get(discovered.bodyParam.baseName));
+        assertEquals(List.of("@com.example.ValidEmployee"), operation.bodyParam.vendorExtensions.get("x-field-extra-annotation"));
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensionsSupportsDottedParameterBaseName() {
+        // A parameter whose spec-authored name contains a dot must still be matched correctly:
+        // the key/operationId boundary must be resolved by the last ".x-" occurrence, not the
+        // first dot after the operationId, otherwise a dotted baseName gets mis-split.
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(new OpenAPI().components(new Components()));
+        codegen.injectOperationVendorExtensions().put("dottedParamOp.org.id.x-field-extra-annotation", List.of("@com.example.ValidOrgId"));
+
+        Operation operation = new Operation()
+                .operationId("dottedParamOp")
+                .addParametersItem(new io.swagger.v3.oas.models.parameters.QueryParameter()
+                        .name("org.id")
+                        .required(true)
+                        .schema(new StringSchema()))
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("ok")));
+
+        CodegenOperation co = codegen.fromOperation("/dotted", "get", operation, null);
+
+        assertEquals(1, co.allParams.size());
+        assertEquals("org.id", co.allParams.get(0).baseName);
+        assertEquals(List.of("@com.example.ValidOrgId"), co.allParams.get(0).vendorExtensions.get("x-field-extra-annotation"));
+    }
+
+    @Test
+    public void testInjectModelVendorExtensionsSupportsDottedPropertyBaseName() {
+        // A property whose spec-authored name contains a dot must still be matched correctly:
+        // the key/model-name boundary must be resolved by the last ".x-" occurrence, not the
+        // first dot after the model name, otherwise a dotted property baseName gets mis-split.
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.injectModelVendorExtensions().put("Pet.org.id.x-field-extra-annotation", List.of("@com.example.ValidOrgId"));
+
+        CodegenModel model = new CodegenModel();
+        model.name = "Pet";
+        CodegenProperty property = new CodegenProperty();
+        property.baseName = "org.id";
+        model.vars = new ArrayList<>(List.of(property));
+        model.allVars = model.vars;
+
+        Map<String, ModelsMap> objs = Map.of("Pet", TestUtils.createCodegenModelWrapper(model));
+        codegen.postProcessAllModels(objs);
+
+        assertEquals(List.of("@com.example.ValidOrgId"), property.vendorExtensions.get("x-field-extra-annotation"));
+    }
+
+    @Test
+    public void testFromOperationPreservesFromParameterVirtualDispatch() {
+        // Simulates generators (e.g. Dart, TypeScript Fetch) that override the public
+        // fromParameter(Parameter, Set<String>) and call super.fromParameter(...) internally.
+        // fromOperation's parameter loop must dispatch through this override, not bypass it via
+        // the private 3-arg overload used for parameter-level vendor extension injection. Also
+        // registers an injected parameter-level vendor extension for the same parameter, to verify
+        // both mechanisms (override dispatch and parameter-level injection) still work together
+        // when a subclass overrides fromParameter and delegates to super.
+        final class OverridingCodegen extends DefaultCodegen {
+            @Override
+            public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+                CodegenParameter param = super.fromParameter(parameter, imports);
+                param.vendorExtensions.put("x-marked-by-override", Boolean.TRUE);
+                return param;
+            }
+        }
+
+        final OverridingCodegen codegen = new OverridingCodegen();
+        codegen.setOpenAPI(new OpenAPI().components(new Components()));
+        codegen.injectOperationVendorExtensions().put("markedOperation.orgId.x-foo", List.of("bar"));
+
+        Operation operation = new Operation()
+                .operationId("markedOperation")
+                .addParametersItem(new io.swagger.v3.oas.models.parameters.PathParameter()
+                        .name("orgId")
+                        .required(true)
+                        .schema(new StringSchema()))
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("ok")));
+
+        CodegenOperation co = codegen.fromOperation("/orgs/{orgId}", "get", operation, null);
+
+        assertEquals(1, co.allParams.size());
+        assertEquals(Boolean.TRUE, co.allParams.get(0).vendorExtensions.get("x-marked-by-override"));
+        assertEquals(List.of("bar"), co.allParams.get(0).vendorExtensions.get("x-foo"));
+    }
+
+    @Test
+    public void testInjectOperationVendorExtensionsMatchesOperationIdContainingDot() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(new OpenAPI().components(new Components()));
+        codegen.injectOperationVendorExtensions().put("my.operation.id.x-foo", List.of("bar"));
+        codegen.injectOperationVendorExtensions().put("my.operation.id.orgId.x-field-extra-annotation", List.of("@com.example.ValidOrgId"));
+
+        Operation operation = new Operation()
+                .operationId("my.operation.id")
+                .addParametersItem(new io.swagger.v3.oas.models.parameters.PathParameter()
+                        .name("orgId")
+                        .required(true)
+                        .schema(new StringSchema()))
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("ok")));
+
+        CodegenOperation codegenOperation = codegen.fromOperation("/orgs/{orgId}", "get", operation, null);
+
+        assertEquals(List.of("bar"), codegenOperation.vendorExtensions.get("x-foo"));
+        CodegenParameter orgId = codegenOperation.pathParams.stream()
+                .filter(p -> "orgId".equals(p.baseName)).findFirst().orElseThrow();
+        assertEquals(List.of("@com.example.ValidOrgId"), orgId.vendorExtensions.get("x-field-extra-annotation"));
     }
 
     @Test

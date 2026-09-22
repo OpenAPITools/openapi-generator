@@ -968,9 +968,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         // Normalize x-setter-visibility:
         //   "public" -> remove extension, set isReadOnly=false (public setter = default, no modifier needed)
         //   any other value -> set isReadOnly=true (template emits "{{.}} set;" using the extension value)
-        Object setterVisibilityObj = property.vendorExtensions.get("x-setter-visibility");
-        if (setterVisibilityObj instanceof String) {
-            if ("public".equals(setterVisibilityObj)) {
+        // The value may be injected via --inject-model-vendor-extensions (a List<String>, scalar-by-nature
+        // so only the first entry is honored) or authored directly in the spec as a plain string.
+        List<String> setterVisibility = DefaultCodegen.getObjectAsStringList(property.vendorExtensions.get("x-setter-visibility"));
+        if (!setterVisibility.isEmpty()) {
+            String setterVisibilityValue = setterVisibility.get(0);
+            if ("public".equals(setterVisibilityValue)) {
                 property.vendorExtensions.remove("x-setter-visibility");
                 property.isReadOnly = false;
             } else {

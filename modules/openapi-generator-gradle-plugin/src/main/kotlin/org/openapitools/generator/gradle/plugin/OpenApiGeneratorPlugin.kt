@@ -127,6 +127,8 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     templateResourcePath.set(generate.templateResourcePath)
                     auth.set(generate.auth)
                     globalProperties.set(generate.globalProperties)
+                    injectModelVendorExtensions.set(generate.injectModelVendorExtensions)
+                    injectOperationVendorExtensions.set(generate.injectOperationVendorExtensions)
                     configFile.set(generate.configFile)
                     skipOverwrite.set(generate.skipOverwrite)
                     packageName.set(generate.packageName)

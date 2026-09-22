@@ -256,8 +256,49 @@ public class Generate extends OpenApiGeneratorCommand {
             description = "injects vendor extensions into model classes or their properties."
                     + " Class-level format: ModelName.x-extension-name=value."
                     + " Property-level format: ModelName.propertyBaseName.x-extension-name=value."
-                    + " You can also have multiple occurrences of this option.")
+                    + " Values are strings, applied at render time, and overwrite existing values."
+                    + " Each occurrence of this option is exactly one key=value pair; everything after"
+                    + " the first '=' (including any commas, e.g. for @Size(min = 1, max = 100)) is"
+                    + " taken literally as the value, so annotation arguments do not need escaping."
+                    + " For the extra-annotation extensions, separate multiple annotations rendered on"
+                    + " the same line within a single value with spaces (e.g."
+                    + " 'ModelName.x-class-extra-annotation=@JsonProperty(value = \"example\") @Deprecated'),"
+                    + " or repeat this option with the same key to add another list entry (e.g. run it once"
+                    + " with 'ModelName.x-class-extra-annotation=@Foo' and again with"
+                    + " 'ModelName.x-class-extra-annotation=@Bar'); templates that loop over the extension"
+                    + " (such as class- and property-level extra-annotations) render each repeated"
+                    + " occurrence on its own line, in the order given."
+                    + " Quote the whole key=value pair when the value contains spaces (e.g."
+                    + " \"ModelName.x-class-extra-annotation=@Foo(\\\"some string with spaces\\\")\"),"
+                    + " and if your shell requires double-quoting the whole argument instead, escape"
+                    + " embedded double quotes (e.g. \\\")."
+                    + " You can have multiple occurrences of this option, one per injection target.")
     private List<String> injectModelVendorExtensions = new ArrayList<>();
+
+    @Option(
+            name = {"--inject-operation-vendor-extensions"},
+            title = "inject operation vendor extensions",
+            description = "injects vendor extensions into operations or their parameters."
+                    + " Operation-level format: operationId.x-extension-name=value."
+                    + " Parameter-level format: operationId.paramBaseName.x-extension-name=value."
+                    + " Values are strings, applied at render time, and overwrite existing values."
+                    + " Each occurrence of this option is exactly one key=value pair; everything after"
+                    + " the first '=' (including any commas, e.g. for @Size(min = 1, max = 100)) is"
+                    + " taken literally as the value, so annotation arguments do not need escaping."
+                    + " For the extra-annotation extensions, separate multiple annotations rendered on"
+                    + " the same line within a single value with spaces (e.g."
+                    + " 'operationId.x-operation-extra-annotation=@JsonProperty(value = \"example\") @Deprecated'),"
+                    + " or repeat this option with the same key to add another list entry (e.g. run it once"
+                    + " with 'operationId.x-operation-extra-annotation=@Foo' and again with"
+                    + " 'operationId.x-operation-extra-annotation=@Bar'); templates that loop over the"
+                    + " extension (such as operation-level extra-annotations) render each repeated"
+                    + " occurrence on its own line, in the order given."
+                    + " Quote the whole key=value pair when the value contains spaces (e.g."
+                    + " \"operationId.x-operation-extra-annotation=@Foo(\\\"some string with spaces\\\")\"),"
+                    + " and if your shell requires double-quoting the whole argument instead, escape"
+                    + " embedded double quotes (e.g. \\\")."
+                    + " You can have multiple occurrences of this option, one per injection target.")
+    private List<String> injectOperationVendorExtensions = new ArrayList<>();
 
     @Option(
             name = {"--openapi-normalizer"},
@@ -606,6 +647,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applyEnumNameMappingsKvpList(enumNameMappings, configurator);
         applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
         applyInjectModelVendorExtensionsKvpList(injectModelVendorExtensions, configurator);
+        applyInjectOperationVendorExtensionsKvpList(injectOperationVendorExtensions, configurator);
         applyOpenapiNormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);

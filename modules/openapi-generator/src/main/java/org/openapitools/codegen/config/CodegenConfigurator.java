@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
@@ -74,9 +75,10 @@ public class CodegenConfigurator {
     private Map<String, String> nameMappings = new HashMap<>();
     private Map<String, String> parameterNameMappings = new HashMap<>();
     private Map<String, String> modelNameMappings = new HashMap<>();
+    private Map<String, List<String>> injectOperationVendorExtensions = new HashMap<>();
     private Map<String, String> enumNameMappings = new HashMap<>();
     private Map<String, String> operationIdNameMappings = new HashMap<>();
-    private Map<String, String> injectModelVendorExtensions = new HashMap<>();
+    private Map<String, List<String>> injectModelVendorExtensions = new HashMap<>();
     private Map<String, String> openapiNormalizer = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Set<String> openapiGeneratorIgnoreList = new HashSet<>();
@@ -147,7 +149,16 @@ public class CodegenConfigurator {
                 configurator.operationIdNameMappings.putAll(generatorSettings.getOperationIdNameMappings());
             }
             if (generatorSettings.getInjectModelVendorExtensions() != null) {
-                configurator.injectModelVendorExtensions.putAll(generatorSettings.getInjectModelVendorExtensions());
+                // Deep-copy: getInjectModelVendorExtensions() returns unmodifiable lists, and this
+                // configurator's own injectModelVendorExtensions field must stay independently
+                // mutable so a later addInjectModelVendorExtension() call (e.g. a CLI flag adding
+                // to a key already present in the config file) can still append to it.
+                generatorSettings.getInjectModelVendorExtensions().forEach((key, value) ->
+                        configurator.injectModelVendorExtensions.put(key, new ArrayList<>(value)));
+            }
+            if (generatorSettings.getInjectOperationVendorExtensions() != null) {
+                generatorSettings.getInjectOperationVendorExtensions().forEach((key, value) ->
+                        configurator.injectOperationVendorExtensions.put(key, new ArrayList<>(value)));
             }
             if (generatorSettings.getOpenapiNormalizer() != null) {
                 configurator.openapiNormalizer.putAll(generatorSettings.getOpenapiNormalizer());
@@ -191,6 +202,14 @@ public class CodegenConfigurator {
         }
 
         mapper.registerModule(new GuavaModule());
+
+        // Allows injectModelVendorExtensions/injectOperationVendorExtensions values (and any other
+        // List-valued config property) to be authored as either a plain scalar or a list, so config
+        // files written before injected values became lists (e.g. `x-setter-visibility: private`)
+        // keep working. This is a standard Jackson feature scoped to List/Collection content
+        // deserialization, so Map key/value type validation and top-level shape validation
+        // elsewhere are unaffected.
+        mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
         try {
             return mapper.readValue(new File(configFile), DynamicSettings.class);
@@ -272,15 +291,41 @@ public class CodegenConfigurator {
         return this;
     }
 
+    /**
+     * Adds a single {@code injectModelVendorExtension}. Calling this repeatedly for the same key appends
+     * {@code value} as a new element to the list stored under {@code key}, in call order, rather than
+     * the later call overwriting the earlier one — so multiple {@code --inject-model-vendor-extensions}
+     * occurrences targeting the same key accumulate as distinct list entries instead of the last one
+     * silently winning.
+     */
     public CodegenConfigurator addInjectModelVendorExtension(String key, String value) {
-        this.injectModelVendorExtensions.put(key, value);
+        this.injectModelVendorExtensions.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
         generatorSettingsBuilder.withInjectModelVendorExtension(key, value);
         return this;
     }
 
-    public CodegenConfigurator setInjectModelVendorExtensions(Map<String, String> extensions) {
+    public CodegenConfigurator setInjectModelVendorExtensions(Map<String, List<String>> extensions) {
         this.injectModelVendorExtensions = extensions;
         generatorSettingsBuilder.withInjectModelVendorExtensions(extensions);
+        return this;
+    }
+
+    /**
+     * Adds a single {@code injectOperationVendorExtension}. Calling this repeatedly for the same key appends
+     * {@code value} as a new element to the list stored under {@code key}, in call order, rather than
+     * the later call overwriting the earlier one — so multiple {@code --inject-operation-vendor-extensions}
+     * occurrences targeting the same key accumulate as distinct list entries instead of the last one
+     * silently winning.
+     */
+    public CodegenConfigurator addInjectOperationVendorExtension(String key, String value) {
+        this.injectOperationVendorExtensions.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
+        generatorSettingsBuilder.withInjectOperationVendorExtension(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator setInjectOperationVendorExtensions(Map<String, List<String>> extensions) {
+        this.injectOperationVendorExtensions = extensions;
+        generatorSettingsBuilder.withInjectOperationVendorExtensions(extensions);
         return this;
     }
 
@@ -804,6 +849,7 @@ public class CodegenConfigurator {
         config.enumNameMapping().putAll(generatorSettings.getEnumNameMappings());
         config.operationIdNameMapping().putAll(generatorSettings.getOperationIdNameMappings());
         config.injectModelVendorExtensions().putAll(generatorSettings.getInjectModelVendorExtensions());
+        config.injectOperationVendorExtensions().putAll(generatorSettings.getInjectOperationVendorExtensions());
         config.openapiNormalizer().putAll(generatorSettings.getOpenapiNormalizer());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.openapiGeneratorIgnoreList().addAll(generatorSettings.getOpenapiGeneratorIgnoreList());

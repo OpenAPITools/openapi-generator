@@ -7,6 +7,8 @@ package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
+import org.springframework.lang.NonNull
+import javax.validation.constraints.NotEmpty
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
 import io.swagger.v3.oas.annotations.media.*
@@ -59,7 +61,7 @@ interface PetApi {
         consumes = ["application/json", "application/xml"]
     )
     fun addPet(
-        @Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody pet: Pet
+        @Parameter(description = "Pet object that needs to be added to the store", required = true) @NonNull @Valid @RequestBody pet: Pet
     ): ResponseEntity<Pet> {
         return getDelegate().addPet(pet)
     }
@@ -104,7 +106,7 @@ interface PetApi {
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByStatus(
-        @NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
+        @NonNull @Size(min = 1) @NotEmpty @NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
     ): ResponseEntity<List<Pet>> {
         return getDelegate().findPetsByStatus(status)
     }
@@ -152,7 +154,7 @@ interface PetApi {
         produces = ["application/xml", "application/json"]
     )
     fun getPetById(
-        @Parameter(description = "ID of pet to return", required = true) @PathVariable("petId") petId: kotlin.Long
+        @NonNull @Parameter(description = "ID of pet to return", required = true) @PathVariable("petId") petId: kotlin.Long
     ): ResponseEntity<Pet> {
         return getDelegate().getPetById(petId)
     }

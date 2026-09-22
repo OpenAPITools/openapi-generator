@@ -36,6 +36,7 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
+      x-request-body-extra-annotation: '@org.springframework.lang.NonNull'
       x-content-type: application/json
       x-accepts:
       - application/json
@@ -87,6 +88,7 @@ paths:
             type: string
           type: array
         style: form
+        x-field-extra-annotation: '@org.springframework.lang.NonNull'
       responses:
         "200":
           content:
@@ -213,6 +215,7 @@ paths:
           format: int64
           type: integer
         style: simple
+        x-field-extra-annotation: '@org.springframework.lang.NonNull'
       responses:
         "200":
           content:

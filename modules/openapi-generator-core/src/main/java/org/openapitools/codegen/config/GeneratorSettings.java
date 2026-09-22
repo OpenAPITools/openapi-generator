@@ -58,7 +58,8 @@ public final class GeneratorSettings implements Serializable {
     private final Map<String, String> modelNameMappings;
     private final Map<String, String> enumNameMappings;
     private final Map<String, String> operationIdNameMappings;
-    private final Map<String, String> injectModelVendorExtensions;
+    private final Map<String, List<String>> injectModelVendorExtensions;
+    private final Map<String, List<String>> injectOperationVendorExtensions;
     private final Map<String, String> openapiNormalizer;
     private final Set<String> languageSpecificPrimitives;
     private final Set<String> openapiGeneratorIgnoreList;
@@ -70,6 +71,45 @@ public final class GeneratorSettings implements Serializable {
     private String gitRepoId;
     private String releaseNote;
     private String httpUserAgent;
+
+    /**
+     * Returns an unmodifiable deep copy of a {@code Map<String, List<String>>}: a new outer map,
+     * with each value replaced by an unmodifiable copy of its list. Used for
+     * {@code injectModelVendorExtensions}/{@code injectOperationVendorExtensions} so that mutating
+     * a list returned by {@link #getInjectModelVendorExtensions()} (or reusing it as the starting
+     * point for another {@link Builder}, e.g. via {@link #newBuilder(GeneratorSettings)}) can never
+     * affect this (or any other) already-built {@code GeneratorSettings} instance.
+     *
+     * @param source the map to copy; may be {@code null}
+     * @return an unmodifiable deep copy, or an empty unmodifiable map if {@code source} is {@code null}
+     */
+    private static Map<String, List<String>> unmodifiableDeepCopy(Map<String, List<String>> source) {
+        if (source == null) {
+            return Collections.unmodifiableMap(new HashMap<>(0));
+        }
+        Map<String, List<String>> copy = new HashMap<>();
+        source.forEach((key, value) ->
+                copy.put(key, Collections.unmodifiableList(new ArrayList<>(value))));
+        return Collections.unmodifiableMap(copy);
+    }
+
+    /**
+     * Returns a mutable deep copy of a {@code Map<String, List<String>>}: a new outer
+     * {@code HashMap} with each value replaced by a new mutable {@code ArrayList} copy of its list.
+     * Used when a {@link Builder} bulk setter (e.g. {@link Builder#withInjectModelVendorExtensions})
+     * stores a caller-supplied map, so later mutation via {@link Builder#withInjectModelVendorExtension}
+     * cannot affect the caller's map/lists, and vice versa.
+     *
+     * @param source the map to copy; may be {@code null}
+     * @return a mutable deep copy, or a new empty mutable map if {@code source} is {@code null}
+     */
+    private static Map<String, List<String>> deepCopyForBuilder(Map<String, List<String>> source) {
+        Map<String, List<String>> copy = new HashMap<>();
+        if (source != null) {
+            source.forEach((key, value) -> copy.put(key, new ArrayList<>(value)));
+        }
+        return copy;
+    }
 
     /**
      * Gets the name of the generator to use.
@@ -320,10 +360,19 @@ public final class GeneratorSettings implements Serializable {
     /**
      * Gets inject model vendor extensions.
      *
-     * @return a map of ModelName.x-extension-name or ModelName.propertyBaseName.x-extension-name to extension value
+     * @return a map of ModelName.x-extension-name or ModelName.propertyBaseName.x-extension-name to a list of extension values (one per injected occurrence)
      */
-    public Map<String, String> getInjectModelVendorExtensions() {
+    public Map<String, List<String>> getInjectModelVendorExtensions() {
         return injectModelVendorExtensions;
+    }
+
+    /**
+     * Gets inject operation vendor extensions.
+     *
+     * @return a map of operationId.x-extension-name or operationId.paramBaseName.x-extension-name to a list of extension values (one per injected occurrence)
+     */
+    public Map<String, List<String>> getInjectOperationVendorExtensions() {
+        return injectOperationVendorExtensions;
     }
 
     /**
@@ -467,7 +516,8 @@ public final class GeneratorSettings implements Serializable {
         modelNameMappings = Collections.unmodifiableMap(builder.modelNameMappings);
         enumNameMappings = Collections.unmodifiableMap(builder.enumNameMappings);
         operationIdNameMappings = Collections.unmodifiableMap(builder.operationIdNameMappings);
-        injectModelVendorExtensions = Collections.unmodifiableMap(builder.injectModelVendorExtensions);
+        injectModelVendorExtensions = unmodifiableDeepCopy(builder.injectModelVendorExtensions);
+        injectOperationVendorExtensions = unmodifiableDeepCopy(builder.injectOperationVendorExtensions);
         openapiNormalizer = Collections.unmodifiableMap(builder.openapiNormalizer);
         languageSpecificPrimitives = Collections.unmodifiableSet(builder.languageSpecificPrimitives);
         openapiGeneratorIgnoreList = Collections.unmodifiableSet(builder.openapiGeneratorIgnoreList);
@@ -549,6 +599,7 @@ public final class GeneratorSettings implements Serializable {
         enumNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         operationIdNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         injectModelVendorExtensions = Collections.unmodifiableMap(new HashMap<>(0));
+        injectOperationVendorExtensions = Collections.unmodifiableMap(new HashMap<>(0));
         openapiNormalizer = Collections.unmodifiableMap(new HashMap<>(0));
         languageSpecificPrimitives = Collections.unmodifiableSet(new HashSet<>(0));
         openapiGeneratorIgnoreList = Collections.unmodifiableSet(new HashSet<>(0));
@@ -627,7 +678,12 @@ public final class GeneratorSettings implements Serializable {
             builder.operationIdNameMappings.putAll(copy.getOperationIdNameMappings());
         }
         if (copy.getInjectModelVendorExtensions() != null) {
-            builder.injectModelVendorExtensions.putAll(copy.getInjectModelVendorExtensions());
+            copy.getInjectModelVendorExtensions().forEach((key, value) ->
+                    builder.injectModelVendorExtensions.put(key, new ArrayList<>(value)));
+        }
+        if (copy.getInjectOperationVendorExtensions() != null) {
+            copy.getInjectOperationVendorExtensions().forEach((key, value) ->
+                    builder.injectOperationVendorExtensions.put(key, new ArrayList<>(value)));
         }
         if (copy.getOpenapiNormalizer() != null) {
             builder.openapiNormalizer.putAll(copy.getOpenapiNormalizer());
@@ -682,7 +738,8 @@ public final class GeneratorSettings implements Serializable {
         private Map<String, String> modelNameMappings;
         private Map<String, String> enumNameMappings;
         private Map<String, String> operationIdNameMappings;
-        private Map<String, String> injectModelVendorExtensions;
+        private Map<String, List<String>> injectModelVendorExtensions;
+        private Map<String, List<String>> injectOperationVendorExtensions;
         private Map<String, String> openapiNormalizer;
         private Set<String> languageSpecificPrimitives;
         private Set<String> openapiGeneratorIgnoreList;
@@ -711,6 +768,7 @@ public final class GeneratorSettings implements Serializable {
             enumNameMappings = new HashMap<>();
             operationIdNameMappings = new HashMap<>();
             injectModelVendorExtensions = new HashMap<>();
+            injectOperationVendorExtensions = new HashMap<>();
             openapiNormalizer = new HashMap<>();
             languageSpecificPrimitives = new HashSet<>();
             openapiGeneratorIgnoreList = new HashSet<>();
@@ -1169,13 +1227,19 @@ public final class GeneratorSettings implements Serializable {
          * @param injectModelExtensions the {@code injectModelExtensions} to set
          * @return a reference to this Builder
          */
-        public Builder withInjectModelVendorExtensions(Map<String, String> injectModelVendorExtensions) {
-            this.injectModelVendorExtensions = injectModelVendorExtensions;
+        public Builder withInjectModelVendorExtensions(Map<String, List<String>> injectModelVendorExtensions) {
+            this.injectModelVendorExtensions = deepCopyForBuilder(injectModelVendorExtensions);
             return this;
         }
 
         /**
          * Sets a single {@code injectModelVendorExtension} and returns a reference to this Builder so that the methods can be chained together.
+         * Calling this repeatedly for the same key (e.g. once per {@code --inject-model-vendor-extensions}
+         * occurrence targeting the same key) appends {@code value} as a new element to the list stored
+         * under {@code key}, in call order, rather than the later call silently overwriting the earlier
+         * one. This lets multiple annotations be added to the same extra-annotation target across
+         * separate option occurrences, each rendered as a distinct list entry by templates that loop over
+         * the resulting {@code List<String>}.
          *
          * @param key   A key in the format ModelName.x-extension-name or ModelName.propertyBaseName.x-extension-name
          * @param value The extension value
@@ -1185,7 +1249,39 @@ public final class GeneratorSettings implements Serializable {
             if (this.injectModelVendorExtensions == null) {
                 this.injectModelVendorExtensions = new HashMap<>();
             }
-            this.injectModelVendorExtensions.put(key, value);
+            this.injectModelVendorExtensions.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
+            return this;
+        }
+
+        /**
+         * Sets the {@code injectOperationVendorExtensions} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param injectOperationVendorExtensions the {@code injectOperationVendorExtensions} to set
+         * @return a reference to this Builder
+         */
+        public Builder withInjectOperationVendorExtensions(Map<String, List<String>> injectOperationVendorExtensions) {
+            this.injectOperationVendorExtensions = deepCopyForBuilder(injectOperationVendorExtensions);
+            return this;
+        }
+
+        /**
+         * Sets a single {@code injectOperationVendorExtension} and returns a reference to this Builder so that the methods can be chained together.
+         * Calling this repeatedly for the same key (e.g. once per {@code --inject-operation-vendor-extensions}
+         * occurrence targeting the same key) appends {@code value} as a new element to the list stored
+         * under {@code key}, in call order, rather than the later call silently overwriting the earlier
+         * one. This lets multiple annotations be added to the same extra-annotation target across
+         * separate option occurrences, each rendered as a distinct list entry by templates that loop over
+         * the resulting {@code List<String>}.
+         *
+         * @param key   A key in the format operationId.x-extension-name or operationId.paramBaseName.x-extension-name
+         * @param value The extension value
+         * @return a reference to this Builder
+         */
+        public Builder withInjectOperationVendorExtension(String key, String value) {
+            if (this.injectOperationVendorExtensions == null) {
+                this.injectOperationVendorExtensions = new HashMap<>();
+            }
+            this.injectOperationVendorExtensions.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
             return this;
         }
 
@@ -1433,6 +1529,8 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getModelNameMappings(), that.getModelNameMappings()) &&
                 Objects.equals(getEnumNameMappings(), that.getEnumNameMappings()) &&
                 Objects.equals(getOperationIdNameMappings(), that.getOperationIdNameMappings()) &&
+                Objects.equals(getInjectModelVendorExtensions(), that.getInjectModelVendorExtensions()) &&
+                Objects.equals(getInjectOperationVendorExtensions(), that.getInjectOperationVendorExtensions()) &&
                 Objects.equals(getOpenapiNormalizer(), that.getOpenapiNormalizer()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
                 Objects.equals(getOpenapiGeneratorIgnoreList(), that.getOpenapiGeneratorIgnoreList()) &&
@@ -1471,6 +1569,8 @@ public final class GeneratorSettings implements Serializable {
                 getModelNameMappings(),
                 getEnumNameMappings(),
                 getOperationIdNameMappings(),
+                getInjectModelVendorExtensions(),
+                getInjectOperationVendorExtensions(),
                 getOpenapiNormalizer(),
                 getLanguageSpecificPrimitives(),
                 getOpenapiGeneratorIgnoreList(),
