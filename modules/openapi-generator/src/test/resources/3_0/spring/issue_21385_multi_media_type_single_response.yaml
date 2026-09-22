@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  title: Pet Service Content Negotiation
+  version: 1.0.0
+paths:
+  /pets/{petId}/details:
+    get:
+      operationId: getPetDetails
+      tags:
+        - pets
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful pet lookup, content negotiated via the Accept header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetDetailsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/PetDetailsXmlResponse'
+components:
+  schemas:
+    PetDetailsResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    PetDetailsXmlResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        legacyName:
+          type: string

@@ -103,7 +103,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     @Getter @Setter
     private LinkedHashMap<String, CodegenMediaType> content;
     @Getter @Setter
-    private List<Map<String, String>> responseProduces;
+    private List<Map<String, Object>> responseProduces;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
     public CodegenProperty returnProperty;

@@ -7755,19 +7755,59 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
 
-        List<Map<String, String>> responseProduces = new ArrayList<>();
+        // Read each media type's own schema instead of CodegenResponse#baseType/#isArray,
+        // which only reflect the first media type and would be wrongly reused for the rest.
+        Map<String, CodegenMediaType> mediaTypeContent = codegenResponse.getContent();
+
+        List<Map<String, Object>> responseProduces = new ArrayList<>();
         for (String mediaTypeKey : response.getContent().keySet()) {
             String encodedKey = "*/*".equals(mediaTypeKey) ? mediaTypeKey : escapeQuotationMark(mediaTypeKey);
-            Map<String, String> mediaType = new HashMap<>();
+            Map<String, Object> mediaType = new HashMap<>();
             mediaType.put("mediaType", encodedKey);
             if (isJsonMimeType(encodedKey)) {
                 mediaType.put("isJson", "true");
             } else if (isXmlMimeType(encodedKey)) {
                 mediaType.put("isXml", "true");
             }
+
+            CodegenMediaType codegenMediaType = mediaTypeContent == null ? null : mediaTypeContent.get(mediaTypeKey);
+            CodegenProperty mediaTypeSchema = codegenMediaType == null ? null : codegenMediaType.getSchema();
+
+            String mediaTypeBaseType = getBaseTypeForContentSchema(mediaTypeSchema);
+            if (mediaTypeBaseType != null) {
+                mediaType.put("baseType", mediaTypeBaseType);
+            }
+            // Use a real Boolean, not a String: JMustache treats any present key as "found"
+            // regardless of value, so only false/null actually render as falsy.
+            mediaType.put("isArray", mediaTypeSchema != null && mediaTypeSchema.isArray);
+
             responseProduces.add(mediaType);
         }
         codegenResponse.setResponseProduces(responseProduces);
+    }
+
+    /**
+     * Resolves the {@code @Schema(implementation = ...)} type for one media type's schema.
+     * Same idea as {@link CodegenResponse#baseType} in {@link #fromResponse}, but per media type.
+     *
+     * @param schema the resolved schema for one media type, may be null
+     * @return the implementation type name, or null if unresolved
+     */
+    private static String getBaseTypeForContentSchema(CodegenProperty schema) {
+        if (schema == null) {
+            return null;
+        }
+        if (schema.isArray) {
+            String baseType = null;
+            for (CodegenProperty items = schema.items; items != null; items = items.items) {
+                baseType = items.baseType;
+            }
+            return baseType;
+        }
+        if (schema.complexType != null) {
+            return schema.items != null ? schema.items.complexType : schema.complexType;
+        }
+        return schema.baseType;
     }
 
     /**
