@@ -22,19 +22,25 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ApiInfoMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -1166,6 +1172,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
         objs.put("isResponseFile", isResponseFile);
         removeEnumUnknownDefaultCaseFromOperationParameters(objs);
+        if (operations != null) {
+            flagVerbatimHttpMethods(operations.getOperation());
+        }
         return objs;
     }
 
@@ -1281,5 +1290,111 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         return extensions;
+    }
+
+    @Override
+    public boolean supportsAdditionalOperations() {
+        // only jvm-okhttp(4) sends arbitrary methods verbatim through okhttp's
+        // Request.Builder.method(String, ...); the other variants dispatch via
+        // enum constants or annotations that cannot express non-standard tokens
+        return JVM_OKHTTP.equals(getLibrary()) || JVM_OKHTTP4.equals(getLibrary());
+    }
+
+    @Override
+    protected boolean supportsQueryStringParameters() {
+        return JVM_OKHTTP.equals(getLibrary()) || JVM_OKHTTP4.equals(getLibrary());
+    }
+
+    private static final Set<String> STANDARD_HTTP_METHODS = new HashSet<>(Arrays.asList(
+            "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"));
+
+    // RFC 9110 tchar: okhttp's Request.Builder.method() does not validate the token,
+    // so anything outside this set is warned about and skipped
+    private static final java.util.regex.Pattern HTTP_METHOD_TOKEN_PATTERN =
+            java.util.regex.Pattern.compile("[!#$%&'*+\\-.^_`|~0-9A-Za-z]+");
+
+    /**
+     * Marks OpenAPI 3.2 (query/additionalOperations) HTTP methods for verbatim emission via
+     * {@code x-kotlin-custom-method}. Unlike .NET's HttpMethod, okhttp preserves casing on
+     * the wire, so only non-tchar tokens are warned about and skipped. Also records
+     * {@code x-kotlin-querystring-params} for operations carrying {@code in: querystring}
+     * parameters, whose values are already-encoded and must not go through the
+     * name=value query serialization.
+     */
+    private void flagVerbatimHttpMethods(List<CodegenOperation> operationList) {
+        Iterator<CodegenOperation> it = operationList.iterator();
+        while (it.hasNext()) {
+            CodegenOperation op = it.next();
+            if (op.httpMethod != null && !STANDARD_HTTP_METHODS.contains(op.httpMethod)) {
+                if (!HTTP_METHOD_TOKEN_PATTERN.matcher(op.httpMethod).matches()) {
+                    LOGGER.warn("Skipping operation {}: HTTP method name '{}' is not a valid RFC 9110 token.",
+                            op.operationId, op.httpMethod);
+                    it.remove();
+                    continue;
+                }
+                // '$' is a valid tchar but would interpolate inside a Kotlin "..." literal
+                op.vendorExtensions.put("x-kotlin-custom-method", op.httpMethod.replace("$", "\\$"));
+                // '|' is a valid tchar but breaks markdown tables in doc templates
+                op.vendorExtensions.put("x-kotlin-http-method-doc", op.httpMethod.replace("|", "\\|"));
+            }
+            if (op.queryParams != null) {
+                String queryStringParams = op.queryParams.stream()
+                        .filter(param -> param.isQueryStringParam)
+                        .map(param -> param.paramName)
+                        .collect(Collectors.joining(", "));
+                if (!queryStringParams.isEmpty()) {
+                    op.vendorExtensions.put("x-kotlin-querystring-params", queryStringParams);
+                }
+            }
+        }
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        WebhooksMap map = super.postProcessWebhooksWithModels(objs, allModels);
+        if (map.getWebhooks() != null) {
+            flagVerbatimHttpMethods(map.getWebhooks().getOperation());
+        }
+        return map;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        super.postProcessSupportingFileData(objs);
+        // the jvm-okhttp infrastructure templates emit verbatim-method and
+        // querystring support only when a retained operation needs it, keeping
+        // output for specs without OpenAPI 3.2 features byte-identical
+        boolean hasVerbatimMethod = false;
+        boolean hasQueryStringParam = false;
+        List<OperationMap> groups = new java.util.ArrayList<>();
+        Object apis = objs.get("apiInfo");
+        if (apis instanceof ApiInfoMap && ((ApiInfoMap) apis).getApis() != null) {
+            for (OperationsMap api : ((ApiInfoMap) apis).getApis()) {
+                groups.add(api.getOperations());
+            }
+        }
+        Object webhooks = objs.get("webhooks");
+        if (webhooks instanceof List) {
+            for (WebhooksMap webhook : (List<WebhooksMap>) webhooks) {
+                groups.add(webhook.getWebhooks());
+            }
+        }
+        for (OperationMap group : groups) {
+            if (group == null || group.getOperation() == null) {
+                continue;
+            }
+            for (CodegenOperation op : group.getOperation()) {
+                hasVerbatimMethod |= op.vendorExtensions.containsKey("x-kotlin-custom-method");
+                hasQueryStringParam |= op.vendorExtensions.containsKey("x-kotlin-querystring-params");
+            }
+        }
+        if (hasVerbatimMethod) {
+            objs.put("x-kotlin-verbatim-methods", true);
+        }
+        if (hasQueryStringParam) {
+            objs.put("x-kotlin-querystring", true);
+        }
+        return objs;
     }
 }

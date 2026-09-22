@@ -45,3 +45,15 @@ paths:
         responses:
           '204':
             description: done
+      # `|` is valid tchar but breaks markdown tables in generated docs
+      "A|B":
+        operationId: pipePets
+        responses:
+          '204':
+            description: done
+      # `$` is valid tchar but would interpolate inside a Kotlin "..." literal
+      "A$B":
+        operationId: dollarPets
+        responses:
+          '204':
+            description: done

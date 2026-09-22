@@ -15,10 +15,16 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.openapitools.codegen.config.CodegenConfigurator;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
@@ -291,5 +297,216 @@ public class KotlinClientCodegenApiTest {
         codegen.additionalProperties().put(KotlinClientCodegen.USE_SPRING_BOOT3, "true");
         codegen.additionalProperties().put(KotlinClientCodegen.DATE_LIBRARY, "kotlinx-datetime");
         return codegen;
+    }
+
+    @Test
+    void testJvmOkhttp4OpenApi32OperationsAndQueryStringParam() throws IOException {
+        Path target = Files.createTempDirectory("kotlin32");
+        try {
+            generate("jvm-okhttp4", "src/test/resources/3_2/query-operation.yaml", target);
+
+            String api = new String(Files.readAllBytes(
+                    target.resolve("src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt")), StandardCharsets.UTF_8);
+            // non-standard methods are emitted verbatim via customMethod; there is no RequestMethod.QUERY
+            for (String method : new String[]{"QUERY", "PURGE", "customMethod", "CHECK&FETCH", "X#Y", "A|B"}) {
+                Assert.assertTrue(api.contains("customMethod = \"" + method + "\""),
+                        "expected verbatim customMethod literal for " + method);
+            }
+            // '$' must be escaped so the Kotlin string literal keeps it verbatim
+            Assert.assertTrue(api.contains("customMethod = \"A\\$B\""),
+                    "expected $-escaped customMethod literal for A$B");
+            Assert.assertTrue(api.contains("method = RequestMethod.GET"),
+                    "standard method kept on the RequestMethod enum");
+            // `in: querystring` is wired verbatim, excluded from the name=value query map
+            Assert.assertTrue(api.contains("encodedQueryString = listOfNotNull(qs).joinToString"),
+                    "querystring param should be passed verbatim");
+            Assert.assertFalse(api.contains("put(\"qs\""),
+                    "querystring param must not be serialized as a name=value pair");
+
+            String requestConfig = new String(Files.readAllBytes(
+                    target.resolve("src/main/kotlin/org/openapitools/client/infrastructure/RequestConfig.kt")), StandardCharsets.UTF_8);
+            Assert.assertTrue(requestConfig.contains("val customMethod: String?"),
+                    "RequestConfig should carry the verbatim method field");
+            Assert.assertTrue(requestConfig.contains("val encodedQueryString: String?"),
+                    "RequestConfig should carry the querystring field");
+
+            String apiClient = new String(Files.readAllBytes(
+                    target.resolve("src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt")), StandardCharsets.UTF_8);
+            Assert.assertTrue(apiClient.contains("builder.method(requestConfig.customMethod, customBody)"),
+                    "ApiClient should dispatch verbatim methods");
+            Assert.assertTrue(apiClient.contains("encodedQuery("),
+                    "ApiClient should append the querystring verbatim");
+
+            String docs = new String(Files.readAllBytes(target.resolve("docs/DefaultApi.md")), StandardCharsets.UTF_8);
+            Assert.assertTrue(docs.contains("**A\\|B**"), "doc table should escape |");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    @Test
+    void testNonOkhttpLibrariesSkipOpenApi32Operations() throws IOException {
+        Path target = Files.createTempDirectory("kotlin32-skip");
+        try {
+            generate("jvm-ktor", "src/test/resources/3_2/query-operation.yaml", target);
+            String api = new String(Files.readAllBytes(
+                    target.resolve("src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt")), StandardCharsets.UTF_8);
+            Assert.assertTrue(api.contains("listPets"), "GET operation should be kept");
+            for (String op : new String[]{"queryPets", "purgePets", "customPets", "checkFetchPets", "hashPets", "pipePets", "dollarPets"}) {
+                Assert.assertFalse(api.contains(op + "RequestConfig"),
+                        "jvm-ktor must skip unsupported 3.2 operation " + op);
+            }
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    @Test
+    void testJvmOkhttp4SkipsInvalidMethodToken() throws IOException {
+        Path target = Files.createTempDirectory("kotlin32-invalid");
+        try {
+            // "MY METHOD" is not a valid RFC 9110 token; okhttp does not validate
+            // tokens itself, so the generator must reject it
+            String spec = "openapi: 3.2.0\n"
+                    + "info: {title: t, version: '1'}\n"
+                    + "paths:\n"
+                    + "  /pets:\n"
+                    + "    get:\n"
+                    + "      operationId: listPets\n"
+                    + "      responses: {'200': {description: ok}}\n"
+                    + "    additionalOperations:\n"
+                    + "      \"MY METHOD\":\n"
+                    + "        operationId: badMethod\n"
+                    + "        responses: {'204': {description: done}}\n";
+            Path specFile = target.resolve("spec.yaml");
+            Files.writeString(specFile, spec);
+            generate("jvm-okhttp4", specFile.toString(), target.resolve("out"));
+            String api = new String(Files.readAllBytes(
+                    target.resolve("out/src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt")), StandardCharsets.UTF_8);
+            Assert.assertTrue(api.contains("listPets"), "GET operation should be kept");
+            Assert.assertFalse(api.contains("badMethod"),
+                    "invalid RFC 9110 method token must be skipped");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * End-to-end check: compiles the generated jvm-okhttp4 client with kotlinc and
+     * runs a raw ServerSocket capture, verifying query/additionalOperations methods
+     * and `in: querystring` reach the wire verbatim. Skipped when kotlinc is not on
+     * PATH or the dependency jars cannot be located.
+     */
+    @Test
+    void testJvmOkhttp4GeneratedClientSendsVerbatimMethods() throws IOException, InterruptedException {
+        Path kotlinc = findOnPath("kotlinc");
+        if (kotlinc == null) {
+            throw new org.testng.SkipException("kotlinc is not on PATH; skipping generated-client verification");
+        }
+        // PATH may hold a symlink into the install; resolve it so lib/ is found correctly
+        kotlinc = kotlinc.toRealPath();
+        List<String> jars;
+        try {
+            jars = new ArrayList<>(Arrays.asList(
+                    jarOf(okhttp3.OkHttpClient.class),
+                    jarOf(okio.Buffer.class),
+                    jarOf(com.squareup.moshi.Moshi.class),
+                    jarOf(com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory.class),
+                    jarOf(com.squareup.moshi.adapters.Rfc3339DateJsonAdapter.class)));
+        } catch (Exception e) {
+            throw new org.testng.SkipException("okhttp/moshi jars not resolvable from test classpath: " + e);
+        }
+        // use the stdlib/reflect bundled with the detected kotlinc so versions match
+        // the compiler (the module's own test classpath pins an older kotlin.version)
+        Path kotlincLib = kotlinc.getParent().getParent().resolve("lib");
+        for (String name : new String[]{"kotlin-stdlib.jar", "kotlin-reflect.jar"}) {
+            Path jar = kotlincLib.resolve(name);
+            if (!Files.exists(jar)) {
+                throw new org.testng.SkipException("kotlinc lib dir lacks " + name + ": " + kotlincLib);
+            }
+            jars.add(jar.toString());
+        }
+
+        Path target = Files.createTempDirectory("kotlin32-verify");
+        try {
+            generate("jvm-okhttp4", "src/test/resources/3_2/query-operation.yaml", target);
+            Path srcDir = target.resolve("src/main/kotlin");
+            Path capture = target.resolve("Capture.kt");
+            Files.copy(Path.of("src/test/resources/3_2/kotlin-okhttp-capture/Capture.kt"), capture);
+
+            List<String> sources = Files.walk(srcDir)
+                    .filter(p -> p.toString().endsWith(".kt"))
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+            sources.add(capture.toString());
+
+            String classPath = String.join(File.pathSeparator, jars);
+            Path classesDir = target.resolve("classes");
+            List<String> compile = new ArrayList<>(List.of(
+                    kotlinc.toString(), "-cp", classPath, "-d", classesDir.toString(), "-jvm-target", "17"));
+            compile.addAll(sources);
+            runProcess(target, "kotlinc.log", 300, compile.toArray(new String[0]));
+
+            String javaBin = Path.of(System.getProperty("java.home"), "bin", "java").toString();
+            String output = runProcess(target, "run.log", 120,
+                    javaBin, "-cp", classesDir + File.pathSeparator + classPath, "CaptureKt");
+            Assert.assertTrue(output.contains("CAPTURE-PASS"),
+                    "generated client did not send verbatim 3.2 methods/querystring:\n" + output);
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    private static void generate(String library, String spec, Path outputDir) {
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary(library)
+                .setInputSpec(spec)
+                .setSkipOverwrite(false)
+                .setOutputDir(outputDir.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+    }
+
+    private static Path findOnPath(String executable) {
+        for (String dir : System.getenv("PATH").split(File.pathSeparator)) {
+            for (String name : new String[]{executable, executable + ".bat", executable + ".exe"}) {
+                Path candidate = Path.of(dir, name);
+                if (Files.isExecutable(candidate)) {
+                    return candidate;
+                }
+            }
+        }
+        return null;
+    }
+
+    private static String jarOf(Class<?> marker) throws Exception {
+        return Path.of(marker.getProtectionDomain().getCodeSource().getLocation().toURI()).toString();
+    }
+
+    private static String runProcess(Path workDir, String logName, long timeoutSeconds, String... command)
+            throws IOException, InterruptedException {
+        Path log = workDir.resolve(logName);
+        Process p = new ProcessBuilder(command)
+                .directory(workDir.toFile())
+                .redirectErrorStream(true)
+                .redirectOutput(log.toFile())
+                .start();
+        if (!p.waitFor(timeoutSeconds, java.util.concurrent.TimeUnit.SECONDS)) {
+            p.destroyForcibly();
+            Assert.fail("process timed out: " + String.join(" ", command)
+                    + "\n" + new String(Files.readAllBytes(log), StandardCharsets.UTF_8));
+        }
+        String output = new String(Files.readAllBytes(log), StandardCharsets.UTF_8);
+        Assert.assertEquals(p.exitValue(), 0, "process failed: " + String.join(" ", command) + "\n" + output);
+        return output;
+    }
+
+    private static void deleteRecursively(Path dir) throws IOException {
+        if (Files.exists(dir)) {
+            try (var stream = Files.walk(dir)) {
+                stream.sorted(java.util.Comparator.reverseOrder())
+                        .forEach(p -> p.toFile().delete());
+            }
+        }
     }
 }

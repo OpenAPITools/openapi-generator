@@ -506,6 +506,14 @@ import com.squareup.moshi.adapter
                         addQueryParameter(query.key, queryValue)
                     }
                 }
+                {{#x-kotlin-querystring}}
+                // OpenAPI 3.2 `in: querystring`: the value is already encoded, so it is
+                // appended verbatim via encodedQuery (query() would percent-encode it again)
+                requestConfig.encodedQueryString?.takeIf { it.isNotEmpty() }?.let { raw ->
+                    val existing = build().encodedQuery
+                    encodedQuery(if (existing.isNullOrEmpty()) raw else "$existing&$raw")
+                }
+                {{/x-kotlin-querystring}}
             }.build()
 
         // take content-type/accept from spec or set to default (application/json) if not defined
@@ -536,7 +544,21 @@ import com.squareup.moshi.adapter
             RequestMethod.PUT -> Request.Builder().url(url).put(requestBody(requestConfig.body, contentType))
             RequestMethod.POST -> Request.Builder().url(url).post(requestBody(requestConfig.body, contentType))
             RequestMethod.OPTIONS -> Request.Builder().url(url).method("OPTIONS", null)
-        }.apply {
+        }.{{#x-kotlin-verbatim-methods}}let { builder ->
+            if (requestConfig.customMethod == null) {
+                builder
+            } else {
+                // OpenAPI 3.2 query/additionalOperations: Request.Builder.method() sends the
+                // token verbatim. OkHttp >= 5 rejects a body-less QUERY, so QUERY always
+                // carries a (possibly empty) body.
+                val customBody = if (requestConfig.body != null || requestConfig.customMethod == "QUERY") {
+                    requestBody(requestConfig.body, contentType)
+                } else {
+                    null
+                }
+                builder.method(requestConfig.customMethod, customBody)
+            }
+        }.apply {{/x-kotlin-verbatim-methods}}{{^x-kotlin-verbatim-methods}}apply {{/x-kotlin-verbatim-methods}}{
             val headersBuilder = Headers.Builder()
             headers.forEach { header ->
                 {{#useNonAsciiHeaders}}

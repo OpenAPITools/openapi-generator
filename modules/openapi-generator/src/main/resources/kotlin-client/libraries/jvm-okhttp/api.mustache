@@ -209,6 +209,7 @@ import {{packageName}}.infrastructure.Serializer
 {{/hasQueryParams}}{{#hasQueryParams}}mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 {{#queryParams}}
+                {{^isQueryStringParam}}
                 {{^required}}
                 if ({{{paramName}}} != null) {
                     {{#isModel}}
@@ -251,6 +252,7 @@ import {{packageName}}.infrastructure.Serializer
                 {{/isModel}}
                 {{/isNullable}}
                 {{/required}}
+                {{/isQueryStringParam}}
                 {{/queryParams}}
             }
             {{/hasQueryParams}}
@@ -262,9 +264,18 @@ import {{packageName}}.infrastructure.Serializer
 {{/headerParams}}
 
         return RequestConfig(
+{{#vendorExtensions.x-kotlin-custom-method}}
+            method = RequestMethod.GET,
+            customMethod = "{{{vendorExtensions.x-kotlin-custom-method}}}",
+{{/vendorExtensions.x-kotlin-custom-method}}
+{{^vendorExtensions.x-kotlin-custom-method}}
             method = RequestMethod.{{httpMethod}},
+{{/vendorExtensions.x-kotlin-custom-method}}
             path = "{{{path}}}"{{#pathParams}}.replace("{"+"{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}},
             query = localVariableQuery,
+{{#vendorExtensions.x-kotlin-querystring-params}}
+            encodedQueryString = listOfNotNull({{{vendorExtensions.x-kotlin-querystring-params}}}).joinToString("&"),
+{{/vendorExtensions.x-kotlin-querystring-params}}
             headers = localVariableHeaders,
             requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},
             body = localVariableBody
