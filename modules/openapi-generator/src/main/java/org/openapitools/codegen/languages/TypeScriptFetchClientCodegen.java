@@ -34,6 +34,7 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -42,6 +43,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.regex.Pattern;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -871,8 +873,83 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // updateOperationParameterForEnum, for one, is what prefixes an enum parameter's type name with the
         // operation's, and a variant it never visited would be left referencing a type nobody declares.
         this.mergeContentTypeVariants(operations);
+        this.flagOpenAPI32Operations(operations.getOperations().getOperation());
 
         return operations;
+    }
+
+    // HTTP methods emitted in the conventional 'GET' single-quoted style;
+    // OpenAPI 3.2 methods outside this set are emitted as unescaped
+    // double-quoted literals via x-ts-http-method-literal so valid token
+    // punctuation (e.g. CHECK&FETCH, or a token containing an apostrophe,
+    // which would break single-quoting) survives template rendering
+    private static final Set<String> STANDARD_HTTP_METHODS = new HashSet<>(Arrays.asList(
+            "GET", "PUT", "POST", "DELETE", "HEAD", "OPTIONS", "TRACE", "PATCH", "CONNECT"));
+
+    // RFC 9110 tchar — additionalOperations keys must match this to be
+    // emitted as a TypeScript string literal
+    private static final Pattern HTTP_TOKEN = Pattern.compile("[!#$%&'*+\\-.^_`|~0-9A-Za-z]+");
+
+    // methods the WHATWG fetch spec forbids — RequestInit throws TypeError
+    private static final Set<String> FETCH_FORBIDDEN_METHODS = new HashSet<>(Arrays.asList(
+            "CONNECT", "TRACE", "TRACK"));
+
+    @Override
+    public boolean supportsAdditionalOperations() {
+        // fetch() passes RequestInit.method through verbatim, preserving
+        // arbitrary OpenAPI 3.2 method names
+        return true;
+    }
+
+    @Override
+    protected boolean supportsQueryStringParameters() {
+        // the raw, already-encoded query string is appended to the request
+        // path verbatim by the api template
+        return true;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        // webhooks render through apis.mustache as well, so their
+        // non-standard methods and querystring parameters need the same flags
+        objs = super.postProcessWebhooksWithModels(objs, allModels);
+        flagOpenAPI32Operations(objs.getWebhooks().getOperation());
+        return objs;
+    }
+
+    private void flagOpenAPI32Operations(List<CodegenOperation> operations) {
+        for (Iterator<CodegenOperation> it = operations.iterator(); it.hasNext(); ) {
+            CodegenOperation op = it.next();
+            if (op.httpMethod == null) {
+                continue;
+            }
+            // markdown docs render the method inside table cells where a '|'
+            // (a valid tchar) would split the cell
+            op.vendorExtensions.put("x-ts-http-method-doc", op.httpMethod.replace("|", "\\|"));
+            if (!STANDARD_HTTP_METHODS.contains(op.httpMethod)) {
+                if (!HTTP_TOKEN.matcher(op.httpMethod).matches()) {
+                    LOGGER.warn("HTTP method '{}' is not a valid RFC 9110 token; skipping operation {}",
+                            op.httpMethod, op.operationId);
+                    it.remove();
+                    continue;
+                }
+                if (FETCH_FORBIDDEN_METHODS.contains(op.httpMethod.toUpperCase(Locale.ROOT))) {
+                    LOGGER.warn("HTTP method '{}' is forbidden by the fetch specification; "
+                            + "the generated client will throw TypeError when calling operation {}",
+                            op.httpMethod, op.operationId);
+                }
+                // fetch() byte-uppercases only DELETE/GET/HEAD/OPTIONS/POST/PUT;
+                // every other method reaches the wire exactly as written
+                op.vendorExtensions.put("x-ts-http-method-literal", true);
+            }
+            for (CodegenParameter cp : op.allParams) {
+                if (cp.isQueryStringParam) {
+                    op.vendorExtensions.put("x-ts-has-querystring-param", true);
+                    break;
+                }
+            }
+
+        }
     }
 
     @Override
@@ -1564,6 +1641,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isDeprecated = cp.isDeprecated;
             this.isFormParam = cp.isFormParam;
             this.isQueryParam = cp.isQueryParam;
+            this.isQueryStringParam = cp.isQueryStringParam;
             this.isPathParam = cp.isPathParam;
             this.isHeaderParam = cp.isHeaderParam;
             this.isCookieParam = cp.isCookieParam;
@@ -1634,6 +1712,39 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.minItems = cp.minItems;
             this.uniqueItems = cp.uniqueItems;
             this.multipleOf = cp.multipleOf;
+            // fields added to CodegenParameter after this constructor was
+            // written; without them the extended copy silently drops them
+            // (isQueryStringParam above was one such casualty)
+            this.isDeepObject = cp.isDeepObject;
+            this.isMatrix = cp.isMatrix;
+            this.isAllowEmptyValue = cp.isAllowEmptyValue;
+            this.isFormStyle = cp.isFormStyle;
+            this.isSpaceDelimited = cp.isSpaceDelimited;
+            this.isPipeDelimited = cp.isPipeDelimited;
+            this.enumDefaultValue = cp.enumDefaultValue;
+            this.nameInCamelCase = cp.nameInCamelCase;
+            this.nameInPascalCase = cp.nameInPascalCase;
+            this.nameInSnakeCase = cp.nameInSnakeCase;
+            this.examples = cp.examples;
+            this.isPassword = cp.isPassword;
+            this.isShort = cp.isShort;
+            this.isUnboundedInteger = cp.isUnboundedInteger;
+            this.queryIsJsonMimeType = cp.queryIsJsonMimeType;
+            this.isOptional = cp.isOptional;
+            this.containerType = cp.containerType;
+            this.containerTypeMapped = cp.containerTypeMapped;
+            this.isNull = cp.isNull;
+            this.isVoid = cp.isVoid;
+            this.setSchema(cp.getSchema());
+            this.setContent(cp.getContent());
+            this.setRef(cp.getRef());
+            this.setComposedSchemas(cp.getComposedSchemas());
+            this.setRequiredVarsMap(cp.getRequiredVarsMap());
+            this.setHasMultipleTypes(cp.getHasMultipleTypes());
+            this.setUniqueItemsBoolean(cp.getUniqueItemsBoolean());
+            this.setSchemaIsFromAdditionalProperties(cp.getSchemaIsFromAdditionalProperties());
+            this.setHasDiscriminatorWithNonEmptyMapping(cp.getHasDiscriminatorWithNonEmptyMapping());
+            this.setAdditionalPropertiesIsAnyType(cp.getAdditionalPropertiesIsAnyType());
             this.setHasVars(cp.getHasVars());
             this.setHasRequired(cp.getHasRequired());
             this.setMaxProperties(cp.getMaxProperties());

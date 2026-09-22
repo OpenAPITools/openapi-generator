@@ -630,7 +630,7 @@ public class GoClientCodegenTest {
         Path apiFile = Paths.get(output + "/api_default.go");
         TestUtils.assertFileContains(apiFile, "strings.Contains(localVarPath, \"?\")");
         // pathParams already pull in "strings"; a duplicate import would not compile
-        String content = new String(Files.readAllBytes(apiFile));
+        String content = new String(Files.readAllBytes(apiFile), java.nio.charset.StandardCharsets.UTF_8);
         Assert.assertEquals(content.split("\"strings\"", -1).length - 1, 1,
                 "duplicate \"strings\" import in generated Go file");
     }
