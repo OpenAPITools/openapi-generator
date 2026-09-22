@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -2552,6 +2553,45 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the list of example values of the property.
+     * <p>
+     * This method should be overridden in the generator to meet its requirement.
+     *
+     * @param schema Property schema
+     * @return a string list of the example values of the property
+     */
+    public List<String> toExampleValues(Schema schema) {
+        List<?> schemaExamples = schema.getExamples();
+        if (schemaExamples == null || schemaExamples.isEmpty()) {
+            return null;
+        }
+        List<String> examples = schemaExamples.stream()
+                    .map(this::getExampleValueString)
+                    .collect(Collectors.toList());
+
+        return examples.isEmpty() ? null : examples;
+    }
+
+    /**
+     * Return the string presentation of a single example value.
+     * <p>
+     * For value nodes, {@link JsonNode#asText()} is used to get the string without duplicated quotes.
+     *
+     * @param example the raw example value coming from the parsed schema
+     * @return string presentation of the example value
+     */
+    protected String getExampleValueString(Object example) {
+        if (example == null) {
+            return "null";
+        }
+        if (example instanceof JsonNode) {
+            JsonNode node = (JsonNode) example;
+            return node.isValueNode() ? node.asText() : node.toString();
+        }
+        return example.toString();
+    }
+
+    /**
      * Return the default value of the property
      * <p>
      * This method should be overridden in the generator to meet its requirement.
@@ -4277,9 +4317,19 @@ public class DefaultCodegen implements CodegenConfig {
         try {
             property.example = toExampleValue(p);
         } catch (Exception e) {
-            LOGGER.error("Error in generating `example` for the property {}. Default to ERROR_TO_EXAMPLE_VALUE. Enable debugging for more info.", property.baseName);
-            LOGGER.debug("Exception from toExampleValue: {}", e.getMessage());
-            property.example = "ERROR_TO_EXAMPLE_VALUE";
+            property.example = handleExampleException(property.baseName, e);
+        }
+
+        if (p.getExamples() != null) {
+            List<String> examples = new ArrayList<>();
+            for (Object example : p.getExamples()) {
+                try {
+                    examples.add(getExampleValueString(example));
+                } catch (Exception e) {
+                    examples.add(handleExampleException(property.baseName, e));
+                }
+            }
+            property.examples = examples;
         }
 
         property.jsonSchema = Json.pretty(Json.mapper().convertValue(p, TreeMap.class));
@@ -4504,6 +4554,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getExample() != null) {
                 property.example = toExampleValue(original);
             }
+            if (original.getExamples() != null) {
+                property.examples = toExampleValues(original);
+            }
         }
 
         // override defaultValue if it's not set and defaultToEmptyContainer is set
@@ -4518,6 +4571,12 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging from property return: {}", property);
         schemaCodegenPropertyCache.put(ns, property);
         return property;
+    }
+
+    private String handleExampleException(String propertyName, Exception e) {
+        LOGGER.error("Error in generating `example` for the property {}. Default to ERROR_TO_EXAMPLE_VALUE. Enable debugging for more info.", propertyName);
+        LOGGER.debug("Exception from toExampleValue: {}", e.getMessage());
+        return "ERROR_TO_EXAMPLE_VALUE";
     }
 
     /**
