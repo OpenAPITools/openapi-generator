@@ -25,6 +25,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |actionRequestContentType|Request ContentType for Action| |@RequestContentType|
 |actionRequestContentTypePrefix|Request ContentType Prefix for Action| |MediaTypes|
 |addModelMoshiJsonAnnotation|Add a Moshi JSON adapter annotation to all model classes| |true|
+|additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |artifactId|Generated artifact id (name of jar).| |null|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
