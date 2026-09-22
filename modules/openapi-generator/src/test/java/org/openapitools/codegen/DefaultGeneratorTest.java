@@ -449,6 +449,65 @@ public class DefaultGeneratorTest {
     }
 
     @Test
+    public void testProcessPathsQueryAndAdditionalOperations() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.setPaths(new Paths());
+        Operation queryOp = new Operation().operationId("queryPets")
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
+        Operation purgeOp = new Operation().operationId("purgePets")
+                .responses(new ApiResponses().addApiResponse("204", new ApiResponse().description("done")));
+        Operation customOp = new Operation().operationId("customPets")
+                .responses(new ApiResponses().addApiResponse("204", new ApiResponse().description("done")));
+        openAPI.getPaths().addPathItem("/pets",
+                new PathItem().query(queryOp)
+                        .addAdditionalOperation("PURGE", purgeOp)
+                        .addAdditionalOperation("customMethod", customOp));
+
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        opts.config(new DefaultCodegen());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        Map<String, List<CodegenOperation>> result = generator.processPaths(openAPI.getPaths());
+        Assert.assertEquals(result.size(), 1);
+        List<CodegenOperation> defaultList = result.get("Default");
+        Assert.assertEquals(defaultList.size(), 3);
+        Assert.assertEquals(defaultList.get(0).operationId, "queryPets");
+        Assert.assertEquals(defaultList.get(0).httpMethod, "QUERY");
+        Assert.assertEquals(defaultList.get(1).operationId, "purgePets");
+        Assert.assertEquals(defaultList.get(1).httpMethod, "PURGE");
+        // additionalOperations keys are HTTP method names and must be sent verbatim
+        Assert.assertEquals(defaultList.get(2).operationId, "customPets");
+        Assert.assertEquals(defaultList.get(2).httpMethod, "customMethod");
+    }
+
+    @Test
+    public void testProcessWebhooksQueryAndAdditionalOperations() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Operation queryOp = new Operation().operationId("queryHook")
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
+        Operation customOp = new Operation().operationId("customHook")
+                .responses(new ApiResponses().addApiResponse("204", new ApiResponse().description("done")));
+        PathItem webhook = new PathItem().query(queryOp).addAdditionalOperation("RETRY", customOp);
+
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        opts.config(new DefaultCodegen());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        Map<String, List<CodegenOperation>> result =
+                generator.processWebhooks(Collections.singletonMap("hook", webhook));
+        List<CodegenOperation> ops = result.get("Default");
+        Assert.assertEquals(ops.size(), 2);
+        Assert.assertEquals(ops.get(0).operationId, "queryHook");
+        Assert.assertEquals(ops.get(0).httpMethod, "QUERY");
+        Assert.assertEquals(ops.get(1).operationId, "customHook");
+        Assert.assertEquals(ops.get(1).httpMethod, "RETRY");
+    }
+
+    @Test
     public void testRefModelValidationProperties() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/refAliasedPrimitiveWithValidation.yml");
         ClientOptInput opts = new ClientOptInput();

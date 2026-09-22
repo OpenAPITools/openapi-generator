@@ -2557,6 +2557,44 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void queryStringParameterSetsFlagAndLandsInQueryParams() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_2/query-operation.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation queryOp = openAPI.getPaths().get("/pets").getQuery();
+        assertNotNull(queryOp, "3.2 query operation should be bound by the parser");
+        CodegenOperation co = codegen.fromOperation("/pets", "query", queryOp, null);
+
+        assertEquals(co.queryParams.size(), 1);
+        CodegenParameter p = co.queryParams.get(0);
+        assertTrue(p.isQueryStringParam, "in: querystring parameter must set isQueryStringParam");
+        assertFalse(p.isQueryParam);
+        assertEquals(co.allParams.size(), 1);
+    }
+
+    @Test
+    public void queryStringParameterWithObjectContentBecomesString() {
+        // `in: querystring` describes the whole query string via `content`.
+        // Even when the content schema is an object/model, the codegen parameter
+        // must be a plain String (caller supplies the encoded query string), so
+        // no typed model is pulled into the operation signature.
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_2/querystring-object.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation getOp = openAPI.getPaths().get("/pets").getGet();
+        CodegenOperation co = codegen.fromOperation("/pets", "get", getOp, null);
+
+        assertEquals(co.queryParams.size(), 1);
+        CodegenParameter p = co.queryParams.get(0);
+        assertTrue(p.isQueryStringParam);
+        assertEquals(p.dataType, "String");
+        assertFalse(p.isModel);
+        assertFalse(p.isMap);
+    }
+
+    @Test
     public void objectQueryParamIdentifyAsObject() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/objectQueryParam.yaml");
         new InlineModelResolver().flatten(openAPI);

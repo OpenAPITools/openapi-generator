@@ -874,6 +874,40 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
     }
 
+    @Test
+    public void testFilterWithMethodCoversQueryAndAdditionalOperations() {
+        // OpenAPI 3.2: `query` and arbitrary `additionalOperations` entries must be
+        // covered by `method:` filtering like the fixed methods
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        PathItem pathItem = new PathItem()
+                .get(new Operation().operationId("getPets"))
+                .query(new Operation().operationId("queryPets"))
+                .addAdditionalOperation("PURGE", new Operation().operationId("purgePets"));
+        openAPI.path("/pets", pathItem);
+
+        Map<String, String> options = Map.of("FILTER", "method:get");
+        new OpenAPINormalizer(openAPI, options).normalize();
+
+        assertEquals(pathItem.getGet().getExtensions().get(X_INTERNAL), false);
+        assertEquals(pathItem.getQuery().getExtensions().get(X_INTERNAL), true);
+        assertEquals(pathItem.getAdditionalOperations().get("PURGE").getExtensions().get(X_INTERNAL), true);
+
+        // filtering by the additional method name must keep that operation
+        OpenAPI openAPI2 = TestUtils.createOpenAPI();
+        PathItem pathItem2 = new PathItem()
+                .get(new Operation().operationId("getPets"))
+                .query(new Operation().operationId("queryPets"))
+                .addAdditionalOperation("PURGE", new Operation().operationId("purgePets"));
+        openAPI2.path("/pets", pathItem2);
+
+        Map<String, String> options2 = Map.of("FILTER", "method:query|purge");
+        new OpenAPINormalizer(openAPI2, options2).normalize();
+
+        assertEquals(pathItem2.getGet().getExtensions().get(X_INTERNAL), true);
+        assertEquals(pathItem2.getQuery().getExtensions().get(X_INTERNAL), false);
+        assertEquals(pathItem2.getAdditionalOperations().get("PURGE").getExtensions().get(X_INTERNAL), false);
+    }
+
     static OpenAPINormalizer.Filter parseOperationsFilter(String filters) {
         OpenAPINormalizer.Filter filter = new OpenAPINormalizer.Filter(filters);
         filter.parse();

@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
@@ -239,22 +238,22 @@ public class InlineModelResolver {
     private void flattenPathItems(Map<String, PathItem> pathItemMap) {
         for (Map.Entry<String, PathItem> pathsEntry : pathItemMap.entrySet()) {
             PathItem path = pathsEntry.getValue();
-            List<Map.Entry<HttpMethod, Operation>> toFlatten = new ArrayList<>(path.readOperationsMap().entrySet());
+            List<Map.Entry<String, Operation>> toFlatten = new ArrayList<>();
+            addOperationEntries(toFlatten, path);
 
             // use path name (e.g. /foo/bar) and HTTP verb to come up with a name
             // in case operationId is not defined later in other methods
             String pathname = pathsEntry.getKey();
 
             // Include callback operation as well
-            for (Map.Entry<HttpMethod, Operation> operationEntry : new LinkedHashMap<>(path.readOperationsMap()).entrySet()) {
-                Operation operation = operationEntry.getValue();
+            // (readOperations() also covers query and arbitrary additionalOperations)
+            for (Operation operation : path.readOperations()) {
                 Map<String, Callback> callbacks = operation.getCallbacks();
                 if (callbacks != null) {
                     for (Map.Entry<String, Callback> callbackEntry : callbacks.entrySet()) {
                         Callback callback = callbackEntry.getValue();
                         for (Map.Entry<String, PathItem> pathItemEntry : callback.entrySet()) {
-                            PathItem pathItem = pathItemEntry.getValue();
-                            toFlatten.addAll(pathItem.readOperationsMap().entrySet());
+                            addOperationEntries(toFlatten, pathItemEntry.getValue());
                         }
                     }
                 }
@@ -264,7 +263,7 @@ public class InlineModelResolver {
             flattenParameters(pathname, path.getParameters(), null);
 
             // flatten parameters for each operation
-            for (Map.Entry<HttpMethod, Operation> operationEntry : toFlatten) {
+            for (Map.Entry<String, Operation> operationEntry : toFlatten) {
                 Operation operation = operationEntry.getValue();
                 String inlineSchemaName = this.getInlineSchemaName(operationEntry.getKey(), pathname);
                 flattenRequestBody(inlineSchemaName, operation);
@@ -274,28 +273,19 @@ public class InlineModelResolver {
         }
     }
 
-    private String getInlineSchemaName(HttpMethod httpVerb, String pathname) {
+    private void addOperationEntries(List<Map.Entry<String, Operation>> entries, PathItem pathItem) {
+        pathItem.readOperationsMap().forEach((method, operation) ->
+                entries.add(new AbstractMap.SimpleEntry<>(method.toString().toLowerCase(Locale.ROOT), operation)));
+        if (pathItem.getAdditionalOperations() != null) {
+            pathItem.getAdditionalOperations().forEach((method, operation) ->
+                    entries.add(new AbstractMap.SimpleEntry<>(method, operation)));
+        }
+    }
+
+    private String getInlineSchemaName(String httpVerb, String pathname) {
         String name = pathname;
-        if (httpVerb.equals(HttpMethod.DELETE)) {
-            name += "_delete";
-        } else if (httpVerb.equals(HttpMethod.GET)) {
-            name += "_get";
-        } else if (httpVerb.equals(HttpMethod.HEAD)) {
-            name += "_head";
-        } else if (httpVerb.equals(HttpMethod.OPTIONS)) {
-            name += "_options";
-        } else if (httpVerb.equals(HttpMethod.PATCH)) {
-            name += "_patch";
-        } else if (httpVerb.equals(HttpMethod.POST)) {
-            name += "_post";
-        } else if (httpVerb.equals(HttpMethod.PUT)) {
-            name += "_put";
-        } else if (httpVerb.equals(HttpMethod.TRACE)) {
-            name += "_trace";
-        } else {
-            // no HTTP verb defined?
-            // throw new RuntimeException("No HTTP verb found/detected in the inline model
-            // resolver");
+        if (StringUtils.isNotBlank(httpVerb)) {
+            name += "_" + httpVerb.toLowerCase(Locale.ROOT);
         }
         return name;
     }

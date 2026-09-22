@@ -1497,6 +1497,11 @@ public class DefaultGenerator implements Generator {
             processOperation(resourcePath, "patch", path.getPatch(), ops, path);
             processOperation(resourcePath, "options", path.getOptions(), ops, path);
             processOperation(resourcePath, "trace", path.getTrace(), ops, path);
+            processOperation(resourcePath, "query", path.getQuery(), ops, path);
+            if (path.getAdditionalOperations() != null) {
+                path.getAdditionalOperations().forEach((method, operation) ->
+                        processOperation(resourcePath, method, method, operation, ops, path));
+            }
         }
         return ops;
     }
@@ -1518,11 +1523,20 @@ public class DefaultGenerator implements Generator {
             processOperation(resourceKey, "patch", path.getPatch(), ops, path);
             processOperation(resourceKey, "options", path.getOptions(), ops, path);
             processOperation(resourceKey, "trace", path.getTrace(), ops, path);
+            processOperation(resourceKey, "query", path.getQuery(), ops, path);
+            if (path.getAdditionalOperations() != null) {
+                path.getAdditionalOperations().forEach((method, operation) ->
+                        processOperation(resourceKey, method, method, operation, ops, path));
+            }
         }
         return ops;
     }
 
     private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
+        processOperation(resourcePath, httpMethod, null, operation, operations, path);
+    }
+
+    private void processOperation(String resourcePath, String httpMethod, String wireHttpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
         if (operation == null) {
             return;
         }
@@ -1533,7 +1547,7 @@ public class DefaultGenerator implements Generator {
         List<Operation> contentTypeVariants = config.divideOperationsByContentType(openAPI, resourcePath, httpMethod, operation);
         if (contentTypeVariants.size() > 1) {
             for (Operation variant : contentTypeVariants) {
-                processOperation(resourcePath, httpMethod, variant, operations, path);
+                processOperation(resourcePath, httpMethod, wireHttpMethod, variant, operations, path);
             }
             return;
         }
@@ -1604,6 +1618,11 @@ public class DefaultGenerator implements Generator {
                             httpMethod, resourcePath, operation.getOperationId());
                 } else {
                     CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
+                    if (wireHttpMethod != null) {
+                        // OpenAPI 3.2 additionalOperations: the map key is the HTTP method
+                        // name and must be sent verbatim instead of upper-cased
+                        codegenOperation.httpMethod = wireHttpMethod;
+                    }
                     codegenOperation.tags = new ArrayList<>(tags);
                     config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
 
