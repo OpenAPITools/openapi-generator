@@ -2037,23 +2037,27 @@ public class JavaClientCodegenTest {
                 .content()
                 .contains("private Map<String, Object> additionalProperties;")
                 .doesNotContain("private transient Map<String, Object> additionalProperties;");
-        // the inherited field stays visible to reflection, so the delegate adapter binds a
-        // literal `additionalProperties` key into it; the bag is cleared before the extras
-        // loop re-collects that key from the raw JSON, or it would be stored twice
+        // the inherited field stays visible to reflection, so the delegate adapter would try to
+        // bind a literal `additionalProperties` key into it (and throw on a primitive or array);
+        // the key is hidden from the delegate on a copy, and the extras loop collects it from
+        // the raw JSON like every other undeclared key
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
                 .content()
                 .contains("public class Child extends Person {")
                 .contains("public Child putAdditionalProperty(String key, Object value) {")
-                .contains("Child instance = thisAdapter.fromJsonTree(jsonObj);")
-                .contains("if (instance.getAdditionalProperties() != null) {")
-                .contains("instance.getAdditionalProperties().clear();")
+                .contains("JsonObject delegateObj = jsonObj;")
+                .contains("delegateObj = jsonObj.deepCopy();")
+                .contains("delegateObj.remove(\"additionalProperties\");")
+                .contains("Child instance = thisAdapter.fromJsonTree(delegateObj);")
+                .doesNotContain("getAdditionalProperties().clear();")
                 .doesNotContain("Map<String, Object> additionalProperties;");
         // a model that declares the bag itself keeps it transient, so the delegate binds
-        // nothing into it and there is nothing to clear
+        // nothing into it and there is nothing to hide
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/PersonA.java"))
                 .content()
                 .contains("private transient Map<String, Object> additionalProperties;")
                 .contains("PersonA instance = thisAdapter.fromJsonTree(jsonObj);")
+                .doesNotContain("delegateObj")
                 .doesNotContain("getAdditionalProperties().clear();");
     }
 
@@ -2073,8 +2077,9 @@ public class JavaClientCodegenTest {
                 .content()
                 .contains("public class Leaf extends Middle {")
                 .contains("public Leaf putAdditionalProperty(String key, Object value) {")
-                .contains("Leaf instance = thisAdapter.fromJsonTree(jsonObj);")
-                .contains("instance.getAdditionalProperties().clear();")
+                .contains("delegateObj.remove(\"additionalProperties\");")
+                .contains("Leaf instance = thisAdapter.fromJsonTree(delegateObj);")
+                .doesNotContain("getAdditionalProperties().clear();")
                 .doesNotContain("Map<String, Object> additionalProperties;");
     }
 

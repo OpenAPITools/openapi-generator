@@ -211,14 +211,16 @@ public class Dog extends Animal {
              JsonElement jsonElement = elementAdapter.read(in);
              validateJsonElement(jsonElement);
              JsonObject jsonObj = jsonElement.getAsJsonObject();
-             // store additional fields in the deserialized instance
-             Dog instance = thisAdapter.fromJsonTree(jsonObj);
-             // the inherited bag is visible to reflection, so the delegate above bound a
-             // literal `additionalProperties` key into it; drop that and let the loop below
-             // collect every undeclared key from the raw JSON, this one included
-             if (instance.getAdditionalProperties() != null) {
-               instance.getAdditionalProperties().clear();
+             // the inherited bag is visible to reflection, so hide a literal `additionalProperties`
+             // key from the delegate (it would try to bind any JSON type into the Map); the loop
+             // below still collects it from the raw JSON, like every other undeclared key
+             JsonObject delegateObj = jsonObj;
+             if (jsonObj.has("additionalProperties")) {
+               delegateObj = jsonObj.deepCopy();
+               delegateObj.remove("additionalProperties");
              }
+             // store additional fields in the deserialized instance
+             Dog instance = thisAdapter.fromJsonTree(delegateObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
                if (!openapiFields.contains(entry.getKey())) {
                  if (entry.getValue().isJsonPrimitive()) { // primitive type
