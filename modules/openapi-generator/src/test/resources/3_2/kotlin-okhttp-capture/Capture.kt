@@ -23,8 +23,11 @@ fun handle(s: Socket) {
             if (h.isEmpty()) break
             if (h.lowercase().startsWith("content-length:")) contentLength = h.substring(15).trim().toInt()
         }
-        repeat(contentLength) { reader.read() }
-        captured.add("$requestLine [Content-Length=$contentLength]")
+        val bodyChars = CharArray(contentLength)
+        var read = 0
+        while (read < contentLength) read += reader.read(bodyChars, read, contentLength - read)
+        captured.add("$requestLine [Content-Length=$contentLength]" +
+            if (contentLength > 0) " BODY=${String(bodyChars)}" else "")
         val out = it.getOutputStream()
         out.write("HTTP/1.1 204 No Content\r\nContent-Length: 0\r\nConnection: close\r\n\r\n".toByteArray(Charsets.ISO_8859_1))
         out.flush()
@@ -60,6 +63,18 @@ fun main() {
     run("X#Y hashPets") { api.hashPetsWithHttpInfo() }
     run("A|B pipePets") { api.pipePetsWithHttpInfo() }
     run("A\$B dollarPets") { api.dollarPetsWithHttpInfo() }
+    // querystring param named `uri`; QUERY carries a JSON body
+    run("QUERY searchItems(uri, body)") {
+        api.searchItemsWithHttpInfo("k=v", mapOf("a" to 1))
+    }
+    // REPORT must carry a body on OkHttp 5 even when the op has none; the
+    // querystring param is named `localVariableQuery` -> renamed param
+    run("REPORT reportItems(localVariableQuery)") { api.reportItemsWithHttpInfo("r=1") }
+    run("PROPPATCH propPatch(body)") { api.propPatchWithHttpInfo("<x/>") }
+    // params named like template-internal locals are renamed; wire names stay
+    run("GET collidePets(collision params)") {
+        api.collidePetsWithHttpInfo("a", "b", "c")
+    }
 
     val expected = listOf(
         "GET /pets HTTP/1.1 [Content-Length=0]",
@@ -69,7 +84,11 @@ fun main() {
         "CHECK&FETCH /pets HTTP/1.1 [Content-Length=0]",
         "X#Y /pets HTTP/1.1 [Content-Length=0]",
         "A|B /pets HTTP/1.1 [Content-Length=0]",
-        "A\$B /pets HTTP/1.1 [Content-Length=0]"
+        "A\$B /pets HTTP/1.1 [Content-Length=0]",
+        "QUERY /items?k=v HTTP/1.1 [Content-Length=7] BODY={\"a\":1}",
+        "REPORT /report?r=1 HTTP/1.1 [Content-Length=0]",
+        "PROPPATCH /report HTTP/1.1 [Content-Length=6] BODY=\"<x/>\"",
+        "GET /collide?localVariableQuery=a&localVariableHeaders=b&localVariableBody=c HTTP/1.1 [Content-Length=0]"
     )
     if (captured.toList() == expected) {
         println("CAPTURE-PASS")

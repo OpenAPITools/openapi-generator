@@ -124,3 +124,28 @@ paths:
         responses:
           '207':
             description: multi
+  /collide:
+    # query params whose names collide with kotlin template-internal locals
+    # (localVariableBody/localVariableQuery/localVariableHeaders); the kotlin
+    # generator renames the parameters, the wire names stay unchanged
+    get:
+      operationId: collidePets
+      parameters:
+        - name: localVariableQuery
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: localVariableHeaders
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: localVariableBody
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok

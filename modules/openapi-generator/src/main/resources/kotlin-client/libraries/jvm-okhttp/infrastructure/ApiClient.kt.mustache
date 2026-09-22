@@ -84,6 +84,13 @@ import com.squareup.moshi.adapter
         )
         protected const val Authorization: String = AUTHORIZATION
 
+        {{#x-kotlin-verbatim-methods}}
+        // OpenAPI 3.2: OkHttp 5 rejects a null body for these methods
+        // (its requiresRequestBody set), so they always carry a possibly-empty body
+        @PublishedApi
+        internal val REQUIRES_REQUEST_BODY_METHODS = setOf("QUERY", "REPORT", "PROPPATCH")
+
+        {{/x-kotlin-verbatim-methods}}
         protected const val JSON_MEDIA_TYPE: String = "application/json"
         @Deprecated(
           message = "Please use the capitalized constant `JSON_MEDIA_TYPE` instead.",
@@ -549,9 +556,9 @@ import com.squareup.moshi.adapter
                 builder
             } else {
                 // OpenAPI 3.2 query/additionalOperations: Request.Builder.method() sends the
-                // token verbatim. OkHttp >= 5 rejects a body-less QUERY, so QUERY always
-                // carries a (possibly empty) body.
-                val customBody = if (requestConfig.body != null || requestConfig.customMethod == "QUERY") {
+                // token verbatim. OkHttp >= 5 rejects a body-less QUERY/REPORT/PROPPATCH,
+                // so methods in its requiresRequestBody set always carry a (possibly empty) body.
+                val customBody = if (requestConfig.body != null || requestConfig.customMethod in REQUIRES_REQUEST_BODY_METHODS) {
                     requestBody(requestConfig.body, contentType)
                 } else {
                     null

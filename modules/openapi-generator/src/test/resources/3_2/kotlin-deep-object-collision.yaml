@@ -1,0 +1,25 @@
+openapi: 3.2.0
+info:
+  title: kotlin deepObject param-name collision test
+  version: '1.0'
+paths:
+  /collide:
+    # a deepObject query param whose name collides with the kotlin
+    # template-internal local `localVariableBody`: the parameter is renamed,
+    # but the `name[prop]` wire prefix must stay the spec baseName
+    get:
+      operationId: collidePets
+      parameters:
+        - name: localVariableBody
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            properties:
+              foo:
+                type: string
+      responses:
+        '200':
+          description: ok

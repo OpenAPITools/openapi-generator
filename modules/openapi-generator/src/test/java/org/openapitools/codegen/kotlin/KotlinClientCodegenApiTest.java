@@ -308,7 +308,7 @@ public class KotlinClientCodegenApiTest {
             String api = new String(Files.readAllBytes(
                     target.resolve("src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt")), StandardCharsets.UTF_8);
             // non-standard methods are emitted verbatim via customMethod; there is no RequestMethod.QUERY
-            for (String method : new String[]{"QUERY", "PURGE", "customMethod", "CHECK&FETCH", "X#Y", "A|B"}) {
+            for (String method : new String[]{"QUERY", "PURGE", "customMethod", "CHECK&FETCH", "X#Y", "A|B", "REPORT", "PROPPATCH"}) {
                 Assert.assertTrue(api.contains("customMethod = \"" + method + "\""),
                         "expected verbatim customMethod literal for " + method);
             }
@@ -322,6 +322,13 @@ public class KotlinClientCodegenApiTest {
                     "querystring param should be passed verbatim");
             Assert.assertFalse(api.contains("put(\"qs\""),
                     "querystring param must not be serialized as a name=value pair");
+            // params named like template-internal locals are renamed, wire names stay
+            Assert.assertTrue(api.contains("fun collidePetsRequestConfig(paramLocalVariableQuery"),
+                    "colliding param names must be renamed");
+            Assert.assertTrue(api.contains("put(\"localVariableQuery\", listOf(paramLocalVariableQuery.toString()))"),
+                    "renamed param must keep its wire name");
+            Assert.assertTrue(api.contains("encodedQueryString = listOfNotNull(paramLocalVariableQuery).joinToString"),
+                    "renamed querystring param must still be wired verbatim");
 
             String requestConfig = new String(Files.readAllBytes(
                     target.resolve("src/main/kotlin/org/openapitools/client/infrastructure/RequestConfig.kt")), StandardCharsets.UTF_8);
@@ -336,9 +343,34 @@ public class KotlinClientCodegenApiTest {
                     "ApiClient should dispatch verbatim methods");
             Assert.assertTrue(apiClient.contains("encodedQuery("),
                     "ApiClient should append the querystring verbatim");
+            // OkHttp 5 rejects a null body for QUERY/REPORT/PROPPATCH, not just QUERY
+            Assert.assertTrue(apiClient.contains("requestConfig.customMethod in REQUIRES_REQUEST_BODY_METHODS"),
+                    "body-required methods must be handled as a set, not just QUERY");
 
             String docs = new String(Files.readAllBytes(target.resolve("docs/DefaultApi.md")), StandardCharsets.UTF_8);
             Assert.assertTrue(docs.contains("**A\\|B**"), "doc table should escape |");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    @Test
+    void testJvmOkhttp4DeepObjectCollisionKeepsSpecWireName() throws IOException {
+        Path target = Files.createTempDirectory("kotlin32-deepobj");
+        try {
+            generate("jvm-okhttp4", "src/test/resources/3_2/kotlin-deep-object-collision.yaml", target);
+            String api = new String(Files.readAllBytes(
+                    target.resolve("src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt")), StandardCharsets.UTF_8);
+            // the kotlin parameter is renamed to avoid the localVariableBody local,
+            // but the `name[prop]` wire prefix must stay the spec baseName
+            Assert.assertTrue(api.contains("paramLocalVariableBody:"),
+                    "colliding param name must be renamed");
+            Assert.assertTrue(api.contains("put(\"localVariableBody[foo]\""),
+                    "deepObject wire prefix must use the spec baseName, not the renamed param");
+            Assert.assertFalse(api.contains("put(\"paramLocalVariableBody[foo]\""),
+                    "deepObject wire prefix must not leak the renamed param");
+            Assert.assertFalse(api.contains("put(\"foo[foo]\""),
+                    "deepObject wire prefix must not collapse to the property name");
         } finally {
             deleteRecursively(target);
         }
@@ -352,7 +384,7 @@ public class KotlinClientCodegenApiTest {
             String api = new String(Files.readAllBytes(
                     target.resolve("src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt")), StandardCharsets.UTF_8);
             Assert.assertTrue(api.contains("listPets"), "GET operation should be kept");
-            for (String op : new String[]{"queryPets", "purgePets", "customPets", "checkFetchPets", "hashPets", "pipePets", "dollarPets"}) {
+            for (String op : new String[]{"queryPets", "purgePets", "customPets", "checkFetchPets", "hashPets", "pipePets", "dollarPets", "reportItems", "propPatch", "searchItems"}) {
                 Assert.assertFalse(api.contains(op + "RequestConfig"),
                         "jvm-ktor must skip unsupported 3.2 operation " + op);
             }
