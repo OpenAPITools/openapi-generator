@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.QueryParameter;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.utils.ModelUtils;
 
@@ -305,7 +306,9 @@ public class SpringPageableScanUtils {
             return false;
         }
         Set<String> paramNames = operation.getParameters().stream()
-                .map(parameter -> resolveParameter(openAPI, parameter).getName())
+                .map(parameter -> resolveParameter(openAPI, parameter))
+                .filter(parameter -> parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn()))
+                .map(Parameter::getName)
                 .collect(Collectors.toSet());
         return paramNames.containsAll(autoPaginationMode.getRequiredParams());
     }

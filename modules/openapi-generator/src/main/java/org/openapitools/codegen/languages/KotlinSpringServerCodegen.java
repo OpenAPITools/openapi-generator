@@ -178,6 +178,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean useResponseEntity = true;
     @Getter private String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
     @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
+    // Guards against flooding the log when setAutoXSpringPaginated(String) is invoked more than
+    // once (e.g. once for the CLI default and once for the user-supplied value) with the same
+    // deprecated legacy alias.
+    private boolean autoXSpringPaginatedDeprecationWarned = false;
 
     /**
      * Configures automatic Spring Pageable detection using a canonical mode or legacy boolean alias.
@@ -185,8 +189,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      * @param autoXSpringPaginated the configured mode
      */
     public void setAutoXSpringPaginated(String autoXSpringPaginated) {
-        autoXSpringPaginatedMode =
-                SpringPageableScanUtils.resolveAutoPaginationMode(autoXSpringPaginated, LOGGER::warn);
+        autoXSpringPaginatedMode = SpringPageableScanUtils.resolveAutoPaginationMode(autoXSpringPaginated, message -> {
+            if (!autoXSpringPaginatedDeprecationWarned) {
+                autoXSpringPaginatedDeprecationWarned = true;
+                LOGGER.warn(message);
+            }
+        });
         this.autoXSpringPaginated = autoXSpringPaginatedMode.getCanonicalValue();
     }
 
