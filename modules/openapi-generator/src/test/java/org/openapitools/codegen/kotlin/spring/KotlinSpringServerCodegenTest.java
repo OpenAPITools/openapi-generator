@@ -5462,7 +5462,9 @@ public class KotlinSpringServerCodegenTest {
             kotlinSpringCodegenLogger.detachAppender(listAppender);
         }
 
+        String testThreadName = Thread.currentThread().getName();
         long deprecationWarnings = listAppender.list.stream()
+                .filter(event -> event.getThreadName().equals(testThreadName))
                 .filter(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
                         && event.getFormattedMessage().contains("deprecated"))
                 .count();
@@ -5486,7 +5488,9 @@ public class KotlinSpringServerCodegenTest {
             kotlinSpringCodegenLogger.detachAppender(listAppender);
         }
 
+        String testThreadName = Thread.currentThread().getName();
         boolean hasDeprecationWarning = listAppender.list.stream()
+                .filter(event -> event.getThreadName().equals(testThreadName))
                 .anyMatch(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
                         && event.getFormattedMessage().contains("deprecated"));
         assertThat(hasDeprecationWarning).isFalse();
@@ -5513,7 +5517,9 @@ public class KotlinSpringServerCodegenTest {
             kotlinSpringCodegenLogger.detachAppender(listAppender);
         }
 
+        String testThreadName = Thread.currentThread().getName();
         long deprecationWarnings = listAppender.list.stream()
+                .filter(event -> event.getThreadName().equals(testThreadName))
                 .filter(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
                         && event.getFormattedMessage().contains("deprecated"))
                 .count();
