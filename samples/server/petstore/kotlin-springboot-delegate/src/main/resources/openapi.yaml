@@ -806,8 +806,6 @@ components:
           description: file to upload
           format: binary
           type: string
-          x-extra-imports: org.springframework.lang.NonNull
-          x-field-extra-annotation: '@NonNull'
       type: object
   securitySchemes:
     petstore_auth:

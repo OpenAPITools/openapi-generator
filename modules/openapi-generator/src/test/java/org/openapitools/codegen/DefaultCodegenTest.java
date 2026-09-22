@@ -300,6 +300,51 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testInjectOperationVendorExtensionsSupportsDottedParameterBaseName() {
+        // A parameter whose spec-authored name contains a dot must still be matched correctly:
+        // the key/operationId boundary must be resolved by the last ".x-" occurrence, not the
+        // first dot after the operationId, otherwise a dotted baseName gets mis-split.
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(new OpenAPI().components(new Components()));
+        codegen.injectOperationVendorExtensions().put("dottedParamOp.org.id.x-field-extra-annotation", List.of("@com.example.ValidOrgId"));
+
+        Operation operation = new Operation()
+                .operationId("dottedParamOp")
+                .addParametersItem(new io.swagger.v3.oas.models.parameters.QueryParameter()
+                        .name("org.id")
+                        .required(true)
+                        .schema(new StringSchema()))
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("ok")));
+
+        CodegenOperation co = codegen.fromOperation("/dotted", "get", operation, null);
+
+        assertEquals(1, co.allParams.size());
+        assertEquals("org.id", co.allParams.get(0).baseName);
+        assertEquals(List.of("@com.example.ValidOrgId"), co.allParams.get(0).vendorExtensions.get("x-field-extra-annotation"));
+    }
+
+    @Test
+    public void testInjectModelVendorExtensionsSupportsDottedPropertyBaseName() {
+        // A property whose spec-authored name contains a dot must still be matched correctly:
+        // the key/model-name boundary must be resolved by the last ".x-" occurrence, not the
+        // first dot after the model name, otherwise a dotted property baseName gets mis-split.
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.injectModelVendorExtensions().put("Pet.org.id.x-field-extra-annotation", List.of("@com.example.ValidOrgId"));
+
+        CodegenModel model = new CodegenModel();
+        model.name = "Pet";
+        CodegenProperty property = new CodegenProperty();
+        property.baseName = "org.id";
+        model.vars = new ArrayList<>(List.of(property));
+        model.allVars = model.vars;
+
+        Map<String, ModelsMap> objs = Map.of("Pet", TestUtils.createCodegenModelWrapper(model));
+        codegen.postProcessAllModels(objs);
+
+        assertEquals(List.of("@com.example.ValidOrgId"), property.vendorExtensions.get("x-field-extra-annotation"));
+    }
+
+    @Test
     public void testFromOperationPreservesFromParameterVirtualDispatch() {
         // Simulates generators (e.g. Dart, TypeScript Fetch) that override the public
         // fromParameter(Parameter, Set<String>) and call super.fromParameter(...) internally.

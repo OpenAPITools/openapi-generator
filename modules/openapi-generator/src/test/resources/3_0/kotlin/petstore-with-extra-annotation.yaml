@@ -297,8 +297,6 @@ paths:
                   description: file to upload
                   type: string
                   format: binary
-                  x-extra-imports: org.springframework.lang.NonNull
-                  x-field-extra-annotation: "@NonNull"
   /store/inventory:
     get:
       tags:

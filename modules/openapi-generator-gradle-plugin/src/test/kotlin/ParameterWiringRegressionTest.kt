@@ -258,9 +258,12 @@ class ParameterWiringRegressionTest : TestBase() {
         assertTrue(allJavaSources.isNotEmpty(), "No Java source files were generated")
 
         val allSourceText = allJavaSources.joinToString("\n") { it.readText() }
-        assertTrue(
-            allSourceText.contains("@Deprecated"),
-            "Expected injected operation annotation '@Deprecated' not found in generated sources — injectOperationVendorExtensions may not be wired"
+        val occurrences = Regex("@Deprecated").findAll(allSourceText).count()
+        assertEquals(
+            1, occurrences,
+            "Expected injected operation annotation '@Deprecated' to appear exactly once (only on the " +
+                "listPets operation) — found $occurrences occurrences. injectOperationVendorExtensions " +
+                "may not be selective to the targeted operation."
         )
     }
 }

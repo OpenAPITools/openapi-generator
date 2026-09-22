@@ -573,20 +573,17 @@ public class DefaultCodegen implements CodegenConfig {
                 if (model == null) continue;
 
                 for (Map.Entry<String, List<String>> extEntry : injectModelVendorExtensions.entrySet()) {
-                    String[] parts = extEntry.getKey().split("\\.", 3);
-                    if (parts.length < 2) continue;
-                    String modelName = parts[0];
+                    String[] parts = getInjectedVendorExtensionParts(entry.getKey(), extEntry.getKey());
+                    if (parts == null) continue;
                     List<String> extensionValues = extEntry.getValue();
 
-                    if (!modelName.equals(entry.getKey())) continue;
-
-                    if (parts.length == 2) {
+                    if (parts.length == 1) {
                         // class-level extension: ModelName.x-extension-name
-                        model.vendorExtensions.put(parts[1], extensionValues);
+                        model.vendorExtensions.put(parts[0], extensionValues);
                     } else {
                         // property-level extension: ModelName.propertyBaseName.x-extension-name
-                        String propertyBaseName = parts[1];
-                        String extensionName = parts[2];
+                        String propertyBaseName = parts[0];
+                        String extensionName = parts[1];
                         List<List<CodegenProperty>> allPropertyLists = Arrays.asList(
                                 model.vars, model.allVars, model.readWriteVars, model.requiredVars,
                                 model.optionalVars, model.parentVars, model.readOnlyVars, model.nonNullableVars);
@@ -5353,26 +5350,33 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Parses an injection key after confirming it targets the matched operationId. The known
-     * operationId prefix is removed first so literal dots inside the operationId do not break
-     * matching. The remainder is split at most once, yielding either
-     * {@code [x-extension-name]} for operation-level injection or
-     * {@code [paramBaseName, x-extension-name]} for parameter-level injection.
+     * Parses an injection key after confirming it targets the matched prefix (an operationId or a
+     * model name). The known prefix is removed first so literal dots inside it do not break
+     * matching. The remainder is then split at the last {@code .x-} boundary — since vendor
+     * extension names always start with {@code x-}, this keeps a dotted parameter/property base
+     * name intact even when it contains dots itself. Returns either a single-element array
+     * {@code [x-extension-name]} for prefix-level injection (operation- or model-level), or a
+     * two-element array {@code [baseName, x-extension-name]} for parameter- or property-level
+     * injection.
      *
-     * @param matchOperationId the operationId segment to match
+     * @param matchPrefix the operationId or model name segment to match
      * @param injectionKey the configured injection key
-     * @return parsed parts after the operationId prefix, or {@code null} when the key does not match
+     * @return parsed parts after the prefix, or {@code null} when the key does not match
      */
-    private String[] getInjectedVendorExtensionParts(String matchOperationId, String injectionKey) {
-        String operationPrefix = matchOperationId + ".";
-        if (!injectionKey.startsWith(operationPrefix)) {
+    private String[] getInjectedVendorExtensionParts(String matchPrefix, String injectionKey) {
+        String prefix = matchPrefix + ".";
+        if (!injectionKey.startsWith(prefix)) {
             return null;
         }
-        String remainder = injectionKey.substring(operationPrefix.length());
+        String remainder = injectionKey.substring(prefix.length());
         if (remainder.isEmpty()) {
             return null;
         }
-        return remainder.split("\\.", 2);
+        int splitIndex = remainder.lastIndexOf(".x-");
+        if (splitIndex < 0) {
+            return new String[]{remainder};
+        }
+        return new String[]{remainder.substring(0, splitIndex), remainder.substring(splitIndex + 1)};
     }
 
     /**
