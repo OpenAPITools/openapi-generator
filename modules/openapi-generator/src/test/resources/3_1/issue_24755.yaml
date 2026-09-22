@@ -1,0 +1,41 @@
+openapi: 3.1.0
+info:
+  title: Example API
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Fluffy'
+          examples:
+            - 'Fluffy'
+            - 'Rex'
+        age:
+          type: integer
+          examples:
+            - 3
+        height:
+          type: integer
+          examples: []
+        tags:
+          type: array
+          items:
+            type: string
+          examples:
+            - ['a', 'b']
