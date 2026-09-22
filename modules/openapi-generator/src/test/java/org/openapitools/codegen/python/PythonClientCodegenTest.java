@@ -1533,4 +1533,84 @@ public class PythonClientCodegenTest {
                 "def close(self) -> None:");
         TestUtils.assertFileNotContains(rest, "def close(self) -> None:");
     }
+
+    @Test(description = "OpenAPI 3.2 query/additionalOperations and in:querystring generate working Python code")
+    public void testOpenAPI32QueryAndAdditionalOperations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiFile = Paths.get(output + "/openapi_client/api/default_api.py");
+        // non-standard methods are emitted as unescaped double-quoted literals;
+        // '...' single-quoted escaping would corrupt CHECK&FETCH to &amp;
+        assertFileContains(apiFile,
+                "method=\"QUERY\"",
+                "method=\"PURGE\"",
+                // additionalOperations keys are sent verbatim - no case folding
+                "method=\"customMethod\"",
+                // valid HTTP token punctuation must not be HTML-escaped
+                "method=\"CHECK&FETCH\"");
+        TestUtils.assertFileNotContains(apiFile, "&amp;");
+        // in:querystring appends the raw, already-encoded value to the path
+        assertFileContains(apiFile,
+                "_resource_path += ('&' if '?' in _resource_path else '?') + qs");
+
+        Path restFile = Paths.get(output + "/openapi_client/rest.py");
+        // urllib3's request() uppercases method; non-standard methods must be
+        // dispatched through the encode helpers to keep verbatim casing
+        assertFileContains(restFile, "_pool_request", "request_encode_body");
+    }
+
+    @Test(description = "OpenAPI 3.2 query/additionalOperations in webhooks also emit verbatim method literals")
+    public void testOpenAPI32WebhookOperations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_2/go-webhook-operations.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiFile = Paths.get(output + "/openapi_client/api/default_api.py");
+        assertFileContains(apiFile,
+                "method=\"QUERY\"",
+                "method=\"customMethod\"");
+    }
+
+    @Test(description = "non-urllib3 python libraries cannot preserve method casing and must skip 3.2 operations")
+    public void testOpenAPI32UnsupportedLibrarySkips() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setLibrary("asyncio")
+                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // aiohttp uppercases method names internally, so QUERY/customMethod
+        // cannot be sent verbatim - the ops must be omitted, not broken,
+        // while the ordinary GET operation still generates
+        Path apiFile = Paths.get(output + "/openapi_client/api/default_api.py");
+        assertFileContains(apiFile, "def list_pets");
+        TestUtils.assertFileNotContains(apiFile, "query_pets");
+        TestUtils.assertFileNotContains(apiFile, "purge_pets");
+        TestUtils.assertFileNotContains(apiFile, "custom_pets");
+    }
 }

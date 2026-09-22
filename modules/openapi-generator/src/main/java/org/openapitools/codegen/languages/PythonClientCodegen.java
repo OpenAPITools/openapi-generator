@@ -28,6 +28,7 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,6 +44,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
 import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
@@ -589,6 +592,30 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         }
     }
 
+    // HTTP methods emitted in the conventional 'GET' single-quoted style;
+    // OpenAPI 3.2 methods outside this set are emitted as unescaped
+    // double-quoted literals via x-python-http-method-literal so valid token
+    // punctuation (e.g. CHECK&FETCH) is not HTML-escaped by the template engine
+    private static final Set<String> STANDARD_HTTP_METHODS = new HashSet<>(Arrays.asList(
+            "GET", "PUT", "POST", "DELETE", "HEAD", "OPTIONS", "TRACE", "PATCH", "CONNECT"));
+
+    @Override
+    public boolean supportsAdditionalOperations() {
+        // the urllib3 rest client dispatches non-standard methods through
+        // urlopen(), preserving verbatim casing. aiohttp (asyncio library)
+        // and httpx unconditionally call method.upper() in their Request
+        // objects, which would corrupt e.g. 'customMethod' into
+        // 'CUSTOMMETHOD', so 3.2 operations are only enabled for urllib3
+        return "urllib3".equals(getLibrary());
+    }
+
+    @Override
+    protected boolean supportsQueryStringParameters() {
+        // the raw, already-encoded query string is appended to the request
+        // path verbatim by the api template
+        return true;
+    }
+
     @Override
     public OperationsMap postProcessOperationsWithModels(
             OperationsMap objs, List<ModelMap> allModels) {
@@ -596,7 +623,43 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             renameIndependentClientOperationMembers(
                     objs.getOperations().getOperation());
         }
-        return super.postProcessOperationsWithModels(objs, allModels);
+        OperationsMap result = super.postProcessOperationsWithModels(objs, allModels);
+        flagOpenAPI32Operations(result.getOperations().getOperation());
+        return result;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        // webhooks render through api.mustache as well, so their non-standard
+        // methods and querystring parameters need the same flags
+        objs = super.postProcessWebhooksWithModels(objs, allModels);
+        flagOpenAPI32Operations(objs.getWebhooks().getOperation());
+        return objs;
+    }
+
+    // RFC 9110 tchar — additionalOperations keys must match this to be
+    // emitted as a Python string literal
+    private static final Pattern HTTP_TOKEN = Pattern.compile("[!#$%&'*+\\-.^_`|~0-9A-Za-z]+");
+
+    private void flagOpenAPI32Operations(List<CodegenOperation> operations) {
+        for (java.util.Iterator<CodegenOperation> it = operations.iterator(); it.hasNext(); ) {
+            CodegenOperation op = it.next();
+            if (op.httpMethod != null && !STANDARD_HTTP_METHODS.contains(op.httpMethod)) {
+                if (!HTTP_TOKEN.matcher(op.httpMethod).matches()) {
+                    LOGGER.warn("HTTP method '{}' is not a valid RFC 9110 token; skipping operation {}",
+                            op.httpMethod, op.operationId);
+                    it.remove();
+                    continue;
+                }
+                op.vendorExtensions.put("x-python-http-method-literal", true);
+            }
+            for (CodegenParameter cp : op.allParams) {
+                if (cp.isQueryStringParam) {
+                    op.vendorExtensions.put("x-python-has-querystring-param", true);
+                    break;
+                }
+            }
+        }
     }
 
     private void renameIndependentClientOperationMembers(

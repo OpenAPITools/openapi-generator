@@ -179,6 +179,23 @@ class RESTClientObject:
     def close(self) -> None:
         self.pool_manager.clear()
 
+    # urllib3's RequestMethods.request() unconditionally calls method.upper(),
+    # which would corrupt OpenAPI 3.2 method names (e.g. 'customMethod').
+    # Dispatch non-standard methods through the encode helpers directly,
+    # exactly as request() does after its upper() call. Relies on urllib3
+    # 2.x internals (_encode_url_methods); the generated client pins
+    # urllib3 >= 2.7.0, < 3.0.0.
+    _STANDARD_METHODS = frozenset([
+        'GET', 'HEAD', 'DELETE', 'POST', 'PUT', 'PATCH', 'OPTIONS'
+    ])
+
+    def _pool_request(self, method, url, **kwargs):
+        if method.upper() in self._STANDARD_METHODS:
+            return self.pool_manager.request(method, url, **kwargs)
+        if method in self.pool_manager._encode_url_methods:
+            return self.pool_manager.request_encode_url(method, url, **kwargs)
+        return self.pool_manager.request_encode_body(method, url, **kwargs)
+
     def request(
         self,
         method,
@@ -202,8 +219,13 @@ class RESTClientObject:
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
         """
-        method = method.upper()
-        assert method in [
+        # OpenAPI 3.2 allows arbitrary HTTP method names (query operations,
+        # additionalOperations keys). Keep the historic upper()+whitelist for
+        # the standard set; anything else is validated as an HTTP token
+        # (RFC 9110 tchar) and sent verbatim so casing like 'customMethod'
+        # survives
+        _upper_method = method.upper()
+        if _upper_method in [
             'GET',
             'HEAD',
             'DELETE',
@@ -211,7 +233,10 @@ class RESTClientObject:
             'PUT',
             'PATCH',
             'OPTIONS'
-        ]
+        ]:
+            method = _upper_method
+        else:
+            assert re.fullmatch(r"[!#$%&'*+\-.^_`|~0-9A-Za-z]+", method) is not None
 
         if post_params and body:
             raise ApiValueError(
@@ -235,8 +260,9 @@ class RESTClientObject:
                 )
 
         try:
-            # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
-            if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
+            # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE` - or any
+            # OpenAPI 3.2 method that actually carries a body/form data
+            if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE'] or body is not None or post_params:
 
                 content_type = headers.get('Content-Type')
                 is_json = (
@@ -259,7 +285,7 @@ class RESTClientObject:
                     request_body = None
                     if body is not None:
                         request_body = json.dumps(body)
-                    r = self.pool_manager.request(
+                    r = self._pool_request(
                         method,
                         url,
                         body=request_body,
@@ -268,7 +294,7 @@ class RESTClientObject:
                         preload_content=False
                     )
                 elif contenttype_matches(content_type, 'application', 'x-www-form-urlencoded'):
-                    r = self.pool_manager.request(
+                    r = self._pool_request(
                         method,
                         url,
                         fields=post_params,
@@ -284,7 +310,7 @@ class RESTClientObject:
                     del headers['Content-Type']
                     # Ensures that dict objects are serialized
                     post_params = [(a, json.dumps(b)) if isinstance(b, dict) else (a,b) for a, b in post_params]
-                    r = self.pool_manager.request(
+                    r = self._pool_request(
                         method,
                         url,
                         fields=post_params,
@@ -297,7 +323,7 @@ class RESTClientObject:
                 # other content types than JSON when `body` argument is
                 # provided in serialized form.
                 elif isinstance(body, str) or isinstance(body, bytes):
-                    r = self.pool_manager.request(
+                    r = self._pool_request(
                         method,
                         url,
                         body=body,
@@ -307,7 +333,7 @@ class RESTClientObject:
                     )
                 elif content_type.startswith('text/') and isinstance(body, bool):
                     request_body = "true" if body else "false"
-                    r = self.pool_manager.request(
+                    r = self._pool_request(
                         method,
                         url,
                         body=request_body,
@@ -322,7 +348,7 @@ class RESTClientObject:
                     raise ApiException(status=0, reason=msg)
             # For `GET`, `HEAD`
             else:
-                r = self.pool_manager.request(
+                r = self._pool_request(
                     method,
                     url,
                     fields={},

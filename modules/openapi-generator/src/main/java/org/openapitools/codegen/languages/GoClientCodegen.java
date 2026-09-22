@@ -723,11 +723,23 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return verbatimMethods;
     }
 
+    // RFC 9110 tchar — additionalOperations keys must match this to be
+    // emitted as a Go string literal
+    private static final java.util.regex.Pattern HTTP_TOKEN =
+            java.util.regex.Pattern.compile("[!#$%&'*+\\-.^_`|~0-9A-Za-z]+");
+
     private void restoreVerbatimHttpMethods(List<CodegenOperation> operationList,
                                             Map<CodegenOperation, String> verbatimMethods) {
-        for (CodegenOperation operation : operationList) {
+        for (Iterator<CodegenOperation> it = operationList.iterator(); it.hasNext(); ) {
+            CodegenOperation operation = it.next();
             String verbatim = verbatimMethods.get(operation);
             if (verbatim != null) {
+                if (!HTTP_TOKEN.matcher(verbatim).matches()) {
+                    LOGGER.warn("HTTP method '{}' is not a valid RFC 9110 token; skipping operation {}",
+                            verbatim, operation.operationId);
+                    it.remove();
+                    continue;
+                }
                 operation.httpMethod = verbatim;
                 operation.vendorExtensions.put("x-go-http-method-literal", true);
             }
