@@ -235,106 +235,86 @@ class ParameterWiringRegressionTest : TestBase() {
     // reaching the task.)
     // -------------------------------------------------------------------------
 
-    @Test
-    fun `schemaLocation extension property is wired to task as tracked input`() {
+    /**
+     * Verifies that a schema file referenced (directly or indirectly) via the given
+     * [buildContentsFor] DSL snippet is correctly wired as a tracked task input:
+     * - the initial run succeeds,
+     * - a repeat run with nothing changed is UP-TO-DATE,
+     * - modifying the schema file at [schemaDir]/extra.yaml forces re-execution.
+     *
+     * [propertyDescription] is used only to make assertion failure messages readable.
+     */
+    private fun assertTrackedSchemaInput(
+        propertyDescription: String,
+        buildContentsFor: (schemaDir: File) -> String
+    ) {
         val schemaDir = createDirectory(Paths.get("${temp.path}/schemas")).toFile()
         File(schemaDir, "extra.yaml").writeText("type: object")
 
-        val buildContents = """
-            plugins { id 'org.openapi.generator' }
-            openApiGenerate {
-                generatorName = "kotlin"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/kotlin").absolutePath
-                schemaLocation = file("schemas").absolutePath
-            }
-        """.trimIndent()
+        val buildContents = buildContentsFor(schemaDir)
 
         val result1 = runOpenApiGenerate(buildContents, "spec.yaml" to "specs/petstore-v3.0.yaml")
         assertEquals(
             TaskOutcome.SUCCESS, result1.task(":openApiGenerate")?.outcome,
-            "Generation failed after configuring schemaLocation via the extension — check plugin wiring"
+            "Generation failed after configuring $propertyDescription via the extension — check plugin wiring"
         )
 
         // A repeat run with nothing changed must be UP-TO-DATE.
         val result2 = runOpenApiGenerate(buildContents)
         assertEquals(TaskOutcome.UP_TO_DATE, result2.task(":openApiGenerate")?.outcome)
 
-        // If schemaLocation were not actually wired as a task input, changing a file within
-        // it would leave the task incorrectly UP-TO-DATE instead of forcing re-execution.
-        File(schemaDir, "extra.yaml").writeText("type: object\nadditionalProperties: false")
-        val result3 = runOpenApiGenerate(buildContents)
-        assertEquals(
-            TaskOutcome.SUCCESS, result3.task(":openApiGenerate")?.outcome,
-            "Task stayed UP-TO-DATE after a schemaLocation file changed — schemaLocation is not wired to the task"
-        )
-    }
-
-    @Test
-    fun `schemaLocations extension property is wired to task as tracked input`() {
-        val schemaDir = createDirectory(Paths.get("${temp.path}/schemas")).toFile()
-        File(schemaDir, "extra.yaml").writeText("type: object")
-
-        val buildContents = """
-            plugins { id 'org.openapi.generator' }
-            openApiGenerate {
-                generatorName = "kotlin"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/kotlin").absolutePath
-                schemaLocations.from(file("schemas/extra.yaml").absolutePath)
-            }
-        """.trimIndent()
-
-        val result1 = runOpenApiGenerate(buildContents, "spec.yaml" to "specs/petstore-v3.0.yaml")
-        assertEquals(
-            TaskOutcome.SUCCESS, result1.task(":openApiGenerate")?.outcome,
-            "Generation failed after configuring schemaLocations via the extension — check plugin wiring"
-        )
-
-        val result2 = runOpenApiGenerate(buildContents)
-        assertEquals(TaskOutcome.UP_TO_DATE, result2.task(":openApiGenerate")?.outcome)
-
-        // If schemaLocations were not actually wired as a task input, changing a tracked file
+        // If the property were not actually wired as a task input, changing a tracked file
         // would leave the task incorrectly UP-TO-DATE instead of forcing re-execution.
         File(schemaDir, "extra.yaml").writeText("type: object\nadditionalProperties: false")
         val result3 = runOpenApiGenerate(buildContents)
         assertEquals(
             TaskOutcome.SUCCESS, result3.task(":openApiGenerate")?.outcome,
-            "Task stayed UP-TO-DATE after a schemaLocations file changed — schemaLocations is not wired to the task"
+            "Task stayed UP-TO-DATE after a schema file changed — $propertyDescription is not wired to the task"
         )
     }
 
     @Test
+    fun `schemaLocation extension property is wired to task as tracked input`() {
+        assertTrackedSchemaInput("schemaLocation") {
+            """
+                plugins { id 'org.openapi.generator' }
+                openApiGenerate {
+                    generatorName = "kotlin"
+                    inputSpec = file("spec.yaml").absolutePath
+                    outputDir = file("build/kotlin").absolutePath
+                    schemaLocation = file("schemas").absolutePath
+                }
+            """.trimIndent()
+        }
+    }
+
+    @Test
+    fun `schemaLocations extension property is wired to task as tracked input`() {
+        assertTrackedSchemaInput("schemaLocations") {
+            """
+                plugins { id 'org.openapi.generator' }
+                openApiGenerate {
+                    generatorName = "kotlin"
+                    inputSpec = file("spec.yaml").absolutePath
+                    outputDir = file("build/kotlin").absolutePath
+                    schemaLocations.from(file("schemas/extra.yaml").absolutePath)
+                }
+            """.trimIndent()
+        }
+    }
+
+    @Test
     fun `setSchemaLocationsAsStrings extension bridge is wired to task as tracked input`() {
-        val schemaDir = createDirectory(Paths.get("${temp.path}/schemas")).toFile()
-        File(schemaDir, "extra.yaml").writeText("type: object")
-
-        val buildContents = """
-            plugins { id 'org.openapi.generator' }
-            openApiGenerate {
-                generatorName = "kotlin"
-                inputSpec = file("spec.yaml").absolutePath
-                outputDir = file("build/kotlin").absolutePath
-                setSchemaLocationsAsStrings("schemas/extra.yaml")
-            }
-        """.trimIndent()
-
-        val result1 = runOpenApiGenerate(buildContents, "spec.yaml" to "specs/petstore-v3.0.yaml")
-        assertEquals(
-            TaskOutcome.SUCCESS, result1.task(":openApiGenerate")?.outcome,
-            "Generation failed after using setSchemaLocationsAsStrings — check extension bridge wiring"
-        )
-
-        val result2 = runOpenApiGenerate(buildContents)
-        assertEquals(TaskOutcome.UP_TO_DATE, result2.task(":openApiGenerate")?.outcome)
-
-        // If setSchemaLocationsAsStrings were not actually wired as a task input, changing the
-        // tracked file would leave the task incorrectly UP-TO-DATE instead of forcing re-execution.
-        File(schemaDir, "extra.yaml").writeText("type: object\nadditionalProperties: false")
-        val result3 = runOpenApiGenerate(buildContents)
-        assertEquals(
-            TaskOutcome.SUCCESS, result3.task(":openApiGenerate")?.outcome,
-            "Task stayed UP-TO-DATE after a schema file changed — setSchemaLocationsAsStrings is not wired to the task"
-        )
+        assertTrackedSchemaInput("setSchemaLocationsAsStrings") {
+            """
+                plugins { id 'org.openapi.generator' }
+                openApiGenerate {
+                    generatorName = "kotlin"
+                    inputSpec = file("spec.yaml").absolutePath
+                    outputDir = file("build/kotlin").absolutePath
+                    setSchemaLocationsAsStrings("schemas/extra.yaml")
+                }
+            """.trimIndent()
+        }
     }
 }
