@@ -14,12 +14,6 @@ paths:
             type: array
             items:
               type: string
-        - name: pipedIds
-          in: query
-          schema:
-            type: array
-            items:
-              type: string
       responses:
         '204':
           description: ok

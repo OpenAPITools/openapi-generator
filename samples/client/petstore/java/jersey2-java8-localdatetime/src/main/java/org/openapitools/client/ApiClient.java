@@ -918,11 +918,13 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     StringBuilder sb = new StringBuilder();
+    boolean first = true;
     for (Object item : value) {
-      if (sb.length() > 0) {
+      if (!first) {
         sb.append(delimiter);
       }
       sb.append(escapeString(parameterToString(item)));
+      first = false;
     }
     return sb.toString();
   }
