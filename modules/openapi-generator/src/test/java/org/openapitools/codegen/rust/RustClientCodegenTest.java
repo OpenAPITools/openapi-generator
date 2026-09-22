@@ -29,9 +29,14 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import static org.openapitools.codegen.TestUtils.linearize;
 
@@ -356,5 +361,211 @@ public class RustClientCodegenTest {
         TestUtils.assertFileContains(outputPath,
                 "async fn list_widget_items<'id, 'run_id>(&self, id: &'id str, run_id: Option<&'run_id str>)");
         TestUtils.assertFileNotContains(outputPath, "Option<&str>");
+    }
+
+    @Test
+    public void testReqwestOpenApi32OperationsAndQueryStringParam() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary("reqwest")
+                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path outputPath = Path.of(target.toString(), "src/apis/default_api.rs");
+        TestUtils.assertFileExists(outputPath);
+        String generated = new String(Files.readAllBytes(outputPath), StandardCharsets.UTF_8);
+        // standard methods still use the typed constants
+        Assert.assertTrue(generated.contains("reqwest::Method::GET"),
+                "list_pets should use reqwest::Method::GET");
+        // query and additionalOperations methods are emitted verbatim via Method::from_bytes
+        for (String method : new String[]{"QUERY", "PURGE", "customMethod", "CHECK&FETCH"}) {
+            Assert.assertTrue(generated.contains("reqwest::Method::from_bytes(b\"" + method + "\")"),
+                    "expected verbatim method literal for " + method);
+        }
+        // `in: querystring` is appended to the URI verbatim, not sent through .query()
+        Assert.assertTrue(generated.contains("uri_str.push_str(&p_qs);"),
+                "querystring param should be appended verbatim");
+        Assert.assertTrue(generated.contains("qs: &str"),
+                "query_pets signature must expose the querystring parameter");
+        Assert.assertFalse(generated.contains("\"qs\""),
+                "querystring param must not be serialized as a name=value query pair");
+    }
+
+    @Test
+    public void testReqwestOpenApi32QueryStringParamGrouped() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary("reqwest")
+                .addAdditionalProperty("useSingleRequestParameter", true)
+                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path outputPath = Path.of(target.toString(), "src/apis/default_api.rs");
+        TestUtils.assertFileExists(outputPath);
+        // grouped params struct stores String fields; the borrow is required to compile
+        TestUtils.assertFileContains(outputPath, "uri_str.push_str(&params.qs);");
+    }
+
+    @Test
+    public void testReqwestSkipsInvalidMethodNames() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary("reqwest")
+                .setInputSpec("src/test/resources/3_2/rust-invalid-method.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path outputPath = Path.of(target.toString(), "src/apis/default_api.rs");
+        TestUtils.assertFileExists(outputPath);
+        String generated = new String(Files.readAllBytes(outputPath), StandardCharsets.UTF_8);
+        Assert.assertTrue(generated.contains("fn list_pets"), "GET operation should be kept");
+        Assert.assertFalse(generated.contains("bad_method"),
+                "operation with an invalid RFC 9110 method name must be skipped");
+    }
+
+    @Test
+    public void testReqwestWebhookOpenApi32Operations() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary("reqwest")
+                .setInputSpec("src/test/resources/3_2/go-webhook-operations.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path apiDir = Path.of(target.toString(), "src/apis");
+        File webhookFile = null;
+        for (File f : Objects.requireNonNull(apiDir.toFile().listFiles())) {
+            String content = new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8);
+            if (content.contains("on_pet_custom")) {
+                webhookFile = f;
+                break;
+            }
+        }
+        Assert.assertNotNull(webhookFile, "expected a generated file containing webhook ops");
+        String generated = new String(Files.readAllBytes(webhookFile.toPath()), StandardCharsets.UTF_8);
+        Assert.assertTrue(generated.contains("reqwest::Method::from_bytes(b\"QUERY\")"),
+                "webhook query op should emit a verbatim method");
+        Assert.assertTrue(generated.contains("reqwest::Method::from_bytes(b\"customMethod\")"),
+                "webhook additionalOperations should emit verbatim methods");
+        Assert.assertTrue(generated.contains("uri_str.push_str(&p_qs);"),
+                "webhook querystring param should be appended verbatim");
+    }
+
+    @Test
+    public void testHyperSkipsOpenApi32Operations() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary("hyper")
+                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path outputPath = Path.of(target.toString(), "src/apis/default_api.rs");
+        TestUtils.assertFileExists(outputPath);
+        String generated = new String(Files.readAllBytes(outputPath), StandardCharsets.UTF_8);
+        // hyper templates cannot express arbitrary method names -> warned and skipped
+        Assert.assertTrue(generated.contains("list_pets"), "GET operation should be kept");
+        for (String op : new String[]{"query_pets", "purge_pets", "custom_pets", "check_fetch_pets"}) {
+            Assert.assertFalse(generated.contains("fn " + op),
+                    "hyper library must skip unsupported 3.2 operation " + op);
+        }
+    }
+
+    /**
+     * End-to-end check: builds the generated reqwest (blocking) client with cargo and
+     * verifies on a raw TCP listener that QUERY/additionalOperations methods and
+     * `in: querystring` reach the wire verbatim. Skipped when cargo is unavailable.
+     */
+    @Test
+    public void testReqwestGeneratedClientSendsVerbatimMethods() throws IOException, InterruptedException {
+        if (!isCommandAvailable("cargo")) {
+            throw new org.testng.SkipException("cargo is not on PATH; skipping generated-client verification");
+        }
+        if (!isCratesIoReachable() && !System.getenv().containsKey("CARGO_NET_OFFLINE")) {
+            // a warm CARGO_HOME registry cache may still make the offline build work,
+            // but without one the build would stall on dependency resolution
+            throw new org.testng.SkipException("crates.io is unreachable; skipping generated-client verification");
+        }
+        Path target = Files.createTempDirectory("rust32-verify");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary("reqwest")
+                .addAdditionalProperty("reqwestDefaultFeatures", "rustls")
+                .addAdditionalProperty("supportAsync", false)
+                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path binDir = target.resolve("src/bin");
+        Files.createDirectories(binDir);
+        Files.copy(Path.of("src/test/resources/3_2/rust-reqwest-capture/capture.rs"),
+                binDir.resolve("capture.rs"));
+
+        runCargo(target, "build");
+        String out = runCargo(target, "run", "--bin", "capture");
+        Assert.assertTrue(out.contains("CAPTURE-PASS"),
+                "generated client did not send verbatim 3.2 methods/querystring:\n" + out);
+    }
+
+    private boolean isCommandAvailable(String command) {
+        try {
+            Process p = new ProcessBuilder(command, "--version")
+                    .redirectErrorStream(true).start();
+            p.getInputStream().transferTo(java.io.OutputStream.nullOutputStream());
+            if (!p.waitFor(10, TimeUnit.SECONDS)) {
+                p.destroyForcibly();
+                return false;
+            }
+            return p.exitValue() == 0;
+        } catch (IOException | InterruptedException e) {
+            return false;
+        }
+    }
+
+    private boolean isCratesIoReachable() {
+        try (java.net.Socket socket = new java.net.Socket()) {
+            socket.connect(new java.net.InetSocketAddress("index.crates.io", 443), 5000);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    private String runCargo(Path projectDir, String... args) throws IOException, InterruptedException {
+        List<String> cmd = new ArrayList<>();
+        cmd.add("cargo");
+        cmd.addAll(Arrays.asList(args));
+        ProcessBuilder pb = new ProcessBuilder(cmd)
+                .directory(projectDir.toFile())
+                .redirectErrorStream(true);
+        // keep the cargo target dir inside the temp project
+        pb.environment().put("CARGO_TARGET_DIR",
+                projectDir.resolve("target").toAbsolutePath().toString());
+        // the capture listener is local; never let proxy env vars intercept it
+        pb.environment().put("NO_PROXY", "127.0.0.1,localhost");
+        pb.environment().put("no_proxy", "127.0.0.1,localhost");
+        Process p = pb.start();
+        boolean finished = p.waitFor(15, TimeUnit.MINUTES);
+        if (!finished) {
+            p.destroyForcibly();
+        }
+        String output = new String(p.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        Assert.assertTrue(finished, "cargo " + String.join(" ", args) + " timed out:\n" + output);
+        Assert.assertEquals(p.exitValue(), 0, "cargo " + String.join(" ", args) + " failed:\n" + output);
+        return output;
     }
 }

@@ -33,6 +33,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
@@ -781,10 +782,97 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public boolean supportsAdditionalOperations() {
+        // reqwest's Method::from_bytes keeps arbitrary method names verbatim; the
+        // hyper templates need Rust identifiers, so hyper/reqwest-trait stay unsupported
+        return REQWEST_LIBRARY.equals(getLibrary());
+    }
+
+    @Override
+    protected boolean supportsQueryStringParameters() {
+        return REQWEST_LIBRARY.equals(getLibrary());
+    }
+
+    private static final Set<String> STANDARD_HTTP_METHODS = new HashSet<>(Arrays.asList(
+            "GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE", "CONNECT"));
+
+    // RFC 9110 tchar: the method token reqwest::Method::from_bytes accepts verbatim
+    private static final java.util.regex.Pattern HTTP_METHOD_TOKEN_PATTERN =
+            java.util.regex.Pattern.compile("[!#$%&'*+\\-.^_`|~0-9A-Za-z]+");
+
+    /**
+     * Snapshot non-standard (OpenAPI 3.2 additionalOperations) HTTP method names before the
+     * per-library case conversion below so they can be restored verbatim for
+     * {@code reqwest::Method::from_bytes}.
+     */
+    private Map<CodegenOperation, String> snapshotVerbatimHttpMethods(List<CodegenOperation> operations) {
+        Map<CodegenOperation, String> verbatim = new IdentityHashMap<>();
+        for (CodegenOperation operation : operations) {
+            // exact match only: a lower/mixed-case key like `get` in additionalOperations is a
+            // distinct (non-standard) method on the wire and must be emitted verbatim, while
+            // non-ASCII names must reach the RFC 9110 token check rather than be upper-cased
+            if (operation.httpMethod != null
+                    && !STANDARD_HTTP_METHODS.contains(operation.httpMethod)) {
+                verbatim.put(operation, operation.httpMethod);
+            }
+        }
+        return verbatim;
+    }
+
+    /**
+     * Restore verbatim HTTP methods captured by {@link #snapshotVerbatimHttpMethods} and mark
+     * them via {@code x-rust-http-method-literal} so templates emit them as method literals.
+     * Operation names that are not valid RFC 9110 tokens are warned about and skipped.
+     */
+    private void restoreVerbatimHttpMethods(List<CodegenOperation> operations,
+            Map<CodegenOperation, String> verbatim) {
+        Iterator<CodegenOperation> it = operations.iterator();
+        while (it.hasNext()) {
+            CodegenOperation operation = it.next();
+            String method = verbatim.get(operation);
+            if (method == null) {
+                continue;
+            }
+            if (!HTTP_METHOD_TOKEN_PATTERN.matcher(method).matches()) {
+                LOGGER.warn("Skipping operation {}: HTTP method name '{}' is not a valid "
+                        + "RFC 9110 token and cannot be emitted as a Rust method literal.",
+                        operation.operationId, method);
+                it.remove();
+                continue;
+            }
+            operation.httpMethod = method;
+            operation.vendorExtensions.put("x-rust-http-method-literal", true);
+            // `|` is a valid RFC 9110 tchar but breaks markdown tables in doc templates
+            operation.vendorExtensions.put("x-rust-http-method-doc", method.replace("|", "\\|"));
+        }
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        WebhooksMap map = super.postProcessWebhooksWithModels(objs, allModels);
+        if (REQWEST_LIBRARY.equals(getLibrary())) {
+            List<CodegenOperation> operations = map.getWebhooks().getOperation();
+            restoreVerbatimHttpMethods(operations, snapshotVerbatimHttpMethods(operations));
+            for (CodegenOperation operation : operations) {
+                for (CodegenParameter p : operation.allParams) {
+                    if (p.isQueryStringParam) {
+                        operation.vendorExtensions.put("x-rust-has-querystring-param", true);
+                        break;
+                    }
+                }
+            }
+        }
+        return map;
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
         boolean useAsyncFileStream = false;
         List<CodegenOperation> operations = objectMap.getOperation();
+        Map<CodegenOperation, String> verbatimHttpMethods = REQWEST_LIBRARY.equals(getLibrary())
+                ? snapshotVerbatimHttpMethods(operations)
+                : Collections.emptyMap();
         for (CodegenOperation operation : operations) {
             // For types with `isAnyType` we assume it's a `serde_json::Value` type.
             // However for path, query, and headers it's unlikely to be JSON so we default to `String`.
@@ -917,6 +1005,21 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     p.dataType = "super::" + p.dataType;
                 }
             }*/
+        }
+
+        if (REQWEST_LIBRARY.equals(getLibrary())) {
+            restoreVerbatimHttpMethods(operations, verbatimHttpMethods);
+            // OpenAPI 3.2 `in: querystring`: mark operations so templates append the
+            // supplied query string verbatim instead of going through reqwest's
+            // name=value `.query()` serialization
+            for (CodegenOperation operation : operations) {
+                for (CodegenParameter p : operation.allParams) {
+                    if (p.isQueryStringParam) {
+                        operation.vendorExtensions.put("x-rust-has-querystring-param", true);
+                        break;
+                    }
+                }
+            }
         }
 
         if (!hasUUIDs) {
