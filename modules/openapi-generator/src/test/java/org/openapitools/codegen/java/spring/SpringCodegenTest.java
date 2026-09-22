@@ -10049,4 +10049,17 @@ public class SpringCodegenTest {
                 .fileContains(expectedContains);
     }
 
+    @Test
+    public void shouldRenderOas31SchemaExamples() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_1/issue_24755.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains(
+                        "example = \"Fluffy\"",
+                        "examples = { \"Fluffy\", \"Rex\" }",
+                        "examples = { \"3\" }",
+                        "examples = { \"[a, b]\" }"
+                ).fileDoesNotContain("examples = {}");
+    }
+
 }

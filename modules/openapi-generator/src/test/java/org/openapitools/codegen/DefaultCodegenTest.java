@@ -2265,6 +2265,23 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOas31SchemaExamplesHandling() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24755.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map properties = openAPI.getComponents().getSchemas().get("Pet").getProperties();
+
+        assertThat(codegen.fromProperty("name", (Schema) properties.get("name")).examples)
+                .containsExactly("Fluffy", "Rex");
+        assertThat(codegen.fromProperty("age", (Schema) properties.get("age")).examples)
+                .containsExactly("3");
+        assertThat(codegen.fromProperty("tags", (Schema) properties.get("tags")).examples)
+                .containsExactly("[\"a\",\"b\"]");
+        assertNull(codegen.fromProperty("height", (Schema) properties.get("height")).examples);
+    }
+
+    @Test
     public void testDeprecatedRef() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/model-deprecated.yaml");
         new InlineModelResolver().flatten(openAPI);
