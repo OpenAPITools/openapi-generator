@@ -38,7 +38,7 @@ while (true) {
         $body .= $chunk;
     }
     $lines = explode("\r\n", $head);
-    fwrite(STDOUT, "LINE " . $lines[0] . "\n"); fflush(STDOUT);
+    fwrite(STDOUT, "LINE " . $lines[0] . " [CL=$len]" . ($body !== '' ? " BODY=$body" : '') . "\n"); fflush(STDOUT);
     fwrite($conn, "HTTP/1.1 204 No Content\r\nContent-Length: 0\r\nConnection: close\r\n\r\n");
     fclose($conn);
 }
@@ -60,26 +60,35 @@ require $dir . '/vendor/autoload.php';
 $config = (new OpenAPI\Client\Configuration())->setHost("http://127.0.0.1:$port");
 $api = new OpenAPI\Client\Api\DefaultApi(new GuzzleHttp\Client(), $config);
 
-// `in: querystring` callers pass the query component without the leading `?`
+// `in: querystring` callers pass the query component without the leading `?`;
+// embedded `//` must reach the wire intact.
 $calls = [
-    function () use ($api) { $api->queryPets('a=1&b=%20x'); },
+    function () use ($api) { $api->queryPets('a=1&u=http://h//p'); },
     function () use ($api) { $api->customPets(); },
     function () use ($api) { $api->checkFetchPets(); },
     function () use ($api) { $api->purgePets(); },
     function () use ($api) { $api->hashPets(); },
     function () use ($api) { $api->listPets(); },
+    // QUERY carrying a request body; its querystring param is named `uri`,
+    // which collides with the template-internal request-uri variable
+    function () use ($api) { $api->searchItems('k=v', ['a' => 1]); },
+    function () use ($api) { $api->reportItems('r=1'); },
+    function () use ($api) { $api->propPatch('<x/>'); },
 ];
 foreach ($calls as $call) {
     try { $call(); } catch (\Throwable $e) { fwrite(STDERR, "call failed: {$e->getMessage()}\n"); }
 }
 
 $expected = [
-    'QUERY /pets?a=1&b=%20x HTTP/1.1',
-    'customMethod /pets HTTP/1.1',
-    'CHECK&FETCH /pets HTTP/1.1',
-    'PURGE /pets HTTP/1.1',
-    'X#Y /pets HTTP/1.1',
-    'GET /pets HTTP/1.1',
+    'QUERY /pets?a=1&u=http://h//p HTTP/1.1 [CL=0]',
+    'customMethod /pets HTTP/1.1 [CL=0]',
+    'CHECK&FETCH /pets HTTP/1.1 [CL=0]',
+    'PURGE /pets HTTP/1.1 [CL=0]',
+    'X#Y /pets HTTP/1.1 [CL=0]',
+    'GET /pets HTTP/1.1 [CL=0]',
+    'QUERY /items?k=v HTTP/1.1 [CL=7] BODY={"a":1}',
+    'REPORT /report?r=1 HTTP/1.1 [CL=0]',
+    'PROPPATCH /report HTTP/1.1 [CL=4] BODY=<x/>',
 ];
 $got = [];
 $deadline = microtime(true) + 30;

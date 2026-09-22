@@ -780,16 +780,17 @@ use {{invokerPackage}}\ObjectSerializer;
         {{/servers.0}}
         $query = ObjectSerializer::buildQuery($queryParams);
         {{#vendorExtensions.x-php-has-querystring-param}}
-        $uri = $operationHost . $resourcePath . ($query ? "?{$query}" : '');
+        // $__-prefixed so a spec parameter named e.g. `uri` cannot shadow it
+        $__requestUri = $operationHost . $resourcePath . ($query ? "?{$query}" : '');
         {{#allParams}}
         {{#isQueryStringParam}}
         // OpenAPI 3.2 `in: querystring`: the value IS the query component, appended verbatim
         {{#required}}
-        $uri .= (str_contains($uri, '?') ? '&' : '?') . ${{paramName}};
+        $__requestUri .= (str_contains($__requestUri, '?') ? '&' : '?') . ${{paramName}};
         {{/required}}
         {{^required}}
         if (${{paramName}} !== null) {
-            $uri .= (str_contains($uri, '?') ? '&' : '?') . ${{paramName}};
+            $__requestUri .= (str_contains($__requestUri, '?') ? '&' : '?') . ${{paramName}};
         }
         {{/required}}
         {{/isQueryStringParam}}
@@ -801,7 +802,7 @@ use {{invokerPackage}}\ObjectSerializer;
         // RequestInterface::getMethod(), so keep the verbatim token in a subclass.
         return new class(
             '{{{vendorExtensions.x-php-http-method-literal}}}',
-            {{#vendorExtensions.x-php-has-querystring-param}}$uri{{/vendorExtensions.x-php-has-querystring-param}}{{^vendorExtensions.x-php-has-querystring-param}}$operationHost . $resourcePath . ($query ? "?{$query}" : ''){{/vendorExtensions.x-php-has-querystring-param}},
+            {{#vendorExtensions.x-php-has-querystring-param}}$__requestUri{{/vendorExtensions.x-php-has-querystring-param}}{{^vendorExtensions.x-php-has-querystring-param}}$operationHost . $resourcePath . ($query ? "?{$query}" : ''){{/vendorExtensions.x-php-has-querystring-param}},
             $headers,
             $httpBody
         ) extends Request {
@@ -829,7 +830,7 @@ use {{invokerPackage}}\ObjectSerializer;
         {{^vendorExtensions.x-php-verbatim-method}}
         return new Request(
             '{{httpMethod}}',
-            {{#vendorExtensions.x-php-has-querystring-param}}$uri{{/vendorExtensions.x-php-has-querystring-param}}{{^vendorExtensions.x-php-has-querystring-param}}$operationHost . $resourcePath . ($query ? "?{$query}" : ''){{/vendorExtensions.x-php-has-querystring-param}},
+            {{#vendorExtensions.x-php-has-querystring-param}}$__requestUri{{/vendorExtensions.x-php-has-querystring-param}}{{^vendorExtensions.x-php-has-querystring-param}}$operationHost . $resourcePath . ($query ? "?{$query}" : ''){{/vendorExtensions.x-php-has-querystring-param}},
             $headers,
             $httpBody
         );

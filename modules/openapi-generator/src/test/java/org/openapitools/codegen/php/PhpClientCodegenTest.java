@@ -220,11 +220,22 @@ public class PhpClientCodegenTest {
             }
             Assert.assertTrue(generated.contains("new class("), "verbatim Request subclass expected");
             Assert.assertTrue(generated.contains("'GET'"), "standard method kept on plain Request");
-            // `in: querystring` appends verbatim with ?/& handling, not via query params
-            Assert.assertTrue(generated.contains("(str_contains($uri, '?') ? '&' : '?') . $qs"),
+            // `in: querystring` appends verbatim with ?/& handling, not via query params;
+            // the accumulator is $__-prefixed so a parameter named `uri` cannot shadow it
+            Assert.assertTrue(generated.contains("(str_contains($__requestUri, '?') ? '&' : '?') . $qs"),
                     "querystring param should be appended verbatim");
+            Assert.assertTrue(generated.contains(". $uri;"),
+                    "a querystring parameter literally named `uri` must still reach the wire");
             Assert.assertFalse(generated.contains("toQueryValue(\n            $qs"),
                     "querystring param must not be serialized as a name=value pair");
+            // QUERY may carry a body; REPORT/PROPPATCH need one on some stacks
+            Assert.assertTrue(generated.contains("'REPORT'"), "REPORT should emit a verbatim literal");
+            Path composerPath = target.resolve("composer.json");
+            String composer = new String(Files.readAllBytes(composerPath), StandardCharsets.UTF_8);
+            // psr7 < 2.10 Utils::modifyRequest() rebuilds a plain Request and
+            // drops the verbatim subclass - pin the floor high enough
+            Assert.assertTrue(composer.contains("\"guzzlehttp/psr7\": \"^2.10\""),
+                    "psr7 constraint must exclude versions that rebuild plain Requests");
         } finally {
             FileUtils.deleteDirectory(target.toFile());
         }
