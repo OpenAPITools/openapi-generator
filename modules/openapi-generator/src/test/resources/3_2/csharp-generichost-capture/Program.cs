@@ -33,9 +33,18 @@ var server = Task.Run(async () =>
             using var stream = conn.GetStream();
             using var reader = new StreamReader(stream, Encoding.ASCII, false, 1024, true);
             var requestLine = await reader.ReadLineAsync(cts.Token);
-            if (requestLine != null) lines.Enqueue(requestLine);
-            // consume headers (no body in this fixture)
-            while (await reader.ReadLineAsync(cts.Token) is { } h && h.Length > 0) { }
+            var cl = 0;
+            while (await reader.ReadLineAsync(cts.Token) is { } h && h.Length > 0)
+            {
+                if (h.StartsWith("Content-Length:", StringComparison.OrdinalIgnoreCase))
+                    cl = int.Parse(h.Substring(15).Trim());
+            }
+            var bodyBuf = new char[cl];
+            var read = 0;
+            while (read < cl) read += await reader.ReadBlockAsync(bodyBuf.AsMemory(read), cts.Token);
+            var body = new string(bodyBuf);
+            if (requestLine != null)
+                lines.Enqueue($"{requestLine} [CL={cl}]" + (body.Length > 0 ? $" BODY={body}" : ""));
             var resp = Encoding.ASCII.GetBytes("HTTP/1.1 204 No Content\r\nContent-Length: 0\r\nConnection: close\r\n\r\n");
             await stream.WriteAsync(resp, cts.Token);
         }
@@ -56,22 +65,34 @@ var api = new DefaultApi(
     new JsonSerializerOptionsProvider(new JsonSerializerOptions()),
     new DefaultApiEvents());
 
-// `in: querystring` callers pass the query component without the leading `?`
-await api.QueryPetsAsync("a=1&b=%20x", cts.Token);
+// `in: querystring` callers pass the query component without the leading `?`;
+// embedded `//` must reach the wire intact.
+await api.QueryPetsAsync("a=1&u=http://h//p", cts.Token);
 await api.CustomPetsAsync(cts.Token);
 await api.CheckFetchPetsAsync(cts.Token);
 await api.PurgePetsAsync(cts.Token);
 await api.HashPetsAsync(cts.Token);
 await api.ListPetsAsync(cts.Token);
+// GET with an `in: querystring` parameter
+await api.FindPetsAsync("z=9", cts.Token);
+// QUERY carrying a request body; its querystring param is named `uri`
+await api.SearchItemsAsync("k=v", new Dictionary<string, object> { ["a"] = 1 }, cts.Token);
+// additionalOperations: REPORT with querystring, PROPPATCH with a body
+await api.ReportItemsAsync("r=1", cts.Token);
+await api.PropPatchAsync("<x/>", cts.Token);
 
 var expected = new[]
 {
-    "QUERY /pets?a=1&b=%20x HTTP/1.1",
-    "customMethod /pets HTTP/1.1",
-    "CHECK&FETCH /pets HTTP/1.1",
-    "PURGE /pets HTTP/1.1",
-    "X#Y /pets HTTP/1.1",
-    "GET /pets HTTP/1.1"
+    "QUERY /pets?a=1&u=http://h//p HTTP/1.1 [CL=0]",
+    "customMethod /pets HTTP/1.1 [CL=0]",
+    "CHECK&FETCH /pets HTTP/1.1 [CL=0]",
+    "PURGE /pets HTTP/1.1 [CL=0]",
+    "X#Y /pets HTTP/1.1 [CL=0]",
+    "GET /pets HTTP/1.1 [CL=0]",
+    "GET /find?z=9 HTTP/1.1 [CL=0]",
+    "QUERY /items?k=v HTTP/1.1 [CL=7] BODY={\"a\":1}",
+    "REPORT /report?r=1 HTTP/1.1 [CL=0]",
+    "PROPPATCH /report HTTP/1.1 [CL=16] BODY=\"\\u003Cx/\\u003E\""
 };
 cts.Cancel();
 try { await server; } catch (OperationCanceledException) { }

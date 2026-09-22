@@ -724,8 +724,9 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/produces}}
                     {{#vendorExtensions.x-csharp-http-method-literal}}
 
-                    // OpenAPI 3.2: HttpMethod has no property for this verb and would
-                    // normalize casing, so emit the RFC 9110 token verbatim
+                    // OpenAPI 3.2: emit the RFC 9110 token verbatim. HttpMethod.Query
+                    // only exists on net10+ and HttpClient normalizes case-variants,
+                    // so a literal keeps identical wire behavior across TFMs
                     httpRequestMessageLocalVar.Method = new HttpMethod("{{{vendorExtensions.x-csharp-http-method-literal}}}");
                     {{/vendorExtensions.x-csharp-http-method-literal}}
                     {{^vendorExtensions.x-csharp-http-method-literal}}

@@ -24,3 +24,26 @@ webhooks:
         responses:
           '204':
             description: done
+  # webhook referencing a component model: generators that only scan
+  # openAPI.getPaths() for operation input models would miss this
+  petUpdated:
+    post:
+      operationId: onPetUpdated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string

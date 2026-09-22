@@ -1844,6 +1844,15 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private static final Set<String> STANDARD_HTTP_METHODS = new HashSet<>(Arrays.asList(
             "GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE", "CONNECT"));
 
+    // Methods .NET normalizes to canonical casing on the wire (verified on net8/net10):
+    // case-variants like "get" or "qUeRy" cannot be sent verbatim. QUERY is not a
+    // "standard" template method (HttpMethod.Query only exists on net10+) but the
+    // same wire normalization applies to its case-variants there.
+    private static final Set<String> WIRE_NORMALIZED_METHODS = new HashSet<>(STANDARD_HTTP_METHODS);
+    static {
+        WIRE_NORMALIZED_METHODS.add("QUERY");
+    }
+
     // RFC 9110 tchar: method tokens HttpMethod(string) accepts without FormatException
     private static final java.util.regex.Pattern HTTP_METHOD_TOKEN_PATTERN =
             java.util.regex.Pattern.compile("[!#$%&'*+\\-.^_`|~0-9A-Za-z]+");
@@ -1852,10 +1861,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
      * Marks OpenAPI 3.2 (query/additionalOperations) HTTP methods for verbatim emission via
      * {@code x-csharp-http-method-literal}. Two categories are warned about and skipped:
      * tokens that are not valid RFC 9110 tokens ({@code HttpMethod(string)} would throw
-     * {@code FormatException}), and tokens that case-insensitively match a standard method
-     * (e.g. {@code get}) because .NET's {@code HttpMethod.Normalize()} would silently fold
-     * them onto the standard method on the wire - unlike Rust/Ruby, verbatim casing cannot
-     * be preserved for those.
+     * {@code FormatException}), and tokens that case-insensitively match a normalized
+     * method (e.g. {@code get} or {@code qUeRy}) because HttpClient folds them onto the
+     * canonical method on the wire - verbatim casing cannot be preserved for those.
      */
     private void flagVerbatimHttpMethods(List<CodegenOperation> operationList) {
         Iterator<CodegenOperation> it = operationList.iterator();
@@ -1865,11 +1873,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 continue;
             }
             if (!HTTP_METHOD_TOKEN_PATTERN.matcher(op.httpMethod).matches()
-                    || STANDARD_HTTP_METHODS.stream()
-                            .anyMatch(m -> m.equalsIgnoreCase(op.httpMethod))) {
+                    || WIRE_NORMALIZED_METHODS.stream()
+                            .anyMatch(m -> !m.equals(op.httpMethod) && m.equalsIgnoreCase(op.httpMethod))) {
                 LOGGER.warn("Skipping operation {}: HTTP method name '{}' is not a valid "
-                        + "RFC 9110 token, or case-insensitively matches a standard method "
-                        + "which .NET HttpMethod.Normalize() would collapse on the wire.",
+                        + "RFC 9110 token, or case-insensitively matches a method which "
+                        + ".NET normalizes on the wire (verbatim casing impossible).",
                         op.operationId, op.httpMethod);
                 it.remove();
                 continue;

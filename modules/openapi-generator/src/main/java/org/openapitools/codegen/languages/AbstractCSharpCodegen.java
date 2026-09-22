@@ -730,18 +730,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     private Set<String> getOperationInputModels() {
         Set<String> operationInputModels = new HashSet<>();
         Set<String> visitedModels = new HashSet<>();
-        if (openAPI == null || openAPI.getPaths() == null) {
+        if (openAPI == null) {
             return operationInputModels;
         }
 
-        for (PathItem pathItem : openAPI.getPaths().values()) {
+        List<PathItem> pathItems = new ArrayList<>();
+        if (openAPI.getPaths() != null) {
+            pathItems.addAll(openAPI.getPaths().values());
+        }
+        // OpenAPI 3.2: top-level webhooks are PathItems and may reference models
+        if (openAPI.getWebhooks() != null) {
+            pathItems.addAll(openAPI.getWebhooks().values());
+        }
+
+        for (PathItem pathItem : pathItems) {
             collectOperationInputModels(pathItem.getParameters(), operationInputModels, visitedModels);
-            // readOperations() covers `query` but not OpenAPI 3.2 additionalOperations
-            java.util.List<Operation> operations = new java.util.ArrayList<>(pathItem.readOperations());
-            if (pathItem.getAdditionalOperations() != null) {
-                operations.addAll(pathItem.getAdditionalOperations().values());
-            }
-            for (Operation operation : operations) {
+            // readOperations() covers `query` and OpenAPI 3.2 additionalOperations
+            for (Operation operation : pathItem.readOperations()) {
                 collectOperationInputModels(operation.getParameters(), operationInputModels, visitedModels);
                 RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
                 if (requestBody != null) {

@@ -656,8 +656,9 @@ public class CSharpClientCodegenTest {
             Path apiPath = target.resolve("src/Org.OpenAPITools/Api/DefaultApi.cs");
             TestUtils.assertFileExists(apiPath);
             String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
-            // non-standard methods are emitted verbatim; there is no HttpMethod.QUERY
-            for (String method : new String[]{"QUERY", "PURGE", "customMethod", "CHECK&FETCH", "X#Y"}) {
+            // non-standard methods are emitted verbatim; HttpMethod.Query only
+            // exists on net10+, so QUERY also goes through the literal path
+            for (String method : new String[]{"QUERY", "PURGE", "customMethod", "CHECK&FETCH", "X#Y", "REPORT", "PROPPATCH"}) {
                 Assert.assertTrue(generated.contains("new HttpMethod(\"" + method + "\")"),
                         "expected verbatim HttpMethod literal for " + method);
             }
@@ -669,6 +670,12 @@ public class CSharpClientCodegenTest {
                     "querystring param should be appended verbatim");
             Assert.assertFalse(generated.contains("parseQueryStringLocalVar[\"qs\"]"),
                     "querystring param must not be serialized as a name=value pair");
+            // QUERY may carry a body; a querystring param named `uri` must not
+            // collide with UriBuilder
+            Assert.assertTrue(generated.contains("SearchItemsAsync(string uri, Dictionary<string, Object> requestBody"),
+                    "QUERY-with-body operation should take uri + body parameters");
+            Assert.assertTrue(generated.contains("? localVariableQuery :"),
+                    "a querystring param named `localVariableQuery` must reach the wire verbatim");
         } finally {
             FileUtils.deleteDirectory(target.toFile());
         }
@@ -731,6 +738,69 @@ public class CSharpClientCodegenTest {
             Assert.assertTrue(generated.contains("ListPets"), "GET operation should be kept");
             Assert.assertFalse(generated.contains("BadMethod"),
                     "invalid RFC 9110 method token must be skipped");
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    @Test
+    public void testGenerichostSkipsCaseVariantOfNormalizedMethod() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            // .NET 10 knows HttpMethod.Query, so HttpClient folds "qUeRy" onto
+            // QUERY on the wire (verified on net8 vs net10: net8 sends it
+            // verbatim). Since the generated library is multi-target, the only
+            // uniform-honest behavior is warn+skip. The spec validator rejects
+            // the key as a duplicate fixed method, so validation is bypassed.
+            String spec = "openapi: 3.2.0\n"
+                    + "info: {title: t, version: '1'}\n"
+                    + "paths:\n"
+                    + "  /pets:\n"
+                    + "    additionalOperations:\n"
+                    + "      \"qUeRy\":\n"
+                    + "        operationId: caseQueryPets\n"
+                    + "        responses: {'204': {description: done}}\n";
+            Path specFile = target.resolve("spec.yaml");
+            Files.writeString(specFile, spec);
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("csharp")
+                    .setLibrary("generichost")
+                    .setInputSpec(specFile.toString())
+                    .setValidateSpec(false)
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.resolve("out").toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("out/src/Org.OpenAPITools/Api/DefaultApi.cs");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            Assert.assertFalse(generated.contains("CaseQueryPets"),
+                    "case-variant of a normalized method must be skipped");
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    @Test
+    public void testGenerichostWebhookModelGetsPublicCtor() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            // the Pet schema is referenced only by a webhook operation; models
+            // reachable only via openAPI.getWebhooks() must still be marked as
+            // operation inputs or their ctor stays `internal`
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("csharp")
+                    .setLibrary("generichost")
+                    .setInputSpec("src/test/resources/3_2/go-webhook-operations.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path modelPath = target.resolve("src/Org.OpenAPITools/Model/Pet.cs");
+            TestUtils.assertFileExists(modelPath);
+            String model = new String(Files.readAllBytes(modelPath), StandardCharsets.UTF_8);
+            Assert.assertTrue(model.contains("public Pet("),
+                    "webhook-referenced model must get a public ctor");
+            Assert.assertFalse(model.contains("internal Pet("),
+                    "webhook-referenced model must not keep an internal ctor");
         } finally {
             FileUtils.deleteDirectory(target.toFile());
         }
