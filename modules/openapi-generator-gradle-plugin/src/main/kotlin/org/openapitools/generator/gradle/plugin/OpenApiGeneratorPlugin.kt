@@ -115,6 +115,8 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     inputSpecRootDirectory.set(generate.inputSpecRootDirectory)
                     inputSpecRootDirectorySkipMerge.set(generate.inputSpecRootDirectorySkipMerge)
                     inputSpecFiles.from(generate.inputSpecFiles)
+                    schemaLocation.set(generate.schemaLocation)
+                    schemaLocations.from(generate.schemaLocations)
                     mergedFileOutputDir.set(generate.mergedFileOutputDir)
                     mergedFileName.set(generate.mergedFileName)
                     mergedFileInfoName.set(generate.mergedFileInfoName)
