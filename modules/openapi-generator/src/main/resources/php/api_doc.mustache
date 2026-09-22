@@ -6,7 +6,7 @@ All URIs are relative to {{basePath}}, except if the operation defines another b
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-{{#operations}}{{#operation}}| [**{{operationId}}()**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}} |
+{{#operations}}{{#operation}}| [**{{operationId}}()**]({{classname}}.md#{{operationId}}) | **{{#vendorExtensions.x-php-http-method-doc}}{{{vendorExtensions.x-php-http-method-doc}}}{{/vendorExtensions.x-php-http-method-doc}}{{^vendorExtensions.x-php-http-method-doc}}{{httpMethod}}{{/vendorExtensions.x-php-http-method-doc}}** {{path}} | {{summary}} |
 {{/operation}}{{/operations}}{{#operations}}{{#operation}}
 
 ## `{{{operationId}}}()`

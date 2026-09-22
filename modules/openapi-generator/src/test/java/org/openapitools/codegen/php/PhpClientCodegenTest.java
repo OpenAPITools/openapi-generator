@@ -23,14 +23,19 @@ import io.swagger.v3.oas.models.media.DateTimeSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PhpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -191,5 +196,197 @@ public class PhpClientCodegenTest {
         Assert.assertFalse(modelPhp.contains("mb_strlen($starts_at)"), modelPhp);
         Assert.assertTrue(modelPhp.contains("mb_strlen($this->container['title']) > 10"), modelPhp);
         Assert.assertTrue(modelPhp.contains("mb_strlen($title) > 10"), modelPhp);
+    }
+
+    @Test
+    public void testGuzzleOpenApi32OperationsAndQueryStringParam() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("php")
+                    .setLibrary("guzzle")
+                    .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("lib/Api/DefaultApi.php");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            // non-standard methods go through a verbatim subclass so psr7's
+            // strtoupper cannot mangle them
+            for (String method : new String[]{"QUERY", "PURGE", "customMethod", "CHECK&FETCH", "X#Y"}) {
+                Assert.assertTrue(generated.contains("'" + method + "'"),
+                        "expected verbatim method literal for " + method);
+            }
+            Assert.assertTrue(generated.contains("new class("), "verbatim Request subclass expected");
+            Assert.assertTrue(generated.contains("'GET'"), "standard method kept on plain Request");
+            // `in: querystring` appends verbatim with ?/& handling, not via query params
+            Assert.assertTrue(generated.contains("(str_contains($uri, '?') ? '&' : '?') . $qs"),
+                    "querystring param should be appended verbatim");
+            Assert.assertFalse(generated.contains("toQueryValue(\n            $qs"),
+                    "querystring param must not be serialized as a name=value pair");
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    @Test
+    public void testPsr18SkipsOpenApi32Operations() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("php")
+                    .setLibrary("psr-18")
+                    .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("lib/Api/DefaultApi.php");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            Assert.assertTrue(generated.contains("function listPets"), "GET operation should be kept");
+            for (String op : new String[]{"queryPets", "purgePets", "customPets", "checkFetchPets", "hashPets"}) {
+                Assert.assertFalse(generated.contains("function " + op),
+                        "psr-18 must skip unsupported 3.2 operation " + op);
+            }
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    @Test
+    public void testGuzzleSkipsInvalidHttpMethodToken() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("php")
+                    .setLibrary("guzzle")
+                    .setInputSpec("src/test/resources/3_2/rust-invalid-method.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("lib/Api/DefaultApi.php");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            Assert.assertTrue(generated.contains("function listPets"), "GET operation should be kept");
+            Assert.assertFalse(generated.contains("badMethod"),
+                    "invalid RFC 9110 method token must be skipped");
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    @Test
+    public void testGuzzleWebhookOperationsEmitVerbatimMethods() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("php")
+                    .setLibrary("guzzle")
+                    .setInputSpec("src/test/resources/3_2/go-webhook-operations.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("lib/Api/DefaultApi.php");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            Assert.assertTrue(generated.contains("'QUERY'"),
+                    "webhook query operation should emit a verbatim QUERY method");
+            Assert.assertTrue(generated.contains("'customMethod'"),
+                    "webhook additionalOperations should emit a verbatim method");
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    /**
+     * End-to-end check: runs the generated guzzle client against a raw TCP
+     * capture listener, verifying query/additionalOperations methods and
+     * `in: querystring` reach the wire verbatim. Skipped when php or composer
+     * is unavailable, or when packagist cannot be reached.
+     */
+    @Test
+    public void testGuzzleGeneratedClientSendsVerbatimMethods() throws IOException, InterruptedException {
+        if (!isCommandAvailable("php", "--version")) {
+            throw new org.testng.SkipException("php is not on PATH; skipping generated-client verification");
+        }
+        Path target = Files.createTempDirectory("php32-verify");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("php")
+                    .setLibrary("guzzle")
+                    .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            ProcessBuilder composer = composerInstallCommand(target.toFile());
+            if (composer == null || runAndCheck(composer, 300) != 0) {
+                throw new org.testng.SkipException(
+                        "composer install failed (composer missing or packagist unreachable)");
+            }
+
+            Path capture = target.resolve("capture.php");
+            Files.copy(Path.of("src/test/resources/3_2/php-guzzle-capture/capture.php"), capture);
+
+            Process p = new ProcessBuilder("php", "capture.php",
+                            target.toAbsolutePath().toString())
+                    .directory(target.toFile())
+                    .redirectErrorStream(true)
+                    .start();
+            boolean finished = p.waitFor(90, java.util.concurrent.TimeUnit.SECONDS);
+            if (!finished) {
+                p.destroyForcibly();
+            }
+            String output = new String(p.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            Assert.assertTrue(finished, "php capture timed out:\n" + output);
+            Assert.assertTrue(output.contains("CAPTURE-PASS"),
+                    "generated client did not send verbatim 3.2 methods/querystring:\n" + output);
+        } finally {
+            // composer's vendor dir is tens of MB; deleteOnExit cannot remove non-empty dirs
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    private ProcessBuilder composerInstallCommand(File dir) {
+        if (isCommandAvailable("composer", "--version")) {
+            return new ProcessBuilder("composer", "install", "--quiet", "--no-interaction",
+                    "--no-dev", "--prefer-dist")
+                    .directory(dir).redirectErrorStream(true);
+        }
+        String phar = System.getenv("COMPOSER_PHAR");
+        if (phar != null && Files.isRegularFile(Path.of(phar))) {
+            return new ProcessBuilder("php", phar, "install", "--quiet", "--no-interaction",
+                    "--no-dev", "--prefer-dist")
+                    .directory(dir).redirectErrorStream(true);
+        }
+        return null;
+    }
+
+    private int runAndCheck(ProcessBuilder pb, long timeoutSeconds) throws IOException, InterruptedException {
+        Process p = pb.start();
+        if (!p.waitFor(timeoutSeconds, java.util.concurrent.TimeUnit.SECONDS)) {
+            p.destroyForcibly();
+            return -1;
+        }
+        p.getInputStream().transferTo(java.io.OutputStream.nullOutputStream());
+        return p.exitValue();
+    }
+
+    private boolean isCommandAvailable(String... command) {
+        try {
+            Process p = new ProcessBuilder(command)
+                    .redirectErrorStream(true).start();
+            // wait before draining: a child that never exits would otherwise block
+            // the stream read forever
+            if (!p.waitFor(10, java.util.concurrent.TimeUnit.SECONDS)) {
+                p.destroyForcibly();
+                return false;
+            }
+            p.getInputStream().transferTo(java.io.OutputStream.nullOutputStream());
+            return p.exitValue() == 0;
+        } catch (IOException | InterruptedException e) {
+            return false;
+        }
     }
 }

@@ -608,6 +608,7 @@ use {{invokerPackage}}\ObjectSerializer;
         $multipart = false;
 
         {{#queryParams}}
+        {{^isQueryStringParam}}
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             ${{paramName}},
@@ -617,6 +618,7 @@ use {{invokerPackage}}\ObjectSerializer;
             {{#isExplode}}true{{/isExplode}}{{^isExplode}}false{{/isExplode}}, // explode
             {{required}} // required
         ) ?? []);
+        {{/isQueryStringParam}}
         {{/queryParams}}
 
         {{#headerParams}}
@@ -777,12 +779,61 @@ use {{invokerPackage}}\ObjectSerializer;
         $operationHost = $this->config->getHost();
         {{/servers.0}}
         $query = ObjectSerializer::buildQuery($queryParams);
+        {{#vendorExtensions.x-php-has-querystring-param}}
+        $uri = $operationHost . $resourcePath . ($query ? "?{$query}" : '');
+        {{#allParams}}
+        {{#isQueryStringParam}}
+        // OpenAPI 3.2 `in: querystring`: the value IS the query component, appended verbatim
+        {{#required}}
+        $uri .= (str_contains($uri, '?') ? '&' : '?') . ${{paramName}};
+        {{/required}}
+        {{^required}}
+        if (${{paramName}} !== null) {
+            $uri .= (str_contains($uri, '?') ? '&' : '?') . ${{paramName}};
+        }
+        {{/required}}
+        {{/isQueryStringParam}}
+        {{/allParams}}
+        {{/vendorExtensions.x-php-has-querystring-param}}
+        {{#vendorExtensions.x-php-verbatim-method}}
+        // OpenAPI 3.2 custom verb: guzzlehttp/psr7 upper-cases the method in
+        // Request::__construct/withMethod, but Guzzle's handlers only ever read
+        // RequestInterface::getMethod(), so keep the verbatim token in a subclass.
+        return new class(
+            '{{{vendorExtensions.x-php-http-method-literal}}}',
+            {{#vendorExtensions.x-php-has-querystring-param}}$uri{{/vendorExtensions.x-php-has-querystring-param}}{{^vendorExtensions.x-php-has-querystring-param}}$operationHost . $resourcePath . ($query ? "?{$query}" : ''){{/vendorExtensions.x-php-has-querystring-param}},
+            $headers,
+            $httpBody
+        ) extends Request {
+            private string $verbatimMethod;
+
+            public function __construct(string $method, $uri, array $headers = [], $body = null, string $version = '1.1')
+            {
+                parent::__construct($method, $uri, $headers, $body, $version);
+                $this->verbatimMethod = $method;
+            }
+
+            public function getMethod(): string
+            {
+                return $this->verbatimMethod;
+            }
+
+            public function withMethod($method): RequestInterface
+            {
+                $new = parent::withMethod($method);
+                $new->verbatimMethod = $method;
+                return $new;
+            }
+        };
+        {{/vendorExtensions.x-php-verbatim-method}}
+        {{^vendorExtensions.x-php-verbatim-method}}
         return new Request(
             '{{httpMethod}}',
-            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            {{#vendorExtensions.x-php-has-querystring-param}}$uri{{/vendorExtensions.x-php-has-querystring-param}}{{^vendorExtensions.x-php-has-querystring-param}}$operationHost . $resourcePath . ($query ? "?{$query}" : ''){{/vendorExtensions.x-php-has-querystring-param}},
             $headers,
             $httpBody
         );
+        {{/vendorExtensions.x-php-verbatim-method}}
     }
 
     {{#servers.0}}
