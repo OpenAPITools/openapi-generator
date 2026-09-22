@@ -465,7 +465,12 @@ public class DefaultGeneratorTest {
 
         ClientOptInput opts = new ClientOptInput();
         opts.openAPI(openAPI);
-        opts.config(new DefaultCodegen());
+        opts.config(new DefaultCodegen() {
+            @Override
+            public boolean supportsAdditionalOperations() {
+                return true;
+            }
+        });
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(opts);
@@ -483,6 +488,33 @@ public class DefaultGeneratorTest {
     }
 
     @Test
+    public void testProcessPathsSkips32OperationsWhenUnsupported() throws Exception {
+        // generators that cannot emit arbitrary HTTP methods must skip
+        // query/additionalOperations instead of producing uncompilable code
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.setPaths(new Paths());
+        Operation queryOp = new Operation().operationId("queryPets")
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
+        Operation purgeOp = new Operation().operationId("purgePets")
+                .responses(new ApiResponses().addApiResponse("204", new ApiResponse().description("done")));
+        Operation getOp = new Operation().operationId("getPets")
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
+        openAPI.getPaths().addPathItem("/pets",
+                new PathItem().get(getOp).query(queryOp).addAdditionalOperation("PURGE", purgeOp));
+
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        opts.config(new DefaultCodegen()); // default: supportsAdditionalOperations() == false
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        Map<String, List<CodegenOperation>> result = generator.processPaths(openAPI.getPaths());
+        List<CodegenOperation> defaultList = result.get("Default");
+        Assert.assertEquals(defaultList.size(), 1);
+        Assert.assertEquals(defaultList.get(0).operationId, "getPets");
+    }
+
+    @Test
     public void testProcessWebhooksQueryAndAdditionalOperations() throws Exception {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         Operation queryOp = new Operation().operationId("queryHook")
@@ -493,7 +525,12 @@ public class DefaultGeneratorTest {
 
         ClientOptInput opts = new ClientOptInput();
         opts.openAPI(openAPI);
-        opts.config(new DefaultCodegen());
+        opts.config(new DefaultCodegen() {
+            @Override
+            public boolean supportsAdditionalOperations() {
+                return true;
+            }
+        });
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(opts);

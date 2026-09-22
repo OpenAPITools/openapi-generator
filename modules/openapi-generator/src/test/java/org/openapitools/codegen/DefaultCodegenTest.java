@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
@@ -2138,6 +2139,32 @@ public class DefaultCodegenTest {
                     Assert.fail(String.format(Locale.getDefault(), "invalid callback request http method '%s'", req.httpMethod));
             }
         });
+    }
+
+    @Test
+    public void testCallbackAdditionalOperationMethodCasingPreserved() {
+        // OpenAPI 3.2: additionalOperations keys are HTTP method names that must be
+        // sent verbatim - "customMethod" must not be normalized to CUSTOMMETHOD
+        DefaultCodegen codegen = new DefaultCodegen() {
+            @Override
+            public boolean supportsAdditionalOperations() {
+                return true;
+            }
+        };
+        codegen.setOpenAPI(TestUtils.createOpenAPI());
+
+        PathItem callbackPath = new PathItem();
+        callbackPath.addAdditionalOperation("customMethod",
+                new Operation().operationId("customCallback")
+                        .responses(new ApiResponses()
+                                .addApiResponse("200", new ApiResponse().description("ok"))));
+        Callback callback = new Callback();
+        callback.addPathItem("{$request.body#/callbackUrl}", callbackPath);
+
+        CodegenCallback cb = codegen.fromCallback("onEvent", callback, null);
+        Assert.assertEquals(cb.urls.size(), 1);
+        Assert.assertEquals(cb.urls.get(0).requests.size(), 1);
+        Assert.assertEquals(cb.urls.get(0).requests.get(0).httpMethod, "customMethod");
     }
 
     @Test

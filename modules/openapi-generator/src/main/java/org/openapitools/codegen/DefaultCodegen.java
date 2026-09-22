@@ -1398,9 +1398,15 @@ public class DefaultCodegen implements CodegenConfig {
             if (pathItems != null) {
                 for (Map.Entry<String, PathItem> e : pathItems.entrySet()) {
                     Map<String, Operation> pathOperations = new LinkedHashMap<>();
-                    e.getValue().readOperationsMap().forEach((method, operation) ->
-                            pathOperations.put(method.toString(), operation));
-                    if (e.getValue().getAdditionalOperations() != null) {
+                    e.getValue().readOperationsMap().forEach((method, operation) -> {
+                        // HttpMethod.QUERY is in the enum map too - skip it for
+                        // generators that cannot emit the 3.2 operations
+                        if (method == PathItem.HttpMethod.QUERY && !supportsAdditionalOperations()) {
+                            return;
+                        }
+                        pathOperations.put(method.toString(), operation);
+                    });
+                    if (supportsAdditionalOperations() && e.getValue().getAdditionalOperations() != null) {
                         pathOperations.putAll(e.getValue().getAdditionalOperations());
                     }
                     for (Map.Entry<String, Operation> op : pathOperations.entrySet()) {
@@ -5524,10 +5530,20 @@ public class DefaultCodegen implements CodegenConfig {
             callbackOps.add(Pair.of("patch", pi.getPatch()));
             callbackOps.add(Pair.of("options", pi.getOptions()));
             callbackOps.add(Pair.of("trace", pi.getTrace()));
-            callbackOps.add(Pair.of("query", pi.getQuery()));
-            if (pi.getAdditionalOperations() != null) {
-                pi.getAdditionalOperations().forEach((m, o) ->
-                        callbackOps.add(Pair.of(m.toLowerCase(Locale.ROOT), o)));
+            // additionalOperations keys are HTTP method names sent verbatim
+            Set<String> verbatimMethods = new HashSet<>();
+            if (supportsAdditionalOperations()) {
+                callbackOps.add(Pair.of("query", pi.getQuery()));
+                if (pi.getAdditionalOperations() != null) {
+                    pi.getAdditionalOperations().forEach((m, o) -> {
+                        callbackOps.add(Pair.of(m, o));
+                        verbatimMethods.add(m);
+                    });
+                }
+            } else if (pi.getQuery() != null
+                    || (pi.getAdditionalOperations() != null && !pi.getAdditionalOperations().isEmpty())) {
+                LOGGER.warn("Callback '{}' on expression '{}' declares OpenAPI 3.2 query/additionalOperations but generator '{}' does not support them; those operations will be missing from the generated output",
+                        name, expression, getName());
             }
             callbackOps.build()
                     .filter(p -> p.getValue() != null)
@@ -5553,6 +5569,9 @@ public class DefaultCodegen implements CodegenConfig {
                             op.getExtensions().put("x-callback-request", true);
 
                             CodegenOperation co = fromOperation(expression, method, op, servers);
+                            if (verbatimMethods.contains(method)) {
+                                co.httpMethod = method;
+                            }
                             if (genId) {
                                 co.operationIdOriginal = null;
                                 // legacy (see `fromOperation()`)

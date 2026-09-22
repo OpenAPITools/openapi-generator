@@ -1913,13 +1913,16 @@ public class ApiClient {
             addOperationLookupEntry(path, "HEAD", pathItem.getHead());
             addOperationLookupEntry(path, "PATCH", pathItem.getPatch());
             addOperationLookupEntry(path, "TRACE", pathItem.getTrace());
-            {{#hasQueryOrAdditionalOperations}}{{! requires a swagger-parser version with OpenAPI 3.2 model support }}addOperationLookupEntry(path, "QUERY", pathItem.getQuery());
+            {{#hasQueryOrAdditionalOperations}}
+            {{! requires a swagger-parser version with OpenAPI 3.2 model support }}
+            addOperationLookupEntry(path, "QUERY", pathItem.getQuery());
             if (pathItem.getAdditionalOperations() != null) {
                 for (Map.Entry<String, Operation> additionalOperation : pathItem.getAdditionalOperations().entrySet()) {
                     addOperationLookupEntry(path, additionalOperation.getKey(), additionalOperation.getValue());
                 }
             }
-            {{/hasQueryOrAdditionalOperations}}        }
+            {{/hasQueryOrAdditionalOperations}}
+        }
         return this;
     }
 

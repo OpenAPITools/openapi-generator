@@ -1436,6 +1436,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    public boolean supportsAdditionalOperations() {
+        // only the okhttp-gson templates emit the HTTP method as a plain string;
+        // other libraries embed enumerated constants (HttpMethod.QUERY etc.)
+        // that do not exist for the OpenAPI 3.2 methods
+        return isLibrary(OKHTTP_GSON) || StringUtils.isBlank(getLibrary());
+    }
+
+    @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
         // the generated ApiClient (dynamicOperations mode) calls PathItem.getQuery()/

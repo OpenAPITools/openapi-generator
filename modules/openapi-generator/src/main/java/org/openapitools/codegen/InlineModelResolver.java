@@ -67,6 +67,7 @@ public class InlineModelResolver {
     private Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     private Map<String, String> inlineSchemaOptions = new HashMap<>();
     private Set<String> inlineSchemaNameMappingValues = new HashSet<>();
+    private CodegenConfig codegen;
     public boolean resolveInlineEnums = false;
     public boolean skipSchemaReuse = false; // skip reusing inline schema if set to true
     public Boolean refactorAllOfInlineSchemas = null; // refactor allOf inline schemas into $ref
@@ -148,6 +149,10 @@ public class InlineModelResolver {
     public InlineModelResolver() {
         this.inlineSchemaOptions.put("ARRAY_ITEM_SUFFIX", "_inner");
         this.inlineSchemaOptions.put("MAP_ITEM_SUFFIX", "_value");
+    }
+
+    public void setCodegen(CodegenConfig codegen) {
+        this.codegen = codegen;
     }
 
     public void setInlineSchemaNameMapping(Map inlineSchemaNameMapping) {
@@ -274,9 +279,14 @@ public class InlineModelResolver {
     }
 
     private void addOperationEntries(List<Map.Entry<String, Operation>> entries, PathItem pathItem) {
-        pathItem.readOperationsMap().forEach((method, operation) ->
-                entries.add(new AbstractMap.SimpleEntry<>(method.toString().toLowerCase(Locale.ROOT), operation)));
-        if (pathItem.getAdditionalOperations() != null) {
+        boolean supports32Ops = codegen == null || codegen.supportsAdditionalOperations();
+        pathItem.readOperationsMap().forEach((method, operation) -> {
+            if (method == PathItem.HttpMethod.QUERY && !supports32Ops) {
+                return;
+            }
+            entries.add(new AbstractMap.SimpleEntry<>(method.toString().toLowerCase(Locale.ROOT), operation));
+        });
+        if (supports32Ops && pathItem.getAdditionalOperations() != null) {
             pathItem.getAdditionalOperations().forEach((method, operation) ->
                     entries.add(new AbstractMap.SimpleEntry<>(method, operation)));
         }

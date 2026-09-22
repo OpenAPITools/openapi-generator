@@ -277,6 +277,7 @@ public class DefaultGenerator implements Generator {
         // resolve inline models
         if (config.getUseInlineModelResolver()) {
             InlineModelResolver inlineModelResolver = new InlineModelResolver();
+            inlineModelResolver.setCodegen(config);
             inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
             inlineModelResolver.setInlineSchemaOptions(config.inlineSchemaOption());
 
@@ -1497,10 +1498,14 @@ public class DefaultGenerator implements Generator {
             processOperation(resourcePath, "patch", path.getPatch(), ops, path);
             processOperation(resourcePath, "options", path.getOptions(), ops, path);
             processOperation(resourcePath, "trace", path.getTrace(), ops, path);
-            processOperation(resourcePath, "query", path.getQuery(), ops, path);
-            if (path.getAdditionalOperations() != null) {
-                path.getAdditionalOperations().forEach((method, operation) ->
-                        processOperation(resourcePath, method, method, operation, ops, path));
+            if (config.supportsAdditionalOperations()) {
+                processOperation(resourcePath, "query", path.getQuery(), ops, path);
+                if (path.getAdditionalOperations() != null) {
+                    path.getAdditionalOperations().forEach((method, operation) ->
+                            processOperation(resourcePath, method, method, operation, ops, path));
+                }
+            } else if (hasQueryOrAdditionalOperations(path)) {
+                LOGGER.warn("Path '{}' declares OpenAPI 3.2 query/additionalOperations but generator '{}' does not support them; those operations will be missing from the generated output", resourcePath, config.getName());
             }
         }
         return ops;
@@ -1523,13 +1528,22 @@ public class DefaultGenerator implements Generator {
             processOperation(resourceKey, "patch", path.getPatch(), ops, path);
             processOperation(resourceKey, "options", path.getOptions(), ops, path);
             processOperation(resourceKey, "trace", path.getTrace(), ops, path);
-            processOperation(resourceKey, "query", path.getQuery(), ops, path);
-            if (path.getAdditionalOperations() != null) {
-                path.getAdditionalOperations().forEach((method, operation) ->
-                        processOperation(resourceKey, method, method, operation, ops, path));
+            if (config.supportsAdditionalOperations()) {
+                processOperation(resourceKey, "query", path.getQuery(), ops, path);
+                if (path.getAdditionalOperations() != null) {
+                    path.getAdditionalOperations().forEach((method, operation) ->
+                            processOperation(resourceKey, method, method, operation, ops, path));
+                }
+            } else if (hasQueryOrAdditionalOperations(path)) {
+                LOGGER.warn("Webhook '{}' declares OpenAPI 3.2 query/additionalOperations but generator '{}' does not support them; those operations will be missing from the generated output", resourceKey, config.getName());
             }
         }
         return ops;
+    }
+
+    private boolean hasQueryOrAdditionalOperations(PathItem path) {
+        return path.getQuery() != null
+                || (path.getAdditionalOperations() != null && !path.getAdditionalOperations().isEmpty());
     }
 
     private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
