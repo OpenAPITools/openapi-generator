@@ -83,7 +83,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FormApi#test_form_integer_boolean_string\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -152,7 +152,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FormApi#test_form_object_multipart\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -232,7 +232,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FormApi#test_form_oneof\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

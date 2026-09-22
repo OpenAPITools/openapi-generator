@@ -80,7 +80,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:PATCH, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"PATCH", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeClassnameTags123Api#test_classname\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

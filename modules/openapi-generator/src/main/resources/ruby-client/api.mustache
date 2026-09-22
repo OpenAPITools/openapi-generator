@@ -171,10 +171,22 @@ module {{moduleName}}
       {{/allParams}}
       # resource path
       local_var_path = '{{{path}}}'{{#pathParams}}.sub({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, CGI.escape({{paramName}}.to_s){{^strictSpecBehavior}}.gsub('%2F', '/'){{/strictSpecBehavior}}){{/pathParams}}
+      {{#allParams}}
+      {{#isQueryStringParam}}
+      {{#required}}
+      # OpenAPI 3.2 `in: querystring`: the value IS the query component, appended verbatim
+      local_var_path = local_var_path + (local_var_path.include?('?') ? '&' : '?') + {{{paramName}}}.to_s
+      {{/required}}
+      {{^required}}
+      local_var_path = local_var_path + (local_var_path.include?('?') ? '&' : '?') + opts[:'{{{paramName}}}'].to_s if !opts[:'{{{paramName}}}'].nil?
+      {{/required}}
+      {{/isQueryStringParam}}
+      {{/allParams}}
 
       # query parameters
       query_params = opts[:query_params] || {}
       {{#queryParams}}
+      {{^isQueryStringParam}}
       {{#required}}
       {{#queryIsJsonMimeType}}
       query_params[:'{{{baseName}}}'] = {{{paramName}}}.to_json
@@ -183,8 +195,10 @@ module {{moduleName}}
       query_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
       {{/queryIsJsonMimeType}}
       {{/required}}
+      {{/isQueryStringParam}}
       {{/queryParams}}
       {{#queryParams}}
+      {{^isQueryStringParam}}
       {{^required}}
       {{#queryIsJsonMimeType}}
       query_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'].to_json if !opts[:'{{{paramName}}}'].nil?
@@ -193,6 +207,7 @@ module {{moduleName}}
       query_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param(opts[:'{{{paramName}}}'], :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}opts[:'{{{paramName}}}']{{/collectionFormat}} if !opts[:'{{{paramName}}}'].nil?
       {{/queryIsJsonMimeType}}
       {{/required}}
+      {{/isQueryStringParam}}
       {{/queryParams}}
 
       # header parameters
@@ -251,7 +266,7 @@ module {{moduleName}}
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:{{httpMethod}}, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"{{{vendorExtensions.x-ruby-http-method-symbol}}}", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

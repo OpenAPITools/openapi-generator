@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -30,8 +31,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -761,5 +764,177 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(op.queryParams.size(), 2);
         assertTrue(op.queryParams.stream().allMatch(p -> p.queryIsJsonMimeType),
                 "All content:application/json query params should have queryIsJsonMimeType=true");
+    }
+
+    @Test
+    public void testHttpxOpenApi32OperationsAndQueryStringParam() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("ruby")
+                    .setLibrary("httpx")
+                    .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("lib/openapi_client/api/default_api.rb");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            // methods are emitted as quoted symbols so arbitrary tokens stay valid Ruby
+            for (String method : new String[]{"QUERY", "PURGE", "customMethod", "CHECK&FETCH"}) {
+                Assert.assertTrue(generated.contains("call_api(:\"" + method + "\""),
+                        "expected verbatim symbol literal for " + method);
+            }
+            Assert.assertTrue(generated.contains("call_api(:\"GET\""), "standard method kept");
+            // `#` must be escaped inside the :"..." literal or Ruby interpolates #$/#@/#{
+            Assert.assertTrue(generated.contains("call_api(:\"X\\#Y\""),
+                    "# in method token must be escaped in the symbol literal");
+            // `in: querystring` appends verbatim with ?/& handling, not via query_params
+            Assert.assertTrue(generated.contains("+ qs.to_s"),
+                    "querystring param should be appended verbatim");
+            Assert.assertFalse(generated.contains("query_params[:'qs']"),
+                    "querystring param must not be serialized as a name=value pair");
+            Path clientPath = target.resolve("lib/openapi_client/api_client.rb");
+            String client = new String(Files.readAllBytes(clientPath), StandardCharsets.UTF_8);
+            Assert.assertTrue(client.contains("instance_variable_set(:@verb, http_method.to_s)"),
+                    "httpx verbatim verb path should be present");
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    @Test
+    public void testTyphoeusSkipsOpenApi32Operations() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("ruby")
+                    .setLibrary("typhoeus")
+                    .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("lib/openapi_client/api/default_api.rb");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            Assert.assertTrue(generated.contains("def list_pets"), "GET operation should be kept");
+            for (String op : new String[]{"query_pets", "purge_pets", "custom_pets", "check_fetch_pets", "hash_pets"}) {
+                Assert.assertFalse(generated.contains("def " + op),
+                        "typhoeus must skip unsupported 3.2 operation " + op);
+            }
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    @Test
+    public void testHttpxSkipsInvalidHttpMethodToken() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("ruby")
+                    .setLibrary("httpx")
+                    .setInputSpec("src/test/resources/3_2/rust-invalid-method.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("lib/openapi_client/api/default_api.rb");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            Assert.assertTrue(generated.contains("def list_pets"), "GET operation should be kept");
+            Assert.assertFalse(generated.contains("bad_method"),
+                    "invalid RFC 9110 method token must be skipped");
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    @Test
+    public void testHttpxWebhookOperationsEmitVerbatimSymbols() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("ruby")
+                    .setLibrary("httpx")
+                    .setInputSpec("src/test/resources/3_2/go-webhook-operations.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            // webhooks render through the same api.mustache; their non-standard
+            // methods must be symbol literals too, otherwise the verb is lost
+            Path apiPath = target.resolve("lib/openapi_client/api/default_api.rb");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            Assert.assertTrue(generated.contains("call_api(:\"QUERY\""),
+                    "webhook query operation should emit a verbatim QUERY symbol");
+            Assert.assertTrue(generated.contains("call_api(:\"customMethod\""),
+                    "webhook additionalOperations should emit a verbatim symbol");
+            Assert.assertFalse(generated.contains("call_api(:\"\""),
+                    "no operation may emit an empty method symbol");
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    /**
+     * End-to-end check: runs the generated httpx client with a raw TCP capture
+     * listener, verifying QUERY/additionalOperations methods and
+     * `in: querystring` reach the wire verbatim. Skipped when ruby or the httpx
+     * gem is unavailable.
+     */
+    @Test
+    public void testHttpxGeneratedClientSendsVerbatimMethods() throws IOException, InterruptedException {
+        if (!isCommandAvailable("ruby", "--version")) {
+            throw new org.testng.SkipException("ruby is not on PATH; skipping generated-client verification");
+        }
+        if (!isCommandAvailable("ruby", "-e", "require 'httpx'")) {
+            throw new org.testng.SkipException("httpx gem not installed; skipping generated-client verification");
+        }
+        Path target = Files.createTempDirectory("ruby32-verify");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("ruby")
+                    .setLibrary("httpx")
+                    .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            Path capture = target.resolve("capture.rb");
+            Files.copy(Path.of("src/test/resources/3_2/ruby-httpx-capture/capture.rb"), capture);
+
+            Process p = new ProcessBuilder("ruby", "capture.rb",
+                            target.resolve("lib").toAbsolutePath().toString())
+                    .directory(target.toFile())
+                    .redirectErrorStream(true)
+                    .start();
+            boolean finished = p.waitFor(60, java.util.concurrent.TimeUnit.SECONDS);
+            if (!finished) {
+                p.destroyForcibly();
+            }
+            String output = new String(p.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            Assert.assertTrue(finished, "ruby capture timed out:\n" + output);
+            Assert.assertTrue(output.contains("CAPTURE-PASS"),
+                    "generated client did not send verbatim 3.2 methods/querystring:\n" + output);
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    private boolean isCommandAvailable(String... command) {
+        try {
+            Process p = new ProcessBuilder(command)
+                    .redirectErrorStream(true).start();
+            // wait before draining: a child that never exits would otherwise block
+            // the stream read forever
+            if (!p.waitFor(10, java.util.concurrent.TimeUnit.SECONDS)) {
+                p.destroyForcibly();
+                return false;
+            }
+            p.getInputStream().transferTo(java.io.OutputStream.nullOutputStream());
+            return p.exitValue() == 0;
+        } catch (IOException | InterruptedException e) {
+            return false;
+        }
     }
 }

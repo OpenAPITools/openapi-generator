@@ -39,3 +39,9 @@ paths:
         responses:
           '204':
             description: done
+      # `#` is valid tchar but would trigger interpolation inside a Ruby :"..." literal
+      "X#Y":
+        operationId: hashPets
+        responses:
+          '204':
+            description: done

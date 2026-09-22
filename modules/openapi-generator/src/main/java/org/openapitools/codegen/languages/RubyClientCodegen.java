@@ -28,6 +28,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -603,6 +604,63 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
+    public boolean supportsAdditionalOperations() {
+        // only httpx can emit arbitrary methods verbatim: typhoeus crashes on
+        // non-alphanumeric tokens and up-cases the rest, faraday rejects them outright
+        return HTTPX.equals(getLibrary());
+    }
+
+    @Override
+    protected boolean supportsQueryStringParameters() {
+        return HTTPX.equals(getLibrary());
+    }
+
+    private static final Set<String> STANDARD_HTTP_METHODS = new HashSet<>(Arrays.asList(
+            "GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE", "CONNECT"));
+
+    // RFC 9110 tchar: method tokens the generated client can send verbatim
+    private static final java.util.regex.Pattern HTTP_METHOD_TOKEN_PATTERN =
+            java.util.regex.Pattern.compile("[!#$%&'*+\\-.^_`|~0-9A-Za-z]+");
+
+    /**
+     * Flags non-standard (OpenAPI 3.2 query/additionalOperations) HTTP methods, stores a
+     * doc-safe variant ({@code x-ruby-http-method-doc}) because {@code |} is a valid RFC 9110
+     * tchar but breaks markdown tables, and a symbol-safe variant
+     * ({@code x-ruby-http-method-symbol}) escaping {@code #} so {@code :"...#$x"} does not
+     * interpolate Ruby variables. Operation names that are not valid RFC 9110 tokens are
+     * warned about and skipped.
+     */
+    private void flagVerbatimHttpMethods(List<CodegenOperation> operationList) {
+        Iterator<CodegenOperation> it = operationList.iterator();
+        while (it.hasNext()) {
+            CodegenOperation op = it.next();
+            if (op.httpMethod == null) {
+                continue;
+            }
+            if (STANDARD_HTTP_METHODS.contains(op.httpMethod)) {
+                op.vendorExtensions.put("x-ruby-http-method-symbol", op.httpMethod);
+                continue;
+            }
+            if (!HTTP_METHOD_TOKEN_PATTERN.matcher(op.httpMethod).matches()) {
+                LOGGER.warn("Skipping operation {}: HTTP method name '{}' is not a valid "
+                        + "RFC 9110 token and cannot be emitted as a Ruby method symbol.",
+                        op.operationId, op.httpMethod);
+                it.remove();
+                continue;
+            }
+            op.vendorExtensions.put("x-ruby-http-method-doc", op.httpMethod.replace("|", "\\|"));
+            op.vendorExtensions.put("x-ruby-http-method-symbol", op.httpMethod.replace("#", "\\#"));
+        }
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        WebhooksMap map = super.postProcessWebhooksWithModels(objs, allModels);
+        flagVerbatimHttpMethods(map.getWebhooks().getOperation());
+        return map;
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
@@ -610,6 +668,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
         List<CodegenOperation> operationList = operations.getOperation();
+        flagVerbatimHttpMethods(operationList);
         for (CodegenOperation op : operationList) {
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));

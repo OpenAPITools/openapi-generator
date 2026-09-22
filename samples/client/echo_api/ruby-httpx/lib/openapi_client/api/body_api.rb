@@ -69,7 +69,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: BodyApi#test_binary_gif\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -133,7 +133,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: BodyApi#test_body_application_octetstream_binary\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -202,7 +202,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: BodyApi#test_body_multipart_formdata_array_of_binary\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -267,7 +267,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: BodyApi#test_body_multipart_formdata_single_binary\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -331,7 +331,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: BodyApi#test_echo_body_all_of_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -395,7 +395,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: BodyApi#test_echo_body_free_form_object_response_string\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -459,7 +459,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: BodyApi#test_echo_body_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -523,7 +523,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: BodyApi#test_echo_body_pet_response_string\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -587,7 +587,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: BodyApi#test_echo_body_string_enum\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -651,7 +651,7 @@ module OpenapiClient
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: BodyApi#test_echo_body_tag_response_string\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

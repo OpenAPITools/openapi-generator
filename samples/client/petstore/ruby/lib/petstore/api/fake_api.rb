@@ -67,7 +67,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_big_decimal_map\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -122,7 +122,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_health_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -192,7 +192,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_http_signature_test\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -254,7 +254,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_boolean_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -316,7 +316,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_composite_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -378,7 +378,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_number_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -440,7 +440,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_string_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -506,7 +506,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_property_enum_integer_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -587,7 +587,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#get_parameter_name_mapping\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -653,7 +653,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_additional_properties_reference\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -713,7 +713,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"PUT", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_body_with_binary\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -777,7 +777,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"PUT", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_body_with_file_schema\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -846,7 +846,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"PUT", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_body_with_query_params\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -914,7 +914,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:PATCH, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"PATCH", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_client_model\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1086,7 +1086,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_endpoint_parameters\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1205,7 +1205,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_enum_parameters\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1294,7 +1294,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"DELETE", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_group_parameters\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1360,7 +1360,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_inline_additional_properties\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1426,7 +1426,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_inline_freeform_additional_properties\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1500,7 +1500,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"GET", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_json_form_data\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1598,7 +1598,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"PUT", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_query_parameter_collection_format\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -1664,7 +1664,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      data, status_code, headers = @api_client.call_api(:"POST", local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_string_map_reference\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
