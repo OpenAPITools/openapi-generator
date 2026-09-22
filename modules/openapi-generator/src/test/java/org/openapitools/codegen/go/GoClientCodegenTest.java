@@ -167,6 +167,9 @@ public class GoClientCodegenTest {
                 // instead of going on the wire as the literal "null"; a typed nil pointer
                 // is unwrapped with a nil check rather than panicking in Elem().Interface()
                 "entry, ok := parameterValueIndirect(v)",
+                // the skip sits inside the form branch: deepObject keeps sending a nil entry
+                // as [key]=null, which the petstore sample's TestQueryDeepObject pins
+                "if !ok { continue } if entry.Kind() == reflect.Slice {",
                 "if element, ok := parameterValueIndirect(entry.Index(i)); ok {",
                 "func parameterValueIndirect(v reflect.Value) (reflect.Value, bool) {",
                 "case reflect.Ptr: if v.IsNil() { return }",
