@@ -736,7 +736,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         for (PathItem pathItem : openAPI.getPaths().values()) {
             collectOperationInputModels(pathItem.getParameters(), operationInputModels, visitedModels);
-            for (Operation operation : pathItem.readOperations()) {
+            // readOperations() covers `query` but not OpenAPI 3.2 additionalOperations
+            java.util.List<Operation> operations = new java.util.ArrayList<>(pathItem.readOperations());
+            if (pathItem.getAdditionalOperations() != null) {
+                operations.addAll(pathItem.getAdditionalOperations().values());
+            }
+            for (Operation operation : operations) {
                 collectOperationInputModels(operation.getParameters(), operationInputModels, visitedModels);
                 RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
                 if (requestBody != null) {

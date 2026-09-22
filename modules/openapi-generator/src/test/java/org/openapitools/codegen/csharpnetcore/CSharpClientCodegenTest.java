@@ -21,7 +21,9 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.openapitools.codegen.languages.JavaCXFClientCodegen;
 import org.openapitools.codegen.model.OperationMap;
@@ -32,7 +34,9 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
@@ -636,5 +640,180 @@ public class CSharpClientCodegenTest {
         File model = files.get(path);
         assertNotNull(model, "Could not find generated model: " + path);
         return model;
+    }
+
+    @Test
+    public void testGenerichostOpenApi32OperationsAndQueryStringParam() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("csharp")
+                    .setLibrary("generichost")
+                    .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("src/Org.OpenAPITools/Api/DefaultApi.cs");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            // non-standard methods are emitted verbatim; there is no HttpMethod.QUERY
+            for (String method : new String[]{"QUERY", "PURGE", "customMethod", "CHECK&FETCH", "X#Y"}) {
+                Assert.assertTrue(generated.contains("new HttpMethod(\"" + method + "\")"),
+                        "expected verbatim HttpMethod literal for " + method);
+            }
+            Assert.assertTrue(generated.contains("httpRequestMessageLocalVar.Method = HttpMethod.Get"),
+                    "standard method kept on the static singleton");
+            // `in: querystring` appends verbatim after UriBuilder.Query, not via
+            // ParseQueryString (which would double-encode)
+            Assert.assertTrue(generated.contains("uriBuilderLocalVar.Query + \"&\" + qs"),
+                    "querystring param should be appended verbatim");
+            Assert.assertFalse(generated.contains("parseQueryStringLocalVar[\"qs\"]"),
+                    "querystring param must not be serialized as a name=value pair");
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    @Test
+    public void testRestsharpSkipsOpenApi32Operations() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("csharp")
+                    .setLibrary("restsharp")
+                    .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("src/Org.OpenAPITools/Api/DefaultApi.cs");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            Assert.assertTrue(generated.contains("ListPets"), "GET operation should be kept");
+            for (String op : new String[]{"QueryPets", "PurgePets", "CustomPets", "CheckFetchPets", "HashPets"}) {
+                Assert.assertFalse(generated.contains(op),
+                        "restsharp must skip unsupported 3.2 operation " + op);
+            }
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    @Test
+    public void testGenerichostSkipsInvalidOrNormalizingMethodToken() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            // "MY METHOD" is not a valid RFC 9110 token. (A case-variant like a
+            // lowercase "get" is additionally guarded in CSharpClientCodegen, but
+            // the parser already rejects it as a duplicate fixed-method name.)
+            String spec = "openapi: 3.2.0\n"
+                    + "info: {title: t, version: '1'}\n"
+                    + "paths:\n"
+                    + "  /pets:\n"
+                    + "    get:\n"
+                    + "      operationId: listPets\n"
+                    + "      responses: {'200': {description: ok}}\n"
+                    + "    additionalOperations:\n"
+                    + "      \"MY METHOD\":\n"
+                    + "        operationId: badMethod\n"
+                    + "        responses: {'204': {description: done}}\n";
+            Path specFile = target.resolve("spec.yaml");
+            Files.writeString(specFile, spec);
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("csharp")
+                    .setLibrary("generichost")
+                    .setInputSpec(specFile.toString())
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.resolve("out").toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("out/src/Org.OpenAPITools/Api/DefaultApi.cs");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            Assert.assertTrue(generated.contains("ListPets"), "GET operation should be kept");
+            Assert.assertFalse(generated.contains("BadMethod"),
+                    "invalid RFC 9110 method token must be skipped");
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    /**
+     * End-to-end check: builds the generated generichost client and runs a raw
+     * TcpListener capture, verifying query/additionalOperations methods and
+     * `in: querystring` reach the wire verbatim. Skipped when dotnet is not on
+     * PATH or nuget restore fails.
+     */
+    @Test
+    public void testGenerichostGeneratedClientSendsVerbatimMethods() throws IOException, InterruptedException {
+        if (!isCommandAvailable("dotnet", "--version")) {
+            throw new org.testng.SkipException("dotnet is not on PATH; skipping generated-client verification");
+        }
+        Path target = Files.createTempDirectory("csharp32-verify");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("csharp")
+                    .setLibrary("generichost")
+                    .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"))
+                    .addAdditionalProperty("targetFramework", "net8.0");
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            Path captureDir = target.resolve("capture");
+            Files.createDirectories(captureDir);
+            for (String f : new String[]{"Program.cs", "Capture.csproj"}) {
+                Files.copy(Path.of("src/test/resources/3_2/csharp-generichost-capture/" + f),
+                        captureDir.resolve(f));
+            }
+
+            // nuget restore is the only network-dependent step; only its failure
+            // is skippable - compile or capture failures must fail the test
+            Path restoreLog = target.resolve("restore.log");
+            Process restore = new ProcessBuilder("dotnet", "restore", "capture/Capture.csproj")
+                    .directory(target.toFile())
+                    .redirectErrorStream(true)
+                    .redirectOutput(restoreLog.toFile())
+                    .start();
+            if (!restore.waitFor(180, java.util.concurrent.TimeUnit.SECONDS) || restore.exitValue() != 0) {
+                restore.destroyForcibly();
+                throw new org.testng.SkipException("dotnet restore failed (nuget unreachable?):\n"
+                        + new String(Files.readAllBytes(restoreLog), StandardCharsets.UTF_8));
+            }
+
+            Path runLog = target.resolve("run.log");
+            Process p = new ProcessBuilder("dotnet", "run", "--project", "capture/Capture.csproj",
+                    "--no-restore")
+                    .directory(target.toFile())
+                    .redirectErrorStream(true)
+                    .redirectOutput(runLog.toFile())
+                    .start();
+            boolean finished = p.waitFor(180, java.util.concurrent.TimeUnit.SECONDS);
+            if (!finished) {
+                p.destroyForcibly();
+            }
+            String output = new String(Files.readAllBytes(runLog), StandardCharsets.UTF_8);
+            Assert.assertTrue(finished, "dotnet capture timed out:\n" + output);
+            Assert.assertTrue(output.contains("CAPTURE-PASS"),
+                    "generated client did not send verbatim 3.2 methods/querystring:\n" + output);
+        } finally {
+            // bin/obj dirs are large; deleteOnExit cannot remove non-empty dirs
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    private boolean isCommandAvailable(String... command) {
+        try {
+            Process p = new ProcessBuilder(command)
+                    .redirectErrorStream(true).start();
+            // wait before draining: a child that never exits would otherwise block
+            // the stream read forever
+            if (!p.waitFor(10, java.util.concurrent.TimeUnit.SECONDS)) {
+                p.destroyForcibly();
+                return false;
+            }
+            p.getInputStream().transferTo(java.io.OutputStream.nullOutputStream());
+            return p.exitValue() == 0;
+        } catch (IOException | InterruptedException e) {
+            return false;
+        }
     }
 }

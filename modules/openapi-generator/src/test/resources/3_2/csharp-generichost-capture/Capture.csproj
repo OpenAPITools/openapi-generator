@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Wire-capture harness for the generated `csharp` (generichost) client.
+    Copied into the generated client directory by CSharpClientCodegenTest;
+    the ProjectReference path is relative to the generated root.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Capture</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../src/Org.OpenAPITools/Org.OpenAPITools.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -431,7 +431,9 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#-first}}
 
                     {{/-first}}
+                    {{^isQueryStringParam}}
                     parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{paramName}});
+                    {{/isQueryStringParam}}
                     {{/required}}
                     {{/queryParams}}
 
@@ -443,9 +445,11 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/constantParams}}
                     {{#queryParams}}
                     {{^required}}
+                    {{^isQueryStringParam}}
                     if ({{paramName}}.IsSet)
                         parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{paramName}}.Value);
 
+                    {{/isQueryStringParam}}
                     {{/required}}
                     {{#-last}}
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
@@ -624,6 +628,20 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/isKeyInQuery}}
                     {{/isApiKey}}
                     {{/authMethods}}
+                    {{#allParams}}
+                    {{#isQueryStringParam}}
+                    // OpenAPI 3.2 `in: querystring`: the value IS the query component,
+                    // appended verbatim - UriBuilder keeps pre-encoded escapes as-is
+                    {{#required}}
+                    uriBuilderLocalVar.Query = string.IsNullOrEmpty(uriBuilderLocalVar.Query) ? {{paramName}} : uriBuilderLocalVar.Query + "&" + {{paramName}};
+                    {{/required}}
+                    {{^required}}
+                    if ({{paramName}}.IsSet)
+                        uriBuilderLocalVar.Query = string.IsNullOrEmpty(uriBuilderLocalVar.Query) ? {{paramName}}.Value : uriBuilderLocalVar.Query + "&" + {{paramName}}.Value;
+
+                    {{/required}}
+                    {{/isQueryStringParam}}
+                    {{/allParams}}
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
                     {{#authMethods}}
                     {{#isBasicBasic}}
@@ -704,6 +722,13 @@ namespace {{packageName}}.{{apiPackage}}
                         httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
                     {{/-first}}
                     {{/produces}}
+                    {{#vendorExtensions.x-csharp-http-method-literal}}
+
+                    // OpenAPI 3.2: HttpMethod has no property for this verb and would
+                    // normalize casing, so emit the RFC 9110 token verbatim
+                    httpRequestMessageLocalVar.Method = new HttpMethod("{{{vendorExtensions.x-csharp-http-method-literal}}}");
+                    {{/vendorExtensions.x-csharp-http-method-literal}}
+                    {{^vendorExtensions.x-csharp-http-method-literal}}
                     {{#net60OrLater}}
 
                     httpRequestMessageLocalVar.Method = HttpMethod.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}};
@@ -711,6 +736,7 @@ namespace {{packageName}}.{{apiPackage}}
                     {{^net60OrLater}}
                     httpRequestMessageLocalVar.Method = new HttpMethod("{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}");
                     {{/net60OrLater}}
+                    {{/vendorExtensions.x-csharp-http-method-literal}}
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 

@@ -27,6 +27,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -1824,5 +1826,71 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return objs;
+    }
+
+    @Override
+    public boolean supportsAdditionalOperations() {
+        // only generichost emits methods verbatim: restsharp's Method enum rejects
+        // non-standard tokens, httpclient's shared sync/async interfaces would need
+        // extending, and unityWebRequest cannot be verified in this toolchain
+        return GENERICHOST.equals(getLibrary());
+    }
+
+    @Override
+    protected boolean supportsQueryStringParameters() {
+        return GENERICHOST.equals(getLibrary());
+    }
+
+    private static final Set<String> STANDARD_HTTP_METHODS = new HashSet<>(Arrays.asList(
+            "GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE", "CONNECT"));
+
+    // RFC 9110 tchar: method tokens HttpMethod(string) accepts without FormatException
+    private static final java.util.regex.Pattern HTTP_METHOD_TOKEN_PATTERN =
+            java.util.regex.Pattern.compile("[!#$%&'*+\\-.^_`|~0-9A-Za-z]+");
+
+    /**
+     * Marks OpenAPI 3.2 (query/additionalOperations) HTTP methods for verbatim emission via
+     * {@code x-csharp-http-method-literal}. Two categories are warned about and skipped:
+     * tokens that are not valid RFC 9110 tokens ({@code HttpMethod(string)} would throw
+     * {@code FormatException}), and tokens that case-insensitively match a standard method
+     * (e.g. {@code get}) because .NET's {@code HttpMethod.Normalize()} would silently fold
+     * them onto the standard method on the wire - unlike Rust/Ruby, verbatim casing cannot
+     * be preserved for those.
+     */
+    private void flagVerbatimHttpMethods(List<CodegenOperation> operationList) {
+        Iterator<CodegenOperation> it = operationList.iterator();
+        while (it.hasNext()) {
+            CodegenOperation op = it.next();
+            if (op.httpMethod == null || STANDARD_HTTP_METHODS.contains(op.httpMethod)) {
+                continue;
+            }
+            if (!HTTP_METHOD_TOKEN_PATTERN.matcher(op.httpMethod).matches()
+                    || STANDARD_HTTP_METHODS.stream()
+                            .anyMatch(m -> m.equalsIgnoreCase(op.httpMethod))) {
+                LOGGER.warn("Skipping operation {}: HTTP method name '{}' is not a valid "
+                        + "RFC 9110 token, or case-insensitively matches a standard method "
+                        + "which .NET HttpMethod.Normalize() would collapse on the wire.",
+                        op.operationId, op.httpMethod);
+                it.remove();
+                continue;
+            }
+            op.vendorExtensions.put("x-csharp-http-method-literal", op.httpMethod);
+            // `|` is a valid RFC 9110 tchar but breaks markdown tables in doc templates
+            op.vendorExtensions.put("x-csharp-http-method-doc", op.httpMethod.replace("|", "\\|"));
+        }
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationsMap map = super.postProcessOperationsWithModels(objs, allModels);
+        flagVerbatimHttpMethods(map.getOperations().getOperation());
+        return map;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        WebhooksMap map = super.postProcessWebhooksWithModels(objs, allModels);
+        flagVerbatimHttpMethods(map.getWebhooks().getOperation());
+        return map;
     }
 }

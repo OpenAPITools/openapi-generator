@@ -7,7 +7,7 @@ All URIs are relative to *{{{basePath}}}*
 |--------|--------------|-------------|
 {{#operations}}
 {{#operation}}
-| [**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{summary}} |
+| [**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{#vendorExtensions.x-csharp-http-method-doc}}{{{vendorExtensions.x-csharp-http-method-doc}}}{{/vendorExtensions.x-csharp-http-method-doc}}{{^vendorExtensions.x-csharp-http-method-doc}}{{httpMethod}}{{/vendorExtensions.x-csharp-http-method-doc}}** {{path}} | {{summary}} |
 {{/operation}}
 {{/operations}}
 
