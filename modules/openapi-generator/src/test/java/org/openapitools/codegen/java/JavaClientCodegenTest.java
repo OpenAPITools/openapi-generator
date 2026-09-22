@@ -5351,6 +5351,27 @@ public class JavaClientCodegenTest {
                 .doesNotContain("import java.security.cert.X509Certificate;");
     }
 
+    @Test(dataProvider = "jerseyLibraries")
+    public void testArrayPathParamSerializedAsCollection(String library) {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .setInputSpec("src/test/resources/3_0/java/array-path-param.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content()
+                .contains("apiClient.collectionPathParameterToString(\"csv\", ids)")
+                .contains("apiClient.escapeString(id.toString())")
+                .doesNotContain("apiClient.escapeString(ids.toString())");
+        JavaFileAssert.assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java").toFile())
+                .assertMethod("collectionPathParameterToString", "String", "Collection<?>");
+    }
+
     private static Path generateJerseyClient(String library, Boolean generateInsecureTlsHook) {
         Path output = newTempFolder();
         CodegenConfigurator configurator = new CodegenConfigurator()

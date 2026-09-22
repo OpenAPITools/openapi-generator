@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  title: Array path param
+  version: 1.0.0
+paths:
+  /items/{ids}/action:
+    get:
+      operationId: getItems
+      parameters:
+        - name: ids
+          in: path
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: pipedIds
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '204':
+          description: ok
+  /items/{id}:
+    get:
+      operationId: getItem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: ok

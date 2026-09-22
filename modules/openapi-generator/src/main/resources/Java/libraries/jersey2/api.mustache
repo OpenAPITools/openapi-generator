@@ -137,7 +137,7 @@ public class {{classname}} {
     {{#hasPathParams}}
     // Path parameters
     String localVarPath = "{{{path}}}"{{#pathParams}}
-            .replaceAll({{=% %=}}"\\{%baseName%}"%={{ }}=%, apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
+            .replaceAll({{=% %=}}"\\{%baseName%}"%={{ }}=%, {{#isArray}}apiClient.collectionPathParameterToString("{{{collectionFormat}}}", {{{paramName}}}){{/isArray}}{{^isArray}}apiClient.escapeString({{{paramName}}}.toString()){{/isArray}}){{/pathParams}};
 
     {{/hasPathParams}}
     {{#queryParams}}
