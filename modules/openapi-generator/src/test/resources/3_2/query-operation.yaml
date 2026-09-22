@@ -57,3 +57,70 @@ paths:
         responses:
           '204':
             description: done
+  /find:
+    # a standard-method op carrying `in: querystring`: libraries without
+    # querystring support must degrade it to an ordinary name=value param
+    get:
+      operationId: findPets
+      parameters:
+        - name: q
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+  /items:
+    # QUERY carrying a body; the querystring param is named `uri`, which
+    # collides with template-internal variables in several generators
+    query:
+      operationId: searchItems
+      parameters:
+        - name: uri
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: ok
+  /report:
+    additionalOperations:
+      # OkHttp 5 requires a body for REPORT/PROPPATCH just like for QUERY
+      REPORT:
+        operationId: reportItems
+        parameters:
+          # `localVariableQuery` collides with kotlin template-internal locals
+          - name: localVariableQuery
+            in: querystring
+            required: true
+            content:
+              application/x-www-form-urlencoded:
+                schema:
+                  type: string
+        responses:
+          '207':
+            description: multi
+      PROPPATCH:
+        operationId: propPatch
+        requestBody:
+          required: true
+          content:
+            application/xml:
+              schema:
+                type: string
+        responses:
+          '207':
+            description: multi

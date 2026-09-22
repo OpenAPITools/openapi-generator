@@ -653,10 +653,38 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         }
     }
 
+    /**
+     * For libraries without querystring support the verbatim-concat template path
+     * must not run; clearing the flag degrades the parameter to an ordinary
+     * name=value query parameter (same shape as generators without 3.2 support).
+     */
+    private void degradeQueryStringParams(List<CodegenOperation> operationList) {
+        if (supportsQueryStringParameters()) {
+            return;
+        }
+        for (CodegenOperation op : operationList) {
+            // queryParams holds copies (p.copy()), so the flag must be cleared
+            // on both lists or the parameter vanishes from generated code entirely
+            for (CodegenParameter p : op.allParams) {
+                if (p.isQueryStringParam) {
+                    p.isQueryStringParam = false;
+                    p.isQueryParam = true;
+                }
+            }
+            for (CodegenParameter p : op.queryParams) {
+                if (p.isQueryStringParam) {
+                    p.isQueryStringParam = false;
+                    p.isQueryParam = true;
+                }
+            }
+        }
+    }
+
     @Override
     public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
         WebhooksMap map = super.postProcessWebhooksWithModels(objs, allModels);
         flagVerbatimHttpMethods(map.getWebhooks().getOperation());
+        degradeQueryStringParams(map.getWebhooks().getOperation());
         return map;
     }
 
@@ -669,6 +697,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         List<CodegenOperation> operationList = operations.getOperation();
         flagVerbatimHttpMethods(operationList);
+        degradeQueryStringParams(operationList);
         for (CodegenOperation op : operationList) {
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));

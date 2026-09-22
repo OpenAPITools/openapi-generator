@@ -794,6 +794,11 @@ public class RubyClientCodegenTest {
                     "querystring param should be appended verbatim");
             Assert.assertFalse(generated.contains("query_params[:'qs']"),
                     "querystring param must not be serialized as a name=value pair");
+            // QUERY may carry a body (OpenAPI 3.2): it must reach opts[:body]
+            Assert.assertTrue(generated.contains("def search_items(uri, request_body, opts = {})"),
+                    "QUERY-with-body operation should take the body parameter");
+            Assert.assertTrue(generated.contains("call_api(:\"REPORT\""),
+                    "REPORT additionalOperation should emit a verbatim symbol");
             Path clientPath = target.resolve("lib/openapi_client/api_client.rb");
             String client = new String(Files.readAllBytes(clientPath), StandardCharsets.UTF_8);
             Assert.assertTrue(client.contains("instance_variable_set(:@verb, http_method.to_s)"),
@@ -822,6 +827,39 @@ public class RubyClientCodegenTest {
                 Assert.assertFalse(generated.contains("def " + op),
                         "typhoeus must skip unsupported 3.2 operation " + op);
             }
+            // `in: querystring` on a standard method degrades to a name=value
+            // parameter - the verbatim-append path is httpx-only
+            Assert.assertTrue(generated.contains("def find_pets"),
+                    "GET+querystring operation should be kept");
+            Assert.assertTrue(generated.contains("query_params[:'q'] = q"),
+                    "unsupported library must degrade querystring to name=value");
+            Assert.assertFalse(generated.contains("+ q.to_s"),
+                    "unsupported library must not emit the verbatim querystring append");
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    @Test
+    public void testFaradayDegradesQueryStringParam() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("ruby")
+                    .setLibrary("faraday")
+                    .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("lib/openapi_client/api/default_api.rb");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            Assert.assertTrue(generated.contains("def find_pets"),
+                    "GET+querystring operation should be kept");
+            Assert.assertTrue(generated.contains("query_params[:'q'] = q"),
+                    "faraday must degrade querystring to an ordinary name=value pair");
+            Assert.assertFalse(generated.contains("+ q.to_s"),
+                    "faraday must not emit the verbatim querystring append");
         } finally {
             FileUtils.deleteDirectory(target.toFile());
         }
