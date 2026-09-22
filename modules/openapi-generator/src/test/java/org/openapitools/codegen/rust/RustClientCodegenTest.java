@@ -18,6 +18,7 @@
 package org.openapitools.codegen.rust;
 
 import io.swagger.v3.oas.models.media.IntegerSchema;
+import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
@@ -499,37 +500,43 @@ public class RustClientCodegenTest {
             throw new org.testng.SkipException("crates.io is unreachable; skipping generated-client verification");
         }
         Path target = Files.createTempDirectory("rust32-verify");
-        target.toFile().deleteOnExit();
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("rust")
-                .setLibrary("reqwest")
-                .addAdditionalProperty("reqwestDefaultFeatures", "rustls")
-                .addAdditionalProperty("supportAsync", false)
-                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
-                .setSkipOverwrite(false)
-                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
-        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary("reqwest")
+                    .addAdditionalProperty("reqwestDefaultFeatures", "rustls")
+                    .addAdditionalProperty("supportAsync", false)
+                    .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        Path binDir = target.resolve("src/bin");
-        Files.createDirectories(binDir);
-        Files.copy(Path.of("src/test/resources/3_2/rust-reqwest-capture/capture.rs"),
-                binDir.resolve("capture.rs"));
+            Path binDir = target.resolve("src/bin");
+            Files.createDirectories(binDir);
+            Files.copy(Path.of("src/test/resources/3_2/rust-reqwest-capture/capture.rs"),
+                    binDir.resolve("capture.rs"));
 
-        runCargo(target, "build");
-        String out = runCargo(target, "run", "--bin", "capture");
-        Assert.assertTrue(out.contains("CAPTURE-PASS"),
-                "generated client did not send verbatim 3.2 methods/querystring:\n" + out);
+            runCargo(target, "build");
+            String out = runCargo(target, "run", "--bin", "capture");
+            Assert.assertTrue(out.contains("CAPTURE-PASS"),
+                    "generated client did not send verbatim 3.2 methods/querystring:\n" + out);
+        } finally {
+            // cargo's target dir is hundreds of MB; deleteOnExit cannot remove non-empty dirs
+            FileUtils.deleteDirectory(target.toFile());
+        }
     }
 
     private boolean isCommandAvailable(String command) {
         try {
             Process p = new ProcessBuilder(command, "--version")
                     .redirectErrorStream(true).start();
-            p.getInputStream().transferTo(java.io.OutputStream.nullOutputStream());
+            // wait before draining: a child that never exits would otherwise block
+            // the stream read forever
             if (!p.waitFor(10, TimeUnit.SECONDS)) {
                 p.destroyForcibly();
                 return false;
             }
+            p.getInputStream().transferTo(java.io.OutputStream.nullOutputStream());
             return p.exitValue() == 0;
         } catch (IOException | InterruptedException e) {
             return false;
