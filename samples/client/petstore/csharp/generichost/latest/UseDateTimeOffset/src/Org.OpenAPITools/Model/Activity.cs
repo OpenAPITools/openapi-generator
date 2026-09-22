@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (activityOutputs.IsSet && activityOutputs.Value == null)
-                throw new ArgumentNullException(nameof(activityOutputs), "Property is not nullable for class Activity.");
+                throw new JsonException("Property is not nullable for class Activity: activity_outputs.");
 
             return new Activity(activityOutputs);
         }

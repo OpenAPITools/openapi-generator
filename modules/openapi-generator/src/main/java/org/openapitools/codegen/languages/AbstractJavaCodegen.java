@@ -57,7 +57,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.lang.model.SourceVersion;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -229,6 +228,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
+
+    protected Map<String, String> typeInfoDefaultImpls = new HashMap<>();
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -751,6 +752,26 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        // Resolve x-jackson-default-impl and typeInfoDefaultImpls into x-jackson-resolved-default-impl
+        // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
+        // and discriminator-based oneOf interfaces.
+        if (!typeInfoDefaultImpls.isEmpty() || allModels.values().stream()
+                .anyMatch(cm -> cm.vendorExtensions.containsKey(VendorExtension.X_JACKSON_DEFAULT_IMPL.getName()))) {
+            for (CodegenModel cm : allModels.values()) {
+                String resolved = JacksonDefaultImplResolver.resolve(
+                        typeInfoDefaultImpls, cm, this::toModelName, allModels.keySet(), LOGGER::warn);
+                if (resolved != null && !resolved.isBlank()) {
+                    cm.vendorExtensions.put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
+                    // When a discriminator is present, the typeInfoAnnotation partial is rendered
+                    // inside {{#discriminator}}, so the template engine resolves 'vendorExtensions'
+                    // against CodegenDiscriminator (not CodegenModel). Store there too.
+                    if (cm.discriminator != null) {
+                        cm.discriminator.getVendorExtensions().put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
+                    }
+                }
+            }
+        }
+
         /*
          Add parentVars and parentRequiredVars to every Model which has a parent.
          Add isInherited to every model which has children.
@@ -1101,7 +1122,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems(schema);
-            String typeDeclaration = getTypeDeclarationForArray(items);
+            String typeDeclaration = getTypeDeclarationWithBeanValidation(items);
             return getSchemaType(target) + "<" + typeDeclaration + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
@@ -1112,12 +1133,43 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 inner = new StringSchema().description("TODO default missing map inner type to string");
                 p.setAdditionalProperties(inner);
             }
-            return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
+            // Unlike arrays/sets, map values never received a type-argument bean
+            // validation before, so this is gated: only generators that have dropped the
+            // deprecated container-level @Valid (HV000271) opt in, to avoid silently adding
+            // new validation to generators that still cascade via the container.
+            String valueDeclaration = useBeanValidationOnMapValueType()
+                    ? getTypeDeclarationWithBeanValidation(inner)
+                    : getTypeDeclaration(inner);
+            return getSchemaType(target) + "<String, " + valueDeclaration + ">";
         }
         return super.getTypeDeclaration(target);
     }
 
-    private String getTypeDeclarationForArray(Schema<?> items) {
+    /**
+     * Whether bean validation of map values is expressed on the value type argument
+     * ({@code Map<String, @Valid V>}) instead of on the map itself. Generators that have migrated
+     * off the deprecated container-level {@code @Valid} (Hibernate Validator HV000271)
+     * override this to return {@code true}. Arrays/sets always place bean validation on the
+     * type argument, so they are not gated by this method.
+     *
+     * @return {@code true} to emit map-value bean validation on the type argument;
+     *         {@code false} by default
+     */
+    protected boolean useBeanValidationOnMapValueType() {
+        return false;
+    }
+
+    /**
+     * Renders the type declaration of a container element (array/set item or map value) with its
+     * bean validation applied to the type argument, e.g. {@code @Valid Pet} or
+     * {@code @Size(max = 3) String}. Hibernate Validator 9.1+ expects cascade/constraints on the
+     * type argument; a container-level {@code @Valid} is deprecated and logs HV000271, so the
+     * annotation is placed here instead of on the container.
+     *
+     * @param items the array/set item or map value schema
+     * @return the element type declaration prefixed with its bean validation (no prefix if none)
+     */
+    private String getTypeDeclarationWithBeanValidation(Schema<?> items) {
         String typeDeclaration = getTypeDeclaration(items);
 
         String beanValidation = getBeanValidation(items);
@@ -1141,11 +1193,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     /**
-     * This method stand for resolve bean validation for container(array, set).
+     * This method stand for resolve bean validation for a container element
+     * (array/set item or map value).
      * Return empty if there's no bean validation for requested type or prop useBeanValidation false or missed.
      *
      * @param items type
-     * @return BeanValidation for declared type in container(array, set)
+     * @return BeanValidation for declared element type of a container (array, set, map value)
      */
     private String getBeanValidation(Schema<?> items) {
         if (!isUseBeanValidation()) {
@@ -1162,7 +1215,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             String ref = ModelUtils.getSimpleRef(items.get$ref());
             if (ref != null) {
                 Schema<?> schema = schemas.get(ref);
-                if (schema == null || ModelUtils.isObjectSchema(schema)) {
+                // objects and oneOf/anyOf/allOf models cascade validation into their elements;
+                // a oneOf of constants generates an enum, which is not cascadable.
+                boolean composedModel = ModelUtils.isComposedSchema(schema)
+                        && !ModelUtils.isOneOfOfConsts(schema);
+                if (schema == null || ModelUtils.isObjectSchema(schema) || composedModel) {
                     return "@Valid ";
                 }
                 items = schema;

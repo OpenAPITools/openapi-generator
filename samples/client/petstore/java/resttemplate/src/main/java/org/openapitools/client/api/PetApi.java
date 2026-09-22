@@ -48,7 +48,7 @@ public class PetApi extends BaseApi {
      * @param pet Pet object that needs to be added to the store (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void addPet(Pet pet) throws RestClientException {
+    public void addPet(@javax.annotation.Nonnull Pet pet) throws RestClientException {
         addPetWithHttpInfo(pet);
     }
 
@@ -61,7 +61,7 @@ public class PetApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> addPetWithHttpInfo(Pet pet) throws RestClientException {
+    public ResponseEntity<Void> addPetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws RestClientException {
         Object localVarPostBody = pet;
         
         // verify the required parameter 'pet' is set
@@ -96,7 +96,7 @@ public class PetApi extends BaseApi {
      * @param apiKey  (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void deletePet(Long petId, String apiKey) throws RestClientException {
+    public void deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws RestClientException {
         deletePetWithHttpInfo(petId, apiKey);
     }
 
@@ -110,7 +110,7 @@ public class PetApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws RestClientException {
+    public ResponseEntity<Void> deletePetWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'petId' is set
@@ -149,7 +149,7 @@ public class PetApi extends BaseApi {
      * @return List&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public List<Pet> findPetsByStatus(List<String> status) throws RestClientException {
+    public List<Pet> findPetsByStatus(@javax.annotation.Nonnull List<String> status) throws RestClientException {
         return findPetsByStatusWithHttpInfo(status).getBody();
     }
 
@@ -162,7 +162,7 @@ public class PetApi extends BaseApi {
      * @return ResponseEntity&lt;List&lt;Pet&gt;&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws RestClientException {
+    public ResponseEntity<List<Pet>> findPetsByStatusWithHttpInfo(@javax.annotation.Nonnull List<String> status) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'status' is set
@@ -202,7 +202,7 @@ public class PetApi extends BaseApi {
      * @deprecated
      */
     @Deprecated
-    public Set<Pet> findPetsByTags(Set<String> tags) throws RestClientException {
+    public Set<Pet> findPetsByTags(@javax.annotation.Nonnull Set<String> tags) throws RestClientException {
         return findPetsByTagsWithHttpInfo(tags).getBody();
     }
 
@@ -217,7 +217,7 @@ public class PetApi extends BaseApi {
      * @deprecated
      */
     @Deprecated
-    public ResponseEntity<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws RestClientException {
+    public ResponseEntity<Set<Pet>> findPetsByTagsWithHttpInfo(@javax.annotation.Nonnull Set<String> tags) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'tags' is set
@@ -256,7 +256,7 @@ public class PetApi extends BaseApi {
      * @return Pet
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Pet getPetById(Long petId) throws RestClientException {
+    public Pet getPetById(@javax.annotation.Nonnull Long petId) throws RestClientException {
         return getPetByIdWithHttpInfo(petId).getBody();
     }
 
@@ -270,7 +270,7 @@ public class PetApi extends BaseApi {
      * @return ResponseEntity&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Pet> getPetByIdWithHttpInfo(Long petId) throws RestClientException {
+    public ResponseEntity<Pet> getPetByIdWithHttpInfo(@javax.annotation.Nonnull Long petId) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'petId' is set
@@ -309,7 +309,7 @@ public class PetApi extends BaseApi {
      * @param pet Pet object that needs to be added to the store (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void updatePet(Pet pet) throws RestClientException {
+    public void updatePet(@javax.annotation.Nonnull Pet pet) throws RestClientException {
         updatePetWithHttpInfo(pet);
     }
 
@@ -324,7 +324,7 @@ public class PetApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> updatePetWithHttpInfo(Pet pet) throws RestClientException {
+    public ResponseEntity<Void> updatePetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws RestClientException {
         Object localVarPostBody = pet;
         
         // verify the required parameter 'pet' is set
@@ -360,7 +360,7 @@ public class PetApi extends BaseApi {
      * @param status Updated status of the pet (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void updatePetWithForm(Long petId, String name, String status) throws RestClientException {
+    public void updatePetWithForm(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws RestClientException {
         updatePetWithFormWithHttpInfo(petId, name, status);
     }
 
@@ -375,7 +375,7 @@ public class PetApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws RestClientException {
+    public ResponseEntity<Void> updatePetWithFormWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'petId' is set
@@ -419,7 +419,7 @@ public class PetApi extends BaseApi {
      * @return ModelApiResponse
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File _file) throws RestClientException {
+    public ModelApiResponse uploadFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws RestClientException {
         return uploadFileWithHttpInfo(petId, additionalMetadata, _file).getBody();
     }
 
@@ -433,7 +433,7 @@ public class PetApi extends BaseApi {
      * @return ResponseEntity&lt;ModelApiResponse&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws RestClientException {
+    public ResponseEntity<ModelApiResponse> uploadFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'petId' is set
@@ -479,7 +479,7 @@ public class PetApi extends BaseApi {
      * @return ModelApiResponse
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws RestClientException {
+    public ModelApiResponse uploadFileWithRequiredFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws RestClientException {
         return uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata).getBody();
     }
 
@@ -493,7 +493,7 @@ public class PetApi extends BaseApi {
      * @return ResponseEntity&lt;ModelApiResponse&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws RestClientException {
+    public ResponseEntity<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'petId' is set

@@ -5,6 +5,7 @@
  */
 package org.openapitools.api;
 
+import org.openapitools.model.ApiResponseDto;
 import java.math.BigDecimal;
 import org.openapitools.model.ChildWithNullableDto;
 import org.openapitools.model.ClientDto;
@@ -15,6 +16,7 @@ import java.util.Map;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterCompositeDto;
+import org.openapitools.model.ResponseObjectWithDifferentFieldNamesDto;
 import org.openapitools.model.UserDto;
 import org.openapitools.model.XmlItemDto;
 import org.springframework.http.ResponseEntity;
@@ -127,6 +129,23 @@ public interface FakeApi {
     )
     ResponseEntity<String> fakeOuterStringSerialize(
          @Valid @RequestBody(required = false) @Nullable String body
+    );
+
+
+    String PATH_RESPONSE_OBJECT_DIFFERENT_NAMES = "/fake/{petId}/response-object-different-names";
+    /**
+     * GET /fake/{petId}/response-object-different-names
+     *
+     * @param petId ID of pet to update (required)
+     * @return successful operation (status code 200)
+     */
+    @HttpExchange(
+        method = "GET",
+        value = FakeApi.PATH_RESPONSE_OBJECT_DIFFERENT_NAMES,
+        accept = { "application/json" }
+    )
+    ResponseEntity<ResponseObjectWithDifferentFieldNamesDto> responseObjectDifferentNames(
+         @PathVariable("petId") Long petId
     );
 
 
@@ -259,11 +278,11 @@ public interface FakeApi {
     ResponseEntity<Void> testEnumParameters(
          @RequestHeader(value = "enum_header_string_array", required = false) @Nullable List<String> enumHeaderStringArray,
          @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
-         @Valid @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
+         @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
          @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
          @Valid @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
          @Valid @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
-         @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+         @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
          @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
     );
 
@@ -311,7 +330,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     ResponseEntity<Void> testInlineAdditionalProperties(
-         @Valid @RequestBody Map<String, String> requestBody
+         @RequestBody Map<String, String> requestBody
     );
 
 
@@ -372,10 +391,10 @@ public interface FakeApi {
         accept = { "application/json" }
     )
     ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull  @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull  @Valid @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull  @Valid @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull  @Valid @RequestParam(value = "context", required = true) List<String> context
+        @NotNull  @RequestParam(value = "pipe", required = true) List<String> pipe,
+        @NotNull  @RequestParam(value = "http", required = true) List<String> http,
+        @NotNull  @RequestParam(value = "url", required = true) List<String> url,
+        @NotNull  @RequestParam(value = "context", required = true) List<String> context
     );
 
 
@@ -393,6 +412,29 @@ public interface FakeApi {
     )
     ResponseEntity<Integer> testWithResultExample(
         
+    );
+
+
+    String PATH_UPLOAD_FILE_WITH_REQUIRED_FILE = "/fake/{petId}/uploadImageWithRequiredFile";
+    /**
+     * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
+     * 
+     *
+     * @param petId ID of pet to update (required)
+     * @param requiredFile file to upload (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @return successful operation (status code 200)
+     */
+    @HttpExchange(
+        method = "POST",
+        value = FakeApi.PATH_UPLOAD_FILE_WITH_REQUIRED_FILE,
+        accept = { "application/json" },
+        contentType = "multipart/form-data"
+    )
+    ResponseEntity<ApiResponseDto> uploadFileWithRequiredFile(
+         @PathVariable("petId") Long petId,
+         @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
+         @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     );
 
 }

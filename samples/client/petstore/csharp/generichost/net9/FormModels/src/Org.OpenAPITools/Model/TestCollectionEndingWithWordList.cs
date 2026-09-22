@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (value.IsSet && value.Value == null)
-                throw new ArgumentNullException(nameof(value), "Property is not nullable for class TestCollectionEndingWithWordList.");
+                throw new JsonException("Property is not nullable for class TestCollectionEndingWithWordList: value.");
 
             return new TestCollectionEndingWithWordList(value);
         }
