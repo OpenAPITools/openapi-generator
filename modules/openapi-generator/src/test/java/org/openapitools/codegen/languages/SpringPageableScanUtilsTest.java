@@ -316,9 +316,9 @@ public class SpringPageableScanUtilsTest {
     @Test
     public void applyAutoXSpringPaginatedIfNeeded_autoDisabled_doesNotSetExtension() {
         Operation op = new Operation();
-        op.addParametersItem(new Parameter().name("page"));
-        op.addParametersItem(new Parameter().name("size"));
-        op.addParametersItem(new Parameter().name("sort"));
+        op.addParametersItem(new Parameter().name("page").in("query"));
+        op.addParametersItem(new Parameter().name("size").in("query"));
+        op.addParametersItem(new Parameter().name("sort").in("query"));
 
         boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, SpringPageableScanUtils.AutoPaginationMode.NONE);
 
@@ -343,9 +343,9 @@ public class SpringPageableScanUtilsTest {
     public void applyAutoXSpringPaginatedIfNeeded_explicitlyFalse_returnsFalseAndIsNotOverridden() {
         Operation op = new Operation();
         op.addExtension("x-spring-paginated", Boolean.FALSE);
-        op.addParametersItem(new Parameter().name("page"));
-        op.addParametersItem(new Parameter().name("size"));
-        op.addParametersItem(new Parameter().name("sort"));
+        op.addParametersItem(new Parameter().name("page").in("query"));
+        op.addParametersItem(new Parameter().name("size").in("query"));
+        op.addParametersItem(new Parameter().name("sort").in("query"));
 
         boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
 
@@ -554,6 +554,19 @@ public class SpringPageableScanUtilsTest {
         op.addParametersItem(new Parameter().name("page").in("query"));
         op.addParametersItem(new Parameter().name("size").in("query"));
         // no 'sort' parameter present — PAGE_SIZE_SORT must NOT detect this (regression guard)
+
+        assertThat(SpringPageableScanUtils.willBePageable(op, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT))
+                .isFalse();
+    }
+
+    @Test
+    public void willBePageable_pageSizeSortMode_doesNotDetectPathParamNamedSort() {
+        Operation op = new Operation();
+        op.addParametersItem(new Parameter().name("page").in("query"));
+        op.addParametersItem(new Parameter().name("size").in("query"));
+        op.addParametersItem(new Parameter().name("sort").in("path"));
+        // 'sort' exists but is a path parameter, not a query parameter — before the query-location
+        // filter was introduced this incorrectly returned true (regression guard)
 
         assertThat(SpringPageableScanUtils.willBePageable(op, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT))
                 .isFalse();

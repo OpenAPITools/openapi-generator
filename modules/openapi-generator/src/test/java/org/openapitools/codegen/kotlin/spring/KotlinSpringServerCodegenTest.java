@@ -1,5 +1,7 @@
 package org.openapitools.codegen.kotlin.spring;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -24,6 +26,7 @@ import org.openapitools.codegen.languages.features.DocumentationProviderFeatures
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DocumentationProvider;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -5439,6 +5442,82 @@ public class KotlinSpringServerCodegenTest {
         codegen.processOpts();
 
         assertThat(codegen.additionalProperties()).doesNotContainKey(AUTO_X_SPRING_PAGINATED);
+    }
+
+    @Test
+    public void autoXSpringPaginatedLegacyTrue_logsDeprecationWarningOnce() {
+        ch.qos.logback.classic.Logger kotlinSpringCodegenLogger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        kotlinSpringCodegenLogger.addAppender(listAppender);
+
+        try {
+            KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+            codegen.additionalProperties().put(AUTO_X_SPRING_PAGINATED, "true");
+
+            codegen.processOpts();
+        } finally {
+            listAppender.stop();
+            kotlinSpringCodegenLogger.detachAppender(listAppender);
+        }
+
+        long deprecationWarnings = listAppender.list.stream()
+                .filter(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
+                        && event.getFormattedMessage().contains("deprecated"))
+                .count();
+        assertThat(deprecationWarnings).isEqualTo(1);
+    }
+
+    @Test
+    public void autoXSpringPaginatedUnset_logsNoDeprecationWarning() {
+        ch.qos.logback.classic.Logger kotlinSpringCodegenLogger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        kotlinSpringCodegenLogger.addAppender(listAppender);
+
+        try {
+            KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+            codegen.processOpts();
+        } finally {
+            listAppender.stop();
+            kotlinSpringCodegenLogger.detachAppender(listAppender);
+        }
+
+        boolean hasDeprecationWarning = listAppender.list.stream()
+                .anyMatch(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
+                        && event.getFormattedMessage().contains("deprecated"));
+        assertThat(hasDeprecationWarning).isFalse();
+    }
+
+    @Test
+    public void autoXSpringPaginatedSetterCalledTwiceWithLegacyValue_logsDeprecationWarningOnce() {
+        ch.qos.logback.classic.Logger kotlinSpringCodegenLogger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        kotlinSpringCodegenLogger.addAppender(listAppender);
+
+        try {
+            KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+            // Simulates the setter being invoked more than once during a single generator run
+            // (e.g. once for a CLI default and once for the user-supplied value) with the same
+            // deprecated legacy alias — the once-only guard must suppress the second warning.
+            codegen.setAutoXSpringPaginated("true");
+            codegen.setAutoXSpringPaginated("true");
+        } finally {
+            listAppender.stop();
+            kotlinSpringCodegenLogger.detachAppender(listAppender);
+        }
+
+        long deprecationWarnings = listAppender.list.stream()
+                .filter(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
+                        && event.getFormattedMessage().contains("deprecated"))
+                .count();
+        assertThat(deprecationWarnings).isEqualTo(1);
     }
 
     @Test
