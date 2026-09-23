@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
@@ -2141,6 +2142,32 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testCallbackAdditionalOperationMethodCasingPreserved() {
+        // OpenAPI 3.2: additionalOperations keys are HTTP method names that must be
+        // sent verbatim - "customMethod" must not be normalized to CUSTOMMETHOD
+        DefaultCodegen codegen = new DefaultCodegen() {
+            @Override
+            public boolean supportsAdditionalOperations() {
+                return true;
+            }
+        };
+        codegen.setOpenAPI(TestUtils.createOpenAPI());
+
+        PathItem callbackPath = new PathItem();
+        callbackPath.addAdditionalOperation("customMethod",
+                new Operation().operationId("customCallback")
+                        .responses(new ApiResponses()
+                                .addApiResponse("200", new ApiResponse().description("ok"))));
+        Callback callback = new Callback();
+        callback.addPathItem("{$request.body#/callbackUrl}", callbackPath);
+
+        CodegenCallback cb = codegen.fromCallback("onEvent", callback, null);
+        Assert.assertEquals(cb.urls.size(), 1);
+        Assert.assertEquals(cb.urls.get(0).requests.size(), 1);
+        Assert.assertEquals(cb.urls.get(0).requests.get(0).httpMethod, "customMethod");
+    }
+
+    @Test
     public void testLeadingSlashIsAddedIfMissing() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         Operation operation1 = new Operation().operationId("op1").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")));
@@ -2554,6 +2581,44 @@ public class DefaultCodegenTest {
         cm.setVendorExtensions(extensions);
         cm.setVars(Collections.emptyList());
         return TestUtils.createCodegenModelWrapper(cm);
+    }
+
+    @Test
+    public void queryStringParameterSetsFlagAndLandsInQueryParams() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_2/query-operation.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation queryOp = openAPI.getPaths().get("/pets").getQuery();
+        assertNotNull(queryOp, "3.2 query operation should be bound by the parser");
+        CodegenOperation co = codegen.fromOperation("/pets", "query", queryOp, null);
+
+        assertEquals(co.queryParams.size(), 1);
+        CodegenParameter p = co.queryParams.get(0);
+        assertTrue(p.isQueryStringParam, "in: querystring parameter must set isQueryStringParam");
+        assertFalse(p.isQueryParam);
+        assertEquals(co.allParams.size(), 1);
+    }
+
+    @Test
+    public void queryStringParameterWithObjectContentBecomesString() {
+        // `in: querystring` describes the whole query string via `content`.
+        // Even when the content schema is an object/model, the codegen parameter
+        // must be a plain String (caller supplies the encoded query string), so
+        // no typed model is pulled into the operation signature.
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_2/querystring-object.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation getOp = openAPI.getPaths().get("/pets").getGet();
+        CodegenOperation co = codegen.fromOperation("/pets", "get", getOp, null);
+
+        assertEquals(co.queryParams.size(), 1);
+        CodegenParameter p = co.queryParams.get(0);
+        assertTrue(p.isQueryStringParam);
+        assertEquals(p.dataType, "String");
+        assertFalse(p.isModel);
+        assertFalse(p.isMap);
     }
 
     @Test

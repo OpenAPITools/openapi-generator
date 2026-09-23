@@ -1,0 +1,41 @@
+openapi: 3.2.0
+info:
+  title: query operation test
+  version: '1.0'
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      responses:
+        '200':
+          description: ok
+    query:
+      operationId: queryPets
+      parameters:
+        - name: qs
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+    additionalOperations:
+      PURGE:
+        operationId: purgePets
+        responses:
+          '204':
+            description: done
+      customMethod:
+        operationId: customPets
+        responses:
+          '204':
+            description: done
+      # HTTP token punctuation must be preserved verbatim (RFC 9110 tchar)
+      "CHECK&FETCH":
+        operationId: checkFetchPets
+        responses:
+          '204':
+            description: done

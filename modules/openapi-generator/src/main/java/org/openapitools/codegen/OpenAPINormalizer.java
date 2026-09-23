@@ -480,7 +480,7 @@ public class OpenAPINormalizer {
             PathItem path = pathsEntry.getValue();
             List<Operation> operations = new ArrayList<>(path.readOperations());
 
-            Map<String, Function<PathItem, Operation>> methodMap = Map.of(
+            Map<String, Function<PathItem, Operation>> methodMap = new HashMap<>(Map.of(
                     "get", PathItem::getGet,
                     "put", PathItem::getPut,
                     "head", PathItem::getHead,
@@ -488,8 +488,14 @@ public class OpenAPINormalizer {
                     "delete", PathItem::getDelete,
                     "patch", PathItem::getPatch,
                     "options", PathItem::getOptions,
-                    "trace", PathItem::getTrace
-            );
+                    "trace", PathItem::getTrace,
+                    "query", PathItem::getQuery
+            ));
+            if (path.getAdditionalOperations() != null) {
+                path.getAdditionalOperations().forEach((method, operation) ->
+                        methodMap.put(method.toLowerCase(Locale.ROOT),
+                                pathItem -> pathItem.getAdditionalOperations().get(method)));
+            }
 
             if (filter != null && filter.hasFilter()) {
                 // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,

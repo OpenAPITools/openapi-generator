@@ -1778,6 +1778,12 @@ public class ApiClient {
                         case "cookie":
                             cookieParams.put(param.getName(), parameterToString(value));
                             break;
+                        case "querystring":
+                            // OpenAPI 3.2: the value is the whole (already encoded) query string
+                            if (value != null) {
+                                path = path + (path.contains("?") ? "&" : "?") + value.toString();
+                            }
+                            break;
                         default:
                             throw new IllegalStateException("Unexpected param in: " + param.getIn());
                     }

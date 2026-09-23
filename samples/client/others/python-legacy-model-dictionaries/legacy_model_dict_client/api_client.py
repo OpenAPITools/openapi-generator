@@ -348,7 +348,9 @@ class ApiClient:
                 query_params,
                 collection_formats
             )
-            url += "?" + url_query
+            # OpenAPI 3.2 in: querystring may already have put a '?' in the
+            # path (e.g. combined with apiKey-in-query auth params)
+            url += ("&" if "?" in url else "?") + url_query
 
         return method, url, header_params, body, post_params
 

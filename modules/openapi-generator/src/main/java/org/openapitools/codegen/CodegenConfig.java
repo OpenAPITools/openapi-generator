@@ -387,4 +387,18 @@ public interface CodegenConfig {
 
     Set<String> getOpenapiGeneratorIgnoreList();
 
+    /**
+     * Whether this generator can emit operations defined through OpenAPI 3.2's
+     * {@code query} fixed field and {@code additionalOperations} map, i.e. HTTP
+     * methods outside the original eight fixed methods. Generators whose
+     * templates embed enumerated method constants (e.g. {@code HttpMethod.QUERY})
+     * must keep the default {@code false}: the affected operations are then
+     * skipped with a warning instead of producing uncompilable code.
+     *
+     * @return true if the generator supports OpenAPI 3.2 query/additional operations
+     */
+    default boolean supportsAdditionalOperations() {
+        return false;
+    }
+
 }

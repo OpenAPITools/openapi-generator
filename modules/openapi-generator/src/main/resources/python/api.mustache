@@ -319,6 +319,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 {{/pathParams}}
         # process the query parameters
 {{#queryParams}}
+{{^isQueryStringParam}}
         if {{paramName}} is not None:
             {{#isDateTime}}
             if isinstance({{paramName}}, datetime):
@@ -349,6 +350,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
             {{^isDateTime}}{{^isDate}}
             _query_params.append(('{{baseName}}', {{paramName}}{{#isEnumRef}}.value{{/isEnumRef}}))
             {{/isDate}}{{/isDateTime}}
+{{/isQueryStringParam}}
 {{/queryParams}}
         # process the header parameters
 {{#headerParams}}
@@ -426,9 +428,31 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
             '{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}
         ]
 
+{{#vendorExtensions.x-python-has-querystring-param}}
+        _resource_path = '{{{path}}}'
+{{#queryParams}}
+{{#isQueryStringParam}}
+        # OpenAPI 3.2 in: querystring - the value is the whole, already-encoded
+        # query string; append it verbatim instead of a name=value pair.
+        # Note: urllib3 may normalize percent-escape hex casing on the wire.
+        if {{paramName}} is not None:
+            _resource_path += ('&' if '?' in _resource_path else '?') + {{paramName}}
+{{/isQueryStringParam}}
+{{/queryParams}}
+{{/vendorExtensions.x-python-has-querystring-param}}
         return self.api_client.param_serialize(
+            {{#vendorExtensions.x-python-http-method-literal}}
+            method="{{{httpMethod}}}",{{! OpenAPI 3.2: non-standard method sent verbatim, unescaped }}
+            {{/vendorExtensions.x-python-http-method-literal}}
+            {{^vendorExtensions.x-python-http-method-literal}}
             method='{{httpMethod}}',
+            {{/vendorExtensions.x-python-http-method-literal}}
+            {{#vendorExtensions.x-python-has-querystring-param}}
+            resource_path=_resource_path,
+            {{/vendorExtensions.x-python-has-querystring-param}}
+            {{^vendorExtensions.x-python-has-querystring-param}}
             resource_path='{{{path}}}',
+            {{/vendorExtensions.x-python-has-querystring-param}}
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -49,6 +49,12 @@ public class PathItemSerializer extends JsonSerializer<PathItem> {
         if (value.getTrace() != null) {
             gen.writeObjectField("trace", value.getTrace());
         }
+        if (value.getQuery() != null) {
+            gen.writeObjectField("query", value.getQuery());
+        }
+        if (value.getAdditionalOperations() != null) {
+            gen.writeObjectField("additionalOperations", value.getAdditionalOperations());
+        }
         if (value.getServers() != null) {
             gen.writeObjectField("servers", value.getServers());
         }

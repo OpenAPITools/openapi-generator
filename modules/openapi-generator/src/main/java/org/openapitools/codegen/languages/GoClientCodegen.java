@@ -33,6 +33,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -73,6 +74,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
+    // HTTP methods with net/http constants (http.MethodXxx, produced via
+    // camelize(httpMethod.toLowerCase())); OpenAPI 3.2 methods outside this
+    // set are emitted as string literals via x-go-http-method-literal
+    private static final Set<String> STANDARD_HTTP_METHODS = new HashSet<>(Arrays.asList(
+            "GET", "PUT", "POST", "DELETE", "HEAD", "OPTIONS", "TRACE", "PATCH", "CONNECT"));
 
     public GoClientCodegen() {
         super();
@@ -625,7 +632,23 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     @Override
+    public boolean supportsAdditionalOperations() {
+        // the Go client sends the HTTP method as a plain string to
+        // http.NewRequest, so QUERY and arbitrary additionalOperations work
+        return true;
+    }
+
+    @Override
+    protected boolean supportsQueryStringParameters() {
+        // the raw, already-encoded query string is appended to the request
+        // path verbatim by the api template and preserved by prepareRequest
+        return true;
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        Map<CodegenOperation, String> verbatimMethods = snapshotVerbatimHttpMethods(objs.getOperations().getOperation());
+
         objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
         HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
@@ -639,9 +662,15 @@ public class GoClientCodegen extends AbstractGoCodegen {
             processedModelMaps.clear();
         }
 
+        restoreVerbatimHttpMethods(operationList, verbatimMethods);
+
+        boolean needsStringsImport = false;
         for (CodegenOperation operation : operationList) {
             for (CodegenParameter cp : operation.allParams) {
                 cp.vendorExtensions.put("x-go-example", constructExampleCode(cp, modelMaps, processedModelMaps));
+                if (cp.isQueryStringParam) {
+                    needsStringsImport = true;
+                }
             }
             if (processedModelMaps.containsKey("time.Time")) {
                 operation.vendorExtensions.put("x-go-import", "    \"time\"");
@@ -649,7 +678,82 @@ public class GoClientCodegen extends AbstractGoCodegen {
             processedModelMaps.clear();
         }
 
+        ensureStringsImport(needsStringsImport, objs.getImports());
+
         return objs;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        // webhooks render through api.mustache as well, so they need the same
+        // verbatim-method restore and strings import as regular operations
+        Map<CodegenOperation, String> verbatimMethods = snapshotVerbatimHttpMethods(objs.getWebhooks().getOperation());
+
+        objs = super.postProcessWebhooksWithModels(objs, allModels);
+
+        List<CodegenOperation> operationList = objs.getWebhooks().getOperation();
+        restoreVerbatimHttpMethods(operationList, verbatimMethods);
+
+        boolean needsStringsImport = false;
+        for (CodegenOperation operation : operationList) {
+            for (CodegenParameter cp : operation.allParams) {
+                if (cp.isQueryStringParam) {
+                    needsStringsImport = true;
+                    break;
+                }
+            }
+        }
+        ensureStringsImport(needsStringsImport, objs.getImports());
+
+        return objs;
+    }
+
+    // snapshot OpenAPI 3.2 non-standard HTTP methods verbatim before the
+    // superclass camelizes httpMethod, which would corrupt names like
+    // "customMethod" into "Custommethod". IdentityHashMap is required:
+    // CodegenOperation.hashCode() includes httpMethod, which the camelization
+    // mutates between put() and get()
+    private Map<CodegenOperation, String> snapshotVerbatimHttpMethods(List<CodegenOperation> operationList) {
+        Map<CodegenOperation, String> verbatimMethods = new IdentityHashMap<>();
+        for (CodegenOperation op : operationList) {
+            if (op.httpMethod != null && !STANDARD_HTTP_METHODS.contains(op.httpMethod)) {
+                verbatimMethods.put(op, op.httpMethod);
+            }
+        }
+        return verbatimMethods;
+    }
+
+    // RFC 9110 tchar — additionalOperations keys must match this to be
+    // emitted as a Go string literal
+    private static final java.util.regex.Pattern HTTP_TOKEN =
+            java.util.regex.Pattern.compile("[!#$%&'*+\\-.^_`|~0-9A-Za-z]+");
+
+    private void restoreVerbatimHttpMethods(List<CodegenOperation> operationList,
+                                            Map<CodegenOperation, String> verbatimMethods) {
+        for (Iterator<CodegenOperation> it = operationList.iterator(); it.hasNext(); ) {
+            CodegenOperation operation = it.next();
+            String verbatim = verbatimMethods.get(operation);
+            if (verbatim != null) {
+                if (!HTTP_TOKEN.matcher(verbatim).matches()) {
+                    LOGGER.warn("HTTP method '{}' is not a valid RFC 9110 token; skipping operation {}",
+                            verbatim, operation.operationId);
+                    it.remove();
+                    continue;
+                }
+                operation.httpMethod = verbatim;
+                operation.vendorExtensions.put("x-go-http-method-literal", true);
+            }
+        }
+    }
+
+    // querystring parameters use strings.Contains on localVarPath, which is
+    // otherwise only imported when path parameters exist (which may already
+    // have added "strings", so deduplicate)
+    private void ensureStringsImport(boolean needed, List<Map<String, String>> imports) {
+        if (needed && imports != null
+                && imports.stream().noneMatch(i -> "strings".equals(i.get("import")))) {
+            imports.add(createMapping("import", "strings"));
+        }
     }
 
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, ArrayList<Integer>> processedModelMap) {

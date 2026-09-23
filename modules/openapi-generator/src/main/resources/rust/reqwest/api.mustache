@@ -153,10 +153,27 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/allParams}}
 {{/vendorExtensions.x-group-parameters}}
 
-    let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{vendorExtensions.x-rust-param-identifier}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isArray}}.join(",").as_ref(){{/isArray}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}.to_string(){{/isContainer}}{{/isPrimitiveType}}{{/isUuid}}{{/isString}}{{#isString}}){{/isString}}{{/pathParams}});
-    let mut req_builder = configuration.client.request(reqwest::Method::{{{httpMethod}}}, &uri_str);
+    let {{#vendorExtensions.x-rust-has-querystring-param}}mut {{/vendorExtensions.x-rust-has-querystring-param}}uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{vendorExtensions.x-rust-param-identifier}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isArray}}.join(",").as_ref(){{/isArray}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}.to_string(){{/isContainer}}{{/isPrimitiveType}}{{/isUuid}}{{/isString}}{{#isString}}){{/isString}}{{/pathParams}});
+    {{#allParams}}
+    {{#isQueryStringParam}}
+    {{#required}}
+    // OpenAPI 3.2 `in: querystring`: the parameter value IS the query component
+    // (without the leading `?`), appended verbatim without re-encoding
+    uri_str.push_str(if uri_str.contains('?') { "&" } else { "?" });
+    uri_str.push_str(&{{{vendorExtensions.x-rust-param-identifier}}});
+    {{/required}}
+    {{^required}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        uri_str.push_str(if uri_str.contains('?') { "&" } else { "?" });
+        uri_str.push_str(param_value);
+    }
+    {{/required}}
+    {{/isQueryStringParam}}
+    {{/allParams}}
+    let mut req_builder = configuration.client.request({{#vendorExtensions.x-rust-http-method-literal}}reqwest::Method::from_bytes(b"{{{httpMethod}}}").expect("valid HTTP method"){{/vendorExtensions.x-rust-http-method-literal}}{{^vendorExtensions.x-rust-http-method-literal}}reqwest::Method::{{{httpMethod}}}{{/vendorExtensions.x-rust-http-method-literal}}, &uri_str);
 
     {{#queryParams}}
+    {{^isQueryStringParam}}
     {{#required}}
     {{#isArray}}
     req_builder = match "{{collectionFormat}}" {
@@ -290,6 +307,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         {{/isArray}}
     }
     {{/required}}
+    {{/isQueryStringParam}}
     {{/queryParams}}
     {{#hasAuthMethods}}
     {{#authMethods}}

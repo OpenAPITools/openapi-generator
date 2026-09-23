@@ -1,0 +1,26 @@
+openapi: 3.2.0
+info:
+  title: webhook operations test
+  version: '1.0'
+paths: {}
+webhooks:
+  petChanged:
+    query:
+      operationId: onPetQuery
+      parameters:
+        - name: qs
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+    additionalOperations:
+      "customMethod":
+        operationId: onPetCustom
+        responses:
+          '204':
+            description: done

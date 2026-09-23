@@ -1397,8 +1397,20 @@ public class DefaultCodegen implements CodegenConfig {
             // we need to add all request and response bodies to processed schemas
             if (pathItems != null) {
                 for (Map.Entry<String, PathItem> e : pathItems.entrySet()) {
-                    for (Map.Entry<PathItem.HttpMethod, Operation> op : e.getValue().readOperationsMap().entrySet()) {
-                        String opId = getOrGenerateOperationId(op.getValue(), e.getKey(), op.getKey().toString());
+                    Map<String, Operation> pathOperations = new LinkedHashMap<>();
+                    e.getValue().readOperationsMap().forEach((method, operation) -> {
+                        // HttpMethod.QUERY is in the enum map too - skip it for
+                        // generators that cannot emit the 3.2 operations
+                        if (method == PathItem.HttpMethod.QUERY && !supportsAdditionalOperations()) {
+                            return;
+                        }
+                        pathOperations.put(method.toString(), operation);
+                    });
+                    if (supportsAdditionalOperations() && e.getValue().getAdditionalOperations() != null) {
+                        pathOperations.putAll(e.getValue().getAdditionalOperations());
+                    }
+                    for (Map.Entry<String, Operation> op : pathOperations.entrySet()) {
+                        String opId = getOrGenerateOperationId(op.getValue(), e.getKey(), op.getKey());
                         // process request body
                         RequestBody b = ModelUtils.getReferencedRequestBody(openAPI, op.getValue().getRequestBody());
                         Schema requestSchema = null;
@@ -5154,7 +5166,11 @@ public class DefaultCodegen implements CodegenConfig {
                 param = ModelUtils.getReferencedParameter(this.openAPI, param);
 
                 CodegenParameter p = fromParameter(param, imports);
-                p.setContent(getContent(param.getContent(), imports, "RequestParameter" + toModelName(param.getName())));
+                // for `in: querystring` the content schema only describes the wire format;
+                // the codegen parameter is a plain string and needs no content metadata/imports
+                if (!(param instanceof QueryStringParameter) && !"querystring".equalsIgnoreCase(param.getIn())) {
+                    p.setContent(getContent(param.getContent(), imports, "RequestParameter" + toModelName(param.getName())));
+                }
 
                 // ensure unique params
                 if (ensureUniqueParams) {
@@ -5173,6 +5189,10 @@ public class DefaultCodegen implements CodegenConfig {
                     headerParams.add(p.copy());
                 } else if (param instanceof CookieParameter || "cookie".equalsIgnoreCase(param.getIn())) {
                     cookieParams.add(p.copy());
+                } else if (param instanceof QueryStringParameter || "querystring".equalsIgnoreCase(param.getIn())) {
+                    // keep it in queryParams so it lands in the operation signature;
+                    // templates use isQueryStringParam to emit the whole-query-string form
+                    queryParams.add(p.copy());
                 } else {
                     LOGGER.warn("Unknown parameter type {} for {}", p.baseType, p.baseName);
                 }
@@ -5501,14 +5521,31 @@ public class DefaultCodegen implements CodegenConfig {
                 u.vendorExtensions.putAll(pi.getExtensions());
             }
 
-            Stream.of(
-                            Pair.of("get", pi.getGet()),
-                            Pair.of("head", pi.getHead()),
-                            Pair.of("put", pi.getPut()),
-                            Pair.of("post", pi.getPost()),
-                            Pair.of("delete", pi.getDelete()),
-                            Pair.of("patch", pi.getPatch()),
-                            Pair.of("options", pi.getOptions()))
+            Stream.Builder<Pair<String, Operation>> callbackOps = Stream.builder();
+            callbackOps.add(Pair.of("get", pi.getGet()));
+            callbackOps.add(Pair.of("head", pi.getHead()));
+            callbackOps.add(Pair.of("put", pi.getPut()));
+            callbackOps.add(Pair.of("post", pi.getPost()));
+            callbackOps.add(Pair.of("delete", pi.getDelete()));
+            callbackOps.add(Pair.of("patch", pi.getPatch()));
+            callbackOps.add(Pair.of("options", pi.getOptions()));
+            callbackOps.add(Pair.of("trace", pi.getTrace()));
+            // additionalOperations keys are HTTP method names sent verbatim
+            Set<String> verbatimMethods = new HashSet<>();
+            if (supportsAdditionalOperations()) {
+                callbackOps.add(Pair.of("query", pi.getQuery()));
+                if (pi.getAdditionalOperations() != null) {
+                    pi.getAdditionalOperations().forEach((m, o) -> {
+                        callbackOps.add(Pair.of(m, o));
+                        verbatimMethods.add(m);
+                    });
+                }
+            } else if (pi.getQuery() != null
+                    || (pi.getAdditionalOperations() != null && !pi.getAdditionalOperations().isEmpty())) {
+                LOGGER.warn("Callback '{}' on expression '{}' declares OpenAPI 3.2 query/additionalOperations but generator '{}' does not support them; those operations will be missing from the generated output",
+                        name, expression, getName());
+            }
+            callbackOps.build()
                     .filter(p -> p.getValue() != null)
                     .forEach(p -> {
                         String method = p.getKey();
@@ -5532,6 +5569,9 @@ public class DefaultCodegen implements CodegenConfig {
                             op.getExtensions().put("x-callback-request", true);
 
                             CodegenOperation co = fromOperation(expression, method, op, servers);
+                            if (verbatimMethods.contains(method)) {
+                                co.httpMethod = method;
+                            }
                             if (genId) {
                                 co.operationIdOriginal = null;
                                 // legacy (see `fromOperation()`)
@@ -5646,7 +5686,22 @@ public class DefaultCodegen implements CodegenConfig {
         // e.g. #/components/schemas/list_pageQuery_parameter => toModelName(list_pageQuery_parameter)
         String parameterModelName = null;
 
-        if (parameter.getSchema() != null) {
+        // OpenAPI 3.2 `in: querystring`: the parameter describes the entire query
+        // string via `content`. Codegen exposes it as a plain string - the caller
+        // supplies the already-encoded query string (typed serialization of the
+        // content schema is not generated).
+        boolean isQueryStringParam = parameter instanceof QueryStringParameter
+                || "querystring".equalsIgnoreCase(parameter.getIn());
+        if (isQueryStringParam) {
+            parameterSchema = new StringSchema();
+            parameterModelName = getParameterDataType(parameter, parameterSchema);
+            if (!supportsQueryStringParameters()) {
+                once(LOGGER).warn("Encountered an `in: querystring` parameter ({}): this generator has no "
+                        + "dedicated querystring serialization support - generated code may drop the "
+                        + "parameter or emit a regular name=value pair instead of the whole query string.",
+                        parameter.getName());
+            }
+        } else if (parameter.getSchema() != null) {
             parameterSchema = unaliasSchema(parameter.getSchema());
             parameterModelName = getParameterDataType(parameter, parameterSchema);
             CodegenProperty prop;
@@ -5688,6 +5743,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isHeaderParam = true;
         } else if (parameter instanceof CookieParameter || "cookie".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isCookieParam = true;
+        } else if (parameter instanceof QueryStringParameter || "querystring".equalsIgnoreCase(parameter.getIn())) {
+            // OpenAPI 3.2: the parameter describes the entire query string via `content`
+            codegenParameter.isQueryStringParam = true;
         } else {
             LOGGER.warn("Unknown parameter type: {}", parameter.getName());
         }
@@ -5933,6 +5991,19 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Whether this generator emits dedicated serialization for OpenAPI 3.2
+     * {@code in: querystring} parameters (the parameter value is the whole,
+     * already-encoded query string rather than a single name=value pair).
+     * Generators without support may drop the parameter or emit a named query
+     * parameter - {@link #fromParameter} warns in that case.
+     *
+     * @return true if the generator supports {@code in: querystring} parameters
+     */
+    protected boolean supportsQueryStringParameters() {
+        return false;
     }
 
     // TODO revise below as it should be replaced by ModelUtils.isFileSchema(parameterSchema)

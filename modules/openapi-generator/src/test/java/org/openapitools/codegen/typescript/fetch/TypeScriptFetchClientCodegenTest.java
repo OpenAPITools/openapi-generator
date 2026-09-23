@@ -1236,6 +1236,32 @@ public class TypeScriptFetchClientCodegenTest {
 
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
+    @Test
+    public void testOpenAPI32QueryAndAdditionalOperations() throws IOException {
+        File output = generate(Collections.emptyMap(), "src/test/resources/3_2/query-operation.yaml");
+        Path api = Paths.get(output + "/apis/DefaultApi.ts");
+
+        // arbitrary additionalOperations keys are emitted verbatim as double-quoted
+        // literals so token punctuation and mixed case survive (CHECK&FETCH, customMethod)
+        TestUtils.assertFileContains(api,
+                "method: \"CHECK&FETCH\"",
+                "method: \"customMethod\"",
+                "method: \"PURGE\"",
+                "method: \"QUERY\"");
+
+        // standard methods keep the conventional single-quoted form
+        TestUtils.assertFileContains(api, "method: 'GET'");
+
+        // in: querystring appends the already-encoded value to the path verbatim
+        // rather than serialising a name=value pair
+        TestUtils.assertFileContains(api,
+                "urlPath += (urlPath.includes('?') ? '&' : '?') + requestParameters['qs']");
+        TestUtils.assertFileNotContains(api, "queryParameters['qs']");
+
+        // the HTTPMethod type admits arbitrary method strings
+        TestUtils.assertFileContains(Paths.get(output + "/runtime.ts"), "| (string & {})");
+    }
+
     private static File generate(
         Map<String, Object> properties,
         String inputSpec

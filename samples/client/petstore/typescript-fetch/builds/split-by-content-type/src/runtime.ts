@@ -145,7 +145,7 @@ export class BaseAPI {
             // only add the querystring to the URL if there are query parameters.
             // this is done to avoid urls ending with a "?" character which buggy webservers
             // do not handle correctly sometimes.
-            url += '?' + this.configuration.queryParamsStringify(context.query);
+            url += (url.includes('?') ? '&' : '?') + this.configuration.queryParamsStringify(context.query);
         }
 
         const headers = Object.assign({}, this.configuration.headers, context.headers);
@@ -318,7 +318,9 @@ export type ExclusiveUnion<T, U = T> = U extends unknown
     : never;
 
 export type Json = any;
-export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
+// (string & {}) keeps editor autocomplete for the standard methods while
+// admitting arbitrary OpenAPI 3.2 method names (query, additionalOperations)
+export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD' | (string & {});
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | Set<string | number | null | boolean> | HTTPQuery };
 export type HTTPBody = Json | FormData | URLSearchParams;

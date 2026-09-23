@@ -562,4 +562,102 @@ public class GoClientCodegenTest {
                 "validator.Validate",
                 "gopkg.in/validator.v2");
     }
+
+    @Test(description = "OpenAPI 3.2 query/additionalOperations and in:querystring generate working Go code")
+    public void testOpenAPI32QueryAndAdditionalOperations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiFile = Paths.get(output + "/api_default.go");
+        // non-standard methods are emitted as string literals; net/http has no
+        // MethodQuery/MethodPurge/MethodCustomMethod constants
+        TestUtils.assertFileContains(apiFile,
+                "localVarHTTPMethod   = \"QUERY\"",
+                "localVarHTTPMethod   = \"PURGE\"",
+                // additionalOperations keys are sent verbatim - no camelize
+                "localVarHTTPMethod   = \"customMethod\"",
+                // valid HTTP token punctuation must not be HTML-escaped
+                "localVarHTTPMethod   = \"CHECK&FETCH\"");
+        TestUtils.assertFileNotContains(apiFile, "http.MethodQuery");
+        TestUtils.assertFileNotContains(apiFile, "http.MethodPurge");
+        TestUtils.assertFileNotContains(apiFile, "&amp;");
+        // in:querystring appends the raw, already-encoded value to the path
+        TestUtils.assertFileContains(apiFile,
+                "localVarPath = localVarPath + \"?\" + *r.qs");
+    }
+
+    @Test(description = "prepareRequest keeps a path-embedded raw query string verbatim")
+    public void testOpenAPI32QueryStringPreservedInClient() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path clientFile = Paths.get(output + "/client.go");
+        TestUtils.assertFileContains(clientFile, "rawQueryString := url.RawQuery");
+    }
+
+    @Test(description = "in:querystring together with a path parameter imports strings only once")
+    public void testOpenAPI32QueryStringWithPathParamImports() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_2/go-querystring-pathparam.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiFile = Paths.get(output + "/api_default.go");
+        TestUtils.assertFileContains(apiFile, "strings.Contains(localVarPath, \"?\")");
+        // pathParams already pull in "strings"; a duplicate import would not compile
+        String content = new String(Files.readAllBytes(apiFile), java.nio.charset.StandardCharsets.UTF_8);
+        Assert.assertEquals(content.split("\"strings\"", -1).length - 1, 1,
+                "duplicate \"strings\" import in generated Go file");
+    }
+
+    @Test(description = "OpenAPI 3.2 query/additionalOperations in webhooks also emit verbatim method literals")
+    public void testOpenAPI32WebhookOperations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_2/go-webhook-operations.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // webhooks render through the same api.mustache; their non-standard
+        // methods must be literals too, otherwise the output does not compile
+        Path apiFile = Paths.get(output + "/api_default.go");
+        TestUtils.assertFileContains(apiFile,
+                "localVarHTTPMethod   = \"QUERY\"",
+                "localVarHTTPMethod   = \"customMethod\"");
+        TestUtils.assertFileNotContains(apiFile, "http.MethodQuery");
+        TestUtils.assertFileNotContains(apiFile, "http.MethodCustommethod");
+        // webhook querystring parameters need the strings import as well
+        TestUtils.assertFileContains(apiFile, "\"strings\"");
+    }
 }

@@ -5351,6 +5351,69 @@ public class JavaClientCodegenTest {
                 .doesNotContain("import java.security.cert.X509Certificate;");
     }
 
+    @Test
+    public void testQueryOperationAndQueryStringParamGeneration() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR) // default library okhttp-gson
+                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // the 3.2 'query' operation and the additionalOperations 'PURGE' entry
+        // must both be generated, and the in: querystring parameter is emitted
+        // as the whole (already encoded) query string appended to the path
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java"))
+                .content()
+                .contains("queryPetsCall(")
+                .contains("purgePetsCall(")
+                .contains("\"QUERY\"")
+                .contains("\"PURGE\"")
+                .contains("localVarPath = localVarPath + (localVarPath.contains(\"?\") ? \"&\" : \"?\") + qs;");
+    }
+
+    @Test
+    public void testDynamicOperationsWithQueryAndQueryString() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setInputSpec("src/test/resources/3_2/query-operation.yaml")
+                .addAdditionalProperty("dynamicOperations", true)
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // dynamic operation lookup must register the 3.2 'query' operation and
+        // additionalOperations entries, and fillParametersFromOperation must
+        // accept `in: querystring`
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                .content()
+                .contains("addOperationLookupEntry(path, \"QUERY\", pathItem.getQuery());")
+                .contains("pathItem.getAdditionalOperations()")
+                .contains("case \"querystring\":");
+    }
+
+    @Test
+    public void testDynamicOperationsWithout32Operations() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .addAdditionalProperty("dynamicOperations", true)
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // specs without `query`/`additionalOperations` must not emit calls to
+        // PathItem.getQuery()/getAdditionalOperations() - the generated client's
+        // pinned swagger-parser release has no such methods and would not compile
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                .content()
+                .doesNotContain("pathItem.getQuery()")
+                .doesNotContain("getAdditionalOperations()");
+    }
+
     private static Path generateJerseyClient(String library, Boolean generateInsecureTlsHook) {
         Path output = newTempFolder();
         CodegenConfigurator configurator = new CodegenConfigurator()

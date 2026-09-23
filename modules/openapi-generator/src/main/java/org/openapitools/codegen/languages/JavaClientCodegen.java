@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -1439,5 +1440,32 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         //  nullable_var_annotations.mustache generates nullable annotations as @{{javaxPackage}}.annotation.Nullable
         // override the default pattern for the "find and replace"
         jSpecifyNullableLambda.setNullableAnnotation(nullableAnnotation);
+    }
+
+    @Override
+    protected boolean supportsQueryStringParameters() {
+        // only the okhttp-gson api.mustache serializes an `in: querystring`
+        // parameter as the whole (already-encoded) query string
+        return isLibrary(OKHTTP_GSON) || StringUtils.isBlank(getLibrary());
+    }
+
+    @Override
+    public boolean supportsAdditionalOperations() {
+        // only the okhttp-gson templates emit the HTTP method as a plain string;
+        // other libraries embed enumerated constants (HttpMethod.QUERY etc.)
+        // that do not exist for the OpenAPI 3.2 methods
+        return isLibrary(OKHTTP_GSON) || StringUtils.isBlank(getLibrary());
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+        // the generated ApiClient (dynamicOperations mode) calls PathItem.getQuery()/
+        // getAdditionalOperations(), which only exist in swagger-parser releases with
+        // OpenAPI 3.2 model support - only emit those calls when the spec uses them
+        boolean hasQueryOrAdditionalOperations = openAPI.getPaths() != null
+                && openAPI.getPaths().values().stream().anyMatch(pathItem -> pathItem.getQuery() != null
+                || (pathItem.getAdditionalOperations() != null && !pathItem.getAdditionalOperations().isEmpty()));
+        additionalProperties.put("hasQueryOrAdditionalOperations", hasQueryOrAdditionalOperations);
     }
 }
