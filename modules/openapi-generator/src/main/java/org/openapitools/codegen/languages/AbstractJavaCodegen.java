@@ -1683,7 +1683,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         CodegenProperty targetProperty = cp;
         boolean needsOneOfWrapper = false;
         if (ModelUtils.hasOneOf(schema)) {
-            Schema selectedMember = firstObjectMember(schema);
+            Schema selectedMember = firstObjectMember(schema, defaultNode);
             if (selectedMember == null) {
                 return null;
             }
@@ -1759,11 +1759,32 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
         }
         if (ModelUtils.isDateSchema(schema)) {
-            return "java.time.LocalDate.parse(\"" + escapeText(value.asText()) + "\")";
+            if (dateLibrary.startsWith("java8")) {
+                return "java.time.LocalDate.parse(\"" + escapeText(value.asText()) + "\")";
+            }
+            if ("joda".equals(dateLibrary)) {
+                return "org.joda.time.LocalDate.parse(\"" + escapeText(value.asText()) + "\")";
+            }
+            return null;
         }
         if (ModelUtils.isDateTimeSchema(schema)) {
-            return "java.time.OffsetDateTime.parse(\"" + escapeText(value.asText()) + "\", "
-                    + "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
+            if ("java8".equals(dateLibrary)) {
+                return "java.time.OffsetDateTime.parse(\"" + escapeText(value.asText()) + "\", "
+                        + "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
+            }
+            if ("java8-localdatetime".equals(dateLibrary)) {
+                return "java.time.OffsetDateTime.parse(\"" + escapeText(value.asText()) + "\").toLocalDateTime()";
+            }
+            if ("joda".equals(dateLibrary)) {
+                return "org.joda.time.DateTime.parse(\"" + escapeText(value.asText()) + "\")";
+            }
+            return null;
+        }
+        if (ModelUtils.isTimeLocalSchema(schema) && dateLibrary.startsWith("java8")) {
+            return "java.time.LocalTime.parse(\"" + escapeText(value.asText()) + "\")";
+        }
+        if (ModelUtils.isDateTimeLocalSchema(schema) && dateLibrary.startsWith("java8")) {
+            return "java.time.LocalDateTime.parse(\"" + escapeText(value.asText()) + "\")";
         }
         if (ModelUtils.isUUIDSchema(schema)) {
             return "java.util.UUID.fromString(\"" + escapeText(value.asText()) + "\")";
@@ -1795,18 +1816,35 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema);
     }
 
-    private Schema firstObjectMember(Schema schema) {
+    private Schema firstObjectMember(Schema schema, JsonNode defaultNode) {
         List<Schema> members = schema.getOneOf() != null ? schema.getOneOf() : schema.getAnyOf();
         if (members == null) {
             return null;
         }
+        Schema firstMember = null;
         for (Schema member : members) {
             Schema resolved = ModelUtils.getReferencedSchema(this.openAPI, member);
             if (isObjectLike(resolved)) {
-                return member;
+                if (firstMember == null) {
+                    firstMember = member;
+                }
+                if (defaultNode != null && defaultNode.isObject() && matchesDefaultProperties(resolved, defaultNode)) {
+                    return member;
+                }
             }
         }
-        return null;
+        return firstMember;
+    }
+
+    private boolean matchesDefaultProperties(Schema schema, JsonNode defaultNode) {
+        Map<String, Schema> propertySchemas = getComposedSchemaProperties(schema);
+        Iterator<String> propertyNames = defaultNode.fieldNames();
+        while (propertyNames.hasNext()) {
+            if (!propertySchemas.containsKey(propertyNames.next())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
