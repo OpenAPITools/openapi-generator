@@ -271,7 +271,7 @@ func parameterValueIndirect(v reflect.Value) (reflect.Value, bool) {
 		}
 		v = v.Elem()
 	}
-	return v, true
+	return v, v.IsValid()
 }
 
 // helper for converting interface{} parameters to json strings
