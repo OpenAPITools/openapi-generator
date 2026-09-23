@@ -11,14 +11,10 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(tag = "objectType")]
+#[derive(Clone, Debug, PartialEq)]
 pub enum TestsDiscriminatorDuplicateEnumsGet200Response {
-    #[serde(rename="car")]
     Vehicle(Box<models::Vehicle>),
-    #[serde(rename="student")]
     PersonStudent(Box<models::Person>),
-    #[serde(rename="teacher")]
     PersonTeacher(Box<models::Person>),
 }
 
@@ -26,6 +22,36 @@ impl Default for TestsDiscriminatorDuplicateEnumsGet200Response {
     fn default() -> Self {
         Self::Vehicle(Default::default())
         
+    }
+}
+
+impl Serialize for TestsDiscriminatorDuplicateEnumsGet200Response {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        let (tag, value) = match self {
+            Self::Vehicle(inner) => ("car", serde_json::to_value(inner)),
+            Self::PersonStudent(inner) => ("student", serde_json::to_value(inner)),
+            Self::PersonTeacher(inner) => ("teacher", serde_json::to_value(inner)),
+        };
+        let mut value = value.map_err(serde::ser::Error::custom)?;
+        if let serde_json::Value::Object(map) = &mut value {
+            map.insert("objectType".to_owned(), tag.into());
+        }
+        value.serialize(serializer)
+    }
+}
+
+impl<'de> Deserialize<'de> for TestsDiscriminatorDuplicateEnumsGet200Response {
+    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        let value = serde_json::Value::deserialize(deserializer)?;
+        let tag = value.get("objectType").and_then(serde_json::Value::as_str).map(str::to_owned);
+        match tag.as_deref() {
+            Some("car") => serde_json::from_value(value).map(Self::Vehicle),
+            Some("student") => serde_json::from_value(value).map(Self::PersonStudent),
+            Some("teacher") => serde_json::from_value(value).map(Self::PersonTeacher),
+            Some(other) => return Err(serde::de::Error::unknown_variant(other, &["car", "student", "teacher"])),
+            None => return Err(serde::de::Error::missing_field("objectType")),
+        }
+        .map_err(serde::de::Error::custom)
     }
 }
 

@@ -304,31 +304,34 @@ public class RustClientCodegenTest {
                 .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        // the variants wrap the mapped models, so the child's own fields survive - an inline
-        // struct built from the parent's vars silently dropped every field the child adds
+        // newtype variants, so the child's own fields survive
         Path unionPath = Path.of(target.toString(), "/src/models/api_error.rs");
         TestUtils.assertFileContains(unionPath, "ObjectExists(Box<models::ObjectExists>),");
         TestUtils.assertFileContains(unionPath, "ValidationError(Box<models::ValidationError>),");
         TestUtils.assertFileContains(unionPath, "Self::ObjectExists(Default::default())");
         TestUtils.assertFileNotContains(unionPath, "ObjectExists {");
 
-        // serde's internally-tagged deserialization consumes the tag key, so the wrapped child
-        // defaults it instead of failing "missing field" and skips it back out while unset, so
-        // the tag stays the only occurrence on the wire. The property itself stays declared:
-        // these models are also returned and accepted standalone.
-        Path childPath = Path.of(target.toString(), "/src/models/object_exists.rs");
-        TestUtils.assertFileContains(childPath,
-                "#[serde(rename = \"type\", default, skip_serializing_if = \"String::is_empty\")]");
-        TestUtils.assertFileContains(childPath, "pub identifier: String,");
-        TestUtils.assertFileContains(childPath,
-                "pub fn new(r#type: String, message: String, identifier: String) -> ObjectExists {");
+        // not serde's internally tagged enum: the child reads its own discriminator, the tag is written once
+        TestUtils.assertFileNotContains(unionPath, "#[serde(tag");
+        TestUtils.assertFileContains(unionPath, "Self::ObjectExists(inner) => (\"ObjectExists\", serde_json::to_value(inner)),");
+        TestUtils.assertFileContains(unionPath, "map.insert(\"type\".to_owned(), tag.into());");
+        TestUtils.assertFileContains(unionPath, "Some(\"ObjectExists\") => serde_json::from_value(value).map(Self::ObjectExists),");
 
-        // a nullable discriminator is an Option<String>, so the predicate must be
-        // Option::is_none - String::is_empty would not compile against it
-        Path nullableChildPath = Path.of(target.toString(), "/src/models/alpha.rs");
-        TestUtils.assertFileContains(nullableChildPath,
-                "#[serde(rename = \"kind\", default, skip_serializing_if = \"Option::is_none\")]");
-        TestUtils.assertFileNotContains(nullableChildPath, "String::is_empty");
+        // children are unchanged: plain required discriminator, whatever its type
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/object_exists.rs"),
+                "#[serde(rename = \"type\")]",
+                "pub fn new(r#type: String, message: String, identifier: String) -> ObjectExists {");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/alpha.rs"),
+                "#[serde(rename = \"kind\", deserialize_with = \"Option::deserialize\")]");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/cat.rs"),
+                "#[serde(rename = \"petType\")]\n    pub pet_type: PetType,");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/circle.rs"),
+                "#[serde(rename = \"kind\")]\n    pub kind: models::ShapeKind,");
+
+        // a mapping that names the base itself leaves no struct to wrap: inline variants and serde's tag, as before
+        Path selfMappedPath = Path.of(target.toString(), "/src/models/creature.rs");
+        TestUtils.assertFileContains(selfMappedPath, "#[serde(tag = \"kind\")]", "#[serde(rename=\"Creature\")]\n    Creature {", "Self::Bird {");
+        TestUtils.assertFileNotContains(selfMappedPath, "Box<models::Creature>", "impl Serialize for Creature");
     }
 
     @Test
