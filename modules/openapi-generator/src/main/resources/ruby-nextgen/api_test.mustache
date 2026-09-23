@@ -10,5 +10,21 @@ RSpec.describe {{moduleName}}::{{#apiNamespacePresent}}{{apiNamespace}}::{{/apiN
     api = described_class.new(client.connection)
     expect(api).to be_a(described_class)
   end
+{{#rbNamespaceHasDirectOperations}}
+{{#rbNamespaceResources}}
+
+  it 'is reachable through the namespace client' do
+    expect(client.{{rbNamespaceAccessor}}.{{accessor}}).to be_a(described_class)
+  end
+{{/rbNamespaceResources}}
+{{/rbNamespaceHasDirectOperations}}
+{{#rbNamespaceOnly}}
+{{#rbNamespaceResources}}
+
+  it 'is reachable through the namespace client' do
+    expect(client.{{rbNamespaceAccessor}}.{{accessor}}).to be_a(described_class)
+  end
+{{/rbNamespaceResources}}
+{{/rbNamespaceOnly}}
 end
 {{/operations}}
