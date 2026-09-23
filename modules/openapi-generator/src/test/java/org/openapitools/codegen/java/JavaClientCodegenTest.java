@@ -512,6 +512,34 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testComplexDefaultsGenerateCompilableJava() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setInputSpec("src/test/resources/bugs/issue_24993.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/ComplexDefaults.java"))
+                .content()
+                .contains(
+                        "new ArrayList<>(Arrays.asList(new DefaultObject().name(\"first\").count(1).status(Status.ACTIVE), "
+                                + "new DefaultObject().name(\"second\").count(2).status(Status.INACTIVE)))",
+                        "new ArrayList<>(Arrays.asList(new ArrayList<>(Arrays.asList(\"h1\", \"Header 1\")), "
+                                + "new ArrayList<>(Arrays.asList(\"h2\", \"Header 2\"))))",
+                        "new ArrayList<>(Arrays.asList(10l, 20l))",
+                        "new DefaultObject().name(\"all-of\").count(3).status(Status.ACTIVE)",
+                        "new ComplexDefaultsObjectOneOf(new DefaultObject().name(\"one-of\").count(4).status(Status.ACTIVE))",
+                        "new ComplexDefaultsObjectAnyOf().name(\"any-of\").count(5).status(Status.INACTIVE)",
+                        "java.util.Base64.getDecoder().decode(\"ZGVmYXVsdA==\")",
+                        "private File binaryValue = null;")
+                .doesNotContain("Arrays.asList(, )", "= {", "[B@");
+    }
+
+    @Test
     public void testGeneratePingSomeObj() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
