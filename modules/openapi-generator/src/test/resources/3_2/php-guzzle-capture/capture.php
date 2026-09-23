@@ -74,6 +74,18 @@ $calls = [
     function () use ($api) { $api->searchItems('k=v', ['a' => 1]); },
     function () use ($api) { $api->reportItems('r=1'); },
     function () use ($api) { $api->propPatch('<x/>'); },
+    // querystring params named after template-internal locals ($query/$headers/
+    // $multipart/$uri). PHP renames them to param_*; the caller's value must
+    // still reach the wire verbatim, for required and optional(null) params.
+    function () use ($api) { $api->shadowQueryParam('k=v'); },
+    function () use ($api) { $api->shadowHeadersParam('a=b'); },
+    function () use ($api) { $api->shadowHeadersParam(null); },
+    function () use ($api) { $api->shadowMultipartParam('x=1'); },
+    function () use ($api) { $api->shadowUriParam('z=9'); },
+    function () use ($api) { $api->shadowUriParam(null); },
+    // a body parameter named `headers` must not be shadowed by the internal
+    // $headers array
+    function () use ($api) { $api->shadowBodyParam('ok'); },
 ];
 foreach ($calls as $call) {
     try { $call(); } catch (\Throwable $e) { fwrite(STDERR, "call failed: {$e->getMessage()}\n"); }
@@ -89,6 +101,13 @@ $expected = [
     'QUERY /items?k=v HTTP/1.1 [CL=7] BODY={"a":1}',
     'REPORT /report?r=1 HTTP/1.1 [CL=0]',
     'PROPPATCH /report HTTP/1.1 [CL=4] BODY=<x/>',
+    'GET /shadow-query?k=v HTTP/1.1 [CL=0]',
+    'GET /shadow-headers?a=b HTTP/1.1 [CL=0]',
+    'GET /shadow-headers HTTP/1.1 [CL=0]',
+    'GET /shadow-multipart?x=1 HTTP/1.1 [CL=0]',
+    'GET /shadow-uri?z=9 HTTP/1.1 [CL=0]',
+    'GET /shadow-uri HTTP/1.1 [CL=0]',
+    'POST /shadow-body HTTP/1.1 [CL=4] BODY="ok"',
 ];
 $got = [];
 $deadline = microtime(true) + 30;

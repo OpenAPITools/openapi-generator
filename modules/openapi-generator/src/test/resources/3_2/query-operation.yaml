@@ -149,3 +149,76 @@ paths:
       responses:
         '200':
           description: ok
+  # `in: querystring` params named after template-internal locals. Each name
+  # needs its own operation (one querystring param per operation); PHP renames
+  # them to param_*/paramXxx, other generators keep the plain name.
+  /shadow-query:
+    get:
+      operationId: shadowQueryParam
+      parameters:
+        - name: query
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+  /shadow-headers:
+    get:
+      operationId: shadowHeadersParam
+      parameters:
+        - name: headers
+          in: querystring
+          required: false
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+  /shadow-multipart:
+    get:
+      operationId: shadowMultipartParam
+      parameters:
+        - name: multipart
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+  /shadow-uri:
+    get:
+      operationId: shadowUriParam
+      parameters:
+        - name: uri
+          in: querystring
+          required: false
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: string
+      responses:
+        '200':
+          description: ok
+  /shadow-body:
+    # a body parameter named after a template-internal local (`headers`)
+    post:
+      operationId: shadowBodyParam
+      requestBody:
+        required: true
+        x-codegen-request-body-name: headers
+        content:
+          application/json:
+            schema:
+                type: string
+      responses:
+        '200':
+          description: ok

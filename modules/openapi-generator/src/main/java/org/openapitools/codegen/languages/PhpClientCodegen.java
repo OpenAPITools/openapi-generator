@@ -168,6 +168,43 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
     private static final Set<String> STANDARD_HTTP_METHODS = new HashSet<>(Arrays.asList(
             "GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE", "CONNECT"));
 
+    /**
+     * Local variable names declared inside the generated api functions
+     * (php/api.mustache). A spec parameter whose final param name matches any of
+     * these collides with the internal variable in the same function scope - e.g.
+     * a parameter named {@code query} is overwritten by
+     * {@code $query = ObjectSerializer::buildQuery($queryParams)} before the
+     * {@code in: querystring} append would read it, silently dropping the caller's
+     * value. Such parameters are renamed by {@link #toParamName(String)}.
+     */
+    private static final Set<String> INTERNAL_VARIABLE_NAMES = new HashSet<>(Arrays.asList(
+            // signature internals appended after the spec params
+            "hostIndex", "variables", "contentType", "associative_array",
+            // xxxRequest() locals
+            "resourcePath", "formParams", "queryParams", "headerParams", "httpBody",
+            "multipart", "formDataProcessor", "formData", "multipartContents",
+            "formParamName", "formParamValue", "formParamValueItems", "formParamValueItem",
+            "headers", "apiKey", "defaultHeaders", "hostSettings", "operationHost", "query",
+            "returnType",
+            // verbatim-method request accumulator
+            "__requestUri",
+            // $this is not a legal parameter name in PHP
+            "this",
+            // sync/async wrapper locals
+            "request", "options", "response", "statusCode", "data", "content", "e", "exception"));
+
+    @Override
+    public String toParamName(String name) {
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+        String paramName = super.toParamName(name);
+        if (INTERNAL_VARIABLE_NAMES.contains(paramName)) {
+            paramName = toVarName("param_" + name);
+        }
+        return paramName;
+    }
+
     // RFC 9110 tchar: method tokens the generated client can send verbatim
     private static final java.util.regex.Pattern HTTP_METHOD_TOKEN_PATTERN =
             java.util.regex.Pattern.compile("[!#$%&'*+\\-.^_`|~0-9A-Za-z]+");

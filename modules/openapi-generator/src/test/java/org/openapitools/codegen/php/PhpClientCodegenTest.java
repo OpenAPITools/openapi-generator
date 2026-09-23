@@ -228,8 +228,23 @@ public class PhpClientCodegenTest {
                     "a querystring parameter literally named `uri` must still reach the wire");
             Assert.assertFalse(generated.contains("toQueryValue(\n            $qs"),
                     "querystring param must not be serialized as a name=value pair");
+            // params named after function-scope internal variables are renamed so
+            // the caller's value cannot be shadowed by e.g. `$query = buildQuery()`
+            Assert.assertTrue(generated.contains("function shadowQueryParam($param_query"),
+                    "param `query` must be renamed off the internal $query local");
+            Assert.assertTrue(generated.contains("'?') . $param_query"),
+                    "renamed `query` param must still be appended verbatim");
+            Assert.assertTrue(generated.contains("function shadowHeadersParam($param_headers"),
+                    "param `headers` must be renamed off the internal $headers local");
+            Assert.assertTrue(generated.contains("function shadowMultipartParam($param_multipart"),
+                    "param `multipart` must be renamed off the internal $multipart local");
+            Assert.assertTrue(generated.contains("function shadowBodyParam($param_headers"),
+                    "a body param named `headers` must be renamed too");
+            Assert.assertFalse(generated.contains("function shadowQueryParam($query"),
+                    "the colliding spec name must not leak into the signature");
             // QUERY may carry a body; REPORT/PROPPATCH need one on some stacks
             Assert.assertTrue(generated.contains("'REPORT'"), "REPORT should emit a verbatim literal");
+            Assert.assertTrue(generated.contains("'PROPPATCH'"), "PROPPATCH should emit a verbatim literal");
             Path composerPath = target.resolve("composer.json");
             String composer = new String(Files.readAllBytes(composerPath), StandardCharsets.UTF_8);
             // psr7 < 2.10 Utils::modifyRequest() rebuilds a plain Request and
