@@ -42,7 +42,7 @@ public class Pet   {
   @JsonProperty("tags")
   @Valid
 
-  private List<@Valid Tag> tags = new ArrayList<>();
+  private List<@Valid Tag> tags = null;
 
   /**
    * pet status in the store

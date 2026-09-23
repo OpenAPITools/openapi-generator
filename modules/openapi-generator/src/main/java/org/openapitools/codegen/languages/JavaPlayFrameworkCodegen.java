@@ -27,6 +27,7 @@ import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,6 +111,19 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         cliOptions.add(createBooleanCliWithDefault(WRAP_CALLS, "Add a wrapper to each controller function to handle things like metrics, response modification, etc..", wrapCalls));
         cliOptions.add(createBooleanCliWithDefault(USE_SWAGGER_UI, "Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies", useSwaggerUI));
         cliOptions.add(createBooleanCliWithDefault(SUPPORT_ASYNC, "Support Async operations", supportAsync));
+    }
+
+    @Override
+    public String toDefaultValue(CodegenProperty property, Schema schema) {
+        Schema resolvedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        if (property != null && !property.required
+                && (ModelUtils.isArraySchema(schema) || ModelUtils.isMapSchema(schema)
+                || ModelUtils.isArraySchema(resolvedSchema) || ModelUtils.isMapSchema(resolvedSchema))
+                && schema.getDefault() == null && (resolvedSchema == null || resolvedSchema.getDefault() == null)
+                && !defaultToEmptyContainer) {
+            return null;
+        }
+        return super.toDefaultValue(property, schema);
     }
 
     @Override

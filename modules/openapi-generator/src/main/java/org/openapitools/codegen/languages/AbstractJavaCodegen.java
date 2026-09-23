@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
@@ -86,8 +85,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
     private static final ZoneId UTC = ZoneId.of("UTC");
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String SUPPORT_ASYNC = "supportAsync";
@@ -1444,7 +1441,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String toDefaultValue(CodegenProperty cp, Schema schema) {
         Schema originalSchema = schema;
         Schema resolvedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
-        String complexDefault = toComplexDefaultValue(cp, originalSchema, resolvedSchema);
+        if (hasOptionalNullableExplicitNullDefault(cp, originalSchema, resolvedSchema)) {
+            return null;
+        }
+        String complexDefault = renderComplexDefaultValue(cp, originalSchema, resolvedSchema);
         if (complexDefault != null) {
             return complexDefault;
         }
@@ -1571,7 +1571,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         } else if (ModelUtils.isObjectSchema(schema)) {
             if (schema.getDefault() != null) {
-                return toObjectDefaultValue(cp, schema, toJsonNode(schema.getDefault()));
+                return renderComplexDefaultValue(cp, schema, schema);
             }
             return null;
         } else if (ModelUtils.isComposedSchema(schema)) {
@@ -1583,11 +1583,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 // default (e.g. `{"one":"one"}`) as Java, which does not compile (see #23795).
                 Map<String, Schema> propertySchemas = getComposedSchemaProperties(schema);
                 if (!propertySchemas.isEmpty()) {
-                    return toObjectDefaultValue(cp, schema, toJsonNode(schema.getDefault()));
+                    return renderComplexDefaultValue(cp, schema, schema);
                 }
                 // No object properties resolved: the composition wraps a non-object, e.g. an `allOf`
                 // to an enum or scalar (`allOf: [{$ref: '#/.../CurrencyCode'}]` + sibling `default`).
-                // There is nothing to build via toObjectDefaultValue, so defer to the base behavior,
+                // There is nothing to build via the complex default renderer, so defer to the base behavior,
                 // which emits the raw default for later enum var-name / scalar conversion. Returning
                 // null here dropped the default and regressed enum defaults (see #24384).
                 return super.toDefaultValue(schema);
@@ -1598,253 +1598,33 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.toDefaultValue(schema);
     }
 
-    private String toComplexDefaultValue(CodegenProperty cp, Schema schema, Schema resolvedSchema) {
-        Object defaultValue = schema != null && schema.getDefault() != null ? schema.getDefault()
-                : resolvedSchema == null ? null : resolvedSchema.getDefault();
-        if (defaultValue == null) {
-            return null;
-        }
-
-        JsonNode defaultNode = toJsonNode(defaultValue);
-        if (defaultNode == null) {
-            return null;
-        }
-        if (defaultNode.isNull()) {
-            return "null";
-        }
-
-        if (ModelUtils.isArraySchema(resolvedSchema) && defaultNode.isArray() && cp != null && cp.items != null) {
-            return toArrayDefaultValue(cp, resolvedSchema, defaultNode);
-        }
-
-        if (defaultNode.isValueNode()
-                && (ModelUtils.isByteArraySchema(resolvedSchema) || ModelUtils.isBinarySchema(resolvedSchema))) {
-            return renderDefaultScalar(cp, resolvedSchema, defaultNode, null);
-        }
-
-        if (isObjectLike(resolvedSchema) && defaultNode.isObject()) {
-            return toObjectDefaultValue(cp, resolvedSchema, defaultNode);
-        }
-
-        return null;
+    private String renderComplexDefaultValue(CodegenProperty property, Schema schema, Schema resolvedSchema) {
+        JavaDefaultValueRenderer.Context context = new JavaDefaultValueRenderer.Context(
+                openAPI,
+                dateLibrary,
+                useOneOfInterfaces,
+                this::escapeText,
+                this::toVarName,
+                this::toEnumVarName,
+                this::fromProperty,
+                this::getDefaultCollectionType,
+                this::getComposedSchemaProperties);
+        return new JavaDefaultValueRenderer(context).render(property, schema, resolvedSchema);
     }
 
-    private String toArrayDefaultValue(CodegenProperty cp, Schema schema, JsonNode defaultNode) {
-        if (defaultNode.isEmpty()) {
-            return getDefaultCollectionType(schema, "");
-        }
-
-        List<String> values = new ArrayList<>();
-        for (JsonNode item : defaultNode) {
-            String value = renderDefaultValue(cp.items, schema.getItems(), item, null);
-            if (value == null) {
-                return null;
-            }
-            values.add(value);
-        }
-        return getDefaultCollectionType(schema, formatDefaultValues(values));
+    private boolean hasOptionalNullableExplicitNullDefault(CodegenProperty property, Schema originalSchema,
+                                                            Schema resolvedSchema) {
+        return openApiNullable && property != null && !property.required && property.isNullable
+                && isExplicitNullDefault(originalSchema, resolvedSchema);
     }
 
-    private String formatDefaultValues(List<String> values) {
-        boolean nested = values.stream().anyMatch(value -> value.startsWith("new ") && value.contains("Arrays.asList("));
-        if (!nested) {
-            return String.join(", ", values);
-        }
-        return "\n        " + String.join(",\n        ", values) + "\n      ";
+    private boolean isExplicitNullDefault(Schema originalSchema, Schema resolvedSchema) {
+        return isNullNode(originalSchema == null ? null : originalSchema.getDefault())
+                || isNullNode(resolvedSchema == null ? null : resolvedSchema.getDefault());
     }
 
-    private String renderDefaultValue(CodegenProperty cp, Schema schema, JsonNode value, String ownerType) {
-        if (value == null || value.isNull()) {
-            return "null";
-        }
-
-        Schema resolvedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
-        if (resolvedSchema == null) {
-            return null;
-        }
-        if (ModelUtils.isArraySchema(resolvedSchema) && value.isArray() && cp != null && cp.items != null) {
-            return toArrayDefaultValue(cp, resolvedSchema, value);
-        }
-        if (isObjectLike(resolvedSchema) && value.isObject()) {
-            return toObjectDefaultValue(cp, resolvedSchema, value);
-        }
-        if (ModelUtils.isMapSchema(resolvedSchema)) {
-            return null;
-        }
-        return renderDefaultScalar(cp, resolvedSchema, value, ownerType);
-    }
-
-    private String toObjectDefaultValue(CodegenProperty cp, Schema schema, JsonNode defaultNode) {
-        if (defaultNode == null || defaultNode.isNull()) {
-            return "null";
-        }
-
-        Schema targetSchema = schema;
-        CodegenProperty targetProperty = cp;
-        boolean needsOneOfWrapper = false;
-        if (ModelUtils.hasOneOf(schema)) {
-            Schema selectedMember = firstObjectMember(schema, defaultNode);
-            if (selectedMember == null) {
-                return null;
-            }
-            targetSchema = ModelUtils.getReferencedSchema(this.openAPI, selectedMember);
-            targetProperty = fromProperty(cp.baseName, selectedMember);
-            needsOneOfWrapper = !useOneOfInterfaces;
-        }
-        if (targetProperty == null || targetProperty.datatypeWithEnum == null) {
-            return null;
-        }
-
-        Map<String, Schema> propertySchemas = getComposedSchemaProperties(targetSchema);
-        StringBuilder expression = new StringBuilder("new ").append(targetProperty.datatypeWithEnum).append("()");
-        for (Map.Entry<String, JsonNode> defaultProperty : defaultNode.properties()) {
-            Schema propertySchema = propertySchemas.get(defaultProperty.getKey());
-            if (propertySchema == null) {
-                continue;
-            }
-            CodegenProperty property = fromProperty(defaultProperty.getKey(), propertySchema);
-            String propertyExpression = renderDefaultValue(property, propertySchema, defaultProperty.getValue(),
-                    targetProperty.datatypeWithEnum);
-            if (propertyExpression != null) {
-                expression.append(".").append(toVarName(defaultProperty.getKey())).append("(")
-                        .append(propertyExpression).append(")");
-            }
-        }
-
-        if (needsOneOfWrapper) {
-            return "new " + cp.datatypeWithEnum + "(" + expression + ")";
-        }
-        return expression.toString();
-    }
-
-    private String renderDefaultScalar(CodegenProperty property, Schema schema, JsonNode value, String ownerType) {
-        if (ModelUtils.isByteArraySchema(schema)) {
-            return "java.util.Base64.getDecoder().decode(\"" + escapeText(value.asText()) + "\")";
-        }
-        if (ModelUtils.isBinarySchema(schema)) {
-            if (property != null && ("Resource".equals(property.datatypeWithEnum)
-                    || "org.springframework.core.io.Resource".equals(property.datatypeWithEnum))) {
-                return "new org.springframework.core.io.ByteArrayResource(java.util.Base64.getDecoder().decode(\""
-                        + escapeText(value.asText()) + "\"))";
-            }
-            if (property != null && ("File".equals(property.datatypeWithEnum)
-                    || "java.io.File".equals(property.datatypeWithEnum))) {
-                return "null";
-            }
-            return null;
-        }
-        if (ModelUtils.isEnumSchema(schema)) {
-            CodegenProperty enumProperty = property;
-            String enumType = enumProperty != null && enumProperty.isEnum && ownerType != null
-                    ? ownerType + "." + enumProperty.datatypeWithEnum
-                    : enumProperty == null ? null : enumProperty.datatypeWithEnum;
-            return enumType == null ? null : enumType + "." + toEnumVarName(value.asText(), enumProperty.dataType);
-        }
-        if (ModelUtils.isLongSchema(schema)) {
-            return value.asText() + "l";
-        }
-        if (ModelUtils.isIntegerSchema(schema)) {
-            return value.asText();
-        }
-        if (ModelUtils.isDoubleSchema(schema)) {
-            return value.asText() + "d";
-        }
-        if (ModelUtils.isFloatSchema(schema)) {
-            return value.asText() + "f";
-        }
-        if (ModelUtils.isNumberSchema(schema)) {
-            return "new java.math.BigDecimal(\"" + escapeText(value.asText()) + "\")";
-        }
-        if (ModelUtils.isURISchema(schema)) {
-            return "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
-        }
-        if (ModelUtils.isDateSchema(schema)) {
-            if (dateLibrary.startsWith("java8")) {
-                return "java.time.LocalDate.parse(\"" + escapeText(value.asText()) + "\")";
-            }
-            if ("joda".equals(dateLibrary)) {
-                return "org.joda.time.LocalDate.parse(\"" + escapeText(value.asText()) + "\")";
-            }
-            return null;
-        }
-        if (ModelUtils.isDateTimeSchema(schema)) {
-            if ("java8".equals(dateLibrary)) {
-                return "java.time.OffsetDateTime.parse(\"" + escapeText(value.asText()) + "\", "
-                        + "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
-            }
-            if ("java8-localdatetime".equals(dateLibrary)) {
-                return "java.time.OffsetDateTime.parse(\"" + escapeText(value.asText()) + "\").toLocalDateTime()";
-            }
-            if ("joda".equals(dateLibrary)) {
-                return "org.joda.time.DateTime.parse(\"" + escapeText(value.asText()) + "\")";
-            }
-            return null;
-        }
-        if (ModelUtils.isTimeLocalSchema(schema) && dateLibrary.startsWith("java8")) {
-            return "java.time.LocalTime.parse(\"" + escapeText(value.asText()) + "\")";
-        }
-        if (ModelUtils.isDateTimeLocalSchema(schema) && dateLibrary.startsWith("java8")) {
-            return "java.time.LocalDateTime.parse(\"" + escapeText(value.asText()) + "\")";
-        }
-        if (ModelUtils.isUUIDSchema(schema)) {
-            return "java.util.UUID.fromString(\"" + escapeText(value.asText()) + "\")";
-        }
-        if (ModelUtils.isBooleanSchema(schema)) {
-            return value.asText();
-        }
-        if (ModelUtils.isStringSchema(schema)) {
-            return "\"" + escapeText(value.asText()) + "\"";
-        }
-        return null;
-    }
-
-    private JsonNode toJsonNode(Object value) {
-        if (value instanceof JsonNode) {
-            return (JsonNode) value;
-        }
-        if (value instanceof java.time.temporal.TemporalAccessor) {
-            return OBJECT_MAPPER.getNodeFactory().textNode(value.toString());
-        }
-        try {
-            return OBJECT_MAPPER.valueToTree(value);
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
-    }
-
-    private boolean isObjectLike(Schema schema) {
-        return ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema);
-    }
-
-    private Schema firstObjectMember(Schema schema, JsonNode defaultNode) {
-        List<Schema> members = schema.getOneOf() != null ? schema.getOneOf() : schema.getAnyOf();
-        if (members == null) {
-            return null;
-        }
-        Schema firstMember = null;
-        for (Schema member : members) {
-            Schema resolved = ModelUtils.getReferencedSchema(this.openAPI, member);
-            if (isObjectLike(resolved)) {
-                if (firstMember == null) {
-                    firstMember = member;
-                }
-                if (defaultNode != null && defaultNode.isObject() && matchesDefaultProperties(resolved, defaultNode)) {
-                    return member;
-                }
-            }
-        }
-        return firstMember;
-    }
-
-    private boolean matchesDefaultProperties(Schema schema, JsonNode defaultNode) {
-        Map<String, Schema> propertySchemas = getComposedSchemaProperties(schema);
-        Iterator<String> propertyNames = defaultNode.fieldNames();
-        while (propertyNames.hasNext()) {
-            if (!propertySchemas.containsKey(propertyNames.next())) {
-                return false;
-            }
-        }
-        return true;
+    private boolean isNullNode(Object defaultValue) {
+        return defaultValue instanceof JsonNode && ((JsonNode) defaultValue).isNull();
     }
 
     /**

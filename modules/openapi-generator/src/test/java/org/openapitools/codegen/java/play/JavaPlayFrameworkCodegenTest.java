@@ -149,4 +149,30 @@ public class JavaPlayFrameworkCodegenTest {
         TestUtils.assertFileNotContains(model,
                 "this.nullableArrayWithDefault = new ArrayList<>(Arrays.asList(\"foo\", \"bar\"));");
     }
+
+    @Test
+    public void testOptionalContainersWithoutDefaultsRemainNull() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml",
+                        null, new ParseOptions()).getOpenAPI();
+        JavaPlayFrameworkCodegen codegen = new JavaPlayFrameworkCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        Path pet = output.toPath().resolve("app/apimodels/Pet.java");
+        Path maps = output.toPath().resolve("app/apimodels/AdditionalPropertiesClass.java");
+        TestUtils.assertFileContains(pet, "private List<@Valid Tag> tags = null;");
+        TestUtils.assertFileContains(maps, "private Map<String, String> mapString = null;");
+    }
 }

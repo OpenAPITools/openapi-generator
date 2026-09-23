@@ -18,17 +18,17 @@ import javax.validation.Valid;
 public class ArrayTest   {
   @JsonProperty("array_of_string")
   
-  private List<String> arrayOfString = new ArrayList<>();
+  private List<String> arrayOfString = null;
 
   @JsonProperty("array_array_of_integer")
   @Valid
 
-  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  private List<List<Long>> arrayArrayOfInteger = null;
 
   @JsonProperty("array_array_of_model")
   @Valid
 
-  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = null;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;

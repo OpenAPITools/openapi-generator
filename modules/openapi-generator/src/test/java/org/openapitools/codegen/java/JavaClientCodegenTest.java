@@ -575,6 +575,20 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJersey3NullableNullDefaultRemainsUndefined() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/bugs/issue_24993.yaml",
+                "jersey3",
+                Map.of(JavaClientCodegen.OPENAPI_NULLABLE, true));
+
+        assertThat(files.get("ComplexDefaults.java").toPath()).content()
+                .containsPattern("nullableObject\\s*=\\s*JsonNullable\\.<[^>]+>undefined\\(\\);")
+                .containsPattern("nullableArrayWithNullDefault\\s*=\\s*JsonNullable\\.<List<String>>undefined\\(\\);")
+                .doesNotContain("JsonNullable.<DefaultObject>of(null)")
+                .doesNotContain("JsonNullable.<List<String>>of(null)");
+    }
+
+    @Test
     public void testGeneratePingSomeObj() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()

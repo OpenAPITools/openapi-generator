@@ -46,6 +46,12 @@ components:
             type: array
             items:
               type: string
+        nullableArrayWithNullDefault:
+          type: array
+          nullable: true
+          default: null
+          items:
+            type: string
         longArray:
           type: array
           default:

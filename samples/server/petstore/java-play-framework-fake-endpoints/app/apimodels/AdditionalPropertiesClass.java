@@ -18,40 +18,40 @@ import javax.validation.Valid;
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")
   
-  private Map<String, String> mapString = new HashMap<>();
+  private Map<String, String> mapString = null;
 
   @JsonProperty("map_number")
   @Valid
 
-  private Map<String, BigDecimal> mapNumber = new HashMap<>();
+  private Map<String, BigDecimal> mapNumber = null;
 
   @JsonProperty("map_integer")
   
-  private Map<String, Integer> mapInteger = new HashMap<>();
+  private Map<String, Integer> mapInteger = null;
 
   @JsonProperty("map_boolean")
   
-  private Map<String, Boolean> mapBoolean = new HashMap<>();
+  private Map<String, Boolean> mapBoolean = null;
 
   @JsonProperty("map_array_integer")
   @Valid
 
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  private Map<String, List<Integer>> mapArrayInteger = null;
 
   @JsonProperty("map_array_anytype")
   @Valid
 
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private Map<String, List<Object>> mapArrayAnytype = null;
 
   @JsonProperty("map_map_string")
   @Valid
 
-  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapString = null;
 
   @JsonProperty("map_map_anytype")
   @Valid
 
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   @JsonProperty("anytype_1")
   
