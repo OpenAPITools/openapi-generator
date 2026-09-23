@@ -17,6 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.type.Type;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -55,7 +62,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -376,6 +382,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 optionalAcceptNullable));
 
         cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        cliOptions.add(new CliOption(TYPE_INFO_DEFAULT_IMPLS, TYPE_INFO_DEFAULT_IMPLS_DESC).defaultValue("empty map"));
         cliOptions.add(CliOption.newString(SPRING_API_VERSION, "Value for 'version' attribute in @RequestMapping (for Spring 7 and above)."));
         cliOptions.add(CliOption.newString(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATOR,
             "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.")
@@ -511,6 +518,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Please refrain from updating values of Config Options after super.ProcessOpts() is called
         super.processOpts();
 
+        if (additionalProperties.containsKey(TYPE_INFO_DEFAULT_IMPLS)) {
+            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(TYPE_INFO_DEFAULT_IMPLS));
+        }
+
         if (SPRING_HTTP_INTERFACE.equals(library)) {
             if (documentationProvider != null) {
                 additionalProperties.remove(documentationProvider.getPropertyName());
@@ -631,6 +642,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(OPTIONAL_ACCEPT_NULLABLE, this::setOptionalAcceptNullable);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BUILT_IN_VALIDATION, this::setUseSpringBuiltInValidation);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
+
         convertPropertyToStringAndWriteBack(CLIENT_REGISTRATION_ID, this::setClientRegistrationId);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_SECURITY_PRE_AUTHORIZE, this::setUseSpringSecurityPreAuthorize);
         convertPropertyToStringAndWriteBack(SPRING_SECURITY_AUTHORITY_PREFIX, this::setSpringSecurityAuthorityPrefix);
@@ -898,7 +910,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     private boolean supportLibraryUseTags() {
-        return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
+        return SPRING_BOOT.equals(library)
+               || SPRING_CLOUD_LIBRARY.equals(library)
+               || SPRING_HTTP_INTERFACE.equals(library);
     }
 
     /**
@@ -928,6 +942,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
             }
+            if (SPRING_HTTP_INTERFACE.equals(library)) {
+                super.addOperationToGroup(getUniquePathGroupName(basePath, operations), resourcePath, operation, co, operations);
+                return;
+            }
             final List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);
             co.baseName = basePath;
@@ -935,6 +953,30 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         super.addOperationToGroup(tag, resourcePath, operation, co, operations);
 
+    }
+
+    private String getUniquePathGroupName(String basePath, Map<String, List<CodegenOperation>> operations) {
+        String sanitizedBasePath = sanitizeName(basePath);
+        if (sanitizedBasePath.isEmpty()) {
+            sanitizedBasePath = "Path";
+        } else if (sanitizedBasePath.matches("^\\d.*")) {
+            sanitizedBasePath = "Class" + sanitizedBasePath;
+        }
+        String groupName = camelize(sanitizedBasePath, LOWERCASE_FIRST_LETTER);
+        String uniqueGroupName = groupName;
+        int suffix = 2;
+        while (operations.containsKey(uniqueGroupName)
+                && !getFirstPathSegment(operations.get(uniqueGroupName).get(0).path).equals(basePath)) {
+            uniqueGroupName = groupName + suffix++;
+        }
+        return uniqueGroupName;
+    }
+
+    private String getFirstPathSegment(String path) {
+        String basePath = path.startsWith("/") ? path.substring(1) : path;
+        int pos = basePath.indexOf("/");
+        basePath = pos > 0 ? basePath.substring(0, pos) : basePath;
+        return basePath.isEmpty() ? "default" : basePath;
     }
 
     @Override
@@ -1456,9 +1498,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         }
 
-        Set<String> provideArgsClassSet = reformatProvideArgsParams(operation);
+        ProvideArgsParams provideArgsParams = reformatProvideArgsParams(operation);
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+        if (!provideArgsParams.names.isEmpty()) {
+            codegenOperation.vendorExtensions.put("springProvideArgsNames", provideArgsParams.names);
+        }
+        if (!provideArgsParams.delegateArgs.isEmpty()) {
+            codegenOperation.vendorExtensions.put("springProvideArgsDelegate", provideArgsParams.delegateArgs);
+        }
 
         // add org.springframework.format.annotation.DateTimeFormat when needed
         codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
@@ -1488,8 +1536,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     generatePageableConstraintValidation, useBeanValidation,
                     generateSortValidation, SpringPageableScanUtils.AnnotationSyntax.JAVA);
         }
-        if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsClassSet.isEmpty()) {
-            codegenOperation.imports.addAll(provideArgsClassSet);
+        if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsParams.imports.isEmpty()) {
+            codegenOperation.imports.addAll(provideArgsParams.imports);
         }
 
         if (isSpringCodegen()) {
@@ -1572,41 +1620,82 @@ public class SpringCodegen extends AbstractJavaCodegen
         return codegenOperation;
     }
 
-    private Set<String> reformatProvideArgsParams(Operation operation) {
-        Set<String> provideArgsClassSet = new HashSet<>();
+    private ProvideArgsParams reformatProvideArgsParams(Operation operation) {
+        ProvideArgsParams provideArgsParams = new ProvideArgsParams();
         Object argObj = operation.getExtensions().get("x-spring-provide-args");
         if (argObj instanceof List) {
             List<String> provideArgs = (List<String>) argObj;
             if (!provideArgs.isEmpty()) {
                 List<String> formattedArgs = new ArrayList<>();
+                List<String> formattedArgNames = new ArrayList<>();
+                List<String> formattedDelegateArgs = new ArrayList<>();
                 for (String oneArg : provideArgs) {
                     if (StringUtils.isNotEmpty(oneArg)) {
-                        String regexp = "(?<AnnotationTag>@)?(?<ClassPath>(?<PackageName>(\\w+\\.)*)(?<ClassName>\\w+))(?<Params>\\(.*?\\))?\\s?";
-                        Matcher matcher = Pattern.compile(regexp).matcher(oneArg);
-                        List<String> newArgs = new ArrayList<>();
-                        while (matcher.find()) {
-                            String className = matcher.group("ClassName");
-                            String classPath = matcher.group("ClassPath");
-                            String packageName = matcher.group("PackageName");
-                            String params = matcher.group("Params");
-                            String annoTag = matcher.group("AnnotationTag");
-                            String shortPhrase = StringUtils.join(annoTag, className, params);
-                            newArgs.add(shortPhrase);
-                            if (StringUtils.isNotEmpty(packageName)) {
-                                importMapping.put(className, classPath);
-                                provideArgsClassSet.add(className);
-                                LOGGER.trace("put import mapping {} {}", className, classPath);
-                            }
-                        }
-                        String newArg = String.join(" ", newArgs);
-                        LOGGER.trace("new arg {}", newArg);
+                        Parameter parameter = parseProvideArgParameter(oneArg);
+                        collectImportsAndSimplify(parameter, provideArgsParams);
+
+                        String newArg = parameter.toString();
+                        LOGGER.trace("new arg {} {}", newArg);
                         formattedArgs.add(newArg);
+
+                        Parameter delegateParameter = parameter.clone();
+                        delegateParameter.getAnnotations().clear();
+                        formattedDelegateArgs.add(delegateParameter.toString());
+                        formattedArgNames.add(parameter.getNameAsString());
                     }
                 }
                 operation.getExtensions().put("x-spring-provide-args", formattedArgs);
+                provideArgsParams.names.addAll(formattedArgNames);
+                provideArgsParams.delegateArgs.addAll(formattedDelegateArgs);
             }
         }
-        return provideArgsClassSet;
+        return provideArgsParams;
+    }
+
+    private Parameter parseProvideArgParameter(String oneArg) {
+        CompilationUnit compilationUnit = StaticJavaParser.parse(String.format(Locale.ROOT, "class Dummy { void method(%s) {} }", oneArg));
+        return compilationUnit.findFirst(MethodDeclaration.class)
+                .orElseThrow(() -> new IllegalArgumentException("Unable to parse x-spring-provide-args parameter: " + oneArg))
+                .getParameter(0);
+    }
+
+    private void collectImportsAndSimplify(Parameter parameter, ProvideArgsParams provideArgsParams) {
+        parameter.findAll(AnnotationExpr.class).forEach(annotation -> {
+            String annotationName = annotation.getNameAsString();
+            if (annotationName.contains(".")) {
+                String simpleName = annotation.getName().getIdentifier();
+                importMapping.put(simpleName, annotationName);
+                provideArgsParams.imports.add(simpleName);
+                annotation.setName(simpleName);
+                LOGGER.trace("put import mapping {} {}", simpleName, annotationName);
+            }
+        });
+
+        parameter.getType().toClassOrInterfaceType().ifPresent(type -> simplifyClassOrInterfaceType(type, provideArgsParams));
+    }
+
+    private void simplifyClassOrInterfaceType(ClassOrInterfaceType type, ProvideArgsParams provideArgsParams) {
+        type.getTypeArguments().stream()
+                .flatMap(Collection::stream)
+                .map(Type::toClassOrInterfaceType)
+                .flatMap(Optional::stream)
+                .forEach(classOrInterfaceType -> simplifyClassOrInterfaceType(classOrInterfaceType, provideArgsParams));
+        if (type.getScope().isPresent()) {
+            String typeName = type.getNameWithScope();
+            if (typeName.contains(".")) {
+                String simpleName = type.getNameAsString();
+                importMapping.put(simpleName, typeName);
+                provideArgsParams.imports.add(simpleName);
+                type.setScope(null);
+                LOGGER.trace("put import mapping {} {}", simpleName, typeName);
+            }
+        }
+    }
+
+    private static final class ProvideArgsParams {
+        private final Set<String> imports = new HashSet<>();
+        private final List<String> names = new ArrayList<>();
+        private final List<String> delegateArgs = new ArrayList<>();
     }
 
     @Override
@@ -1614,6 +1703,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         objs = super.postProcessAllModels(objs);
 
         Map<String, CodegenModel> allModels = getAllModels(objs);
+
         // conditionally force the generation of no args constructor
         for (CodegenModel cm : allModels.values()) {
             boolean hasLombokNoArgsConstructor = lombokAnnotations != null && lombokAnnotations.containsKey("NoArgsConstructor");
@@ -1729,9 +1819,18 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_MINIMUM_MESSAGE);
         extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
         extensions.add(VendorExtension.X_SPRING_API_VERSION);
+        extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         extensions.add(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY);
         extensions.add(VendorExtension.X_JACKSON_JSON_SETTER_NULLS);
         return extensions;
+    }
+
+    @Override
+    protected boolean useBeanValidationOnMapValueType() {
+        // The Spring templates place container element validation on the type argument
+        // (List<@Valid T>, Map<String, @Valid V>) rather than the deprecated
+        // container-level @Valid (HV000271).
+        return true;
     }
 
     protected boolean isSpringCodegen() {

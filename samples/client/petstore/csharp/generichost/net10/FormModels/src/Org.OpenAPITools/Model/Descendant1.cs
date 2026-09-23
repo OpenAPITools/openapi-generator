@@ -131,22 +131,22 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!alternativeName.IsSet)
-                throw new ArgumentException("Property is required for class Descendant1.", nameof(alternativeName));
+                throw new JsonException("Property is required for class Descendant1: alternativeName.");
 
             if (!descendantName.IsSet)
-                throw new ArgumentException("Property is required for class Descendant1.", nameof(descendantName));
+                throw new JsonException("Property is required for class Descendant1: descendantName.");
 
             if (!objectType.IsSet)
-                throw new ArgumentException("Property is required for class Descendant1.", nameof(objectType));
+                throw new JsonException("Property is required for class Descendant1: objectType.");
 
             if (alternativeName.IsSet && alternativeName.Value == null)
-                throw new ArgumentNullException(nameof(alternativeName), "Property is not nullable for class Descendant1.");
+                throw new JsonException("Property is not nullable for class Descendant1: alternativeName.");
 
             if (descendantName.IsSet && descendantName.Value == null)
-                throw new ArgumentNullException(nameof(descendantName), "Property is not nullable for class Descendant1.");
+                throw new JsonException("Property is not nullable for class Descendant1: descendantName.");
 
             if (objectType.IsSet && objectType.Value == null)
-                throw new ArgumentNullException(nameof(objectType), "Property is not nullable for class Descendant1.");
+                throw new JsonException("Property is not nullable for class Descendant1: objectType.");
 
             return new Descendant1(alternativeName.Value, descendantName.Value);
         }
@@ -175,12 +175,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Descendant1 descendant1, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (descendant1.AlternativeName == null)
-                throw new ArgumentNullException(nameof(descendant1.AlternativeName), "Property is required for class Descendant1.");
-
-            if (descendant1.DescendantName == null)
-                throw new ArgumentNullException(nameof(descendant1.DescendantName), "Property is required for class Descendant1.");
-
             writer.WriteString("alternativeName", descendant1.AlternativeName);
 
             writer.WriteString("descendantName", descendant1.DescendantName);

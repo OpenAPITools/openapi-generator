@@ -27,7 +27,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateSourceCodeOnly|Specifies that only a library source code is to be generated.| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |lazyImports|Enable lazy imports.| |false|
-|library|library template (sub-template) to use: asyncio, urllib3, httpx| |urllib3|
+|library|library template (sub-template) to use: asyncio, urllib3, httpx, httpx2| |urllib3|
 |mapNumberTo|Map number to Union[StrictFloat, StrictInt], StrictFloat, float or Decimal.| |Union[StrictFloat, StrictInt]|
 |packageName|python package name (convention: snake_case).| |openapi_client|
 |packageUrl|python package URL.| |null|
@@ -36,7 +36,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
 |setEnsureAsciiToFalse|When set to true, add `ensure_ascii=False` in json.dumps when creating the HTTP request body.| |false|
-|supportHttpxSync|Generate synchronous '_sync' variants of each API method (httpx library only). Each '_sync' method simply calls the corresponding async method and waits for its completion, so both synchronous and asynchronous methods are available from the same API class.| |false|
+|supportHttpxSync|Generate synchronous '_sync' variants of each API method (httpx and httpx2 libraries only). Each '_sync' method simply calls the corresponding async method and waits for its completion, so both synchronous and asynchronous methods are available from the same API class.| |false|
 |useIndependentImplicitClients|Give API instances without an explicit or registered default ApiClient an owned client with a copied Configuration.| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
 

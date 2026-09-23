@@ -87,6 +87,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -674,7 +675,6 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected Map<String, Schema> getModelNameToSchemaCache() {
         if (modelNameToSchemaCache == null) {
-            // Create a cache to efficiently lookup schema based on model name.
             Map<String, Schema> m = new HashMap<>();
             ModelUtils.getSchemas(openAPI).forEach((key, schema) -> m.put(toModelName(key), schema));
             modelNameToSchemaCache = Collections.unmodifiableMap(m);
@@ -1059,6 +1059,7 @@ public class DefaultCodegen implements CodegenConfig {
             once(LOGGER).warn(UNSUPPORTED_V310_SPEC_MSG);
         }
         this.openAPI = openAPI;
+        this.modelNameToSchemaCache = null;
         // Set global settings such that helper functions in ModelUtils can lookup the value
         // of the CLI option.
         ModelUtils.setDisallowAdditionalPropertiesIfNotPresent(getDisallowAdditionalPropertiesIfNotPresent());
@@ -4691,6 +4692,44 @@ public class DefaultCodegen implements CodegenConfig {
         return currentProperty != null && currentProperty.isEnum;
     }
 
+    /**
+     * Search a property and its items, additional properties, named properties, and composition branches.
+     * This traversal is independent of the generator's supported features and visits each property
+     * instance at most once, so shared or cyclic property graphs are safe to search.
+     *
+     * @param property the root property, or null
+     * @param predicate the condition to match
+     * @return true as soon as a matching property is found
+     */
+    protected boolean anyPropertyMatches(CodegenProperty property, Predicate<CodegenProperty> predicate) {
+        Set<CodegenProperty> visited = Collections.newSetFromMap(new IdentityHashMap<>());
+        return anyPropertyMatches(property, predicate, visited);
+    }
+
+    private boolean anyPropertyMatches(CodegenProperty property, Predicate<CodegenProperty> predicate,
+                                       Set<CodegenProperty> visited) {
+        if (property == null || !visited.add(property)) {
+            return false;
+        }
+        if (predicate.test(property)
+                || anyPropertyMatches(property.items, predicate, visited)
+                || anyPropertyMatches(property.additionalProperties, predicate, visited)
+                || anyPropertyMatches(property.vars, predicate, visited)) {
+            return true;
+        }
+
+        CodegenComposedSchemas composed = property.getComposedSchemas();
+        return composed != null && (anyPropertyMatches(composed.getAllOf(), predicate, visited)
+                || anyPropertyMatches(composed.getOneOf(), predicate, visited)
+                || anyPropertyMatches(composed.getAnyOf(), predicate, visited)
+                || anyPropertyMatches(composed.getNot(), predicate, visited));
+    }
+
+    private boolean anyPropertyMatches(List<CodegenProperty> properties, Predicate<CodegenProperty> predicate,
+                                       Set<CodegenProperty> visited) {
+        return properties != null && properties.stream().anyMatch(property -> anyPropertyMatches(property, predicate, visited));
+    }
+
     protected CodegenProperty getMostInnerItems(CodegenProperty property) {
         CodegenProperty currentProperty = property;
         while (currentProperty != null && (currentProperty.isMap
@@ -7149,18 +7188,15 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         String varDataType = var.mostInnerItems != null ? var.mostInnerItems.dataType : var.dataType;
-        Optional<Schema> referencedSchema = ModelUtils.getSchemas(openAPI).entrySet().stream()
-                .filter(entry -> Objects.equals(varDataType, toModelName(entry.getKey())))
-                .map(Map.Entry::getValue)
-                .findFirst();
-        String dataType = (referencedSchema.isPresent()) ? getTypeDeclaration(referencedSchema.get()) : varDataType;
+        Schema referencedSchema = getModelNameToSchemaCache().get(varDataType);
+        String dataType = referencedSchema != null ? getTypeDeclaration(referencedSchema) : varDataType;
         List<EnumVarMap> enumVars = buildEnumVars(values, dataType);
         postProcessEnumVars(enumVars);
 
         // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
         Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
-        if (referencedSchema.isPresent()) {
-            extensions = referencedSchema.get().getExtensions();
+        if (referencedSchema != null) {
+            extensions = referencedSchema.getExtensions();
         }
         updateEnumVarsWithExtensions(enumVars, extensions, dataType);
         allowableValues.put(ENUM_VARS, enumVars);

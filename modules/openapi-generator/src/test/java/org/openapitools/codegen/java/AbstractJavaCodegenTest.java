@@ -1153,4 +1153,13 @@ public class AbstractJavaCodegenTest {
         assertThat((String[]) codegen.fromOperation("/reports/{id}/voucher", "get", voucher, null).vendorExtensions.get("x-accepts"))
                 .containsExactly("application/json", "application/pdf");
     }
+
+    @Test(description = "the OAS 3.1 null type maps to Object instead of a never-generated ModelNull (issue 24520)")
+    public void testNullTypeMapsToObject() {
+        Schema<?> nullSchema = new Schema<>().type("null");
+
+        assertThat(codegen.getSchemaType(nullSchema)).isEqualTo("Object");
+        assertThat(codegen.getTypeDeclaration(nullSchema)).isEqualTo("Object");
+        assertThat(codegen.getTypeDeclaration(new ArraySchema().items(nullSchema))).isEqualTo("List<Object>");
+    }
 }

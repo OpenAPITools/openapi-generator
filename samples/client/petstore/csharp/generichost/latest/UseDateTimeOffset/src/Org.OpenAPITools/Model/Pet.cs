@@ -315,28 +315,28 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!name.IsSet)
-                throw new ArgumentException("Property is required for class Pet.", nameof(name));
+                throw new JsonException("Property is required for class Pet: name.");
 
             if (!photoUrls.IsSet)
-                throw new ArgumentException("Property is required for class Pet.", nameof(photoUrls));
+                throw new JsonException("Property is required for class Pet: photoUrls.");
 
             if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Pet.");
+                throw new JsonException("Property is not nullable for class Pet: name.");
 
             if (photoUrls.IsSet && photoUrls.Value == null)
-                throw new ArgumentNullException(nameof(photoUrls), "Property is not nullable for class Pet.");
+                throw new JsonException("Property is not nullable for class Pet: photoUrls.");
 
             if (category.IsSet && category.Value == null)
-                throw new ArgumentNullException(nameof(category), "Property is not nullable for class Pet.");
+                throw new JsonException("Property is not nullable for class Pet: category.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Pet.");
+                throw new JsonException("Property is not nullable for class Pet: id.");
 
             if (status.IsSet && status.Value == null)
-                throw new ArgumentNullException(nameof(status), "Property is not nullable for class Pet.");
+                throw new JsonException("Property is not nullable for class Pet: status.");
 
             if (tags.IsSet && tags.Value == null)
-                throw new ArgumentNullException(nameof(tags), "Property is not nullable for class Pet.");
+                throw new JsonException("Property is not nullable for class Pet: tags.");
 
             return new Pet(name.Value!, photoUrls.Value!, category, id, status, tags);
         }
@@ -365,17 +365,17 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (pet.Name == null)
-                throw new ArgumentNullException(nameof(pet.Name), "Property is required for class Pet.");
-
-            if (pet.PhotoUrls == null)
-                throw new ArgumentNullException(nameof(pet.PhotoUrls), "Property is required for class Pet.");
-
             if (pet.CategoryOption.IsSet && pet.Category == null)
-                throw new ArgumentNullException(nameof(pet.Category), "Property is required for class Pet.");
+                throw new JsonException("Cannot write null property Pet.Category to non-nullable JSON property 'category'.");
+
+            if (pet.IdOption.IsSet && pet.Id == null)
+                throw new JsonException("Cannot write null property Pet.Id to non-nullable JSON property 'id'.");
+
+            if (pet.StatusOption.IsSet && pet.Status == null)
+                throw new JsonException("Cannot write null property Pet.Status to non-nullable JSON property 'status'.");
 
             if (pet.TagsOption.IsSet && pet.Tags == null)
-                throw new ArgumentNullException(nameof(pet.Tags), "Property is required for class Pet.");
+                throw new JsonException("Cannot write null property Pet.Tags to non-nullable JSON property 'tags'.");
 
             writer.WriteString("name", pet.Name);
 
