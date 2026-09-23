@@ -145,16 +145,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (children.IsSet && children.Value == null)
-                throw new ArgumentNullException(nameof(children), "Property is not nullable for class Adult.");
+                throw new JsonException("Property is not nullable for class Adult: children.");
 
             if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Adult.");
+                throw new JsonException("Property is not nullable for class Adult: firstName.");
 
             if (lastName.IsSet && lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class Adult.");
+                throw new JsonException("Property is not nullable for class Adult: lastName.");
 
             if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Adult.");
+                throw new JsonException("Property is not nullable for class Adult: $_type.");
 
             return new Adult(children, firstName, lastName);
         }
@@ -184,13 +184,13 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Adult adult, JsonSerializerOptions jsonSerializerOptions)
         {
             if (adult.ChildrenOption.IsSet && adult.Children == null)
-                throw new ArgumentNullException(nameof(adult.Children), "Property is required for class Adult.");
+                throw new JsonException("Cannot write null property Adult.Children to non-nullable JSON property 'children'.");
 
             if (adult.FirstNameOption.IsSet && adult.FirstName == null)
-                throw new ArgumentNullException(nameof(adult.FirstName), "Property is required for class Adult.");
+                throw new JsonException("Cannot write null property Adult.FirstName to non-nullable JSON property 'firstName'.");
 
             if (adult.LastNameOption.IsSet && adult.LastName == null)
-                throw new ArgumentNullException(nameof(adult.LastName), "Property is required for class Adult.");
+                throw new JsonException("Cannot write null property Adult.LastName to non-nullable JSON property 'lastName'.");
 
             if (adult.ChildrenOption.IsSet)
             {

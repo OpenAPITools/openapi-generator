@@ -60,7 +60,8 @@ public class StoreApi {
                 
             })
         })
-    public Response deleteOrder(@PathParam("orderId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of the order that needs to be deleted") String orderId) {
+    public Response deleteOrder(@PathParam("orderId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of the order that needs to be deleted") String orderId
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -103,7 +104,8 @@ public class StoreApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response getOrderById(@PathParam("orderId") @Min(1L) @Max(5L) @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet that needs to be fetched") Long orderId) {
+    public Response getOrderById(@PathParam("orderId") @Min(1L) @Max(5L) @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet that needs to be fetched") Long orderId
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -125,7 +127,8 @@ public class StoreApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response placeOrder(@Valid @NotNull Order order) {
+    public Response placeOrder(@Valid @NotNull Order order
+) {
         return Response.ok().entity("magic!").build();
     }
 

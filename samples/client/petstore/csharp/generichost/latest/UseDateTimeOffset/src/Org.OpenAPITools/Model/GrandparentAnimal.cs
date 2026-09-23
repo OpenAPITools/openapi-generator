@@ -149,10 +149,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!petType.IsSet)
-                throw new ArgumentException("Property is required for class GrandparentAnimal.", nameof(petType));
+                throw new JsonException("Property is required for class GrandparentAnimal: pet_type.");
 
             if (petType.IsSet && petType.Value == null)
-                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class GrandparentAnimal.");
+                throw new JsonException("Property is not nullable for class GrandparentAnimal: pet_type.");
 
             return new GrandparentAnimal();
         }

@@ -1215,6 +1215,8 @@ components:
           $ref: "#/components/schemas/Pet"
         second_property:
           description: just null type
+        third_property:
+          description: null type declared as the OAS 3.1 quoted string
     updatePetWithForm_request:
       properties:
         name:

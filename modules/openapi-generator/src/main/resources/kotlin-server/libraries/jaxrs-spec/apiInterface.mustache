@@ -1,3 +1,19 @@
+    {{#summary}}
+    /**
+     * {{{summary}}}
+    {{#notes}}
+     *
+     * {{{notes}}}
+    {{/notes}}
+{{>operationDoc}}
+    {{/summary}}
+    {{^summary}}
+    {{#notes}}
+    /**
+     * {{{notes}}}
+{{>operationDoc}}
+    {{/notes}}
+    {{/summary}}
     @{{httpMethod}}{{#subresourceOperation}}
     @Path("{{{path}}}"){{/subresourceOperation}}{{#hasConsumes}}
     @Consumes({{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}

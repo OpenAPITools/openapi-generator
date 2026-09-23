@@ -251,22 +251,22 @@ namespace Org.OpenAPITools.Model
             }
 
             if (complete.IsSet && complete.Value == null)
-                throw new ArgumentNullException(nameof(complete), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: complete.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: id.");
 
             if (petId.IsSet && petId.Value == null)
-                throw new ArgumentNullException(nameof(petId), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: petId.");
 
             if (quantity.IsSet && quantity.Value == null)
-                throw new ArgumentNullException(nameof(quantity), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: quantity.");
 
             if (shipDate.IsSet && shipDate.Value == null)
-                throw new ArgumentNullException(nameof(shipDate), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: shipDate.");
 
             if (status.IsSet && status.Value == null)
-                throw new ArgumentNullException(nameof(status), "Property is not nullable for class Order.");
+                throw new JsonException("Property is not nullable for class Order: status.");
 
             return new Order(complete, id, petId, quantity, shipDate, status);
         }
@@ -295,6 +295,24 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (order.CompleteOption.IsSet && order.Complete == null)
+                throw new JsonException("Cannot write null property Order.Complete to non-nullable JSON property 'complete'.");
+
+            if (order.IdOption.IsSet && order.Id == null)
+                throw new JsonException("Cannot write null property Order.Id to non-nullable JSON property 'id'.");
+
+            if (order.PetIdOption.IsSet && order.PetId == null)
+                throw new JsonException("Cannot write null property Order.PetId to non-nullable JSON property 'petId'.");
+
+            if (order.QuantityOption.IsSet && order.Quantity == null)
+                throw new JsonException("Cannot write null property Order.Quantity to non-nullable JSON property 'quantity'.");
+
+            if (order.ShipDateOption.IsSet && order.ShipDate == null)
+                throw new JsonException("Cannot write null property Order.ShipDate to non-nullable JSON property 'shipDate'.");
+
+            if (order.StatusOption.IsSet && order.Status == null)
+                throw new JsonException("Cannot write null property Order.Status to non-nullable JSON property 'status'.");
+
             if (order.CompleteOption.IsSet)
                 writer.WriteBoolean("complete", order.CompleteOption.Value.Value);
 

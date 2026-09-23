@@ -63,6 +63,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     private static final String X_FASTAPI_REQUEST_BODY_EXAMPLE = "x-python-fastapi-request-body-example";
 
     private String implPackage;
+    private boolean useExternalImplementationPackage = false;
 
     @Override
     public CodegenType getTag() {
@@ -128,6 +129,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
                 .defaultValue(DEFAULT_SOURCE_FOLDER));
         cliOptions.add(new CliOption(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, "python package name for the implementation code (convention: snake_case).")
                 .defaultValue(implPackage));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE, CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -172,16 +175,22 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
             this.sourceFolder = ((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE)) {
+            this.useExternalImplementationPackage = convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE)) {
             this.implPackage = ((String) additionalProperties.get(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE));
-            // Prefix templating value with the package name
-            additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE,
-                    this.packageName + "." + this.implPackage);
         }
 
         modelPackage = packageName + "." + modelPackage;
         apiPackage = packageName + "." + apiPackage;
-        implPackage = packageName + "." + implPackage;
+        if (!useExternalImplementationPackage) {
+            // The implementation package is a sub-package of the generated one
+            implPackage = packageName + "." + implPackage;
+        }
+        // Templating value: the fully qualified implementation package
+        additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, implPackage);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("openapi.mustache", "", "openapi.yaml"));
@@ -200,7 +209,10 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         }
         supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(modelFileFolder(), outputFolder), "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiFileFolder(), outputFolder), "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiImplFileFolder(), outputFolder), "__init__.py"));
+        if (!useExternalImplementationPackage) {
+            // An external implementation package already exists and is owned by the user: nothing to generate in it
+            supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiImplFileFolder(), outputFolder), "__init__.py"));
+        }
 
         supportingFiles.add(new SupportingFile("conftest.mustache", testPackage.replace('.', File.separatorChar), "conftest.py"));
 
@@ -240,6 +252,38 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
             return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
+    }
+
+    @Override
+    protected PydanticType getPydanticParameterType(CodegenParameter parameter,
+                                                    Set<String> modelImports,
+                                                    Set<String> exampleImports,
+                                                    Set<String> postponedModelImports,
+                                                    Set<String> postponedExampleImports,
+                                                    PythonImports moduleImports,
+                                                    String classname) {
+        // Path/query/header/cookie values always arrive as strings on the wire and rely on Pydantic
+        // coercion, so they must not use strict types. Body params keep the strict default.
+        if (parameter.isQueryParam || parameter.isPathParam || parameter.isHeaderParam || parameter.isCookieParam) {
+            return new PydanticCoercibleType(
+                    modelImports,
+                    exampleImports,
+                    postponedModelImports,
+                    postponedExampleImports,
+                    moduleImports,
+                    classname
+            );
+        }
+
+        return super.getPydanticParameterType(
+                parameter,
+                modelImports,
+                exampleImports,
+                postponedModelImports,
+                postponedExampleImports,
+                moduleImports,
+                classname
+        );
     }
 
     @Override

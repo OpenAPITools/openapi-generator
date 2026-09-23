@@ -246,13 +246,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Zebra.", nameof(className));
+                throw new JsonException("Property is required for class Zebra: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Zebra.");
+                throw new JsonException("Property is not nullable for class Zebra: className.");
 
             if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Zebra.");
+                throw new JsonException("Property is not nullable for class Zebra: type.");
 
             return new Zebra(className.Value!, type);
         }
@@ -281,8 +281,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (zebra.ClassName == null)
-                throw new ArgumentNullException(nameof(zebra.ClassName), "Property is required for class Zebra.");
+            if (zebra.TypeOption.IsSet && zebra.Type == null)
+                throw new JsonException("Cannot write null property Zebra.Type to non-nullable JSON property 'type'.");
 
             writer.WriteString("className", zebra.ClassName);
 

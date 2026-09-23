@@ -25,6 +25,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public interface FakeClassnameTags123Api {
 
+    String PATH_TEST_CLASSNAME = "/fake_classname_test";
     /**
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case
@@ -34,7 +35,7 @@ public interface FakeClassnameTags123Api {
      */
     @HttpExchange(
         method = "PATCH",
-        value = "/fake_classname_test",
+        value = FakeClassnameTags123Api.PATH_TEST_CLASSNAME,
         accept = { "application/json" },
         contentType = "application/json"
     )

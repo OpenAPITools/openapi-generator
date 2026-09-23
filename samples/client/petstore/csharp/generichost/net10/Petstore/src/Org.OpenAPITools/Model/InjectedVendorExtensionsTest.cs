@@ -292,22 +292,22 @@ namespace Org.OpenAPITools.Model
             }
 
             if (potentiallyOverriddenPropertyAccessor.IsSet && potentiallyOverriddenPropertyAccessor.Value == null)
-                throw new ArgumentNullException(nameof(potentiallyOverriddenPropertyAccessor), "Property is not nullable for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Property is not nullable for class InjectedVendorExtensionsTest: potentiallyOverriddenPropertyAccessor.");
 
             if (potentiallyOverriddenPropertyToInternal.IsSet && potentiallyOverriddenPropertyToInternal.Value == null)
-                throw new ArgumentNullException(nameof(potentiallyOverriddenPropertyToInternal), "Property is not nullable for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Property is not nullable for class InjectedVendorExtensionsTest: potentiallyOverriddenPropertyToInternal.");
 
             if (potentiallyOverriddenPropertyToPrivate.IsSet && potentiallyOverriddenPropertyToPrivate.Value == null)
-                throw new ArgumentNullException(nameof(potentiallyOverriddenPropertyToPrivate), "Property is not nullable for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Property is not nullable for class InjectedVendorExtensionsTest: potentiallyOverriddenPropertyToPrivate.");
 
             if (potentiallyOverriddenPropertyToPublic.IsSet && potentiallyOverriddenPropertyToPublic.Value == null)
-                throw new ArgumentNullException(nameof(potentiallyOverriddenPropertyToPublic), "Property is not nullable for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Property is not nullable for class InjectedVendorExtensionsTest: potentiallyOverriddenPropertyToPublic.");
 
             if (unalteredProperty.IsSet && unalteredProperty.Value == null)
-                throw new ArgumentNullException(nameof(unalteredProperty), "Property is not nullable for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Property is not nullable for class InjectedVendorExtensionsTest: unalteredProperty.");
 
             if (unalteredPropertyAccessor.IsSet && unalteredPropertyAccessor.Value == null)
-                throw new ArgumentNullException(nameof(unalteredPropertyAccessor), "Property is not nullable for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Property is not nullable for class InjectedVendorExtensionsTest: unalteredPropertyAccessor.");
 
             return new InjectedVendorExtensionsTest(potentiallyOverriddenPropertyAccessor, potentiallyOverriddenPropertyToInternal, potentiallyOverriddenPropertyToPrivate, potentiallyOverriddenPropertyToPublic, unalteredProperty, unalteredPropertyAccessor);
         }
@@ -337,22 +337,22 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, InjectedVendorExtensionsTest injectedVendorExtensionsTest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (injectedVendorExtensionsTest.PotentiallyOverriddenPropertyAccessorOption.IsSet && injectedVendorExtensionsTest.PotentiallyOverriddenPropertyAccessor == null)
-                throw new ArgumentNullException(nameof(injectedVendorExtensionsTest.PotentiallyOverriddenPropertyAccessor), "Property is required for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Cannot write null property InjectedVendorExtensionsTest.PotentiallyOverriddenPropertyAccessor to non-nullable JSON property 'potentiallyOverriddenPropertyAccessor'.");
 
             if (injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToInternalOption.IsSet && injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToInternal == null)
-                throw new ArgumentNullException(nameof(injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToInternal), "Property is required for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Cannot write null property InjectedVendorExtensionsTest.PotentiallyOverriddenPropertyToInternal to non-nullable JSON property 'potentiallyOverriddenPropertyToInternal'.");
 
             if (injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToPrivateOption.IsSet && injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToPrivate == null)
-                throw new ArgumentNullException(nameof(injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToPrivate), "Property is required for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Cannot write null property InjectedVendorExtensionsTest.PotentiallyOverriddenPropertyToPrivate to non-nullable JSON property 'potentiallyOverriddenPropertyToPrivate'.");
 
             if (injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToPublicOption.IsSet && injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToPublic == null)
-                throw new ArgumentNullException(nameof(injectedVendorExtensionsTest.PotentiallyOverriddenPropertyToPublic), "Property is required for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Cannot write null property InjectedVendorExtensionsTest.PotentiallyOverriddenPropertyToPublic to non-nullable JSON property 'potentiallyOverriddenPropertyToPublic'.");
 
             if (injectedVendorExtensionsTest.UnalteredPropertyOption.IsSet && injectedVendorExtensionsTest.UnalteredProperty == null)
-                throw new ArgumentNullException(nameof(injectedVendorExtensionsTest.UnalteredProperty), "Property is required for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Cannot write null property InjectedVendorExtensionsTest.UnalteredProperty to non-nullable JSON property 'unalteredProperty'.");
 
             if (injectedVendorExtensionsTest.UnalteredPropertyAccessorOption.IsSet && injectedVendorExtensionsTest.UnalteredPropertyAccessor == null)
-                throw new ArgumentNullException(nameof(injectedVendorExtensionsTest.UnalteredPropertyAccessor), "Property is required for class InjectedVendorExtensionsTest.");
+                throw new JsonException("Cannot write null property InjectedVendorExtensionsTest.UnalteredPropertyAccessor to non-nullable JSON property 'unalteredPropertyAccessor'.");
 
             if (injectedVendorExtensionsTest.PotentiallyOverriddenPropertyAccessorOption.IsSet)
                 writer.WriteString("potentiallyOverriddenPropertyAccessor", injectedVendorExtensionsTest.PotentiallyOverriddenPropertyAccessor);

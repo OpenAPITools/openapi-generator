@@ -90,6 +90,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
     public static final String SUPPORT_STREAMING = "supportStreaming";
     public static final String SUPPORT_URL_QUERY = "supportUrlQuery";
+    public static final String GENERATE_INSECURE_TLS_HOOK = "generateInsecureTlsHook";
     public static final String GRADLE_PROPERTIES = "gradleProperties";
     public static final String ERROR_OBJECT_TYPE = "errorObjectType";
 
@@ -189,7 +190,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Setter protected int maxAttemptsForRetry = 1;
     @Setter protected long waitTimeMillis = 10l;
-    private final Set<String> JSPECIFY_SUPPORTED_LIBRARIES = new TreeSet<>(Arrays.asList(RESTCLIENT, WEBCLIENT, NATIVE, RESTTEMPLATE));
+    private final Set<String> JSPECIFY_SUPPORTED_LIBRARIES = new TreeSet<>(Arrays.asList(MICROPROFILE, RESTCLIENT, WEBCLIENT, NATIVE, RESTTEMPLATE));
 
     private static class MpRestClientVersion {
         public final String rootPackage;
@@ -204,6 +205,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public DocumentationProvider defaultDocumentationProvider() {
         return DocumentationProvider.SOURCE;
+    }
+
+    @Override
+    protected boolean useBeanValidationOnMapValueType() {
+        // The Java templates place container element validation on the type argument
+        // (List<@Valid T>, Map<String, @Valid V>) rather than the deprecated
+        // container-level @Valid (HV000271).
+        return true;
     }
 
     @Override
@@ -283,6 +292,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
         cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, restclient and webclient, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
+        cliOptions.add(CliOption.newBoolean(GENERATE_INSECURE_TLS_HOOK, "Generate the ApiClient.disableCertificateValidation hook, which trusts all TLS certificates (default to true). Set to false to omit it, e.g. when static analysis flags the trust-all TrustManager it contains. Available on `jersey2`, `jersey3` libraries.", true));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
         cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 instead of Jackson 2. Supported for 'native', 'apache-httpclient', and 'jersey3' libraries (requires Java 17+) and for Spring 'resttemplate', 'webclient', and 'restclient' libraries (require useSpringBoot4=true).", this.useJackson3));
@@ -291,6 +301,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_UNARY_INTERCEPTOR, "If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption", this.useUnaryInterceptor));
         cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks. Only supported for " + JSPECIFY_SUPPORTED_LIBRARIES, useJspecify));
         cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        cliOptions.add(new CliOption(TYPE_INFO_DEFAULT_IMPLS, TYPE_INFO_DEFAULT_IMPLS_DESC).defaultValue("empty map"));
 
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.18.9");
         supportedLibraries.put(JERSEY3, "HTTP client: Jersey client 3.1.11. JSON processing: Jackson 2.x (3.x if `useJackson3=true`, requires Java 17+)");
@@ -381,6 +392,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         super.processOpts();    // can actually change the library (possibly only in unit-tests but still...)
+
+        if (additionalProperties.containsKey(TYPE_INFO_DEFAULT_IMPLS)) {
+            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(TYPE_INFO_DEFAULT_IMPLS));
+        }
 
         // determine and cache client library type once
         final boolean libApache = isLibrary(APACHE);
@@ -525,6 +540,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         } else {
             additionalProperties.put(SUPPORT_URL_QUERY, Boolean.parseBoolean(additionalProperties.get(SUPPORT_URL_QUERY).toString()));
+        }
+
+        if (!additionalProperties.containsKey(GENERATE_INSECURE_TLS_HOOK)) {
+            additionalProperties.put(GENERATE_INSECURE_TLS_HOOK, true);
+        } else {
+            additionalProperties.put(GENERATE_INSECURE_TLS_HOOK,
+                    Boolean.parseBoolean(additionalProperties.get(GENERATE_INSECURE_TLS_HOOK).toString()));
         }
 
         convertPropertyToBooleanAndWriteBack(GENERATE_CLIENT_AS_BEAN, this::setGenerateClientAsBean);
@@ -1401,6 +1423,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_WEBCLIENT_BLOCKING);
+        extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         return extensions;
     }
 

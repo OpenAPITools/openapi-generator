@@ -10,7 +10,9 @@ enum {{{ enumName }}} {
 {{#enumVars}}
 {{^isNull}}
 {{#enumDescription}}
-    /// {{{.}}}
+/**
+ * {{#lambda.dartdoc}}{{{.}}}{{/lambda.dartdoc}}
+ */
 {{/enumDescription}}
 @JsonValue({{#isString}}r{{/isString}}{{{value}}})
 {{{name}}}({{^isString}}'{{/isString}}{{#isString}}r{{/isString}}{{{value}}}{{^isString}}'{{/isString}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}

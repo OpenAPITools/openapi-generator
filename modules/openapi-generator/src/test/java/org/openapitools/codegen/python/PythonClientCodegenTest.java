@@ -49,6 +49,85 @@ import static org.openapitools.codegen.TestUtils.assertFileExists;
 
 public class PythonClientCodegenTest {
 
+    @DataProvider(name = "pythonPackagingOptions")
+    public Object[][] pythonPackagingOptions() {
+        List<Object[]> options = new ArrayList<>();
+        for (String library : List.of("urllib3", "httpx", "httpx2", "asyncio")) {
+            for (Object poetry1 : Arrays.asList(null, false, "false", true, "true")) {
+                options.add(new Object[] {library, poetry1});
+            }
+        }
+        return options.toArray(new Object[0][]);
+    }
+
+    @Test(dataProvider = "pythonPackagingOptions")
+    public void testPythonPackagingModes(String library, Object poetry1) throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setLibrary(library);
+        if (poetry1 != null) {
+            codegen.additionalProperties().put("poetry1", poetry1);
+        }
+        String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+        Path pyproject = Paths.get(output, "pyproject.toml");
+        String content = Files.readString(pyproject);
+        boolean legacy = Boolean.parseBoolean(String.valueOf(poetry1));
+        if (legacy) {
+            assertFileContains(pyproject, "[tool.poetry.dev-dependencies]", "Deprecated by Poetry");
+            Assert.assertFalse(content.contains("[project]"));
+            Assert.assertFalse(content.contains("[dependency-groups]"));
+        } else {
+            assertFileContains(pyproject, "[project]", "[dependency-groups]", "pytest>=9.0.3");
+            Assert.assertFalse(content.contains("[tool.poetry"));
+        }
+        if ("httpx2".equals(library)) {
+            assertFileContains(pyproject, legacy
+                    ? "httpx2 = \">= 2.13.0, < 3\""
+                    : "httpx2 (>=2.13.0,<3)");
+        }
+    }
+
+    @DataProvider(name = "httpx2Options")
+    public Object[][] httpx2Options() {
+        return new Object[][] {
+                {false, null, "setuptools"}, {true, null, "hatchling"},
+                {false, false, "hatchling"}, {true, false, "setuptools"},
+                {false, "false", "setuptools"}, {true, "false", "hatchling"}
+        };
+    }
+
+    @Test(dataProvider = "httpx2Options")
+    public void testHttpx2Generation(boolean sync, Object poetry1, String backend) throws IOException {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setLibrary("httpx2");
+        codegen.additionalProperties().put(PythonClientCodegen.SUPPORT_HTTPX_SYNC, sync);
+        codegen.additionalProperties().put("licenseInfo", "Apache 2.0");
+        if (poetry1 != null) {
+            codegen.additionalProperties().put("poetry1", poetry1);
+        }
+        codegen.additionalProperties().put("buildSystem", backend);
+        final String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+        final Path rest = Paths.get(output, "openapi_client/rest.py");
+        assertFileContains(rest, "import httpx2", "httpx2.AsyncClient", "httpx2.Response",
+                "httpx2.Proxy", "httpx2.Limits");
+        Assert.assertFalse(Files.readString(rest).contains("import httpx\n"));
+        assertFileContains(Paths.get(output, "requirements.txt"), "httpx2 >= 2.13.0, < 3");
+        assertFileContains(Paths.get(output, "setup.py"), "httpx2 >= 2.13.0, < 3");
+        assertFileContains(Paths.get(output, "pyproject.toml"),
+                "name = \"openapi_client\"", "license = { text = \"Apache 2.0\" }",
+                "httpx2 (>=2.13.0,<3)", "[project]", "[dependency-groups]");
+        final Path pyproject = Paths.get(output, "pyproject.toml");
+        Assert.assertFalse(Files.readString(pyproject).contains("[tool.poetry"));
+        assertFileContains(pyproject, "requires = [\"" + backend + "\"]");
+        Assert.assertFalse(Files.readString(pyproject).contains("[tool.hatch.build.targets.wheel]"));
+        Assert.assertFalse(Files.readString(pyproject).contains("[tool.setuptools.packages.find]"));
+        assertFileContains(Paths.get(output, "openapi_client/configuration.py"), "retries: Optional[int]");
+        assertFileContains(Paths.get(output, "openapi_client/api/default_api.py"), "async def ");
+        Assert.assertEquals(Files.exists(Paths.get(output, "openapi_client/sync_helper.py")), sync);
+        Assert.assertEquals(Files.readString(Paths.get(output, "openapi_client/api/default_api.py"))
+                .contains("_sync_with_http_info("), sync);
+        Assert.assertFalse(Files.readString(Paths.get(output, "requirements.txt")).contains("httpx >="));
+    }
+
     @Test
     public void testInitialConfigValues() throws Exception {
         final PythonClientCodegen codegen = new PythonClientCodegen();
@@ -1488,15 +1567,20 @@ public class PythonClientCodegenTest {
         };
     }
 
-    @Test
-    public void testIndependentImplicitClientLifecycleOperationNames()
+    @DataProvider(name = "httpxLibraries")
+    public Object[][] httpxLibraries() {
+        return new Object[][] {{"httpx"}, {"httpx2"}};
+    }
+
+    @Test(dataProvider = "httpxLibraries")
+    public void testIndependentImplicitClientLifecycleOperationNames(String library)
             throws IOException {
         final PythonClientCodegen disabled = new PythonClientCodegen();
         disabled.processOpts();
         Assert.assertEquals(disabled.toOperationId("close"), "close");
 
         final PythonClientCodegen httpxSync = new PythonClientCodegen();
-        httpxSync.setLibrary("httpx");
+        httpxSync.setLibrary(library);
         httpxSync.additionalProperties().put(
                 PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS, true);
         httpxSync.additionalProperties().put(PythonClientCodegen.SUPPORT_HTTPX_SYNC, true);

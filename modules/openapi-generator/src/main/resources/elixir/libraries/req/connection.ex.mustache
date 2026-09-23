@@ -1,0 +1,195 @@
+{{>licenseInfo}}
+defmodule {{moduleName}}.Connection do
+  @moduledoc """
+  Handle Req connections for {{moduleName}}.
+
+  The default base URL can be set as:
+
+      config {{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}},
+        :base_url, "{{{basePath}}}"
+
+  Req options can be configured for all clients at runtime or overridden for a
+  specific client:
+
+      config {{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}}, {{moduleName}}.Connection,
+        req_options: [retry: :transient, receive_timeout: 30_000]
+
+      {{moduleName}}.Connection.new(req_options: [receive_timeout: 30_000])
+
+  Req options are merged after the generated defaults. Same-named options and
+  headers replace the generated values. Response decoding is handled by the
+  generated RequestBuilder, so `decode_body` and `decoders` are not
+  user-configurable through `req_options`. Response streaming with `into:` only works
+  for operations whose response mapping is `false`.
+  """
+
+  @default_base_url Application.compile_env(
+                      {{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}},
+                      :base_url,
+                      "{{{basePath}}}"
+                    )
+
+  {{#hasOAuthMethods}}
+  {{#oauthMethods}}
+  @default_scopes [
+    {{#scopes}}
+    {{#description}}# {{.}}{{/description}}
+    "{{scope}}"{{^-last}},{{/-last}}
+    {{/scopes}}
+  ]
+  {{/oauthMethods}}
+
+  @typedoc """
+  An arity-1 function or module/function tuple specification which, given
+  a list of scopes, obtains an OAuth2 token.
+  """
+  @type token_fetcher :: (scopes :: list(String.t()) -> String.t()) | {module(), atom()}
+  {{/hasOAuthMethods}}
+
+  @typedoc """
+  The list of options that can be passed to new/1.
+
+  - `base_url`: Overrides the base URL on a per-client basis.
+  - `user_agent`: Overrides the User-Agent header.
+  - `req_options`: Req options merged after the generated defaults. See the
+    module documentation for option precedence and reserved options.
+  {{#hasOAuthMethods}}
+  - `token`: An OAuth2 token or a token fetcher function.
+  - `token_scopes`: A list of OAuth2 scope strings for use with a token
+    fetcher function.
+  {{/hasOAuthMethods}}
+  {{#hasHttpBasicMethods}}
+  - `username`: A username for basic authentication.
+  - `password`: A password for basic authentication.
+  {{/hasHttpBasicMethods}}
+  {{#hasHttpBearerMethods}}
+  - `bearer_token`: A bearer token for bearer authentication.
+  {{/hasHttpBearerMethods}}
+  """
+  @type options :: [
+          {:base_url, String.t()},
+          {:user_agent, String.t()},
+  {{#hasOAuthMethods}}
+          {:token, String.t() | token_fetcher},
+          {:token_scopes, list(String.t())},
+  {{/hasOAuthMethods}}
+          {:req_options, keyword()},
+  {{#hasHttpBasicMethods}}
+          {:username, String.t() | nil},
+          {:password, String.t() | nil},
+  {{/hasHttpBasicMethods}}
+  {{#hasHttpBearerMethods}}
+          {:bearer_token, String.t() | nil},
+  {{/hasHttpBearerMethods}}
+        ]
+
+  @doc "Forward requests to Req."
+  @spec request(Req.Request.t(), keyword()) :: {:ok, Req.Response.t()} | {:error, Exception.t()}
+  def request(req, options) do
+    Req.request(req, options)
+  end
+
+  @doc """
+  Configure a {{moduleName}} client.
+
+  ### Parameters
+
+  - `options`: an optional keyword list of {{moduleName}}.Connection.options.
+
+  ### Returns
+
+  Req.Request.t()
+  """
+  @spec new(options) :: Req.Request.t()
+  def new(options \\ []) do
+    base_url =
+      Keyword.get(
+        options,
+        :base_url,
+        Application.get_env({{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}}, :base_url, @default_base_url)
+      )
+
+    user_agent =
+      Keyword.get(
+        options,
+        :user_agent,
+        "openapi-generator - {{moduleName}} {{packageVersion}} - elixir"
+      )
+
+    default_req_options =
+      Application.get_env(
+        {{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}},
+        __MODULE__,
+        []
+      )
+      |> Keyword.get(:req_options, [])
+
+    headers = [{"user-agent", user_agent}]
+
+    {{#hasHttpBasicMethods}}
+    username = Keyword.get(options, :username)
+    password = Keyword.get(options, :password)
+    {{/hasHttpBasicMethods}}
+
+    req_options = [
+      base_url: base_url,
+      headers: headers,
+      retry: false,
+      redirect: false,
+      decode_body: false
+    ]
+
+    custom_req_options = Keyword.merge(default_req_options, Keyword.get(options, :req_options, []))
+
+    req =
+      req_options
+      |> Req.new()
+      |> Req.merge(custom_req_options)
+
+    {{#hasOAuthMethods}}
+    req =
+      if token = Keyword.get(options, :token) do
+        scopes = Keyword.get(options, :token_scopes, @default_scopes)
+        token_value = resolve_token(token, scopes)
+        Req.merge(req, headers: [{"authorization", token_value}])
+      else
+        req
+      end
+    {{/hasOAuthMethods}}
+
+    {{#hasHttpBasicMethods}}
+    req =
+      if username || password do
+        Req.merge(req, auth: {:basic, "#{username}:#{password}"})
+      else
+        req
+      end
+    {{/hasHttpBasicMethods}}
+
+    {{#hasHttpBearerMethods}}
+    bearer_token = Keyword.get(options, :bearer_token)
+    req =
+      if bearer_token do
+        Req.merge(req, auth: {:bearer, bearer_token})
+      else
+        req
+      end
+    {{/hasHttpBearerMethods}}
+
+    Req.merge(req, decode_body: false)
+  end
+
+  {{#hasOAuthMethods}}
+  defp resolve_token(token, _scopes) when is_binary(token) do
+    token
+  end
+
+  defp resolve_token({module, function}, scopes) when is_atom(module) and is_atom(function) do
+    apply(module, function, [scopes])
+  end
+
+  defp resolve_token(token_fetcher, scopes) when is_function(token_fetcher, 1) do
+    token_fetcher.(scopes)
+  end
+  {{/hasOAuthMethods}}
+end

@@ -102,11 +102,29 @@ public class RustClientCodegenTest {
         s.setMinimum(BigDecimal.valueOf(0));
         s.setMaximum(BigDecimal.valueOf(1));
 
+        s.setFormat("int8");
+        Assert.assertEquals(codegen.getSchemaType(s), "i8");
+
+        s.setFormat("int16");
+        Assert.assertEquals(codegen.getSchemaType(s), "i16");
+
         s.setFormat("int32");
         Assert.assertEquals(codegen.getSchemaType(s), "i32");
 
         s.setFormat("int64");
         Assert.assertEquals(codegen.getSchemaType(s), "i64");
+
+        s.setFormat("uint8");
+        Assert.assertEquals(codegen.getSchemaType(s), "u8");
+
+        s.setFormat("uint16");
+        Assert.assertEquals(codegen.getSchemaType(s), "u16");
+
+        s.setFormat("uint32");
+        Assert.assertEquals(codegen.getSchemaType(s), "u32");
+
+        s.setFormat("uint64");
+        Assert.assertEquals(codegen.getSchemaType(s), "u64");
 
         // Clear format - should use default of i32
         s.setFormat(null);
@@ -180,6 +198,14 @@ public class RustClientCodegenTest {
 
         s.setMaximum(BigDecimal.valueOf(Long.MAX_VALUE));
         Assert.assertEquals(codegen.getSchemaType(s), "u32");
+
+        // Should respect hardcoded 8-bits, but prefer unsigned
+        s.setFormat("int8");
+        Assert.assertEquals(codegen.getSchemaType(s), "u8");
+
+        // Should respect hardcoded 16-bits, but prefer unsigned
+        s.setFormat("int16");
+        Assert.assertEquals(codegen.getSchemaType(s), "u16");
 
         // Should respect hardcoded 32-bits, but prefer unsigned
         s.setFormat("int32");
@@ -310,5 +336,25 @@ public class RustClientCodegenTest {
                 "}");
         TestUtils.assertFileExists(outputPath);
         TestUtils.assertFileContains(outputPath, enumSpec);
+    }
+
+    @Test
+    public void testReqwestTraitUuidParamsUseNamedLifetimes() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary("reqwest-trait")
+                .addAdditionalProperty("mockall", true)
+                .setInputSpec("src/test/resources/3_0/rust/reqwest-trait-uuid-params.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path outputPath = Path.of(target.toString(), "/src/apis/widget_api.rs");
+        TestUtils.assertFileExists(outputPath);
+        // mockall's #[automock] cannot elide the lifetime of a reference nested in Option<..>
+        TestUtils.assertFileContains(outputPath,
+                "async fn list_widget_items<'id, 'run_id>(&self, id: &'id str, run_id: Option<&'run_id str>)");
+        TestUtils.assertFileNotContains(outputPath, "Option<&str>");
     }
 }

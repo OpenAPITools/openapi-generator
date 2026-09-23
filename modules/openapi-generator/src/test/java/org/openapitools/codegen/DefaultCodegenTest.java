@@ -41,6 +41,7 @@ import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.SpringCodegen;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.*;
@@ -70,6 +71,65 @@ public class DefaultCodegenTest {
     private static final String APP_XML = "application/xml";
     private static final String APP_TEXT = "application/text";
     private static final Logger testLogger = (Logger) LoggerFactory.getLogger(ModelUtils.class);
+
+    @Test
+    public void testBuildEnumVarsPreservesRawValueAlignmentAcrossNulls() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        List<EnumVarMap> enumVars = codegen.buildEnumVars(
+                Arrays.asList("first", null, "_42"), "string", Arrays.asList("original", null, 42));
+
+        Assert.assertEquals(enumVars.size(), 2);
+        Assert.assertEquals(enumVars.get(0).getEnumRawValue(), "original");
+        Assert.assertEquals(enumVars.get(1).getEnumRawValue(), Integer.valueOf(42));
+        Assert.assertEquals(enumVars.get(1).getEnumValue(), "\"_42\"");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testBuildEnumVarsRejectsMismatchedRawValues() {
+        new DefaultCodegen().buildEnumVars(Collections.singletonList("value"), "string", Collections.emptyList());
+    }
+
+    @Test
+    public void testAnyPropertyMatchesHandlesCyclesAndSharedProperties() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final CodegenProperty root = new CodegenProperty();
+        final CodegenProperty child = new CodegenProperty();
+        root.items = child;
+        root.additionalProperties = child;
+        child.items = root;
+        final List<CodegenProperty> visited = new ArrayList<>();
+
+        assertFalse(codegen.anyPropertyMatches(root, property -> {
+            visited.add(property);
+            return property.isUuid;
+        }));
+        assertEquals(2, visited.size());
+
+        final CodegenProperty uuid = new CodegenProperty();
+        uuid.isUuid = true;
+        child.vars.add(uuid);
+        assertTrue(codegen.anyPropertyMatches(root, property -> property.isUuid));
+    }
+
+    @Test
+    public void testAnyPropertyMatchesUsesIdentityAndStopsAtMatch() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final CodegenProperty root = new CodegenProperty();
+        final CodegenProperty first = new CodegenProperty();
+        final CodegenProperty second = new CodegenProperty();
+        assertEquals(first, second);
+        root.vars = Arrays.asList(first, second);
+
+        assertTrue(codegen.anyPropertyMatches(root, property -> property == second));
+        assertTrue(codegen.anyPropertyMatches(root, property -> {
+            assertSame(root, property);
+            return true;
+        }));
+        assertFalse(codegen.anyPropertyMatches(null, property -> {
+            fail("A null root must not invoke the predicate");
+            return true;
+        }));
+    }
 
     @Test
     public void testDeeplyNestedAdditionalPropertiesImports() {
@@ -898,6 +958,7 @@ public class DefaultCodegenTest {
         Assertions.assertNotNull(testedEnumVar);
         assertEquals("_1", testedEnumVar.getOrDefault("name", ""));
         assertEquals("\"1\"", testedEnumVar.getOrDefault("value", ""));
+        assertEquals(1, testedEnumVar.getOrDefault("rawValue", ""));
         assertEquals(false, testedEnumVar.getOrDefault("isString", ""));
     }
 

@@ -22,6 +22,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public interface UserApi {
 
+    String PATH_CREATE_USER = "/user";
     /**
      * POST /user : Create user
      * This can only be done by the logged in user.
@@ -32,7 +33,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
-        value = "/user",
+        value = UserApi.PATH_CREATE_USER,
         accept = { "application/json" },
         contentType = "application/json"
     )
@@ -41,6 +42,7 @@ public interface UserApi {
     );
 
 
+    String PATH_CREATE_USERS_WITH_ARRAY_INPUT = "/user/createWithArray";
     /**
      * POST /user/createWithArray : Creates list of users with given input array
      * 
@@ -51,7 +53,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
-        value = "/user/createWithArray",
+        value = UserApi.PATH_CREATE_USERS_WITH_ARRAY_INPUT,
         accept = { "application/json" },
         contentType = "application/json"
     )
@@ -60,6 +62,7 @@ public interface UserApi {
     );
 
 
+    String PATH_CREATE_USERS_WITH_LIST_INPUT = "/user/createWithList";
     /**
      * POST /user/createWithList : Creates list of users with given input array
      * 
@@ -70,7 +73,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
-        value = "/user/createWithList",
+        value = UserApi.PATH_CREATE_USERS_WITH_LIST_INPUT,
         accept = { "application/json" },
         contentType = "application/json"
     )
@@ -79,6 +82,7 @@ public interface UserApi {
     );
 
 
+    String PATH_DELETE_USER = "/user/{username}";
     /**
      * DELETE /user/{username} : Delete user
      * This can only be done by the logged in user.
@@ -90,7 +94,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
         method = "DELETE",
-        value = "/user/{username}",
+        value = UserApi.PATH_DELETE_USER,
         accept = { "application/json" }
     )
     void deleteUser(
@@ -98,6 +102,7 @@ public interface UserApi {
     );
 
 
+    String PATH_GET_USER_BY_NAME = "/user/{username}";
     /**
      * GET /user/{username} : Get user by user name
      * 
@@ -110,7 +115,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "GET",
-        value = "/user/{username}",
+        value = UserApi.PATH_GET_USER_BY_NAME,
         accept = { "application/json", "application/xml" }
     )
     UserDto getUserByName(
@@ -118,6 +123,7 @@ public interface UserApi {
     );
 
 
+    String PATH_LOGIN_USER = "/user/login";
     /**
      * GET /user/login : Logs user into the system
      * 
@@ -130,7 +136,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "GET",
-        value = "/user/login",
+        value = UserApi.PATH_LOGIN_USER,
         accept = { "application/json", "application/xml" }
     )
     String loginUser(
@@ -139,6 +145,7 @@ public interface UserApi {
     );
 
 
+    String PATH_LOGOUT_USER = "/user/logout";
     /**
      * GET /user/logout : Logs out current logged in user session
      * 
@@ -148,7 +155,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "GET",
-        value = "/user/logout",
+        value = UserApi.PATH_LOGOUT_USER,
         accept = { "application/json" }
     )
     void logoutUser(
@@ -156,6 +163,7 @@ public interface UserApi {
     );
 
 
+    String PATH_UPDATE_USER = "/user/{username}";
     /**
      * PUT /user/{username} : Updated user
      * This can only be done by the logged in user.
@@ -168,7 +176,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
         method = "PUT",
-        value = "/user/{username}",
+        value = UserApi.PATH_UPDATE_USER,
         accept = { "application/json" },
         contentType = "application/json"
     )
