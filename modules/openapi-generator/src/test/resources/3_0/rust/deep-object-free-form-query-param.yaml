@@ -13,7 +13,8 @@ paths:
           explode: true
           schema:
             type: object
-            additionalProperties: true
+            additionalProperties:
+              type: string
         - name: extra
           in: query
           style: deepObject

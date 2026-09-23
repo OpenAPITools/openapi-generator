@@ -294,12 +294,8 @@ public class RustClientCodegenTest {
     }
 
     @Test
-    public void testDeepObjectFreeFormQueryParamCompiles() throws IOException {
-        // the exploded deepObject branch walked every map-flagged parameter with
-        // .len()/.iter() - fine for a HashMap-typed map, but a bare free-form object is a
-        // serde_json::Value, which has neither, so the generated crate did not compile;
-        // both shapes now take parse_deep_object, the route the non-explode branch already
-        // uses, which also yields the deepObject wire format the style asks for
+    public void testExplodedDeepObjectMapQueryParams() throws IOException {
+        // exploded deepObject maps (typed or free-form) go through parse_deep_object like the non-explode branch
         for (String library : new String[] {"reqwest", "reqwest-trait"}) {
             Path target = Files.createTempDirectory("test");
             target.toFile().deleteOnExit();
@@ -313,8 +309,7 @@ public class RustClientCodegenTest {
             files.forEach(File::deleteOnExit);
             Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
             TestUtils.assertFileExists(outputPath);
-            // the optional typed map, the optional free-form object, and the
-            // required-nullable map all route through parse_deep_object
+            // optional typed map, optional free-form object, required-nullable typed map
             TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"filter\"");
             TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"extra\"");
             TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"scope\"");

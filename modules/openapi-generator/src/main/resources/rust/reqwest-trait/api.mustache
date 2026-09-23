@@ -205,8 +205,6 @@ impl {{classname}} for {{classname}}Client {
         }
         {{/isModel}}
         {{#isMap}}
-        {{!-- one route for the HashMap and the free-form serde_json::Value shape alike,
-              and the same deepObject wire format the non-explode branch produces --}}
         if let Some(ref param_value) = {{{paramName}}} {
             let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
             local_var_req_builder = local_var_req_builder.query(&params);
@@ -255,8 +253,6 @@ impl {{classname}} for {{classname}}Client {
             local_var_req_builder = local_var_req_builder.query(&param_value);
             {{/isModel}}
             {{#isMap}}
-            {{!-- one route for the HashMap and the free-form serde_json::Value shape alike,
-                  and the same deepObject wire format the non-explode branch produces --}}
             let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
             local_var_req_builder = local_var_req_builder.query(&params);
             {{/isMap}}
