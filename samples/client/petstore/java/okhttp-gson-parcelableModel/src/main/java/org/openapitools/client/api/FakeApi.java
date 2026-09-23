@@ -1327,13 +1327,13 @@ public class FakeApi {
     /**
      * Build call for testEnumParameters
      * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
-     * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
+     * @param enumHeaderString Header parameter enum test (string) (optional, default to )
      * @param enumQueryStringArray Query parameter enum test (string array) (optional)
-     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
+     * @param enumQueryString Query parameter enum test (string) (optional, default to )
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional)
-     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormString Form parameter enum test (string) (optional, default to )
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1433,13 +1433,13 @@ public class FakeApi {
      * To test enum parameters
      * To test enum parameters
      * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
-     * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
+     * @param enumHeaderString Header parameter enum test (string) (optional, default to )
      * @param enumQueryStringArray Query parameter enum test (string array) (optional)
-     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
+     * @param enumQueryString Query parameter enum test (string) (optional, default to )
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional)
-     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormString Form parameter enum test (string) (optional, default to )
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -1457,13 +1457,13 @@ public class FakeApi {
      * To test enum parameters
      * To test enum parameters
      * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
-     * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
+     * @param enumHeaderString Header parameter enum test (string) (optional, default to )
      * @param enumQueryStringArray Query parameter enum test (string array) (optional)
-     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
+     * @param enumQueryString Query parameter enum test (string) (optional, default to )
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional)
-     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormString Form parameter enum test (string) (optional, default to )
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1483,13 +1483,13 @@ public class FakeApi {
      * To test enum parameters (asynchronously)
      * To test enum parameters
      * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
-     * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
+     * @param enumHeaderString Header parameter enum test (string) (optional, default to )
      * @param enumQueryStringArray Query parameter enum test (string array) (optional)
-     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
+     * @param enumQueryString Query parameter enum test (string) (optional, default to )
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional)
-     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormString Form parameter enum test (string) (optional, default to )
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
