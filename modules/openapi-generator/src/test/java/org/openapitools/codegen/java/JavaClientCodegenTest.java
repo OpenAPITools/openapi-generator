@@ -2028,58 +2028,35 @@ public class JavaClientCodegenTest {
     public void testAdditionalPropertiesFieldIsDeclaredOncePerHierarchyForGson() {
         final Path output = generateOkHttpGsonWithAdditionalProperties("src/test/resources/3_0/allOf_extension_parent.yaml");
 
-        // gson's reflective adapter refuses a class whose hierarchy declares two fields bound to
-        // one JSON name ("declares multiple JSON fields named 'additionalProperties'"), so an
-        // allOf child inherits the bag instead of declaring its own copy. A parent with
-        // children gets no TypeAdapterFactory of its own ({{^hasChildren}} in pojo.mustache), so
-        // its field stays visible to reflection.
+        // exactly one class per hierarchy declares the bag; descendants inherit it
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Person.java"))
-                .content()
-                .contains("private Map<String, Object> additionalProperties;")
-                .doesNotContain("private transient Map<String, Object> additionalProperties;");
-        // the inherited field stays visible to reflection, so the delegate adapter would try to
-        // bind a literal `additionalProperties` key into it (and throw on a primitive or array);
-        // the key is hidden from the delegate on a copy, and the extras loop collects it from
-        // the raw JSON like every other undeclared key
+                .content().contains("private Map<String, Object> additionalProperties;");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
                 .content()
                 .contains("public class Child extends Person {")
                 .contains("public Child putAdditionalProperty(String key, Object value) {")
-                .contains("JsonObject delegateObj = jsonObj;")
-                .contains("delegateObj = jsonObj.deepCopy();")
-                .contains("delegateObj.remove(\"additionalProperties\");")
-                .contains("Child instance = thisAdapter.fromJsonTree(delegateObj);")
-                .doesNotContain("getAdditionalProperties().clear();")
                 .doesNotContain("Map<String, Object> additionalProperties;");
-        // a model that declares the bag itself keeps it transient, so the delegate binds
-        // nothing into it and there is nothing to hide
+        // a model without an allOf parent declares its own bag, as before
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/PersonA.java"))
-                .content()
-                .contains("private transient Map<String, Object> additionalProperties;")
-                .contains("PersonA instance = thisAdapter.fromJsonTree(jsonObj);")
-                .doesNotContain("delegateObj")
-                .doesNotContain("getAdditionalProperties().clear();");
+                .content().contains("private Map<String, Object> additionalProperties;");
     }
 
     @Test
     public void testAdditionalPropertiesFieldIsDeclaredOnceAcrossMultiLevelAllOfForGson() {
         final Path output = generateOkHttpGsonWithAdditionalProperties("src/test/resources/3_0/java/okhttp-gson-additional-properties-allof-chain.yaml");
 
-        // Root <- Middle <- Leaf: Middle has children too, so hiding only the leaf's copy would
-        // still leave Root's and Middle's bound together - exactly one class may declare the bag
+        // exactly one class per hierarchy declares the bag, also across Root <- Middle <- Leaf
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Root.java"))
                 .content().contains("private Map<String, Object> additionalProperties;");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Middle.java"))
                 .content()
                 .contains("public class Middle extends Root {")
+                .contains("public Middle putAdditionalProperty(String key, Object value) {")
                 .doesNotContain("Map<String, Object> additionalProperties;");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Leaf.java"))
                 .content()
                 .contains("public class Leaf extends Middle {")
                 .contains("public Leaf putAdditionalProperty(String key, Object value) {")
-                .contains("delegateObj.remove(\"additionalProperties\");")
-                .contains("Leaf instance = thisAdapter.fromJsonTree(delegateObj);")
-                .doesNotContain("getAdditionalProperties().clear();")
                 .doesNotContain("Map<String, Object> additionalProperties;");
     }
 

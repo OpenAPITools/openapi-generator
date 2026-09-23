@@ -563,18 +563,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
              validateJsonElement(jsonElement);
              {{#isAdditionalPropertiesTrue}}
              JsonObject jsonObj = jsonElement.getAsJsonObject();
-             {{#vendorExtensions.x-inherits-additional-properties}}
-             // the inherited bag is visible to reflection, so hide a literal `additionalProperties`
-             // key from the delegate (it would try to bind any JSON type into the Map); the loop
-             // below still collects it from the raw JSON, like every other undeclared key
-             JsonObject delegateObj = jsonObj;
-             if (jsonObj.has("additionalProperties")) {
-               delegateObj = jsonObj.deepCopy();
-               delegateObj.remove("additionalProperties");
-             }
-             {{/vendorExtensions.x-inherits-additional-properties}}
              // store additional fields in the deserialized instance
-             {{classname}} instance = thisAdapter.fromJsonTree({{#vendorExtensions.x-inherits-additional-properties}}delegateObj{{/vendorExtensions.x-inherits-additional-properties}}{{^vendorExtensions.x-inherits-additional-properties}}jsonObj{{/vendorExtensions.x-inherits-additional-properties}});
+             {{classname}} instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
                if (!openapiFields.contains(entry.getKey())) {
                  if (entry.getValue().isJsonPrimitive()) { // primitive type

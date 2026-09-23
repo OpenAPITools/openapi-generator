@@ -82,7 +82,7 @@ public class Cat extends Animal {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
-   * The bag itself is inherited: it is declared once, on the root of the hierarchy.
+   * The bag is inherited from the superclass.
    *
    * @param key name of the property
    * @param value value of the property
@@ -211,16 +211,8 @@ public class Cat extends Animal {
              JsonElement jsonElement = elementAdapter.read(in);
              validateJsonElement(jsonElement);
              JsonObject jsonObj = jsonElement.getAsJsonObject();
-             // the inherited bag is visible to reflection, so hide a literal `additionalProperties`
-             // key from the delegate (it would try to bind any JSON type into the Map); the loop
-             // below still collects it from the raw JSON, like every other undeclared key
-             JsonObject delegateObj = jsonObj;
-             if (jsonObj.has("additionalProperties")) {
-               delegateObj = jsonObj.deepCopy();
-               delegateObj.remove("additionalProperties");
-             }
              // store additional fields in the deserialized instance
-             Cat instance = thisAdapter.fromJsonTree(delegateObj);
+             Cat instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
                if (!openapiFields.contains(entry.getKey())) {
                  if (entry.getValue().isJsonPrimitive()) { // primitive type
