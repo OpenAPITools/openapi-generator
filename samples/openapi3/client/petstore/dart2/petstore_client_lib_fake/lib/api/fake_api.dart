@@ -1382,8 +1382,7 @@ class FakeApi {
       queryParams.addAll(_queryParams('csv', 'url', url));
       queryParams.addAll(_queryParams('multi', 'context', context));
     if (language != null) {
-      // form style explodes an object into one query parameter per entry, keyed by the property name alone;
-      // a collection value repeats that key once per non-null element (dynamic, so a typed map value still type checks)
+      // form style, explode: one query parameter per entry, keyed by the property name; a collection repeats the key per non-null element
       language.forEach((entryKey, dynamic entryValue) => queryParams.addAll(_queryParams('multi', entryKey.toString(), entryValue is Iterable ? entryValue.where((e) => e != null).toList() : entryValue)));
     }
       queryParams.addAll(_queryParams('', 'allowEmpty', allowEmpty));

@@ -137,7 +137,7 @@ public class DartClientCodegenTest {
         TestUtils.assertFileContains(modelFile.toPath(), "cast<Object>");
     }
 
-    @Test(description = "Verify an object query parameter is exploded, whether or not it declares its properties")
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
     public void testExplodedObjectQueryParameter() throws Exception {
         List<File> files = generateDartNativeFromSpec(
                 "src/test/resources/3_0/exploded-object-query-param.yaml");
@@ -149,9 +149,8 @@ public class DartClientCodegenTest {
 
         // form style with explode - the default - puts every entry on the wire under its own
         // property name. Handing the whole map to _queryParams stringifies it with
-        // Map.toString(), which is what used to happen. A collection value repeats the key once
-        // per non-null element ('multi') rather than going out comma joined, and a Set is turned
-        // into a List first, since _queryParams only expands a List.
+        // Map.toString(), which is what used to happen. A collection value repeats the key per
+        // non-null element ('multi').
         TestUtils.assertFileContains(apiFile.toPath(),
                 "(filter as Map).forEach((entryKey, dynamic entryValue) => queryParams.addAll(_queryParams('multi', entryKey.toString(), entryValue is Iterable ? entryValue.where((e) => e != null).toList() : entryValue)));");
         TestUtils.assertFileNotContains(apiFile.toPath(), "_queryParams('', 'filter', filter)");
