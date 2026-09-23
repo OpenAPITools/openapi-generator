@@ -19,7 +19,7 @@ The following generators are available:
 * [cpp-tiny (beta)](generators/cpp-tiny.md)  
 * [cpp-tizen](generators/cpp-tizen.md)  
 * [cpp-ue4 (beta)](generators/cpp-ue4.md)  
-* [crystal (beta)](generators/crystal.md)  
+* [crystal](generators/crystal.md)  
 * [csharp](generators/csharp.md)  
 * [dart](generators/dart.md)  
 * [dart-dio](generators/dart-dio.md)  
