@@ -1562,7 +1562,7 @@ export class FakeApi extends runtime.BaseAPI {
             for (let key of Object.keys(requestParameters['language'])) {
                 const value = (requestParameters['language'] as any)[key];
                 if (value != null) {
-                    queryParameters[key] = value;
+                    Object.defineProperty(queryParameters, key, { value, enumerable: true, writable: true, configurable: true });
                 }
             }
         }

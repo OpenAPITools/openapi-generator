@@ -211,7 +211,7 @@ export class {{classname}} extends runtime.BaseAPI {
             for (let key of Object.keys(requestParameters['{{paramName}}'])) {
                 const value = (requestParameters['{{paramName}}'] as any)[key];
                 if (value != null) {
-                    queryParameters[key] = value;
+                    Object.defineProperty(queryParameters, key, { value, enumerable: true, writable: true, configurable: true });
                 }
             }
             {{/isMap}}
