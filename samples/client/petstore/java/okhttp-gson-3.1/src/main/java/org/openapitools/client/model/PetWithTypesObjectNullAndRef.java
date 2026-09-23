@@ -21,7 +21,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import org.openapitools.client.model.ModelNull;
 import org.openapitools.client.model.Pet;
 import org.openapitools.jackson.nullable.JsonNullable;
 
@@ -67,7 +66,7 @@ public class PetWithTypesObjectNullAndRef {
   public static final String SERIALIZED_NAME_THIRD_PROPERTY = "third_property";
   @SerializedName(SERIALIZED_NAME_THIRD_PROPERTY)
   @javax.annotation.Nullable
-  private ModelNull thirdProperty = null;
+  private Object thirdProperty = null;
 
   public PetWithTypesObjectNullAndRef() {
   }
@@ -110,7 +109,7 @@ public class PetWithTypesObjectNullAndRef {
   }
 
 
-  public PetWithTypesObjectNullAndRef thirdProperty(@javax.annotation.Nullable ModelNull thirdProperty) {
+  public PetWithTypesObjectNullAndRef thirdProperty(@javax.annotation.Nullable Object thirdProperty) {
     this.thirdProperty = thirdProperty;
     return this;
   }
@@ -120,11 +119,11 @@ public class PetWithTypesObjectNullAndRef {
    * @return thirdProperty
    */
   @javax.annotation.Nullable
-  public ModelNull getThirdProperty() {
+  public Object getThirdProperty() {
     return thirdProperty;
   }
 
-  public void setThirdProperty(@javax.annotation.Nullable ModelNull thirdProperty) {
+  public void setThirdProperty(@javax.annotation.Nullable Object thirdProperty) {
     this.thirdProperty = thirdProperty;
   }
 
