@@ -230,7 +230,7 @@ public class KotlinClientCodegenApiTest {
         assertFileNotContains(defaultApi.toPath(), "mapDeep?.apply {");
     }
 
-    @Test(description = "Verify an object query parameter is exploded, whether or not it declares its properties")
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
     public void testExplodedObjectQueryParameterJvmOkhttp() throws IOException {
         OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/exploded-object-query-param.yaml");
 
@@ -256,9 +256,8 @@ public class KotlinClientCodegenApiTest {
         // once per element rather than going out as its toString(), and an entry is appended
         // rather than replacing a query parameter of the same name
         assertFileContains(defaultApi.toPath(),
-                "null -> emptyList<kotlin.String>()",
-                "is kotlin.collections.Iterable<*> -> value.filterNotNull().map { parameterToString(it) }",
-                "else -> listOf(parameterToString(value))",
+                "is kotlin.collections.Iterable<*> -> value.toList()",
+                "}.filterNotNull().map { parameterToString(it) }",
                 "put(name, getOrElse(name) { emptyList() } + values)");
 
         // deepObject and form without explode both keep a single parameter

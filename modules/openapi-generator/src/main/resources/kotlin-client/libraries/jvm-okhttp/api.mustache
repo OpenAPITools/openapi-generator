@@ -256,16 +256,13 @@ import {{packageName}}.infrastructure.Serializer
                 {{/queryParams}}
                 {{#queryParams}}
                 {{#vendorExtensions.x-kotlin-explode-form-object}}
-                // form style explodes an object into one query parameter per entry, keyed by the property name alone
+                // form style, explode: one query parameter per entry, keyed by the property name, appended after the declared ones; null is left out, a collection repeats the key
                 ({{{paramName}}} as? kotlin.collections.Map<*, *>)?.forEach { (key, value) ->
-                    // a null entry is left out, a collection repeats the key once per element
                     val values = when (value) {
-                        null -> emptyList<kotlin.String>()
-                        is kotlin.collections.Iterable<*> -> value.filterNotNull().map { parameterToString(it) }
-                        is kotlin.Array<*> -> value.filterNotNull().map { parameterToString(it) }
-                        else -> listOf(parameterToString(value))
-                    }
-                    // appended after the declared parameters, so an entry named like one of them adds a value instead of replacing it
+                        is kotlin.collections.Iterable<*> -> value.toList()
+                        is kotlin.Array<*> -> value.toList()
+                        else -> listOf(value)
+                    }.filterNotNull().map { parameterToString(it) }
                     if (key != null && values.isNotEmpty()) {
                         val name = key.toString()
                         put(name, getOrElse(name) { emptyList() } + values)

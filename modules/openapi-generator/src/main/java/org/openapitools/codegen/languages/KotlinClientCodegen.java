@@ -1114,7 +1114,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     // form style with explode puts a map-typed query parameter on the wire as one parameter
                     // per entry; api.mustache adds those after the declared query parameters
                     for (CodegenParameter param : operation.queryParams) {
-                        if (param.isMap && !param.isModel && param.isExplode && !param.isDeepObject) {
+                        if (param.isMap && param.isExplode && !param.isDeepObject) {
                             param.vendorExtensions.put("x-kotlin-explode-form-object", true);
                         }
                     }
