@@ -325,6 +325,38 @@ public class PhpClientCodegenTest {
         }
     }
 
+    @Test
+    public void testPrependFormOrBodyParametersCollisionStaysUnique() throws IOException {
+        // regression pin: a form field `param_query` plus a query param `query`
+        // (renamed to `param_query` by the internal-variable collision guard)
+        // must not produce a duplicate signature when form params are prepended
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("php")
+                    .setLibrary("guzzle")
+                    .setInputSpec("src/test/resources/3_0/form-prepend-collision.yaml")
+                    .addAdditionalProperty("prependFormOrBodyParameters", true)
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path apiPath = target.resolve("lib/Api/DefaultApi.php");
+            TestUtils.assertFileExists(apiPath);
+            String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
+            java.util.regex.Matcher m = java.util.regex.Pattern
+                    .compile("function prependCollide\\(([^)]*)\\)")
+                    .matcher(generated);
+            Assert.assertTrue(m.find(), "prependCollide signature should exist");
+            String signature = m.group(1);
+            Assert.assertTrue(signature.contains("$param_query"),
+                    "collision-renamed query param should be in the signature: " + signature);
+            Assert.assertTrue(signature.contains("$param_query2"),
+                    "form param must be de-duplicated to param_query2: " + signature);
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
     /**
      * End-to-end check: runs the generated guzzle client against a raw TCP
      * capture listener, verifying query/additionalOperations methods and
