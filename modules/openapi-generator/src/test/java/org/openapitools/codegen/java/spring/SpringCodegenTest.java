@@ -92,16 +92,17 @@ public class SpringCodegenTest {
                 .contains(
                         "new ArrayList<>(Arrays.asList(new DefaultObject().name(\"first\").count(1).status(Status.ACTIVE), "
                                 + "new DefaultObject().name(\"second\").count(2).status(Status.INACTIVE)))",
-                        "new ArrayList<>(Arrays.asList(\n"
-                                + "        new ArrayList<>(Arrays.asList(\"h1\", \"Header 1\")),\n"
-                                + "        new ArrayList<>(Arrays.asList(\"h2\", \"Header 2\"))\n"
-                                + "      ))",
                         "new ArrayList<>(Arrays.asList(10l, 20l))",
                         "new DefaultObject().name(\"all-of\").count(3).status(Status.ACTIVE)",
                         "new DefaultObject().name(\"one-of\").count(4).status(Status.ACTIVE)",
                         "new ComplexDefaultsObjectAnyOf().name(\"any-of\").count(5).status(Status.INACTIVE)",
                         "java.util.Base64.getDecoder().decode(\"ZGVmYXVsdA==\")",
                         "private org.springframework.core.io.Resource binaryValue = new org.springframework.core.io.ByteArrayResource")
+                .containsPattern("new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "\\\"h1\\\"\\s*,\\s*\\\"Header 1\\\"\\s*\\)\\s*\\)\\s*,\\s*"
+                        + "new\\s+ArrayList\\s*<\\s*>\\s*\\(\\s*Arrays\\.asList\\s*\\(\\s*"
+                        + "\\\"h2\\\"\\s*,\\s*\\\"Header 2\\\"\\s*\\)\\s*\\)\\s*\\)\\s*\\)")
                 .doesNotContain("Arrays.asList(, )", "= {", "[B@");
     }
 

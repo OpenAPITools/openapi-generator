@@ -30,6 +30,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class JavaPlayFrameworkCodegenTest {
 
@@ -114,5 +115,38 @@ public class JavaPlayFrameworkCodegenTest {
 
         TestUtils.assertExtraAnnotationFiles(outputPath + "/app/apimodels");
 
+    }
+
+    @Test
+    public void testOptionalContainerDefaultIsGenerated() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml",
+                        null, new ParseOptions()).getOpenAPI();
+
+        JavaPlayFrameworkCodegen codegen = new JavaPlayFrameworkCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        Path model = output.toPath().resolve("app/apimodels/ContainerDefaultValue.java");
+        TestUtils.assertValidJavaSourceCode(Files.readString(model));
+        TestUtils.assertFileContains(model,
+                "private List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList(\"foo\", \"bar\"));",
+                "this.nullableArrayWithDefault = new ArrayList<>();");
+        TestUtils.assertFileNotContains(model,
+                "this.nullableArrayWithDefault = new ArrayList<>(Arrays.asList(\"foo\", \"bar\"));");
     }
 }
