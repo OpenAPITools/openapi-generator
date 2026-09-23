@@ -306,6 +306,7 @@ public class RustClientCodegenTest {
 
         // newtype variants, so the child's own fields survive
         Path unionPath = Path.of(target.toString(), "/src/models/api_error.rs");
+        TestUtils.assertFileContains(unionPath, "#[serde(tag = \"type\")]");
         TestUtils.assertFileContains(unionPath, "ObjectExists(Box<models::ObjectExists>),");
         TestUtils.assertFileContains(unionPath, "ValidationError(Box<models::ValidationError>),");
         TestUtils.assertFileContains(unionPath, "Self::ObjectExists(Default::default())");
@@ -331,6 +332,7 @@ public class RustClientCodegenTest {
         TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/creature.rs"),
                 "#[serde(rename=\"Creature\")]\n    Creature {", "#[serde(rename=\"Bird\")]\n    Bird {");
         TestUtils.assertFileNotContains(Path.of(target.toString(), "/src/models/creature.rs"), "Box<models::Creature>");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/creature.rs"), "#[serde(tag = \"kind\")]");
         TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/bird.rs"), "#[serde(rename = \"kind\")]\n    pub kind: String,");
     }
 
