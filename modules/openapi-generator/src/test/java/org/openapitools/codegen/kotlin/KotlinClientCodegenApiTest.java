@@ -22,6 +22,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -388,6 +390,140 @@ public class KotlinClientCodegenApiTest {
         }
     }
 
+    /**
+     * Canary for issue #15: spec parameters named after template-internal locals
+     * (the localVar prefix family) must be renamed while keeping their wire
+     * names, and class members must be qualified with `this.` so same-named
+     * parameters cannot shadow them. Covers every kotlin-client library.
+     */
+    @Test
+    void testKotlinLibrariesAvoidTemplateLocalCollisions() throws IOException {
+        String spec = "src/test/resources/3_0/kotlin/kotlin-member-collision.yaml";
+        String[][] libraries = {
+                // {library, api source path, additionalProperties}
+                {"jvm-vertx", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson"},
+                {"jvm-volley", "src/main/java/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=gson"},
+                {"jvm-spring-restclient", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "useSpringBoot3=true", "serializationLibrary=jackson"},
+                {"jvm-spring-webclient", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "useSpringBoot3=true", "serializationLibrary=jackson"},
+                {"jvm-ktor", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson"},
+                {"jvm-retrofit2", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson"},
+                {"jvm-okhttp4", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson"},
+                {"multiplatform", "src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt", "dateLibrary=kotlinx-datetime"},
+        };
+        // every library: colliding params are renamed but keep their wire names
+        String[][] renames = {
+                {"localVariableAuthNames", "paramLocalVariableAuthNames"},
+                {"local_variable_body", "paramLocalVariableBody"},
+                {"local_variable_query", "paramLocalVariableQuery"},
+                {"localVariableHeaders", "paramLocalVariableHeaders"},
+                {"local_variable_response", "paramLocalVariableResponse"},
+        };
+        for (String[] lib : libraries) {
+            Path target = Files.createTempDirectory("kotlin-collide-" + lib[0]);
+            try {
+                generate(lib[0], spec, target, Arrays.copyOfRange(lib, 2, lib.length));
+                Path apiFile = target.resolve(lib[1]);
+                Assert.assertTrue(Files.exists(apiFile), lib[0] + " must emit " + lib[1]);
+                String api = new String(Files.readAllBytes(apiFile), StandardCharsets.UTF_8);
+                for (String[] rename : renames) {
+                    Assert.assertTrue(api.contains(rename[1] + ":"),
+                            lib[0] + ": param " + rename[0] + " must be renamed to " + rename[1]);
+                    Assert.assertTrue(api.contains("\"" + rename[0] + "\""),
+                            lib[0] + ": wire name " + rename[0] + " must be preserved");
+                }
+                switch (lib[0]) {
+                    case "jvm-vertx":
+                        // member refs must be qualified so same-named params cannot shadow them
+                        for (String member : new String[]{"this.vertx", "this.basePath", "this.apiKey",
+                                "this.apiKeyPrefix", "this.username", "this.password", "this.accessToken",
+                                "this.handleResponse(", "this.responseBody(", "this.encodeURIComponent(",
+                                "this.parseDateToQueryString<"}) {
+                            Assert.assertTrue(api.contains(member), "jvm-vertx must qualify " + member);
+                        }
+                        Assert.assertTrue(api.contains("fun basicAuthCollide(username: kotlin.String?"),
+                                "jvm-vertx: spec param names must stay public");
+                        Assert.assertTrue(api.contains("vertx?.let { localVariableRequest.queryParams().add(\"vertx\""),
+                                "jvm-vertx: vertx param must be wired under its own name");
+                        Assert.assertTrue(api.contains("localVariableForm.add(\"form\", form)"),
+                                "jvm-vertx: form param must reach the form map");
+                        break;
+                    case "jvm-volley":
+                        for (String member : new String[]{"this.requestFactory", "this.basePath",
+                                "this.postProcessors", "this.requestQueue"}) {
+                            Assert.assertTrue(api.contains(member), "jvm-volley must qualify " + member);
+                        }
+                        Assert.assertTrue(api.contains("\"form\" to IRequestFactory.parameterToString(form)"),
+                                "jvm-volley: form param must reach the form map");
+                        Assert.assertTrue(api.contains("\"request\" to IRequestFactory.parameterToString(request)"),
+                                "jvm-volley: request param must reach the request");
+                        break;
+                    case "jvm-spring-restclient":
+                        Assert.assertTrue(api.contains("this.request<"),
+                                "jvm-spring-restclient: member request() must be qualified");
+                        Assert.assertTrue(api.contains("val localVariableResult ="),
+                                "jvm-spring-restclient: result local must be prefixed");
+                        Assert.assertTrue(api.contains("val localVariableParams ="),
+                                "jvm-spring-restclient: params local must be prefixed");
+                        // parseDateToQueryString is top-level in spring infra, so it must be
+                        // package-qualified (not `this.`) to survive a same-named parameter
+                        Assert.assertTrue(api.contains(".infrastructure.parseDateToQueryString<java.time.LocalDate>(dueDate)"),
+                                "jvm-spring-restclient: date conversion must call the top-level helper");
+                        break;
+                    case "jvm-spring-webclient":
+                        Assert.assertTrue(api.contains("this.request<"),
+                                "jvm-spring-webclient: member request() must be qualified");
+                        Assert.assertTrue(api.contains("val localVariableParams ="),
+                                "jvm-spring-webclient: params local must be prefixed");
+                        Assert.assertTrue(api.contains(".infrastructure.parseDateToQueryString<java.time.LocalDate>(dueDate)"),
+                                "jvm-spring-webclient: date conversion must call the top-level helper");
+                        break;
+                    case "jvm-okhttp4":
+                        // pre-existing locals keep their localVar* spelling
+                        Assert.assertTrue(api.contains("localVarResponse") && api.contains("localVarError"),
+                                "jvm-okhttp4: localVarResponse/localVarError must remain");
+                        // member calls inside apply{} blocks need a labeled receiver
+                        Assert.assertTrue(api.contains("this@DefaultApi.parseDateToQueryString<java.time.LocalDate>(dueDate)"),
+                                "jvm-okhttp4: date conversion must reach the api class inside apply{}");
+                        Assert.assertTrue(api.contains("this@DefaultApi.encodeURIComponent(path.toString())"),
+                                "jvm-okhttp4: path encoding must reach the api class");
+                        break;
+                    default:
+                        break;
+                }
+            } finally {
+                deleteRecursively(target);
+            }
+        }
+    }
+
+    /**
+     * Lint guard for issue #15: every `val`/`var` declared at statement level in
+     * an operation template must use the `localVar` prefix, so spec parameters
+     * (which are renamed by the toParamName prefix rule) can never collide with
+     * template-internal locals again.
+     */
+    @Test
+    void testKotlinApiTemplatesUseLocalVariablePrefix() throws IOException {
+        Path libs = Path.of("src/main/resources/kotlin-client/libraries");
+        Pattern localDecl = Pattern.compile("^\\s*(?:val|var)\\s+([a-zA-Z_]\\w*)");
+        List<String> violations = new ArrayList<>();
+        try (var stream = Files.walk(libs)) {
+            for (Path template : stream.filter(p -> p.getFileName().toString().equals("api.mustache")
+                    || p.getFileName().toString().matches("(queryParams|queryParam|explodedQueryParam|pathParams|headerParams|bodyParams|formParams|paramJavadoc)\\.mustache")).toList()) {
+                int lineNo = 0;
+                for (String line : Files.readAllLines(template, StandardCharsets.UTF_8)) {
+                    lineNo++;
+                    Matcher m = localDecl.matcher(line.replaceAll("\\{\\{[^}]*\\}\\}", ""));
+                    if (m.find() && !m.group(1).startsWith("localVar")) {
+                        violations.add(template + ":" + lineNo + " declares `" + m.group(1) + "`");
+                    }
+                }
+            }
+        }
+        Assert.assertTrue(violations.isEmpty(),
+                "operation-scope locals must use the localVar prefix:\n" + String.join("\n", violations));
+    }
+
     @Test
     void testNonOkhttpLibrariesSkipOpenApi32Operations() throws IOException {
         Path target = Files.createTempDirectory("kotlin32-skip");
@@ -449,16 +585,21 @@ public class KotlinClientCodegenApiTest {
         }
         // PATH may hold a symlink into the install; resolve it so lib/ is found correctly
         kotlinc = kotlinc.toRealPath();
+        // okhttp5/moshi jars are copied out-of-band by maven-dependency-plugin
+        // (kotlin-capture-deps): they carry Kotlin 1.8+/2.x metadata that the
+        // embedded 1.6 compiler in KotlinTestUtils cannot read, so they must
+        // never sit on the shared test classpath
+        Path depDir = Path.of("target/kotlin-capture-deps");
         List<String> jars;
-        try {
-            jars = new ArrayList<>(Arrays.asList(
-                    jarOf(okhttp3.OkHttpClient.class),
-                    jarOf(okio.Buffer.class),
-                    jarOf(com.squareup.moshi.Moshi.class),
-                    jarOf(com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory.class),
-                    jarOf(com.squareup.moshi.adapters.Rfc3339DateJsonAdapter.class)));
-        } catch (Exception e) {
-            throw new org.testng.SkipException("okhttp/moshi jars not resolvable from test classpath: " + e);
+        try (var stream = Files.list(depDir)) {
+            jars = stream.filter(p -> p.toString().endsWith(".jar"))
+                    .map(p -> p.toAbsolutePath().toString())
+                    .collect(Collectors.toCollection(ArrayList::new));
+        } catch (IOException e) {
+            throw new org.testng.SkipException("kotlin-capture-deps missing (dependency:copy did not run): " + e);
+        }
+        if (jars.size() < 5) {
+            throw new org.testng.SkipException("expected okhttp/okio/moshi jars in " + depDir + ", found " + jars);
         }
         // use the stdlib/reflect bundled with the detected kotlinc so versions match
         // the compiler (the module's own test classpath pins an older kotlin.version)
@@ -501,13 +642,17 @@ public class KotlinClientCodegenApiTest {
         }
     }
 
-    private static void generate(String library, String spec, Path outputDir) {
+    private static void generate(String library, String spec, Path outputDir, String... additionalProperties) {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("kotlin")
                 .setLibrary(library)
                 .setInputSpec(spec)
                 .setSkipOverwrite(false)
                 .setOutputDir(outputDir.toAbsolutePath().toString().replace("\\", "/"));
+        for (String kv : additionalProperties) {
+            int eq = kv.indexOf('=');
+            configurator.addAdditionalProperty(kv.substring(0, eq), kv.substring(eq + 1));
+        }
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
     }
 
@@ -521,10 +666,6 @@ public class KotlinClientCodegenApiTest {
             }
         }
         return null;
-    }
-
-    private static String jarOf(Class<?> marker) throws Exception {
-        return Path.of(marker.getProtectionDomain().getCodeSource().getLocation().toURI()).toString();
     }
 
     private static String runProcess(Path workDir, String logName, long timeoutSeconds, String... command)

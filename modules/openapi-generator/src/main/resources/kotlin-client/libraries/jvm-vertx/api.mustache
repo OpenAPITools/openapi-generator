@@ -105,18 +105,18 @@ import {{packageName}}.infrastructure.*
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}{{#useCoroutines}}suspend {{/useCoroutines}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{&enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{&enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : {{^useCoroutines}}Future<{{/useCoroutines}}{{#returnType}}{{{returnType}}}{{#nullableReturnType}}{{^isResponseOptional}}?{{/isResponseOptional}}{{/nullableReturnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{^useCoroutines}}>{{/useCoroutines}} {
-        return {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}).map { localVarResponse ->
-            when (localVarResponse.responseType) {
-                ResponseType.Success -> {{#returnType}}(localVarResponse as Success<*>).data as {{{returnType}}}{{#nullableReturnType}}{{^isResponseOptional}}?{{/isResponseOptional}}{{/nullableReturnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
+        return {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
+                ResponseType.Success -> {{#returnType}}(localVariableResponse as Success<*>).data as {{{returnType}}}{{#nullableReturnType}}{{^isResponseOptional}}?{{/isResponseOptional}}{{/nullableReturnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }{{#useCoroutines}}.coAwait(){{/useCoroutines}}
@@ -137,82 +137,82 @@ import {{packageName}}.infrastructure.*
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : Future<ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("$basePath{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("${this.basePath}{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", this.encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
 
-        {{#hasFormParams}}request.putHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
-        {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { request.putHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
+        {{#hasFormParams}}localVariableRequest.putHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
+        {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { localVariableRequest.putHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
         {{^hasFormParams}}{{#hasConsumes}}
             {{#consumes}}
-                    request.putHeader("Content-Type", "{{{mediaType}}}")
+                    localVariableRequest.putHeader("Content-Type", "{{{mediaType}}}")
             {{/consumes}}
         {{/hasConsumes}}{{/hasFormParams}}
-        {{#hasProduces}}request.putHeader("Accept", "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"){{/hasProduces}}
+        {{#hasProduces}}localVariableRequest.putHeader("Accept", "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"){{/hasProduces}}
 
         {{#hasFormParams}}
-        val form = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
+        val localVariableForm = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
         {{#formParams}}
-        {{{paramName}}}{{^required}}?{{/required}}.let { form.add("{{{baseName}}}", {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}}) }
+        {{{paramName}}}{{^required}}?{{/required}}.let { localVariableForm.add("{{{baseName}}}", {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}}) }
         {{/formParams}}
         {{/hasFormParams}}
 
         {{#hasQueryParams}}
         {{#queryParams}}
-        {{{paramName}}}{{^required}}?{{/required}}.let { request.queryParams().add("{{baseName}}", {{#isContainer}}toMultiValue(it.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>(it){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>(it){{/isDate}}{{^isDateTime}}{{^isDate}}it.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}}) }
+        {{{paramName}}}{{^required}}?{{/required}}.let { localVariableRequest.queryParams().add("{{baseName}}", {{#isContainer}}toMultiValue(it.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}this.parseDateToQueryString<{{{dataType}}}>(it){{/isDateTime}}{{#isDate}}this.parseDateToQueryString<{{{dataType}}}>(it){{/isDate}}{{^isDateTime}}{{^isDate}}it.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}}) }
         {{/queryParams}}
         {{/hasQueryParams}}
 
         {{#authMethods}}
         {{#isApiKey}}
-        if (apiKey["{{keyParamName}}"] != null) {
-            if (apiKeyPrefix["{{keyParamName}}"] != null) {
+        if (this.apiKey["{{keyParamName}}"] != null) {
+            if (this.apiKeyPrefix["{{keyParamName}}"] != null) {
                 {{#isKeyInHeader}}
-                request.putHeader("{{keyParamName}}", apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
+                localVariableRequest.putHeader("{{keyParamName}}", this.apiKeyPrefix["{{keyParamName}}"]!! + " " + this.apiKey["{{keyParamName}}"]!!)
                 {{/isKeyInHeader}}
                 {{#isKeyInQuery}}
-               request.queryParams().add("{{keyParamName}}", apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
+               localVariableRequest.queryParams().add("{{keyParamName}}", this.apiKeyPrefix["{{keyParamName}}"]!! + " " + this.apiKey["{{keyParamName}}"]!!)
                 {{/isKeyInQuery}}
             } else {
                 {{#isKeyInHeader}}
-                request.putHeader("{{keyParamName}}", apiKey["{{keyParamName}}"]!!)
+                localVariableRequest.putHeader("{{keyParamName}}", this.apiKey["{{keyParamName}}"]!!)
                 {{/isKeyInHeader}}
                 {{#isKeyInQuery}}
-                request.queryParams().add("{{keyParamName}}", apiKey["{{keyParamName}}"]!!)
+                localVariableRequest.queryParams().add("{{keyParamName}}", this.apiKey["{{keyParamName}}"]!!)
                 {{/isKeyInQuery}}
             }
         }
         {{/isApiKey}}
         {{#isBasic}}
         {{#isBasicBasic}}
-        username?.let { username ->
-            password?.let { password ->
-                request.basicAuthentication(username, password)
+        this.username?.let { username ->
+            this.password?.let { password ->
+                localVariableRequest.basicAuthentication(username, password)
             }
         }
         {{/isBasicBasic}}
         {{#isBasicBearer}}
-        accessToken?.let { accessToken ->
-           request.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { accessToken ->
+           localVariableRequest.bearerTokenAuthentication(accessToken)
         }
         {{/isBasicBearer}}
         {{/isBasic}}
         {{#isOAuth}}
-        accessToken?.let { accessToken ->
-            request.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { accessToken ->
+            localVariableRequest.bearerTokenAuthentication(accessToken)
         }
         {{/isOAuth}}
         {{/authMethods}}
 
-        return request
+        return localVariableRequest
             {{#hasBodyParam}}
-            .sendBuffer(responseBody({{#bodyParams}}{{{paramName}}}{{/bodyParams}}))
+            .sendBuffer(this.responseBody({{#bodyParams}}{{{paramName}}}{{/bodyParams}}))
             {{/hasBodyParam}}
             {{^hasBodyParam}}
             .send()
             {{/hasBodyParam}}
             .map {
-                val apiResponse: ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 

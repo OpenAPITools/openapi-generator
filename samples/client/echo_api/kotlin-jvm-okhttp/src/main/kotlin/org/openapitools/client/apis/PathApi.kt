@@ -145,7 +145,7 @@ open class PathApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}".replace("{"+"path_string"+"}", encodeURIComponent(pathString.toString())).replace("{"+"path_integer"+"}", encodeURIComponent(pathInteger.toString())).replace("{"+"enum_nonref_string_path"+"}", encodeURIComponent(enumNonrefStringPath.value.toString())).replace("{"+"enum_ref_string_path"+"}", encodeURIComponent(enumRefStringPath.toString())),
+            path = "/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}".replace("{"+"path_string"+"}", this@PathApi.encodeURIComponent(pathString.toString())).replace("{"+"path_integer"+"}", this@PathApi.encodeURIComponent(pathInteger.toString())).replace("{"+"enum_nonref_string_path"+"}", this@PathApi.encodeURIComponent(enumNonrefStringPath.value.toString())).replace("{"+"enum_ref_string_path"+"}", this@PathApi.encodeURIComponent(enumRefStringPath.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

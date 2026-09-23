@@ -234,7 +234,7 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/test".replace("{"+"pi0"+"}", encodeURIComponent(pi0.toString())).replace("{"+"pi1"+"}", encodeURIComponent(pi1.toString())).replace("{"+"pn0"+"}", encodeURIComponent(pn0.toString())).replace("{"+"pn1"+"}", encodeURIComponent(pn1.toString())),
+            path = "/test".replace("{"+"pi0"+"}", this@DefaultApi.encodeURIComponent(pi0.toString())).replace("{"+"pi1"+"}", this@DefaultApi.encodeURIComponent(pi1.toString())).replace("{"+"pn0"+"}", this@DefaultApi.encodeURIComponent(pn0.toString())).replace("{"+"pn1"+"}", this@DefaultApi.encodeURIComponent(pn1.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

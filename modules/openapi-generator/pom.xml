@@ -103,6 +103,47 @@
                             <outputDirectory>${project.build.directory}/lib</outputDirectory>
                         </configuration>
                     </execution>
+                    <!-- jars for the kotlin-okhttp generated-client compile/capture
+                         test (versions mirror the jvm-okhttp4 template). Kept off the
+                         test classpath: their Kotlin 1.8+/2.x metadata breaks the
+                         embedded 1.6 compiler used by KotlinTestUtils. -->
+                    <execution>
+                        <id>kotlin-capture-deps</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.squareup.okhttp3</groupId>
+                                    <artifactId>okhttp-jvm</artifactId>
+                                    <version>5.4.0</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.squareup.okio</groupId>
+                                    <artifactId>okio-jvm</artifactId>
+                                    <version>3.17.0</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.squareup.moshi</groupId>
+                                    <artifactId>moshi</artifactId>
+                                    <version>1.15.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.squareup.moshi</groupId>
+                                    <artifactId>moshi-kotlin</artifactId>
+                                    <version>1.15.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.squareup.moshi</groupId>
+                                    <artifactId>moshi-adapters</artifactId>
+                                    <version>1.15.2</version>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/kotlin-capture-deps</outputDirectory>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -461,38 +502,6 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-script-util</artifactId>
             <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- jars resolved via codeSource for the kotlin-okhttp generated-client
-             compile/capture test (versions mirror the jvm-okhttp4 template) -->
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp-jvm</artifactId>
-            <version>5.4.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okio</groupId>
-            <artifactId>okio-jvm</artifactId>
-            <version>3.17.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.moshi</groupId>
-            <artifactId>moshi</artifactId>
-            <version>1.15.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.moshi</groupId>
-            <artifactId>moshi-kotlin</artifactId>
-            <version>1.15.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.moshi</groupId>
-            <artifactId>moshi-adapters</artifactId>
-            <version>1.15.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>

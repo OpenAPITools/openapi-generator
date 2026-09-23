@@ -56,14 +56,14 @@ open class HeaderApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun testHeaderIntegerBooleanStringEnums(integerHeader: kotlin.Int? = null, booleanHeader: kotlin.Boolean? = null, stringHeader: kotlin.String? = null, enumNonrefStringHeader: EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums? = null, enumRefStringHeader: StringEnumRef? = null): kotlin.String {
-        val result = testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader = integerHeader, booleanHeader = booleanHeader, stringHeader = stringHeader, enumNonrefStringHeader = enumNonrefStringHeader, enumRefStringHeader = enumRefStringHeader)
-        return result.body!!
+        val localVariableResult = testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader = integerHeader, booleanHeader = booleanHeader, stringHeader = stringHeader, enumNonrefStringHeader = enumNonrefStringHeader, enumRefStringHeader = enumRefStringHeader)
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader: kotlin.Int? = null, booleanHeader: kotlin.Boolean? = null, stringHeader: kotlin.String? = null, enumNonrefStringHeader: EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums? = null, enumRefStringHeader: StringEnumRef? = null): ResponseEntity<kotlin.String> {
         val localVariableConfig = testHeaderIntegerBooleanStringEnumsRequestConfig(integerHeader = integerHeader, booleanHeader = booleanHeader, stringHeader = stringHeader, enumNonrefStringHeader = enumNonrefStringHeader, enumRefStringHeader = enumRefStringHeader)
-        return request<Unit, kotlin.String>(
+        return this.request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -79,13 +79,13 @@ open class HeaderApi(client: RestClient) : ApiClient(client) {
         enumNonrefStringHeader?.apply { localVariableHeaders["enum_nonref_string_header"] = this.toString() }
         enumRefStringHeader?.apply { localVariableHeaders["enum_ref_string_header"] = this.toString() }
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/header/integer/boolean/string/enums",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

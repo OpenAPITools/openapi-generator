@@ -1,0 +1,163 @@
+openapi: 3.0.0
+info:
+  title: member/local collision canary
+  version: '1'
+paths:
+  /auth-basic:
+    get:
+      operationId: basicAuthCollide
+      security:
+        - basicAuth: []
+      parameters:
+        - name: username
+          in: query
+          schema: {type: string}
+        - name: password
+          in: query
+          schema: {type: string}
+        - name: basePath
+          in: query
+          schema: {type: string}
+        - name: vertx
+          in: query
+          schema: {type: string}
+        - name: requestFactory
+          in: query
+          schema: {type: string}
+        - name: requestQueue
+          in: query
+          schema: {type: string}
+        - name: postProcessors
+          in: query
+          schema: {type: string}
+      responses:
+        '200': {description: ok}
+  /auth-bearer:
+    get:
+      operationId: bearerCollide
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: accessToken
+          in: query
+          schema: {type: string}
+      responses:
+        '200': {description: ok}
+  /auth-apikey:
+    get:
+      operationId: apiKeyCollide
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: apiKey
+          in: query
+          schema: {type: string}
+        - name: apiKeyPrefix
+          in: query
+          schema: {type: string}
+      responses:
+        '200': {description: ok}
+  /locals/{path}:
+    post:
+      operationId: localsCollide
+      parameters:
+        - name: path
+          in: path
+          required: true
+          schema: {type: string}
+        - name: dueDate
+          in: query
+          schema: {type: string, format: date}
+        - name: localVariableAuthNames
+          in: query
+          schema: {type: string}
+        - name: local_variable_body
+          in: query
+          schema: {type: string}
+        - name: local_variable_query
+          in: query
+          schema: {type: string}
+        - name: localVariableHeaders
+          in: header
+          schema: {type: string}
+        - name: local_variable_response
+          in: query
+          schema: {type: string}
+        - name: request
+          in: query
+          schema: {type: string}
+        - name: responseBody
+          in: query
+          schema: {type: string}
+        - name: handleResponse
+          in: query
+          schema: {type: string}
+        - name: encodeURIComponent
+          in: query
+          schema: {type: string}
+        - name: body
+          in: query
+          schema: {type: string}
+        - name: contentType
+          in: query
+          schema: {type: string}
+        - name: queryParams
+          in: query
+          schema: {type: string}
+        - name: formParams
+          in: query
+          schema: {type: string}
+        - name: headerParams
+          in: query
+          schema: {type: string}
+        - name: result
+          in: query
+          schema: {type: string}
+        - name: params
+          in: query
+          schema: {type: string}
+        - name: responseListener
+          in: query
+          schema: {type: string}
+        - name: errorListener
+          in: query
+          schema: {type: string}
+        - name: responseType
+          in: query
+          schema: {type: string}
+        - name: config
+          in: query
+          schema: {type: string}
+        - name: client
+          in: query
+          schema: {type: string}
+      requestBody:
+        content:
+          application/json:
+            schema: {type: string}
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema: {type: string}
+  /form-locals:
+    post:
+      operationId: formLocalsCollide
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                form:
+                  type: string
+                request:
+                  type: string
+      responses:
+        '200': {description: ok}
+components:
+  securitySchemes:
+    basicAuth: {type: http, scheme: basic}
+    bearerAuth: {type: http, scheme: bearer}
+    apiKeyAuth: {type: apiKey, in: query, name: X-API-Key}

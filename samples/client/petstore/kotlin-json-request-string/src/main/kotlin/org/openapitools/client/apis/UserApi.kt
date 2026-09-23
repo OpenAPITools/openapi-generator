@@ -331,7 +331,7 @@ open class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
 
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
+            path = "/user/{username}".replace("{"+"username"+"}", this@UserApi.encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -404,7 +404,7 @@ open class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
+            path = "/user/{username}".replace("{"+"username"+"}", this@UserApi.encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -626,7 +626,7 @@ open class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
 
         return RequestConfig(
             method = RequestMethod.PUT,
-            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
+            path = "/user/{username}".replace("{"+"username"+"}", this@UserApi.encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

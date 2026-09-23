@@ -48,14 +48,14 @@ import {{packageName}}.infrastructure.CollectionFormats.*
     {{/isDeprecated}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}suspend fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}{{#operationAuthMethod}}, opAuthHeaderFactory = () -> map<String, String>{{/operationAuthMethod}}){{/-last}}{{/allParams}}: {{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         {{#bodyParam}}
-        val body: Any? = {{paramName}}
+        val localVariableBody: Any? = {{paramName}}
         {{/bodyParam}}
         {{^bodyParam}}
-        val body: Any? = null
+        val localVariableBody: Any? = null
         {{/bodyParam}}
 
-        val contentTypes : Array<String> = arrayOf({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
-        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
+        val localVariableContentTypes : Array<String> = arrayOf({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
+        val localVariableContentType: String = if (localVariableContentTypes.isNotEmpty()) { localVariableContentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model,
         // before we delegate to a pluggable request factory template
@@ -63,9 +63,9 @@ import {{packageName}}.infrastructure.CollectionFormats.*
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}IRequestFactory.escapeString({{{paramName}}}.toString()){{/isContainer}}){{/pathParams}}
+        val localVariablePath = "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}IRequestFactory.escapeString({{{paramName}}}.toString()){{/isContainer}}){{/pathParams}}
 
-        val formParams = mapOf<String, String>({{^formParams}}){{/formParams}}{{#formParams}}
+        val localVariableFormParams = mapOf<String, String>({{^formParams}}){{/formParams}}{{#formParams}}
             "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
         ){{/-last}}{{/formParams}}
 
@@ -73,43 +73,43 @@ import {{packageName}}.infrastructure.CollectionFormats.*
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
-        val queryParams = mapOf<String, String>({{^queryParams}}){{/queryParams}}{{#queryParams}}
+        val localVariableQueryParams = mapOf<String, String>({{^queryParams}}){{/queryParams}}{{#queryParams}}
                 "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
             ){{/-last}}{{/queryParams}}
             .filter { it.value.isNotEmpty() }
 
-        val headerParams: Map<String, String> = mapOf({{^headerParams}}){{/headerParams}}{{#headerParams}}
+        val localVariableHeaderParams: Map<String, String> = mapOf({{^headerParams}}){{/headerParams}}{{#headerParams}}
             "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
         ){{/-last}}{{/headerParams}}
 
         return suspendCoroutine { continuation ->
-            val responseListener = Response.Listener<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> { response ->
+            val localVariableResponseListener = Response.Listener<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> { response ->
                 continuation.resume(response)
             }
 
-            val errorListener = Response.ErrorListener { error ->
+            val localVariableErrorListener = Response.ErrorListener { error ->
                 continuation.resumeWithException(error)
             }
 
-            val responseType = object : TypeToken<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}>() {}.type
+            val localVariableResponseType = object : TypeToken<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}>() {}.type
 
             // Call the correct request builder based on whether we have a return type or a body.
             // All other switching on types must be done in code inside the builder
-            val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = requestFactory.build(
+            val localVariableRequest: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = this.requestFactory.build(
                     Request.Method.{{httpMethod}},
-                    "$basePath$path",
-                    body,
-                    headerParams,
-                    queryParams,
-                    formParams,
-                    contentType,
-                    responseType,
-                    responseListener,
-                    errorListener)
+                    "${this.basePath}$localVariablePath",
+                    localVariableBody,
+                    localVariableHeaderParams,
+                    localVariableQueryParams,
+                    localVariableFormParams,
+                    localVariableContentType,
+                    localVariableResponseType,
+                    localVariableResponseListener,
+                    localVariableErrorListener)
 
-            postProcessors.forEach { it.invoke(request) }
+            this.postProcessors.forEach { it.invoke(localVariableRequest) }
 
-            requestQueue.value.add(request)
+            this.requestQueue.value.add(localVariableRequest)
         }
     }
     {{/operation}}

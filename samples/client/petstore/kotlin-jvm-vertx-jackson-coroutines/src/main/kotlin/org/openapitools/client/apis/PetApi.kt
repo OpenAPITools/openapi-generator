@@ -63,18 +63,18 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun addPet(pet: Pet) : Pet {
-        return addPetWithHttpInfo(pet = pet).map { localVarResponse ->
-            when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as Pet
+        return addPetWithHttpInfo(pet = pet).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
+                ResponseType.Success -> (localVariableResponse as Success<*>).data as Pet
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -92,28 +92,28 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun addPetWithHttpInfo(pet: Pet) : Future<ApiResponse<Pet?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/pet"))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/pet"))
 
         
         
         
-                    request.putHeader("Content-Type", "application/json")
-                    request.putHeader("Content-Type", "application/xml")
+                    localVariableRequest.putHeader("Content-Type", "application/json")
+                    localVariableRequest.putHeader("Content-Type", "application/xml")
         
-        request.putHeader("Accept", "application/xml, application/json")
+        localVariableRequest.putHeader("Accept", "application/xml, application/json")
 
 
 
-        accessToken?.let { accessToken ->
-            request.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { accessToken ->
+            localVariableRequest.bearerTokenAuthentication(accessToken)
         }
 
-        return request
-            .sendBuffer(responseBody(pet))
+        return localVariableRequest
+            .sendBuffer(this.responseBody(pet))
             .map {
-                val apiResponse: ApiResponse<Pet?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Pet?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -132,18 +132,18 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null) : Unit {
-        return deletePetWithHttpInfo(petId = petId, apiKey = apiKey).map { localVarResponse ->
-            when (localVarResponse.responseType) {
+        return deletePetWithHttpInfo(petId = petId, apiKey = apiKey).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
                 ResponseType.Success -> Unit
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -161,25 +161,25 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String?) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("${this.basePath}/pet/{petId}".replace("{"+"petId"+"}", this.encodeURIComponent(petId.toString()))))
 
         
-        apiKey?.apply { request.putHeader("api_key", this.toString())}
+        apiKey?.apply { localVariableRequest.putHeader("api_key", this.toString())}
         
         
 
 
 
-        accessToken?.let { accessToken ->
-            request.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { accessToken ->
+            localVariableRequest.bearerTokenAuthentication(accessToken)
         }
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<Unit?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Unit?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -207,18 +207,18 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>) : kotlin.collections.List<Pet> {
-        return findPetsByStatusWithHttpInfo(status = status).map { localVarResponse ->
-            when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Pet>
+        return findPetsByStatusWithHttpInfo(status = status).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
+                ResponseType.Success -> (localVariableResponse as Success<*>).data as kotlin.collections.List<Pet>
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -236,26 +236,26 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>) : Future<ApiResponse<kotlin.collections.List<Pet>?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/findByStatus"))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/pet/findByStatus"))
 
         
         
         
-        request.putHeader("Accept", "application/xml, application/json")
+        localVariableRequest.putHeader("Accept", "application/xml, application/json")
 
 
-        status.let { request.queryParams().add("status", toMultiValue(it.toList(), "csv")) }
+        status.let { localVariableRequest.queryParams().add("status", toMultiValue(it.toList(), "csv")) }
 
-        accessToken?.let { accessToken ->
-            request.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { accessToken ->
+            localVariableRequest.bearerTokenAuthentication(accessToken)
         }
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<kotlin.collections.List<Pet>?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<kotlin.collections.List<Pet>?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -275,18 +275,18 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     @Deprecated(message = "This operation is deprecated.")
     suspend fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>) : kotlin.collections.List<Pet> {
-        return findPetsByTagsWithHttpInfo(tags = tags).map { localVarResponse ->
-            when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Pet>
+        return findPetsByTagsWithHttpInfo(tags = tags).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
+                ResponseType.Success -> (localVariableResponse as Success<*>).data as kotlin.collections.List<Pet>
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -305,26 +305,26 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Throws(IllegalStateException::class, IOException::class)
     @Deprecated(message = "This operation is deprecated.")
     fun findPetsByTagsWithHttpInfo(tags: kotlin.collections.List<kotlin.String>) : Future<ApiResponse<kotlin.collections.List<Pet>?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/findByTags"))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/pet/findByTags"))
 
         
         
         
-        request.putHeader("Accept", "application/xml, application/json")
+        localVariableRequest.putHeader("Accept", "application/xml, application/json")
 
 
-        tags.let { request.queryParams().add("tags", toMultiValue(it.toList(), "csv")) }
+        tags.let { localVariableRequest.queryParams().add("tags", toMultiValue(it.toList(), "csv")) }
 
-        accessToken?.let { accessToken ->
-            request.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { accessToken ->
+            localVariableRequest.bearerTokenAuthentication(accessToken)
         }
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<kotlin.collections.List<Pet>?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<kotlin.collections.List<Pet>?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -343,18 +343,18 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun getPetById(petId: kotlin.Long) : Pet {
-        return getPetByIdWithHttpInfo(petId = petId).map { localVarResponse ->
-            when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as Pet
+        return getPetByIdWithHttpInfo(petId = petId).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
+                ResponseType.Success -> (localVariableResponse as Success<*>).data as Pet
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -372,29 +372,29 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getPetByIdWithHttpInfo(petId: kotlin.Long) : Future<ApiResponse<Pet?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/pet/{petId}".replace("{"+"petId"+"}", this.encodeURIComponent(petId.toString()))))
 
         
         
         
-        request.putHeader("Accept", "application/xml, application/json")
+        localVariableRequest.putHeader("Accept", "application/xml, application/json")
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                localVariableRequest.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                localVariableRequest.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<Pet?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Pet?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -413,18 +413,18 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun updatePet(pet: Pet) : Pet {
-        return updatePetWithHttpInfo(pet = pet).map { localVarResponse ->
-            when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as Pet
+        return updatePetWithHttpInfo(pet = pet).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
+                ResponseType.Success -> (localVariableResponse as Success<*>).data as Pet
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -442,28 +442,28 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun updatePetWithHttpInfo(pet: Pet) : Future<ApiResponse<Pet?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.PUT, UriTemplate.of("$basePath/pet"))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.PUT, UriTemplate.of("${this.basePath}/pet"))
 
         
         
         
-                    request.putHeader("Content-Type", "application/json")
-                    request.putHeader("Content-Type", "application/xml")
+                    localVariableRequest.putHeader("Content-Type", "application/json")
+                    localVariableRequest.putHeader("Content-Type", "application/xml")
         
-        request.putHeader("Accept", "application/xml, application/json")
+        localVariableRequest.putHeader("Accept", "application/xml, application/json")
 
 
 
-        accessToken?.let { accessToken ->
-            request.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { accessToken ->
+            localVariableRequest.bearerTokenAuthentication(accessToken)
         }
 
-        return request
-            .sendBuffer(responseBody(pet))
+        return localVariableRequest
+            .sendBuffer(this.responseBody(pet))
             .map {
-                val apiResponse: ApiResponse<Pet?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Pet?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -483,18 +483,18 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null) : Unit {
-        return updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status).map { localVarResponse ->
-            when (localVarResponse.responseType) {
+        return updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
                 ResponseType.Success -> Unit
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -513,28 +513,28 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/pet/{petId}".replace("{"+"petId"+"}", this.encodeURIComponent(petId.toString()))))
 
-        request.putHeader("Content-Type", "application/x-www-form-urlencoded")
+        localVariableRequest.putHeader("Content-Type", "application/x-www-form-urlencoded")
         
         
         
 
-        val form = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
-        name?.let { form.add("name", name) }
-        status?.let { form.add("status", status) }
+        val localVariableForm = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
+        name?.let { localVariableForm.add("name", name) }
+        status?.let { localVariableForm.add("status", status) }
 
 
-        accessToken?.let { accessToken ->
-            request.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { accessToken ->
+            localVariableRequest.bearerTokenAuthentication(accessToken)
         }
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<Unit?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Unit?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -555,18 +555,18 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null) : ModelApiResponse {
-        return uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file).map { localVarResponse ->
-            when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as ModelApiResponse
+        return uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
+                ResponseType.Success -> (localVariableResponse as Success<*>).data as ModelApiResponse
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -586,28 +586,28 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : Future<ApiResponse<ModelApiResponse?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/pet/{petId}/uploadImage".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/pet/{petId}/uploadImage".replace("{"+"petId"+"}", this.encodeURIComponent(petId.toString()))))
 
-        request.putHeader("Content-Type", "multipart/form-data")
+        localVariableRequest.putHeader("Content-Type", "multipart/form-data")
         
         
-        request.putHeader("Accept", "application/json")
+        localVariableRequest.putHeader("Accept", "application/json")
 
-        val form = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
-        additionalMetadata?.let { form.add("additionalMetadata", additionalMetadata) }
-        file?.let { form.add("file", file.toString()) }
+        val localVariableForm = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
+        additionalMetadata?.let { localVariableForm.add("additionalMetadata", additionalMetadata) }
+        file?.let { localVariableForm.add("file", file.toString()) }
 
 
-        accessToken?.let { accessToken ->
-            request.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { accessToken ->
+            localVariableRequest.bearerTokenAuthentication(accessToken)
         }
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<ModelApiResponse?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<ModelApiResponse?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 

@@ -69,7 +69,7 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testEnumRefStringWithHttpInfo(enumNonrefStringQuery: EnumNonrefStringQueryTestEnumRefString? = null, enumRefStringQuery: StringEnumRef? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testEnumRefStringRequestConfig(enumNonrefStringQuery = enumNonrefStringQuery, enumRefStringQuery = enumRefStringQuery)
-        return request<Unit, kotlin.String>(
+        return this.request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -88,13 +88,13 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/enum_ref_string",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -112,7 +112,7 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testQueryDatetimeDateStringWithHttpInfo(datetimeQuery: java.time.OffsetDateTime? = null, dateQuery: java.time.LocalDate? = null, stringQuery: kotlin.String? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testQueryDatetimeDateStringRequestConfig(datetimeQuery = datetimeQuery, dateQuery = dateQuery, stringQuery = stringQuery)
-        return request<Unit, kotlin.String>(
+        return this.request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -122,10 +122,10 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (datetimeQuery != null) {
-                    put("datetime_query", listOf(parseDateToQueryString<java.time.OffsetDateTime>(datetimeQuery)))
+                    put("datetime_query", listOf(org.openapitools.client.infrastructure.parseDateToQueryString<java.time.OffsetDateTime>(datetimeQuery)))
                 }
                 if (dateQuery != null) {
-                    put("date_query", listOf(parseDateToQueryString<java.time.LocalDate>(dateQuery)))
+                    put("date_query", listOf(org.openapitools.client.infrastructure.parseDateToQueryString<java.time.LocalDate>(dateQuery)))
                 }
                 if (stringQuery != null) {
                     put("string_query", listOf(stringQuery.toString()))
@@ -134,13 +134,13 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/datetime/date/string",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -158,7 +158,7 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testQueryIntegerBooleanStringWithHttpInfo(integerQuery: kotlin.Int? = null, booleanQuery: kotlin.Boolean? = null, stringQuery: kotlin.String? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testQueryIntegerBooleanStringRequestConfig(integerQuery = integerQuery, booleanQuery = booleanQuery, stringQuery = stringQuery)
-        return request<Unit, kotlin.String>(
+        return this.request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -180,13 +180,13 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/integer/boolean/string",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -204,7 +204,7 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject: Pet? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testQueryStyleDeepObjectExplodeTrueObjectRequestConfig(queryObject = queryObject)
-        return request<Unit, kotlin.String>(
+        return this.request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -220,13 +220,13 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/style_deepObject/explode_true/object",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -244,7 +244,7 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testQueryStyleFormExplodeTrueArrayStringRequestConfig(queryObject = queryObject)
-        return request<Unit, kotlin.String>(
+        return this.request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -260,13 +260,13 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/style_form/explode_true/array_string",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -284,7 +284,7 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject: Pet? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testQueryStyleFormExplodeTrueObjectRequestConfig(queryObject = queryObject)
-        return request<Unit, kotlin.String>(
+        return this.request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -300,13 +300,13 @@ open class QueryApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/style_form/explode_true/object",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
