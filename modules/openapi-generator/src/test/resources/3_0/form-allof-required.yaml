@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  title: form allOf required
+  version: 1.0.0
+paths:
+  /register:
+    post:
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - type: object
+                  required:
+                    - query
+                  properties:
+                    query:
+                      type: string
+                - type: object
+                  required:
+                    - user_id
+                  properties:
+                    user_id:
+                      type: string
+                    nickname:
+                      type: string
+      responses:
+        '200':
+          description: ok
+  /register-top:
+    post:
+      operationId: registerTop
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - top
+              properties:
+                top:
+                  type: string
+              allOf:
+                - type: object
+                  required:
+                    - member_req
+                  properties:
+                    member_req:
+                      type: string
+                    member_opt:
+                      type: string
+      responses:
+        '200':
+          description: ok

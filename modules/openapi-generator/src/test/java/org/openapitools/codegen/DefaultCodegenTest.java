@@ -390,6 +390,50 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllOfFormRequiredMatchesByBaseName() {
+        // required matching must use the schema property name (baseName), not the
+        // normalized paramName: `user_id` -> `userId` used to silently drop the flag
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("query").required,
+                "allOf member required must apply");
+        assertTrue(paramsByBaseName.get("user_id").required,
+                "required must match the schema name even when paramName is normalized to userId");
+        assertFalse(paramsByBaseName.get("nickname").required,
+                "non-required allOf member stays optional");
+    }
+
+    @Test
+    public void testTopLevelRequiredDoesNotMaskAllOfMemberRequired() {
+        // sibling bug: a top-level `required` used to bypass the allOf-member
+        // required lists entirely
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-top").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("top").required,
+                "top-level required must apply");
+        assertTrue(paramsByBaseName.get("member_req").required,
+                "allOf member required must apply alongside top-level required");
+        assertFalse(paramsByBaseName.get("member_opt").required,
+                "non-required member stays optional");
+    }
+
+    @Test
     public void testOriginalOpenApiDocumentVersion() {
         // Test with OAS 2.0 document.
         String location = "src/test/resources/2_0/python-prior/petstore-with-fake-endpoints-models-for-testing.yaml";

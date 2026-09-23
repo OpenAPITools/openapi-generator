@@ -7915,12 +7915,15 @@ public class DefaultCodegen implements CodegenConfig {
                     // for oneOf/anyOf, mark all the properties collected from the sub-schemas as optional
                     // so that users can choose which property to include in the form parameters
                     codegenParameter.required = false;
-                } else if (!codegenParameter.required && schema.getRequired() != null) {
-                    // Set 'required' flag defined in the schema element
-                    codegenParameter.required = schema.getRequired().contains(entry.getKey());
                 } else if (!codegenParameter.required) {
-                    // Set 'required' flag for properties declared inside the allOf
-                    codegenParameter.required = allRequired.stream().anyMatch(r -> r.equals(codegenParameter.paramName));
+                    // 'required' applies to the schema property name (baseName); comparing
+                    // against the normalized paramName would silently drop the flag for
+                    // e.g. snake_case names or collision-renamed parameters. allRequired
+                    // already unions the top-level and allOf-member 'required' lists, and
+                    // 'original' covers a single-allOf wrapper's own required list.
+                    codegenParameter.required = allRequired.contains(entry.getKey())
+                            || (original != null && original.getRequired() != null
+                                    && original.getRequired().contains(entry.getKey()));
                 }
 
                 parameters.add(codegenParameter);
