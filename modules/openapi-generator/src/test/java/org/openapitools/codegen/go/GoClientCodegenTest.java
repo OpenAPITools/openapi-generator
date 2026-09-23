@@ -562,4 +562,61 @@ public class GoClientCodegenTest {
                 "validator.Validate",
                 "gopkg.in/validator.v2");
     }
+
+    @Test(description = "schema with both properties and oneOf must emit json tags on properties (#24916)")
+    public void testOneOfWithPropertiesEmitsJsonTags() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/oneof-with-properties.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelFile = Paths.get(output + "/model_thing.go");
+        TestUtils.assertFileExists(modelFile);
+
+        // Properties must have json tags even though oneOf is present
+        TestUtils.assertFileContains(modelFile,
+                "Kind string `json:\"kind\"`");
+        TestUtils.assertFileContains(modelFile,
+                "FirstValue []float32 `json:\"first_value,omitempty\"`");
+        TestUtils.assertFileContains(modelFile,
+                "SecondValue []float32 `json:\"second_value,omitempty\"`");
+
+        // Must not be rendered as a oneOf union struct
+        TestUtils.assertFileNotContains(modelFile,
+                "GetActualInstance");
+    }
+
+    @Test(description = "anyOf union model must not derive imports from its own properties (#24916)")
+    public void testUnionAnyOfWithPropertiesDoesNotImportTime() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/union-anyof-with-properties.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelFile = Paths.get(output + "/model_filter_any.go");
+        TestUtils.assertFileExists(modelFile);
+
+        // Rendered as an anyOf union struct, not a simple struct of its own properties
+        TestUtils.assertFileContains(modelFile,
+                "data failed to match schemas in anyOf(FilterAny)");
+
+        // The union template never emits the model's own "date" property, so the
+        // "time" import must not be added (it would be unused and break compilation)
+        TestUtils.assertFileNotContains(modelFile,
+                "\"time\"");
+    }
 }
