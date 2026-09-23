@@ -42,17 +42,17 @@
       }
     end
 
-    # Returns attribute mapping this model knows about{{#parent}}, including the ones defined in its parent(s){{/parent}}
+    # Returns attribute mapping this model knows about{{#parentModel}}, including the ones defined in its parent(s){{/parentModel}}
     def self.acceptable_attribute_map
-      {{^parent}}
+      {{^parentModel}}
       attribute_map
-      {{/parent}}
-      {{#parent}}
+      {{/parentModel}}
+      {{#parentModel}}
       superclass.acceptable_attribute_map.merge(attribute_map)
-      {{/parent}}
+      {{/parentModel}}
     end
 
-    # Returns all the JSON keys this model knows about{{#parent}}, including the ones defined in its parent(s){{/parent}}
+    # Returns all the JSON keys this model knows about{{#parentModel}}, including the ones defined in its parent(s){{/parentModel}}
     def self.acceptable_attributes
       acceptable_attribute_map.values
     end
@@ -77,24 +77,24 @@
       ])
     end
 
-    # Returns attribute type mapping{{#parent}}, including the ones defined in its parent(s){{/parent}}
+    # Returns attribute type mapping{{#parentModel}}, including the ones defined in its parent(s){{/parentModel}}
     def self.acceptable_openapi_types
-      {{^parent}}
+      {{^parentModel}}
       openapi_types
-      {{/parent}}
-      {{#parent}}
+      {{/parentModel}}
+      {{#parentModel}}
       superclass.acceptable_openapi_types.merge(openapi_types)
-      {{/parent}}
+      {{/parentModel}}
     end
 
-    # Returns the nullable attributes{{#parent}}, including the ones defined in its parent(s) that it does not redeclare{{/parent}}
+    # Returns the nullable attributes{{#parentModel}}, including the ones defined in its parent(s) that it does not redeclare{{/parentModel}}
     def self.acceptable_openapi_nullable
-      {{^parent}}
+      {{^parentModel}}
       openapi_nullable
-      {{/parent}}
-      {{#parent}}
+      {{/parentModel}}
+      {{#parentModel}}
       (superclass.acceptable_openapi_nullable - attribute_map.keys) | openapi_nullable
-      {{/parent}}
+      {{/parentModel}}
     end
 
     {{#anyOf}}
@@ -147,11 +147,11 @@
         end
         h[k.to_sym] = v
       }
-      {{#parent}}
+      {{#parentModel}}
 
       # call parent's initialize
       super(attributes)
-      {{/parent}}
+      {{/parentModel}}
       {{#vars}}
 
       if attributes.key?(:'{{{name}}}')

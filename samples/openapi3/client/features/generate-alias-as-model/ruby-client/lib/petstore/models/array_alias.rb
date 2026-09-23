@@ -21,12 +21,12 @@ module Petstore
       }
     end
 
-    # Returns attribute mapping this model knows about, including the ones defined in its parent(s)
+    # Returns attribute mapping this model knows about
     def self.acceptable_attribute_map
-      superclass.acceptable_attribute_map.merge(attribute_map)
+      attribute_map
     end
 
-    # Returns all the JSON keys this model knows about, including the ones defined in its parent(s)
+    # Returns all the JSON keys this model knows about
     def self.acceptable_attributes
       acceptable_attribute_map.values
     end
@@ -43,14 +43,14 @@ module Petstore
       ])
     end
 
-    # Returns attribute type mapping, including the ones defined in its parent(s)
+    # Returns attribute type mapping
     def self.acceptable_openapi_types
-      superclass.acceptable_openapi_types.merge(openapi_types)
+      openapi_types
     end
 
-    # Returns the nullable attributes, including the ones defined in its parent(s) that it does not redeclare
+    # Returns the nullable attributes
     def self.acceptable_openapi_nullable
-      (superclass.acceptable_openapi_nullable - attribute_map.keys) | openapi_nullable
+      openapi_nullable
     end
 
     # Initializes the object
@@ -68,9 +68,6 @@ module Petstore
         end
         h[k.to_sym] = v
       }
-
-      # call parent's initialize
-      super(attributes)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
