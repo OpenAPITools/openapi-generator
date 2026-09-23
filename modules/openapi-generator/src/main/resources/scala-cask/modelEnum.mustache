@@ -1,6 +1,7 @@
-enum {{classname}} derives RW :
-{{#allowableValues}}
-    {{#values}}
-    case {{.}}
-    {{/values}}
-{{/allowableValues}}
+enum {{classname}} derives RW {
+    {{#allowableValues}}
+        {{#values}}
+            case {{.}}
+        {{/values}}
+    {{/allowableValues}}
+}
