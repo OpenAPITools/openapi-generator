@@ -786,8 +786,16 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
             }
 
+            // Determine which properties the generated model will actually render. Models rendered
+            // as a oneOf/anyOf union (model_oneof.mustache / model_anyof.mustache) only emit the
+            // composed (inherited) schemas, while models rendered as a simple struct
+            // (model_simple.mustache) emit their own properties. Only derive imports/tags from the
+            // properties that are actually emitted, otherwise unused imports (e.g. "time") leak into
+            // the generated code.
+            boolean isUnionModel = (model.oneOf != null && !model.oneOf.isEmpty())
+                    || (model.anyOf != null && !model.anyOf.isEmpty());
             List<CodegenProperty> codegenProperties = new ArrayList<>();
-            if (model.vars != null && !model.vars.isEmpty()) {
+            if (!isUnionModel && model.vars != null && !model.vars.isEmpty()) {
                 codegenProperties.addAll(model.vars);
             } else {
                 codegenProperties.addAll(inheritedProperties);

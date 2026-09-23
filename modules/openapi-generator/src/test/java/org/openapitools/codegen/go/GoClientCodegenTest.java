@@ -592,4 +592,31 @@ public class GoClientCodegenTest {
         TestUtils.assertFileNotContains(modelFile,
                 "GetActualInstance");
     }
+
+    @Test(description = "anyOf union model must not derive imports from its own properties (#24916)")
+    public void testUnionAnyOfWithPropertiesDoesNotImportTime() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/union-anyof-with-properties.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelFile = Paths.get(output + "/model_filter_any.go");
+        TestUtils.assertFileExists(modelFile);
+
+        // Rendered as an anyOf union struct, not a simple struct of its own properties
+        TestUtils.assertFileContains(modelFile,
+                "data failed to match schemas in anyOf(FilterAny)");
+
+        // The union template never emits the model's own "date" property, so the
+        // "time" import must not be added (it would be unused and break compilation)
+        TestUtils.assertFileNotContains(modelFile,
+                "\"time\"");
+    }
 }
