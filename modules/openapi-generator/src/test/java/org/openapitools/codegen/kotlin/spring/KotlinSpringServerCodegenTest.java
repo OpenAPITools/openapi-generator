@@ -1,7 +1,5 @@
 package org.openapitools.codegen.kotlin.spring;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -26,7 +24,6 @@ import org.openapitools.codegen.languages.features.DocumentationProviderFeatures
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DocumentationProvider;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -37,7 +34,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -5504,35 +5500,9 @@ public class KotlinSpringServerCodegenTest {
         assertThat(codegen.additionalProperties().get(AUTO_X_SPRING_PAGINATED)).isEqualTo("true");
     }
 
-    /**
-     * Runs {@code action} with a ListAppender attached to the {@link KotlinSpringServerCodegen} logger and returns the
-     * number of autoXSpringPaginated deprecation warnings emitted on the current thread. Surefire runs
-     * test classes in parallel and the logger is shared, so events from other threads are ignored.
-     */
     private static long countDeprecationWarnings(Runnable action) {
-        ch.qos.logback.classic.Logger logger =
-                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-        logger.addAppender(listAppender);
-        try {
-            action.run();
-        } finally {
-            listAppender.stop();
-            logger.detachAppender(listAppender);
-        }
-
-        List<ILoggingEvent> events;
-        // ListAppender.list is a plain ArrayList; AppenderBase.doAppend synchronizes on the appender,
-        // so copy under the same monitor before iterating.
-        synchronized (listAppender) {
-            events = new ArrayList<>(listAppender.list);
-        }
-        String testThreadName = Thread.currentThread().getName();
-        return events.stream()
-                .filter(event -> event.getThreadName().equals(testThreadName))
-                .filter(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
-                        && event.getFormattedMessage().contains("deprecated"))
+        return TestUtils.captureLogMessages(KotlinSpringServerCodegen.class, action).stream()
+                .filter(message -> message.contains("autoXSpringPaginated") && message.contains("deprecated"))
                 .count();
     }
 
