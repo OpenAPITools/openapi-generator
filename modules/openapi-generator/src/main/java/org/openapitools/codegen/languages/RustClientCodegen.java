@@ -784,12 +784,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     param.isString = true;
                 }
 
-                // Free-form objects are typed `serde_json::Value`, which does not live in the
-                // generated `models` module. Mark them as primitive so the templates do not
-                // qualify the type with a `models::` prefix, mirroring what
-                // `DefaultCodegen.updateRequestBodyForObject` already does for free-form body
-                // parameters. Free-form schemas with `additionalProperties` map to a container
-                // type (`HashMap`) and must keep their existing handling.
+                // Free-form objects are `serde_json::Value`, which is not in `models`: mark them primitive, as
+                // DefaultCodegen.updateRequestBodyForObject does for bodies, so no `models::` prefix is added.
+                // Free-form maps (`additionalProperties`) are containers and keep their handling.
                 if (param.isFreeFormObject && !param.isContainer) {
                     param.isPrimitiveType = true;
                 }
