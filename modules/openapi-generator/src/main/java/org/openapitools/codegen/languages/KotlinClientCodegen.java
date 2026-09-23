@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -1216,14 +1217,23 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
      * `vars` (e.g. jvm-ktor) need the outer baseName to build URL keys like
      * `paramBaseName[fieldBaseName]` per the OAS deepObject style, and
      * Mustache provides no access to the outer scope from inside `{{#vars}}`.
+     *
+     * <p>The vars come from {@code DefaultCodegen.fromProperty()}'s cache, so
+     * the same instance can back multiple parameters; they are cloned before
+     * the parameter-local extension is attached to avoid leaking one
+     * parameter's baseName into another's wire keys.
      */
     private void propagateParamBaseNameToVars(CodegenParameter param) {
         if (!param.isQueryParam || !param.isModel || param.vars == null) {
             return;
         }
+        List<CodegenProperty> vars = new ArrayList<>(param.vars.size());
         for (CodegenProperty v : param.vars) {
-            v.vendorExtensions.put("x-kotlin-param-base-name", param.baseName);
+            CodegenProperty copy = v.clone();
+            copy.vendorExtensions.put("x-kotlin-param-base-name", param.baseName);
+            vars.add(copy);
         }
+        param.vars = vars;
     }
 
     /**

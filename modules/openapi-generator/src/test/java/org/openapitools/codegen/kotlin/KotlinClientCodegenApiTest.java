@@ -371,6 +371,18 @@ public class KotlinClientCodegenApiTest {
                     "deepObject wire prefix must not leak the renamed param");
             Assert.assertFalse(api.contains("put(\"foo[foo]\""),
                     "deepObject wire prefix must not collapse to the property name");
+            // two deepObject params share the same cached property instance;
+            // each must keep its own baseName on the wire (no cross-leak)
+            Assert.assertTrue(api.contains("put(\"localVariableQuery[foo]\""),
+                    "second deepObject param must keep its own baseName on the wire");
+            Assert.assertTrue(api.contains("paramLocalVariableQuery:"),
+                    "second colliding param name must be renamed");
+            // spelling variants normalize to the same internal local names and
+            // must hit the collision guard, keeping spec baseNames on the wire
+            Assert.assertTrue(api.contains("put(\"local_variable_headers\", listOf(paramLocalVariableHeaders.toString()))"),
+                    "snake_case variant must be renamed but keep spec wire name");
+            Assert.assertTrue(api.contains("put(\"LocalVariableQuery\", listOf(paramLocalVariableQuery.toString()))"),
+                    "PascalCase variant must be renamed but keep spec wire name");
         } finally {
             deleteRecursively(target);
         }

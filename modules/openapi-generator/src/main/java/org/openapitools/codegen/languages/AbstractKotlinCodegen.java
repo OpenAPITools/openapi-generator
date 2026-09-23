@@ -1125,15 +1125,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return "paramCallback";
         }
 
+        String paramName = toVariableName(name);
         // to avoid conflicts with the template-internal locals generated api
-        // functions declare (localVariableBody/localVariableQuery/localVariableHeaders)
-        if ("localVariableBody".equals(name) || "localVariableQuery".equals(name)
-                || "localVariableHeaders".equals(name)) {
-            return camelize("param_" + name, LOWERCASE_FIRST_LETTER);
+        // functions declare: compare the *normalized* name, so spelling variants
+        // (local_variable_body, LocalVariableBody, ...) cannot slip through and
+        // collide downstream
+        if ("localVariableBody".equals(paramName) || "localVariableQuery".equals(paramName)
+                || "localVariableHeaders".equals(paramName)) {
+            return toVariableName("param_" + name);
         }
-
-        // should be the same as variable name
-        return toVariableName(name);
+        return paramName;
     }
 
     @Override

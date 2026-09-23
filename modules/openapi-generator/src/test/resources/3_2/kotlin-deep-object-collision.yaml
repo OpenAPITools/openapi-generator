@@ -20,6 +20,39 @@ paths:
             properties:
               foo:
                 type: string
+        # a second deepObject param sharing the same property name: the
+        # property CodegenProperty instance is cache-shared, so the wire
+        # prefixes must stay parameter-local (localVariableQuery[foo] must
+        # not be overwritten to localVariableBody[foo] or vice versa)
+        - name: localVariableQuery
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            properties:
+              foo:
+                type: string
+      responses:
+        '200':
+          description: ok
+  /variants:
+    # spelling variants normalize to the same internal local names and must
+    # hit the same collision guard
+    get:
+      operationId: variantPets
+      parameters:
+        - name: local_variable_headers
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: LocalVariableQuery
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: ok
