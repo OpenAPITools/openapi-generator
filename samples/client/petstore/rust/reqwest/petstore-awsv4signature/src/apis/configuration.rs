@@ -13,6 +13,7 @@ use std::time::SystemTime;
 use aws_sigv4::http_request::{sign, SigningSettings, SigningParams, SignableRequest};
 use http;
 use secrecy::{SecretString, ExposeSecret};
+pub use reqwest::blocking::Client;
 
 #[derive(Debug, Clone)]
 pub struct Configuration {

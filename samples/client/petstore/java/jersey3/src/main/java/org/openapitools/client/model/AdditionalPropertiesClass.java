@@ -137,7 +137,6 @@ public class AdditionalPropertiesClass {
    * @return mapOfMapProperty
    */
   @jakarta.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_MAP_OF_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

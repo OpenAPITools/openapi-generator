@@ -8,7 +8,6 @@ package org.openapitools.api;
 import org.openapitools.model.ModelApiResponse;
 import org.springframework.lang.Nullable;
 import org.openapitools.model.Pet;
-import org.openapitools.model.ResponseObjectWithDifferentFieldNames;
 import java.util.Set;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +31,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public interface PetApi {
 
+    String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
      * 
@@ -42,15 +42,17 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "POST",
-        value = "/pet",
+        value = PetApi.PATH_ADD_PET,
         accept = { "application/json" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> addPet(
-         @Valid @RequestBody Mono<Pet> pet
+        
+ @Valid @RequestBody Mono<Pet> pet
     );
 
 
+    String PATH_DELETE_PET = "/pet/{petId}";
     /**
      * DELETE /pet/{petId} : Deletes a pet
      * 
@@ -62,15 +64,18 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "DELETE",
-        value = "/pet/{petId}",
+        value = PetApi.PATH_DELETE_PET,
         accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> deletePet(
-         @PathVariable("petId") Long petId,
-         @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
+        
+ @PathVariable("petId") Long petId,
+        
+ @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     );
 
 
+    String PATH_FIND_PETS_BY_STATUS = "/pet/findByStatus";
     /**
      * GET /pet/findByStatus : Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -81,14 +86,16 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "GET",
-        value = "/pet/findByStatus",
+        value = PetApi.PATH_FIND_PETS_BY_STATUS,
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(
-        @NotNull  @Valid @RequestParam(value = "status", required = true) List<String> status
+        @NotNull  @RequestParam(value = "status", required = true) List<String> status
+
     );
 
 
+    String PATH_FIND_PETS_BY_TAGS = "/pet/findByTags";
     /**
      * GET /pet/findByTags : Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -101,14 +108,16 @@ public interface PetApi {
     @Deprecated
     @HttpExchange(
         method = "GET",
-        value = "/pet/findByTags",
+        value = PetApi.PATH_FIND_PETS_BY_TAGS,
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
-        @NotNull  @Valid @RequestParam(value = "tags", required = true) Set<String> tags
+        @NotNull  @RequestParam(value = "tags", required = true) Set<String> tags
+
     );
 
 
+    String PATH_GET_PET_BY_ID = "/pet/{petId}";
     /**
      * GET /pet/{petId} : Find pet by ID
      * Returns a single pet
@@ -120,30 +129,16 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "GET",
-        value = "/pet/{petId}",
+        value = PetApi.PATH_GET_PET_BY_ID,
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<Pet>> getPetById(
-         @PathVariable("petId") Long petId
+        
+ @PathVariable("petId") Long petId
     );
 
 
-    /**
-     * GET /fake/{petId}/response-object-different-names
-     *
-     * @param petId ID of pet to update (required)
-     * @return successful operation (status code 200)
-     */
-    @HttpExchange(
-        method = "GET",
-        value = "/fake/{petId}/response-object-different-names",
-        accept = { "application/json" }
-    )
-    Mono<ResponseEntity<ResponseObjectWithDifferentFieldNames>> responseObjectDifferentNames(
-         @PathVariable("petId") Long petId
-    );
-
-
+    String PATH_UPDATE_PET = "/pet";
     /**
      * PUT /pet : Update an existing pet
      * 
@@ -156,15 +151,17 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "PUT",
-        value = "/pet",
+        value = PetApi.PATH_UPDATE_PET,
         accept = { "application/json" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> updatePet(
-         @Valid @RequestBody Mono<Pet> pet
+        
+ @Valid @RequestBody Mono<Pet> pet
     );
 
 
+    String PATH_UPDATE_PET_WITH_FORM = "/pet/{petId}";
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
      * 
@@ -176,17 +173,21 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "POST",
-        value = "/pet/{petId}",
+        value = PetApi.PATH_UPDATE_PET_WITH_FORM,
         accept = { "application/json" },
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> updatePetWithForm(
-         @PathVariable("petId") Long petId,
-         @Valid @RequestPart(value = "name", required = false) String name,
-         @Valid @RequestPart(value = "status", required = false) String status
+        
+ @PathVariable("petId") Long petId,
+        
+ @Valid @RequestPart(value = "name", required = false) String name,
+        
+ @Valid @RequestPart(value = "status", required = false) String status
     );
 
 
+    String PATH_UPLOAD_FILE = "/pet/{petId}/uploadImage";
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
      * 
@@ -198,36 +199,17 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "POST",
-        value = "/pet/{petId}/uploadImage",
+        value = PetApi.PATH_UPLOAD_FILE,
         accept = { "application/json" },
         contentType = "multipart/form-data"
     )
     Mono<ResponseEntity<ModelApiResponse>> uploadFile(
-         @PathVariable("petId") Long petId,
-         @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
-         @RequestPart(value = "file", required = false) Part file
-    );
-
-
-    /**
-     * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
-     * 
-     *
-     * @param petId ID of pet to update (required)
-     * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @return successful operation (status code 200)
-     */
-    @HttpExchange(
-        method = "POST",
-        value = "/fake/{petId}/uploadImageWithRequiredFile",
-        accept = { "application/json" },
-        contentType = "multipart/form-data"
-    )
-    Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(
-         @PathVariable("petId") Long petId,
-         @RequestPart(value = "requiredFile", required = true) Part requiredFile,
-         @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
+        
+ @PathVariable("petId") Long petId,
+        
+ @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
+        
+ @RequestPart(value = "file", required = false) Part file
     );
 
 }

@@ -28,6 +28,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public interface PetApi {
 
+    String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
      * 
@@ -38,15 +39,17 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "POST",
-        value = "/pet",
+        value = PetApi.PATH_ADD_PET,
         accept = { "application/json" },
         contentType = "application/json"
     )
     ResponseEntity<Void> addPet(
-         @Valid @RequestBody Pet pet
+        
+ @Valid @RequestBody Pet pet
     );
 
 
+    String PATH_DELETE_PET = "/pet/{petId}";
     /**
      * DELETE /pet/{petId} : Deletes a pet
      * 
@@ -58,15 +61,18 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "DELETE",
-        value = "/pet/{petId}",
+        value = PetApi.PATH_DELETE_PET,
         accept = { "application/json" }
     )
     ResponseEntity<Void> deletePet(
-         @PathVariable("petId") Long petId,
-         @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
+        
+ @PathVariable("petId") Long petId,
+        
+ @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     );
 
 
+    String PATH_FIND_PETS_BY_STATUS = "/pet/findByStatus";
     /**
      * GET /pet/findByStatus : Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -77,14 +83,16 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "GET",
-        value = "/pet/findByStatus",
+        value = PetApi.PATH_FIND_PETS_BY_STATUS,
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull  @Valid @RequestParam(value = "status", required = true) List<String> status
+        @NotNull  @RequestParam(value = "status", required = true) List<String> status
+
     );
 
 
+    String PATH_FIND_PETS_BY_TAGS = "/pet/findByTags";
     /**
      * GET /pet/findByTags : Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -97,14 +105,16 @@ public interface PetApi {
     @Deprecated
     @HttpExchange(
         method = "GET",
-        value = "/pet/findByTags",
+        value = PetApi.PATH_FIND_PETS_BY_TAGS,
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<Set<Pet>> findPetsByTags(
-        @NotNull  @Valid @RequestParam(value = "tags", required = true) Set<String> tags
+        @NotNull  @RequestParam(value = "tags", required = true) Set<String> tags
+
     );
 
 
+    String PATH_GET_PET_BY_ID = "/pet/{petId}";
     /**
      * GET /pet/{petId} : Find pet by ID
      * Returns a single pet
@@ -116,14 +126,16 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "GET",
-        value = "/pet/{petId}",
+        value = PetApi.PATH_GET_PET_BY_ID,
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<Pet> getPetById(
-         @PathVariable("petId") Long petId
+        
+ @PathVariable("petId") Long petId
     );
 
 
+    String PATH_RESPONSE_OBJECT_DIFFERENT_NAMES = "/fake/{petId}/response-object-different-names";
     /**
      * GET /fake/{petId}/response-object-different-names
      *
@@ -132,14 +144,16 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "GET",
-        value = "/fake/{petId}/response-object-different-names",
+        value = PetApi.PATH_RESPONSE_OBJECT_DIFFERENT_NAMES,
         accept = { "application/json" }
     )
     ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
-         @PathVariable("petId") Long petId
+        
+ @PathVariable("petId") Long petId
     );
 
 
+    String PATH_UPDATE_PET = "/pet";
     /**
      * PUT /pet : Update an existing pet
      * 
@@ -152,15 +166,17 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "PUT",
-        value = "/pet",
+        value = PetApi.PATH_UPDATE_PET,
         accept = { "application/json" },
         contentType = "application/json"
     )
     ResponseEntity<Void> updatePet(
-         @Valid @RequestBody Pet pet
+        
+ @Valid @RequestBody Pet pet
     );
 
 
+    String PATH_UPDATE_PET_WITH_FORM = "/pet/{petId}";
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
      * 
@@ -172,17 +188,21 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "POST",
-        value = "/pet/{petId}",
+        value = PetApi.PATH_UPDATE_PET_WITH_FORM,
         accept = { "application/json" },
         contentType = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> updatePetWithForm(
-         @PathVariable("petId") Long petId,
-         @Valid @RequestParam(value = "name", required = false) String name,
-         @Valid @RequestParam(value = "status", required = false) String status
+        
+ @PathVariable("petId") Long petId,
+        
+ @Valid @RequestParam(value = "name", required = false) String name,
+        
+ @Valid @RequestParam(value = "status", required = false) String status
     );
 
 
+    String PATH_UPLOAD_FILE = "/pet/{petId}/uploadImage";
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
      * 
@@ -194,17 +214,21 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "POST",
-        value = "/pet/{petId}/uploadImage",
+        value = PetApi.PATH_UPLOAD_FILE,
         accept = { "application/json" },
         contentType = "multipart/form-data"
     )
     ResponseEntity<ModelApiResponse> uploadFile(
-         @PathVariable("petId") Long petId,
-         @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
-         @RequestPart(value = "file", required = false) MultipartFile file
+        
+ @PathVariable("petId") Long petId,
+        
+ @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+        
+ @RequestPart(value = "file", required = false) MultipartFile file
     );
 
 
+    String PATH_UPLOAD_FILE_WITH_REQUIRED_FILE = "/fake/{petId}/uploadImageWithRequiredFile";
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
      * 
@@ -216,14 +240,17 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "POST",
-        value = "/fake/{petId}/uploadImageWithRequiredFile",
+        value = PetApi.PATH_UPLOAD_FILE_WITH_REQUIRED_FILE,
         accept = { "application/json" },
         contentType = "multipart/form-data"
     )
     ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
-         @PathVariable("petId") Long petId,
-         @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
-         @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
+        
+ @PathVariable("petId") Long petId,
+        
+ @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
+        
+ @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     );
 
 }

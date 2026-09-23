@@ -67,7 +67,8 @@ public interface StoreApi {
         value = StoreApi.PATH_DELETE_ORDER
     )
     default Mono<ResponseEntity<Void>> deleteOrder(
-        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId,
+        
+@Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().deleteOrder(orderId, exchange);
@@ -137,7 +138,8 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<Order>> getOrderById(
-        @Min(value = 1L) @Max(value = 5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId,
+        
+@Min(value = 1L) @Max(value = 5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().getOrderById(orderId, exchange);
@@ -173,7 +175,8 @@ public interface StoreApi {
         consumes = { "application/json" }
     )
     default Mono<ResponseEntity<Order>> placeOrder(
-        @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> order,
+        
+@Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> order,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().placeOrder(order, exchange);

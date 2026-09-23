@@ -31,7 +31,8 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
     })
-    public Response createUser(@Valid @NotNull User user) {
+    public Response createUser(@Valid @NotNull User user
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -42,7 +43,8 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
     })
-    public Response createUsersWithArrayInput(@Valid @NotNull List<@Valid User> user) {
+    public Response createUsersWithArrayInput(@NotNull List<@Valid User> user
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -53,7 +55,8 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
     })
-    public Response createUsersWithListInput(@Valid @NotNull List<@Valid User> user) {
+    public Response createUsersWithListInput(@NotNull List<@Valid User> user
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -64,7 +67,8 @@ public class UserApi {
         @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public Response deleteUser(@PathParam("username") String username) {
+    public Response deleteUser(@PathParam("username") String username
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -77,7 +81,8 @@ public class UserApi {
         @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public Response getUserByName(@PathParam("username") String username) {
+    public Response getUserByName(@PathParam("username") String username
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -89,7 +94,9 @@ public class UserApi {
         @ApiResponse(responseCode = "200", description = "successful operation"),
         @ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
     })
-    public Response loginUser(@QueryParam("username") @NotNull   String username,@QueryParam("password") @NotNull   String password) {
+    public Response loginUser(@QueryParam("username") @NotNull   String username
+,@QueryParam("password") @NotNull   String password
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -111,7 +118,9 @@ public class UserApi {
         @ApiResponse(responseCode = "400", description = "Invalid user supplied"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public Response updateUser(@PathParam("username") String username,@Valid @NotNull User user) {
+    public Response updateUser(@PathParam("username") String username
+,@Valid @NotNull User user
+) {
         return Response.ok().entity("magic!").build();
     }
 }

@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (activityOutputs.IsSet && activityOutputs.Value == null)
-                throw new ArgumentNullException(nameof(activityOutputs), "Property is not nullable for class Activity.");
+                throw new JsonException("Property is not nullable for class Activity: activity_outputs.");
 
             return new Activity(activityOutputs);
         }
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Activity activity, JsonSerializerOptions jsonSerializerOptions)
         {
             if (activity.ActivityOutputsOption.IsSet && activity.ActivityOutputs == null)
-                throw new ArgumentNullException(nameof(activity.ActivityOutputs), "Property is required for class Activity.");
+                throw new JsonException("Cannot write null property Activity.ActivityOutputs to non-nullable JSON property 'activity_outputs'.");
 
             if (activity.ActivityOutputsOption.IsSet)
             {

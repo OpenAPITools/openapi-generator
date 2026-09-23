@@ -27,7 +27,8 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUser(@Valid @NotNull User body) {
+    public Response createUser(@Valid @NotNull User body
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -37,7 +38,8 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUsersWithArrayInput(@Valid @NotNull List<@Valid User> body) {
+    public Response createUsersWithArrayInput(@NotNull List<@Valid User> body
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -47,7 +49,8 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUsersWithListInput(@Valid @NotNull List<@Valid User> body) {
+    public Response createUsersWithListInput(@NotNull List<@Valid User> body
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -58,7 +61,8 @@ public class UserApi {
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class)
     })
-    public Response deleteUser(@PathParam("username") @ApiParam("The name that needs to be deleted") String username) {
+    public Response deleteUser(@PathParam("username") @ApiParam("The name that needs to be deleted") String username
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -71,7 +75,8 @@ public class UserApi {
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class)
     })
-    public Response getUserByName(@PathParam("username") @ApiParam("The name that needs to be fetched. Use user1 for testing.") String username) {
+    public Response getUserByName(@PathParam("username") @ApiParam("The name that needs to be fetched. Use user1 for testing.") String username
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -83,7 +88,9 @@ public class UserApi {
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class)
     })
-    public Response loginUser(@QueryParam("username") @NotNull  @ApiParam("The user name for login")  String username,@QueryParam("password") @NotNull  @ApiParam("The password for login in clear text")  String password) {
+    public Response loginUser(@QueryParam("username") @NotNull  @ApiParam("The user name for login")  String username
+,@QueryParam("password") @NotNull  @ApiParam("The password for login in clear text")  String password
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -104,7 +111,9 @@ public class UserApi {
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class)
     })
-    public Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid @NotNull User body) {
+    public Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username
+,@Valid @NotNull User body
+) {
         return Response.ok().entity("magic!").build();
     }
 }

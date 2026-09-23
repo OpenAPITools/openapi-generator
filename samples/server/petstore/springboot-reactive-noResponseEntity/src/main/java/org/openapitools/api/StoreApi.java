@@ -67,7 +67,8 @@ public interface StoreApi {
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default Mono<Void> deleteOrder(
-        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId
+        
+@Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId
     ) {
         return getDelegate().deleteOrder(orderId);
     }
@@ -138,7 +139,8 @@ public interface StoreApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Order> getOrderById(
-        @Min(value = 1L) @Max(value = 5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
+        
+@Min(value = 1L) @Max(value = 5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
     ) {
         return getDelegate().getOrderById(orderId);
     }
@@ -174,7 +176,8 @@ public interface StoreApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Order> placeOrder(
-        @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> order
+        
+@Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> order
     ) {
         return getDelegate().placeOrder(order);
     }

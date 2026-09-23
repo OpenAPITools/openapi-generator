@@ -5,6 +5,7 @@
  */
 package org.openapitools.api;
 
+import org.openapitools.model.ApiResponseDto;
 import java.math.BigDecimal;
 import org.openapitools.model.ChildWithNullableDto;
 import org.openapitools.model.ClientDto;
@@ -15,6 +16,7 @@ import java.util.Map;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterCompositeDto;
+import org.openapitools.model.ResponseObjectWithDifferentFieldNamesDto;
 import org.openapitools.model.UserDto;
 import org.openapitools.model.XmlItemDto;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public interface FakeApi {
 
+    String PATH_CREATE_XML_ITEM = "/fake/create_xml_item";
     /**
      * POST /fake/create_xml_item : creates an XmlItem
      * this route creates an XmlItem
@@ -42,7 +45,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
-        value = "/fake/create_xml_item",
+        value = FakeApi.PATH_CREATE_XML_ITEM,
         accept = { "application/json" },
         contentType = "application/xml"
     )
@@ -51,6 +54,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_FAKE_OUTER_BOOLEAN_SERIALIZE = "/fake/outer/boolean";
     /**
      * POST /fake/outer/boolean
      * Test serialization of outer boolean types
@@ -61,7 +65,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
-        value = "/fake/outer/boolean",
+        value = FakeApi.PATH_FAKE_OUTER_BOOLEAN_SERIALIZE,
         accept = { "*/*" },
         contentType = "application/json"
     )
@@ -70,6 +74,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_FAKE_OUTER_COMPOSITE_SERIALIZE = "/fake/outer/composite";
     /**
      * POST /fake/outer/composite
      * Test serialization of object with outer number type
@@ -80,7 +85,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
-        value = "/fake/outer/composite",
+        value = FakeApi.PATH_FAKE_OUTER_COMPOSITE_SERIALIZE,
         accept = { "*/*" },
         contentType = "application/json"
     )
@@ -89,6 +94,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_FAKE_OUTER_NUMBER_SERIALIZE = "/fake/outer/number";
     /**
      * POST /fake/outer/number
      * Test serialization of outer number types
@@ -99,7 +105,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
-        value = "/fake/outer/number",
+        value = FakeApi.PATH_FAKE_OUTER_NUMBER_SERIALIZE,
         accept = { "*/*" },
         contentType = "application/json"
     )
@@ -108,6 +114,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_FAKE_OUTER_STRING_SERIALIZE = "/fake/outer/string";
     /**
      * POST /fake/outer/string
      * Test serialization of outer string types
@@ -118,7 +125,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
-        value = "/fake/outer/string",
+        value = FakeApi.PATH_FAKE_OUTER_STRING_SERIALIZE,
         accept = { "*/*" },
         contentType = "application/json"
     )
@@ -127,6 +134,25 @@ public interface FakeApi {
     );
 
 
+    String PATH_RESPONSE_OBJECT_DIFFERENT_NAMES = "/fake/{petId}/response-object-different-names";
+    /**
+     * GET /fake/{petId}/response-object-different-names
+     *
+     * @param petId ID of pet to update (required)
+     * @return successful operation (status code 200)
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @HttpExchange(
+        method = "GET",
+        value = FakeApi.PATH_RESPONSE_OBJECT_DIFFERENT_NAMES,
+        accept = { "application/json" }
+    )
+    ResponseObjectWithDifferentFieldNamesDto responseObjectDifferentNames(
+         @PathVariable("petId") Long petId
+    );
+
+
+    String PATH_TEST_BODY_WITH_FILE_SCHEMA = "/fake/body-with-file-schema";
     /**
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request must reference a schema named `File`.
@@ -137,7 +163,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "PUT",
-        value = "/fake/body-with-file-schema",
+        value = FakeApi.PATH_TEST_BODY_WITH_FILE_SCHEMA,
         accept = { "application/json" },
         contentType = "application/json"
     )
@@ -146,6 +172,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_TEST_BODY_WITH_QUERY_PARAMS = "/fake/body-with-query-params";
     /**
      * PUT /fake/body-with-query-params
      *
@@ -156,7 +183,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "PUT",
-        value = "/fake/body-with-query-params",
+        value = FakeApi.PATH_TEST_BODY_WITH_QUERY_PARAMS,
         accept = { "application/json" },
         contentType = "application/json"
     )
@@ -166,6 +193,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_TEST_CLIENT_MODEL = "/fake";
     /**
      * PATCH /fake : To test &quot;client&quot; model
      * To test &quot;client&quot; model
@@ -176,7 +204,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "PATCH",
-        value = "/fake",
+        value = FakeApi.PATH_TEST_CLIENT_MODEL,
         accept = { "application/json" },
         contentType = "application/json"
     )
@@ -185,6 +213,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_TEST_ENDPOINT_PARAMETERS = "/fake";
     /**
      * POST /fake : Fake endpoint for testing various parameters
      *  假端點
@@ -215,7 +244,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
         method = "POST",
-        value = "/fake",
+        value = FakeApi.PATH_TEST_ENDPOINT_PARAMETERS,
         accept = { "application/json" },
         contentType = "application/x-www-form-urlencoded"
     )
@@ -237,6 +266,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_TEST_ENUM_PARAMETERS = "/fake";
     /**
      * GET /fake : To test enum parameters
      * To test enum parameters
@@ -255,7 +285,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
         method = "GET",
-        value = "/fake",
+        value = FakeApi.PATH_TEST_ENUM_PARAMETERS,
         accept = { "application/json" },
         contentType = "application/x-www-form-urlencoded"
     )
@@ -271,6 +301,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_TEST_GROUP_PARAMETERS = "/fake";
     /**
      * DELETE /fake : Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -286,7 +317,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
         method = "DELETE",
-        value = "/fake",
+        value = FakeApi.PATH_TEST_GROUP_PARAMETERS,
         accept = { "application/json" }
     )
     void testGroupParameters(
@@ -299,6 +330,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_TEST_INLINE_ADDITIONAL_PROPERTIES = "/fake/inline-additionalProperties";
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
      * 
@@ -309,7 +341,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
-        value = "/fake/inline-additionalProperties",
+        value = FakeApi.PATH_TEST_INLINE_ADDITIONAL_PROPERTIES,
         accept = { "application/json" },
         contentType = "application/json"
     )
@@ -318,6 +350,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_TEST_JSON_FORM_DATA = "/fake/jsonFormData";
     /**
      * GET /fake/jsonFormData : test json serialization of form data
      * 
@@ -329,7 +362,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "GET",
-        value = "/fake/jsonFormData",
+        value = FakeApi.PATH_TEST_JSON_FORM_DATA,
         accept = { "application/json" },
         contentType = "application/x-www-form-urlencoded"
     )
@@ -339,6 +372,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_TEST_NULLABLE = "/fake/nullable";
     /**
      * POST /fake/nullable : test nullable parent property
      * 
@@ -349,7 +383,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
-        value = "/fake/nullable",
+        value = FakeApi.PATH_TEST_NULLABLE,
         accept = { "application/json" },
         contentType = "application/json"
     )
@@ -358,6 +392,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT = "/fake/test-query-parameters";
     /**
      * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
@@ -371,7 +406,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "PUT",
-        value = "/fake/test-query-parameters",
+        value = FakeApi.PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT,
         accept = { "application/json" }
     )
     void testQueryParameterCollectionFormat(
@@ -382,6 +417,7 @@ public interface FakeApi {
     );
 
 
+    String PATH_TEST_WITH_RESULT_EXAMPLE = "/fake/response-with-example";
     /**
      * GET /fake/response-with-example
      * This endpoint defines an example value for its response schema.
@@ -391,11 +427,35 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "GET",
-        value = "/fake/response-with-example",
+        value = FakeApi.PATH_TEST_WITH_RESULT_EXAMPLE,
         accept = { "application/json" }
     )
     Integer testWithResultExample(
         
+    );
+
+
+    String PATH_UPLOAD_FILE_WITH_REQUIRED_FILE = "/fake/{petId}/uploadImageWithRequiredFile";
+    /**
+     * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
+     * 
+     *
+     * @param petId ID of pet to update (required)
+     * @param requiredFile file to upload (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @return successful operation (status code 200)
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @HttpExchange(
+        method = "POST",
+        value = FakeApi.PATH_UPLOAD_FILE_WITH_REQUIRED_FILE,
+        accept = { "application/json" },
+        contentType = "multipart/form-data"
+    )
+    ApiResponseDto uploadFileWithRequiredFile(
+         @PathVariable("petId") Long petId,
+         @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
+         @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     );
 
 }
