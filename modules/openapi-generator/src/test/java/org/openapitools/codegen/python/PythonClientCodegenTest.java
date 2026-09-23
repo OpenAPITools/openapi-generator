@@ -724,7 +724,7 @@ public class PythonClientCodegenTest {
         assertFileContains(apiInitFile.toPath(), "from my_pkg.my_api.pet_api import PetApi");
     }
 
-    @Test(description = "Verify an object query parameter is exploded, whether or not it declares its properties")
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
     public void testExplodedObjectQueryParameter() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -740,37 +740,23 @@ public class PythonClientCodegenTest {
 
         Path api = Paths.get(output.getAbsolutePath(), "openapi_client", "api", "default_api.py");
 
-        // form style with explode - the default - puts every entry on the wire under its own
-        // property name. Handing the whole dict to _query_params instead leaves ApiClient to
-        // json encode it, which is what used to happen.
         TestUtils.assertFileContains(api,
-            "for _key, _value in filter.items():",
-            "_query_params.append((_key, _value))");
+            "_query_params.extend(self.api_client.explode_query_object('filter', filter))",
+            "_query_params.extend(self.api_client.explode_query_object('typedFilter', typed_filter))");
         TestUtils.assertFileNotContains(api, "_query_params.append(('filter', filter))");
-
-        // a null entry, and a null item of an entry holding a list, contribute nothing. Without
-        // the guards they reach parameters_to_url_query, which quotes str(None) and puts the
-        // literal "None" on the wire.
-        TestUtils.assertFileContains(api,
-            "if _value is None:",
-            "_query_params.extend((_key, _item) for _item in _value if _item is not None)");
-
-        // a declared map behaves the same way
-        TestUtils.assertFileContains(api, "for _key, _value in typed_filter.items():");
 
         // deepObject and form without explode both keep a single parameter
         TestUtils.assertFileContains(api,
             "_query_params.append(('deepFilter', deep_filter))",
             "_query_params.append(('flatFilter', flat_filter))");
-        TestUtils.assertFileNotContains(api, "for _key, _value in deep_filter.items():");
-        TestUtils.assertFileNotContains(api, "for _key, _value in flat_filter.items():");
+        TestUtils.assertFileNotContains(api,
+            "explode_query_object('deepFilter', deep_filter)",
+            "explode_query_object('flatFilter', flat_filter)");
 
-        // An exploded object takes its names from the object, so a property name can collide
-        // with a sibling array parameter's name. The collection format must only be applied
-        // to a value that actually is a collection, or "context": "en" alongside a
-        // context: multi array parameter would go on the wire as context=e&context=n.
+        // a collection format applies only to a list, so an exploded "context": "en" next to a context: multi array stays context=en
         Path apiClient = Paths.get(output.getAbsolutePath(), "openapi_client", "api_client.py");
         TestUtils.assertFileContains(apiClient,
+            "def explode_query_object(self, name, obj):",
             "if k in collection_formats and isinstance(v, (list, tuple)):");
     }
 
@@ -790,35 +776,20 @@ public class PythonClientCodegenTest {
 
         Path api = Paths.get(output.getAbsolutePath(), "openapi_client", "api", "default_api.py");
 
-        // an object with declared properties is a model, not a map, and form style with explode
-        // - the default - must still put every property on the wire under its own name. The
-        // model is serialized first so the names are the wire names (createdDate:gte, not the
-        // python attribute), and anything that does not serialize to a dict - a oneOf holding a
-        // primitive - stays a single parameter carrying the serialized value. A oneOf holding a
-        // list repeats the parameter name per item instead of sending the list's repr. The wire
-        // format itself is pinned by the echo_api python sample tests
-        // (test_query_style_form_explode_true_object*).
+        // a model is serialized first (wire names), then exploded; a oneOf holding a primitive stays one parameter, one holding a list repeats the name
         TestUtils.assertFileContains(api,
-            "_serialized = self.api_client.sanitize_for_serialization(ref_filter)",
-            "_serialized = self.api_client.sanitize_for_serialization(inline_filter)",
-            "_serialized = self.api_client.sanitize_for_serialization(one_of_filter)",
-            "for _key, _value in _serialized.items():",
-            "_query_params.extend((_key, _item) for _item in _value if _item is not None)",
-            "_query_params.append((_key, _value))",
-            "_query_params.extend(('oneOfFilter', _item) for _item in _serialized if _item is not None)",
-            "_query_params.append(('oneOfFilter', _serialized))");
+            "_query_params.extend(self.api_client.explode_query_object('refFilter', ref_filter))",
+            "_query_params.extend(self.api_client.explode_query_object('inlineFilter', inline_filter))",
+            "_query_params.extend(self.api_client.explode_query_object('oneOfFilter', one_of_filter))");
         TestUtils.assertFileNotContains(api, "_query_params.append(('oneOfFilter', one_of_filter))");
-
-        // a null property, and a null item of a property holding a list, contribute nothing
-        TestUtils.assertFileContains(api, "if _value is None:");
 
         // deepObject and form without explode both keep a single parameter
         TestUtils.assertFileContains(api,
             "_query_params.append(('deepFilter', deep_filter))",
             "_query_params.append(('flatFilter', flat_filter))");
         TestUtils.assertFileNotContains(api,
-            "sanitize_for_serialization(deep_filter)",
-            "sanitize_for_serialization(flat_filter)");
+            "explode_query_object('deepFilter', deep_filter)",
+            "explode_query_object('flatFilter', flat_filter)");
     }
 
     @Test(description = "Verify default license format uses object notation when poetry1 is false")

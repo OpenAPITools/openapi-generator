@@ -316,6 +316,21 @@ class ApiClientTests(unittest.TestCase):
             collection_formats={})
         self.assertEqual(params, "createdDate%3Agte=2023-01-01&a%26b=c")
 
+    def test_explode_query_object(self):
+        # one pair per entry; a list repeats the name, None is left out, values are serialized
+        params = self.api_client.explode_query_object('filter', {'a': 'b', 'k': None, 'l': ['x', None, 2], 'd': parse('2020-01-02').date()})
+        self.assertEqual(params, [('a', 'b'), ('l', 'x'), ('l', 2), ('d', '2020-01-02')])
+
+    def test_explode_query_object_model(self):
+        # a model explodes under its wire names, and unset properties contribute nothing
+        params = self.api_client.explode_query_object('pet', petstore_api.Pet(name='doggie', photoUrls=['a', 'b']))
+        self.assertEqual(params, [('name', 'doggie'), ('photoUrls', 'a'), ('photoUrls', 'b')])
+
+    def test_explode_query_object_not_a_dict(self):
+        # a value that does not serialize to a dict stays under the parameter name
+        self.assertEqual(self.api_client.explode_query_object('q', 'x'), [('q', 'x')])
+        self.assertEqual(self.api_client.explode_query_object('q', ['x', None, 'y']), [('q', 'x'), ('q', 'y')])
+
     def test_parameters_to_url_query_list_value(self):
         params = self.api_client.parameters_to_url_query(params=[('list', [1, 2, 3])],
                                                          collection_formats={'list': 'multi'})
