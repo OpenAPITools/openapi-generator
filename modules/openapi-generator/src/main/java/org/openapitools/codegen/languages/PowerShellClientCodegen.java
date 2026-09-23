@@ -106,7 +106,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
+                .stability(Stability.STABLE)
                 .build();
 
         outputFolder = "generated-code" + File.separator + "powershell-experimental";
