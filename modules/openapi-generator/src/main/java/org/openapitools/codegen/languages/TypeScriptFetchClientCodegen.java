@@ -162,7 +162,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DATE_LIBRARY_DATE, "Native Date. `format: date` and `format: date-time` are both mapped to Date and (de)serialized by the runtime.");
         dateOptions.put(DATE_LIBRARY_STRING, "Plain string. Values are passed through untouched, leaving date handling to the consumer.");
-        dateOptions.put(DATE_LIBRARY_TEMPORAL, "Native Temporal. `format: date` is mapped to Temporal.PlainDate and `format: date-time` is mapped to Temporal.Instant and (de)serialized by the runtime.");
+        dateOptions.put(DATE_LIBRARY_TEMPORAL, "Native Temporal. `format: date` is mapped to Temporal.PlainDate and `format: date-time` is mapped to Temporal.Instant and (de)serialized by the runtime. (Experimental support) ");
         dateLibraryOption.setEnum(dateOptions);
         this.cliOptions.add(dateLibraryOption);
         this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
