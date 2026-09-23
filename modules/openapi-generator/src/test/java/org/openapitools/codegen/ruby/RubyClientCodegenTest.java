@@ -71,7 +71,7 @@ public class RubyClientCodegenTest {
         }
     }
 
-    @Test(description = "Verify an object query parameter is exploded, whether or not it declares its properties")
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
     public void testExplodedObjectQueryParameter() throws Exception {
         final File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -92,14 +92,15 @@ public class RubyClientCodegenTest {
 
         // form style with explode - the default - puts every entry on the wire under its own
         // property name. Assigning the whole hash under the parameter name left the http
-        // library to serialize it in bracket style, which is what used to happen.
+        // library to serialize it in bracket style, which is what used to happen. A nil entry is
+        // left out.
         TestUtils.assertFileContains(apiFile.toPath(),
-                "opts[:'filter'].each { |name, value| query_params[name.to_s] = value } if !opts[:'filter'].nil?");
+                "opts[:'filter'].compact.each { |name, value| query_params[name.to_s] = value } if !opts[:'filter'].nil?");
         TestUtils.assertFileNotContains(apiFile.toPath(), "query_params[:'filter']");
 
         // a declared map behaves the same way
         TestUtils.assertFileContains(apiFile.toPath(),
-                "opts[:'typed_filter'].each { |name, value| query_params[name.to_s] = value } if !opts[:'typed_filter'].nil?");
+                "opts[:'typed_filter'].compact.each { |name, value| query_params[name.to_s] = value } if !opts[:'typed_filter'].nil?");
 
         // deepObject and form without explode both keep a single parameter
         TestUtils.assertFileContains(apiFile.toPath(),

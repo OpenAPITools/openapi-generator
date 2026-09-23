@@ -183,8 +183,8 @@ module {{moduleName}}
       {{#isMap}}
       {{#isExplode}}
       {{^isDeepObject}}
-      # form style explodes an object into one query parameter per entry, keyed by the property name alone
-      {{{paramName}}}.each { |name, value| query_params[name.to_s] = value }
+      # form style, explode: one query parameter per entry, keyed by the property name; nil is left out
+      {{{paramName}}}.compact.each { |name, value| query_params[name.to_s] = value }
       {{/isDeepObject}}
       {{#isDeepObject}}
       query_params[:'{{{baseName}}}'] = {{{paramName}}}
@@ -209,8 +209,8 @@ module {{moduleName}}
       {{#isMap}}
       {{#isExplode}}
       {{^isDeepObject}}
-      # form style explodes an object into one query parameter per entry, keyed by the property name alone
-      opts[:'{{{paramName}}}'].each { |name, value| query_params[name.to_s] = value } if !opts[:'{{{paramName}}}'].nil?
+      # form style, explode: one query parameter per entry, keyed by the property name; nil is left out
+      opts[:'{{{paramName}}}'].compact.each { |name, value| query_params[name.to_s] = value } if !opts[:'{{{paramName}}}'].nil?
       {{/isDeepObject}}
       {{#isDeepObject}}
       query_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if !opts[:'{{{paramName}}}'].nil?
