@@ -12,6 +12,7 @@ docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/AnyOfColor.md
+docs/AnyOfContainer.md
 docs/AnyOfPig.md
 docs/ArrayOfArrayOfModel.md
 docs/ArrayOfArrayOfNumberOnly.md
@@ -74,11 +75,13 @@ docs/ModelField.md
 docs/ModelReturn.md
 docs/MultiArrays.md
 docs/Name.md
+docs/NestedUnionContainer.md
 docs/NullableClass.md
 docs/NullableProperty.md
 docs/NumberOnly.md
 docs/ObjectToTestAdditionalProperties.md
 docs/ObjectWithDeprecatedFields.md
+docs/OneOfContainer.md
 docs/OneOfEnumString.md
 docs/Order.md
 docs/OuterComposite.md
@@ -149,6 +152,7 @@ petstore_api/models/all_of_super_model.py
 petstore_api/models/all_of_with_single_ref.py
 petstore_api/models/animal.py
 petstore_api/models/any_of_color.py
+petstore_api/models/any_of_container.py
 petstore_api/models/any_of_pig.py
 petstore_api/models/array_of_array_of_model.py
 petstore_api/models/array_of_array_of_number_only.py
@@ -207,11 +211,13 @@ petstore_api/models/model_field.py
 petstore_api/models/model_return.py
 petstore_api/models/multi_arrays.py
 petstore_api/models/name.py
+petstore_api/models/nested_union_container.py
 petstore_api/models/nullable_class.py
 petstore_api/models/nullable_property.py
 petstore_api/models/number_only.py
 petstore_api/models/object_to_test_additional_properties.py
 petstore_api/models/object_with_deprecated_fields.py
+petstore_api/models/one_of_container.py
 petstore_api/models/one_of_enum_string.py
 petstore_api/models/order.py
 petstore_api/models/outer_composite.py

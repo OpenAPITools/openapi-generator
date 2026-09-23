@@ -22,6 +22,7 @@ from petstore_api.models.all_of_super_model import AllOfSuperModel
 from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
 from petstore_api.models.animal import Animal
 from petstore_api.models.any_of_color import AnyOfColor
+from petstore_api.models.any_of_container import AnyOfContainer
 from petstore_api.models.any_of_pig import AnyOfPig
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel
@@ -80,11 +81,13 @@ from petstore_api.models.model200_response import Model200Response
 from petstore_api.models.model_return import ModelReturn
 from petstore_api.models.multi_arrays import MultiArrays
 from petstore_api.models.name import Name
+from petstore_api.models.nested_union_container import NestedUnionContainer
 from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.nullable_property import NullableProperty
 from petstore_api.models.number_only import NumberOnly
 from petstore_api.models.object_to_test_additional_properties import ObjectToTestAdditionalProperties
 from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
+from petstore_api.models.one_of_container import OneOfContainer
 from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.order import Order
 from petstore_api.models.outer_composite import OuterComposite

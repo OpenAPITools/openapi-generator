@@ -726,9 +726,31 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         }
 
         Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+        Set<String> composedModels = new HashSet<>();
         for (ModelsMap modelsMap : processed.values()) {
             for (ModelMap modelMap : modelsMap.getModels()) {
                 CodegenModel model = modelMap.getModel();
+                if (model != null && (hasOneOf(model) || hasAnyOf(model))) {
+                    composedModels.add(model.classname);
+                }
+            }
+        }
+        for (ModelsMap modelsMap : processed.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (model != null && (hasOneOf(model) || hasAnyOf(model))) {
+                    List<CodegenProperty> alternatives = hasOneOf(model)
+                            ? model.getComposedSchemas().getOneOf()
+                            : model.getComposedSchemas().getAnyOf();
+                    for (CodegenProperty property : alternatives) {
+                        if (property.isContainer) {
+                            String expression = fromDictExpression(property, "data", 0, composedModels);
+                            if (!expression.equals("data")) {
+                                property.vendorExtensions.put("x-py-from-dict", expression);
+                            }
+                        }
+                    }
+                }
                 if (model != null && model.oneOf.isEmpty() && model.anyOf.isEmpty()) {
                     for (CodegenProperty property : model.vars) {
                         if (property.vendorExtensions.containsKey(
@@ -749,6 +771,35 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             }
         }
         return processed;
+    }
+
+    private String fromDictExpression(CodegenProperty property, String value, int depth,
+                                       Set<String> composedModels) {
+        String item = "_item" + depth;
+        if (property.isContainer && property.items != null) {
+            String expression = fromDictExpression(property.items, item, depth + 1, composedModels);
+            if (expression.equals(item)) {
+                return value;
+            }
+            if (property.isArray) {
+                return "([" + expression
+                        + " for " + item + " in " + value + "] if isinstance(" + value
+                        + ", list) else " + value + ")";
+            }
+            if (property.isMap) {
+                String key = "_key" + depth;
+                return "({" + key + ": " + expression
+                        + " for " + key + ", " + item + " in " + value + ".items()} if isinstance("
+                        + value + ", dict) else " + value + ")";
+            }
+        }
+        // Pydantic cannot decode raw values into the generated union wrappers.
+        // Ordinary models must retain Pydantic's existing defaults/field presence.
+        if (composedModels.contains(property.dataType)) {
+            return "(" + property.dataType + ".from_dict(" + value + ") if "
+                    + value + " is not None else None)";
+        }
+        return value;
     }
 
     private void configurePublicNameInputs(List<CodegenProperty> properties) {

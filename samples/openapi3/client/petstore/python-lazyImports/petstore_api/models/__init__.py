@@ -21,6 +21,7 @@ __all__ = [
     "AllOfWithSingleRef",
     "Animal",
     "AnyOfColor",
+    "AnyOfContainer",
     "AnyOfPig",
     "ArrayOfArrayOfModel",
     "ArrayOfArrayOfNumberOnly",
@@ -79,11 +80,13 @@ __all__ = [
     "ModelReturn",
     "MultiArrays",
     "Name",
+    "NestedUnionContainer",
     "NullableClass",
     "NullableProperty",
     "NumberOnly",
     "ObjectToTestAdditionalProperties",
     "ObjectWithDeprecatedFields",
+    "OneOfContainer",
     "OneOfEnumString",
     "Order",
     "OuterComposite",
@@ -141,6 +144,7 @@ if _typing.TYPE_CHECKING:
     from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
     from petstore_api.models.animal import Animal
     from petstore_api.models.any_of_color import AnyOfColor
+    from petstore_api.models.any_of_container import AnyOfContainer
     from petstore_api.models.any_of_pig import AnyOfPig
     from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel
     from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
@@ -199,11 +203,13 @@ if _typing.TYPE_CHECKING:
     from petstore_api.models.model_return import ModelReturn
     from petstore_api.models.multi_arrays import MultiArrays
     from petstore_api.models.name import Name
+    from petstore_api.models.nested_union_container import NestedUnionContainer
     from petstore_api.models.nullable_class import NullableClass
     from petstore_api.models.nullable_property import NullableProperty
     from petstore_api.models.number_only import NumberOnly
     from petstore_api.models.object_to_test_additional_properties import ObjectToTestAdditionalProperties
     from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
+    from petstore_api.models.one_of_container import OneOfContainer
     from petstore_api.models.one_of_enum_string import OneOfEnumString
     from petstore_api.models.order import Order
     from petstore_api.models.outer_composite import OuterComposite
@@ -260,6 +266,7 @@ else:
         "AllOfWithSingleRef": ".all_of_with_single_ref",
         "Animal": ".animal",
         "AnyOfColor": ".any_of_color",
+        "AnyOfContainer": ".any_of_container",
         "AnyOfPig": ".any_of_pig",
         "ArrayOfArrayOfModel": ".array_of_array_of_model",
         "ArrayOfArrayOfNumberOnly": ".array_of_array_of_number_only",
@@ -318,11 +325,13 @@ else:
         "ModelReturn": ".model_return",
         "MultiArrays": ".multi_arrays",
         "Name": ".name",
+        "NestedUnionContainer": ".nested_union_container",
         "NullableClass": ".nullable_class",
         "NullableProperty": ".nullable_property",
         "NumberOnly": ".number_only",
         "ObjectToTestAdditionalProperties": ".object_to_test_additional_properties",
         "ObjectWithDeprecatedFields": ".object_with_deprecated_fields",
+        "OneOfContainer": ".one_of_container",
         "OneOfEnumString": ".one_of_enum_string",
         "Order": ".order",
         "OuterComposite": ".outer_composite",

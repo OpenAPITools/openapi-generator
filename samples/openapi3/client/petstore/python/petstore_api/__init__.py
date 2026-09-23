@@ -44,6 +44,7 @@ __all__ = [
     "AllOfWithSingleRef",
     "Animal",
     "AnyOfColor",
+    "AnyOfContainer",
     "AnyOfPig",
     "ArrayOfArrayOfModel",
     "ArrayOfArrayOfNumberOnly",
@@ -102,11 +103,13 @@ __all__ = [
     "ModelReturn",
     "MultiArrays",
     "Name",
+    "NestedUnionContainer",
     "NullableClass",
     "NullableProperty",
     "NumberOnly",
     "ObjectToTestAdditionalProperties",
     "ObjectWithDeprecatedFields",
+    "OneOfContainer",
     "OneOfEnumString",
     "Order",
     "OuterComposite",
@@ -183,6 +186,7 @@ from petstore_api.models.all_of_super_model import AllOfSuperModel as AllOfSuper
 from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef as AllOfWithSingleRef
 from petstore_api.models.animal import Animal as Animal
 from petstore_api.models.any_of_color import AnyOfColor as AnyOfColor
+from petstore_api.models.any_of_container import AnyOfContainer as AnyOfContainer
 from petstore_api.models.any_of_pig import AnyOfPig as AnyOfPig
 from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel as ArrayOfArrayOfModel
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly as ArrayOfArrayOfNumberOnly
@@ -241,11 +245,13 @@ from petstore_api.models.model_field import ModelField as ModelField
 from petstore_api.models.model_return import ModelReturn as ModelReturn
 from petstore_api.models.multi_arrays import MultiArrays as MultiArrays
 from petstore_api.models.name import Name as Name
+from petstore_api.models.nested_union_container import NestedUnionContainer as NestedUnionContainer
 from petstore_api.models.nullable_class import NullableClass as NullableClass
 from petstore_api.models.nullable_property import NullableProperty as NullableProperty
 from petstore_api.models.number_only import NumberOnly as NumberOnly
 from petstore_api.models.object_to_test_additional_properties import ObjectToTestAdditionalProperties as ObjectToTestAdditionalProperties
 from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields as ObjectWithDeprecatedFields
+from petstore_api.models.one_of_container import OneOfContainer as OneOfContainer
 from petstore_api.models.one_of_enum_string import OneOfEnumString as OneOfEnumString
 from petstore_api.models.order import Order as Order
 from petstore_api.models.outer_composite import OuterComposite as OuterComposite

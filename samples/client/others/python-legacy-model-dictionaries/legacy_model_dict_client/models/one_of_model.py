@@ -182,21 +182,23 @@ class OneOfModel(BaseModel):
             error_messages.append(str(e))
         # deserialize data into List[NestedModel]
         try:
+            data = json.loads(json_str)
             # validation
-            instance.oneof_schema_2_validator = json.loads(json_str)
+            instance.oneof_schema_2_validator = data
             # assign value to actual_instance
             instance.actual_instance = instance.oneof_schema_2_validator
             match += 1
-        except (ValidationError, ValueError) as e:
+        except (ValidationError, ValueError, TypeError, AttributeError) as e:
             error_messages.append(str(e))
         # deserialize data into Dict[str, NestedModel]
         try:
+            data = json.loads(json_str)
             # validation
-            instance.oneof_schema_3_validator = json.loads(json_str)
+            instance.oneof_schema_3_validator = data
             # assign value to actual_instance
             instance.actual_instance = instance.oneof_schema_3_validator
             match += 1
-        except (ValidationError, ValueError) as e:
+        except (ValidationError, ValueError, TypeError, AttributeError) as e:
             error_messages.append(str(e))
         # deserialize data into str
         try:

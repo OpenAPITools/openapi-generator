@@ -12,12 +12,16 @@ import re  # noqa: F401
 from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
 from typing_extensions import Literal, Self
 from pydantic import Field
-{{#compatibleWithPythonLegacy}}
 from pydantic_core import to_jsonable_python
+{{#compatibleWithPythonLegacy}}
 
 
 {{>_legacy_model_dict_helpers}}
 
+{{/compatibleWithPythonLegacy}}
+{{^compatibleWithPythonLegacy}}
+
+{{>_composed_model_dict}}
 {{/compatibleWithPythonLegacy}}
 
 {{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ANY_OF_SCHEMAS = [{{#anyOf}}"{{.}}"{{^-last}}, {{/-last}}{{/anyOf}}]
@@ -119,12 +123,16 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#isContainer}}
         # deserialize data into {{{dataType}}}
         try:
+            data = json.loads(json_str)
+            {{#vendorExtensions.x-py-from-dict}}
+            data = {{{vendorExtensions.x-py-from-dict}}}
+            {{/vendorExtensions.x-py-from-dict}}
             # validation
-            instance.{{vendorExtensions.x-py-name}} = json.loads(json_str)
+            instance.{{vendorExtensions.x-py-name}} = data
             # assign value to actual_instance
             instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
             return instance
-        except (ValidationError, ValueError) as e:
+        except (ValidationError, ValueError, TypeError, AttributeError) as e:
             error_messages.append(str(e))
         {{/isContainer}}
         {{^isContainer}}
@@ -172,7 +180,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{/compatibleWithPythonLegacy}}
 {{^compatibleWithPythonLegacy}}
         else:
-            return json.dumps(self.actual_instance)
+            return json.dumps(to_jsonable_python(self.to_dict()))
 {{/compatibleWithPythonLegacy}}
 
 {{#compatibleWithPythonLegacy}}
@@ -198,10 +206,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         if self.actual_instance is None:
             return None
 
-        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
-            return self.actual_instance.to_dict()
-        else:
-            return self.actual_instance
+        return _to_dict(self.actual_instance)
 {{/compatibleWithPythonLegacy}}
 
     def to_str(self) -> str:

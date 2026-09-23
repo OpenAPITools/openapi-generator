@@ -23,6 +23,17 @@ from typing_extensions import Annotated
 from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
 from typing_extensions import Literal, Self
 from pydantic import Field
+from pydantic_core import to_jsonable_python
+
+def _to_dict(value: Any) -> Any:
+    if isinstance(value, list):
+        return [_to_dict(item) for item in value]
+    if isinstance(value, dict):
+        return {key: _to_dict(item) for key, item in value.items()}
+    if hasattr(value, "to_dict") and callable(value.to_dict):
+        return value.to_dict()
+    return value
+
 
 ANYOFCOLOR_ANY_OF_SCHEMAS = ["List[int]", "str"]
 
@@ -97,21 +108,23 @@ class AnyOfColor(BaseModel):
         error_messages = []
         # deserialize data into List[int]
         try:
+            data = json.loads(json_str)
             # validation
-            instance.anyof_schema_1_validator = json.loads(json_str)
+            instance.anyof_schema_1_validator = data
             # assign value to actual_instance
             instance.actual_instance = instance.anyof_schema_1_validator
             return instance
-        except (ValidationError, ValueError) as e:
+        except (ValidationError, ValueError, TypeError, AttributeError) as e:
             error_messages.append(str(e))
         # deserialize data into List[int]
         try:
+            data = json.loads(json_str)
             # validation
-            instance.anyof_schema_2_validator = json.loads(json_str)
+            instance.anyof_schema_2_validator = data
             # assign value to actual_instance
             instance.actual_instance = instance.anyof_schema_2_validator
             return instance
-        except (ValidationError, ValueError) as e:
+        except (ValidationError, ValueError, TypeError, AttributeError) as e:
             error_messages.append(str(e))
         # deserialize data into str
         try:
@@ -137,17 +150,14 @@ class AnyOfColor(BaseModel):
         if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
             return self.actual_instance.to_json()
         else:
-            return json.dumps(self.actual_instance)
+            return json.dumps(to_jsonable_python(self.to_dict()))
 
     def to_dict(self) -> Optional[Union[Dict[str, Any], List[int], str]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None
 
-        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
-            return self.actual_instance.to_dict()
-        else:
-            return self.actual_instance
+        return _to_dict(self.actual_instance)
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""

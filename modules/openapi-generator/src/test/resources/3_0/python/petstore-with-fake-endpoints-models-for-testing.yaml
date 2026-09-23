@@ -2579,6 +2579,60 @@ components:
           $ref: '#/components/schemas/Pig'
         nested_oneof_enum_string:
           $ref: '#/components/schemas/OneOfEnumString'
+    OneOfContainer:
+      oneOf:
+        - type: string
+        - type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Pig'
+        - type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Pig'
+        - type: array
+          minItems: 1
+          items:
+            type: integer
+        - type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/EnumString1'
+        - type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/NullableClass'
+    AnyOfContainer:
+      anyOf:
+        - type: string
+        - type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/AnyOfPig'
+        - type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnyOfPig'
+        - type: array
+          minItems: 1
+          items:
+            type: integer
+        - type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/EnumString1'
+        - type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/NullableClass'
+    NestedUnionContainer:
+      oneOf:
+        - type: string
+        - type: array
+          items:
+            type: object
+            additionalProperties:
+              type: array
+              items:
+                $ref: '#/components/schemas/Pig'
     Self-Reference-Model:
       type: object
       properties:
