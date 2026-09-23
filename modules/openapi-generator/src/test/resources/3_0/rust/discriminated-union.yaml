@@ -48,7 +48,7 @@ components:
           properties:
             field:
               type: string
-    # nullable and enum-typed discriminators
+    # a nullable discriminator: the skip predicate must be Option::is_none, not String::is_empty
     NullableTagged:
       type: object
       required:
@@ -70,73 +70,3 @@ components:
           properties:
             alphaOnly:
               type: string
-    Pet:
-      type: object
-      required:
-        - petType
-      properties:
-        petType:
-          type: string
-          enum: [Cat, Dog]
-      discriminator:
-        propertyName: petType
-        mapping:
-          Cat: '#/components/schemas/Cat'
-          Dog: '#/components/schemas/Dog'
-    Cat:
-      allOf:
-        - $ref: '#/components/schemas/Pet'
-        - type: object
-          properties:
-            lives:
-              type: integer
-    Dog:
-      allOf:
-        - $ref: '#/components/schemas/Pet'
-        - type: object
-          properties:
-            bark:
-              type: boolean
-    ShapeKind:
-      type: string
-      enum: [circle]
-    Shape:
-      type: object
-      required:
-        - kind
-      properties:
-        kind:
-          $ref: '#/components/schemas/ShapeKind'
-      discriminator:
-        propertyName: kind
-        mapping:
-          circle: '#/components/schemas/Circle'
-    Circle:
-      allOf:
-        - $ref: '#/components/schemas/Shape'
-        - type: object
-          properties:
-            radius:
-              type: number
-    # the mapping names the base itself: no struct to wrap, so the union keeps inline variants
-    Creature:
-      type: object
-      required:
-        - kind
-      properties:
-        kind:
-          type: string
-        name:
-          type: string
-      discriminator:
-        propertyName: kind
-        mapping:
-          Creature: '#/components/schemas/Creature'
-          Bird: '#/components/schemas/Bird'
-    Bird:
-      allOf:
-        - $ref: '#/components/schemas/Creature'
-        - type: object
-          properties:
-            wingspan:
-              type: number

@@ -11,13 +11,20 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "@type")]
 pub enum Entity {
+    #[serde(rename="Bar")]
     Bar(Box<models::Bar>),
+    #[serde(rename="Bar_Create")]
     BarCreate(Box<models::BarCreate>),
+    #[serde(rename="Foo")]
     Foo(Box<models::Foo>),
+    #[serde(rename="Pasta")]
     Pasta(Box<models::Pasta>),
+    #[serde(rename="Pizza")]
     Pizza(Box<models::Pizza>),
+    #[serde(rename="PizzaSpeziale")]
     PizzaSpeziale(Box<models::PizzaSpeziale>),
 }
 
@@ -25,42 +32,6 @@ impl Default for Entity {
     fn default() -> Self {
         Self::Bar(Default::default())
         
-    }
-}
-
-impl Serialize for Entity {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
-        let (tag, value) = match self {
-            Self::Bar(inner) => ("Bar", serde_json::to_value(inner)),
-            Self::BarCreate(inner) => ("Bar_Create", serde_json::to_value(inner)),
-            Self::Foo(inner) => ("Foo", serde_json::to_value(inner)),
-            Self::Pasta(inner) => ("Pasta", serde_json::to_value(inner)),
-            Self::Pizza(inner) => ("Pizza", serde_json::to_value(inner)),
-            Self::PizzaSpeziale(inner) => ("PizzaSpeziale", serde_json::to_value(inner)),
-        };
-        let mut value = value.map_err(serde::ser::Error::custom)?;
-        if let serde_json::Value::Object(map) = &mut value {
-            map.insert("@type".to_owned(), tag.into());
-        }
-        value.serialize(serializer)
-    }
-}
-
-impl<'de> Deserialize<'de> for Entity {
-    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
-        let value = serde_json::Value::deserialize(deserializer)?;
-        let tag = value.get("@type").and_then(serde_json::Value::as_str).map(str::to_owned);
-        match tag.as_deref() {
-            Some("Bar") => serde_json::from_value(value).map(Self::Bar),
-            Some("Bar_Create") => serde_json::from_value(value).map(Self::BarCreate),
-            Some("Foo") => serde_json::from_value(value).map(Self::Foo),
-            Some("Pasta") => serde_json::from_value(value).map(Self::Pasta),
-            Some("Pizza") => serde_json::from_value(value).map(Self::Pizza),
-            Some("PizzaSpeziale") => serde_json::from_value(value).map(Self::PizzaSpeziale),
-            Some(other) => return Err(serde::de::Error::unknown_variant(other, &["Bar", "Bar_Create", "Foo", "Pasta", "Pizza", "PizzaSpeziale"])),
-            None => return Err(serde::de::Error::missing_field("@type")),
-        }
-        .map_err(serde::de::Error::custom)
     }
 }
 
