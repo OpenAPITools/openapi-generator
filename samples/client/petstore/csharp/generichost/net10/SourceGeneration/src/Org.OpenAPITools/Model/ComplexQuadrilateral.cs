@@ -154,16 +154,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!quadrilateralType.IsSet)
-                throw new ArgumentException("Property is required for class ComplexQuadrilateral.", nameof(quadrilateralType));
+                throw new JsonException("Property is required for class ComplexQuadrilateral: quadrilateralType.");
 
             if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class ComplexQuadrilateral.", nameof(shapeType));
+                throw new JsonException("Property is required for class ComplexQuadrilateral: shapeType.");
 
             if (quadrilateralType.IsSet && quadrilateralType.Value == null)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class ComplexQuadrilateral.");
+                throw new JsonException("Property is not nullable for class ComplexQuadrilateral: quadrilateralType.");
 
             if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ComplexQuadrilateral.");
+                throw new JsonException("Property is not nullable for class ComplexQuadrilateral: shapeType.");
 
             return new ComplexQuadrilateral(quadrilateralType.Value!, shapeType.Value!);
         }
@@ -192,12 +192,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ComplexQuadrilateral complexQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (complexQuadrilateral.QuadrilateralType == null)
-                throw new ArgumentNullException(nameof(complexQuadrilateral.QuadrilateralType), "Property is required for class ComplexQuadrilateral.");
-
-            if (complexQuadrilateral.ShapeType == null)
-                throw new ArgumentNullException(nameof(complexQuadrilateral.ShapeType), "Property is required for class ComplexQuadrilateral.");
-
             writer.WriteString("quadrilateralType", complexQuadrilateral.QuadrilateralType);
 
             writer.WriteString("shapeType", complexQuadrilateral.ShapeType);

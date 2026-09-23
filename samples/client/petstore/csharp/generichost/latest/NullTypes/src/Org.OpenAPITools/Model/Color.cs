@@ -215,13 +215,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (b.IsSet && b.Value == null)
-                throw new ArgumentNullException(nameof(b), "Property is not nullable for class Color.");
+                throw new JsonException("Property is not nullable for class Color: b.");
 
             if (g.IsSet && g.Value == null)
-                throw new ArgumentNullException(nameof(g), "Property is not nullable for class Color.");
+                throw new JsonException("Property is not nullable for class Color: g.");
 
             if (r.IsSet && r.Value == null)
-                throw new ArgumentNullException(nameof(r), "Property is not nullable for class Color.");
+                throw new JsonException("Property is not nullable for class Color: r.");
 
             return new Color(b, g, r);
         }
@@ -250,6 +250,15 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Color color, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (color.BOption.IsSet && color.B == null)
+                throw new JsonException("Cannot write null property Color.B to non-nullable JSON property 'b'.");
+
+            if (color.GOption.IsSet && color.G == null)
+                throw new JsonException("Cannot write null property Color.G to non-nullable JSON property 'g'.");
+
+            if (color.ROption.IsSet && color.R == null)
+                throw new JsonException("Cannot write null property Color.R to non-nullable JSON property 'r'.");
+
             if (color.BOption.IsSet)
                 writer.WriteNumber("b", color.BOption.Value!.Value);
 

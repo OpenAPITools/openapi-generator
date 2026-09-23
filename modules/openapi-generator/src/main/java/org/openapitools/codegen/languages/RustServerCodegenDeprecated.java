@@ -749,6 +749,9 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
                 // Write out the type of data we actually expect this response
                 // to make.
                 if (producesXml) {
+                    // an XML response needs the XML dependency even when the operation's produces, narrowed
+                    // to a content-type variant's own media-type, no longer lists it
+                    additionalProperties.put("usesXml", true);
                     rsp.vendorExtensions.put("x-produces-xml", true);
                 } else if (producesPlainText) {
                     // Plain text means that there is not structured data in

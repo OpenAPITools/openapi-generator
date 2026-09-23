@@ -87,6 +87,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -674,7 +675,6 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected Map<String, Schema> getModelNameToSchemaCache() {
         if (modelNameToSchemaCache == null) {
-            // Create a cache to efficiently lookup schema based on model name.
             Map<String, Schema> m = new HashMap<>();
             ModelUtils.getSchemas(openAPI).forEach((key, schema) -> m.put(toModelName(key), schema));
             modelNameToSchemaCache = Collections.unmodifiableMap(m);
@@ -1059,6 +1059,7 @@ public class DefaultCodegen implements CodegenConfig {
             once(LOGGER).warn(UNSUPPORTED_V310_SPEC_MSG);
         }
         this.openAPI = openAPI;
+        this.modelNameToSchemaCache = null;
         // Set global settings such that helper functions in ModelUtils can lookup the value
         // of the CLI option.
         ModelUtils.setDisallowAdditionalPropertiesIfNotPresent(getDisallowAdditionalPropertiesIfNotPresent());
@@ -1248,6 +1249,20 @@ public class DefaultCodegen implements CodegenConfig {
         // so their position in the list is no longer the order declared in the spec
         extensions.put(CodegenConstants.X_CONTENT_TYPE_VARIANT_REQUEST_INDEX, request.rank);
         extensions.put(CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE_INDEX, response.rank);
+    }
+
+    /**
+     * The media-type a content-type variant was narrowed to on one axis — {@code axisExtension} being
+     * {@link CodegenConstants#X_CONTENT_TYPE_VARIANT_REQUEST} or
+     * {@link CodegenConstants#X_CONTENT_TYPE_VARIANT_RESPONSE} — or {@code null} when the operation is not
+     * one of the variants {@link #divideOperationsByContentType} split an operation into (every variant
+     * carries the group extension) or that axis was not split.
+     */
+    protected static String contentTypeVariantMediaType(Operation operation, String axisExtension) {
+        Map<String, Object> extensions = operation.getExtensions();
+        Object mediaType = extensions != null && extensions.containsKey(CodegenConstants.X_CONTENT_TYPE_VARIANT_GROUP)
+                ? extensions.get(axisExtension) : null;
+        return mediaType instanceof String ? (String) mediaType : null;
     }
 
     /**
@@ -4677,6 +4692,44 @@ public class DefaultCodegen implements CodegenConfig {
         return currentProperty != null && currentProperty.isEnum;
     }
 
+    /**
+     * Search a property and its items, additional properties, named properties, and composition branches.
+     * This traversal is independent of the generator's supported features and visits each property
+     * instance at most once, so shared or cyclic property graphs are safe to search.
+     *
+     * @param property the root property, or null
+     * @param predicate the condition to match
+     * @return true as soon as a matching property is found
+     */
+    protected boolean anyPropertyMatches(CodegenProperty property, Predicate<CodegenProperty> predicate) {
+        Set<CodegenProperty> visited = Collections.newSetFromMap(new IdentityHashMap<>());
+        return anyPropertyMatches(property, predicate, visited);
+    }
+
+    private boolean anyPropertyMatches(CodegenProperty property, Predicate<CodegenProperty> predicate,
+                                       Set<CodegenProperty> visited) {
+        if (property == null || !visited.add(property)) {
+            return false;
+        }
+        if (predicate.test(property)
+                || anyPropertyMatches(property.items, predicate, visited)
+                || anyPropertyMatches(property.additionalProperties, predicate, visited)
+                || anyPropertyMatches(property.vars, predicate, visited)) {
+            return true;
+        }
+
+        CodegenComposedSchemas composed = property.getComposedSchemas();
+        return composed != null && (anyPropertyMatches(composed.getAllOf(), predicate, visited)
+                || anyPropertyMatches(composed.getOneOf(), predicate, visited)
+                || anyPropertyMatches(composed.getAnyOf(), predicate, visited)
+                || anyPropertyMatches(composed.getNot(), predicate, visited));
+    }
+
+    private boolean anyPropertyMatches(List<CodegenProperty> properties, Predicate<CodegenProperty> predicate,
+                                       Set<CodegenProperty> visited) {
+        return properties != null && properties.stream().anyMatch(property -> anyPropertyMatches(property, predicate, visited));
+    }
+
     protected CodegenProperty getMostInnerItems(CodegenProperty property) {
         CodegenProperty currentProperty = property;
         while (currentProperty != null && (currentProperty.isMap
@@ -4941,10 +4994,18 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
+            // a content-type variant produces only what its method response, the one the split narrowed,
+            // declares (see getProducesInfo)
+            boolean producesNarrowed = contentTypeVariantMediaType(operation, CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE) != null;
+            if (producesNarrowed) {
+                addProducesInfo(methodResponse, op);
+            }
             for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
                 String key = operationGetResponsesEntry.getKey();
                 ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, operationGetResponsesEntry.getValue());
-                addProducesInfo(response, op);
+                if (!producesNarrowed) {
+                    addProducesInfo(response, op);
+                }
                 CodegenResponse r = fromResponse(key, response);
                 Map<String, Header> headers = response.getHeaders();
                 if (headers != null) {
@@ -7127,18 +7188,15 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         String varDataType = var.mostInnerItems != null ? var.mostInnerItems.dataType : var.dataType;
-        Optional<Schema> referencedSchema = ModelUtils.getSchemas(openAPI).entrySet().stream()
-                .filter(entry -> Objects.equals(varDataType, toModelName(entry.getKey())))
-                .map(Map.Entry::getValue)
-                .findFirst();
-        String dataType = (referencedSchema.isPresent()) ? getTypeDeclaration(referencedSchema.get()) : varDataType;
+        Schema referencedSchema = getModelNameToSchemaCache().get(varDataType);
+        String dataType = referencedSchema != null ? getTypeDeclaration(referencedSchema) : varDataType;
         List<EnumVarMap> enumVars = buildEnumVars(values, dataType);
         postProcessEnumVars(enumVars);
 
         // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
         Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
-        if (referencedSchema.isPresent()) {
-            extensions = referencedSchema.get().getExtensions();
+        if (referencedSchema != null) {
+            extensions = referencedSchema.getExtensions();
         }
         updateEnumVarsWithExtensions(enumVars, extensions, dataType);
         allowableValues.put(ENUM_VARS, enumVars);
@@ -7170,13 +7228,38 @@ public class DefaultCodegen implements CodegenConfig {
         return enumDefaultValue;
     }
 
+    /**
+     * Builds enum metadata using the original OpenAPI values for both generation and raw metadata.
+     *
+     * @param values original enum values from the OpenAPI schema; null entries are skipped
+     * @param dataType target data type of the enum
+     * @return enum entries containing generated names, formatted values, and original raw values
+     */
     protected List<EnumVarMap> buildEnumVars(List<Object> values, String dataType) {
+        return buildEnumVars(values, dataType, values);
+    }
+
+    /**
+     * Builds enum metadata using separate values for generation and raw metadata.
+     *
+     * @param values values used to generate enum names and formatted values; null entries are skipped
+     * @param dataType target data type of the enum
+     * @param rawValues original OpenAPI values, in the same order and with the same number of
+     *                  entries as values; each emitted entry retains its corresponding raw value and type
+     * @return enum entries containing generated names, formatted values, and original raw values
+     * @throws IllegalArgumentException if the lists have different sizes
+     */
+    protected List<EnumVarMap> buildEnumVars(List<Object> values, String dataType, List<Object> rawValues) {
+        if (values.size() != rawValues.size()) {
+            throw new IllegalArgumentException("values and rawValues must have the same number of entries");
+        }
         List<EnumVarMap> enumVars = new ArrayList<>();
         int truncateIdx = isRemoveEnumValuePrefix()
                 ? findCommonPrefixOfVars(values).length()
                 : 0;
 
-        for (Object value : values) {
+        for (int i = 0; i < values.size(); i++) {
+            Object value = values.get(i);
             if (value == null) {
                 // raw null values in enums are unions for nullable
                 // attributes, not actual enum values, so we remove them here
@@ -7194,6 +7277,7 @@ public class DefaultCodegen implements CodegenConfig {
             final String finalEnumName = toEnumVarName(enumName, dataType);
 
             enumVar.enumVar(finalEnumName, toEnumValue(String.valueOf(value), dataType), isDataTypeString(dataType));
+            enumVar.setEnumRawValue(rawValues.get(i));
             // TODO: add isNumeric
             enumVars.add(enumVar);
         }
@@ -7227,6 +7311,7 @@ public class DefaultCodegen implements CodegenConfig {
                 String.valueOf(11184809);
 
         enumVar.enumVar(toEnumVarName(enumName, dataType), toEnumValue(enumValue, dataType), isDataTypeString(dataType));
+        enumVar.setEnumRawValue(enumValue);
         // TODO: add isNumeric
         enumVars.add(enumVar);
     }
@@ -7676,7 +7761,9 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * returns the list of MIME types the APIs can produce
+     * returns the list of MIME types the APIs can produce. A content-type variant (see
+     * {@link #divideOperationsByContentType}) produces the single media-type it was narrowed to, whatever
+     * its other responses declare.
      *
      * @param openAPI   current specification instance
      * @param operation Operation
@@ -7688,6 +7775,12 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Set<String> produces = new ConcurrentSkipListSet<>();
+
+        String variantMediaType = contentTypeVariantMediaType(operation, CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE);
+        if (variantMediaType != null) {
+            produces.add(variantMediaType);
+            return produces;
+        }
 
         for (ApiResponse r : operation.getResponses().values()) {
             ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, r);

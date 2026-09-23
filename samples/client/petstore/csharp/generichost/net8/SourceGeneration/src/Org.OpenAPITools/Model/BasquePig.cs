@@ -141,10 +141,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class BasquePig.", nameof(className));
+                throw new JsonException("Property is required for class BasquePig: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class BasquePig.");
+                throw new JsonException("Property is not nullable for class BasquePig: className.");
 
             return new BasquePig(className.Value!);
         }
@@ -173,9 +173,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, BasquePig basquePig, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (basquePig.ClassName == null)
-                throw new ArgumentNullException(nameof(basquePig.ClassName), "Property is required for class BasquePig.");
-
             writer.WriteString("className", basquePig.ClassName);
         }
     }

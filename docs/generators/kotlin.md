@@ -25,6 +25,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |companionObject|Whether to generate companion objects in data classes, enabling companion extensions.| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**threetenbp-localdatetime**</dt><dd>Threetenbp - Backport of JSR310 (jvm only, for legacy app only)</dd><dt>**kotlinx-datetime**</dt><dd>kotlinx-datetime (preferred for multiplatform)</dd><dt>**string**</dt><dd>String</dd><dt>**java8-localdatetime**</dt><dd>Java 8 native JSR310 (jvm only, for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (jvm only, preferred for jdk 1.8+)</dd><dt>**threetenbp**</dt><dd>Threetenbp - Backport of JSR310 (jvm only, preferred for jdk &lt; 1.8)</dd></dl>|java8|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', 'original', and 'bestEffortBacktick' (like 'original' but tries to wrap values in backticks before falling back to sanitizing, e.g. `name,asc` stays `name,asc` rather than becoming nameCommaAsc; useful for sort/order enums)| |original|
+|enumUnknownDefaultCase|Add an `unknown_default_open_api` enum case as a fallback for unrecognized values. Only `moshi`(serializationLibrary) decodes every unknown value to it: `jackson` skips nullable enums, `kotlinx_serialization` skips non-string enums, and neither `gson`(serializationLibrary) nor `multiplatform`(library) decodes to it at all.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>Each enum gains an `unknown_default_open_api` case.</dd></dl>|false|
 |explicitApi|Generates code with explicit access modifiers to comply with Kotlin Explicit API Mode.| |false|
 |failOnUnknownProperties|Fail Jackson de-serialization on unknown properties| |false|
 |generateOneOfAnyOfWrappers|Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library) with `gson` or `kotlinx_serialization`(serializationLibrary) support this option.| |false|
@@ -49,6 +50,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
 |supportAndroidApiLevel25AndBelow|[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and below. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284| |false|
+|typeInfoDefaultImpls|Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). For kotlin-client this applies to discriminator-based oneOf interfaces only (deduction-based oneOf is not supported by the kotlin-client templates). Overrides x-jackson-default-impl when both are set for the same schema. Requires the jackson serialization library. Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`| |empty map|
 |useCoroutines|Whether to use the Coroutines adapter with the retrofit2 library.| |false|
 |useJackson3|Use Jackson 3 dependencies (tools.jackson package). Requires serializationLibrary=jackson. Incompatible with openApiNullable.| |false|
 |useNonAsciiHeaders|Allow to use non-ascii headers with the okhttp library| |false|
@@ -64,6 +66,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | -------------- | ----------- | -------------- | ------------- |
 |x-class-extra-annotation|Custom annotation(s) to be added to model; accepts a string or list of strings|MODEL|null
 |x-field-extra-annotation|Custom annotation(s) to be added to property; accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
+|x-jackson-default-impl|Specifies the default implementation class name for Jackson @JsonTypeInfo(defaultImpl=...) on a oneOf interface schema (deduction-based or discriminator-based). Can be overridden per-schema by the `typeInfoDefaultImpls` generator option.|MODEL|null
 
 
 ## IMPORT MAPPING

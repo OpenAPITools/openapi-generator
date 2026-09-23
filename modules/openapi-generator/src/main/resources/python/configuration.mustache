@@ -212,9 +212,9 @@ class Configuration:
       may share it.
 {{/useIndependentImplicitClients}}
 {{/asyncio}}
-{{#httpx}}
+{{#httpxLibrary}}
     :param retries: int - Retry configuration.
-{{/httpx}}
+{{/httpxLibrary}}
 {{^async}}
     :param retries: int | urllib3.util.retry.Retry - Retry configuration.
 {{/async}}
@@ -349,9 +349,9 @@ conf = {{{packageName}}}.Configuration(
         tcp_connector_limit_per_host: Optional[int] = None,
         client_session_kwargs: Optional[Dict[str, Any]] = None,
 {{/asyncio}}
-{{#httpx}}
+{{#httpxLibrary}}
         retries: Optional[int] = None,
-{{/httpx}}
+{{/httpxLibrary}}
 {{^async}}
         retries: Optional[Union[int, urllib3.util.retry.Retry]] = None,
 {{/async}}
