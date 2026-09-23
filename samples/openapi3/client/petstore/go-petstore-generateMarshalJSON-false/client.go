@@ -184,9 +184,7 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 					if style == "deepObject" {
 						keyPrefixForCollectionType = keyPrefix + "[" + strconv.Itoa(i) + "]"
 					} else if style == "form" {
-						// the property-name flattening applies only to a map that is the
-						// parameter's direct value: an element of an array keeps the path
-						// it has accumulated
+						// only the parameter's own map is flattened; a map inside an array keeps its bracketed path
 						styleForElement = ""
 					}
 					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), styleForElement, collectionType)
@@ -204,15 +202,10 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 					var keyPrefixForMapEntry = fmt.Sprintf("%s[%s]", keyPrefix, k.String())
 					var styleForMapEntry = style
 					if style == "form" {
-						// form style explodes an object into one parameter per entry, keyed by the
-						// property name alone. Only deepObject nests the property under the
-						// parameter name. The flattening applies to the top level only: anything
-						// nested inside an entry keeps the path it has accumulated, so that two
-						// siblings holding the same property name stay distinct.
+						// form style: one query parameter per entry, keyed by the property name; anything nested keeps its bracketed path
 						keyPrefixForMapEntry = k.String()
 						styleForMapEntry = ""
-						// a nil entry is left out instead of going on the wire as the literal
-						// "null", and so is a nil element of a list the entry holds
+						// a nil entry, or a nil item of a list entry, is left out rather than sent as "null"
 						entry, ok := parameterValueIndirect(v)
 						if !ok {
 							continue
@@ -279,7 +272,7 @@ func parameterValueIndirect(v reflect.Value) (reflect.Value, bool) {
 		}
 		v = v.Elem()
 	}
-	return v, v.IsValid()
+	return v, true
 }
 
 // helper for converting interface{} parameters to json strings

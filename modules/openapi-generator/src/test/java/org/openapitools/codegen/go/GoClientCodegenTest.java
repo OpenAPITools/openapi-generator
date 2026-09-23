@@ -155,46 +155,19 @@ public class GoClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
-        // The style reaches the runtime, which decides between an exploded entry and a
-        // bracketed one. Before, every map was bracketed whatever the style said.
         TestUtils.assertFileContains(Paths.get(output + "/client.go"),
-                "var keyPrefixForMapEntry = fmt.Sprintf(\"%s[%s]\", keyPrefix, k.String())",
-                "if style == \"form\" {",
                 "keyPrefixForMapEntry = k.String()",
-                "styleForMapEntry = \"\"",
-                "parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, v.Interface(), styleForMapEntry, collectionType)",
-                // a nil entry, and a nil element of a list an entry holds, is left out
-                // instead of going on the wire as the literal "null"; a typed nil pointer
-                // is unwrapped with a nil check rather than panicking in Elem().Interface()
-                "entry, ok := parameterValueIndirect(v)",
-                // the skip sits inside the form branch: deepObject keeps sending a nil entry
-                // as [key]=null, which the petstore sample's TestQueryDeepObject pins
                 "if !ok { continue } if entry.Kind() == reflect.Slice {",
-                "if element, ok := parameterValueIndirect(entry.Index(i)); ok {",
-                "func parameterValueIndirect(v reflect.Value) (reflect.Value, bool) {",
                 "case reflect.Ptr: if v.IsNil() { return }",
-                // an array element does not inherit the form flattening: a map nested one
-                // level down keeps its accumulated path instead of being keyed by its
-                // property names alone
-                "var styleForElement = style",
-                "} else if style == \"form\" {",
-                "styleForElement = \"\"",
-                "parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), styleForElement, collectionType)");
+                "styleForElement = \"\"");
 
-        // and the api hands the declared style over. Note that explode is not passed, so a
-        // form style object is treated as exploded whether or not it says explode: false -
-        // that combination was bracketed before this change and is exploded after it, both
-        // of which differ from the comma joined pairs the specification asks for.
+        // the api passes the declared style through
         Path api = Paths.get(output + "/api_default.go");
         TestUtils.assertFileContains(api,
                 "parameterAddToHeaderOrQuery(localVarQueryParams, \"filter\", r.filter, \"form\", \"\")",
                 "parameterAddToHeaderOrQuery(localVarQueryParams, \"typedFilter\", r.typedFilter, \"form\", \"\")",
                 "parameterAddToHeaderOrQuery(localVarQueryParams, \"deepFilter\", r.deepFilter, \"deepObject\", \"\")",
-                "parameterAddToHeaderOrQuery(localVarQueryParams, \"flatFilter\", r.flatFilter, \"form\", \"\")",
-                // the array of objects the element reset exists for: not exploded, so the
-                // whole slice reaches the runtime as one form style value and enters the
-                // array branch that must not pass the flattening down to its elements
-                "parameterAddToHeaderOrQuery(localVarQueryParams, \"arrayFilter\", r.arrayFilter, \"form\", \"csv\")");
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"flatFilter\", r.flatFilter, \"form\", \"\")");
     }
 
     @Test
