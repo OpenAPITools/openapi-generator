@@ -25,10 +25,10 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -46,6 +46,8 @@ import java.util.stream.Collectors;
  * language-specific.</p>
  */
 public class SpringPageableScanUtils {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpringPageableScanUtils.class);
 
     public static final String PAGE = "page";
     public static final String SIZE = "size";
@@ -126,39 +128,24 @@ public class SpringPageableScanUtils {
     /**
      * Resolves the raw {@code autoXSpringPaginated} option value into an {@link AutoPaginationMode},
      * accepting both the canonical string values ({@code none}, {@code page-size-sort}, {@code page-size})
-     * and the deprecated legacy boolean aliases ({@code true}, {@code false}).
+     * and the deprecated legacy boolean aliases ({@code true}, {@code false}). Matching is
+     * case-insensitive and ignores surrounding whitespace. This method never logs; see
+     * {@link #warnIfDeprecatedAutoPaginationValue(String)}.
      *
-     * <p>When a legacy alias is used, {@code deprecationWarn} is invoked with a message suggesting
-     * the canonical replacement value. Callers should only invoke this method when the option was
-     * explicitly set by the user (e.g. guarded by {@code additionalProperties.containsKey(...)}) so
-     * that no warning is emitted for the implicit default.</p>
-     *
-     * @param rawValue        the raw option value as configured by the user
-     * @param deprecationWarn callback invoked with a human-readable deprecation message when a
-     *                        legacy alias ({@code true}/{@code false}) is used; not invoked for
-     *                        canonical values
+     * @param rawValue the raw option value as configured by the user
      * @return the resolved {@link AutoPaginationMode}
      * @throws IllegalArgumentException if {@code rawValue} is not one of the recognised values
      */
-    public static AutoPaginationMode resolveAutoPaginationMode(String rawValue, Consumer<String> deprecationWarn) {
-        String normalized = rawValue == null ? "" : rawValue.trim().toLowerCase(Locale.ROOT);
-        switch (normalized) {
+    public static AutoPaginationMode resolveAutoPaginationMode(String rawValue) {
+        switch (normalizeAutoPaginationValue(rawValue)) {
             case AUTO_PAGINATION_MODE_NONE:
+            case AUTO_PAGINATION_MODE_LEGACY_FALSE:
                 return AutoPaginationMode.NONE;
             case AUTO_PAGINATION_MODE_PAGE_SIZE_SORT:
+            case AUTO_PAGINATION_MODE_LEGACY_TRUE:
                 return AutoPaginationMode.PAGE_SIZE_SORT;
             case AUTO_PAGINATION_MODE_PAGE_SIZE:
                 return AutoPaginationMode.PAGE_SIZE;
-            case AUTO_PAGINATION_MODE_LEGACY_FALSE:
-                deprecationWarn.accept(
-                        "autoXSpringPaginated: 'false' is deprecated and will be removed in a future release. "
-                        + "Please use '" + AUTO_PAGINATION_MODE_NONE + "' instead.");
-                return AutoPaginationMode.NONE;
-            case AUTO_PAGINATION_MODE_LEGACY_TRUE:
-                deprecationWarn.accept(
-                        "autoXSpringPaginated: 'true' is deprecated and will be removed in a future release. "
-                        + "Please use '" + AUTO_PAGINATION_MODE_PAGE_SIZE_SORT + "' instead.");
-                return AutoPaginationMode.PAGE_SIZE_SORT;
             default:
                 throw new IllegalArgumentException(
                         "Invalid value '" + rawValue + "' for autoXSpringPaginated. Accepted values are: "
@@ -169,22 +156,28 @@ public class SpringPageableScanUtils {
     }
 
     /**
-     * Wraps {@code delegate} so that it is invoked at most once; subsequent calls are ignored.
+     * Logs a deprecation warning suggesting the canonical replacement when {@code rawValue} is one of
+     * the legacy boolean aliases ({@code true}/{@code false}); does nothing otherwise. Generators call
+     * this once from {@code processOpts} when the option was explicitly supplied.
      *
-     * <p>Generators hold one instance per codegen object and pass it to
-     * {@link #resolveAutoPaginationMode(String, Consumer)} so that repeated setter or
-     * option-processing calls with a deprecated legacy alias only log the warning once.</p>
-     *
-     * @param delegate the consumer to invoke on the first call
-     * @return a consumer forwarding only its first message to {@code delegate}
+     * @param rawValue the raw option value as configured by the user
      */
-    public static Consumer<String> warnOnce(Consumer<String> delegate) {
-        AtomicBoolean warned = new AtomicBoolean();
-        return message -> {
-            if (warned.compareAndSet(false, true)) {
-                delegate.accept(message);
-            }
-        };
+    static void warnIfDeprecatedAutoPaginationValue(String rawValue) {
+        String normalized = normalizeAutoPaginationValue(rawValue);
+        String replacement;
+        if (AUTO_PAGINATION_MODE_LEGACY_TRUE.equals(normalized)) {
+            replacement = AUTO_PAGINATION_MODE_PAGE_SIZE_SORT;
+        } else if (AUTO_PAGINATION_MODE_LEGACY_FALSE.equals(normalized)) {
+            replacement = AUTO_PAGINATION_MODE_NONE;
+        } else {
+            return;
+        }
+        LOGGER.warn("autoXSpringPaginated: '{}' is deprecated and will be removed in a future release. "
+                + "Please use '{}' instead.", normalized, replacement);
+    }
+
+    private static String normalizeAutoPaginationValue(String rawValue) {
+        return rawValue == null ? "" : rawValue.trim().toLowerCase(Locale.ROOT);
     }
 
     // -------------------------------------------------------------------------

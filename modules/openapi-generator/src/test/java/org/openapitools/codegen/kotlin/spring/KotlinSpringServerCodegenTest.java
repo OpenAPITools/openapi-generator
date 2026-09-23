@@ -19,6 +19,7 @@ import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.kotlin.assertions.KotlinFileAssert;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
+import org.openapitools.codegen.languages.SpringPageableScanUtils;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
@@ -5466,19 +5467,6 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void autoXSpringPaginatedSetterCalledTwiceWithLegacyValue_logsDeprecationWarningOnce() {
-        long deprecationWarnings = countDeprecationWarnings(() -> {
-            KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-            // Simulates the setter being invoked more than once during a single generator run
-            // (e.g. once for a CLI default and once for the user-supplied value) with the same
-            // deprecated legacy alias — the once-only guard must suppress the second warning.
-            codegen.setAutoXSpringPaginated("true");
-            codegen.setAutoXSpringPaginated("true");
-        });
-        assertThat(deprecationWarnings).isEqualTo(1);
-    }
-
-    @Test
     public void autoXSpringPaginatedInvalidValue_isRejectedEvenForUnsupportedLibrary() {
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setLibrary(KotlinSpringServerCodegen.SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
@@ -5501,7 +5489,7 @@ public class KotlinSpringServerCodegenTest {
     }
 
     private static long countDeprecationWarnings(Runnable action) {
-        return TestUtils.captureLogMessages(KotlinSpringServerCodegen.class, action).stream()
+        return TestUtils.captureLogMessages(SpringPageableScanUtils.class, action).stream()
                 .filter(message -> message.contains("autoXSpringPaginated") && message.contains("deprecated"))
                 .count();
     }

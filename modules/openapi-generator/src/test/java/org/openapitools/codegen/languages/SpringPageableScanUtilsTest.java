@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.TestUtils;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
@@ -19,7 +20,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -434,76 +434,32 @@ public class SpringPageableScanUtilsTest {
     // -------------------------------------------------------------------------
 
     @Test
-    public void resolveAutoPaginationMode_canonicalNone_returnsNoneWithoutWarning() {
-        AtomicBoolean warned = new AtomicBoolean(false);
-
-        SpringPageableScanUtils.AutoPaginationMode mode =
-                SpringPageableScanUtils.resolveAutoPaginationMode("none", msg -> warned.set(true));
-
-        assertThat(mode).isEqualTo(SpringPageableScanUtils.AutoPaginationMode.NONE);
-        assertThat(warned).isFalse();
-    }
-
-    @Test
-    public void resolveAutoPaginationMode_canonicalPageSizeSort_returnsPageSizeSortWithoutWarning() {
-        AtomicBoolean warned = new AtomicBoolean(false);
-
-        SpringPageableScanUtils.AutoPaginationMode mode =
-                SpringPageableScanUtils.resolveAutoPaginationMode("page-size-sort", msg -> warned.set(true));
-
-        assertThat(mode).isEqualTo(SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
-        assertThat(warned).isFalse();
-    }
-
-    @Test
-    public void resolveAutoPaginationMode_canonicalPageSize_returnsPageSizeWithoutWarning() {
-        AtomicBoolean warned = new AtomicBoolean(false);
-
-        SpringPageableScanUtils.AutoPaginationMode mode =
-                SpringPageableScanUtils.resolveAutoPaginationMode("page-size", msg -> warned.set(true));
-
-        assertThat(mode).isEqualTo(SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE);
-        assertThat(warned).isFalse();
+    public void resolveAutoPaginationMode_canonicalValues() {
+        assertThat(SpringPageableScanUtils.resolveAutoPaginationMode("none"))
+                .isEqualTo(SpringPageableScanUtils.AutoPaginationMode.NONE);
+        assertThat(SpringPageableScanUtils.resolveAutoPaginationMode("page-size-sort"))
+                .isEqualTo(SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
+        assertThat(SpringPageableScanUtils.resolveAutoPaginationMode("page-size"))
+                .isEqualTo(SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE);
     }
 
     @Test
     public void resolveAutoPaginationMode_caseInsensitiveAndTrimmed() {
-        AtomicBoolean warned = new AtomicBoolean(false);
-
-        SpringPageableScanUtils.AutoPaginationMode mode =
-                SpringPageableScanUtils.resolveAutoPaginationMode("  PAGE-SIZE  ", msg -> warned.set(true));
-
-        assertThat(mode).isEqualTo(SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE);
-        assertThat(warned).isFalse();
+        assertThat(SpringPageableScanUtils.resolveAutoPaginationMode("  PAGE-SIZE  "))
+                .isEqualTo(SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE);
     }
 
     @Test
-    public void resolveAutoPaginationMode_legacyTrue_returnsPageSizeSortAndWarnsWithMigrationHint() {
-        List<String> warnings = new ArrayList<>();
-
-        SpringPageableScanUtils.AutoPaginationMode mode =
-                SpringPageableScanUtils.resolveAutoPaginationMode("true", warnings::add);
-
-        assertThat(mode).isEqualTo(SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
-        assertThat(warnings).hasSize(1);
-        assertThat(warnings.get(0)).contains("deprecated").contains("page-size-sort");
-    }
-
-    @Test
-    public void resolveAutoPaginationMode_legacyFalse_returnsNoneAndWarnsWithMigrationHint() {
-        List<String> warnings = new ArrayList<>();
-
-        SpringPageableScanUtils.AutoPaginationMode mode =
-                SpringPageableScanUtils.resolveAutoPaginationMode("false", warnings::add);
-
-        assertThat(mode).isEqualTo(SpringPageableScanUtils.AutoPaginationMode.NONE);
-        assertThat(warnings).hasSize(1);
-        assertThat(warnings.get(0)).contains("deprecated").contains("none");
+    public void resolveAutoPaginationMode_legacyAliases() {
+        assertThat(SpringPageableScanUtils.resolveAutoPaginationMode("true"))
+                .isEqualTo(SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
+        assertThat(SpringPageableScanUtils.resolveAutoPaginationMode("false"))
+                .isEqualTo(SpringPageableScanUtils.AutoPaginationMode.NONE);
     }
 
     @Test
     public void resolveAutoPaginationMode_invalidValue_throwsIllegalArgumentExceptionListingAcceptedValues() {
-        assertThatThrownBy(() -> SpringPageableScanUtils.resolveAutoPaginationMode("bogus", msg -> { }))
+        assertThatThrownBy(() -> SpringPageableScanUtils.resolveAutoPaginationMode("bogus"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("bogus")
                 .hasMessageContaining("none")
@@ -511,16 +467,44 @@ public class SpringPageableScanUtilsTest {
                 .hasMessageContaining("page-size");
     }
 
+    // -------------------------------------------------------------------------
+    // warnIfDeprecatedAutoPaginationValue
+    // -------------------------------------------------------------------------
+
     @Test
-    public void warnOnce_forwardsOnlyFirstMessage() {
-        List<String> warnings = new ArrayList<>();
-        java.util.function.Consumer<String> warn = SpringPageableScanUtils.warnOnce(warnings::add);
+    public void warnIfDeprecatedAutoPaginationValue_legacyTrue_warnsWithMigrationHint() {
+        List<String> messages = TestUtils.captureLogMessages(SpringPageableScanUtils.class,
+                () -> SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("true"));
+        assertThat(messages).singleElement(org.assertj.core.api.InstanceOfAssertFactories.STRING)
+                .contains("'true' is deprecated").contains("'page-size-sort'");
+    }
 
-        SpringPageableScanUtils.resolveAutoPaginationMode("true", warn);
-        SpringPageableScanUtils.resolveAutoPaginationMode("false", warn);
+    @Test
+    public void warnIfDeprecatedAutoPaginationValue_legacyFalse_warnsWithMigrationHint() {
+        List<String> messages = TestUtils.captureLogMessages(SpringPageableScanUtils.class,
+                () -> SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("false"));
+        assertThat(messages).singleElement(org.assertj.core.api.InstanceOfAssertFactories.STRING)
+                .contains("'false' is deprecated").contains("'none'");
+    }
 
-        assertThat(warnings).hasSize(1);
-        assertThat(warnings.get(0)).contains("'true' is deprecated");
+    @Test
+    public void warnIfDeprecatedAutoPaginationValue_normalizesLikeResolve() {
+        List<String> messages = TestUtils.captureLogMessages(SpringPageableScanUtils.class,
+                () -> SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue(" TRUE "));
+        assertThat(messages).singleElement(org.assertj.core.api.InstanceOfAssertFactories.STRING)
+                .contains("'true' is deprecated");
+    }
+
+    @Test
+    public void warnIfDeprecatedAutoPaginationValue_nonLegacyValues_doNotWarn() {
+        List<String> messages = TestUtils.captureLogMessages(SpringPageableScanUtils.class, () -> {
+            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("none");
+            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("page-size-sort");
+            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("page-size");
+            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("bogus");
+            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue(null);
+        });
+        assertThat(messages).isEmpty();
     }
 
     // -------------------------------------------------------------------------
