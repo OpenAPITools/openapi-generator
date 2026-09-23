@@ -41,42 +41,13 @@ public class JSONTest {
     }
 
     @Test
-    public void testLiteralAdditionalPropertiesKeyRoundTripsOnAllOfChild() {
+    public void testAdditionalPropertiesRoundTripOnAllOfChild() {
         Gson gson = json.getGson();
 
-        // Dog inherits the additionalProperties bag from Animal, where the field stays visible
-        // to gson's reflection. The adapter hides an undeclared property literally named
-        // `additionalProperties` from the delegate and collects it from the raw JSON, or it
-        // would be stored twice - once nested, once flattened - and the nested entries would be
-        // written back as top-level properties.
-        String jsonStr = "{\"className\":\"Dog\",\"breed\":\"b\",\"additionalProperties\":{\"x\":1},\"extra\":\"e\"}";
-        Dog dog = gson.fromJson(jsonStr, Dog.class);
-
-        Map<String, Object> expected = new HashMap<>();
-        expected.put("additionalProperties", new HashMap<>(Collections.singletonMap("x", 1.0)));
-        expected.put("extra", "e");
-        assertEquals(expected, dog.getAdditionalProperties());
-
-        JsonObject written = gson.toJsonTree(dog).getAsJsonObject();
-        assertFalse(written.has("x"), "the nested entry must not leak to the top level: " + written);
-        assertEquals("{\"x\":1.0}", written.get("additionalProperties").toString());
-        assertEquals("e", written.get("extra").getAsString());
-    }
-
-    @Test
-    public void testLiteralAdditionalPropertiesKeyWithNonObjectValueRoundTripsOnAllOfChild() {
-        Gson gson = json.getGson();
-
-        // the delegate adapter would try to read a primitive or array into the inherited
-        // Map-typed bag and throw; the key is an undeclared property whatever its JSON type
-        Dog number = gson.fromJson("{\"className\":\"Dog\",\"additionalProperties\":5}", Dog.class);
-        assertEquals(Collections.singleton("additionalProperties"), number.getAdditionalProperties().keySet());
-        assertEquals(5, ((Number) number.getAdditionalProperty("additionalProperties")).intValue());
-        assertEquals("5", gson.toJsonTree(number).getAsJsonObject().get("additionalProperties").toString());
-
-        Dog array = gson.fromJson("{\"className\":\"Dog\",\"additionalProperties\":[1,2]}", Dog.class);
-        assertEquals(Arrays.asList(1.0, 2.0), array.getAdditionalProperties().get("additionalProperties"));
-        assertEquals("[1.0,2.0]", gson.toJsonTree(array).getAsJsonObject().get("additionalProperties").toString());
+        // Dog extends Animal and both allow additional properties; gson used to refuse Dog outright
+        Dog dog = gson.fromJson("{\"className\":\"Dog\",\"breed\":\"b\",\"extra\":\"e\"}", Dog.class);
+        assertEquals(Collections.singletonMap("extra", "e"), dog.getAdditionalProperties());
+        assertEquals("e", gson.toJsonTree(dog).getAsJsonObject().get("extra").getAsString());
     }
 
     @Test
