@@ -1195,7 +1195,7 @@ public class TypeScriptFetchClientCodegenTest {
                 "for (let key of Object.keys(requestParameters['typedFilter'])) {",
                 "const value = (requestParameters['typedFilter'] as any)[key];");
 
-        // a null or undefined entry is left out (the runtime would send k=null or k=undefined); defineProperty keeps a key named __proto__
+        // pins the emitted loop: a null or undefined entry is skipped, and the entry is defined rather than assigned so a key named __proto__ survives
         TestUtils.assertFileContains(api, "if (value != null) { Object.defineProperty(queryParameters, key, { value, enumerable: true, writable: true, configurable: true }); }");
 
         // deepObject nests under the parameter name, which the runtime does for a whole object
