@@ -521,12 +521,12 @@ export class BlobApiResponse {
     async value(): Promise<HttpFile> {
         const blob = await this.raw.blob();
         const name = parseContentDispositionFilename(this.raw.headers) ?? '';
-        try {
-            if (typeof File !== 'undefined' && blob instanceof Blob) {
+        if (typeof File !== 'undefined' && blob instanceof Blob) {
+            try {
                 return new File([blob], name, { type: blob.type });
+            } catch {
+                // File cannot be constructed: name the Blob itself
             }
-        } catch {
-            // File cannot be constructed: name the Blob itself
         }
         return Object.assign(blob, { name });
     };
