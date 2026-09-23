@@ -1152,9 +1152,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
 
             // the split narrowed each variant to a single media type per axis; the merged operation speaks
-            // them all again, so its documentation says so. apis.mustache reads consumes only where the
-            // request axis was not split - a case where this union is the single value anyway - and never
-            // reads produces, so this is documentation only.
+            // them all again, so its documentation lists the media types of its variants - not the ones only
+            // its error responses declare, which a caller never asks for. apis.mustache reads consumes only
+            // where the request axis was not split - a case where this union is the single value anyway - and
+            // never reads produces, so this is documentation only.
             base.consumes = mediaTypesOf(requestVariants, v -> v.consumes);
             base.produces = mediaTypesOf(responseVariants, v -> v.produces);
 

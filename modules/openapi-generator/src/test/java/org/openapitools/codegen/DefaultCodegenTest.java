@@ -5469,6 +5469,58 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void splitOperationsByContentTypeNarrowsProducesToTheVariantMediaType() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-split-by-content-type-error-responses.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        // GET /reports/{id}: 200 is json | csv, 400 and 404 are json. produces is the Accept a client
+        // sends, so each variant carries the single media-type it was narrowed to: widened back to json by
+        // the error responses, the csv variant would ask the server for json.
+        Operation get = openAPI.getPaths().get("/reports/{id}").getGet();
+        List<Operation> variants = codegen.divideOperationsByContentType(openAPI, "/reports/{id}", "get", get);
+        assertThat(variants).extracting(Operation::getOperationId, v -> DefaultCodegen.getProducesInfo(openAPI, v))
+                .containsExactlyInAnyOrder(
+                        tuple("getReportAsJson", Set.of("application/json")),
+                        tuple("getReportAsCsv", Set.of("text/csv")));
+        List<CodegenOperation> ops = variants.stream()
+                .map(v -> codegen.fromOperation("/reports/{id}", "get", v, null))
+                .collect(Collectors.toList());
+        assertThat(ops).extracting(op -> op.operationId, op -> mediaTypes(op.produces))
+                .containsExactlyInAnyOrder(
+                        tuple("getReportAsJson", List.of("application/json")),
+                        tuple("getReportAsCsv", List.of("text/csv")));
+        // the error responses are left as they are: they still type their json body
+        assertThat(ops).allSatisfy(op -> assertThat(op.responses).filteredOn(r -> "400".equals(r.code))
+                .extracting(r -> r.getContent().keySet()).containsExactly(Set.of("application/json")));
+
+        // POST /reports: split on both axes. consumes follows the narrowed request body, produces the
+        // narrowed success response, whatever the json 400 declares.
+        Operation post = openAPI.getPaths().get("/reports").getPost();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/reports", "post", post))
+                .extracting(v -> codegen.fromOperation("/reports", "post", v, null))
+                .extracting(op -> op.operationId, op -> mediaTypes(op.consumes), op -> mediaTypes(op.produces))
+                .containsExactlyInAnyOrder(
+                        tuple("createReportWithJsonAsJson", List.of("application/json"), List.of("application/json")),
+                        tuple("createReportWithJsonAsPdf", List.of("application/json"), List.of("application/pdf")),
+                        tuple("createReportWithXmlAsJson", List.of("application/xml"), List.of("application/json")),
+                        tuple("createReportWithXmlAsPdf", List.of("application/xml"), List.of("application/pdf")));
+
+        // an operation the split leaves alone keeps the union of every response, as it always has - and a
+        // spec-authored axis extension, with no variant group, does not make it a variant
+        Operation voucher = openAPI.getPaths().get("/reports/{id}/voucher").getGet();
+        voucher.addExtension(CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE, "text/csv");
+        assertThat(DefaultCodegen.getProducesInfo(openAPI, voucher)).containsExactlyInAnyOrder("application/pdf", "application/json");
+        assertThat(mediaTypes(codegen.fromOperation("/reports/{id}/voucher", "get", voucher, null).produces))
+                .containsExactlyInAnyOrder("application/pdf", "application/json");
+    }
+
+    private static List<String> mediaTypes(List<Map<String, String>> media) {
+        return media.stream().map(m -> m.get(MEDIA_TYPE)).collect(Collectors.toList());
+    }
+
+    @Test
     public void splitOperationsByContentTypeIsAGlobalOption() {
         // the behaviour is language-neutral, so the option is global rather than declared - and documented -
         // by every single generator

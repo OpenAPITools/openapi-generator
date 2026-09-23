@@ -20,6 +20,7 @@ package org.openapitools.codegen.java;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -44,6 +45,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES;
 
 public class AbstractJavaCodegenTest {
@@ -1113,6 +1115,43 @@ public class AbstractJavaCodegenTest {
     @Test(description = "test sanitizing name of dataType when using schemaMapping and oneOf/allOf (issue 20718)")
     public void testSanitizedDataType() {
         assertThat(codegen.sanitizeDataType("org.somepkg.DataType")).isEqualTo("orgsomepkgDataType");
+    }
+
+    @Test
+    public void contentTypeVariantsCarryTheirOwnAcceptAndContentType() {
+        // x-accepts and x-content-type are computed in preprocessOpenAPI, before the operations are split by
+        // content-type; the variants are stamped again as they are split, so none inherits the media-types
+        // of the operation it was split from
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-split-by-content-type-error-responses.yaml");
+        codegen.setOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(openAPI);
+
+        // GET /reports/{id}: 200 is json | csv, 400 and 404 are json
+        Operation get = openAPI.getPaths().get("/reports/{id}").getGet();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/reports/{id}", "get", get))
+                .extracting(v -> codegen.fromOperation("/reports/{id}", "get", v, null))
+                .extracting(op -> op.operationId, op -> List.of((String[]) op.vendorExtensions.get("x-accepts")))
+                .containsExactlyInAnyOrder(
+                        tuple("getReportAsJson", List.of("application/json")),
+                        tuple("getReportAsCsv", List.of("text/csv")));
+
+        // POST /reports: request json | xml, 200 json | pdf, 400 json
+        Operation post = openAPI.getPaths().get("/reports").getPost();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/reports", "post", post))
+                .extracting(v -> codegen.fromOperation("/reports", "post", v, null))
+                .extracting(op -> op.operationId, op -> op.vendorExtensions.get("x-content-type"),
+                        op -> List.of((String[]) op.vendorExtensions.get("x-accepts")))
+                .containsExactlyInAnyOrder(
+                        tuple("createReportWithJsonAsJson", "application/json", List.of("application/json")),
+                        tuple("createReportWithJsonAsPdf", "application/json", List.of("application/pdf")),
+                        tuple("createReportWithXmlAsJson", "application/xml", List.of("application/json")),
+                        tuple("createReportWithXmlAsPdf", "application/xml", List.of("application/pdf")));
+
+        // not split: the Accept computed from every response, as before
+        Operation voucher = openAPI.getPaths().get("/reports/{id}/voucher").getGet();
+        assertThat((String[]) codegen.fromOperation("/reports/{id}/voucher", "get", voucher, null).vendorExtensions.get("x-accepts"))
+                .containsExactly("application/json", "application/pdf");
     }
 
     @Test(description = "the OAS 3.1 null type maps to Object instead of a never-generated ModelNull (issue 24520)")

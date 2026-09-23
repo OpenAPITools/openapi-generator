@@ -2855,6 +2855,34 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void splitOperationsByContentTypeVariantsSendTheirOwnAccept() throws IOException {
+        // spring-cloud renders produces from x-accepts (singleContentTypes) and SpringMvcContract sends
+        // produces[0] as Accept: a variant must carry the media-type it was narrowed to, not the json of the
+        // error responses the operation also declares, or it would ask the server for another media-type
+        // than the one it is typed on
+        GlobalSettings.setProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true");
+        try {
+            Map<String, Object> additionalProperties = new HashMap<>();
+            additionalProperties.put(DOCUMENTATION_PROVIDER, "none");
+            additionalProperties.put(ANNOTATION_LIBRARY, "none");
+            Map<String, File> files = generateFromContract("src/test/resources/3_0/issue6708-split-by-content-type-error-responses.yaml", SPRING_CLOUD_LIBRARY, additionalProperties);
+
+            JavaFileAssert.assertThat(files.get("ReportsApi.java"))
+                    .assertMethod("getReportAsCsv")
+                    .assertMethodAnnotations()
+                    .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of("produces", "{ \"text/csv\" }"))
+                    .toMethod().toFileAssert()
+                    .assertMethod("createReportWithXmlAsPdf")
+                    .assertMethodAnnotations()
+                    .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
+                            "consumes", "\"application/xml\"",
+                            "produces", "{ \"application/pdf\" }"));
+        } finally {
+            GlobalSettings.reset();
+        }
+    }
+
+    @Test
     public void testResponseWithArray_issue12524() throws Exception {
         GlobalSettings.setProperty("skipFormModel", "true");
 

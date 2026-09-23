@@ -2407,14 +2407,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
                 for (Operation operation : path.readOperations()) {
                     LOGGER.info("Processing operation {}", operation.getOperationId());
-                    if (hasBodyParameter(operation) || hasFormParameter(operation)) {
-                        String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
-                        List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
-                        String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
-                        operation.addExtension("x-content-type", contentType);
-                    }
-                    String[] accepts = getAccepts(openAPI, operation);
-                    operation.addExtension("x-accepts", accepts);
+                    addContentTypeExtensions(openAPI, operation);
                 }
             }
         }
@@ -2562,6 +2555,35 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             return "\"" + escapeText(value) + "\"";
         }
+    }
+
+    /**
+     * Records on the operation the Content-Type ({@code x-content-type}) and Accept ({@code x-accepts}) the
+     * generated client sends for it, which the templates read.
+     */
+    private void addContentTypeExtensions(OpenAPI openAPI, Operation operation) {
+        if (hasBodyParameter(operation) || hasFormParameter(operation)) {
+            String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
+            List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
+            String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
+            operation.addExtension(VendorExtension.X_CONTENT_TYPE.getName(), contentType);
+        }
+        String[] accepts = getAccepts(openAPI, operation);
+        operation.addExtension(VendorExtension.X_ACCEPTS.getName(), accepts);
+    }
+
+    /**
+     * A content-type variant is split off after {@link #preprocessOpenAPI} stamped the operation it comes
+     * from, so it carries that operation's Content-Type and Accept, for every media-type it declares: the
+     * variants are stamped again here, each with the single media-type it was narrowed to on each axis.
+     */
+    @Override
+    public List<Operation> divideOperationsByContentType(OpenAPI openAPI, String path, String httpMethod, Operation operation) {
+        List<Operation> variants = super.divideOperationsByContentType(openAPI, path, httpMethod, operation);
+        if (variants.size() > 1) {
+            variants.forEach(variant -> addContentTypeExtensions(openAPI, variant));
+        }
+        return variants;
     }
 
     @Override
