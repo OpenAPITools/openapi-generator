@@ -755,6 +755,41 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Format the given collection as a path parameter value according to the collection format.
+   * Each item is escaped individually, so that the delimiter is preserved (e.g. "a,b,c" for csv).
+   *
+   * @param collectionFormat Collection format (csv by default)
+   * @param value Collection value
+   * @return Escaped path parameter value
+   */
+  public String collectionPathParameterToString(String collectionFormat, Collection<?> value) {
+    if (value == null || value.isEmpty()) {
+      return "";
+    }
+
+    // "multi" is not valid for path params, fall back to csv
+    String delimiter = ",";
+    if ("ssv".equals(collectionFormat)) {
+      delimiter = escapeString(" ");
+    } else if ("tsv".equals(collectionFormat)) {
+      delimiter = escapeString("\t");
+    } else if ("pipes".equals(collectionFormat)) {
+      delimiter = escapeString("|");
+    }
+
+    StringBuilder sb = new StringBuilder();
+    boolean first = true;
+    for (Object item : value) {
+      if (!first) {
+        sb.append(delimiter);
+      }
+      sb.append(escapeString(parameterToString(item)));
+      first = false;
+    }
+    return sb.toString();
+  }
+
+  /**
    * Serialize the given Java object into string entity according the given
    * Content-Type (only JSON is supported for now).
    *
