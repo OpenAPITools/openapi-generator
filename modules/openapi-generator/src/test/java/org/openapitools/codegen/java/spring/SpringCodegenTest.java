@@ -53,6 +53,7 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7751,7 +7752,7 @@ public class SpringCodegenTest {
         }
 
         String testThreadName = Thread.currentThread().getName();
-        long deprecationWarnings = listAppender.list.stream()
+        long deprecationWarnings = snapshotEvents(listAppender).stream()
                 .filter(event -> event.getThreadName().equals(testThreadName))
                 .filter(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
                         && event.getFormattedMessage().contains("deprecated"))
@@ -7777,7 +7778,7 @@ public class SpringCodegenTest {
         }
 
         String testThreadName = Thread.currentThread().getName();
-        boolean hasDeprecationWarning = listAppender.list.stream()
+        boolean hasDeprecationWarning = snapshotEvents(listAppender).stream()
                 .filter(event -> event.getThreadName().equals(testThreadName))
                 .anyMatch(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
                         && event.getFormattedMessage().contains("deprecated"));
@@ -7806,12 +7807,20 @@ public class SpringCodegenTest {
         }
 
         String testThreadName = Thread.currentThread().getName();
-        long deprecationWarnings = listAppender.list.stream()
+        long deprecationWarnings = snapshotEvents(listAppender).stream()
                 .filter(event -> event.getThreadName().equals(testThreadName))
                 .filter(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
                         && event.getFormattedMessage().contains("deprecated"))
                 .count();
         assertThat(deprecationWarnings).isEqualTo(1);
+    }
+
+    // ListAppender.list is a plain ArrayList that concurrently-running test classes may append to;
+    // AppenderBase.doAppend synchronizes on the appender, so copy under the same monitor.
+    private static List<ILoggingEvent> snapshotEvents(ListAppender<ILoggingEvent> appender) {
+        synchronized (appender) {
+            return new ArrayList<>(appender.list);
+        }
     }
 
     // -------------------------------------------------------------------------
