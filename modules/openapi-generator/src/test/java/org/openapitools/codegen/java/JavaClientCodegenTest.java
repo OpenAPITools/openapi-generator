@@ -339,6 +339,24 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void shouldEscapeParameterDefaultsInOkHttpGsonApiJavadocs() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_0/java/default-value-javadoc.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java"))
+                .content()
+                .contains("default to *_/_*")
+                .doesNotContain("default to */*");
+    }
+
+    @Test
     public void testRetrofit2CookieParamsOmittedFromSignature() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
