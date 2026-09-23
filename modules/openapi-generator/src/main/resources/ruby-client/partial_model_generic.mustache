@@ -77,6 +77,26 @@
       ])
     end
 
+    # Returns attribute type mapping{{#parent}}, including the ones defined in its parent(s){{/parent}}
+    def self.acceptable_openapi_types
+      {{^parent}}
+      openapi_types
+      {{/parent}}
+      {{#parent}}
+      superclass.acceptable_openapi_types.merge(openapi_types)
+      {{/parent}}
+    end
+
+    # Returns the nullable attributes{{#parent}}, including the ones defined in its parent(s) that it does not redeclare{{/parent}}
+    def self.acceptable_openapi_nullable
+      {{^parent}}
+      openapi_nullable
+      {{/parent}}
+      {{#parent}}
+      (superclass.acceptable_openapi_nullable - attribute_map.keys) | openapi_nullable
+      {{/parent}}
+    end
+
     {{#anyOf}}
     {{#-first}}
     # List of class defined in anyOf (OpenAPI v3)

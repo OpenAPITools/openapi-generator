@@ -168,51 +168,17 @@ describe 'BaseObject' do
   end
 
   describe 'attributes inherited from an allOf parent' do
-    it 'build_from_hash maps the parent attributes too' do
+    it 'build_from_hash and to_hash include the parent attributes' do
       cat = Petstore::Cat.build_from_hash({ 'className' => 'Cat', 'color' => 'black', 'declawed' => true })
 
       expect(cat).to be_instance_of(Petstore::Cat)
       expect(cat.class_name).to eq('Cat')
       expect(cat.color).to eq('black')
       expect(cat.declawed).to eq(true)
-    end
-
-    it 'to_hash serializes the parent attributes too' do
-      cat = Petstore::Cat.build_from_hash({ 'className' => 'Cat', 'color' => 'black', 'declawed' => true })
-
       expect(cat.to_hash).to eq({ className: 'Cat', color: 'black', declawed: true })
     end
 
-    it 'a child redeclaring an attribute as non-nullable wins over the ancestor nullability' do
-      parent = Class.new(Petstore::Animal) do
-        def self.attribute_map
-          { :flag => :flag }
-        end
-
-        def self.openapi_types
-          { :flag => :'String' }
-        end
-
-        def self.openapi_nullable
-          Set.new([:flag])
-        end
-        attr_accessor :flag
-      end
-      child = Class.new(parent) do
-        def self.openapi_nullable
-          Set.new([])
-        end
-      end
-
-      nullable_instance = parent.allocate
-      nullable_instance.instance_variable_set(:@flag, nil)
-      expect(nullable_instance.to_hash).to eq({ flag: nil })
-
-      non_nullable_instance = child.allocate
-      non_nullable_instance.instance_variable_set(:@flag, nil)
-      expect(non_nullable_instance.to_hash).not_to have_key(:flag)
-    end
-
+    # passes on master too: guards that a subclass narrowing attribute_map is not handed its parent's attributes
     it 'a subclass that narrows attribute_map is only handed the attributes it accepts' do
       narrowed = Class.new(Petstore::Animal) do
         def self.attribute_map

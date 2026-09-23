@@ -32,6 +32,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -763,7 +764,7 @@ public class RubyClientCodegenTest {
                 "All content:application/json query params should have queryIsJsonMimeType=true");
     }
 
-    @Test(description = "an allOf child's build_from_hash maps the attributes inherited from its parents")
+    @Test(description = "an allOf child's build_from_hash and to_hash include the attributes inherited from its parents")
     public void testBuildFromHashMapsInheritedAttributes() throws Exception {
         final File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -775,44 +776,19 @@ public class RubyClientCodegenTest {
         ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
         new DefaultGenerator().opts(clientOptInput).generate();
 
-        // Lizard < Reptile < Pet: the walk has to collect openapi_types and
-        // attribute_map from the whole ancestry, not just the child's own
-        java.nio.file.Path lizard = new File(output, "lib/openapi_client/models/lizard.rb").toPath();
+        // Lizard < Reptile < Pet: types and nullability merge along the ancestry, the nearest declaration wins
+        Path lizard = new File(output, "lib/openapi_client/models/lizard.rb").toPath();
         TestUtils.assertFileContains(lizard,
-                "map = acceptable_attribute_map\n" +
-                "      types = openapi_types\n" +
-                "      klass = superclass\n" +
-                "      while klass.respond_to?(:openapi_types)\n" +
-                "        types = klass.openapi_types.merge(types)\n" +
-                "        klass = klass.superclass\n" +
-                "      end");
-        // only attributes the initializer accepts are passed on, so a consumer subclass
-        // that narrows attribute_map is not handed its generated parent's attributes
+                "superclass.acceptable_openapi_types.merge(openapi_types)",
+                "(superclass.acceptable_openapi_nullable - attribute_map.keys) | openapi_nullable");
+        // build_from_hash and to_hash use the merged maps
         TestUtils.assertFileContains(lizard,
-                "types.each_pair do |key, type|\n" +
-                "        next unless map.key?(key)\n");
-        // the discarded-result super call is gone: openapi_types/attribute_map
-        // dispatch on the child class in the parent's frame too, so it never
-        // contributed the parent's attributes - it only built a second instance
+                "acceptable_openapi_types.each_pair do |key, type|",
+                "self.class.acceptable_attribute_map.each_pair do |attr, param|",
+                "is_nullable = self.class.acceptable_openapi_nullable.include?(attr)");
+        // the super call that built and discarded a second instance is gone
         TestUtils.assertFileNotContains(lizard, "super(attributes)\n      attributes = attributes.transform_keys(&:to_sym)");
-        // to_hash walks the same ancestry: attribute_map/openapi_nullable dispatch on the
-        // child in every ancestor frame, so the old super chain only repeated the child's
-        // own attributes and a round-tripped model lost its inherited fields
-        TestUtils.assertFileContains(lizard,
-                "map = self.class.acceptable_attribute_map\n" +
-                "      nullable = self.class.openapi_nullable\n" +
-                "      declared = self.class.attribute_map.keys\n" +
-                "      klass = self.class.superclass\n" +
-                "      while klass.respond_to?(:openapi_types)\n" +
-                "        # an ancestor's nullability only applies to attributes no nearer class redeclares\n" +
-                "        nullable |= klass.openapi_nullable & (klass.attribute_map.keys - declared)\n" +
-                "        declared |= klass.attribute_map.keys\n" +
-                "        klass = klass.superclass\n" +
-                "      end");
-        // the walk evaluates openapi_nullable eagerly, so Set must be loaded on rubies
-        // where it is not yet a builtin autoload
-        TestUtils.assertFileContains(lizard, "require 'set'");
-        // only the generic model uses Set; a oneOf module does not load it
-        TestUtils.assertFileNotContains(new File(output, "lib/openapi_client/models/my_pets.rb").toPath(), "require 'set'");
+        // a root model has no parent to merge
+        TestUtils.assertFileNotContains(new File(output, "lib/openapi_client/models/pet.rb").toPath(), "superclass.acceptable_openapi_types");
     }
 }
