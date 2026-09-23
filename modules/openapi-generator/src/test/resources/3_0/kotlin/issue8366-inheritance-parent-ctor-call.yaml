@@ -1,0 +1,93 @@
+openapi: 3.0.3
+info:
+  version: "1.0.0"
+  title: ""
+paths:
+  /documents/v1:
+    get:
+      responses:
+        200:
+          description: lorem
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ParentSchema"
+components:
+  schemas:
+    JarFiles:
+      type: array
+      items:
+        $ref: "#/components/schemas/JarFile"
+    JarFile:
+      type: object
+      required:
+      - filename
+      - contentBase64
+      - hasDbMigrations
+      additionalProperties: true
+      properties:
+        filename:
+          type: string
+          nullable: false
+          minLength: 1
+          maxLength: 255
+        hasDbMigrations:
+          description: Indicates whether the cordapp jar in question contains any
+            embedded migrations that Cactus can/should execute between copying the
+            jar into the cordapp directory and starting the node back up.
+          type: boolean
+          nullable: false
+        contentBase64:
+          type: string
+          format: base64
+          nullable: false
+          minLength: 1
+          maxLength: 1073741824
+
+    ParentSchema:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          $ref: "#/components/schemas/DiscriminatingType"
+      discriminator:
+        propertyName: type
+        mapping:
+          subtypeA: "#/components/schemas/SubtypeA"
+          subtypeB: "#/components/schemas/SubtypeB"
+          subtypeC: "#/components/schemas/SubtypeC"
+    SubtypeA:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ParentSchema'
+        - type: object
+          properties:
+            subtypeAproperty:
+              type: integer
+    SubtypeB:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ParentSchema'
+        - type: object
+          properties:
+            subtypeBproperty:
+              type: string
+    SubtypeC:
+      type: object
+      additionalProperties: true
+      allOf:
+        - $ref: '#/components/schemas/ParentSchema'
+        - type: object
+          properties:
+            subtypeAproperty:
+              type: integer
+
+    DiscriminatingType:
+      type: string
+      enum:
+        - subtypeA
+        - subtypeB
+        - subtypeC
