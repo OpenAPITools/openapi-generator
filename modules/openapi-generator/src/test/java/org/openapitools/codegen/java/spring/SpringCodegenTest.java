@@ -10021,4 +10021,94 @@ public class SpringCodegenTest {
                 .fileContains(expectedContains);
     }
 
+    @Test
+    public void testResponseProducesAnnotation_issue21385() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(USE_BEANVALIDATION, "false");
+        additionalProperties.put(USE_JAKARTA_EE, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_21385.yaml",
+                SPRING_BOOT,
+                additionalProperties
+        );
+
+        JavaFileAssert.assertThat(files.get("PetsApi.java"))
+                .fileContains(
+                        "@Content(mediaType = \"application/json\", schema = @Schema(implementation = PetDetailsResponse.class))",
+                        "@Content(mediaType = \"application/problem+json\", schema = @Schema(implementation = ProblemDetails.class))",
+                        "produces = { \"application/json\", \"application/problem+json\" }"
+                )
+                .fileDoesNotContain(
+                        "@Content(mediaType = \"application/problem+json\", schema = @Schema(implementation = PetDetailsResponse.class))",
+                        "@Content(mediaType = \"application/json\", schema = @Schema(implementation = ProblemDetails.class))"
+                )
+                // pin each @Content to its own @ApiResponse block, so a generator that placed both
+                // @Content entries under responseCode 200 (leaving 404 empty) would fail this test
+                .fileContainsPattern(
+                        "(?s)@ApiResponse\\(responseCode = \"200\".*?@Content\\(mediaType = \"application/json\", schema = @Schema\\(implementation = PetDetailsResponse\\.class\\)\\)\\s*\\}\\)"
+                )
+                .fileContainsPattern(
+                        "(?s)@ApiResponse\\(responseCode = \"404\".*?@Content\\(mediaType = \"application/problem\\+json\", schema = @Schema\\(implementation = ProblemDetails\\.class\\)\\)\\s*\\}\\)"
+                );
+    }
+
+    @Test
+    public void testResponseProducesAnnotation_issue21385_singleResponseMultipleMediaTypes() throws IOException {
+        // Regression test for a single response declaring multiple media types with different
+        // schemas (e.g. content negotiated via the Accept header). Each @Content entry must use
+        // the schema of its own media type, not the schema of whichever media type happens to be
+        // resolved as the overall response type.
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(USE_BEANVALIDATION, "false");
+        additionalProperties.put(USE_JAKARTA_EE, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_21385_multi_media_type_single_response.yaml",
+                SPRING_BOOT,
+                additionalProperties
+        );
+
+        JavaFileAssert.assertThat(files.get("PetsApi.java"))
+                .fileContains(
+                        "@Content(mediaType = \"application/json\", schema = @Schema(implementation = PetDetailsResponse.class))",
+                        "@Content(mediaType = \"application/xml\", schema = @Schema(implementation = PetDetailsXmlResponse.class))"
+                )
+                .fileDoesNotContain(
+                        "@Content(mediaType = \"application/xml\", schema = @Schema(implementation = PetDetailsResponse.class))",
+                        "@Content(mediaType = \"application/json\", schema = @Schema(implementation = PetDetailsXmlResponse.class))"
+                );
+    }
+
+    @Test
+    public void testResponseProducesAnnotation_issue21385_mixedArrayAndNonArrayMediaTypes() throws IOException {
+        // Regression test for a single response where one media type's schema is an array and
+        // another media type's schema on that same response is not. isArray must be resolved
+        // per media type rather than inherited from CodegenResponse#isArray, which reflects only
+        // whichever media type was picked to represent the response as a whole - otherwise the
+        // non-array media type would incorrectly be wrapped in @ArraySchema too (or vice versa).
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(USE_BEANVALIDATION, "false");
+        additionalProperties.put(USE_JAKARTA_EE, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/issue_21385_mixed_array_response.yaml",
+                SPRING_BOOT,
+                additionalProperties
+        );
+
+        JavaFileAssert.assertThat(files.get("PetsApi.java"))
+                .fileContains(
+                        "@Content(mediaType = \"application/json\", array = @ArraySchema(schema = @Schema(implementation = PetSummary.class)))",
+                        "@Content(mediaType = \"application/xml\", schema = @Schema(implementation = PetSummary.class))"
+                )
+                .fileDoesNotContain(
+                        "@Content(mediaType = \"application/xml\", array = @ArraySchema(schema = @Schema(implementation = PetSummary.class)))",
+                        "@Content(mediaType = \"application/json\", schema = @Schema(implementation = PetSummary.class))"
+                );
+    }
+
 }

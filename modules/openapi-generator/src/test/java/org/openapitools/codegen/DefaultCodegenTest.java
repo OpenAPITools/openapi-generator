@@ -272,6 +272,19 @@ public class DefaultCodegenTest {
         assertEquals(2, coIssue443.produces.size());
         assertEquals(APP_JSON, coIssue443.produces.get(0).get(MEDIA_TYPE));
         assertEquals(APP_TEXT, coIssue443.produces.get(1).get(MEDIA_TYPE));
+
+        // Issue 21385: verify per-response produces
+        CodegenResponse r200 = coIssue443.responses.stream().filter(r -> "200".equals(r.code)).findFirst().orElse(null);
+        assertNotNull(r200);
+        assertNotNull(r200.getResponseProduces());
+        assertEquals(1, r200.getResponseProduces().size());
+        assertEquals(APP_JSON, r200.getResponseProduces().get(0).get(MEDIA_TYPE));
+
+        CodegenResponse rDefault = coIssue443.responses.stream().filter(r -> r.isDefault).findFirst().orElse(null);
+        assertNotNull(rDefault);
+        assertNotNull(rDefault.getResponseProduces());
+        assertEquals(1, rDefault.getResponseProduces().size());
+        assertEquals(APP_TEXT, rDefault.getResponseProduces().get(0).get(MEDIA_TYPE));
     }
 
     @Test
