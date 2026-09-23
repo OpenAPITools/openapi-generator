@@ -1177,7 +1177,7 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(api, "formParams.append('createdAt', runtime.serializeDateTime(requestParameters['createdAt'] as any))");
     }
 
-    @Test(description = "Verify an object query parameter is exploded, whether or not it declares its properties")
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
     public void testExplodedObjectQueryParameter() throws IOException {
         File output = generate(new HashMap<>(), "src/test/resources/3_0/exploded-object-query-param.yaml");
         Path api = Paths.get(output + "/apis/DefaultApi.ts");
@@ -1187,13 +1187,16 @@ public class TypeScriptFetchClientCodegenTest {
         // through to a whole-object assignment and end up bracketed by the runtime.
         TestUtils.assertFileContains(api,
                 "for (let key of Object.keys(requestParameters['filter'])) {",
-                "queryParameters[key] = (requestParameters['filter'] as any)[key];");
+                "const value = (requestParameters['filter'] as any)[key];");
         TestUtils.assertFileNotContains(api, "queryParameters['filter'] = requestParameters['filter'];");
 
         // a declared map behaves the same way
         TestUtils.assertFileContains(api,
                 "for (let key of Object.keys(requestParameters['typedFilter'])) {",
-                "queryParameters[key] = (requestParameters['typedFilter'] as any)[key];");
+                "const value = (requestParameters['typedFilter'] as any)[key];");
+
+        // a null or undefined entry is left out; the runtime would send it as k=null or k=undefined
+        TestUtils.assertFileContains(api, "if (value != null) { queryParameters[key] = value; }");
 
         // deepObject nests under the parameter name, which the runtime does for a whole object
         TestUtils.assertFileContains(api, "queryParameters['deepFilter'] = requestParameters['deepFilter'];");

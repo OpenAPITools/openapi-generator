@@ -1560,11 +1560,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isModel = cp.isModel;
             this.isExplode = cp.isExplode;
             this.isDeepObject = cp.isDeepObject;
-            this.isMatrix = cp.isMatrix;
-            this.isAllowEmptyValue = cp.isAllowEmptyValue;
-            this.isFormStyle = cp.isFormStyle;
-            this.isSpaceDelimited = cp.isSpaceDelimited;
-            this.isPipeDelimited = cp.isPipeDelimited;
             this.baseName = cp.baseName;
             this.paramName = cp.paramName;
             this.dataType = cp.dataType;
