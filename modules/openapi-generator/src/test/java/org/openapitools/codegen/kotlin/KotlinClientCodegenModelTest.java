@@ -1010,9 +1010,7 @@ public class KotlinClientCodegenModelTest {
 
       final Path helperKt = Paths.get(output + "/src/main/kotlin/org/openapitools/client/infrastructure/SerializerHelper.kt");
 
-      // EnumJsonAdapter is not null-safe: registered bare, any model with a nullable enum
-      // property throws "value was null! Wrap in .nullSafe() to write nullable values" on
-      // a null value - reading and writing alike - so the flag broke every optional enum field
+      // EnumJsonAdapter is not null-safe, so every registered fallback adapter must be wrapped
       TestUtils.assertFileContains(helperKt, ".nullSafe())");
       TestUtils.assertFileNotContains(helperKt, "unknown_default_open_api))");
   }
