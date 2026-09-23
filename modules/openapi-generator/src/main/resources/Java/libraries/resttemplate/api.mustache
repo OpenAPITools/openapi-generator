@@ -18,8 +18,10 @@ import {{javaxPackage}}.validation.constraints.*;
 import {{javaxPackage}}.validation.Valid;
 
 {{/useBeanValidation}}
+{{#generateClientAsBean}}
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+{{/generateClientAsBean}}
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;

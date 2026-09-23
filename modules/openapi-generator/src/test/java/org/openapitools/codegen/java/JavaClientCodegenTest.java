@@ -5366,4 +5366,50 @@ public class JavaClientCodegenTest {
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
         return output;
     }
+
+    /**
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/20657">#20657</a>:
+     * When generateClientAsBean is false (default), Spring @Component and @Autowired imports
+     * should not be included in ApiClient and API classes for the resttemplate library.
+     */
+    @Test
+    public void testRestTemplateGenerateClientAsBeanDefaultFalse() {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java")).content()
+                .doesNotContain("import org.springframework.beans.factory.annotation.Autowired;")
+                .doesNotContain("import org.springframework.stereotype.Component;");
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java")).content()
+                .doesNotContain("import org.springframework.beans.factory.annotation.Autowired;")
+                .doesNotContain("import org.springframework.stereotype.Component;");
+    }
+
+    @Test
+    public void testRestTemplateGenerateClientAsBeanTrue() {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .addAdditionalProperty(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java")).content()
+                .contains("import org.springframework.beans.factory.annotation.Autowired;")
+                .contains("import org.springframework.stereotype.Component;");
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java")).content()
+                .contains("import org.springframework.beans.factory.annotation.Autowired;")
+                .contains("import org.springframework.stereotype.Component;");
+    }
 }
