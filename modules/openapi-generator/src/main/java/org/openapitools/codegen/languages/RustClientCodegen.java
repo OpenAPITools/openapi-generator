@@ -342,8 +342,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 if (discriminator == null || discriminator.getMappedModels() == null) {
                     continue;
                 }
-                // a mapping that names the base itself leaves no struct to wrap: keep the inline variants
-                if (discriminator.getMappedModels().stream().anyMatch(m -> cm.name.equals(m.getSchemaName()))) {
+                // a mapping that names the base itself leaves no struct to wrap, and an enum-typed tag would be
+                // written twice (the child's copy keeps its default): keep the inline variants
+                if (discriminator.getMappedModels().stream().anyMatch(m -> cm.name.equals(m.getSchemaName()))
+                        || cm.allVars.stream().anyMatch(v -> discriminator.getPropertyBaseName().equals(v.baseName) && v.getIsEnumOrRef())) {
                     discriminator.getVendorExtensions().put("x-rust-inline-variants", true);
                     continue;
                 }

@@ -319,11 +319,13 @@ public class RustClientCodegenTest {
                 "pub fn new(r#type: String, message: String, identifier: String) -> ObjectExists {");
         TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/alpha.rs"),
                 "#[serde(rename = \"kind\", default, skip_serializing_if = \"Option::is_none\")]");
-        // an enum has no String::is_empty (E0308): default only
-        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/cat.rs"),
-                "#[serde(rename = \"petType\", default)]\n    pub pet_type: PetType,");
-        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/circle.rs"),
-                "#[serde(rename = \"kind\", default)]\n    pub kind: models::ShapeKind,");
+        // an enum-typed tag would be written twice, the child's copy keeping its default: inline variants, children untouched
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/pet.rs"),
+                "#[serde(rename=\"Cat\")]\n    Cat {", "#[serde(rename=\"Dog\")]\n    Dog {");
+        TestUtils.assertFileNotContains(Path.of(target.toString(), "/src/models/pet.rs"), "Box<models::Cat>");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/cat.rs"), "#[serde(rename = \"petType\")]\n    pub pet_type: PetType,");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/shape.rs"), "#[serde(rename=\"circle\")]\n    Circle {");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/circle.rs"), "#[serde(rename = \"kind\")]\n    pub kind: models::ShapeKind,");
 
         // a mapping that names the base itself leaves no struct to wrap (E0275): inline variants, children untouched
         TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/creature.rs"),

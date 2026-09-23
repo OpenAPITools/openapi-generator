@@ -48,7 +48,7 @@ components:
           properties:
             field:
               type: string
-    # nullable and enum-typed discriminators: String::is_empty would not compile against either
+    # nullable discriminator: String::is_empty would not compile against it
     NullableTagged:
       type: object
       required:
@@ -70,6 +70,7 @@ components:
           properties:
             alphaOnly:
               type: string
+    # enum-typed discriminators, inline and $ref: the union keeps the inline variants
     Pet:
       type: object
       required:
