@@ -202,14 +202,23 @@ export class {{classname}} extends runtime.BaseAPI {
         {{^isArray}}
         if (requestParameters['{{paramName}}'] != null) {
             {{#isExplode}}
-            {{#isContainer}}
-            for (let key of Object.keys(requestParameters['{{paramName}}'])) {
-                queryParameters[key] = requestParameters['{{paramName}}'][key];
-            }
-            {{/isContainer}}
-            {{^isContainer}}
+            {{! form + explode: one parameter per entry. isMap (not isContainer) also covers free-form objects; deepObject is assigned whole so the runtime brackets it. }}
+            {{#isDeepObject}}
 {{>apisAssignQueryParam}}
-            {{/isContainer}}
+            {{/isDeepObject}}
+            {{^isDeepObject}}
+            {{#isMap}}
+            for (let key of Object.keys(requestParameters['{{paramName}}'])) {
+                const value = (requestParameters['{{paramName}}'] as any)[key];
+                if (value != null) {
+                    Object.defineProperty(queryParameters, key, { value, enumerable: true, writable: true, configurable: true });
+                }
+            }
+            {{/isMap}}
+            {{^isMap}}
+{{>apisAssignQueryParam}}
+            {{/isMap}}
+            {{/isDeepObject}}
             {{/isExplode}}
             {{^isExplode}}
 {{>apisAssignQueryParam}}
