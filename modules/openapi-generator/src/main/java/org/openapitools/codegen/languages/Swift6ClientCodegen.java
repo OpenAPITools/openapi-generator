@@ -79,6 +79,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_MODELS = "hashableModels";
     public static final String IDENTIFIABLE_MODELS = "identifiableModels";
+    public static final String NONISOLATED_MODELS = "nonisolatedModels";
     public static final String USE_PARAMETER_CONVERTIBLE = "useParameterConvertible";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     public static final String USE_CUSTOM_DATE_WITHOUT_TIME = "useCustomDateWithoutTime";
@@ -124,6 +125,8 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean hashableModels = true;
     @Setter
     protected boolean identifiableModels = true;
+    @Setter
+    protected boolean nonisolatedModels = false;
     @Setter
     protected boolean useParameterConvertible = true;
     @Getter
@@ -379,6 +382,12 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                 "Make models conform to Identifiable when an id is present (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
 
+        cliOptions.add(new CliOption(NONISOLATED_MODELS,
+                "Mark generated models, and the supporting protocols, extensions and helper types they rely on, "
+                        + "as nonisolated so they stay usable off the main actor in modules built with default MainActor isolation (SE-0466). "
+                        + "Requires a Swift 6.1+ toolchain (default: false)")
+                .defaultValue(Boolean.FALSE.toString()));
+
         cliOptions.add(new CliOption(USE_PARAMETER_CONVERTIBLE,
                 "Make models conform to ParameterConvertible protocol (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
@@ -618,6 +627,11 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             setIdentifiableModels(convertPropertyToBooleanAndWriteBack(IDENTIFIABLE_MODELS));
         }
         additionalProperties.put(IDENTIFIABLE_MODELS, identifiableModels);
+
+        if (additionalProperties.containsKey(NONISOLATED_MODELS)) {
+            setNonisolatedModels(convertPropertyToBooleanAndWriteBack(NONISOLATED_MODELS));
+        }
+        additionalProperties.put(NONISOLATED_MODELS, nonisolatedModels);
 
         if (additionalProperties.containsKey(USE_PARAMETER_CONVERTIBLE)) {
             setUseParameterConvertible(convertPropertyToBooleanAndWriteBack(USE_PARAMETER_CONVERTIBLE));

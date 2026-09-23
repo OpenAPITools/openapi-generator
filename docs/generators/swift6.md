@@ -36,6 +36,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |library|Library template (sub-template) to use|<dl><dt>**urlsession**</dt><dd>[DEFAULT] HTTP client: URLSession</dd><dt>**alamofire**</dt><dd>HTTP client: Alamofire</dd><dt>**vapor**</dt><dd>HTTP client: Vapor</dd></dl>|urlsession|
 |mapFileBinaryToData|Map File and Binary to Data (default: false)| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.(default: false)| |null|
+|nonisolatedModels|Mark generated models, and the supporting protocols, extensions and helper types they rely on, as nonisolated so they stay usable off the main actor in modules built with default MainActor isolation (SE-0466). Requires a Swift 6.1+ toolchain (default: false)| |false|
 |objcCompatible|Add additional properties and methods for Objective-C compatibility (default: false)| |null|
 |oneOfUnknownDefaultCase|Add unknownDefault case to oneOf enum (default: false)| |false|
 |podAuthors|Authors used for Podspec| |null|
