@@ -490,3 +490,4 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
 
 
 }
+

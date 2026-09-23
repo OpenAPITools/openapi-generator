@@ -114,3 +114,4 @@ public class ChildWithNullable extends ParentWithNullable implements Serializabl
     }
   }
 }
+

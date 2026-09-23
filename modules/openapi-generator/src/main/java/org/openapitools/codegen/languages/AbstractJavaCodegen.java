@@ -1642,7 +1642,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             values.add(value);
         }
-        return getDefaultCollectionType(schema, String.join(", ", values));
+        return getDefaultCollectionType(schema, formatDefaultValues(values));
+    }
+
+    private String formatDefaultValues(List<String> values) {
+        boolean nested = values.stream().anyMatch(value -> value.startsWith("new ") && value.contains("Arrays.asList("));
+        if (!nested) {
+            return String.join(", ", values);
+        }
+        return "\n        " + String.join(",\n        ", values) + "\n      ";
     }
 
     private String renderDefaultValue(CodegenProperty cp, Schema schema, JsonNode value, String ownerType) {

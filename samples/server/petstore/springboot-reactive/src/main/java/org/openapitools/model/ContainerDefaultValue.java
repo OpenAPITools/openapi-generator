@@ -143,7 +143,7 @@ public class ContainerDefaultValue {
 
   public ContainerDefaultValue addNullableArrayWithDefaultItem(String nullableArrayWithDefaultItem) {
     if (this.nullableArrayWithDefault == null || !this.nullableArrayWithDefault.isPresent() || this.nullableArrayWithDefault.get() == null) {
-      this.nullableArrayWithDefault = JsonNullable.of(new ArrayList<>(Arrays.asList("foo", "bar")));
+      this.nullableArrayWithDefault = JsonNullable.of(new ArrayList<>());
     }
     this.nullableArrayWithDefault.get().add(nullableArrayWithDefaultItem);
     return this;

@@ -512,7 +512,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testComplexDefaultsGenerateCompilableJava() {
+    public void testComplexDefaultsGenerateValidJava() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName(JAVA_GENERATOR)
@@ -528,8 +528,10 @@ public class JavaClientCodegenTest {
                 .contains(
                         "new ArrayList<>(Arrays.asList(new DefaultObject().name(\"first\").count(1).status(Status.ACTIVE), "
                                 + "new DefaultObject().name(\"second\").count(2).status(Status.INACTIVE)))",
-                        "new ArrayList<>(Arrays.asList(new ArrayList<>(Arrays.asList(\"h1\", \"Header 1\")), "
-                                + "new ArrayList<>(Arrays.asList(\"h2\", \"Header 2\"))))",
+                        "new ArrayList<>(Arrays.asList(\n"
+                                + "        new ArrayList<>(Arrays.asList(\"h1\", \"Header 1\")),\n"
+                                + "        new ArrayList<>(Arrays.asList(\"h2\", \"Header 2\"))\n"
+                                + "      ))",
                         "new ArrayList<>(Arrays.asList(10l, 20l))",
                         "new DefaultObject().name(\"all-of\").count(3).status(Status.ACTIVE)",
                         "new ComplexDefaultsObjectOneOf(new DefaultObject().name(\"one-of\").count(4).status(Status.ACTIVE))",
@@ -537,6 +539,20 @@ public class JavaClientCodegenTest {
                         "java.util.Base64.getDecoder().decode(\"ZGVmYXVsdA==\")",
                         "private File binaryValue = null;")
                 .doesNotContain("Arrays.asList(, )", "= {", "[B@");
+    }
+
+    @Test
+    public void testNestedArrayDefaultDoesNotSeedAddItemWithDefault() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml",
+                JavaClientCodegen.OKHTTP_GSON);
+
+        assertThat(files.get("NestedArrayWithDefaultValues.java").toPath()).content()
+                .contains(
+                        "private List<List<String>> nestedArray = new ArrayList<>(Arrays.asList(\n"
+                                + "        new ArrayList<>(Arrays.asList(\"h1\", \"Header 1\")),")
+                .contains("if (this.nestedArray == null) {\n      this.nestedArray = new ArrayList<>();")
+                .doesNotContain("this.nestedArray = new ArrayList<>(Arrays.asList(");
     }
 
     @Test

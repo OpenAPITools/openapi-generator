@@ -264,3 +264,4 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
     }
   }
 }
+

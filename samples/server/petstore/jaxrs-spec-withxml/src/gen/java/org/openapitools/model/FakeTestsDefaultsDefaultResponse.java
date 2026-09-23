@@ -315,3 +315,4 @@ public enum IntegerEnumInlineEnum {
     }
   }
 }
+
