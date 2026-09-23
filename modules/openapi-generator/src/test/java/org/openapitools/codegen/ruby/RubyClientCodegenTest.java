@@ -778,6 +778,7 @@ public class RubyClientCodegenTest {
         new DefaultGenerator().opts(clientOptInput).generate();
 
         Path stringEnum = new File(output, "lib/openapi_client/models/type.rb").toPath();
+        TestUtils.assertFileContains(stringEnum, "UNKNOWN_DEFAULT_OPEN_API = \"unknown_default_open_api\".freeze");
         TestUtils.assertFileContains(stringEnum,
                 "def build_from_hash(value)\n" +
                 "      return value if Type.all_vars.include?(value)\n" +
@@ -787,6 +788,7 @@ public class RubyClientCodegenTest {
 
         // the integer enum's unknown-default member keeps its (pre-existing) numeric-prefixed name
         Path integerEnum = new File(output, "lib/openapi_client/models/integer_enum.rb").toPath();
+        TestUtils.assertFileContains(integerEnum, "Nunknown_default_open_api = 11184809.freeze");
         TestUtils.assertFileContains(integerEnum,
                 "def build_from_hash(value)\n" +
                 "      return value if IntegerEnum.all_vars.include?(value)\n" +
