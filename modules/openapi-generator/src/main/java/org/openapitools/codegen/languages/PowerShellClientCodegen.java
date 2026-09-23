@@ -594,7 +594,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String getHelp() {
-        return "Generates a PowerShell API client (beta)";
+        return "Generates a PowerShell API client";
     }
 
     public void setPackageName(String packageName) {
