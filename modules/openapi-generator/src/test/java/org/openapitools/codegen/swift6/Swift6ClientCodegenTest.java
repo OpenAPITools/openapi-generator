@@ -72,6 +72,9 @@ public class Swift6ClientCodegenTest {
         // indirection - these stay structs
         TestUtils.assertFileContains(models.resolve("DomainInfo.swift"), "public struct DomainInfo: Sendable,");
         TestUtils.assertFileContains(models.resolve("Category.swift"), "public struct Category: Sendable,");
+        // allOf is flattened rather than stored, so it is not an edge: only Derived is on a cycle
+        TestUtils.assertFileContains(models.resolve("Derived.swift"), "public final class Derived: @unchecked Sendable,");
+        TestUtils.assertFileContains(models.resolve("Base.swift"), "public struct Base: Sendable,");
     }
 
     @Test(enabled = true)

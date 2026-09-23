@@ -767,18 +767,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         return objs;
     }
 
-
-    /**
-     * A struct that stores itself inline - through any chain of model-typed properties,
-     * Optional included - has infinite size and does not compile ("value type cannot have a
-     * stored property that recursively contains it"). Containers store their elements on the
-     * heap and break the recursion, so only bare model-to-model properties form the edges.
-     * Every model on such a reference cycle is generated as a final class instead: heap
-     * allocation provides the indirection the struct cannot have, and the wire format is
-     * unchanged. See https://github.com/OpenAPITools/openapi-generator/issues/15240.
-     *
-     * @param objs the models
-     */
+    /** Models on an inline reference cycle become final classes: a struct that stores itself has infinite size (#15240). */
     private void markModelClassRendering(Map<String, ModelsMap> objs) {
         Map<String, CodegenModel> modelsByClassname = new HashMap<>();
         for (ModelsMap modelsMap : objs.values()) {
@@ -802,8 +791,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         for (CodegenModel cm : modelsByClassname.values()) {
-            boolean recursive = !useClasses && isOnInlineReferenceCycle(cm.classname, inlineRefs);
-            if (useClasses || recursive) {
+            if (useClasses || isOnInlineReferenceCycle(cm.classname, inlineRefs)) {
                 cm.vendorExtensions.put("x-swift-use-class", true);
             }
         }

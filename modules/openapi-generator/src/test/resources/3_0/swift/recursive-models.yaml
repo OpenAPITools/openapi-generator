@@ -48,3 +48,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Category'
+    # allOf is flattened, not stored: Derived cycles through its inherited `related`, Base does not
+    Base:
+      type: object
+      properties:
+        related:
+          $ref: '#/components/schemas/Derived'
+    Derived:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+        - type: object
+          properties:
+            extra:
+              type: string
