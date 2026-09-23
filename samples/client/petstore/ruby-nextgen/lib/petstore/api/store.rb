@@ -15,6 +15,10 @@ module Petstore
           auth: ['api_key']
         )
       end
+
+      def order
+        @order ||= Store::Order.new(@connection)
+      end
     end
   end
 end
