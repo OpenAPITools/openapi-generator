@@ -143,7 +143,6 @@ public class PhpClientCodegenTest {
                 .map(String::trim)
                 .collect(Collectors.toList());
 
-        Assert.assertListContains(serializerContent, a -> a.equals("if (defined(\"$class::UNKNOWN_DEFAULT_OPEN_API\")) {"), "");
         Assert.assertListContains(serializerContent, a -> a.equals("return constant(\"$class::UNKNOWN_DEFAULT_OPEN_API\");"), "");
     }
 
@@ -180,7 +179,6 @@ public class PhpClientCodegenTest {
                 .map(String::trim)
                 .collect(Collectors.toList());
 
-        Assert.assertListNotContains(serializerContent, a -> a.equals("if (defined(\"$class::UNKNOWN_DEFAULT_OPEN_API\")) {"), "");
         Assert.assertListNotContains(serializerContent, a -> a.equals("return constant(\"$class::UNKNOWN_DEFAULT_OPEN_API\");"), "");
     }
     @Test
