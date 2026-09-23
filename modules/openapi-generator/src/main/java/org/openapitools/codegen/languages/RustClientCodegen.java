@@ -335,36 +335,26 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
 
-        // The discriminator enum is internally tagged, and serde's tag consumes the
-        // discriminator key before the wrapped child model deserializes - so the child's own
-        // (typically required) discriminator property would fail with "missing field", and
-        // serializing it back out would duplicate the tag. Mark it, so the template can default
-        // it and skip serializing it while unset. The property stays declared: getMappedModels()
-        // covers every allOf descendant, and those models are also returned and accepted
-        // standalone, where the caller sets and reads the discriminator normally.
-        Map<String, CodegenModel> modelsByClassname = new HashMap<>();
         for (ModelsMap modelsMap : objs.values()) {
             for (ModelMap modelMap : modelsMap.getModels()) {
-                modelsByClassname.put(modelMap.getModel().classname, modelMap.getModel());
-            }
-        }
-        for (CodegenModel cm : modelsByClassname.values()) {
-            if (cm.discriminator == null || cm.discriminator.getMappedModels() == null) {
-                continue;
-            }
-            String propertyBaseName = cm.discriminator.getPropertyBaseName();
-            for (CodegenDiscriminator.MappedModel mappedModel : cm.discriminator.getMappedModels()) {
-                // getModel() survives the duplicate-mapping rename above, which suffixes
-                // modelName for variant uniqueness while the model keeps its classname
-                CodegenModel child = mappedModel.getModel() != null
-                        ? mappedModel.getModel()
-                        : modelsByClassname.get(mappedModel.getModelName());
-                if (child == null) {
+                CodegenModel cm = modelMap.getModel();
+                CodegenDiscriminator discriminator = cm.discriminator;
+                if (discriminator == null || discriminator.getMappedModels() == null) {
                     continue;
                 }
-                for (List<CodegenProperty> vars : List.of(child.vars, child.allVars, child.requiredVars, child.readWriteVars)) {
-                    for (CodegenProperty var : vars) {
-                        if (propertyBaseName.equals(var.baseName)) {
+                // a mapping that names the base itself leaves no struct to wrap: keep the inline variants
+                if (discriminator.getMappedModels().stream().anyMatch(m -> cm.name.equals(m.getSchemaName()))) {
+                    discriminator.getVendorExtensions().put("x-rust-inline-variants", true);
+                    continue;
+                }
+                // a mapped child's discriminator doubles as the union's serde tag, which is consumed before the
+                // child deserializes: mark it so the template defaults it and skips it while unset
+                for (CodegenDiscriminator.MappedModel mapped : discriminator.getMappedModels()) {
+                    if (mapped.getModel() == null) {
+                        continue;
+                    }
+                    for (CodegenProperty var : mapped.getModel().vars) {
+                        if (discriminator.getPropertyBaseName().equals(var.baseName)) {
                             var.isDiscriminator = true;
                         }
                     }

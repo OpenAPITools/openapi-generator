@@ -83,12 +83,22 @@ impl Default for {{{classname}}} {
 pub enum {{{classname}}} {
     {{^oneOf}}
     {{#mappedModels}}
-    {{!-- a newtype variant wrapping the mapped model, so the child's own fields survive:
-          an inline struct built from the parent's vars silently dropped every field the
-          child adds. The variant is named by modelName (made unique when several mapping
-          entries share one schema) while the wrapped type is the model's real classname --}}
     #[serde(rename="{{mappingName}}")]
+    {{^vendorExtensions.x-rust-inline-variants}}
+    {{!-- newtype variant: the child's own fields survive; named by modelName (unique per mapping), wraps the real classname --}}
     {{{modelName}}}({{^avoidBoxedModels}}Box<{{/avoidBoxedModels}}models::{{#model}}{{{classname}}}{{/model}}{{^model}}{{{modelName}}}{{/model}}{{^avoidBoxedModels}}>{{/avoidBoxedModels}}),
+    {{/vendorExtensions.x-rust-inline-variants}}
+    {{#vendorExtensions.x-rust-inline-variants}}
+    {{{modelName}}} {
+    {{#vars}}
+        {{#description}}
+        /// {{{.}}}
+        {{/description}}
+        #[serde(rename = "{{{baseName}}}"{{^required}}, skip_serializing_if = "Option::is_none"{{/required}})]
+        {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{#isModel}}{{^avoidBoxedModels}}Box<{{/avoidBoxedModels}}{{{dataType}}}{{^avoidBoxedModels}}>{{/avoidBoxedModels}}{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
+    {{/vars}}
+    },
+    {{/vendorExtensions.x-rust-inline-variants}}
     {{/mappedModels}}
     {{/oneOf}}
     {{^oneOf.isEmpty}}
@@ -106,7 +116,11 @@ pub enum {{{classname}}} {
 
 impl Default for {{classname}} {
     fn default() -> Self {
-        {{^oneOf}}{{#mappedModels}}{{#-first}}Self::{{modelName}}(Default::default()){{/-first}}{{/mappedModels}}
+        {{^oneOf}}{{#mappedModels}}{{#-first}}{{^vendorExtensions.x-rust-inline-variants}}Self::{{modelName}}(Default::default()){{/vendorExtensions.x-rust-inline-variants}}{{#vendorExtensions.x-rust-inline-variants}}Self::{{modelName}} {
+        {{#vars}}
+            {{{name}}}: Default::default(),
+        {{/vars}}
+        }{{/vendorExtensions.x-rust-inline-variants}}{{/-first}}{{/mappedModels}}
         {{/oneOf}}{{^oneOf.isEmpty}}{{#composedSchemas.oneOf}}{{#-first}}Self::{{{name}}}(Default::default()){{/-first}}{{/composedSchemas.oneOf}}{{/oneOf.isEmpty}}
     }
 }
@@ -125,12 +139,8 @@ pub struct {{{classname}}} {
     {{#isByteArray}}
     {{#vendorExtensions.isMandatory}}#[serde_as(as = "serde_with::base64::Base64")]{{/vendorExtensions.isMandatory}}{{^vendorExtensions.isMandatory}}#[serde_as(as = "{{^serdeAsDoubleOption}}Option{{/serdeAsDoubleOption}}{{#serdeAsDoubleOption}}super::DoubleOption{{/serdeAsDoubleOption}}<serde_with::base64::Base64>")]{{/vendorExtensions.isMandatory}}
     {{/isByteArray}}
-    {{!-- a mapped child's discriminator property doubles as the union's serde tag, which is
-          consumed before this struct deserializes: default it so the missing key is not an
-          error, and skip it back out while unset so the tag stays the only occurrence. The
-          property itself stays declared - these models are also used standalone, where the
-          caller sets and reads it normally. --}}
-    #[serde(rename = "{{{baseName}}}"{{#isDiscriminator}}{{#required}}, default{{#isNullable}}, skip_serializing_if = "Option::is_none"{{/isNullable}}{{^isNullable}}{{#isString}}, skip_serializing_if = "String::is_empty"{{/isString}}{{/isNullable}}{{/required}}{{/isDiscriminator}}{{^required}}{{#isNullable}}, default{{^isByteArray}}, with = "::serde_with::rust::double_option"{{/isByteArray}}{{/isNullable}}{{/required}}{{^required}}, skip_serializing_if = "Option::is_none"{{/required}}{{#required}}{{#isNullable}}{{^isDiscriminator}}, deserialize_with = "Option::deserialize"{{/isDiscriminator}}{{/isNullable}}{{/required}})]
+    {{!-- a mapped child's discriminator is the union's consumed serde tag: default it, skip it while unset --}}
+    #[serde(rename = "{{{baseName}}}"{{#isDiscriminator}}{{#required}}, default{{#isNullable}}, skip_serializing_if = "Option::is_none"{{/isNullable}}{{^isNullable}}{{#isString}}{{^isEnum}}, skip_serializing_if = "String::is_empty"{{/isEnum}}{{/isString}}{{/isNullable}}{{/required}}{{/isDiscriminator}}{{^required}}{{#isNullable}}, default{{^isByteArray}}, with = "::serde_with::rust::double_option"{{/isByteArray}}{{/isNullable}}{{/required}}{{^required}}, skip_serializing_if = "Option::is_none"{{/required}}{{#required}}{{#isNullable}}{{^isDiscriminator}}, deserialize_with = "Option::deserialize"{{/isDiscriminator}}{{/isNullable}}{{/required}})]
     pub {{{name}}}: {{!
     ### Option Start
     }}{{#isNullable}}Option<{{/isNullable}}{{^required}}Option<{{/required}}{{!

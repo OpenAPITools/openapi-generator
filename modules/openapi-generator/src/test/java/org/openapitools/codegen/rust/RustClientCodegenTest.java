@@ -304,31 +304,32 @@ public class RustClientCodegenTest {
                 .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        // the variants wrap the mapped models, so the child's own fields survive - an inline
-        // struct built from the parent's vars silently dropped every field the child adds
+        // newtype variants, so the child's own fields survive
         Path unionPath = Path.of(target.toString(), "/src/models/api_error.rs");
         TestUtils.assertFileContains(unionPath, "ObjectExists(Box<models::ObjectExists>),");
         TestUtils.assertFileContains(unionPath, "ValidationError(Box<models::ValidationError>),");
         TestUtils.assertFileContains(unionPath, "Self::ObjectExists(Default::default())");
         TestUtils.assertFileNotContains(unionPath, "ObjectExists {");
 
-        // serde's internally-tagged deserialization consumes the tag key, so the wrapped child
-        // defaults it instead of failing "missing field" and skips it back out while unset, so
-        // the tag stays the only occurrence on the wire. The property itself stays declared:
-        // these models are also returned and accepted standalone.
+        // the consumed tag key defaults and is skipped while unset; standalone field and new() unchanged
         Path childPath = Path.of(target.toString(), "/src/models/object_exists.rs");
         TestUtils.assertFileContains(childPath,
-                "#[serde(rename = \"type\", default, skip_serializing_if = \"String::is_empty\")]");
-        TestUtils.assertFileContains(childPath, "pub identifier: String,");
-        TestUtils.assertFileContains(childPath,
+                "#[serde(rename = \"type\", default, skip_serializing_if = \"String::is_empty\")]",
+                "pub identifier: String,",
                 "pub fn new(r#type: String, message: String, identifier: String) -> ObjectExists {");
-
-        // a nullable discriminator is an Option<String>, so the predicate must be
-        // Option::is_none - String::is_empty would not compile against it
-        Path nullableChildPath = Path.of(target.toString(), "/src/models/alpha.rs");
-        TestUtils.assertFileContains(nullableChildPath,
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/alpha.rs"),
                 "#[serde(rename = \"kind\", default, skip_serializing_if = \"Option::is_none\")]");
-        TestUtils.assertFileNotContains(nullableChildPath, "String::is_empty");
+        // an enum has no String::is_empty (E0308): default only
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/cat.rs"),
+                "#[serde(rename = \"petType\", default)]\n    pub pet_type: PetType,");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/circle.rs"),
+                "#[serde(rename = \"kind\", default)]\n    pub kind: models::ShapeKind,");
+
+        // a mapping that names the base itself leaves no struct to wrap (E0275): inline variants, children untouched
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/creature.rs"),
+                "#[serde(rename=\"Creature\")]\n    Creature {", "#[serde(rename=\"Bird\")]\n    Bird {");
+        TestUtils.assertFileNotContains(Path.of(target.toString(), "/src/models/creature.rs"), "Box<models::Creature>");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/bird.rs"), "#[serde(rename = \"kind\")]\n    pub kind: String,");
     }
 
     @Test
