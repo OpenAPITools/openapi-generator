@@ -511,6 +511,18 @@ public class SpringPageableScanUtilsTest {
                 .hasMessageContaining("page-size");
     }
 
+    @Test
+    public void warnOnce_forwardsOnlyFirstMessage() {
+        List<String> warnings = new ArrayList<>();
+        java.util.function.Consumer<String> warn = SpringPageableScanUtils.warnOnce(warnings::add);
+
+        SpringPageableScanUtils.resolveAutoPaginationMode("true", warn);
+        SpringPageableScanUtils.resolveAutoPaginationMode("false", warn);
+
+        assertThat(warnings).hasSize(1);
+        assertThat(warnings.get(0)).contains("'true' is deprecated");
+    }
+
     // -------------------------------------------------------------------------
     // willBePageable / detection with AutoPaginationMode.PAGE_SIZE
     // -------------------------------------------------------------------------

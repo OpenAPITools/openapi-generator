@@ -61,6 +61,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
@@ -210,10 +211,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter boolean useHttpServiceProxyFactoryInterfacesConfigurator = false;
     @Getter protected String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
     @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
-    // Guards against flooding the log when setAutoXSpringPaginated(String) is invoked more than
-    // once (e.g. once for the CLI default and once for the user-supplied value) with the same
-    // deprecated legacy alias.
-    private boolean autoXSpringPaginatedDeprecationWarned = false;
+    private final Consumer<String> autoXSpringPaginatedDeprecationWarn =
+            SpringPageableScanUtils.warnOnce(message -> LOGGER.warn(message));
 
     /**
      * Configures automatic Spring Pageable detection using a canonical mode or legacy boolean alias.
@@ -221,12 +220,8 @@ public class SpringCodegen extends AbstractJavaCodegen
      * @param autoXSpringPaginated the configured mode
      */
     public void setAutoXSpringPaginated(String autoXSpringPaginated) {
-        autoXSpringPaginatedMode = SpringPageableScanUtils.resolveAutoPaginationMode(autoXSpringPaginated, message -> {
-            if (!autoXSpringPaginatedDeprecationWarned) {
-                autoXSpringPaginatedDeprecationWarned = true;
-                LOGGER.warn(message);
-            }
-        });
+        autoXSpringPaginatedMode = SpringPageableScanUtils.resolveAutoPaginationMode(
+                autoXSpringPaginated, autoXSpringPaginatedDeprecationWarn);
         this.autoXSpringPaginated = autoXSpringPaginatedMode.getCanonicalValue();
     }
 
@@ -728,10 +723,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, this::setUseEnumValueInterface);
 
+        // Validate an explicitly supplied value for every library so typos are not silently ignored;
+        // the resolved mode is only used (and written back) when Pageable is supported.
+        if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED)) {
+            setAutoXSpringPaginated(String.valueOf(additionalProperties.get(AUTO_X_SPRING_PAGINATED)));
+        }
         if (isPageableSupported()) {
             if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED)) {
-                String rawAutoXSpringPaginated = String.valueOf(additionalProperties.get(AUTO_X_SPRING_PAGINATED));
-                setAutoXSpringPaginated(rawAutoXSpringPaginated);
                 writePropertyBack(AUTO_X_SPRING_PAGINATED, this.autoXSpringPaginated);
             }
             convertPropertyToBooleanAndWriteBack(GENERATE_SORT_VALIDATION, this::setGenerateSortValidation);

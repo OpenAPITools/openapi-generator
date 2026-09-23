@@ -27,6 +27,7 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -165,6 +166,25 @@ public class SpringPageableScanUtils {
                         + AUTO_PAGINATION_MODE_PAGE_SIZE + " (deprecated aliases: "
                         + AUTO_PAGINATION_MODE_LEGACY_TRUE + ", " + AUTO_PAGINATION_MODE_LEGACY_FALSE + ").");
         }
+    }
+
+    /**
+     * Wraps {@code delegate} so that it is invoked at most once; subsequent calls are ignored.
+     *
+     * <p>Generators hold one instance per codegen object and pass it to
+     * {@link #resolveAutoPaginationMode(String, Consumer)} so that repeated setter or
+     * option-processing calls with a deprecated legacy alias only log the warning once.</p>
+     *
+     * @param delegate the consumer to invoke on the first call
+     * @return a consumer forwarding only its first message to {@code delegate}
+     */
+    public static Consumer<String> warnOnce(Consumer<String> delegate) {
+        AtomicBoolean warned = new AtomicBoolean();
+        return message -> {
+            if (warned.compareAndSet(false, true)) {
+                delegate.accept(message);
+            }
+        };
     }
 
     // -------------------------------------------------------------------------

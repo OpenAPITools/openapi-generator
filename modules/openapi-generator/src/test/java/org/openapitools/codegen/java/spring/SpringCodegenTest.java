@@ -65,6 +65,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
@@ -8007,92 +8008,85 @@ public class SpringCodegenTest {
 
     @Test
     public void autoXSpringPaginatedLegacyTrue_logsDeprecationWarningOnce() {
-        ch.qos.logback.classic.Logger springCodegenLogger =
-                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(SpringCodegen.class);
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-        springCodegenLogger.addAppender(listAppender);
-
-        try {
+        long deprecationWarnings = countDeprecationWarnings(() -> {
             SpringCodegen codegen = new SpringCodegen();
             codegen.additionalProperties().put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
-
             codegen.processOpts();
-        } finally {
-            listAppender.stop();
-            springCodegenLogger.detachAppender(listAppender);
-        }
-
-        String testThreadName = Thread.currentThread().getName();
-        long deprecationWarnings = snapshotEvents(listAppender).stream()
-                .filter(event -> event.getThreadName().equals(testThreadName))
-                .filter(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
-                        && event.getFormattedMessage().contains("deprecated"))
-                .count();
+        });
         assertThat(deprecationWarnings).isEqualTo(1);
     }
 
     @Test
     public void autoXSpringPaginatedUnset_logsNoDeprecationWarning() {
-        ch.qos.logback.classic.Logger springCodegenLogger =
-                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(SpringCodegen.class);
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-        springCodegenLogger.addAppender(listAppender);
-
-        try {
-            SpringCodegen codegen = new SpringCodegen();
-
-            codegen.processOpts();
-        } finally {
-            listAppender.stop();
-            springCodegenLogger.detachAppender(listAppender);
-        }
-
-        String testThreadName = Thread.currentThread().getName();
-        boolean hasDeprecationWarning = snapshotEvents(listAppender).stream()
-                .filter(event -> event.getThreadName().equals(testThreadName))
-                .anyMatch(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
-                        && event.getFormattedMessage().contains("deprecated"));
-        assertThat(hasDeprecationWarning).isFalse();
+        long deprecationWarnings = countDeprecationWarnings(() -> new SpringCodegen().processOpts());
+        assertThat(deprecationWarnings).isZero();
     }
 
     @Test
     public void autoXSpringPaginatedSetterCalledTwiceWithLegacyValue_logsDeprecationWarningOnce() {
-        ch.qos.logback.classic.Logger springCodegenLogger =
-                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(SpringCodegen.class);
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-        springCodegenLogger.addAppender(listAppender);
-
-        try {
+        long deprecationWarnings = countDeprecationWarnings(() -> {
             SpringCodegen codegen = new SpringCodegen();
-
             // Simulates the setter being invoked more than once during a single generator run
             // (e.g. once for a CLI default and once for the user-supplied value) with the same
             // deprecated legacy alias — the once-only guard must suppress the second warning.
             codegen.setAutoXSpringPaginated("true");
             codegen.setAutoXSpringPaginated("true");
+        });
+        assertThat(deprecationWarnings).isEqualTo(1);
+    }
+
+    @Test
+    public void autoXSpringPaginatedInvalidValue_isRejectedEvenForUnsupportedLibrary() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SpringCodegen.SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "bogus");
+
+        assertThatThrownBy(codegen::processOpts)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("bogus");
+    }
+
+    @Test
+    public void autoXSpringPaginatedValidValue_isNotWrittenBackForUnsupportedLibrary() {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SpringCodegen.SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties().get(SpringCodegen.AUTO_X_SPRING_PAGINATED)).isEqualTo("true");
+    }
+
+    /**
+     * Runs {@code action} with a ListAppender attached to the {@link SpringCodegen} logger and returns the
+     * number of autoXSpringPaginated deprecation warnings emitted on the current thread. Surefire runs
+     * test classes in parallel and the logger is shared, so events from other threads are ignored.
+     */
+    private static long countDeprecationWarnings(Runnable action) {
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(SpringCodegen.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        logger.addAppender(listAppender);
+        try {
+            action.run();
         } finally {
             listAppender.stop();
-            springCodegenLogger.detachAppender(listAppender);
+            logger.detachAppender(listAppender);
         }
 
+        List<ILoggingEvent> events;
+        // ListAppender.list is a plain ArrayList; AppenderBase.doAppend synchronizes on the appender,
+        // so copy under the same monitor before iterating.
+        synchronized (listAppender) {
+            events = new ArrayList<>(listAppender.list);
+        }
         String testThreadName = Thread.currentThread().getName();
-        long deprecationWarnings = snapshotEvents(listAppender).stream()
+        return events.stream()
                 .filter(event -> event.getThreadName().equals(testThreadName))
                 .filter(event -> event.getFormattedMessage().contains("autoXSpringPaginated")
                         && event.getFormattedMessage().contains("deprecated"))
                 .count();
-        assertThat(deprecationWarnings).isEqualTo(1);
-    }
-
-    // ListAppender.list is a plain ArrayList that concurrently-running test classes may append to;
-    // AppenderBase.doAppend synchronizes on the appender, so copy under the same monitor.
-    private static List<ILoggingEvent> snapshotEvents(ListAppender<ILoggingEvent> appender) {
-        synchronized (appender) {
-            return new ArrayList<>(appender.list);
-        }
     }
 
     // -------------------------------------------------------------------------

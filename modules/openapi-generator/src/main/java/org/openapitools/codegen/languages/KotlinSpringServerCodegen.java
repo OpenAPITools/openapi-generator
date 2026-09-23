@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -178,10 +179,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean useResponseEntity = true;
     @Getter private String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
     @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
-    // Guards against flooding the log when setAutoXSpringPaginated(String) is invoked more than
-    // once (e.g. once for the CLI default and once for the user-supplied value) with the same
-    // deprecated legacy alias.
-    private boolean autoXSpringPaginatedDeprecationWarned = false;
+    private final Consumer<String> autoXSpringPaginatedDeprecationWarn =
+            SpringPageableScanUtils.warnOnce(message -> LOGGER.warn(message));
 
     /**
      * Configures automatic Spring Pageable detection using a canonical mode or legacy boolean alias.
@@ -189,12 +188,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      * @param autoXSpringPaginated the configured mode
      */
     public void setAutoXSpringPaginated(String autoXSpringPaginated) {
-        autoXSpringPaginatedMode = SpringPageableScanUtils.resolveAutoPaginationMode(autoXSpringPaginated, message -> {
-            if (!autoXSpringPaginatedDeprecationWarned) {
-                autoXSpringPaginatedDeprecationWarned = true;
-                LOGGER.warn(message);
-            }
-        });
+        autoXSpringPaginatedMode = SpringPageableScanUtils.resolveAutoPaginationMode(
+                autoXSpringPaginated, autoXSpringPaginatedDeprecationWarn);
         this.autoXSpringPaginated = autoXSpringPaginatedMode.getCanonicalValue();
     }
 
@@ -866,10 +861,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(USE_TAGS)) {
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
         }
-        if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED) && isPageableSupported()) {
-            String rawAutoXSpringPaginated = String.valueOf(additionalProperties.get(AUTO_X_SPRING_PAGINATED));
-            setAutoXSpringPaginated(rawAutoXSpringPaginated);
-            writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
+        // Validate an explicitly supplied value for every library so typos are not silently ignored;
+        // the resolved mode is only used (and written back) when Pageable is supported.
+        if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED)) {
+            setAutoXSpringPaginated(String.valueOf(additionalProperties.get(AUTO_X_SPRING_PAGINATED)));
+            if (isPageableSupported()) {
+                writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
+            }
         }
         if (additionalProperties.containsKey(GENERATE_SORT_VALIDATION) && isPageableSupported()) {
             this.setGenerateSortValidation(convertPropertyToBoolean(GENERATE_SORT_VALIDATION));
