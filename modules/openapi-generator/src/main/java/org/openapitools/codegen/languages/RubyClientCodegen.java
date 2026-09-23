@@ -69,7 +69,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String specFolder = "spec";
     protected String libFolder = "lib";
     @Setter protected String gemLicense = "unlicense";
-    @Setter protected String gemRequiredRubyVersion = ">= 1.9";
+    @Setter protected String gemRequiredRubyVersion = ">= 2.7";
     @Setter protected String gemHomepage = "https://openapitools.org";
     @Setter protected String gemSummary = "A Ruby SDK for the REST API";
     @Setter protected String gemDescription = "This gem maps to a REST API";
