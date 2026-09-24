@@ -434,6 +434,49 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOneOfBranchesDoNotForceFormRequired() {
+        // a schema carrying both `properties`/`required` and oneOf branches is not
+        // caught by ModelUtils.isOneOf (which requires empty properties); without
+        // care the allOf-style required union would also force branch-only fields
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-mixed").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("common").required,
+                "top-level required must apply");
+        assertFalse(paramsByBaseName.get("a").required,
+                "oneOf branch required must not force the form parameter");
+        assertFalse(paramsByBaseName.get("b").required,
+                "oneOf branch required must not force the form parameter");
+    }
+
+    @Test
+    public void testSingleAllOfWrapperOwnRequired() {
+        // the single-allOf unwrapping keeps the wrapper schema in `original`; its
+        // own `required` list must still apply to member properties
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-wrapper").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("wrapper_req").required,
+                "allOf wrapper's own required must apply");
+        assertFalse(paramsByBaseName.get("wrapper_opt").required,
+                "non-required member stays optional");
+    }
+
+    @Test
     public void testOriginalOpenApiDocumentVersion() {
         // Test with OAS 2.0 document.
         String location = "src/test/resources/2_0/python-prior/petstore-with-fake-endpoints-models-for-testing.yaml";

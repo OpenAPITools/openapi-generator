@@ -4034,6 +4034,31 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Collects {@code required} entries only along the schema's own list and
+     * its allOf members (a single-allOf wrapper included), resolving $ref.
+     * Unlike {@link #addProperties}, oneOf/anyOf branches are not traversed:
+     * a branch's required entries only hold if that branch is chosen, so they
+     * must not force fields on the enclosing shape.
+     */
+    private void collectRequiredFromAllOfChain(Schema schema, List<String> required, Set<Schema> visitedSchemas) {
+        if (schema == null || !visitedSchemas.add(schema)) {
+            return;
+        }
+        if (StringUtils.isNotBlank(schema.get$ref())) {
+            collectRequiredFromAllOfChain(ModelUtils.getReferencedSchema(this.openAPI, schema), required, visitedSchemas);
+            return;
+        }
+        if (schema.getRequired() != null) {
+            required.addAll(schema.getRequired());
+        }
+        if (schema.getAllOf() != null) {
+            for (Object component : schema.getAllOf()) {
+                collectRequiredFromAllOfChain((Schema) component, required, visitedSchemas);
+            }
+        }
+    }
+
+    /**
      * Camelize the method name of the getter and setter
      *
      * @param name string to be camelized
@@ -7898,7 +7923,14 @@ public class DefaultCodegen implements CodegenConfig {
         // TODO in the future have this return one codegenParameter of type object or composed which includes all definition
         // that will be needed for complex composition use cases
         // https://github.com/OpenAPITools/openapi-generator/issues/10415
-        addProperties(properties, allRequired, schema, new HashSet<>());
+        addProperties(properties, new ArrayList<>(), schema, new HashSet<>());
+        // addProperties unions the required list of every composed member,
+        // including oneOf/anyOf alternatives whose required entries only hold
+        // when that branch is chosen. For form parameters only the schema's own
+        // required list and the ones along the allOf chain are real
+        // requirements, so collect them separately. Starting from the original
+        // (pre-unwrap) schema also picks up a single-allOf wrapper's required.
+        collectRequiredFromAllOfChain(original != null ? original : schema, allRequired, new HashSet<>());
 
         boolean isOneOfOrAnyOf = ModelUtils.isOneOf(schema) || ModelUtils.isAnyOf(schema);
 
@@ -7918,12 +7950,8 @@ public class DefaultCodegen implements CodegenConfig {
                 } else if (!codegenParameter.required) {
                     // 'required' applies to the schema property name (baseName); comparing
                     // against the normalized paramName would silently drop the flag for
-                    // e.g. snake_case names or collision-renamed parameters. allRequired
-                    // already unions the top-level and allOf-member 'required' lists, and
-                    // 'original' covers a single-allOf wrapper's own required list.
-                    codegenParameter.required = allRequired.contains(entry.getKey())
-                            || (original != null && original.getRequired() != null
-                                    && original.getRequired().contains(entry.getKey()));
+                    // e.g. snake_case names or collision-renamed parameters.
+                    codegenParameter.required = allRequired.contains(entry.getKey());
                 }
 
                 parameters.add(codegenParameter);

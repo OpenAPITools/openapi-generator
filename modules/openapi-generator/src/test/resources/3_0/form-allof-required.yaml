@@ -55,3 +55,53 @@ paths:
       responses:
         '200':
           description: ok
+  /register-mixed:
+    post:
+      operationId: registerMixed
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - common
+              properties:
+                common:
+                  type: string
+              oneOf:
+                - type: object
+                  required:
+                    - a
+                  properties:
+                    a:
+                      type: string
+                - type: object
+                  required:
+                    - b
+                  properties:
+                    b:
+                      type: string
+      responses:
+        '200':
+          description: ok
+  /register-wrapper:
+    post:
+      operationId: registerWrapper
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - wrapper_req
+              allOf:
+                - type: object
+                  properties:
+                    wrapper_req:
+                      type: string
+                    wrapper_opt:
+                      type: string
+      responses:
+        '200':
+          description: ok
