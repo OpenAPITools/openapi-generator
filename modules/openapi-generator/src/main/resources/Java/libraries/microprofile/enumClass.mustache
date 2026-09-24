@@ -12,10 +12,10 @@
 
     {{#allowableValues}}
     {{#withXml}}
-    {{#enumVars}}@XmlEnumValue({{#lambda.javaStringLiteral}}{{{rawValue}}}{{/lambda.javaStringLiteral}}) {{name}}({{^isUri}}{{^isUuid}}{{^isNumeric}}{{^isFreeFormObject}}{{dataType}}.valueOf({{/isFreeFormObject}}{{/isNumeric}}{{/isUuid}}{{/isUri}}{{{value}}}{{^isUri}}{{^isUuid}}{{^isNumeric}}{{^isFreeFormObject}}){{/isFreeFormObject}}{{/isNumeric}}{{/isUuid}}{{/isUri}}){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{#enumVars}}@XmlEnumValue({{#lambda.javaStringLiteral}}{{{rawValue}}}{{/lambda.javaStringLiteral}}) {{name}}({{^isUri}}{{dataType}}.valueOf({{/isUri}}{{{value}}}{{^isUri}}){{/isUri}}){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
     {{/withXml}}
     {{^withXml}}
-    {{#enumVars}}{{name}}({{^isUri}}{{^isUuid}}{{^isNumeric}}{{^isFreeFormObject}}{{dataType}}.valueOf({{/isFreeFormObject}}{{/isNumeric}}{{/isUuid}}{{/isUri}}{{{value}}}{{^isUri}}{{^isUuid}}{{^isNumeric}}{{^isFreeFormObject}}){{/isFreeFormObject}}{{/isNumeric}}{{/isUuid}}{{/isUri}}){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{#enumVars}}{{name}}({{^isUri}}{{dataType}}.valueOf({{/isUri}}{{{value}}}{{^isUri}}){{/isUri}}){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
     {{/withXml}}
     {{/allowableValues}}
 
@@ -65,7 +65,7 @@
     public static final class Serializer implements JsonbSerializer<{{datatypeWithEnum}}> {
         @Override
         public void serialize({{datatypeWithEnum}} obj, JsonGenerator generator, SerializationContext ctx) {
-            generator.write({{#isFreeFormObject}}String.valueOf(obj.value){{/isFreeFormObject}}{{^isFreeFormObject}}obj.value{{#isUri}}.toASCIIString(){{/isUri}}{{/isFreeFormObject}});
+            generator.write(obj.value{{#isUri}}.toASCIIString(){{/isUri}});
         }
     }
     {{/jsonb}}

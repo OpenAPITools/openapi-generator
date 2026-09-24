@@ -13,8 +13,6 @@
 |**shipDate** | **OffsetDateTime** |  |  [optional] |
 |**status** | [**StatusEnum**](#StatusEnum) | Order Status |  [optional] |
 |**complete** | **Boolean** |  |  [optional] |
-|**paymentMethod** | [**PaymentMethodEnum**](#PaymentMethodEnum) | Various payment methods |  [optional] |
-|**orderStatus** | [**OrderStatusEnum**](#OrderStatusEnum) | Order status |  [optional] |
 
 
 
@@ -25,24 +23,6 @@
 | PLACED | &quot;placed&quot; |
 | APPROVED | &quot;approved&quot; |
 | DELIVERED | &quot;delivered&quot; |
-
-
-
-## Enum: PaymentMethodEnum
-
-| Name | Value |
-|---- | -----|
-| NUMBER_1 | new BigDecimal(&quot;1&quot;) |
-| NUMBER_2 | new BigDecimal(&quot;2&quot;) |
-
-
-
-## Enum: OrderStatusEnum
-
-| Name | Value |
-|---- | -----|
-| PENDING | &quot;PENDING&quot; |
-| PROCESSING | &quot;PROCESSING&quot; |
 
 
 

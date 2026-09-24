@@ -23,11 +23,9 @@ import org.openapitools.client.model.FreeFormObjectTestClass;
 import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
 import org.openapitools.client.model.ModelApiResponse;
-import org.openapitools.client.model.NullableFieldsMapResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
-import org.openapitools.client.model.RequiredNullableBody;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 import org.junit.jupiter.api.Disabled;
@@ -116,19 +114,6 @@ public class FakeApiTest {
     public void fakeRefParameterTest() throws ApiException {
         FakeRefParameterPetIdParameter petId = null;
         api.fakeRefParameter(petId);
-        // TODO: test validations
-    }
-
-    /**
-     * fields in the response body, required and nullable are both true
-     *
-     * 
-     *
-     * @throws ApiException if the Api call fails
-     */
-    @Test
-    public void fakeRequiredNullableBodyGetTest() throws ApiException {
-        RequiredNullableBody response = api.fakeRequiredNullableBodyGet();
         // TODO: test validations
     }
 
@@ -279,8 +264,7 @@ public class FakeApiTest {
         Double enumQueryDouble = null;
         List<String> enumFormStringArray = null;
         String enumFormString = null;
-        Integer enumFormInteger = null;
-        api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, enumFormInteger);
+        api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
         // TODO: test validations
     }
 
@@ -347,19 +331,6 @@ public class FakeApiTest {
         String param = null;
         String param2 = null;
         api.testJsonFormData(param, param2);
-        // TODO: test validations
-    }
-
-    /**
-     * test anyOf with map of objects containing nullable required fields
-     *
-     * Tests that anyOf deserialization works when object values contain required fields that are nullable (e.g. Record&lt;string, { before: string | null, after: string | null }&gt;)
-     *
-     * @throws ApiException if the Api call fails
-     */
-    @Test
-    public void testNullableRequiredFieldsAnyOfTest() throws ApiException {
-        NullableFieldsMapResponse response = api.testNullableRequiredFieldsAnyOf();
         // TODO: test validations
     }
 

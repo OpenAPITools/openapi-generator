@@ -318,11 +318,7 @@ class FakeApiTest {
         //
         //String enumFormString = null;
         //
-        //Integer enumFormInteger = null;
-        //
-        //BigDecimal enumFormDouble = null;
-        //
-        //api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
+        //api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
 
         // TODO: test validations
     }

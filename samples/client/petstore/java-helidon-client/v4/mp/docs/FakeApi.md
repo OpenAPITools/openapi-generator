@@ -526,7 +526,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ## testEnumParameters
 
-> void testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble)
+> void testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString)
 
 To test enum parameters
 
@@ -546,8 +546,6 @@ To test enum parameters
 | **enumQueryModelArray** | [**List&lt;EnumClass&gt;**](EnumClass.md)|  | [optional] |
 | **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $] |
 | **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
-| **enumFormInteger** | **Integer**| Form parameter enum test (integer) | [optional] [default to 1] [enum: 1, -1, 0] |
-| **enumFormDouble** | **BigDecimal**| Form parameter enum test (double) | [optional] [default to 1.1] [enum: 1.1, -1.1, 0.1, 0.0] |
 
 ### Return type
 

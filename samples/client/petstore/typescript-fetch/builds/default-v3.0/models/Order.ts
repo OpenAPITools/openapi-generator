@@ -43,14 +43,6 @@ export interface Order {
      * 
      */
     complete?: boolean;
-    /**
-     * Various payment methods
-     */
-    paymentMethod?: OrderPaymentMethodEnum;
-    /**
-     * Order status
-     */
-    orderStatus?: OrderOrderStatusEnum;
 }
 
 
@@ -63,24 +55,6 @@ export const OrderStatusEnum = {
     Delivered: 'delivered',
 } as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
-
-/**
- * @export
- */
-export const OrderPaymentMethodEnum = {
-    NUMBER_1: 1,
-    NUMBER_2: 2,
-} as const;
-export type OrderPaymentMethodEnum = typeof OrderPaymentMethodEnum[keyof typeof OrderPaymentMethodEnum];
-
-/**
- * @export
- */
-export const OrderOrderStatusEnum = {
-    Pending: 'PENDING',
-    Processing: 'PROCESSING',
-} as const;
-export type OrderOrderStatusEnum = typeof OrderOrderStatusEnum[keyof typeof OrderOrderStatusEnum];
 
 
 /**
@@ -106,8 +80,6 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
         'shipDate': json['shipDate'] == null ? undefined : (parseDateTime(json['shipDate'])),
         'status': json['status'] == null ? undefined : json['status'],
         'complete': json['complete'] == null ? undefined : json['complete'],
-        'paymentMethod': json['paymentMethod'] == null ? undefined : json['paymentMethod'],
-        'orderStatus': json['OrderStatus'] == null ? undefined : json['OrderStatus'],
     };
 }
 
@@ -128,8 +100,6 @@ export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: bool
         'shipDate': value['shipDate'] == null ? value['shipDate'] : serializeDateTime(value['shipDate']),
         'status': value['status'],
         'complete': value['complete'],
-        'paymentMethod': value['paymentMethod'],
-        'OrderStatus': value['orderStatus'],
     };
 }
 

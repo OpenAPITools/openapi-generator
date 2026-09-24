@@ -88,7 +88,7 @@
     public static final class Serializer implements JsonbSerializer<{{datatypeWithEnum}}> {
       @Override
       public void serialize({{datatypeWithEnum}} obj, JsonGenerator generator, SerializationContext ctx) {
-        generator.write({{#isFreeFormObject}}String.valueOf(obj.value){{/isFreeFormObject}}{{^isFreeFormObject}}obj.value{{/isFreeFormObject}});
+        generator.write(obj.value);
       }
     }
 {{/jsonb}}
