@@ -1871,6 +1871,20 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testDiscriminatorPropertyRefToEnumDoesNotEmitInvalidDefault_issue24874() {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_24874.yaml", OKHTTP_GSON,
+                Map.of(MODEL_NAME_PREFIX, "Stock"));
+
+        // CategoryEvent.category is a discriminator property that is a `$ref` to another schema's
+        // (CategorySource) inline enum property, not to a named enum schema and not an inline enum
+        // itself. There is no enum type at this use site to qualify the discriminator mapping value
+        // with, so no default must be emitted here; previously this rendered the uncompilable
+        // `this.category = String.ARCHIVE;` (see #24874).
+        JavaFileAssert.assertThat(files.get("StockArchiveCategoryEvent.java"))
+                .fileDoesNotContain("String.ARCHIVE");
+    }
+
+    @Test
     public void testWebClientJsonCreatorWithNullable_issue12790() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
