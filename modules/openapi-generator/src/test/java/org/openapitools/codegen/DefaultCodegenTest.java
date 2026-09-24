@@ -41,6 +41,7 @@ import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.SpringCodegen;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.*;
@@ -70,6 +71,65 @@ public class DefaultCodegenTest {
     private static final String APP_XML = "application/xml";
     private static final String APP_TEXT = "application/text";
     private static final Logger testLogger = (Logger) LoggerFactory.getLogger(ModelUtils.class);
+
+    @Test
+    public void testBuildEnumVarsPreservesRawValueAlignmentAcrossNulls() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        List<EnumVarMap> enumVars = codegen.buildEnumVars(
+                Arrays.asList("first", null, "_42"), "string", Arrays.asList("original", null, 42));
+
+        Assert.assertEquals(enumVars.size(), 2);
+        Assert.assertEquals(enumVars.get(0).getEnumRawValue(), "original");
+        Assert.assertEquals(enumVars.get(1).getEnumRawValue(), Integer.valueOf(42));
+        Assert.assertEquals(enumVars.get(1).getEnumValue(), "\"_42\"");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testBuildEnumVarsRejectsMismatchedRawValues() {
+        new DefaultCodegen().buildEnumVars(Collections.singletonList("value"), "string", Collections.emptyList());
+    }
+
+    @Test
+    public void testAnyPropertyMatchesHandlesCyclesAndSharedProperties() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final CodegenProperty root = new CodegenProperty();
+        final CodegenProperty child = new CodegenProperty();
+        root.items = child;
+        root.additionalProperties = child;
+        child.items = root;
+        final List<CodegenProperty> visited = new ArrayList<>();
+
+        assertFalse(codegen.anyPropertyMatches(root, property -> {
+            visited.add(property);
+            return property.isUuid;
+        }));
+        assertEquals(2, visited.size());
+
+        final CodegenProperty uuid = new CodegenProperty();
+        uuid.isUuid = true;
+        child.vars.add(uuid);
+        assertTrue(codegen.anyPropertyMatches(root, property -> property.isUuid));
+    }
+
+    @Test
+    public void testAnyPropertyMatchesUsesIdentityAndStopsAtMatch() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final CodegenProperty root = new CodegenProperty();
+        final CodegenProperty first = new CodegenProperty();
+        final CodegenProperty second = new CodegenProperty();
+        assertEquals(first, second);
+        root.vars = Arrays.asList(first, second);
+
+        assertTrue(codegen.anyPropertyMatches(root, property -> property == second));
+        assertTrue(codegen.anyPropertyMatches(root, property -> {
+            assertSame(root, property);
+            return true;
+        }));
+        assertFalse(codegen.anyPropertyMatches(null, property -> {
+            fail("A null root must not invoke the predicate");
+            return true;
+        }));
+    }
 
     @Test
     public void testDeeplyNestedAdditionalPropertiesImports() {
@@ -898,6 +958,7 @@ public class DefaultCodegenTest {
         Assertions.assertNotNull(testedEnumVar);
         assertEquals("_1", testedEnumVar.getOrDefault("name", ""));
         assertEquals("\"1\"", testedEnumVar.getOrDefault("value", ""));
+        assertEquals(1, testedEnumVar.getOrDefault("rawValue", ""));
         assertEquals(false, testedEnumVar.getOrDefault("isString", ""));
     }
 
@@ -5405,6 +5466,58 @@ public class DefaultCodegenTest {
                         tuple("application/json", 0, "application/pdf", 1),
                         tuple("application/xml", 1, "application/json", 0),
                         tuple("application/xml", 1, "application/pdf", 1));
+    }
+
+    @Test
+    public void splitOperationsByContentTypeNarrowsProducesToTheVariantMediaType() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-split-by-content-type-error-responses.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        // GET /reports/{id}: 200 is json | csv, 400 and 404 are json. produces is the Accept a client
+        // sends, so each variant carries the single media-type it was narrowed to: widened back to json by
+        // the error responses, the csv variant would ask the server for json.
+        Operation get = openAPI.getPaths().get("/reports/{id}").getGet();
+        List<Operation> variants = codegen.divideOperationsByContentType(openAPI, "/reports/{id}", "get", get);
+        assertThat(variants).extracting(Operation::getOperationId, v -> DefaultCodegen.getProducesInfo(openAPI, v))
+                .containsExactlyInAnyOrder(
+                        tuple("getReportAsJson", Set.of("application/json")),
+                        tuple("getReportAsCsv", Set.of("text/csv")));
+        List<CodegenOperation> ops = variants.stream()
+                .map(v -> codegen.fromOperation("/reports/{id}", "get", v, null))
+                .collect(Collectors.toList());
+        assertThat(ops).extracting(op -> op.operationId, op -> mediaTypes(op.produces))
+                .containsExactlyInAnyOrder(
+                        tuple("getReportAsJson", List.of("application/json")),
+                        tuple("getReportAsCsv", List.of("text/csv")));
+        // the error responses are left as they are: they still type their json body
+        assertThat(ops).allSatisfy(op -> assertThat(op.responses).filteredOn(r -> "400".equals(r.code))
+                .extracting(r -> r.getContent().keySet()).containsExactly(Set.of("application/json")));
+
+        // POST /reports: split on both axes. consumes follows the narrowed request body, produces the
+        // narrowed success response, whatever the json 400 declares.
+        Operation post = openAPI.getPaths().get("/reports").getPost();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/reports", "post", post))
+                .extracting(v -> codegen.fromOperation("/reports", "post", v, null))
+                .extracting(op -> op.operationId, op -> mediaTypes(op.consumes), op -> mediaTypes(op.produces))
+                .containsExactlyInAnyOrder(
+                        tuple("createReportWithJsonAsJson", List.of("application/json"), List.of("application/json")),
+                        tuple("createReportWithJsonAsPdf", List.of("application/json"), List.of("application/pdf")),
+                        tuple("createReportWithXmlAsJson", List.of("application/xml"), List.of("application/json")),
+                        tuple("createReportWithXmlAsPdf", List.of("application/xml"), List.of("application/pdf")));
+
+        // an operation the split leaves alone keeps the union of every response, as it always has - and a
+        // spec-authored axis extension, with no variant group, does not make it a variant
+        Operation voucher = openAPI.getPaths().get("/reports/{id}/voucher").getGet();
+        voucher.addExtension(CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE, "text/csv");
+        assertThat(DefaultCodegen.getProducesInfo(openAPI, voucher)).containsExactlyInAnyOrder("application/pdf", "application/json");
+        assertThat(mediaTypes(codegen.fromOperation("/reports/{id}/voucher", "get", voucher, null).produces))
+                .containsExactlyInAnyOrder("application/pdf", "application/json");
+    }
+
+    private static List<String> mediaTypes(List<Map<String, String>> media) {
+        return media.stream().map(m -> m.get(MEDIA_TYPE)).collect(Collectors.toList());
     }
 
     @Test

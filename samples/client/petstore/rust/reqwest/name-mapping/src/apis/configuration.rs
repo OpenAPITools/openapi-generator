@@ -9,6 +9,7 @@
  */
 
 
+pub use reqwest::blocking::Client;
 
 #[derive(Debug, Clone)]
 pub struct Configuration {

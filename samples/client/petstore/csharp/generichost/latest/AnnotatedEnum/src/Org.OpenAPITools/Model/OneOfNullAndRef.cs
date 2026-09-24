@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (number.IsSet && number.Value == null)
-                throw new ArgumentNullException(nameof(number), "Property is not nullable for class OneOfNullAndRef.");
+                throw new JsonException("Property is not nullable for class OneOfNullAndRef: number.");
 
             return new OneOfNullAndRef(number);
         }
@@ -168,6 +168,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OneOfNullAndRef oneOfNullAndRef, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (oneOfNullAndRef.NumberOption.IsSet && oneOfNullAndRef.Number == null)
+                throw new JsonException("Cannot write null property OneOfNullAndRef.Number to non-nullable JSON property 'number'.");
+
             if (oneOfNullAndRef.NumberOption.IsSet)
             {
                 var numberRawValue = NumberValueConverter.ToJsonValue(oneOfNullAndRef.Number!.Value);

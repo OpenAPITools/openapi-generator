@@ -239,19 +239,19 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!varName.IsSet)
-                throw new ArgumentException("Property is required for class Name.", nameof(varName));
+                throw new JsonException("Property is required for class Name: name.");
 
             if (varName.IsSet && varName.Value == null)
-                throw new ArgumentNullException(nameof(varName), "Property is not nullable for class Name.");
+                throw new JsonException("Property is not nullable for class Name: name.");
 
             if (property.IsSet && property.Value == null)
-                throw new ArgumentNullException(nameof(property), "Property is not nullable for class Name.");
+                throw new JsonException("Property is not nullable for class Name: property.");
 
             if (snakeCase.IsSet && snakeCase.Value == null)
-                throw new ArgumentNullException(nameof(snakeCase), "Property is not nullable for class Name.");
+                throw new JsonException("Property is not nullable for class Name: snake_case.");
 
             if (var123Number.IsSet && var123Number.Value == null)
-                throw new ArgumentNullException(nameof(var123Number), "Property is not nullable for class Name.");
+                throw new JsonException("Property is not nullable for class Name: 123Number.");
 
             return new Name(varName.Value.Value, property, snakeCase, var123Number);
         }
@@ -281,7 +281,13 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Name name, JsonSerializerOptions jsonSerializerOptions)
         {
             if (name.PropertyOption.IsSet && name.Property == null)
-                throw new ArgumentNullException(nameof(name.Property), "Property is required for class Name.");
+                throw new JsonException("Cannot write null property Name.Property to non-nullable JSON property 'property'.");
+
+            if (name.SnakeCaseOption.IsSet && name.SnakeCase == null)
+                throw new JsonException("Cannot write null property Name.SnakeCase to non-nullable JSON property 'snake_case'.");
+
+            if (name.Var123NumberOption.IsSet && name.Var123Number == null)
+                throw new JsonException("Cannot write null property Name.Var123Number to non-nullable JSON property '123Number'.");
 
             writer.WriteNumber("name", name.VarName);
 

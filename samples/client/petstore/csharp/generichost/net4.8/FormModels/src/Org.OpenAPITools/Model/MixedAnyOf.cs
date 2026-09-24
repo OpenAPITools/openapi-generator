@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (content.IsSet && content.Value == null)
-                throw new ArgumentNullException(nameof(content), "Property is not nullable for class MixedAnyOf.");
+                throw new JsonException("Property is not nullable for class MixedAnyOf: content.");
 
             return new MixedAnyOf(content);
         }
@@ -175,7 +175,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, MixedAnyOf mixedAnyOf, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mixedAnyOf.ContentOption.IsSet && mixedAnyOf.Content == null)
-                throw new ArgumentNullException(nameof(mixedAnyOf.Content), "Property is required for class MixedAnyOf.");
+                throw new JsonException("Cannot write null property MixedAnyOf.Content to non-nullable JSON property 'content'.");
 
             if (mixedAnyOf.ContentOption.IsSet)
             {

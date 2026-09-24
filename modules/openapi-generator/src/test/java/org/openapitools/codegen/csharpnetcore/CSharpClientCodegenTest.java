@@ -120,9 +120,9 @@ public class CSharpClientCodegenTest {
                 "if (requiredNotnullableEnumStringValue == null)\n" +
                         "                                    throw new JsonException();",
                 "if (!requiredNullableEnumString.IsSet)\n" +
-                        "                throw new ArgumentException(\"Property is required for class RequiredClass.\", nameof(requiredNullableEnumString));",
+                        "                throw new JsonException(\"Property is required for class RequiredClass: required_nullable_enum_string.\");",
                 "if (!requiredNotnullableEnumString.IsSet)\n" +
-                        "                throw new ArgumentException(\"Property is required for class RequiredClass.\", nameof(requiredNotnullableEnumString));"
+                        "                throw new JsonException(\"Property is required for class RequiredClass: required_notnullable_enum_string.\");"
         );
     }
 
@@ -201,6 +201,35 @@ public class CSharpClientCodegenTest {
         assertNotNull(apiFile);
         assertFileContains(apiFile.toPath(),
                 "localVarRequestOptions.HeaderParameters.Add(\"X-CUSTOM_CONSTANT_HEADER\", Org.OpenAPITools.Client.ClientUtils.ParameterToString(\"CONSTANT_VALUE\"));");
+    }
+
+    @Test
+    public void testUserAgentIsNotUrlEncoded() throws IOException {
+        // both restsharp Configuration templates: the default one and the useIntForTimeout v7.9.0 fallback
+        for (boolean useIntForTimeout : new boolean[]{false, true}) {
+            File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+            output.deleteOnExit();
+            final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+            final DefaultGenerator defaultGenerator = new DefaultGenerator();
+            final ClientOptInput clientOptInput = new ClientOptInput();
+            clientOptInput.openAPI(openAPI);
+            CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+            cSharpClientCodegen.setLibrary("restsharp");
+            cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+            cSharpClientCodegen.additionalProperties().put(CodegenConstants.HTTP_USER_AGENT, "my-client/1.2.3 (linux)");
+            cSharpClientCodegen.additionalProperties().put("useIntForTimeout", useIntForTimeout);
+            clientOptInput.config(cSharpClientCodegen);
+            defaultGenerator.opts(clientOptInput);
+
+            Map<String, File> files = defaultGenerator.generate().stream()
+                    .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+            File configuration = files
+                    .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Client", "Configuration.cs").toString());
+            assertNotNull(configuration);
+            assertFileContains(configuration.toPath(), "UserAgent = \"my-client/1.2.3 (linux)\";");
+            assertFileNotContains(configuration.toPath(), "UserAgent = WebUtility.UrlEncode(");
+        }
     }
 
     @Test
@@ -440,9 +469,9 @@ public class CSharpClientCodegenTest {
         // Required numeric checks distinguish a missing property from a present null.
         assertThat(modelWithEnumProperties).contains(
                 "if (!requiredInlineIntEnum.IsSet)\n" +
-                        "                throw new ArgumentException(\"Property is required for class ModelWithEnumProperties.\", nameof(requiredInlineIntEnum));",
+                        "                throw new JsonException(\"Property is required for class ModelWithEnumProperties: requiredInlineIntEnum.\");",
                 "if (requiredInlineIntEnum.IsSet && requiredInlineIntEnum.Value == null)\n" +
-                        "                throw new ArgumentNullException(nameof(requiredInlineIntEnum), \"Property is not nullable for class ModelWithEnumProperties.\");"
+                        "                throw new JsonException(\"Property is not nullable for class ModelWithEnumProperties: requiredInlineIntEnum.\");"
         );
 
         // Verify long enum uses int64 reader with validation and actual int64 values

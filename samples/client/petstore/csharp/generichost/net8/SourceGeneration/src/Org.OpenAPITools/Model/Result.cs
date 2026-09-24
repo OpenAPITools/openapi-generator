@@ -191,13 +191,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (code.IsSet && code.Value == null)
-                throw new ArgumentNullException(nameof(code), "Property is not nullable for class Result.");
+                throw new JsonException("Property is not nullable for class Result: code.");
 
             if (data.IsSet && data.Value == null)
-                throw new ArgumentNullException(nameof(data), "Property is not nullable for class Result.");
+                throw new JsonException("Property is not nullable for class Result: data.");
 
             if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class Result.");
+                throw new JsonException("Property is not nullable for class Result: uuid.");
 
             return new Result(code, data, uuid);
         }
@@ -227,13 +227,13 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Result result, JsonSerializerOptions jsonSerializerOptions)
         {
             if (result.CodeOption.IsSet && result.Code == null)
-                throw new ArgumentNullException(nameof(result.Code), "Property is required for class Result.");
+                throw new JsonException("Cannot write null property Result.Code to non-nullable JSON property 'code'.");
 
             if (result.DataOption.IsSet && result.Data == null)
-                throw new ArgumentNullException(nameof(result.Data), "Property is required for class Result.");
+                throw new JsonException("Cannot write null property Result.Data to non-nullable JSON property 'data'.");
 
             if (result.UuidOption.IsSet && result.Uuid == null)
-                throw new ArgumentNullException(nameof(result.Uuid), "Property is required for class Result.");
+                throw new JsonException("Cannot write null property Result.Uuid to non-nullable JSON property 'uuid'.");
 
             if (result.CodeOption.IsSet)
                 writer.WriteString("code", result.Code);

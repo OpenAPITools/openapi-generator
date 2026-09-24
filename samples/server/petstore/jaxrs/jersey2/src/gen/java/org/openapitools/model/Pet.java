@@ -213,7 +213,7 @@ public class Pet   {
    **/
   @JsonProperty(value = "tags")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public List<@Valid Tag> getTags() {
     return tags;
   }

@@ -637,6 +637,16 @@ paths:
               - '-efg'
               - (xyz)
             default: '-efg'
+            x-enum-descriptions:
+              - |
+                line1
+                line2
+              - |
+                line3
+                line4
+              - |
+                line5
+                line6
         - name: enum_query_string_array
           in: query
           description: Query parameter enum test (string array)
@@ -1427,6 +1437,16 @@ components:
             - placed
             - approved
             - delivered
+          x-enum-descriptions:
+            - |
+              line1
+              line2
+            - |
+              line3
+              line4
+            - |
+              line5
+              line6
         complete:
           type: boolean
           default: false
@@ -2088,6 +2108,16 @@ components:
         - ''
         - 'value_one'
         - 'value_two'
+      x-enum-descriptions:
+        - |
+          line1
+          line2
+        - |
+          line3
+          line4
+        - |
+          line5
+          line6
       title: TestEnum
     ObjectWithEnum:
       type: object

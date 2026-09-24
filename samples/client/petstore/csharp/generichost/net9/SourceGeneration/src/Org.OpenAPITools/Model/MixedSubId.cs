@@ -148,7 +148,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class MixedSubId.");
+                throw new JsonException("Property is not nullable for class MixedSubId: id.");
 
             return new MixedSubId(id);
         }
@@ -178,7 +178,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, MixedSubId mixedSubId, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mixedSubId.IdOption.IsSet && mixedSubId.Id == null)
-                throw new ArgumentNullException(nameof(mixedSubId.Id), "Property is required for class MixedSubId.");
+                throw new JsonException("Cannot write null property MixedSubId.Id to non-nullable JSON property 'id'.");
 
             if (mixedSubId.IdOption.IsSet)
                 writer.WriteString("id", mixedSubId.Id);

@@ -1,0 +1,248 @@
+openapi: 3.1.0
+info:
+  title: discriminator_constants
+  version: '1.0.0'
+components:
+  schemas:
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: type
+        mapping:
+          CAT: '#/components/schemas/Cat'
+          DOG: '#/components/schemas/Dog'
+    Cat:
+      description: A representation of a cat
+      type: object
+      properties:
+        type:
+          type: string
+          const: CAT
+        huntingSkill:
+          type: string
+      required:
+        - type
+        - huntingSkill
+    Dog:
+      description: A representation of a dog
+      type: object
+      properties:
+        type:
+          type: string
+          const: DOG
+        packSize:
+          type: integer
+          format: int32
+      required:
+        - type
+        - packSize
+    PetInteger:
+      oneOf:
+        - $ref: '#/components/schemas/CatInteger'
+        - $ref: '#/components/schemas/DogInteger'
+      discriminator:
+        propertyName: intType
+        mapping:
+          1: '#/components/schemas/CatInteger'
+          2: '#/components/schemas/DogInteger'
+    CatInteger:
+      description: A representation of a cat
+      type: object
+      properties:
+        intType:
+          type: integer
+        huntingSkill:
+          type: string
+      required:
+        - intType
+        - huntingSkill
+    DogInteger:
+      description: A representation of a dog
+      type: object
+      properties:
+        intType:
+          type: integer
+        packSize:
+          type: integer
+          format: int32
+      required:
+        - intType
+        - packSize
+    PetEnumRef:
+      oneOf:
+        - $ref: '#/components/schemas/CatEnumRef'
+        - $ref: '#/components/schemas/DogEnumRef'
+      discriminator:
+        propertyName: enumRefType
+        mapping:
+          CAT: '#/components/schemas/CatEnumRef'
+          DOG: '#/components/schemas/DogEnumRef'
+    CatEnumRef:
+      description: A representation of a cat
+      type: object
+      properties:
+        enumRefType:
+          $ref: '#/components/schemas/PetEnumType'
+        huntingSkill:
+          type: string
+      required:
+        - enumRefType
+        - huntingSkill
+    DogEnumRef:
+      description: A representation of a dog
+      type: object
+      properties:
+        enumRefType:
+          $ref: '#/components/schemas/PetEnumType'
+          description: dog type
+        packSize:
+          type: integer
+          format: int32
+      required:
+        - enumRefType
+        - packSize
+    PetEnumType:
+      type: string
+      enum:
+        - CAT
+        - DOG
+    ParentType:
+      type: object
+      properties:
+        petType:
+          $ref: '#/components/schemas/PetEnumType'
+    PetWithParent:
+      oneOf:
+        - $ref: '#/components/schemas/CatWithParent'
+        - $ref: '#/components/schemas/DogWithParent'
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/CatWithParent'
+          DOG: '#/components/schemas/DogWithParent'
+    CatWithParent:
+      description: A representation of a cat
+      allOf:
+        - $ref: '#/components/schemas/ParentType'
+        - type: object
+          properties:
+            huntingSkill:
+              type: string
+      required:
+        - petType
+        - huntingSkill
+    DogWithParent:
+      description: A representation of a dog
+      allOf:
+        - $ref: '#/components/schemas/ParentType'
+        - type: object
+          properties:
+            packSize:
+              type: integer
+              format: int32
+      required:
+        - petType
+        - packSize
+    PetWithAllOf:
+      oneOf:
+        - $ref: '#/components/schemas/CatWithAllOf'
+        - $ref: '#/components/schemas/DogWithAllOf'
+      discriminator:
+        propertyName: typeAllOf
+    CatWithAllOf:
+      description: A representation of a cat
+      type: object
+      properties:
+        typeAllOf:
+          allOf:
+            - $ref: '#/components/schemas/PetEnumType'
+            - deprecated: true
+              description: CAT
+        huntingSkill:
+          type: string
+      required:
+        - typeAllOf
+        - huntingSkill
+    PetWithEnum:
+      oneOf:
+        - $ref: '#/components/schemas/CatWithEnum'
+        - $ref: '#/components/schemas/DogWithEnum'
+      discriminator:
+        propertyName: enumType
+        mapping:
+          CAT: '#/components/schemas/CatWithEnum'
+          DOG: '#/components/schemas/DogWithEnum'
+    CatWithEnum:
+      description: A representation of a cat
+      type: object
+      properties:
+        enumType:
+          type: string
+          enum:
+            - CAT
+        huntingSkill:
+          type: string
+      required:
+        - enumType
+        - huntingSkill
+    DogWithEnum:
+      description: A representation of a dog
+      type: object
+      properties:
+        enumType:
+          type: string
+          enum:
+            - DOG
+        packSize:
+          type: integer
+          format: int32
+      required:
+        - enumType
+        - packSize
+    DogWithAllOf:
+      description: A representation of a dog
+      type: object
+      properties:
+        typeAllOf:
+          allOf:
+            - $ref: '#/components/schemas/PetEnumType'
+              description: dog type
+        packSize:
+          type: integer
+          format: int32
+      required:
+        - typeAllOf
+        - packSize
+    PetNoMapping:
+      oneOf:
+        - $ref: '#/components/schemas/CatNoMapping'
+        - $ref: '#/components/schemas/DogNoMapping'
+      discriminator:
+        propertyName: type
+    CatNoMapping:
+      description: A representation of a cat
+      type: object
+      properties:
+        type:
+          type: string
+          const: CAT
+        huntingSkill:
+          type: string
+      required:
+        - type
+        - huntingSkill
+    DogNoMapping:
+      description: A representation of a dog
+      type: object
+      properties:
+        type:
+          type: string
+          const: DOG
+        packSize:
+          type: integer
+          format: int32
+      required:
+        - type
+        - packSize
