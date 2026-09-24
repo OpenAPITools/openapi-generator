@@ -1,0 +1,198 @@
+openapi: 3.0.3
+info:
+  title: Minimal repro of openapi-generator kotlin-spring allOf/discriminator issues
+  version: "1.0.0"
+paths:
+  /ping:
+    get:
+      operationId: ping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckServiceQualification_RES'
+  # Mirrors a real-world TMForum pattern (TMF645 Service Qualification Management): the
+  # non-"_RES" schema is also used directly as a standalone response/payload type, even
+  # though it is simultaneously an `allOf` parent for `CheckServiceQualification_RES`. This
+  # is the "dual purpose" pattern that requires the synthetic `CheckServiceQualificationImpl`
+  # concrete leaf so Jackson can still deserialize it at runtime.
+  /ping-check-task:
+    get:
+      operationId: pingCheckTask
+      responses:
+        '202':
+          description: Task Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckServiceQualification'
+components:
+  schemas:
+    Extensible:
+      type: object
+      properties:
+        '@type':
+          type: string
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+      required:
+        - '@type'
+
+    Addressable:
+      type: object
+      properties:
+        href:
+          type: string
+        id:
+          type: string
+
+    Entity:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Extensible'
+        - $ref: '#/components/schemas/Addressable'
+
+    ServiceQualification:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          properties:
+            description:
+              type: string
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          CheckServiceQualification: '#/components/schemas/CheckServiceQualification'
+          QueryServiceQualification: '#/components/schemas/QueryServiceQualification'
+          ServiceQualification: '#/components/schemas/ServiceQualification'
+
+    CheckServiceQualification:
+      allOf:
+        - $ref: '#/components/schemas/ServiceQualification'
+        - type: object
+          properties:
+            serviceQualificationItem:
+              type: array
+              items:
+                type: string
+            provideAlternative:
+              type: boolean
+              default: false
+
+    CheckServiceQualification_RES:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CheckServiceQualification'
+      required:
+        - id
+
+    QueryServiceQualification:
+      allOf:
+        - $ref: '#/components/schemas/ServiceQualification'
+        - type: object
+          properties:
+            searchCriteria:
+              type: string
+
+    EntityRef:
+      allOf:
+        - $ref: '#/components/schemas/Extensible'
+        - type: object
+          properties:
+            id:
+              type: string
+            href:
+              type: string
+
+    PartyRefOrPartyRoleRef:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/PartyRef'
+        - $ref: '#/components/schemas/PartyRoleRef'
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          PartyRef: '#/components/schemas/PartyRef'
+          PartyRoleRef: '#/components/schemas/PartyRoleRef'
+
+    PartyRef:
+      allOf:
+        - $ref: '#/components/schemas/EntityRef'
+        - type: object
+          properties:
+            '@type':
+              type: string
+              enum:
+                - PartyRef
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          PartyRef: '#/components/schemas/PartyRef'
+
+    PartyRoleRef:
+      allOf:
+        - $ref: '#/components/schemas/EntityRef'
+        - type: object
+          properties:
+            '@type':
+              type: string
+              enum:
+                - PartyRoleRef
+            partyId:
+              type: string
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          PartyRoleRef: '#/components/schemas/PartyRoleRef'
+
+    context:
+      additionalProperties: true
+      properties:
+        '@context':
+          type: object
+      discriminator:
+        propertyName: '@type'
+
+    Place:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          properties:
+            externalIdentifier:
+              type: array
+              items:
+                type: string
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          Place: '#/components/schemas/Place'
+          GeographicSite: '#/components/schemas/GeographicSite'
+
+    GeographicSite:
+      allOf:
+        - $ref: '#/components/schemas/Place'
+        - type: object
+          properties:
+            externalIdentifier:
+              type: array
+              items:
+                type: string
+            code:
+              type: string
+
+    # Deliberately collides with the default synthetic-Impl name that would otherwise be chosen
+    # for `Place` (which is a self-mapped discriminator root, so it always needs a synthetic
+    # concrete "PlaceImpl" leaf -- see the `discriminator.mapping` entry `Place: '#/components/schemas/Place'`
+    # above). This is an ordinary, unrelated schema that just happens to occupy the name
+    # "PlaceImpl"; the generator must fall back to a collision-free name (e.g. "PlaceImpl2") for
+    # Place's synthetic leaf instead of emitting two Kotlin declarations named `PlaceImpl` in the
+    # same file.
+    PlaceImpl:
+      type: object
+      properties:
+        note:
+          type: string

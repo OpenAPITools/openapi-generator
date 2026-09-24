@@ -117,6 +117,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
     public static final String COMPANION_OBJECT = "companionObject";
     public static final String SUSPEND_FUNCTIONS = "suspendFunctions";
+    public static final String FIX_POLYMORPHIC_INHERITANCE = "fixPolymorphicInheritance";
 
     @Getter
     public enum DeclarativeInterfaceReactiveMode {
@@ -185,6 +186,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean useEnumValueInterface = false;
     private String valuedEnumClassName = "ValuedEnum";
     @Setter private boolean suspendFunctions = false;
+    @Setter private boolean fixPolymorphicInheritance = false;
     @Getter @Setter private JsonIncludePolicy optionalNonNullPropertyJsonInclude = JsonIncludePolicy.NON_NULL;
     @Getter @Setter private JsonAnnotationPolicyUtils.JsonSetterNullsMode optionalNonNullPropertyJsonSetterNulls = null;
     @Getter @Setter private TriStateBoolean generateJsonIncludeAnnotations = TriStateBoolean.UNSET;
@@ -324,6 +326,19 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 substituteGenericPagedModel);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         addSwitch(SUSPEND_FUNCTIONS, "Whether to generate suspend functions for API operations. Useful for Spring MVC with Kotlin coroutines without requiring the full reactive stack.", suspendFunctions);
+        addSwitch(FIX_POLYMORPHIC_INHERITANCE,
+                "Fix compile-breaking Kotlin output for `allOf`/`discriminator` inheritance hierarchies where a schema "
+                + "is used as an `allOf` parent by other schemas but has no `discriminator` of its own. When enabled, "
+                + "such a schema is generated as an `interface` (like a genuinely polymorphic root) instead of a `data class`, "
+                + "which Kotlin does not allow extending. This changes the generated type shape for affected schemas "
+                + "(they can no longer be instantiated directly), so it is opt-in. If a schema promoted to `interface` "
+                + "this way (or a genuinely-discriminated root) is itself named as a value in some `discriminator.mapping` "
+                + "(including a root that maps to itself), a synthetic concrete `<Schema>Impl` data class implementing the "
+                + "interface is also generated (in its own file, named after the resolved class) and substituted into "
+                + "the corresponding `@JsonSubTypes` entry, so Jackson can still construct a concrete instance for that "
+                + "discriminator value. Being a genuinely separate model, this synthetic class can be suppressed via the "
+                + "standard `--schema-mappings` mechanism if you want to substitute your own implementation.",
+                fixPolymorphicInheritance);
 
         CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
                 JsonAnnotationPolicyUtils.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE_DESC);
@@ -850,6 +865,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseEnumValueInterface(convertPropertyToBoolean(CodegenConstants.USE_ENUM_VALUE_INTERFACE));
         }
         writePropertyBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, useEnumValueInterface);
+        if (additionalProperties.containsKey(FIX_POLYMORPHIC_INHERITANCE)) {
+            this.setFixPolymorphicInheritance(convertPropertyToBoolean(FIX_POLYMORPHIC_INHERITANCE));
+        }
+        writePropertyBack(FIX_POLYMORPHIC_INHERITANCE, fixPolymorphicInheritance);
         if (isUseSpringBoot3() && isUseSpringBoot4()) {
             throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
         }
@@ -1559,6 +1578,282 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
+        // Also normalize the discriminator property *type* for allOf-based polymorphic parents
+        // (not just oneOf interfaces): a schema's own discriminator property may be declared as
+        // a narrower per-subtype `enum` in a child schema (e.g. discriminator property typed as
+        // a single-value `enum` on the child), which Kotlin rejects as an invalid override of the
+        // parent's `String`-typed property. Force it back to the parent's type for every allOf
+        // child, running this after any self-discriminator enum generation on the child so the
+        // type isn't re-narrowed afterwards.
+        //
+        // Note: unlike the oneOf-interface loop above, we deliberately do NOT set a
+        // discriminator-mapping-derived default value here (discriminatorValue = null): plain
+        // allOf-based discriminator children never had such a default before this fix, and
+        // forcing one would change existing, already-correct generator output for ordinary
+        // (non-enum-narrowed) discriminator subtypes. This loop's only purpose is to fix the
+        // Kotlin override type-compatibility bug, not to add new default-value behavior.
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (cm.discriminator != null && cm.getChildren() != null) {
+                String discrimBaseName = cm.discriminator.getPropertyBaseName();
+                String discrimType = cm.discriminator.getPropertyType();
+                boolean isEnumDiscriminator = cm.discriminator.getIsEnum();
+
+                for (CodegenModel child : cm.getChildren()) {
+                    markPropertyAsInherited(child, discrimBaseName, discrimType, null, isEnumDiscriminator);
+                }
+            }
+        }
+
+        // Regression fix: retarget any OTHER (non-discriminator) inherited/merged, enum-typed
+        // property so its Kotlin dataType references the DECLARING model's nested enum
+        // declaration, not the current model's own classname. Each model's property-conversion
+        // pipeline independently builds its `CodegenProperty` objects, including enum-typed ones,
+        // using ITS OWN classname as the nested-enum-type qualifier
+        // (`{{classname}}.{{EnumName}}`) — correct for Java, where every model genuinely
+        // redeclares its own structurally-identical nested enum, but wrong for Kotlin whenever a
+        // model does NOT redeclare the enum property among its own `vars` (so no nested enum is
+        // ever rendered for it there) yet still has a `CodegenProperty` for it (in
+        // `allVars`/`requiredVars`/`optionalVars`) qualified with ITS OWN classname — a type that
+        // was never declared anywhere. This affects both genuine `allOf` inheritance (e.g.
+        // ProductOrderMilestone inheriting Milestone.status) and schema composition merges that
+        // don't set a real Kotlin `parent` at all (e.g. an `anyOf`-single-ref "recursive map
+        // value" schema like CommonFVOReverseValue merging common_FVO's `@container` enum
+        // property). Reuse the declaring model's own, already-correctly-qualified
+        // `dataType`/`datatypeWithEnum` for that property as the source of truth for every other
+        // model that has a copy of it but does not redeclare it.
+        for (CodegenModel cm : allModelsMap.values()) {
+            Set<String> candidateOwners = new LinkedHashSet<>();
+            if (cm.parent != null) {
+                candidateOwners.add(cm.parent);
+            }
+            if (cm.anyOf != null) {
+                candidateOwners.addAll(cm.anyOf);
+            }
+            if (cm.allOf != null) {
+                candidateOwners.addAll(cm.allOf);
+            }
+            if (cm.oneOf != null) {
+                candidateOwners.addAll(cm.oneOf);
+            }
+            candidateOwners.remove(cm.classname);
+            if (candidateOwners.isEmpty()) {
+                continue;
+            }
+            Set<CodegenProperty> ownVars = cm.vars != null
+                    ? Collections.newSetFromMap(new IdentityHashMap<>())
+                    : Collections.emptySet();
+            if (cm.vars != null) {
+                ownVars.addAll(cm.vars);
+            }
+            Stream.of(cm.vars, cm.requiredVars, cm.optionalVars, cm.allVars)
+                    .filter(Objects::nonNull)
+                    .flatMap(List::stream)
+                    .distinct()
+                    .filter(p -> p.isEnum && !ownVars.contains(p))
+                    .forEach(p -> {
+                        for (String ownerName : candidateOwners) {
+                            CodegenModel owner = allModelsMap.get(ownerName);
+                            if (owner == null || owner.vars == null) {
+                                continue;
+                            }
+                            for (CodegenProperty ownerProp : owner.vars) {
+                                if (ownerProp.isEnum && ownerProp.baseName.equals(p.baseName)) {
+                                    retargetInheritedEnumPropertyType(cm, owner.classname, ownerProp);
+                                    return;
+                                }
+                            }
+                        }
+                    });
+        }
+
+
+        // Issue 1/1b (opt-in via fixPolymorphicInheritance): a schema used as an `allOf` parent
+        // by other schemas, but which has no `discriminator` of its own, is otherwise emitted as
+        // a Kotlin `data class` — which is `final` and cannot be extended. Mark such models so
+        // dataClass.mustache renders them as an `interface` instead (reusing the same
+        // interface/override machinery already used for genuinely-discriminated polymorphic
+        // roots). Free-form/map-typed (`isMap`) schemas can never be rendered as an `interface`
+        // in Kotlin (an interface cannot extend a concrete class like HashMap), so for those we
+        // instead flag that they need a concrete `open class` (losing `data class`
+        // conveniences) so their children can still legally extend/override them. The map case
+        // is a plain correctness fix applied unconditionally (that combination never compiled
+        // before), independent of the opt-in flag.
+        //
+        // Build the set of model names referenced as discriminator mapping *values* anywhere in
+        // the document. A model rendered as an `interface` whose own name is one of these values
+        // needs a synthetic concrete leaf (named "<classname>Impl", or "<classname>ImplN" if that
+        // collides with an existing schema — see below): Jackson resolves the discriminator value
+        // to a concrete class via `@JsonSubTypes`, and an `interface` can never be instantiated
+        // directly. This covers both (a) a `fixPolymorphicInheritance`-promoted model that is also
+        // referenced directly elsewhere as a standalone payload/field type (e.g. TMF645's
+        // `CheckServiceQualification`), and (b) a genuinely-discriminated root whose own
+        // `discriminator.mapping` includes an entry mapping back to itself (e.g. TMF645's
+        // `ServiceQualification: '#/components/schemas/ServiceQualification'`) — a pre-existing
+        // bug independent of `fixPolymorphicInheritance`.
+        Set<String> discriminatorMappedModelNames = new HashSet<>();
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (cm.discriminator != null && cm.discriminator.getMappedModels() != null) {
+                for (CodegenDiscriminator.MappedModel mm : cm.discriminator.getMappedModels()) {
+                    discriminatorMappedModelNames.add(mm.getModelName());
+                }
+            }
+        }
+
+        // A discriminator-free `oneOf` union (rendered via `useDeductionForOneOfInterfaces`,
+        // i.e. Jackson's JsonTypeInfo.Id.DEDUCTION) has no `discriminator`/mapping at all, so a
+        // model promoted to `interface` that is *only* referenced as a member of such a union
+        // would never be caught by `discriminatorMappedModelNames` above — yet
+        // `oneof_interface.mustache`'s deduction `@JsonSubTypes` block still names each member
+        // directly by classname, the same "interface not constructible" gap the `Impl`
+        // mechanism exists to close. `cm.interfaceModels` (populated by
+        // `DefaultCodegen.updateAllModels()`, which always runs before this method since
+        // `useOneOfInterfaces` is unconditionally enabled for kotlin-spring) holds the exact
+        // same `CodegenModel` object instances referenced elsewhere, so collecting their
+        // classnames here is enough for the `Impl` decision below to see them correctly.
+        Set<String> deductionOneOfMemberModelNames = new HashSet<>();
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (cm.discriminator == null && !cm.oneOf.isEmpty() && cm.interfaceModels != null) {
+                for (CodegenModel member : cm.interfaceModels) {
+                    deductionOneOfMemberModelNames.add(member.classname);
+                }
+            }
+        }
+
+        // All classnames already used by real (schema-backed) models in the document. Needed so
+        // the synthetic `Impl` class name below never collides with an existing schema (e.g. a
+        // spec that happens to already declare a schema literally named `FooImpl` alongside
+        // `Foo`) — colliding would otherwise emit two Kotlin declarations with the same name in
+        // the same file and fail to compile.
+        Set<String> existingClassnames = new HashSet<>();
+        for (CodegenModel cm : allModelsMap.values()) {
+            existingClassnames.add(cm.classname);
+        }
+
+        for (CodegenModel cm : new ArrayList<>(allModelsMap.values())) {
+            boolean wouldBeInterface = cm.discriminator != null
+                    || (fixPolymorphicInheritance && cm.hasChildren);
+            boolean isInterfaceShape = wouldBeInterface && !cm.isMap;
+            boolean needsOpenMapFallback = wouldBeInterface && cm.isMap;
+            cm.vendorExtensions.put("x-kotlin-poly-interface", isInterfaceShape);
+            cm.vendorExtensions.put("x-kotlin-poly-open-map", needsOpenMapFallback);
+
+            boolean needsSyntheticImpl = isInterfaceShape
+                    && (discriminatorMappedModelNames.contains(cm.classname)
+                        || deductionOneOfMemberModelNames.contains(cm.classname));
+            cm.vendorExtensions.put("x-kotlin-poly-impl-needed", needsSyntheticImpl);
+
+            if (needsSyntheticImpl) {
+                // Prefer the plain "<Schema>Impl" name; if that's already taken by another
+                // schema in the document, fall back to "<Schema>Impl2", "<Schema>Impl3", etc.
+                // until a free name is found. Since the candidate is always derived from this
+                // model's own (unique) classname, two different qualifying models can never
+                // produce the same fallback name, so no cross-model bookkeeping is needed beyond
+                // checking against the fixed set of real schema classnames.
+                String implName = cm.classname + "Impl";
+                int suffixCounter = 2;
+                while (existingClassnames.contains(implName)) {
+                    implName = cm.classname + "Impl" + suffixCounter;
+                    suffixCounter++;
+                }
+                cm.vendorExtensions.put("x-kotlin-poly-impl-name", implName);
+
+                // Generate the synthetic leaf as a genuinely separate model entry (own file),
+                // via the same unmodified per-model file-generation pipeline every real schema
+                // goes through, instead of embedding it in cm's own generated file. This gets
+                // `schemaMapping` suppression "for free": DefaultGenerator's per-model
+                // file-generation loop checks `config.schemaMapping().containsKey(modelName)`
+                // generically against every key in the map returned by this method, real or
+                // synthetic alike.
+                ModelsMap implModelsMap = buildSyntheticImplModelsMap(cm, implName);
+                objs.put(implName, implModelsMap);
+                // Track the synthetic model in our own bookkeeping map too, so later passes in
+                // this method (e.g. the unbacked-discriminator-override fix below) see it
+                // alongside every real, schema-backed model.
+                allModelsMap.put(implName, implModelsMap.getModels().get(0).getModel());
+            }
+        }
+
+        // Regression fix: synthesize a computed (getter-only) override for a discriminator
+        // property that has no backing declaration anywhere in a concrete model's own
+        // flattened property set, but IS abstractly required by some discriminated interface
+        // (a `oneOf`+`discriminator` "grouping" schema with no properties of its own, or any
+        // other discriminated interface) that the model transitively implements. This is valid,
+        // common OpenAPI usage: the discriminator's wire value is implied by which
+        // `discriminator.mapping` entry points at a given schema, not necessarily redeclared as
+        // an explicit property on every subtype. Unlike Java (where an unimplemented abstract
+        // member is merely a warning-free no-op default), Kotlin requires every abstract member
+        // to be implemented, so without this fix the generated code fails to compile ("is not
+        // abstract and does not implement abstract member").
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (Boolean.TRUE.equals(cm.vendorExtensions.get("x-kotlin-poly-interface"))) {
+                // Only concrete (data class) models can carry a computed override; an interface
+                // that itself doesn't provide a value should simply stay abstract for that
+                // member — its own concrete descendant(s) (real subtype or synthetic Impl) are
+                // handled independently by this same loop.
+                continue;
+            }
+            Set<String> implementedInterfaceNames = new LinkedHashSet<>();
+            collectImplementedInterfaceNames(cm, allModelsMap, new HashSet<>(), implementedInterfaceNames);
+            if (implementedInterfaceNames.isEmpty()) {
+                continue;
+            }
+            List<Map<String, Object>> syntheticOverrides = null;
+            Set<String> handledBaseNames = new HashSet<>();
+            for (String ifaceName : implementedInterfaceNames) {
+                CodegenModel iface = allModelsMap.get(ifaceName);
+                if (iface == null || iface.discriminator == null) {
+                    continue;
+                }
+                // Only oneof_interface.mustache-rendered interfaces (`x-is-one-of-interface`,
+                // e.g. a `oneOf`+`discriminator` grouping schema) actually declare the
+                // discriminator property as an abstract Kotlin member (`val propertyName: ...`)
+                // that implementors must supply. A dataClass.mustache-rendered discriminator
+                // "parent" interface (a genuine allOf ancestor, e.g. Animal/Place) deliberately
+                // omits any such abstract declaration — its discriminator is handled purely via
+                // `@JsonTypeInfo`/`@JsonIgnoreProperties`, with no Kotlin property to override —
+                // so synthesizing an `override` there would reference a non-existent member and
+                // fail to compile. That case is already correctly handled by the existing
+                // allOf-child discriminator normalization (`markPropertyAsInherited`).
+                if (!Boolean.TRUE.equals(iface.vendorExtensions.get(CodegenConstants.X_IS_ONE_OF_INTERFACE))) {
+                    continue;
+                }
+                String discrimBaseName = iface.discriminator.getPropertyBaseName();
+                if (discrimBaseName == null || !handledBaseNames.add(discrimBaseName)) {
+                    continue;
+                }
+                boolean backed = Stream.of(cm.vars, cm.allVars)
+                        .filter(Objects::nonNull)
+                        .flatMap(List::stream)
+                        .anyMatch(p -> discrimBaseName.equals(p.baseName));
+                if (backed) {
+                    continue;
+                }
+                String mappingValue = resolveDiscriminatorMappingValue(iface.discriminator, cm, allModelsMap);
+                if (mappingValue == null) {
+                    // No mapping entry resolves back to this model (or any of its ancestors) —
+                    // nothing to synthesize a literal value from; leave as-is (will surface as a
+                    // compile error, same as today, rather than guess a wrong wire value).
+                    continue;
+                }
+                String discrimType = iface.discriminator.getPropertyType();
+                String literal = Boolean.TRUE.equals(iface.discriminator.getIsEnum())
+                        ? discrimType + "." + toEnumVarName(mappingValue, discrimType)
+                        : "\"" + escapeText(mappingValue) + "\"";
+
+                if (syntheticOverrides == null) {
+                    syntheticOverrides = new ArrayList<>();
+                }
+                Map<String, Object> entry = new HashMap<>();
+                entry.put("name", iface.discriminator.getPropertyName());
+                entry.put("type", discrimType);
+                entry.put("value", literal);
+                syntheticOverrides.add(entry);
+            }
+            if (syntheticOverrides != null) {
+                cm.vendorExtensions.put("x-kotlin-poly-synthetic-discriminator-overrides", syntheticOverrides);
+            }
+        }
+
         if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {
             if (getAnnotationLibrary() == AnnotationLibrary.NONE) {
                 // No @ApiResponse annotations are generated when annotationLibrary=none,
@@ -1622,6 +1917,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         p.datatypeWithEnum = dataType;
                         p.isNullable = false;
                         p.required = true;
+                        // If the child schema narrowed this property to its own inline `enum`
+                        // (e.g. `@type: {type: string, enum: [PartyRef]}`), the templates render
+                        // that nested enum type directly (`{{classname}}.{{nameInPascalCase}}`)
+                        // regardless of `dataType`, which would still produce a Kotlin override
+                        // type mismatch against the parent's plain type. Unless the discriminator
+                        // itself is meant to be enum-typed (isEnumDiscriminator), clear the local
+                        // enum flag so the plain `dataType` set above is actually honored.
+                        if (!isEnumDiscriminator) {
+                            p.isEnum = false;
+                        }
                     }
                     if (discriminatorValue != null) {
                         if (isEnumDiscriminator) {
@@ -1644,6 +1949,107 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             model.hasRequired = !model.requiredVars.isEmpty();
             model.hasOptional = !model.optionalVars.isEmpty();
         }
+    }
+
+    /**
+     * Recursively collects the names of every interface/ancestor a model transitively
+     * implements or extends: its {@code x-kotlin-implements} list (populated by the `oneOf`
+     * pipeline for discriminated `oneOf` grouping schemas, among other sources) and its
+     * {@code allOf} {@code parent} chain, walking into each collected name's own model (if one
+     * exists in the document) to gather further ancestors/interfaces transitively.
+     *
+     * @param model         the model whose implemented interfaces/ancestors to collect
+     * @param allModelsMap  all models in the document, keyed by classname (including any
+     *                      already-injected synthetic {@code Impl} models)
+     * @param visitedModels guards against revisiting the same model (cycle/diamond safety)
+     * @param result        accumulates the collected interface/ancestor classnames
+     */
+    private void collectImplementedInterfaceNames(CodegenModel model, Map<String, CodegenModel> allModelsMap,
+                                                   Set<String> visitedModels, Set<String> result) {
+        if (model == null || !visitedModels.add(model.classname)) {
+            return;
+        }
+        Object rawImplements = model.vendorExtensions.get(VendorExtension.X_KOTLIN_IMPLEMENTS.getName());
+        if (rawImplements instanceof List) {
+            for (Object o : (List<?>) rawImplements) {
+                String ifaceName = String.valueOf(o);
+                result.add(ifaceName);
+                collectImplementedInterfaceNames(allModelsMap.get(ifaceName), allModelsMap, visitedModels, result);
+            }
+        }
+        if (model.parent != null) {
+            result.add(model.parent);
+            collectImplementedInterfaceNames(allModelsMap.get(model.parent), allModelsMap, visitedModels, result);
+        }
+    }
+
+    /**
+     * Reverse-looks-up the literal discriminator wire value (the {@code discriminator.mapping}
+     * key) that resolves to the given model, walking up the model's {@code allOf} {@code parent}
+     * chain if the model itself isn't a direct mapping target (e.g. a synthetic {@code Impl}
+     * leaf, whose {@code parent} is the interface actually named in the mapping).
+     *
+     * @param discriminator the discriminator whose {@code mapping} to search
+     * @param model         the model to resolve a mapping value for
+     * @param allModelsMap  all models in the document, keyed by classname, used to walk up the
+     *                      {@code parent} chain
+     * @return the mapping's literal wire value, or {@code null} if neither the model nor any of
+     *         its ancestors is a mapping target
+     */
+    private String resolveDiscriminatorMappingValue(CodegenDiscriminator discriminator, CodegenModel model,
+                                                      Map<String, CodegenModel> allModelsMap) {
+        if (discriminator.getMappedModels() == null) {
+            return null;
+        }
+        Map<String, String> modelNameToMappingName = new HashMap<>();
+        for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
+            modelNameToMappingName.put(mm.getModelName(), mm.getMappingName());
+        }
+        String current = model.classname;
+        Set<String> visited = new HashSet<>();
+        while (current != null && visited.add(current)) {
+            String mappingName = modelNameToMappingName.get(current);
+            if (mappingName != null) {
+                return mappingName;
+            }
+            CodegenModel cur = allModelsMap.get(current);
+            current = cur != null ? cur.parent : null;
+        }
+        return null;
+    }
+
+    /**
+     * Retargets an {@code allOf} child's inherited (not redeclared), enum-typed property so its
+     * Kotlin nested-enum type reference points at the parent's own nested enum declaration
+     * instead of the child's classname (which never declares that nested type). A no-op if the
+     * child redeclares its own enum property under the same name (that property is not marked
+     * {@code isInherited}, so it is left untouched).
+     * <p>
+     * Sets the {@code x-kotlin-enum-owner} vendor extension (consumed by
+     * {@code dataClassReqVar}/{@code dataClassOptVar}/{@code interfaceReqVar}/
+     * {@code interfaceOptVar}.mustache in place of the model's own {@code classname}) rather than
+     * relying on {@code isInherited} alone: {@code isInherited} is also set for unrelated reasons
+     * (e.g. a schema-implements-fields-marked property backed by an external, non-modeled
+     * interface), where the property genuinely IS declared on the model's own schema and must
+     * keep its own classname as the nested-enum qualifier.
+     *
+     * @param child           the allOf child model whose inherited property may need retargeting
+     * @param parentClassname the classname of the parent model that actually declares (nests) the
+     *                        enum type
+     * @param parentProp      the parent's own {@code CodegenProperty} for the enum property,
+     *                        used to match the child's corresponding inherited property by
+     *                        {@code baseName}
+     */
+    private void retargetInheritedEnumPropertyType(CodegenModel child, String parentClassname, CodegenProperty parentProp) {
+        Stream.of(child.vars, child.requiredVars, child.optionalVars, child.allVars)
+                .filter(Objects::nonNull)
+                .flatMap(List::stream)
+                .filter(p -> parentProp.baseName.equals(p.baseName) && p.isEnum)
+                .forEach(p -> {
+                    p.dataType = parentProp.dataType;
+                    p.datatypeWithEnum = parentProp.datatypeWithEnum;
+                    p.vendorExtensions.put("x-kotlin-enum-owner", parentClassname);
+                });
     }
 
     @Override
@@ -1750,6 +2156,88 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         return objs;
+    }
+
+    /**
+     * Build a standalone {@link ModelsMap} for the synthetic "{@code <Schema>Impl}" concrete
+     * leaf class named by {@code implName}, so it can be injected into the map returned by
+     * {@link #postProcessAllModels} and rendered through the ordinary, unmodified per-model
+     * file-generation pipeline in {@code DefaultGenerator} — giving it its own generated file
+     * (instead of being embedded inside {@code interfaceModel}'s file) and, for free, standard
+     * {@code schemaMapping} suppression support, since {@code DefaultGenerator} checks
+     * {@code schemaMapping()} generically against every key in that map, real schema or
+     * synthetic alike.
+     *
+     * <p>The synthetic model deliberately reuses (by reference, not by cloning) the
+     * {@code requiredVars}/{@code optionalVars}/{@code vars}/{@code allVars} lists from
+     * {@code interfaceModel}: nothing mutates these per-render, and {@code implClassReqVar}/
+     * {@code implClassOptVar} already force an unconditional {@code override} modifier
+     * regardless of each property's {@code isInherited} flag, so no per-property adjustment is
+     * needed. {@code hasEnums} is deliberately NOT copied (left {@code false}): any nested enum
+     * classes for these properties are already declared once in {@code interfaceModel}'s own
+     * file, and the qualified enum type reference emitted by {@code implClassReqVar}/
+     * {@code implClassOptVar} points at {@code {{parent}}} (i.e. {@code interfaceModel}), so
+     * re-declaring them here would only be redundant, unused, dead code.
+     */
+    private ModelsMap buildSyntheticImplModelsMap(CodegenModel interfaceModel, String implName) {
+        CodegenModel implModel = new CodegenModel();
+        implModel.name = implName;
+        implModel.classname = implName;
+        implModel.classFilename = implName;
+        implModel.parent = interfaceModel.classname;
+        implModel.requiredVars = interfaceModel.requiredVars;
+        implModel.optionalVars = interfaceModel.optionalVars;
+        implModel.vars = interfaceModel.vars;
+        implModel.allVars = interfaceModel.allVars;
+        implModel.hasRequired = interfaceModel.hasRequired;
+        implModel.hasOptional = interfaceModel.hasOptional;
+        implModel.hasVars = interfaceModel.hasVars;
+        implModel.vendorExtensions.put("x-kotlin-poly-impl-class", true);
+
+        // Same raw imports as the interface, minus the discriminator-only Jackson annotations
+        // (JsonSubTypes/JsonTypeInfo/JsonIgnoreProperties) that only the interface itself needs.
+        implModel.imports = new TreeSet<>(interfaceModel.imports);
+        implModel.imports.removeAll(Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties"));
+
+        ModelMap modelMap = new ModelMap();
+        modelMap.setModel(implModel);
+        modelMap.put("importPath", toModelImport(implModel.classname));
+
+        // Mirrors DefaultGenerator.processModels()/generateModels()'s per-real-schema setup:
+        // "package"/import resolution happens in processModels(); "classname" and
+        // additionalProperties() are merged in generateModels()'s per-schema loop. Since our
+        // synthetic entry is injected here (inside postProcessAllModels, which runs strictly
+        // after both of those), none of that happens automatically for it - it must be
+        // replicated manually.
+        ModelsMap modelsMap = new ModelsMap();
+        modelsMap.put("package", modelPackage());
+        modelsMap.put("classname", implModel.classname);
+        modelsMap.putAll(additionalProperties());
+        modelsMap.setModels(Collections.singletonList(modelMap));
+
+        Set<String> importSet = new TreeSet<>();
+        for (String nextImport : implModel.imports) {
+            String mapping = importMapping().get(nextImport);
+            if (mapping == null) {
+                mapping = toModelImport(nextImport);
+            }
+            if (mapping != null && !defaultIncludes().contains(mapping)) {
+                importSet.add(mapping);
+            }
+            mapping = instantiationTypes().get(nextImport);
+            if (mapping != null && !defaultIncludes().contains(mapping)) {
+                importSet.add(mapping);
+            }
+        }
+        List<Map<String, String>> imports = new ArrayList<>();
+        for (String s : importSet) {
+            Map<String, String> item = new HashMap<>();
+            item.put("import", s);
+            imports.add(item);
+        }
+        modelsMap.setImports(imports);
+
+        return modelsMap;
     }
 
     @Override

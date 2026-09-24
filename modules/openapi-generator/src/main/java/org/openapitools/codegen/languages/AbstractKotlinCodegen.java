@@ -1051,11 +1051,26 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // Each of these lists contains elements that are similar, but they are all cloned
         // via CodegenModel.removeAllDuplicatedProperty and therefore need to be updated
         // separately.
-        // First find only the parent vars via baseName matching
-        Map<String, CodegenProperty> allVarsMap = m.allVars.stream()
-                .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
-        allVarsMap.keySet()
-                .removeAll(m.vars.stream().map(CodegenProperty::getBaseName).collect(Collectors.toSet()));
+        // First find only the parent vars via baseName matching. This is only meaningful when
+        // `m.parent` is actually set (a real Kotlin supertype exists): `DefaultCodegen`'s
+        // composed-schema property merging can populate `m.allVars` with entries absent from
+        // `m.vars` even for schemas that never establish real Kotlin inheritance -- e.g. an
+        // inline `anyOf: [$ref: X]` schema (a common self-referencing "recursive map value"
+        // idiom) where `X` has a discriminator: `ModelUtils.getParentName()` resolves a parent
+        // candidate generically across allOf/anyOf/oneOf, and `DefaultCodegen`'s "single
+        // inheritance" property-merge branch matches by ref name alone (not gated on
+        // `composed.getAllOf() != null`), merging `X`'s properties into `allProperties`/
+        // `m.allVars` without adding them to `properties`/`m.vars` -- yet Kotlin only ever sets
+        // `m.parent`/emits a supertype clause for genuine `allOf` composition. Without this
+        // guard, such properties would be wrongly marked `isInherited` (emitting Kotlin
+        // `override`) even though the generated class declares no supertype at all.
+        Map<String, CodegenProperty> allVarsMap = new HashMap<>();
+        if (m.parent != null) {
+            allVarsMap.putAll(m.allVars.stream()
+                    .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity())));
+            allVarsMap.keySet()
+                    .removeAll(m.vars.stream().map(CodegenProperty::getBaseName).collect(Collectors.toSet()));
+        }
 
         // if there is a parent, find the redefined vars
         if (m.parent != null && m.parentSchema != null) {
@@ -1063,10 +1078,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             // get the parent schema
             Schema<?> parentSchema = ModelUtils.getSchemas(this.openAPI).get(m.parentSchema);
 
-            // if parent schema has properties, find the intersection
-            if (parentSchema != null && parentSchema.getProperties() != null) {
-                Set<String> varNames = parentSchema.getProperties().keySet();
+            // Collect the parent's fully flattened property names, including any properties
+            // declared transitively through the parent's own `allOf` composition (e.g. a parent
+            // that is itself `allOf: [Grandparent, {inline props}]`). Reading only
+            // parentSchema.getProperties() misses these, since a schema composed via `allOf`
+            // typically has no properties of its own at the top level, causing legitimately
+            // overridden/re-declared child properties to be silently missed here and emitted
+            // without the required Kotlin `override` modifier.
+            Set<String> varNames = collectAllOfPropertyNames(parentSchema, new HashSet<>());
 
+            if (!varNames.isEmpty()) {
                 // compute intersection of m.allVars and parent properties, this will give us the overridden properties
                 Map<String, CodegenProperty> overriddenProperties = m.allVars.stream()
                         .filter(p -> varNames.contains(p.getBaseName()))
@@ -1088,6 +1109,38 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 )
                 .forEach(p -> p.isInherited = true);
         return m;
+    }
+
+    /**
+     * Recursively collects the names of all properties declared by {@code schema}, including
+     * properties declared transitively through any {@code allOf} composition (directly on the
+     * schema, or on any $ref'd/inline member of its {@code allOf} list, at any depth).
+     * <p>
+     * This is needed because a schema used as a Kotlin inheritance parent may itself be composed
+     * via {@code allOf} (e.g. {@code Place: allOf: [Entity, {inline props}]}), in which case
+     * {@code schema.getProperties()} alone returns {@code null}/empty even though the schema
+     * effectively "has" properties inherited from its own {@code allOf} members.
+     *
+     * @param schema  the schema to collect property names from (may be {@code null})
+     * @param visited set of already-visited schemas (by identity) to guard against cycles
+     * @return the set of all property names reachable from {@code schema}
+     */
+    private Set<String> collectAllOfPropertyNames(Schema<?> schema, Set<Schema<?>> visited) {
+        Set<String> propertyNames = new HashSet<>();
+        if (schema == null || !visited.add(schema)) {
+            return propertyNames;
+        }
+        if (schema.getProperties() != null) {
+            propertyNames.addAll(schema.getProperties().keySet());
+        }
+        if (schema.getAllOf() != null) {
+            for (Object o : schema.getAllOf()) {
+                Schema<?> composedSchema = (Schema<?>) o;
+                Schema<?> resolvedSchema = ModelUtils.getReferencedSchema(this.openAPI, composedSchema);
+                propertyNames.addAll(collectAllOfPropertyNames(resolvedSchema, visited));
+            }
+        }
+        return propertyNames;
     }
 
     @Override

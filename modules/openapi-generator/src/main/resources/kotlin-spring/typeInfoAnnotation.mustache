@@ -6,6 +6,6 @@
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "{{{discriminator.propertyBaseName}}}", visible = true{{#vendorExtensions.x-jackson-resolved-default-impl}}, defaultImpl = {{vendorExtensions.x-jackson-resolved-default-impl}}::class{{/vendorExtensions.x-jackson-resolved-default-impl}})
 @JsonSubTypes(
   {{#discriminator.mappedModels}}
-      JsonSubTypes.Type(value = {{modelName}}::class, name = "{{^vendorExtensions.x-discriminator-value}}{{mappingName}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}"){{^-last}},{{/-last}}
+      JsonSubTypes.Type(value = {{#model.vendorExtensions.x-kotlin-poly-impl-needed}}{{model.vendorExtensions.x-kotlin-poly-impl-name}}{{/model.vendorExtensions.x-kotlin-poly-impl-needed}}{{^model.vendorExtensions.x-kotlin-poly-impl-needed}}{{modelName}}{{/model.vendorExtensions.x-kotlin-poly-impl-needed}}::class, name = "{{^vendorExtensions.x-discriminator-value}}{{mappingName}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}"){{^-last}},{{/-last}}
   {{/discriminator.mappedModels}}
 ){{/jackson}}
