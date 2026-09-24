@@ -97,7 +97,7 @@
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
-            <version>3.5.1</version>
+            <version>4.0.3</version>
             <scope>test</scope>
         </dependency>
         <!-- explicit dependency due to https://devhub.checkmarx.com/cve-details/CVE-2018-1002200 (see exclusion in maven-plugin-testing-harness) -->
