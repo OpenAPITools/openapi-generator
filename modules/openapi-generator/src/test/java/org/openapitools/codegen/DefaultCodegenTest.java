@@ -5540,4 +5540,61 @@ public class DefaultCodegenTest {
         off.processOpts();
         assertThat(off.splitOperationsByContentType).isFalse();
     }
+
+    @Test
+    public void testGetEnumValueForPropertyWithNullAllowableValues() {
+        CodegenDiscriminator discriminator = new CodegenDiscriminator();
+        discriminator.setIsEnum(true);
+        CodegenProperty var = new CodegenProperty();
+        var.baseName = "type";
+        var.defaultValue = "defaultType";
+        var.allowableValues = null;
+
+        String result = DefaultCodegen.getEnumValueForProperty("TestModel", discriminator, var);
+        assertEquals("defaultType", result);
+
+        Assertions.assertNull(DefaultCodegen.getEnumValueForProperty("TestModel", discriminator, null));
+        assertEquals("defaultType", DefaultCodegen.getEnumValueForProperty("TestModel", null, var));
+    }
+
+    @Test
+    public void testSetEnumDiscriminatorDefaultValue() {
+        CodegenModel model = new CodegenModel();
+        model.name = "TestModel";
+        model.schemaName = "TestModel";
+
+        CodegenDiscriminator discriminator = new CodegenDiscriminator();
+        discriminator.setPropertyBaseName("type");
+        discriminator.setPropertyName("type");
+        discriminator.setIsEnum(true);
+        model.discriminator = discriminator;
+
+        CodegenProperty var = new CodegenProperty();
+        var.baseName = "type";
+        var.defaultValue = "defaultType";
+        var.allowableValues = null;
+        model.vars.add(var);
+        model.allVars.add(var);
+
+        // 1. With mapping defined and null allowableValues:
+        // Verifies the discriminator matching path executes and assigns mapped value without NPE
+        discriminator.setMapping(Map.of("CustomModel", "TestModel"));
+        DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
+        assertEquals("CustomModel", var.defaultValue);
+
+        // 2. With allowableValues populated matching modelName:
+        // Verifies allowableValues matching path assigns the enum value
+        discriminator.setMapping(Collections.emptyMap());
+        var.allowableValues = Map.of(EnumVarMap.ENUM_VALUES, List.of("TestModel"));
+        var.defaultValue = "defaultType";
+        DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
+        assertEquals("TestModel", var.defaultValue);
+
+        // 3. With null allowableValues and no mapping match:
+        // Verifies fallback to defaultValue runs safely without NPE (issue #22177)
+        var.allowableValues = null;
+        var.defaultValue = "defaultType";
+        DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
+        assertEquals("defaultType", var.defaultValue);
+    }
 }

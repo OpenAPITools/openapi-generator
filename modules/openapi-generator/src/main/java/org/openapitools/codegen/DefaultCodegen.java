@@ -3579,7 +3579,10 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected static String getEnumValueForProperty(
             String modelName, CodegenDiscriminator discriminator, CodegenProperty var) {
-        if (!discriminator.getIsEnum() && !var.isEnum) {
+        if (var == null) {
+            return null;
+        }
+        if (discriminator == null || (!discriminator.getIsEnum() && !var.isEnum)) {
             return var.defaultValue;
         }
         Map<String, String> mapping = Optional.ofNullable(discriminator.getMapping()).orElseGet(Collections::emptyMap);
@@ -3588,6 +3591,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (modelName.equals(schemaName)) {
                 return e.getKey();
             }
+        }
+        if (var.allowableValues == null) {
+            return var.defaultValue;
         }
         Object values = var.allowableValues.get(ENUM_VALUES);
         if (!(values instanceof List<?>)) {
