@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.TestUtils;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit tests for {@link SpringPageableScanUtils}.
@@ -73,7 +75,7 @@ public class SpringPageableScanUtilsTest {
         ));
 
         Map<String, SpringPageableScanUtils.PageableConstraintsData> result =
-                SpringPageableScanUtils.scanPageableConstraints(openAPI, false);
+                SpringPageableScanUtils.scanPageableConstraints(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
 
         assertThat(result).containsKey("listItems");
         SpringPageableScanUtils.PageableConstraintsData data = result.get("listItems");
@@ -103,7 +105,7 @@ public class SpringPageableScanUtilsTest {
         ));
 
         Map<String, SpringPageableScanUtils.PageableConstraintsData> result =
-                SpringPageableScanUtils.scanPageableConstraints(openAPI, false);
+                SpringPageableScanUtils.scanPageableConstraints(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
 
         assertThat(result).containsKey("listItems");
         SpringPageableScanUtils.PageableConstraintsData data = result.get("listItems");
@@ -127,7 +129,7 @@ public class SpringPageableScanUtilsTest {
         ));
 
         Map<String, SpringPageableScanUtils.PageableConstraintsData> result =
-                SpringPageableScanUtils.scanPageableConstraints(openAPI, false);
+                SpringPageableScanUtils.scanPageableConstraints(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
 
         assertThat(result).containsKey("listItems");
         SpringPageableScanUtils.PageableConstraintsData data = result.get("listItems");
@@ -146,7 +148,7 @@ public class SpringPageableScanUtilsTest {
         ));
 
         Map<String, SpringPageableScanUtils.PageableConstraintsData> result =
-                SpringPageableScanUtils.scanPageableConstraints(openAPI, false);
+                SpringPageableScanUtils.scanPageableConstraints(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
 
         assertThat(result).containsKey("listItems");
         SpringPageableScanUtils.PageableConstraintsData data = result.get("listItems");
@@ -203,11 +205,11 @@ public class SpringPageableScanUtilsTest {
         OpenAPI openAPI = buildPageableOperation(sortParam);
 
         // does not throw NPE
-        assertThatCode(() -> SpringPageableScanUtils.scanSortValidationEnums(openAPI, false))
+        assertThatCode(() -> SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE))
                 .doesNotThrowAnyException();
 
         // and returns empty map
-        Map<String, List<String>> result = SpringPageableScanUtils.scanSortValidationEnums(openAPI, false);
+        Map<String, List<String>> result = SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
         assertThat(result).isEmpty();
     }
 
@@ -234,7 +236,7 @@ public class SpringPageableScanUtilsTest {
         Parameter sortParam = new Parameter().name("sort").schema(sortSchema);
         OpenAPI openAPI = buildPageableOperation(sortParam);
 
-        Map<String, List<String>> result = SpringPageableScanUtils.scanSortValidationEnums(openAPI, false);
+        Map<String, List<String>> result = SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
         assertThat(result)
                 .containsKey("listItems")
                 .satisfies(m -> assertThat(m.get("listItems"))
@@ -257,7 +259,7 @@ public class SpringPageableScanUtilsTest {
         Parameter sortParam = new Parameter().name("sort").schema(sortSchema);
         OpenAPI openAPI = buildPageableOperation(sortParam);
 
-        Map<String, List<String>> result = SpringPageableScanUtils.scanSortValidationEnums(openAPI, false);
+        Map<String, List<String>> result = SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
         assertThat(result)
                 .containsKey("listItems")
                 .satisfies(m -> assertThat(m.get("listItems")).containsExactly("id,asc", "id,desc"));
@@ -278,7 +280,7 @@ public class SpringPageableScanUtilsTest {
         Parameter sortParam = new Parameter().name("sort").schema(new StringSchema());
         OpenAPI openAPI = buildPageableOperation(sortParam);
 
-        assertThat(SpringPageableScanUtils.scanSortValidationEnums(openAPI, false)).isEmpty();
+        assertThat(SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE)).isEmpty();
     }
 
     // -------------------------------------------------------------------------
@@ -288,11 +290,11 @@ public class SpringPageableScanUtilsTest {
     @Test
     public void applyAutoXSpringPaginatedIfNeeded_allThreeParams_setsExtensionAndReturnsTrue() {
         Operation op = new Operation();
-        op.addParametersItem(new Parameter().name("page"));
-        op.addParametersItem(new Parameter().name("size"));
-        op.addParametersItem(new Parameter().name("sort"));
+        op.addParametersItem(new Parameter().name("page").in("query"));
+        op.addParametersItem(new Parameter().name("size").in("query"));
+        op.addParametersItem(new Parameter().name("sort").in("query"));
 
-        boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, true);
+        boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
 
         assertThat(result).isTrue();
         assertThat(op.getExtensions()).containsEntry("x-spring-paginated", Boolean.TRUE);
@@ -301,11 +303,11 @@ public class SpringPageableScanUtilsTest {
     @Test
     public void applyAutoXSpringPaginatedIfNeeded_missingOneParam_doesNotSetExtension() {
         Operation op = new Operation();
-        op.addParametersItem(new Parameter().name("page"));
-        op.addParametersItem(new Parameter().name("size"));
+        op.addParametersItem(new Parameter().name("page").in("query"));
+        op.addParametersItem(new Parameter().name("size").in("query"));
         // 'sort' is absent
 
-        boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, true);
+        boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
 
         assertThat(result).isFalse();
         assertThat(op.getExtensions()).isNull();
@@ -314,11 +316,11 @@ public class SpringPageableScanUtilsTest {
     @Test
     public void applyAutoXSpringPaginatedIfNeeded_autoDisabled_doesNotSetExtension() {
         Operation op = new Operation();
-        op.addParametersItem(new Parameter().name("page"));
-        op.addParametersItem(new Parameter().name("size"));
-        op.addParametersItem(new Parameter().name("sort"));
+        op.addParametersItem(new Parameter().name("page").in("query"));
+        op.addParametersItem(new Parameter().name("size").in("query"));
+        op.addParametersItem(new Parameter().name("sort").in("query"));
 
-        boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, false);
+        boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, SpringPageableScanUtils.AutoPaginationMode.NONE);
 
         assertThat(result).isFalse();
         assertThat(op.getExtensions()).isNull();
@@ -330,7 +332,7 @@ public class SpringPageableScanUtilsTest {
         op.addExtension("x-spring-paginated", Boolean.TRUE);
         // No params needed — already explicitly set
 
-        boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, false);
+        boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, SpringPageableScanUtils.AutoPaginationMode.NONE);
 
         assertThat(result).isTrue();
         // Extension was already true and must remain true
@@ -341,11 +343,11 @@ public class SpringPageableScanUtilsTest {
     public void applyAutoXSpringPaginatedIfNeeded_explicitlyFalse_returnsFalseAndIsNotOverridden() {
         Operation op = new Operation();
         op.addExtension("x-spring-paginated", Boolean.FALSE);
-        op.addParametersItem(new Parameter().name("page"));
-        op.addParametersItem(new Parameter().name("size"));
-        op.addParametersItem(new Parameter().name("sort"));
+        op.addParametersItem(new Parameter().name("page").in("query"));
+        op.addParametersItem(new Parameter().name("size").in("query"));
+        op.addParametersItem(new Parameter().name("sort").in("query"));
 
-        boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, true);
+        boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
 
         assertThat(result).isFalse();
         // Manual false must not be overridden by auto-detection
@@ -357,7 +359,7 @@ public class SpringPageableScanUtilsTest {
         Operation op = new Operation();
         // No parameters at all
 
-        boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, true);
+        boolean result = SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(op, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
 
         assertThat(result).isFalse();
         assertThat(op.getExtensions()).isNull();
@@ -390,12 +392,12 @@ public class SpringPageableScanUtilsTest {
                 .components(components)
                 .paths(new Paths().addPathItem("/items", new PathItem().get(operation)));
 
-        assertThat(SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(openAPI, operation, true))
+        assertThat(SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(openAPI, operation, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT))
                 .isTrue();
         assertThat(operation.getExtensions()).containsEntry("x-spring-paginated", Boolean.TRUE);
 
         Map<String, SpringPageableScanUtils.PageableDefaultsData> defaults =
-                SpringPageableScanUtils.scanPageableDefaults(openAPI, true);
+                SpringPageableScanUtils.scanPageableDefaults(openAPI, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
         assertThat(defaults).containsKey("listItems");
         assertThat(defaults.get("listItems").page).isEqualTo(0);
         assertThat(defaults.get("listItems").size).isEqualTo(20);
@@ -404,13 +406,13 @@ public class SpringPageableScanUtilsTest {
                 .containsExactly(org.assertj.core.groups.Tuple.tuple("name", "DESC"));
 
         Map<String, SpringPageableScanUtils.PageableConstraintsData> constraints =
-                SpringPageableScanUtils.scanPageableConstraints(openAPI, true);
+                SpringPageableScanUtils.scanPageableConstraints(openAPI, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
         assertThat(constraints).containsKey("listItems");
         assertThat(constraints.get("listItems").minPage).isEqualTo(0);
         assertThat(constraints.get("listItems").minSize).isEqualTo(1);
         assertThat(constraints.get("listItems").maxSize).isEqualTo(100);
 
-        assertThat(SpringPageableScanUtils.scanSortValidationEnums(openAPI, true))
+        assertThat(SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT))
                 .containsEntry("listItems", List.of("name,asc", "name,desc"));
     }
 
@@ -422,9 +424,148 @@ public class SpringPageableScanUtilsTest {
                 .addParametersItem(new Parameter().$ref("#/components/parameters/Sort"));
         OpenAPI openAPI = new OpenAPI().components(new Components());
 
-        assertThat(SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(openAPI, operation, true))
+        assertThat(SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(openAPI, operation, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT))
                 .isFalse();
         assertThat(operation.getExtensions()).isNull();
+    }
+
+    // -------------------------------------------------------------------------
+    // resolveAutoPaginationMode
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void resolveAutoPaginationMode_canonicalValues() {
+        assertThat(SpringPageableScanUtils.resolveAutoPaginationMode("none"))
+                .isEqualTo(SpringPageableScanUtils.AutoPaginationMode.NONE);
+        assertThat(SpringPageableScanUtils.resolveAutoPaginationMode("page-size-sort"))
+                .isEqualTo(SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
+        assertThat(SpringPageableScanUtils.resolveAutoPaginationMode("page-size"))
+                .isEqualTo(SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE);
+    }
+
+    @Test
+    public void resolveAutoPaginationMode_caseInsensitiveAndTrimmed() {
+        assertThat(SpringPageableScanUtils.resolveAutoPaginationMode("  PAGE-SIZE  "))
+                .isEqualTo(SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE);
+    }
+
+    @Test
+    public void resolveAutoPaginationMode_legacyAliases() {
+        assertThat(SpringPageableScanUtils.resolveAutoPaginationMode("true"))
+                .isEqualTo(SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT);
+        assertThat(SpringPageableScanUtils.resolveAutoPaginationMode("false"))
+                .isEqualTo(SpringPageableScanUtils.AutoPaginationMode.NONE);
+    }
+
+    @Test
+    public void resolveAutoPaginationMode_invalidValue_throwsIllegalArgumentExceptionListingAcceptedValues() {
+        assertThatThrownBy(() -> SpringPageableScanUtils.resolveAutoPaginationMode("bogus"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("bogus")
+                .hasMessageContaining("none")
+                .hasMessageContaining("page-size-sort")
+                .hasMessageContaining("page-size");
+    }
+
+    // -------------------------------------------------------------------------
+    // warnIfDeprecatedAutoPaginationValue
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void warnIfDeprecatedAutoPaginationValue_legacyTrue_warnsWithMigrationHint() {
+        List<String> messages = TestUtils.captureLogMessages(SpringPageableScanUtils.class,
+                () -> SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("true"));
+        assertThat(messages).singleElement(org.assertj.core.api.InstanceOfAssertFactories.STRING)
+                .contains("'true' is deprecated").contains("'page-size-sort'");
+    }
+
+    @Test
+    public void warnIfDeprecatedAutoPaginationValue_legacyFalse_warnsWithMigrationHint() {
+        List<String> messages = TestUtils.captureLogMessages(SpringPageableScanUtils.class,
+                () -> SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("false"));
+        assertThat(messages).singleElement(org.assertj.core.api.InstanceOfAssertFactories.STRING)
+                .contains("'false' is deprecated").contains("'none'");
+    }
+
+    @Test
+    public void warnIfDeprecatedAutoPaginationValue_normalizesLikeResolve() {
+        List<String> messages = TestUtils.captureLogMessages(SpringPageableScanUtils.class,
+                () -> SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue(" TRUE "));
+        assertThat(messages).singleElement(org.assertj.core.api.InstanceOfAssertFactories.STRING)
+                .contains("'true' is deprecated");
+    }
+
+    @Test
+    public void warnIfDeprecatedAutoPaginationValue_nonLegacyValues_doNotWarn() {
+        List<String> messages = TestUtils.captureLogMessages(SpringPageableScanUtils.class, () -> {
+            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("none");
+            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("page-size-sort");
+            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("page-size");
+            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("bogus");
+            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue(null);
+        });
+        assertThat(messages).isEmpty();
+    }
+
+    // -------------------------------------------------------------------------
+    // willBePageable / detection with AutoPaginationMode.PAGE_SIZE
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void willBePageable_pageSizeMode_detectsPageAndSizeOnlyOperation() {
+        Operation op = new Operation();
+        op.addParametersItem(new Parameter().name("page").in("query"));
+        op.addParametersItem(new Parameter().name("size").in("query"));
+        // no 'sort' parameter present
+
+        assertThat(SpringPageableScanUtils.willBePageable(op, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE))
+                .isTrue();
+    }
+
+    @Test
+    public void willBePageable_pageSizeMode_alsoDetectsPageSizeAndSortOperation() {
+        Operation op = new Operation();
+        op.addParametersItem(new Parameter().name("page").in("query"));
+        op.addParametersItem(new Parameter().name("size").in("query"));
+        op.addParametersItem(new Parameter().name("sort").in("query"));
+
+        assertThat(SpringPageableScanUtils.willBePageable(op, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE))
+                .isTrue();
+    }
+
+    @Test
+    public void willBePageable_pageSizeMode_doesNotDetectPathAndHeaderParamsNamedPageAndSize() {
+        Operation op = new Operation();
+        op.addParametersItem(new Parameter().name("page").in("path"));
+        op.addParametersItem(new Parameter().name("size").in("header"));
+        // 'page'/'size' exist but are not query parameters — must NOT trigger auto-detection
+
+        assertThat(SpringPageableScanUtils.willBePageable(op, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE))
+                .isFalse();
+    }
+
+    @Test
+    public void willBePageable_pageSizeSortMode_doesNotDetectPageAndSizeOnlyOperation() {
+        Operation op = new Operation();
+        op.addParametersItem(new Parameter().name("page").in("query"));
+        op.addParametersItem(new Parameter().name("size").in("query"));
+        // no 'sort' parameter present — PAGE_SIZE_SORT must NOT detect this (regression guard)
+
+        assertThat(SpringPageableScanUtils.willBePageable(op, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT))
+                .isFalse();
+    }
+
+    @Test
+    public void willBePageable_pageSizeSortMode_doesNotDetectPathParamNamedSort() {
+        Operation op = new Operation();
+        op.addParametersItem(new Parameter().name("page").in("query"));
+        op.addParametersItem(new Parameter().name("size").in("query"));
+        op.addParametersItem(new Parameter().name("sort").in("path"));
+        // 'sort' exists but is a path parameter, not a query parameter — before the query-location
+        // filter was introduced this incorrectly returned true (regression guard)
+
+        assertThat(SpringPageableScanUtils.willBePageable(op, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT))
+                .isFalse();
     }
 
     // -------------------------------------------------------------------------
@@ -665,7 +806,7 @@ public class SpringPageableScanUtilsTest {
         OpenAPI openAPI = buildPageableOperationWithParams(List.of(pageParam, sizeParam, sortParam));
 
         SpringPageableScanUtils utils = new SpringPageableScanUtils();
-        utils.scanAll(openAPI, false); // auto-detect disabled; x-spring-paginated already set
+        utils.scanAll(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE); // auto-detect disabled; x-spring-paginated already set
 
         assertThat(utils.sortValidationEnums).containsKey("listItems");
         assertThat(utils.sortValidationEnums.get("listItems")).containsExactly("name,asc", "name,desc");

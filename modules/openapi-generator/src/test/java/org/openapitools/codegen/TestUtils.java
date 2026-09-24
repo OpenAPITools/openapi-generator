@@ -1,5 +1,7 @@
 package org.openapitools.codegen;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.github.javaparser.JavaParser;
@@ -19,6 +21,7 @@ import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.testng.Assert.*;
 
@@ -351,5 +355,38 @@ public class TestUtils {
         tempDir.toFile().deleteOnExit();
 
         return tempDir;
+    }
+
+    /**
+     * Runs {@code action} with a logback {@link ListAppender} attached to the logger of {@code loggerClass}
+     * and returns the formatted messages logged on the current thread while it ran.
+     *
+     * <p>Surefire runs test classes in parallel and loggers are shared, so events emitted by other
+     * threads are ignored.</p>
+     */
+    public static List<String> captureLogMessages(Class<?> loggerClass, Runnable action) {
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(loggerClass);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        logger.addAppender(listAppender);
+        try {
+            action.run();
+        } finally {
+            listAppender.stop();
+            logger.detachAppender(listAppender);
+        }
+
+        List<ILoggingEvent> events;
+        // ListAppender.list is a plain ArrayList; AppenderBase.doAppend synchronizes on the appender,
+        // so copy under the same monitor before iterating.
+        synchronized (listAppender) {
+            events = new ArrayList<>(listAppender.list);
+        }
+        String testThreadName = Thread.currentThread().getName();
+        return events.stream()
+                .filter(event -> event.getThreadName().equals(testThreadName))
+                .map(ILoggingEvent::getFormattedMessage)
+                .collect(Collectors.toList());
     }
 }
