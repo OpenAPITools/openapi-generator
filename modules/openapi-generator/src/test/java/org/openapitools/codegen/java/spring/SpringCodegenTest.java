@@ -87,6 +87,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_24993.yaml", SPRING_BOOT);
 
         validateJavaSourceFiles(List.copyOf(files.values()));
+        assertThat(files).containsKey("ComplexDefaults.java");
         assertThat(files.get("ComplexDefaults.java").toPath())
                 .content()
                 .contains(

@@ -117,6 +117,16 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public String toDefaultValue(CodegenProperty property, Schema schema) {
         Schema resolvedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (property != null && !property.required
+                && (ModelUtils.isMapSchema(schema) || ModelUtils.isMapSchema(resolvedSchema))) {
+            boolean hasExplicitDefault = schema.getDefault() != null
+                    || resolvedSchema != null && resolvedSchema.getDefault() != null;
+            if (hasExplicitDefault) {
+                // Map defaults are not rendered as Java expressions by the base generator. Do not emit
+                // the raw map value or replace its contents with an empty map.
+                return null;
+            }
+        }
+        if (property != null && !property.required
                 && (ModelUtils.isArraySchema(schema) || ModelUtils.isMapSchema(schema)
                 || ModelUtils.isArraySchema(resolvedSchema) || ModelUtils.isMapSchema(resolvedSchema))
                 && schema.getDefault() == null && (resolvedSchema == null || resolvedSchema.getDefault() == null)

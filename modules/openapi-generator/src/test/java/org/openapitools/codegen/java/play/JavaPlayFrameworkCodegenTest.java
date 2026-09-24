@@ -19,6 +19,9 @@ package org.openapitools.codegen.java.play;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
@@ -31,6 +34,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 
 public class JavaPlayFrameworkCodegenTest {
 
@@ -144,10 +148,41 @@ public class JavaPlayFrameworkCodegenTest {
         Path model = output.toPath().resolve("app/apimodels/ContainerDefaultValue.java");
         TestUtils.assertValidJavaSourceCode(Files.readString(model));
         TestUtils.assertFileContains(model,
-                "private List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList(\"foo\", \"bar\"));",
-                "this.nullableArrayWithDefault = new ArrayList<>();");
+                "private List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList(\"foo\", \"bar\"));");
         TestUtils.assertFileNotContains(model,
                 "this.nullableArrayWithDefault = new ArrayList<>(Arrays.asList(\"foo\", \"bar\"));");
+    }
+
+    @Test
+    public void testOptionalMapDefaultIsNotEmittedAsEmptyMap() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml",
+                        null, new ParseOptions()).getOpenAPI();
+        Schema<?> container = openAPI.getComponents().getSchemas().get("ContainerDefaultValue");
+        MapSchema mapWithDefault = new MapSchema();
+        mapWithDefault.setAdditionalProperties(new StringSchema());
+        mapWithDefault.setDefault(Map.of("foo", "bar"));
+        container.addProperties("mapWithDefault", mapWithDefault);
+
+        JavaPlayFrameworkCodegen codegen = new JavaPlayFrameworkCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        Path model = output.toPath().resolve("app/apimodels/ContainerDefaultValue.java");
+        TestUtils.assertFileContains(model, "private Map<String, String> mapWithDefault = null;");
+        TestUtils.assertFileNotContains(model, "private Map<String, String> mapWithDefault = new HashMap<>()");
+        TestUtils.assertFileNotContains(model, "foo=bar");
     }
 
     @Test

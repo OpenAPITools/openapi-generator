@@ -1640,27 +1640,30 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (schema.getProperties() != null) {
             propertySchemas.putAll(schema.getProperties());
         }
-        addComposedSchemaProperties(propertySchemas, schema.getAllOf());
-        addComposedSchemaProperties(propertySchemas, schema.getOneOf());
-        addComposedSchemaProperties(propertySchemas, schema.getAnyOf());
+        Set<Schema> visitedSchemas = Collections.newSetFromMap(new IdentityHashMap<>());
+        visitedSchemas.add(schema);
+        addComposedSchemaProperties(propertySchemas, schema.getAllOf(), visitedSchemas);
+        addComposedSchemaProperties(propertySchemas, schema.getOneOf(), visitedSchemas);
+        addComposedSchemaProperties(propertySchemas, schema.getAnyOf(), visitedSchemas);
         return propertySchemas;
     }
 
-    private void addComposedSchemaProperties(Map<String, Schema> propertySchemas, List<Schema> members) {
+    private void addComposedSchemaProperties(Map<String, Schema> propertySchemas, List<Schema> members,
+                                             Set<Schema> visitedSchemas) {
         if (members == null) {
             return;
         }
         for (Schema member : members) {
             Schema resolved = ModelUtils.getReferencedSchema(this.openAPI, member);
-            if (resolved == null) {
+            if (resolved == null || !visitedSchemas.add(resolved)) {
                 continue;
             }
             if (resolved.getProperties() != null) {
                 propertySchemas.putAll(resolved.getProperties());
             }
-            addComposedSchemaProperties(propertySchemas, resolved.getAllOf());
-            addComposedSchemaProperties(propertySchemas, resolved.getOneOf());
-            addComposedSchemaProperties(propertySchemas, resolved.getAnyOf());
+            addComposedSchemaProperties(propertySchemas, resolved.getAllOf(), visitedSchemas);
+            addComposedSchemaProperties(propertySchemas, resolved.getOneOf(), visitedSchemas);
+            addComposedSchemaProperties(propertySchemas, resolved.getAnyOf(), visitedSchemas);
         }
     }
 

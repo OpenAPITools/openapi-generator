@@ -676,6 +676,20 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void toDefaultValueForRecursiveComposedSchemaDoesNotOverflow() {
+        ComposedSchema recursive = new ComposedSchema();
+        recursive.addProperty("name", new StringSchema());
+        recursive.addAllOfItem(new Schema<>().$ref("#/components/schemas/Recursive"));
+        recursive.setDefault(Map.of("name", "recursive"));
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("Recursive", recursive)));
+
+        CodegenProperty property = codegen.fromProperty("recursive", recursive);
+        String rendered = codegen.toDefaultValue(property, recursive);
+
+        Assert.assertEquals(rendered, "new " + property.datatypeWithEnum + "().name(\"recursive\")");
+    }
+
+    @Test
     public void toDefaultValueForNestedDatesUsesConfiguredDateLibraryTest() {
         ObjectSchema nested = new ObjectSchema();
         nested.addProperty("date", new DateSchema());

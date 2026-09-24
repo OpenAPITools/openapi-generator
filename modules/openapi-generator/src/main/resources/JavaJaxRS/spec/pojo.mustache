@@ -73,7 +73,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#v
   {{/deprecated}}
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
   {{#isContainer}}
-  private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
+  private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
   {{/isContainer}}
   {{^isContainer}}
   private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
