@@ -535,15 +535,6 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
                 : RubyApiRouting.commonBasePrefix(paths);
         this.rubyNamespaces = buildRubyNamespaces(openAPI);
         this.namespaceOnlyApiTags.clear();
-        for (Map<String, Object> namespace : rubyNamespaces) {
-            if (!Boolean.TRUE.equals(namespace.get("hasDirectOperations"))) {
-                @SuppressWarnings("unchecked")
-                List<Map<String, Object>> resources = (List<Map<String, Object>>) namespace.get("resources");
-                if (!resources.isEmpty()) {
-                    namespaceOnlyApiTags.add(namespace.get("routeName") + "/" + resources.get(0).get("routeName"));
-                }
-            }
-        }
         additionalProperties.put("rbNamespaces", rubyNamespaces);
     }
 
@@ -554,6 +545,7 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
     private List<Map<String, Object>> buildRubyNamespaces(OpenAPI openAPI) {
         Map<String, Map<String, Object>> namespaces = new TreeMap<>();
         Map<String, Set<String>> resourcesByNamespace = new TreeMap<>();
+        Map<String, Set<String>> directOperationsByNamespace = new TreeMap<>();
         if (openAPI != null && openAPI.getPaths() != null) {
             for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
                 PathItem pathItem = pathEntry.getValue();
@@ -579,6 +571,9 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
                     });
                     if (route.resource == null) {
                         namespace.put("hasDirectOperations", true);
+                        directOperationsByNamespace
+                                .computeIfAbsent(route.namespace, k -> new TreeSet<>())
+                                .add(toOperationId(route.action));
                     } else {
                         resourcesByNamespace.computeIfAbsent(route.namespace, k -> new TreeSet<>()).add(route.resource);
                     }
@@ -590,10 +585,13 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         for (Map.Entry<String, Map<String, Object>> entry : namespaces.entrySet()) {
             Map<String, Object> namespace = entry.getValue();
             List<Map<String, Object>> resources = new ArrayList<>();
+            Set<String> reservedNames = directOperationsByNamespace
+                    .getOrDefault(entry.getKey(), Collections.emptySet());
             for (String resource : resourcesByNamespace.getOrDefault(entry.getKey(), Collections.emptySet())) {
                 Map<String, Object> resourceData = new HashMap<>();
                 resourceData.put("routeName", resource);
-                resourceData.put("accessor", underscore(sanitizeName(resource.replace('-', '_'))));
+                String resourceAccessor = underscore(sanitizeName(resource.replace('-', '_')));
+                resourceData.put("accessor", safeResourceAccessorName(resourceAccessor, reservedNames));
                 resourceData.put("className", toApiName(entry.getKey() + "/" + resource));
                 resources.add(resourceData);
             }
@@ -715,11 +713,22 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         return RESERVED_ACCESSOR_NAMES.contains(name) ? name + "_api" : name;
     }
 
+    // Resource methods live on the namespace class beside its constructor and any direct
+    // operations. Rename a resource accessor deterministically when either would collide.
+    private static String safeResourceAccessorName(String name, Set<String> reservedNames) {
+        String candidate = safeAccessorName(name);
+        while (reservedNames.contains(candidate)) {
+            candidate += "_api";
+        }
+        return candidate;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         Map<String, Map<String, Object>> nsMap = new TreeMap<>();
         Map<String, Set<String>> resourcesByNs = new TreeMap<>();
+        Map<String, Set<String>> directOperationsByNs = new TreeMap<>();
         Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
         if (apiInfo != null) {
             List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
@@ -744,7 +753,11 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
                             m.put("className", toApiName(ns));
                             return m;
                         });
-                        if (res != null) resourcesByNs.computeIfAbsent(ns, k -> new TreeSet<>()).add(res);
+                        if (res != null) {
+                            resourcesByNs.computeIfAbsent(ns, k -> new TreeSet<>()).add(res);
+                        } else if (co.operationId != null) {
+                            directOperationsByNs.computeIfAbsent(ns, k -> new TreeSet<>()).add(co.operationId);
+                        }
                     }
                 }
             }
@@ -753,9 +766,12 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         for (Map.Entry<String, Map<String, Object>> e : nsMap.entrySet()) {
             Map<String, Object> m = e.getValue();
             List<Map<String, Object>> resources = new ArrayList<>();
+            Set<String> reservedNames = directOperationsByNs
+                    .getOrDefault(e.getKey(), Collections.emptySet());
             for (String res : resourcesByNs.getOrDefault(e.getKey(), Collections.emptySet())) {
                 Map<String, Object> rm = new HashMap<>();
-                rm.put("accessor", underscore(sanitizeName(res.replace('-', '_'))));
+                String resourceAccessor = underscore(sanitizeName(res.replace('-', '_')));
+                rm.put("accessor", safeResourceAccessorName(resourceAccessor, reservedNames));
                 rm.put("className", toApiName(e.getKey() + "/" + res));
                 resources.add(rm);
             }
@@ -855,12 +871,20 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
                     ops.put("rbNamespaceHasDirectOperations", true);
                     ops.put("rbNamespaceResources", namespace.get("resources"));
                     ops.put("rbNamespaceAccessor", namespace.get("accessor"));
-                } else if (!Boolean.TRUE.equals(namespace.get("hasDirectOperations"))
-                        && namespaceOnlyApiTags.contains(namespaceName + "/" + resourceName)) {
-                    ops.put("rbNamespaceOnly", true);
-                    ops.put("rbNamespaceClassName", namespace.get("className"));
-                    ops.put("rbNamespaceResources", namespace.get("resources"));
-                    ops.put("rbNamespaceAccessor", namespace.get("accessor"));
+                } else if (!Boolean.TRUE.equals(namespace.get("hasDirectOperations")) && resourceName != null) {
+                    String resourceTag = namespaceName + "/" + resourceName;
+                    String namespacePrefix = namespaceName + "/";
+                    boolean namespaceFileClaimed = namespaceOnlyApiTags.stream()
+                            .anyMatch(tag -> tag.startsWith(namespacePrefix));
+                    if (!namespaceFileClaimed) {
+                        namespaceOnlyApiTags.add(resourceTag);
+                    }
+                    if (namespaceOnlyApiTags.contains(resourceTag)) {
+                        ops.put("rbNamespaceOnly", true);
+                        ops.put("rbNamespaceClassName", namespace.get("className"));
+                        ops.put("rbNamespaceResources", namespace.get("resources"));
+                        ops.put("rbNamespaceAccessor", namespace.get("accessor"));
+                    }
                 }
             }
         }
