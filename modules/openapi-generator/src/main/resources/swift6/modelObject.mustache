@@ -1,6 +1,6 @@
 {{#additionalModelObjectAttributes}}{{{.}}}
 {{/additionalModelObjectAttributes}}{{^objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}{{#vendorExtensions.x-swift-use-class}}final class{{/vendorExtensions.x-swift-use-class}}{{^vendorExtensions.x-swift-use-class}}struct{{/vendorExtensions.x-swift-use-class}} {{{classname}}}: {{^vendorExtensions.x-swift-use-class}}Sendable, {{/vendorExtensions.x-swift-use-class}}{{#vendorExtensions.x-swift-unchecked-sendable}}@unchecked Sendable, {{/vendorExtensions.x-swift-unchecked-sendable}}{{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable{{/useVapor}}{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}} {
-{{/objcCompatible}}{{#objcCompatible}}@objcMembers {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} final class {{classname}}: NSObject, Codable, @unchecked Sendable {
+{{/objcCompatible}}{{#objcCompatible}}@objcMembers {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}final class {{classname}}: NSObject, Codable, @unchecked Sendable {
 {{/objcCompatible}}
 
 {{#allVars}}
