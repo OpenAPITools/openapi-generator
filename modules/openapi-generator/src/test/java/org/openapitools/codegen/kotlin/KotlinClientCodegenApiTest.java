@@ -755,6 +755,44 @@ public class KotlinClientCodegenApiTest {
         }
     }
 
+    /**
+     * File parts in a multipart body are appended as whole FormPart values.
+     * multiplatform embedded the wire name as a bare expression
+     * (`append(my-file)` — a syntax error), and jvm-ktor's array loop
+     * appended the undefined implicit `it` instead of the loop variable.
+     * The whole FormPart carries its own key, so append the parameter
+     * (or loop variable) itself.
+     */
+    @Test
+    void testKtorMultiplatformMultipartFileAppendUsesParameter() throws IOException {
+        String spec = "src/test/resources/3_0/kotlin/kotlin-multipart-file.yaml";
+        String[][] libraries = {
+                {"jvm-ktor", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson", "dateLibrary=java8"},
+                {"multiplatform", "src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt", "dateLibrary=kotlinx-datetime"},
+        };
+        for (String[] lib : libraries) {
+            Path target = Files.createTempDirectory("kotlin-mpfile-" + lib[0]);
+            try {
+                generate(lib[0], spec, target, Arrays.copyOfRange(lib, 2, lib.length));
+                String api = new String(Files.readAllBytes(target.resolve(lib[1])), StandardCharsets.UTF_8);
+                Assert.assertTrue(api.contains("append(myFile)"),
+                        lib[0] + ": file part must append the FormPart parameter");
+                Assert.assertFalse(api.contains("append(my-file)"),
+                        lib[0] + ": wire name must not be embedded as a bare expression");
+                if (lib[0].equals("jvm-ktor")) {
+                    Assert.assertTrue(api.contains("for (x in files ?: listOf()) {\n                            append(x)"),
+                            "jvm-ktor: file array must append the loop variable");
+                }
+                if (lib[0].equals("multiplatform")) {
+                    Assert.assertTrue(api.contains("files?.onEach {\n                    append(it)"),
+                            "multiplatform: file array appends each FormPart element");
+                }
+            } finally {
+                deleteRecursively(target);
+            }
+        }
+    }
+
     @Test
     void testNonOkhttpLibrariesSkipOpenApi32Operations() throws IOException {
         Path target = Files.createTempDirectory("kotlin32-skip");

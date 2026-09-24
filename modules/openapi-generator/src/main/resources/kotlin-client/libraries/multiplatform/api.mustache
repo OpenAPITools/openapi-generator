@@ -78,7 +78,7 @@ import kotlinx.serialization.encoding.*
                 {{/isArray}}
                 {{^isArray}}
                 {{#isFile}}
-                {{{paramName}}}?.apply { append({{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}) }
+                {{{paramName}}}?.apply { append({{{paramName}}}) }
                 {{/isFile}}
                 {{^isFile}}
                 {{#isPrimitiveType}}

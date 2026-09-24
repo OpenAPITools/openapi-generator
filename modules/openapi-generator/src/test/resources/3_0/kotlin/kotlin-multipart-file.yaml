@@ -1,0 +1,17 @@
+openapi: 3.0.3
+info: {title: MultipartFile, version: 1.0.0}
+paths:
+  /upload:
+    post:
+      operationId: upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                my-file: {type: string, format: binary}
+                files: {type: array, items: {type: string, format: binary}}
+                note: {type: string}
+      responses:
+        '200': {description: ok}
