@@ -307,7 +307,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         typeMapping.put("file", "File");
         typeMapping.put("AnyType", "Object");
         typeMapping.put("null", "Object");
-        typeMapping.put("enum", "Enum");
 
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
@@ -3079,5 +3078,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         public void keepAnnotation(String keep) {
             this.keep = keep;
         }
+    }
+    @Override
+    protected String getCommonEnumType() {
+        return "Enum";
     }
 }

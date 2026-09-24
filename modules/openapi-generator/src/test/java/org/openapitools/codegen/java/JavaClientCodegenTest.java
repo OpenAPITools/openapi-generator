@@ -2805,6 +2805,45 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testEnumFormatStringSchema_issue24950() {
+        final OpenAPI openAPI = TestUtils.parseContent(
+                "openapi: 3.0.3\n" +
+                "info:\n" +
+                "  title: Enum format test\n" +
+                "  version: 1.0.0\n" +
+                "paths: {}\n" +
+                "components:\n" +
+                "  schemas:\n" +
+                "    Ruleset:\n" +
+                "      type: object\n" +
+                "      properties:\n" +
+                "        bypassMode:\n" +
+                "          type: string\n" +
+                "          format: enum\n" +
+                "          enum:\n" +
+                "            - RULESET_BYPASS_MODE_UNSPECIFIED\n" +
+                "            - RULESET_BYPASS_MODE_ALLOWED\n" +
+                "            - RULESET_BYPASS_MODE_DISABLED\n" +
+                "        plainEnumFormat:\n" +
+                "          type: string\n" +
+                "          format: enum\n"
+        );
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(newTempFolder().toString());
+
+        Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File rulesetFile = files.get("Ruleset.java");
+        assertNotNull(rulesetFile);
+        JavaFileAssert.assertThat(rulesetFile)
+                .hasNoImports("java.lang.Enum", "org.openapitools.client.model.Enum")
+                .fileContains("public enum BypassModeEnum {", "private String value;", "BypassModeEnum(String value)", "public String getValue()", "public static BypassModeEnum fromValue(String value)", "private String plainEnumFormat;")
+                .fileDoesNotContain("private Enum value;", "Enum.valueOf(", "private Enum plainEnumFormat;");
+    }
+
+    @Test
     public void testRestTemplateHandleURIEnum() {
         String[] expectedInnerEnumLines = new String[]{
                 "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",
