@@ -362,9 +362,9 @@ public class FakeApi {
 ,@QueryParam("enum_query_model_array")   List<EnumClass> enumQueryModelArray
 ,
 @FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,
-@FormParam(value = "enum_form_string")  String enumFormString
-,@FormParam(value = "enum_form_integer")  Integer enumFormInteger
-,@FormParam(value = "enum_form_double")  BigDecimal enumFormDouble) {
+@FormParam(value = "enum_form_string")  String enumFormString,
+@FormParam(value = "enum_form_integer")  Integer enumFormInteger,
+@FormParam(value = "enum_form_double")  BigDecimal enumFormDouble) {
         return Response.ok().entity("magic!").build();
     }
 
