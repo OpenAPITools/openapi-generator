@@ -79,16 +79,8 @@ public class Swift6ClientCodegenTest {
 
     @Test(description = "nonisolatedModels marks models and their supporting declarations nonisolated")
     public void testNonisolatedModels() throws IOException {
-        Path target = Files.createTempDirectory("test");
-        target.toFile().deleteOnExit();
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("swift6")
-                .setInputSpec("src/test/resources/3_0/swift/recursive-models.yaml")
-                .setOutputDir(target.toAbsolutePath().toString())
-                .addAdditionalProperty(Swift6ClientCodegen.NONISOLATED_MODELS, true);
-        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-
-        Path sources = target.resolve("Sources/OpenAPIClient");
+        Path sources = generateSwift6("src/test/resources/3_0/swift/recursive-models.yaml",
+                Swift6ClientCodegen.NONISOLATED_MODELS, true);
         Path models = sources.resolve("Models");
         Path infrastructure = sources.resolve("Infrastructure");
         // structs, classes and the extensions emitted next to them
@@ -108,17 +100,9 @@ public class Swift6ClientCodegenTest {
         TestUtils.assertFileContains(infrastructure.resolve("OpenISO8601DateFormatter.swift"), "public nonisolated class OpenISO8601DateFormatter: DateFormatter, @unchecked Sendable {");
 
         // the extensions emitted next to models (Identifiable, UnknownCaseCheckable)
-        Path petstore = Files.createTempDirectory("test");
-        petstore.toFile().deleteOnExit();
-        final CodegenConfigurator petstoreConfigurator = new CodegenConfigurator()
-                .setGeneratorName("swift6")
-                .setInputSpec("src/test/resources/3_0/petstore.yaml")
-                .setOutputDir(petstore.toAbsolutePath().toString())
-                .addAdditionalProperty(Swift6ClientCodegen.NONISOLATED_MODELS, true)
-                .addAdditionalProperty(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true);
-        new DefaultGenerator().opts(petstoreConfigurator.toClientOptInput()).generate();
-
-        Path petstoreSources = petstore.resolve("Sources/OpenAPIClient");
+        Path petstoreSources = generateSwift6("src/test/resources/3_0/petstore.yaml",
+                Swift6ClientCodegen.NONISOLATED_MODELS, true,
+                CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true);
         Path pet = petstoreSources.resolve("Models/Pet.swift");
         TestUtils.assertFileContains(pet, "public nonisolated struct Pet: Sendable,");
         TestUtils.assertFileContains(pet, "nonisolated extension Pet: Identifiable {}");
@@ -168,15 +152,7 @@ public class Swift6ClientCodegenTest {
 
     @Test(description = "nonisolatedModels is off by default")
     public void testNonisolatedModelsDefaultsOff() throws IOException {
-        Path target = Files.createTempDirectory("test");
-        target.toFile().deleteOnExit();
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("swift6")
-                .setInputSpec("src/test/resources/3_0/swift/recursive-models.yaml")
-                .setOutputDir(target.toAbsolutePath().toString());
-        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-
-        Path sources = target.resolve("Sources/OpenAPIClient");
+        Path sources = generateSwift6("src/test/resources/3_0/swift/recursive-models.yaml");
         Path infrastructure = sources.resolve("Infrastructure");
         TestUtils.assertFileNotContains(sources.resolve("Models/Category.swift"), "nonisolated");
         TestUtils.assertFileNotContains(infrastructure.resolve("Models.swift"), "nonisolated");
