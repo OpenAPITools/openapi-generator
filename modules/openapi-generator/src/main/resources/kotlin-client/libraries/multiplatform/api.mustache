@@ -103,9 +103,9 @@ import kotlinx.serialization.encoding.*
             }
             {{/isMultipart}}
             {{^isMultipart}}
-            ParametersBuilder().also {
+            ParametersBuilder().also { localVariableBuilder ->
                 {{#formParams}}
-                {{{paramName}}}?.apply { it.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.toString()) }
+                {{{paramName}}}?.apply { localVariableBuilder.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.toString()) }
                 {{/formParams}}
             }.build()
             {{/isMultipart}}

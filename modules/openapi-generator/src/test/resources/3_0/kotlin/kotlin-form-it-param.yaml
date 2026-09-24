@@ -1,0 +1,16 @@
+openapi: 3.0.3
+info: {title: It, version: 1.0.0}
+paths:
+  /items:
+    post:
+      operationId: createItem
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                it: {type: string}
+                name: {type: string}
+      responses:
+        '200': {description: ok}

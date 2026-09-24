@@ -724,6 +724,37 @@ public class KotlinClientCodegenApiTest {
         }
     }
 
+    /**
+     * ktor/multiplatform build form bodies inside `ParametersBuilder().also {}`,
+     * whose implicit `it` is the builder. A form field named `it` shadows the
+     * implicit parameter and `it.append(...)` resolves against the String
+     * parameter instead of the builder — a compile error. The builder must be
+     * bound to an explicit localVariable name.
+     */
+    @Test
+    void testKtorMultiplatformFormBuilderDoesNotUseImplicitIt() throws IOException {
+        String spec = "src/test/resources/3_0/kotlin/kotlin-form-it-param.yaml";
+        String[][] libraries = {
+                {"jvm-ktor", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson", "dateLibrary=java8"},
+                {"multiplatform", "src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt", "dateLibrary=kotlinx-datetime"},
+        };
+        for (String[] lib : libraries) {
+            Path target = Files.createTempDirectory("kotlin-formit-" + lib[0]);
+            try {
+                generate(lib[0], spec, target, Arrays.copyOfRange(lib, 2, lib.length));
+                String api = new String(Files.readAllBytes(target.resolve(lib[1])), StandardCharsets.UTF_8);
+                Assert.assertTrue(api.contains("`it`: kotlin.String?"),
+                        lib[0] + ": the spec `it` param must keep its (backticked) name");
+                Assert.assertTrue(api.contains("localVariableBuilder.append(\"it\""),
+                        lib[0] + ": form field `it` must be appended via the named builder");
+                Assert.assertFalse(api.contains("it.append("),
+                        lib[0] + ": implicit `it` is shadowed by the spec param inside also{}");
+            } finally {
+                deleteRecursively(target);
+            }
+        }
+    }
+
     @Test
     void testNonOkhttpLibrariesSkipOpenApi32Operations() throws IOException {
         Path target = Files.createTempDirectory("kotlin32-skip");

@@ -96,23 +96,23 @@ import com.fasterxml.jackson.databind.ObjectMapper
                         }
                 {{/isMultipart}}
                 {{^isMultipart}}
-                        ParametersBuilder().also {
+                        ParametersBuilder().also { localVariableBuilder ->
                     {{#formParams}}
                         {{#isFile}}
-                        {{{paramName}}}?.apply { it.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}) }
+                        {{{paramName}}}?.apply { localVariableBuilder.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}) }
                         {{/isFile}}
                         {{^isFile}}
                         {{^isArray}}
                         {{^isString}}
                         {{^isNumber}}
-                        {{{paramName}}}?.apply { it.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.toString()) }
+                        {{{paramName}}}?.apply { localVariableBuilder.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.toString()) }
                         {{/isNumber}}
                         {{#isNumber}}
-                        {{{paramName}}}?.apply { it.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.toString()) }
+                        {{{paramName}}}?.apply { localVariableBuilder.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.toString()) }
                         {{/isNumber}}
                         {{/isString}}
                         {{#isString}}
-                        {{{paramName}}}?.apply { it.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}) }
+                        {{{paramName}}}?.apply { localVariableBuilder.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}) }
                         {{/isString}}
                         {{/isArray}}
                         {{#isArray}}
