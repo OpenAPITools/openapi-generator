@@ -691,6 +691,33 @@
             </modules>
         </profile>
         <profile>
+            <id>java-client-okhttp</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/okhttp</module>
+                <module>samples/client/petstore/java/okhttp-jackson</module>
+                <module>samples/client/petstore/java/okhttp-jackson3</module>
+                <module>samples/client/petstore/java/okhttp-jsonb</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java-client-okhttp-parcelable</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/okhttp-parcelableModel</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-client-retrofit2</id>
             <activation>
                 <property>
