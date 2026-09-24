@@ -51,6 +51,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.EscapeJavaDocLambda;
 import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -1861,7 +1862,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "\"" + escapeText(example) + "\"";
+            example = "\"" + escapeStringLiteral(example) + "\"";
         } else if ("Integer".equals(type) || "Short".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -1951,6 +1952,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         p.example = example;
+    }
+
+    private String escapeStringLiteral(String input) {
+        if (input == null) {
+            return null;
+        }
+
+        // Escapes text for use inside a double-quoted Java string literal.
+        // Unlike escapeText(), this deliberately keeps "*/" and "/*" intact
+        // because they are harmless within a string literal (e.g. "*/*" media types).
+        return StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                .replaceAll("[\\t\\n\\r]", " ")
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"");
     }
 
     @Override
@@ -2407,14 +2424,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
                 for (Operation operation : path.readOperations()) {
                     LOGGER.info("Processing operation {}", operation.getOperationId());
-                    if (hasBodyParameter(operation) || hasFormParameter(operation)) {
-                        String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
-                        List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
-                        String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
-                        operation.addExtension("x-content-type", contentType);
-                    }
-                    String[] accepts = getAccepts(openAPI, operation);
-                    operation.addExtension("x-accepts", accepts);
+                    addContentTypeExtensions(openAPI, operation);
                 }
             }
         }
@@ -2562,6 +2572,35 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             return "\"" + escapeText(value) + "\"";
         }
+    }
+
+    /**
+     * Records on the operation the Content-Type ({@code x-content-type}) and Accept ({@code x-accepts}) the
+     * generated client sends for it, which the templates read.
+     */
+    private void addContentTypeExtensions(OpenAPI openAPI, Operation operation) {
+        if (hasBodyParameter(operation) || hasFormParameter(operation)) {
+            String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
+            List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
+            String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
+            operation.addExtension(VendorExtension.X_CONTENT_TYPE.getName(), contentType);
+        }
+        String[] accepts = getAccepts(openAPI, operation);
+        operation.addExtension(VendorExtension.X_ACCEPTS.getName(), accepts);
+    }
+
+    /**
+     * A content-type variant is split off after {@link #preprocessOpenAPI} stamped the operation it comes
+     * from, so it carries that operation's Content-Type and Accept, for every media-type it declares: the
+     * variants are stamped again here, each with the single media-type it was narrowed to on each axis.
+     */
+    @Override
+    public List<Operation> divideOperationsByContentType(OpenAPI openAPI, String path, String httpMethod, Operation operation) {
+        List<Operation> variants = super.divideOperationsByContentType(openAPI, path, httpMethod, operation);
+        if (variants.size() > 1) {
+            variants.forEach(variant -> addContentTypeExtensions(openAPI, variant));
+        }
+        return variants;
     }
 
     @Override
@@ -2958,7 +2997,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.addMustacheLambdas()
                 .put("javaStringLiteral", javaStringLiteralLambda)
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
-                .put("jSpecifyNullable", jSpecifyNullableLambda);
+                .put("jSpecifyNullable", jSpecifyNullableLambda)
+                .put("escapeJavaDoc", new EscapeJavaDocLambda());
 
     }
 

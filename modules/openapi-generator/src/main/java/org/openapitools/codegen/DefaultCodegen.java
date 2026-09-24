@@ -1252,6 +1252,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * The media-type a content-type variant was narrowed to on one axis — {@code axisExtension} being
+     * {@link CodegenConstants#X_CONTENT_TYPE_VARIANT_REQUEST} or
+     * {@link CodegenConstants#X_CONTENT_TYPE_VARIANT_RESPONSE} — or {@code null} when the operation is not
+     * one of the variants {@link #divideOperationsByContentType} split an operation into (every variant
+     * carries the group extension) or that axis was not split.
+     */
+    protected static String contentTypeVariantMediaType(Operation operation, String axisExtension) {
+        Map<String, Object> extensions = operation.getExtensions();
+        Object mediaType = extensions != null && extensions.containsKey(CodegenConstants.X_CONTENT_TYPE_VARIANT_GROUP)
+                ? extensions.get(axisExtension) : null;
+        return mediaType instanceof String ? (String) mediaType : null;
+    }
+
+    /**
      * Builds one operation variant narrowed to a single request and/or response media-type (a {@code null}
      * media-type leaves that axis untouched), with a typed, collision-free operationId.
      */
@@ -4986,10 +5000,18 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
+            // a content-type variant produces only what its method response, the one the split narrowed,
+            // declares (see getProducesInfo)
+            boolean producesNarrowed = contentTypeVariantMediaType(operation, CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE) != null;
+            if (producesNarrowed) {
+                addProducesInfo(methodResponse, op);
+            }
             for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
                 String key = operationGetResponsesEntry.getKey();
                 ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, operationGetResponsesEntry.getValue());
-                addProducesInfo(response, op);
+                if (!producesNarrowed) {
+                    addProducesInfo(response, op);
+                }
                 CodegenResponse r = fromResponse(key, response);
                 Map<String, Header> headers = response.getHeaders();
                 if (headers != null) {
@@ -7745,7 +7767,9 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * returns the list of MIME types the APIs can produce
+     * returns the list of MIME types the APIs can produce. A content-type variant (see
+     * {@link #divideOperationsByContentType}) produces the single media-type it was narrowed to, whatever
+     * its other responses declare.
      *
      * @param openAPI   current specification instance
      * @param operation Operation
@@ -7757,6 +7781,12 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Set<String> produces = new ConcurrentSkipListSet<>();
+
+        String variantMediaType = contentTypeVariantMediaType(operation, CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE);
+        if (variantMediaType != null) {
+            produces.add(variantMediaType);
+            return produces;
+        }
 
         for (ApiResponse r : operation.getResponses().values()) {
             ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, r);
