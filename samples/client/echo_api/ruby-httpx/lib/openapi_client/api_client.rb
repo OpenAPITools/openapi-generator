@@ -101,10 +101,12 @@ module OpenapiClient
 
       update_params_for_auth! header_params, query_params, opts[:auth_names]
 
-      if %w[POST PATCH PUT DELETE].include?(http_method)
+      # OpenAPI 3.2 query/additionalOperations verbs may carry a body too; for
+      # non-standard methods we always attempt to build one (nil when absent).
+      if %w[POST PATCH PUT DELETE].include?(http_method) || !STANDARD_HTTP_METHODS.include?(http_method.to_s)
         body_params = build_request_body(header_params, form_params, opts[:body])
         if config.debugging
-          config.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
+          config.logger.debug "HTTP request body param ~BEGIN~\n#{body_params}\n~END~\n"
         end
       end
       req_opts = {
@@ -290,9 +292,12 @@ module OpenapiClient
     end
 
     def build_request_url(path, opts = {})
-      # Add leading and trailing slashes to path
-      path = "/#{path}".gsub(/\/+/, '/')
-      @config.base_url(opts[:operation]) + path
+      # Add leading and trailing slashes to path. An OpenAPI 3.2
+      # `in: querystring` value is appended verbatim to `path`, so only the
+      # part before '?' may have its slashes collapsed.
+      path_only, sep, query = path.partition('?')
+      path_only = "/#{path_only}".gsub(/\/+/, '/')
+      @config.base_url(opts[:operation]) + path_only + sep + query
     end
 
     # Update header and query params based on authentication settings.
