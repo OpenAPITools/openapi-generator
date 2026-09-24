@@ -113,4 +113,3 @@ public class SpecialModelName  implements Serializable {
     }
   }
 }
-

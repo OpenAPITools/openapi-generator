@@ -188,4 +188,3 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     }
   }
 }
-

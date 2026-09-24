@@ -329,4 +329,3 @@ public enum InnerEnum {
     }
   }
 }
-

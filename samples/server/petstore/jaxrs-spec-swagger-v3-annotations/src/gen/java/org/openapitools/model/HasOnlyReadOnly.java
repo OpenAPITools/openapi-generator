@@ -141,4 +141,3 @@ public class HasOnlyReadOnly  implements Serializable {
     }
   }
 }
-

@@ -509,4 +509,3 @@ public class EnumTest  implements Serializable {
     }
   }
 }
-

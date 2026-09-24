@@ -565,4 +565,3 @@ public class FormatTest  implements Serializable {
     }
   }
 }
-

@@ -120,4 +120,3 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
 
 
 }
-

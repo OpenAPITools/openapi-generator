@@ -115,4 +115,3 @@ public class HealthCheckResult  implements Serializable {
     }
   }
 }
-

@@ -1045,4 +1045,3 @@ public class XmlItem  implements Serializable {
     }
   }
 }
-

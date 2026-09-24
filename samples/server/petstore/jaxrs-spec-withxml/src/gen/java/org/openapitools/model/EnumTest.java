@@ -539,4 +539,3 @@ public enum EnumNumberEnum {
     }
   }
 }
-

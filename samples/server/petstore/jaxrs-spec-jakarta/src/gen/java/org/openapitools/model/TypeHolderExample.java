@@ -290,4 +290,3 @@ public class TypeHolderExample  implements Serializable {
     }
   }
 }
-

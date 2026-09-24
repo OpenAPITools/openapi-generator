@@ -273,4 +273,3 @@ public enum ArrayEnumEnum {
     }
   }
 }
-

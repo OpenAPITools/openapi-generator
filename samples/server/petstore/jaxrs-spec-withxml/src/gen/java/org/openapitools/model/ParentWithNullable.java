@@ -217,4 +217,3 @@ public enum TypeEnum {
     }
   }
 }
-

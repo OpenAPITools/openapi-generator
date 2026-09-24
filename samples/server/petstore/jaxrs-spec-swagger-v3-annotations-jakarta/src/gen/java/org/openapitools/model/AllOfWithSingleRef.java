@@ -141,4 +141,3 @@ public class AllOfWithSingleRef  implements Serializable {
     }
   }
 }
-

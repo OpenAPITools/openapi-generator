@@ -135,4 +135,3 @@ public class OuterObjectWithEnumProperty  implements Serializable {
     }
   }
 }
-
