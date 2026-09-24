@@ -40,12 +40,12 @@ public class ReadOnlyFirstDto {
    * @return bar
    */
   
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   public @Nullable String getBar() {
     return bar;
   }
 
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
