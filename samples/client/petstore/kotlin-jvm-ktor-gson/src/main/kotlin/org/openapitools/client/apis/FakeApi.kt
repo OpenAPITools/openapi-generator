@@ -71,7 +71,7 @@ import java.text.DateFormat
             requiresAuthentication = false,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -111,7 +111,7 @@ import java.text.DateFormat
             requiresAuthentication = true,
             )
 
-            return urlEncodedFormRequest(
+            return this.urlEncodedFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames

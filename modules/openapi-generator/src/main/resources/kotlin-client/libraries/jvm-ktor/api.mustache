@@ -182,7 +182,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},
             )
 
-            return {{#hasBodyParam}}jsonRequest{{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}{{#isMultipart}}multipartFormRequest{{/isMultipart}}{{^isMultipart}}urlEncodedFormRequest{{/isMultipart}}{{/hasFormParams}}{{^hasFormParams}}request{{/hasFormParams}}{{/hasBodyParam}}(
+            return {{#hasBodyParam}}this.jsonRequest{{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}{{#isMultipart}}this.multipartFormRequest{{/isMultipart}}{{^isMultipart}}this.urlEncodedFormRequest{{/isMultipart}}{{/hasFormParams}}{{^hasFormParams}}this.request{{/hasFormParams}}{{/hasBodyParam}}(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames

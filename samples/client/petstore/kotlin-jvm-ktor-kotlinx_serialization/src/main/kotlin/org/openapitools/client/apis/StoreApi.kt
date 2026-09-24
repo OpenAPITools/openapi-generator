@@ -67,7 +67,7 @@ import io.ktor.http.ParametersBuilder
             requiresAuthentication = false,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -100,7 +100,7 @@ import io.ktor.http.ParametersBuilder
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -134,7 +134,7 @@ import io.ktor.http.ParametersBuilder
             requiresAuthentication = false,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -167,7 +167,7 @@ import io.ktor.http.ParametersBuilder
             requiresAuthentication = false,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames

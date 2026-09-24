@@ -140,6 +140,70 @@
                                     <artifactId>moshi-adapters</artifactId>
                                     <version>1.15.2</version>
                                 </artifactItem>
+                                <!-- jars for the kotlin spring-restclient/webclient
+                                     generated-client compile checks (same reason:
+                                     keep 2.x-metadata jars off the shared test
+                                     classpath). -->
+                                <artifactItem>
+                                    <groupId>org.springframework</groupId>
+                                    <artifactId>spring-web</artifactId>
+                                    <version>6.2.10</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.springframework</groupId>
+                                    <artifactId>spring-core</artifactId>
+                                    <version>6.2.10</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.springframework</groupId>
+                                    <artifactId>spring-jcl</artifactId>
+                                    <version>6.2.10</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.springframework</groupId>
+                                    <artifactId>spring-webflux</artifactId>
+                                    <version>6.2.10</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>io.projectreactor</groupId>
+                                    <artifactId>reactor-core</artifactId>
+                                    <version>3.7.10</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.reactivestreams</groupId>
+                                    <artifactId>reactive-streams</artifactId>
+                                    <version>1.0.4</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>io.micrometer</groupId>
+                                    <artifactId>micrometer-observation</artifactId>
+                                    <version>1.14.10</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>io.micrometer</groupId>
+                                    <artifactId>micrometer-commons</artifactId>
+                                    <version>1.14.10</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.fasterxml.jackson.core</groupId>
+                                    <artifactId>jackson-databind</artifactId>
+                                    <version>2.22.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.fasterxml.jackson.core</groupId>
+                                    <artifactId>jackson-core</artifactId>
+                                    <version>2.22.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.fasterxml.jackson.core</groupId>
+                                    <artifactId>jackson-annotations</artifactId>
+                                    <version>2.22</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.fasterxml.jackson.module</groupId>
+                                    <artifactId>jackson-module-kotlin</artifactId>
+                                    <version>2.21.5</version>
+                                </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.directory}/kotlin-capture-deps</outputDirectory>
                         </configuration>

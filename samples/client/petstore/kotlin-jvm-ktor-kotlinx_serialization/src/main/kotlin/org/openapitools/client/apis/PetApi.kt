@@ -68,7 +68,7 @@ import io.ktor.http.ParametersBuilder
             requiresAuthentication = true,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -103,7 +103,7 @@ import io.ktor.http.ParametersBuilder
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -138,7 +138,7 @@ import io.ktor.http.ParametersBuilder
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -173,7 +173,7 @@ import io.ktor.http.ParametersBuilder
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -207,7 +207,7 @@ import io.ktor.http.ParametersBuilder
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -240,7 +240,7 @@ import io.ktor.http.ParametersBuilder
             requiresAuthentication = true,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -278,7 +278,7 @@ import io.ktor.http.ParametersBuilder
             requiresAuthentication = true,
             )
 
-            return urlEncodedFormRequest(
+            return this.urlEncodedFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -317,7 +317,7 @@ import io.ktor.http.ParametersBuilder
             requiresAuthentication = true,
             )
 
-            return multipartFormRequest(
+            return this.multipartFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames

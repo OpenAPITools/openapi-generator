@@ -78,7 +78,7 @@ open class StoreApi : ApiClient {
             requiresAuthentication = false,
         )
 
-        return request(
+        return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -110,7 +110,7 @@ open class StoreApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return request(
+        return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -152,7 +152,7 @@ open class StoreApi : ApiClient {
             requiresAuthentication = false,
         )
 
-        return request(
+        return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -184,7 +184,7 @@ open class StoreApi : ApiClient {
             requiresAuthentication = false,
         )
 
-        return jsonRequest(
+        return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames

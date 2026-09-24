@@ -78,7 +78,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return jsonRequest(
+        return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -113,7 +113,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return request(
+        return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -166,7 +166,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return request(
+        return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -209,7 +209,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return request(
+        return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -251,7 +251,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return request(
+        return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -282,7 +282,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return jsonRequest(
+        return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -320,7 +320,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return urlEncodedFormRequest(
+        return this.urlEncodedFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -358,7 +358,7 @@ open class PetApi : ApiClient {
             requiresAuthentication = true,
         )
 
-        return multipartFormRequest(
+        return this.multipartFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames

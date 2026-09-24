@@ -1126,11 +1126,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         String paramName = toVariableName(name);
-        // All generated api-function locals use the `localVar`/`localVariable`
-        // prefix (enforced by a template lint test). Compare the *normalized*
-        // name against that prefix so spelling variants (local_variable_body,
-        // LocalVariableBody, ...) cannot slip through and collide downstream,
-        // and future template locals are covered without maintaining a list.
+        // Statement-level `val`/`var` locals declared in operation templates
+        // use the `localVar`/`localVariable` prefix (enforced by a template
+        // lint test; lambda bindings such as `it` are outside that rule).
+        // Compare the *normalized* name against that prefix so spelling
+        // variants (local_variable_body, LocalVariableBody, ...) cannot slip
+        // through and collide downstream, and future template locals are
+        // covered without maintaining a list.
         if (paramName.startsWith("localVar")) {
             return toVariableName("param_" + name);
         }

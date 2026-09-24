@@ -21,7 +21,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -464,18 +467,14 @@ public class KotlinClientCodegenApiTest {
                                 "jvm-spring-restclient: result local must be prefixed");
                         Assert.assertTrue(api.contains("val localVariableParams ="),
                                 "jvm-spring-restclient: params local must be prefixed");
-                        // parseDateToQueryString is top-level in spring infra, so it must be
-                        // package-qualified (not `this.`) to survive a same-named parameter
-                        Assert.assertTrue(api.contains(".infrastructure.parseDateToQueryString<java.time.LocalDate>(dueDate)"),
-                                "jvm-spring-restclient: date conversion must call the top-level helper");
+                        assertBareDateConversion(api, "jvm-spring-restclient");
                         break;
                     case "jvm-spring-webclient":
                         Assert.assertTrue(api.contains("this.request<"),
                                 "jvm-spring-webclient: member request() must be qualified");
                         Assert.assertTrue(api.contains("val localVariableParams ="),
                                 "jvm-spring-webclient: params local must be prefixed");
-                        Assert.assertTrue(api.contains(".infrastructure.parseDateToQueryString<java.time.LocalDate>(dueDate)"),
-                                "jvm-spring-webclient: date conversion must call the top-level helper");
+                        assertBareDateConversion(api, "jvm-spring-webclient");
                         break;
                     case "jvm-okhttp4":
                         // pre-existing locals keep their localVar* spelling
@@ -487,6 +486,18 @@ public class KotlinClientCodegenApiTest {
                         Assert.assertTrue(api.contains("this@DefaultApi.encodeURIComponent(path.toString())"),
                                 "jvm-okhttp4: path encoding must reach the api class");
                         break;
+                    case "jvm-ktor":
+                    case "multiplatform":
+                        // request()/jsonRequest()/urlEncodedFormRequest() are
+                        // inherited ApiClient members; a spec `request` param
+                        // must not shadow them
+                        for (String member : new String[]{"this.request(", "this.jsonRequest(",
+                                "this.urlEncodedFormRequest("}) {
+                            Assert.assertTrue(api.contains(member), lib[0] + " must qualify " + member);
+                        }
+                        Assert.assertTrue(api.contains("request: kotlin.String?"),
+                                lib[0] + ": spec param `request` must keep its name");
+                        break;
                     default:
                         break;
                 }
@@ -494,6 +505,22 @@ public class KotlinClientCodegenApiTest {
                 deleteRecursively(target);
             }
         }
+    }
+
+    /**
+     * Spring's parseDateToQueryString is a top-level function, and Kotlin
+     * resolves a call site to the function even when a value parameter shares
+     * its name — so no qualification is wanted at all. A package-qualified
+     * call would actually break whenever a parameter is named `org` (the
+     * first segment of the default package), which the fixture exercises.
+     */
+    private void assertBareDateConversion(String api, String lib) {
+        Assert.assertTrue(api.contains("listOf(parseDateToQueryString<java.time.LocalDate>(dueDate))"),
+                lib + ": date conversion must be an unqualified call");
+        Assert.assertFalse(api.contains("infrastructure.parseDateToQueryString"),
+                lib + ": date conversion must not be package-qualified");
+        Assert.assertFalse(api.contains("this.parseDateToQueryString"),
+                lib + ": date conversion must not be this-qualified");
     }
 
     /**
@@ -522,6 +549,108 @@ public class KotlinClientCodegenApiTest {
         }
         Assert.assertTrue(violations.isEmpty(),
                 "operation-scope locals must use the localVar prefix:\n" + String.join("\n", violations));
+    }
+
+    /**
+     * Lint guard (issue #15, G1): every val/var member inherited from the
+     * library's ApiClient must be referenced as `this.`/`this@` inside the
+     * operation body, otherwise a spec parameter with the same name would
+     * silently shadow the member. Member names are extracted mechanically
+     * from the ApiClient constructor (volley: the api class's own header),
+     * and the same set is checked against api.mustache's {{#operation}}
+     * block plus the partial templates spliced into it. Comments and
+     * mustache tags are stripped first; template lambda bindings use the
+     * localVariable prefix so a bare member name is always a violation.
+     */
+    @Test
+    void testKotlinApiTemplatesQualifyInheritedMembers() throws IOException {
+        Path libs = Path.of("src/main/resources/kotlin-client/libraries");
+        String[][] libraries = {
+                {"jvm-ktor", "infrastructure/ApiClient.kt.mustache"},
+                {"jvm-okhttp", "infrastructure/ApiClient.kt.mustache"},
+                {"jvm-retrofit2", "infrastructure/ApiClient.kt.mustache"},
+                {"jvm-spring-restclient", "infrastructure/ApiClient.kt.mustache"},
+                {"jvm-spring-webclient", "infrastructure/ApiClient.kt.mustache"},
+                {"jvm-vertx", "infrastructure/ApiClient.kt.mustache"},
+                {"jvm-volley", "api.mustache"},
+                {"multiplatform", "infrastructure/ApiClient.kt.mustache"},
+        };
+        Pattern operationBlock = Pattern.compile("\\{\\{#operation\\}\\}(.*)\\{\\{/operation\\}\\}", Pattern.DOTALL);
+        Pattern mustacheTag = Pattern.compile("\\{\\{\\{[^}]*\\}\\}\\}|\\{\\{[^}]*\\}\\}");
+        List<String> violations = new ArrayList<>();
+        for (String[] library : libraries) {
+            Path libDir = libs.resolve(library[0]);
+            Set<String> members = constructorMemberNames(libDir.resolve(library[1]));
+            Assert.assertFalse(members.isEmpty(), library[0] + ": no ApiClient constructor members extracted");
+            List<Path> targets = new ArrayList<>();
+            try (var stream = Files.list(libDir)) {
+                for (Path p : stream.filter(p -> p.getFileName().toString().equals("api.mustache")
+                        || p.getFileName().toString().matches("(queryParams|queryParam|explodedQueryParam|pathParams|headerParams|bodyParams|formParams|paramJavadoc)\\.mustache")).toList()) {
+                    targets.add(p);
+                }
+            }
+            for (Path target : targets) {
+                String source = Files.readString(target, StandardCharsets.UTF_8);
+                // restrict api.mustache to the operation block; partials are
+                // operation-scope by construction
+                if (target.getFileName().toString().equals("api.mustache")) {
+                    Matcher op = operationBlock.matcher(source);
+                    if (!op.find()) {
+                        violations.add(target + ": no {{#operation}} block found");
+                        continue;
+                    }
+                    source = op.group(1);
+                }
+                int lineNo = 0;
+                for (String line : source.split("\n", -1)) {
+                    lineNo++;
+                    String code = mustacheTag.matcher(line).replaceAll("");
+                    String trimmed = code.strip();
+                    if (trimmed.startsWith("*") || trimmed.startsWith("//")) {
+                        continue;
+                    }
+                    for (String member : members) {
+                        if (Pattern.compile("(?<![\\w.@$\"])" + member + "\\b").matcher(code).find()) {
+                            violations.add(target + ":" + lineNo + " bare member `" + member + "`: " + trimmed);
+                        }
+                    }
+                }
+            }
+        }
+        Assert.assertTrue(violations.isEmpty(),
+                "inherited members must be qualified with this./this@ inside operation bodies:\n"
+                        + String.join("\n", violations));
+    }
+
+    /**
+     * Extracts `val`/`var` member names from the first `class X(...)`
+     * constructor in the given template (mustache tags stripped).
+     */
+    private static Set<String> constructorMemberNames(Path template) throws IOException {
+        String source = Files.readString(template, StandardCharsets.UTF_8);
+        Matcher cls = Pattern.compile("class\\s+[^\\s(]+\\s*\\(").matcher(source);
+        if (!cls.find()) {
+            return Collections.emptySet();
+        }
+        int depth = 1;
+        int end = cls.end();
+        while (end < source.length() && depth > 0) {
+            char c = source.charAt(end);
+            if (c == '(') {
+                depth++;
+            } else if (c == ')') {
+                depth--;
+            }
+            end++;
+        }
+        String ctor = source.substring(cls.end(), end - 1)
+                .replaceAll("\\{\\{[^}]*\\}\\}", "");
+        Set<String> names = new TreeSet<>();
+        Matcher m = Pattern.compile("\\b(?:val|var)\\s+([a-zA-Z_]\\w*)").matcher(ctor);
+        while (m.find()) {
+            names.add(m.group(1));
+        }
+        return names;
     }
 
     @Test
@@ -579,38 +708,8 @@ public class KotlinClientCodegenApiTest {
      */
     @Test
     void testJvmOkhttp4GeneratedClientSendsVerbatimMethods() throws IOException, InterruptedException {
-        Path kotlinc = findOnPath("kotlinc");
-        if (kotlinc == null) {
-            throw new org.testng.SkipException("kotlinc is not on PATH; skipping generated-client verification");
-        }
-        // PATH may hold a symlink into the install; resolve it so lib/ is found correctly
-        kotlinc = kotlinc.toRealPath();
-        // okhttp5/moshi jars are copied out-of-band by maven-dependency-plugin
-        // (kotlin-capture-deps): they carry Kotlin 1.8+/2.x metadata that the
-        // embedded 1.6 compiler in KotlinTestUtils cannot read, so they must
-        // never sit on the shared test classpath
-        Path depDir = Path.of("target/kotlin-capture-deps");
-        List<String> jars;
-        try (var stream = Files.list(depDir)) {
-            jars = stream.filter(p -> p.toString().endsWith(".jar"))
-                    .map(p -> p.toAbsolutePath().toString())
-                    .collect(Collectors.toCollection(ArrayList::new));
-        } catch (IOException e) {
-            throw new org.testng.SkipException("kotlin-capture-deps missing (dependency:copy did not run): " + e);
-        }
-        if (jars.size() < 5) {
-            throw new org.testng.SkipException("expected okhttp/okio/moshi jars in " + depDir + ", found " + jars);
-        }
-        // use the stdlib/reflect bundled with the detected kotlinc so versions match
-        // the compiler (the module's own test classpath pins an older kotlin.version)
-        Path kotlincLib = kotlinc.getParent().getParent().resolve("lib");
-        for (String name : new String[]{"kotlin-stdlib.jar", "kotlin-reflect.jar"}) {
-            Path jar = kotlincLib.resolve(name);
-            if (!Files.exists(jar)) {
-                throw new org.testng.SkipException("kotlinc lib dir lacks " + name + ": " + kotlincLib);
-            }
-            jars.add(jar.toString());
-        }
+        Path kotlinc = requireKotlinc();
+        List<String> jars = captureDepJars(kotlinc);
 
         Path target = Files.createTempDirectory("kotlin32-verify");
         try {
@@ -640,6 +739,85 @@ public class KotlinClientCodegenApiTest {
         } finally {
             deleteRecursively(target);
         }
+    }
+
+    /**
+     * Issue #15 regression: a spec parameter named `org` breaks a
+     * package-qualified parseDateToQueryString call (the qualifier resolves
+     * against the parameter, not the package). The call is intentionally
+     * unqualified — Kotlin prefers the function over a value parameter at a
+     * call site — and both spring libraries must compile as-is with kotlinc,
+     * alongside colliding parameters (`org`, `parseDateToQueryString`,
+     * `request`, ...). Skipped when kotlinc or the copied deps are missing.
+     */
+    @Test
+    void testJvmSpringGeneratedClientsCompileWithCollidingParams() throws IOException, InterruptedException {
+        Path kotlinc = requireKotlinc();
+        List<String> jars = captureDepJars(kotlinc);
+        String classPath = String.join(File.pathSeparator, jars);
+
+        String[][] libraries = {
+                {"jvm-spring-restclient", "serializationLibrary=jackson", "useSpringBoot3=true"},
+                {"jvm-spring-webclient", "serializationLibrary=jackson", "useSpringBoot3=true"},
+        };
+        for (String[] lib : libraries) {
+            Path target = Files.createTempDirectory("kotlin-spring-compile-" + lib[0]);
+            try {
+                generate(lib[0], "src/test/resources/3_0/kotlin/kotlin-member-collision.yaml",
+                        target, Arrays.copyOfRange(lib, 1, lib.length));
+                List<String> sources = Files.walk(target.resolve("src/main/kotlin"))
+                        .filter(p -> p.toString().endsWith(".kt"))
+                        .map(Path::toString)
+                        .collect(Collectors.toList());
+                Assert.assertFalse(sources.isEmpty(), lib[0] + " produced no kotlin sources");
+                List<String> compile = new ArrayList<>(List.of(
+                        kotlinc.toString(), "-cp", classPath, "-d",
+                        target.resolve("classes").toString(), "-jvm-target", "17"));
+                compile.addAll(sources);
+                runProcess(target, "kotlinc.log", 300, compile.toArray(new String[0]));
+            } finally {
+                deleteRecursively(target);
+            }
+        }
+    }
+
+    private static Path requireKotlinc() throws IOException {
+        Path kotlinc = findOnPath("kotlinc");
+        if (kotlinc == null) {
+            throw new org.testng.SkipException("kotlinc is not on PATH; skipping generated-client verification");
+        }
+        // PATH may hold a symlink into the install; resolve it so lib/ is found correctly
+        return kotlinc.toRealPath();
+    }
+
+    private static List<String> captureDepJars(Path kotlinc) {
+        // okhttp5/moshi/spring jars are copied out-of-band by
+        // maven-dependency-plugin (kotlin-capture-deps): they carry Kotlin
+        // 1.8+/2.x metadata that the embedded 1.6 compiler in KotlinTestUtils
+        // cannot read, so they must never sit on the shared test classpath
+        Path depDir = Path.of("target/kotlin-capture-deps");
+        List<String> jars;
+        try (var stream = Files.list(depDir)) {
+            jars = stream.filter(p -> p.toString().endsWith(".jar"))
+                    .map(p -> p.toAbsolutePath().toString())
+                    .collect(Collectors.toCollection(ArrayList::new));
+        } catch (IOException e) {
+            throw new org.testng.SkipException("kotlin-capture-deps missing (dependency:copy did not run): " + e);
+        }
+        if (jars.size() < 5) {
+            throw new org.testng.SkipException("expected okhttp/okio/moshi/spring jars in " + depDir + ", found " + jars);
+        }
+        // use the stdlib/reflect bundled with the detected kotlinc so versions match
+        // the compiler (the module's own test classpath pins an older kotlin.version)
+        Path kotlincLib = kotlinc.getParent().getParent().resolve("lib");
+        for (String name : new String[]{"kotlin-stdlib.jar", "kotlin-reflect.jar"}) {
+            Path jar = kotlincLib.resolve(name);
+            if (!Files.exists(jar)) {
+                throw new org.testng.SkipException("kotlinc lib dir lacks " + name + ": " + kotlincLib);
+            }
+            jars.add(jar.toString());
+        }
+        return jars;
     }
 
     private static void generate(String library, String spec, Path outputDir, String... additionalProperties) {

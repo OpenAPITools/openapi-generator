@@ -184,21 +184,21 @@ import {{packageName}}.infrastructure.*
         {{/isApiKey}}
         {{#isBasic}}
         {{#isBasicBasic}}
-        this.username?.let { username ->
-            this.password?.let { password ->
-                localVariableRequest.basicAuthentication(username, password)
+        this.username?.let { localVariableUsername ->
+            this.password?.let { localVariablePassword ->
+                localVariableRequest.basicAuthentication(localVariableUsername, localVariablePassword)
             }
         }
         {{/isBasicBasic}}
         {{#isBasicBearer}}
-        this.accessToken?.let { accessToken ->
-           localVariableRequest.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { localVariableAccessToken ->
+           localVariableRequest.bearerTokenAuthentication(localVariableAccessToken)
         }
         {{/isBasicBearer}}
         {{/isBasic}}
         {{#isOAuth}}
-        this.accessToken?.let { accessToken ->
-            localVariableRequest.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { localVariableAccessToken ->
+            localVariableRequest.bearerTokenAuthentication(localVariableAccessToken)
         }
         {{/isOAuth}}
         {{/authMethods}}

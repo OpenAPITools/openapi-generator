@@ -101,8 +101,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
 
 
-        this.accessToken?.let { accessToken ->
-            localVariableRequest.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { localVariableAccessToken ->
+            localVariableRequest.bearerTokenAuthentication(localVariableAccessToken)
         }
 
         return localVariableRequest
@@ -167,8 +167,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
 
 
-        this.accessToken?.let { accessToken ->
-            localVariableRequest.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { localVariableAccessToken ->
+            localVariableRequest.bearerTokenAuthentication(localVariableAccessToken)
         }
 
         return localVariableRequest
@@ -243,8 +243,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         status.let { localVariableRequest.queryParams().add("status", toMultiValue(it.toList(), "csv")) }
 
-        this.accessToken?.let { accessToken ->
-            localVariableRequest.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { localVariableAccessToken ->
+            localVariableRequest.bearerTokenAuthentication(localVariableAccessToken)
         }
 
         return localVariableRequest
@@ -312,8 +312,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         tags.let { localVariableRequest.queryParams().add("tags", toMultiValue(it.toList(), "csv")) }
 
-        this.accessToken?.let { accessToken ->
-            localVariableRequest.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { localVariableAccessToken ->
+            localVariableRequest.bearerTokenAuthentication(localVariableAccessToken)
         }
 
         return localVariableRequest
@@ -451,8 +451,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
 
 
-        this.accessToken?.let { accessToken ->
-            localVariableRequest.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { localVariableAccessToken ->
+            localVariableRequest.bearerTokenAuthentication(localVariableAccessToken)
         }
 
         return localVariableRequest
@@ -522,8 +522,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         status?.let { localVariableForm.add("status", status) }
 
 
-        this.accessToken?.let { accessToken ->
-            localVariableRequest.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { localVariableAccessToken ->
+            localVariableRequest.bearerTokenAuthentication(localVariableAccessToken)
         }
 
         return localVariableRequest
@@ -595,8 +595,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         file?.let { localVariableForm.add("file", file.toString()) }
 
 
-        this.accessToken?.let { accessToken ->
-            localVariableRequest.bearerTokenAuthentication(accessToken)
+        this.accessToken?.let { localVariableAccessToken ->
+            localVariableRequest.bearerTokenAuthentication(localVariableAccessToken)
         }
 
         return localVariableRequest

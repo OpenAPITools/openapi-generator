@@ -95,6 +95,12 @@ paths:
         - name: encodeURIComponent
           in: query
           schema: {type: string}
+        - name: parseDateToQueryString
+          in: query
+          schema: {type: string}
+        - name: org
+          in: query
+          schema: {type: string}
         - name: body
           in: query
           schema: {type: string}
