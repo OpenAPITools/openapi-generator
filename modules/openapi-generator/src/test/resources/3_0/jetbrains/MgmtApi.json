@@ -16118,7 +16118,8 @@
           },
           "password" : {
             "description" : "The password for the API credential that was created.",
-            "type" : "string"
+            "type" : "string",
+            "format" : "password"
           },
           "roles" : {
             "description" : "List of [roles](https://docs.adyen.com/development-resources/api-credentials#roles-1) for the API credential.",
@@ -16224,7 +16225,8 @@
           },
           "password" : {
             "description" : "The password for the API credential that was created.",
-            "type" : "string"
+            "type" : "string",
+            "format" : "password"
           },
           "roles" : {
             "description" : "List of [roles](https://docs.adyen.com/development-resources/api-credentials#roles-1) for the API credential.",
@@ -16445,7 +16447,8 @@
           },
           "password" : {
             "description" : "Password to access the webhook URL.",
-            "type" : "string"
+            "type" : "string",
+            "format" : "password"
           },
           "populateSoapActionHeader" : {
             "description" : "Indicates if the SOAP action header needs to be populated. Default value: **false**.\n\nOnly applies if `communicationFormat`: **soap**.",
@@ -16674,7 +16677,8 @@
           },
           "password" : {
             "description" : "Password to access the webhook URL.",
-            "type" : "string"
+            "type" : "string",
+            "format" : "password"
           },
           "populateSoapActionHeader" : {
             "description" : "Indicates if the SOAP action header needs to be populated. Default value: **false**.\n\nOnly applies if `communicationFormat`: **soap**.",
@@ -20184,7 +20188,8 @@
           },
           "password" : {
             "description" : "Password to access the webhook URL.",
-            "type" : "string"
+            "type" : "string",
+            "format" : "password"
           },
           "populateSoapActionHeader" : {
             "description" : "Indicates if the SOAP action header needs to be populated. Default value: **false**.\n\nOnly applies if `communicationFormat`: **soap**.",
@@ -20324,7 +20329,8 @@
           },
           "password" : {
             "description" : "Password to access the webhook URL.",
-            "type" : "string"
+            "type" : "string",
+            "format" : "password"
           },
           "populateSoapActionHeader" : {
             "description" : "Indicates if the SOAP action header needs to be populated. Default value: **false**.\n\nOnly applies if `communicationFormat`: **soap**.",
@@ -20645,7 +20651,8 @@
           },
           "password" : {
             "description" : "The password for authentication of the notifications.",
-            "type" : "string"
+            "type" : "string",
+            "format" : "password"
           },
           "url" : {
             "description" : "The URL in the format: http(s)://domain.com.",
