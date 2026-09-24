@@ -5488,4 +5488,43 @@ public class DefaultCodegenTest {
         off.processOpts();
         assertThat(off.splitOperationsByContentType).isFalse();
     }
+
+    @Test
+    public void testGetEnumValueForPropertyWithNullAllowableValues() {
+        CodegenDiscriminator discriminator = new CodegenDiscriminator();
+        discriminator.setIsEnum(true);
+        CodegenProperty var = new CodegenProperty();
+        var.baseName = "type";
+        var.defaultValue = "defaultType";
+        var.allowableValues = null;
+
+        String result = DefaultCodegen.getEnumValueForProperty("TestModel", discriminator, var);
+        assertEquals("defaultType", result);
+
+        Assertions.assertNull(DefaultCodegen.getEnumValueForProperty("TestModel", discriminator, null));
+        assertEquals("defaultType", DefaultCodegen.getEnumValueForProperty("TestModel", null, var));
+    }
+
+    @Test
+    public void testSetEnumDiscriminatorDefaultValueWithNullAllowableValues() {
+        CodegenModel model = new CodegenModel();
+        model.name = "TestModel";
+        model.schemaName = "TestModel";
+
+        CodegenDiscriminator discriminator = new CodegenDiscriminator();
+        discriminator.setPropertyBaseName("type");
+        discriminator.setPropertyName("type");
+        discriminator.setIsEnum(true);
+        model.discriminator = discriminator;
+
+        CodegenProperty var = new CodegenProperty();
+        var.baseName = "type";
+        var.defaultValue = "defaultType";
+        var.allowableValues = null;
+        model.vars.add(var);
+        model.allVars.add(var);
+
+        DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
+        assertEquals("defaultType", var.defaultValue);
+    }
 }
