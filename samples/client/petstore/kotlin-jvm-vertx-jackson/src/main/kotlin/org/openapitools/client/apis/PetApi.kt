@@ -517,7 +517,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         
         
 
-        val localVariableForm = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
+        val localVariableForm = io.vertx.core.MultiMap.caseInsensitiveMultiMap()
         name?.let { localVariableForm.add("name", name) }
         status?.let { localVariableForm.add("status", status) }
 
@@ -527,7 +527,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         }
 
         return localVariableRequest
-            .send()
+            .sendForm(localVariableForm)
             .map {
                 val localVariableApiResponse: ApiResponse<Unit?> = this.handleResponse(it)
                 localVariableApiResponse
@@ -590,9 +590,9 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         
         localVariableRequest.putHeader("Accept", "application/json")
 
-        val localVariableForm = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
-        additionalMetadata?.let { localVariableForm.add("additionalMetadata", additionalMetadata) }
-        file?.let { localVariableForm.add("file", file.toString()) }
+        val localVariableForm = io.vertx.ext.web.multipart.MultipartForm.create()
+        additionalMetadata?.let { localVariableForm.attribute("additionalMetadata", additionalMetadata) }
+        file?.let { localVariableForm.attribute("file", file.toString()) }
 
 
         this.accessToken?.let { localVariableAccessToken ->
@@ -600,7 +600,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         }
 
         return localVariableRequest
-            .send()
+            .sendMultipartForm(localVariableForm)
             .map {
                 val localVariableApiResponse: ApiResponse<ModelApiResponse?> = this.handleResponse(it)
                 localVariableApiResponse

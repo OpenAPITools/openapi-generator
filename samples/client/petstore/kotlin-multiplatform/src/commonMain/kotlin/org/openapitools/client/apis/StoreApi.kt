@@ -114,7 +114,7 @@ open class StoreApi : ApiClient {
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
-        ).wrap<GetInventoryResponse>().map { value }
+        ).wrap<GetInventoryResponse>().map { this.value }
     }
 
     @Serializable(GetInventoryResponse.Companion::class)
