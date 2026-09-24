@@ -696,6 +696,34 @@ public class KotlinClientCodegenApiTest {
         }
     }
 
+    /**
+     * multiplatform wraps array/map responses via a receiver lambda
+     * `.map { value }`; a spec parameter named `value` shadows the
+     * receiver's member, so the decoded field must be referenced as
+     * `this.value`.
+     */
+    @Test
+    void testMultiplatformWrapMapUsesExplicitReceiver() throws IOException {
+        Path target = Files.createTempDirectory("kotlin-mp-value");
+        try {
+            generate("multiplatform", "src/test/resources/3_0/kotlin/kotlin-receiver-value.yaml",
+                    target, "dateLibrary=kotlinx-datetime");
+            String api = new String(Files.readAllBytes(
+                    target.resolve("src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt")),
+                    StandardCharsets.UTF_8);
+            Assert.assertTrue(api.contains("`value`: kotlin.String?"),
+                    "the spec `value` param must keep its (backticked) name");
+            Assert.assertTrue(api.contains("wrap<ListItemsResponse>().map { this.value }"),
+                    "array response must dereference the wrapper's value via explicit receiver");
+            Assert.assertTrue(api.contains("wrap<LookupItemsResponse>().map { this.value }"),
+                    "map response must dereference the wrapper's value via explicit receiver");
+            Assert.assertFalse(api.contains(".map { value }"),
+                    "bare `value` inside map{} resolves to the spec param, not the wrapper field");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
     @Test
     void testNonOkhttpLibrariesSkipOpenApi32Operations() throws IOException {
         Path target = Files.createTempDirectory("kotlin32-skip");

@@ -132,7 +132,7 @@ import kotlinx.serialization.encoding.*
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
-        ).{{#isArray}}wrap<{{operationIdCamelCase}}Response>().map { value{{^isList}}.toTypedArray(){{/isList}} }{{/isArray}}{{^isArray}}{{#isMap}}wrap<{{operationIdCamelCase}}Response>().map { value }{{/isMap}}{{^isMap}}wrap(){{/isMap}}{{/isArray}}
+        ).{{#isArray}}wrap<{{operationIdCamelCase}}Response>().map { this.value{{^isList}}.toTypedArray(){{/isList}} }{{/isArray}}{{^isArray}}{{#isMap}}wrap<{{operationIdCamelCase}}Response>().map { this.value }{{/isMap}}{{^isMap}}wrap(){{/isMap}}{{/isArray}}
     }
 
 {{#hasBodyParam}}
