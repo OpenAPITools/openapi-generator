@@ -17,11 +17,9 @@ part 'tag.g.dart';
   explicitToJson: true,
 )
 class Tag {
-  /// Returns a new [Tag] instance.
+/// Returns a new [Tag] instance.
   Tag({
-
      this.id,
-
      this.name,
   });
 
@@ -53,6 +51,7 @@ class Tag {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Tag &&
+    runtimeType == other.runtimeType &&
       other.id == id &&
       other.name == name;
 

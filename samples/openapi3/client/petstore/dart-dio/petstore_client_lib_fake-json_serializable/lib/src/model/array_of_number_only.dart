@@ -17,9 +17,8 @@ part 'array_of_number_only.g.dart';
   explicitToJson: true,
 )
 class ArrayOfNumberOnly {
-  /// Returns a new [ArrayOfNumberOnly] instance.
+/// Returns a new [ArrayOfNumberOnly] instance.
   ArrayOfNumberOnly({
-
      this.arrayNumber,
   });
 
@@ -39,6 +38,7 @@ class ArrayOfNumberOnly {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ArrayOfNumberOnly &&
+    runtimeType == other.runtimeType &&
       other.arrayNumber == arrayNumber;
 
     @override

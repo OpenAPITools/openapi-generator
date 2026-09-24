@@ -17,11 +17,9 @@ part 'read_only_first.g.dart';
   explicitToJson: true,
 )
 class ReadOnlyFirst {
-  /// Returns a new [ReadOnlyFirst] instance.
+/// Returns a new [ReadOnlyFirst] instance.
   ReadOnlyFirst({
-
      this.bar,
-
      this.baz,
   });
 
@@ -53,6 +51,7 @@ class ReadOnlyFirst {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ReadOnlyFirst &&
+    runtimeType == other.runtimeType &&
       other.bar == bar &&
       other.baz == baz;
 

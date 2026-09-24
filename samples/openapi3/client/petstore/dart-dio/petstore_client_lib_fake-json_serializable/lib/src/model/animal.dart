@@ -17,11 +17,9 @@ part 'animal.g.dart';
   explicitToJson: true,
 )
 class Animal {
-  /// Returns a new [Animal] instance.
+/// Returns a new [Animal] instance.
   Animal({
-
     required  this.className,
-
      this.color = 'red',
   });
 
@@ -53,6 +51,7 @@ class Animal {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Animal &&
+    runtimeType == other.runtimeType &&
       other.className == className &&
       other.color == color;
 

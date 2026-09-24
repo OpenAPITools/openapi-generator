@@ -17,9 +17,8 @@ part 'foo.g.dart';
   explicitToJson: true,
 )
 class Foo {
-  /// Returns a new [Foo] instance.
+/// Returns a new [Foo] instance.
   Foo({
-
      this.bar = 'bar',
   });
 
@@ -39,6 +38,7 @@ class Foo {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Foo &&
+    runtimeType == other.runtimeType &&
       other.bar == bar;
 
     @override

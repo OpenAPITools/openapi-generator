@@ -17,9 +17,8 @@ part 'model_client.g.dart';
   explicitToJson: true,
 )
 class ModelClient {
-  /// Returns a new [ModelClient] instance.
+/// Returns a new [ModelClient] instance.
   ModelClient({
-
      this.client,
   });
 
@@ -39,6 +38,7 @@ class ModelClient {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ModelClient &&
+    runtimeType == other.runtimeType &&
       other.client == client;
 
     @override

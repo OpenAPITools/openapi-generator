@@ -17,9 +17,8 @@ part 'model_file.g.dart';
   explicitToJson: true,
 )
 class ModelFile {
-  /// Returns a new [ModelFile] instance.
+/// Returns a new [ModelFile] instance.
   ModelFile({
-
      this.sourceURI,
   });
 
@@ -40,6 +39,7 @@ class ModelFile {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ModelFile &&
+    runtimeType == other.runtimeType &&
       other.sourceURI == sourceURI;
 
     @override

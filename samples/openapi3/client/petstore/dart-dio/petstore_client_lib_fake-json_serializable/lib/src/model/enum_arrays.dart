@@ -17,11 +17,9 @@ part 'enum_arrays.g.dart';
   explicitToJson: true,
 )
 class EnumArrays {
-  /// Returns a new [EnumArrays] instance.
+/// Returns a new [EnumArrays] instance.
   EnumArrays({
-
      this.justSymbol,
-
      this.arrayEnum,
   });
 
@@ -55,6 +53,7 @@ class EnumArrays {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is EnumArrays &&
+    runtimeType == other.runtimeType &&
       other.justSymbol == justSymbol &&
       other.arrayEnum == arrayEnum;
 
