@@ -154,13 +154,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class ShapeOrNull.", nameof(shapeType));
+                throw new JsonException("Property is required for class ShapeOrNull: shapeType.");
 
             if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ShapeOrNull.");
+                throw new JsonException("Property is not nullable for class ShapeOrNull: shapeType.");
 
             if (area.IsSet && area.Value == null)
-                throw new ArgumentNullException(nameof(area), "Property is not nullable for class ShapeOrNull.");
+                throw new JsonException("Property is not nullable for class ShapeOrNull: area.");
 
             return new ShapeOrNull(shapeType.Value!, area);
         }
@@ -189,8 +189,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (shapeOrNull.ShapeType == null)
-                throw new ArgumentNullException(nameof(shapeOrNull.ShapeType), "Property is required for class ShapeOrNull.");
+            if (shapeOrNull.AreaOption.IsSet && shapeOrNull.Area == null)
+                throw new JsonException("Cannot write null property ShapeOrNull.Area to non-nullable JSON property 'area'.");
 
             writer.WriteString("shapeType", shapeOrNull.ShapeType);
 

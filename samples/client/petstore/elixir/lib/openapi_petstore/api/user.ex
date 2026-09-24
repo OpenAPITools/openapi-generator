@@ -31,6 +31,7 @@ defmodule OpenapiPetstore.Api.User do
       |> method(:post)
       |> url("/user")
       |> add_param(:body, :body, user)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -62,6 +63,7 @@ defmodule OpenapiPetstore.Api.User do
       |> method(:post)
       |> url("/user/createWithArray")
       |> add_param(:body, :body, user)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -93,6 +95,7 @@ defmodule OpenapiPetstore.Api.User do
       |> method(:post)
       |> url("/user/createWithList")
       |> add_param(:body, :body, user)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -123,6 +126,7 @@ defmodule OpenapiPetstore.Api.User do
       %{}
       |> method(:delete)
       |> url("/user/#{username}")
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -154,6 +158,7 @@ defmodule OpenapiPetstore.Api.User do
       %{}
       |> method(:get)
       |> url("/user/#{username}")
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -189,6 +194,7 @@ defmodule OpenapiPetstore.Api.User do
       |> url("/user/login")
       |> add_param(:query, :username, username)
       |> add_param(:query, :password, password)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -219,6 +225,7 @@ defmodule OpenapiPetstore.Api.User do
       %{}
       |> method(:get)
       |> url("/user/logout")
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -251,6 +258,7 @@ defmodule OpenapiPetstore.Api.User do
       |> method(:put)
       |> url("/user/#{username}")
       |> add_param(:body, :body, user)
+      |> finalize_request()
       |> Enum.into([])
 
     connection

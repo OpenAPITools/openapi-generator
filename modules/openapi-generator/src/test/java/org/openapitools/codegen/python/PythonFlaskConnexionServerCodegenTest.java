@@ -2,13 +2,23 @@ package org.openapitools.codegen.python;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.UUIDSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -20,6 +30,7 @@ import java.util.List;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileExists;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class PythonFlaskConnexionServerCodegenTest {
 
@@ -44,6 +55,70 @@ public class PythonFlaskConnexionServerCodegenTest {
         return outputPath + "/";
     }
 
+
+    @Test(description = "UUID model properties require the standard-library UUID import (issue #23897)")
+    public void testUuidModelImport() throws IOException {
+        final DefaultCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/bugs/issue_23897.yaml");
+
+        final Path model = Paths.get(outputPath, "openapi_server/models/pushnotification.py");
+        assertFileExists(model);
+        assertFileContains(model, "from uuid import UUID", "'id': UUID", "def id(self) -> UUID:");
+
+        final String[][] uuidModels = {
+                {"uuid_list.py", "List[UUID]"},
+                {"uuid_map.py", "Dict[str, UUID]"},
+                {"nested_uuid_containers.py", "List[Dict[str, List[UUID]]]"},
+                {"all_of_uuid.py", "UUID"}
+        };
+        for (String[] uuidModel : uuidModels) {
+            final Path generatedModel = Paths.get(outputPath, "openapi_server/models", uuidModel[0]);
+            assertFileExists(generatedModel);
+            assertFileContains(generatedModel, "from uuid import UUID", "'ids': " + uuidModel[1],
+                    "def ids(self) -> " + uuidModel[1] + ":");
+        }
+
+        final Path stringList = Paths.get(outputPath, "openapi_server/models/string_list.py");
+        assertFileContains(stringList, "'ids': List[str]");
+        assertFileNotContains(stringList, "from uuid import UUID");
+    }
+
+    @DataProvider
+    public Object[][] uuidSchemas() {
+        return new Object[][] {
+                {"direct UUID", new UUIDSchema(), true},
+                {"array items", new ArraySchema().items(new UUIDSchema()), true},
+                {"map values", new MapSchema().additionalProperties(new UUIDSchema()), true},
+                {"UUID beside another object", new ObjectSchema()
+                        .addProperties("id", new UUIDSchema())
+                        .addProperties("tail", new ObjectSchema().addProperties("name", new StringSchema())), true},
+                {"allOf branch", new ComposedSchema().addAllOfItem(new StringSchema())
+                        .addAllOfItem(new UUIDSchema()), true},
+                {"oneOf branch", new ComposedSchema().addOneOfItem(new StringSchema())
+                        .addOneOfItem(new UUIDSchema()), true},
+                {"anyOf branch", new ComposedSchema().addAnyOfItem(new StringSchema())
+                        .addAnyOfItem(new UUIDSchema()), true},
+                {"not branch", new Schema().not(new UUIDSchema()), true},
+                {"mixed nesting", new ArraySchema().items(new ObjectSchema().addProperties("value",
+                        new ComposedSchema().addAnyOfItem(new StringSchema())
+                                .addAnyOfItem(new MapSchema().additionalProperties(new UUIDSchema())))), true},
+                {"no UUID", new ArraySchema().items(new ObjectSchema().addProperties("value",
+                        new ComposedSchema().addAnyOfItem(new StringSchema())
+                                .addAnyOfItem(new MapSchema().additionalProperties(new StringSchema())))), false}
+        };
+    }
+
+    @Test(dataProvider = "uuidSchemas", description = "Find UUIDs in every schema branch regardless of feature support")
+    public void testUuidImportInNestedSchemas(String description, Schema schema, boolean expectedImport) {
+        final PythonFlaskConnexionServerCodegen codegen = new PythonFlaskConnexionServerCodegen();
+        codegen.setOpenAPI(new OpenAPI());
+        final CodegenProperty property = codegen.fromProperty("value", schema, false);
+        final CodegenModel model = new CodegenModel();
+
+        codegen.postProcessModelProperty(model, property);
+
+        Assert.assertEquals(model.imports.contains("from uuid import UUID"), expectedImport, description);
+    }
 
     @Test(description = "test requestBody")
     public void testRequestBody() throws IOException {

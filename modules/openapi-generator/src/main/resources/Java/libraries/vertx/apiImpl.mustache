@@ -48,7 +48,7 @@ public class {{classname}}Impl implements {{classname}} {
     * {{summary}}
     * {{notes}}
     {{#allParams}}
-        * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+        * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}){{/required}}
     {{/allParams}}
     * @param resultHandler Asynchronous result handler
     */
@@ -60,7 +60,7 @@ public class {{classname}}Impl implements {{classname}} {
     * {{summary}}
     * {{notes}}
     {{#allParams}}
-    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}){{/required}}
     {{/allParams}}
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler

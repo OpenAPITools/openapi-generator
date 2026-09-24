@@ -44,6 +44,9 @@ aiohttp-retry = ">= 2.8.3"
 {{#httpx}}
 httpx = ">= 0.28.1"
 {{/httpx}}
+{{#httpx2}}
+httpx2 = ">= 2.13.0, < 3"
+{{/httpx2}}
 {{#hasHttpSignatureMethods}}
 pem = ">= 19.3.0"
 pycryptodome = ">= 3.9.0"
@@ -62,6 +65,9 @@ dependencies = [
 {{#httpx}}
   "httpx (>=0.28.1)",
 {{/httpx}}
+{{#httpx2}}
+  "httpx2 (>=2.13.0,<3)",
+{{/httpx2}}
 {{#asyncio}}
   "aiohttp (>=3.14.1)",
   "aiohttp-retry (>=2.8.3)",
@@ -78,23 +84,27 @@ dependencies = [
 Repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
 
 {{/poetry1}}
-{{^poetry1}}
-[tool.poetry]
-requires-poetry = ">=2.0"
-{{/poetry1}}
-
 {{#poetry1}}
+# Deprecated by Poetry; retained for compatibility with legacy Poetry 1 releases.
 [tool.poetry.dev-dependencies]
-{{/poetry1}}
-{{^poetry1}}
-[tool.poetry.group.dev.dependencies]
-{{/poetry1}}
 pytest = ">= 9.0.3"
 pytest-cov = ">= 2.8.1"
 tox = ">= 3.9.0"
 flake8 = ">= 4.0.0"
 types-python-dateutil = ">= 2.8.19.14"
 mypy = ">= 1.5"
+{{/poetry1}}
+{{^poetry1}}
+[dependency-groups]
+dev = [
+  "pytest>=9.0.3",
+  "pytest-cov>=2.8.1",
+  "tox>=3.9.0",
+  "flake8>=4.0.0",
+  "types-python-dateutil>=2.8.19.14",
+  "mypy>=1.5",
+]
+{{/poetry1}}
 
 
 [build-system]

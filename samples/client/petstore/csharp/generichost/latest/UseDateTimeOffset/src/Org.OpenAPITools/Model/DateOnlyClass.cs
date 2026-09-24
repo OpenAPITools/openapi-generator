@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (dateOnlyProperty.IsSet && dateOnlyProperty.Value == null)
-                throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is not nullable for class DateOnlyClass.");
+                throw new JsonException("Property is not nullable for class DateOnlyClass: dateOnlyProperty.");
 
             return new DateOnlyClass(dateOnlyProperty);
         }
@@ -174,6 +174,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (dateOnlyClass.DateOnlyPropertyOption.IsSet && dateOnlyClass.DateOnlyProperty == null)
+                throw new JsonException("Cannot write null property DateOnlyClass.DateOnlyProperty to non-nullable JSON property 'dateOnlyProperty'.");
+
             if (dateOnlyClass.DateOnlyPropertyOption.IsSet)
                 writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyPropertyOption.Value!.Value.ToString(DateOnlyPropertyFormat));
         }

@@ -105,11 +105,12 @@ defmodule {{moduleName}}.RequestBuilder do
   - `key` (atom) - The name of the parameter
   - `value` (any) - The value of the parameter
 
-  Cookie values use OpenAPI's `form` style. `:cookie` uses `explode=false` and
-  `:cookie_exploded` uses `explode=true`. Scalars use their string form, arrays
-  are comma-joined or emitted as separate pairs, and objects (including keyword
-  lists) are flattened into key/value pairs. Values are kept unencoded; nested
-  lists or maps raise `ArgumentError`.
+  Header values use OpenAPI's `simple` style. `:headers` is for scalars,
+  `:headers_form` uses `explode=false`, and `:headers_form_exploded` uses
+  `explode=true`. Arrays are comma-joined, and objects (including keyword
+  lists) are flattened into key/value pairs. Cookie values use OpenAPI's `form`
+  style: `:cookie` uses `explode=false` and `:cookie_exploded` uses `explode=true`.
+  Values are kept unencoded; nested lists or maps raise `ArgumentError`.
 
   ### Returns
 
@@ -141,11 +142,19 @@ defmodule {{moduleName}}.RequestBuilder do
   end
 
   def add_param(request, :headers, key, value) do
-    put_header(request, to_string(key), serialize_cookie_value(value))
+    put_header(request, to_string(key), scalar_to_string(value))
+  end
+
+  def add_param(request, :headers_form, key, value) do
+    put_header(request, to_string(key), serialize_parameter_value(value, ","))
+  end
+
+  def add_param(request, :headers_form_exploded, key, value) do
+    put_header(request, to_string(key), serialize_parameter_value(value, "="))
   end
 
   def add_param(request, :cookie, key, value) do
-    add_cookies(request, [{to_string(key), serialize_cookie_value(value)}])
+    add_cookies(request, [{to_string(key), serialize_parameter_value(value, ",")}])
   end
 
   def add_param(request, :cookie_exploded, key, value) do
@@ -194,13 +203,13 @@ defmodule {{moduleName}}.RequestBuilder do
   defp serialize_exploded_cookie(key, value) when is_list(value) do
     key = to_string(key)
 
-    if cookie_pair_list?(value) do
+    if parameter_pair_list?(value) do
       Enum.map(value, fn {pair_key, pair_value} ->
-        {cookie_leaf_to_string(pair_key), cookie_leaf_to_string(pair_value)}
+        {parameter_leaf_to_string(pair_key), parameter_leaf_to_string(pair_value)}
       end)
     else
       Enum.map(value, fn item ->
-        {key, cookie_array_item_to_string(item)}
+        {key, parameter_array_item_to_string(item)}
       end)
     end
   end
@@ -213,10 +222,10 @@ defmodule {{moduleName}}.RequestBuilder do
       is_struct(value) ->
         value
         |> Map.from_struct()
-        |> serialize_exploded_cookie_map()
+        |> serialize_parameter_map_pairs()
 
       true ->
-        serialize_exploded_cookie_map(value)
+        serialize_parameter_map_pairs(value)
     end
   end
 
@@ -224,25 +233,25 @@ defmodule {{moduleName}}.RequestBuilder do
     [{to_string(key), scalar_to_string(value)}]
   end
 
-  defp serialize_exploded_cookie_map(value) do
+  defp serialize_parameter_map_pairs(value) do
     value
-    |> cookie_map_entries()
+    |> parameter_map_entries()
     |> Enum.map(fn {key, value} ->
-      {cookie_leaf_to_string(key), cookie_leaf_to_string(value)}
+      {parameter_leaf_to_string(key), parameter_leaf_to_string(value)}
     end)
   end
 
-  defp serialize_cookie_value(value) when is_list(value) do
-    if cookie_pair_list?(value) do
+  defp serialize_parameter_value(value, pair_separator) when is_list(value) do
+    if parameter_pair_list?(value) do
       Enum.map_join(value, ",", fn {key, value} ->
-        "#{cookie_leaf_to_string(key)},#{cookie_leaf_to_string(value)}"
+        "#{parameter_leaf_to_string(key)}#{pair_separator}#{parameter_leaf_to_string(value)}"
       end)
     else
-      Enum.map_join(value, ",", &cookie_array_item_to_string/1)
+      Enum.map_join(value, ",", &parameter_array_item_to_string/1)
     end
   end
 
-  defp serialize_cookie_value(value) when is_map(value) do
+  defp serialize_parameter_value(value, pair_separator) when is_map(value) do
     cond do
       is_struct(value) and String.Chars.impl_for(value) != nil ->
         scalar_to_string(value)
@@ -250,46 +259,64 @@ defmodule {{moduleName}}.RequestBuilder do
       is_struct(value) ->
         value
         |> Map.from_struct()
-        |> serialize_cookie_map()
+        |> serialize_parameter_map(pair_separator)
 
       true ->
-        serialize_cookie_map(value)
+        serialize_parameter_map(value, pair_separator)
     end
   end
 
-  defp serialize_cookie_value(value), do: scalar_to_string(value)
+  defp serialize_parameter_value(value, _pair_separator), do: scalar_to_string(value)
 
-  defp serialize_cookie_map(value) do
+  defp serialize_parameter_map(value, pair_separator) do
     value
-    |> cookie_map_entries()
+    |> parameter_map_entries()
     |> Enum.map_join(",", fn {key, value} ->
-      "#{cookie_leaf_to_string(key)},#{cookie_leaf_to_string(value)}"
+      "#{parameter_leaf_to_string(key)}#{pair_separator}#{parameter_leaf_to_string(value)}"
     end)
   end
 
-  defp cookie_map_entries(value) do
+  defp parameter_map_entries(value) do
     value
     |> Map.to_list()
-    |> Enum.sort_by(fn {key, _value} -> cookie_leaf_to_string(key) end)
+    |> Enum.sort_by(fn {key, _value} -> parameter_leaf_to_string(key) end)
   end
 
-  defp cookie_pair_list?(value) do
+  defp parameter_pair_list?(value) do
     Enum.all?(value, fn pair -> is_tuple(pair) and tuple_size(pair) == 2 end)
   end
 
-  defp cookie_array_item_to_string(value) when is_list(value) or is_map(value) do
+  defp parameter_array_item_to_string(%_{} = value) do
+    if String.Chars.impl_for(value) != nil do
+      scalar_to_string(value)
+    else
+      raise ArgumentError,
+        "nested parameter values are not supported; expected scalar array items, got: #{inspect(value)}"
+    end
+  end
+
+  defp parameter_array_item_to_string(value) when is_list(value) or is_map(value) do
     raise ArgumentError,
       "nested parameter values are not supported; expected scalar array items, got: #{inspect(value)}"
   end
 
-  defp cookie_array_item_to_string(value), do: scalar_to_string(value)
+  defp parameter_array_item_to_string(value), do: scalar_to_string(value)
 
-  defp cookie_leaf_to_string(value) when is_list(value) or is_map(value) do
+  defp parameter_leaf_to_string(%_{} = value) do
+    if String.Chars.impl_for(value) != nil do
+      scalar_to_string(value)
+    else
+      raise ArgumentError,
+        "nested parameter values are not supported; expected a scalar leaf, got: #{inspect(value)}"
+    end
+  end
+
+  defp parameter_leaf_to_string(value) when is_list(value) or is_map(value) do
     raise ArgumentError,
       "nested parameter values are not supported; expected a scalar leaf, got: #{inspect(value)}"
   end
 
-  defp cookie_leaf_to_string(value), do: scalar_to_string(value)
+  defp parameter_leaf_to_string(value), do: scalar_to_string(value)
 
   defp scalar_to_string(value) do
     to_string(value)
@@ -300,9 +327,15 @@ defmodule {{moduleName}}.RequestBuilder do
 
   defp multipart_field(key, value) when is_binary(value), do: {to_string(key), value}
 
-  defp multipart_field(key, value) do
-    {to_string(key), {JSON.encode!(value), content_type: "application/json"}}
+  defp multipart_field(key, value) when is_list(value) or is_map(value) do
+    if is_struct(value) and String.Chars.impl_for(value) != nil do
+      {to_string(key), to_string(value)}
+    else
+      {to_string(key), {JSON.encode!(value), content_type: "application/json"}}
+    end
   end
+
+  defp multipart_field(key, value), do: {to_string(key), to_string(value)}
 
   defp put_json_body(request, value) do
     request

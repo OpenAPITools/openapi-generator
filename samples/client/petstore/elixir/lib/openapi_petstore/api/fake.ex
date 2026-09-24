@@ -27,6 +27,7 @@ defmodule OpenapiPetstore.Api.Fake do
       %{}
       |> method(:get)
       |> url("/fake/all-of-with-local-single-ref")
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -54,6 +55,7 @@ defmodule OpenapiPetstore.Api.Fake do
       %{}
       |> method(:get)
       |> url("/fake/all-of-with-remote-single-ref")
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -82,6 +84,7 @@ defmodule OpenapiPetstore.Api.Fake do
       %{}
       |> method(:get)
       |> url("/fake/BigDecimalMap")
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -110,6 +113,7 @@ defmodule OpenapiPetstore.Api.Fake do
       %{}
       |> method(:get)
       |> url("/fake/health")
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -148,6 +152,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> url("/fake/http-signature-test")
       |> add_param(:body, :body, pet)
       |> add_optional_params(optional_params, opts)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -183,6 +188,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> url("/fake/outer/boolean")
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -218,6 +224,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> url("/fake/outer/composite")
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -253,6 +260,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> url("/fake/outer/number")
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -288,6 +296,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> url("/fake/outer/string")
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -318,6 +327,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:post)
       |> url("/fake/property/enum-int")
       |> add_param(:body, :body, outer_object_with_enum_property)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -349,6 +359,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:post)
       |> url("/fake/additionalProperties-reference")
       |> add_param(:body, :body, request_body)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -380,6 +391,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:post)
       |> url("/fake/anyTypeObject")
       |> add_param(:body, :body, body)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -410,6 +422,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:put)
       |> url("/fake/body-with-binary")
       |> add_param(:body, :body, body)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -440,6 +453,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:put)
       |> url("/fake/body-with-file-schema")
       |> add_param(:body, :body, file_schema_test_class)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -471,6 +485,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> url("/fake/body-with-query-params")
       |> add_param(:query, :query, query)
       |> add_param(:body, :body, user)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -502,6 +517,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:patch)
       |> url("/fake")
       |> add_param(:body, :body, client)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -563,6 +579,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> add_param(:form, :pattern_without_delimiter, pattern_without_delimiter)
       |> add_param(:form, :byte, byte)
       |> add_optional_params(optional_params, opts)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -599,7 +616,7 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec test_enum_parameters(Tesla.Env.client, keyword()) :: {:ok, Tesla.Env.t} | {:error, Tesla.Env.t}
   def test_enum_parameters(connection, opts \\ []) do
     optional_params = %{
-      :enum_header_string_array => :headers,
+      :enum_header_string_array => :headers_form,
       :enum_header_string => :headers,
       :enum_query_string_array => :query,
       :enum_query_string => :query,
@@ -615,6 +632,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:get)
       |> url("/fake")
       |> add_optional_params(optional_params, opts)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -661,6 +679,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> add_param(:headers, :required_boolean_group, required_boolean_group)
       |> add_param(:query, :required_int64_group, required_int64_group)
       |> add_optional_params(optional_params, opts)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -692,6 +711,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:post)
       |> url("/fake/implicitFreeFormObject")
       |> add_param(:body, :body, body)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -723,6 +743,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:post)
       |> url("/fake/inline-additionalProperties")
       |> add_param(:body, :body, request_body)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -754,6 +775,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:post)
       |> url("/fake/inline-freeform-additionalProperties")
       |> add_param(:body, :body, test_inline_freeform_additional_properties_request)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -787,6 +809,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> url("/fake/jsonFormData")
       |> add_param(:form, :param, param)
       |> add_param(:form, :param2, param2)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -818,6 +841,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:post)
       |> url("/fake/nullable")
       |> add_param(:body, :body, child_with_nullable)
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -865,6 +889,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> add_param(:query, :allowEmpty, allow_empty)
       |> add_optional_params(optional_params, opts)
       |> ensure_body()
+      |> finalize_request()
       |> Enum.into([])
 
     connection
@@ -896,6 +921,7 @@ defmodule OpenapiPetstore.Api.Fake do
       |> method(:post)
       |> url("/fake/stringMap-reference")
       |> add_param(:body, :body, request_body)
+      |> finalize_request()
       |> Enum.into([])
 
     connection

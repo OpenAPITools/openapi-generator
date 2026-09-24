@@ -612,7 +612,7 @@ defmodule OpenapiPetstore.Api.Fake do
   @spec test_enum_parameters(Req.Request.t(), keyword()) :: {:ok, Req.Response.t()} | {:error, term()}
   def test_enum_parameters(connection, opts \\ []) do
     optional_params = %{
-      :enum_header_string_array => :headers,
+      :enum_header_string_array => :headers_form,
       :enum_header_string => :headers,
       :enum_query_string_array => :query,
       :enum_query_string => :query,

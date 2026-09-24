@@ -27,6 +27,7 @@ defmodule OpenapiPetstore.Api.Default do
       %{}
       |> method(:get)
       |> url("/foo")
+      |> finalize_request()
       |> Enum.into([])
 
     connection
