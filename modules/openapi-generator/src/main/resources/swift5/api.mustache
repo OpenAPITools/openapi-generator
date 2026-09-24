@@ -401,7 +401,7 @@ extension {{projectName}}API {
     {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> RequestBuilder<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{#-first}}var{{/-first}}{{/pathParams}} localVariablePath = "{{{path}}}"{{#pathParams}}
-        let {{paramName}}PreEscape = "\({{#isEnum}}{{paramName}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}}{{^isEnum}}APIHelper.mapValueToPathItem({{paramName}}){{/isEnum}})"
+        let {{paramName}}PreEscape = "\({{#isEnum}}{{paramName}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}}{{^isEnum}}APIHelper.mapValueToPathItem({{paramName}}.encodeToJSON()){{/isEnum}})"
         let {{paramName}}PostEscape = {{paramName}}PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}PostEscape, options: .literal, range: nil){{/pathParams}}
         let localVariableURLString = {{projectName}}API.basePath + localVariablePath
