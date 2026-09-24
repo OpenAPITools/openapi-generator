@@ -138,10 +138,10 @@ import {{packageName}}.infrastructure.*
     {{/isDeprecated}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : Future<ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>> {
         val localVariableClient = WebClient.create(this.vertx)
-        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("${this.basePath}{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", this.encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("${this.basePath}{{{path}}}"{{#pathParams}}.replace("{"+"{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"+"}", this.encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
 
         {{#hasFormParams}}localVariableRequest.putHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
-        {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { localVariableRequest.putHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
+        {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { localVariableRequest.putHeader("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
         {{^hasFormParams}}{{#hasConsumes}}
             {{#consumes}}
                     localVariableRequest.putHeader("Content-Type", "{{{mediaType}}}")
@@ -152,32 +152,32 @@ import {{packageName}}.infrastructure.*
         {{#hasFormParams}}
         val localVariableForm = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
         {{#formParams}}
-        {{{paramName}}}{{^required}}?{{/required}}.let { localVariableForm.add("{{{baseName}}}", {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}}) }
+        {{{paramName}}}{{^required}}?{{/required}}.let { localVariableForm.add("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}}) }
         {{/formParams}}
         {{/hasFormParams}}
 
         {{#hasQueryParams}}
         {{#queryParams}}
-        {{{paramName}}}{{^required}}?{{/required}}.let { localVariableRequest.queryParams().add("{{baseName}}", {{#isContainer}}toMultiValue(it.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}this.parseDateToQueryString<{{{dataType}}}>(it){{/isDateTime}}{{#isDate}}this.parseDateToQueryString<{{{dataType}}}>(it){{/isDate}}{{^isDateTime}}{{^isDate}}it.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}}) }
+        {{{paramName}}}{{^required}}?{{/required}}.let { localVariableRequest.queryParams().add("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue(it.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}this.parseDateToQueryString<{{{dataType}}}>(it){{/isDateTime}}{{#isDate}}this.parseDateToQueryString<{{{dataType}}}>(it){{/isDate}}{{^isDateTime}}{{^isDate}}it.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}}) }
         {{/queryParams}}
         {{/hasQueryParams}}
 
         {{#authMethods}}
         {{#isApiKey}}
-        if (this.apiKey["{{keyParamName}}"] != null) {
-            if (this.apiKeyPrefix["{{keyParamName}}"] != null) {
+        if (this.apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"] != null) {
+            if (this.apiKeyPrefix["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"] != null) {
                 {{#isKeyInHeader}}
-                localVariableRequest.putHeader("{{keyParamName}}", this.apiKeyPrefix["{{keyParamName}}"]!! + " " + this.apiKey["{{keyParamName}}"]!!)
+                localVariableRequest.putHeader("{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}", this.apiKeyPrefix["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!! + " " + this.apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!!)
                 {{/isKeyInHeader}}
                 {{#isKeyInQuery}}
-               localVariableRequest.queryParams().add("{{keyParamName}}", this.apiKeyPrefix["{{keyParamName}}"]!! + " " + this.apiKey["{{keyParamName}}"]!!)
+               localVariableRequest.queryParams().add("{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}", this.apiKeyPrefix["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!! + " " + this.apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!!)
                 {{/isKeyInQuery}}
             } else {
                 {{#isKeyInHeader}}
-                localVariableRequest.putHeader("{{keyParamName}}", this.apiKey["{{keyParamName}}"]!!)
+                localVariableRequest.putHeader("{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}", this.apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!!)
                 {{/isKeyInHeader}}
                 {{#isKeyInQuery}}
-                localVariableRequest.queryParams().add("{{keyParamName}}", this.apiKey["{{keyParamName}}"]!!)
+                localVariableRequest.queryParams().add("{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}", this.apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!!)
                 {{/isKeyInQuery}}
             }
         }

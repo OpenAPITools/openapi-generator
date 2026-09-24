@@ -139,7 +139,7 @@ import okhttp3.MediaType.Companion.toMediaType
             val auth: Interceptor? = when (authName) { {{#authMethods}}
                 {{#isBasicBasic}}"{{name}}" -> HttpBasicAuth()
                 {{/isBasicBasic}}{{#isBasicBearer}}"{{name}}" -> HttpBearerAuth("{{scheme}}")
-                {{/isBasicBearer}}{{#isApiKey}}"{{name}}" -> ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}")
+                {{/isBasicBearer}}{{#isApiKey}}"{{name}}" -> ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}")
                 {{/isApiKey}}{{#isOAuth}}"{{name}}" -> OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}")
                 {{/isOAuth}}{{^isBasicBasic}}{{^isBasicBearer}}{{^isApiKey}}{{^isOAuth}}"{{name}}" -> null{{/isOAuth}}{{/isApiKey}}{{/isBasicBearer}}{{/isBasicBasic}}{{/authMethods}}
                 else -> throw RuntimeException("auth name $authName not found in available auth names")

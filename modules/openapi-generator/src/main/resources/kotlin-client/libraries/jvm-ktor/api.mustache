@@ -76,19 +76,19 @@ import com.fasterxml.jackson.databind.ObjectMapper
                         {{^isArray}}
                         {{^isString}}
                         {{^isNumber}}
-                        {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                        {{{paramName}}}?.apply { append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.toString()) }
                         {{/isNumber}}
                         {{#isNumber}}
-                        {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                        {{{paramName}}}?.apply { append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.toString()) }
                         {{/isNumber}}
                         {{/isString}}
                         {{#isString}}
-                        {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                        {{{paramName}}}?.apply { append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}) }
                         {{/isString}}
                         {{/isArray}}
                         {{#isArray}}
                         for (x in {{paramName}} ?: listOf()) {
-                            {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{{baseName}}}", x.toString()){{/isFile}}
+                            {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", x.toString()){{/isFile}}
                         }
                         {{/isArray}}
                         {{/isFile}}
@@ -99,25 +99,25 @@ import com.fasterxml.jackson.databind.ObjectMapper
                         ParametersBuilder().also {
                     {{#formParams}}
                         {{#isFile}}
-                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}) }
+                        {{{paramName}}}?.apply { it.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}) }
                         {{/isFile}}
                         {{^isFile}}
                         {{^isArray}}
                         {{^isString}}
                         {{^isNumber}}
-                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                        {{{paramName}}}?.apply { it.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.toString()) }
                         {{/isNumber}}
                         {{#isNumber}}
-                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                        {{{paramName}}}?.apply { it.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.toString()) }
                         {{/isNumber}}
                         {{/isString}}
                         {{#isString}}
-                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}) }
+                        {{{paramName}}}?.apply { it.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}) }
                         {{/isString}}
                         {{/isArray}}
                         {{#isArray}}
                         for (x in {{paramName}} ?: listOf()) {
-                            append("{{{baseName}}}", x.toString())
+                            append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", x.toString())
                         }
                         {{/isArray}}
                         {{/isFile}}
@@ -135,48 +135,48 @@ import com.fasterxml.jackson.databind.ObjectMapper
             {{#isModel}}
             {{#isDeepObject}}
             {{#vars}}
-            {{{paramName}}}?.{{{name}}}?.let { localVariableQuery["{{vendorExtensions.x-kotlin-param-base-name}}[{{baseName}}]"] = listOf("$it") }
+            {{{paramName}}}?.{{{name}}}?.let { localVariableQuery["{{#lambda.escapeDollar}}{{vendorExtensions.x-kotlin-param-base-name}}{{/lambda.escapeDollar}}[{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}]"] = listOf("$it") }
             {{/vars}}
             {{/isDeepObject}}
             {{^isDeepObject}}
             {{#isExplode}}
             {{#vars}}
-            {{{paramName}}}?.{{{name}}}?.let { localVariableQuery["{{baseName}}"] = listOf("$it") }
+            {{{paramName}}}?.{{{name}}}?.let { localVariableQuery["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = listOf("$it") }
             {{/vars}}
             {{/isExplode}}
             {{^isExplode}}
-            {{{paramName}}}?.let { _model -> listOfNotNull({{#vars}}_model.{{{name}}}?.let { "{{baseName}},$it" }{{^-last}}, {{/-last}}{{/vars}}).takeIf { it.isNotEmpty() }?.let { localVariableQuery["{{baseName}}"] = listOf(it.joinToString(",")) } }
+            {{{paramName}}}?.let { _model -> listOfNotNull({{#vars}}_model.{{{name}}}?.let { "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}},$it" }{{^-last}}, {{/-last}}{{/vars}}).takeIf { it.isNotEmpty() }?.let { localVariableQuery["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = listOf(it.joinToString(",")) } }
             {{/isExplode}}
             {{/isDeepObject}}
             {{/isModel}}
             {{^isModel}}
             {{#isMap}}
             {{#isDeepObject}}
-            {{{paramName}}}?.forEach { (key, value) -> localVariableQuery["{{baseName}}[$key]"] = listOf("$value") }
+            {{{paramName}}}?.forEach { (key, value) -> localVariableQuery["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}[$key]"] = listOf("$value") }
             {{/isDeepObject}}
             {{^isDeepObject}}
             {{#isExplode}}
             {{{paramName}}}?.forEach { (key, value) -> localVariableQuery[key] = listOf("$value") }
             {{/isExplode}}
             {{^isExplode}}
-            {{{paramName}}}?.takeIf { it.isNotEmpty() }?.let { localVariableQuery["{{baseName}}"] = listOf(it.entries.joinToString(",") { (k, v) -> "$k,$v" }) }
+            {{{paramName}}}?.takeIf { it.isNotEmpty() }?.let { localVariableQuery["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = listOf(it.entries.joinToString(",") { (k, v) -> "$k,$v" }) }
             {{/isExplode}}
             {{/isDeepObject}}
             {{/isMap}}
             {{^isMap}}
-            {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{{paramName}}}"){{/isContainer}} }
+            {{{paramName}}}?.apply { localVariableQuery["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{{paramName}}}"){{/isContainer}} }
             {{/isMap}}
             {{/isModel}}
         {{/queryParams}}
 
             val localVariableHeaders = mutableMapOf<String, String>()
         {{#headerParams}}
-            {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
+            {{{paramName}}}?.apply { localVariableHeaders["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
         {{/headerParams}}
 
             val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.{{httpMethod}},
-            "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${{{paramName}}}"){{/pathParams}},
+            "{{{path}}}"{{#pathParams}}.replace("{" + "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}" + "}", "${{{paramName}}}"){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},

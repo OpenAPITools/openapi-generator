@@ -653,6 +653,49 @@ public class KotlinClientCodegenApiTest {
         return names;
     }
 
+    /**
+     * Wire names containing `$` (OData-style `$filter`/`$top`) must be emitted
+     * as escaped Kotlin string literals (`"\$filter"`), otherwise Kotlin
+     * string interpolation turns the wire key into the same-named parameter's
+     * value — or fails compilation when no such variable exists. Covers every
+     * kotlin-client library (jvm-okhttp already escaped; the rest did not).
+     */
+    @Test
+    void testKotlinLibrariesEscapeDollarInWireNames() throws IOException {
+        String spec = "src/test/resources/3_0/kotlin/kotlin-dollar-wire-name.yaml";
+        String[][] libraries = {
+                {"jvm-vertx", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson"},
+                {"jvm-volley", "src/main/java/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=gson"},
+                {"jvm-spring-restclient", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "useSpringBoot3=true", "serializationLibrary=jackson"},
+                {"jvm-spring-webclient", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "useSpringBoot3=true", "serializationLibrary=jackson"},
+                {"jvm-ktor", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson", "dateLibrary=java8"},
+                {"jvm-retrofit2", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson", "dateLibrary=java8"},
+                {"jvm-okhttp4", "src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt", "serializationLibrary=jackson", "dateLibrary=java8"},
+                {"multiplatform", "src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt", "dateLibrary=kotlinx-datetime"},
+        };
+        for (String[] lib : libraries) {
+            Path target = Files.createTempDirectory("kotlin-dollar-" + lib[0]);
+            try {
+                generate(lib[0], spec, target, Arrays.copyOfRange(lib, 2, lib.length));
+                Path apiFile = target.resolve(lib[1]);
+                Assert.assertTrue(Files.exists(apiFile), lib[0] + " must emit " + lib[1]);
+                String api = new String(Files.readAllBytes(apiFile), StandardCharsets.UTF_8);
+                Assert.assertTrue(api.contains("\\$filter"),
+                        lib[0] + ": wire name $filter must be escaped in the Kotlin literal");
+                Assert.assertTrue(api.contains("\\$top"),
+                        lib[0] + ": wire name $top must be escaped in the Kotlin literal");
+                // "$top" unescaped could only come from the wire key — no `top`
+                // variable exists in scope, so it cannot be a legitimate
+                // interpolation ("$filter" appears legitimately as the
+                // `filter` param's value-side interpolation)
+                Assert.assertFalse(api.contains("\"$top\""),
+                        lib[0] + ": bare \"$top\" means the wire key is unescaped");
+            } finally {
+                deleteRecursively(target);
+            }
+        }
+    }
+
     @Test
     void testNonOkhttpLibrariesSkipOpenApi32Operations() throws IOException {
         Path target = Files.createTempDirectory("kotlin32-skip");

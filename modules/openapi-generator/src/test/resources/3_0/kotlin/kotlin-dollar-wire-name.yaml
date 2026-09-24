@@ -1,0 +1,18 @@
+openapi: 3.0.3
+info: {title: Dollar, version: 1.0.0}
+paths:
+  /items:
+    get:
+      operationId: listItems
+      parameters:
+        - name: $filter
+          in: query
+          schema: {type: string}
+        - name: $top
+          in: query
+          schema: {type: integer}
+        - name: filter
+          in: query
+          schema: {type: string}
+      responses:
+        '200': {description: ok}
