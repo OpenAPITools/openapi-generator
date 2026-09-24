@@ -294,23 +294,25 @@ public class RustClientCodegenTest {
     }
 
     @Test
-    public void testFreeFormObjectQueryParam() throws IOException {
+    public void testFreeFormObjectParams() throws IOException {
         for (String library : List.of("reqwest", "hyper", "hyper0x", "reqwest-trait")) {
             Path target = Files.createTempDirectory("test");
             target.toFile().deleteOnExit();
             final CodegenConfigurator configurator = new CodegenConfigurator()
                     .setGeneratorName("rust")
                     .setLibrary(library)
-                    .setInputSpec("src/test/resources/3_0/rust/free-form-object-query-param.yaml")
+                    .setInputSpec("src/test/resources/3_0/rust/free-form-object-params.yaml")
                     .setSkipOverwrite(false)
                     .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
             List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
             files.forEach(File::deleteOnExit);
             Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
             TestUtils.assertFileExists(outputPath);
-            // A free-form object query parameter maps to `serde_json::Value`, which lives
+            // A free-form object query, path or header parameter maps to `serde_json::Value`, which lives
             // outside of the `models` module.
             TestUtils.assertFileContains(outputPath, "filter: Option<serde_json::Value>");
+            TestUtils.assertFileContains(outputPath, "selector: serde_json::Value");
+            TestUtils.assertFileContains(outputPath, "x_filter: Option<serde_json::Value>");
             TestUtils.assertFileNotContains(outputPath, "models::serde_json");
             // A free-form object with additionalProperties stays a map.
             TestUtils.assertFileContains(outputPath, "tags: Option<std::collections::HashMap<String, String>>");

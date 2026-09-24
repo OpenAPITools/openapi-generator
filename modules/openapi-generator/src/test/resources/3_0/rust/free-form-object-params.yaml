@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Free-form object query parameter
+  title: Free-form object parameters
   version: 1.0.0
 paths:
   /things:
@@ -34,3 +34,21 @@ paths:
                 type: array
                 items:
                   type: string
+  /things/{selector}:
+    get:
+      operationId: getThing
+      parameters:
+        - name: selector
+          in: path
+          required: true
+          description: A free-form object path parameter.
+          schema:
+            type: object
+        - name: X-Filter
+          in: header
+          description: A free-form object header parameter.
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
