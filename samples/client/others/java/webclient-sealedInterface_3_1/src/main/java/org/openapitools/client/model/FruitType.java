@@ -49,7 +49,7 @@ public enum FruitType {
   @JsonCreator
   public static FruitType fromValue(String value) {
     for (FruitType b : FruitType.values()) {
-      if (b.value.equals(value)) {
+      if (b.value.equals) {
         return b;
       }
     }

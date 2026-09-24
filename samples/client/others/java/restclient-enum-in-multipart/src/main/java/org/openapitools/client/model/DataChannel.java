@@ -54,7 +54,7 @@ public enum DataChannel {
   @JsonCreator
   public static DataChannel fromValue(String value) {
     for (DataChannel b : DataChannel.values()) {
-      if (b.value.equals(value)) {
+      if (b.value.equals) {
         return b;
       }
     }

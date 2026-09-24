@@ -51,7 +51,7 @@
 {{/jackson}}
     public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
       for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
-        if ({{#isString}}{{#useEnumCaseInsensitive}}b.value{{#dataFormat}}.toString(){{/dataFormat}}.equalsIgnoreCase({{#dataFormat}}value == null ? null : value.toString(){{/dataFormat}}{{^dataFormat}}value{{/dataFormat}}){{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}b.value.equals(value){{/useEnumCaseInsensitive}}{{/isString}}{{^isString}}b.value.equals(value){{/isString}}) {
+        if ({{#isString}}{{#useEnumCaseInsensitive}}b.value{{#dataFormat}}.toString(){{/dataFormat}}.equalsIgnoreCase({{#dataFormat}}value == null ? null : value.toString(){{/dataFormat}}{{^dataFormat}}value{{/dataFormat}}){{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}b.value.equals(value){{/useEnumCaseInsensitive}}{{/isString}}{{^isString}}{{#isNumber}}{{#isFreeFormObject}}b.value.equals(value){{/isFreeFormObject}}{{^isFreeFormObject}}value != null && b.value.compareTo(value) == 0{{/isFreeFormObject}}{{/isNumber}}{{^isNumber}}b.value.equals(value){{/isNumber}}{{/isString}}) {
           return b;
         }
       }
