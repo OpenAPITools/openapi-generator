@@ -110,6 +110,10 @@ public class RustServerCodegenTest {
         TestUtils.assertFileContains(exampleClientMain, "Disabled because there's no example.");
         TestUtils.assertFileContains(exampleClientMain, "Some(\"QueryExampleGet\")");
 
+        Path clientModPath = Path.of(target.toString(), "/src/client/mod.rs");
+        TestUtils.assertFileExists(clientModPath);
+        TestUtils.assertFileContains(clientModPath, "&param_uuid.to_string()");
+
         // Clean up
         target.toFile().deleteOnExit();
     }

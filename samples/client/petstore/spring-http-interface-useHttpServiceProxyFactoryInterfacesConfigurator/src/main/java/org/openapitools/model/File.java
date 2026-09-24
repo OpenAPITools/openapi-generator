@@ -17,7 +17,7 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * Must be named &#x60;File&#x60; for test.
+ * Must be named `File` for test.
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")

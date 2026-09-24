@@ -67,7 +67,8 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUser(
-        @Parameter(name = "UserDto", description = "Created user object", required = true) @Valid @RequestBody UserDto userDto,
+        
+@Parameter(name = "UserDto", description = "Created user object", required = true) @Valid @RequestBody UserDto userDto,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -98,7 +99,8 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithArrayInput(
-        @Parameter(name = "UserDto", description = "List of user object", required = true) @RequestBody List<@Valid UserDto> userDto,
+        
+@Parameter(name = "UserDto", description = "List of user object", required = true) @RequestBody List<@Valid UserDto> userDto,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -129,7 +131,8 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithListInput(
-        @Parameter(name = "UserDto", description = "List of user object", required = true) @RequestBody List<@Valid UserDto> userDto,
+        
+@Parameter(name = "UserDto", description = "List of user object", required = true) @RequestBody List<@Valid UserDto> userDto,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -161,7 +164,8 @@ public interface UserApi {
         value = UserApi.PATH_DELETE_USER
     )
     default ResponseEntity<Void> deleteUser(
-        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        
+@Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -199,7 +203,8 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<UserDto> getUserByName(
-        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        
+@Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {
@@ -250,8 +255,10 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<String> loginUser(
-        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password,
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username
+,
+        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
+,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -313,8 +320,10 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> updateUser(
-        @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
-        @Parameter(name = "UserDto", description = "Updated user object", required = true) @Valid @RequestBody UserDto userDto,
+        
+@Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        
+@Parameter(name = "UserDto", description = "Updated user object", required = true) @Valid @RequestBody UserDto userDto,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

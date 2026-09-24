@@ -72,7 +72,7 @@ public interface DefaultApi {
      * update with form data
      *
      * @param date A date path parameter (required)
-     * @param visitDate Updated last visit timestamp (optional, default to 1971-12-19T03:39:57-08:00)
+     * @param visitDate Updated last visit timestamp (optional, OpenAPI schema default to 1971-12-19T03:39:57-08:00)
      * @return Invalid input (status code 405)
      */
     @Operation(

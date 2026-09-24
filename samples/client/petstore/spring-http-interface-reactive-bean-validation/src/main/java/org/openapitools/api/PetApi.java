@@ -47,7 +47,8 @@ public interface PetApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> addPet(
-         @Valid @RequestBody Mono<Pet> pet
+        
+ @Valid @RequestBody Mono<Pet> pet
     );
 
 
@@ -67,8 +68,10 @@ public interface PetApi {
         accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> deletePet(
-         @PathVariable("petId") Long petId,
-         @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
+        
+ @PathVariable("petId") Long petId,
+        
+ @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     );
 
 
@@ -88,6 +91,7 @@ public interface PetApi {
     )
     Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(
         @NotNull  @RequestParam(value = "status", required = true) List<String> status
+
     );
 
 
@@ -109,6 +113,7 @@ public interface PetApi {
     )
     Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
         @NotNull  @RequestParam(value = "tags", required = true) Set<String> tags
+
     );
 
 
@@ -128,7 +133,8 @@ public interface PetApi {
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<Pet>> getPetById(
-         @PathVariable("petId") Long petId
+        
+ @PathVariable("petId") Long petId
     );
 
 
@@ -150,7 +156,8 @@ public interface PetApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> updatePet(
-         @Valid @RequestBody Mono<Pet> pet
+        
+ @Valid @RequestBody Mono<Pet> pet
     );
 
 
@@ -171,9 +178,12 @@ public interface PetApi {
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> updatePetWithForm(
-         @PathVariable("petId") Long petId,
-         @Valid @RequestPart(value = "name", required = false) String name,
-         @Valid @RequestPart(value = "status", required = false) String status
+        
+ @PathVariable("petId") Long petId,
+        
+ @Valid @RequestPart(value = "name", required = false) String name,
+        
+ @Valid @RequestPart(value = "status", required = false) String status
     );
 
 
@@ -194,9 +204,12 @@ public interface PetApi {
         contentType = "multipart/form-data"
     )
     Mono<ResponseEntity<ModelApiResponse>> uploadFile(
-         @PathVariable("petId") Long petId,
-         @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
-         @RequestPart(value = "file", required = false) Part file
+        
+ @PathVariable("petId") Long petId,
+        
+ @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
+        
+ @RequestPart(value = "file", required = false) Part file
     );
 
 }

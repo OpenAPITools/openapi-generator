@@ -1,7 +1,7 @@
-  @JsonProperty("{{baseName}}")
+  @JsonProperty({{#lambda.javaStringLiteral}}{{{baseName}}}{{/lambda.javaStringLiteral}})
 {{#withXml}}
-  @JacksonXmlProperty(localName = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#isXmlAttribute}}, isAttribute = true{{/isXmlAttribute}}{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+  @JacksonXmlProperty(localName = {{#lambda.javaStringLiteral}}{{#items.xmlName}}{{{items.xmlName}}}{{/items.xmlName}}{{^items.xmlName}}{{#xmlName}}{{{xmlName}}}{{/xmlName}}{{^xmlName}}{{{baseName}}}{{/xmlName}}{{/items.xmlName}}{{/lambda.javaStringLiteral}}{{#isXmlAttribute}}, isAttribute = true{{/isXmlAttribute}}{{#xmlNamespace}}, namespace = {{#lambda.javaStringLiteral}}{{{.}}}{{/lambda.javaStringLiteral}}{{/xmlNamespace}})
   {{#isContainer}}
-  @JacksonXmlElementWrapper({{#isXmlWrapped}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}", {{#xmlNamespace}}namespace = "{{.}}", {{/xmlNamespace}}{{/isXmlWrapped}}useWrapping = {{isXmlWrapped}})
+  @JacksonXmlElementWrapper({{#isXmlWrapped}}localName = {{#lambda.javaStringLiteral}}{{#xmlName}}{{{xmlName}}}{{/xmlName}}{{^xmlName}}{{{baseName}}}{{/xmlName}}{{/lambda.javaStringLiteral}}, {{#xmlNamespace}}namespace = {{#lambda.javaStringLiteral}}{{{.}}}{{/lambda.javaStringLiteral}}, {{/xmlNamespace}}{{/isXmlWrapped}}useWrapping = {{isXmlWrapped}})
   {{/isContainer}}
 {{/withXml}}

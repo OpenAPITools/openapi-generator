@@ -66,7 +66,8 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default Mono<ResponseEntity<Void>> createUser(
-        @Parameter(name = "User", description = "Created user object", required = true) @Valid @RequestBody Mono<User> user,
+        
+@Parameter(name = "User", description = "Created user object", required = true) @Valid @RequestBody Mono<User> user,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().createUser(user, exchange);
@@ -96,7 +97,8 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default Mono<ResponseEntity<Void>> createUsersWithArrayInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
+        
+@Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().createUsersWithArrayInput(user, exchange);
@@ -126,7 +128,8 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default Mono<ResponseEntity<Void>> createUsersWithListInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
+        
+@Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().createUsersWithListInput(user, exchange);
@@ -157,7 +160,8 @@ public interface UserApi {
         value = UserApi.PATH_DELETE_USER
     )
     default Mono<ResponseEntity<Void>> deleteUser(
-        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        
+@Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().deleteUser(username, exchange);
@@ -194,7 +198,8 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<User>> getUserByName(
-        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        
+@Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().getUserByName(username, exchange);
@@ -230,8 +235,10 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<String>> loginUser(
-        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password,
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username
+,
+        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
+,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().loginUser(username, password, exchange);
@@ -291,8 +298,10 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default Mono<ResponseEntity<Void>> updateUser(
-        @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
-        @Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody Mono<User> user,
+        
+@Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        
+@Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody Mono<User> user,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().updateUser(username, user, exchange);

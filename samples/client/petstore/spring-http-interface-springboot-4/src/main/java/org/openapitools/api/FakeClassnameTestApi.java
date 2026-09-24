@@ -39,7 +39,8 @@ public interface FakeClassnameTestApi {
         contentType = "application/json"
     )
     ResponseEntity<ClientDto> testClassname(
-         @Valid @RequestBody ClientDto clientDto
+        
+ @Valid @RequestBody ClientDto clientDto
     );
 
 }

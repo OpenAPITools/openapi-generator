@@ -17,7 +17,7 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * Model for testing model with \&quot;_class\&quot; property
+ * Model for testing model with &quot;_class&quot; property
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")

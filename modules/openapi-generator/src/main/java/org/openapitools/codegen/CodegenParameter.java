@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.models.examples.Example;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +36,10 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
             isFormStyle, isSpaceDelimited, isPipeDelimited;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat, contentType,
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumDefaultValue, enumName, style;
+    /** Typed snapshot of the schema default captured before language conversion. */
+    public JsonNode rawDefaultValue;
+    public String rawDefaultValueText;
+    public boolean hasDefaultValue;
 
     public String nameInLowerCase; // property name in lower case
     public String nameInCamelCase; // property name in camel case (e.g.  modifiedDate)
@@ -182,6 +187,9 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.multipleOf = this.multipleOf;
         output.jsonSchema = this.jsonSchema;
         output.defaultValue = this.defaultValue;
+        output.rawDefaultValue = this.rawDefaultValue;
+        output.rawDefaultValueText = this.rawDefaultValueText;
+        output.hasDefaultValue = this.hasDefaultValue;
         output.enumDefaultValue = this.enumDefaultValue;
         output.example = this.example;
         output.examples = this.examples;
@@ -290,7 +298,8 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isBodyParam, isContainer, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName,
                 paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description,
                 unescapedDescription, baseType, containerType, containerTypeMapped, defaultValue,
-                enumDefaultValue, enumName, style, isDeepObject, isMatrix, isAllowEmptyValue, example, examples,
+                rawDefaultValue, rawDefaultValueText, hasDefaultValue, enumDefaultValue, enumName, style,
+                isDeepObject, isMatrix, isAllowEmptyValue, example, examples,
                 isFormStyle, isSpaceDelimited, isPipeDelimited,
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
                 isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
@@ -382,6 +391,9 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 Objects.equals(containerType, that.containerType) &&
                 Objects.equals(containerTypeMapped, that.containerTypeMapped) &&
                 Objects.equals(defaultValue, that.defaultValue) &&
+                Objects.equals(rawDefaultValue, that.rawDefaultValue) &&
+                Objects.equals(rawDefaultValueText, that.rawDefaultValueText) &&
+                hasDefaultValue == that.hasDefaultValue &&
                 Objects.equals(enumDefaultValue, that.enumDefaultValue) &&
                 Objects.equals(enumName, that.enumName) &&
                 Objects.equals(style, that.style) &&
@@ -1151,4 +1163,3 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         this.isEnum = isEnum;
     }
 }
-

@@ -1,10 +1,10 @@
 /**
- * {{{description}}}
+ * {{#lambda.kotlinDocText}}{{{unescapedDescription}}}{{/lambda.kotlinDocText}}
 {{#requiredVars}}
- * @param {{name}} {{{description}}}
+ * @param {{name}} {{#lambda.kotlinDocText}}{{{unescapedDescription}}}{{/lambda.kotlinDocText}}
 {{/requiredVars}}
 {{#optionalVars}}
- * @param {{name}} {{{description}}}
+ * @param {{name}} {{#lambda.kotlinDocText}}{{{unescapedDescription}}}{{/lambda.kotlinDocText}}
 {{/optionalVars}}
  */{{#discriminator}}
 {{>typeInfoAnnotation}}{{/discriminator}}
@@ -45,12 +45,12 @@
 {{/discriminator}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}
     /**
-    * {{{description}}}
+    * {{#lambda.kotlinDocText}}{{{unescapedDescription}}}{{/lambda.kotlinDocText}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
     enum class {{{nameInPascalCase}}}(@get:JsonValue {{#useEnumValueInterface}}{{^isContainer}}override {{/isContainer}}{{/useEnumValueInterface}}val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {{#vendorExtensions.x-kotlin-implements}}{{#-first}}: {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}} {{/vendorExtensions.x-kotlin-implements}}{
 {{#allowableValues}}{{#enumVars}}
-        {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}};
+        {{{name}}}({{#isString}}{{#lambda.kotlinStringLiteral}}{{{valueRaw}}}{{/lambda.kotlinStringLiteral}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}};
 
         companion object {
             @JvmStatic

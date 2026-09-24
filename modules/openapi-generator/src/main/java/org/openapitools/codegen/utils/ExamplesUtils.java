@@ -120,8 +120,11 @@ public class ExamplesUtils {
                 }
 
                 exampleRepr.put("exampleName", exampleName);
-                exampleRepr.put("exampleValue", new ObjectMapper().writeValueAsString(exampleValue)
-                        .replace("\"", "\\\""));
+                String serializedExampleValue = new ObjectMapper().writeValueAsString(exampleValue);
+                // Retain the legacy escaped representation for existing templates while
+                // exposing raw JSON for generators that serialize a source literal.
+                exampleRepr.put("exampleValue", serializedExampleValue.replace("\"", "\\\""));
+                exampleRepr.put("exampleValueRaw", serializedExampleValue);
 
                 result.add(exampleRepr);
             } catch (JsonProcessingException e) {

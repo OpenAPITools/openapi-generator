@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -25,6 +26,7 @@ import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -46,6 +48,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.SourceStringEscaper;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
@@ -227,6 +230,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     // Holds scan results for Spring Pageable features (populated during preprocessOpenAPI)
     private final SpringPageableScanUtils pageableUtils = new SpringPageableScanUtils();
+    // Preserves all operation tags for generated annotations without mutating the parsed OpenAPI model.
+    private final Map<Operation, List<Map<String, String>>> operationTagValues = new IdentityHashMap<>();
 
     public SpringCodegen() {
         super();
@@ -883,7 +888,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
-
         additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
@@ -899,6 +903,15 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (useJspecify) {
             applyJspecify();
         }
+
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("javaStringLiteral", (fragment, writer) -> writer.write(SourceStringEscaper.javaStringLiteral(fragment.execute())))
+                .put("javaStringContent", (fragment, writer) -> writer.write(SourceStringEscaper.javaStringContent(fragment.execute())))
+                .put("javaDocText", (fragment, writer) -> writer.write(SourceStringEscaper.docText(fragment.execute())));
     }
 
     protected void applyJackson2Package() {
@@ -981,6 +994,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        operationTagValues.clear();
         super.preprocessOpenAPI(openAPI);
 
         if (SPRING_BOOT.equals(library) && ModelUtils.containsEnums(this.openAPI)) {
@@ -1074,16 +1088,21 @@ public class SpringCodegen extends AbstractJavaCodegen
                     for (final Operation operation : path.readOperations()) {
                         if (operation.getTags() != null) {
                             final List<Map<String, String>> tags = new ArrayList<>();
+                            final List<Map<String, String>> publicTags = new ArrayList<>();
                             for (final String tag : operation.getTags()) {
                                 final Map<String, String> value = new HashMap<>();
-                                value.put("tag", escapeText(tag));
+                                String escapedTag = escapeText(tag);
+                                value.put("tag", escapedTag);
+                                value.put("tagRaw", tag);
                                 tags.add(value);
+                                publicTags.add(Collections.singletonMap("tag", escapedTag));
                             }
                             if (!operation.getTags().isEmpty()) {
                                 final String tag = operation.getTags().get(0);
                                 operation.setTags(Collections.singletonList(tag));
                             }
-                            operation.addExtension("x-tags", tags);
+                            operation.addExtension("x-tags", publicTags);
+                            operationTagValues.put(operation, tags);
                         }
                     }
                 }
@@ -1160,8 +1179,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             final Tag firstTag = firstOperation.tags.get(0);
             final String firstTagName = firstTag.getName();
             // But use a sensible tag name if there is none
-            objs.put("tagName", escapeText("default".equals(firstTagName) ? firstOperation.baseName : firstTagName));
+            String effectiveTagName = "default".equals(firstTagName) ? firstOperation.baseName : firstTagName;
+            objs.put("tagName", escapeText(effectiveTagName));
+            objs.put("tagNameRaw", effectiveTagName);
             objs.put("tagDescription", escapeText(firstTag.getDescription()));
+            objs.put("tagDescriptionRaw", firstTag.getDescription());
+            objs.put("hasTagDescription", firstTag.getDescription() != null);
 
             // Add clientRegistrationId for spring-http-interface with OAuth
             if (SPRING_HTTP_INTERFACE.equals(library) && clientRegistrationId != null && !clientRegistrationId.isEmpty()) {
@@ -1172,6 +1195,34 @@ public class SpringCodegen extends AbstractJavaCodegen
         removeImport(objs, "java.util.List");
 
         return objs;
+    }
+
+    @Override
+    public String toDefaultValue(CodegenProperty property, Schema schema) {
+        String value = super.toDefaultValue(property, schema);
+        Schema resolved = ModelUtils.getReferencedSchema(openAPI, schema);
+        if (resolved != null && ModelUtils.isStringSchema(resolved)
+                && !ModelUtils.isURISchema(resolved)
+                && !ModelUtils.isDateSchema(resolved)
+                && !ModelUtils.isDateTimeSchema(resolved)
+                && !ModelUtils.isTimeLocalSchema(resolved)
+                && !ModelUtils.isDateTimeLocalSchema(resolved)
+                && (resolved.getEnum() == null || resolved.getEnum().isEmpty())
+                && resolved.getDefault() instanceof String) {
+            return SourceStringEscaper.javaStringLiteral((String) resolved.getDefault());
+        }
+        return value;
+    }
+
+    @Override
+    public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
+        CodegenParameter parameter = super.fromFormProperty(name, propertySchema, imports);
+        if (parameter.hasDefaultValue) {
+            parameter.vendorExtensions.put("x-spring-form-default-not-applied", true);
+            LOGGER.warn("OpenAPI default for form parameter '{}' is not applied when the field is omitted; "
+                    + "the generated Spring binding does not apply it.", parameter.baseName);
+        }
+        return parameter;
     }
 
     /**
@@ -1501,6 +1552,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         ProvideArgsParams provideArgsParams = reformatProvideArgsParams(operation);
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+        List<Map<String, String>> tags = operationTagValues.get(operation);
+        if (tags != null) {
+            codegenOperation.vendorExtensions.put("x-tags", tags);
+        }
         if (!provideArgsParams.names.isEmpty()) {
             codegenOperation.vendorExtensions.put("springProvideArgsNames", provideArgsParams.names);
         }

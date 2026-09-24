@@ -71,7 +71,7 @@ import {
 
 export interface FakeHttpSignatureTestRequest {
     /**
-     * 
+     * Pet object that needs to be added to the store
      */
     pet: Pet;
     /**
@@ -86,49 +86,49 @@ export interface FakeHttpSignatureTestRequest {
 
 export interface FakeOuterBooleanSerializeRequest {
     /**
-     * 
+     * Input boolean as post body
      */
     body?: boolean;
 }
 
 export interface FakeOuterCompositeSerializeRequest {
     /**
-     * 
+     * Input composite as post body
      */
     outerComposite?: OuterComposite;
 }
 
 export interface FakeOuterNumberSerializeRequest {
     /**
-     * 
+     * Input number as post body
      */
     body?: number;
 }
 
 export interface FakeOuterStringSerializeRequest {
     /**
-     * 
+     * Input string as post body
      */
     body?: string;
 }
 
 export interface FakePropertyEnumIntegerSerializeRequest {
     /**
-     * 
+     * Input enum (int) as post body
      */
     outerObjectWithEnumProperty: OuterObjectWithEnumProperty;
 }
 
 export interface TestAdditionalPropertiesReferenceRequest {
     /**
-     * 
+     * request body
      */
     requestBody: { [key: string]: any; };
 }
 
 export interface TestBodyWithBinaryRequest {
     /**
-     * 
+     * image to upload
      */
     body: Blob | null;
 }
@@ -153,7 +153,7 @@ export interface TestBodyWithQueryParamsRequest {
 
 export interface TestClientModelRequest {
     /**
-     * 
+     * client model
      */
     client: Client;
 }
@@ -285,14 +285,14 @@ export interface TestGroupParametersRequest {
 
 export interface TestInlineAdditionalPropertiesRequest {
     /**
-     * 
+     * request body
      */
     requestBody: { [key: string]: string; };
 }
 
 export interface TestInlineFreeformAdditionalPropertiesOperationRequest {
     /**
-     * 
+     * request body
      */
     testInlineFreeformAdditionalPropertiesRequest: TestInlineFreeformAdditionalPropertiesRequest;
 }
@@ -310,7 +310,7 @@ export interface TestJsonFormDataRequest {
 
 export interface TestNullableRequest {
     /**
-     * 
+     * request body
      */
     childWithNullable: ChildWithNullable;
 }
@@ -348,7 +348,7 @@ export interface TestQueryParameterCollectionFormatRequest {
 
 export interface TestStringMapReferenceRequest {
     /**
-     * 
+     * request body
      */
     requestBody: { [key: string]: string; };
 }

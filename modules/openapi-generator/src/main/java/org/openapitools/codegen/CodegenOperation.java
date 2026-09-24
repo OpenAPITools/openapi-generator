@@ -32,8 +32,8 @@ public class CodegenOperation {
             isDeprecated, isCallbackRequest, uniqueItems,
             hasErrorResponseObject; // if 4xx, 5xx responses have at least one error object defined
     public CodegenProperty returnProperty;
-    public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
+    public String path, unescapedPath, operationId, returnType, returnFormat, httpMethod, returnBaseType,
+            returnContainer, summary, unescapedSummary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public List<CodegenServer> servers = new ArrayList<CodegenServer>();
