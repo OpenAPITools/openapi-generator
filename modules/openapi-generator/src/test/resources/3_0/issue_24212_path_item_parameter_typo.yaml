@@ -1,0 +1,17 @@
+openapi: 3.0.3
+info:
+  title: issue 24212 false-positive regression test
+  version: '1.0'
+paths:
+  /tasks/{id}:
+    parameters:
+      - name: id
+        in: path
+        requried: true
+        schema:
+          type: string
+    get:
+      operationId: getTask
+      responses:
+        '200':
+          description: OK

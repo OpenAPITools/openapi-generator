@@ -16,12 +16,16 @@
 
 package org.openapitools.codegen.config;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.SpecValidationException;
 import org.openapitools.codegen.testutils.ConfigAssert;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -29,7 +33,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 public class CodegenConfiguratorTest {
     private void want(ConfigAssert configAssert, String key, Object expected) {
@@ -132,5 +141,108 @@ public class CodegenConfiguratorTest {
                 .toContext();
 
         Assertions.assertNotNull(context.getSpecDocument().getPaths().get("/hello").getGet().getResponses().get("200").getContent());
+    }
+
+    // https://github.com/OpenAPITools/openapi-generator/issues/24212
+    @Test
+    public void shouldWarnAboutDroppedUnrecognizedPathItemOperation() {
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        logger.addAppender(listAppender);
+
+        try {
+            @SuppressWarnings("unchecked") Context<OpenAPI> context = (Context<OpenAPI>) new CodegenConfigurator()
+                    .setInputSpec("src/test/resources/3_0/issue_24212_unknown_path_item_member.yaml")
+                    .setGeneratorName("java")
+                    .setValidateSpec(false)
+                    .toContext();
+
+            // generation still proceeds: the recognized 'get' operation is present
+            Assertions.assertNotNull(context.getSpecDocument().getPaths().get("/tasks").getGet());
+
+            List<ILoggingEvent> missingWarnLogs = listAppender.list.stream()
+                    .filter(e -> e.getLevel() == ch.qos.logback.classic.Level.WARN)
+                    .filter(e -> e.getFormattedMessage().contains("'query' at path '/tasks'"))
+                    .filter(e -> e.getFormattedMessage().contains("MISSING"))
+                    .collect(Collectors.toList());
+            assertFalse(missingWarnLogs.isEmpty(),
+                    "A WARN log naming the dropped 'query' operation at path '/tasks' as MISSING must be emitted");
+        } finally {
+            logger.detachAppender(listAppender);
+        }
+    }
+
+    // https://github.com/OpenAPITools/openapi-generator/issues/24212
+    @Test
+    public void shouldNotFalsePositiveOnNestedPathItemMemberTypo() {
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        logger.addAppender(listAppender);
+
+        try {
+            @SuppressWarnings("unchecked") Context<OpenAPI> context = (Context<OpenAPI>) new CodegenConfigurator()
+                    .setInputSpec("src/test/resources/3_0/issue_24212_path_item_parameter_typo.yaml")
+                    .setGeneratorName("java")
+                    .setValidateSpec(false)
+                    .toContext();
+
+            // generation still proceeds despite the typo'd nested attribute
+            Assertions.assertNotNull(context.getSpecDocument().getPaths().get("/tasks/{id}").getGet());
+
+            // a typo inside a path-level parameter/server object is not itself a dropped operation
+            List<ILoggingEvent> missingWarnLogs = listAppender.list.stream()
+                    .filter(e -> e.getLevel() == ch.qos.logback.classic.Level.WARN)
+                    .filter(e -> e.getFormattedMessage().contains("MISSING"))
+                    .collect(Collectors.toList());
+            assertTrue(missingWarnLogs.isEmpty(),
+                    "A nested parameter/server typo must not be reported as a dropped path-item operation");
+        } finally {
+            logger.detachAppender(listAppender);
+        }
+    }
+
+    // https://github.com/OpenAPITools/openapi-generator/issues/24212
+    @Test
+    public void shouldFailWithClearMessageAndNoMisleadingWarningWhenSpecificationIsNull() {
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        logger.addAppender(listAppender);
+
+        try {
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setInputSpec("src/test/resources/3_0/issue_24212_unsupported_version.yaml")
+                    .setGeneratorName("java")
+                    .setValidateSpec(false);
+
+            RuntimeException ex = Assertions.assertThrows(RuntimeException.class, configurator::toContext);
+            assertFalse(ex instanceof SpecValidationException, "expected a plain RuntimeException, not SpecValidationException");
+            assertTrue(ex.getMessage().startsWith("Unable to parse an OpenAPI document"), ex.getMessage());
+
+            // nothing will be generated at all, so no operation should be reported as merely "MISSING"
+            List<ILoggingEvent> missingWarnLogs = listAppender.list.stream()
+                    .filter(e -> e.getFormattedMessage().contains("MISSING"))
+                    .collect(Collectors.toList());
+            assertTrue(missingWarnLogs.isEmpty(),
+                    "Must not claim specific operations are 'MISSING' when generation cannot proceed at all");
+        } finally {
+            logger.detachAppender(listAppender);
+        }
+    }
+
+    // https://github.com/OpenAPITools/openapi-generator/issues/24212
+    @Test
+    public void shouldStillThrowSpecValidationExceptionByDefaultForUnknownPathItemOperation() {
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setInputSpec("src/test/resources/3_0/issue_24212_unknown_path_item_member.yaml")
+                .setGeneratorName("java");
+        // default validateSpec=true is unchanged by this fix: it still fails fast with the
+        // existing, structured SpecValidationException rather than the new generic message.
+        Assertions.assertThrows(SpecValidationException.class, configurator::toContext);
     }
 }
