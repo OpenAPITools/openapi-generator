@@ -56,6 +56,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateBuilders|Whether to generate builders for models| |false|
 |generateClientAsBean|For resttemplate, restclient and webclient, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).| |false|
 |generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
+|generateInsecureTlsHook|Generate the ApiClient.disableCertificateValidation hook, which trusts all TLS certificates (default to true). Set to false to omit it, e.g. when static analysis flags the trust-all TrustManager it contains. Available on `jersey2`, `jersey3` libraries.| |true|
 |gradleProperties|Append additional Gradle properties to the gradle.properties file| |null|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
@@ -74,6 +75,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |microprofileRestClientVersion|Version of MicroProfile Rest Client API.| |null|
 |modelPackage|package for generated models| |org.openapitools.client.model|
 |openApiNullable|Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.| |true|
+|optionalGettersForNullableFieldsOnly|Make getters of non-required fields return Optional&lt;T&gt; while keeping the field and setter as the raw type. Supported libraries: restclient, resttemplate, webclient (java generator) and spring (spring generator). Opt-in, disabled by default.| |false|
 |parcelableModel|Whether to generate models for Android that implement Parcelable with the okhttp-gson library.| |false|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
