@@ -51,7 +51,7 @@ public enum FruitType implements Serializable {
   @JsonCreator
   public static FruitType fromValue(String value) {
     for (FruitType b : FruitType.values()) {
-      if (b.value.equals) {
+      if (b.value.equals(value)) {
         return b;
       }
     }

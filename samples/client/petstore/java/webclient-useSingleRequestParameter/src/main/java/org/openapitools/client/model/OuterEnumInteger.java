@@ -51,7 +51,7 @@ public enum OuterEnumInteger {
   @JsonCreator
   public static OuterEnumInteger fromValue(Integer value) {
     for (OuterEnumInteger b : OuterEnumInteger.values()) {
-      if (b.value.equals(value)) {
+      if ((value)|| b.value.equals(value)) {
         return b;
       }
     }

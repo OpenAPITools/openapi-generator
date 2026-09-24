@@ -54,7 +54,7 @@ public enum StringEnumRef {
   @JsonCreator
   public static StringEnumRef fromValue(String value) {
     for (StringEnumRef b : StringEnumRef.values()) {
-      if (b.value.equals) {
+      if (b.value.equals(value)) {
         return b;
       }
     }

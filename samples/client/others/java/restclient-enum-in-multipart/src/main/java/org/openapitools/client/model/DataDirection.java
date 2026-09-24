@@ -50,7 +50,7 @@ public enum DataDirection {
   @JsonCreator
   public static DataDirection fromValue(String value) {
     for (DataDirection b : DataDirection.values()) {
-      if (b.value.equals) {
+      if (b.value.equals(value)) {
         return b;
       }
     }
