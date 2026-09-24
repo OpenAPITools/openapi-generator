@@ -55,7 +55,7 @@ public enum OuterEnumIntegerDefaultValue {
   @JsonCreator
   public static OuterEnumIntegerDefaultValue fromValue(Integer value) {
     for (OuterEnumIntegerDefaultValue b : OuterEnumIntegerDefaultValue.values()) {
-      if ((value)|| b.value.equals(value)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }
