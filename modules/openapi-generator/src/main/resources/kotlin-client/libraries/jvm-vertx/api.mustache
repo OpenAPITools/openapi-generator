@@ -150,9 +150,9 @@ import {{packageName}}.infrastructure.*
         {{#hasProduces}}localVariableRequest.putHeader("Accept", "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"){{/hasProduces}}
 
         {{#hasFormParams}}
-        val localVariableForm = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
+        {{#isMultipart}}val localVariableForm = io.vertx.ext.web.multipart.MultipartForm.create(){{/isMultipart}}{{^isMultipart}}val localVariableForm = io.vertx.core.MultiMap.caseInsensitiveMultiMap(){{/isMultipart}}
         {{#formParams}}
-        {{{paramName}}}{{^required}}?{{/required}}.let { localVariableForm.add("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}}) }
+        {{{paramName}}}{{^required}}?{{/required}}.let { localVariableForm.{{#isMultipart}}attribute{{/isMultipart}}{{^isMultipart}}add{{/isMultipart}}("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}}) }
         {{/formParams}}
         {{/hasFormParams}}
 
@@ -208,7 +208,12 @@ import {{packageName}}.infrastructure.*
             .sendBuffer(this.responseBody({{#bodyParams}}{{{paramName}}}{{/bodyParams}}))
             {{/hasBodyParam}}
             {{^hasBodyParam}}
+            {{#hasFormParams}}
+            {{#isMultipart}}.sendMultipartForm(localVariableForm){{/isMultipart}}{{^isMultipart}}.sendForm(localVariableForm){{/isMultipart}}
+            {{/hasFormParams}}
+            {{^hasFormParams}}
             .send()
+            {{/hasFormParams}}
             {{/hasBodyParam}}
             .map {
                 val localVariableApiResponse: ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}> = this.handleResponse(it)

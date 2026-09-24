@@ -883,6 +883,80 @@ public class KotlinClientCodegenApiTest {
         }
     }
 
+    /**
+     * Issue #17 wire check: jvm-vertx filled a `localVariableForm` MultiMap but
+     * never attached it to the request — form fields were silently dropped.
+     * Compiles the generated vertx client with kotlinc and captures the raw
+     * HTTP request, asserting the urlencoded form body reaches the wire.
+     * Skipped when kotlinc or the copied vertx deps are unavailable.
+     */
+    @Test
+    void testJvmVertxGeneratedClientSendsFormFields() throws IOException, InterruptedException {
+        Path kotlinc = requireKotlinc();
+        List<String> jars = vertxCaptureDepJars(kotlinc);
+
+        Path target = Files.createTempDirectory("kotlin-vertx-form");
+        try {
+            generate("jvm-vertx", "src/test/resources/3_0/kotlin/kotlin-form-it-param.yaml",
+                    target, "serializationLibrary=jackson");
+            List<String> sources = Files.walk(target.resolve("src/main/kotlin"))
+                    .filter(p -> p.toString().endsWith(".kt"))
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+            Path capture = target.resolve("Capture.kt");
+            Files.copy(Path.of("src/test/resources/3_0/kotlin-vertx-capture/Capture.kt"), capture);
+            sources.add(capture.toString());
+
+            String classPath = String.join(File.pathSeparator, jars);
+            Path classesDir = target.resolve("classes");
+            List<String> compile = new ArrayList<>(List.of(
+                    kotlinc.toString(), "-cp", classPath, "-d", classesDir.toString(), "-jvm-target", "17"));
+            compile.addAll(sources);
+            runProcess(target, "kotlinc.log", 300, compile.toArray(new String[0]));
+
+            String javaBin = Path.of(System.getProperty("java.home"), "bin", "java").toString();
+            String output = runProcess(target, "run.log", 120,
+                    javaBin, "-cp", classesDir + File.pathSeparator + classPath, "CaptureKt");
+            Assert.assertTrue(output.contains("CAPTURE-PASS"),
+                    "generated vertx client did not send the form fields:\n" + output);
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * vertx jars are not part of the build's dependency graph, so they are
+     * located directly in the local repository (~/.m2) — matching the
+     * environment note in issue #17. Skips when absent.
+     */
+    private static List<String> vertxCaptureDepJars(Path kotlinc) throws IOException {
+        Path m2 = Path.of(System.getProperty("user.home"), ".m2", "repository");
+        List<String> jars = new ArrayList<>();
+        for (String group : new String[]{"io/vertx", "io/netty", "com/fasterxml/jackson",
+                "org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm"}) {
+            Path dir = m2.resolve(group);
+            if (!Files.isDirectory(dir)) {
+                continue;
+            }
+            try (var stream = Files.walk(dir)) {
+                stream.filter(p -> p.toString().endsWith(".jar"))
+                        .filter(p -> !p.getFileName().toString().contains("sources"))
+                        .filter(p -> !p.getFileName().toString().contains("javadoc"))
+                        .forEach(p -> jars.add(p.toAbsolutePath().toString()));
+            }
+        }
+        if (jars.size() < 15 || jars.stream().noneMatch(j -> j.contains("vertx-web-client"))) {
+            throw new org.testng.SkipException("vertx jars not found in " + m2 + ", found " + jars.size());
+        }
+        Path kotlincLib = kotlinc.getParent().getParent().resolve("lib");
+        Path stdlib = kotlincLib.resolve("kotlin-stdlib.jar");
+        if (!Files.exists(stdlib)) {
+            throw new org.testng.SkipException("kotlinc lib dir lacks kotlin-stdlib.jar: " + kotlincLib);
+        }
+        jars.add(stdlib.toAbsolutePath().toString());
+        return jars;
+    }
+
     private static Path requireKotlinc() throws IOException {
         Path kotlinc = findOnPath("kotlinc");
         if (kotlinc == null) {
