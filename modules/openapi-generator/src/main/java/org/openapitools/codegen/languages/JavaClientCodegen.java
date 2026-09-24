@@ -1217,6 +1217,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             codegenModel.imports.add("Nullable");
         }
 
+        if(codegenModel.oneOf!= null && !codegenModel.oneOf.isEmpty() && codegenModel.discriminator!=null) {
+            codegenModel.oneOf = null;
+        }
         return codegenModel;
     }
 
