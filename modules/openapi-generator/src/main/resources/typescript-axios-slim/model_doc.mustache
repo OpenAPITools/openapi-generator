@@ -1,0 +1,34 @@
+{{#models}}{{#model}}# {{classname}}
+
+{{#description}}{{&description}}
+{{/description}}
+
+{{^isEnum}}
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+{{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
+{{/vars}}
+
+## Example
+
+```typescript
+import { {{classname}} } from '{{#npmName}}{{.}}{{/npmName}}{{^npmName}}./api{{/npmName}}';
+
+const instance: {{classname}} = {
+{{#vars}}
+    {{name}},
+{{/vars}}
+};
+```
+
+{{/isEnum}}
+{{#isEnum}}
+## Enum
+{{#allowableValues}}{{#enumVars}}
+* `{{name}}` (value: `{{{value}}}`)
+{{/enumVars}}{{/allowableValues}}
+{{/isEnum}}
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+{{/model}}{{/models}}
