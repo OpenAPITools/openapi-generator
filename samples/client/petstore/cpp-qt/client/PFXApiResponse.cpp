@@ -71,13 +71,13 @@ QString PFXApiResponse::asJson() const {
 
 QJsonObject PFXApiResponse::asJsonObject() const {
     QJsonObject obj;
-    if (m_code_isSet) {
+    if (true && m_code_isSet) {
         obj.insert(QString("code"), ::test_namespace::toJsonValue(m_code));
     }
-    if (m_type_isSet) {
+    if (true && m_type_isSet) {
         obj.insert(QString("type"), ::test_namespace::toJsonValue(m_type));
     }
-    if (m_message_isSet) {
+    if (true && m_message_isSet) {
         obj.insert(QString("message"), ::test_namespace::toJsonValue(m_message));
     }
     return obj;
