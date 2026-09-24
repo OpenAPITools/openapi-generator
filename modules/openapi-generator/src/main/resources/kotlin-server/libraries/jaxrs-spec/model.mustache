@@ -9,6 +9,6 @@ import {{javaxPackage}}.validation.Valid
 {{/useBeanValidation}}
 {{#models}}
 {{#model}}
-{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{>oneof_model}}{{/oneOf}}{{^oneOf}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{>data_class}}{{/isAlias}}{{/oneOf}}{{/isEnum}}
+{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#vendorExtensions.x-is-one-of-interface}}{{>oneof_interface}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{#oneOf}}{{>oneof_model}}{{/oneOf}}{{^oneOf}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{>data_class}}{{/isAlias}}{{/oneOf}}{{/vendorExtensions.x-is-one-of-interface}}{{/isEnum}}
 {{/model}}
 {{/models}}
