@@ -1157,6 +1157,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                             .filter(isSerializable)
                             .collect(Collectors.toList());
                     operation.hasProduces = operation.produces != null && !operation.produces.isEmpty();
+
+                    // form style with explode puts a map-typed query parameter on the wire as one parameter
+                    // per entry; api.mustache adds those after the declared query parameters
+                    for (CodegenParameter param : operation.queryParams) {
+                        if (param.isMap && param.isExplode && !param.isDeepObject) {
+                            param.vendorExtensions.put("x-kotlin-explode-form-object", true);
+                        }
+                    }
                 }
 
                 // set multipart against all relevant operations

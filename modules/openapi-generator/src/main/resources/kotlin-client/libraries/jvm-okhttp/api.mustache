@@ -209,6 +209,7 @@ import {{packageName}}.infrastructure.Serializer
 {{/hasQueryParams}}{{#hasQueryParams}}mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 {{#queryParams}}
+                {{^vendorExtensions.x-kotlin-explode-form-object}}
                 {{^required}}
                 if ({{{paramName}}} != null) {
                     {{#isModel}}
@@ -251,6 +252,23 @@ import {{packageName}}.infrastructure.Serializer
                 {{/isModel}}
                 {{/isNullable}}
                 {{/required}}
+                {{/vendorExtensions.x-kotlin-explode-form-object}}
+                {{/queryParams}}
+                {{#queryParams}}
+                {{#vendorExtensions.x-kotlin-explode-form-object}}
+                // form style, explode: one query parameter per entry, keyed by the property name, appended after the declared ones; null is left out, a collection repeats the key
+                ({{{paramName}}} as? kotlin.collections.Map<*, *>)?.forEach { (key, value) ->
+                    val values = when (value) {
+                        is kotlin.collections.Iterable<*> -> value.toList()
+                        is kotlin.Array<*> -> value.toList()
+                        else -> listOf(value)
+                    }.filterNotNull().map { parameterToString(it) }
+                    if (key != null && values.isNotEmpty()) {
+                        val name = key.toString()
+                        put(name, getOrElse(name) { emptyList() } + values)
+                    }
+                }
+                {{/vendorExtensions.x-kotlin-explode-form-object}}
                 {{/queryParams}}
             }
             {{/hasQueryParams}}
