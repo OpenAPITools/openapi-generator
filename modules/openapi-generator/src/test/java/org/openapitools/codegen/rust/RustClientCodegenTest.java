@@ -320,6 +320,31 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testExplodedDeepObjectMapQueryParams() throws IOException {
+        // exploded deepObject maps (typed or free-form) go through parse_deep_object like the non-explode branch
+        for (String library : new String[] {"reqwest", "reqwest-trait"}) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary(library)
+                    .setInputSpec("src/test/resources/3_0/rust/deep-object-free-form-query-param.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            files.forEach(File::deleteOnExit);
+            Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
+            TestUtils.assertFileExists(outputPath);
+            // optional typed map, optional free-form object, required-nullable typed map
+            TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"filter\"");
+            TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"extra\"");
+            TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"scope\"");
+            TestUtils.assertFileNotContains(outputPath, "param_value.len()");
+            TestUtils.assertFileNotContains(outputPath, "param_value.iter()");
+        }
+    }
+
+    @Test
     public void testArrayWithObjectEnumValues() throws IOException {
         Path target = Files.createTempDirectory("test");
         target.toFile().deleteOnExit();
