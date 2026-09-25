@@ -1,8 +1,8 @@
-# {{npmName}}@{{npmVersion}}
+# @
 
-{{{appDescription}}}
+Operations covering each shape of the resource methods generated with withHttpResource.
 
-{{#version}}The version of the OpenAPI document: {{{.}}}{{/version}}
+The version of the OpenAPI document: 1.0.0
 
 ## Building
 
@@ -24,7 +24,7 @@ Navigate to the folder of your consuming project and run one of next commands.
 _published:_
 
 ```console
-npm install {{npmName}}@{{npmVersion}} --save
+npm install @ --save
 ```
 
 _without publishing (not recommended):_
@@ -46,7 +46,7 @@ npm link
 In your project:
 
 ```console
-npm link {{npmName}}
+npm link 
 ```
 
 __Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
@@ -61,7 +61,7 @@ In your Angular project:
 
 import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideApi } from '{{npmName}}';
+import { provideApi } from '';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -75,7 +75,7 @@ export const appConfig: ApplicationConfig = {
 **NOTE**
 If you're still using `AppModule` and haven't [migrated](https://angular.dev/reference/migrations/standalone) yet, you can still import an Angular module:
 ```typescript
-import { {{apiModuleClassName}} } from '{{npmName}}';
+import { ApiModule } from '';
 ```
 
 If different from the generated base path, during app bootstrap, you can provide the base path to your service.
@@ -83,7 +83,7 @@ If different from the generated base path, during app bootstrap, you can provide
 ```typescript
 import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideApi } from '{{npmName}}';
+import { provideApi } from '';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -98,7 +98,7 @@ export const appConfig: ApplicationConfig = {
 // with a custom configuration
 import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideApi } from '{{npmName}}';
+import { provideApi } from '';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -117,15 +117,15 @@ export const appConfig: ApplicationConfig = {
 // with factory building a custom configuration
 import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideApi, {{configurationClassName}} } from '{{npmName}}';
+import { provideApi, Configuration } from '';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         // ...
         provideHttpClient(),
         {
-            provide: {{configurationClassName}},
-            useFactory: (authService: AuthService) => new {{configurationClassName}}({
+            provide: Configuration,
+            useFactory: (authService: AuthService) => new Configuration({
                     basePath: 'http://localhost:9999',
                     withCredentials: true,
                     username: authService.getUsername(),
@@ -160,7 +160,6 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-{{#withHttpResource}}
 ### Signal-based resources
 
 Every `GET` operation without a request body also has a `...Resource` method, next to its Observable method,
@@ -170,7 +169,7 @@ generation time, when its name would collide with another operation:
 
 ```typescript
 import { Component, computed, inject, input } from '@angular/core';
-import { PetService } from '{{npmName}}';
+import { PetService } from '';
 
 @Component({
     selector: 'app-pet',
@@ -193,7 +192,7 @@ export class PetComponent {
 - Call the method in an injection context (a field initializer or a constructor), or pass an `injector` in the options.
   The resource belongs to that injector: it is destroyed with it, and it sends its request through the `HttpClient`
   of that injector, so the interceptors of the caller apply.
-- The credentials of the `{{configurationClassName}}` are read each time the request is built, so a credential
+- The credentials of the `Configuration` are read each time the request is built, so a credential
   function that reads a signal sends a new request when the signal changes. Other credential changes need `reload()`.
 - `transferCache` defaults to `true`, as for the Observable methods. Angular's transfer cache skips requests with an
   `Authorization` header unless `includeRequestsWithAuthHeaders` is set in `withHttpTransferCacheOptions`.
@@ -203,7 +202,6 @@ export class PetComponent {
 The `withHttpResource` option requires Angular 20 or later. `httpResource` is stable since Angular 22 and
 experimental in Angular 20 and 21.
 
-{{/withHttpResource}}
 ### Customizing path parameter encoding
 
 Without further customization, only [path-parameters][parameter-locations-url] of [style][style-values-url] 'simple'
@@ -227,13 +225,3 @@ new Configuration({
 [parameter-locations-url]: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#parameter-locations
 [style-values-url]: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values
 [@honoluluhenk/http-param-expander]: https://www.npmjs.com/package/@honoluluhenk/http-param-expander
-
-## Deep-object query parameters
-
-For `style: deepObject`, nested objects are serialized using bracket notation, for example
-`filter[name][contains]=Alice`. Arrays and sets use zero-based indices, for example
-`filter[sort][0][field]=name`. Dates are serialized as ISO strings; null and undefined
-values and empty containers are omitted.
-
-OpenAPI only specifies deepObject serialization for flat objects. This recursive
-encoding is a generator extension and requires a server that accepts bracket notation.

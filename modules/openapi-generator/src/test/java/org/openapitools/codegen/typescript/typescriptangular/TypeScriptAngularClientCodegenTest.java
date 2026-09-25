@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -525,5 +526,137 @@ public class TypeScriptAngularClientCodegenTest {
         final String fileContents = Files.readString(Paths.get(output + "/api/default.service.ts"));
         String credentialsSet = "localVarHeaders = this.configuration.addCredentialToHeaders('oidc', 'Authorization', localVarHeaders, 'Bearer ');";
         assertThat(fileContents).contains(credentialsSet);
+    }
+
+    private static final String HTTP_RESOURCE_SPEC = "src/test/resources/3_0/typescript-angular/http-resource.yaml";
+
+    private File generateAngular(String specPath, Map<String, Object> properties) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return output;
+    }
+
+    @Test
+    public void testHttpResourceIsOffByDefault() throws IOException {
+        File output = generateAngular(HTTP_RESOURCE_SPEC, new HashMap<>());
+
+        TestUtils.assertFileNotContains(Paths.get(output + "/api/pet.service.ts"),
+                "HttpResourceRef", "httpResource<", "httpResource.", "Resource(", "RequestParams");
+        TestUtils.assertFileNotContains(Paths.get(output + "/index.ts"), "http.resource.options");
+        TestUtils.assertFileNotExists(Paths.get(output + "/http.resource.options.ts"));
+    }
+
+    @Test
+    public void testHttpResourceOnlyForGetOperationsWithoutBody() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptAngularClientCodegen.WITH_HTTP_RESOURCE, "true");
+        File output = generateAngular(HTTP_RESOURCE_SPEC, properties);
+
+        Path petService = Paths.get(output + "/api/pet.service.ts");
+        TestUtils.assertFileContains(petService,
+                "import { HttpResourceRef, HttpResourceRequest, httpResource } from '@angular/common/http';",
+                "import { ApiHttpResourceOptions } from '../http.resource.options';",
+                "export interface GetPetByIdRequestParams {",
+                "public getPetByIdResource(params: () => GetPetByIdRequestParams | undefined, options?: ApiHttpResourceOptions<Pet>): HttpResourceRef<Pet | undefined>;",
+                "public getPetByIdResource(params: () => GetPetByIdRequestParams | undefined, options: ApiHttpResourceOptions<Pet> & { defaultValue: Pet }): HttpResourceRef<Pet>;",
+                // every parameter optional: the params function may be left out
+                "public listPetsResource(params?: () => ListPetsRequestParams | undefined, options?: ApiHttpResourceOptions<Array<Pet>>): HttpResourceRef<Array<Pet> | undefined>;",
+                // a missing required parameter keeps the resource idle instead of throwing
+                "if (petId === null || petId === undefined) { return undefined; }",
+                "params: localVarQueryParameters.toHttpParams(),",
+                "transferCache: localVarTransferCache ?? true,");
+        // the Observable methods are unchanged, and writes and a GET with a body get no resource
+        TestUtils.assertFileContains(petService,
+                "public addPet(pet: Pet, observe?: 'body'",
+                "public searchPets(pet?: Pet, observe?: 'body'");
+        TestUtils.assertFileNotContains(petService,
+                "addPetResource", "deletePetResource", "searchPetsResource",
+                "export interface AddPetRequestParams", "export interface SearchPetsRequestParams");
+
+        // an operation without parameters takes only the options
+        TestUtils.assertFileContains(Paths.get(output + "/api/store.service.ts"),
+                "public getInventoryResource(options?: ApiHttpResourceOptions<{ [key: string]: number; }>)",
+                "localVarQueryParameters = this.configuration.addCredentialToQuery('api_key_query', 'api_key', localVarQueryParameters);");
+
+        TestUtils.assertFileContains(Paths.get(output + "/http.resource.options.ts"),
+                "export interface ApiHttpResourceOptions<T> {");
+        TestUtils.assertFileContains(Paths.get(output + "/index.ts"),
+                "export * from './http.resource.options';");
+    }
+
+    @Test
+    public void testHttpResourceFactoryFollowsTheAcceptHeader() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptAngularClientCodegen.WITH_HTTP_RESOURCE, true);
+        File output = generateAngular(HTTP_RESOURCE_SPEC, properties);
+
+        Path petService = Paths.get(output + "/api/pet.service.ts");
+        TestUtils.assertFileContains(petService,
+                // application/xml and application/json: the JSON type wins, as in Configuration.selectHeaderAccept
+                "return httpResource<Array<Pet>>(",
+                "localVarHeaders = localVarHeaders.set('Accept', 'application/json');",
+                "return httpResource<Pet>(",
+                // text/plain only
+                "return httpResource.text<string>(",
+                "localVarHeaders = localVarHeaders.set('Accept', 'text/plain');",
+                // binary
+                "return httpResource.blob<Blob>(",
+                "localVarHeaders = localVarHeaders.set('Accept', 'application/octet-stream');");
+    }
+
+    @Test
+    public void testHttpResourceRequiresAngular20() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.NG_VERSION, "19.2.0");
+        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.WITH_HTTP_RESOURCE, "true");
+        IllegalArgumentException error = Assert.expectThrows(IllegalArgumentException.class, codegen::processOpts);
+        assertThat(error.getMessage()).contains("withHttpResource requires Angular v20+");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.NG_VERSION, "20.0.0");
+        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.WITH_HTTP_RESOURCE, "true");
+        codegen.processOpts();
+        assertThat(codegen.additionalProperties()).containsEntry(TypeScriptAngularClientCodegen.WITH_HTTP_RESOURCE, true);
+
+        // without the option, older versions are not affected
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.NG_VERSION, "19.2.0");
+        codegen.processOpts();
+        assertThat(codegen.additionalProperties()).containsEntry(TypeScriptAngularClientCodegen.WITH_HTTP_RESOURCE, false);
+    }
+
+    @Test
+    public void testHttpResourceSkipsAnOperationWhoseNameIsTaken() throws IOException {
+        Path spec = Files.createTempFile("http-resource-collision", ".yaml");
+        spec.toFile().deleteOnExit();
+        Files.writeString(spec, String.join("\n",
+                "openapi: 3.0.1",
+                "info: {title: collision, version: 1.0.0}",
+                "paths:",
+                "  /pet:",
+                "    get:",
+                "      operationId: getPet",
+                "      responses: {'200': {description: ok, content: {application/json: {schema: {type: string}}}}}",
+                "  /pet-resource:",
+                "    get:",
+                "      operationId: getPetResource",
+                "      responses: {'200': {description: ok, content: {application/json: {schema: {type: string}}}}}",
+                ""));
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptAngularClientCodegen.WITH_HTTP_RESOURCE, "true");
+        File output = generateAngular(spec.toString(), properties);
+
+        Path service = Paths.get(output + "/api/default.service.ts");
+        TestUtils.assertFileContains(service, "public getPetResourceResource(options?: ApiHttpResourceOptions<string>)");
+        TestUtils.assertFileNotContains(service, "public getPetResource(options?: ApiHttpResourceOptions<string>)");
     }
 }
