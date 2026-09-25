@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="varLock">varLock (required).</param>
         /// <param name="varAbstract">varAbstract (required).</param>
         /// <param name="varUnsafe">varUnsafe.</param>
-        public Return(int varReturn = default, string varLock = default, string varAbstract = default, string varUnsafe = default)
+        public Return(int? varReturn = default, string varLock = default, string varAbstract = default, string varUnsafe = default)
         {
             // to ensure "varLock" is required (not null)
             if (varLock == null)
@@ -61,9 +61,9 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("varAbstract is a required property for Return and cannot be null");
             }
             this._Abstract = varAbstract;
-            this._VarReturn = varReturn;
-            if (this.VarReturn != null)
+            if (varReturn != null)
             {
+                this._VarReturn = varReturn.Value;
                 this._flagVarReturn = true;
             }
             this._Unsafe = varUnsafe;
