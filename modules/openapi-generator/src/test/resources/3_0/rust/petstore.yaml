@@ -763,6 +763,39 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ModelWithInlineEnum'
+
+  '/tests/deep-object-free-form-query-param':
+    get:
+      tags:
+        - testing
+      parameters:
+        - name: filter
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: extra
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+        - name: scope
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            nullable: true
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: ok
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

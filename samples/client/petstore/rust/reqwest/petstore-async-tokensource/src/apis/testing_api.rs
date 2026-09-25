@@ -20,6 +20,14 @@ pub struct TestsAllOfWithOneModelGetParams {
     pub person: models::Person
 }
 
+/// struct for passing parameters to the method [`tests_deep_object_free_form_query_param_get`]
+#[derive(Clone, Debug)]
+pub struct TestsDeepObjectFreeFormQueryParamGetParams {
+    pub scope: Option<std::collections::HashMap<String, String>>,
+    pub filter: Option<std::collections::HashMap<String, String>>,
+    pub extra: Option<models::serde_json::Value>
+}
+
 /// struct for passing parameters to the method [`tests_inline_enum_boxing_get`]
 #[derive(Clone, Debug)]
 pub struct TestsInlineEnumBoxingGetParams {
@@ -39,6 +47,14 @@ pub struct TestsInlineEnumBoxingPostParams {
 #[serde(untagged)]
 pub enum TestsAllOfWithOneModelGetSuccess {
     Status200(String),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method [`tests_deep_object_free_form_query_param_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsDeepObjectFreeFormQueryParamGetSuccess {
+    Status200(),
     UnknownValue(serde_json::Value),
 }
 
@@ -78,6 +94,13 @@ pub enum TestsTypeTestingGetSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsAllOfWithOneModelGetError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`tests_deep_object_free_form_query_param_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsDeepObjectFreeFormQueryParamGetError {
     UnknownValue(serde_json::Value),
 }
 
@@ -132,6 +155,46 @@ pub async fn tests_all_of_with_one_model_get(configuration: &configuration::Conf
     } else {
         let content = resp.text().await?;
         let entity: Option<TestsAllOfWithOneModelGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+pub async fn tests_deep_object_free_form_query_param_get(configuration: &configuration::Configuration, params: TestsDeepObjectFreeFormQueryParamGetParams) -> Result<ResponseContent<TestsDeepObjectFreeFormQueryParamGetSuccess>, Error<TestsDeepObjectFreeFormQueryParamGetError>> {
+
+    let uri_str = format!("{}/tests/deep-object-free-form-query-param", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref param_value) = params.filter {
+        let params = crate::apis::parse_deep_object("filter", &serde_json::to_value(param_value)?);
+        req_builder = req_builder.query(&params);
+    }
+    if let Some(ref param_value) = params.extra {
+        let params = crate::apis::parse_deep_object("extra", &serde_json::to_value(param_value)?);
+        req_builder = req_builder.query(&params);
+    }
+    if let Some(ref param_value) = params.scope {
+        let params = crate::apis::parse_deep_object("scope", &serde_json::to_value(param_value)?);
+        req_builder = req_builder.query(&params);
+    };
+    if let Some(ref param_value) = params.scope {
+        req_builder = req_builder.query(&[("scope", &serde_json::to_string(param_value)?)]);
+    };
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        let entity: Option<TestsDeepObjectFreeFormQueryParamGetSuccess> = serde_json::from_str(&content).ok();
+        Ok(ResponseContent { status, content, entity })
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<TestsDeepObjectFreeFormQueryParamGetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

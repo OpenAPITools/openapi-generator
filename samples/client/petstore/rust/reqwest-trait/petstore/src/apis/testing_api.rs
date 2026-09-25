@@ -28,6 +28,11 @@ pub trait TestingApi: Send + Sync {
     /// 
     async fn tests_all_of_with_one_model_get<'person>(&self, person: models::Person) -> Result<String, Error<TestsAllOfWithOneModelGetError>>;
 
+    /// GET /tests/deep-object-free-form-query-param
+    ///
+    /// 
+    async fn tests_deep_object_free_form_query_param_get<'scope, 'filter, 'extra>(&self, scope: Option<std::collections::HashMap<String, String>>, filter: Option<std::collections::HashMap<String, String>>, extra: Option<models::serde_json::Value>) -> Result<(), Error<TestsDeepObjectFreeFormQueryParamGetError>>;
+
     /// GET /tests/fileResponse
     ///
     /// 
@@ -96,6 +101,45 @@ impl TestingApi for TestingApiClient {
             }
         } else {
             let local_var_entity: Option<TestsAllOfWithOneModelGetError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
+    async fn tests_deep_object_free_form_query_param_get<'scope, 'filter, 'extra>(&self, scope: Option<std::collections::HashMap<String, String>>, filter: Option<std::collections::HashMap<String, String>>, extra: Option<models::serde_json::Value>) -> Result<(), Error<TestsDeepObjectFreeFormQueryParamGetError>> {
+        let local_var_configuration = &self.configuration;
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!("{}/tests/deep-object-free-form-query-param", local_var_configuration.base_path);
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+        if let Some(ref param_value) = filter {
+            let params = crate::apis::parse_deep_object("filter", &serde_json::to_value(param_value)?);
+            local_var_req_builder = local_var_req_builder.query(&params);
+        }
+        if let Some(ref param_value) = extra {
+            let params = crate::apis::parse_deep_object("extra", &serde_json::to_value(param_value)?);
+            local_var_req_builder = local_var_req_builder.query(&params);
+        }
+        if let Some(ref param_value) = scope {
+            let params = crate::apis::parse_deep_object("scope", &serde_json::to_value(param_value)?);
+            local_var_req_builder = local_var_req_builder.query(&params);
+        }
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            Ok(())
+        } else {
+            let local_var_entity: Option<TestsDeepObjectFreeFormQueryParamGetError> = serde_json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -261,6 +305,13 @@ impl TestingApi for TestingApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsAllOfWithOneModelGetError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`TestingApi::tests_deep_object_free_form_query_param_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsDeepObjectFreeFormQueryParamGetError {
     UnknownValue(serde_json::Value),
 }
 

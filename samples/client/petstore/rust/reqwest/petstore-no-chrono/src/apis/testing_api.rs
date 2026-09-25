@@ -22,6 +22,13 @@ pub enum TestsAllOfWithOneModelGetError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`tests_deep_object_free_form_query_param_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsDeepObjectFreeFormQueryParamGetError {
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`tests_file_response_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -84,6 +91,48 @@ pub fn tests_all_of_with_one_model_get(configuration: &configuration::Configurat
     } else {
         let content = resp.text()?;
         let entity: Option<TestsAllOfWithOneModelGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+pub fn tests_deep_object_free_form_query_param_get(configuration: &configuration::Configuration, scope: Option<std::collections::HashMap<String, String>>, filter: Option<std::collections::HashMap<String, String>>, extra: Option<models::serde_json::Value>) -> Result<(), Error<TestsDeepObjectFreeFormQueryParamGetError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_query_scope = scope;
+    let p_query_filter = filter;
+    let p_query_extra = extra;
+
+    let uri_str = format!("{}/tests/deep-object-free-form-query-param", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref param_value) = p_query_filter {
+        let params = crate::apis::parse_deep_object("filter", &serde_json::to_value(param_value)?);
+        req_builder = req_builder.query(&params);
+    }
+    if let Some(ref param_value) = p_query_extra {
+        let params = crate::apis::parse_deep_object("extra", &serde_json::to_value(param_value)?);
+        req_builder = req_builder.query(&params);
+    }
+    if let Some(ref param_value) = p_query_scope {
+        let params = crate::apis::parse_deep_object("scope", &serde_json::to_value(param_value)?);
+        req_builder = req_builder.query(&params);
+    };
+    if let Some(ref param_value) = p_query_scope {
+        req_builder = req_builder.query(&[("scope", &serde_json::to_string(param_value)?)]);
+    };
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req)?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        Ok(())
+    } else {
+        let content = resp.text()?;
+        let entity: Option<TestsDeepObjectFreeFormQueryParamGetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

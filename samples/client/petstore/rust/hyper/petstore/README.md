@@ -42,6 +42,7 @@ Class | Method | HTTP request | Description
 *StoreApi* | [**get_order_by_id**](docs/StoreApi.md#get_order_by_id) | **Get** /store/order/{orderId} | Find purchase order by ID
 *StoreApi* | [**place_order**](docs/StoreApi.md#place_order) | **Post** /store/order | Place an order for a pet
 *TestingApi* | [**tests_all_of_with_one_model_get**](docs/TestingApi.md#tests_all_of_with_one_model_get) | **Get** /tests/allOfWithOneModel | Test for allOf with a single option. (One of the issues in #20500)
+*TestingApi* | [**tests_deep_object_free_form_query_param_get**](docs/TestingApi.md#tests_deep_object_free_form_query_param_get) | **Get** /tests/deep-object-free-form-query-param | 
 *TestingApi* | [**tests_file_response_get**](docs/TestingApi.md#tests_file_response_get) | **Get** /tests/fileResponse | Returns an image file
 *TestingApi* | [**tests_inline_enum_boxing_get**](docs/TestingApi.md#tests_inline_enum_boxing_get) | **Get** /tests/inlineEnumBoxing | Get model with inline enums
 *TestingApi* | [**tests_inline_enum_boxing_post**](docs/TestingApi.md#tests_inline_enum_boxing_post) | **Post** /tests/inlineEnumBoxing | Test for inline enum fields not being boxed in model constructors

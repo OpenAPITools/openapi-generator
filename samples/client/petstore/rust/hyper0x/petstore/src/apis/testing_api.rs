@@ -37,6 +37,7 @@ impl<C: hyper::client::connect::Connect> TestingApiClient<C>
 
 pub trait TestingApi {
     fn tests_all_of_with_one_model_get(&self, person: models::Person) -> Pin<Box<dyn Future<Output = Result<String, Error>>>>;
+    fn tests_deep_object_free_form_query_param_get(&self, scope: Option<std::collections::HashMap<String, String>>, filter: Option<std::collections::HashMap<String, String>>, extra: Option<models::serde_json::Value>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
     fn tests_file_response_get(&self, ) -> Pin<Box<dyn Future<Output = Result<std::path::PathBuf, Error>>>>;
     fn tests_inline_enum_boxing_get(&self, status: Option<&str>) -> Pin<Box<dyn Future<Output = Result<Vec<models::ModelWithInlineEnum>, Error>>>>;
     fn tests_inline_enum_boxing_post(&self, model_with_inline_enum: models::ModelWithInlineEnum) -> Pin<Box<dyn Future<Output = Result<models::ModelWithInlineEnum, Error>>>>;
@@ -50,6 +51,33 @@ impl<C: hyper::client::connect::Connect>TestingApi for TestingApiClient<C>
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/tests/allOfWithOneModel".to_string())
         ;
         req = req.with_body_param(person);
+
+        req.execute(self.configuration.borrow())
+    }
+
+    #[allow(unused_mut)]
+    fn tests_deep_object_free_form_query_param_get(&self, scope: Option<std::collections::HashMap<String, String>>, filter: Option<std::collections::HashMap<String, String>>, extra: Option<models::serde_json::Value>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
+        let mut req = __internal_request::Request::new(hyper::Method::GET, "/tests/deep-object-free-form-query-param".to_string())
+        ;
+        if let Some(ref s) = filter {
+            let query_value = match serde_json::to_string(s) {
+                Ok(value) => value,
+                Err(e) => return Box::pin(futures::future::err(Error::Serde(e))),
+            };
+            req = req.with_query_param("filter".to_string(), query_value);
+        }
+        if let Some(ref s) = extra {
+            let query_value = match serde_json::to_string(s) {
+                Ok(value) => value,
+                Err(e) => return Box::pin(futures::future::err(Error::Serde(e))),
+            };
+            req = req.with_query_param("extra".to_string(), query_value);
+        }
+        match scope {
+            Some(param_value) => { req = req.with_query_param("scope".to_string(), param_value.to_string()); },
+            None => { req = req.with_query_param("scope".to_string(), "".to_string()); },
+        }
+        req = req.returns_nothing();
 
         req.execute(self.configuration.borrow())
     }

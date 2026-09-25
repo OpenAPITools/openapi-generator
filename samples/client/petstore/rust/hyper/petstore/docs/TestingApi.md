@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**tests_all_of_with_one_model_get**](TestingApi.md#tests_all_of_with_one_model_get) | **Get** /tests/allOfWithOneModel | Test for allOf with a single option. (One of the issues in #20500)
+[**tests_deep_object_free_form_query_param_get**](TestingApi.md#tests_deep_object_free_form_query_param_get) | **Get** /tests/deep-object-free-form-query-param | 
 [**tests_file_response_get**](TestingApi.md#tests_file_response_get) | **Get** /tests/fileResponse | Returns an image file
 [**tests_inline_enum_boxing_get**](TestingApi.md#tests_inline_enum_boxing_get) | **Get** /tests/inlineEnumBoxing | Get model with inline enums
 [**tests_inline_enum_boxing_post**](TestingApi.md#tests_inline_enum_boxing_post) | **Post** /tests/inlineEnumBoxing | Test for inline enum fields not being boxed in model constructors
@@ -36,6 +37,36 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## tests_deep_object_free_form_query_param_get
+
+> tests_deep_object_free_form_query_param_get(scope, filter, extra)
+
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**scope** | Option<[**std::collections::HashMap<String, String>**](String.md)> |  | [required] |
+**filter** | Option<[**std::collections::HashMap<String, String>**](String.md)> |  |  |
+**extra** | Option<[**serde_json::Value**](SerdeJson__Value.md)> |  |  |
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
