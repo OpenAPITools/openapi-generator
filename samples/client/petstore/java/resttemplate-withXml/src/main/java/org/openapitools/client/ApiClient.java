@@ -31,9 +31,6 @@ import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
@@ -857,14 +854,7 @@ public class ApiClient extends JavaTimeFormatter {
      */
     protected RestTemplate buildRestTemplate() {
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-        ObjectMapper jsonMapper = new ObjectMapper();
-        java.text.DateFormat dateFormat = new RFC3339DateFormat();
-        dateFormat.setTimeZone(java.util.TimeZone.getTimeZone("UTC"));
-        jsonMapper.setDateFormat(dateFormat);
-        jsonMapper.registerModule(new JavaTimeModule());
-        jsonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        jsonMapper.registerModule(new JsonNullableModule());
-        messageConverters.add(new MappingJackson2HttpMessageConverter(jsonMapper));
+        messageConverters.add(new MappingJackson2HttpMessageConverter());
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
         xmlMapper.registerModule(new JsonNullableModule());
