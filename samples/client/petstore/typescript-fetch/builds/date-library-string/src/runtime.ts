@@ -449,90 +449,79 @@ export class VoidApiResponse {
     }
 }
 
+/**
+ * A Blob carrying the file name the server advertised, empty when it did not send one. It is a File
+ * wherever one can be built, and the bare Blob given a name otherwise. Same name and shape as the
+ * `typescript` generator's browser HttpFile.
+ */
+export type HttpFile = Blob & { readonly name: string };
+
 export class BlobApiResponse {
     constructor(public raw: Response) {}
 
     /**
-     * The body as a File named after the Content-Disposition header, so that a download keeps the
-     * name the server gave it. A File is a Blob: callers reading a Blob are unaffected, and the name
-     * is empty when the server did not send one. Runtimes without a global File (Node.js before 20)
-     * keep receiving the bare Blob.
+     * The body named after the Content-Disposition header, so that a download keeps the name the
+     * server gave it. A File is built from a native Blob; the Blob itself is named where there is no
+     * global File (Node.js before 20), where File cannot be constructed, or where the Blob is not the
+     * native one, as returned by an injected fetch implementation such as node-fetch, which a File
+     * would stringify instead of wrapping.
      */
-    async value(): Promise<File> {
+    async value(): Promise<HttpFile> {
         const blob = await this.raw.blob();
-        if (typeof File === 'undefined') {
-            return blob as File;
+        const name = parseContentDispositionFilename(this.raw.headers) ?? '';
+        if (typeof File !== 'undefined' && blob instanceof Blob) {
+            try {
+                return new File([blob], name, { type: blob.type });
+            } catch {
+                // File cannot be constructed: name the Blob itself
+            }
         }
-        return new File([blob], parseContentDispositionFilename(this.raw.headers) ?? '', { type: blob.type });
+        return Object.assign(blob, { name });
     };
 }
 
 /**
  * The file name advertised by a Content-Disposition header (RFC 6266): the RFC 5987 encoded
- * `filename*` parameter first, then the plain `filename` as a quoted-string or a token. Parameters
- * are split on `;` outside quoted-strings and matched by name case-insensitively. Any directory
- * part is dropped so that the name is safe to write to disk as is; undefined when no usable name
- * is advertised.
+ * `filename*` parameter first, falling back to the plain `filename` when it is malformed, not UTF-8
+ * or has no usable name. Any directory part is dropped; undefined when no usable name is advertised.
  */
 export function parseContentDispositionFilename(headers: Headers): string | undefined {
-    const value = headers.get('Content-Disposition');
-    if (!value) {
+    const params = parseHeaderParameters(headers.get('Content-Disposition') ?? '');
+    return basename(decodeExtValue(params.get('filename*'))) ?? basename(params.get('filename'));
+}
+
+/** The decoded RFC 5987 ext-value, or undefined when it is not UTF-8 or its percent-encoding is malformed. */
+function decodeExtValue(value: string | undefined): string | undefined {
+    const match = value === undefined ? null : /^utf-8'[^']*'(.*)$/i.exec(value);
+    try {
+        return match ? decodeURIComponent(match[1]) : undefined;
+    } catch {
         return undefined;
     }
-    const params = parseHeaderParameters(value);
-    const encoded = params.get('filename*');
-    if (encoded !== undefined) {
-        const extValue = /^utf-8'[^']*'(.*)$/i.exec(encoded);
-        if (extValue) {
-            try {
-                return basename(decodeURIComponent(extValue[1]));
-            } catch {
-                // malformed percent-encoding: fall through to the plain form
-            }
-        }
-    }
-    const plain = params.get('filename');
-    return plain === undefined ? undefined : basename(plain);
 }
 
 /**
- * The `name=value` parameters of a header value, split on `;` outside quoted-strings. Names are
- * lower-cased, quoted-string values are unquoted with their backslash escapes resolved, and the
- * first occurrence of a name wins.
+ * The `name=value` parameters of a header value, consumed one at a time so that a quoted-string is
+ * taken whole, `;` included. Names are lower-cased, quoted-string values are unquoted with their
+ * backslash escapes resolved, and the first occurrence of a name wins.
  */
 function parseHeaderParameters(value: string): Map<string, string> {
     const params = new Map<string, string>();
-    let start = 0;
-    let quoted = false;
-    for (let i = 0; i <= value.length; i++) {
-        const c = value[i];
-        if (i === value.length || (c === ';' && !quoted)) {
-            const part = value.slice(start, i);
-            const eq = part.indexOf('=');
-            if (eq !== -1) {
-                const name = part.slice(0, eq).trim().toLowerCase();
-                let raw = part.slice(eq + 1).trim();
-                if (raw.startsWith('"')) {
-                    raw = raw.slice(1, raw.length > 1 && raw.endsWith('"') ? -1 : undefined).replace(/\\(.)/g, '$1');
-                }
-                if (name && !params.has(name)) {
-                    params.set(name, raw);
-                }
-            }
-            start = i + 1;
-        } else if (c === '"') {
-            quoted = !quoted;
-        } else if (c === '\\' && quoted) {
-            i++;
+    const parameter = /(?:^|;)\s*([^=;]+?)\s*=\s*(?:"((?:[^"\\]|\\.)*)"?|([^;]*))/g;
+    let match: RegExpExecArray | null;
+    while ((match = parameter.exec(value)) !== null) {
+        const name = match[1].toLowerCase();
+        if (!params.has(name)) {
+            params.set(name, match[2] !== undefined ? match[2].replace(/\\(.)/g, '$1') : match[3].trim());
         }
     }
     return params;
 }
 
-/** The last path segment of a file name, or undefined when nothing usable is left. */
-function basename(name: string): string | undefined {
-    const base = name.slice(Math.max(name.lastIndexOf('/'), name.lastIndexOf('\\')) + 1).trim();
-    return base === '' || base === '.' || base === '..' ? undefined : base;
+/** The last `/` or `\` separated segment of a file name, or undefined when it is not a file name. */
+function basename(name: string | undefined): string | undefined {
+    const base = name?.split(/[\\/]/).pop();
+    return !base || base === '.' || base === '..' ? undefined : base;
 }
 
 export class TextApiResponse {
