@@ -398,4 +398,36 @@ public class RubyNextgenClientCodegenTest {
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/acme/api/dedicated_cloud/two_fa_whitelist.rb"), "TwoFAWhitelist");
     }
+
+    @Test
+    public void testNestedResourcesAreReachableFromClient() throws Exception {
+        java.nio.file.Path target = java.nio.file.Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        org.openapitools.codegen.ClientOptInput input =
+                new org.openapitools.codegen.config.CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/ruby-nextgen/nested-resources.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .toClientOptInput();
+        new org.openapitools.codegen.DefaultGenerator(false).opts(input).generate();
+
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/petstore/client.rb"), "def stables", "Petstore::Api::Stables.new");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/petstore/api/stables.rb"),
+                "def ponies", "@ponies ||= Stables::Ponies.new(@connection)");
+        org.openapitools.codegen.TestUtils.assertFileExists(
+                target.resolve("lib/petstore/api/stables/ponies.rb"));
+
+        java.nio.file.Path namespaceOnly = target.resolve("lib/petstore/api/only.rb");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                namespaceOnly, "class Only", "def children", "@children ||= Only::Children.new(@connection)",
+                "def siblings", "@siblings ||= Only::Siblings.new(@connection)", "class Only::Children");
+        org.openapitools.codegen.TestUtils.assertFileNotExists(
+                target.resolve("lib/petstore/api/only/children.rb"));
+        org.openapitools.codegen.TestUtils.assertFileExists(
+                target.resolve("lib/petstore/api/only/siblings.rb"));
+    }
 }

@@ -91,6 +91,8 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
     private Set<String> resourceSegments = Collections.emptySet();
     private String apiBasePrefix = "";
     private int emptyMethodNameCounter = 0;
+    private List<Map<String, Object>> rubyNamespaces = Collections.emptyList();
+    private final Set<String> namespaceOnlyApiTags = new HashSet<>();
 
     // Accumulated across postProcessModels calls: file basename -> class name, for every
     // autoloaded model. Consumed by postProcessSupportingFileData to emit Zeitwerk
@@ -531,10 +533,108 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         this.apiBasePrefix = additionalProperties.containsKey("apiBasePath")
                 ? stripSlashes((String) additionalProperties.get("apiBasePath"))
                 : RubyApiRouting.commonBasePrefix(paths);
+        this.rubyNamespaces = buildRubyNamespaces(openAPI);
+        this.namespaceOnlyApiTags.clear();
+        additionalProperties.put("rbNamespaces", rubyNamespaces);
     }
 
     private static String stripSlashes(String s) {
         return s == null ? "" : s.replaceAll("^/+", "").replaceAll("/+$", "");
+    }
+
+    private List<Map<String, Object>> buildRubyNamespaces(OpenAPI openAPI) {
+        Map<String, Map<String, Object>> namespaces = new TreeMap<>();
+        Map<String, Set<String>> resourcesByNamespace = new TreeMap<>();
+        Map<String, Set<String>> directOperationsByNamespace = new TreeMap<>();
+        if (openAPI != null && openAPI.getPaths() != null) {
+            for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
+                PathItem pathItem = pathEntry.getValue();
+                if (pathItem == null) continue;
+                for (Map.Entry<PathItem.HttpMethod, Operation> operationEntry : pathItem.readOperationsMap().entrySet()) {
+                    Operation operation = operationEntry.getValue();
+                    if (operation == null || (operation.getExtensions() != null
+                            && Boolean.TRUE.equals(operation.getExtensions().get("x-internal")))) {
+                        continue;
+                    }
+                    RubyApiRouting.Route route = RubyApiRouting.route(
+                            pathEntry.getKey(), operationEntry.getKey().name(), operation.getOperationId(),
+                            resourceSegments, apiBasePrefix);
+                    Map<String, Object> namespace = namespaces.computeIfAbsent(route.namespace, k -> {
+                        Map<String, Object> data = new HashMap<>();
+                        String base = underscore(sanitizeName(k.replace('-', '_')));
+                        data.put("routeName", k);
+                        data.put("name", base);
+                        data.put("accessor", safeAccessorName(base));
+                        data.put("className", toApiName(k));
+                        data.put("hasDirectOperations", false);
+                        return data;
+                    });
+                    if (route.resource == null) {
+                        namespace.put("hasDirectOperations", true);
+                        directOperationsByNamespace
+                                .computeIfAbsent(route.namespace, k -> new TreeSet<>())
+                                .add(toOperationId(route.action));
+                    } else {
+                        resourcesByNamespace.computeIfAbsent(route.namespace, k -> new TreeSet<>()).add(route.resource);
+                    }
+                }
+            }
+        }
+
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Map.Entry<String, Map<String, Object>> entry : namespaces.entrySet()) {
+            Map<String, Object> namespace = entry.getValue();
+            List<Map<String, Object>> resources = new ArrayList<>();
+            Set<String> reservedNames = directOperationsByNamespace
+                    .getOrDefault(entry.getKey(), Collections.emptySet());
+            for (String resource : resourcesByNamespace.getOrDefault(entry.getKey(), Collections.emptySet())) {
+                Map<String, Object> resourceData = new HashMap<>();
+                resourceData.put("routeName", resource);
+                String resourceAccessor = underscore(sanitizeName(resource.replace('-', '_')));
+                resourceData.put("accessor", safeResourceAccessorName(resourceAccessor, reservedNames));
+                resourceData.put("className", toApiName(entry.getKey() + "/" + resource));
+                resources.add(resourceData);
+            }
+            namespace.put("resources", resources);
+            result.add(namespace);
+        }
+        return result;
+    }
+
+    private Map<String, Object> findRubyNamespace(String routeName) {
+        if (routeName == null) {
+            return null;
+        }
+        for (Map<String, Object> namespace : rubyNamespaces) {
+            if (routeName.equals(namespace.get("routeName"))) {
+                return namespace;
+            }
+        }
+        return null;
+    }
+
+    private String apiTagForFilename(String templateName, String tag) {
+        if (!"api.mustache".equals(templateName)) {
+            return tag;
+        }
+        int slash = tag.indexOf('/');
+        // A namespace with only nested resource groups has no direct API file. Use the
+        // namespace filename for its resource group so api_operations.mustache can define the
+        // namespace class before the nested resource class and Zeitwerk can load it as a class.
+        if (slash > 0 && namespaceOnlyApiTags.contains(tag)) {
+            return tag.substring(0, slash);
+        }
+        return tag;
+    }
+
+    @Override
+    public String apiFilename(String templateName, String tag) {
+        return super.apiFilename(templateName, apiTagForFilename(templateName, tag));
+    }
+
+    @Override
+    public String apiFilename(String templateName, String tag, String outputDir) {
+        return super.apiFilename(templateName, apiTagForFilename(templateName, tag), outputDir);
     }
 
     @Override
@@ -613,11 +713,22 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         return RESERVED_ACCESSOR_NAMES.contains(name) ? name + "_api" : name;
     }
 
+    // Resource methods live on the namespace class beside its constructor and any direct
+    // operations. Rename a resource accessor deterministically when either would collide.
+    private static String safeResourceAccessorName(String name, Set<String> reservedNames) {
+        String candidate = safeAccessorName(name);
+        while (reservedNames.contains(candidate)) {
+            candidate += "_api";
+        }
+        return candidate;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         Map<String, Map<String, Object>> nsMap = new TreeMap<>();
         Map<String, Set<String>> resourcesByNs = new TreeMap<>();
+        Map<String, Set<String>> directOperationsByNs = new TreeMap<>();
         Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
         if (apiInfo != null) {
             List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
@@ -642,7 +753,11 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
                             m.put("className", toApiName(ns));
                             return m;
                         });
-                        if (res != null) resourcesByNs.computeIfAbsent(ns, k -> new TreeSet<>()).add(res);
+                        if (res != null) {
+                            resourcesByNs.computeIfAbsent(ns, k -> new TreeSet<>()).add(res);
+                        } else if (co.operationId != null) {
+                            directOperationsByNs.computeIfAbsent(ns, k -> new TreeSet<>()).add(co.operationId);
+                        }
                     }
                 }
             }
@@ -651,9 +766,12 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         for (Map.Entry<String, Map<String, Object>> e : nsMap.entrySet()) {
             Map<String, Object> m = e.getValue();
             List<Map<String, Object>> resources = new ArrayList<>();
+            Set<String> reservedNames = directOperationsByNs
+                    .getOrDefault(e.getKey(), Collections.emptySet());
             for (String res : resourcesByNs.getOrDefault(e.getKey(), Collections.emptySet())) {
                 Map<String, Object> rm = new HashMap<>();
-                rm.put("accessor", underscore(sanitizeName(res.replace('-', '_'))));
+                String resourceAccessor = underscore(sanitizeName(res.replace('-', '_')));
+                rm.put("accessor", safeResourceAccessorName(resourceAccessor, reservedNames));
                 rm.put("className", toApiName(e.getKey() + "/" + res));
                 resources.add(rm);
             }
@@ -742,6 +860,34 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap ops = objs.getOperations();
+        if (ops != null && !ops.getOperation().isEmpty()) {
+            CodegenOperation firstOperation = ops.getOperation().get(0);
+            String namespaceName = (String) firstOperation.vendorExtensions.get("x-rb-namespace");
+            String resourceName = (String) firstOperation.vendorExtensions.get("x-rb-resource");
+            Map<String, Object> namespace = findRubyNamespace(namespaceName);
+            if (namespace != null) {
+                boolean isNamespaceClass = ops.getClassname().equals(namespace.get("className"));
+                if (isNamespaceClass) {
+                    ops.put("rbNamespaceHasDirectOperations", true);
+                    ops.put("rbNamespaceResources", namespace.get("resources"));
+                    ops.put("rbNamespaceAccessor", namespace.get("accessor"));
+                } else if (!Boolean.TRUE.equals(namespace.get("hasDirectOperations")) && resourceName != null) {
+                    String resourceTag = namespaceName + "/" + resourceName;
+                    String namespacePrefix = namespaceName + "/";
+                    boolean namespaceFileClaimed = namespaceOnlyApiTags.stream()
+                            .anyMatch(tag -> tag.startsWith(namespacePrefix));
+                    if (!namespaceFileClaimed) {
+                        namespaceOnlyApiTags.add(resourceTag);
+                    }
+                    if (namespaceOnlyApiTags.contains(resourceTag)) {
+                        ops.put("rbNamespaceOnly", true);
+                        ops.put("rbNamespaceClassName", namespace.get("className"));
+                        ops.put("rbNamespaceResources", namespace.get("resources"));
+                        ops.put("rbNamespaceAccessor", namespace.get("accessor"));
+                    }
+                }
+            }
+        }
         for (CodegenOperation co : ops.getOperation()) {
             String rt;
             if (co.returnBaseType == null) {
