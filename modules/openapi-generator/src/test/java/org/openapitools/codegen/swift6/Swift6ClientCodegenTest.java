@@ -77,6 +77,90 @@ public class Swift6ClientCodegenTest {
         TestUtils.assertFileContains(models.resolve("Base.swift"), "public struct Base: Sendable,");
     }
 
+    @Test(description = "nonisolatedModels marks models and their supporting declarations nonisolated")
+    public void testNonisolatedModels() throws IOException {
+        Path sources = generateSwift6("src/test/resources/3_0/swift/recursive-models.yaml",
+                Swift6ClientCodegen.NONISOLATED_MODELS, true);
+        Path models = sources.resolve("Models");
+        Path infrastructure = sources.resolve("Infrastructure");
+        // structs, classes and the extensions emitted next to them
+        TestUtils.assertFileContains(models.resolve("Category.swift"), "public nonisolated struct Category: Sendable,");
+        TestUtils.assertFileContains(models.resolve("ContactInfo.swift"), "public nonisolated final class ContactInfo: @unchecked Sendable,");
+        // the protocols and helper types that models conform to or store
+        TestUtils.assertFileContains(infrastructure.resolve("Models.swift"), "nonisolated protocol ParameterConvertible {");
+        TestUtils.assertFileContains(infrastructure.resolve("Models.swift"), "nonisolated protocol CaseIterableDefaultsLast:");
+        TestUtils.assertFileContains(infrastructure.resolve("Models.swift"), "public nonisolated enum NullEncodable<Wrapped> {");
+        TestUtils.assertFileContains(infrastructure.resolve("Models.swift"), "nonisolated extension NullEncodable: Codable where Wrapped: Codable {");
+        TestUtils.assertFileContains(infrastructure.resolve("JSONValue.swift"), "public nonisolated enum JSONValue: Sendable, Codable, Hashable {");
+        TestUtils.assertFileContains(infrastructure.resolve("Validation.swift"), "public nonisolated struct StringRule: Sendable {");
+        TestUtils.assertFileContains(infrastructure.resolve("Extensions.swift"), "nonisolated extension String: @retroactive CodingKey {");
+        TestUtils.assertFileContains(infrastructure.resolve("Extensions.swift"), "nonisolated extension RawRepresentable where RawValue: ParameterConvertible {");
+        TestUtils.assertFileContains(infrastructure.resolve("CodableHelper.swift"), "open nonisolated class CodableHelper: @unchecked Sendable {");
+        TestUtils.assertFileContains(infrastructure.resolve("OpenAPIMutex.swift"), "internal nonisolated final class OpenAPIMutex<Value>: @unchecked Sendable {");
+        TestUtils.assertFileContains(infrastructure.resolve("OpenISO8601DateFormatter.swift"), "public nonisolated class OpenISO8601DateFormatter: DateFormatter, @unchecked Sendable {");
+
+        // the extensions emitted next to models (Identifiable, UnknownCaseCheckable)
+        Path petstoreSources = generateSwift6("src/test/resources/3_0/petstore.yaml",
+                Swift6ClientCodegen.NONISOLATED_MODELS, true,
+                CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true);
+        Path pet = petstoreSources.resolve("Models/Pet.swift");
+        TestUtils.assertFileContains(pet, "public nonisolated struct Pet: Sendable,");
+        TestUtils.assertFileContains(pet, "nonisolated extension Pet: Identifiable {}");
+        TestUtils.assertFileContains(pet, "nonisolated extension Pet: UnknownCaseCheckable {");
+        TestUtils.assertFileContains(petstoreSources.resolve("Infrastructure/Models.swift"), "nonisolated protocol UnknownCaseCheckable {");
+        TestUtils.assertFileContains(petstoreSources.resolve("Infrastructure/Models.swift"), "nonisolated extension CaseIterableDefaultsLast {");
+        // inline enums are nested in the model and inherit its isolation, so they are not marked
+        TestUtils.assertFileContains(pet, "    public enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {");
+        TestUtils.assertFileNotContains(pet, "nonisolated enum");
+
+        // top-level enum models and their UnknownCaseCheckable extension
+        Path enumModels = generateSwift6("src/test/resources/3_0/enum-description.yaml",
+                Swift6ClientCodegen.NONISOLATED_MODELS, true,
+                CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true).resolve("Models");
+        TestUtils.assertFileContains(enumModels.resolve("ModelType.swift"),
+                "public nonisolated enum ModelType: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {");
+        TestUtils.assertFileContains(enumModels.resolve("ModelType.swift"), "nonisolated extension ModelType: UnknownCaseCheckable {");
+
+        // oneOf models are generated as enums
+        Path oneOfModels = generateSwift6("src/test/resources/3_0/oneOf.yaml",
+                Swift6ClientCodegen.NONISOLATED_MODELS, true).resolve("Models");
+        TestUtils.assertFileContains(oneOfModels.resolve("Fruit.swift"), "public nonisolated enum Fruit: Sendable, Codable, Hashable {");
+    }
+
+    @Test(description = "nonisolatedModels also marks objcCompatible model classes nonisolated")
+    public void testNonisolatedModelsObjcCompatible() throws IOException {
+        Path models = generateSwift6("src/test/resources/3_0/swift/recursive-models.yaml",
+                Swift6ClientCodegen.NONISOLATED_MODELS, true,
+                Swift6ClientCodegen.OBJC_COMPATIBLE, true).resolve("Models");
+        TestUtils.assertFileContains(models.resolve("Category.swift"),
+                "@objcMembers public nonisolated final class Category: NSObject, Codable, @unchecked Sendable {");
+    }
+
+    private static Path generateSwift6(String inputSpec, Object... additionalProperties) throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("swift6")
+                .setInputSpec(inputSpec)
+                .setOutputDir(target.toAbsolutePath().toString());
+        for (int i = 0; i < additionalProperties.length; i += 2) {
+            configurator.addAdditionalProperty((String) additionalProperties[i], additionalProperties[i + 1]);
+        }
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return target.resolve("Sources/OpenAPIClient");
+    }
+
+    @Test(description = "nonisolatedModels is off by default")
+    public void testNonisolatedModelsDefaultsOff() throws IOException {
+        Path sources = generateSwift6("src/test/resources/3_0/swift/recursive-models.yaml");
+        Path infrastructure = sources.resolve("Infrastructure");
+        TestUtils.assertFileNotContains(sources.resolve("Models/Category.swift"), "nonisolated");
+        TestUtils.assertFileNotContains(infrastructure.resolve("Models.swift"), "nonisolated");
+        TestUtils.assertFileNotContains(infrastructure.resolve("JSONValue.swift"), "nonisolated");
+        TestUtils.assertFileNotContains(infrastructure.resolve("Extensions.swift"), "nonisolated");
+        TestUtils.assertFileNotContains(infrastructure.resolve("CodableHelper.swift"), "nonisolated");
+    }
+
     @Test(enabled = true)
     public void testCapitalizedReservedWord() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("AS", null), "_as");
