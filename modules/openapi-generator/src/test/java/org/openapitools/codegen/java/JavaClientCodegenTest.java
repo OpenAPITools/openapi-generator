@@ -68,6 +68,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
@@ -5172,6 +5173,8 @@ public class JavaClientCodegenTest {
                 .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .addAdditionalProperty(AbstractJavaCodegen.OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, true)
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.USE_SPRING_BOOT4, true)
                 .setInputSpec("src/test/resources/3_0/java/builder.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
@@ -5210,31 +5213,21 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testOptionalGettersForNullableFieldsOnlyAddsJdk8ModuleForJackson2() throws IOException {
-        // Jackson 2 does not serialize java.util.Optional out of the box: the generated
-        // pom/gradle must declare the dependency and ApiClient must register Jdk8Module.
-        final Map<String, File> files = generateFromContract(
-                "src/test/resources/3_0/petstore.yaml",
-                JavaClientCodegen.RESTTEMPLATE,
-                Map.of(
-                        AbstractJavaCodegen.OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, "true",
-                        AbstractJavaCodegen.WITH_XML, "true",
-                        AbstractJavaCodegen.USE_JAKARTA_EE, "true"));
+    public void testOptionalGettersForNullableFieldsOnlyRequiresJackson3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .addAdditionalProperty(AbstractJavaCodegen.OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, true)
+                .setInputSpec("src/test/resources/3_0/java/builder.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
 
-        final String pomContent = Files.readString(files.get("pom.xml").toPath());
-        assertThat(pomContent)
-                .contains("<artifactId>jackson-datatype-jdk8</artifactId>");
-
-        final String gradleContent = Files.readString(files.get("build.gradle").toPath());
-        assertThat(gradleContent)
-                .contains("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jackson_version");
-
-        final String apiClientContent = Files.readString(files.get("ApiClient.java").toPath());
-        assertThat(apiClientContent)
-                .contains("import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;")
-                .contains("jsonMapper.registerModule(new Jdk8Module());")
-                // XML converter must handle Optional too when withXml is enabled.
-                .contains("xmlMapper.registerModule(new Jdk8Module());");
+        final ClientOptInput input = configurator.toClientOptInput();
+        final JavaClientCodegen codegen = (JavaClientCodegen) input.getConfig();
+        final IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, codegen::processOpts);
+        assertThat(ex.getMessage())
+                .contains(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY)
+                .contains("jackson 3");
     }
 
     // ========== x-jackson-default-impl / typeInfoDefaultImpls tests ==========

@@ -685,6 +685,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         if(isUseJackson3() && !isUseSpringBoot4()){
             throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
         }
+        if (optionalGettersForNullableFieldsOnly && !isUseJackson3()) {
+            throw new IllegalArgumentException(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY +
+                    " is only supported with jackson 3 (enable useJackson3 / useSpringBoot4)");
+        }
         if(this.useJackson3){
             this.applyJackson3Package();
         } else {

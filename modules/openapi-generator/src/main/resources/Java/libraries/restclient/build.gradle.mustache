@@ -145,9 +145,6 @@ dependencies {
     {{/openApiNullable}}
     {{^useJackson3}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    {{#optionalGettersForNullableFieldsOnly}}
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jackson_version"
-    {{/optionalGettersForNullableFieldsOnly}}
     {{/useJackson3}}
     {{^useSpringBoot4}}
     {{#useJspecify}}

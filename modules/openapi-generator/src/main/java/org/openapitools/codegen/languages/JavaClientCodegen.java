@@ -431,6 +431,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             throw new IllegalArgumentException("useJackson3 is only supported for the 'native', 'apache-httpclient', 'jersey3', 'restclient', 'resttemplate', and 'webclient' libraries. " +
                     "The Spring libraries also require useSpringBoot4=true.");
         }
+        if (libRestClient || libRestTemplate || libWebClient) {
+            convertPropertyToBooleanAndWriteBack(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, this::setOptionalGettersForNullableFieldsOnly);
+            if (optionalGettersForNullableFieldsOnly && !useJackson3) {
+                throw new IllegalArgumentException(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY +
+                        " is only supported with jackson 3 (enable useJackson3 and useSpringBoot4)");
+            }
+        }
 
         if (this.useJackson3) {
             this.applyJackson3Package();

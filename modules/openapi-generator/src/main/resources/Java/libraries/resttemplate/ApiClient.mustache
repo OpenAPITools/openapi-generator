@@ -31,14 +31,6 @@ import {{jacksonPackage}}.databind.DeserializationFeature;
 import {{jacksonPackage}}.databind.json.JsonMapper;
 import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 {{/useJackson3}}
-{{^useJackson3}}
-import {{jacksonPackage}}.databind.DeserializationFeature;
-import {{jacksonPackage}}.databind.ObjectMapper;
-import {{jacksonPackage}}.datatype.jsr310.JavaTimeModule;
-{{#optionalGettersForNullableFieldsOnly}}
-import {{jacksonPackage}}.datatype.jdk8.Jdk8Module;
-{{/optionalGettersForNullableFieldsOnly}}
-{{/useJackson3}}
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
@@ -910,19 +902,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         messageConverters.add(new JacksonJsonHttpMessageConverter(jsonMapper));
         {{/useJackson3}}
         {{^useJackson3}}
-        ObjectMapper jsonMapper = new ObjectMapper();
-        java.text.DateFormat dateFormat = new RFC3339DateFormat();
-        dateFormat.setTimeZone(java.util.TimeZone.getTimeZone("UTC"));
-        jsonMapper.setDateFormat(dateFormat);
-        jsonMapper.registerModule(new JavaTimeModule());
-        jsonMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, {{failOnUnknownProperties}});
-        {{#openApiNullable}}
-        jsonMapper.registerModule(new JsonNullableModule());
-        {{/openApiNullable}}
-        {{#optionalGettersForNullableFieldsOnly}}
-        jsonMapper.registerModule(new Jdk8Module());
-        {{/optionalGettersForNullableFieldsOnly}}
-        messageConverters.add(new MappingJackson2HttpMessageConverter(jsonMapper));
+        messageConverters.add(new MappingJackson2HttpMessageConverter());
         {{/useJackson3}}
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
@@ -934,11 +914,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         xmlMapper.registerModule(new JsonNullableJackson3Module());
         {{/useJackson3}}
         {{/openApiNullable}}
-        {{#optionalGettersForNullableFieldsOnly}}
-        {{^useJackson3}}
-        xmlMapper.registerModule(new Jdk8Module());
-        {{/useJackson3}}
-        {{/optionalGettersForNullableFieldsOnly}}
         messageConverters.add(new MappingJackson2XmlHttpMessageConverter(xmlMapper));
 
         RestTemplate restTemplate = new RestTemplate(messageConverters);

@@ -14,9 +14,6 @@ import org.springframework.http.codec.json.JacksonJsonEncoder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-{{#optionalGettersForNullableFieldsOnly}}
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-{{/optionalGettersForNullableFieldsOnly}}
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 {{/useJackson3}}
@@ -164,23 +161,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     public ApiClient({{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper, DateFormat format) {
-        {{#optionalGettersForNullableFieldsOnly}}
-        {{^useJackson3}}
-        // java.util.Optional handling must match the generated model getters even when a
-        // custom mapper is supplied, so configure a copy rather than mutating the caller's.
-        ObjectMapper objectMapper = mapper.copy();
-        objectMapper.registerModule(new Jdk8Module());
-        this(buildWebClient(objectMapper), format);
-        {{/useJackson3}}
-        {{/optionalGettersForNullableFieldsOnly}}
-        {{#optionalGettersForNullableFieldsOnly}}
-        {{#useJackson3}}
         this(buildWebClient(mapper), format);
-        {{/useJackson3}}
-        {{/optionalGettersForNullableFieldsOnly}}
-        {{^optionalGettersForNullableFieldsOnly}}
-        this(buildWebClient(mapper), format);
-        {{/optionalGettersForNullableFieldsOnly}}
     }
 
     public ApiClient(WebClient webClient, {{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper, DateFormat format) {
@@ -232,9 +213,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         JsonNullableModule jnm = new JsonNullableModule();
         mapper.registerModule(jnm);
         {{/openApiNullable}}
-        {{#optionalGettersForNullableFieldsOnly}}
-        mapper.registerModule(new Jdk8Module());
-        {{/optionalGettersForNullableFieldsOnly}}
         return mapper;
     }
     {{/useJackson3}}

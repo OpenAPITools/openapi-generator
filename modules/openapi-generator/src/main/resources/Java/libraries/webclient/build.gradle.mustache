@@ -196,9 +196,6 @@ dependencies {
     {{/joda}}
     {{^useJackson3}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    {{#optionalGettersForNullableFieldsOnly}}
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jackson_version"
-    {{/optionalGettersForNullableFieldsOnly}}
     {{/useJackson3}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"

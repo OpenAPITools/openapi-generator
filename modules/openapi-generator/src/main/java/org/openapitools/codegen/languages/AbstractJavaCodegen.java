@@ -391,7 +391,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "whether to generate a constructor for all arguments").defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(CliOption.newBoolean(GENERATE_BUILDERS, "Whether to generate builders for models").defaultValue(Boolean.FALSE.toString()));
         if (supportsOptionalGettersForNullableFieldsOnly()) {
-            cliOptions.add(CliOption.newBoolean(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, "Make getters of non-required fields return Optional<T> while keeping the field and setter as the raw type. Supported libraries: restclient, resttemplate, webclient (java generator) and spring (spring generator). Opt-in, disabled by default.", optionalGettersForNullableFieldsOnly));
+            cliOptions.add(CliOption.newBoolean(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, "Make getters of non-required fields return Optional<T> while keeping the field and setter as the raw type. Requires jackson 3 (useJackson3, which requires useSpringBoot4). Supported libraries: restclient, resttemplate, webclient (java generator) and spring (spring generator). Opt-in, disabled by default.", optionalGettersForNullableFieldsOnly));
         }
         cliOptions.add(CliOption.newBoolean(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "Ignore discriminator field type for Jackson serialization", disableDiscriminatorJsonIgnoreProperties));
 

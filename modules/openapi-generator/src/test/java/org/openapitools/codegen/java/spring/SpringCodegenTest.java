@@ -5862,6 +5862,8 @@ public class SpringCodegenTest {
                 Map.of(
                         SpringCodegen.OPENAPI_NULLABLE, true,
                         AbstractJavaCodegen.OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, true,
+                        SpringCodegen.USE_JACKSON_3, true,
+                        SpringCodegen.USE_SPRING_BOOT4, true,
                         INTERFACE_ONLY, "true"
                 )
         );
