@@ -1509,6 +1509,67 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void generateHttpInterfaceWithClientRegistrationId() throws Exception {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+        props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        Path petApi = files.get("PetApi.kt").toPath();
+        assertFileContains(petApi,
+                "import org.springframework.security.oauth2.client.annotation.ClientRegistrationId",
+                "@ClientRegistrationId(\"my-oauth-client\")\ninterface PetApi {");
+    }
+
+    @Test
+    public void generateHttpInterfaceWithClientRegistrationIdAddsOAuth2ClientDependencyWithoutAuthMethods() throws Exception {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+        props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/bean-qualifiers.yaml", props, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        assertFileContains(files.get("build.gradle.kts").toPath(),
+                "implementation(\"org.springframework.boot:spring-boot-starter-oauth2-client\")");
+    }
+
+    @Test
+    public void generateHttpInterfaceWithoutClientRegistrationId() throws Exception {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        assertFileNotContains(files.get("PetApi.kt").toPath(), "ClientRegistrationId");
+    }
+
+    @Test
+    public void shouldRefuseClientRegistrationIdWithoutSpringBoot4() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props, new HashMap<>(),
+                        configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)))
+                .withMessageContaining(USE_SPRING_BOOT4);
+    }
+
+    @Test
+    public void shouldRefuseClientRegistrationIdOutsideDeclarativeHttpInterface() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+        props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props))
+                .withMessageContaining(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+    }
+
+    @Test
     public void generateHttpInterfaceReactiveWithCoroutinesResponseEntity() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
