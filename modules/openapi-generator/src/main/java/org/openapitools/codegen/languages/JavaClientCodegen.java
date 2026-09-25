@@ -208,6 +208,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    protected boolean supportsOptionalGettersForNullableFieldsOnly() {
+        return true;
+    }
+
+    @Override
     protected boolean useBeanValidationOnMapValueType() {
         // The Java templates place container element validation on the type argument
         // (List<@Valid T>, Map<String, @Valid V>) rather than the deprecated

@@ -184,6 +184,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter protected boolean ignoreAnyOfInEnum = false;
     @Getter @Setter
     protected boolean optionalGettersForNullableFieldsOnly = false;
+    /**
+     * Whether this generator implements the {@code optionalGettersForNullableFieldsOnly}
+     * option (explicit Optional&lt;T&gt; getters in the model templates). Only client libraries
+     * restclient/resttemplate/webclient and the Spring generator honor it, so generators
+     * whose model templates do not implement it override this method returning false,
+     * which removes the option from cliOptions and the generated documentation.
+     *
+     * @return true when the generator's model templates implement the option
+     */
+    protected boolean supportsOptionalGettersForNullableFieldsOnly() {
+        return false;
+    }
     @Setter protected String parentGroupId = "";
     @Setter protected String parentArtifactId = "";
     @Setter protected String parentVersion = "";
@@ -378,7 +390,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "whether to generate a constructor for all arguments").defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(CliOption.newBoolean(GENERATE_BUILDERS, "Whether to generate builders for models").defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(CliOption.newBoolean(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, "Make getters of non-required fields return Optional<T> while keeping the field and setter as the raw type. Supported libraries: restclient, resttemplate, webclient (java generator) and spring (spring generator). Opt-in, disabled by default.", optionalGettersForNullableFieldsOnly));
+        if (supportsOptionalGettersForNullableFieldsOnly()) {
+            cliOptions.add(CliOption.newBoolean(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, "Make getters of non-required fields return Optional<T> while keeping the field and setter as the raw type. Supported libraries: restclient, resttemplate, webclient (java generator) and spring (spring generator). Opt-in, disabled by default.", optionalGettersForNullableFieldsOnly));
+        }
         cliOptions.add(CliOption.newBoolean(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "Ignore discriminator field type for Jackson serialization", disableDiscriminatorJsonIgnoreProperties));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));

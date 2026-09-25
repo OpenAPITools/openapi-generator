@@ -460,6 +460,11 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    protected boolean supportsOptionalGettersForNullableFieldsOnly() {
+        return true;
+    }
+
+    @Override
     public List<DocumentationProvider> supportedDocumentationProvider() {
         List<DocumentationProvider> supportedProviders = new ArrayList<>();
         supportedProviders.add(DocumentationProvider.NONE);
