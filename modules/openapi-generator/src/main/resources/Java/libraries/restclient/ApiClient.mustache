@@ -278,6 +278,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         {{#openApiNullable}}
         xmlMapper.registerModule(new JsonNullableModule());
         {{/openApiNullable}}
+        {{#optionalGettersForNullableFieldsOnly}}
+        xmlMapper.registerModule(new Jdk8Module());
+        {{/optionalGettersForNullableFieldsOnly}}
         {{/useJackson3}}
         {{/withXml}}
 

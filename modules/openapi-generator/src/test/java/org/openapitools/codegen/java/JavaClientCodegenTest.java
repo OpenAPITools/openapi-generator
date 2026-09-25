@@ -5209,6 +5209,34 @@ public class JavaClientCodegenTest {
                 .doesNotContain("return java.util.Optional.ofNullable(simple);");
     }
 
+    @Test
+    public void testOptionalGettersForNullableFieldsOnlyAddsJdk8ModuleForJackson2() throws IOException {
+        // Jackson 2 does not serialize java.util.Optional out of the box: the generated
+        // pom/gradle must declare the dependency and ApiClient must register Jdk8Module.
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml",
+                JavaClientCodegen.RESTTEMPLATE,
+                Map.of(
+                        AbstractJavaCodegen.OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, "true",
+                        AbstractJavaCodegen.WITH_XML, "true",
+                        AbstractJavaCodegen.USE_JAKARTA_EE, "true"));
+
+        final String pomContent = Files.readString(files.get("pom.xml").toPath());
+        assertThat(pomContent)
+                .contains("<artifactId>jackson-datatype-jdk8</artifactId>");
+
+        final String gradleContent = Files.readString(files.get("build.gradle").toPath());
+        assertThat(gradleContent)
+                .contains("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jackson_version");
+
+        final String apiClientContent = Files.readString(files.get("ApiClient.java").toPath());
+        assertThat(apiClientContent)
+                .contains("import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;")
+                .contains("jsonMapper.registerModule(new Jdk8Module());")
+                // XML converter must handle Optional too when withXml is enabled.
+                .contains("xmlMapper.registerModule(new Jdk8Module());");
+    }
+
     // ========== x-jackson-default-impl / typeInfoDefaultImpls tests ==========
 
     @Test(description = "x-jackson-default-impl on deduction schema emits defaultImpl in @JsonTypeInfo (Java client)")

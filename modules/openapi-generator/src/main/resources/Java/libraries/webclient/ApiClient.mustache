@@ -164,7 +164,23 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     public ApiClient({{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper, DateFormat format) {
+        {{#optionalGettersForNullableFieldsOnly}}
+        {{^useJackson3}}
+        // java.util.Optional handling must match the generated model getters even when a
+        // custom mapper is supplied, so configure a copy rather than mutating the caller's.
+        ObjectMapper objectMapper = mapper.copy();
+        objectMapper.registerModule(new Jdk8Module());
+        this(buildWebClient(objectMapper), format);
+        {{/useJackson3}}
+        {{/optionalGettersForNullableFieldsOnly}}
+        {{#optionalGettersForNullableFieldsOnly}}
+        {{#useJackson3}}
         this(buildWebClient(mapper), format);
+        {{/useJackson3}}
+        {{/optionalGettersForNullableFieldsOnly}}
+        {{^optionalGettersForNullableFieldsOnly}}
+        this(buildWebClient(mapper), format);
+        {{/optionalGettersForNullableFieldsOnly}}
     }
 
     public ApiClient(WebClient webClient, {{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper, DateFormat format) {
