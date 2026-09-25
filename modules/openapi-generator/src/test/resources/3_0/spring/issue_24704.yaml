@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: Deprecated property example
+  version: 1.0.0
+paths:
+  /example:
+    get:
+      operationId: getExample
+      responses:
+        "200":
+          description: Example response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Example"
+components:
+  schemas:
+    Example:
+      type: object
+      properties:
+        currentProperty:
+          type: string
+        deprecatedProperty:
+          type: string
+          deprecated: true
+        deprecatedValues:
+          type: array
+          deprecated: true
+          items:
+            type: string
+        deprecatedMap:
+          type: object
+          deprecated: true
+          additionalProperties:
+            type: string
