@@ -3913,9 +3913,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     if (ModelUtils.isEnumSchema(first)) {
                         // inline enum, use the least common denominator
-                        String simpleType = typeMapping.get("enum");
-
-                        return simpleType != null? simpleType:  typeMapping.get("object");
+                        return getCommonEnumType();
                     }
                     return typeMapping.get(getPrimitiveType(first));
                 } catch (Exception e) {
@@ -3953,10 +3951,7 @@ public class DefaultCodegen implements CodegenConfig {
         boolean allEnums = schemas.stream().allMatch(ModelUtils::isEnumSchema);
         if (allEnums) {
             // non matching enums.  Use enum if if the langage can map it.
-            if (typeMapping.containsKey("enum")) {
-                simpleType = "enum";
-            }
-            return typeMapping.get(simpleType);
+            return getCommonEnumType();
         }
         if (schemas.stream().noneMatch(ModelUtils::isEnumSchema)) {
             Set<String> types = schemas.stream().map(this::getPrimitiveType).collect(Collectors.toSet());
@@ -3969,6 +3964,18 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         return typeMapping.get(simpleType);
+    }
+
+    /**
+     * Get the common type name for enum schemas when multiple or inline enums cannot be unified to a specific enum model.
+     *
+     * @return the common enum type name (e.g. "Enum" for Java, or mapped "object" if unsupported)
+     */
+    protected String getCommonEnumType() {
+        if (typeMapping.containsKey("enum")) {
+            return typeMapping.get("enum");
+        }
+        return typeMapping.get("object");
     }
 
     /**
