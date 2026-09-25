@@ -1,0 +1,6 @@
+type: object
+properties:
+  complexOrNull:
+    nullable: true
+    anyOf:
+      - $ref: '../swagger.yml#/components/schemas/ComplexType'
