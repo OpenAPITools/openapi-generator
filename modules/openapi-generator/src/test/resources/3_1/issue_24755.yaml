@@ -22,9 +22,9 @@ components:
       properties:
         name:
           type: string
-          example: 'Fluffy'
+          example: 'Fluffy-\s;]"a'
           examples:
-            - 'Fluffy'
+            - 'Fluffy-\s;]"a'
             - 'Rex'
         age:
           type: integer
@@ -38,4 +38,4 @@ components:
           items:
             type: string
           examples:
-            - ['a', 'b']
+            - ['a"c', 'b']
