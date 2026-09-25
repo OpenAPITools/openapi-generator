@@ -26,12 +26,14 @@ import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -798,5 +800,62 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(op.queryParams.size(), 2);
         assertTrue(op.queryParams.stream().allMatch(p -> p.queryIsJsonMimeType),
                 "All content:application/json query params should have queryIsJsonMimeType=true");
+    }
+
+    @Test(description = "an allOf child's build_from_hash and to_hash include the attributes inherited from its parents")
+    public void testBuildFromHashMapsInheritedAttributes() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        // Lizard < Reptile < Pet: types and nullability merge along the ancestry, the nearest declaration wins
+        Path lizard = new File(output, "lib/openapi_client/models/lizard.rb").toPath();
+        TestUtils.assertFileContains(lizard,
+                "superclass.acceptable_openapi_types.merge(openapi_types)",
+                "(superclass.acceptable_openapi_nullable - attribute_map.keys) | openapi_nullable");
+        // build_from_hash and to_hash use the merged maps
+        TestUtils.assertFileContains(lizard,
+                "acceptable_openapi_types.each_pair do |key, type|",
+                "self.class.acceptable_attribute_map.each_pair do |attr, param|",
+                "is_nullable = self.class.acceptable_openapi_nullable.include?(attr)");
+        // the super call that built and discarded a second instance is gone
+        TestUtils.assertFileNotContains(lizard, "super(attributes)\n      attributes = attributes.transform_keys(&:to_sym)");
+        // a root model has no parent to merge
+        TestUtils.assertFileNotContains(new File(output, "lib/openapi_client/models/pet.rb").toPath(), "superclass.acceptable_openapi_types");
+        // a generated parent still receives the initializer call
+        TestUtils.assertFileContains(lizard, "# call parent's initialize\n      super(attributes)");
+    }
+
+    @Test(description = "a model whose superclass is not a generated model (an alias to an array) does not delegate to it")
+    public void testAliasModelDoesNotDelegateToItsBuiltInSuperclass() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/features/generate-alias-as-model.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        ModelUtils.setGenerateAliasAsModel(true);
+        try {
+            new DefaultGenerator().opts(clientOptInput).generate();
+        } finally {
+            ModelUtils.setGenerateAliasAsModel(false);
+        }
+
+        // ArrayAlias < Array: Array has none of the helpers, so each one is its own base case
+        Path arrayAlias = new File(output, "lib/openapi_client/models/array_alias.rb").toPath();
+        TestUtils.assertFileContains(arrayAlias,
+                "class ArrayAlias < Array",
+                "def self.acceptable_attribute_map\n      attribute_map\n    end",
+                "def self.acceptable_openapi_types\n      openapi_types\n    end",
+                "def self.acceptable_openapi_nullable\n      openapi_nullable\n    end");
+        TestUtils.assertFileNotContains(arrayAlias, "superclass.", "super(attributes)");
     }
 }
