@@ -2545,11 +2545,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return string presentation of the example value of the property
      */
     public String toExampleValue(Schema schema) {
-        if (schema.getExample() != null) {
-            return schema.getExample().toString();
-        }
-
-        return "null";
+        return getExampleValueToString(schema.getExample());
     }
 
     /**
@@ -2565,22 +2561,21 @@ public class DefaultCodegen implements CodegenConfig {
         if (schemaExamples == null || schemaExamples.isEmpty()) {
             return null;
         }
-        List<String> examples = schemaExamples.stream()
-                    .map(this::getExampleValueString)
-                    .collect(Collectors.toList());
-
-        return examples.isEmpty() ? null : examples;
+        return schemaExamples.stream()
+                .map(this::getExampleValueToString)
+                .collect(Collectors.toList());
     }
 
     /**
      * Return the string presentation of a single example value.
      * <p>
+     * This method should be overridden in the generator to meet its requirement.
      * For value nodes, {@link JsonNode#asText()} is used to get the string without duplicated quotes.
      *
      * @param example the raw example value coming from the parsed schema
      * @return string presentation of the example value
      */
-    protected String getExampleValueString(Object example) {
+    protected String getExampleValueToString(Object example) {
         if (example == null) {
             return "null";
         }
@@ -4324,7 +4319,7 @@ public class DefaultCodegen implements CodegenConfig {
             List<String> examples = new ArrayList<>();
             for (Object example : p.getExamples()) {
                 try {
-                    examples.add(getExampleValueString(example));
+                    examples.add(getExampleValueToString(example));
                 } catch (Exception e) {
                     examples.add(handleExampleException(property.baseName, e));
                 }
@@ -4574,8 +4569,8 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private String handleExampleException(String propertyName, Exception e) {
-        LOGGER.error("Error in generating `example` for the property {}. Default to ERROR_TO_EXAMPLE_VALUE. Enable debugging for more info.", propertyName);
-        LOGGER.debug("Exception from toExampleValue: {}", e.getMessage());
+        LOGGER.error("Error in generating example for the property {}. Default to ERROR_TO_EXAMPLE_VALUE. Enable debugging for more info.", propertyName);
+        LOGGER.debug("Exception from example handling: {}", e.getMessage());
         return "ERROR_TO_EXAMPLE_VALUE";
     }
 
