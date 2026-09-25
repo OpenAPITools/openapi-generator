@@ -1221,6 +1221,25 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        if (isLibrary(OKHTTP_GSON)) {
+            // gson refuses a class whose hierarchy declares two fields bound to one JSON name, so
+            // the okhttp-gson additionalProperties bag is declared once, on the topmost ancestor
+            // that has one; every descendant inherits it instead of declaring its own copy
+            for (CodegenModel cm : getAllModels(objs).values()) {
+                for (CodegenModel ancestor = cm.getParentModel(); ancestor != null; ancestor = ancestor.getParentModel()) {
+                    if (ancestor.isAdditionalPropertiesTrue) {
+                        cm.vendorExtensions.put("x-inherits-additional-properties", true);
+                        break;
+                    }
+                }
+            }
+        }
+        return objs;
+    }
+
+    @Override
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
         //Needed import for Gson based libraries
