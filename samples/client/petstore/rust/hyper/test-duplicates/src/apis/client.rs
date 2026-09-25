@@ -1,6 +1,3 @@
-sdlkfj;askld;j;fl;
-
-
 use std::sync::Arc;
 
 use hyper;
@@ -26,3 +23,4 @@ impl APIClient {
     }
 
 }
+
