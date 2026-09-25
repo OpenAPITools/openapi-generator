@@ -21,7 +21,7 @@ public abstract class HttpInterfacesAbstractConfigurator {
 
     private final RestClient client;
 
-    public HttpInterfacesAbstractConfigurator(final RestClient client) {
+    public HttpInterfacesAbstractConfigurator(RestClient client) {
         this.client = client;
     }
 
