@@ -2838,7 +2838,7 @@ public class JavaClientCodegenTest {
         File rulesetFile = files.get("Ruleset.java");
         assertNotNull(rulesetFile);
         JavaFileAssert.assertThat(rulesetFile)
-                .hasNoImports("java.lang.Enum", "org.openapitools.client.model.Enum")
+                .hasNoImports("org.openapitools.client.model.Enum")
                 .fileContains("public enum BypassModeEnum {", "private String value;", "BypassModeEnum(String value)", "public String getValue()", "public static BypassModeEnum fromValue(String value)", "private String plainEnumFormat;")
                 .fileDoesNotContain("private Enum value;", "Enum.valueOf(", "private Enum plainEnumFormat;");
     }

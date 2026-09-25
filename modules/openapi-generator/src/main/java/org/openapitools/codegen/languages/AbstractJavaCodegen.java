@@ -3079,8 +3079,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.keep = keep;
         }
     }
+
     @Override
     protected String getCommonEnumType() {
+        if (typeMapping.containsKey("enum")) {
+            return typeMapping.get("enum");
+        }
         return "Enum";
     }
 }
