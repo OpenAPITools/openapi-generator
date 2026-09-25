@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
@@ -1667,6 +1668,63 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
             "this.nullableObjectList.get().remove(nullableObjectListItem);");
 
         output.deleteOnExit();
+    }
+
+    @Test
+    public void testJsonNullableContainerDefaultIsDeclared() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml",
+                        null, new ParseOptions()).getOpenAPI();
+        Schema<?> nullableArray = (Schema<?>) openAPI.getComponents().getSchemas().get("ContainerDefaultValue")
+                .getProperties().get("nullable_array_with_default");
+        nullableArray.addExtension("x-is-jackson-optional-nullable", true);
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenApiNullable(true);
+        codegen.additionalProperties().put(CodegenConstants.OPENAPI_NULLABLE, "true");
+
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+        validateJavaSourceFiles(files);
+
+        Path model = output.toPath().resolve("src/gen/java/org/openapitools/model/ContainerDefaultValue.java");
+        assertFileContains(model,
+                "private JsonNullable<List<String>> nullableArrayWithDefault = "
+                        + "JsonNullable.<List<String>>of(new ArrayList<>(Arrays.asList(\"foo\", \"bar\")));",
+                "this.nullableArrayWithDefault = JsonNullable.<List<String>>of(new ArrayList<>());");
+        assertFileNotContains(model,
+                "this.nullableArrayWithDefault = JsonNullable.<List<String>>of(new ArrayList<>(Arrays.asList(");
+    }
+
+    @Test
+    public void testJsonNullableExplicitNullContainerDefaultRemainsUndefined() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_24993.yaml", null, new ParseOptions()).getOpenAPI();
+        Schema<?> nullableArray = (Schema<?>) openAPI.getComponents().getSchemas().get("ComplexDefaults")
+                .getProperties().get("nullableArrayWithNullDefault");
+        nullableArray.addExtension("x-is-jackson-optional-nullable", true);
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenApiNullable(true);
+        codegen.additionalProperties().put(CodegenConstants.OPENAPI_NULLABLE, "true");
+
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+        validateJavaSourceFiles(files);
+
+        Path model = output.toPath().resolve("src/gen/java/org/openapitools/model/ComplexDefaults.java");
+        assertFileContains(model,
+                "private JsonNullable<List<String>> nullableArrayWithNullDefault = "
+                        + "JsonNullable.<List<String>>undefined();");
+        assertFileNotContains(model, "JsonNullable.<List<String>>of(null)");
     }
 
     /**

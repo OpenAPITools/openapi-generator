@@ -653,6 +653,95 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void toDefaultValueForComposedOneOfSelectsMatchingMemberTest() {
+        ObjectSchema first = new ObjectSchema();
+        first.addProperty("firstOnly", new StringSchema());
+        ObjectSchema later = new ObjectSchema();
+        later.addProperty("laterOnly", new StringSchema());
+        OpenAPI openAPI = new OpenAPI().components(new Components()
+                .addSchemas("First", first)
+                .addSchemas("Later", later));
+        codegen.setOpenAPI(openAPI);
+
+        ComposedSchema composed = new ComposedSchema();
+        composed.addOneOfItem(new Schema<>().$ref("#/components/schemas/First"));
+        composed.addOneOfItem(new Schema<>().$ref("#/components/schemas/Later"));
+        composed.setDefault(Map.of("laterOnly", "later"));
+
+        CodegenProperty cp = codegen.fromProperty("choice", composed);
+        String rendered = codegen.toDefaultValue(cp, composed);
+
+        Assert.assertTrue(rendered.contains("new Later().laterOnly(\"later\")"), rendered);
+        Assert.assertFalse(rendered.contains("new First()"), rendered);
+    }
+
+    @Test
+    public void toDefaultValueForRecursiveComposedSchemaDoesNotOverflow() {
+        ComposedSchema recursive = new ComposedSchema();
+        recursive.addProperty("name", new StringSchema());
+        recursive.addAllOfItem(new Schema<>().$ref("#/components/schemas/Recursive"));
+        recursive.setDefault(Map.of("name", "recursive"));
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("Recursive", recursive)));
+
+        CodegenProperty property = codegen.fromProperty("recursive", recursive);
+        String rendered = codegen.toDefaultValue(property, recursive);
+
+        Assert.assertEquals(rendered, "new " + property.datatypeWithEnum + "().name(\"recursive\")");
+    }
+
+    @Test
+    public void toDefaultValueForNestedDatesUsesConfiguredDateLibraryTest() {
+        ObjectSchema nested = new ObjectSchema();
+        nested.addProperty("date", new DateSchema());
+        nested.addProperty("dateTime", new DateTimeSchema());
+        StringSchema timeLocal = new StringSchema();
+        timeLocal.setFormat("time-local");
+        nested.addProperty("timeLocal", timeLocal);
+        StringSchema dateTimeLocal = new StringSchema();
+        dateTimeLocal.setFormat("date-time-local");
+        nested.addProperty("dateTimeLocal", dateTimeLocal);
+        Map<String, Object> defaultValue = new LinkedHashMap<>();
+        defaultValue.put("date", "2019-02-15");
+        defaultValue.put("dateTime", "1984-12-19T03:39:57-08:00");
+        defaultValue.put("timeLocal", "10:15:30");
+        defaultValue.put("dateTimeLocal", "2007-12-03T10:15:30");
+        nested.setDefault(defaultValue);
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("Nested", nested)));
+
+        codegen.setDateLibrary("java8");
+        CodegenProperty java8Property = codegen.fromProperty("nested", nested);
+        String java8Rendered = codegen.toDefaultValue(java8Property, nested);
+        Assert.assertTrue(java8Rendered.contains(".date(java.time.LocalDate.parse(\"2019-02-15\"))"), java8Rendered);
+        Assert.assertTrue(java8Rendered.contains(".dateTime(java.time.OffsetDateTime.parse(\"1984-12-19T03:39:57-08:00\""),
+                java8Rendered);
+        Assert.assertTrue(java8Rendered.contains(".timeLocal(java.time.LocalTime.parse(\"10:15:30\"))"), java8Rendered);
+        Assert.assertTrue(java8Rendered.contains(".dateTimeLocal(java.time.LocalDateTime.parse(\"2007-12-03T10:15:30\"))"),
+                java8Rendered);
+
+        codegen.setDateLibrary("java8-localdatetime");
+        CodegenProperty localDateTimeProperty = codegen.fromProperty("nested", nested);
+        String localDateTimeRendered = codegen.toDefaultValue(localDateTimeProperty, nested);
+        Assert.assertTrue(localDateTimeRendered.contains(".dateTime(java.time.OffsetDateTime.parse(\"1984-12-19T03:39:57-08:00\").toLocalDateTime())"),
+                localDateTimeRendered);
+
+        codegen.setDateLibrary("joda");
+        CodegenProperty jodaProperty = codegen.fromProperty("nested", nested);
+        String jodaRendered = codegen.toDefaultValue(jodaProperty, nested);
+        Assert.assertTrue(jodaRendered.contains(".date(org.joda.time.LocalDate.parse(\"2019-02-15\"))"), jodaRendered);
+        Assert.assertTrue(jodaRendered.contains(".dateTime(org.joda.time.DateTime.parse(\"1984-12-19T03:39:57-08:00\"))"),
+                jodaRendered);
+        Assert.assertFalse(jodaRendered.contains("java.time"), jodaRendered);
+
+        codegen.setDateLibrary("legacy");
+        CodegenProperty legacyProperty = codegen.fromProperty("nested", nested);
+        String legacyRendered = codegen.toDefaultValue(legacyProperty, nested);
+        Assert.assertFalse(legacyRendered.contains("java.time"), legacyRendered);
+        Assert.assertFalse(legacyRendered.contains("org.joda.time"), legacyRendered);
+        Assert.assertEquals(legacyRendered, "new " + legacyProperty.datatypeWithEnum
+                + "().timeLocal(\"10:15:30\").dateTimeLocal(\"2007-12-03T10:15:30\")");
+    }
+
+    @Test
     public void toDefaultValueForObjectWithEnumPropertyDefaultTest() {
         // An object default that contains an enum property must render the enum constant
         // (e.g. `OutputFormat.OrderEnum.SIMILARITY`) rather than a raw quoted string, which

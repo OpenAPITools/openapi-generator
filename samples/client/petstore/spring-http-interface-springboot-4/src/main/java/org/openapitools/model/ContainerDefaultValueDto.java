@@ -132,7 +132,7 @@ public class ContainerDefaultValueDto {
 
   public ContainerDefaultValueDto addNullableArrayWithDefaultItem(String nullableArrayWithDefaultItem) {
     if (this.nullableArrayWithDefault == null) {
-      this.nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
+      this.nullableArrayWithDefault = new ArrayList<>();
     }
     this.nullableArrayWithDefault.add(nullableArrayWithDefaultItem);
     return this;
