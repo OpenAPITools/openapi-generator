@@ -2273,12 +2273,12 @@ public class DefaultCodegenTest {
         final Map properties = openAPI.getComponents().getSchemas().get("Pet").getProperties();
 
         assertThat(codegen.fromProperty("name", (Schema) properties.get("name")).examples)
-                .containsExactly("Fluffy", "Rex");
+                .containsExactly("Fluffy-\\s;]\"a", "Rex");
         assertThat(codegen.fromProperty("age", (Schema) properties.get("age")).examples)
                 .containsExactly("3");
         assertThat(codegen.fromProperty("tags", (Schema) properties.get("tags")).examples)
-                .containsExactly("[\"a\",\"b\"]");
-        assertNull(codegen.fromProperty("height", (Schema) properties.get("height")).examples);
+                .containsExactly("[\"a\\\"c\",\"b\"]");
+        assertThat(codegen.fromProperty("height", (Schema) properties.get("height")).examples).isNullOrEmpty();
     }
 
     @Test

@@ -10055,11 +10055,11 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("Pet.java"))
                 .fileContains(
-                        "example = \"Fluffy\"",
-                        "examples = { \"Fluffy\", \"Rex\" }",
+                        "example = \"Fluffy-\\\\s;]\\\"a\"",
+                        "examples = { \"Fluffy-\\\\s;]\\\"a\", \"Rex\" }",
                         "examples = { \"3\" }",
-                        "examples = { \"[a, b]\" }"
-                ).fileDoesNotContain("examples = {}");
+                        "examples = { \"[a\\\"c, b]\" }"
+                ).fileDoesNotContain("examples = {  }");
     }
 
 }
