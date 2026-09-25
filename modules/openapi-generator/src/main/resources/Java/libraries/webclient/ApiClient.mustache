@@ -14,6 +14,9 @@ import org.springframework.http.codec.json.JacksonJsonEncoder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+{{#optionalGettersForNullableFieldsOnly}}
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+{{/optionalGettersForNullableFieldsOnly}}
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 {{/useJackson3}}
@@ -213,6 +216,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         JsonNullableModule jnm = new JsonNullableModule();
         mapper.registerModule(jnm);
         {{/openApiNullable}}
+        {{#optionalGettersForNullableFieldsOnly}}
+        mapper.registerModule(new Jdk8Module());
+        {{/optionalGettersForNullableFieldsOnly}}
         return mapper;
     }
     {{/useJackson3}}

@@ -132,7 +132,7 @@ public class Foo {
   @JsonProperty("nullableDt")
   @JacksonXmlProperty(localName = "nullableDt")
   @XmlElement(name = "nullableDt")
-  public OffsetDateTime getNullableDt() {
+  public @Nullable OffsetDateTime getNullableDt() {
     return nullableDt;
   }
 
@@ -180,7 +180,7 @@ public class Foo {
   @JsonProperty("nullableBinary")
   @JacksonXmlProperty(localName = "nullableBinary")
   @XmlElement(name = "nullableBinary")
-  public org.springframework.core.io.Resource getNullableBinary() {
+  public org.springframework.core.io.@Nullable Resource getNullableBinary() {
     return nullableBinary;
   }
 
@@ -281,7 +281,7 @@ public class Foo {
   @JacksonXmlProperty(localName = "nullableListMinIntems")
   @JacksonXmlElementWrapper(useWrapping = false)
   @XmlElement(name = "nullableListMinIntems")
-  public List<OffsetDateTime> getNullableListMinIntems() {
+  public @Nullable List<OffsetDateTime> getNullableListMinIntems() {
     return nullableListMinIntems;
   }
 
@@ -354,7 +354,7 @@ public class Foo {
   @JsonProperty("nullableNumber")
   @JacksonXmlProperty(localName = "nullableNumber")
   @XmlElement(name = "nullableNumber")
-  public BigDecimal getNullableNumber() {
+  public @Nullable BigDecimal getNullableNumber() {
     return nullableNumber;
   }
 
@@ -426,7 +426,7 @@ public class Foo {
   @JsonProperty("nullableColor")
   @JacksonXmlProperty(localName = "nullableColor")
   @XmlElement(name = "nullableColor")
-  public String getNullableColor() {
+  public @Nullable String getNullableColor() {
     return nullableColor;
   }
 
