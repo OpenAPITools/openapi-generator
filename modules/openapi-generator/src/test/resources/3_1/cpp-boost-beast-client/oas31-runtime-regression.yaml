@@ -361,6 +361,15 @@ components:
         nullable_fallback:
           type: [string, "null"]
           default: fallback
+        # OpenAI's Eval.testing_criteria: a SCALAR default on an array
+        # carrier. JSON Schema treats default as an annotation here, but a
+        # generated scalar initializer cannot even compile against
+        # std::vector; the decode path must drop it to value-initialization.
+        mismatched_tags:
+          type: array
+          items:
+            type: string
+          default: eval
     ConditionalStreamRequest:
       type: object
       properties:
@@ -389,3 +398,15 @@ components:
         voice:
           $ref: '#/components/schemas/DefaultVoice'
           default: alloy
+    MixedWithContainer:
+      type: object
+      properties:
+        named:
+          $ref: '#/components/schemas/StringOrTags'
+          default: alloy
+    StringOrTags:
+      oneOf:
+        - type: array
+          items:
+            type: string
+        - type: string

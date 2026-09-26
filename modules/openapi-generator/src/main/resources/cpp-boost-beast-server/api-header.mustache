@@ -1,0 +1,155 @@
+{{>licenseInfo}}
+{{#operations}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{apiHeaderGuardPrefix}}_{{classname}}_H_
+#define {{apiHeaderGuardPrefix}}_{{classname}}_H_
+
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
+{{! Runtime headers are included through the server/ directory: the model/
+    directory precedes server/ on the include search path, so an unqualified
+    #include "Problem.h" from api/ could be hijacked by a model named like
+    a runtime type. }}
+#include "server/HttpServer.h"
+#include "server/Problem.h"
+#include "server/Responder.h"
+#include "server/Router.h"
+
+{{#imports}}{{{import}}}
+{{/imports}}
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+
+{{#x-server-has-model-use}}using namespace {{modelNamespace}};
+{{/x-server-has-model-use}}
+
+/**
+ * Service interface for {{description}}. Implementations receive fully
+ * decoded, validated requests and own their response completion. The
+ * request context is heap-owned: implementations may keep the shared_ptr
+ * and read the request data after this call returns.
+ *
+ * The per-operation contract types are nested inside this class so an
+ * operation tagged under several groups produces one definition per API
+ * class instead of duplicate namespace-scope types.
+ */
+class {{classname}} {
+public:
+{{#operation}}
+    // ------------------------------------------------------------------
+
+    /// Fully decoded request data for {{operationId}}.
+    struct {{vendorExtensions.x-server-operation-pascal}}Request {
+    {{#vendorExtensions.x-server-params}}
+    {{#hasDefaultInit}}
+        {{{dataType}}} {{cppName}} = {{{defaultInit}}};
+    {{/hasDefaultInit}}
+    {{^hasDefaultInit}}
+        {{{dataType}}} {{cppName}}{};
+    {{/hasDefaultInit}}
+    {{/vendorExtensions.x-server-params}}
+    {{#vendorExtensions.x-server-has-request-body}}
+    // Fully-qualified field type: std::optional wrapper preserved, model
+    // tokens shadowed by this class's nested contract types or ambiguous
+    // with runtime types already model-namespace qualified by the assembler.
+    {{{vendorExtensions.x-server-request-field-type}}} body{};
+    {{/vendorExtensions.x-server-has-request-body}}
+    };
+
+    /// Single-shot responder for {{operationId}}. Movable, thread-safe value
+    /// type; the second and later completions are ignored.
+    class {{vendorExtensions.x-server-operation-pascal}}Responder {
+    public:
+        explicit {{vendorExtensions.x-server-operation-pascal}}Responder(
+                std::shared_ptr<{{{apiNsQualified}}}ResponderCore> core)
+            : core_(std::move(core)) {}
+
+    {{#vendorExtensions.x-server-responses}}
+    {{#isDefault}}
+    {{#hasModel}}
+        void sendDefault({{{sendType}}} value, unsigned status) const {
+            core_->sendJson(status, value, "{{{contentType}}}");
+        }
+    {{/hasModel}}
+    {{^hasModel}}
+        void sendDefault(unsigned status) const {
+            core_->sendEmpty(status);
+        }
+    {{/hasModel}}
+    {{/isDefault}}
+    {{^isDefault}}
+    {{#hasModel}}
+        void {{sendMethod}}({{{sendType}}} value) const {
+            core_->sendJson({{code}}, value, "{{{contentType}}}");
+        }
+    {{/hasModel}}
+    {{^hasModel}}
+        void {{sendMethod}}() const {
+            core_->sendEmpty({{code}});
+        }
+    {{/hasModel}}
+    {{/isDefault}}
+    {{/vendorExtensions.x-server-responses}}
+
+        void sendProblem({{{apiNsQualified}}}Problem problem) const {
+            core_->sendProblem(std::move(problem));
+        }
+
+        void sendNotImplemented(std::string const& operationId) const {
+            core_->sendNotImplemented(operationId);
+        }
+
+    private:
+        std::shared_ptr<{{{apiNsQualified}}}ResponderCore> core_;
+    };
+
+{{/operation}}
+    virtual ~{{classname}}() = default;
+
+{{#operation}}
+    virtual void {{nickname}}(
+            {{vendorExtensions.x-server-operation-pascal}}Request request,
+            std::shared_ptr<{{{apiNsQualified}}}RequestContext> context,
+            {{vendorExtensions.x-server-operation-pascal}}Responder responder) = 0;
+{{/operation}}
+
+    /// Registers every {{classname}} route on the server.
+    static void attach({{{apiNsQualified}}}HttpServer& server, std::shared_ptr<{{classname}}> impl);
+};
+
+{{#addApiImplStubs}}
+/**
+ * Quick-start stub service: every operation answers 501 problem+json.
+ */
+class {{classname}}Stub : public {{classname}} {
+public:
+{{#operation}}
+    void {{nickname}}(
+            {{vendorExtensions.x-server-operation-pascal}}Request request,
+            std::shared_ptr<{{{apiNsQualified}}}RequestContext> context,
+            {{vendorExtensions.x-server-operation-pascal}}Responder responder) override {
+        (void)request;
+        (void)context;
+        responder.sendNotImplemented("{{{vendorExtensions.x-server-operation-id-literal}}}");
+    }
+{{/operation}}
+};
+{{/addApiImplStubs}}
+
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+#endif // {{apiHeaderGuardPrefix}}_{{classname}}_H_
+{{/operations}}

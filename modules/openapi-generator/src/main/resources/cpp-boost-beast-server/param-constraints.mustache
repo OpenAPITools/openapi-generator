@@ -1,0 +1,171 @@
+{{! Shared scalar-parameter constraint ladder for the path/query/header/cookie
+    scalar branches. Requires C++ locals `present` (parameter seen on the wire;
+    path sets it true), `invalid`, and `problem`, plus the assembler facts
+    stringKind/boolKind/integerKind/numberKind and the constraint ladder:
+    hasEnum/enumValues, enumAlwaysInvalid, hasPattern/pattern,
+    hasMinLength/minLength, hasMaxLength/maxLength, hasMinimum/minimum,
+    hasMaximum/maximum, minimumExclusive/maximumExclusive,
+    minimumAlwaysInvalid/maximumAlwaysInvalid. The error keys use
+    baseNameLiteral (C++-escaped, triple-brace) so a wire name containing
+    quotes or backslashes cannot corrupt the generated string literal.
+    Integer kinds compare in their exact integer type against assembler-folded
+    thresholds (minimum is already the strict reject floor, maximum the strict
+    reject ceiling), so a value above 2^53 cannot slip through a lossy
+    floating-point conversion. String lengths are counted in UTF-8 code
+    points (matching the model validator's countCodePoints); the pattern runs
+    std::regex_search over the UTF-8 BYTES (see the README pattern-policy
+    note). }}
+{{#stringKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<std::string> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
+                            problem.withError("{{{baseNameLiteral}}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{#enumAlwaysInvalid}}
+                    if (!invalid && present) {
+                        // Every declared enum member is unrepresentable for
+                        // this parameter's C++ type (strings/fractional/out of
+                        // range against an integer codec): no wire value can
+                        // satisfy the schema. Fail closed like the model path.
+                        problem.withError("{{{baseNameLiteral}}}", "no declared enum member is representable for this parameter type");
+                        invalid = true;
+                    }
+{{/enumAlwaysInvalid}}{{#hasPattern}}
+                    if (!invalid && present) {
+                        // JSON Schema `pattern` is UNANCHORED: a substring
+                        // match satisfies it. A pattern outside the
+                        // std::regex ECMAScript subset (unicode property
+                        // escapes, named groups, lookbehind) throws at
+                        // construction. Guard the function-local static so a
+                        // failed initialization cannot retry-throw on every
+                        // request (which would answer 500 forever); fail
+                        // closed with 400, matching the model path's
+                        // validatePattern policy.
+                        static bool const kPatternOk = [] {
+                            if (hasUnicodePropertyEscape("{{{pattern}}}")) {
+                                return false;
+                            }
+                            try {
+                                std::regex trial("{{{pattern}}}");
+                                (void)trial;
+                                return true;
+                            } catch (std::regex_error const&) {
+                                return false;
+                            }
+                        }();
+                        if (!kPatternOk) {
+                            problem.withError("{{{baseNameLiteral}}}", "the declared pattern is outside the supported regex grammar");
+                            invalid = true;
+                        } else {
+                            static std::regex const kPattern("{{{pattern}}}");
+                            if (!std::regex_search(request.{{cppName}}, kPattern)) {
+                                problem.withError("{{{baseNameLiteral}}}", "value does not match the required pattern");
+                                invalid = true;
+                            }
+                        }
+                    }
+{{/hasPattern}}{{#hasMinLength}}
+                    if (!invalid && present
+                            && utf8CodepointCount(request.{{cppName}}) < {{minLength}}) {
+                        problem.withError("{{{baseNameLiteral}}}", "value is shorter than minLength");
+                        invalid = true;
+                    }
+{{/hasMinLength}}{{#hasMaxLength}}
+                    if (!invalid && present
+                            && utf8CodepointCount(request.{{cppName}}) > {{maxLength}}) {
+                        problem.withError("{{{baseNameLiteral}}}", "value is longer than maxLength");
+                        invalid = true;
+                    }
+{{/hasMaxLength}}{{/stringKind}}
+{{#boolKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<bool> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), request.{{cppName}}) == kAllowed.end()) {
+                            problem.withError("{{{baseNameLiteral}}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{#enumAlwaysInvalid}}
+                    if (!invalid && present) {
+                        // Every declared enum member is unrepresentable for
+                        // a bool codec (strings/numbers): no wire value can
+                        // satisfy the schema. Fail closed like the integer
+                        // and string branches.
+                        problem.withError("{{{baseNameLiteral}}}", "no declared enum member is representable for this parameter type");
+                        invalid = true;
+                    }
+{{/enumAlwaysInvalid}}{{/boolKind}}
+{{#integerKind}}{{#enumAlwaysInvalid}}
+                    if (!invalid && present) {
+                        // Every declared enum member is unrepresentable for
+                        // this parameter's C++ type: no wire value can satisfy
+                        // the schema. Fail closed rather than skip the check.
+                        problem.withError("{{{baseNameLiteral}}}", "no declared enum member is representable for this parameter type");
+                        invalid = true;
+                    }
+{{/enumAlwaysInvalid}}{{^enumAlwaysInvalid}}{{#minimumAlwaysInvalid}}
+                    if (!invalid && present) {
+                        problem.withError("{{{baseNameLiteral}}}", "value can never satisfy the declared minimum");
+                        invalid = true;
+                    }
+{{/minimumAlwaysInvalid}}{{#maximumAlwaysInvalid}}
+                    if (!invalid && present) {
+                        problem.withError("{{{baseNameLiteral}}}", "value can never satisfy the declared maximum");
+                        invalid = true;
+                    }
+{{/maximumAlwaysInvalid}}{{/enumAlwaysInvalid}}{{^minimumAlwaysInvalid}}{{^maximumAlwaysInvalid}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<long long> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long long>(request.{{cppName}})) == kAllowed.end()) {
+                            problem.withError("{{{baseNameLiteral}}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{#hasMinimum}}
+                    if (!invalid && present && request.{{cppName}} < {{minimum}}) {
+                        problem.withError("{{{baseNameLiteral}}}", "value is below the minimum");
+                        invalid = true;
+                    }
+{{/hasMinimum}}{{#hasMaximum}}
+                    if (!invalid && present && request.{{cppName}} > {{maximum}}) {
+                        problem.withError("{{{baseNameLiteral}}}", "value is above the maximum");
+                        invalid = true;
+                    }
+{{/hasMaximum}}{{/maximumAlwaysInvalid}}{{/minimumAlwaysInvalid}}{{/integerKind}}
+{{#numberKind}}{{#hasEnum}}
+                    if (!invalid && present) {
+                        static std::vector<long double> const kAllowed = { {{#enumValues}}{{{.}}}, {{/enumValues}} };
+                        if (std::find(kAllowed.begin(), kAllowed.end(), static_cast<long double>(request.{{cppName}})) == kAllowed.end()) {
+                            problem.withError("{{{baseNameLiteral}}}", "value is not one of the allowed enum members");
+                            invalid = true;
+                        }
+                    }
+{{/hasEnum}}{{#enumAlwaysInvalid}}
+                    if (!invalid && present) {
+                        // Every declared enum member is unrepresentable for
+                        // a number codec (strings/bools): no wire value can
+                        // satisfy the schema. Fail closed like the integer
+                        // branch.
+                        problem.withError("{{{baseNameLiteral}}}", "no declared enum member is representable for this parameter type");
+                        invalid = true;
+                    }
+{{/enumAlwaysInvalid}}{{#hasMinimum}}
+                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) {{#minimumExclusive}}<={{/minimumExclusive}}{{^minimumExclusive}}<{{/minimumExclusive}} {{minimum}}L) {
+                        problem.withError("{{{baseNameLiteral}}}", "value is out of the allowed range");
+                        invalid = true;
+                    }
+{{/hasMinimum}}{{#hasMaximum}}
+                    if (!invalid && present && static_cast<long double>(request.{{cppName}}) {{#maximumExclusive}}>={{/maximumExclusive}}{{^maximumExclusive}}>{{/maximumExclusive}} {{maximum}}L) {
+                        problem.withError("{{{baseNameLiteral}}}", "value is out of the allowed range");
+                        invalid = true;
+                    }
+{{/hasMaximum}}{{/numberKind}}
+{{#hasMultipleOf}}
+                    if (!invalid && present
+                            && !isExactMultipleOf(text, "{{{multipleOf}}}")) {
+                        problem.withError("{{{baseNameLiteral}}}", "value is not a multiple of {{{multipleOf}}}");
+                        invalid = true;
+                    }
+{{/hasMultipleOf}}
