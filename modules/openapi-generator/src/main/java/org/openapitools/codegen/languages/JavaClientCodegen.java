@@ -208,6 +208,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    protected boolean supportsOptionalGettersForNullableFieldsOnly() {
+        return true;
+    }
+
+    @Override
     protected boolean useBeanValidationOnMapValueType() {
         // The Java templates place container element validation on the type argument
         // (List<@Valid T>, Map<String, @Valid V>) rather than the deprecated
@@ -425,6 +430,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (useJackson3 && !libNative && !libApache && !libJersey3 && !libRestClient && !libRestTemplate && !libWebClient) {
             throw new IllegalArgumentException("useJackson3 is only supported for the 'native', 'apache-httpclient', 'jersey3', 'restclient', 'resttemplate', and 'webclient' libraries. " +
                     "The Spring libraries also require useSpringBoot4=true.");
+        }
+        if (libRestClient || libRestTemplate || libWebClient) {
+            convertPropertyToBooleanAndWriteBack(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, this::setOptionalGettersForNullableFieldsOnly);
+            if (optionalGettersForNullableFieldsOnly && !useJackson3) {
+                throw new IllegalArgumentException(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY +
+                        " is only supported with jackson 3 (enable useJackson3 and useSpringBoot4)");
+            }
         }
 
         if (this.useJackson3) {

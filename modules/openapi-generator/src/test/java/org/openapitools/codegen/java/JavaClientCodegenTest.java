@@ -68,6 +68,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
@@ -5164,6 +5165,69 @@ public class JavaClientCodegenTest {
         assertThat(content)
                 .contains("import io.swagger.v3.oas.annotations.tags.*;")
                 .contains("@Tag(");
+    }
+    @Test
+    public void testOptionalGettersForNullableFieldsOnly() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .addAdditionalProperty(AbstractJavaCodegen.OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, true)
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.USE_SPRING_BOOT4, true)
+                .setInputSpec("src/test/resources/3_0/java/builder.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // Generated sources must compile (validates Optional getter + raw field/setter are consistent).
+        validateJavaSourceFiles(files);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/SimpleObject.java")).content().contains(
+                "public java.util.Optional<String> getSimple() {",
+                "return java.util.Optional.ofNullable(simple);",
+                "private String simple;",
+                "public void setSimple(@jakarta.annotation.Nullable String simple) {"
+        );
+        // Nullable fields keep JsonNullable and must not be wrapped in Optional.
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/SimpleObject.java")).content()
+                .doesNotContain("public java.util.Optional<String> getNullableObject() {");
+    }
+
+    @Test
+    public void testOptionalGettersForNullableFieldsOnlyDisabledByDefault() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setInputSpec("src/test/resources/3_0/java/builder.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        // Without the opt-in flag the getter keeps returning the raw type (backward compatible).
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/SimpleObject.java")).content()
+                .doesNotContain("return java.util.Optional.ofNullable(simple);");
+    }
+
+    @Test
+    public void testOptionalGettersForNullableFieldsOnlyRequiresJackson3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .addAdditionalProperty(AbstractJavaCodegen.OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, true)
+                .setInputSpec("src/test/resources/3_0/java/builder.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final ClientOptInput input = configurator.toClientOptInput();
+        final JavaClientCodegen codegen = (JavaClientCodegen) input.getConfig();
+        final IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, codegen::processOpts);
+        assertThat(ex.getMessage())
+                .contains(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY)
+                .contains("jackson 3");
     }
 
     // ========== x-jackson-default-impl / typeInfoDefaultImpls tests ==========

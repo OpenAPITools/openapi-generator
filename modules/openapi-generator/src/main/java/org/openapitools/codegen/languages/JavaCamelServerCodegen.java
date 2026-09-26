@@ -76,6 +76,13 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
     }
 
     @Override
+    protected boolean supportsOptionalGettersForNullableFieldsOnly() {
+        // java-camel uses its own java-camel-server model templates, which do not
+        // implement Optional getters.
+        return false;
+    }
+
+    @Override
     public void processOpts() {
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)

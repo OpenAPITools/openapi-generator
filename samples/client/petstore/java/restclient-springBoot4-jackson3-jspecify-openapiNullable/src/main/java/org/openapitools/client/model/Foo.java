@@ -167,7 +167,7 @@ public class Foo {
   @JsonIgnore
 
   public java.time.@Nullable Instant getNullableDt() {
-        return nullableDt.orElse(null);
+    return nullableDt.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_DT, required = false)
@@ -225,7 +225,7 @@ public class Foo {
   @JsonIgnore
 
   public @Nullable File getNullableBinary() {
-        return nullableBinary.orElse(null);
+    return nullableBinary.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_BINARY, required = false)
@@ -336,7 +336,7 @@ public class Foo {
   @JsonIgnore
 
   public @Nullable List<java.time.Instant> getNullableListMinIntems() {
-        return nullableListMinIntems.orElse(null);
+    return nullableListMinIntems.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_LIST_MIN_INTEMS, required = false)
@@ -419,7 +419,7 @@ public class Foo {
   @JsonIgnore
 
   public java.math.@Nullable BigDecimal getNullableNumber() {
-        return nullableNumber.orElse(null);
+    return nullableNumber.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_NUMBER, required = false)
@@ -502,7 +502,7 @@ public class Foo {
   @JsonIgnore
 
   public @Nullable String getNullableColor() {
-        return nullableColor.orElse(null);
+    return nullableColor.orElse(null);
   }
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_COLOR, required = false)

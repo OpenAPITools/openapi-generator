@@ -118,6 +118,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
     public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generateConstructorWithAllArgs";
     public static final String GENERATE_BUILDERS = "generateBuilders";
+    public static final String OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY = "optionalGettersForNullableFieldsOnly";
 
     @Getter @Setter
     protected String dateLibrary = "java8";
@@ -181,6 +182,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Getter @Setter
     protected String booleanGetterPrefix = "get";
     @Setter protected boolean ignoreAnyOfInEnum = false;
+    @Getter @Setter
+    protected boolean optionalGettersForNullableFieldsOnly = false;
+    /**
+     * Whether this generator implements the {@code optionalGettersForNullableFieldsOnly}
+     * option (explicit Optional&lt;T&gt; getters in the model templates). Only client libraries
+     * restclient/resttemplate/webclient and the Spring generator honor it, so generators
+     * whose model templates do not implement it override this method returning false,
+     * which removes the option from cliOptions and the generated documentation.
+     *
+     * @return true when the generator's model templates implement the option
+     */
+    protected boolean supportsOptionalGettersForNullableFieldsOnly() {
+        return false;
+    }
     @Setter protected String parentGroupId = "";
     @Setter protected String parentArtifactId = "";
     @Setter protected String parentVersion = "";
@@ -375,6 +390,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "whether to generate a constructor for all arguments").defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(CliOption.newBoolean(GENERATE_BUILDERS, "Whether to generate builders for models").defaultValue(Boolean.FALSE.toString()));
+        if (supportsOptionalGettersForNullableFieldsOnly()) {
+            cliOptions.add(CliOption.newBoolean(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, "Make getters of non-required fields return Optional<T> while keeping the field and setter as the raw type. Requires jackson 3 (useJackson3, which requires useSpringBoot4). Supported libraries: restclient, resttemplate, webclient (java generator) and spring (spring generator). Opt-in, disabled by default.", optionalGettersForNullableFieldsOnly));
+        }
         cliOptions.add(CliOption.newBoolean(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "Ignore discriminator field type for Jackson serialization", disableDiscriminatorJsonIgnoreProperties));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
@@ -457,6 +475,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         convertPropertyToBooleanAndWriteBack(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, this::setGenerateConstructorWithAllArgs);
         convertPropertyToBooleanAndWriteBack(GENERATE_BUILDERS, this::setGenerateBuilders);
+        convertPropertyToBooleanAndWriteBack(OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY, this::setOptionalGettersForNullableFieldsOnly);
         convertPropertyToBooleanAndWriteBack(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, this::setDisableDiscriminatorJsonIgnoreProperties);
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
@@ -820,6 +839,39 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         Map<String, String> toAdd = new HashMap<>();
                         toAdd.put("import", qimp);
                         modelsAttrs.getImports().add(toAdd);
+                    }
+                }
+            }
+        }
+
+        // When optionalGettersForNullableFieldsOnly is enabled, propagate isDiscriminator=true
+        // to subtype models that redefine a discriminator property from a parent/interface.
+        // Without this, the template would generate Optional<T> for those fields, causing a
+        // return-type incompatibility with the abstract getter declared by the parent interface.
+        if (optionalGettersForNullableFieldsOnly) {
+            for (ModelsMap modelsAttrs : objs.values()) {
+                for (ModelMap mo : modelsAttrs.getModels()) {
+                    CodegenModel cm = mo.getModel();
+                    if (cm.discriminator != null) {
+                        String discPropName = cm.discriminator.getPropertyBaseName();
+                        // propagate to all known subtype models
+                        if (cm.discriminator.getMappedModels() != null) {
+                            for (CodegenDiscriminator.MappedModel mapped : cm.discriminator.getMappedModels()) {
+                                CodegenModel subModel = allModels.get(mapped.getModelName());
+                                if (subModel != null) {
+                                    for (CodegenProperty var : subModel.vars) {
+                                        if (discPropName.equals(var.baseName)) {
+                                            var.isDiscriminator = true;
+                                        }
+                                    }
+                                    for (CodegenProperty var : subModel.allVars) {
+                                        if (discPropName.equals(var.baseName)) {
+                                            var.isDiscriminator = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2312,6 +2364,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (!lombokOptions.isEmpty()) {
             lombokAnnotations = lombokOptions;
             writePropertyBack(LOMBOK, lombokOptions);
+        }
+
+        // When optionalGettersForNullableFieldsOnly is enabled, Lombok-generated getters would
+        // expose the raw field type instead of Optional<T>, silently bypassing the option.
+        // Drop the lombok.Getter/lombok.Data annotations so that explicit getters (and the
+        // other members normally generated by those two annotations) are rendered directly.
+        if (optionalGettersForNullableFieldsOnly && lombokAnnotations != null && lombokAnnotations.containsKey("Getter")) {
+            // Lombok skips generating a getter when one is already defined, so removing the
+            // lombok.Getter context-level flag makes the templates emit explicit getters
+            // (returning Optional<T> for non-required fields) that take precedence over
+            // any lombok.Data-generated accessor.
+            lombokAnnotations.remove("Getter");
+            writePropertyBack(LOMBOK, new HashMap<>(lombokAnnotations));
+            LOGGER.warn("{} is enabled: the lombok.Getter annotation has been disabled so that explicit " +
+                    "Optional getters are generated. Re-enable Lombok getters by disabling this option.",
+                    OPTIONAL_GETTERS_FOR_NULLABLE_FIELDS_ONLY);
         }
 
         return postProcessModelsEnum(objs);
