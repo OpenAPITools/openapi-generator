@@ -332,6 +332,42 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel cm = modelMap.getModel();
+                CodegenDiscriminator discriminator = cm.discriminator;
+                if (discriminator == null || discriminator.getMappedModels() == null) {
+                    continue;
+                }
+                // a mapping that names the base itself leaves no struct to wrap, and an enum-typed tag would be
+                // written twice (the child's copy keeps its default): keep the inline variants
+                if (discriminator.getMappedModels().stream().anyMatch(m -> cm.name.equals(m.getSchemaName()))
+                        || cm.allVars.stream().anyMatch(v -> discriminator.getPropertyBaseName().equals(v.baseName) && v.getIsEnumOrRef())) {
+                    discriminator.getVendorExtensions().put("x-rust-inline-variants", true);
+                    continue;
+                }
+                // a mapped child's discriminator doubles as the union's serde tag, which is consumed before the
+                // child deserializes: mark it so the template defaults it and skips it while unset
+                for (CodegenDiscriminator.MappedModel mapped : discriminator.getMappedModels()) {
+                    if (mapped.getModel() == null) {
+                        continue;
+                    }
+                    for (CodegenProperty var : mapped.getModel().vars) {
+                        if (discriminator.getPropertyBaseName().equals(var.baseName)) {
+                            var.isDiscriminator = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return objs;
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         for (ModelMap model : objs.getModels()) {
             CodegenModel cm = model.getModel();

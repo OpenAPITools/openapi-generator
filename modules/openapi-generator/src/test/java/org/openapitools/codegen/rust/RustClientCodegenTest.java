@@ -320,6 +320,49 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testDiscriminatedUnionKeepsChildFields() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_0/rust/discriminated-union.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // newtype variants, so the child's own fields survive
+        Path unionPath = Path.of(target.toString(), "/src/models/api_error.rs");
+        TestUtils.assertFileContains(unionPath, "#[serde(tag = \"type\")]");
+        TestUtils.assertFileContains(unionPath, "ObjectExists(Box<models::ObjectExists>),");
+        TestUtils.assertFileContains(unionPath, "ValidationError(Box<models::ValidationError>),");
+        TestUtils.assertFileContains(unionPath, "Self::ObjectExists(Default::default())");
+        TestUtils.assertFileNotContains(unionPath, "ObjectExists {");
+
+        // the consumed tag key defaults and is skipped while unset; standalone field and new() unchanged
+        Path childPath = Path.of(target.toString(), "/src/models/object_exists.rs");
+        TestUtils.assertFileContains(childPath,
+                "#[serde(rename = \"type\", default, skip_serializing_if = \"String::is_empty\")]",
+                "pub identifier: String,",
+                "pub fn new(r#type: String, message: String, identifier: String) -> ObjectExists {");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/alpha.rs"),
+                "#[serde(rename = \"kind\", default, skip_serializing_if = \"Option::is_none\")]");
+        // an enum-typed tag would be written twice, the child's copy keeping its default: inline variants, children untouched
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/pet.rs"),
+                "#[serde(rename=\"Cat\")]\n    Cat {", "#[serde(rename=\"Dog\")]\n    Dog {");
+        TestUtils.assertFileNotContains(Path.of(target.toString(), "/src/models/pet.rs"), "Box<models::Cat>");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/cat.rs"), "#[serde(rename = \"petType\")]\n    pub pet_type: PetType,");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/shape.rs"), "#[serde(rename=\"circle\")]\n    Circle {");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/circle.rs"), "#[serde(rename = \"kind\")]\n    pub kind: models::ShapeKind,");
+
+        // a mapping that names the base itself leaves no struct to wrap (E0275): inline variants, children untouched
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/creature.rs"),
+                "#[serde(rename=\"Creature\")]\n    Creature {", "#[serde(rename=\"Bird\")]\n    Bird {");
+        TestUtils.assertFileNotContains(Path.of(target.toString(), "/src/models/creature.rs"), "Box<models::Creature>");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/creature.rs"), "#[serde(tag = \"kind\")]");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/bird.rs"), "#[serde(rename = \"kind\")]\n    pub kind: String,");
+    }
+
+    @Test
     public void testArrayWithObjectEnumValues() throws IOException {
         Path target = Files.createTempDirectory("test");
         target.toFile().deleteOnExit();
