@@ -188,7 +188,12 @@ impl {{classname}} for {{classname}}Client {
         {{/isArray}}
         {{^isArray}}
         {{^isNullable}}
+        {{#isMap}}
+        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(&{{{paramName}}})?)]);
+        {{/isMap}}
+        {{^isMap}}
         local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.to_string())]);
+        {{/isMap}}
         {{/isNullable}}
         {{#isNullable}}
         {{#isDeepObject}}
@@ -228,9 +233,16 @@ impl {{classname}} for {{classname}}Client {
         {{/isModel}}
         {{^isObject}}
         {{^isModel}}
+        {{#isMap}}
+        if let Some(ref param_value) = {{{paramName}}} {
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+        };
+        {{/isMap}}
+        {{^isMap}}
         if let Some(ref param_value) = {{{paramName}}} {
             local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
         };
+        {{/isMap}}
         {{/isModel}}
         {{/isObject}}
         {{/isDeepObject}}
@@ -273,7 +285,12 @@ impl {{classname}} for {{classname}}Client {
             {{/isModel}}
             {{^isObject}}
             {{^isModel}}
+            {{#isMap}}
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+            {{/isMap}}
+            {{^isMap}}
             local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+            {{/isMap}}
             {{/isModel}}
             {{/isObject}}
             {{/isDeepObject}}
