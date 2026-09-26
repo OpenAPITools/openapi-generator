@@ -347,7 +347,37 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
                 _query_params.append(('{{baseName}}', {{paramName}}))
             {{/isDate}}
             {{^isDateTime}}{{^isDate}}
+            {{#isMap}}
+            {{#isExplode}}
+            {{#isDeepObject}}
+            _query_params.append(('{{baseName}}', {{paramName}}))
+            {{/isDeepObject}}
+            {{^isDeepObject}}
+            _query_params.extend(self.api_client.explode_query_object('{{baseName}}', {{paramName}}))
+            {{/isDeepObject}}
+            {{/isExplode}}
+            {{^isExplode}}
+            _query_params.append(('{{baseName}}', {{paramName}}))
+            {{/isExplode}}
+            {{/isMap}}
+            {{#isModel}}
+            {{#isExplode}}
+            {{#isDeepObject}}
+            _query_params.append(('{{baseName}}', {{paramName}}))
+            {{/isDeepObject}}
+            {{^isDeepObject}}
+            _query_params.extend(self.api_client.explode_query_object('{{baseName}}', {{paramName}}))
+            {{/isDeepObject}}
+            {{/isExplode}}
+            {{^isExplode}}
+            _query_params.append(('{{baseName}}', {{paramName}}))
+            {{/isExplode}}
+            {{/isModel}}
+            {{^isMap}}
+            {{^isModel}}
             _query_params.append(('{{baseName}}', {{paramName}}{{#isEnumRef}}.value{{/isEnumRef}}))
+            {{/isModel}}
+            {{/isMap}}
             {{/isDate}}{{/isDateTime}}
 {{/queryParams}}
         # process the header parameters
