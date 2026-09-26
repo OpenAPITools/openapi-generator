@@ -4154,6 +4154,66 @@ public class JavaClientCodegenTest {
         );
     }
 
+    /**
+     * oneOf/anyOf members that are arrays or maps must not generate invalid Java such as
+     * {@code getList<String>()} or {@code List<String>.class}.
+     * See https://github.com/OpenAPITools/openapi-generator/issues/22304 and
+     * https://github.com/OpenAPITools/openapi-generator/issues/22249
+     */
+    @Test
+    public void testNativeOneOfAnyOfWithContainerMembers() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setInputSpec("src/test/resources/3_0/java/native/issue22304.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        final Path modelDir = output.resolve("src/main/java/org/openapitools/client/model");
+        assertThat(modelDir.resolve("Projects.java")).content()
+                .contains(
+                        "public Projects(List<String> o) {",
+                        "deserialized = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<List<String>>() {});",
+                        "schemas.put(\"List<String>\", List.class);",
+                        "if (JSON.isInstanceOf(List.class, instance, new HashSet<Class<?>>())) {",
+                        "public List<String> getListString() throws ClassCastException {",
+                        "public UUID getUUID() throws ClassCastException {")
+                .doesNotContain("getList<String>()", "List<String>.class");
+        assertThat(modelDir.resolve("ProjectsRequestProjects.java")).content()
+                .contains("public List<String> getListString() throws ClassCastException {")
+                .doesNotContain("getList<String>()", "List<String>.class");
+        // List<BigDecimal> and List<Integer> have the same erasure: only one constructor and
+        // one instance check, but a getter for each.
+        assertThat(modelDir.resolve("Numbers.java")).content()
+                .contains(
+                        "public Numbers(List<BigDecimal> o) {",
+                        "public List<BigDecimal> getListBigDecimal() throws ClassCastException {",
+                        "public List<Integer> getListInteger() throws ClassCastException {")
+                .doesNotContain("public Numbers(List<Integer> o) {");
+        assertThat(modelDir.resolve("PetOrPets.java")).content()
+                .contains(
+                        "public List<Pet> getListPet() throws ClassCastException {",
+                        "if (getActualInstance() instanceof List) {")
+                .doesNotContain("instanceof List<Pet>");
+        assertThat(modelDir.resolve("CountsOrName.java")).content()
+                .contains(
+                        "readValueAs(new TypeReference<Map<String, Integer>>() {});",
+                        "public Map<String, Integer> getMapStringInteger() throws ClassCastException {",
+                        "if (getActualInstance() instanceof Map) {")
+                .doesNotContain("Map<String, Integer>.class", "instanceof Map<String, Integer>");
+        assertThat(modelDir.resolve("TagsOrLabel.java")).content()
+                .contains(
+                        "public TagsOrLabel(List<String> o) {",
+                        "readValueAs(new com.fasterxml.jackson.core.type.TypeReference<List<String>>() {});",
+                        "schemas.put(\"List<String>\", List.class);",
+                        "public List<String> getListString() throws ClassCastException {",
+                        "public Integer getInteger() throws ClassCastException {")
+                .doesNotContain("getList<String>()", "List<String>.class");
+    }
+
     @Test
     public void testEnumWithImplements() {
         final Path output = newTempFolder();

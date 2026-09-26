@@ -87,15 +87,26 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 return ret;
             }
             {{/discriminator}}
+            {{#composedSchemas}}
             {{#anyOf}}
-            // deserialize {{{.}}}
+            // deserialize {{{dataType}}}
             try {
+                {{#isContainer}}
 {{^useJackson3}}
-                deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(new {{jacksonPackage}}.core.type.TypeReference<{{{dataType}}}>() {});
 {{/useJackson3}}
 {{#useJackson3}}
-                deserialized = ctxt.readTreeAsValue(tree, {{{.}}}.class);
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.getTypeFactory().constructType(new {{jacksonPackage}}.core.type.TypeReference<{{{dataType}}}>() {}));
 {{/useJackson3}}
+                {{/isContainer}}
+                {{^isContainer}}
+{{^useJackson3}}
+                deserialized = tree.traverse(jp.getCodec()).readValueAs({{{dataType}}}.class);
+{{/useJackson3}}
+{{#useJackson3}}
+                deserialized = ctxt.readTreeAsValue(tree, {{{dataType}}}.class);
+{{/useJackson3}}
+                {{/isContainer}}
                 {{classname}} ret = new {{classname}}();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -105,6 +116,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             }
 
             {{/anyOf}}
+            {{/composedSchemas}}
 {{^useJackson3}}
             throw new IOException("Failed deserialization for {{classname}}: no match found");
 {{/useJackson3}}
@@ -159,17 +171,23 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
     {{/additionalPropertiesType}}
+    {{#composedSchemas}}
     {{#anyOf}}
-    public {{classname}}({{{.}}} o) {
-        super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+    {{^vendorExtensions.x-duplicated-data-type}}
+    public {{classname}}({{{dataType}}} o) {
+        this();
         setActualInstance(o);
     }
 
+    {{/vendorExtensions.x-duplicated-data-type}}
     {{/anyOf}}
+    {{/composedSchemas}}
     static {
+        {{#composedSchemas}}
         {{#anyOf}}
-        schemas.put("{{{.}}}", {{{.}}}.class);
+        schemas.put("{{{dataType}}}", {{#isContainer}}{{{baseType}}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}.class);
         {{/anyOf}}
+        {{/composedSchemas}}
         JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
         {{#discriminator}}
         // Initialize and register the discriminator mappings.
@@ -190,7 +208,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     /**
      * Set the instance that matches the anyOf child schema, check
      * the instance parameter is valid against the anyOf child schemas:
-     * {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+     * {{#anyOf}}{{.}}{{^-last}}, {{/-last}}{{/anyOf}}
      *
      * It could be an instance of the 'anyOf' schemas.
      * The anyOf child schemas may themselves be a composed schema (allOf, anyOf, anyOf).
@@ -204,40 +222,48 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         {{/isNullable}}
+        {{#composedSchemas}}
         {{#anyOf}}
-        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<Class<?>>())) {
+        {{^vendorExtensions.x-duplicated-data-type}}
+        if (JSON.isInstanceOf({{#isContainer}}{{{baseType}}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/anyOf}}
+        {{/composedSchemas}}
         throw new RuntimeException("Invalid instance type. Must be {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+     * {{#anyOf}}{{.}}{{^-last}}, {{/-last}}{{/anyOf}}
      *
-     * @return The actual instance ({{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}})
+     * @return The actual instance ({{#anyOf}}{{.}}{{^-last}}, {{/-last}}{{/anyOf}})
      */
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
     }
 
+    {{#composedSchemas}}
     {{#anyOf}}
+    {{^vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     /**
-     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
+     * Get the actual instance of `{{dataType}}`. If the actual instance is not `{{dataType}}`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `{{{.}}}`
-     * @throws ClassCastException if the instance is not `{{{.}}}`
+     * @return The actual instance of `{{dataType}}`
+     * @throws ClassCastException if the instance is not `{{dataType}}`
      */
-    public {{{.}}} get{{{.}}}() throws ClassCastException {
-        return ({{{.}}})super.getActualInstance();
+    public {{{dataType}}} get{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}() throws ClassCastException {
+        return ({{{dataType}}})super.getActualInstance();
     }
 
+    {{/vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     {{/anyOf}}
+    {{/composedSchemas}}
 
 {{#supportUrlQuery}}
 

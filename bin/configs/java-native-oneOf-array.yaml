@@ -1,0 +1,7 @@
+generatorName: java
+outputDir: samples/client/others/java/native-oneOf-array
+library: native
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/native/issue22304.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  hideGenerationTimestamp: "true"
