@@ -1,7 +1,11 @@
 package org.openapitools.codegen.rust;
 
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.languages.AbstractRustCodegen;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -72,6 +76,25 @@ public class AbstractRustCodegenTest {
 
         // Check blank strings don't cause exceptions
         Assert.assertEquals(sanitizeSnakeCase.apply(""), "");
+    }
+
+    @Test
+    public void testSanitizeIdentifierWarnsOnlyOnRename() {
+        Logger logger = (Logger) LoggerFactory.getLogger(AbstractRustCodegen.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        logger.addAppender(listAppender);
+        try {
+            codegen.sanitizeIdentifier("pet-name", AbstractRustCodegen.CasingType.CAMEL_CASE, "p", "model", true);
+            Assert.assertTrue(listAppender.list.isEmpty());
+
+            codegen.sanitizeIdentifier("application/json", AbstractRustCodegen.CasingType.CAMEL_CASE, "p", "model", true);
+            Assert.assertEquals(listAppender.list.size(), 1);
+            Assert.assertEquals(listAppender.list.get(0).getFormattedMessage(),
+                    "ApplicationJson cannot be used as a model name. Renamed to ApplicationSlashJson");
+        } finally {
+            logger.detachAppender(listAppender);
+        }
     }
 
     @Test
