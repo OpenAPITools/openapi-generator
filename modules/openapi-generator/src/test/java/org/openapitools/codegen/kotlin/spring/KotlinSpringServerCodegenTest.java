@@ -7896,4 +7896,108 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(countOccurrences(widgets, "import org.openapitools.model.Widget"), 1L,
                 "Extra import duplicating a generated type import must be emitted only once");
     }
+
+    // ==================== multi-level allOf inheritance tests (fixes #18206) ====================
+
+    @Test(description = "multi-level allOf: mid-level model becomes open class, leaf stays data class with parent ctor call")
+    public void testMultiLevelAllOfInheritance() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/allof-multilevel-inheritance.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Animal: discriminator parent interface, with Jackson annotations listing ALL descendants
+        assertFileContains(Paths.get(outputPath + "/Animal.kt"),
+                "interface Animal",
+                "@JsonTypeInfo", "property = \"className\"", "visible = true",
+                "BigDog::class",
+                "Dog::class",
+                "Cat::class"
+        );
+
+        // Dog: open class (not data class) so BigDog can extend it; no ctor call to Animal (interface parent)
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "open class Dog(",
+                ") : Animal {",
+                "override val className: kotlin.String",
+                "open val breed: kotlin.String?"
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog");
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), ": Animal(");
+        // open class generates equals/hashCode/toString/copy since data class would normally provide these
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "override fun equals(other: Any?): Boolean",
+                "if (other?.javaClass != javaClass) return false",
+                "override fun hashCode(): Int",
+                "Objects.hash(",
+                "override fun toString(): String",
+                "fun copy(",
+                "): Dog = Dog("
+        );
+
+        // Cat: leaf (no children) — stays a data class, unaffected
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"), "data class Cat");
+
+        // BigDog: data class extending open class Dog with constructor call passing all parent ctor args
+        assertFileContains(Paths.get(outputPath + "/BigDog.kt"),
+                "data class BigDog(",
+                "override val className: kotlin.String",
+                "override val breed",
+                "override val color"
+        );
+        // Must call Dog's constructor (not bare `: Dog`)
+        assertFileContains(Paths.get(outputPath + "/BigDog.kt"), ") : Dog(");
+        assertFileNotContains(Paths.get(outputPath + "/BigDog.kt"), ") : Dog {");
+
+        // copy() must declare parameters in constructor order (required before optional), so that
+        // positional arguments bind to the same properties the constructor takes them for.
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "    fun copy(\n"
+                        + "        className: kotlin.String = this.className,\n"
+                        + "        breed: kotlin.String? = this.breed,\n"
+                        + "        color: kotlin.String? = this.color\n"
+                        + "    ): Dog = Dog(className = className, breed = breed, color = color)"
+        );
+    }
+
+    @Test(description = "multi-level allOf: generated open class members handle back-ticked property names")
+    public void testMultiLevelAllOfWithEscapedPropertyNames() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/allof-multilevel-escaped-names.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        Path mid = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model/Mid.kt");
+
+        // "2nd_field" and "object" are not Kotlin identifiers, so the property is back-ticked.
+        // The generated members must emit the back-ticks literally, not HTML-escape them.
+        // (Scoped to the generated members: the KDoc @param block escapes them for every model,
+        // open class or not, which is a separate pre-existing issue.)
+        assertFileNotContains(mid,
+                "&#x60;2ndField&#x60; == other",
+                "Objects.hash(kind, &#x60;"
+        );
+        assertFileContains(mid,
+                "open val `2ndField`",
+                "`2ndField` == other.`2ndField`",
+                "Objects.hash(kind, `2ndField`, `object`)",
+                "`2ndField`: kotlin.String? = this.`2ndField`"
+        );
+        // toString builds by concatenation: "$`2ndField`" is not valid Kotlin interpolation,
+        // and the back-ticks are source syntax that a data class would not print.
+        assertFileContains(mid, "\"2ndField=\" + `2ndField`");
+        assertFileNotContains(mid, "$`2ndField`");
+    }
 }
