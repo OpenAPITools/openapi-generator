@@ -1,0 +1,115 @@
+openapi: 3.0.3
+info:
+  title: oneOf/anyOf with array and map members
+  description: Generic container types as oneOf/anyOf members in the native client (see issues 22249 and 22304)
+  version: 1.0.0
+servers:
+  - url: http://localhost
+paths:
+  /projects:
+    post:
+      operationId: postProjects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectsRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projects'
+  /numbers:
+    get:
+      operationId: getNumbers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Numbers'
+  /tags:
+    get:
+      operationId: getTags
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagsOrLabel'
+  /pets:
+    get:
+      operationId: getPets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetOrPets'
+  /counts:
+    get:
+      operationId: getCounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountsOrName'
+components:
+  schemas:
+    ProjectsRequest:
+      type: object
+      properties:
+        projects:
+          description: A list of projects, or "*" for all projects.
+          oneOf:
+            - type: array
+              items:
+                type: string
+            - type: string
+              enum:
+                - '*'
+    Projects:
+      oneOf:
+        - type: array
+          items:
+            type: string
+        - type: string
+          format: uuid
+    Numbers:
+      oneOf:
+        - type: array
+          items:
+            type: number
+        - type: array
+          items:
+            type: integer
+    TagsOrLabel:
+      anyOf:
+        - type: array
+          items:
+            type: string
+        - type: integer
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+    PetOrPets:
+      oneOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: array
+          items:
+            $ref: '#/components/schemas/Pet'
+    CountsOrName:
+      oneOf:
+        - type: object
+          additionalProperties:
+            type: integer
+        - type: string
