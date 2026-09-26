@@ -357,4 +357,25 @@ public class RustClientCodegenTest {
                 "async fn list_widget_items<'id, 'run_id>(&self, id: &'id str, run_id: Option<&'run_id str>)");
         TestUtils.assertFileNotContains(outputPath, "Option<&str>");
     }
+
+    @Test
+    public void testReqwestConfigurationDebugRedactsCredentials() throws IOException {
+        for (String library : new String[]{"reqwest", "reqwest-trait"}) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary(library)
+                    .setInputSpec("src/test/resources/3_0/rust/petstore.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path outputPath = Path.of(target.toString(), "/src/apis/configuration.rs");
+            TestUtils.assertFileExists(outputPath);
+            TestUtils.assertFileNotContains(outputPath, "#[derive(Debug, Clone)]");
+            TestUtils.assertFileContains(outputPath,
+                    ".field(\"key\", &\"[REDACTED]\")",
+                    ".field(\"bearer_access_token\", &self.bearer_access_token.as_ref().map(|_| \"[REDACTED]\"))");
+        }
+    }
 }

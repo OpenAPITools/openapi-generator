@@ -14,7 +14,7 @@ use google_cloud_token::TokenSource;
 use async_trait::async_trait;
 pub use reqwest::Client;
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct Configuration {
     pub base_path: String,
     pub user_agent: Option<String>,
@@ -22,6 +22,18 @@ pub struct Configuration {
     pub token_source: Arc<dyn TokenSource>,
 }
 
+
+impl std::fmt::Debug for Configuration {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut debug = f.debug_struct("Configuration");
+        debug
+            .field("base_path", &self.base_path)
+            .field("user_agent", &self.user_agent)
+            .field("client", &self.client);
+        debug.field("token_source", &self.token_source);
+        debug.finish()
+    }
+}
 
 impl Configuration {
     pub fn new() -> Configuration {
