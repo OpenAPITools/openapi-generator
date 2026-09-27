@@ -69,7 +69,8 @@ public interface FakeApi {
         consumes = "application/xml"
     )
     ResponseEntity<Void> createXmlItem(
-        @Parameter(name = "XmlItem", description = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem
+        
+@Parameter(name = "XmlItem", description = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem
     );
 
 
@@ -98,7 +99,8 @@ public interface FakeApi {
         consumes = "application/json"
     )
     ResponseEntity<Boolean> fakeOuterBooleanSerialize(
-        @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) @Nullable Boolean body
+        
+@Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) @Nullable Boolean body
     );
 
 
@@ -127,7 +129,8 @@ public interface FakeApi {
         consumes = "application/json"
     )
     ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
-        @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) @Nullable OuterComposite outerComposite
+        
+@Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) @Nullable OuterComposite outerComposite
     );
 
 
@@ -156,7 +159,8 @@ public interface FakeApi {
         consumes = "application/json"
     )
     ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
-        @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) @Nullable BigDecimal body
+        
+@Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) @Nullable BigDecimal body
     );
 
 
@@ -185,21 +189,22 @@ public interface FakeApi {
         consumes = "application/json"
     )
     ResponseEntity<String> fakeOuterStringSerialize(
-        @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
+        
+@Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
     );
 
 
     String PATH_TEST_BODY_WITH_FILE_SCHEMA = "/fake/body-with-file-schema";
     /**
      * PUT /fake/body-with-file-schema
-     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * For this test, the body for this request must reference a schema named `File`.
      *
      * @param fileSchemaTestClass  (required)
      * @return Success (status code 200)
      */
     @Operation(
         operationId = "testBodyWithFileSchema",
-        description = "For this test, the body for this request much reference a schema named `File`.",
+        description = "For this test, the body for this request must reference a schema named `File`.",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Success")
@@ -211,7 +216,8 @@ public interface FakeApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> testBodyWithFileSchema(
-        @Parameter(name = "FileSchemaTestClass", description = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
+        
+@Parameter(name = "FileSchemaTestClass", description = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
     );
 
 
@@ -236,15 +242,17 @@ public interface FakeApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> testBodyWithQueryParams(
-        @NotNull @Parameter(name = "query", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query", required = true) String query,
-        @Parameter(name = "User", description = "", required = true) @Valid @RequestBody User user
+        @NotNull @Parameter(name = "query", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query", required = true) String query
+,
+        
+@Parameter(name = "User", description = "", required = true) @Valid @RequestBody User user
     );
 
 
     String PATH_TEST_CLIENT_MODEL = "/fake";
     /**
-     * PATCH /fake : To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
+     * PATCH /fake : To test &quot;client&quot; model
+     * To test &quot;client&quot; model
      *
      * @param client client model (required)
      * @return successful operation (status code 200)
@@ -267,14 +275,21 @@ public interface FakeApi {
         consumes = "application/json"
     )
     ResponseEntity<Client> testClientModel(
-        @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
+        
+@Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     );
 
 
     String PATH_TEST_ENDPOINT_PARAMETERS = "/fake";
     /**
-     * POST /fake : Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * POST /fake : Fake endpoint for testing various parameters
+     *  假端點
+     *  偽のエンドポイント
+     *  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters
+     *  假端點
+     *  偽のエンドポイント
+     *  가짜 엔드 포인트
      *
      * @param number None (required)
      * @param _double None (required)
@@ -295,8 +310,8 @@ public interface FakeApi {
      */
     @Operation(
         operationId = "testEndpointParameters",
-        summary = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
-        description = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
+        summary = "Fake endpoint for testing various parameters\n 假端點\n 偽のエンドポイント\n 가짜 엔드 포인트",
+        description = "Fake endpoint for testing various parameters\n 假端點\n 偽のエンドポイント\n 가짜 엔드 포인트",
         tags = { "fake" },
         responses = {
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
@@ -312,20 +327,34 @@ public interface FakeApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testEndpointParameters(
-        @Parameter(name = "number", description = "None", required = true) @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
-        @Parameter(name = "double", description = "None", required = true) @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
-        @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-        @Parameter(name = "byte", description = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
-        @Parameter(name = "integer", description = "None") @Min(value = 10) @Max(value = 100) @Valid @RequestParam(value = "integer", required = false) Integer integer,
-        @Parameter(name = "int32", description = "None") @Min(value = 20) @Max(value = 200) @Valid @RequestParam(value = "int32", required = false) Integer int32,
-        @Parameter(name = "int64", description = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
-        @Parameter(name = "float", description = "None") @DecimalMax(value = "987.6") @Valid @RequestParam(value = "float", required = false) Float _float,
-        @Parameter(name = "string", description = "None") @Pattern(regexp = "[a-zA-Z]") @Valid @RequestParam(value = "string", required = false) String string,
-        @Parameter(name = "binary", description = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
-        @Parameter(name = "date", description = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @Parameter(name = "dateTime", description = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-        @Parameter(name = "password", description = "None") @Size(min = 10, max = 64) @Valid @RequestParam(value = "password", required = false) String password,
-        @Parameter(name = "callback", description = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback
+        
+@Parameter(name = "number", description = "None", required = true) @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
+        
+@Parameter(name = "double", description = "None", required = true) @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
+        
+@Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
+        
+@Parameter(name = "byte", description = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
+        
+@Parameter(name = "integer", description = "None") @Min(value = 10) @Max(value = 100) @Valid @RequestParam(value = "integer", required = false) Integer integer,
+        
+@Parameter(name = "int32", description = "None") @Min(value = 20) @Max(value = 200) @Valid @RequestParam(value = "int32", required = false) Integer int32,
+        
+@Parameter(name = "int64", description = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
+        
+@Parameter(name = "float", description = "None") @DecimalMax(value = "987.6") @Valid @RequestParam(value = "float", required = false) Float _float,
+        
+@Parameter(name = "string", description = "None") @Pattern(regexp = "[a-zA-Z]") @Valid @RequestParam(value = "string", required = false) String string,
+        
+@Parameter(name = "binary", description = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
+        
+@Parameter(name = "date", description = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        
+@Parameter(name = "dateTime", description = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        
+@Parameter(name = "password", description = "None") @Size(min = 10, max = 64) @Valid @RequestParam(value = "password", required = false) String password,
+        
+@Parameter(name = "callback", description = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback
     );
 
 
@@ -334,14 +363,14 @@ public interface FakeApi {
      * GET /fake : To test enum parameters
      * To test enum parameters
      *
-     * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
+     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to [&quot;$&quot;])
      * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-     * @param enumQueryStringArray Query parameter enum test (string array) (optional)
+     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to [&quot;$&quot;])
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
-     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, OpenAPI schema default to [&quot;$&quot;])
+     * @param enumFormString Form parameter enum test (string) (optional, OpenAPI schema default to -efg)
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)
      */
@@ -361,14 +390,22 @@ public interface FakeApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testEnumParameters(
-        @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)", in = ParameterIn.HEADER) @RequestHeader(value = "enum_header_string_array", required = false) @Nullable List<String> enumHeaderStringArray,
-        @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)", in = ParameterIn.HEADER) @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
-        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
-        @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
-        @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
-        @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
-        @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
-        @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
+        
+@Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)", in = ParameterIn.HEADER) @RequestHeader(value = "enum_header_string_array", required = false, defaultValue = "$") List<String> enumHeaderStringArray,
+        
+@Parameter(name = "enum_header_string", description = "Header parameter enum test (string)", in = ParameterIn.HEADER) @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
+        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", in = ParameterIn.QUERY) @RequestParam(value = "enum_query_string_array", required = false, defaultValue = "$") List<String> enumQueryStringArray
+,
+        @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString
+,
+        @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger
+,
+        @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble
+,
+        
+@Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+        
+@Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
     );
 
 
@@ -399,12 +436,18 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_GROUP_PARAMETERS
     )
     ResponseEntity<Void> testGroupParameters(
-        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
-        @NotNull @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
-        @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
-        @Parameter(name = "string_group", description = "String in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "string_group", required = false) @Nullable Integer stringGroup,
-        @Parameter(name = "boolean_group", description = "Boolean in group parameters", in = ParameterIn.HEADER) @RequestHeader(value = "boolean_group", required = false) @Nullable Boolean booleanGroup,
+        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup
+,
+        
+@NotNull @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
+        @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group
+,
+        @Parameter(name = "string_group", description = "String in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "string_group", required = false) @Nullable Integer stringGroup
+,
+        
+@Parameter(name = "boolean_group", description = "Boolean in group parameters", in = ParameterIn.HEADER) @RequestHeader(value = "boolean_group", required = false) @Nullable Boolean booleanGroup,
         @Parameter(name = "int64_group", description = "Integer in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group
+
     );
 
 
@@ -431,7 +474,8 @@ public interface FakeApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> testInlineAdditionalProperties(
-        @Parameter(name = "request_body", description = "request body", required = true) @RequestBody Map<String, String> requestBody
+        
+@Parameter(name = "request_body", description = "request body", required = true) @RequestBody Map<String, String> requestBody
     );
 
 
@@ -459,8 +503,10 @@ public interface FakeApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> testJsonFormData(
-        @Parameter(name = "param", description = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
-        @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
+        
+@Parameter(name = "param", description = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
+        
+@Parameter(name = "param2", description = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
     );
 
 
@@ -487,7 +533,8 @@ public interface FakeApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> testNullable(
-        @Parameter(name = "ChildWithNullable", description = "request body", required = true) @Valid @RequestBody ChildWithNullable childWithNullable
+        
+@Parameter(name = "ChildWithNullable", description = "request body", required = true) @Valid @RequestBody ChildWithNullable childWithNullable
     );
 
 
@@ -515,10 +562,14 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT
     )
     ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "url", required = true) List<String> url,
+        @NotNull @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "pipe", required = true) List<String> pipe
+,
+        @NotNull @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "http", required = true) List<String> http
+,
+        @NotNull @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "url", required = true) List<String> url
+,
         @NotNull @Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @RequestParam(value = "context", required = true) List<String> context
+
     );
 
 

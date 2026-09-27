@@ -33,6 +33,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean is4xx;
     public boolean is5xx;
     public String message;
+    /** Original response description before generator escaping. */
+    public String unescapedMessage;
     public List<Map<String, Object>> examples;
     public String dataType;
     public String baseType;
@@ -109,7 +111,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, containerTypeMapped, hasHeaders,
+        return Objects.hash(headers, code, message, unescapedMessage, examples, dataType, baseType, containerType, containerTypeMapped, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isPassword, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isOptional, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
@@ -182,6 +184,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 Objects.equals(headers, that.headers) &&
                 Objects.equals(code, that.code) &&
                 Objects.equals(message, that.message) &&
+                Objects.equals(unescapedMessage, that.unescapedMessage) &&
                 Objects.equals(examples, that.examples) &&
                 Objects.equals(dataType, that.dataType) &&
                 Objects.equals(baseType, that.baseType) &&

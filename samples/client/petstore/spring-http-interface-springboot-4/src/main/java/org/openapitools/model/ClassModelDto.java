@@ -19,7 +19,7 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * Model for testing model with \&quot;_class\&quot; property
+ * Model for testing model with &quot;_class&quot; property
  */
 
 @JsonTypeName("ClassModel")

@@ -384,11 +384,13 @@ public class TypeScriptFetchModelTest {
         fish.put("rawValue", "fish");
         fish.put("name", "Fish");
         fish.put("value", "'fish'");
+        fish.put("valueRaw", "fish");
         fish.put("isString", false);
         HashMap<String, Object> crab = new HashMap<String, Object>();
         crab.put("rawValue", "crab");
         crab.put("name", "Crab");
         crab.put("value", "'crab'");
+        crab.put("valueRaw", "crab");
         crab.put("isString", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
@@ -426,11 +428,13 @@ public class TypeScriptFetchModelTest {
         one.put("rawValue", 1);
         one.put("name", "NUMBER_1");
         one.put("value", "1");
+        one.put("valueRaw", "1");
         one.put("isString", false);
         HashMap<String, Object> minusOne = new HashMap<String, Object>();
         minusOne.put("rawValue", -1);
         minusOne.put("name", "NUMBER_MINUS_1");
         minusOne.put("value", "-1");
+        minusOne.put("valueRaw", "-1");
         minusOne.put("isString", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
 

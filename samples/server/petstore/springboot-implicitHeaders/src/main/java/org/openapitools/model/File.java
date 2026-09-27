@@ -17,7 +17,7 @@ import java.util.*;
 import javax.annotation.Generated;
 
 /**
- * Must be named &#x60;File&#x60; for test.
+ * Must be named `File` for test.
  */
 
 @Schema(name = "File", description = "Must be named `File` for test.")

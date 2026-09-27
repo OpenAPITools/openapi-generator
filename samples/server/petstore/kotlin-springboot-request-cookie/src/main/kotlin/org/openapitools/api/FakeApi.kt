@@ -41,7 +41,7 @@ interface FakeApi {
         tags = ["fake",],
         summary = "",
         operationId = "fakeCookieSuggestion",
-        description = """Test list of objects with additional values matching data from cookie""",
+        description = "Test list of objects with additional values matching data from cookie",
         responses = [
             ApiResponse(responseCode = "200", description = "List of pets resolved from suggestion", content = [Content(array = ArraySchema(schema = Schema(implementation = Pet::class)))])
         ]

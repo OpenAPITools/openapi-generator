@@ -66,7 +66,8 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> createUser(
-        @Parameter(name = "User", description = "Created user object", required = true) @Valid @RequestBody Mono<User> user
+        
+@Parameter(name = "User", description = "Created user object", required = true) @Valid @RequestBody Mono<User> user
     ) {
         return getDelegate().createUser(user);
     }
@@ -96,7 +97,8 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> createUsersWithArrayInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody Flux<User> user
+        
+@Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody Flux<User> user
     ) {
         return getDelegate().createUsersWithArrayInput(user);
     }
@@ -126,7 +128,8 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> createUsersWithListInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody Flux<User> user
+        
+@Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody Flux<User> user
     ) {
         return getDelegate().createUsersWithListInput(user);
     }
@@ -157,7 +160,8 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default Mono<Void> deleteUser(
-        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+        
+@Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) {
         return getDelegate().deleteUser(username);
     }
@@ -194,7 +198,8 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<User> getUserByName(
-        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+        
+@Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) {
         return getDelegate().getUserByName(username);
     }
@@ -230,8 +235,10 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<String> loginUser(
-        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username
+,
         @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
+
     ) {
         return getDelegate().loginUser(username, password);
     }
@@ -292,8 +299,10 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default Mono<Void> updateUser(
-        @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
-        @Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody Mono<User> user
+        
+@Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        
+@Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody Mono<User> user
     ) {
         return getDelegate().updateUser(username, user);
     }

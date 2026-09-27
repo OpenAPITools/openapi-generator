@@ -98,7 +98,7 @@ public interface StoreApi {
     String PATH_GET_ORDER_BY_ID = "/store/order/{orderId}";
     /**
      * GET /store/order/{orderId} : Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+     * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generate exceptions
      *
      * @param orderId ID of pet that needs to be fetched (required)
      * @return successful operation (status code 200)

@@ -21,7 +21,7 @@ import {
 
 export interface 123testSpecialTagsRequest {
     /**
-     * 
+     * client model
      */
     client: Client;
 }

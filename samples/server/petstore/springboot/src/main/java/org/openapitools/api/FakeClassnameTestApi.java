@@ -71,7 +71,8 @@ public interface FakeClassnameTestApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<ClientDto> testClassname(
-        @Parameter(name = "ClientDto", description = "client model", required = true) @Valid @RequestBody ClientDto clientDto
+        
+@Parameter(name = "ClientDto", description = "client model", required = true) @Valid @RequestBody ClientDto clientDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

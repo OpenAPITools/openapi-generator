@@ -16,7 +16,7 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * Must be named &#x60;File&#x60; for test.
+ * Must be named `File` for test.
  */
 
 @JsonTypeName("File")

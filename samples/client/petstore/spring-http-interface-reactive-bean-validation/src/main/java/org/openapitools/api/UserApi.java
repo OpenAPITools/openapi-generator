@@ -44,7 +44,8 @@ public interface UserApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> createUser(
-         @Valid @RequestBody Mono<User> user
+        
+ @Valid @RequestBody Mono<User> user
     );
 
 
@@ -63,7 +64,8 @@ public interface UserApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> createUsersWithArrayInput(
-         @Valid @RequestBody Flux<User> user
+        
+ @Valid @RequestBody Flux<User> user
     );
 
 
@@ -82,7 +84,8 @@ public interface UserApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> createUsersWithListInput(
-         @Valid @RequestBody Flux<User> user
+        
+ @Valid @RequestBody Flux<User> user
     );
 
 
@@ -101,7 +104,8 @@ public interface UserApi {
         accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> deleteUser(
-         @PathVariable("username") String username
+        
+ @PathVariable("username") String username
     );
 
 
@@ -121,7 +125,8 @@ public interface UserApi {
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<User>> getUserByName(
-         @PathVariable("username") String username
+        
+ @PathVariable("username") String username
     );
 
 
@@ -141,8 +146,10 @@ public interface UserApi {
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<String>> loginUser(
-        @NotNull  @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull  @Valid @RequestParam(value = "username", required = true) String username
+,
         @NotNull  @Valid @RequestParam(value = "password", required = true) String password
+
     );
 
 
@@ -180,8 +187,10 @@ public interface UserApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> updateUser(
-         @PathVariable("username") String username,
-         @Valid @RequestBody Mono<User> user
+        
+ @PathVariable("username") String username,
+        
+ @Valid @RequestBody Mono<User> user
     );
 
 }

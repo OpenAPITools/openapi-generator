@@ -18,7 +18,7 @@ import java.util.*;
 import javax.annotation.Generated;
 
 /**
- * Model for testing model with \&quot;_class\&quot; property
+ * Model for testing model with &quot;_class&quot; property
  */
 
 @Schema(name = "ClassModel", description = "Model for testing model with \"_class\" property")

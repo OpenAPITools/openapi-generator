@@ -38,10 +38,10 @@ import kotlin.collections.Map
 interface FakeClassnameTestApi {
 
     @Operation(
-        tags = ["fake_classname_tags 123#$%^",],
+        tags = ["fake_classname_tags 123#\$%^",],
         summary = "To test class name in snake case",
         operationId = "testClassname",
-        description = """To test class name in snake case""",
+        description = "To test class name in snake case",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Client::class))])
         ],

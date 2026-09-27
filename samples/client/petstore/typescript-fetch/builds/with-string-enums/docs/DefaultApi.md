@@ -34,7 +34,7 @@ async function example() {
     // 'one' | 'two' | 'three' (optional)
     stringEnum: stringEnum_example,
     // string (optional)
-    nullableStringEnum: ...,
+    nullableStringEnum: nullableStringEnum_example,
     // 1 | 2 | 3 (optional)
     numberEnum: 8.14,
     // number (optional)

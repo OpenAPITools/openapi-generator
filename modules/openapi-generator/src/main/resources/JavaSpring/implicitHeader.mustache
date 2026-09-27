@@ -1,1 +1,1 @@
-{{#isHeaderParam}}@ApiImplicitParam(name = "{{{baseName}}}", value = "{{{description}}}", {{#required}}required = true,{{/required}} dataType = "{{{dataType}}}", paramType = "header"){{/isHeaderParam}}
+{{#isHeaderParam}}@ApiImplicitParam(name = {{#lambda.javaStringLiteral}}{{{baseName}}}{{/lambda.javaStringLiteral}}, value = {{#lambda.javaStringLiteral}}{{{unescapedDescription}}}{{/lambda.javaStringLiteral}}, {{#required}}required = true,{{/required}} dataType = {{#lambda.javaStringLiteral}}{{{dataType}}}{{/lambda.javaStringLiteral}}, paramType = "header"){{/isHeaderParam}}

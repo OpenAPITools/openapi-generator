@@ -43,7 +43,8 @@ public interface FakeClassnameTestApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Client>> testClassname(
-         @Valid @RequestBody Mono<Client> client
+        
+ @Valid @RequestBody Mono<Client> client
     );
 
 }

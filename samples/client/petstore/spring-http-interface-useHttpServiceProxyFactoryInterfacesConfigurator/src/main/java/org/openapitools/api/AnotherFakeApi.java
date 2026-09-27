@@ -39,7 +39,8 @@ public interface AnotherFakeApi {
         contentType = "application/json"
     )
     ResponseEntity<Client> call123testSpecialTags(
-         @Valid @RequestBody Client client
+        
+ @Valid @RequestBody Client client
     );
 
 }

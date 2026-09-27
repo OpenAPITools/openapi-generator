@@ -17,7 +17,7 @@ import jakarta.validation.constraints.Size
 import jakarta.validation.Valid
 
 /**
- * Search result with metadata — no 'content' array at all
+ * Search result with metadata — no &#39;content&#39; array at all
  * @param query 
  * @param totalHits 
  * @param page 

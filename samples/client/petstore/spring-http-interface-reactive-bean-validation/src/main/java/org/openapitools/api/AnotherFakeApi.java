@@ -43,7 +43,8 @@ public interface AnotherFakeApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Client>> call123testSpecialTags(
-         @Valid @RequestBody Mono<Client> client
+        
+ @Valid @RequestBody Mono<Client> client
     );
 
 }

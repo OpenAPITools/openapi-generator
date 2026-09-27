@@ -26,21 +26,21 @@ import {
 
 export interface CreateUserRequest {
     /**
-     * 
+     * Created user object
      */
     body: User;
 }
 
 export interface CreateUsersWithArrayInputRequest {
     /**
-     * 
+     * List of user object
      */
     body: Array<User>;
 }
 
 export interface CreateUsersWithListInputRequest {
     /**
-     * 
+     * List of user object
      */
     body: Array<User>;
 }
@@ -76,7 +76,7 @@ export interface UpdateUserRequest {
      */
     username: string;
     /**
-     * 
+     * Updated user object
      */
     body: User;
 }

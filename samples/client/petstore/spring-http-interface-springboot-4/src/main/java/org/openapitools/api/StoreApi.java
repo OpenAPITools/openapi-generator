@@ -40,7 +40,8 @@ public interface StoreApi {
         accept = { "application/json" }
     )
     ResponseEntity<Void> deleteOrder(
-         @PathVariable("order_id") String orderId
+        
+ @PathVariable("order_id") String orderId
     );
 
 
@@ -64,7 +65,7 @@ public interface StoreApi {
     String PATH_GET_ORDER_BY_ID = "/store/order/{order_id}";
     /**
      * GET /store/order/{order_id} : Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+     * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generate exceptions
      *
      * @param orderId ID of pet that needs to be fetched (required)
      * @return successful operation (status code 200)
@@ -77,7 +78,8 @@ public interface StoreApi {
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<OrderDto> getOrderById(
-        @Min(value = 1L) @Max(value = 5L)  @PathVariable("order_id") Long orderId
+        
+@Min(value = 1L) @Max(value = 5L)  @PathVariable("order_id") Long orderId
     );
 
 
@@ -97,7 +99,8 @@ public interface StoreApi {
         contentType = "application/json"
     )
     ResponseEntity<OrderDto> placeOrder(
-         @Valid @RequestBody OrderDto orderDto
+        
+ @Valid @RequestBody OrderDto orderDto
     );
 
 }

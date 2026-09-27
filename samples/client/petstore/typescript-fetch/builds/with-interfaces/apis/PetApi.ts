@@ -26,7 +26,7 @@ import {
 
 export interface AddPetRequest {
     /**
-     * 
+     * Pet object that needs to be added to the store
      */
     body: Pet;
 }
@@ -65,7 +65,7 @@ export interface GetPetByIdRequest {
 
 export interface UpdatePetRequest {
     /**
-     * 
+     * Pet object that needs to be added to the store
      */
     body: Pet;
 }

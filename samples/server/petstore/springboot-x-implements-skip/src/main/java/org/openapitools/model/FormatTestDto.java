@@ -426,7 +426,7 @@ public class FormatTestDto {
   }
 
   /**
-   * A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+   * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
    * @return patternWithDigitsAndDelimiter
    */
   @Pattern(regexp = "/^image_\\d{1,3}$/i") 
