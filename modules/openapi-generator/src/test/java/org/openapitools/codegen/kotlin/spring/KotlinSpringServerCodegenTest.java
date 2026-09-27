@@ -19,6 +19,7 @@ import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.kotlin.assertions.KotlinFileAssert;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
+import org.openapitools.codegen.languages.SpringPageableScanUtils;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
@@ -46,6 +47,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
 import static org.openapitools.codegen.CodegenConstants.USE_ENUM_VALUE_INTERFACE;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -5401,6 +5403,95 @@ public class KotlinSpringServerCodegenTest {
 
         Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
                 "findPetsNoParams should NOT have pageable when there are no pagination params");
+    }
+
+    @Test
+    public void autoXSpringPaginatedPageSizeMode_detectsPageAndSizeOnlyOperation() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "page-size");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsMissingSort has only page+size (no sort) → 'page-size' mode must still inject Pageable
+        int methodStart = content.indexOf("fun findPetsMissingSort(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertTrue(methodSignature.contains("pageable: Pageable"),
+                "findPetsMissingSort should have pageable when autoXSpringPaginated=page-size");
+        Assert.assertFalse(methodSignature.contains("page:"), "page query param should be removed");
+        Assert.assertFalse(methodSignature.contains("size:"), "size query param should be removed");
+    }
+
+    @Test
+    public void autoXSpringPaginatedSettersSupportStringModesAndLegacyBoolean() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        codegen.setAutoXSpringPaginated("page-size");
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size");
+
+        codegen.setAutoXSpringPaginated(true);
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size-sort");
+    }
+
+    @Test
+    public void autoXSpringPaginatedUnsetDoesNotPopulateAdditionalProperties() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties()).doesNotContainKey(AUTO_X_SPRING_PAGINATED);
+    }
+
+    @Test
+    public void autoXSpringPaginatedLegacyTrue_logsDeprecationWarningOnce() {
+        long deprecationWarnings = countDeprecationWarnings(() -> {
+            KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+            codegen.additionalProperties().put(AUTO_X_SPRING_PAGINATED, "true");
+            codegen.processOpts();
+        });
+        assertThat(deprecationWarnings).isEqualTo(1);
+    }
+
+    @Test
+    public void autoXSpringPaginatedUnset_logsNoDeprecationWarning() {
+        long deprecationWarnings = countDeprecationWarnings(() -> new KotlinSpringServerCodegen().processOpts());
+        assertThat(deprecationWarnings).isZero();
+    }
+
+    @Test
+    public void autoXSpringPaginatedInvalidValue_isRejectedEvenForUnsupportedLibrary() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setLibrary(KotlinSpringServerCodegen.SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(AUTO_X_SPRING_PAGINATED, "bogus");
+
+        assertThatThrownBy(codegen::processOpts)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("bogus");
+    }
+
+    @Test
+    public void autoXSpringPaginatedValidValue_isNotWrittenBackForUnsupportedLibrary() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setLibrary(KotlinSpringServerCodegen.SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(AUTO_X_SPRING_PAGINATED, "true");
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties().get(AUTO_X_SPRING_PAGINATED)).isEqualTo("true");
+    }
+
+    private static long countDeprecationWarnings(Runnable action) {
+        return TestUtils.captureLogMessages(SpringPageableScanUtils.class, action).stream()
+                .filter(message -> message.contains("autoXSpringPaginated") && message.contains("deprecated"))
+                .count();
     }
 
     @Test
