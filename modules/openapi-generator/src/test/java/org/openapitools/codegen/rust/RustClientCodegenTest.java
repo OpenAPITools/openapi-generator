@@ -367,7 +367,8 @@ public class RustClientCodegenTest {
                 .setInputSpec("src/test/resources/3_0/rust/oneof-member-without-type.yaml")
                 .setSkipOverwrite(false)
                 .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
-        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
         Path outputPath = Path.of(target.toString(), "/src/models/conditions.rs");
         TestUtils.assertFileExists(outputPath);
         TestUtils.assertFileContains(outputPath, "WorkflowPathCondition(Box<models::WorkflowPathCondition>)");
