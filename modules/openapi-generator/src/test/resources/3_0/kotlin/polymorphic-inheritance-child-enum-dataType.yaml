@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: kotlin-spring regression -- inherited enum property's dataType wrongly qualified with the child's own classname
+  version: "1.0.0"
+paths:
+  /ping:
+    get:
+      operationId: ping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductOrderMilestone'
+components:
+  schemas:
+    # A parent schema ("Milestone") that is promoted to an interface has an enum-typed
+    # property ("status") -- the enum is nested inside the parent's generated class as
+    # "Milestone.Status". A child schema ("ProductOrderMilestone") extends the parent via
+    # allOf without redeclaring "status" itself, so it should simply inherit/override the
+    # property with the SAME nested enum type ("Milestone.Status"). The bug: the generator
+    # instead emits the override typed as "ProductOrderMilestone.Status" -- i.e. it qualifies
+    # the enum type with the child's own class name instead of the parent interface where the
+    # enum is actually nested -- so the reference does not resolve.
+    Milestone:
+      type: object
+      properties:
+        '@type':
+          type: string
+        status:
+          type: string
+          enum:
+            - Completed
+            - Violated
+      required:
+        - '@type'
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          Milestone: '#/components/schemas/Milestone'
+          ProductOrderMilestone: '#/components/schemas/ProductOrderMilestone'
+
+    ProductOrderMilestone:
+      allOf:
+        - $ref: '#/components/schemas/Milestone'
+        - type: object
+          properties:
+            name:
+              type: string

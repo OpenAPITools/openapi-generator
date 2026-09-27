@@ -39,7 +39,7 @@ interface Animal {
         val className: kotlin.String
 
                 @get:Schema(description = "")
-        val color: kotlin.String? 
+        val color: kotlin.String?
 
 
 }

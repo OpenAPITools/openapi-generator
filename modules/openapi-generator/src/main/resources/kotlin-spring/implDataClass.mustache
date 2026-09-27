@@ -1,0 +1,22 @@
+/**
+ * Synthetic concrete implementation of [{{parent}}], generated because
+ * "{{parent}}" is used as a discriminator value elsewhere (either directly as a
+ * standalone payload/field type, or as its own discriminator's self-mapped value) but
+ * {{parent}} itself is emitted as an `interface` and therefore cannot be instantiated
+ * directly by Jackson during polymorphic deserialization. Named "{{classname}}"
+ * (rather than "{{parent}}Impl") if that default name collides with another schema
+ * already declared in the document.
+ */
+data class {{classname}}(
+{{#requiredVars}}
+{{>implClassReqVar}}{{^-last}},
+{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
+{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>implClassOptVar}}{{^-last}},
+{{/-last}}{{/optionalVars}}
+) : {{parent}}{{#vendorExtensions.x-kotlin-poly-synthetic-discriminator-overrides}} {
+{{#vendorExtensions.x-kotlin-poly-synthetic-discriminator-overrides}}
+    override val {{name}}: {{{type}}}
+        get() = {{{value}}}
+{{/vendorExtensions.x-kotlin-poly-synthetic-discriminator-overrides}}
+}
+{{/vendorExtensions.x-kotlin-poly-synthetic-discriminator-overrides}}

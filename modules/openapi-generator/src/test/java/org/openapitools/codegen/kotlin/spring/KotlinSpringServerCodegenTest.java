@@ -7896,4 +7896,354 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(countOccurrences(widgets, "import org.openapitools.model.Widget"), 1L,
                 "Extra import duplicating a generated type import must be emitted only once");
     }
+
+    // ========== allOf/discriminator polymorphic inheritance (fixPolymorphicInheritance) ==========
+    //
+    // Regression tests for the compile-breaking Kotlin output produced for `allOf`/`discriminator`
+    // inheritance hierarchies where a schema is used as an `allOf` parent by other schemas but has
+    // no `discriminator` of its own (see src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml).
+
+    @Test
+    public void allOfDiscriminatorInheritance_flagOff_leavesNonDiscriminatedParentsAsDataClass() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
+
+        // Default (flag off) behavior is unchanged: a non-discriminated allOf parent that is
+        // extended by other models is still emitted as a `data class` (pre-existing, documented
+        // limitation -- Kotlin forbids extending it, but we must not silently change default output).
+        Path checkServiceQualification = files.get("CheckServiceQualification.kt").toPath();
+        assertFileContains(checkServiceQualification, "data class CheckServiceQualification(");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_flagOn_promotesNonDiscriminatedParentToInterface() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml",
+                Map.of(FIX_POLYMORPHIC_INHERITANCE, "true"));
+
+        // Issue 1/1b: with the flag enabled, a model with no discriminator of its own but that is
+        // extended by another model (CheckServiceQualification is extended by
+        // CheckServiceQualification_RES) is promoted to an `interface` instead of a `data class`,
+        // so the subtype can legally extend it.
+        Path checkServiceQualification = files.get("CheckServiceQualification.kt").toPath();
+        assertFileContains(checkServiceQualification, "interface CheckServiceQualification");
+        assertFileNotContains(checkServiceQualification, "data class CheckServiceQualification(");
+
+        Path checkServiceQualificationRes = files.get("CheckServiceQualificationRES.kt").toPath();
+        assertFileContains(checkServiceQualificationRes,
+                "override val serviceQualificationItem",
+                "override val provideAlternative");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_discriminatorPropertyNormalizedToStringAcrossAllOfChildren() throws IOException {
+        // Issue 2: PartyRef/PartyRoleRef both narrow the inherited `@type` discriminator property
+        // to a per-subtype single-value `enum`; the generator must still type it as `kotlin.String`
+        // (not the local enum) so it validly overrides PartyRefOrPartyRoleRef's `String`-typed
+        // discriminator property.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
+
+        Path partyRef = files.get("PartyRef.kt").toPath();
+        assertFileContains(partyRef, "override val atType: kotlin.String");
+        assertFileNotContains(partyRef, "override val atType: PartyRef.AtType");
+
+        Path partyRoleRef = files.get("PartyRoleRef.kt").toPath();
+        assertFileContains(partyRoleRef, "override val atType: kotlin.String");
+        assertFileNotContains(partyRoleRef, "override val atType: PartyRoleRef.AtType");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_freeFormMapWithDiscriminatorNeverEmitsInterfaceExtendingHashMap() throws IOException {
+        // Issue 3: a free-form/map-typed schema (additionalProperties, no fixed properties) that
+        // also declares its own `discriminator` must never be rendered as
+        // `interface X : HashMap<String, Any>()` (illegal in Kotlin -- an interface cannot extend a
+        // concrete class). It must instead be a concrete (non-interface) class extending HashMap.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
+
+        Path context = files.get("Context.kt").toPath();
+        assertFileNotContains(context, "interface Context : kotlin.collections.HashMap");
+        assertFileContains(context, "open class Context(", ": kotlin.collections.HashMap<String, kotlin.Any>()");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_reDeclaredInheritedPropertyGetsOverrideModifier() throws IOException {
+        // Issue 4: GeographicSite re-declares `externalIdentifier`, which is already defined on its
+        // (allOf-composed) parent Place. The override must be detected even though Place's own
+        // schema has no top-level `properties` (it's itself `allOf`-composed), requiring the parent's
+        // full flattened allOf property set to be considered, not just its direct schema properties.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
+
+        Path geographicSite = files.get("GeographicSite.kt").toPath();
+        assertFileContains(geographicSite, "override val externalIdentifier");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_selfMappedDiscriminatorRootGetsSyntheticImplUnconditionally() throws IOException {
+        // A genuinely-discriminated root whose own discriminator mapping includes a self-referencing
+        // entry (ServiceQualification -> '#/components/schemas/ServiceQualification') is *always*
+        // rendered as an interface (independent of fixPolymorphicInheritance), so it can never be
+        // instantiated by Jackson for the "ServiceQualification" discriminator value unless a
+        // concrete leaf is generated. This is a pre-existing bug fixed unconditionally.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
+
+        Path serviceQualification = files.get("ServiceQualification.kt").toPath();
+        assertFileContains(serviceQualification,
+                "interface ServiceQualification",
+                "JsonSubTypes.Type(value = ServiceQualificationImpl::class, name = \"ServiceQualification\")");
+        assertFileNotContains(serviceQualification, "data class ServiceQualificationImpl(");
+
+        // The synthetic Impl class is generated in its own file, not embedded in
+        // ServiceQualification.kt, so it can be substituted via the standard `schemaMapping`
+        // mechanism if desired.
+        Path serviceQualificationImpl = files.get("ServiceQualificationImpl.kt").toPath();
+        assertFileContains(serviceQualificationImpl,
+                "data class ServiceQualificationImpl(",
+                ") : ServiceQualification");
+
+        // CheckServiceQualification/QueryServiceQualification are plain (non-self-mapped) mapping
+        // entries; with the flag off they remain concrete data classes, so their @JsonSubTypes
+        // entries must NOT be redirected to a synthetic Impl class.
+        assertFileContains(serviceQualification,
+                "JsonSubTypes.Type(value = CheckServiceQualification::class, name = \"CheckServiceQualification\")",
+                "JsonSubTypes.Type(value = QueryServiceQualification::class, name = \"QueryServiceQualification\")");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_flagOn_promotedInterfaceUsedAsDiscriminatorValueGetsSyntheticImpl() throws IOException {
+        // The core Phase 2 fix: once fixPolymorphicInheritance promotes CheckServiceQualification to
+        // an `interface` (it has a child, CheckServiceQualification_RES, but no discriminator of its
+        // own), it can no longer be instantiated directly by Jackson -- but it IS still a valid
+        // discriminator value ("CheckServiceQualification") in ServiceQualification's own mapping, and
+        // is also used directly as a standalone response type (see the /ping-check-task path). A
+        // synthetic concrete CheckServiceQualificationImpl leaf must be generated, implementing the
+        // interface with every inherited + own property marked `override`, and ServiceQualification's
+        // @JsonSubTypes entry for "CheckServiceQualification" must be redirected to it.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml",
+                Map.of(FIX_POLYMORPHIC_INHERITANCE, "true"));
+
+        Path checkServiceQualification = files.get("CheckServiceQualification.kt").toPath();
+        assertFileContains(checkServiceQualification,
+                "interface CheckServiceQualification : ServiceQualification");
+        assertFileNotContains(checkServiceQualification, "data class CheckServiceQualificationImpl(");
+
+        // The synthetic Impl class is generated in its own file, not embedded in
+        // CheckServiceQualification.kt.
+        Path checkServiceQualificationImpl = files.get("CheckServiceQualificationImpl.kt").toPath();
+        assertFileContains(checkServiceQualificationImpl,
+                "data class CheckServiceQualificationImpl(",
+                ") : CheckServiceQualification",
+                "override val serviceQualificationItem",
+                "override val provideAlternative",
+                "override val atType",
+                "override val description");
+
+        Path serviceQualification = files.get("ServiceQualification.kt").toPath();
+        assertFileContains(serviceQualification,
+                "JsonSubTypes.Type(value = CheckServiceQualificationImpl::class, name = \"CheckServiceQualification\")");
+        assertFileNotContains(serviceQualification,
+                "JsonSubTypes.Type(value = CheckServiceQualification::class, name = \"CheckServiceQualification\")");
+
+        // QueryServiceQualification has no children of its own in this spec, so it stays a concrete
+        // data class even with the flag on, and must NOT get a synthetic Impl or redirection.
+        assertFileContains(serviceQualification,
+                "JsonSubTypes.Type(value = QueryServiceQualification::class, name = \"QueryServiceQualification\")");
+        Path queryServiceQualification = files.get("QueryServiceQualification.kt").toPath();
+        assertFileContains(queryServiceQualification, "data class QueryServiceQualification(");
+        assertFileNotContains(queryServiceQualification, "interface QueryServiceQualification");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_syntheticImplFallsBackToCollisionFreeNameWhenDefaultNameIsTaken() throws IOException {
+        // Place is a self-mapped discriminator root (discriminator.mapping includes
+        // `Place: '#/components/schemas/Place'`), so it always needs a synthetic concrete leaf --
+        // by default named "PlaceImpl". The spec also declares an ordinary, unrelated schema
+        // literally named `PlaceImpl` (see polymorphism-allof-discriminator-inheritance.yaml), so
+        // the generator must detect the collision and fall back to a free name ("PlaceImpl2")
+        // instead of emitting two Kotlin declarations named `PlaceImpl` in the same file.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml");
+
+        Path place = files.get("Place.kt").toPath();
+        assertFileContains(place, "interface Place");
+        assertFileNotContains(place, "data class PlaceImpl2(", "data class PlaceImpl(");
+
+        // The synthetic Impl leaf is generated in its own file, named after the collision-free
+        // fallback name, distinct from the real, unrelated `PlaceImpl` schema's own file.
+        Path placeImpl2 = files.get("PlaceImpl2.kt").toPath();
+        assertFileContains(placeImpl2, "data class PlaceImpl2(", ") : Place");
+
+        // The real, unrelated `PlaceImpl` schema must still be generated as its own ordinary class,
+        // untouched by the collision-avoidance logic.
+        Path placeImpl = files.get("PlaceImpl.kt").toPath();
+        assertFileContains(placeImpl, "data class PlaceImpl(");
+
+        // Place's own @JsonSubTypes entry for the self-mapped "Place" discriminator value must be
+        // redirected to the fallback-named synthetic leaf, not the colliding real schema.
+        assertFileContains(place,
+                "JsonSubTypes.Type(value = PlaceImpl2::class, name = \"Place\")",
+                "JsonSubTypes.Type(value = GeographicSite::class, name = \"GeographicSite\")");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_syntheticImplCanBeSuppressedViaSchemaMapping() throws IOException {
+        // Since the synthetic Impl leaf is generated as a genuinely separate model entry (its own
+        // file, keyed by its resolved name in the map DefaultGenerator uses to drive per-model file
+        // generation), it automatically gets the same `schemaMapping` suppression support real
+        // schemas get: DefaultGenerator's per-model file-generation loop skips any model name
+        // present in `schemaMapping()`, with zero extra code required for this to work.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphism-allof-discriminator-inheritance.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.addSchemaMapping("ServiceQualificationImpl", "com.example.custom.ServiceQualificationImpl"));
+
+        // The synthetic leaf's file must no longer be generated...
+        Assert.assertNull(files.get("ServiceQualificationImpl.kt"),
+                "ServiceQualificationImpl.kt should not be generated once its resolved name is schema-mapped");
+
+        // ...while ServiceQualification itself (the interface) is unaffected and still generated
+        // normally, still redirecting its @JsonSubTypes entry to the (now user-supplied)
+        // "ServiceQualificationImpl" name.
+        Path serviceQualification = files.get("ServiceQualification.kt").toPath();
+        assertFileContains(serviceQualification,
+                "interface ServiceQualification",
+                "JsonSubTypes.Type(value = ServiceQualificationImpl::class, name = \"ServiceQualification\")");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_deductionOneOfMemberPromotedToInterfaceGetsSyntheticImpl() throws IOException {
+        // Circle inherits a discriminator from Discriminated (making it a real Kotlin parent
+        // candidate for ColoredCircle), but has no discriminator of its own, and Discriminated's
+        // own explicit `mapping` deliberately lists only the leaf ColoredCircle -- not the
+        // intermediate Circle -- so Circle's classname never ends up in
+        // `discriminatorMappedModelNames` either. fixPolymorphicInheritance still promotes Circle
+        // to an `interface` purely because it has a child (ColoredCircle). Circle is ALSO a member
+        // of Shape's discriminator-free oneOf, rendered via useDeductionForOneOfInterfaces --
+        // discriminator-free oneOf has no discriminator.mapping at all, so without also treating
+        // deduction-oneOf membership as an Impl trigger, Shape's deduction @JsonSubTypes would keep
+        // naming the now-abstract `Circle` interface directly, compiling fine but failing at
+        // runtime since Jackson can never instantiate an interface.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphic-inheritance-deduction-oneof.yaml",
+                Map.of(FIX_POLYMORPHIC_INHERITANCE, "true", CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true"));
+
+        Path circle = files.get("Circle.kt").toPath();
+        assertFileContains(circle, "interface Circle");
+        assertFileNotContains(circle, "data class CircleImpl(");
+
+        // The synthetic Impl leaf is generated in its own file, not embedded in Circle.kt.
+        Path circleImpl = files.get("CircleImpl.kt").toPath();
+        assertFileContains(circleImpl,
+                "data class CircleImpl(",
+                ") : Circle");
+
+        // Shape's deduction @JsonSubTypes must redirect Circle's entry to the synthetic Impl leaf,
+        // not the now-abstract interface.
+        Path shape = files.get("Shape.kt").toPath();
+        assertFileContains(shape, "JsonSubTypes.Type(value = CircleImpl::class)");
+        assertFileNotContains(shape, "JsonSubTypes.Type(value = Circle::class)");
+
+        // Square has no allOf children, so it's untouched: stays a plain data class, referenced
+        // directly (no Impl needed) in Shape's deduction @JsonSubTypes.
+        Path square = files.get("Square.kt").toPath();
+        assertFileContains(square, "data class Square(");
+        assertFileNotContains(square, "interface Square");
+        assertFileContains(shape, "JsonSubTypes.Type(value = Square::class)");
+    }
+
+    @Test
+    public void allOfDiscriminatorInheritance_deductionOneOfFlagOff_leavesCircleAsDataClass() throws IOException {
+        // With fixPolymorphicInheritance off, Circle is never promoted to `interface` in the first
+        // place (pre-existing Issue 1/1b behavior: it would fail to compile once ColoredCircle
+        // extends it as a `data class`, but that's an orthogonal, already-covered concern) -- no
+        // synthetic Impl should be generated for it, and Shape's deduction @JsonSubTypes should
+        // keep referencing Circle directly, unaffected by this fix.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphic-inheritance-deduction-oneof.yaml",
+                Map.of(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true"));
+
+        Path circle = files.get("Circle.kt").toPath();
+        assertFileContains(circle, "data class Circle(");
+        assertFileNotContains(circle, "interface Circle");
+        Assert.assertNull(files.get("CircleImpl.kt"), "CircleImpl.kt should not be generated when fixPolymorphicInheritance is off");
+
+        Path shape = files.get("Shape.kt").toPath();
+        assertFileContains(shape,
+                "JsonSubTypes.Type(value = Circle::class)",
+                "JsonSubTypes.Type(value = Square::class)");
+    }
+
+    // ========== 3 additional real-world (TMForum-sourced) compile regressions ==========
+    //
+    // Pre-existing kotlin-spring bugs, unrelated to fixPolymorphicInheritance (reproduced
+    // identically whether the flag is on or off) -- fixes are unconditional/always-on.
+
+    @Test
+    public void anyOfSingleRefToDiscriminatedSchemaDoesNotGetFalseOverrideModifier() throws IOException {
+        // Regression A: CommonFVOReverseValue is an inline schema synthesized from
+        // `additionalProperties: { anyOf: [$ref: common_FVO] }` -- a common self-referencing
+        // "recursive map value" idiom. anyOf never sets a real Kotlin `parent`/supertype, but the
+        // override-detection step previously marked its properties `isInherited` anyway (false
+        // positive), emitting `override` with no supertype clause at all ("'atType' overrides
+        // nothing"). Fixed by only seeding that detection when a real `parent` exists.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphic-inheritance-anyof-self-ref-map.yaml");
+
+        Path commonFvoReverseValue = files.get("CommonFVOReverseValue.kt").toPath();
+        assertFileNotContains(commonFvoReverseValue, "override val");
+        assertFileContains(commonFvoReverseValue, "val atType");
+    }
+
+    @Test
+    public void oneOfGroupingDiscriminatorWithoutBackingPropertyGetsSyntheticComputedOverride() throws IOException {
+        // Regression B: PartyOrPartyRole is a `oneOf`+`discriminator` grouping schema with no
+        // properties of its own -- its abstract `val atType: kotlin.String` is synthesized purely
+        // from discriminator.propertyName. Its members (RelatedOrganization, and
+        // RelatedIndividual/RelatedIndividualImpl) extend an unrelated base (Extensible, via
+        // allOf) that does not declare `atType` at all, so neither ever supplies a value, failing
+        // with "is not abstract and does not implement abstract member 'atType'". Fixed by
+        // synthesizing a computed (getter-only) override using the model's own entry in the
+        // discriminator's mapping as the literal wire value.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphic-inheritance-oneof-grouping-unbacked-discriminator.yaml");
+
+        Path relatedOrganization = files.get("RelatedOrganization.kt").toPath();
+        assertFileContains(relatedOrganization,
+                "override val atType: kotlin.String",
+                "get() = \"RelatedOrganization\"");
+
+        Path relatedIndividualImpl = files.get("RelatedIndividualImpl.kt").toPath();
+        assertFileContains(relatedIndividualImpl,
+                "override val atType: kotlin.String",
+                "get() = \"RelatedIndividual\"");
+
+        // Bird/Animal-style genuine discriminator roots (where the interface deliberately does
+        // NOT declare the discriminator as an abstract Kotlin member -- it's handled purely via
+        // @JsonIgnoreProperties/@JsonTypeInfo) must be unaffected by this fix.
+        Map<String, File> polymorphismFiles = generateFromContract("src/test/resources/3_0/kotlin/polymorphism.yaml");
+        Path bird = polymorphismFiles.get("Bird.kt").toPath();
+        assertFileNotContains(bird, "val discriminator");
+    }
+
+    @Test
+    public void inheritedEnumPropertyIsQualifiedWithParentClassnameNotChildClassname() throws IOException {
+        // Regression C: Milestone (interface, own discriminator) declares a nested `enum class
+        // Status` inside its own generated class. ProductOrderMilestone (allOf child) does not
+        // redeclare `status`, so it should inherit/override the property with the SAME nested enum
+        // type (Milestone.Status). It was previously wrongly qualified with the child's own
+        // classname (ProductOrderMilestone.Status), a type that's never declared anywhere
+        // ("unresolved reference: Status").
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/polymorphic-inheritance-child-enum-dataType.yaml");
+
+        Path productOrderMilestone = files.get("ProductOrderMilestone.kt").toPath();
+        assertFileContains(productOrderMilestone, "override val status: Milestone.Status?");
+        assertFileNotContains(productOrderMilestone, "ProductOrderMilestone.Status");
+        assertFileNotContains(productOrderMilestone, "enum class Status");
+    }
 }

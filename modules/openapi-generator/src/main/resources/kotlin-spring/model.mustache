@@ -23,6 +23,6 @@ import io.swagger.annotations.ApiModelProperty
 
 {{#models}}
 {{#model}}
-{{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}{{#vendorExtensions.x-is-one-of-interface}}{{>oneof_interface}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{>dataClass}}{{/vendorExtensions.x-is-one-of-interface}}{{/isEnum}}
+{{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}{{#vendorExtensions.x-is-one-of-interface}}{{>oneof_interface}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{#vendorExtensions.x-kotlin-poly-impl-class}}{{>implDataClass}}{{/vendorExtensions.x-kotlin-poly-impl-class}}{{^vendorExtensions.x-kotlin-poly-impl-class}}{{>dataClass}}{{/vendorExtensions.x-kotlin-poly-impl-class}}{{/vendorExtensions.x-is-one-of-interface}}{{/isEnum}}
 {{/model}}
 {{/models}}

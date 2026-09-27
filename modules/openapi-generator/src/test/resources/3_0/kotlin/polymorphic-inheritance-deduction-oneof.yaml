@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  title: fixPolymorphicInheritance x useDeductionForOneOfInterfaces interaction
+  version: "1.0.0"
+paths:
+  /shape:
+    get:
+      operationId: getShape
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shape'
+components:
+  schemas:
+    # Owns the only discriminator in this chain. Its explicit `mapping` deliberately lists
+    # only the leaf (`ColoredCircle`), NOT the intermediate `Circle` -- a common real-world
+    # pattern where discriminator mappings enumerate concrete/leaf subtypes only, not
+    # intermediate mixin types. Under the default `legacyDiscriminatorBehavior=true`, a
+    # non-empty explicit `mapping` suppresses the auto-descendant-discovery fallback, so
+    # `Circle` never ends up in `Discriminated`'s own `discriminator.mappedModels` either.
+    Discriminated:
+      type: object
+      properties:
+        id:
+          type: string
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          ColoredCircle: '#/components/schemas/ColoredCircle'
+
+    # Circle inherits a discriminator from Discriminated (single allOf ref), which is what
+    # makes it a genuine Kotlin parent candidate for ColoredCircle below -- but Circle has NO
+    # discriminator of its own, and (per the comment above) its own name never appears in any
+    # discriminator mapping. fixPolymorphicInheritance promotes it to an `interface` purely
+    # because it has a child (ColoredCircle).
+    Circle:
+      allOf:
+        - $ref: '#/components/schemas/Discriminated'
+        - type: object
+          properties:
+            radius:
+              type: number
+
+    ColoredCircle:
+      allOf:
+        - $ref: '#/components/schemas/Circle'
+        - type: object
+          properties:
+            color:
+              type: string
+
+    Square:
+      type: object
+      properties:
+        id:
+          type: string
+        side:
+          type: number
+
+    # Discriminator-free oneOf -> useDeductionForOneOfInterfaces applies. Circle is ALSO a
+    # member of this union -- since Discriminated's own mapping doesn't cover Circle, the only
+    # code path that would otherwise need to catch "Circle is now an uninstantiable interface"
+    # is this deduction oneOf's own JsonSubTypes emission.
+    Shape:
+      oneOf:
+        - $ref: '#/components/schemas/Circle'
+        - $ref: '#/components/schemas/Square'

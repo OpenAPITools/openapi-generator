@@ -8,7 +8,7 @@
 @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION{{#vendorExtensions.x-jackson-resolved-default-impl}}, defaultImpl = {{vendorExtensions.x-jackson-resolved-default-impl}}::class{{/vendorExtensions.x-jackson-resolved-default-impl}})
 @JsonSubTypes(
   {{#interfaceModels}}
-    JsonSubTypes.Type(value = {{classname}}::class){{^-last}},{{/-last}}
+    JsonSubTypes.Type(value = {{#vendorExtensions.x-kotlin-poly-impl-needed}}{{vendorExtensions.x-kotlin-poly-impl-name}}{{/vendorExtensions.x-kotlin-poly-impl-needed}}{{^vendorExtensions.x-kotlin-poly-impl-needed}}{{classname}}{{/vendorExtensions.x-kotlin-poly-impl-needed}}::class){{^-last}},{{/-last}}
   {{/interfaceModels}}
 )
 {{/jackson}}{{/useDeductionForOneOfInterfaces}}{{/discriminator}}{{#additionalModelTypeAnnotations}}

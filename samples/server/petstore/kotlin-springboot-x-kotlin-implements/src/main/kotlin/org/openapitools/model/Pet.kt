@@ -59,19 +59,19 @@ interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.W
 
         
         @get:ApiModelProperty(value = "")
-        override val id: kotlin.Long? 
+        override val id: kotlin.Long?
 
         
         @get:ApiModelProperty(value = "")
-        override val category: Category? 
+        override val category: Category?
 
         
         @get:ApiModelProperty(value = "")
-        val tags: kotlin.collections.List<Tag>? 
+        val tags: kotlin.collections.List<Tag>?
 
         
         @get:ApiModelProperty(value = "")
-        val color: Color? 
+        val color: Color?
 
 
     companion object {
