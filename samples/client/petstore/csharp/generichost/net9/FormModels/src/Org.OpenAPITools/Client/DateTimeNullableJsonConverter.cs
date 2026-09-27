@@ -54,13 +54,16 @@ namespace Org.OpenAPITools.Client
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
+            if (reader.TokenType != JsonTokenType.String)
+                throw new JsonException("The JSON value is not a valid date-time.");
+
             string value = reader.GetString();
 
             foreach(string format in Formats)
                 if (DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime result))
                     return result;
 
-            return null;
+            throw new JsonException("The JSON value is not a valid date-time.");
         }
 
         /// <summary>

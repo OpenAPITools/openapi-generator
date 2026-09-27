@@ -52,8 +52,8 @@ namespace Org.OpenAPITools.Client
         /// <param name="options"></param>
         /// <returns></returns>
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-            if (reader.TokenType == JsonTokenType.Null)
-                throw new NotSupportedException();
+            if (reader.TokenType != JsonTokenType.String)
+                throw new JsonException("The JSON value is not a valid date-time.");
 
             string value = reader.GetString()!;
 
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Client
                 if (DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime result))
                     return result;
 
-            throw new NotSupportedException();
+            throw new JsonException("The JSON value is not a valid date-time.");
         }
 
         /// <summary>
