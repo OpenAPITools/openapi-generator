@@ -30,7 +30,7 @@ impl std::fmt::Debug for Configuration {
             .field("base_path", &self.base_path)
             .field("user_agent", &self.user_agent)
             .field("client", &self.client);
-        debug.field("token_source", &self.token_source);
+        debug.field("token_source", &"[REDACTED]");
         debug.finish()
     }
 }

@@ -111,7 +111,7 @@ impl std::fmt::Debug for Configuration {
         {{/withAWSV4Signature}}
         {{#supportAsync}}
         {{#supportTokenSource}}
-        debug.field("token_source", &self.token_source);
+        debug.field("token_source", &"[REDACTED]");
         {{/supportTokenSource}}
         {{/supportAsync}}
         debug.finish()

@@ -108,7 +108,7 @@ impl std::fmt::Debug for Configuration {
         debug.field("aws_v4_key", &self.aws_v4_key);
         {{/withAWSV4Signature}}
         {{#supportTokenSource}}
-        debug.field("token_source", &self.token_source);
+        debug.field("token_source", &"[REDACTED]");
         {{/supportTokenSource}}
         debug.finish()
     }
