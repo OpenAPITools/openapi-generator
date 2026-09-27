@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -85,7 +85,10 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
                     }
                     return Mono.fromCallable(() -> {
                         try (InputStream inputStream = resource.getInputStream()) {
-                            byte[] content = readAllBytes(inputStream);
+                            // Read at most one byte beyond the expected length: bounds memory use
+                            // regardless of upload size, while still distinguishing too-short/too-long
+                            // payloads via the length check in verifyBytesContent.
+                            byte[] content = inputStream.readNBytes(EXPECTED_BYTES.length + 1);
                             if (content.length == 0) {
                                 throw new IllegalArgumentException("body content is empty");
                             }
@@ -93,23 +96,13 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
                         } catch (IOException e) {
                             throw new RuntimeException("Failed to read binary body", e);
                         }
-                    }).flatMap(content -> verifyBytesContent(content, "body"));
+                    }).subscribeOn(Schedulers.boundedElastic())
+                    .flatMap(content -> verifyBytesContent(content, "body"));
                 }).then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)))
                 .onErrorResume(e -> {
                     exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
                     return Mono.error(e);
                 });
-    }
-
-    private byte[] readAllBytes(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int nRead;
-        byte[] data = new byte[1024];
-        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-            buffer.write(data, 0, nRead);
-        }
-        buffer.flush();
-        return buffer.toByteArray();
     }
 
     @Override
@@ -307,9 +300,8 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
         return (bytes != null ? verifyBase64Content(bytes, "bytes") : Mono.<Void>empty())
                 .then(file != null ?
                         file.content()
-                                .collectList()
-                                .doOnNext(this::joinAndReleaseBuffers)
-                                .then(Mono.empty())
+                                .doOnNext(DataBufferUtils::release)
+                                .then()
                         : Mono.empty())
                 .then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)))
                 .onErrorResume(e -> {

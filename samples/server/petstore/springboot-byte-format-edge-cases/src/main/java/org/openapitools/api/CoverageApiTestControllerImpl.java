@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -46,7 +45,9 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
             throw new IllegalArgumentException("body is required");
         }
         try (InputStream inputStream = body.getInputStream()) {
-            byte[] content = readAllBytes(inputStream);
+            // Read at most one byte beyond the expected length: bounds memory use regardless of
+            // upload size, while still distinguishing too-short/too-long payloads via the length check below.
+            byte[] content = inputStream.readNBytes(EXPECTED_BYTES.length + 1);
             if (content.length == 0) {
                 throw new IllegalArgumentException("body content is empty");
             }
@@ -55,17 +56,6 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
             throw new RuntimeException("Failed to read binary body", e);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    private byte[] readAllBytes(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int nRead;
-        byte[] data = new byte[1024];
-        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-            buffer.write(data, 0, nRead);
-        }
-        buffer.flush();
-        return buffer.toByteArray();
     }
 
     @Override

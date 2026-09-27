@@ -888,27 +888,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
 
-        // Lambda to add type comment only if actual type differs from implemented type
-        // Format: "implementedType|actualType" -> " /* actualType */" or ""
-        additionalProperties.put("lambdaTypeComment", (Mustache.Lambda) (fragment, writer) -> {
-            String input = fragment.execute().trim();
-            String[] parts = input.split("\\|", 2);
-            if (parts.length == 2) {
-                String implementedType = parts[0].trim();
-                String actualType = parts[1].trim();
-
-                // Only add comment if types differ
-                if (!implementedType.equals(actualType)) {
-                    // Also check if implementedType is a collection of actualType (e.g., List<String> vs String)
-                    String expectedCollection = "List<" + actualType + ">";
-                    String expectedFlux = "Flux<" + actualType + ">";
-                    if (!implementedType.equals(expectedCollection) && !implementedType.equals(expectedFlux)) {
-                        writer.write(" /* " + actualType + " */");
-                    }
-                }
-            }
-        });
-
         // apiController: hide implementation behind undocumented flag to temporarily preserve code
         additionalProperties.put("_api_controller_impl_", false);
         // HEADS-UP: Do not add more template file after this block
@@ -1236,6 +1215,13 @@ public class SpringCodegen extends AbstractJavaCodegen
      * and non-model parameters (primitives, enums, strings) must be received as String or Flux&lt;String&gt; and
      * converted manually in the implementation.
      * </p>
+     * <p>
+     * The {@code dataType} (and, for arrays, {@code items.dataType}) of affected parameters is mutated in place,
+     * mirroring {@link #convertByteArrayParamsToStringType(CodegenOperation)}. This keeps every template that
+     * renders a parameter's Java type from {@code dataType} (e.g. {@code formParams.mustache},
+     * {@code optionalDataType.mustache}, {@code apiDelegate.mustache}) in sync, so the generated annotated
+     * bridge method and the overridable/delegate method it calls always declare the same parameter type.
+     * </p>
      *
      * @param operation the codegen operation whose parameters will be marked if necessary
      **/
@@ -1261,8 +1247,24 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         // Mark all form parameters as multipart form data
         for (CodegenParameter param : operation.allParams) {
-            if (param.isFormParam) {
-                param.vendorExtensions.put("x-isMultipartFormData", true);
+            if (!param.isFormParam) {
+                continue;
+            }
+            param.vendorExtensions.put("x-isMultipartFormData", true);
+
+            if (param.isFile || param.isModel) {
+                continue;
+            }
+
+            if (param.isArray && param.items != null && !param.items.isModel) {
+                // A repeated non-model multipart part is bound as a Flux of raw String values in WebFlux;
+                // callers must parse each element themselves.
+                param.items.dataType = "String";
+                param.dataType = "Flux<String>";
+            } else if (!param.isArray) {
+                // @RequestPart cannot resolve an arbitrary scalar type from a non-model multipart part in
+                // WebFlux; receive the raw String value and let callers parse it.
+                param.dataType = "String";
             }
         }
     }

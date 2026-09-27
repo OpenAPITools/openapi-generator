@@ -17,11 +17,3 @@ public class PetController implements PetApi {
 // implement all PetApi methods
 }
 ```
-
-You can also use the interface to create [Spring-Cloud Feign clients](http://projects.spring.io/spring-cloud/spring-cloud.html#spring-cloud-feign-inheritance).Eg:
-```java
-@FeignClient(name="pet", url="http://petstore.swagger.io/v2")
-public interface PetClient extends PetApi {
-
-}
-```

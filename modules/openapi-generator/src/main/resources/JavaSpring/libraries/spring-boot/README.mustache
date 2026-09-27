@@ -46,6 +46,7 @@ public class PetController implements PetApi {
 // implement all PetApi methods
 }
 ```
+{{^reactive}}
 
 You can also use the interface to create [Spring-Cloud Feign clients](http://projects.spring.io/spring-cloud/spring-cloud.html#spring-cloud-feign-inheritance).Eg:
 ```java
@@ -54,6 +55,7 @@ public interface PetClient extends PetApi {
 
 }
 ```
+{{/reactive}}
 {{/interfaceOnly}}
 {{#virtualService}}
 

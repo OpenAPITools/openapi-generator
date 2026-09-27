@@ -172,8 +172,8 @@ public interface PetApi {
     )
     Mono<ResponseEntity<Void>> updatePetWithForm(
          @PathVariable("petId") Long petId,
-         @Valid @RequestParam(value = "name", required = false) String name,
-         @Valid @RequestParam(value = "status", required = false) String status
+         @Valid @RequestPart(value = "name", required = false) String name,
+         @Valid @RequestPart(value = "status", required = false) String status
     );
 
 
