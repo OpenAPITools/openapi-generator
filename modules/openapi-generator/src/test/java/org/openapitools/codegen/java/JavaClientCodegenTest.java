@@ -1569,7 +1569,7 @@ public class JavaClientCodegenTest {
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
-                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array-extended.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
@@ -3031,7 +3031,7 @@ public class JavaClientCodegenTest {
                 .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
-                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array-extended.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
@@ -3062,7 +3062,7 @@ public class JavaClientCodegenTest {
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
-                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array-extended.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
@@ -5277,7 +5277,7 @@ public class JavaClientCodegenTest {
                 .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.MICROPROFILE)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
-                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array-extended.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();

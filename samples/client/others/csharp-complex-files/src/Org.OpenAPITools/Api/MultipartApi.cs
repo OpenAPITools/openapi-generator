@@ -82,11 +82,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
-        /// <param name="markerArray">array of objects (optional)</param>
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void MultipartMixed(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedRequestMarker> markerArray = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0);
+        void MultipartMixed(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -98,34 +97,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
-        /// <param name="markerArray">array of objects (optional)</param>
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedRequestMarker> markerArray = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0);
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// MultipartFile test with a mixed-case multipart/form-data media type
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status"></param>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns></returns>
-        void MultipartMixedCaseMediaType(string status, int operationIndex = 0);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// MultipartFile test with a mixed-case multipart/form-data media type
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status"></param>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> MultipartMixedCaseMediaTypeWithHttpInfo(string status, int operationIndex = 0);
+        ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -218,12 +193,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
-        /// <param name="markerArray">array of objects (optional)</param>
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task MultipartMixedAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedRequestMarker> markerArray = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task MultipartMixedAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -235,37 +209,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
-        /// <param name="markerArray">array of objects (optional)</param>
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedRequestMarker> markerArray = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// MultipartFile test with a mixed-case multipart/form-data media type
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status"></param>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task MultipartMixedCaseMediaTypeAsync(string status, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// MultipartFile test with a mixed-case multipart/form-data media type
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status"></param>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartMixedCaseMediaTypeWithHttpInfoAsync(string status, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 
         /// </summary>
@@ -443,7 +391,7 @@ namespace Org.OpenAPITools.Api
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            var localVarMultipartFormData = string.Equals(localVarContentType, "multipart/form-data", StringComparison.OrdinalIgnoreCase);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -592,7 +540,7 @@ namespace Org.OpenAPITools.Api
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            var localVarMultipartFormData = string.Equals(localVarContentType, "multipart/form-data", StringComparison.OrdinalIgnoreCase);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -704,13 +652,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
-        /// <param name="markerArray">array of objects (optional)</param>
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void MultipartMixed(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedRequestMarker> markerArray = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0)
+        public void MultipartMixed(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0)
         {
-            MultipartMixedWithHttpInfo(status, file, marker, markerArray, statusArray);
+            MultipartMixedWithHttpInfo(status, file, marker, statusArray);
         }
 
         /// <summary>
@@ -720,11 +667,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
-        /// <param name="markerArray">array of objects (optional)</param>
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedRequestMarker> markerArray = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0)
         {
             // verify the required parameter 'file' is set
             if (file == null)
@@ -743,7 +689,7 @@ namespace Org.OpenAPITools.Api
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            var localVarMultipartFormData = string.Equals(localVarContentType, "multipart/form-data", StringComparison.OrdinalIgnoreCase);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -759,10 +705,6 @@ namespace Org.OpenAPITools.Api
             if (marker != null)
             {
                 localVarRequestOptions.FormParameters.Add("marker", localVarMultipartFormData ? Org.OpenAPITools.Client.ClientUtils.ParameterToString(marker) : Org.OpenAPITools.Client.ClientUtils.Serialize(marker)); // form parameter
-            }
-            if (markerArray != null)
-            {
-                localVarRequestOptions.FormParameters.Add("markerArray", localVarMultipartFormData ? Org.OpenAPITools.Client.ClientUtils.ParameterToString(markerArray) : Org.OpenAPITools.Client.ClientUtils.Serialize(markerArray)); // form parameter
             }
             localVarRequestOptions.FileParameters.Add("file", file);
             if (statusArray != null)
@@ -795,14 +737,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
-        /// <param name="markerArray">array of objects (optional)</param>
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task MultipartMixedAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedRequestMarker> markerArray = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task MultipartMixedAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            await MultipartMixedWithHttpInfoAsync(status, file, marker, markerArray, statusArray, operationIndex, cancellationToken).ConfigureAwait(false);
+            await MultipartMixedWithHttpInfoAsync(status, file, marker, statusArray, operationIndex, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -812,12 +753,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="status"></param>
         /// <param name="file">a file</param>
         /// <param name="marker"> (optional)</param>
-        /// <param name="markerArray">array of objects (optional)</param>
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedRequestMarker> markerArray = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default, List<MultipartMixedStatus> statusArray = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'file' is set
             if (file == null)
@@ -853,10 +793,6 @@ namespace Org.OpenAPITools.Api
             {
                 localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.Serialize(marker)); // form parameter
             }
-            if (markerArray != null)
-            {
-                localVarRequestOptions.FormParameters.Add("markerArray", Org.OpenAPITools.Client.ClientUtils.Serialize(markerArray)); // form parameter
-            }
             localVarRequestOptions.FileParameters.Add("file", file);
             if (statusArray != null)
             {
@@ -873,149 +809,6 @@ namespace Org.OpenAPITools.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("MultipartMixed", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        ///  MultipartFile test with a mixed-case multipart/form-data media type
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status"></param>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns></returns>
-        public void MultipartMixedCaseMediaType(string status, int operationIndex = 0)
-        {
-            MultipartMixedCaseMediaTypeWithHttpInfo(status);
-        }
-
-        /// <summary>
-        ///  MultipartFile test with a mixed-case multipart/form-data media type
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status"></param>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartMixedCaseMediaTypeWithHttpInfo(string status, int operationIndex = 0)
-        {
-            // verify the required parameter 'status' is set
-            if (status == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'status' when calling MultipartApi->MultipartMixedCaseMediaType");
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "Multipart/Form-Data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            var localVarMultipartFormData = string.Equals(localVarContentType, "multipart/form-data", StringComparison.OrdinalIgnoreCase);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
-
-            localVarRequestOptions.Operation = "MultipartApi.MultipartMixedCaseMediaType";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/multipart-mixed-case-media-type", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("MultipartMixedCaseMediaType", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        ///  MultipartFile test with a mixed-case multipart/form-data media type
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status"></param>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task MultipartMixedCaseMediaTypeAsync(string status, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
-        {
-            await MultipartMixedCaseMediaTypeWithHttpInfoAsync(status, operationIndex, cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        ///  MultipartFile test with a mixed-case multipart/form-data media type
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status"></param>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartMixedCaseMediaTypeWithHttpInfoAsync(string status, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
-        {
-            // verify the required parameter 'status' is set
-            if (status == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'status' when calling MultipartApi->MultipartMixedCaseMediaType");
-            }
-
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "Multipart/Form-Data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
-
-            localVarRequestOptions.Operation = "MultipartApi.MultipartMixedCaseMediaType";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/multipart-mixed-case-media-type", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("MultipartMixedCaseMediaType", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;
@@ -1057,7 +850,7 @@ namespace Org.OpenAPITools.Api
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            var localVarMultipartFormData = string.Equals(localVarContentType, "multipart/form-data", StringComparison.OrdinalIgnoreCase);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);

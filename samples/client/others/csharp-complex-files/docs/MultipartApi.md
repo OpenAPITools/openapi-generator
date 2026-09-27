@@ -7,7 +7,6 @@ All URIs are relative to *http://localhost*
 | [**MultipartArray**](MultipartApi.md#multipartarray) | **POST** /multipart-array |  |
 | [**MultipartExtraAnnotation**](MultipartApi.md#multipartextraannotation) | **POST** /extra-annotation |  |
 | [**MultipartMixed**](MultipartApi.md#multipartmixed) | **POST** /multipart-mixed |  |
-| [**MultipartMixedCaseMediaType**](MultipartApi.md#multipartmixedcasemediatype) | **POST** /multipart-mixed-case-media-type |  |
 | [**MultipartSingle**](MultipartApi.md#multipartsingle) | **POST** /multipart-single |  |
 
 <a id="multipartarray"></a>
@@ -182,7 +181,7 @@ No authorization required
 
 <a id="multipartmixed"></a>
 # **MultipartMixed**
-> void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = null, List<MultipartMixedRequestMarker> markerArray = null, List<MultipartMixedStatus> statusArray = null)
+> void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = null, List<MultipartMixedStatus> statusArray = null)
 
 
 
@@ -208,12 +207,11 @@ namespace Example
             var status = (MultipartMixedStatus) "ALLOWED";  // MultipartMixedStatus | 
             var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | a file
             var marker = new MultipartMixedRequestMarker(); // MultipartMixedRequestMarker |  (optional) 
-            var markerArray = new List<MultipartMixedRequestMarker>(); // List<MultipartMixedRequestMarker> | array of objects (optional) 
             var statusArray = new List<MultipartMixedStatus>(); // List<MultipartMixedStatus> |  (optional) 
 
             try
             {
-                apiInstance.MultipartMixed(status, file, marker, markerArray, statusArray);
+                apiInstance.MultipartMixed(status, file, marker, statusArray);
             }
             catch (ApiException  e)
             {
@@ -232,7 +230,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    apiInstance.MultipartMixedWithHttpInfo(status, file, marker, markerArray, statusArray);
+    apiInstance.MultipartMixedWithHttpInfo(status, file, marker, statusArray);
 }
 catch (ApiException e)
 {
@@ -249,7 +247,6 @@ catch (ApiException e)
 | **status** | **MultipartMixedStatus** |  |  |
 | **file** | **System.IO.Stream****System.IO.Stream** | a file |  |
 | **marker** | [**MultipartMixedRequestMarker**](MultipartMixedRequestMarker.md) |  | [optional]  |
-| **markerArray** | [**List&lt;MultipartMixedRequestMarker&gt;**](MultipartMixedRequestMarker.md) | array of objects | [optional]  |
 | **statusArray** | [**List&lt;MultipartMixedStatus&gt;**](MultipartMixedStatus.md) |  | [optional]  |
 
 ### Return type
@@ -263,91 +260,6 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **204** | Successful operation |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-<a id="multipartmixedcasemediatype"></a>
-# **MultipartMixedCaseMediaType**
-> void MultipartMixedCaseMediaType (string status)
-
-
-
-MultipartFile test with a mixed-case multipart/form-data media type
-
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class MultipartMixedCaseMediaTypeExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://localhost";
-            var apiInstance = new MultipartApi(config);
-            var status = "status_example";  // string | 
-
-            try
-            {
-                apiInstance.MultipartMixedCaseMediaType(status);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling MultipartApi.MultipartMixedCaseMediaType: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the MultipartMixedCaseMediaTypeWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    apiInstance.MultipartMixedCaseMediaTypeWithHttpInfo(status);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling MultipartApi.MultipartMixedCaseMediaTypeWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
-
-### Parameters
-
-| Name | Type | Description | Notes |
-|------|------|-------------|-------|
-| **status** | **string** |  |  |
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Multipart/Form-Data
  - **Accept**: Not defined
 
 

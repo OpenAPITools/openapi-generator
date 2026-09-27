@@ -66,6 +66,11 @@ paths:
                   properties:
                     name:
                       type: string
+                markerArray:
+                  description: "array of objects"
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MultipartMixedRequestMarker'
                 file:
                   description: "a file"
                   type: string
@@ -100,6 +105,25 @@ paths:
       responses:
         '204':
           description: Successful operation
+  /multipart-mixed-case-media-type:
+    post:
+      tags:
+        - multipart
+      description: MultipartFile test with a mixed-case multipart/form-data media type
+      operationId: multipartMixedCaseMediaType
+      requestBody:
+        content:
+          Multipart/Form-Data:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+      responses:
+        '204':
+          description: Successful operation
 components:
   schemas:
     MultipartMixedStatus:
@@ -110,3 +134,22 @@ components:
         - IN_PROGRESS
         - REJECTED
       example: REJECTED
+    MultipartMixedRequestMarker:
+      type: object
+      description: Marker metadata sent as JSON part in multipart request
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Marker name
+          example: example-marker
+        priority:
+          type: integer
+          format: int32
+          description: Optional priority
+          example: 10
+        active:
+          type: boolean
+          description: Whether the marker is active
+          example: true

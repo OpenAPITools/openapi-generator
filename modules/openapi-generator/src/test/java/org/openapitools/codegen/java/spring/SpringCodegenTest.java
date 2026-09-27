@@ -743,7 +743,7 @@ public class SpringCodegenTest {
         codegen.setLibrary("spring-boot");
         codegen.setDelegatePattern(true);
 
-        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array-extended.yaml");
 
         // Check that the delegate handles the array
         JavaFileAssert.assertThat(files.get("MultipartArrayApiDelegate.java"))
@@ -968,7 +968,7 @@ public class SpringCodegenTest {
         codegen.setDelegatePattern(true);
         codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
 
-        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array-extended.yaml");
 
         // Check that the delegate handles the array
         JavaFileAssert.assertThat(files.get("MultipartArrayApiDelegate.java"))

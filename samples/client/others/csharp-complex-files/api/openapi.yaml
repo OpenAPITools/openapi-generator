@@ -61,21 +61,6 @@ paths:
           description: Successful operation
       tags:
       - multipart
-  /multipart-mixed-case-media-type:
-    post:
-      description: MultipartFile test with a mixed-case multipart/form-data media
-        type
-      operationId: multipartMixedCaseMediaType
-      requestBody:
-        content:
-          Multipart/Form-Data:
-            schema:
-              $ref: "#/components/schemas/multipartMixedCaseMediaType_request"
-      responses:
-        "204":
-          description: Successful operation
-      tags:
-      - multipart
 components:
   schemas:
     MultipartMixedStatus:
@@ -86,25 +71,6 @@ components:
       - REJECTED
       example: REJECTED
       type: string
-    MultipartMixedRequestMarker:
-      description: Marker metadata sent as JSON part in multipart request
-      properties:
-        name:
-          description: Marker name
-          example: example-marker
-          type: string
-        priority:
-          description: Optional priority
-          example: 10
-          format: int32
-          type: integer
-        active:
-          description: Whether the marker is active
-          example: true
-          type: boolean
-      required:
-      - name
-      type: object
     multipartArray_request:
       properties:
         files:
@@ -133,11 +99,6 @@ components:
           $ref: "#/components/schemas/MultipartMixedStatus"
         marker:
           $ref: "#/components/schemas/multipartMixed_request_marker"
-        markerArray:
-          description: array of objects
-          items:
-            $ref: "#/components/schemas/MultipartMixedRequestMarker"
-          type: array
         file:
           description: a file
           format: binary
@@ -159,12 +120,5 @@ components:
           x-field-extra-annotation: '@jakarta.validation.constraints.NotNull'
       required:
       - file
-      type: object
-    multipartMixedCaseMediaType_request:
-      properties:
-        status:
-          type: string
-      required:
-      - status
       type: object
 

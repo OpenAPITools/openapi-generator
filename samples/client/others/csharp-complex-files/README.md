@@ -105,7 +105,6 @@ Class | Method | HTTP request | Description
 *MultipartApi* | [**MultipartArray**](docs/MultipartApi.md#multipartarray) | **POST** /multipart-array | 
 *MultipartApi* | [**MultipartExtraAnnotation**](docs/MultipartApi.md#multipartextraannotation) | **POST** /extra-annotation | 
 *MultipartApi* | [**MultipartMixed**](docs/MultipartApi.md#multipartmixed) | **POST** /multipart-mixed | 
-*MultipartApi* | [**MultipartMixedCaseMediaType**](docs/MultipartApi.md#multipartmixedcasemediatype) | **POST** /multipart-mixed-case-media-type | 
 *MultipartApi* | [**MultipartSingle**](docs/MultipartApi.md#multipartsingle) | **POST** /multipart-single | 
 
 
@@ -114,7 +113,6 @@ Class | Method | HTTP request | Description
 
  - [Model.MultipartArrayRequest](docs/MultipartArrayRequest.md)
  - [Model.MultipartExtraAnnotationRequest](docs/MultipartExtraAnnotationRequest.md)
- - [Model.MultipartMixedCaseMediaTypeRequest](docs/MultipartMixedCaseMediaTypeRequest.md)
  - [Model.MultipartMixedRequest](docs/MultipartMixedRequest.md)
  - [Model.MultipartMixedRequestMarker](docs/MultipartMixedRequestMarker.md)
  - [Model.MultipartMixedStatus](docs/MultipartMixedStatus.md)
