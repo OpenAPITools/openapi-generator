@@ -1559,6 +1559,67 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
+        // Multi-level allOf inheritance: detect "mid-level" models — models that (a) have at least
+        // one child via allOf and (b) are themselves a child (have a parent) but are NOT a
+        // discriminator root. A data class cannot be subclassed, so these must become `open class`
+        // for their own subclasses to compile.
+        // Example: Animal (interface) <- Dog (open class, has child BigDog) <- BigDog (data class)
+        for (CodegenModel cm : allModelsMap.values()) {
+            boolean isMidLevel = cm.hasChildren
+                    && cm.discriminator == null
+                    && cm.parent != null
+                    && !Boolean.TRUE.equals(cm.vendorExtensions.get(CodegenConstants.X_IS_ONE_OF_INTERFACE));
+            if (isMidLevel) {
+                // Mark for `open class` rendering in the template
+                cm.vendorExtensions.put("x-is-open-class", true);
+                // Mark every *own* (non-inherited) property as `open` so subclasses can override it.
+                // Inherited properties (override) are implicitly open in an open class.
+                Stream.of(cm.vars, cm.requiredVars, cm.optionalVars, cm.allVars)
+                        .flatMap(List::stream)
+                        .filter(p -> !p.isInherited)
+                        .forEach(p -> p.vendorExtensions.put("x-is-open-property", true));
+                // An open class gets none of the compiler-generated data class members, so the
+                // template writes equals/hashCode/toString/copy itself. They must list properties
+                // in the same order the constructor declares them (required before optional), so
+                // that positional arguments to copy() bind to the properties the caller expects.
+                List<CodegenProperty> constructorOrder = new ArrayList<>(cm.getRequiredVars());
+                constructorOrder.addAll(cm.getOptionalVars());
+                // toString() prints the property name as a label. Kotlin back-ticks names that are
+                // not valid identifiers (`2ndField`), but the back-ticks are only source syntax and
+                // a data class does not print them, so strip them for the label.
+                constructorOrder.forEach(p -> p.vendorExtensions.put(
+                        "x-open-class-label", p.getName().replace("`", "")));
+                cm.vendorExtensions.put("x-open-class-vars", constructorOrder);
+            }
+        }
+
+        // For children of open (non-interface) parent classes, build a parent constructor call
+        // so the template can emit `: Dog(className = className, ...)`. This is a second pass
+        // because it reads x-is-open-class on the *parent*, which the loop above must have
+        // finished setting for every model first.
+        // x-parent-is-class tells the template the parent requires `()` (even when arg list is empty);
+        // x-parent-ctor-args holds the argument string. Kept separate so a parent with no properties
+        // still generates `: ParentClass()` rather than the compile-error `: ParentClass` (no parens).
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (cm.parent != null) {
+                CodegenModel parentModel = allModelsMap.get(cm.parent);
+                if (parentModel != null
+                        && Boolean.TRUE.equals(parentModel.vendorExtensions.get("x-is-open-class"))) {
+                    cm.vendorExtensions.put("x-parent-is-class", true);
+                    List<String> ctorArgs = new ArrayList<>();
+                    for (CodegenProperty prop : parentModel.getRequiredVars()) {
+                        ctorArgs.add(prop.getName() + " = " + prop.getName());
+                    }
+                    for (CodegenProperty prop : parentModel.getOptionalVars()) {
+                        ctorArgs.add(prop.getName() + " = " + prop.getName());
+                    }
+                    if (!ctorArgs.isEmpty()) {
+                        cm.vendorExtensions.put("x-parent-ctor-args", String.join(", ", ctorArgs));
+                    }
+                }
+            }
+        }
+
         if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {
             if (getAnnotationLibrary() == AnnotationLibrary.NONE) {
                 // No @ApiResponse annotations are generated when annotationLibrary=none,
