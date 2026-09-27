@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
  */
 public class SpringPageableScanUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpringPageableScanUtils.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     public static final String PAGE = "page";
     public static final String SIZE = "size";
