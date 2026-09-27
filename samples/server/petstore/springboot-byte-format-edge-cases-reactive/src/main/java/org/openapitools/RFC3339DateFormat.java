@@ -33,6 +33,9 @@ public class RFC3339DateFormat extends DateFormat {
 
   @Override
   public Object clone() {
-    return this;
+    // Delegate to DateFormat's own clone(), which creates a distinct instance and clones the
+    // mutable `calendar`/`numberFormat` fields; returning `this` would violate the
+    // Cloneable/DateFormat contract and share mutable state between callers.
+    return super.clone();
   }
 }

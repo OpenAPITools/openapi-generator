@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.Part;
@@ -58,6 +59,21 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
         }
     }
 
+    // Joins the content of the given DataBuffers into a single byte array and releases each
+    // buffer afterwards, since pooled buffers (e.g. from Netty) must be released explicitly
+    // once consumed, or they leak.
+    private byte[] joinAndReleaseBuffers(List<DataBuffer> buffers) {
+        byte[] content = new byte[buffers.stream().mapToInt(DataBuffer::readableByteCount).sum()];
+        int offset = 0;
+        for (DataBuffer buffer : buffers) {
+            int readable = buffer.readableByteCount();
+            buffer.read(content, offset, readable);
+            offset += readable;
+            DataBufferUtils.release(buffer);
+        }
+        return content;
+    }
+
     @Override
     public Mono<ResponseEntity<Void>> binaryBody(
             Mono<Resource> body,
@@ -68,8 +84,8 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
                         return Mono.error(new IllegalArgumentException("body is required"));
                     }
                     return Mono.fromCallable(() -> {
-                        try {
-                            byte[] content = readAllBytes(resource.getInputStream());
+                        try (InputStream inputStream = resource.getInputStream()) {
+                            byte[] content = readAllBytes(inputStream);
                             if (content.length == 0) {
                                 throw new IllegalArgumentException("body content is empty");
                             }
@@ -187,13 +203,7 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
                         return part.content()
                                 .collectList()
                                 .flatMap(buffers -> {
-                                    byte[] content = new byte[buffers.stream().mapToInt(b -> b.readableByteCount()).sum()];
-                                    int offset = 0;
-                                    for (DataBuffer buffer : buffers) {
-                                        int readable = buffer.readableByteCount();
-                                        buffer.read(content, offset, readable);
-                                        offset += readable;
-                                    }
+                                    byte[] content = joinAndReleaseBuffers(buffers);
 
                                     if (content.length == 0) {
                                         return Mono.error(new IllegalArgumentException("files[" + i + "] content is empty"));
@@ -240,13 +250,7 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
         return file.content()
                 .collectList()
                 .flatMap(buffers -> {
-                    byte[] fileContent = new byte[buffers.stream().mapToInt(b -> b.readableByteCount()).sum()];
-                    int offset = 0;
-                    for (DataBuffer buffer : buffers) {
-                        int readable = buffer.readableByteCount();
-                        buffer.read(fileContent, offset, readable);
-                        offset += readable;
-                    }
+                    byte[] fileContent = joinAndReleaseBuffers(buffers);
                     return verifyBytesContent(fileContent, "file");
                 })
                 .then(statusArray != null ?
@@ -325,13 +329,7 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
                         file.content()
                                 .collectList()
                                 .flatMap(buffers -> {
-                                    byte[] fileContent = new byte[buffers.stream().mapToInt(b -> b.readableByteCount()).sum()];
-                                    int offset = 0;
-                                    for (DataBuffer buffer : buffers) {
-                                        int readable = buffer.readableByteCount();
-                                        buffer.read(fileContent, offset, readable);
-                                        offset += readable;
-                                    }
+                                    byte[] fileContent = joinAndReleaseBuffers(buffers);
                                     return verifyBytesContent(fileContent, "file");
                                 }).then()
                         : Mono.empty())
