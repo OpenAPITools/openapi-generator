@@ -368,7 +368,7 @@ public interface FakeApi {
      * @param number None (required)
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
-     * @param _byte None (required)
+     * @param _byte None (required) (base64 encoded)
      * @param integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)

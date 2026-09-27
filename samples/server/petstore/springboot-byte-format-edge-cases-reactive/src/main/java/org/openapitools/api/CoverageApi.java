@@ -82,7 +82,7 @@ public interface CoverageApi {
      * GET /coverage/cookie
      *
      * @param plain  (optional)
-     * @param bytes  (optional)
+     * @param bytes  (optional) (base64 encoded)
      * @return No content (status code 204)
      */
     @Operation(
@@ -98,7 +98,7 @@ public interface CoverageApi {
     )
     default Mono<ResponseEntity<Void>> cookieParams(
         @Parameter(name = "plain", description = "", in = ParameterIn.COOKIE) @CookieValue(name = "plain", required = false) @Nullable String plain,
-        @Parameter(name = "bytes", description = "", in = ParameterIn.COOKIE) @CookieValue(name = "bytes", required = false) @Nullable String bytes /* base64 encoded binary */,
+        @Parameter(name = "bytes", description = "", in = ParameterIn.COOKIE) @CookieValue(name = "bytes", required = false) @Nullable String /* base64 encoded binary */ bytes,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         Mono<Void> result = Mono.empty();
@@ -116,7 +116,7 @@ public interface CoverageApi {
      * POST /coverage/form
      *
      * @param plain  (optional)
-     * @param bytes  (optional)
+     * @param bytes  (optional) (base64 encoded)
      * @return No content (status code 204)
      */
     @Operation(
@@ -151,7 +151,7 @@ public interface CoverageApi {
      * GET /coverage/header
      *
      * @param xPlain  (optional)
-     * @param xByte  (optional)
+     * @param xByte  (optional) (base64 encoded)
      * @return No content (status code 204)
      */
     @Operation(
@@ -167,7 +167,7 @@ public interface CoverageApi {
     )
     default Mono<ResponseEntity<Void>> headerParams(
         @Parameter(name = "X-Plain", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "X-Plain", required = false) @Nullable String xPlain,
-        @Parameter(name = "X-Byte", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "X-Byte", required = false) @Nullable String xByte /* base64 encoded binary */,
+        @Parameter(name = "X-Byte", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "X-Byte", required = false) @Nullable String /* base64 encoded binary */ xByte,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         Mono<Void> result = Mono.empty();
@@ -292,7 +292,7 @@ public interface CoverageApi {
      * POST /coverage/multipart/simple
      *
      * @param plain  (optional)
-     * @param bytes  (optional)
+     * @param bytes  (optional) (base64 encoded)
      * @param file  (optional)
      * @return No content (status code 204)
      */
@@ -329,7 +329,7 @@ public interface CoverageApi {
      * POST /coverage/multipart/simple-validated
      *
      * @param plain  (optional)
-     * @param bytes  (optional)
+     * @param bytes  (optional) (base64 encoded)
      * @param file  (optional)
      * @return No content (status code 204)
      */
@@ -366,7 +366,7 @@ public interface CoverageApi {
      * GET /coverage/path/{plain}/{bytes}
      *
      * @param plain  (required)
-     * @param bytes  (required)
+     * @param bytes Base64-encoded value embedded in the URL path. Standard Base64 (RFC 4648 §4) can produce a &#x60;/&#x60; character, which is not safe to use unescaped inside a path segment: most servers (including Spring&#39;s default Tomcat/Jetty configuration) reject or misroute requests containing an encoded slash (&#x60;%2F&#x60;) unless the server is explicitly configured to allow it. Clients must percent-encode the value (and servers may need to enable encoded-slash handling) before using a base64 value as a path parameter. Prefer Base64URL (RFC 4648 §5, using &#x60;-&#x60;/&#x60;_&#x60; instead of &#x60;+&#x60;/&#x60;/&#x60;) or a query/body parameter to avoid this caveat entirely. (required) (base64 encoded)
      * @return No content (status code 204)
      */
     @Operation(
@@ -382,7 +382,7 @@ public interface CoverageApi {
     )
     default Mono<ResponseEntity<Void>> pathParams(
         @Parameter(name = "plain", description = "", required = true, in = ParameterIn.PATH) @PathVariable("plain") String plain,
-        @Parameter(name = "bytes", description = "", required = true, in = ParameterIn.PATH) @PathVariable("bytes") String bytes /* base64 encoded binary */,
+        @Parameter(name = "bytes", description = "Base64-encoded value embedded in the URL path. Standard Base64 (RFC 4648 §4) can produce a `/` character, which is not safe to use unescaped inside a path segment: most servers (including Spring's default Tomcat/Jetty configuration) reject or misroute requests containing an encoded slash (`%2F`) unless the server is explicitly configured to allow it. Clients must percent-encode the value (and servers may need to enable encoded-slash handling) before using a base64 value as a path parameter. Prefer Base64URL (RFC 4648 §5, using `-`/`_` instead of `+`/`/`) or a query/body parameter to avoid this caveat entirely.", required = true, in = ParameterIn.PATH) @PathVariable("bytes") String /* base64 encoded binary */ bytes,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         Mono<Void> result = Mono.empty();
@@ -400,7 +400,7 @@ public interface CoverageApi {
      * GET /coverage/query
      *
      * @param plain  (optional)
-     * @param bytes  (optional)
+     * @param bytes  (optional) (base64 encoded)
      * @return No content (status code 204)
      */
     @Operation(
@@ -416,7 +416,7 @@ public interface CoverageApi {
     )
     default Mono<ResponseEntity<Void>> queryParams(
         @Parameter(name = "plain", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "plain", required = false) @Nullable String plain,
-        @Parameter(name = "bytes", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "bytes", required = false) @Nullable String bytes /* base64 encoded binary */,
+        @Parameter(name = "bytes", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "bytes", required = false) @Nullable String /* base64 encoded binary */ bytes,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         Mono<Void> result = Mono.empty();

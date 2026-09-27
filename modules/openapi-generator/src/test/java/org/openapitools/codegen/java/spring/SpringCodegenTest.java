@@ -1023,6 +1023,15 @@ public class SpringCodegenTest {
             .assertParameter("statusArray").hasType("Flux<String>")
             .assertParameterAnnotations()
             .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
+
+        // Media type comparison for multipart/form-data must be case-insensitive (per RFC 7231);
+        // a mixed-case "Multipart/Form-Data" media type should still be treated as multipart and
+        // bind its form field via @RequestPart (not @RequestParam)
+        JavaFileAssert.assertThat(files.get("MultipartMixedCaseMediaTypeApi.java"))
+            .assertMethod("multipartMixedCaseMediaType", "String", "ServerWebExchange")
+            .assertParameter("status").hasType("String")
+            .assertParameterAnnotations()
+            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"status\"", "required", "true"));
     }
 
     @Test
@@ -1177,6 +1186,13 @@ public class SpringCodegenTest {
                 .assertMethod("queryParams")
                 .assertParameter("bytes")
                 .hasType("String");   // Base64 query param → String (manual decoding needed)
+
+        // Array of Base64-encoded query parameters: converted to List<String> (was List<byte[]>,
+        // which Spring cannot bind correctly element-by-element)
+        JavaFileAssert.assertThat(files.get("QueryArrayApi.java"))
+                .assertMethod("queryArrayParams")
+                .assertParameter("bytesArray")
+                .hasType("List<String>");
 
         // Path parameters: same behavior as query params
         JavaFileAssert.assertThat(files.get("PathApi.java"))
@@ -5668,7 +5684,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestParam() throws IOException {
+    public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestPart() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');

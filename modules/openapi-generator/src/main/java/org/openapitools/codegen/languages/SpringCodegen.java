@@ -1210,9 +1210,19 @@ public class SpringCodegen extends AbstractJavaCodegen
      **/
     private void convertByteArrayParamsToStringType(CodegenOperation operation) {
         var convertedParams = operation.allParams.stream()
-                .filter(CodegenParameter::getIsByteArray)
                 .filter(param -> param.isQueryParam || param.isPathParam || param.isHeaderParam || param.isCookieParam || param.isFormParam)
-                .peek(param -> param.dataType = "String")
+                .filter(param -> {
+                    if (param.getIsByteArray()) {
+                        param.dataType = "String";
+                        return true;
+                    } else if (param.isArray && param.items != null && param.items.getIsByteArray()) {
+                        param.items.dataType = "String";
+                        param.dataType = param.dataType.replace("byte[]", "String");
+                        param.isByteArray = true;
+                        return true;
+                    }
+                    return false;
+                })
                 .collect(Collectors.toList());
         LOGGER.info("Converted parameters [{}] from byte[] to String in operation [{}]", convertedParams.stream().map(param -> param.paramName).collect(Collectors.toList()), operation.operationId);
     }
@@ -1236,7 +1246,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         boolean isMultipartFormData = false;
         if (operation.hasConsumes) {
             for (Map<String, String> consume : operation.consumes) {
-                if ("multipart/form-data".equals(consume.get("mediaType"))) {
+                if ("multipart/form-data".equalsIgnoreCase(consume.get("mediaType"))) {
                     isMultipartFormData = true;
                     break;
                 }

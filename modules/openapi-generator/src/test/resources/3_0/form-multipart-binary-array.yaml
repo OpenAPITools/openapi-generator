@@ -105,6 +105,25 @@ paths:
       responses:
         '204':
           description: Successful operation
+  /multipart-mixed-case-media-type:
+    post:
+      tags:
+        - multipart
+      description: MultipartFile test with a mixed-case multipart/form-data media type
+      operationId: multipartMixedCaseMediaType
+      requestBody:
+        content:
+          Multipart/Form-Data:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+      responses:
+        '204':
+          description: Successful operation
 components:
   schemas:
     MultipartMixedStatus:

@@ -46,7 +46,18 @@ paths:
           schema:
             type: string
           style: simple
-        - explode: false
+        - description: >-
+            Base64-encoded value embedded in the URL path. Standard Base64
+            (RFC 4648 §4) can produce a `/` character, which is not safe to
+            use unescaped inside a path segment: most servers (including
+            Spring's default Tomcat/Jetty configuration) reject or misroute
+            requests containing an encoded slash (`%2F`) unless the server is
+            explicitly configured to allow it. Clients must percent-encode
+            the value (and servers may need to enable encoded-slash handling)
+            before using a base64 value as a path parameter. Prefer
+            Base64URL (RFC 4648 §5, using `-`/`_` instead of `+`/`/`) or a
+            query/body parameter to avoid this caveat entirely.
+          explode: false
           in: path
           name: bytes
           required: true

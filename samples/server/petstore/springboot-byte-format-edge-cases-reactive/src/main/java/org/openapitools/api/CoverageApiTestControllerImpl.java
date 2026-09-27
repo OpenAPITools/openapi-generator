@@ -233,15 +233,9 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
             return Mono.error(new IllegalArgumentException("file is required"));
         }
 
-        // Verify enum value is valid
-        MultipartMixedStatus enumStatus = MultipartMixedStatus.fromValue(status);
-        if (enumStatus == null) {
-            return Mono.error(new IllegalArgumentException("status value is invalid: " + status));
-        }
-        String reconstructedStatus = enumStatus.getValue();
-        if (reconstructedStatus == null || reconstructedStatus.isEmpty()) {
-            return Mono.error(new IllegalArgumentException("status value is invalid"));
-        }
+        // Verify enum value is valid; fromValue throws IllegalArgumentException for an unknown value
+        // (it never returns null), so no additional null-check is needed here.
+        MultipartMixedStatus.fromValue(status);
 
         return file.content()
                 .collectList()
@@ -261,10 +255,9 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
                                     long index = tuple.getT1();
                                     String statusValue = tuple.getT2();
                                     try {
-                                        MultipartMixedStatus enumValue = MultipartMixedStatus.fromValue(statusValue);
-                                        if (enumValue == null || enumValue.getValue() == null) {
-                                            throw new IllegalArgumentException("statusArray[" + index + "] contains invalid enum: " + statusValue);
-                                        }
+                                        // fromValue throws IllegalArgumentException for an unknown value
+                                        // (it never returns null), so no additional null-check is needed.
+                                        MultipartMixedStatus.fromValue(statusValue);
                                     } catch (IllegalArgumentException e) {
                                         throw new IllegalArgumentException("statusArray[" + index + "] contains invalid enum: " + statusValue, e);
                                     }
@@ -307,21 +300,8 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
             Part file,
             ServerWebExchange exchange
     ) {
-        return Mono.fromCallable(() -> {
-                    if (bytes != null) {
-                        try {
-                            byte[] decoded = Base64.getDecoder().decode(bytes);
-                            if (!Arrays.equals(EXPECTED_BYTES, decoded)) {
-                                String actualString = new String(decoded, StandardCharsets.UTF_8);
-                                throw new IllegalArgumentException(
-                                        "bytes content mismatch: expected '" + EXPECTED_BYTES_STRING + "', got '" + actualString + "'");
-                            }
-                        } catch (IllegalArgumentException e) {
-                            throw new IllegalArgumentException("Invalid base64 in bytes", e);
-                        }
-                    }
-                    return null;
-                }).then(file != null ?
+        return (bytes != null ? verifyBase64Content(bytes, "bytes") : Mono.<Void>empty())
+                .then(file != null ?
                         file.content()
                                 .collectList()
                                 .then(Mono.empty())
@@ -340,21 +320,8 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
             Part file,
             ServerWebExchange exchange
     ) {
-        return Mono.fromCallable(() -> {
-                    if (bytes != null) {
-                        try {
-                            byte[] decoded = Base64.getDecoder().decode(bytes);
-                            if (!Arrays.equals(EXPECTED_BYTES, decoded)) {
-                                String actualString = new String(decoded, StandardCharsets.UTF_8);
-                                throw new IllegalArgumentException(
-                                        "bytes content mismatch: expected '" + EXPECTED_BYTES_STRING + "', got '" + actualString + "'");
-                            }
-                        } catch (IllegalArgumentException e) {
-                            throw new IllegalArgumentException("Invalid base64 in bytes", e);
-                        }
-                    }
-                    return null;
-                }).then(file != null ?
+        return (bytes != null ? verifyBase64Content(bytes, "bytes") : Mono.<Void>empty())
+                .then(file != null ?
                         file.content()
                                 .collectList()
                                 .flatMap(buffers -> {

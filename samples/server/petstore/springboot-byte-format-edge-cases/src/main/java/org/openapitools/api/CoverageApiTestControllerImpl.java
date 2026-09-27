@@ -45,8 +45,8 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
         if (body == null) {
             throw new IllegalArgumentException("body is required");
         }
-        try {
-            byte[] content = readAllBytes(body.getInputStream());
+        try (InputStream inputStream = body.getInputStream()) {
+            byte[] content = readAllBytes(inputStream);
             if (content.length == 0) {
                 throw new IllegalArgumentException("body content is empty");
             }

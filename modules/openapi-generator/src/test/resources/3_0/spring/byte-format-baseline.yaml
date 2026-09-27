@@ -21,6 +21,22 @@ paths:
       responses:
         '204':
           description: No content
+
+  /query-array:
+    get:
+      operationId: queryArrayParams
+      summary: Array of byte-format query parameters
+      parameters:
+        - name: bytesArray
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              format: byte
+      responses:
+        '204':
+          description: No content
   
   /path/{plain}/{bytes}:
     get:
