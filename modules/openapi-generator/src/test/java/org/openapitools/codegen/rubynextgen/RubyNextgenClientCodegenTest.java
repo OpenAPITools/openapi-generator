@@ -390,13 +390,14 @@ public class RubyNextgenClientCodegenTest {
         // and the model file itself must define the acronym-cased constant
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/acme/models/http_config.rb"), "HTTPConfig");
-        // Acronyms in API resource classes must be registered too: the file
-        // api/dedicated_cloud/two_fa_whitelist.rb defines DedicatedCloud::TwoFAWhitelist,
-        // which the default inflector (expecting TwoFaWhitelist) would fail to autoload.
+        // Acronyms in API resource classes must be registered too. In a namespace with
+        // nested resources only, the first resource group's file also defines the namespace
+        // class, so it is emitted as api/dedicated_cloud.rb rather than as a separate
+        // two_fa_whitelist.rb file.
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/acme.rb"), "\"two_fa_whitelist\" => \"TwoFAWhitelist\"");
         org.openapitools.codegen.TestUtils.assertFileContains(
-                target.resolve("lib/acme/api/dedicated_cloud/two_fa_whitelist.rb"), "TwoFAWhitelist");
+                target.resolve("lib/acme/api/dedicated_cloud.rb"), "class DedicatedCloud::TwoFAWhitelist");
     }
 
     @Test
@@ -414,7 +415,8 @@ public class RubyNextgenClientCodegenTest {
         new org.openapitools.codegen.DefaultGenerator(false).opts(input).generate();
 
         org.openapitools.codegen.TestUtils.assertFileContains(
-                target.resolve("lib/petstore/client.rb"), "def stables", "Petstore::Api::Stables.new");
+                target.resolve("lib/petstore/client.rb"), "def stables", "Petstore::Api::Stables.new",
+                "def only", "Petstore::Api::Only.new");
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/petstore/api/stables.rb"),
                 "def ponies", "@ponies ||= Stables::Ponies.new(@connection)");

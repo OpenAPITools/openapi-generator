@@ -591,6 +591,7 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
                 Map<String, Object> resourceData = new HashMap<>();
                 resourceData.put("routeName", resource);
                 String resourceAccessor = underscore(sanitizeName(resource.replace('-', '_')));
+                resourceData.put("name", resourceAccessor);
                 resourceData.put("accessor", safeResourceAccessorName(resourceAccessor, reservedNames));
                 resourceData.put("className", toApiName(entry.getKey() + "/" + resource));
                 resources.add(resourceData);
@@ -771,6 +772,7 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
             for (String res : resourcesByNs.getOrDefault(e.getKey(), Collections.emptySet())) {
                 Map<String, Object> rm = new HashMap<>();
                 String resourceAccessor = underscore(sanitizeName(res.replace('-', '_')));
+                rm.put("name", resourceAccessor);
                 rm.put("accessor", safeResourceAccessorName(resourceAccessor, reservedNames));
                 rm.put("className", toApiName(e.getKey() + "/" + res));
                 resources.add(rm);
@@ -798,7 +800,7 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
             fileToConstant.putIfAbsent((String) ns.get("name"), lastConstantSegment((String) ns.get("className")));
             List<Map<String, Object>> resources = (List<Map<String, Object>>) ns.get("resources");
             for (Map<String, Object> res : resources) {
-                fileToConstant.putIfAbsent((String) res.get("accessor"), lastConstantSegment((String) res.get("className")));
+                fileToConstant.putIfAbsent((String) res.get("name"), lastConstantSegment((String) res.get("className")));
             }
         }
         List<Map<String, String>> inflections = new ArrayList<>();
