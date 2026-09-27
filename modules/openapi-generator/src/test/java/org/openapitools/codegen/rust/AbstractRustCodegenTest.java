@@ -2,7 +2,9 @@ package org.openapitools.codegen.rust;
 
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.filter.Filter;
 import ch.qos.logback.core.read.ListAppender;
+import ch.qos.logback.core.spi.FilterReply;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.languages.AbstractRustCodegen;
 import org.slf4j.LoggerFactory;
@@ -82,16 +84,23 @@ public class AbstractRustCodegenTest {
     public void testSanitizeIdentifierWarnsOnlyOnRename() {
         Logger logger = (Logger) LoggerFactory.getLogger(AbstractRustCodegen.class);
         ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        // Other test classes run in parallel and log on the same logger, so keep only this test's names
+        listAppender.addFilter(new Filter<ILoggingEvent>() {
+            @Override
+            public FilterReply decide(ILoggingEvent event) {
+                return event.getFormattedMessage().contains("SanitizeWarningProbe") ? FilterReply.NEUTRAL : FilterReply.DENY;
+            }
+        });
         listAppender.start();
         logger.addAppender(listAppender);
         try {
-            codegen.sanitizeIdentifier("pet-name", AbstractRustCodegen.CasingType.CAMEL_CASE, "p", "model", true);
+            codegen.sanitizeIdentifier("sanitize-warning-probe", AbstractRustCodegen.CasingType.CAMEL_CASE, "p", "model", true);
             Assert.assertTrue(listAppender.list.isEmpty());
 
-            codegen.sanitizeIdentifier("application/json", AbstractRustCodegen.CasingType.CAMEL_CASE, "p", "model", true);
+            codegen.sanitizeIdentifier("sanitize/warning/probe", AbstractRustCodegen.CasingType.CAMEL_CASE, "p", "model", true);
             Assert.assertEquals(listAppender.list.size(), 1);
             Assert.assertEquals(listAppender.list.get(0).getFormattedMessage(),
-                    "ApplicationJson cannot be used as a model name. Renamed to ApplicationSlashJson");
+                    "SanitizeWarningProbe cannot be used as a model name. Renamed to SanitizeSlashWarningSlashProbe");
         } finally {
             logger.detachAppender(listAppender);
         }
