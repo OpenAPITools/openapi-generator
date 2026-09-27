@@ -1,0 +1,12 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-spring-issue8366-inheritance-parent-ctor-call
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/issue8366-inheritance-parent-ctor-call.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: springdoc
+  annotationLibrary: swagger2
+  useSwaggerUI: "true"
+  serviceImplementation: "true"
+  reactive: "true"
+  beanValidations: "false"
