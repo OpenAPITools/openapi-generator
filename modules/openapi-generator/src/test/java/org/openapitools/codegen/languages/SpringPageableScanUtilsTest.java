@@ -473,36 +473,40 @@ public class SpringPageableScanUtilsTest {
 
     @Test
     public void warnIfDeprecatedAutoPaginationValue_legacyTrue_warnsWithMigrationHint() {
+        SpringPageableScanUtils utils = new SpringPageableScanUtils();
         List<String> messages = TestUtils.captureLogMessages(SpringPageableScanUtils.class,
-                () -> SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("true"));
+                () -> utils.warnIfDeprecatedAutoPaginationValue("true"));
         assertThat(messages).singleElement(org.assertj.core.api.InstanceOfAssertFactories.STRING)
                 .contains("'true' is deprecated").contains("'page-size-sort'");
     }
 
     @Test
     public void warnIfDeprecatedAutoPaginationValue_legacyFalse_warnsWithMigrationHint() {
+        SpringPageableScanUtils utils = new SpringPageableScanUtils();
         List<String> messages = TestUtils.captureLogMessages(SpringPageableScanUtils.class,
-                () -> SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("false"));
+                () -> utils.warnIfDeprecatedAutoPaginationValue("false"));
         assertThat(messages).singleElement(org.assertj.core.api.InstanceOfAssertFactories.STRING)
                 .contains("'false' is deprecated").contains("'none'");
     }
 
     @Test
     public void warnIfDeprecatedAutoPaginationValue_normalizesLikeResolve() {
+        SpringPageableScanUtils utils = new SpringPageableScanUtils();
         List<String> messages = TestUtils.captureLogMessages(SpringPageableScanUtils.class,
-                () -> SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue(" TRUE "));
+                () -> utils.warnIfDeprecatedAutoPaginationValue(" TRUE "));
         assertThat(messages).singleElement(org.assertj.core.api.InstanceOfAssertFactories.STRING)
                 .contains("'true' is deprecated");
     }
 
     @Test
     public void warnIfDeprecatedAutoPaginationValue_nonLegacyValues_doNotWarn() {
+        SpringPageableScanUtils utils = new SpringPageableScanUtils();
         List<String> messages = TestUtils.captureLogMessages(SpringPageableScanUtils.class, () -> {
-            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("none");
-            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("page-size-sort");
-            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("page-size");
-            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue("bogus");
-            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue(null);
+            utils.warnIfDeprecatedAutoPaginationValue("none");
+            utils.warnIfDeprecatedAutoPaginationValue("page-size-sort");
+            utils.warnIfDeprecatedAutoPaginationValue("page-size");
+            utils.warnIfDeprecatedAutoPaginationValue("bogus");
+            utils.warnIfDeprecatedAutoPaginationValue(null);
         });
         assertThat(messages).isEmpty();
     }

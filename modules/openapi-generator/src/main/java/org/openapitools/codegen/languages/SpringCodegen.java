@@ -722,7 +722,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         // the resolved mode is only used (and written back) when Pageable is supported.
         if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED)) {
             String rawAutoXSpringPaginated = String.valueOf(additionalProperties.get(AUTO_X_SPRING_PAGINATED));
-            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue(rawAutoXSpringPaginated);
+            pageableUtils.warnIfDeprecatedAutoPaginationValue(rawAutoXSpringPaginated);
             setAutoXSpringPaginated(rawAutoXSpringPaginated);
         }
         if (isPageableSupported()) {

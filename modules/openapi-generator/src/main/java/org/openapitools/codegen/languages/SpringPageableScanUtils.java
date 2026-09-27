@@ -162,7 +162,7 @@ public class SpringPageableScanUtils {
      *
      * @param rawValue the raw option value as configured by the user
      */
-    static void warnIfDeprecatedAutoPaginationValue(String rawValue) {
+    void warnIfDeprecatedAutoPaginationValue(String rawValue) {
         String normalized = normalizeAutoPaginationValue(rawValue);
         String replacement;
         if (AUTO_PAGINATION_MODE_LEGACY_TRUE.equals(normalized)) {

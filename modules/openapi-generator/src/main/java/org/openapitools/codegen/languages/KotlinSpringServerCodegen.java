@@ -860,7 +860,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // the resolved mode is only used (and written back) when Pageable is supported.
         if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED)) {
             String rawAutoXSpringPaginated = String.valueOf(additionalProperties.get(AUTO_X_SPRING_PAGINATED));
-            SpringPageableScanUtils.warnIfDeprecatedAutoPaginationValue(rawAutoXSpringPaginated);
+            pageableUtils.warnIfDeprecatedAutoPaginationValue(rawAutoXSpringPaginated);
             setAutoXSpringPaginated(rawAutoXSpringPaginated);
             if (isPageableSupported()) {
                 writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
