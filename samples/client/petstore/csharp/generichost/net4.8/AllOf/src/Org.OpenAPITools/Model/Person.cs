@@ -212,7 +212,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="person"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public override void Write(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
             if (person is Adult adult){
@@ -237,7 +237,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="person"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public void WriteProperties(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
             if (person.FirstNameOption.IsSet && person.FirstName == null)

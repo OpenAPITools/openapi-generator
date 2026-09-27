@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="parent"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public override void Write(Utf8JsonWriter writer, Parent parent, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="parent"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public void WriteProperties(Utf8JsonWriter writer, Parent parent, JsonSerializerOptions jsonSerializerOptions)
         {
             if (parent.NumberOption.IsSet && parent.Number == null)

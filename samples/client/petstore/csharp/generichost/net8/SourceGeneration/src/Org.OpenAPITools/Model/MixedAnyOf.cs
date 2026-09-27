@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedAnyOf"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public override void Write(Utf8JsonWriter writer, MixedAnyOf mixedAnyOf, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -174,7 +174,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mixedAnyOf"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public void WriteProperties(Utf8JsonWriter writer, MixedAnyOf mixedAnyOf, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mixedAnyOf.ContentOption.IsSet && mixedAnyOf.Content == null)

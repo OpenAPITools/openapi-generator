@@ -172,7 +172,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="grandparentAnimal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public override void Write(Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
         {
             if (grandparentAnimal is ChildCat childCat){
@@ -197,7 +197,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="grandparentAnimal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public void WriteProperties(Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("pet_type", grandparentAnimal.PetType);
