@@ -205,7 +205,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="outerComposite"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public override void Write(Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -220,7 +219,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="outerComposite"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public void WriteProperties(Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
         {
             if (outerComposite.MyBooleanOption.IsSet && outerComposite.MyBoolean == null)

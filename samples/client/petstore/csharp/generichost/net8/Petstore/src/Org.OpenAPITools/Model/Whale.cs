@@ -198,7 +198,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="whale"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public override void Write(Utf8JsonWriter writer, Whale whale, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -213,7 +212,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="whale"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public void WriteProperties(Utf8JsonWriter writer, Whale whale, JsonSerializerOptions jsonSerializerOptions)
         {
             if (whale.HasBaleenOption.IsSet && whale.HasBaleen == null)

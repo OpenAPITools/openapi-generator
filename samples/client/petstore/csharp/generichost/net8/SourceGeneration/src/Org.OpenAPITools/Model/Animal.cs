@@ -195,7 +195,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="animal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public override void Write(Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
         {
             if (animal is Cat cat){
@@ -220,7 +219,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="animal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public void WriteProperties(Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
         {
             if (animal.ColorOption.IsSet && animal.Color == null)

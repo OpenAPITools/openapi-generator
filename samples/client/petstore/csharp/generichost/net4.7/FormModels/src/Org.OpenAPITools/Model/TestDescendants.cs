@@ -188,7 +188,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="testDescendants"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public override void Write(Utf8JsonWriter writer, TestDescendants testDescendants, JsonSerializerOptions jsonSerializerOptions)
         {
             if (testDescendants is Descendant1 descendant1){
@@ -213,7 +212,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="testDescendants"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="JsonException">Thrown when the model contains a null value for a non-nullable JSON property.</exception>
         public void WriteProperties(Utf8JsonWriter writer, TestDescendants testDescendants, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("alternativeName", testDescendants.AlternativeName);
