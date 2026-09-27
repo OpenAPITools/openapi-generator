@@ -387,7 +387,7 @@ namespace Org.OpenAPITools.Client
 
             if (options.HeaderParameters != null)
             {
-                if (options.HeaderParameters.TryGetValue("Content-Type", out var contentTypes) && contentTypes.Any(header => header.Contains("multipart/form-data")))
+                if (options.HeaderParameters.TryGetValue("Content-Type", out var contentTypes) && contentTypes.Any(header => header.IndexOf("multipart/form-data", StringComparison.OrdinalIgnoreCase) >= 0))
                 {
                     request.AlwaysMultipartFormData = true;
                 }
