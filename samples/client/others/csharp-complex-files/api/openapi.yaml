@@ -61,6 +61,21 @@ paths:
           description: Successful operation
       tags:
       - multipart
+  /multipart-mixed-case-media-type:
+    post:
+      description: MultipartFile test with a mixed-case multipart/form-data media
+        type
+      operationId: multipartMixedCaseMediaType
+      requestBody:
+        content:
+          Multipart/Form-Data:
+            schema:
+              $ref: "#/components/schemas/multipartMixedCaseMediaType_request"
+      responses:
+        "204":
+          description: Successful operation
+      tags:
+      - multipart
 components:
   schemas:
     MultipartMixedStatus:
@@ -144,5 +159,12 @@ components:
           x-field-extra-annotation: '@jakarta.validation.constraints.NotNull'
       required:
       - file
+      type: object
+    multipartMixedCaseMediaType_request:
+      properties:
+        status:
+          type: string
+      required:
+      - status
       type: object
 
