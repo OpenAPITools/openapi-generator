@@ -1224,7 +1224,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                     return false;
                 })
                 .collect(Collectors.toList());
-        LOGGER.info("Converted parameters [{}] from byte[] to String in operation [{}]", convertedParams.stream().map(param -> param.paramName).collect(Collectors.toList()), operation.operationId);
+        if (!convertedParams.isEmpty()) {
+            LOGGER.debug("Converted parameters [{}] from byte[] to String in operation [{}]", convertedParams.stream().map(param -> param.paramName).collect(Collectors.toList()), operation.operationId);
+        }
     }
 
     /**

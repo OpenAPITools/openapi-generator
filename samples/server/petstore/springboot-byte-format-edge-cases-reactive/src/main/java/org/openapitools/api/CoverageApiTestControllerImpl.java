@@ -308,6 +308,7 @@ public class CoverageApiTestControllerImpl implements CoverageApi {
                 .then(file != null ?
                         file.content()
                                 .collectList()
+                                .doOnNext(this::joinAndReleaseBuffers)
                                 .then(Mono.empty())
                         : Mono.empty())
                 .then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)))

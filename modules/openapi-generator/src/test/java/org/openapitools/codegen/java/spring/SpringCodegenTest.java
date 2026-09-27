@@ -1268,6 +1268,17 @@ public class SpringCodegenTest {
                 .isArray()
                 .withType("byte");  // Base64 property in DTO → auto-decoded to byte[]
 
+        // JSON request body: the inline JSON body schema is deduplicated by the
+        // InlineModelResolver into the same FormParamsRequest model asserted above
+        // (identical shape), so the JSON body operation's parameter must reference
+        // that model. This ensures a regression that widens convertByteArrayParamsToStringType
+        // to request bodies (which should stay byte[], auto-decoded by Jackson, unlike
+        // query/path/header/cookie/form params) would be caught here.
+        JavaFileAssert.assertThat(files.get("JsonBodyApi.java"))
+                .assertMethod("jsonBody")
+                .assertParameter("formParamsRequest")
+                .hasType("FormParamsRequest");
+
         // Binary request body: bound as Resource for streaming
         JavaFileAssert.assertThat(files.get("BinaryBodyApi.java"))
                 .assertMethod("binaryBody")
