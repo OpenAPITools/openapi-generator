@@ -23,6 +23,7 @@ import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
@@ -46,6 +47,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -1297,6 +1299,39 @@ public class ModelUtils {
     }
 
     /**
+     * Return the list of all schemas in the entire OpenAPI document, including inline schemas
+     * defined in path operations (request bodies, responses, parameters, headers, callbacks)
+     * and schemas under components/schemas. Results are deduplicated by identity.
+     * This is a superset of {@link #getAllSchemas(OpenAPI)}.
+     *
+     * @param openAPI specification
+     * @return schemas a deduplicated list of all schemas in the document
+     */
+    public static List<Schema> getAllSchemasInDocument(OpenAPI openAPI) {
+        List<Schema> allSchemas = new ArrayList<Schema>();
+        Set<Schema> seen = Collections.newSetFromMap(new IdentityHashMap<>());
+
+        // Visit schemas reachable from paths (inline + $ref targets)
+        visitOpenAPI(openAPI, (s, mimeType) -> {
+            if (seen.add(s)) {
+                allSchemas.add(s);
+            }
+        });
+
+        // Also visit components/schemas entries not reachable from any path
+        List<String> refSchemas = new ArrayList<String>();
+        getSchemas(openAPI).forEach((key, schema) -> {
+            visitSchema(openAPI, schema, null, refSchemas, (s, mimeType) -> {
+                if (seen.add(s)) {
+                    allSchemas.add(s);
+                }
+            });
+        });
+
+        return allSchemas;
+    }
+
+    /**
      * If a RequestBody contains a reference to another RequestBody with '$ref', returns the referenced RequestBody if it is found or the actual RequestBody in the other cases.
      *
      * @param openAPI     specification being checked
@@ -1587,7 +1622,7 @@ public class ModelUtils {
             Schema ref = allSchemas.get(simpleRef);
             if (ref == null) {
                 if (!isRefToSchemaWithProperties(schema.get$ref())) {
-                    once(LOGGER).warn("{} is not defined", schema.get$ref());
+                    once(LOGGER).warn(MessageFormatter.format("{} is not defined", schema.get$ref()).getMessage());
                 }
                 return schema;
             } else if (isEnumSchema(ref)) {
@@ -1948,8 +1983,9 @@ public class ModelUtils {
      * returns false (because the nullable attribute is defined in the referenced schema).
      * <p>
      * The 'nullable' attribute was introduced in OAS 3.0.
-     * The 'nullable' attribute is deprecated in OAS 3.1. In a OAS 3.1 document, the preferred way
-     * to specify nullable properties is to use the 'null' type.
+     * The 'nullable' attribute was removed in OAS 3.1 and is not a valid keyword there; it is ignored,
+     * so this method returns false for it in a 3.1 document. In an OAS 3.1 document, the way to specify
+     * nullable properties is to use the 'null' type (e.g. type: ['string', 'null']).
      *
      * @param schema the OAS schema.
      * @return true if the schema is nullable.
@@ -1966,6 +2002,7 @@ public class ModelUtils {
         if (schema.getExtensions() != null && schema.getExtensions().get(X_NULLABLE) != null) {
             return Boolean.parseBoolean(schema.getExtensions().get(X_NULLABLE).toString());
         }
+
         // In OAS 3.1, the recommended way to define a nullable property or object is to use oneOf.
         if (isComposedSchema(schema)) {
             return isNullableComposedSchema(schema);
@@ -2308,6 +2345,21 @@ public class ModelUtils {
     }
 
     /**
+     * Returns true if the model contains allOf and may or may not have
+     * properties/oneOf/anyOf defined.
+     *
+     * @param model the model
+     * @return true if allOf is not empty
+     */
+    public static boolean hasAllOf(CodegenModel model) {
+        if (model != null && model.allOf != null && !model.allOf.isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Returns true if the schema contains allOf and properties,
      * and no oneOf/anyOf defined.
      *
@@ -2346,10 +2398,25 @@ public class ModelUtils {
      * properties/allOf/anyOf defined.
      *
      * @param schema the schema
-     * @return true if allOf is not empty
+     * @return true if oneOf is not empty
      */
     public static boolean hasOneOf(Schema schema) {
         if (schema != null && schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the model contains oneOf and may or may not have
+     * properties/allOf/anyOf defined.
+     *
+     * @param model the model
+     * @return true if oneOf is not empty
+     */
+    public static boolean hasOneOf(CodegenModel model) {
+        if (model != null && model.oneOf != null && !model.oneOf.isEmpty()) {
             return true;
         }
 
@@ -2390,6 +2457,31 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Returns true if the model contains anyOf and may or may not have
+     * properties/allOf/oneOf defined.
+     *
+     * @param model the model
+     * @return true if anyOf is not empty
+     */
+    public static boolean hasAnyOf(CodegenModel model) {
+        if (model != null && model.anyOf != null && !model.anyOf.isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the schema contains a $ref
+     *
+     * @param schema the schema
+     * @return true if $ref is set
+     */
+    public static boolean hasRef(Schema schema) {
+        return schema != null && schema.get$ref() != null;
     }
 
     /**
@@ -2471,6 +2563,13 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Creates a deep copy of a schema.
+     *
+     * @param schema    schema to clone
+     * @param openapi31 true when cloning an OpenAPI 3.1 schema
+     * @return a deep copy of the schema
+     */
     public static Schema cloneSchema(Schema schema, boolean openapi31) {
         if (openapi31) {
             return AnnotationsUtils.clone(schema, openapi31);
@@ -2503,6 +2602,12 @@ public class ModelUtils {
         // if only one element left, simplify to just the element (schema)
         if (subSchemas.size() == 1) {
             Schema<?> subSchema = subSchemas.get(0);
+            // The parser may reuse a $ref schema instance in multiple locations. Clone the
+            // remaining $ref before applying parent metadata so those locations stay isolated.
+            if (subSchema.get$ref() != null) {
+                subSchema = cloneSchema(subSchema,
+                        openAPI != null && SpecVersion.V31.equals(openAPI.getSpecVersion()));
+            }
             // Preserve parent-level docs when nullable anyOf/oneOf collapses to a single child schema.
             if (subSchema.getDescription() == null && schema.getDescription() != null) {
                 subSchema.setDescription(schema.getDescription());
@@ -2557,12 +2662,13 @@ public class ModelUtils {
         schema = ModelUtils.getReferencedSchema(openAPI, schema);
 
         // allOf/anyOf/oneOf
-        if (ModelUtils.hasAllOf(schema) || ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema)) {
+        if (hasAllOf(schema) || hasOneOf(schema) || hasAnyOf(schema)) {
             return false;
         }
 
-        // schema with properties
-        if (schema.getProperties() != null) {
+        // schema with properties or additional properties
+        if (schema.getProperties() != null ||
+                (schema.getAdditionalProperties() != null && !Boolean.FALSE.equals(schema.getBooleanSchemaValue()))) {
             return false;
         }
 
@@ -2633,8 +2739,18 @@ public class ModelUtils {
         // dereference the schema
         schema = ModelUtils.getReferencedSchema(openAPI, schema);
 
-        if (schema.getTypes() == null && hasValidation(schema)) {
+        if (schema.getTypes() == null && schema.getType() == null && hasValidation(schema)
+                && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
             // just validation without type
+            //
+            // A schema that carries properties is a model, even when it omits `type: object` --
+            // which is very common in 3.0 specs, e.g. `minProperties: 2` next to `properties: {...}`.
+            // Checking `getTypes() == null && hasValidation(schema)` alone classified those as
+            // unsupported, and as an allOf member their properties were then dropped from the
+            // composed model without any warning.
+            //
+            // getTypes() is only populated for 3.1, so getType() has to be checked as well for the
+            // 3.0 case to be recognised.
             return true;
         } else if (schema.getIf() != null && schema.getThen() != null) {
             // if, then in 3.1 spec
@@ -2667,7 +2783,7 @@ public class ModelUtils {
             to.setExample(from.getExample());
         }
         if (from.getExamples() != null) {
-            to.setExample(from.getExamples());
+            to.setExamples(from.getExamples());
         }
         if (from.getReadOnly() != null) {
             to.setReadOnly(from.getReadOnly());
@@ -2739,6 +2855,19 @@ public class ModelUtils {
         }
 
         return schemaMap.values().stream().anyMatch(ModelUtils::isEnumSchema);
+    }
+
+    /**
+     * Whether all branches in the oneOf contains a {@code const}. Returns false for OAS 3.0 since that does not support
+     * {@code const}.
+     * @param schema The Schema
+     * @return true if all {@code oneOf} branches contains a {@code const}.
+     */
+    public static boolean isOneOfOfConsts(Schema<?> schema) {
+        if (hasOneOf(schema) && !schema.getSpecVersion().equals(SpecVersion.V30)) {
+            return schema.getOneOf().stream().allMatch(oneOf -> oneOf.getConst() != null);
+        }
+        return false;
     }
 
     @FunctionalInterface

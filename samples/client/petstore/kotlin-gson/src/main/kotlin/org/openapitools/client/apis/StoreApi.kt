@@ -113,6 +113,7 @@ open class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString())),

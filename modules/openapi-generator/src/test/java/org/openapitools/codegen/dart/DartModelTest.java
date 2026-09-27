@@ -550,12 +550,12 @@ public class DartModelTest {
         Assert.assertEquals(enumVars.get(0).get("name"), "foo");
         Assert.assertEquals(enumVars.get(0).get("value"), "1");
         Assert.assertEquals(enumVars.get(0).get("isString"), false);
-        Assert.assertEquals(enumVars.get(0).get("description"), "the foo");
+        Assert.assertEquals(enumVars.get(0).get("enumDescription"), "the foo");
 
         Assert.assertEquals(enumVars.get(1).get("name"), "bar");
         Assert.assertEquals(enumVars.get(1).get("value"), "2");
         Assert.assertEquals(enumVars.get(1).get("isString"), false);
-        Assert.assertEquals(enumVars.get(1).get("description"), "the bar");
+        Assert.assertEquals(enumVars.get(1).get("enumDescription"), "the bar");
     }
 
     // datetime (or primitive type) not yet supported in HTTP request body

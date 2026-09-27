@@ -33,7 +33,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ArrayOfArrayOfNumberOnly.JSON_PROPERTY_ARRAY_ARRAY_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly  implements Serializable {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
@@ -58,7 +58,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
    **/
   @JsonProperty(value = "ArrayArrayNumber")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }

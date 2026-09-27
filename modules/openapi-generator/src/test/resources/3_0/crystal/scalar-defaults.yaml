@@ -1,0 +1,13 @@
+openapi: 3.0.1
+info: {title: Def, version: 1.0.0}
+paths: {/x: {get: {operationId: getX, tags: [x], responses: {"200": {description: ok}}}}}
+components:
+  schemas:
+    Widget:
+      type: object
+      properties:
+        size: {type: integer, default: 10}
+        label: {type: string, default: "hi"}
+        active: {type: boolean, default: true}
+        ratio: {type: number, default: 1.5}
+        created: {type: string, format: date-time, default: "2020-01-01T00:00:00Z"}

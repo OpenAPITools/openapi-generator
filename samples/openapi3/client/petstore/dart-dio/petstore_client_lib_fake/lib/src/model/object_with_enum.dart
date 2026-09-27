@@ -76,8 +76,9 @@ class _$ObjectWithEnumSerializer implements PrimitiveSerializer<ObjectWithEnum> 
         case r'attribute':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(TestEnum),
-          ) as TestEnum;
+            specifiedType: const FullType.nullable(TestEnum),
+          ) as TestEnum?;
+          if (valueDes == null) continue;
           result.attribute = valueDes;
           break;
         default:
@@ -108,4 +109,5 @@ class _$ObjectWithEnumSerializer implements PrimitiveSerializer<ObjectWithEnum> 
     return result.build();
   }
 }
+
 

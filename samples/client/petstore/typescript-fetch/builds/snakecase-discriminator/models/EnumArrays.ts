@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface EnumArrays {
     /**
      * 
-     * @type {EnumArraysJustSymbolEnum}
-     * @memberof EnumArrays
      */
     justSymbol?: EnumArraysJustSymbolEnum;
     /**
      * 
-     * @type {Array<EnumArraysArrayEnumEnum>}
-     * @memberof EnumArrays
      */
     arrayEnum?: Array<EnumArraysArrayEnumEnum>;
 }
@@ -39,7 +35,7 @@ export interface EnumArrays {
  */
 export const EnumArraysJustSymbolEnum = {
     GreaterThanOrEqualTo: '>=',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type EnumArraysJustSymbolEnum = typeof EnumArraysJustSymbolEnum[keyof typeof EnumArraysJustSymbolEnum];
 
@@ -48,7 +44,7 @@ export type EnumArraysJustSymbolEnum = typeof EnumArraysJustSymbolEnum[keyof typ
  */
 export const EnumArraysArrayEnumEnum = {
     Fish: 'fish',
-    Crab: 'crab'
+    Crab: 'crab',
 } as const;
 export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
 

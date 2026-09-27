@@ -149,6 +149,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override StateTerritoryCode? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             StateTerritoryCode? result = rawValue == null
@@ -169,7 +172,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, StateTerritoryCode? stateTerritoryCode, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(stateTerritoryCode.HasValue ? StateTerritoryCodeValueConverter.ToJsonValue(stateTerritoryCode.Value).ToString() : "null");
+            if (stateTerritoryCode.HasValue)
+                writer.WriteStringValue(StateTerritoryCodeValueConverter.ToJsonValue(stateTerritoryCode.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

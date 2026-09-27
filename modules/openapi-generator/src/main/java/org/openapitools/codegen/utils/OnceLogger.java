@@ -91,6 +91,12 @@ public class OnceLogger extends LoggerWrapper {
                 .build();
     }
 
+    /**
+     * This implementation currently only supports single-argument string literal log methods (e.g. {@link Logger#debug(String)}).
+     *
+     * @param logger The logger that should only log once for single-argument string literal log methods.
+     * @return The {@link OnceLogger}
+     */
     public static Logger once(Logger logger) {
         try {
             if (Boolean.parseBoolean(GlobalSettings.getProperty(ENABLE_ONCE_LOGGER_PROPERTY, "true"))) {

@@ -174,6 +174,14 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
                     // Let's confirm that "javax.ws" is not present
                     TestUtils.assertFileNotContains(file.toPath(), "javax.ws");
                 });
+
+        assertFileContains(files.get("PetApi.java").toPath(),
+                "requiredMode = Schema.RequiredMode.REQUIRED");
+        TestUtils.assertFileNotContains(files.get("PetApi.java").toPath(), "required = true");
+
+        assertFileContains(files.get("Pet.java").toPath(),
+                "requiredMode = Schema.RequiredMode.REQUIRED");
+        TestUtils.assertFileNotContains(files.get("Pet.java").toPath(), "required = true");
     }
 
     @DataProvider(name = "codegenParameterMatrix")

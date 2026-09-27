@@ -25,6 +25,8 @@ components:
         requiredYesReadonlyNo: requiredYesReadonlyNo
         requiredNoReadonlyYes: requiredNoReadonlyYes
         requiredNoReadonlyNo: requiredNoReadonlyNo
+        requiredEmail: requiredEmail
+        optionalEmail: optionalEmail
       properties:
         requiredYesReadonlyYes:
           readOnly: true
@@ -36,7 +38,14 @@ components:
           type: string
         requiredNoReadonlyNo:
           type: string
+        requiredEmail:
+          format: email
+          type: string
+        optionalEmail:
+          format: email
+          type: string
       required:
+      - requiredEmail
       - requiredYesReadonlyNo
       - requiredYesReadonlyYes
       type: object

@@ -1,0 +1,4 @@
+generatorName: typescript-fetch
+outputDir: samples/client/others/typescript-fetch/multipart-file-array
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-fetch/multipart-file-array.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-fetch

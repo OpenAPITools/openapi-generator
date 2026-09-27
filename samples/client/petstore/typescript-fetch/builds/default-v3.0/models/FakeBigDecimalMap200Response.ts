@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface FakeBigDecimalMap200Response {
     /**
      * 
-     * @type {number}
-     * @memberof FakeBigDecimalMap200Response
      */
     someId?: number;
     /**
      * 
-     * @type {{ [key: string]: number; }}
-     * @memberof FakeBigDecimalMap200Response
      */
     someMap?: { [key: string]: number; };
 }

@@ -36,7 +36,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = ChildWithNullable.class, name = "ChildWithNullable")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ParentWithNullable {
 
   /**
@@ -108,7 +108,7 @@ public class ParentWithNullable {
    * @return nullableProperty
    */
   
-  @Schema(name = "nullableProperty", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullableProperty", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullableProperty")
   public JsonNullable<String> getNullableProperty() {
     return nullableProperty;

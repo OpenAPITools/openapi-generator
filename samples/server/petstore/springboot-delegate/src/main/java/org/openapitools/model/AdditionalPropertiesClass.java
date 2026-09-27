@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -129,7 +129,7 @@ public class AdditionalPropertiesClass {
    * Get mapNumber
    * @return mapNumber
    */
-  @Valid 
+  
   @Schema(name = "map_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
@@ -216,7 +216,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayInteger
    * @return mapArrayInteger
    */
-  @Valid 
+  
   @Schema(name = "map_array_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -245,7 +245,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
    */
-  @Valid 
+  
   @Schema(name = "map_array_anytype", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -274,7 +274,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapString
    * @return mapMapString
    */
-  @Valid 
+  
   @Schema(name = "map_map_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
@@ -303,7 +303,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapAnytype
    * @return mapMapAnytype
    */
-  @Valid 
+  
   @Schema(name = "map_map_anytype", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
@@ -346,7 +346,7 @@ public class AdditionalPropertiesClass {
    * @return anytype2
    */
   
-  @Schema(name = "anytype_2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "anytype_2", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("anytype_2")
   public JsonNullable<Object> getAnytype2() {
     return anytype2;

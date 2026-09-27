@@ -26,19 +26,23 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Order")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class OrderDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Long id;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Long petId;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Integer quantity;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime shipDate;
 
@@ -80,9 +84,11 @@ public class OrderDto {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable StatusEnum status;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private Boolean complete = false;
 
   public OrderDto id(@Nullable Long id) {
@@ -100,7 +106,6 @@ public class OrderDto {
     return id;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
@@ -121,7 +126,6 @@ public class OrderDto {
     return petId;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("petId")
   public void setPetId(@Nullable Long petId) {
     this.petId = petId;
@@ -142,7 +146,6 @@ public class OrderDto {
     return quantity;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("quantity")
   public void setQuantity(@Nullable Integer quantity) {
     this.quantity = quantity;
@@ -163,7 +166,6 @@ public class OrderDto {
     return shipDate;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("shipDate")
   public void setShipDate(@Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
@@ -184,7 +186,6 @@ public class OrderDto {
     return status;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
@@ -205,7 +206,6 @@ public class OrderDto {
     return complete;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("complete")
   public void setComplete(Boolean complete) {
     this.complete = complete;

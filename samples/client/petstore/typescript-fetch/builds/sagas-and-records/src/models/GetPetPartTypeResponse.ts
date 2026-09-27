@@ -36,14 +36,10 @@ import {
 export interface GetPetPartTypeResponse {
     /**
      * 
-     * @type {ResponseMeta}
-     * @memberof GetPetPartTypeResponse
      */
     meta: ResponseMeta;
     /**
      * 
-     * @type {PetPartType}
-     * @memberof GetPetPartTypeResponse
      */
     data?: PetPartType;
 }

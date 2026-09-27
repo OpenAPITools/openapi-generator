@@ -21,7 +21,8 @@ type SpecialInfo struct {
 	Type string `json:"type,omitempty"`
 }
 
-// AssertSpecialInfoRequired checks if the required fields are not zero-ed
+// AssertSpecialInfoRequired checks complex required fields (models, arrays, maps) and embedded parents.
+// Primitive required fields are validated for JSON request bodies in UnmarshalJSON so zero values remain valid.
 func AssertSpecialInfoRequired(obj SpecialInfo) error {
 	return nil
 }

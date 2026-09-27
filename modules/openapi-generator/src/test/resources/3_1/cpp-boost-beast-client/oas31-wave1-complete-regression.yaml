@@ -1,0 +1,77 @@
+openapi: 3.1.0
+info:
+  title: Wave-1 Complete Regression — boolean / not / deep-equality / uniqueItems / $ref
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    # K-03 Boolean value-schemas (OAS 3.1 true/false literals) as oneOf-wrapped
+    # components so the Wave-1 IR emitter lowers each to a densified SchemaNode
+    # (BooleanValue::true_/false_) and a validate_<id>_branch_0 dispatch.
+    AlwaysTrueSchema:
+      oneOf:
+        - true
+    AlwaysFalseSchema:
+      oneOf:
+        - false
+
+    # K-01 `not` — the branch is `{ not: { type: string } }`; the engine must
+    # invert the subschema verdict (accept non-strings, reject strings).
+    NotString:
+      oneOf:
+        - not:
+            type: string
+
+    # K-30 Exact DEEP const/enum equality across all JSON kinds (objects/arrays),
+    # with ExactNumber for numbers (1 == 1.0) and unordered object keys.
+    # NOTES on swagger model quirks avoided here:
+    #  * OAS 3.1 `const` is exactly `enum: [value]`, so a non-scalar const is
+    #    normalized to a single-member enum — deep equality is identical.
+    #  * `type: array` would lower to an ArraySchema that DROPS const/enum, and a
+    #    type-less enum is wrongly inferred as `type: string`; the engine omits the
+    #    type flag for deep-enum nodes and uses the (exact) enum as the constraint.
+    DeepConstObject:
+      oneOf:
+        - type: object
+          const:
+            a: 1
+            b: [true, null, 2.5]
+    DeepConstArray:
+      oneOf:
+        - enum:
+            - [1, 2, 3]
+
+    # K-34 Exact DEEP enum equality (array members and mixed members).
+    DeepEnumArray:
+      oneOf:
+        - enum:
+            - [1, 2]
+            - [3, 4]
+    DeepEnumMixed:
+      oneOf:
+        - enum:
+            - { x: 1 }
+            - 7
+
+    # K-22 uniqueItems: exact deep-uniqueness (1 == 1.0 is a duplicate).
+    UniqueItemsInts:
+      oneOf:
+        - type: array
+          uniqueItems: true
+
+    # K-29 $ref (local). Thing is a standalone real schema; RefToThing is a
+    # pure $ref to it; ConstForty/RefConstForty prove a ref into a deep-const
+    # target. Both resolve generation-time within the same registry.
+    Thing:
+      oneOf:
+        - type: integer
+          minimum: 10
+    RefToThing:
+      oneOf:
+        - $ref: '#/components/schemas/Thing'
+    ConstForty:
+      oneOf:
+        - const: 40
+    RefConstForty:
+      oneOf:
+        - $ref: '#/components/schemas/ConstForty'

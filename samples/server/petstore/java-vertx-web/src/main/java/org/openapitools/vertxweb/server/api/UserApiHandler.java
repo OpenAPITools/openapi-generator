@@ -52,7 +52,7 @@ public class UserApiHandler {
         RequestParameter body = requestParameters.body();
         User user = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<User>(){}) : null;
 
-        logger.debug("Parameter user is {}", user);
+        logger.debug("Parameter user is (body omitted)");
 
         api.createUser(user)
             .onSuccess(apiResponse -> {
@@ -75,7 +75,7 @@ public class UserApiHandler {
         RequestParameter body = requestParameters.body();
         List<User> user = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<List<User>>(){}) : null;
 
-        logger.debug("Parameter user is {}", user);
+        logger.debug("Parameter user is (body omitted)");
 
         api.createUsersWithArrayInput(user)
             .onSuccess(apiResponse -> {
@@ -98,7 +98,7 @@ public class UserApiHandler {
         RequestParameter body = requestParameters.body();
         List<User> user = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<List<User>>(){}) : null;
 
-        logger.debug("Parameter user is {}", user);
+        logger.debug("Parameter user is (body omitted)");
 
         api.createUsersWithListInput(user)
             .onSuccess(apiResponse -> {
@@ -211,7 +211,7 @@ public class UserApiHandler {
         User user = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<User>(){}) : null;
 
         logger.debug("Parameter username is {}", username);
-        logger.debug("Parameter user is {}", user);
+        logger.debug("Parameter user is (body omitted)");
 
         api.updateUser(username, user)
             .onSuccess(apiResponse -> {

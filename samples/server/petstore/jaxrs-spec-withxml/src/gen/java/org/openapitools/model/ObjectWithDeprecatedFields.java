@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 @JsonTypeName("ObjectWithDeprecatedFields")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "ObjectWithDeprecatedFields", propOrder =
     { "uuid", "id", "deprecatedRef", "bars"
     })
@@ -43,7 +43,7 @@ public class ObjectWithDeprecatedFields  implements Serializable {
   @Deprecated
   private DeprecatedObject deprecatedRef;
   @Deprecated
-  private @Valid List<String> bars = new ArrayList<>();
+  private List<String> bars = new ArrayList<>();
 
   protected ObjectWithDeprecatedFields(ObjectWithDeprecatedFieldsBuilder<?, ?> b) {
     this.uuid = b.uuid;

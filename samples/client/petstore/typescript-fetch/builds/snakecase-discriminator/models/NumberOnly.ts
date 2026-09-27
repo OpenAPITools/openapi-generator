@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface NumberOnly {
     /**
      * 
-     * @type {number}
-     * @memberof NumberOnly
      */
     justNumber?: number;
 }

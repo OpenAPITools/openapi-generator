@@ -23,6 +23,11 @@ part 'serializers.g.dart';
 ])
 Serializers serializers = (_$serializers.toBuilder(){{#builtValueSerializers}}
       ..addBuilderFactory(
+{{#fullTypeArgs}}
+        const FullType({{{fullTypeArgs}}}),
+        () => {{{builderInstantiation}}}(),
+{{/fullTypeArgs}}
+{{^fullTypeArgs}}
 {{#isArray}}
         const FullType(Built{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}, [FullType{{#isNullable}}.nullable{{/isNullable}}({{dataType}})]),
         () => {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}Builder<{{dataType}}>(),
@@ -31,6 +36,7 @@ Serializers serializers = (_$serializers.toBuilder(){{#builtValueSerializers}}
         const FullType(BuiltMap, [FullType(String), FullType{{#isNullable}}.nullable{{/isNullable}}({{dataType}})]),
         () => MapBuilder<String, {{dataType}}{{#isNullable}}?{{/isNullable}}>(),
 {{/isMap}}
+{{/fullTypeArgs}}
       ){{/builtValueSerializers}}
       {{#models}}{{#model}}{{#vendorExtensions.x-is-parent}}..add({{classname}}.serializer)
       {{/vendorExtensions.x-is-parent}}{{/model}}{{/models}}..add(const OneOfSerializer())

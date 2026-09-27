@@ -20,9 +20,11 @@
         <vertx.version>4.2.4</vertx.version>
         <junit-jupiter.version>5.10.0</junit-jupiter.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <jackson.version>2.17.1</jackson.version>
+        <jackson.version>2.18.9</jackson.version>
 
+{{^interfaceOnly}}
         <main.verticle>{{invokerPackage}}.HttpServerVerticle</main.verticle>
+{{/interfaceOnly}}
     </properties>
 
     <!-- Vert.x BOM -->
@@ -86,6 +88,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+{{^interfaceOnly}}
             <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>${maven-shade-plugin.version}</version>
@@ -117,10 +120,12 @@
                     </execution>
                 </executions>
             </plugin>
+{{/interfaceOnly}}
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
             </plugin>
+{{^interfaceOnly}}
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -133,6 +138,7 @@
                     </arguments>
                 </configuration>
             </plugin>
+{{/interfaceOnly}}
         </plugins>
     </build>
 </project>

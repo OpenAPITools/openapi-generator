@@ -1,0 +1,1 @@
+{{#useJspecify}}{{#lambda.jSpecifyNullable}}{{#required}}{{#isNullable}}@Nullable {{/isNullable}}{{/required}}{{^required}}@Nullable {{/required}}{{/lambda.jSpecifyNullable}}{{#lambda.jSpecifyDatatype}}{{{datatypeWithEnum}}}{{/lambda.jSpecifyDatatype}}{{/useJspecify}}{{^useJspecify}}{{>nullableAnnotation}}{{{datatypeWithEnum}}}{{/useJspecify}}

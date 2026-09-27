@@ -22,7 +22,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @Schema(description="")
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class EnumTest  implements Serializable {
   public enum EnumStringEnum {
 
@@ -269,7 +269,7 @@ public class EnumTest  implements Serializable {
   }
 
   
-  @Schema(required = true, description = "")
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(required = true, value = "enum_string_required")
   @NotNull public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;

@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nullable
@@ -77,7 +77,7 @@ public class User {
   /**
    * Constructor with all args parameters
    */
-  public User(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_USERNAME) String username, @JsonProperty(JSON_PROPERTY_FIRST_NAME) String firstName, @JsonProperty(JSON_PROPERTY_LAST_NAME) String lastName, @JsonProperty(JSON_PROPERTY_EMAIL) String email, @JsonProperty(JSON_PROPERTY_PASSWORD) String password, @JsonProperty(JSON_PROPERTY_PHONE) String phone, @JsonProperty(JSON_PROPERTY_USER_STATUS) Integer userStatus) {
+  public User(@JsonProperty(JSON_PROPERTY_ID) @javax.annotation.Nullable Long id, @JsonProperty(JSON_PROPERTY_USERNAME) @javax.annotation.Nullable String username, @JsonProperty(JSON_PROPERTY_FIRST_NAME) @javax.annotation.Nullable String firstName, @JsonProperty(JSON_PROPERTY_LAST_NAME) @javax.annotation.Nullable String lastName, @JsonProperty(JSON_PROPERTY_EMAIL) @javax.annotation.Nullable String email, @JsonProperty(JSON_PROPERTY_PASSWORD) @javax.annotation.Nullable String password, @JsonProperty(JSON_PROPERTY_PHONE) @javax.annotation.Nullable String phone, @JsonProperty(JSON_PROPERTY_USER_STATUS) @javax.annotation.Nullable Integer userStatus) {
     this.id = id;
     this.username = username;
     this.firstName = firstName;

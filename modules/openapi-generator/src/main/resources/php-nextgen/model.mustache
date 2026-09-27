@@ -22,6 +22,7 @@
 namespace {{modelPackage}};
 {{^isEnum}}
 {{^oneOf}}
+{{^anyOf}}
 
 {{^parentSchema}}
 use ArrayAccess;
@@ -30,6 +31,7 @@ use JsonSerializable;
 use InvalidArgumentException;
 use ReturnTypeWillChange;
 use {{invokerPackage}}\ObjectSerializer;
+{{/anyOf}}
 {{/oneOf}}
 {{/isEnum}}
 
@@ -45,10 +47,12 @@ use {{invokerPackage}}\ObjectSerializer;
 {{^parentSchema}}
 {{^isEnum}}
 {{^oneOf}}
+{{^anyOf}}
  * @implements ArrayAccess<string, mixed>
+{{/anyOf}}
 {{/oneOf}}
 {{/isEnum}}
 {{/parentSchema}}
  */
-{{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>model_oneof}}{{/-first}}{{/oneOf}}{{^oneOf}}{{>model_generic}}{{/oneOf}}{{/isEnum}}
+{{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>model_oneof}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>model_anyof}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>model_generic}}{{/anyOf}}{{/oneOf}}{{/isEnum}}
 {{/model}}{{/models}}

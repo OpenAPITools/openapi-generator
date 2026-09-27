@@ -11,6 +11,21 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     {{#vendorExtensions.x-self-and-ancestor-only-props}}
+    {{#vendorExtensions.x-is-optional}}
+    if (object.{{{name}}}.isPresent) {
+      yield r'{{baseName}}';
+      final optionalValue = object.{{{name}}}.value;
+      if (optionalValue == null) {
+        yield null;
+      } else {
+        yield serializers.serialize(
+          optionalValue,
+          specifiedType: const {{>serialization/built_value/variable_serializer_type}},
+        );
+      }
+    }
+    {{/vendorExtensions.x-is-optional}}
+    {{^vendorExtensions.x-is-optional}}
     {{#required}}
     {{!
         A required property need to always be part of the serialized output.
@@ -32,6 +47,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
       );
     }
     {{/required}}
+    {{/vendorExtensions.x-is-optional}}
     {{/vendorExtensions.x-self-and-ancestor-only-props}}
   }
 
@@ -61,12 +77,12 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     final anyOf = object.anyOf;
     {{#vendorExtensions.x-self-and-ancestor-only-props}}
     final result = _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-    final serialized = serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()));
+    final serialized = serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.types.map((type) => FullType(type)).toList()));
     result.addAll((serialized is Map ? serialized.entries.map((e) => <dynamic>[e.key, e.value]).expand<dynamic>((e) => e) : serialized) as Iterable<Object?>);
     return result;
     {{/vendorExtensions.x-self-and-ancestor-only-props}}
     {{^vendorExtensions.x-self-and-ancestor-only-props}}
-    return serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()))!;
+    return serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.types.map((type) => FullType(type)).toList()))!;
     {{/vendorExtensions.x-self-and-ancestor-only-props}}
     {{/-first}}
     {{/anyOf}}

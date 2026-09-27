@@ -125,6 +125,36 @@ interface FakeApiInterface {
 
 
     /**
+     * Operation getParameterNameMapping
+     *
+     * test query parameter name sanitization
+     * @param null | string $filterClientName
+     * @param null | int[] $filterUserIds
+     * @return \OpenAPI\Server\Model\NoContent200
+     */
+    public function getParameterNameMapping(
+            ?string $filterClientName,
+            ?array $filterUserIds,
+    ):
+        \OpenAPI\Server\Model\NoContent200
+    ;
+
+
+    /**
+     * Operation postParameterNameMapping
+     *
+     * test form parameter name sanitization
+     * @param int $clientId
+     * @return \OpenAPI\Server\Model\NoContent200
+     */
+    public function postParameterNameMapping(
+            int $clientId,
+    ):
+        \OpenAPI\Server\Model\NoContent200
+    ;
+
+
+    /**
      * Operation testAdditionalPropertiesReference
      *
      * test referenced additionalProperties
@@ -225,37 +255,6 @@ interface FakeApiInterface {
             ?\DateTime $dateTime,
             ?string $password,
             ?string $callback,
-    ):
-        \OpenAPI\Server\Model\NoContent400 | 
-        \OpenAPI\Server\Model\NoContent404
-    ;
-
-
-    /**
-     * Operation testEnumParameters
-     *
-     * To test enum parameters
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormStringArrayInner[] $enumHeaderStringArray
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumHeaderString
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormStringArrayInner[] $enumQueryStringArray
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumQueryString
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumQueryIntegerParameter $enumQueryInteger
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumQueryDouble
-     * @param null | \OpenAPI\Server\Model\EnumClass[] $enumQueryModelArray
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormStringArrayInner[] $enumFormStringArray
-     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumFormString
-     * @return \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404
-     */
-    public function testEnumParameters(
-            ?array $enumHeaderStringArray,
-            ?\OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumHeaderString,
-            ?array $enumQueryStringArray,
-            ?\OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumQueryString,
-            ?\OpenAPI\Server\Model\TestEnumParametersEnumQueryIntegerParameter $enumQueryInteger,
-            ?\OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumQueryDouble,
-            ?array $enumQueryModelArray,
-            ?array $enumFormStringArray,
-            ?\OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumFormString,
     ):
         \OpenAPI\Server\Model\NoContent400 | 
         \OpenAPI\Server\Model\NoContent404

@@ -100,6 +100,7 @@ fn main() {
             .help("Hostname to contact"))
         .arg(Arg::new("port")
             .long("port")
+            .value_parser(clap::value_parser!(u16))
             .default_value("80")
             .help("Port to contact"))
         .get_matches();
@@ -254,9 +255,9 @@ fn main() {
         Some("TestEnumParameters") => {
             let result = rt.block_on(client.test_enum_parameters(
                   Some(&Vec::new()),
-                  Some(models::TestEnumParametersRequestEnumFormString::Abc),
+                  Some(models::TestEnumParametersEnumHeaderStringParameter::Abc),
                   Some(&Vec::new()),
-                  Some(models::TestEnumParametersRequestEnumFormString::Abc),
+                  Some(models::TestEnumParametersEnumHeaderStringParameter::Abc),
                   Some(models::TestEnumParametersEnumQueryIntegerParameter::Variant1),
                   Some(models::TestEnumParametersEnumQueryDoubleParameter::Variant11),
                   Some(models::TestEnumParametersRequestEnumFormString::Abc)

@@ -312,7 +312,7 @@ public class ProtobufSchemaCodegenTest {
 
         Assert.assertEquals(enumVars1.get(0).get("name"), "UNSPECIFIED");
         Assert.assertEquals(enumVars1.get(0).get("value"), "UNSPECIFIED");
-        Assert.assertEquals(Boolean.valueOf((String) enumVars1.get(0).get("isString")), false);
+        Assert.assertEquals(enumVars1.get(0).get("isString"), false);
 
         Assert.assertEquals(enumVars1.get(1).get("name"), "FOO");
         Assert.assertEquals(enumVars1.get(1).get("value"), "FOO");

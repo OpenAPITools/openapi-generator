@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (content.IsSet && content.Value == null)
-                throw new ArgumentNullException(nameof(content), "Property is not nullable for class MixedOneOf.");
+                throw new JsonException("Property is not nullable for class MixedOneOf: content.");
 
             return new MixedOneOf(content);
         }
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, MixedOneOf mixedOneOf, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mixedOneOf.ContentOption.IsSet && mixedOneOf.Content == null)
-                throw new ArgumentNullException(nameof(mixedOneOf.Content), "Property is required for class MixedOneOf.");
+                throw new JsonException("Cannot write null property MixedOneOf.Content to non-nullable JSON property 'content'.");
 
             if (mixedOneOf.ContentOption.IsSet)
             {

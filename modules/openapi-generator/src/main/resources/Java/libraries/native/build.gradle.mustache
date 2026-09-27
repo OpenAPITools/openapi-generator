@@ -21,14 +21,16 @@ repositories {
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
+java {
 {{^useJackson3}}
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 {{/useJackson3}}
 {{#useJackson3}}
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 {{/useJackson3}}
+}
 
 // Some text from the schema is copy pasted into the source files as UTF-8
 // but the default still seems to be to use platform encoding
@@ -51,7 +53,7 @@ publishing {
 }
 
 task execute(type:JavaExec) {
-   main = System.getProperty('mainClass')
+   mainClass = System.getProperty('mainClass')
    classpath = sourceSets.main.runtimeClasspath
 }
 
@@ -79,7 +81,7 @@ ext {
     swagger_annotations_version = "2.2.9"
     {{/swagger2AnnotationLibrary}}
     {{^useJackson3}}
-    jackson_version = "2.21.1"
+    jackson_version = "2.21.5"
     jackson_annotations_version = "2.21"
     {{/useJackson3}}
     {{#useJackson3}}
@@ -118,14 +120,14 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    implementation "org.openapitools:jackson-databind-nullable:0.2.10"
+    implementation "org.openapitools:jackson-databind-nullable:0.2.11"
     {{/useJackson3}}
     {{#useJackson3}}
     implementation "tools.jackson.core:jackson-core:$jackson3_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "tools.jackson.core:jackson-databind:$jackson3_version"
     {{#openApiNullable}}
-    implementation "org.openapitools:jackson-databind-nullable:0.2.10"
+    implementation "org.openapitools:jackson-databind-nullable:0.2.11"
     {{/openApiNullable}}
     {{/useJackson3}}
     {{#useJspecify}}

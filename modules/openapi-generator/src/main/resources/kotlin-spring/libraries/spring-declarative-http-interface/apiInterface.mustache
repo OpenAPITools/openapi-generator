@@ -43,7 +43,6 @@ import {{javaxPackage}}.validation.constraints.*
 {{/useBeanValidation}}
 
 {{#reactiveModeReactor}}
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 {{/reactiveModeReactor}}
 
@@ -62,6 +61,9 @@ interface {{classname}} {
 {{#operation}}{{!
 }}{{^useResponseEntity}}    @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})
 {{/useResponseEntity}}{{!
+}}{{#vendorExtensions.x-operation-extra-annotation}}
+    {{{.}}}
+{{/vendorExtensions.x-operation-extra-annotation}}{{!
 }}{{#httpMethod}}    @HttpExchange(
         // "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
         url = PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}},

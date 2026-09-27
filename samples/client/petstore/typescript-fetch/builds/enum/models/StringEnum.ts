@@ -20,7 +20,7 @@
 export const StringEnum = {
     One: 'one',
     Two: 'two',
-    Three: 'three'
+    Three: 'three',
 } as const;
 export type StringEnum = typeof StringEnum[keyof typeof StringEnum];
 

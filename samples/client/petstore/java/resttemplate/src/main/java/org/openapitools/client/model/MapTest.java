@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   @javax.annotation.Nullable
@@ -94,7 +94,7 @@ public class MapTest {
   /**
    * Constructor with all args parameters
    */
-  public MapTest(@JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING) Map<String, Map<String, String>> mapMapOfString, @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING) Map<String, InnerEnum> mapOfEnumString, @JsonProperty(JSON_PROPERTY_DIRECT_MAP) Map<String, Boolean> directMap, @JsonProperty(JSON_PROPERTY_INDIRECT_MAP) Map<String, Boolean> indirectMap) {
+  public MapTest(@JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING) @javax.annotation.Nullable Map<String, Map<String, String>> mapMapOfString, @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING) @javax.annotation.Nullable Map<String, InnerEnum> mapOfEnumString, @JsonProperty(JSON_PROPERTY_DIRECT_MAP) @javax.annotation.Nullable Map<String, Boolean> directMap, @JsonProperty(JSON_PROPERTY_INDIRECT_MAP) @javax.annotation.Nullable Map<String, Boolean> indirectMap) {
     this.mapMapOfString = mapMapOfString;
     this.mapOfEnumString = mapOfEnumString;
     this.directMap = directMap;

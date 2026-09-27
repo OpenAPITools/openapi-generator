@@ -23,19 +23,23 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ResponseObjectWithDifferentFieldNames")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNamesDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String normalPropertyName;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String UPPER_CASE_PROPERTY_SNAKE;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String lowerCasePropertyDashes;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String propertyNameWithSpaces;
 
   public ResponseObjectWithDifferentFieldNamesDto normalPropertyName(@Nullable String normalPropertyName) {
@@ -53,7 +57,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return normalPropertyName;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("normalPropertyName")
   public void setNormalPropertyName(@Nullable String normalPropertyName) {
     this.normalPropertyName = normalPropertyName;
@@ -74,7 +77,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return UPPER_CASE_PROPERTY_SNAKE;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
   public void setUPPERCASEPROPERTYSNAKE(@Nullable String UPPER_CASE_PROPERTY_SNAKE) {
     this.UPPER_CASE_PROPERTY_SNAKE = UPPER_CASE_PROPERTY_SNAKE;
@@ -95,7 +97,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return lowerCasePropertyDashes;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("lower-case-property-dashes")
   public void setLowerCasePropertyDashes(@Nullable String lowerCasePropertyDashes) {
     this.lowerCasePropertyDashes = lowerCasePropertyDashes;
@@ -116,7 +117,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return propertyNameWithSpaces;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("property name with spaces")
   public void setPropertyNameWithSpaces(@Nullable String propertyNameWithSpaces) {
     this.propertyNameWithSpaces = propertyNameWithSpaces;

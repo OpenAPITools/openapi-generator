@@ -28,6 +28,19 @@ sourceSets {
 }
 
 {{/sourceFolder}}
+ext {
+    {{#swagger1AnnotationLibrary}}
+    swagger_annotations_version = "1.6.9"
+    {{/swagger1AnnotationLibrary}}
+    {{#swagger2AnnotationLibrary}}
+    swagger_annotations_version = "2.2.9"
+    {{/swagger2AnnotationLibrary}}
+    jakarta_annotation_version = "1.3.5"
+    {{#useBeanValidation}}
+    bean_validation_version = "2.0.2"
+    {{/useBeanValidation}}
+}
+
 if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
@@ -87,8 +100,10 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     publishing {
         publications {
@@ -100,22 +115,9 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
+       mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
-}
-
-ext {
-    {{#swagger1AnnotationLibrary}}
-    swagger_annotations_version = "1.6.9"
-    {{/swagger1AnnotationLibrary}}
-    {{#swagger2AnnotationLibrary}}
-    swagger_annotations_version = "2.2.9"
-    {{/swagger2AnnotationLibrary}}
-    jakarta_annotation_version = "1.3.5"
-    {{#useBeanValidation}}
-    bean_validation_version = "2.0.2"
-    {{/useBeanValidation}}
 }
 
 dependencies {
@@ -132,7 +134,7 @@ dependencies {
     implementation 'io.gsonfire:gson-fire:1.9.0'
     implementation 'jakarta.ws.rs:jakarta.ws.rs-api:2.1.6'
     {{#openApiNullable}}
-    implementation 'org.openapitools:jackson-databind-nullable:0.2.10'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.11'
     {{/openApiNullable}}
     {{#withAWSV4Signature}}
     implementation 'software.amazon.awssdk:auth:2.20.157'

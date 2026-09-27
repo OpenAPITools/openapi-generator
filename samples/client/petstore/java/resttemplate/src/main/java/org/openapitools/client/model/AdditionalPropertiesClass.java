@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   @javax.annotation.Nullable
@@ -49,7 +49,7 @@ public class AdditionalPropertiesClass {
   /**
    * Constructor with all args parameters
    */
-  public AdditionalPropertiesClass(@JsonProperty(JSON_PROPERTY_MAP_PROPERTY) Map<String, String> mapProperty, @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY) Map<String, Map<String, String>> mapOfMapProperty) {
+  public AdditionalPropertiesClass(@JsonProperty(JSON_PROPERTY_MAP_PROPERTY) @javax.annotation.Nullable Map<String, String> mapProperty, @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY) @javax.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapProperty = mapProperty;
     this.mapOfMapProperty = mapOfMapProperty;
   }

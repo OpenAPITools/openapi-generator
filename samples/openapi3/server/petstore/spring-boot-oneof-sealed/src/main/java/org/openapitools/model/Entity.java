@@ -37,7 +37,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = PizzaSpeziale.class, name = "PizzaSpeziale")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -52,6 +52,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String atBaseType;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String atType;
 
   public Entity() {

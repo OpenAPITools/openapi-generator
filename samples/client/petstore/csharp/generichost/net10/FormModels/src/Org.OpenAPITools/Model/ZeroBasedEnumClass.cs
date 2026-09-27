@@ -136,9 +136,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "ZeroBasedEnum":
-                            string zeroBasedEnumRawValue = utf8JsonReader.GetString();
-                            if (zeroBasedEnumRawValue != null)
-                                zeroBasedEnum = new Option<ZeroBasedEnumClassZeroBasedEnum?>(ZeroBasedEnumClassZeroBasedEnumValueConverter.FromStringOrDefault(zeroBasedEnumRawValue));
+                            zeroBasedEnum = new Option<ZeroBasedEnumClassZeroBasedEnum?>(JsonSerializer.Deserialize<ZeroBasedEnumClassZeroBasedEnum?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -147,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (zeroBasedEnum.IsSet && zeroBasedEnum.Value == null)
-                throw new ArgumentNullException(nameof(zeroBasedEnum), "Property is not nullable for class ZeroBasedEnumClass.");
+                throw new JsonException("Property is not nullable for class ZeroBasedEnumClass: ZeroBasedEnum.");
 
             return new ZeroBasedEnumClass(zeroBasedEnum);
         }
@@ -176,6 +174,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ZeroBasedEnumClass zeroBasedEnumClass, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (zeroBasedEnumClass.ZeroBasedEnumOption.IsSet && zeroBasedEnumClass.ZeroBasedEnum == null)
+                throw new JsonException("Cannot write null property ZeroBasedEnumClass.ZeroBasedEnum to non-nullable JSON property 'ZeroBasedEnum'.");
+
             if (zeroBasedEnumClass.ZeroBasedEnumOption.IsSet)
             {
                 var zeroBasedEnumRawValue = ZeroBasedEnumClassZeroBasedEnumValueConverter.ToJsonValue(zeroBasedEnumClass.ZeroBasedEnum.Value);

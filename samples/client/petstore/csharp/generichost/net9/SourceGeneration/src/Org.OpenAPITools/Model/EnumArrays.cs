@@ -293,7 +293,12 @@ namespace Org.OpenAPITools.Model
                         case "just_symbol":
                             string? justSymbolRawValue = utf8JsonReader.GetString();
                             if (justSymbolRawValue != null)
-                                justSymbol = new Option<EnumArrays.JustSymbolEnum?>(EnumArrays.JustSymbolEnumFromStringOrDefault(justSymbolRawValue));
+                            {
+                                EnumArrays.JustSymbolEnum? justSymbolValue = EnumArrays.JustSymbolEnumFromStringOrDefault(justSymbolRawValue);
+                                if (justSymbolValue == null)
+                                    throw new JsonException();
+                                justSymbol = new Option<EnumArrays.JustSymbolEnum?>(justSymbolValue);
+                            }
                             break;
                         default:
                             break;
@@ -302,10 +307,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (arrayEnum.IsSet && arrayEnum.Value == null)
-                throw new ArgumentNullException(nameof(arrayEnum), "Property is not nullable for class EnumArrays.");
+                throw new JsonException("Property is not nullable for class EnumArrays: array_enum.");
 
             if (justSymbol.IsSet && justSymbol.Value == null)
-                throw new ArgumentNullException(nameof(justSymbol), "Property is not nullable for class EnumArrays.");
+                throw new JsonException("Property is not nullable for class EnumArrays: just_symbol.");
 
             return new EnumArrays(arrayEnum, justSymbol);
         }
@@ -335,7 +340,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions jsonSerializerOptions)
         {
             if (enumArrays.ArrayEnumOption.IsSet && enumArrays.ArrayEnum == null)
-                throw new ArgumentNullException(nameof(enumArrays.ArrayEnum), "Property is required for class EnumArrays.");
+                throw new JsonException("Cannot write null property EnumArrays.ArrayEnum to non-nullable JSON property 'array_enum'.");
+
+            if (enumArrays.JustSymbolOption.IsSet && enumArrays.JustSymbol == null)
+                throw new JsonException("Cannot write null property EnumArrays.JustSymbol to non-nullable JSON property 'just_symbol'.");
 
             if (enumArrays.ArrayEnumOption.IsSet)
             {

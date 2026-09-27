@@ -29,13 +29,15 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "Category")
 @XmlRootElement(name = "Category")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Category {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable Long id;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String name;
 
   public Category() {
@@ -68,7 +70,6 @@ public class Category {
     return id;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   public void setId(@Nullable Long id) {
@@ -93,7 +94,6 @@ public class Category {
     return name;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
   public void setName(@Nullable String name) {

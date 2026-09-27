@@ -1,0 +1,88 @@
+openapi: 3.0.3
+info:
+  title: jspecify sealed oneOf
+  description: >
+    A oneOf-interface spec whose children mix required and optional properties, so the
+    interaction between useJspecify and useSealedOneOfInterfaces can be asserted: the
+    interface is sealed, the children are final, and only the optional properties carry
+    @Nullable. Includes a property whose type is fully qualified after type mapping, to
+    check that the annotation is placed type-use style.
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetRequest'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetRequest'
+components:
+  schemas:
+    PetType:
+      type: string
+      enum:
+        - CAT
+        - DOG
+
+    PetRequest:
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/CatRequest'
+          DOG: '#/components/schemas/DogRequest'
+
+    PetBase:
+      type: object
+      required:
+        - petType
+        - name
+      properties:
+        petType:
+          $ref: '#/components/schemas/PetType'
+        name:
+          type: string
+        # optional on the shared base -> @Nullable on every child
+        nickname:
+          type: string
+
+    CatRequest:
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          required:
+            - indoor
+          properties:
+            indoor:
+              type: boolean
+            # optional -> @Nullable
+            declawed:
+              type: boolean
+            # optional, and maps to a fully qualified type -> type-use placement
+            weightKg:
+              type: number
+              format: double
+
+    DogRequest:
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          required:
+            - trained
+          properties:
+            trained:
+              type: boolean
+            # optional -> @Nullable
+            breed:
+              type: string

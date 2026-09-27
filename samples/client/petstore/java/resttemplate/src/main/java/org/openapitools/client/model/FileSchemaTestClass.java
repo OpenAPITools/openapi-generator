@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
   @javax.annotation.Nullable
@@ -51,7 +51,7 @@ public class FileSchemaTestClass {
   /**
    * Constructor with all args parameters
    */
-  public FileSchemaTestClass(@JsonProperty(JSON_PROPERTY_FILE) ModelFile _file, @JsonProperty(JSON_PROPERTY_FILES) List<ModelFile> files) {
+  public FileSchemaTestClass(@JsonProperty(JSON_PROPERTY_FILE) @javax.annotation.Nullable ModelFile _file, @JsonProperty(JSON_PROPERTY_FILES) @javax.annotation.Nullable List<ModelFile> files) {
     this._file = _file;
     this.files = files;
   }

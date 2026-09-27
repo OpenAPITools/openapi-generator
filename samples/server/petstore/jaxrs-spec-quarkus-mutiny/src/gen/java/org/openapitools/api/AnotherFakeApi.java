@@ -59,7 +59,7 @@ import javax.validation.Valid;
     ), 
 })
 @Path("/another-fake/dummy")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class AnotherFakeApi {
 
     @PATCH
@@ -73,7 +73,8 @@ public class AnotherFakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Client.class))
             })
         })
-    public Response call123testSpecialTags(@Valid @NotNull Client client) {
+    public Response call123testSpecialTags(@Valid @NotNull Client client
+) {
         return Response.ok().entity("magic!").build();
     }
 

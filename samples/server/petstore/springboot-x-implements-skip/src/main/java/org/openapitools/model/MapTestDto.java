@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("MapTest")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class MapTestDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -92,7 +92,7 @@ public class MapTestDto {
    * Get mapMapOfString
    * @return mapMapOfString
    */
-  @Valid 
+  
   @Schema(name = "map_map_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {

@@ -8,10 +8,10 @@
 import Foundation
 
 public enum OuterEnum: String, Sendable, Codable, CaseIterable {
-    /// Description for placed
+    /** Description for placed */
     case placed = "placed"
-    /// Description for approved
+    /** Description for approved */
     case approved = "approved"
-    /// Description for delivered
+    /** Description for delivered */
     case delivered = "delivered"
 }

@@ -29,20 +29,14 @@ import {
 export interface ArrayTest {
     /**
      * 
-     * @type {Array<string>}
-     * @memberof ArrayTest
      */
     arrayOfString?: Array<string>;
     /**
      * 
-     * @type {Array<Array<number>>}
-     * @memberof ArrayTest
      */
     arrayArrayOfInteger?: Array<Array<number>>;
     /**
      * 
-     * @type {Array<Array<ReadOnlyFirst>>}
-     * @memberof ArrayTest
      */
     arrayArrayOfModel?: Array<Array<ReadOnlyFirst>>;
 }

@@ -85,7 +85,9 @@ import java.io.IOException
  *
  */
 {{#parcelizeModels}}
+{{^kotlinx_serialization}}
 @Parcelize
+{{/kotlinx_serialization}}
 {{/parcelizeModels}}
 {{^generateOneOfAnyOfWrappers}}
 {{#multiplatform}}{{^discriminator}}@Serializable{{/discriminator}}{{/multiplatform}}{{#kotlinx_serialization}}{{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}{{/kotlinx_serialization}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}{{#jackson}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{/jackson}}
@@ -102,11 +104,12 @@ import java.io.IOException
 
 {{#kotlinx_serialization}}
 {{#generateOneOfAnyOfWrappers}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}sealed interface {{classname}} {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}sealed interface {{classname}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}} {
 {{#composedSchemas}}
 {{#anyOf}}
 {{^vendorExtensions.x-duplicated-data-type}}
-    @JvmInline
+{{#parcelizeModels}}    @Parcelize
+{{/parcelizeModels}}    @JvmInline
     {{#explicitApi}}public {{/explicitApi}}value class {{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}}({{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val value: {{{dataType}}}) : {{classname}}
 
 {{/vendorExtensions.x-duplicated-data-type}}

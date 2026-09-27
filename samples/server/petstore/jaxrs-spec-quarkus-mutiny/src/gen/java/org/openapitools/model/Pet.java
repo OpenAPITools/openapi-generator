@@ -23,13 +23,13 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Pet  implements Serializable {
   private Long id;
   private Category category;
   private String name;
-  private @Valid Set<String> photoUrls = new LinkedHashSet<>();
-  private @Valid List<@Valid Tag> tags = new ArrayList<>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
+  private List<@Valid Tag> tags = new ArrayList<>();
   public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
@@ -203,7 +203,7 @@ public class Pet  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("tags")
-  @Valid public List<@Valid Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 

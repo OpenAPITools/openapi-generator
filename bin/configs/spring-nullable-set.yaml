@@ -4,6 +4,8 @@ outputDir: samples/server/petstore/spring-boot-nullable-set
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/10167-nullable-set.yml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   artifactId: spring-boot-nullable-set
   interfaceOnly: "true"
   singleContentTypes: "true"

@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
@@ -21,13 +22,15 @@ import jakarta.annotation.Generated;
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
   private @Nullable List<String> nullableArray;
 
+  @JsonInclude(JsonInclude.Include.ALWAYS)
   private List<String> nullableRequiredArray;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> requiredArray = new ArrayList<>();
 
   private @Nullable List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
@@ -62,7 +65,7 @@ public class ContainerDefaultValue {
    * @return nullableArray
    */
   
-  @Schema(name = "nullable_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullable_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullable_array")
   public @Nullable List<String> getNullableArray() {
     return nullableArray;
@@ -90,8 +93,8 @@ public class ContainerDefaultValue {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @NotNull 
-  @Schema(name = "nullable_required_array", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "nullable_required_array", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("nullable_required_array")
   public List<String> getNullableRequiredArray() {
     return nullableRequiredArray;
@@ -149,7 +152,7 @@ public class ContainerDefaultValue {
    * @return nullableArrayWithDefault
    */
   
-  @Schema(name = "nullable_array_with_default", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullable_array_with_default", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullable_array_with_default")
   public @Nullable List<String> getNullableArrayWithDefault() {
     return nullableArrayWithDefault;

@@ -416,7 +416,12 @@ func (c *APIClient) prepareRequest(
 	if len(headerParams) > 0 {
 		headers := http.Header{}
 		for h, v := range headerParams {
+			{{#useHttpHeaderSet}}
+			headers.Set(h, v)
+			{{/useHttpHeaderSet}}
+			{{^useHttpHeaderSet}}
 			headers[h] = []string{v}
+			{{/useHttpHeaderSet}}
 		}
 		localVarRequest.Header = headers
 	}

@@ -24,10 +24,10 @@ namespace Org.OpenAPITools.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="options"></param>
-        public static void AddApi(this IServiceCollection services, Action<HostConfiguration> options)
+        public static void AddApi(this IServiceCollection services, Action<HostConfiguration> options = null)
         {
             HostConfiguration config = new HostConfiguration(services);
-            options(config);
+            options?.Invoke(config);
             AddApi(services, config);
         }
 
@@ -56,6 +56,8 @@ namespace Org.OpenAPITools.Extensions
                         s => s.GetRequiredService(typeof(RateLimitProvider<>).MakeGenericType(tokenType)));
                 }
             }
+
+            host.NotifyServicesAdded(services);
         }
     }
 }

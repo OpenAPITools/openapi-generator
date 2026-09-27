@@ -22,7 +22,8 @@ type AnObject struct {
 	Pet []Pet `json:"Pet,omitempty"`
 }
 
-// AssertAnObjectRequired checks if the required fields are not zero-ed
+// AssertAnObjectRequired checks complex required fields (models, arrays, maps) and embedded parents.
+// Primitive required fields are validated for JSON request bodies in UnmarshalJSON so zero values remain valid.
 func AssertAnObjectRequired(obj AnObject) error {
 	if err := AssertTagRequired(obj.Tag); err != nil {
 		return err

@@ -11,29 +11,29 @@
 part of openapi.api;
 
 
-class SingleRefType {
-  /// Instantiate a new enum with the provided [value].
-  const SingleRefType._(this.value);
+enum SingleRefType {
+  admin._(r'admin'),
+  user._(r'user'),
+  ;
+
+  /// Instantiate a new enum with the provided value.
+  const SingleRefType._(this._value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final String _value;
 
   @override
-  String toString() => value;
+  String toString() => _value;
 
-  String toJson() => value;
+  /// Encodes this enum as a value suitable for JSON.
+  String toJson() => _value;
 
-  static const admin = SingleRefType._(r'admin');
-  static const user = SingleRefType._(r'user');
-
-  /// List of all possible values in this [enum][SingleRefType].
-  static const values = <SingleRefType>[
-    admin,
-    user,
-  ];
-
+  /// Returns the instance of [SingleRefType] that was successfully decoded
+  /// from the passed [value] on success, null otherwise.
   static SingleRefType? fromJson(dynamic value) => SingleRefTypeTypeTransformer().decode(value);
 
+  /// Returns a [List] containing instances of [SingleRefType]
+  /// that were successfully decoded from the passed [JSON][json].
   static List<SingleRefType> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <SingleRefType>[];
     if (json is List && json.isNotEmpty) {
@@ -55,9 +55,11 @@ class SingleRefTypeTypeTransformer {
 
   const SingleRefTypeTypeTransformer._();
 
-  String encode(SingleRefType data) => data.value;
+  /// Encodes this enum as a value suitable for JSON.
+  String encode(SingleRefType data) => data._value;
 
-  /// Decodes a [dynamic value][data] to a SingleRefType.
+  /// Returns the instance of [SingleRefType] that was successfully decoded
+  /// from the passed [data] value on success, null otherwise.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -66,6 +68,9 @@ class SingleRefTypeTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   SingleRefType? decode(dynamic data, {bool allowNull = true}) {
+    if (data is SingleRefType) {
+      return data;
+    }
     if (data != null) {
       switch (data) {
         case r'admin': return SingleRefType.admin;
@@ -79,7 +84,7 @@ class SingleRefTypeTypeTransformer {
     return null;
   }
 
-  /// Singleton [SingleRefTypeTypeTransformer] instance.
+  /// The singleton instance of this transformer.
   static SingleRefTypeTypeTransformer? _instance;
 }
 

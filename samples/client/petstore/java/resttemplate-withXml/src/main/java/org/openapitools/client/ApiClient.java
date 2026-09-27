@@ -17,7 +17,6 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -35,7 +34,6 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -80,7 +78,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -619,10 +617,10 @@ public class ApiClient extends JavaTimeFormatter {
     /**
      * Select the Content-Type header's value from the given array:
      *     if JSON exists in the given array, use it;
-     *     otherwise use the first one of the array.
+     *     otherwise use the first non-wildcard one of the array.
      *
      * @param contentTypes The Content-Type array to select from
-     * @return MediaType The Content-Type header to use. If the given array is empty, JSON will be used.
+     * @return MediaType The Content-Type header to use. If the given array is empty, or only contains wildcard media types, JSON will be used.
      */
     public MediaType selectHeaderContentType(String[] contentTypes) {
         if (contentTypes.length == 0) {
@@ -631,10 +629,20 @@ public class ApiClient extends JavaTimeFormatter {
         for (String contentType : contentTypes) {
             MediaType mediaType = MediaType.parseMediaType(contentType);
             if (isJsonMime(mediaType)) {
+                // A wildcard media type (e.g. "*/*" or "application/*") is treated as
+                // JSON-compatible but cannot be used as a request Content-Type header,
+                // so fall back to concrete JSON in that case.
+                return mediaType.isWildcardType() || mediaType.isWildcardSubtype() ? MediaType.APPLICATION_JSON : mediaType;
+            }
+        }
+        // No JSON type found; use the first concrete (non-wildcard) media type instead.
+        for (String contentType : contentTypes) {
+            MediaType mediaType = MediaType.parseMediaType(contentType);
+            if (!mediaType.isWildcardType() && !mediaType.isWildcardSubtype()) {
                 return mediaType;
             }
         }
-        return MediaType.parseMediaType(contentTypes[0]);
+        return MediaType.APPLICATION_JSON;
     }
 
     /**

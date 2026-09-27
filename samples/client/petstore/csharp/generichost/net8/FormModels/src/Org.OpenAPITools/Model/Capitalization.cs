@@ -246,22 +246,22 @@ namespace Org.OpenAPITools.Model
             }
 
             if (aTTNAME.IsSet && aTTNAME.Value == null)
-                throw new ArgumentNullException(nameof(aTTNAME), "Property is not nullable for class Capitalization.");
+                throw new JsonException("Property is not nullable for class Capitalization: ATT_NAME.");
 
             if (capitalCamel.IsSet && capitalCamel.Value == null)
-                throw new ArgumentNullException(nameof(capitalCamel), "Property is not nullable for class Capitalization.");
+                throw new JsonException("Property is not nullable for class Capitalization: CapitalCamel.");
 
             if (capitalSnake.IsSet && capitalSnake.Value == null)
-                throw new ArgumentNullException(nameof(capitalSnake), "Property is not nullable for class Capitalization.");
+                throw new JsonException("Property is not nullable for class Capitalization: Capital_Snake.");
 
             if (sCAETHFlowPoints.IsSet && sCAETHFlowPoints.Value == null)
-                throw new ArgumentNullException(nameof(sCAETHFlowPoints), "Property is not nullable for class Capitalization.");
+                throw new JsonException("Property is not nullable for class Capitalization: SCA_ETH_Flow_Points.");
 
             if (smallCamel.IsSet && smallCamel.Value == null)
-                throw new ArgumentNullException(nameof(smallCamel), "Property is not nullable for class Capitalization.");
+                throw new JsonException("Property is not nullable for class Capitalization: smallCamel.");
 
             if (smallSnake.IsSet && smallSnake.Value == null)
-                throw new ArgumentNullException(nameof(smallSnake), "Property is not nullable for class Capitalization.");
+                throw new JsonException("Property is not nullable for class Capitalization: small_Snake.");
 
             return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
         }
@@ -291,22 +291,22 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Capitalization capitalization, JsonSerializerOptions jsonSerializerOptions)
         {
             if (capitalization.ATT_NAMEOption.IsSet && capitalization.ATT_NAME == null)
-                throw new ArgumentNullException(nameof(capitalization.ATT_NAME), "Property is required for class Capitalization.");
+                throw new JsonException("Cannot write null property Capitalization.ATT_NAME to non-nullable JSON property 'ATT_NAME'.");
 
             if (capitalization.CapitalCamelOption.IsSet && capitalization.CapitalCamel == null)
-                throw new ArgumentNullException(nameof(capitalization.CapitalCamel), "Property is required for class Capitalization.");
+                throw new JsonException("Cannot write null property Capitalization.CapitalCamel to non-nullable JSON property 'CapitalCamel'.");
 
             if (capitalization.CapitalSnakeOption.IsSet && capitalization.CapitalSnake == null)
-                throw new ArgumentNullException(nameof(capitalization.CapitalSnake), "Property is required for class Capitalization.");
+                throw new JsonException("Cannot write null property Capitalization.CapitalSnake to non-nullable JSON property 'Capital_Snake'.");
 
             if (capitalization.SCAETHFlowPointsOption.IsSet && capitalization.SCAETHFlowPoints == null)
-                throw new ArgumentNullException(nameof(capitalization.SCAETHFlowPoints), "Property is required for class Capitalization.");
+                throw new JsonException("Cannot write null property Capitalization.SCAETHFlowPoints to non-nullable JSON property 'SCA_ETH_Flow_Points'.");
 
             if (capitalization.SmallCamelOption.IsSet && capitalization.SmallCamel == null)
-                throw new ArgumentNullException(nameof(capitalization.SmallCamel), "Property is required for class Capitalization.");
+                throw new JsonException("Cannot write null property Capitalization.SmallCamel to non-nullable JSON property 'smallCamel'.");
 
             if (capitalization.SmallSnakeOption.IsSet && capitalization.SmallSnake == null)
-                throw new ArgumentNullException(nameof(capitalization.SmallSnake), "Property is required for class Capitalization.");
+                throw new JsonException("Cannot write null property Capitalization.SmallSnake to non-nullable JSON property 'small_Snake'.");
 
             if (capitalization.ATT_NAMEOption.IsSet)
                 writer.WriteString("ATT_NAME", capitalization.ATT_NAME);

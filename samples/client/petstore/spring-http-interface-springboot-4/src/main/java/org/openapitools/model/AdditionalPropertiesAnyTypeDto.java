@@ -27,10 +27,11 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 
 @JsonTypeName("AdditionalPropertiesAnyType")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class AdditionalPropertiesAnyTypeDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String name;
 
   public AdditionalPropertiesAnyTypeDto name(@Nullable String name) {
@@ -48,7 +49,6 @@ public class AdditionalPropertiesAnyTypeDto {
     return name;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name")
   public void setName(@Nullable String name) {
     this.name = name;

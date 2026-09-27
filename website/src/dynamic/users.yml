@@ -369,6 +369,11 @@
   infoLink: "https://developers.mastercard.com"
   pinned: false
 -
+  caption: MCP360
+  image: "img/companies/mcp360.png"
+  infoLink: "https://mcp360.ai/"
+  pinned: false
+-
   caption: "Médiavision"
   image: "img/companies/mediavision.jpeg"
   infoLink: "https://www.mediavision.fr/"

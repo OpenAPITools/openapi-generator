@@ -29,11 +29,11 @@ jobs:
           - samples/client/petstore/go/
           - samples/openapi3/client/petstore/go/
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Add hosts to /etc/hosts
         run: |
             sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
-      - uses: actions/setup-go@v6
+      - uses: actions/setup-go@v7
       - run: go version
       - name: Install Dependencies
         working-directory: ${{ matrix.sample }}

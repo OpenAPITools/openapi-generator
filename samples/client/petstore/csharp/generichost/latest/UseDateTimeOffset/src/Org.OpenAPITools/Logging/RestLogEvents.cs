@@ -1,0 +1,13 @@
+using Microsoft.Extensions.Logging;
+
+namespace Org.OpenAPITools.Logging
+{
+    internal static partial class RestLogEvents
+    {
+        // 3000-3099: REST API transport and response processing
+        internal static readonly EventId ApiRequestCompleted = new EventId(3000, nameof(ApiRequestCompleted));
+        internal static readonly EventId ApiRequestFailed = new EventId(3001, nameof(ApiRequestFailed));
+        internal static readonly EventId ApiDeserializationFailed = new EventId(3002, nameof(ApiDeserializationFailed));
+        internal static readonly EventId ApiForbiddenWarning = new EventId(3003, nameof(ApiForbiddenWarning));
+    }
+}

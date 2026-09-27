@@ -108,7 +108,7 @@ class NullableClass {
       json[r'string_prop'] = null;
     }
     if (this.dateProp != null) {
-      json[r'date_prop'] = _dateFormatter.format(this.dateProp!.toUtc());
+      json[r'date_prop'] = _dateFormatter.format(this.dateProp!);
     } else {
       json[r'date_prop'] = null;
     }

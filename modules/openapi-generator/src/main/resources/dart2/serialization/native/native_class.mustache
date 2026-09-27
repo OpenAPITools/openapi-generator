@@ -34,14 +34,14 @@ class {{{classname}}} {
     {{/isNullable}}
   {{/isEnum}}
   {{#required}}
-  {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
+  {{#useFinalProperties}}final {{/useFinalProperties}}{{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
   {{/required}}
   {{^required}}
     {{#vendorExtensions.x-is-optional}}
-  {{{datatypeWithEnum}}} {{{name}}};
+  {{#useFinalProperties}}final {{/useFinalProperties}}{{{datatypeWithEnum}}} {{{name}}};
     {{/vendorExtensions.x-is-optional}}
     {{^vendorExtensions.x-is-optional}}
-  {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}?{{/defaultValue}}{{/isNullable}} {{{name}}};
+  {{#useFinalProperties}}final {{/useFinalProperties}}{{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}?{{/defaultValue}}{{/isNullable}} {{{name}}};
     {{/vendorExtensions.x-is-optional}}
   {{/required}}
 
@@ -82,10 +82,10 @@ class {{{classname}}} {
         {{#pattern}}
       json[r'{{{baseName}}}'] = value == null ? null : (_isEpochMarker(r'{{{pattern}}}')
         ? value.millisecondsSinceEpoch
-        : _dateFormatter.format(value.toUtc()));
+        : _dateFormatter.format(value));
         {{/pattern}}
         {{^pattern}}
-      json[r'{{{baseName}}}'] = value == null ? null : _dateFormatter.format(value.toUtc());
+      json[r'{{{baseName}}}'] = value == null ? null : _dateFormatter.format(value);
         {{/pattern}}
       {{/isDate}}
       {{^isDateTime}}
@@ -120,10 +120,10 @@ class {{{classname}}} {
       {{#pattern}}
       json[r'{{{baseName}}}'] = _isEpochMarker(r'{{{pattern}}}')
         ? this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.millisecondsSinceEpoch
-        : _dateFormatter.format(this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.toUtc());
+        : _dateFormatter.format(this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}});
       {{/pattern}}
       {{^pattern}}
-      json[r'{{{baseName}}}'] = _dateFormatter.format(this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.toUtc());
+      json[r'{{{baseName}}}'] = _dateFormatter.format(this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}});
       {{/pattern}}
     {{/isDate}}
     {{^isDateTime}}
@@ -150,6 +150,21 @@ class {{{classname}}} {
     return json;
   }
 
+{{#useFinalProperties}}
+  /// Clones this instance of [{{{classname}}}] and returns a new one where some of the
+  /// properties have changed.
+  {{{classname}}} copyWith({
+  {{#vars}}
+    {{{datatypeWithEnum}}}? {{{name}}},{{#isNullable}}
+    bool {{{name}}}SetToNull = false,{{/isNullable}}
+  {{/vars}}
+  }) => {{{classname}}}(
+  {{#vars}}
+    {{{name}}}: {{#isNullable}}{{{name}}}SetToNull ? null : {{/isNullable}}{{{name}}} ?? this.{{{name}}},
+  {{/vars}}
+  );
+
+{{/useFinalProperties}}
   /// Returns a new [{{{classname}}}] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
@@ -346,7 +361,9 @@ class {{{classname}}} {
                 {{^vendorExtensions.x-is-optional}}
         {{{name}}}: {{#isNullable}}json[r'{{{baseName}}}'] == null
             ? {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
-            : {{/isNullable}}{{{datatypeWithEnum}}}.parse('${json[r'{{{baseName}}}']}'),
+            : {{/isNullable}}{{^isNullable}}{{^required}}json[r'{{{baseName}}}'] == null
+            ? {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
+            : {{/required}}{{/isNullable}}{{{datatypeWithEnum}}}.parse('${json[r'{{{baseName}}}']}'),
                 {{/vendorExtensions.x-is-optional}}
               {{/isNumber}}
               {{^isNumber}}

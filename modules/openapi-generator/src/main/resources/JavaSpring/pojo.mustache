@@ -33,7 +33,7 @@
 {{>generatedAnnotation}}
 
 {{#vendorExtensions.x-class-extra-annotation}}
-{{{vendorExtensions.x-class-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}} extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
 {{#serializableModel}}
@@ -62,11 +62,15 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
   {{#jackson}}
-  {{^required}}
-  {{^isNullable}}
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  {{/isNullable}}
-  {{/required}}
+  {{#vendorExtensions.x-jackson-json-include-policy}}
+  @JsonInclude(JsonInclude.Include.{{{vendorExtensions.x-jackson-json-include-policy}}})
+  {{/vendorExtensions.x-jackson-json-include-policy}}
+  {{#vendorExtensions.x-has-json-setter-nulls-skip}}
+  @JsonSetter(nulls = Nulls.SKIP)
+  {{/vendorExtensions.x-has-json-setter-nulls-skip}}
+  {{#vendorExtensions.x-has-json-setter-nulls-fail}}
+  @JsonSetter(nulls = Nulls.FAIL)
+  {{/vendorExtensions.x-has-json-setter-nulls-fail}}
   {{/jackson}}
   {{#deprecated}}
   @Deprecated
@@ -108,7 +112,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   /**
    * Constructor with only required parameters{{#generateConstructorWithAllArgs}}{{^vendorExtensions.x-java-all-args-constructor}} and all parameters{{/vendorExtensions.x-java-all-args-constructor}}{{/generateConstructorWithAllArgs}}
    */
-  public {{classname}}({{#requiredVars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/requiredVars}}) {
+  public {{classname}}({{#requiredVars}}{{>nullableArgument_constructor}} {{name}}{{^-last}}, {{/-last}}{{/requiredVars}}) {
     {{#parent}}
     super({{#parentRequiredVars}}{{name}}{{^-last}}, {{/-last}}{{/parentRequiredVars}});
     {{/parent}}
@@ -131,7 +135,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   /**
    * Constructor with all args parameters
    */
-  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{>nullableAnnotation}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
+  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{>nullableArgument_constructor}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
   {{#parent}}
       super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});
   {{/parent}}
@@ -150,7 +154,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{^lombok.Data}}
 
   {{! begin feature: fluent setter methods }}
-  public {{classname}} {{name}}({{>nullableAnnotation}}{{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{>nullableArgument_chainSetter}} {{name}}) {
     {{#openApiNullable}}
     this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.of{{#optionalAcceptNullable}}Nullable{{/optionalAcceptNullable}}({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
     {{/openApiNullable}}
@@ -163,7 +167,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
 
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
-    if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
+    if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent() || this.{{name}}.get() == null{{/isNullable}}) {
       this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}}{{#isNullable}}){{/isNullable}};
     }
     this.{{name}}{{#isNullable}}.get(){{/isNullable}}.add({{name}}Item);
@@ -181,7 +185,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
 
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
-    if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
+    if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent() || this.{{name}}.get() == null{{/isNullable}}) {
       this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}HashMap{{/uniqueItems}}<>(){{/defaultValue}}{{#isNullable}}){{/isNullable}};
     }
     this.{{name}}{{#isNullable}}.get(){{/isNullable}}.put(key, {{name}}Item);
@@ -224,10 +228,10 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{>beanValidation}}{{! prevent indent}}
   {{/useBeanValidation}}
   {{^useBeanValidation}}
-  {{#required}}@NotNull{{/required}}
+  {{#lambda.trim}}{{>notNull}}{{/lambda.trim}}
   {{/useBeanValidation}}
   {{#swagger2AnnotationLibrary}}
-  @Schema(name = "{{{baseName}}}"{{#isReadOnly}}, accessMode = Schema.AccessMode.READ_ONLY{{/isReadOnly}}{{#example}}, example = "{{{.}}}"{{/example}}{{#description}}, description = "{{{.}}}"{{/description}}{{#deprecated}}, deprecated = true{{/deprecated}}, requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}})
+  @Schema(name = "{{{baseName}}}"{{#isReadOnly}}, accessMode = Schema.AccessMode.READ_ONLY{{/isReadOnly}}{{#example}}, example = "{{{.}}}"{{/example}}{{#description}}, description = "{{{.}}}"{{/description}}{{#deprecated}}, deprecated = true{{/deprecated}}, requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}}{{#isNullable}}, nullable = true{{/isNullable}})
   {{/swagger2AnnotationLibrary}}
   {{#swagger1AnnotationLibrary}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
@@ -249,11 +253,6 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}
-  {{#jackson}}
-  {{#vendorExtensions.x-has-json-setter-nulls-skip}}
-  @JsonSetter(nulls = Nulls.SKIP)
-  {{/vendorExtensions.x-has-json-setter-nulls-skip}}
-  {{/jackson}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
@@ -345,7 +344,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString({{>nullableAnnotation}}Object o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   {{/lombok.ToString}}

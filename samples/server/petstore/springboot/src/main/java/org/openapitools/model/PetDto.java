@@ -32,7 +32,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class PetDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -41,8 +41,10 @@ public class PetDto {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable CategoryDto category;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -50,7 +52,9 @@ public class PetDto {
 
   /**
    * pet status in the store
+   * @deprecated deprecated
    */
+  @Deprecated
   public enum StatusEnum implements ValuedEnum<String> {
     AVAILABLE("available"),
     
@@ -211,7 +215,7 @@ public class PetDto {
    * Get tags
    * @return tags
    */
-  @Valid 
+  
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   public List<@Valid TagDto> getTags() {

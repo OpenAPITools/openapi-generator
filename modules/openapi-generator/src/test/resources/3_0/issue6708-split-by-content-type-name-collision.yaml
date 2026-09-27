@@ -1,0 +1,42 @@
+openapi: 3.0.1
+info:
+  title: merged operation name collides with an imported model (issue 6708)
+  version: 1.0.0
+paths:
+  /reports:
+    post:
+      operationId: createReport
+      tags: [report]
+      requestBody:
+        content:
+          # the operation's request interface would be named CreateReportRequest, like this model
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReportRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/CreateReportXmlRequest'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+components:
+  schemas:
+    CreateReportRequest:
+      type: object
+      properties:
+        title:
+          type: string
+    CreateReportXmlRequest:
+      type: object
+      properties:
+        titleXml:
+          type: string
+    Report:
+      type: object
+      properties:
+        id:
+          type: string

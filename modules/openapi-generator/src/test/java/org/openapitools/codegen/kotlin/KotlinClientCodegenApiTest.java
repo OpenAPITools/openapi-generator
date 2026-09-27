@@ -103,6 +103,23 @@ public class KotlinClientCodegenApiTest {
     }
 
     @Test
+    public void testOptionalParamsHaveDefaultNullJvmKtor() throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/kotlin/petstore.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_KTOR);
+
+        ClientOptInput input = createClientOptInput(openAPI, codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(input).generate();
+        File petApi = files.stream().filter(file -> file.getName().equals("PetApi.kt")).findAny().orElseThrow();
+
+        assertFileContains(petApi.toPath(), "apiKey: kotlin.String? = null");
+    }
+
+    @Test
     public void testEnumDefaultForReferencedSchemaParameterJvmOkhttp4() throws IOException {
         OpenAPI openAPI = readOpenAPI("3_0/kotlin/enum-default-query.yaml");
 
@@ -118,6 +135,30 @@ public class KotlinClientCodegenApiTest {
         File statusApi = files.stream().filter(file -> file.getName().equals("StatusApi.kt")).findAny().orElseThrow();
 
         assertFileContains(statusApi.toPath(), "state: PetStatus? = PetStatus.AVAILABLE");
+    }
+
+    @DataProvider(name = "librariesWithPlainInlineEnumParams")
+    public static Object[][] librariesWithPlainInlineEnumParams() {
+        return new Object[][]{
+                {ClientLibrary.JVM_KTOR},
+                {ClientLibrary.JVM_VOLLEY}
+        };
+    }
+
+    @Test(dataProvider = "librariesWithPlainInlineEnumParams")
+    public void testInlineEnumArrayDefaultUsesItemValues_24851(ClientLibrary library) throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/kotlin/issue24851-enum-array-default-query.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(library);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+
+        assertFileContains(defaultApi.toPath(), "colors: kotlin.collections.Set<kotlin.String>? = setOf(\"red\",\"blue\")");
+        assertFileContains(defaultApi.toPath(), "sizes: kotlin.collections.List<kotlin.Int>? = arrayListOf(2)");
+        assertFileContains(defaultApi.toPath(), "refColors: kotlin.collections.List<Color>? = arrayListOf(Color.RED)");
     }
 
     @Test(dataProvider = "clientLibraries")

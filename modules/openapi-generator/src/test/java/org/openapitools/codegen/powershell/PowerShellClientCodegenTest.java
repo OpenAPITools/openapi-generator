@@ -96,4 +96,34 @@ public class PowerShellClientCodegenTest {
                 "$JsonParameters.PSobject.Properties[\"$dollarValue$\"]",
                 "-match \"$dollarValue$\"");
     }
+
+    @Test
+    public void pathParametersAreEscaped() throws IOException {
+        File output = Files.createTempDirectory("test-powershell-24602").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        PowerShellClientCodegen codegen = new PowerShellClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        java.nio.file.Path petApi = Paths.get(outputPath + "/src/PSOpenAPITools/Api/PetApi.ps1");
+
+        assertFileContains(petApi, "$LocalVarUri.replace('{petId}', [System.Uri]::EscapeDataString([string]$PetId))");
+    }
 }

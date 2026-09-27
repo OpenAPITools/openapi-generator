@@ -1,0 +1,11 @@
+    setattr(
+        to_dict,
+        _OPENAPI_GENERATOR_TO_DICT,
+        __openapi_generator_modern_projection,
+    )
+    setattr(
+        __openapi_generator_modern_projection,
+        _OPENAPI_GENERATOR_TO_DICT,
+        to_dict,
+    )
+    del __openapi_generator_modern_projection

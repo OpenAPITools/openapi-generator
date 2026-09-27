@@ -189,7 +189,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (color.IsSet && color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class GmFruit.");
+                throw new JsonException("Property is not nullable for class GmFruit: color.");
 
             Option<Apple?> appleParsedValue = apple == null
                 ? default
@@ -238,7 +238,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
         {
             if (gmFruit.ColorOption.IsSet && gmFruit.Color == null)
-                throw new ArgumentNullException(nameof(gmFruit.Color), "Property is required for class GmFruit.");
+                throw new JsonException("Cannot write null property GmFruit.Color to non-nullable JSON property 'color'.");
 
             if (gmFruit.ColorOption.IsSet)
                 writer.WriteString("color", gmFruit.Color);

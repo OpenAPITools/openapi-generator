@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface ClassModel {
     /**
      * 
-     * @type {string}
-     * @memberof ClassModel
      */
     _class?: string;
 }

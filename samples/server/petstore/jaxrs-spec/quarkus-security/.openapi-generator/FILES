@@ -6,6 +6,8 @@ src/gen/java/org/openapitools/api/AdminOrUserApi.java
 src/gen/java/org/openapitools/api/AnonymousOrAuthenticatedApi.java
 src/gen/java/org/openapitools/api/AuthenticatedApi.java
 src/gen/java/org/openapitools/api/PublicApi.java
+src/gen/java/org/openapitools/api/RestApplication.java
+src/gen/java/org/openapitools/api/RestResourceRoot.java
 src/main/docker/Dockerfile.jvm
 src/main/docker/Dockerfile.native
 src/main/resources/META-INF/openapi.yaml

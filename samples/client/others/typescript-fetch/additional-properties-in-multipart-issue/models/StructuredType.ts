@@ -21,8 +21,6 @@ import { mapValues } from '../runtime';
 export interface StructuredType {
     /**
      * 
-     * @type {string}
-     * @memberof StructuredType
      */
     someString?: string;
 }

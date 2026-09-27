@@ -8,11 +8,11 @@
 import Foundation
 
 internal enum OuterEnum: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
-    /// Description for placed
+    /** Description for placed */
     case placed = "placed"
-    /// Description for approved
+    /** Description for approved */
     case approved = "approved"
-    /// Description for delivered
+    /** Description for delivered */
     case delivered = "delivered"
     case unknownDefaultOpenApi = "unknown_default_open_api"
 }

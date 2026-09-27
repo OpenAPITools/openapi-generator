@@ -14,5 +14,7 @@ src/main/scala/org/openapitools/client/model/ApiResponse.scala
 src/main/scala/org/openapitools/client/model/Category.scala
 src/main/scala/org/openapitools/client/model/Order.scala
 src/main/scala/org/openapitools/client/model/Pet.scala
+src/main/scala/org/openapitools/client/model/PetColor.scala
+src/main/scala/org/openapitools/client/model/PetStatus.scala
 src/main/scala/org/openapitools/client/model/Tag.scala
 src/main/scala/org/openapitools/client/model/User.scala

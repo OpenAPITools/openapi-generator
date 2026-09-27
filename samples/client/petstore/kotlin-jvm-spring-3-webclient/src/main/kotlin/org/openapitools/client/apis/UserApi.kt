@@ -69,6 +69,7 @@ open class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         val params = mutableMapOf<String, Any>(
         )
 
@@ -104,6 +105,7 @@ open class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         val params = mutableMapOf<String, Any>(
         )
 
@@ -139,6 +141,7 @@ open class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         val params = mutableMapOf<String, Any>(
         )
 
@@ -173,6 +176,7 @@ open class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         val params = mutableMapOf<String, Any>(
             "username" to username,
         )
@@ -283,6 +287,7 @@ open class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+
         val params = mutableMapOf<String, Any>(
         )
 
@@ -318,6 +323,7 @@ open class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+
         val params = mutableMapOf<String, Any>(
             "username" to username,
         )

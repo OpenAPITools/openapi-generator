@@ -74,8 +74,7 @@ class InputAllOf(BaseModel):
         _field_dict = {}
         if self.some_data:
             for _key_some_data in self.some_data:
-                if self.some_data[_key_some_data]:
-                    _field_dict[_key_some_data] = self.some_data[_key_some_data].to_dict()
+                _field_dict[_key_some_data] = self.some_data[_key_some_data].to_dict() if self.some_data[_key_some_data] is not None else None
             _dict['some_data'] = _field_dict
         return _dict
 

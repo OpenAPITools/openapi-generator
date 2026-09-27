@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface DashedOptionTwo {
     /**
      * 
-     * @type {DashedOptionTwoDiscriminatorFieldEnum}
-     * @memberof DashedOptionTwo
      */
     discriminatorField: DashedOptionTwoDiscriminatorFieldEnum;
     /**
      * 
-     * @type {string}
-     * @memberof DashedOptionTwo
      */
     someProperty: string;
 }
@@ -38,7 +34,7 @@ export interface DashedOptionTwo {
  * @export
  */
 export const DashedOptionTwoDiscriminatorFieldEnum = {
-    DashedOptionTwo: 'dashedOptionTwo'
+    DashedOptionTwo: 'dashedOptionTwo',
 } as const;
 export type DashedOptionTwoDiscriminatorFieldEnum = typeof DashedOptionTwoDiscriminatorFieldEnum[keyof typeof DashedOptionTwoDiscriminatorFieldEnum];
 
@@ -47,10 +43,10 @@ export type DashedOptionTwoDiscriminatorFieldEnum = typeof DashedOptionTwoDiscri
  * Check if a given object implements the DashedOptionTwo interface.
  */
 export function instanceOfDashedOptionTwo(value: object): value is DashedOptionTwo {
-    if ((!('discriminatorField' in value) && !('discriminator-field' in value)) || (value['discriminatorField'] === undefined && value['discriminator-field'] === undefined)) return false;
-    if (value['discriminatorField'] !== 'dashedOptionTwo' && value['discriminator-field'] !== 'dashedOptionTwo') return false;
+    if ((!('discriminatorField' in (value as Record<string, any>)) && !('discriminator-field' in (value as Record<string, any>))) || ((value as Record<string, any>)['discriminatorField'] === undefined && (value as Record<string, any>)['discriminator-field'] === undefined)) return false;
+    if ((value as Record<string, any>)['discriminatorField'] !== 'dashedOptionTwo' && (value as Record<string, any>)['discriminator-field'] !== 'dashedOptionTwo') return false;
     
-    if ((!('someProperty' in value) && !('some-property' in value)) || (value['someProperty'] === undefined && value['some-property'] === undefined)) return false;
+    if ((!('someProperty' in (value as Record<string, any>)) && !('some-property' in (value as Record<string, any>))) || ((value as Record<string, any>)['someProperty'] === undefined && (value as Record<string, any>)['some-property'] === undefined)) return false;
     return true;
 }
 

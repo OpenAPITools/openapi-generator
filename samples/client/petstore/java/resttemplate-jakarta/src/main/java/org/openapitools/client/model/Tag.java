@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   Tag.JSON_PROPERTY_ID,
   Tag.JSON_PROPERTY_NAME
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Tag {
   public static final String JSON_PROPERTY_ID = "id";
   @jakarta.annotation.Nullable
@@ -47,7 +47,7 @@ public class Tag {
   /**
    * Constructor with all args parameters
    */
-  public Tag(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_NAME) String name) {
+  public Tag(@JsonProperty(JSON_PROPERTY_ID) @jakarta.annotation.Nullable Long id, @JsonProperty(JSON_PROPERTY_NAME) @jakarta.annotation.Nullable String name) {
     this.id = id;
     this.name = name;
   }

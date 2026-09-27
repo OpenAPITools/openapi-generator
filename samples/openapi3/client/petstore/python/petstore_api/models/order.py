@@ -17,21 +17,23 @@ import pprint
 import re  # noqa: F401
 import json
 
+from collections.abc import Mapping as _Mapping
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictBool, StrictInt, StrictStr, field_validator, model_validator as _model_validator
+from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
+from typing import TYPE_CHECKING
 
 class Order(BaseModel):
     """
     Order
     """ # noqa: E501
     id: Optional[StrictInt] = None
-    pet_id: Optional[StrictInt] = Field(default=None, alias="petId")
-    quantity: Optional[StrictInt] = None
-    ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
+    pet_id: Optional[StrictInt] = Field(default=None, validation_alias=AliasChoices("petId", "pet_id"), serialization_alias="petId", alias="petId")
+    var_field_validator: Optional[StrictInt] = Field(default=None, validation_alias=AliasChoices("quantity", "_field_validator"), serialization_alias="quantity", alias="_field_validator")
+    var_datetime: Optional[datetime] = Field(default=None, validation_alias=AliasChoices("shipDate", "datetime"), serialization_alias="shipDate", alias="datetime")
     status: Optional[StrictStr] = Field(default=None, description="Order Status")
     complete: Optional[StrictBool] = False
     additional_properties: Dict[str, Any] = {}
@@ -46,6 +48,68 @@ class Order(BaseModel):
         if value not in set(['placed', 'approved', 'delivered']):
             raise ValueError("must be one of enum values ('placed', 'approved', 'delivered')")
         return value
+
+    @classmethod
+    def __preprocess_input_names(
+        cls,
+        obj: Any,
+        remove_hidden_storage_names: bool = True,
+    ) -> Any:
+        if not isinstance(obj, _Mapping):
+            return obj
+        obj = dict(obj)
+        if "petId" not in obj and "pet_id" in obj:
+            obj["petId"] = obj["pet_id"]
+        obj.pop("pet_id", None)
+        if (
+            "quantity" in obj
+            and "_field_validator" in obj
+        ):
+            raise ValueError(
+                "%s received both %r and %r"
+                % (
+                    cls.__name__,
+                    "quantity",
+                    "_field_validator",
+                )
+            )
+        if "quantity" not in obj and "_field_validator" in obj:
+            obj["quantity"] = obj["_field_validator"]
+        obj.pop("_field_validator", None)
+        if (
+            "shipDate" in obj
+            and "datetime" in obj
+        ):
+            raise ValueError(
+                "%s received both %r and %r"
+                % (
+                    cls.__name__,
+                    "shipDate",
+                    "datetime",
+                )
+            )
+        if "shipDate" not in obj and "datetime" in obj:
+            obj["shipDate"] = obj["datetime"]
+        obj.pop("datetime", None)
+        if remove_hidden_storage_names:
+            obj.pop("var_field_validator", None)
+            obj.pop("var_datetime", None)
+        return obj
+
+    # Pydantic passes the model instance to wrap validators during assignment:
+    # https://docs.pydantic.dev/2.11/migration/#changes-to-validators
+    # Private names also keep inherited model validators distinct:
+    # https://docs.pydantic.dev/2.11/concepts/validators/#on-inheritance
+    @_model_validator(mode="wrap")
+    @classmethod
+    def __validate_input_names(
+        cls,
+        obj: Any,
+        handler: _ModelWrapValidatorHandler[Self],
+    ) -> Self:
+        if not isinstance(obj, cls):
+            obj = cls.__preprocess_input_names(obj)
+        return handler(obj)
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -104,6 +168,14 @@ class Order(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        obj = _cast(
+            Dict[str, Any],
+            cls.__preprocess_input_names(
+                obj,
+                remove_hidden_storage_names=True,
+            ),
+        )
+
         _obj = cls.model_validate({
             "id": obj.get("id"),
             "petId": obj.get("petId"),
@@ -119,4 +191,53 @@ class Order(BaseModel):
 
         return _obj
 
+    if TYPE_CHECKING:
+
+        @property
+        def _field_validator(self) -> _Order_var_field_validator_public_type:
+            return self.var_field_validator
+
+        @_field_validator.setter
+        def _field_validator(self, value: _Order_var_field_validator_public_type) -> None:
+            self.var_field_validator = value
+
+        @property
+        def datetime(self) -> _Order_var_datetime_public_type:
+            return self.var_datetime
+
+        @datetime.setter
+        def datetime(self, value: _Order_var_datetime_public_type) -> None:
+            self.var_datetime = value
+
+
+if TYPE_CHECKING:
+    _Order_var_field_validator_public_type = Optional[StrictInt]
+    _Order_var_datetime_public_type = Optional[datetime]
+
+# Install forwarding properties after Pydantic has consumed the class
+# namespace and resolved any postponed model annotations.
+setattr(
+    Order,
+    "_field_validator",
+    property(
+        lambda self: self.var_field_validator,
+        lambda self, value: setattr(
+            self,
+            "var_field_validator",
+            value,
+        ),
+    ),
+)
+setattr(
+    Order,
+    "datetime",
+    property(
+        lambda self: self.var_datetime,
+        lambda self, value: setattr(
+            self,
+            "var_datetime",
+            value,
+        ),
+    ),
+)
 

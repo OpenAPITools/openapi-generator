@@ -58,9 +58,9 @@ std::string CreditCard::CardTypeEnumToString(CreditCard::CardTypeEnum value)
     switch (value)
     {
         case CardTypeEnum::UNSPECIFIED: return "UNSPECIFIED";
-        case CardTypeEnum::VISA: return "VISA";
-        case CardTypeEnum::MASTERCARD: return "MASTERCARD";
-        case CardTypeEnum::AMEX: return "AMEX";
+        case CardTypeEnum::VISA: return "visa";
+        case CardTypeEnum::MASTERCARD: return "mastercard";
+        case CardTypeEnum::AMEX: return "amex";
         default: return {};
     }
 }
@@ -71,15 +71,15 @@ CreditCard::CardTypeEnum CreditCard::CardTypeEnumFromString(const std::string& s
     {
         return CardTypeEnum::UNSPECIFIED;
     }
-    if (str == "VISA")
+    if (str == "visa")
     {
         return CardTypeEnum::VISA;
     }
-    if (str == "MASTERCARD")
+    if (str == "mastercard")
     {
         return CardTypeEnum::MASTERCARD;
     }
-    if (str == "AMEX")
+    if (str == "amex")
     {
         return CardTypeEnum::AMEX;
     }

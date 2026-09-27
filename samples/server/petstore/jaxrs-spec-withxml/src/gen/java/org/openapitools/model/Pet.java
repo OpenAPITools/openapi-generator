@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 @JsonTypeName("Pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "Pet", propOrder =
     { "id", "category", "name", "photoUrls", "tags", "status"
     })
@@ -43,8 +43,8 @@ public class Pet  implements Serializable {
   private Long id;
   private Category category;
   private String name;
-  private @Valid Set<String> photoUrls = new LinkedHashSet<>();
-  private @Valid List<@Valid Tag> tags = new ArrayList<>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
+  private List<@Valid Tag> tags = new ArrayList<>();
   @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
 public enum StatusEnum {
@@ -225,7 +225,7 @@ public enum StatusEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
-  @Valid public List<@Valid Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 

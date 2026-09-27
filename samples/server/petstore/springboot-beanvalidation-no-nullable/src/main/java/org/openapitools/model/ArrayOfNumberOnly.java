@@ -25,10 +25,11 @@ import jakarta.annotation.Generated;
  * ArrayOfNumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ArrayOfNumberOnly {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
@@ -48,14 +49,13 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
    */
-  @Valid 
+  
   @Schema(name = "ArrayNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("ArrayNumber")
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;

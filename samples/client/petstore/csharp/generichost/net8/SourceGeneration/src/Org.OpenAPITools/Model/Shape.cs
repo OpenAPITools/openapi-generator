@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
         /// <param name="triangle"></param>
-        public Shape(Triangle triangle)
+        internal Shape(Triangle triangle)
         {
             Triangle = triangle;
             OnCreated();
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
         /// <param name="quadrilateral"></param>
-        public Shape(Quadrilateral quadrilateral)
+        internal Shape(Quadrilateral quadrilateral)
         {
             Quadrilateral = quadrilateral;
             OnCreated();
@@ -196,10 +196,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class Shape.", nameof(shapeType));
+                throw new JsonException("Property is required for class Shape: shapeType.");
 
             if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class Shape.");
+                throw new JsonException("Property is not nullable for class Shape: shapeType.");
 
             if (quadrilateral != null)
                 return new Shape(quadrilateral);

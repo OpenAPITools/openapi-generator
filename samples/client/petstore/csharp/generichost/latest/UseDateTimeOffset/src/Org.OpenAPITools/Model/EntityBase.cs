@@ -146,10 +146,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!schema.IsSet)
-                throw new ArgumentException("Property is required for class EntityBase.", nameof(schema));
+                throw new JsonException("Property is required for class EntityBase: $schema.");
 
             if (schema.IsSet && schema.Value == null)
-                throw new ArgumentNullException(nameof(schema), "Property is not nullable for class EntityBase.");
+                throw new JsonException("Property is not nullable for class EntityBase: $schema.");
 
             return new EntityBase();
         }

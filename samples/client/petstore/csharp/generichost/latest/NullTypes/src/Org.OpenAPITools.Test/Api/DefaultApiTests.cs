@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Test.Api
             long id = default!;
             var response = await _instance.GetWidgetAsync(id);
             var model = response.Ok();
-            Assert.IsType<Widget>(model);
+            Assert.IsType<Org.OpenAPITools.Model.Widget>(model);
         }
     }
 }

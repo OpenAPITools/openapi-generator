@@ -79,15 +79,16 @@ class TestPetApiTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(headers_overwritten['Accept'], 'text/plain')
 
     
-    def test_separate_default_client_instances(self):
-        pet_api = petstore_api.PetApi()
-        pet_api2 = petstore_api.PetApi()
-        self.assertEqual(id(pet_api.api_client), id(pet_api2.api_client))
+    async def test_separate_default_client_instances(self):
+        async with petstore_api.PetApi() as pet_api, petstore_api.PetApi() as pet_api2:
+            self.assertIsNot(pet_api.api_client, pet_api2.api_client)
 
-    def test_separate_default_config_instances(self):
-        pet_api = petstore_api.PetApi()
-        pet_api2 = petstore_api.PetApi()
-        self.assertEqual(id(pet_api.api_client.configuration), id(pet_api2.api_client.configuration))
+    async def test_separate_default_config_instances(self):
+        async with petstore_api.PetApi() as pet_api, petstore_api.PetApi() as pet_api2:
+            self.assertIsNot(
+                pet_api.api_client.configuration,
+                pet_api2.api_client.configuration,
+            )
 
     async def test_async_with_result(self):
         await self.pet_api.add_pet(self.pet)

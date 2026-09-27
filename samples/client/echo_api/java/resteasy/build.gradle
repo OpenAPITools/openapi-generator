@@ -19,6 +19,18 @@ repositories {
 }
 
 
+ext {
+    swagger_annotations_version = "1.6.3"
+    jackson_version = "2.21.5"
+    jackson_databind_version = "2.21.5"
+    jackson_databind_nullable_version = "0.2.11"
+    jakarta_annotation_version = "1.3.5"
+    threetenbp_version = "2.9.10"
+    resteasy_version = "4.5.11.Final"
+    assertj_version = "3.23.1"
+    junit_version = "5.10.2"
+}
+
 if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
@@ -78,8 +90,10 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     publishing {
         publications {
@@ -91,21 +105,9 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
+       mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
-}
-
-ext {
-    swagger_annotations_version = "1.6.3"
-    jackson_version = "2.19.2"
-    jackson_databind_version = "2.19.2"
-    jackson_databind_nullable_version = "0.2.10"
-    jakarta_annotation_version = "1.3.5"
-    threetenbp_version = "2.9.10"
-    resteasy_version = "4.5.11.Final"
-    assertj_version = "3.23.1"
-    junit_version = "5.10.2"
 }
 
 dependencies {

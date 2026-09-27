@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   @javax.annotation.Nullable
@@ -57,7 +57,7 @@ public class ReadOnlyFirst {
   /**
    * Constructor with all args parameters
    */
-  public ReadOnlyFirst(@JsonProperty(JSON_PROPERTY_BAR) String bar, @JsonProperty(JSON_PROPERTY_BAZ) String baz) {
+  public ReadOnlyFirst(@JsonProperty(JSON_PROPERTY_BAR) @javax.annotation.Nullable String bar, @JsonProperty(JSON_PROPERTY_BAZ) @javax.annotation.Nullable String baz) {
     this.bar = bar;
     this.baz = baz;
   }

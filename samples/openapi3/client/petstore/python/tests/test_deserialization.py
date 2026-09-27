@@ -251,10 +251,65 @@ class DeserializationTests(unittest.TestCase):
         deserialized = self.deserialize(response, "datetime", 'application/json')
         self.assertIsNone(deserialized)
 
+    def test_deserialize_optional_dict_str_object(self):
+        """ deserialize Dict[str, Optional[object]] """
+        data = {
+            "foo": 1,
+            "bar": None
+        }
+        response = json.dumps(data)
+
+        deserialized = self.deserialize(response, "Dict[str, Optional[object]]", 'application/json')
+        self.assertEqual(deserialized, {"foo": 1, "bar": None})
+
+    def test_deserialize_optional_pet(self):
+        """ deserialize Optional[Pet] """
+        data = {
+            "id": 0,
+            "category": {
+                "id": 0,
+                "name": "string"
+            },
+            "name": "doggie",
+            "photoUrls": [
+                "string"
+            ],
+            "tags": [
+                {
+                    "id": 0,
+                    "name": "string"
+                }
+            ],
+            "status": "available"
+        }
+        response = json.dumps(data)
+
+        deserialized = self.deserialize(response, "Optional[Pet]", 'application/json')
+        self.assertTrue(isinstance(deserialized, petstore_api.Pet))
+        self.assertEqual(deserialized.id, 0)
+        self.assertEqual(deserialized.name, "doggie")
+
+    def test_deserialize_optional_list_of_str(self):
+        """ deserialize Optional[List[str]] """
+        data = ["foo", "bar"]
+        response = json.dumps(data)
+
+        deserialized = self.deserialize(response, "Optional[List[str]]", 'application/json')
+        self.assertEqual(deserialized, ["foo", "bar"])
+
+    def test_deserialize_optional_none(self):
+        """ deserialize Optional[Pet] when the body is null """
+        response = json.dumps(None)
+
+        deserialized = self.deserialize(response, "Optional[Pet]", 'application/json')
+        self.assertIsNone(deserialized)
+
     def test_deserialize_pig(self):
         """ deserialize pig (oneOf) """
+        wire_name = """class'"\\Name"""
+        mapping_value = """basque'"\\pig\nkind"""
         data = {
-            "className": "BasqueBig",
+            wire_name: mapping_value,
             "color": "white"
         }
 
@@ -262,7 +317,7 @@ class DeserializationTests(unittest.TestCase):
         deserialized = self.deserialize(response, "Pig", 'application/json')
         self.assertTrue(isinstance(deserialized.actual_instance,
                                    petstore_api.BasquePig))
-        self.assertEqual(deserialized.actual_instance.class_name, "BasqueBig")
+        self.assertEqual(deserialized.actual_instance.class_name, mapping_value)
         self.assertEqual(deserialized.actual_instance.color, "white")
 
     def test_deserialize_animal(self):
@@ -289,7 +344,7 @@ class DeserializationTests(unittest.TestCase):
 
         deserialized = self.deserialize(response, "Animal", 'application/json')
         self.assertTrue(isinstance(deserialized, petstore_api.Cat))
-        self.assertEqual(deserialized.class_name, "Cat")
+        self.assertEqual(deserialized._class_name, "Cat")
         self.assertEqual(deserialized.declawed, True)
         self.assertEqual(deserialized.to_json(), '{"className": "Cat", "color": "red", "declawed": true}')
 
@@ -303,7 +358,7 @@ class DeserializationTests(unittest.TestCase):
             self.assertTrue(False)
             return
 
-        self.assertEqual(deserialized.class_name, "Cat")
+        self.assertEqual(deserialized._class_name, "Cat")
         self.assertEqual(deserialized.declawed, True)
         self.assertEqual(deserialized.to_json(), '{"className": "Cat", "color": "red", "declawed": true}')
 

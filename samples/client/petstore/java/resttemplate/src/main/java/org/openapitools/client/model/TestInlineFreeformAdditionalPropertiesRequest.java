@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   @javax.annotation.Nullable
@@ -47,7 +47,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
   /**
    * Constructor with all args parameters
    */
-  public TestInlineFreeformAdditionalPropertiesRequest(@JsonProperty(JSON_PROPERTY_SOME_PROPERTY) String someProperty) {
+  public TestInlineFreeformAdditionalPropertiesRequest(@JsonProperty(JSON_PROPERTY_SOME_PROPERTY) @javax.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
   }
 

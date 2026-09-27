@@ -28,18 +28,44 @@ case class Pet(
 object Pet {
   import io.circe._
   import io.circe.syntax._
-  import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[Pet] = deriveEncoder
-  implicit val decoder: Decoder[Pet] = deriveDecoder
+  implicit val encoder: Encoder[Pet] = Encoder.instance { t =>
+    Json.fromFields(
+      Seq(
+        t.id.map(v => "id" -> v.asJson),
+        t.category.map(v => "category" -> v.asJson),
+        Some("name" -> t.name.asJson),
+        Some("photoUrls" -> t.photoUrls.asJson),
+        t.tags.map(v => "tags" -> v.asJson),
+        t.status.map(v => "status" -> v.asJson)
+      ).flatten
+    )
+  }
+  implicit val decoder: Decoder[Pet] = Decoder.instance { c =>
+    for {
+      id <- c.downField("id").as[Option[Long]]
+      category <- c.downField("category").as[Option[Category]]
+      name <- c.downField("name").as[String]
+      photoUrls <- c.downField("photoUrls").as[Seq[String]]
+      tags <- c.downField("tags").as[Option[Seq[Tag]]]
+      status <- c.downField("status").as[Option[PetEnums.Status]]
+    } yield Pet(
+      id = id,
+      category = category,
+      name = name,
+      photoUrls = photoUrls,
+      tags = tags,
+      status = status
+    )
+  }
 }
 object PetEnums {
 
   sealed trait Status
   object Status {
-    case object Available extends Status
-    case object Pending extends Status
-    case object Sold extends Status
+    case object Available extends Status { override def toString: String = "available" }
+    case object Pending extends Status { override def toString: String = "pending" }
+    case object Sold extends Status { override def toString: String = "sold" }
 
     import io.circe.{Encoder, Decoder}
 

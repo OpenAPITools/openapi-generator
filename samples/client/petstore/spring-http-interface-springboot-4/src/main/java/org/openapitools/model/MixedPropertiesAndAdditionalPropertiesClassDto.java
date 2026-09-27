@@ -29,18 +29,21 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClassDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable UUID uuid;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dateTime;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private Map<String, AnimalDto> map = new HashMap<>();
+  @JsonSetter(nulls = Nulls.SKIP)
+  private Map<String, @Valid AnimalDto> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClassDto uuid(@Nullable UUID uuid) {
     this.uuid = uuid;
@@ -57,7 +60,6 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return uuid;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("uuid")
   public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
@@ -78,13 +80,12 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return dateTime;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("dateTime")
   public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClassDto map(Map<String, AnimalDto> map) {
+  public MixedPropertiesAndAdditionalPropertiesClassDto map(Map<String, @Valid AnimalDto> map) {
     this.map = map;
     return this;
   }
@@ -101,15 +102,14 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * Get map
    * @return map
    */
-  @Valid 
+  
   @JsonProperty("map")
-  public Map<String, AnimalDto> getMap() {
+  public Map<String, @Valid AnimalDto> getMap() {
     return map;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("map")
-  public void setMap(Map<String, AnimalDto> map) {
+  public void setMap(Map<String, @Valid AnimalDto> map) {
     this.map = map;
   }
 

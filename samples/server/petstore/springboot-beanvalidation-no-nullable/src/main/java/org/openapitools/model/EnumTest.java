@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class EnumTest {
 
   /**
@@ -66,6 +66,7 @@ public class EnumTest {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable EnumStringEnum enumString;
 
   /**
@@ -105,6 +106,7 @@ public class EnumTest {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -143,6 +145,7 @@ public class EnumTest {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable EnumIntegerEnum enumInteger;
 
   /**
@@ -181,9 +184,11 @@ public class EnumTest {
   }
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable EnumNumberEnum enumNumber;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable OuterEnum outerEnum;
 
   public EnumTest() {
@@ -213,7 +218,6 @@ public class EnumTest {
     return enumString;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("enum_string")
   public void setEnumString(@Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -256,7 +260,6 @@ public class EnumTest {
     return enumInteger;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("enum_integer")
   public void setEnumInteger(@Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
@@ -278,7 +281,6 @@ public class EnumTest {
     return enumNumber;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("enum_number")
   public void setEnumNumber(@Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
@@ -300,7 +302,6 @@ public class EnumTest {
     return outerEnum;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("outerEnum")
   public void setOuterEnum(@Nullable OuterEnum outerEnum) {
     this.outerEnum = outerEnum;

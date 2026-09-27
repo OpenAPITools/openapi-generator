@@ -27,7 +27,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -164,6 +164,24 @@ public class PetApi {
         @Override
         public int hashCode() {
             return Objects.hash(petId, apiKey);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class DeletePetRequest {\n");
+            sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
+            sb.append("    apiKey: ").append(toIndentedString(apiKey)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
         }
     }
 
@@ -371,9 +389,7 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return Set&lt;Pet&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-     * @deprecated
      */
-    @Deprecated
     private ResponseSpec findPetsByTagsRequestCreation(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'tags' is set
@@ -411,7 +427,9 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return Set&lt;Pet&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
+    @Deprecated
     public Set<Pet> findPetsByTags(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
         ParameterizedTypeReference<Set<Pet>> localVarReturnType = new ParameterizedTypeReference<>() {};
         return findPetsByTagsRequestCreation(tags).body(localVarReturnType);
@@ -425,7 +443,9 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return ResponseEntity&lt;Set&lt;Pet&gt;&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
+    @Deprecated
     public ResponseEntity<Set<Pet>> findPetsByTagsWithHttpInfo(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
         ParameterizedTypeReference<Set<Pet>> localVarReturnType = new ParameterizedTypeReference<>() {};
         return findPetsByTagsRequestCreation(tags).toEntity(localVarReturnType);
@@ -439,7 +459,9 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
+    @Deprecated
     public ResponseSpec findPetsByTagsWithResponseSpec(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
         return findPetsByTagsRequestCreation(tags);
     }
@@ -664,6 +686,25 @@ public class PetApi {
         public int hashCode() {
             return Objects.hash(petId, name, status);
         }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class UpdatePetWithFormRequest {\n");
+            sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
+            sb.append("    name: ").append(toIndentedString(name)).append("\n");
+            sb.append("    status: ").append(toIndentedString(status)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
+        }
     }
 
     /**
@@ -847,6 +888,25 @@ public class PetApi {
         public int hashCode() {
             return Objects.hash(petId, additionalMetadata, _file);
         }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class UploadFileRequest {\n");
+            sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
+            sb.append("    additionalMetadata: ").append(toIndentedString(additionalMetadata)).append("\n");
+            sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
+        }
     }
 
     /**
@@ -1029,6 +1089,25 @@ public class PetApi {
         @Override
         public int hashCode() {
             return Objects.hash(petId, requiredFile, additionalMetadata);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class UploadFileWithRequiredFileRequest {\n");
+            sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
+            sb.append("    requiredFile: ").append(toIndentedString(requiredFile)).append("\n");
+            sb.append("    additionalMetadata: ").append(toIndentedString(additionalMetadata)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
         }
     }
 

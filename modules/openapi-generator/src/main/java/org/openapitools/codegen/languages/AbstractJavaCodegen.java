@@ -30,7 +30,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -52,13 +51,13 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.EscapeJavaDocLambda;
 import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.lang.model.SourceVersion;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -75,9 +74,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES;
-import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.*;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -226,8 +225,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter
     protected boolean useJspecify;
     protected JSpecifyNullableLambda jSpecifyNullableLambda;
+    protected RemoveAnnotationLambda removeAnnotationLambda;
+
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
+
+    protected Map<String, String> typeInfoDefaultImpls = new HashMap<>();
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -303,6 +306,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         typeMapping.put("date", "Date");
         typeMapping.put("file", "File");
         typeMapping.put("AnyType", "Object");
+        typeMapping.put("null", "Object");
+        typeMapping.put("enum", "Enum");
 
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
@@ -707,9 +712,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             writer.write(content);
         });
-        additionalProperties.put("removeAnnotations", (Mustache.Lambda) (fragment, writer) -> {
-            writer.write(removeAnnotations(fragment.execute()));
-        });
+        this.removeAnnotationLambda = new RemoveAnnotationLambda();
+        additionalProperties.put("removeAnnotations", removeAnnotationLambda);
         additionalProperties.put("sanitizeDataType", (Mustache.Lambda) (fragment, writer) -> {
             writer.write(sanitizeDataType(fragment.execute()));
         });
@@ -746,6 +750,26 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             for (String modelName : objs.keySet()) {
                 Map<String, Object> models = objs.get(modelName);
                 models.put(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, additionalEnumTypeAnnotations);
+            }
+        }
+
+        // Resolve x-jackson-default-impl and typeInfoDefaultImpls into x-jackson-resolved-default-impl
+        // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
+        // and discriminator-based oneOf interfaces.
+        if (!typeInfoDefaultImpls.isEmpty() || allModels.values().stream()
+                .anyMatch(cm -> cm.vendorExtensions.containsKey(VendorExtension.X_JACKSON_DEFAULT_IMPL.getName()))) {
+            for (CodegenModel cm : allModels.values()) {
+                String resolved = JacksonDefaultImplResolver.resolve(
+                        typeInfoDefaultImpls, cm, this::toModelName, allModels.keySet(), LOGGER::warn);
+                if (resolved != null && !resolved.isBlank()) {
+                    cm.vendorExtensions.put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
+                    // When a discriminator is present, the typeInfoAnnotation partial is rendered
+                    // inside {{#discriminator}}, so the template engine resolves 'vendorExtensions'
+                    // against CodegenDiscriminator (not CodegenModel). Store there too.
+                    if (cm.discriminator != null) {
+                        cm.discriminator.getVendorExtensions().put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
+                    }
+                }
             }
         }
 
@@ -882,6 +906,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator),
                     "package-info.java"));
         }
+        // simplify mustache template for jspecify. @Nullable is kept
+        this.removeAnnotationLambda.keepAnnotation("@Nullable");
     }
 
     @Override
@@ -1097,7 +1123,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems(schema);
-            String typeDeclaration = getTypeDeclarationForArray(items);
+            String typeDeclaration = getTypeDeclarationWithBeanValidation(items);
             return getSchemaType(target) + "<" + typeDeclaration + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
@@ -1108,12 +1134,43 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 inner = new StringSchema().description("TODO default missing map inner type to string");
                 p.setAdditionalProperties(inner);
             }
-            return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
+            // Unlike arrays/sets, map values never received a type-argument bean
+            // validation before, so this is gated: only generators that have dropped the
+            // deprecated container-level @Valid (HV000271) opt in, to avoid silently adding
+            // new validation to generators that still cascade via the container.
+            String valueDeclaration = useBeanValidationOnMapValueType()
+                    ? getTypeDeclarationWithBeanValidation(inner)
+                    : getTypeDeclaration(inner);
+            return getSchemaType(target) + "<String, " + valueDeclaration + ">";
         }
         return super.getTypeDeclaration(target);
     }
 
-    private String getTypeDeclarationForArray(Schema<?> items) {
+    /**
+     * Whether bean validation of map values is expressed on the value type argument
+     * ({@code Map<String, @Valid V>}) instead of on the map itself. Generators that have migrated
+     * off the deprecated container-level {@code @Valid} (Hibernate Validator HV000271)
+     * override this to return {@code true}. Arrays/sets always place bean validation on the
+     * type argument, so they are not gated by this method.
+     *
+     * @return {@code true} to emit map-value bean validation on the type argument;
+     *         {@code false} by default
+     */
+    protected boolean useBeanValidationOnMapValueType() {
+        return false;
+    }
+
+    /**
+     * Renders the type declaration of a container element (array/set item or map value) with its
+     * bean validation applied to the type argument, e.g. {@code @Valid Pet} or
+     * {@code @Size(max = 3) String}. Hibernate Validator 9.1+ expects cascade/constraints on the
+     * type argument; a container-level {@code @Valid} is deprecated and logs HV000271, so the
+     * annotation is placed here instead of on the container.
+     *
+     * @param items the array/set item or map value schema
+     * @return the element type declaration prefixed with its bean validation (no prefix if none)
+     */
+    private String getTypeDeclarationWithBeanValidation(Schema<?> items) {
         String typeDeclaration = getTypeDeclaration(items);
 
         String beanValidation = getBeanValidation(items);
@@ -1137,11 +1194,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     /**
-     * This method stand for resolve bean validation for container(array, set).
+     * This method stand for resolve bean validation for a container element
+     * (array/set item or map value).
      * Return empty if there's no bean validation for requested type or prop useBeanValidation false or missed.
      *
      * @param items type
-     * @return BeanValidation for declared type in container(array, set)
+     * @return BeanValidation for declared element type of a container (array, set, map value)
      */
     private String getBeanValidation(Schema<?> items) {
         if (!isUseBeanValidation()) {
@@ -1158,7 +1216,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             String ref = ModelUtils.getSimpleRef(items.get$ref());
             if (ref != null) {
                 Schema<?> schema = schemas.get(ref);
-                if (schema == null || ModelUtils.isObjectSchema(schema)) {
+                // objects and oneOf/anyOf/allOf models cascade validation into their elements;
+                // a oneOf of constants generates an enum, which is not cascadable.
+                boolean composedModel = ModelUtils.isComposedSchema(schema)
+                        && !ModelUtils.isOneOfOfConsts(schema);
+                if (schema == null || ModelUtils.isObjectSchema(schema) || composedModel) {
                     return "@Valid ";
                 }
                 items = schema;
@@ -1502,92 +1564,153 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         } else if (ModelUtils.isObjectSchema(schema)) {
             if (schema.getDefault() != null) {
-                try {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append("new " + cp.datatypeWithEnum + "()");
-                    Map<String, Schema> propertySchemas = schema.getProperties();
-                    if(propertySchemas != null) {
-                        // With `parseOptions.setResolve(true)`, objects with 1 key-value pair are LinkedHashMap and objects with more than 1 are ObjectNode
-                        // When not set, objects of any size are ObjectNode
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        ObjectNode objectNode;
-                        if(!(schema.getDefault() instanceof ObjectNode)) {
-                            objectNode = objectMapper.valueToTree(schema.getDefault());
-                        } else {
-                            objectNode = (ObjectNode) schema.getDefault();
-
-                        }
-                        Set<Map.Entry<String, JsonNode>> defaultProperties = objectNode.properties();
-                        for (Map.Entry<String, JsonNode> defaultProperty : defaultProperties) {
-                            String key = defaultProperty.getKey();
-                            JsonNode value = defaultProperty.getValue();
-                            Schema propertySchema = propertySchemas.get(key);
-                            if (!value.isValueNode() || propertySchema == null) { //Skip complex objects for now
-                                continue;
-                            }
-
-                            String defaultPropertyExpression = null;
-                            if(ModelUtils.isLongSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText()+"l";
-                            } else if(ModelUtils.isIntegerSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText();
-                            } else if(ModelUtils.isDoubleSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText()+"d";
-                            } else if(ModelUtils.isFloatSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText()+"f";
-                            } else if(ModelUtils.isNumberSchema(propertySchema)) {
-                                defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
-                            } else if(ModelUtils.isURISchema(propertySchema)) {
-                                defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
-                            } else if(ModelUtils.isDateSchema(propertySchema)) {
-                                if("java8".equals(getDateLibrary())) {
-                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDate.parse(\"%s\")", value.asText());
-                                }
-                            } else if(ModelUtils.isDateTimeSchema(propertySchema)) {
-                                if("java8".equals(getDateLibrary())) {
-                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.OffsetDateTime.parse(\"%s\", %s)",
-                                            value.asText(),
-                                            "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
-                                }
-                            } else if(ModelUtils.isTimeLocalSchema(propertySchema)) {
-                                if("java8".equals(getDateLibrary())) {
-                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalTime.parse(\"%s\")", value.asText());
-                                }
-                            } else if(ModelUtils.isDateTimeLocalSchema(propertySchema)) {
-                                if("java8".equals(getDateLibrary())) {
-                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDateTime.parse(\"%s\")", value.asText());
-                                }
-                            } else if(ModelUtils.isUUIDSchema(propertySchema)) {
-                                defaultPropertyExpression = "java.util.UUID.fromString(\"" + value.asText() + "\")";
-                            } else if(ModelUtils.isStringSchema(propertySchema)) {
-                                defaultPropertyExpression = "\"" + value.asText() + "\"";
-                            } else if(ModelUtils.isBooleanSchema(propertySchema)) {
-                                defaultPropertyExpression = value.asText();
-                            }
-                            if(defaultPropertyExpression != null) {
-                                stringBuilder
-//                                        .append(System.lineSeparator())
-                                        .append(".")
-                                        .append(toVarName(key))
-                                        .append("(").append(defaultPropertyExpression).append(")");
-                            }
-                        }
-                    }
-                    return stringBuilder.toString();
-                } catch (ClassCastException e) {
-                    LOGGER.error("Can't resolve default value: "+schema.getDefault(), e);
-                    return null;
-                }
+                return toObjectDefaultValue(cp, schema.getDefault(), schema.getProperties());
             }
             return null;
         } else if (ModelUtils.isComposedSchema(schema)) {
             if (schema.getDefault() != null) {
+                // A `$ref` to an object schema combined with a sibling `default` (or an explicit `allOf`)
+                // is parsed as a composed schema, so the object's properties live in the `allOf` members
+                // rather than directly on the schema. Resolve them and render the default the same way as a
+                // plain object schema. Falling through to `super.toDefaultValue(...)` here would emit the raw
+                // default (e.g. `{"one":"one"}`) as Java, which does not compile (see #23795).
+                Map<String, Schema> propertySchemas = getComposedSchemaProperties(schema);
+                if (!propertySchemas.isEmpty()) {
+                    return toObjectDefaultValue(cp, schema.getDefault(), propertySchemas);
+                }
+                // No object properties resolved: the composition wraps a non-object, e.g. an `allOf`
+                // to an enum or scalar (`allOf: [{$ref: '#/.../CurrencyCode'}]` + sibling `default`).
+                // There is nothing to build via toObjectDefaultValue, so defer to the base behavior,
+                // which emits the raw default for later enum var-name / scalar conversion. Returning
+                // null here dropped the default and regressed enum defaults (see #24384).
                 return super.toDefaultValue(schema);
             }
             return null;
         }
 
         return super.toDefaultValue(schema);
+    }
+
+    /**
+     * Renders the default value of an object-typed property as a Java fluent builder expression, e.g.
+     * {@code new Pet().name("doggie").id(1l)}. Only scalar (value node) default properties for which a
+     * matching property schema is known are rendered; nested objects are skipped.
+     *
+     * @param cp              the codegen property carrying the target Java type ({@code datatypeWithEnum})
+     * @param defaultValue    the raw default value from the schema (a {@code Map}/{@code ObjectNode})
+     * @param propertySchemas the resolved property schemas used to type each default entry
+     * @return the Java expression, or {@code null} if it cannot be resolved
+     */
+    private String toObjectDefaultValue(CodegenProperty cp, Object defaultValue, Map<String, Schema> propertySchemas) {
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("new " + cp.datatypeWithEnum + "()");
+            if (propertySchemas != null) {
+                // With `parseOptions.setResolve(true)`, objects with 1 key-value pair are LinkedHashMap and objects with more than 1 are ObjectNode
+                // When not set, objects of any size are ObjectNode
+                ObjectMapper objectMapper = new ObjectMapper();
+                ObjectNode objectNode;
+                if(!(defaultValue instanceof ObjectNode)) {
+                    objectNode = objectMapper.valueToTree(defaultValue);
+                } else {
+                    objectNode = (ObjectNode) defaultValue;
+
+                }
+                Set<Map.Entry<String, JsonNode>> defaultProperties = objectNode.properties();
+                for (Map.Entry<String, JsonNode> defaultProperty : defaultProperties) {
+                    String key = defaultProperty.getKey();
+                    JsonNode value = defaultProperty.getValue();
+                    Schema propertySchema = propertySchemas.get(key);
+                    if (!value.isValueNode() || propertySchema == null) { //Skip complex objects for now
+                        continue;
+                    }
+
+                    String defaultPropertyExpression = null;
+                    if(ModelUtils.isEnumSchema(ModelUtils.getReferencedSchema(this.openAPI, propertySchema))) {
+                        // Enum-typed property: render the enum constant (e.g. `OutputFormat.OrderEnum.SIMILARITY`)
+                        // rather than a raw quoted string, which would not compile (see #24298).
+                        CodegenProperty enumProperty = fromProperty(key, propertySchema);
+                        String enumType = enumProperty.isEnum
+                                // an inline enum is generated as a nested class of the containing object type
+                                ? cp.datatypeWithEnum + "." + enumProperty.datatypeWithEnum
+                                // a `$ref` to a named enum is a top-level type
+                                : enumProperty.datatypeWithEnum;
+                        defaultPropertyExpression = enumType + "." + toEnumVarName(value.asText(), enumProperty.dataType);
+                    } else if(ModelUtils.isLongSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText()+"l";
+                    } else if(ModelUtils.isIntegerSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText();
+                    } else if(ModelUtils.isDoubleSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText()+"d";
+                    } else if(ModelUtils.isFloatSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText()+"f";
+                    } else if(ModelUtils.isNumberSchema(propertySchema)) {
+                        defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
+                    } else if(ModelUtils.isURISchema(propertySchema)) {
+                        defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
+                    } else if(ModelUtils.isDateSchema(propertySchema)) {
+                        if("java8".equals(getDateLibrary())) {
+                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDate.parse(\"%s\")", value.asText());
+                        }
+                    } else if(ModelUtils.isDateTimeSchema(propertySchema)) {
+                        if("java8".equals(getDateLibrary())) {
+                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.OffsetDateTime.parse(\"%s\", %s)",
+                                    value.asText(),
+                                    "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
+                        }
+                    } else if(ModelUtils.isTimeLocalSchema(propertySchema)) {
+                        if("java8".equals(getDateLibrary())) {
+                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalTime.parse(\"%s\")", value.asText());
+                        }
+                    } else if(ModelUtils.isDateTimeLocalSchema(propertySchema)) {
+                        if("java8".equals(getDateLibrary())) {
+                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDateTime.parse(\"%s\")", value.asText());
+                        }
+                    } else if(ModelUtils.isUUIDSchema(propertySchema)) {
+                        defaultPropertyExpression = "java.util.UUID.fromString(\"" + value.asText() + "\")";
+                    } else if(ModelUtils.isStringSchema(propertySchema)) {
+                        defaultPropertyExpression = "\"" + value.asText() + "\"";
+                    } else if(ModelUtils.isBooleanSchema(propertySchema)) {
+                        defaultPropertyExpression = value.asText();
+                    }
+                    if(defaultPropertyExpression != null) {
+                        stringBuilder
+//                                        .append(System.lineSeparator())
+                                .append(".")
+                                .append(toVarName(key))
+                                .append("(").append(defaultPropertyExpression).append(")");
+                    }
+                }
+            }
+            return stringBuilder.toString();
+        } catch (ClassCastException e) {
+            LOGGER.error("Can't resolve default value: "+defaultValue, e);
+            return null;
+        }
+    }
+
+    /**
+     * Collects the property schemas of a composed schema by merging the schema's own properties with the
+     * properties of every {@code allOf} member (dereferencing {@code $ref}s as needed). This is used to
+     * render object defaults declared via a `$ref` + sibling `default` or an explicit `allOf`.
+     *
+     * @param schema the composed schema
+     * @return the merged property schemas (never {@code null}; empty when none can be resolved)
+     */
+    private Map<String, Schema> getComposedSchemaProperties(Schema schema) {
+        Map<String, Schema> propertySchemas = new LinkedHashMap<>();
+        if (schema.getProperties() != null) {
+            propertySchemas.putAll(schema.getProperties());
+        }
+        if (schema.getAllOf() != null) {
+            for (Object member : schema.getAllOf()) {
+                Schema resolved = ModelUtils.getReferencedSchema(this.openAPI, (Schema) member);
+                if (resolved != null && resolved.getProperties() != null) {
+                    propertySchemas.putAll(resolved.getProperties());
+                }
+            }
+        }
+        return propertySchemas;
     }
 
     private String getDefaultCollectionType(Schema schema) {
@@ -1703,36 +1826,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
         boolean isModel = (codegenParameter.isModel || (codegenParameter.isContainer && codegenParameter.getItems().isModel));
 
-        Content content = requestBody.getContent();
-
-        if (content.size() > 1) {
-            // @see ModelUtils.getSchemaFromContent()
-            LOGGER.debug("Multiple MediaTypes found, using only the first one");
-        }
-
-        MediaType mediaType = content.values().iterator().next();
-        if (mediaType.getExample() != null) {
-            if (isModel) {
+        MediaType mediaType = requestBody.getContent().values().iterator().next();
+        boolean hasExample = mediaType.getExample() != null || (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty());
+        if (isModel) {
+            if (hasExample) {
                 once(LOGGER).warn("Ignoring complex example on request body");
-            } else {
-                codegenParameter.example = mediaType.getExample().toString();
-                return;
             }
+            setParameterExampleValue(codegenParameter);
+        } else {
+            super.setParameterExampleValue(codegenParameter, requestBody);
         }
-
-        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
-            Example example = mediaType.getExamples().values().iterator().next();
-            if (example.getValue() != null) {
-                if (isModel) {
-                    once(LOGGER).warn("Ignoring complex example on request body");
-                } else {
-                    codegenParameter.example = example.getValue().toString();
-                    return;
-                }
-            }
-        }
-
-        setParameterExampleValue(codegenParameter);
     }
 
     @Override
@@ -1742,7 +1845,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         boolean hasAllowableValues = p.allowableValues != null && !p.allowableValues.isEmpty();
         if (hasAllowableValues) {
             //support examples for inline enums
-            final List<Object> values = (List<Object>) p.allowableValues.get("values");
+            final List<Object> values = getEnumValues(p.allowableValues);
             example = String.valueOf(values.get(0));
         } else if (p.defaultValue == null) {
             example = p.example;
@@ -1759,7 +1862,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "\"" + escapeText(example) + "\"";
+            example = "\"" + escapeStringLiteral(example) + "\"";
         } else if ("Integer".equals(type) || "Short".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -1849,6 +1952,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         p.example = example;
+    }
+
+    private String escapeStringLiteral(String input) {
+        if (input == null) {
+            return null;
+        }
+
+        // Escapes text for use inside a double-quoted Java string literal.
+        // Unlike escapeText(), this deliberately keeps "*/" and "/*" intact
+        // because they are harmless within a string literal (e.g. "*/*" media types).
+        return StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                .replaceAll("[\\t\\n\\r]", " ")
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"");
     }
 
     @Override
@@ -2036,6 +2155,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * <p>
      * For example:
      * <ul>
+     *     <li>{@code @jakarta.annotation.Nullable String} -> {@code String}</li>
      *     <li>{@code @Min(0) @Max(10)Integer} -> {@code Integer}</li>
      *     <li>{@code @Pattern(regexp = "^[a-z]$")String>} -> {@code String}</li>
      *     <li>{@code List<@Pattern(regexp = "^[a-z]$")String>}" -> "{@code List<String>}"</li>
@@ -2047,7 +2167,38 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     public String removeAnnotations(String dataType) {
         if (dataType != null && dataType.contains("@")) {
-            return dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+            return dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+        }
+        return dataType;
+    }
+
+    /**
+     * Remove annotations from the given data type string except annotationToKeep.
+     * <p>
+     * For example:
+     * <ul>
+     *     <li>{@code @Nullable @Min(0) @Max(10)Integer} -> {@code @Nullable Integer}</li>
+     *     <li>{@code @Nullable List<@Valid Pet>}" -> "{@code @Nullable List<Pet>}"</li>
+     * </ul>
+     *
+     * @param dataType the data type string
+     * @param annotationToKeep annotation to keep. For example @Nullable
+     * @return the data type string without annotations.
+     */
+    public String removeAnnotationsWithExclusion(String dataType, String annotationToKeep) {
+        if (dataType != null && dataType.contains("@")) {
+            if (annotationToKeep == null) {
+                return dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+            }
+            annotationToKeep += " ";
+            boolean annotationPresent = dataType.indexOf(annotationToKeep) >=0;
+            if (annotationPresent) {
+                dataType = dataType.replace( annotationToKeep, "%%");
+            }
+            dataType = dataType.replaceAll("(?:(?i)@[a-z0-9\\.]*+([(].*[)]|\\s*))*+", "");
+            if (annotationPresent) {
+                dataType = dataType.replace("%%", annotationToKeep);
+            }
         }
         return dataType;
     }
@@ -2088,13 +2239,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         // make sure the x-implements is always a List and always at least empty
         for (ModelMap mo : objs.getModels()) {
-            CodegenModel cm = mo.getModel();
-            if (cm.getVendorExtensions().containsKey(X_IMPLEMENTS)) {
-                List<String> xImplements = getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS));
-                cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplements);
-            } else {
-                cm.getVendorExtensions().put(X_IMPLEMENTS, new ArrayList<String>());
-            }
+            normalizeVendorExtensionWithStringList(mo.getModel().getVendorExtensions(), X_IMPLEMENTS);
+        }
+
+        // make sure the x-class-extra-annotation is always a List and always at least empty
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel model = mo.getModel();
+            normalizeVendorExtensionWithStringList(model.getVendorExtensions(), VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName());
+            normalizeModelPropertyVendorExtensions(model, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
         }
 
         // skip interfaces predefined in open api spec in x-implements via additional property xImplementsSkip
@@ -2195,9 +2347,66 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             handleImplicitHeaders(op);
             handleConstantParams(op);
+            normalizeOperationParameterVendorExtensions(op, VendorExtension.X_FIELD_EXTRA_ANNOTATION.getName());
         }
 
         return objs;
+    }
+
+    /**
+     * Normalizes a model property vendor extension across all property collections.
+     * In this context, normalization means converting a missing value, a single string, or a list value
+     * into a predictable mutable {@code List<String>} on each property. The same property can appear in
+     * several model collections, so the collections are de-duplicated before updating the extension map.
+     *
+     * @param model model whose properties should be updated
+     * @param name  vendor extension name
+     */
+    private void normalizeModelPropertyVendorExtensions(CodegenModel model, String name) {
+        Set<CodegenProperty> properties = Collections.newSetFromMap(new IdentityHashMap<>());
+        properties.addAll(model.vars);
+        properties.addAll(model.allVars);
+        properties.addAll(model.requiredVars);
+        properties.addAll(model.optionalVars);
+        properties.addAll(model.readOnlyVars);
+        properties.addAll(model.readWriteVars);
+        properties.addAll(model.parentVars);
+        properties.addAll(model.parentRequiredVars);
+        properties.addAll(model.nonNullableVars);
+
+        for (CodegenProperty property : properties) {
+            normalizeVendorExtensionWithStringList(property.vendorExtensions, name);
+        }
+    }
+
+    /**
+     * Normalizes an operation parameter vendor extension across all parameter collections.
+     * In this context, normalization means converting a missing value, a single string, or a list value
+     * into a predictable mutable {@code List<String>} on each parameter. The same parameter can appear in
+     * several operation collections, so the collections are de-duplicated before updating the extension map.
+     *
+     * @param operation operation whose parameters should be updated
+     * @param name      vendor extension name
+     */
+    protected void normalizeOperationParameterVendorExtensions(CodegenOperation operation, String name) {
+        Set<CodegenParameter> parameters = Collections.newSetFromMap(new IdentityHashMap<>());
+        parameters.addAll(operation.allParams);
+        parameters.addAll(operation.bodyParams);
+        parameters.addAll(operation.pathParams);
+        parameters.addAll(operation.queryParams);
+        parameters.addAll(operation.headerParams);
+        parameters.addAll(operation.implicitHeadersParams);
+        parameters.addAll(operation.constantParams);
+        parameters.addAll(operation.formParams);
+        parameters.addAll(operation.cookieParams);
+        parameters.addAll(operation.requiredParams);
+        parameters.addAll(operation.optionalParams);
+        parameters.addAll(operation.requiredAndNotNullableParams);
+        parameters.addAll(operation.notNullableParams);
+
+        for (CodegenParameter parameter : parameters) {
+            normalizeVendorExtensionWithStringList(parameter.vendorExtensions, name);
+        }
     }
 
     @Override
@@ -2215,14 +2424,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
                 for (Operation operation : path.readOperations()) {
                     LOGGER.info("Processing operation {}", operation.getOperationId());
-                    if (hasBodyParameter(operation) || hasFormParameter(operation)) {
-                        String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
-                        List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
-                        String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
-                        operation.addExtension("x-content-type", contentType);
-                    }
-                    String[] accepts = getAccepts(openAPI, operation);
-                    operation.addExtension("x-accepts", accepts);
+                    addContentTypeExtensions(openAPI, operation);
                 }
             }
         }
@@ -2370,6 +2572,35 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             return "\"" + escapeText(value) + "\"";
         }
+    }
+
+    /**
+     * Records on the operation the Content-Type ({@code x-content-type}) and Accept ({@code x-accepts}) the
+     * generated client sends for it, which the templates read.
+     */
+    private void addContentTypeExtensions(OpenAPI openAPI, Operation operation) {
+        if (hasBodyParameter(operation) || hasFormParameter(operation)) {
+            String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
+            List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
+            String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
+            operation.addExtension(VendorExtension.X_CONTENT_TYPE.getName(), contentType);
+        }
+        String[] accepts = getAccepts(openAPI, operation);
+        operation.addExtension(VendorExtension.X_ACCEPTS.getName(), accepts);
+    }
+
+    /**
+     * A content-type variant is split off after {@link #preprocessOpenAPI} stamped the operation it comes
+     * from, so it carries that operation's Content-Type and Accept, for every media-type it declares: the
+     * variants are stamped again here, each with the single media-type it was narrowed to on each axis.
+     */
+    @Override
+    public List<Operation> divideOperationsByContentType(OpenAPI openAPI, String path, String httpMethod, Operation operation) {
+        List<Operation> variants = super.divideOperationsByContentType(openAPI, path, httpMethod, operation);
+        if (variants.size() > 1) {
+            variants.forEach(variant -> addContentTypeExtensions(openAPI, variant));
+        }
+        return variants;
     }
 
     @Override
@@ -2747,7 +2978,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Mustache.Lambda jSpecifyDatatypeLambda = (fragment, writer) -> {
             String dataType = fragment.execute();
             if (jSpecifyNullableLambda.isSetAndClear()) {
-                int idx = dataType.lastIndexOf('.');
+                int idx = getLastIndex(dataType);
                 if (idx > 0) {
                     // generate declaration like java.time.@Nullable Timestamp
                     writer.write(dataType.substring(0, idx + 1));
@@ -2761,16 +2992,28 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 writer.write(dataType);
             }
         };
+        Mustache.Lambda javaStringLiteralLambda = (fragment, writer) ->
+                writer.write(toEnumValue(fragment.execute(), "String"));
         return super.addMustacheLambdas()
+                .put("javaStringLiteral", javaStringLiteralLambda)
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
-                .put("jSpecifyNullable", jSpecifyNullableLambda);
+                .put("jSpecifyNullable", jSpecifyNullableLambda)
+                .put("escapeJavaDoc", new EscapeJavaDocLambda());
 
+    }
+
+    private int getLastIndex(String dataType) {
+        int index = dataType.indexOf('<');
+        if (index >= 0) {
+            dataType = dataType.substring(0, index);
+        }
+        return dataType.lastIndexOf('.');
     }
 
     /**
      * for Jspecify, remove @Nullable before the datatype and set keptNullable to true if done.
      */
-    class JSpecifyNullableLambda implements Mustache.Lambda {
+    protected class JSpecifyNullableLambda implements Mustache.Lambda {
         private String nullableAnnotation = "@Nullable";
         // remember @Nullable annotation value when jspecify is used.
         private String keptNullable = null;
@@ -2789,9 +3032,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             keptNullable = null;
             String value = fragment.execute();
             if (useJspecify) {
-                if (value.startsWith(nullableAnnotation)) {
+                // extract @Nullable annotation (starting with @ and ending with space)
+                String patternToFind = nullableAnnotation + " ";
+                if (value.startsWith(patternToFind)) {
                     keptNullable = value;
-                    int idx = nullableAnnotation.length();
+                    int idx = patternToFind.length();
                     // trim left
                     while (idx < value.length() && value.charAt(idx) == ' ') {
                         idx ++;
@@ -2817,5 +3062,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .filter(CodegenParameter::notRequiredOrIsNullable)
                 .findAny()
                 .ifPresent(param -> codegenOperation.imports.add("Nullable"));
+    }
+
+    /**
+     * Simplify the removeAnnotations lambda for custom removal.
+     */
+    protected class RemoveAnnotationLambda implements Mustache.Lambda {
+
+        private String keep;
+
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+            writer.write(removeAnnotationsWithExclusion(fragment.execute(), keep));
+        }
+
+        public void keepAnnotation(String keep) {
+            this.keep = keep;
+        }
     }
 }

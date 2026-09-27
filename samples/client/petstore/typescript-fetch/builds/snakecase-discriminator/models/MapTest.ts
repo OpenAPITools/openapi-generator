@@ -21,26 +21,18 @@ import { mapValues } from '../runtime';
 export interface MapTest {
     /**
      * 
-     * @type {{ [key: string]: { [key: string]: string; }; }}
-     * @memberof MapTest
      */
     mapMapOfString?: { [key: string]: { [key: string]: string; }; };
     /**
      * 
-     * @type {{ [key: string]: MapTestMapOfEnumStringEnum; }}
-     * @memberof MapTest
      */
     mapOfEnumString?: { [key: string]: MapTestMapOfEnumStringEnum; };
     /**
      * 
-     * @type {{ [key: string]: boolean; }}
-     * @memberof MapTest
      */
     directMap?: { [key: string]: boolean; };
     /**
      * 
-     * @type {{ [key: string]: boolean; }}
-     * @memberof MapTest
      */
     indirectMap?: { [key: string]: boolean; };
 }
@@ -51,7 +43,7 @@ export interface MapTest {
  */
 export const MapTestMapOfEnumStringEnum = {
     Upper: 'UPPER',
-    Lower: 'lower'
+    Lower: 'lower',
 } as const;
 export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
 

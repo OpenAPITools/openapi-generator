@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   @javax.annotation.Nullable
@@ -56,7 +56,7 @@ public class ArrayTest {
   /**
    * Constructor with all args parameters
    */
-  public ArrayTest(@JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING) List<String> arrayOfString, @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER) List<List<Long>> arrayArrayOfInteger, @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL) List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest(@JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING) @javax.annotation.Nullable List<String> arrayOfString, @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER) @javax.annotation.Nullable List<List<Long>> arrayArrayOfInteger, @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL) @javax.annotation.Nullable List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayOfString = arrayOfString;
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     this.arrayArrayOfModel = arrayArrayOfModel;

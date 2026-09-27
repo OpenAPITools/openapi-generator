@@ -1,0 +1,13 @@
+generatorName: ruby-nextgen
+outputDir: samples/client/others/ruby-nextgen-qdrant
+inputSpec: modules/openapi-generator/src/test/resources/3_0/crystal/qdrant.json
+templateDir: modules/openapi-generator/src/main/resources/ruby-nextgen
+globalProperties:
+  apiTests: "true"
+  modelTests: "true"
+  apiDocs: "false"
+  modelDocs: "false"
+additionalProperties:
+  gemName: qdrant
+  moduleName: Qdrant
+  gemVersion: 1.0.0

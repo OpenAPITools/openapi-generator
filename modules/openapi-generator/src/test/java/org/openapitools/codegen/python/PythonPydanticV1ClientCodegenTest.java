@@ -534,4 +534,16 @@ public class PythonPydanticV1ClientCodegenTest {
         assertFileContains(initFilePath, "from openapi_client.models.tag import Tag as Tag");
         assertFileContains(initFilePath, "from openapi_client.models.user import User as User");
     }
+
+    @Test
+    public void testModelNameMappingDoesNotRenameParameters() {
+        final PythonPydanticV1ClientCodegen codegen = new PythonPydanticV1ClientCodegen();
+        codegen.nameMapping().put("some-value", "model_value");
+
+        Assert.assertEquals(codegen.toVarName("some-value"), "model_value");
+        Assert.assertEquals(codegen.toParamName("some-value"), "some_value");
+
+        codegen.parameterNameMapping().put("some-value", "parameter_value");
+        Assert.assertEquals(codegen.toParamName("some-value"), "parameter_value");
+    }
 }

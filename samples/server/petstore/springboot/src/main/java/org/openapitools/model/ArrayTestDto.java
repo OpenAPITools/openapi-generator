@@ -26,7 +26,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("ArrayTest")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ArrayTestDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -84,7 +84,7 @@ public class ArrayTestDto {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    */
-  @Valid 
+  
   @Schema(name = "array_array_of_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -113,7 +113,7 @@ public class ArrayTestDto {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    */
-  @Valid 
+  
   @Schema(name = "array_array_of_model", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_array_of_model")
   public List<List<@Valid ReadOnlyFirstDto>> getArrayArrayOfModel() {

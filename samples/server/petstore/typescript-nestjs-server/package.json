@@ -18,7 +18,7 @@
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.1.18",
-    "@nestjs/platform-express": "^11.1.16",
+    "@nestjs/platform-express": "^11.1.28",
     "cookie-parser": "^1.4.7",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"

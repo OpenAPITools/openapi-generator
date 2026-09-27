@@ -22,10 +22,11 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "File", description = "Must be named `File` for test.")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class File {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private @Nullable String sourceURI;
 
   public File sourceURI(@Nullable String sourceURI) {
@@ -44,7 +45,6 @@ public class File {
     return sourceURI;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("sourceURI")
   public void setSourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;

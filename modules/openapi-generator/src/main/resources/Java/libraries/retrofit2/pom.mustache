@@ -298,7 +298,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${jackson-version}</version>
+                <version>${jackson-annotations-version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -383,10 +383,11 @@
         {{/gson}}
         <swagger-annotations-version>1.6.3</swagger-annotations-version>
         {{#jackson}}
-        <jackson-databind-version>2.19.2</jackson-databind-version>
-        <jackson-version>2.19.2</jackson-version>
+        <jackson-databind-version>2.21.5</jackson-databind-version>
+        <jackson-version>2.21.5</jackson-version>
+        <jackson-annotations-version>2.21</jackson-annotations-version>
             {{#openApiNullable}}
-        <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.11</jackson-databind-nullable-version>
             {{/openApiNullable}}
         <javax.ws.rs-api-version>2.1.1</javax.ws.rs-api-version>
         {{/jackson}}

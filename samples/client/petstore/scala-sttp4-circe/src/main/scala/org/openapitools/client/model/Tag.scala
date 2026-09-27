@@ -23,8 +23,22 @@ case class Tag(
 object Tag {
   import io.circe._
   import io.circe.syntax._
-  import io.circe.generic.semiauto._
 
-  implicit val encoder: Encoder[Tag] = deriveEncoder
-  implicit val decoder: Decoder[Tag] = deriveDecoder
+  implicit val encoder: Encoder[Tag] = Encoder.instance { t =>
+    Json.fromFields(
+      Seq(
+        t.id.map(v => "id" -> v.asJson),
+        t.name.map(v => "name" -> v.asJson)
+      ).flatten
+    )
+  }
+  implicit val decoder: Decoder[Tag] = Decoder.instance { c =>
+    for {
+      id <- c.downField("id").as[Option[Long]]
+      name <- c.downField("name").as[Option[String]]
+    } yield Tag(
+      id = id,
+      name = name
+    )
+  }
 }

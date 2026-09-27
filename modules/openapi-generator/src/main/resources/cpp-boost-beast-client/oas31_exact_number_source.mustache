@@ -1,0 +1,294 @@
+#include "Oas31ExactNumber.h"
+
+#include <algorithm>
+#include <cmath>
+#include <iomanip>
+#include <limits>
+#include <locale>
+#include <sstream>
+#include <stdexcept>
+#include <utility>
+
+namespace {{schemaValidationNamespace}} {
+
+ExactNumber::ExactNumber(Integer mantissa, Integer exponent10)
+    : mantissa_(std::move(mantissa)), exponent10_(std::move(exponent10)) {
+    normalize();
+}
+
+ExactNumber ExactNumber::fromInt(std::int64_t value) {
+    return ExactNumber(Integer(value), 0);
+}
+
+ExactNumber ExactNumber::fromUint(std::uint64_t value) {
+    return ExactNumber(Integer(value), 0);
+}
+
+ExactNumber::Integer ExactNumber::ipow10(std::size_t exponent) {
+    Integer result = 1;
+    Integer base = 10;
+    while (exponent != 0) {
+        if ((exponent & 1u) != 0u) result *= base;
+        exponent >>= 1u;
+        if (exponent != 0) base *= base;
+    }
+    return result;
+}
+
+ExactNumber::Integer ExactNumber::gcd(Integer left, Integer right) {
+    if (left < 0) left = -left;
+    if (right < 0) right = -right;
+    while (right != 0) {
+        Integer const remainder = left % right;
+        left = std::move(right);
+        right = remainder;
+    }
+    return left;
+}
+
+std::size_t ExactNumber::boundedDistance(Integer const& distance) {
+    if (distance < 0 || distance > Integer(kMaxLexemeLength)) {
+        throw std::length_error(
+            "ExactNumber: decimal expansion exceeds implementation limit");
+    }
+    return distance.convert_to<std::size_t>();
+}
+
+std::size_t ExactNumber::decimalDigits(Integer const& positive) {
+    return positive.str().size();
+}
+
+void ExactNumber::normalize() {
+    if (mantissa_ == 0) {
+        exponent10_ = 0;
+        return;
+    }
+    Integer const magnitude = mantissa_ < 0 ? -mantissa_ : mantissa_;
+    std::string const digits = magnitude.str();
+    std::size_t trailingZeros = 0;
+    while (trailingZeros < digits.size()
+            && digits[digits.size() - trailingZeros - 1] == '0') {
+        ++trailingZeros;
+    }
+    if (trailingZeros != 0) {
+        mantissa_ /= ipow10(trailingZeros);
+        exponent10_ += Integer(trailingZeros);
+    }
+}
+
+ExactNumber ExactNumber::parseLexeme(std::string const& lexeme) {
+    if (lexeme.size() > kMaxLexemeLength) {
+        throw std::length_error(
+            "ExactNumber::parseLexeme: numeric token exceeds implementation limit");
+    }
+
+    std::size_t index = 0;
+    bool negative = false;
+    if (index < lexeme.size() && lexeme[index] == '-') {
+        negative = true;
+        ++index;
+    }
+
+    std::string digits;
+    if (index >= lexeme.size()) {
+        throw std::domain_error("ExactNumber::parseLexeme: missing integer digit");
+    }
+    if (lexeme[index] == '0') {
+        digits.push_back(lexeme[index++]);
+        if (index < lexeme.size() && lexeme[index] >= '0' && lexeme[index] <= '9') {
+            throw std::domain_error("ExactNumber::parseLexeme: leading zero");
+        }
+    } else if (lexeme[index] >= '1' && lexeme[index] <= '9') {
+        do {
+            digits.push_back(lexeme[index++]);
+        } while (index < lexeme.size()
+                 && lexeme[index] >= '0' && lexeme[index] <= '9');
+    } else {
+        throw std::domain_error("ExactNumber::parseLexeme: missing integer digit");
+    }
+
+    std::size_t fractionDigits = 0;
+    if (index < lexeme.size() && lexeme[index] == '.') {
+        ++index;
+        std::size_t const fractionStart = index;
+        while (index < lexeme.size()
+               && lexeme[index] >= '0' && lexeme[index] <= '9') {
+            digits.push_back(lexeme[index++]);
+            ++fractionDigits;
+        }
+        if (index == fractionStart) {
+            throw std::domain_error("ExactNumber::parseLexeme: missing fraction digit");
+        }
+    }
+
+    Integer explicitExponent = 0;
+    if (index < lexeme.size()
+            && (lexeme[index] == 'e' || lexeme[index] == 'E')) {
+        ++index;
+        bool exponentNegative = false;
+        if (index < lexeme.size()
+                && (lexeme[index] == '+' || lexeme[index] == '-')) {
+            exponentNegative = lexeme[index] == '-';
+            ++index;
+        }
+        std::size_t const exponentStart = index;
+        while (index < lexeme.size()
+               && lexeme[index] >= '0' && lexeme[index] <= '9') {
+            explicitExponent *= 10;
+            explicitExponent += static_cast<unsigned>(lexeme[index] - '0');
+            ++index;
+        }
+        if (index == exponentStart) {
+            throw std::domain_error("ExactNumber::parseLexeme: missing exponent digit");
+        }
+        if (exponentNegative) explicitExponent = -explicitExponent;
+    }
+    if (index != lexeme.size()) {
+        throw std::domain_error(
+            "ExactNumber::parseLexeme: trailing characters after lexeme");
+    }
+
+    std::size_t const firstNonZero = digits.find_first_not_of('0');
+    if (firstNonZero == std::string::npos) return ExactNumber();
+
+    std::size_t trailingZeros = 0;
+    while (digits[digits.size() - trailingZeros - 1] == '0') ++trailingZeros;
+    digits.resize(digits.size() - trailingZeros);
+
+    Integer mantissa = 0;
+    for (char digit : digits) {
+        mantissa *= 10;
+        mantissa += static_cast<unsigned>(digit - '0');
+    }
+    if (negative) mantissa = -mantissa;
+
+    Integer exponent = explicitExponent - Integer(fractionDigits)
+            + Integer(trailingZeros);
+    return ExactNumber(std::move(mantissa), std::move(exponent));
+}
+
+ExactNumber ExactNumber::fromDouble(double value) {
+    if (!std::isfinite(value)) {
+        throw std::domain_error("ExactNumber::fromDouble: non-finite value");
+    }
+    std::ostringstream text;
+    text.imbue(std::locale::classic());
+    text << std::setprecision(std::numeric_limits<double>::max_digits10) << value;
+    return parseLexeme(text.str());
+}
+
+int ExactNumber::compare(ExactNumber const& other) const {
+    if (isZero() && other.isZero()) return 0;
+    if (isZero()) return other.mantissa_ < 0 ? 1 : -1;
+    if (other.isZero()) return mantissa_ < 0 ? -1 : 1;
+    bool const negative = mantissa_ < 0;
+    bool const otherNegative = other.mantissa_ < 0;
+    if (negative != otherNegative) return negative ? -1 : 1;
+
+    Integer left = negative ? -mantissa_ : mantissa_;
+    Integer right = otherNegative ? -other.mantissa_ : other.mantissa_;
+    std::size_t const leftDigits = decimalDigits(left);
+    std::size_t const rightDigits = decimalDigits(right);
+    Integer const leftMagnitude = exponent10_ + Integer(leftDigits);
+    Integer const rightMagnitude = other.exponent10_ + Integer(rightDigits);
+
+    int result = 0;
+    if (leftMagnitude < rightMagnitude) {
+        result = -1;
+    } else if (leftMagnitude > rightMagnitude) {
+        result = 1;
+    } else {
+        if (leftDigits < rightDigits) {
+            left *= ipow10(rightDigits - leftDigits);
+        } else if (rightDigits < leftDigits) {
+            right *= ipow10(leftDigits - rightDigits);
+        }
+        if (left < right) result = -1;
+        else if (left > right) result = 1;
+    }
+    return negative ? -result : result;
+}
+
+ExactNumber ExactNumber::add(ExactNumber const& other) const {
+    Integer const commonExponent = exponent10_ < other.exponent10_
+            ? exponent10_ : other.exponent10_;
+    std::size_t const leftShift = boundedDistance(exponent10_ - commonExponent);
+    std::size_t const rightShift = boundedDistance(other.exponent10_ - commonExponent);
+    Integer const left = mantissa_ * ipow10(leftShift);
+    Integer const right = other.mantissa_ * ipow10(rightShift);
+    return ExactNumber(left + right, commonExponent);
+}
+
+ExactNumber ExactNumber::mul(ExactNumber const& other) const {
+    return ExactNumber(mantissa_ * other.mantissa_,
+                       exponent10_ + other.exponent10_);
+}
+
+bool ExactNumber::isInteger() const {
+    return isZero() || exponent10_ >= 0;
+}
+
+bool ExactNumber::isMultipleOf(ExactNumber const& divisor) const {
+    if (divisor.isZero()) {
+        throw std::domain_error("ExactNumber::isMultipleOf: division by zero");
+    }
+    if (isZero()) return true;
+
+    Integer const exponentDelta = exponent10_ - divisor.exponent10_;
+    if (exponentDelta < 0) return false;
+
+    Integer numerator = mantissa_ < 0 ? -mantissa_ : mantissa_;
+    Integer denominator = divisor.mantissa_ < 0
+            ? -divisor.mantissa_ : divisor.mantissa_;
+    denominator /= gcd(numerator, denominator);
+
+    std::size_t twos = 0;
+    while ((denominator % 2) == 0) {
+        denominator /= 2;
+        ++twos;
+    }
+    std::size_t fives = 0;
+    while ((denominator % 5) == 0) {
+        denominator /= 5;
+        ++fives;
+    }
+    if (denominator != 1) return false;
+    return exponentDelta >= Integer((std::max)(twos, fives));
+}
+
+void ExactNumber::divmod(ExactNumber const& divisor,
+                         ExactNumber& quotient,
+                         ExactNumber& remainder) const {
+    if (divisor.isZero()) {
+        throw std::domain_error("ExactNumber::divmod: division by zero");
+    }
+    Integer const commonExponent = exponent10_ < divisor.exponent10_
+            ? exponent10_ : divisor.exponent10_;
+    std::size_t const numeratorShift =
+        boundedDistance(exponent10_ - commonExponent);
+    std::size_t const denominatorShift =
+        boundedDistance(divisor.exponent10_ - commonExponent);
+    Integer const numerator = mantissa_ * ipow10(numeratorShift);
+    Integer const denominator = divisor.mantissa_ * ipow10(denominatorShift);
+    Integer const quotientValue = numerator / denominator;
+    Integer const remainderValue = numerator % denominator;
+    quotient = ExactNumber(quotientValue, 0);
+    remainder = ExactNumber(remainderValue, commonExponent);
+}
+
+std::string ExactNumber::toString() const {
+    if (isZero()) return "0";
+    std::string result = mantissa_.str();
+    if (exponent10_ != 0) {
+        result += "e";
+        if (exponent10_ > 0) result += "+";
+        result += exponent10_.str();
+    }
+    return result;
+}
+
+bool isPositiveMultipleOf(ExactNumber const& value) {
+    return !value.isZero() && value.mantissa() > 0;
+}
+
+} // namespace {{schemaValidationNamespace}}

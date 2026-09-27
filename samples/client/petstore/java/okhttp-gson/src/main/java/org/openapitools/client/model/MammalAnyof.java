@@ -60,7 +60,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class MammalAnyof extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(MammalAnyof.class.getName());
 
@@ -109,6 +109,36 @@ public class MammalAnyof extends AbstractOpenApiSchema {
                 public MammalAnyof read(JsonReader in) throws IOException {
                     Object deserialized = null;
                     JsonElement jsonElement = elementAdapter.read(in);
+
+                    // non-object payloads can still match a non-object anyOf schema below
+                    if (jsonElement.isJsonObject()) {
+                        JsonObject jsonObject = jsonElement.getAsJsonObject();
+                        JsonElement discriminatorElement = jsonObject.get("className");
+
+                        // use discriminator value for faster anyOf lookup
+                        MammalAnyof newMammalAnyof = new MammalAnyof();
+                        if (discriminatorElement == null || !discriminatorElement.isJsonPrimitive()) {
+                            log.log(Level.WARNING, "Failed to lookup discriminator value for MammalAnyof as `className` is missing or is not a primitive type in the payload.");
+                        } else  {
+                            // look up the discriminator value in the field `className`
+                            switch (discriminatorElement.getAsString()) {
+                                case "Pig":
+                                    deserialized = adapterPig.fromJsonTree(jsonObject);
+                                    newMammalAnyof.setActualInstance(deserialized);
+                                    return newMammalAnyof;
+                                case "whale":
+                                    deserialized = adapterWhale.fromJsonTree(jsonObject);
+                                    newMammalAnyof.setActualInstance(deserialized);
+                                    return newMammalAnyof;
+                                case "zebra":
+                                    deserialized = adapterZebra.fromJsonTree(jsonObject);
+                                    newMammalAnyof.setActualInstance(deserialized);
+                                    return newMammalAnyof;
+                                default:
+                                    log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for MammalAnyof. Possible values: Pig whale zebra", discriminatorElement.getAsString()));
+                            }
+                        }
+                    }
 
                     ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;

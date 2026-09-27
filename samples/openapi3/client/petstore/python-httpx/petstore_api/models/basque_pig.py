@@ -27,9 +27,9 @@ class BasquePig(BaseModel):
     """
     BasquePig
     """ # noqa: E501
-    class_name: StrictStr = Field(alias="className")
+    class_name: StrictStr = Field(alias="class'\"\\Name")
     color: StrictStr
-    __properties: ClassVar[List[str]] = ["className", "color"]
+    __properties: ClassVar[List[str]] = ["class'\"\\Name", "color"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -82,7 +82,7 @@ class BasquePig(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "className": obj.get("className"),
+            "class'\"\\Name": obj.get("class'\"\\Name"),
             "color": obj.get("color")
         })
         return _obj

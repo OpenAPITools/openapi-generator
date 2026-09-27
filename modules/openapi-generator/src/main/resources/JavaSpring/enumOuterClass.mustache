@@ -4,10 +4,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
 {{/jackson}}
 
 /**
- * {{^description}}Gets or Sets {{{name}}}{{/description}}{{{description}}}
+ * {{^description}}Gets or Sets {{{name}}}{{/description}}{{{description}}}{{#isDeprecated}}
+ * @deprecated deprecated{{/isDeprecated}}
  */
 {{>additionalEnumTypeAnnotations}}
 
+{{#isDeprecated}}
+@Deprecated
+{{/isDeprecated}}
 {{>generatedAnnotation}}
 
 public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {

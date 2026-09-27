@@ -19,9 +19,9 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("ArrayOfNumberOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ArrayOfNumberOnly  implements Serializable {
-  private @Valid List<BigDecimal> arrayNumber = new ArrayList<>();
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   protected ArrayOfNumberOnly(ArrayOfNumberOnlyBuilder<?, ?> b) {
     this.arrayNumber = b.arrayNumber;
@@ -40,7 +40,7 @@ public class ArrayOfNumberOnly  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("ArrayNumber")
-  @Valid public List<@Valid BigDecimal> getArrayNumber() {
+  public List<@Valid BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
 

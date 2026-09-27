@@ -12,6 +12,8 @@ import {{modelPackage}}.{{classname}};
     {{/model}}
 {{/models}}
 
+import {{javaxPackage}}.annotation.Generated;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -23,6 +25,8 @@ import org.springframework.core.convert.converter.Converter;
  * correct conversion if the OpenAPI specification is using an `enumPropertyNaming` other than
  * `original` or the specification has an integer enum.
  */
+{{>generatedAnnotation}}
+
 @Configuration(value = "{{configPackage}}.enumConverterConfiguration")
 public class EnumConverterConfiguration {
 

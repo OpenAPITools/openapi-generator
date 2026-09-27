@@ -285,7 +285,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         if (!isQuietMode()) {
             System.out.println("################################################################################");
             System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
             System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
             System.out.println("#                                                                              #");
             System.out.println("# This generator's contributed by Nick Fisher (https://github.com/nmfisher)    #");

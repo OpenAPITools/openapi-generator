@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Pet {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -35,8 +35,10 @@ public class Pet {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Category category;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String name;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<String> photoUrls = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -203,7 +205,7 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  @Valid 
+  
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   public List<@Valid Tag> getTags() {

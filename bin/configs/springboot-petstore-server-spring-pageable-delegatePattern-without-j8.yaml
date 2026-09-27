@@ -6,6 +6,8 @@ templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 delegatePattern: true
 java8: false
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   documentationProvider: springdoc
   artifactId: springboot-spring-pageable-delegatePattern-without-j8
   hideGenerationTimestamp: 'true'

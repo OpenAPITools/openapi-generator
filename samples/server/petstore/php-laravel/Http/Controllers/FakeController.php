@@ -51,10 +51,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -85,10 +85,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -119,10 +119,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -134,9 +134,9 @@ class FakeController extends Controller
 
         $pet = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\Pet::class);
 
-        $query1 = $request->string('query1')->value();
+        $query1 = $request->string('query_1')->value();
 
-        $header1 = $request->string('header1')->value();
+        $header1 = $request->string('header_1')->value();
 
 
         $apiResult = $this->api->fakeHttpSignatureTest($pet, $query1, $header1);
@@ -159,10 +159,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -195,10 +195,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -231,10 +231,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -267,10 +267,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -303,10 +303,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -330,6 +330,90 @@ class FakeController extends Controller
         return response()->abort(500);
     }
     /**
+     * Operation getParameterNameMapping
+     *
+     * test query parameter name sanitization.
+     *
+     */
+    public function getParameterNameMapping(Request $request): JsonResponse
+    {
+        $validator = Validator::make(
+            array_merge(
+                $request->all(),
+                [
+                    
+                ],
+            ),
+            [
+                'filter_client_name' => [
+                    'string',
+                ],
+                'filter_user_ids' => [
+                    'array',
+                ],
+            ],
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
+        $filterClientName = $request->string('filter_client_name')->value();
+
+        $filterUserIds = $request->get('filter_user_ids');
+
+
+        $apiResult = $this->api->getParameterNameMapping($filterClientName, $filterUserIds);
+
+        if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
+        }
+
+
+        // This shouldn't happen
+        return response()->abort(500);
+    }
+    /**
+     * Operation postParameterNameMapping
+     *
+     * test form parameter name sanitization.
+     *
+     */
+    public function postParameterNameMapping(Request $request): JsonResponse
+    {
+        $validator = Validator::make(
+            array_merge(
+                $request->all(),
+                [
+                    
+                ],
+            ),
+            [
+                'client_id' => [
+                    'required',
+                    'integer',
+                ],
+            ],
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
+        $clientId = $request->integer('client_id');
+
+
+        $apiResult = $this->api->postParameterNameMapping($clientId);
+
+        if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
+        }
+
+
+        // This shouldn't happen
+        return response()->abort(500);
+    }
+    /**
      * Operation testAdditionalPropertiesReference
      *
      * test referenced additionalProperties.
@@ -339,10 +423,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -375,10 +459,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -411,10 +495,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -447,10 +531,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -485,10 +569,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -521,10 +605,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
                 'number' => [
@@ -537,7 +621,7 @@ class FakeController extends Controller
                     'gte:67.8',
                     'lte:123.4',
                 ],
-                'patternWithoutDelimiter' => [
+                'pattern_without_delimiter' => [
                     'required',
                     'regex:/^[A-Z].*/',
                     'string',
@@ -592,7 +676,7 @@ class FakeController extends Controller
 
         $double = $request->float('double');
 
-        $patternWithoutDelimiter = $request->string('patternWithoutDelimiter')->value();
+        $patternWithoutDelimiter = $request->string('pattern_without_delimiter')->value();
 
         $byte = $request->string('byte')->value();
 
@@ -632,84 +716,6 @@ class FakeController extends Controller
         return response()->abort(500);
     }
     /**
-     * Operation testEnumParameters
-     *
-     * To test enum parameters.
-     *
-     */
-    public function testEnumParameters(Request $request): JsonResponse
-    {
-        $validator = Validator::make(
-            array_merge(
-                [
-                    
-                ],
-                $request->all(),
-            ),
-            [
-                'enumHeaderStringArray' => [
-                    'array',
-                ],
-                'enumHeaderString' => [
-                ],
-                'enumQueryStringArray' => [
-                    'array',
-                ],
-                'enumQueryString' => [
-                ],
-                'enumQueryInteger' => [
-                ],
-                'enumQueryDouble' => [
-                ],
-                'enumQueryModelArray' => [
-                    'array',
-                ],
-                'enumFormStringArray' => [
-                    'array',
-                ],
-                'enumFormString' => [
-                ],
-            ],
-        );
-
-        if ($validator->fails()) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
-
-        $enumHeaderStringArray = $request->get('enumHeaderStringArray');
-
-        $enumHeaderString = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString::class);
-
-        $enumQueryStringArray = $request->get('enumQueryStringArray');
-
-        $enumQueryString = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString::class);
-
-        $enumQueryInteger = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersEnumQueryIntegerParameter::class);
-
-        $enumQueryDouble = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter::class);
-
-        $enumQueryModelArray = $request->get('enumQueryModelArray');
-
-        $enumFormStringArray = $request->get('enumFormStringArray');
-
-        $enumFormString = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString::class);
-
-
-        $apiResult = $this->api->testEnumParameters($enumHeaderStringArray, $enumHeaderString, $enumQueryStringArray, $enumQueryString, $enumQueryInteger, $enumQueryDouble, $enumQueryModelArray, $enumFormStringArray, $enumFormString);
-
-        if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
-        }
-
-        if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
-            return response()->json($this->serde->serialize($apiResult, format: 'array'), 404);
-        }
-
-
-        // This shouldn't happen
-        return response()->abort(500);
-    }
-    /**
      * Operation testGroupParameters
      *
      * Fake endpoint to test group parameters (optional).
@@ -719,31 +725,31 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
-                'requiredStringGroup' => [
+                'required_string_group' => [
                     'required',
                     'integer',
                 ],
-                'requiredBooleanGroup' => [
+                'required_boolean_group' => [
                     'required',
                     'boolean',
                 ],
-                'requiredInt64Group' => [
+                'required_int64_group' => [
                     'required',
                     'integer',
                 ],
-                'stringGroup' => [
+                'string_group' => [
                     'integer',
                 ],
-                'booleanGroup' => [
+                'boolean_group' => [
                     'boolean',
                 ],
-                'int64Group' => [
+                'int64_group' => [
                     'integer',
                 ],
             ],
@@ -753,17 +759,17 @@ class FakeController extends Controller
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $requiredStringGroup = $request->integer('requiredStringGroup');
+        $requiredStringGroup = $request->integer('required_string_group');
 
-        $requiredBooleanGroup = $request->boolean('requiredBooleanGroup');
+        $requiredBooleanGroup = $request->boolean('required_boolean_group');
 
-        $requiredInt64Group = $request->integer('requiredInt64Group');
+        $requiredInt64Group = $request->integer('required_int64_group');
 
-        $stringGroup = $request->integer('stringGroup');
+        $stringGroup = $request->integer('string_group');
 
-        $booleanGroup = $request->boolean('booleanGroup');
+        $booleanGroup = $request->boolean('boolean_group');
 
-        $int64Group = $request->integer('int64Group');
+        $int64Group = $request->integer('int64_group');
 
 
         $apiResult = $this->api->testGroupParameters($requiredStringGroup, $requiredBooleanGroup, $requiredInt64Group, $stringGroup, $booleanGroup, $int64Group);
@@ -786,10 +792,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -822,10 +828,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -858,10 +864,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
                 'param' => [
@@ -904,10 +910,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -940,10 +946,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
                 'pipe' => [
@@ -1014,10 +1020,10 @@ class FakeController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],

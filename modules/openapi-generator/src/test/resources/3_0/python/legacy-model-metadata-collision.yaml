@@ -1,0 +1,12 @@
+openapi: 3.0.0
+info:
+  title: Legacy model metadata collision
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    MetadataCollisionModel:
+      type: object
+      properties:
+        openapi_types:
+          type: string

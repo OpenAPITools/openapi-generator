@@ -27,32 +27,34 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class Apa(
 
-    @Schema(example = "null", required = true, description = "")
-    @param:JsonProperty("bepa")
+    @Schema(required = true, description = "")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("bepa", required = true)
     @get:JsonProperty("bepa", required = true) val bepa: java.math.BigDecimal = java.math.BigDecimal("0"),
 
-    @Schema(example = "null", required = true, description = "")
-    @param:JsonProperty("cepa")
+    @Schema(required = true, description = "")
+    @field:JsonInclude(JsonInclude.Include.ALWAYS)
+    @param:JsonProperty("cepa", required = true)
     @get:JsonProperty("cepa", required = true) val cepa: java.math.BigDecimal = java.math.BigDecimal("6.28318"),
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("depa")
     @get:JsonProperty("depa") val depa: java.math.BigDecimal? = java.math.BigDecimal("71"),
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("epa")
     @get:JsonProperty("epa") val epa: java.math.BigDecimal? = java.math.BigDecimal("-71"),
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @Deprecated(message = "")
     @param:JsonProperty("fepa")
     @get:JsonProperty("fepa") val fepa: java.math.BigDecimal? = java.math.BigDecimal("100"),
 
-    @Schema(example = "null", description = "")
+    @Schema(description = "")
     @param:JsonProperty("gepa")
     @get:JsonProperty("gepa") val gepa: java.math.BigDecimal? = null
 ) {

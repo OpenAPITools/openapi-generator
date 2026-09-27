@@ -27,16 +27,19 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ArrayTest")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ArrayTestDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<String> arrayOfString = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
+  @JsonSetter(nulls = Nulls.SKIP)
   private List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
@@ -62,7 +65,6 @@ public class ArrayTestDto {
     return arrayOfString;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_of_string")
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -85,13 +87,12 @@ public class ArrayTestDto {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    */
-  @Valid 
+  
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_array_of_integer")
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
@@ -114,13 +115,12 @@ public class ArrayTestDto {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    */
-  @Valid 
+  
   @JsonProperty("array_array_of_model")
   public List<List<@Valid ReadOnlyFirstDto>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_array_of_model")
   public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;

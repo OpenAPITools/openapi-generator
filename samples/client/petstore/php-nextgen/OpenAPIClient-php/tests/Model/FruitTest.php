@@ -76,31 +76,4 @@ class FruitTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
-
-    /**
-     * Test attribute "cultivar"
-     */
-    public function testPropertyCultivar()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "origin"
-     */
-    public function testPropertyOrigin()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
-
-    /**
-     * Test attribute "length_cm"
-     */
-    public function testPropertyLengthCm()
-    {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
-    }
 }

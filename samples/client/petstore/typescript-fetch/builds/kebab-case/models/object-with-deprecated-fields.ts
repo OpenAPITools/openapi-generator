@@ -29,28 +29,20 @@ import {
 export interface ObjectWithDeprecatedFields {
     /**
      * 
-     * @type {string}
-     * @memberof ObjectWithDeprecatedFields
      */
     uuid?: string;
     /**
      * 
-     * @type {number}
-     * @memberof ObjectWithDeprecatedFields
      * @deprecated
      */
     id?: number;
     /**
      * 
-     * @type {DeprecatedObject}
-     * @memberof ObjectWithDeprecatedFields
      * @deprecated
      */
     deprecatedRef?: DeprecatedObject;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof ObjectWithDeprecatedFields
      * @deprecated
      */
     bars?: Array<string>;

@@ -131,6 +131,16 @@ pub enum MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBG
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
+pub enum MultipleResponseContentTypesResponse {
+    /// Created
+    Status201_Created(models::AnyOfObject),
+    /// Forbidden
+    Status403_Forbidden(String),
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum OneOfGetResponse {
     /// Success
     Status200_Success(models::OneOfGet200Response),
@@ -174,6 +184,14 @@ pub enum ReadonlyAuthSchemeGetResponse {
 pub enum RegisterCallbackPostResponse {
     /// OK
     Status204_OK,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum RequiredBinaryStreamPutResponse {
+    /// OK
+    Status200_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -425,6 +443,18 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         path_params: &models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,
     ) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, E>;
 
+    /// Test multiple content types in a single response.
+    ///
+    /// MultipleResponseContentTypes - POST /multiple-response-content-types
+    async fn multiple_response_content_types(
+        &self,
+
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &models::ObjectParam,
+    ) -> Result<MultipleResponseContentTypesResponse, E>;
+
     /// OneOfGet - GET /one-of
     async fn one_of_get(
         &self,
@@ -485,6 +515,16 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         cookies: &CookieJar,
         query_params: &models::RegisterCallbackPostQueryParams,
     ) -> Result<RegisterCallbackPostResponse, E>;
+
+    /// RequiredBinaryStreamPut - PUT /required_binary_stream
+    async fn required_binary_stream_put(
+        &self,
+
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &Bytes,
+    ) -> Result<RequiredBinaryStreamPutResponse, E>;
 
     /// RequiredOctetStreamPut - PUT /required_octet_stream
     async fn required_octet_stream_put(

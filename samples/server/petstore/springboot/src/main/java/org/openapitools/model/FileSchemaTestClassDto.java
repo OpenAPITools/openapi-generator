@@ -26,7 +26,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("FileSchemaTestClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FileSchemaTestClassDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -73,7 +73,7 @@ public class FileSchemaTestClassDto {
    * Get files
    * @return files
    */
-  @Valid 
+  
   @Schema(name = "files", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("files")
   public List<@Valid FileDto> getFiles() {

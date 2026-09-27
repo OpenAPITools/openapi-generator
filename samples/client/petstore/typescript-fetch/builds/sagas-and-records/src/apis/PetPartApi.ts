@@ -25,15 +25,36 @@ import {
 } from '../models/GetPetPartTypeResponse';
 
 export interface GetFakePetPartTypeRequest {
+    /**
+     * 
+     */
     fakePetPartId: number;
 }
 
 export interface GetMatchingPartsRequest {
+    /**
+     * 
+     */
     fakePetPartId: number;
+    /**
+     * 
+     */
     _long: boolean;
+    /**
+     * 
+     */
     smooth: boolean;
+    /**
+     * 
+     */
     _short: boolean;
+    /**
+     * 
+     */
     name?: string;
+    /**
+     * 
+     */
     connectedPart?: string;
 }
 

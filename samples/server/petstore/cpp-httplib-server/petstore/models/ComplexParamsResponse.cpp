@@ -157,8 +157,8 @@ std::string ComplexParamsResponse::CookieEnumEnumToString(ComplexParamsResponse:
     switch (value)
     {
         case CookieEnumEnum::UNSPECIFIED: return "UNSPECIFIED";
-        case CookieEnumEnum::COOKIEA: return "COOKIEA";
-        case CookieEnumEnum::COOKIEB: return "COOKIEB";
+        case CookieEnumEnum::COOKIEA: return "cookieA";
+        case CookieEnumEnum::COOKIEB: return "cookieB";
         default: return {};
     }
 }
@@ -169,11 +169,11 @@ ComplexParamsResponse::CookieEnumEnum ComplexParamsResponse::CookieEnumEnumFromS
     {
         return CookieEnumEnum::UNSPECIFIED;
     }
-    if (str == "COOKIEA")
+    if (str == "cookieA")
     {
         return CookieEnumEnum::COOKIEA;
     }
-    if (str == "COOKIEB")
+    if (str == "cookieB")
     {
         return CookieEnumEnum::COOKIEB;
     }

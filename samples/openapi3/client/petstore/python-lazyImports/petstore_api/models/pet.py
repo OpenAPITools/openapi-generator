@@ -97,8 +97,7 @@ class Pet(BaseModel):
         _items = []
         if self.tags:
             for _item_tags in self.tags:
-                if _item_tags:
-                    _items.append(_item_tags.to_dict())
+                _items.append(_item_tags.to_dict() if _item_tags is not None else None)
             _dict['tags'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

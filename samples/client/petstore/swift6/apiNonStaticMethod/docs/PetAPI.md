@@ -17,6 +17,7 @@ Method | HTTP request | Description
 
 # **addPet**
 ```swift
+    open func addPet(body: Pet) async throws(ErrorResponse)
     open class func addPet( body: Pet) -> Promise<Void>
     open class func addPet(body: Pet) -> Observable<Void>
 ```
@@ -30,6 +31,12 @@ import PetstoreClient
 
 let body = Pet(id: 123, category: Category(id: 123, name: "name_example"), name: "name_example", photoUrls: ["photoUrls_example"], tags: [Tag(id: 123, name: "name_example")], status: "status_example") // Pet | Pet object that needs to be added to the store
 
+// Add a new pet to the store
+do {
+    try await PetAPI().addPet(body: body)
+} catch {
+    print(error)
+}
 // Add a new pet to the store
 PetAPI.addPet(body: body).then {
          // when the promise is fulfilled
@@ -64,6 +71,7 @@ Void (empty response body)
 
 # **deletePet**
 ```swift
+    open func deletePet(petId: Int64, apiKey: String? = nil) async throws(ErrorResponse)
     open class func deletePet( petId: Int64,  apiKey: String? = nil) -> Promise<Void>
     open class func deletePet(petId: Int64, apiKey: String? = nil) -> Observable<Void>
 ```
@@ -78,6 +86,12 @@ import PetstoreClient
 let petId = 987 // Int64 | Pet id to delete
 let apiKey = "apiKey_example" // String |  (optional)
 
+// Deletes a pet
+do {
+    try await PetAPI().deletePet(petId: petId, apiKey: apiKey)
+} catch {
+    print(error)
+}
 // Deletes a pet
 PetAPI.deletePet(petId: petId, apiKey: apiKey).then {
          // when the promise is fulfilled
@@ -113,6 +127,7 @@ Void (empty response body)
 
 # **findPetsByStatus**
 ```swift
+    open func findPetsByStatus(status: [Status_findPetsByStatus]) async throws(ErrorResponse) -> [Pet]
     open class func findPetsByStatus( status: [Status_findPetsByStatus]) -> Promise<[Pet]>
     open class func findPetsByStatus(status: [Status_findPetsByStatus]) -> Observable<[Pet]>
 ```
@@ -128,6 +143,13 @@ import PetstoreClient
 
 let status = ["status_example"] // [String] | Status values that need to be considered for filter
 
+// Finds Pets by status
+do {
+    let response = try await PetAPI().findPetsByStatus(status: status)
+    dump(response)
+} catch {
+    print(error)
+}
 // Finds Pets by status
 PetAPI.findPetsByStatus(status: status).then {
          // when the promise is fulfilled
@@ -162,6 +184,7 @@ Name | Type | Description  | Notes
 
 # **findPetsByTags**
 ```swift
+    open func findPetsByTags(tags: [String]) async throws(ErrorResponse) -> [Pet]
     open class func findPetsByTags( tags: [String]) -> Promise<[Pet]>
     open class func findPetsByTags(tags: [String]) -> Observable<[Pet]>
 ```
@@ -177,6 +200,13 @@ import PetstoreClient
 
 let tags = ["inner_example"] // [String] | Tags to filter by
 
+// Finds Pets by tags
+do {
+    let response = try await PetAPI().findPetsByTags(tags: tags)
+    dump(response)
+} catch {
+    print(error)
+}
 // Finds Pets by tags
 PetAPI.findPetsByTags(tags: tags).then {
          // when the promise is fulfilled
@@ -211,6 +241,7 @@ Name | Type | Description  | Notes
 
 # **getPetById**
 ```swift
+    open func getPetById(petId: Int64) async throws(ErrorResponse) -> Pet
     open class func getPetById( petId: Int64) -> Promise<Pet>
     open class func getPetById(petId: Int64) -> Observable<Pet>
 ```
@@ -226,6 +257,13 @@ import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to return
 
+// Find pet by ID
+do {
+    let response = try await PetAPI().getPetById(petId: petId)
+    dump(response)
+} catch {
+    print(error)
+}
 // Find pet by ID
 PetAPI.getPetById(petId: petId).then {
          // when the promise is fulfilled
@@ -260,6 +298,7 @@ Name | Type | Description  | Notes
 
 # **updatePet**
 ```swift
+    open func updatePet(body: Pet) async throws(ErrorResponse)
     open class func updatePet( body: Pet) -> Promise<Void>
     open class func updatePet(body: Pet) -> Observable<Void>
 ```
@@ -273,6 +312,12 @@ import PetstoreClient
 
 let body = Pet(id: 123, category: Category(id: 123, name: "name_example"), name: "name_example", photoUrls: ["photoUrls_example"], tags: [Tag(id: 123, name: "name_example")], status: "status_example") // Pet | Pet object that needs to be added to the store
 
+// Update an existing pet
+do {
+    try await PetAPI().updatePet(body: body)
+} catch {
+    print(error)
+}
 // Update an existing pet
 PetAPI.updatePet(body: body).then {
          // when the promise is fulfilled
@@ -307,6 +352,7 @@ Void (empty response body)
 
 # **updatePetWithForm**
 ```swift
+    open func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) async throws(ErrorResponse)
     open class func updatePetWithForm( petId: Int64,  name: String? = nil,  status: String? = nil) -> Promise<Void>
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) -> Observable<Void>
 ```
@@ -322,6 +368,12 @@ let petId = 987 // Int64 | ID of pet that needs to be updated
 let name = "name_example" // String | Updated name of the pet (optional)
 let status = "status_example" // String | Updated status of the pet (optional)
 
+// Updates a pet in the store with form data
+do {
+    try await PetAPI().updatePetWithForm(petId: petId, name: name, status: status)
+} catch {
+    print(error)
+}
 // Updates a pet in the store with form data
 PetAPI.updatePetWithForm(petId: petId, name: name, status: status).then {
          // when the promise is fulfilled
@@ -358,6 +410,7 @@ Void (empty response body)
 
 # **uploadFile**
 ```swift
+    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil) async throws(ErrorResponse) -> ApiResponse
     open class func uploadFile( petId: Int64,  additionalMetadata: String? = nil,  file: Data? = nil) -> Promise<ApiResponse>
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil) -> Observable<ApiResponse>
 ```
@@ -373,6 +426,13 @@ let petId = 987 // Int64 | ID of pet to update
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
 let file = Data([9, 8, 7]) // Data | file to upload (optional)
 
+// uploads an image
+do {
+    let response = try await PetAPI().uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file)
+    dump(response)
+} catch {
+    print(error)
+}
 // uploads an image
 PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file).then {
          // when the promise is fulfilled
@@ -409,6 +469,7 @@ Name | Type | Description  | Notes
 
 # **uploadFileWithRequiredFile**
 ```swift
+    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil) async throws(ErrorResponse) -> ApiResponse
     open class func uploadFileWithRequiredFile( petId: Int64,  requiredFile: Data,  additionalMetadata: String? = nil) -> Promise<ApiResponse>
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil) -> Observable<ApiResponse>
 ```
@@ -424,6 +485,13 @@ let petId = 987 // Int64 | ID of pet to update
 let requiredFile = Data([9, 8, 7]) // Data | file to upload
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
 
+// uploads an image (required)
+do {
+    let response = try await PetAPI().uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata)
+    dump(response)
+} catch {
+    print(error)
+}
 // uploads an image (required)
 PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).then {
          // when the promise is fulfilled

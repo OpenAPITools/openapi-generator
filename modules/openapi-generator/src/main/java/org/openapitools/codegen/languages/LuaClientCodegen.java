@@ -599,7 +599,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (!isQuietMode()) {
             System.out.println("################################################################################");
             System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-            System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
             System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
             System.out.println("#                                                                              #");
             System.out.println("# This generator is contributed by daurnimator (https://github.com/daurnimator)#");

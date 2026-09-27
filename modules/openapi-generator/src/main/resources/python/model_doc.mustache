@@ -8,7 +8,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-{{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
+{{#vars}}**{{#vendorExtensions.x-py-public-name-differs-from-storage}}{{vendorExtensions.x-py-public-name}}{{/vendorExtensions.x-py-public-name-differs-from-storage}}{{^vendorExtensions.x-py-public-name-differs-from-storage}}{{name}}{{/vendorExtensions.x-py-public-name-differs-from-storage}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} |{{#vendorExtensions.x-py-public-name-differs-from-storage}}{{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}}{{#defaultValue}} [default to {{{.}}}]{{/defaultValue}}{{/vendorExtensions.x-py-public-name-differs-from-storage}}{{^vendorExtensions.x-py-public-name-differs-from-storage}} {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}{{/vendorExtensions.x-py-public-name-differs-from-storage}}
 {{/vars}}
 
 ## Example

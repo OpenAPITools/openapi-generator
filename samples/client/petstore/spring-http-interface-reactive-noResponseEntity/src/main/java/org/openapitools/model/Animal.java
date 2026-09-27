@@ -32,9 +32,10 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Animal {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String className;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

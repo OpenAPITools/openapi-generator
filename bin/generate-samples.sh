@@ -7,7 +7,7 @@ declare root="$(cd "$cwd" && cd ../ && pwd)"
 declare executable="${root}/modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 if [ ! -f "$executable" ]; then
-  (cd "${root}" && mvn -B --no-snapshot-updates clean package -DskipTests=true -Dmaven.javadoc.skip=true -Djacoco.skip=true)
+  (cd "${root}" && ./mvnw -B --no-snapshot-updates clean package -DskipTests=true -Dmaven.javadoc.skip=true -Djacoco.skip=true)
 fi
 
 export JAVA_OPTS="${JAVA_OPTS} -ea -server -Duser.timezone=UTC"

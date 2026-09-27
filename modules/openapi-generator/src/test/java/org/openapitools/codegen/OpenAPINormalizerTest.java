@@ -26,17 +26,63 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
 import static org.testng.Assert.*;
 
 public class OpenAPINormalizerTest {
 
+    private static final String SIMPLIFY_ONE_OF_ANY_OF = "SIMPLIFY_ONEOF_ANYOF";
+    private static final String SIMPLIFY_ONEOF_ANYOF_ENUM = "SIMPLIFY_ONEOF_ANYOF_ENUM";
     private static final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
     private static final String X_PARENT = "x-parent";
     private static final String X_INTERNAL = "x-internal";
+
+    @Test
+    public void testAllOfMemberWithValidationAndPropertiesIsKept() {
+        // A schema carrying `properties` but omitting `type: object`, next to a validation keyword,
+        // is a model -- not "validation without a type". It used to be classified as unsupported and
+        // silently dropped from allOf, so every model inheriting it lost those properties.
+        OpenAPI openAPI = TestUtils.parseSpec(
+                "src/test/resources/3_0/allof-member-with-validation-and-properties.yaml");
+
+        Schema child = openAPI.getComponents().getSchemas().get("Child");
+        assertNotNull(child.getAllOf());
+        assertTrue(refsParent(child), "precondition: Child starts out referencing Parent");
+
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, new HashMap<>());
+        openAPINormalizer.normalize();
+
+        Schema normalizedChild = openAPI.getComponents().getSchemas().get("Child");
+        assertNotNull(normalizedChild.getAllOf(),
+                "the whole allOf was dropped, so Child lost the inherited properties");
+        assertTrue(refsParent(normalizedChild),
+                "the allOf member carrying alpha/beta was dropped, so Child lost those properties");
+    }
+
+    private static boolean refsParent(Schema schema) {
+        if (schema.getAllOf() == null) {
+            return false;
+        }
+        for (Object item : schema.getAllOf()) {
+            String ref = ((Schema) item).get$ref();
+            if (ref != null && ref.endsWith("/Parent")) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Test
     public void testOpenAPINormalizerOtherThanObjectWithProperties()
@@ -201,7 +247,7 @@ public class OpenAPINormalizerTest {
 
         // Test with rule enabled (default)
         Map<String, String> options = new HashMap<>();
-        options.put("SIMPLIFY_ONEOF_ANYOF_ENUM", "true");
+        options.put(SIMPLIFY_ONEOF_ANYOF_ENUM, "true");
         OpenAPINormalizer normalizer = new OpenAPINormalizer(openAPI, options);
         normalizer.normalize();
 
@@ -239,7 +285,7 @@ public class OpenAPINormalizerTest {
         // Test with rule disabled
         OpenAPI openAPI2 = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfWithEnums_test.yaml");
         Map<String, String> options2 = new HashMap<>();
-        options2.put("SIMPLIFY_ONEOF_ANYOF_ENUM", "false");
+        options2.put(SIMPLIFY_ONEOF_ANYOF_ENUM, "false");
         OpenAPINormalizer normalizer2 = new OpenAPINormalizer(openAPI2, options2);
         normalizer2.normalize();
 
@@ -303,7 +349,7 @@ public class OpenAPINormalizerTest {
         assertEquals(schema19.getAnyOf().size(), 1);
 
         Map<String, String> options = new HashMap<>();
-        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        options.put(SIMPLIFY_ONE_OF_ANY_OF, "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -361,7 +407,7 @@ public class OpenAPINormalizerTest {
         assertEquals(((Schema) oneOfWithSingleRef.getProperties().get("number")).getOneOf().size(), 1);
 
         Map<String, String> options = new HashMap<>();
-        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        options.put(SIMPLIFY_ONE_OF_ANY_OF, "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -502,7 +548,7 @@ public class OpenAPINormalizerTest {
         assertNull(schema.getNullable());
 
         Map<String, String> options = new HashMap<>();
-        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        options.put(SIMPLIFY_ONE_OF_ANY_OF, "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -1530,7 +1576,7 @@ public class OpenAPINormalizerTest {
 
         // start the normalization
         Map<String, String> options = new HashMap<>();
-        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        options.put(SIMPLIFY_ONE_OF_ANY_OF, "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -1568,9 +1614,16 @@ public class OpenAPINormalizerTest {
         assertEquals(schema14.getType(), null);
 
         Schema schema16 = openAPI.getComponents().getSchemas().get("TypeIntegerWithOneOf");
-        assertEquals(schema16.getOneOf().size(),3);
-        assertEquals(((Schema) schema16.getOneOf().get(0)).getConst(), 1);
-        assertEquals(((Schema) schema16.getOneOf().get(0)).getDeprecated(), true);
+        // After normalization, oneOf with const values should be simplified to enum
+        assertEquals(schema16.getOneOf(), null);
+        assertEquals(schema16.getEnum().size(), 3);
+        assertEquals(schema16.getEnum().get(0), 1);
+        // per-value deprecated flags from oneOf sub-schemas should be preserved as x-enum-deprecated
+        List<Boolean> enumDeprecated = (List<Boolean>) schema16.getExtensions().get("x-enum-deprecated");
+        assertEquals(enumDeprecated.size(), 3);
+        assertEquals(enumDeprecated.get(0), Boolean.TRUE);
+        assertEquals(enumDeprecated.get(1), Boolean.FALSE);
+        assertEquals(enumDeprecated.get(2), Boolean.FALSE);
 
         Schema schema18 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
         // original oneOf removed and simplified to just $ref (oneOf sub-schema) instead
@@ -1598,6 +1651,40 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOneOfWithStringsWithDifferentPatternsAreCollapsedWithSimplifyOneOfAnyOf() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/simplifyOneOfAnyOf_test.yaml");
+
+        Schema stringPatternsWithOneOf = openAPI.getComponents().getSchemas().get("StringPatternsWithOneOf");
+        assertEquals(stringPatternsWithOneOf.getOneOf().size(), 2);
+
+        // start the normalization
+        Map<String, String> options = new HashMap<>();
+        options.put(SIMPLIFY_ONE_OF_ANY_OF, "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema normalizedStringPatternsWithOneOf = openAPI.getComponents().getSchemas().get("StringPatternsWithOneOf");
+        assertNull(normalizedStringPatternsWithOneOf.getOneOf());
+    }
+
+    @Test
+    public void testOneOfWithConstsIsUntouchedBySimplifyOneOfAnyOf() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/simplifyOneOfAnyOf_test.yaml");
+
+        Schema integerWithOneOfConsts = openAPI.getComponents().getSchemas().get("TypeIntegerWithOneOf");
+        assertEquals(integerWithOneOfConsts.getOneOf().size(), 3);
+
+        // start the normalization
+        Map<String, String> options = new HashMap<>();
+        options.put(SIMPLIFY_ONEOF_ANYOF_ENUM, "false");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema normalizedIntegerWithOneOfConsts = openAPI.getComponents().getSchemas().get("TypeIntegerWithOneOf");
+        assertEquals(normalizedIntegerWithOneOfConsts.getOneOf().size(), 3);
+    }
+
+    @Test
     public void testOpenAPINormalizerSimplifyOneOfWithSingleRef31Spec() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/simplifyOneOfAnyOf_test.yaml");
 
@@ -1605,7 +1692,7 @@ public class OpenAPINormalizerTest {
         assertEquals(((Schema) oneOfWithSingleRef.getProperties().get("number")).getOneOf().size(), 1);
 
         Map<String, String> options = new HashMap<>();
-        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        options.put(SIMPLIFY_ONE_OF_ANY_OF, "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -1726,6 +1813,158 @@ public class OpenAPINormalizerTest {
         openAPINormalizer.normalize();
         Schema requiredProperties = openAPI.getComponents().getSchemas().get("RequiredProperties");
         assertEquals(requiredProperties.getRequired(), null);
+    }
+
+    @Test
+    public void testNormalizerClassLoadsFromContextClassLoaderWhenNotOnDefaultClassLoader() throws Exception {
+        // Compile a NORMALIZER_CLASS implementation into an isolated directory that is *not* on
+        // the classpath used to load OpenAPINormalizerTest/OpenAPINormalizer, then make it
+        // resolvable only via a custom thread context classloader. This simulates how Gradle's
+        // Worker API sets the TCCL to a classloader that can see a user-supplied classpath.
+        Path classesDir = Files.createTempDirectory("normalizer-tccl-test");
+        try {
+            String className = "org.openapitools.codegen.testfixture.TcclOnlyNormalizer";
+            compileNormalizerFixture(classesDir, className);
+
+            ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
+            URLClassLoader isolatedLoader = new URLClassLoader(
+                    new URL[]{classesDir.toUri().toURL()}, originalTccl);
+            try {
+                Thread.currentThread().setContextClassLoader(isolatedLoader);
+
+                OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/required-properties.yaml");
+                Map<String, String> inputRules = Map.of("NORMALIZER_CLASS", className);
+                OpenAPINormalizer openAPINormalizer = OpenAPINormalizer.createNormalizer(openAPI, inputRules);
+
+                assertEquals(openAPINormalizer.getClass().getName(), className);
+                assertEquals(openAPINormalizer.getClass().getClassLoader(), isolatedLoader);
+            } finally {
+                Thread.currentThread().setContextClassLoader(originalTccl);
+                isolatedLoader.close();
+            }
+        } finally {
+            deleteRecursively(classesDir);
+        }
+    }
+
+    @Test
+    public void testNormalizerClassFallsBackToDefaultClassLoaderWhenContextClassLoaderIsNull() {
+        // When the TCCL is null (or cannot resolve the class), createNormalizer must fall back to
+        // OpenAPINormalizer's own defining classloader, preserving pre-existing behavior.
+        ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
+        try {
+            Thread.currentThread().setContextClassLoader(null);
+
+            OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/required-properties.yaml");
+            Map<String, String> inputRules = Map.of(
+                    "NORMALIZER_CLASS", RemoveRequiredNormalizer.class.getName()
+            );
+            OpenAPINormalizer openAPINormalizer = OpenAPINormalizer.createNormalizer(openAPI, inputRules);
+            openAPINormalizer.normalize();
+
+            Schema requiredProperties = openAPI.getComponents().getSchemas().get("RequiredProperties");
+            assertEquals(requiredProperties.getRequired(), null);
+        } finally {
+            Thread.currentThread().setContextClassLoader(originalTccl);
+        }
+    }
+
+    @Test
+    public void testNormalizerClassFallsBackWhenContextClassLoaderCannotResolveClass() {
+        // A TCCL that is isolated from the class (e.g. a foreign/unrelated classloader) must not
+        // prevent resolution: createNormalizer should fall through to the defining classloader.
+        ClassLoader originalTccl = Thread.currentThread().getContextClassLoader();
+        try {
+            Thread.currentThread().setContextClassLoader(new URLClassLoader(new URL[0], null));
+
+            OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/required-properties.yaml");
+            Map<String, String> inputRules = Map.of(
+                    "NORMALIZER_CLASS", RemoveRequiredNormalizer.class.getName()
+            );
+            OpenAPINormalizer openAPINormalizer = OpenAPINormalizer.createNormalizer(openAPI, inputRules);
+            openAPINormalizer.normalize();
+
+            Schema requiredProperties = openAPI.getComponents().getSchemas().get("RequiredProperties");
+            assertNull(requiredProperties.getRequired());
+        } finally {
+            Thread.currentThread().setContextClassLoader(originalTccl);
+        }
+    }
+
+    @Test
+    public void testNormalizerClassNotFoundProducesClearErrorMessage() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/required-properties.yaml");
+        Map<String, String> inputRules = Map.of(
+                "NORMALIZER_CLASS", "org.openapitools.codegen.DoesNotExistNormalizer"
+        );
+        RuntimeException e = expectThrows(RuntimeException.class,
+                () -> OpenAPINormalizer.createNormalizer(openAPI, inputRules));
+        assertTrue(e.getMessage().contains("org.openapitools.codegen.DoesNotExistNormalizer"));
+        assertTrue(e.getMessage().contains("classpath"));
+    }
+
+    /**
+     * Compiles a minimal {@code OpenAPINormalizer} subclass with the given fully qualified class
+     * name into {@code outputDir}, using only the current JVM's compile-time classpath (so the
+     * resulting class is a valid {@code NORMALIZER_CLASS} but is not itself present anywhere on
+     * disk that a default classloader would already see).
+     */
+    private static void compileNormalizerFixture(Path outputDir, String fullyQualifiedClassName) throws Exception {
+        int lastDot = fullyQualifiedClassName.lastIndexOf('.');
+        String packageName = fullyQualifiedClassName.substring(0, lastDot);
+        String simpleName = fullyQualifiedClassName.substring(lastDot + 1);
+
+        Path sourceDir = Files.createTempDirectory("normalizer-tccl-src");
+        try {
+            Path packageDir = sourceDir.resolve(packageName.replace('.', File.separatorChar));
+            Files.createDirectories(packageDir);
+            Path sourceFile = packageDir.resolve(simpleName + ".java");
+
+            String source = "package " + packageName + ";\n"
+                    + "import io.swagger.v3.oas.models.OpenAPI;\n"
+                    + "import java.util.Map;\n"
+                    + "public class " + simpleName + " extends org.openapitools.codegen.OpenAPINormalizer {\n"
+                    + "    public " + simpleName + "(OpenAPI openAPI, Map<String, String> inputRules) {\n"
+                    + "        super(openAPI, inputRules);\n"
+                    + "    }\n"
+                    + "}\n";
+            Files.writeString(sourceFile, source);
+
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            if (compiler == null) {
+                throw new org.testng.SkipException(
+                        "No system Java compiler available (test requires a JDK, not a JRE)");
+            }
+            String classpath = System.getProperty("java.class.path");
+            int result = compiler.run(null, null, null,
+                    "-d", outputDir.toString(),
+                    "-cp", classpath,
+                    sourceFile.toString());
+            assertEquals(result, 0, "Failed to compile test fixture normalizer class");
+        } finally {
+            deleteRecursively(sourceDir);
+        }
+    }
+
+    /**
+     * Recursively deletes a temporary directory tree created by the NORMALIZER_CLASS
+     * classloader-fallback tests, so compiled fixture sources/classes don't leak on disk across
+     * test runs.
+     */
+    private static void deleteRecursively(Path root) throws IOException {
+        if (!Files.exists(root)) {
+            return;
+        }
+        try (Stream<Path> paths = Files.walk(root)) {
+            paths.sorted(Comparator.reverseOrder())
+                    .forEach(path -> {
+                        try {
+                            Files.deleteIfExists(path);
+                        } catch (IOException ignored) {
+                            // best-effort cleanup
+                        }
+                    });
+        }
     }
 
 
@@ -1896,4 +2135,87 @@ public class OpenAPINormalizerTest {
         ModelUtils.looseNullDefinitions = false;
     }
 
+    /**
+     * Verify that a schema defined as type:[object,"null"] WITH properties (OAS 3.1 style)
+     * is correctly normalized so that nullable:true is set on the schema itself.
+     * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24139
+     */
+    @Test
+    public void testIssue24139NullableObjectWithPropertiesGetsNullableTrue() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24139.yaml");
+
+        // Before normalization: NestedNullable has types=[object,null], nullable is not yet set
+        Schema<?> nestedNullableBefore = openAPI.getComponents().getSchemas().get("NestedNullable");
+        assertNotNull(nestedNullableBefore);
+        assertNotNull(nestedNullableBefore.getProperties());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        // After normalization: nullable must be true and type must be "object"
+        Schema<?> nestedNullableAfter = openAPI.getComponents().getSchemas().get("NestedNullable");
+        assertNotNull(nestedNullableAfter);
+        assertEquals(nestedNullableAfter.getNullable(), Boolean.TRUE,
+                "NestedNullable with type:[object,\"null\"] should have nullable:true after normalization");
+        assertEquals(nestedNullableAfter.getType(), "object");
+        assertNotNull(nestedNullableAfter.getProperties(),
+                "NestedNullable properties must be preserved after normalization");
+    }
+
+    /**
+     * Regression test: an OAS 3.1 schema with properties but NO explicit type declaration
+     * must keep its properties after NORMALIZE_31SPEC normalization.
+     * Regression for a potential regression introduced by the fix for issue 24139.
+     */
+    @Test
+    public void testIssue24139ImpliedObjectSchemaKeepsProperties() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_24139.yaml");
+
+        Schema<?> impliedBefore = openAPI.getComponents().getSchemas().get("ImpliedObject");
+        assertNotNull(impliedBefore);
+        assertNotNull(impliedBefore.getProperties());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema<?> impliedAfter = openAPI.getComponents().getSchemas().get("ImpliedObject");
+        assertNotNull(impliedAfter);
+        assertNotNull(impliedAfter.getProperties(),
+                "ImpliedObject (no explicit type, just properties) must keep its properties after normalization");
+        assertNotNull(impliedAfter.getProperties().get("name"),
+                "ImpliedObject.name property must be preserved after normalization");
+        assertNull(impliedAfter.getNullable(),
+                "ImpliedObject must not be marked nullable (no null type was declared)");
+    }
+
+    @Test
+    public void testOpenAPINormalizer31SpecNullMapAdditionalProperties() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_23945.yaml");
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("NullableMaps");
+
+        // `additionalProperties: { type: "null" }` must not keep the OAS 3.1 `null` type (which makes
+        // generators emit a fictional `Null` / `ModelNull` value type); it is normalized to an
+        // any-type nullable schema so the map value generates as a normal (nullable) object.
+        Schema stringMapValue = ModelUtils.getAdditionalProperties((Schema) schema.getProperties().get("stringMap"));
+        assertNull(stringMapValue.getType());
+        assertNull(stringMapValue.getTypes());
+        assertTrue(stringMapValue.getNullable());
+
+        // `additionalProperties: { type: [array, "null"], items: ... }` is normalized to a proper
+        // (nullable) array value schema rather than being left half-converted.
+        Schema errorsValue = ModelUtils.getAdditionalProperties((Schema) schema.getProperties().get("errorsByKey"));
+        assertEquals(errorsValue.getType(), "array");
+        assertTrue(errorsValue.getNullable());
+        assertNotNull(errorsValue.getItems());
+    }
+
 }
+

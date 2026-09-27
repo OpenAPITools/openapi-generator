@@ -20,9 +20,12 @@ package org.openapitools.codegen.online.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
+
 @Getter
 @Setter
 public class Generated {
     private String filename;
     private String friendlyName;
+    private Instant createdAt = Instant.now();
 }

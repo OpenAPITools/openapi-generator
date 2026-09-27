@@ -38,7 +38,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -242,6 +242,25 @@ public class FakeApi {
         @Override
         public int hashCode() {
             return Objects.hash(pet, query1, header1);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class FakeHttpSignatureTestRequest {\n");
+            sb.append("    pet: ").append(toIndentedString(pet)).append("\n");
+            sb.append("    query1: ").append(toIndentedString(query1)).append("\n");
+            sb.append("    header1: ").append(toIndentedString(header1)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
         }
     }
 
@@ -974,6 +993,24 @@ public class FakeApi {
         public int hashCode() {
             return Objects.hash(query, user);
         }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class TestBodyWithQueryParamsRequest {\n");
+            sb.append("    query: ").append(toIndentedString(query)).append("\n");
+            sb.append("    user: ").append(toIndentedString(user)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
+        }
     }
 
     /**
@@ -1341,6 +1378,36 @@ public class FakeApi {
         public int hashCode() {
             return Objects.hash(number, _double, patternWithoutDelimiter, Arrays.hashCode(_byte), integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
         }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class TestEndpointParametersRequest {\n");
+            sb.append("    number: ").append(toIndentedString(number)).append("\n");
+            sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
+            sb.append("    patternWithoutDelimiter: ").append(toIndentedString(patternWithoutDelimiter)).append("\n");
+            sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
+            sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
+            sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
+            sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
+            sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
+            sb.append("    string: ").append(toIndentedString(string)).append("\n");
+            sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
+            sb.append("    date: ").append(toIndentedString(date)).append("\n");
+            sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+            sb.append("    password: ").append("*").append("\n");
+            sb.append("    paramCallback: ").append(toIndentedString(paramCallback)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
+        }
     }
 
     /**
@@ -1668,6 +1735,31 @@ public class FakeApi {
         public int hashCode() {
             return Objects.hash(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
         }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class TestEnumParametersRequest {\n");
+            sb.append("    enumHeaderStringArray: ").append(toIndentedString(enumHeaderStringArray)).append("\n");
+            sb.append("    enumHeaderString: ").append(toIndentedString(enumHeaderString)).append("\n");
+            sb.append("    enumQueryStringArray: ").append(toIndentedString(enumQueryStringArray)).append("\n");
+            sb.append("    enumQueryString: ").append(toIndentedString(enumQueryString)).append("\n");
+            sb.append("    enumQueryInteger: ").append(toIndentedString(enumQueryInteger)).append("\n");
+            sb.append("    enumQueryDouble: ").append(toIndentedString(enumQueryDouble)).append("\n");
+            sb.append("    enumQueryModelArray: ").append(toIndentedString(enumQueryModelArray)).append("\n");
+            sb.append("    enumFormStringArray: ").append(toIndentedString(enumFormStringArray)).append("\n");
+            sb.append("    enumFormString: ").append(toIndentedString(enumFormString)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
+        }
     }
 
     /**
@@ -1911,6 +2003,28 @@ public class FakeApi {
         @Override
         public int hashCode() {
             return Objects.hash(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class TestGroupParametersRequest {\n");
+            sb.append("    requiredStringGroup: ").append(toIndentedString(requiredStringGroup)).append("\n");
+            sb.append("    requiredBooleanGroup: ").append(toIndentedString(requiredBooleanGroup)).append("\n");
+            sb.append("    requiredInt64Group: ").append(toIndentedString(requiredInt64Group)).append("\n");
+            sb.append("    stringGroup: ").append(toIndentedString(stringGroup)).append("\n");
+            sb.append("    booleanGroup: ").append(toIndentedString(booleanGroup)).append("\n");
+            sb.append("    int64Group: ").append(toIndentedString(int64Group)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
         }
     }
 
@@ -2237,6 +2351,24 @@ public class FakeApi {
         public int hashCode() {
             return Objects.hash(param, param2);
         }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class TestJsonFormDataRequest {\n");
+            sb.append("    param: ").append(toIndentedString(param)).append("\n");
+            sb.append("    param2: ").append(toIndentedString(param2)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
+        }
     }
 
     /**
@@ -2524,6 +2656,29 @@ public class FakeApi {
         @Override
         public int hashCode() {
             return Objects.hash(pipe, ioutil, http, url, context, allowEmpty, language);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class TestQueryParameterCollectionFormatRequest {\n");
+            sb.append("    pipe: ").append(toIndentedString(pipe)).append("\n");
+            sb.append("    ioutil: ").append(toIndentedString(ioutil)).append("\n");
+            sb.append("    http: ").append(toIndentedString(http)).append("\n");
+            sb.append("    url: ").append(toIndentedString(url)).append("\n");
+            sb.append("    context: ").append(toIndentedString(context)).append("\n");
+            sb.append("    allowEmpty: ").append(toIndentedString(allowEmpty)).append("\n");
+            sb.append("    language: ").append(toIndentedString(language)).append("\n");
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+        * Convert the given object to string with each line indented by 4 spaces
+        * (except the first line).
+        */
+        private String toIndentedString(Object o) {
+            return o == null ? "null" : o.toString().replace("\n", "\n    ");
         }
     }
 

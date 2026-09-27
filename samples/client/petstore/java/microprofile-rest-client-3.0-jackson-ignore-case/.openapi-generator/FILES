@@ -1,0 +1,15 @@
+README.md
+docs/DefaultApi.md
+docs/IntegerEnum.md
+docs/Pony.md
+docs/Type.md
+pom.xml
+src/main/java/org/openapitools/client/RFC3339DateFormat.java
+src/main/java/org/openapitools/client/RFC3339InstantDeserializer.java
+src/main/java/org/openapitools/client/RFC3339JavaTimeModule.java
+src/main/java/org/openapitools/client/api/ApiException.java
+src/main/java/org/openapitools/client/api/ApiExceptionMapper.java
+src/main/java/org/openapitools/client/api/DefaultApi.java
+src/main/java/org/openapitools/client/model/IntegerEnum.java
+src/main/java/org/openapitools/client/model/Pony.java
+src/main/java/org/openapitools/client/model/Type.java

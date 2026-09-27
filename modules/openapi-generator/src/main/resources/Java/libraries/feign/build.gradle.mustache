@@ -19,6 +19,26 @@ repositories {
 }
 
 
+ext {
+    swagger_annotations_version = "1.6.11"
+    {{#jackson}}
+    jackson_version = "2.21.5"
+    jackson_annotations_version = "2.21"
+    jackson_databind_version = "2.21.5"
+    {{/jackson}}
+    {{#openApiNullable}}
+    jackson_databind_nullable_version = "0.2.11"
+    {{/openApiNullable}}
+    jakarta_annotation_version = "1.3.5"
+    feign_version = "13.5"
+    feign_form_version = "3.8.0"
+    junit_version = "5.7.0"
+    scribejava_version = "8.0.0"
+    {{#useReflectionEqualsHashCode}}
+    commons_lang3_version = "3.17.0"
+    {{/useReflectionEqualsHashCode}}
+}
+
 if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
@@ -78,8 +98,10 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     publishing {
         publications {
@@ -91,33 +113,13 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
+       mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
 }
 
 test {
     useJUnitPlatform()
-}
-
-ext {
-    swagger_annotations_version = "1.6.11"
-    {{#jackson}}
-    jackson_version = "2.21.1"
-    jackson_annotations_version = "2.21"
-    jackson_databind_version = "2.21.1"
-    {{/jackson}}
-    {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.10"
-    {{/openApiNullable}}
-    jakarta_annotation_version = "1.3.5"
-    feign_version = "13.5"
-    feign_form_version = "3.8.0"
-    junit_version = "5.7.0"
-    scribejava_version = "8.0.0"
-    {{#useReflectionEqualsHashCode}}
-    commons_lang3_version = "3.17.0"
-    {{/useReflectionEqualsHashCode}}
 }
 
 dependencies {

@@ -7,7 +7,7 @@
     <version>1.0.0</version>
     <properties>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
-        <jackson3.version>3.1.0</jackson3.version>
+        <jackson3.version>3.1.5</jackson3.version>
         <jakarta-annotation.version>3.0.0</jakarta-annotation.version>
         <kotlin-test-junit5.version>2.2.0</kotlin-test-junit5.version>
 

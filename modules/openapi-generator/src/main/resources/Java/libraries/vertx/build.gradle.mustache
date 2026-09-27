@@ -11,8 +11,10 @@ repositories {
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
-sourceCompatibility = {{#useVertx5}}JavaVersion.VERSION_11{{/useVertx5}}{{^useVertx5}}JavaVersion.VERSION_1_8{{/useVertx5}}
-targetCompatibility = {{#useVertx5}}JavaVersion.VERSION_11{{/useVertx5}}{{^useVertx5}}JavaVersion.VERSION_1_8{{/useVertx5}}
+java {
+    sourceCompatibility = {{#useVertx5}}JavaVersion.VERSION_11{{/useVertx5}}{{^useVertx5}}JavaVersion.VERSION_1_8{{/useVertx5}}
+    targetCompatibility = {{#useVertx5}}JavaVersion.VERSION_11{{/useVertx5}}{{^useVertx5}}JavaVersion.VERSION_1_8{{/useVertx5}}
+}
 
 publishing {
     publications {
@@ -24,18 +26,18 @@ publishing {
 }
 
 task execute(type:JavaExec) {
-   main = System.getProperty('mainClass')
+   mainClass = System.getProperty('mainClass')
    classpath = sourceSets.main.runtimeClasspath
 }
 
 ext {
     swagger_annotations_version = "1.5.21"
-    jackson_version = "2.19.2"
-    jackson_databind_version = "2.19.2"
+    jackson_version = "2.21.5"
+    jackson_databind_version = "2.21.5"
     vertx_version = "{{#useVertx5}}5.0.11{{/useVertx5}}{{#supportVertxFuture}}{{^useVertx5}}4.0.0{{/useVertx5}}{{/supportVertxFuture}}{{^supportVertxFuture}}{{^useVertx5}}3.5.2{{/useVertx5}}{{/supportVertxFuture}}"
     junit_version = "5.10.3"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.10"
+    jackson_databind_nullable_version = "0.2.11"
     {{/openApiNullable}}
     jakarta_annotation_version = "1.3.5"
 }

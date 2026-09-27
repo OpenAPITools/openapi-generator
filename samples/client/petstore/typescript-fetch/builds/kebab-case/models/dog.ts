@@ -29,8 +29,6 @@ import {
 export interface Dog extends Animal {
     /**
      * 
-     * @type {string}
-     * @memberof Dog
      */
     breed?: string;
 }

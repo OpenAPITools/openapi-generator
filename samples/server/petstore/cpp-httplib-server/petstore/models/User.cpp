@@ -103,9 +103,9 @@ std::string User::UserStatusEnumToString(User::UserStatusEnum value)
     switch (value)
     {
         case UserStatusEnum::UNSPECIFIED: return "UNSPECIFIED";
-        case UserStatusEnum::_0: return "_0";
-        case UserStatusEnum::_1: return "_1";
-        case UserStatusEnum::_2: return "_2";
+        case UserStatusEnum::_0: return "0";
+        case UserStatusEnum::_1: return "1";
+        case UserStatusEnum::_2: return "2";
         default: return {};
     }
 }
@@ -116,15 +116,15 @@ User::UserStatusEnum User::UserStatusEnumFromString(const std::string& str)
     {
         return UserStatusEnum::UNSPECIFIED;
     }
-    if (str == "_0")
+    if (str == "0")
     {
         return UserStatusEnum::_0;
     }
-    if (str == "_1")
+    if (str == "1")
     {
         return UserStatusEnum::_1;
     }
-    if (str == "_2")
+    if (str == "2")
     {
         return UserStatusEnum::_2;
     }

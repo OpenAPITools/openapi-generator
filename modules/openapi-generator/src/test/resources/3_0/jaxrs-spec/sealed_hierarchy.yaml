@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info:
+  title: sealed class hierarchy
+  description: >
+    An allOf class hierarchy driven by a parent discriminator. Under useSealed the
+    parent class is sealed and permits its subclasses, which extend it and become final.
+    Cat is a middle tier with its own discriminator: it is both a permitted subclass of
+    Pet and a sealed parent of PersianCat.
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '201':
+          description: created
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - petType
+        - name
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/Cat'
+          DOG: '#/components/schemas/Dog'
+
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          required:
+            - catType
+          properties:
+            catType:
+              type: string
+            indoor:
+              type: boolean
+      discriminator:
+        propertyName: catType
+        mapping:
+          PERSIAN: '#/components/schemas/PersianCat'
+
+    PersianCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            longHair:
+              type: boolean
+
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            trained:
+              type: boolean
+
+    Toy:
+      type: object
+      properties:
+        name:
+          type: string

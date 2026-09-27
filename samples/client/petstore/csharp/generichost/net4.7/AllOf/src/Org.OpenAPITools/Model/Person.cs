@@ -195,13 +195,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Person.");
+                throw new JsonException("Property is not nullable for class Person: firstName.");
 
             if (lastName.IsSet && lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class Person.");
+                throw new JsonException("Property is not nullable for class Person: lastName.");
 
             if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Person.");
+                throw new JsonException("Property is not nullable for class Person: $_type.");
 
             return new Person(firstName, lastName);
         }
@@ -241,10 +241,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
             if (person.FirstNameOption.IsSet && person.FirstName == null)
-                throw new ArgumentNullException(nameof(person.FirstName), "Property is required for class Person.");
+                throw new JsonException("Cannot write null property Person.FirstName to non-nullable JSON property 'firstName'.");
 
             if (person.LastNameOption.IsSet && person.LastName == null)
-                throw new ArgumentNullException(nameof(person.LastName), "Property is required for class Person.");
+                throw new JsonException("Cannot write null property Person.LastName to non-nullable JSON property 'lastName'.");
 
             if (person.FirstNameOption.IsSet)
                 writer.WriteString("firstName", person.FirstName);

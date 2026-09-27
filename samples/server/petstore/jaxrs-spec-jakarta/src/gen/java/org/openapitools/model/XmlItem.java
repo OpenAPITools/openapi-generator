@@ -21,37 +21,37 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 @JsonTypeName("XmlItem")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class XmlItem  implements Serializable {
   private String attributeString;
   private BigDecimal attributeNumber;
   private Integer attributeInteger;
   private Boolean attributeBoolean;
-  private @Valid List<Integer> wrappedArray = new ArrayList<>();
+  private List<Integer> wrappedArray = new ArrayList<>();
   private String nameString;
   private BigDecimal nameNumber;
   private Integer nameInteger;
   private Boolean nameBoolean;
-  private @Valid List<Integer> nameArray = new ArrayList<>();
-  private @Valid List<Integer> nameWrappedArray = new ArrayList<>();
+  private List<Integer> nameArray = new ArrayList<>();
+  private List<Integer> nameWrappedArray = new ArrayList<>();
   private String prefixString;
   private BigDecimal prefixNumber;
   private Integer prefixInteger;
   private Boolean prefixBoolean;
-  private @Valid List<Integer> prefixArray = new ArrayList<>();
-  private @Valid List<Integer> prefixWrappedArray = new ArrayList<>();
+  private List<Integer> prefixArray = new ArrayList<>();
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
   private String namespaceString;
   private BigDecimal namespaceNumber;
   private Integer namespaceInteger;
   private Boolean namespaceBoolean;
-  private @Valid List<Integer> namespaceArray = new ArrayList<>();
-  private @Valid List<Integer> namespaceWrappedArray = new ArrayList<>();
+  private List<Integer> namespaceArray = new ArrayList<>();
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
   private String prefixNsString;
   private BigDecimal prefixNsNumber;
   private Integer prefixNsInteger;
   private Boolean prefixNsBoolean;
-  private @Valid List<Integer> prefixNsArray = new ArrayList<>();
-  private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<>();
+  private List<Integer> prefixNsArray = new ArrayList<>();
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   protected XmlItem(XmlItemBuilder<?, ?> b) {
     this.attributeString = b.attributeString;

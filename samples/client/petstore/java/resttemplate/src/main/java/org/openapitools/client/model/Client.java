@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   @javax.annotation.Nullable
@@ -42,7 +42,7 @@ public class Client {
   /**
    * Constructor with all args parameters
    */
-  public Client(@JsonProperty(JSON_PROPERTY_CLIENT) String client) {
+  public Client(@JsonProperty(JSON_PROPERTY_CLIENT) @javax.annotation.Nullable String client) {
     this.client = client;
   }
 

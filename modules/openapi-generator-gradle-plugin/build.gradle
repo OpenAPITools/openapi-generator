@@ -8,6 +8,7 @@ plugins {
     id("java-gradle-plugin")
     id("maven-publish")
     id("org.gradle.kotlin.kotlin-dsl") version "5.2.0"
+    id("org.jetbrains.dokka-javadoc") version "2.2.0"
     id("org.jetbrains.kotlin.jvm") version "2.0.21"
     id("signing")
 }
@@ -25,7 +26,6 @@ specifications as part of your build. Other tasks are available as command line 
 
 java {
     withSourcesJar()
-    withJavadocJar()
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
@@ -67,10 +67,12 @@ tasks.withType(KotlinCompile).configureEach {
     }
 }
 
-tasks.withType(Javadoc).configureEach {
-    if (JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption("html5", true)
-    }
+// Generate a KDoc-based javadoc jar using Dokka so IntelliJ shows rich documentation
+// tooltips without requiring the -sources.jar to be downloaded.
+tasks.register("javadocJar", Jar) {
+    dependsOn("dokkaGeneratePublicationJavadoc")
+    from(tasks.named("dokkaGeneratePublicationJavadoc").flatMap { it.outputDirectory })
+    archiveClassifier = "javadoc"
 }
 
 tasks.withType(CloseNexusStagingRepository).configureEach {

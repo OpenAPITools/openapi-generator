@@ -1,5 +1,8 @@
 # {{#lambdaPrefixWithHash}}{{> api_info}}{{/lambdaPrefixWithHash}}
 
+require "base64"
+require "crest"
+require "http"
 require "log"
 
 module {{moduleName}}
@@ -12,18 +15,6 @@ module {{moduleName}}
 
     # Defines url base path
     property base_path : String
-
-    # Define server configuration index
-    property server_index : Int32
-
-    # Define server operation configuration index
-    property server_operation_index : Hash(Symbol, String)
-
-    # Default server variables
-    property server_variables : Hash(Symbol, String)
-
-    # Default server operation variables
-    property server_operation_variables : Hash(Symbol, String)
 
     # Defines API keys used with API Key authentications.
     #
@@ -60,6 +51,15 @@ module {{moduleName}}
     #
     # @return [true, false]
     property debugging : Bool
+
+    # Enable the underlying HTTP client's (crest) request/response logging. Off by default, so the
+    # shard produces no log output unless a consumer opts in (e.g. a higher-level client wrapper
+    # can expose `config.logging = true`). Independent of `debugging`.
+    property logging : Bool
+
+    # Logger used by crest when `logging` is enabled. Defaults to `Crest::CommonLogger`; assign a
+    # custom `Crest::Logger` to control formatting/output.
+    property logger : Crest::Logger
 
     # Defines the temporary folder to store downloaded files
     # (for API endpoints that have file response).
@@ -119,35 +119,50 @@ module {{moduleName}}
     # https://github.com/typhoeus/ethon/blob/master/lib/ethon/easy/queryable.rb#L96
     #property params_encoding : String?
 
+    # Default headers sent with every request.
+    property default_headers : HTTP::Headers = HTTP::Headers.new
+
+    # Params encoder used to encode array query parameters.
+    # Default: Crest::NestedParamsEncoder (encodes arrays as key=a&key=b).
+    property params_encoder : Crest::ParamsEncoder.class = {{paramsEncoder}}
+
+    # Optional request-signing hook. Called on every request, after apply_auth! and
+    # just before the HTTP call, with (method, url, body, headers, query). `url` is the
+    # base URL + path WITHOUT the query string (Crest re-encodes `query` into the final
+    # URL after this hook); rebuild it from the `query` argument if your signature must
+    # cover it. `body` is nil for form/multipart operations (the form is encoded by Crest
+    # later). Mutate `headers`/`query` in place to inject a computed signature (OVH
+    # `$1$`+SHA1, AWS SigV4, ...). Left nil = no signing. Not expressible as an OpenAPI
+    # security scheme, hence this seam rather than apply_auth!.
+    property sign_request : Proc(Symbol, String, String?, HTTP::Headers,
+                                 Hash(String, String | Array(String)), Nil)? = nil
+
     # Create a new `Configuration`.
     def initialize
       @scheme = "{{scheme}}"
       @host = "{{host}}{{#port}}:{{{.}}}{{/port}}"
       @base_path = "{{contextPath}}"
-      @server_index = 0
-      @server_operation_index = {} of Symbol => String
-      @server_variables = {} of Symbol => String
-      @server_operation_variables = {} of Symbol => String
       @api_key = {} of Symbol => String
       @api_key_prefix = {} of Symbol => String
       @timeout = 0
       @client_side_validation = true
-      @verify_ssl = true
-      @verify_ssl_host = true
       #@params_encoding = nil
       #@cert_file = nil
       #@key_file = nil
       @debugging = false
+      @logging = false
+      @logger = Crest::CommonLogger.new
       @username = nil
       @password = nil
       @access_token = nil
       @temp_folder_path = nil
+      @sign_request = nil
     end
 
     # Create a new `Configuration` with block.
     #
     # ```
-    # config = Petstore::Configuration.new do |config|
+    # config = {{moduleName}}::Configuration.new do |config|
     #   config.username = "xxx"
     #   config.password = "xxx"
     # end
@@ -183,13 +198,9 @@ module {{moduleName}}
       @base_path = "" if @base_path == "/"
     end
 
-    # Returns base URL for specified operation based on server settings
-    def base_url(operation = Nil)
-      # TODO revise below to support operation-level server setting
-      #index = server_operation_index.fetch(operation, server_index)
-      return "#{scheme}://#{[host, base_path].join("/").gsub(/\/+/, "/")}".sub(/\/+\z/, "") #if index == Nil
-
-      #server_url(index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
+    # Returns the base URL for requests.
+    def base_url
+      "#{scheme}://#{[host, base_path].join("/").gsub(/\/+/, "/")}".sub(/\/+\z/, "")
     end
 
     # Gets API key (with prefix if set).
@@ -204,170 +215,46 @@ module {{moduleName}}
 
     # Gets Basic Auth token string
     def basic_auth_token
-      "Basic " + ["#{username}:#{password}"].pack("m").delete("\r\n")
+      "Basic " + Base64.strict_encode("#{username}:#{password}")
     end
 
-    # Returns Auth Settings hash for api client.
-    def auth_settings
-{{#authMethods.0}}
-      Hash{
+    # Applies authentication credentials to request headers and query params.
+    # Called by Connection#request for every outgoing request.
+    def apply_auth!(headers : HTTP::Headers, params : Hash(String, String | Array(String)), auth_names : Array(String)) : Nil
 {{#authMethods}}
 {{#isApiKey}}
-        "{{name}}" => {
-          type: "api_key",
-          in: {{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}{{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}},
-          key: "{{keyParamName}}",
-          value: api_key_with_prefix(:{{keyParamName}})
-        },
+      if auth_names.includes?("{{name}}")
+        value = api_key_with_prefix(:"{{keyParamName}}")
+        unless value.empty?
+          {{#isKeyInHeader}}headers["{{keyParamName}}"] = value{{/isKeyInHeader}}{{#isKeyInQuery}}params["{{keyParamName}}"] = value{{/isKeyInQuery}}{{#isKeyInCookie}}headers["Cookie"] = [headers["Cookie"]?, "{{keyParamName}}=#{value}"].compact.join("; "){{/isKeyInCookie}}
+        end
+      end
 {{/isApiKey}}
 {{#isBasic}}
 {{#isBasicBasic}}
-        "{{name}}" => {
-          type: "basic",
-          in: "header",
-          key: "Authorization",
-          value: basic_auth_token
-        },
+      if auth_names.includes?("{{name}}")
+        if @username || @password
+          headers["Authorization"] = basic_auth_token
+        end
+      end
 {{/isBasicBasic}}
 {{#isBasicBearer}}
-        "{{name}}" => {
-          type: "bearer",
-          in: "header",
-          {{#bearerFormat}}
-          format: "{{{.}}}",
-          {{/bearerFormat}}
-          key: "Authorization",
-          value: "Bearer #{access_token}"
-        },
+      if auth_names.includes?("{{name}}")
+        if token = @access_token
+          headers["Authorization"] = "Bearer #{token}"
+        end
+      end
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
-        "{{name}}" => {
-          type: "oauth2",
-          in: "header",
-          key: "Authorization",
-          value: "Bearer #{access_token}"
-        },
-{{/isOAuth}}
-{{/authMethods}}
-      }
-{{/authMethods.0}}
-{{^authMethods}}
-      {} of String => Hash(Symbol, String)
-{{/authMethods}}
-    end
-
-    # Returns an array of Server setting
-    def server_settings
-      [
-      {{#servers}}
-        {
-          url: "{{{url}}}",
-          description: "{{{description}}}{{^description}}No description provided{{/description}}",
-          {{#variables}}
-          {{#-first}}
-          variables: {
-          {{/-first}}
-            "{{{name}}}": {
-                description: "{{{description}}}{{^description}}No description provided{{/description}}",
-                default_value: "{{{defaultValue}}}",
-                {{#enumValues}}
-                {{#-first}}
-                enum_values: [
-                {{/-first}}
-                  "{{{.}}}"{{^-last}},{{/-last}}
-                {{#-last}}
-                ]
-                {{/-last}}
-                {{/enumValues}}
-              }{{^-last}},{{/-last}}
-            {{#-last}}
-            }
-            {{/-last}}
-          {{/variables}}
-        }{{^-last}},{{/-last}}
-      {{/servers}}
-      ]
-    end
-
-    def operation_server_settings
-        {{#apiInfo}}
-        {{#apis}}
-        {{#operations}}
-        {{#operation}}
-        {{#servers}}
-        {{#-first}}
-      {
-        "{{{classname}}}.{{{nickname}}}": [
-        {{/-first}}
-          {
-          url: "{{{url}}}",
-          description: "{{{description}}}{{^description}}No description provided{{/description}}",
-          {{#variables}}
-          {{#-first}}
-          variables: {
-          {{/-first}}
-            "{{{name}}}": {
-                description: "{{{description}}}{{^description}}No description provided{{/description}}",
-                default_value: "{{{defaultValue}}}",
-                {{#enumValues}}
-                {{#-first}}
-                enum_values: [
-                {{/-first}}
-                  "{{{.}}}"{{^-last}},{{/-last}}
-                {{#-last}}
-                ]
-                {{/-last}}
-                {{/enumValues}}
-              }{{^-last}},{{/-last}}
-            {{#-last}}
-            }
-            {{/-last}}
-          {{/variables}}
-          }{{^-last}},{{/-last}}
-        {{#-last}}
-        ],
-      }
-        {{/-last}}
-        {{/servers}}
-        {{/operation}}
-        {{/operations}}
-        {{/apis}}
-        {{/apiInfo}}
-    end
-
-    # Returns URL based on server settings
-    #
-    # @param index array index of the server settings
-    # @param variables hash of variable and the corresponding value
-    def server_url(index, variables = {} of Symbol => String, servers = Nil)
-      servers = server_settings if servers == Nil
-
-      # check array index out of bound
-      if (index < 0 || index >= servers.size)
-        raise ArgumentError.new("Invalid index #{index} when selecting the server. Must be less than #{servers.size}")
-      end
-
-      server = servers[index]
-      url = server[:url]
-
-      return url unless server.has_key? :variables
-
-      # go through variable and assign a value
-      server[:variables].each do |name, variable|
-        if variables.has_key?(name)
-          if (!server[:variables][name].has_key?(:enum_values) || server[:variables][name][:enum_values].includes?(variables[name]))
-            url.gsub! "{" + name.to_s + "}", variables[name]
-          else
-            raise ArgumentError.new("The variable `#{name}` in the server URL has invalid value #{variables[name]}. Must be #{server[:variables][name][:enum_values]}.")
-          end
-        else
-          # use default value
-          url.gsub! "{" + name.to_s + "}", server[:variables][name][:default_value]
+      if auth_names.includes?("{{name}}")
+        if token = @access_token
+          headers["Authorization"] = "Bearer #{token}"
         end
       end
-
-      url
+{{/isOAuth}}
+{{/authMethods}}
     end
+
   end
 end

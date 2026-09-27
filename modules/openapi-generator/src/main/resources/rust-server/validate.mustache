@@ -54,7 +54,7 @@
 {{#isEnum}}
   {{#allowableValues}}
     {{#isString}}
-    #[cfg_attr(feature = "validate", validate(enumerate({{#enumVars}}{{{value}}}, {{/enumVars}})))]
+    #[cfg_attr(feature = "validate", validate(r#enum({{#enumVars}}{{{value}}}, {{/enumVars}})))]
     {{/isString}}
   {{/allowableValues}}
 {{/isEnum}}
