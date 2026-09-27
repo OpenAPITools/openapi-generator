@@ -1,6 +1,5 @@
 {{>partial_header}}
 using System;
-using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -13,14 +12,6 @@ namespace {{packageName}}.{{clientPackage}}
     {{>visibility}} class DateTimeNullableJsonConverter : JsonConverter<DateTime?>
     {
         /// <summary>
-        /// The formats used to deserialize the date
-        /// </summary>
-        public static string[] Formats { get; } = {
-{{>DateTimeFormats}}
-
-         };
-
-        /// <summary>
         /// Returns a DateTime from the Json object
         /// </summary>
         /// <param name="reader"></param>
@@ -31,16 +22,7 @@ namespace {{packageName}}.{{clientPackage}}
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            if (reader.TokenType != JsonTokenType.String)
-                throw new JsonException("The JSON value is not a valid date-time.");
-
-            string value = reader.GetString(){{nrt!}};
-
-            foreach(string format in Formats)
-                if (DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime result))
-                    return result;
-
-            throw new JsonException("The JSON value is not a valid date-time.");
+            return JsonSerializer.Deserialize<DateTime>(ref reader, options);
         }
 
         /// <summary>
@@ -54,7 +36,7 @@ namespace {{packageName}}.{{clientPackage}}
             if (dateTimeValue == null)
                 writer.WriteNullValue();
             else
-                writer.WriteStringValue(dateTimeValue.Value.ToString("{{{dateTimeFormat}}}", CultureInfo.InvariantCulture));
+                JsonSerializer.Serialize(writer, dateTimeValue.Value, options);
         }
     }
 }

@@ -9,7 +9,6 @@
  */
 
 using System;
-using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -22,29 +21,6 @@ namespace Org.OpenAPITools.Client
     public class DateTimeNullableJsonConverter : JsonConverter<DateTime?>
     {
         /// <summary>
-        /// The formats used to deserialize the date
-        /// </summary>
-        public static string[] Formats { get; } = {
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'ffffffK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'ffffK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'ffK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ssK",
-            "yyyyMMddTHHmmss.fffffffK",
-            "yyyyMMddTHHmmss.ffffffK",
-            "yyyyMMddTHHmmss.fffffK",
-            "yyyyMMddTHHmmss.ffffK",
-            "yyyyMMddTHHmmss.fffK",
-            "yyyyMMddTHHmmss.ffK",
-            "yyyyMMddTHHmmss.fK",
-            "yyyyMMddTHHmmssK",
-
-         };
-
-        /// <summary>
         /// Returns a DateTime from the Json object
         /// </summary>
         /// <param name="reader"></param>
@@ -55,16 +31,7 @@ namespace Org.OpenAPITools.Client
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            if (reader.TokenType != JsonTokenType.String)
-                throw new JsonException("The JSON value is not a valid date-time.");
-
-            string value = reader.GetString()!;
-
-            foreach(string format in Formats)
-                if (DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime result))
-                    return result;
-
-            throw new JsonException("The JSON value is not a valid date-time.");
+            return JsonSerializer.Deserialize<DateTime>(ref reader, options);
         }
 
         /// <summary>
@@ -78,7 +45,7 @@ namespace Org.OpenAPITools.Client
             if (dateTimeValue == null)
                 writer.WriteNullValue();
             else
-                writer.WriteStringValue(dateTimeValue.Value.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK", CultureInfo.InvariantCulture));
+                JsonSerializer.Serialize(writer, dateTimeValue.Value, options);
         }
     }
 }

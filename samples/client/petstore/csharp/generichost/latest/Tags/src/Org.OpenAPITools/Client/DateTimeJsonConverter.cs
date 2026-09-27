@@ -25,22 +25,6 @@ namespace Org.OpenAPITools.Client
         /// The formats used to deserialize the date
         /// </summary>
         public static string[] Formats { get; } = {
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'ffffffK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'ffffK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'ffK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fK",
-            "yyyy'-'MM'-'dd'T'HH':'mm':'ssK",
-            "yyyyMMddTHHmmss.fffffffK",
-            "yyyyMMddTHHmmss.ffffffK",
-            "yyyyMMddTHHmmss.fffffK",
-            "yyyyMMddTHHmmss.ffffK",
-            "yyyyMMddTHHmmss.fffK",
-            "yyyyMMddTHHmmss.ffK",
-            "yyyyMMddTHHmmss.fK",
-            "yyyyMMddTHHmmssK",
 
         };
 
@@ -53,15 +37,24 @@ namespace Org.OpenAPITools.Client
         /// <returns></returns>
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
             if (reader.TokenType != JsonTokenType.String)
-                throw new JsonException("The JSON value is not a valid date-time.");
+                throw new JsonException($"Expected a JSON string for date-time, but found {reader.TokenType}.");
 
             string value = reader.GetString()!;
 
+            // Use System.Text.Json for standard ISO 8601 values with timezone information.
+            // System.Text.Json also accepts offset-less ISO 8601 values, but OpenAPI
+            // date-time values follow RFC 3339, which requires an offset. Let those
+            // non-standard values fall through so custom formats can explicitly permit them.
+            if (reader.TryGetDateTime(out DateTime dateTime) && dateTime.Kind != DateTimeKind.Unspecified)
+                return dateTime.ToUniversalTime();
+
+            // Use the customizable formats as a compatibility fallback for basic,
+            // date-only, and explicitly permitted offset-less values.
             foreach(string format in Formats)
                 if (DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime result))
                     return result;
 
-            throw new JsonException("The JSON value is not a valid date-time.");
+            throw new JsonException("The JSON string is not a valid date-time.");
         }
 
         /// <summary>
