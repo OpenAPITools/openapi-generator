@@ -991,6 +991,33 @@ public class KotlinClientCodegenModelTest {
   }
 
   @Test
+  public void testMoshiEnumUnknownDefaultCaseAdaptersAreNullSafe() throws IOException {
+      File output = Files.createTempDirectory("test").toFile();
+      output.deleteOnExit();
+
+      final CodegenConfigurator configurator = new CodegenConfigurator()
+              .setGeneratorName(KOTLIN_GENERATOR)
+              .setLibrary("jvm-okhttp4")
+              .setAdditionalProperties(new HashMap<>() {{
+                put(CodegenConstants.SERIALIZATION_LIBRARY, "moshi");
+                put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+              }})
+              .setInputSpec("src/test/resources/3_0/enum.yaml")
+              .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+      final ClientOptInput clientOptInput = configurator.toClientOptInput();
+      DefaultGenerator generator = new DefaultGenerator();
+
+      generator.opts(clientOptInput).generate();
+
+      final Path helperKt = Paths.get(output + "/src/main/kotlin/org/openapitools/client/infrastructure/SerializerHelper.kt");
+
+      // EnumJsonAdapter is not null-safe, so every registered fallback adapter must be wrapped
+      TestUtils.assertFileContains(helperKt, ".nullSafe())");
+      TestUtils.assertFileNotContains(helperKt, "unknown_default_open_api))");
+  }
+
+  @Test
   public void testJacksonEnumsWithUnknownDefaultCase() throws IOException {
       File output = Files.createTempDirectory("test").toFile();
       output.deleteOnExit();
