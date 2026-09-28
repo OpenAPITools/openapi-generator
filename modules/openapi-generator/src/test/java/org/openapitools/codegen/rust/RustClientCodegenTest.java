@@ -351,6 +351,31 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testExplodedDeepObjectMapQueryParams() throws IOException {
+        // exploded deepObject maps (typed or free-form) go through parse_deep_object like the non-explode branch
+        for (String library : new String[] {"reqwest", "reqwest-trait"}) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary(library)
+                    .setInputSpec("src/test/resources/3_0/rust/deep-object-free-form-query-param.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            files.forEach(File::deleteOnExit);
+            Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
+            TestUtils.assertFileExists(outputPath);
+            // optional typed map, optional free-form object, required-nullable typed map
+            TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"filter\"");
+            TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"extra\"");
+            TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"scope\"");
+            TestUtils.assertFileNotContains(outputPath, "param_value.len()");
+            TestUtils.assertFileNotContains(outputPath, "param_value.iter()");
+        }
+    }
+
+    @Test
     public void testArrayWithObjectEnumValues() throws IOException {
         Path target = Files.createTempDirectory("test");
         target.toFile().deleteOnExit();
@@ -387,6 +412,42 @@ public class RustClientCodegenTest {
         TestUtils.assertFileContains(outputPath,
                 "async fn list_widget_items<'id, 'run_id>(&self, id: &'id str, run_id: Option<&'run_id str>)");
         TestUtils.assertFileNotContains(outputPath, "Option<&str>");
+    }
+
+    @Test
+    public void testReqwestConfigurationDebugRedactsCredentials() throws IOException {
+        for (String library : new String[]{"reqwest", "reqwest-trait"}) {
+            Path outputPath = generateReqwestConfiguration(library, false);
+            TestUtils.assertFileNotContains(outputPath, "#[derive(Debug, Clone)]");
+            TestUtils.assertFileContains(outputPath,
+                    ".field(\"basic_auth\", &self.basic_auth.as_ref().map(|(username, password)| (username, password.as_ref().map(|_| \"[REDACTED]\"))))",
+                    ".field(\"oauth_access_token\", &self.oauth_access_token.as_ref().map(|_| \"[REDACTED]\"))",
+                    ".field(\"bearer_access_token\", &self.bearer_access_token.as_ref().map(|_| \"[REDACTED]\"))",
+                    ".field(\"api_key\", &self.api_key)",
+                    ".field(\"key\", &\"[REDACTED]\")");
+
+            Path tokenSourcePath = generateReqwestConfiguration(library, true);
+            TestUtils.assertFileNotContains(tokenSourcePath, "#[derive(Debug, Clone)]", "&self.token_source");
+            TestUtils.assertFileContains(tokenSourcePath, ".field(\"token_source\", &\"[REDACTED]\")");
+        }
+    }
+
+    private Path generateReqwestConfiguration(String library, boolean supportTokenSource) throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary(library)
+                .addAdditionalProperty("supportAsync", true)
+                .addAdditionalProperty("supportTokenSource", supportTokenSource)
+                .setInputSpec("src/test/resources/3_0/rust/petstore.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        Path outputPath = Path.of(target.toString(), "/src/apis/configuration.rs");
+        TestUtils.assertFileExists(outputPath);
+        return outputPath;
     }
 
     @Test
