@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// User
     /// </summary>
-    public partial class User : IValidatableObject
+    public partial class User : IEquatable<User?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
@@ -257,6 +257,77 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as User).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if User instances are equal
+        /// </summary>
+        /// <param name="input">Instance of User to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(User? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (AnyTypeProp != null)
+                    hashCode = (hashCode * 59) + AnyTypeProp.GetHashCode();
+
+                if (AnyTypePropNullable != null)
+                    hashCode = (hashCode * 59) + AnyTypePropNullable.GetHashCode();
+
+                if (Email != null)
+                    hashCode = (hashCode * 59) + Email.GetHashCode();
+
+                if (FirstName != null)
+                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
+
+                if (Id != null)
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
+
+                if (LastName != null)
+                    hashCode = (hashCode * 59) + LastName.GetHashCode();
+
+                if (ObjectWithNoDeclaredProps != null)
+                    hashCode = (hashCode * 59) + ObjectWithNoDeclaredProps.GetHashCode();
+
+                if (ObjectWithNoDeclaredPropsNullable != null)
+                    hashCode = (hashCode * 59) + ObjectWithNoDeclaredPropsNullable.GetHashCode();
+
+                if (Password != null)
+                    hashCode = (hashCode * 59) + Password.GetHashCode();
+
+                if (Phone != null)
+                    hashCode = (hashCode * 59) + Phone.GetHashCode();
+
+                if (UserStatus != null)
+                    hashCode = (hashCode * 59) + UserStatus.GetHashCode();
+
+                if (Username != null)
+                    hashCode = (hashCode * 59) + Username.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

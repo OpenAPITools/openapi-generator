@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// The value may be a shape or the &#39;null&#39; value. The &#39;nullable&#39; attribute was introduced in OAS schema &gt;&#x3D; 3.0 and has been deprecated in OAS schema &gt;&#x3D; 3.1.
     /// </summary>
-    public partial class NullableShape : IValidatableObject
+    public partial class NullableShape : IEquatable<NullableShape>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableShape" /> class.
@@ -78,6 +78,42 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as NullableShape).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if NullableShape instances are equal
+        /// </summary>
+        /// <param name="input">Instance of NullableShape to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(NullableShape input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = (hashCode * 59) + ShapeType.GetHashCode();
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>
