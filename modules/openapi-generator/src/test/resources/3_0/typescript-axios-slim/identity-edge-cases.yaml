@@ -1,0 +1,414 @@
+openapi: 3.0.3
+info:
+  title: TypeScript Axios Slim Identity Edge Cases
+  version: 1.0.0
+servers:
+  - url: https://example.test
+
+paths:
+  /companies/{company-id}/users/{user_id}:
+    get:
+      tags:
+        - companies
+      operationId: getUserByCompany
+      parameters:
+        - $ref: '#/components/parameters/CompanyId'
+        - $ref: '#/components/parameters/UserId'
+        - name: include_deleted
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: tags
+          in: query
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: attributes
+          in: query
+          required: false
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: X-Trace-Id
+          in: header
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - ApiKeyAuthHeader: []
+        - BearerAuth: []
+    post:
+      tags:
+        - companies
+      operationId: createUserByCompany
+      parameters:
+        - $ref: '#/components/parameters/CompanyId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - OAuth2:
+            - users:write
+    delete:
+      tags:
+        - companies
+      operationId: deleteUserByCompany
+      parameters:
+        - $ref: '#/components/parameters/CompanyId'
+        - $ref: '#/components/parameters/UserId'
+        - name: X-Flags
+          in: header
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '204':
+          description: deleted
+
+  /companies/{company-id}/aliases/{user-id}:
+    get:
+      tags:
+        - companies
+      operationId: aliasLookup
+      parameters:
+        - $ref: '#/components/parameters/CompanyId'
+        - name: user-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /reports:
+    get:
+      tags:
+        - analytics
+      operationId: listReports
+      parameters:
+        - name: reportDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: at
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [pending, approved, rejected]
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            nullable: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportList'
+
+  /submit:
+    post:
+      tags:
+        - forms
+      operationId: submitForm
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - name
+                - count
+              properties:
+                name:
+                  type: string
+                count:
+                  type: integer
+                  format: int32
+                labels:
+                  type: array
+                  items:
+                    type: string
+                happenedAt:
+                  type: string
+                  format: date
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmitResponse'
+
+  /upload:
+    post:
+      tags:
+        - forms
+      operationId: uploadEvidence
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+                - category
+              properties:
+                file:
+                  type: string
+                  format: binary
+                category:
+                  type: string
+                  enum: [image, document]
+                tags:
+                  type: array
+                  items:
+                    type: string
+                metadata:
+                  type: object
+                  additionalProperties:
+                    type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResult'
+
+  /health:
+    get:
+      tags:
+        - system
+      operationId: healthCheck
+      responses:
+        '204':
+          description: no content
+
+  /search:
+    get:
+      tags:
+        - analytics
+      operationId: searchUsers
+      parameters:
+        - name: term
+          in: query
+          required: false
+          schema:
+            type: string
+            nullable: true
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+  /union:
+    get:
+      tags:
+        - analytics
+      operationId: getUnionPayload
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/UnionA'
+                  - $ref: '#/components/schemas/UnionB'
+
+  /secured/query-key:
+    get:
+      tags:
+        - security
+      operationId: getWithQueryApiKey
+      security:
+        - ApiKeyAuthQuery: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+
+components:
+  parameters:
+    CompanyId:
+      name: company-id
+      in: path
+      required: true
+      schema:
+        type: string
+    UserId:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: string
+
+  securitySchemes:
+    ApiKeyAuthHeader:
+      type: apiKey
+      in: header
+      name: x-api-key
+    ApiKeyAuthQuery:
+      type: apiKey
+      in: query
+      name: api_key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.test/oauth/token
+          scopes:
+            users:write: create users
+
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - email
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        displayName:
+          type: string
+          nullable: true
+    UserCreateRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+        displayName:
+          type: string
+    ErrorResponse:
+      type: object
+      required:
+        - code
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ReportList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: string
+    SubmitResponse:
+      type: object
+      properties:
+        accepted:
+          type: boolean
+    UploadResult:
+      type: object
+      properties:
+        fileId:
+          type: string
+        kind:
+          type: string
+          enum: [image, document]
+    UnionA:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+          enum: [A]
+        aValue:
+          type: string
+    UnionB:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+          enum: [B]
+        bValue:
+          type: integer
+          format: int32
