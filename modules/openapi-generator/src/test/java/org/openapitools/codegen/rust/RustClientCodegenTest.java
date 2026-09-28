@@ -449,4 +449,26 @@ public class RustClientCodegenTest {
         TestUtils.assertFileExists(outputPath);
         return outputPath;
     }
+
+    @Test
+    public void testMapQueryParamsSerializeAsJson() throws IOException {
+        // HashMap has no Display: map-typed query params must serialize via serde_json::to_string
+        for (String library : new String[] {"reqwest", "reqwest-trait"}) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary(library)
+                    .setInputSpec("src/test/resources/3_0/rust/map-query-params.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
+            TestUtils.assertFileExists(outputPath);
+            TestUtils.assertFileContains(outputPath, "(\"labels\", &serde_json::to_string(&");
+            TestUtils.assertFileContains(outputPath, "(\"counts\", &serde_json::to_string(param_value)?)");
+            TestUtils.assertFileNotContains(outputPath, "labels.to_string()");
+            TestUtils.assertFileNotContains(outputPath, "param_value.to_string()");
+        }
+    }
 }
