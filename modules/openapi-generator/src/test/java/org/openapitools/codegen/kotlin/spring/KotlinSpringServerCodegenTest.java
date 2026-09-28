@@ -19,6 +19,7 @@ import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.kotlin.assertions.KotlinFileAssert;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
+import org.openapitools.codegen.languages.SpringPageableScanUtils;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
@@ -46,6 +47,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
 import static org.openapitools.codegen.CodegenConstants.USE_ENUM_VALUE_INTERFACE;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -1087,14 +1089,21 @@ public class KotlinSpringServerCodegenTest {
                 new HashMap<>(),
                 configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
 
-        Path apiFile = files.get("MultipartApi.kt").toPath();
-        assertFileContains(apiFile,
-                "files: Array<org.springframework.web.multipart.MultipartFile>",
+        // With useTags=false (the library default), operations are grouped by first path
+        // segment rather than by tag, so the multipart operations are split across
+        // MultipartArrayApi.kt/MultipartSingleApi.kt/MultipartMixedApi.kt instead of a single
+        // tag-derived MultipartApi.kt.
+        Path arrayFile = files.get("MultipartArrayApi.kt").toPath();
+        Path mixedFile = files.get("MultipartMixedApi.kt").toPath();
+
+        assertFileContains(arrayFile, "files: Array<org.springframework.web.multipart.MultipartFile>");
+        assertFileContains(mixedFile,
                 "file: org.springframework.web.multipart.MultipartFile",
                 "status: MultipartMixedStatus",
                 "marker: MultipartMixedRequestMarker?",
                 "statusArray: kotlin.collections.List<MultipartMixedStatus>?");
-        assertFileNotContains(apiFile, "org.springframework.http.codec.multipart.Part");
+        assertFileNotContains(arrayFile, "org.springframework.http.codec.multipart.Part");
+        assertFileNotContains(mixedFile, "org.springframework.http.codec.multipart.Part");
     }
 
     private void assertReactiveMultipartParameters(Map<String, File> files, String fileSuffix) {
@@ -5397,6 +5406,95 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void autoXSpringPaginatedPageSizeMode_detectsPageAndSizeOnlyOperation() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "page-size");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsMissingSort has only page+size (no sort) → 'page-size' mode must still inject Pageable
+        int methodStart = content.indexOf("fun findPetsMissingSort(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertTrue(methodSignature.contains("pageable: Pageable"),
+                "findPetsMissingSort should have pageable when autoXSpringPaginated=page-size");
+        Assert.assertFalse(methodSignature.contains("page:"), "page query param should be removed");
+        Assert.assertFalse(methodSignature.contains("size:"), "size query param should be removed");
+    }
+
+    @Test
+    public void autoXSpringPaginatedSettersSupportStringModesAndLegacyBoolean() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        codegen.setAutoXSpringPaginated("page-size");
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size");
+
+        codegen.setAutoXSpringPaginated(true);
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size-sort");
+    }
+
+    @Test
+    public void autoXSpringPaginatedUnsetDoesNotPopulateAdditionalProperties() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties()).doesNotContainKey(AUTO_X_SPRING_PAGINATED);
+    }
+
+    @Test
+    public void autoXSpringPaginatedLegacyTrue_logsDeprecationWarningOnce() {
+        long deprecationWarnings = countDeprecationWarnings(() -> {
+            KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+            codegen.additionalProperties().put(AUTO_X_SPRING_PAGINATED, "true");
+            codegen.processOpts();
+        });
+        assertThat(deprecationWarnings).isEqualTo(1);
+    }
+
+    @Test
+    public void autoXSpringPaginatedUnset_logsNoDeprecationWarning() {
+        long deprecationWarnings = countDeprecationWarnings(() -> new KotlinSpringServerCodegen().processOpts());
+        assertThat(deprecationWarnings).isZero();
+    }
+
+    @Test
+    public void autoXSpringPaginatedInvalidValue_isRejectedEvenForUnsupportedLibrary() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setLibrary(KotlinSpringServerCodegen.SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(AUTO_X_SPRING_PAGINATED, "bogus");
+
+        assertThatThrownBy(codegen::processOpts)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("bogus");
+    }
+
+    @Test
+    public void autoXSpringPaginatedValidValue_isNotWrittenBackForUnsupportedLibrary() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setLibrary(KotlinSpringServerCodegen.SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(AUTO_X_SPRING_PAGINATED, "true");
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties().get(AUTO_X_SPRING_PAGINATED)).isEqualTo("true");
+    }
+
+    private static long countDeprecationWarnings(Runnable action) {
+        return TestUtils.captureLogMessages(SpringPageableScanUtils.class, action).stream()
+                .filter(message -> message.contains("autoXSpringPaginated") && message.contains("deprecated"))
+                .count();
+    }
+
+    @Test
     public void testSealedResponseInterfaces() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -6640,7 +6738,7 @@ public class KotlinSpringServerCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/DefaultApi.kt"),
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UsersApi.kt"),
                 "import org.openapitools.model.CreateUserResponse",
                 "import org.openapitools.model.GetUserResponse",
                 "fun createUser(",
@@ -7556,6 +7654,95 @@ public class KotlinSpringServerCodegenTest {
         assertThat(content).contains("com.example.ExternalModel?");
     }
 
+    // ========== x-jackson-default-impl / typeInfoDefaultImpls tests ==========
+
+    @Test(description = "x-jackson-default-impl on deduction schema emits defaultImpl in @JsonTypeInfo")
+    public void xJacksonDefaultImplOnDeductionSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml", additionalProperties);
+
+        File animalFile = files.get("Animal.kt");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog::class)");
+    }
+
+    @Test(description = "typeInfoDefaultImpls config option on deduction schema emits defaultImpl in @JsonTypeInfo")
+    public void typeInfoDefaultImplsConfigOptionOnDeductionSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", additionalProperties);
+
+        File animalFile = files.get("Animal.kt");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog::class)");
+    }
+
+    @Test(description = "typeInfoDefaultImpls overrides x-jackson-default-impl on deduction schema")
+    public void typeInfoDefaultImplsOverridesSchemaAnnotationOnDeductionSchema() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        // Override x-jackson-default-impl: Dog (set in YAML) with Cat via config option
+        additionalProperties.put(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Cat"));
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml", additionalProperties);
+
+        File animalFile = files.get("Animal.kt");
+        assertThat(animalFile).isNotNull();
+        String content = Files.readString(animalFile.toPath());
+        assertThat(content).contains("defaultImpl = Cat::class");
+        assertThat(content).doesNotContain("defaultImpl = Dog::class");
+    }
+
+    @Test(description = "x-jackson-default-impl on discriminator schema emits defaultImpl in @JsonTypeInfo")
+    public void xJacksonDefaultImplOnDiscriminatorSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml", new HashMap<>());
+
+        File fruitFile = files.get("Fruit.kt");
+        assertThat(fruitFile).isNotNull();
+        assertFileContains(fruitFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, " +
+                "property = \"fruitType\", visible = true, defaultImpl = Apple::class)");
+    }
+
+    @Test(description = "no defaultImpl when neither x-jackson-default-impl nor typeInfoDefaultImpls is set")
+    public void noDefaultImplWhenNeitherSourceIsSet() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+
+        // Use the YAML without x-jackson-default-impl; don't pass typeInfoDefaultImpls
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", additionalProperties);
+
+        File animalFile = files.get("Animal.kt");
+        assertThat(animalFile).isNotNull();
+        assertFileNotContains(animalFile.toPath(), "defaultImpl");
+    }
+
+    @Test(description = "typeInfoDefaultImpls applies model name suffix to resolved default impl")
+    public void typeInfoDefaultImplsAppliesModelNameSuffix() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
+        additionalProperties.put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", additionalProperties);
+
+        File animalFile = files.get("AnimalDto.kt");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(), "defaultImpl = DogDto::class");
+    }
+
+
     @Test(description = "nameMappings: @param:JsonProperty must use the original JSON field name for deserialization")
     public void paramJsonPropertyAnnotationWithNameMappings() throws IOException {
         // When a property is renamed via nameMappings, @param:JsonProperty must carry the
@@ -7799,5 +7986,109 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(widgets, "import org.openapitools.model.Widget", "@WidgetChecked");
         Assert.assertEquals(countOccurrences(widgets, "import org.openapitools.model.Widget"), 1L,
                 "Extra import duplicating a generated type import must be emitted only once");
+    }
+
+    // ==================== multi-level allOf inheritance tests (fixes #18206) ====================
+
+    @Test(description = "multi-level allOf: mid-level model becomes open class, leaf stays data class with parent ctor call")
+    public void testMultiLevelAllOfInheritance() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/allof-multilevel-inheritance.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Animal: discriminator parent interface, with Jackson annotations listing ALL descendants
+        assertFileContains(Paths.get(outputPath + "/Animal.kt"),
+                "interface Animal",
+                "@JsonTypeInfo", "property = \"className\"", "visible = true",
+                "BigDog::class",
+                "Dog::class",
+                "Cat::class"
+        );
+
+        // Dog: open class (not data class) so BigDog can extend it; no ctor call to Animal (interface parent)
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "open class Dog(",
+                ") : Animal {",
+                "override val className: kotlin.String",
+                "open val breed: kotlin.String?"
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog");
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), ": Animal(");
+        // open class generates equals/hashCode/toString/copy since data class would normally provide these
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "override fun equals(other: Any?): Boolean",
+                "if (other?.javaClass != javaClass) return false",
+                "override fun hashCode(): Int",
+                "Objects.hash(",
+                "override fun toString(): String",
+                "fun copy(",
+                "): Dog = Dog("
+        );
+
+        // Cat: leaf (no children) — stays a data class, unaffected
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"), "data class Cat");
+
+        // BigDog: data class extending open class Dog with constructor call passing all parent ctor args
+        assertFileContains(Paths.get(outputPath + "/BigDog.kt"),
+                "data class BigDog(",
+                "override val className: kotlin.String",
+                "override val breed",
+                "override val color"
+        );
+        // Must call Dog's constructor (not bare `: Dog`)
+        assertFileContains(Paths.get(outputPath + "/BigDog.kt"), ") : Dog(");
+        assertFileNotContains(Paths.get(outputPath + "/BigDog.kt"), ") : Dog {");
+
+        // copy() must declare parameters in constructor order (required before optional), so that
+        // positional arguments bind to the same properties the constructor takes them for.
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "    fun copy(\n"
+                        + "        className: kotlin.String = this.className,\n"
+                        + "        breed: kotlin.String? = this.breed,\n"
+                        + "        color: kotlin.String? = this.color\n"
+                        + "    ): Dog = Dog(className = className, breed = breed, color = color)"
+        );
+    }
+
+    @Test(description = "multi-level allOf: generated open class members handle back-ticked property names")
+    public void testMultiLevelAllOfWithEscapedPropertyNames() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/allof-multilevel-escaped-names.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        Path mid = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model/Mid.kt");
+
+        // "2nd_field" and "object" are not Kotlin identifiers, so the property is back-ticked.
+        // The generated members must emit the back-ticks literally, not HTML-escape them.
+        // (Scoped to the generated members: the KDoc @param block escapes them for every model,
+        // open class or not, which is a separate pre-existing issue.)
+        assertFileNotContains(mid,
+                "&#x60;2ndField&#x60; == other",
+                "Objects.hash(kind, &#x60;"
+        );
+        assertFileContains(mid,
+                "open val `2ndField`",
+                "`2ndField` == other.`2ndField`",
+                "Objects.hash(kind, `2ndField`, `object`)",
+                "`2ndField`: kotlin.String? = this.`2ndField`"
+        );
+        // toString builds by concatenation: "$`2ndField`" is not valid Kotlin interpolation,
+        // and the back-ticks are source syntax that a data class would not print.
+        assertFileContains(mid, "\"2ndField=\" + `2ndField`");
+        assertFileNotContains(mid, "$`2ndField`");
     }
 }

@@ -26,6 +26,7 @@ import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -70,6 +71,43 @@ public class RubyClientCodegenTest {
         if (!apiFileGenerated) {
             fail("Default api file is not generated!");
         }
+    }
+
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
+    public void testExplodedObjectQueryParameter() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/exploded-object-query-param.yaml");
+        RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        File apiFile = files.stream()
+                .filter(f -> f.getName().equals("default_api.rb"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("default_api.rb not found in generated files"));
+
+        // form style with explode - the default - puts every entry on the wire under its own
+        // property name. Assigning the whole hash under the parameter name left the http
+        // library to serialize it in bracket style, which is what used to happen. A nil entry is
+        // left out.
+        TestUtils.assertFileContains(apiFile.toPath(),
+                "opts[:'filter'].compact.each { |name, value| query_params[name.to_s] = value } if !opts[:'filter'].nil?");
+        TestUtils.assertFileNotContains(apiFile.toPath(), "query_params[:'filter']");
+
+        // a declared map behaves the same way
+        TestUtils.assertFileContains(apiFile.toPath(),
+                "opts[:'typed_filter'].compact.each { |name, value| query_params[name.to_s] = value } if !opts[:'typed_filter'].nil?");
+
+        // deepObject and form without explode both keep a single parameter
+        TestUtils.assertFileContains(apiFile.toPath(),
+                "query_params[:'deepFilter'] = opts[:'deep_filter'] if !opts[:'deep_filter'].nil?",
+                "query_params[:'flatFilter'] = opts[:'flat_filter'] if !opts[:'flat_filter'].nil?");
     }
 
     @Test
@@ -764,6 +802,63 @@ public class RubyClientCodegenTest {
                 "All content:application/json query params should have queryIsJsonMimeType=true");
     }
 
+    @Test(description = "an allOf child's build_from_hash and to_hash include the attributes inherited from its parents")
+    public void testBuildFromHashMapsInheritedAttributes() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        // Lizard < Reptile < Pet: types and nullability merge along the ancestry, the nearest declaration wins
+        Path lizard = new File(output, "lib/openapi_client/models/lizard.rb").toPath();
+        TestUtils.assertFileContains(lizard,
+                "superclass.acceptable_openapi_types.merge(openapi_types)",
+                "(superclass.acceptable_openapi_nullable - attribute_map.keys) | openapi_nullable");
+        // build_from_hash and to_hash use the merged maps
+        TestUtils.assertFileContains(lizard,
+                "acceptable_openapi_types.each_pair do |key, type|",
+                "self.class.acceptable_attribute_map.each_pair do |attr, param|",
+                "is_nullable = self.class.acceptable_openapi_nullable.include?(attr)");
+        // the super call that built and discarded a second instance is gone
+        TestUtils.assertFileNotContains(lizard, "super(attributes)\n      attributes = attributes.transform_keys(&:to_sym)");
+        // a root model has no parent to merge
+        TestUtils.assertFileNotContains(new File(output, "lib/openapi_client/models/pet.rb").toPath(), "superclass.acceptable_openapi_types");
+        // a generated parent still receives the initializer call
+        TestUtils.assertFileContains(lizard, "# call parent's initialize\n      super(attributes)");
+    }
+
+    @Test(description = "a model whose superclass is not a generated model (an alias to an array) does not delegate to it")
+    public void testAliasModelDoesNotDelegateToItsBuiltInSuperclass() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/features/generate-alias-as-model.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
+        ModelUtils.setGenerateAliasAsModel(true);
+        try {
+            new DefaultGenerator().opts(clientOptInput).generate();
+        } finally {
+            ModelUtils.setGenerateAliasAsModel(false);
+        }
+
+        // ArrayAlias < Array: Array has none of the helpers, so each one is its own base case
+        Path arrayAlias = new File(output, "lib/openapi_client/models/array_alias.rb").toPath();
+        TestUtils.assertFileContains(arrayAlias,
+                "class ArrayAlias < Array",
+                "def self.acceptable_attribute_map\n      attribute_map\n    end",
+                "def self.acceptable_openapi_types\n      openapi_types\n    end",
+                "def self.acceptable_openapi_nullable\n      openapi_nullable\n    end");
+        TestUtils.assertFileNotContains(arrayAlias, "superclass.", "super(attributes)");
+    }
+
     @Test(description = "enumUnknownDefaultCase=true makes build_from_hash fall back to the unknown default member")
     public void testEnumUnknownDefaultCaseBuildFromHashFallback() throws Exception {
         final File output = Files.createTempDirectory("test").toFile();
@@ -777,7 +872,7 @@ public class RubyClientCodegenTest {
         ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);
         new DefaultGenerator().opts(clientOptInput).generate();
 
-        Path stringEnum = new File(output, "lib/openapi_client/models/type.rb").toPath();
+        Path stringEnum = new File(output, "lib/openapi_client/models/type.rb").toPath(); 
         TestUtils.assertFileContains(stringEnum, "UNKNOWN_DEFAULT_OPEN_API = \"unknown_default_open_api\".freeze");
         TestUtils.assertFileContains(stringEnum,
                 "def build_from_hash(value)\n" +

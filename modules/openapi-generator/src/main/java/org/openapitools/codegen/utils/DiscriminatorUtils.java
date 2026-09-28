@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.X_DISCRIMINATOR_VALUE;
 import static org.openapitools.codegen.utils.OnceLogger.once;
@@ -320,6 +321,132 @@ public class DiscriminatorUtils {
                     composedSchemaName, discPropName, modelName, discPropName, discPropName);
         }
         return null;
+    }
+
+    /**
+     * Get the best matching simple types for all the mapped schemas
+     * @param openAPI            The openAPI specification
+     * @param schema             The Schema that may contain the discriminator
+     * @param discPropName       The String that is the discriminator propertyName in the schema
+     * @return the distinct list of property Schema with the requested discPropName
+     */
+    public static List<Schema> getDistinctTypes(OpenAPI openAPI, Schema schema, String discPropName) {
+        List<Schema> mappedSchemas = getMappedSchemas(openAPI, schema);
+        List<Schema> properties = new ArrayList<>();
+        for (Schema s: mappedSchemas) {
+            Schema prop = findProperty(openAPI, s, discPropName, new HashSet<>());
+            if (prop != null && properties.stream().noneMatch(p ->
+                    Objects.equals(p.getType(), prop.getType()) &&
+                    Objects.equals(p.get$ref(), prop.get$ref()) &&
+                    Objects.equals(p.getEnum(), prop.getEnum()) &&
+                    Objects.equals(p.getFormat(), prop.getFormat()))) {
+                properties.add(prop);
+            }
+        }
+        return properties;
+    }
+
+    /**
+     * return the list of dereferenced mapping schemas.
+     * @return the schemas found or empty list if not found.
+     */
+    public static List<Schema> getMappedSchemas(OpenAPI openAPI, Schema schema) {
+        if (schema.getDiscriminator() != null) {
+            if (schema.getDiscriminator().getMapping() != null) {
+                return schema.getDiscriminator().getMapping().values().stream()
+                        .map(ref -> getReferencedSchema(openAPI, ref))
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList());
+            }
+            if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+                // try also oneOf without discriminator mapping
+                List<Schema> oneOfs = (List<Schema>) schema.getOneOf();
+                return oneOfs.stream()
+                        .filter(Objects::nonNull)
+                        .map(oneOf -> oneOf.get$ref()!=null
+                                ? getReferencedSchema(openAPI, oneOf.get$ref())
+                                : oneOf)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList());
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    private static Schema getReferencedSchema(OpenAPI openAPI, String ref) {
+        if (ref == null) {
+            return null;
+        }
+        if (ref.indexOf('/') >= 0) {
+            ref = ModelUtils.getSimpleRef(ref);
+        }
+        return ModelUtils.getSchema(openAPI, ref);
+    }
+
+    /**
+     * Recursively try to find the schema matching the propertyName.
+     *
+     * @return the schema found or null if not found
+     */
+    public static Schema findProperty(OpenAPI openAPI, Schema schema, String propertyName, Set<Schema> visitedSchemas) {
+        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+        if (propertyName == null || schema == null || visitedSchemas.contains(schema)) {
+            return null;
+        }
+        visitedSchemas.add(schema);
+        Map<String, Schema>  properties = schema.getProperties();
+        if (properties != null) {
+            Schema property = properties.get(propertyName);
+            if (property != null) {
+                Schema found = simplifyProperty(property, visitedSchemas);
+                return found;
+            }
+        }
+        // loop into parent allOfs
+        List<Schema> allOfs = schema.getAllOf();
+        if (allOfs != null) {
+            for (Schema child : allOfs) {
+                Schema found = findProperty(openAPI, child, propertyName, visitedSchemas);
+                if (found != null) {
+                    return simplifyProperty(found, visitedSchemas);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * simplify allOf property represented as [$ref, {description: ...}].
+     */
+    private static Schema simplifyProperty(Schema schema, Set<Schema> visitedSchemas) {
+        if (!ModelUtils.isAllOf(schema)) {
+            return schema;
+        }
+        if (visitedSchemas.contains(schema)) {
+            return null;
+        }
+        visitedSchemas.add(schema);
+
+        /*
+         * handle type+description. For Example:
+         * petType:
+         *  $ref: '#/components/schemas/PetType'
+         *  description: DOG
+         */
+        Schema found = null;
+        int count = 0;
+        for (Schema sc: (List<Schema>)schema.getAllOf()) {
+            if (ModelUtils.getType(sc) != null || ModelUtils.hasRef(sc)) {
+                found = sc;
+                count++;
+            }
+        }
+        if (count == 1) {
+            return found;
+        }
+        // multiple types, too complex.
+        return null;
+
     }
 
     public static class DiscriminatorData {

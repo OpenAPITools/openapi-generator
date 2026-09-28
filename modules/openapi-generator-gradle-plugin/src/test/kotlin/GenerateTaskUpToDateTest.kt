@@ -67,6 +67,66 @@ class GenerateTaskUpToDateTest : TestBase() {
         }
     }
 
+    // schemaLocation tests
+
+    private fun schemaLocationExtensionContents(format: PropertyFormat) = """
+        generatorName = "kotlin"
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
+        schemaLocation = ${"schemaDir".toPropertyReference(format)}
+        """.trimIndent()
+
+    private fun initializeSchemaLocationTest(): File {
+        val schemaDir = temp.resolve("schemaDir")
+        schemaDir.mkdir()
+        return schemaDir.resolve("schema.yaml").apply { writeText("type: object") }
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `schemaLocation - no file changes - should be up-to-date`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        initializeSchemaLocationTest()
+        runShouldBeUpToDateTest(gradleVersion, schemaLocationExtensionContents(propertyFormat))
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `schemaLocation - has file changes - should execute`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        val schemaFile = initializeSchemaLocationTest()
+        runShouldExecuteTest(gradleVersion, schemaLocationExtensionContents(propertyFormat)) {
+            schemaFile.writeText("type: object\nadditionalProperties: false")
+        }
+    }
+
+    // schemaLocations tests
+
+    private fun schemaLocationsExtensionContents(format: PropertyFormat) = """
+        generatorName = "kotlin"
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
+        schemaLocations.from(${"schemaLocationsDir/schema.yaml".toPropertyReference(format)})
+        """.trimIndent()
+
+    private fun initializeSchemaLocationsTest(): File {
+        val schemaDir = temp.resolve("schemaLocationsDir")
+        schemaDir.mkdir()
+        return schemaDir.resolve("schema.yaml").apply { writeText("type: object") }
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `schemaLocations - no file changes - should be up-to-date`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        initializeSchemaLocationsTest()
+        runShouldBeUpToDateTest(gradleVersion, schemaLocationsExtensionContents(propertyFormat))
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `schemaLocations - has file changes - should execute`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        val schemaFile = initializeSchemaLocationsTest()
+        runShouldExecuteTest(gradleVersion, schemaLocationsExtensionContents(propertyFormat)) {
+            schemaFile.writeText("type: object\nadditionalProperties: false")
+        }
+    }
+
     // configFile tests
 
     private fun configFileExtensionContents(format: PropertyFormat) = """

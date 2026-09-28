@@ -147,7 +147,6 @@ public class AdditionalPropertiesClass {
    * @return mapNumber
    */
   @jakarta.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_MAP_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -250,7 +249,6 @@ public class AdditionalPropertiesClass {
    * @return mapArrayInteger
    */
   @jakarta.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_MAP_ARRAY_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -285,7 +283,6 @@ public class AdditionalPropertiesClass {
    * @return mapArrayAnytype
    */
   @jakarta.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_MAP_ARRAY_ANYTYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -320,7 +317,6 @@ public class AdditionalPropertiesClass {
    * @return mapMapString
    */
   @jakarta.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_MAP_MAP_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -355,7 +351,6 @@ public class AdditionalPropertiesClass {
    * @return mapMapAnytype
    */
   @jakarta.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_MAP_MAP_ANYTYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

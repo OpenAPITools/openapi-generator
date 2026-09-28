@@ -133,11 +133,20 @@
     </dependency>
     {{/useSwaggerV3Annotations}}
     <!-- @Nullable annotation -->
+    {{#useJspecify}}
+    <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+    {{/useJspecify}}
+    {{^useJspecify}}
     <dependency>
         <groupId>com.google.code.findbugs</groupId>
         <artifactId>jsr305</artifactId>
         <version>3.0.2</version>
     </dependency>
+    {{/useJspecify}}
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>

@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: UUID parameters with the reqwest-trait library
+  description: >-
+    Regression test for #24912. UUID parameters must use the named lifetime
+    declared on the trait method (e.g. Option<&'run_id str>), otherwise
+    mockall's #[automock] fails to compile.
+  version: 1.0.0
+paths:
+  /widgets/{id}/items:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: listWidgetItems
+      tags:
+        - widget
+      parameters:
+        - name: run_id
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: No content

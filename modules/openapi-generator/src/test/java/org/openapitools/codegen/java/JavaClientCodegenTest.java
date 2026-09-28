@@ -71,6 +71,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.USE_ONE_OF_INTERFACES;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
 import static org.testng.Assert.*;
 
@@ -2544,6 +2545,32 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testBeanValidationOnContainerTypeArgument_issue23614() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .addAdditionalProperty(JavaClientCodegen.USE_BEANVALIDATION, true)
+                .setInputSpec("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+
+        // Array elements keep @Valid on the type argument; the container itself is no longer
+        // annotated with @Valid, which Hibernate Validator 9.1+ deprecates (HV000271).
+        Path pet = output.resolve("src/main/java/org/openapitools/client/model/Pet.java");
+        assertFileContains(pet, "List<@Valid Tag> getTags()");
+        TestUtils.assertFileNotContains(pet, "@Valid List<");
+
+        // Map values carry @Valid on the value type argument rather than on the map itself,
+        // preserving cascade validation without the deprecated container-level annotation.
+        Path mixed = output.resolve("src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java");
+        assertFileContains(mixed, "Map<String, @Valid Animal> getMap()");
+        TestUtils.assertFileNotContains(mixed, "@Valid Map<String, Animal>");
+    }
+
+    @Test
     public void testRestTemplateWithPerformBeanValidationEnabled() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -2827,6 +2854,58 @@ public class JavaClientCodegenTest {
         };
 
         testHandleURIEnum(JavaClientCodegen.MICROPROFILE, expectedInnerEnumLines, expectedEnumLines);
+    }
+
+    @Test
+    public void testHandleURIEnumWithXml() {
+        for (String library : List.of(
+                JavaClientCodegen.OKHTTP_GSON,
+                JavaClientCodegen.RESTTEMPLATE,
+                JavaClientCodegen.NATIVE)) {
+            final Path output = newTempFolder();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName(JAVA_GENERATOR)
+                    .setLibrary(library)
+                    .addAdditionalProperty(CodegenConstants.WITH_XML, true)
+                    .setInputSpec("src/test/resources/3_0/enum-and-inner-enum-uri.yaml")
+                    .setOutputDir(output.toString().replace("\\", "/"));
+
+            Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                    .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+            File modelFile = files.get("Metadata.java");
+            Assertions.assertNotNull(modelFile);
+            JavaFileAssert.assertThat(modelFile).fileContains(
+                    "@XmlEnumValue(\"https://example.com/v1/metadata.json\")",
+                    "V1_METADATA_JSON(URI.create(\"https://example.com/v1/metadata.json\"))");
+
+            File innerEnumFile = files.get("V1SchemasGetDefaultResponse.java");
+            Assertions.assertNotNull(innerEnumFile);
+            JavaFileAssert.assertThat(innerEnumFile).fileContains(
+                    "@XmlEnumValue(\"https://example.com/v1/schema.json\")",
+                    "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))");
+        }
+    }
+
+    @Test
+    public void testXmlEnumEscapesRawValueAsJavaStringLiteral() {
+        StringSchema enumSchema = new StringSchema();
+        enumSchema.setEnum(List.of("say \"hello\" \\ path"));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("EscapedEnum", enumSchema);
+
+        final Path output = newTempFolder();
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+        codegen.additionalProperties().put(CodegenConstants.WITH_XML, true);
+
+        Map<String, File> files = new DefaultGenerator()
+                .opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File modelFile = files.get("EscapedEnum.java");
+        Assertions.assertNotNull(modelFile);
+        JavaFileAssert.assertThat(modelFile).fileContains(
+                "@XmlEnumValue(\"say \\\"hello\\\" \\\\ path\")");
     }
 
     private void testHandleURIEnum(String library, String[] expectedInnerEnumLines, String[] expectedEnumLines) {
@@ -4771,15 +4850,13 @@ public class JavaClientCodegenTest {
                         "private @Nullable VirusScanEnum virusScan",
                         "FileContent.Builder virusScan(@Nullable VirusScanEnum virusScan)"
                 );
-        if (!RESTTEMPLATE.equals(library)) {
-            JavaFileAssert.assertThat(files.get("FooApi.java"))
-                    .fileContains("fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)");
-            JavaFileAssert.assertThat(files.get("FooApi.java"))
-                    .fileContains(
-                            "import org.jspecify.annotations.Nullable;",
-                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)"
-                    );
-        }
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
+                .fileContains("fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)");
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)"
+                );
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
@@ -4839,21 +4916,172 @@ public class JavaClientCodegenTest {
                             "public Foo(@JsonProperty(JSON_PROPERTY_DT) java.time.@Nullable Instant dt, @JsonProperty(JSON_PROPERTY_NULLABLE_DT) java.time.@Nullable Instant nullableDt, @JsonProperty(JSON_PROPERTY_BINARY) @Nullable File binary, @JsonProperty(JSON_PROPERTY_NULLABLE_BINARY) @Nullable File nullableBinary, @JsonProperty(JSON_PROPERTY_LIST_OF_DT) @Nullable List<java.time.Instant> listOfDt, @JsonProperty(JSON_PROPERTY_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> listMinIntems, @JsonProperty(JSON_PROPERTY_NULLABLE_LIST_MIN_INTEMS) @Nullable List<java.time.Instant> nullableListMinIntems, @JsonProperty(JSON_PROPERTY_REQUIRED_DT) java.time.Instant requiredDt, @JsonProperty(JSON_PROPERTY_NUMBER) java.math.@Nullable BigDecimal number, @JsonProperty(JSON_PROPERTY_NULLABLE_NUMBER) java.math.@Nullable BigDecimal nullableNumber, @JsonProperty(JSON_PROPERTY_COLOR) @Nullable String color, @JsonProperty(JSON_PROPERTY_REQUIRED_COLOR) String requiredColor, @JsonProperty(JSON_PROPERTY_NULLABLE_COLOR) @Nullable String nullableColor) {"
                     );
         }
-        if (!RESTTEMPLATE.equals(library)) {
-            JavaFileAssert.assertThat(files.get("FooApi.java"))
-                    .fileContains("fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)");
-            JavaFileAssert.assertThat(files.get("FooApi.java"))
-                    .fileContains(
-                            "import org.jspecify.annotations.Nullable;",
-                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)"
-                    );
-        }
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
+                .fileContains("fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)");
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, @Nullable String color)"
+                );
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("client/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
+    }
+
+    @Test
+    public void testJspecify_microprofile() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", MICROPROFILE,
+                Map.of(USE_JSPECIFY, true,
+                        "containerDefaultToNull", true,
+                        JavaClientCodegen.OPENAPI_NULLABLE, false,
+                        CodegenConstants.SERIALIZATION_LIBRARY, "jackson",
+                        ANNOTATION_LIBRARY, "none"
+                ),
+                codegenConfigurator ->
+                        codegenConfigurator
+                                .setValidateSpec(false)
+                                .addTypeMapping("BigDecimal", "java.math.BigDecimal"));
+
+        // microprofile has no build.gradle, only a pom
+        assertThat(files.get("pom.xml")).content()
+                .contains(
+                        "<groupId>org.jspecify</groupId>",
+                        "<artifactId>jspecify</artifactId>",
+                        "<version>1.0.0</version>");
+
+        // @Nullable on optional properties, and nothing on required ones. Annotations on a
+        // qualified type must be placed type-use style (java.math.@Nullable BigDecimal).
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "protected @Nullable File binary;",
+                        "protected java.math.@Nullable BigDecimal number;",
+                        "public java.math.@Nullable BigDecimal getNumber() {",
+                        "public void setNumber(java.math.@Nullable BigDecimal number) {",
+                        "public Foo number(java.math.@Nullable BigDecimal number) {",
+                        "public void setBinary(@Nullable File binary) {")
+                .fileDoesNotContain(
+                        "@Nullable Date requiredDt",
+                        "@Nullable String requiredColor");
+
+        // JAX-RS parameter annotations and @Nullable coexist on operation parameters.
+        JavaFileAssert.assertThat(files.get("FooApi.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "@PathParam(\"dtParam\") @Nullable Date dtParam",
+                        "@QueryParam(\"dtQuery\") @Nullable Date dtQuery");
+
+        // readOnly properties are set through a generated constructor; its parameters are
+        // assigned to @Nullable fields, so they must carry the annotation too.
+        JavaFileAssert.assertThat(files.get("FileContent.java"))
+                .fileContains("@JsonProperty(value = JSON_PROPERTY_SIZE) @Nullable Integer size,");
+
+        // an optional enum-typed property: its getter must be annotated like any other
+        JavaFileAssert.assertThat(files.get("FileContent.java"))
+                .fileContains(
+                        "protected @Nullable VirusScanEnum virusScan;",
+                        "public @Nullable VirusScanEnum getVirusScan() {");
+
+        // optional file form parameters. Their type is a literal in the template rather than a
+        // {{>nullableDataType}} call, so it must still be routed through the jSpecifyDatatype
+        // lambda, or the annotation stashed by nullable_var_annotations is silently dropped.
+        JavaFileAssert.assertThat(files.get("UploadApi.java"))
+                .fileContains(
+                        "@FormParam(\"file\") @Nullable File _fileDetail",
+                        "@FormParam(\"file\") @Nullable List<File> _fileDetail");
+
+        JavaFileAssert.assertThat(files.get("api/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("model/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("client/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+    }
+
+    /**
+     * The withXml enum getter is a separate template branch that returns null explicitly
+     * ("if (x == null) return null;"). Under @NullMarked an unannotated return type there is a
+     * direct contradiction, so it must be annotated like every other getter.
+     */
+    @Test
+    public void testJspecify_microprofile_withXmlEnumGetter() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", MICROPROFILE,
+                Map.of(USE_JSPECIFY, true,
+                        JavaClientCodegen.OPENAPI_NULLABLE, false,
+                        CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        ANNOTATION_LIBRARY, "none",
+                        "withXml", true
+                ),
+                codegenConfigurator -> codegenConfigurator.setValidateSpec(false));
+
+        JavaFileAssert.assertThat(files.get("FileContent.java"))
+                .fileContains("public @Nullable String getVirusScan() {")
+                .fileDoesNotContain("public String getVirusScan() {");
+    }
+
+    /**
+     * useJspecify and useSealedOneOfInterfaces are independent, and must compose: the oneOf
+     * interface is sealed, its children are final, and JSpecify annotates only the optional
+     * properties of those children.
+     */
+    @Test
+    public void testJspecify_microprofile_sealedOneOfInterfaces() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(MICROPROFILE)
+                .addTypeMapping("Double", "java.lang.Double")
+                .setAdditionalProperties(Map.of(
+                        USE_JSPECIFY, true,
+                        USE_ONE_OF_INTERFACES, "true",
+                        USE_SEALED_ONE_OF_INTERFACES, "true",
+                        CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON,
+                        JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0"
+                ))
+                .setInputSpec("src/test/resources/3_0/java/jspecify_sealed_oneof.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        final Path model = output.resolve("src/main/java/org/openapitools/client/model");
+
+        // the sealing is unaffected by jspecify
+        assertFileContains(model.resolve("PetRequest.java"),
+                "public sealed interface PetRequest permits CatRequest, DogRequest {");
+        assertFileContains(model.resolve("CatRequest.java"), "public final class CatRequest");
+        assertFileContains(model.resolve("CatRequest.java"), "implements PetRequest");
+
+        // optional properties of a sealed child are annotated, required ones are not
+        assertFileContains(model.resolve("CatRequest.java"),
+                "import org.jspecify.annotations.Nullable;",
+                "protected @Nullable String nickname;",
+                "protected @Nullable Boolean declawed;",
+                "public @Nullable Boolean getDeclawed() {",
+                "public void setDeclawed(@Nullable Boolean declawed) {");
+        assertFileNotContains(model.resolve("CatRequest.java"),
+                "@Nullable PetType petType",
+                "@Nullable String name;",
+                "@Nullable Boolean indoor");
+
+        // a qualified type keeps type-use placement inside a sealed child
+        assertFileContains(model.resolve("CatRequest.java"),
+                "protected java.lang.@Nullable Double weightKg;",
+                "public java.lang.@Nullable Double getWeightKg() {");
+
+        assertFileContains(model.resolve("DogRequest.java"),
+                "public final class DogRequest",
+                "protected @Nullable String breed;");
+
+        assertFileContains(output.resolve("src/main/java/org/openapitools/client/model/package-info.java"),
+                "@org.jspecify.annotations.NullMarked");
+
+        // sealed still forces Java 17, and jspecify still contributes its dependency
+        assertFileContains(output.resolve("pom.xml"),
+                "<java.version>17</java.version>",
+                "<artifactId>jspecify</artifactId>");
     }
 
     @DataProvider(name = "replaceOneOf")
@@ -4936,6 +5164,75 @@ public class JavaClientCodegenTest {
         assertThat(content)
                 .contains("import io.swagger.v3.oas.annotations.tags.*;")
                 .contains("@Tag(");
+    }
+
+    // ========== x-jackson-default-impl / typeInfoDefaultImpls tests ==========
+
+    @Test(description = "x-jackson-default-impl on deduction schema emits defaultImpl in @JsonTypeInfo (Java client)")
+    public void xJacksonDefaultImplOnDeductionSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(USE_ONE_OF_INTERFACES, "true");
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml",
+                JavaClientCodegen.RESTTEMPLATE,
+                additionalProperties);
+
+        File animalFile = files.get("Animal.java");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog.class)");
+    }
+
+    @Test(description = "x-jackson-default-impl on discriminator schema emits defaultImpl in @JsonTypeInfo (Java client)")
+    public void xJacksonDefaultImplOnDiscriminatorSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_ONE_OF_INTERFACES, "true");
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml",
+                JavaClientCodegen.RESTTEMPLATE,
+                additionalProperties);
+
+        File fruitFile = files.get("Fruit.java");
+        assertThat(fruitFile).isNotNull();
+        assertFileContains(fruitFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"fruitType\", visible = true, defaultImpl = Apple.class)");
+    }
+
+    @Test(description = "typeInfoDefaultImpls config option emits defaultImpl in @JsonTypeInfo (Java client)")
+    public void typeInfoDefaultImplsConfigOptionEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(USE_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml",
+                JavaClientCodegen.RESTTEMPLATE,
+                additionalProperties);
+
+        File animalFile = files.get("Animal.java");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog.class)");
+    }
+
+    @Test(description = "no defaultImpl when neither x-jackson-default-impl nor typeInfoDefaultImpls is set (Java client)")
+    public void noDefaultImplWhenNeitherSourceIsSet() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(USE_ONE_OF_INTERFACES, "true");
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml",
+                JavaClientCodegen.RESTTEMPLATE,
+                additionalProperties);
+
+        File animalFile = files.get("Animal.java");
+        assertThat(animalFile).isNotNull();
+        assertFileNotContains(animalFile.toPath(), "defaultImpl");
     }
 
     @DataProvider(name = "rxJavaOptions")
@@ -5054,6 +5351,27 @@ public class JavaClientCodegenTest {
                 .doesNotContain("import java.security.cert.X509Certificate;");
     }
 
+    @Test(dataProvider = "jerseyLibraries")
+    public void testArrayPathParamSerializedAsCollection(String library) {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .setInputSpec("src/test/resources/3_0/java/array-path-param.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content()
+                .contains("apiClient.collectionPathParameterToString(\"csv\", ids)")
+                .contains("apiClient.escapeString(id.toString())")
+                .doesNotContain("apiClient.escapeString(ids.toString())");
+        JavaFileAssert.assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java").toFile())
+                .assertMethod("collectionPathParameterToString", "String", "Collection<?>");
+    }
+
     private static Path generateJerseyClient(String library, Boolean generateInsecureTlsHook) {
         Path output = newTempFolder();
         CodegenConfigurator configurator = new CodegenConfigurator()
@@ -5068,5 +5386,51 @@ public class JavaClientCodegenTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
         return output;
+    }
+
+    /**
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/20657">#20657</a>:
+     * When generateClientAsBean is false (default), Spring @Component and @Autowired imports
+     * should not be included in ApiClient and API classes for the resttemplate library.
+     */
+    @Test
+    public void testRestTemplateGenerateClientAsBeanDefaultFalse() {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java")).content()
+                .doesNotContain("import org.springframework.beans.factory.annotation.Autowired;")
+                .doesNotContain("import org.springframework.stereotype.Component;");
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java")).content()
+                .doesNotContain("import org.springframework.beans.factory.annotation.Autowired;")
+                .doesNotContain("import org.springframework.stereotype.Component;");
+    }
+
+    @Test
+    public void testRestTemplateGenerateClientAsBeanTrue() {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .addAdditionalProperty(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java")).content()
+                .contains("import org.springframework.beans.factory.annotation.Autowired;")
+                .contains("import org.springframework.stereotype.Component;");
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java")).content()
+                .contains("import org.springframework.beans.factory.annotation.Autowired;")
+                .contains("import org.springframework.stereotype.Component;");
     }
 }

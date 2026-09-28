@@ -86,6 +86,30 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val inputSpecFiles: ConfigurableFileCollection = project.objects.fileCollection()
 
     /**
+     * Optional directory containing additional schema files referenced via `$ref` in the input
+     * specification, tracked for up-to-date checks.
+     *
+     * Declaring this directory tells Gradle to track all files inside it for up-to-date checks.
+     * Without it, changes to `$ref`-referenced schemas will not trigger re-generation because
+     * Gradle only watches [inputSpec] by default.
+     *
+     * For schemas that aren't all under one directory, use [schemaLocations] instead.
+     */
+    val schemaLocation: DirectoryProperty = project.objects.directoryProperty()
+
+    /**
+     * Optional collection of additional schema files/directories referenced via `$ref` in the input
+     * specification, tracked for up-to-date checks.
+     *
+     * Unlike [schemaLocation], which only accepts a single whole directory, this accepts any
+     * combination of individual files, multiple directories, or filtered file trees, e.g.:
+     * ```kotlin
+     * schemaLocations.from("schemas/user.yaml", "schemas/order.yaml")
+     * ```
+     */
+    val schemaLocations: ConfigurableFileCollection = project.objects.fileCollection()
+
+    /**
      * Directory where the merged spec file is written when [inputSpecFiles] is used.
      * Must be set when [inputSpecFiles] is non-empty.
      */
@@ -641,6 +665,24 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
         ignoreFileOverride.set(project.layout.projectDirectory.file(path))
     }
 
+    /** Backwards-compatibility bridge for schemaLocation */
+    fun setSchemaLocation(path: String) {
+        schemaLocation.set(project.layout.projectDirectory.dir(path))
+    }
+
+    /**
+     * Groovy-compatible helper for schemaLocations.
+     *
+     * [schemaLocations] is a [ConfigurableFileCollection], which does not support Groovy `=`
+     * assignment (it isn't a [org.gradle.api.provider.Property]). Use this method instead:
+     * ```groovy
+     * setSchemaLocationsAsStrings("schemas/user.yaml", "schemas/order.yaml")
+     * ```
+     */
+    fun setSchemaLocationsAsStrings(vararg paths: String) {
+        schemaLocations.setFrom(paths.map { project.layout.projectDirectory.asFile.resolve(it) })
+    }
+
     // ========================================================================
     // Kotlin DSL extension functions for property setters
     // These allow Kotlin DSL users to call .set(String) on file/directory properties
@@ -674,6 +716,8 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
             setInputSpecRootDirectory(path)
         } else if (this === templateDir) {
             setTemplateDir(path)
+        } else if (this === schemaLocation) {
+            setSchemaLocation(path)
         } else {
             // Fallback for any other DirectoryProperty
             this.set(project.layout.projectDirectory.dir(path))

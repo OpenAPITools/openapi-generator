@@ -20,6 +20,17 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    swagger_annotations_version = "1.6.5"
+    jackson_version = "2.21.5"
+    jackson_annotations_version = "2.21"
+    jackson_databind_version = "2.21.5"
+    jackson_databind_nullable_version = "0.2.11"
+    jakarta_annotation_version = "3.0.0"
+    jersey_version = "3.0.4"
+    junit_version = "5.8.2"
+}
+
 if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
@@ -97,17 +108,6 @@ if(hasProperty('target') && target == 'android') {
        mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
-}
-
-ext {
-    swagger_annotations_version = "1.6.5"
-    jackson_version = "2.21.5"
-    jackson_annotations_version = "2.21"
-    jackson_databind_version = "2.21.5"
-    jackson_databind_nullable_version = "0.2.11"
-    jakarta_annotation_version = "3.0.0"
-    jersey_version = "3.0.4"
-    junit_version = "5.8.2"
 }
 
 dependencies {
