@@ -21,6 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The transport-channel
@@ -35,7 +37,18 @@ public enum DataChannel {
   
   PLANE("PLANE");
 
+  private static final Map<String, DataChannel> cacheByValue = new HashMap<>();
+
   private String value;
+
+  static {
+    for (DataChannel e: values()) {
+      String key = e.value;
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
+      }
+    }
+  }
 
   DataChannel(String value) {
     this.value = value;
@@ -53,10 +66,9 @@ public enum DataChannel {
 
   @JsonCreator
   public static DataChannel fromValue(String value) {
-    for (DataChannel b : DataChannel.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
+    DataChannel result = cacheByValue.get(value);
+    if (result != null) {
+      return result;
     }
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }

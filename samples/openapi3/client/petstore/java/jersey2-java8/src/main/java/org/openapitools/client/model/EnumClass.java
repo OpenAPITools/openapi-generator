@@ -24,6 +24,8 @@ import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Gets or Sets EnumClass
@@ -36,7 +38,18 @@ public enum EnumClass {
   
   _XYZ_("(xyz)");
 
+  private static final Map<String, EnumClass> cacheByValue = new HashMap<>();
+
   private String value;
+
+  static {
+    for (EnumClass e: values()) {
+      String key = e.value;
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
+      }
+    }
+  }
 
   EnumClass(String value) {
     this.value = value;
@@ -54,10 +67,9 @@ public enum EnumClass {
 
   @JsonCreator
   public static EnumClass fromValue(String value) {
-    for (EnumClass b : EnumClass.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
+    EnumClass result = cacheByValue.get(value);
+    if (result != null) {
+      return result;
     }
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
