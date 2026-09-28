@@ -48,6 +48,8 @@ class OuterEnumIntegerDefaultValue
 
     public const NUMBER_2 = 2;
 
+    public const UNKNOWN_DEFAULT_OPEN_API = 11184809;
+
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -57,7 +59,8 @@ class OuterEnumIntegerDefaultValue
         return [
             self::NUMBER_0,
             self::NUMBER_1,
-            self::NUMBER_2
+            self::NUMBER_2,
+            self::UNKNOWN_DEFAULT_OPEN_API
         ];
     }
 }

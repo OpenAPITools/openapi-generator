@@ -273,6 +273,7 @@ class PetWithFile implements ModelInterface, ArrayAccess, \JsonSerializable
     public const STATUS_AVAILABLE = 'available';
     public const STATUS_PENDING = 'pending';
     public const STATUS_SOLD = 'sold';
+    public const STATUS_UNKNOWN_DEFAULT_OPEN_API = 'unknown_default_open_api';
 
     /**
      * Gets allowable values of the enum
@@ -285,6 +286,7 @@ class PetWithFile implements ModelInterface, ArrayAccess, \JsonSerializable
             self::STATUS_AVAILABLE,
             self::STATUS_PENDING,
             self::STATUS_SOLD,
+            self::STATUS_UNKNOWN_DEFAULT_OPEN_API,
         ];
     }
 
@@ -530,13 +532,7 @@ class PetWithFile implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         $allowedValues = $this->getStatusAllowableValues();
         if (!in_array($status, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'status', must be one of '%s'",
-                    $status,
-                    implode("', '", $allowedValues)
-                )
-            );
+            $status = self::STATUS_UNKNOWN_DEFAULT_OPEN_API;
         }
         $this->container['status'] = $status;
 

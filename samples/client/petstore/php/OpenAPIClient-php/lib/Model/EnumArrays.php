@@ -236,8 +236,10 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
 
     public const JUST_SYMBOL_GREATER_THAN_OR_EQUAL_TO = '>=';
     public const JUST_SYMBOL_DOLLAR = '$';
+    public const JUST_SYMBOL_UNKNOWN_DEFAULT_OPEN_API = 'unknown_default_open_api';
     public const ARRAY_ENUM_FISH = 'fish';
     public const ARRAY_ENUM_CRAB = 'crab';
+    public const ARRAY_ENUM_UNKNOWN_DEFAULT_OPEN_API = 'unknown_default_open_api';
 
     /**
      * Gets allowable values of the enum
@@ -249,6 +251,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
         return [
             self::JUST_SYMBOL_GREATER_THAN_OR_EQUAL_TO,
             self::JUST_SYMBOL_DOLLAR,
+            self::JUST_SYMBOL_UNKNOWN_DEFAULT_OPEN_API,
         ];
     }
 
@@ -262,6 +265,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
         return [
             self::ARRAY_ENUM_FISH,
             self::ARRAY_ENUM_CRAB,
+            self::ARRAY_ENUM_UNKNOWN_DEFAULT_OPEN_API,
         ];
     }
 
@@ -359,13 +363,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         $allowedValues = $this->getJustSymbolAllowableValues();
         if (!in_array($just_symbol, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'just_symbol', must be one of '%s'",
-                    $just_symbol,
-                    implode("', '", $allowedValues)
-                )
-            );
+            $just_symbol = self::JUST_SYMBOL_UNKNOWN_DEFAULT_OPEN_API;
         }
         $this->container['just_symbol'] = $just_symbol;
 

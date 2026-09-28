@@ -48,6 +48,8 @@ class EnumClass
 
     public const XYZ = '(xyz)';
 
+    public const UNKNOWN_DEFAULT_OPEN_API = 'unknown_default_open_api';
+
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -57,7 +59,8 @@ class EnumClass
         return [
             self::ABC,
             self::EFG,
-            self::XYZ
+            self::XYZ,
+            self::UNKNOWN_DEFAULT_OPEN_API
         ];
     }
 }

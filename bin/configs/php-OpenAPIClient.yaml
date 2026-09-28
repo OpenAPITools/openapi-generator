@@ -9,3 +9,5 @@ nameMappings:
 parameterNameMappings:
   _type: underscore_type
   type_: type_with_underscore
+additionalProperties:
+  enumUnknownDefaultCase: true

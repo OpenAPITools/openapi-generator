@@ -261,6 +261,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     public const STATUS_PLACED = 'placed';
     public const STATUS_APPROVED = 'approved';
     public const STATUS_DELIVERED = 'delivered';
+    public const STATUS_UNKNOWN_DEFAULT_OPEN_API = 'unknown_default_open_api';
 
     /**
      * Gets allowable values of the enum
@@ -273,6 +274,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
             self::STATUS_PLACED,
             self::STATUS_APPROVED,
             self::STATUS_DELIVERED,
+            self::STATUS_UNKNOWN_DEFAULT_OPEN_API,
         ];
     }
 
@@ -482,13 +484,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         $allowedValues = $this->getStatusAllowableValues();
         if (!in_array($status, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'status', must be one of '%s'",
-                    $status,
-                    implode("', '", $allowedValues)
-                )
-            );
+            $status = self::STATUS_UNKNOWN_DEFAULT_OPEN_API;
         }
         $this->container['status'] = $status;
 

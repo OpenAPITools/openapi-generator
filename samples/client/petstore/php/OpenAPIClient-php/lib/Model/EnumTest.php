@@ -273,13 +273,17 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
     public const ENUM_STRING_UPPER = 'UPPER';
     public const ENUM_STRING_LOWER = 'lower';
     public const ENUM_STRING_EMPTY = '';
+    public const ENUM_STRING_UNKNOWN_DEFAULT_OPEN_API = 'unknown_default_open_api';
     public const ENUM_STRING_REQUIRED_UPPER = 'UPPER';
     public const ENUM_STRING_REQUIRED_LOWER = 'lower';
     public const ENUM_STRING_REQUIRED_EMPTY = '';
+    public const ENUM_STRING_REQUIRED_UNKNOWN_DEFAULT_OPEN_API = 'unknown_default_open_api';
     public const ENUM_INTEGER_NUMBER_1 = 1;
     public const ENUM_INTEGER_MINUS_1 = -1;
+    public const ENUM_INTEGER_UNKNOWN_DEFAULT_OPEN_API = 11184809;
     public const ENUM_NUMBER_NUMBER_1_DOT_1 = 1.1;
     public const ENUM_NUMBER_MINUS_1_DOT_2 = -1.2;
+    public const ENUM_NUMBER_UNKNOWN_DEFAULT_OPEN_API = 11184809;
 
     /**
      * Gets allowable values of the enum
@@ -292,6 +296,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
             self::ENUM_STRING_UPPER,
             self::ENUM_STRING_LOWER,
             self::ENUM_STRING_EMPTY,
+            self::ENUM_STRING_UNKNOWN_DEFAULT_OPEN_API,
         ];
     }
 
@@ -306,6 +311,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
             self::ENUM_STRING_REQUIRED_UPPER,
             self::ENUM_STRING_REQUIRED_LOWER,
             self::ENUM_STRING_REQUIRED_EMPTY,
+            self::ENUM_STRING_REQUIRED_UNKNOWN_DEFAULT_OPEN_API,
         ];
     }
 
@@ -319,6 +325,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
         return [
             self::ENUM_INTEGER_NUMBER_1,
             self::ENUM_INTEGER_MINUS_1,
+            self::ENUM_INTEGER_UNKNOWN_DEFAULT_OPEN_API,
         ];
     }
 
@@ -332,6 +339,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
         return [
             self::ENUM_NUMBER_NUMBER_1_DOT_1,
             self::ENUM_NUMBER_MINUS_1_DOT_2,
+            self::ENUM_NUMBER_UNKNOWN_DEFAULT_OPEN_API,
         ];
     }
 
@@ -465,13 +473,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         $allowedValues = $this->getEnumStringAllowableValues();
         if (!in_array($enum_string, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'enum_string', must be one of '%s'",
-                    $enum_string,
-                    implode("', '", $allowedValues)
-                )
-            );
+            $enum_string = self::ENUM_STRING_UNKNOWN_DEFAULT_OPEN_API;
         }
         $this->container['enum_string'] = $enum_string;
 
@@ -502,13 +504,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         $allowedValues = $this->getEnumStringRequiredAllowableValues();
         if (!in_array($enum_string_required, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'enum_string_required', must be one of '%s'",
-                    $enum_string_required,
-                    implode("', '", $allowedValues)
-                )
-            );
+            $enum_string_required = self::ENUM_STRING_REQUIRED_UNKNOWN_DEFAULT_OPEN_API;
         }
         $this->container['enum_string_required'] = $enum_string_required;
 
@@ -539,13 +535,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         $allowedValues = $this->getEnumIntegerAllowableValues();
         if (!in_array($enum_integer, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'enum_integer', must be one of '%s'",
-                    $enum_integer,
-                    implode("', '", $allowedValues)
-                )
-            );
+            $enum_integer = self::ENUM_INTEGER_UNKNOWN_DEFAULT_OPEN_API;
         }
         $this->container['enum_integer'] = $enum_integer;
 
@@ -576,13 +566,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         $allowedValues = $this->getEnumNumberAllowableValues();
         if (!in_array($enum_number, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'enum_number', must be one of '%s'",
-                    $enum_number,
-                    implode("', '", $allowedValues)
-                )
-            );
+            $enum_number = self::ENUM_NUMBER_UNKNOWN_DEFAULT_OPEN_API;
         }
         $this->container['enum_number'] = $enum_number;
 

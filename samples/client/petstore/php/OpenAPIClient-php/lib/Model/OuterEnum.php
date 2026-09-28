@@ -48,6 +48,8 @@ class OuterEnum
 
     public const DELIVERED = 'delivered';
 
+    public const UNKNOWN_DEFAULT_OPEN_API = 'unknown_default_open_api';
+
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -57,7 +59,8 @@ class OuterEnum
         return [
             self::PLACED,
             self::APPROVED,
-            self::DELIVERED
+            self::DELIVERED,
+            self::UNKNOWN_DEFAULT_OPEN_API
         ];
     }
 }

@@ -59,6 +59,8 @@ class EnumWithNameAndDescription
 
     public const NUMBER_4 = 4;
 
+    public const UNKNOWN_DEFAULT_OPEN_API = 11184809;
+
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -69,7 +71,8 @@ class EnumWithNameAndDescription
             self::ONE,
             self::NUMBER_2,
             self::_3,
-            self::NUMBER_4
+            self::NUMBER_4,
+            self::UNKNOWN_DEFAULT_OPEN_API
         ];
     }
 }

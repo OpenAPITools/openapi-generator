@@ -248,6 +248,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
 
     public const MAP_OF_ENUM_STRING_UPPER = 'UPPER';
     public const MAP_OF_ENUM_STRING_LOWER = 'lower';
+    public const MAP_OF_ENUM_STRING_UNKNOWN_DEFAULT_OPEN_API = 'unknown_default_open_api';
 
     /**
      * Gets allowable values of the enum
@@ -259,6 +260,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
         return [
             self::MAP_OF_ENUM_STRING_UPPER,
             self::MAP_OF_ENUM_STRING_LOWER,
+            self::MAP_OF_ENUM_STRING_UNKNOWN_DEFAULT_OPEN_API,
         ];
     }
 
