@@ -9,6 +9,7 @@
  */
 
 
+pub use reqwest_middleware::ClientWithMiddleware;
 
 #[derive(Debug, Clone)]
 pub struct Configuration {

@@ -732,10 +732,22 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 }
             } else {
                 switch (p.getFormat()) {
+                    case "int8":
+                        return unsigned ? "u8" : "i8";
+                    case "int16":
+                        return unsigned ? "u16" : "i16";
                     case "int32":
                         return unsigned ? "u32" : "i32";
                     case "int64":
                         return unsigned ? "u64" : "i64";
+                    case "uint8":
+                        return "u8";
+                    case "uint16":
+                        return "u16";
+                    case "uint32":
+                        return "u32";
+                    case "uint64":
+                        return "u64";
                 }
             }
         }
@@ -818,6 +830,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     param.dataType = "String";
                     param.isPrimitiveType = true;
                     param.isString = true;
+                }
+
+                // Free-form objects are `serde_json::Value`, which is not in `models`: mark them primitive, as
+                // DefaultCodegen.updateRequestBodyForObject does for bodies, so no `models::` prefix is added.
+                // Free-form maps (`additionalProperties`) are containers and keep their handling.
+                if (param.isFreeFormObject && !param.isContainer) {
+                    param.isPrimitiveType = true;
                 }
             }
 

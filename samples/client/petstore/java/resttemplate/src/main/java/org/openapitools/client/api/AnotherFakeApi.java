@@ -12,8 +12,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
@@ -45,7 +43,7 @@ public class AnotherFakeApi extends BaseApi {
      * @return Client
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Client call123testSpecialTags(Client client) throws RestClientException {
+    public Client call123testSpecialTags(@javax.annotation.Nonnull Client client) throws RestClientException {
         return call123testSpecialTagsWithHttpInfo(client).getBody();
     }
 
@@ -57,7 +55,7 @@ public class AnotherFakeApi extends BaseApi {
      * @return ResponseEntity&lt;Client&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(Client client) throws RestClientException {
+    public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client) throws RestClientException {
         Object localVarPostBody = client;
         
         // verify the required parameter 'client' is set

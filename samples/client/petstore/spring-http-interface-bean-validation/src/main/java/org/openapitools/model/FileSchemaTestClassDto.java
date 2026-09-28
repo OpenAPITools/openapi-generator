@@ -71,7 +71,7 @@ public class FileSchemaTestClassDto {
    * Get files
    * @return files
    */
-  @Valid 
+  
   @JsonProperty("files")
   public List<@Valid FileDto> getFiles() {
     return files;

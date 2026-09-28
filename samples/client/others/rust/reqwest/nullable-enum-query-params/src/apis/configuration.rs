@@ -9,6 +9,7 @@
  */
 
 
+pub use reqwest::Client;
 
 #[derive(Debug, Clone)]
 pub struct Configuration {

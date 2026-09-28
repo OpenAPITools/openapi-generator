@@ -121,7 +121,6 @@ public class MapTest {
    * @return mapMapOfString
    */
   @javax.annotation.Nullable
-  @Valid
 
 
   public Map<String, Map<String, String>> getMapMapOfString() {

@@ -84,7 +84,7 @@ public class ArrayTestDto {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    */
-  @Valid 
+  
   @Schema(name = "array_array_of_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -113,7 +113,7 @@ public class ArrayTestDto {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    */
-  @Valid 
+  
   @Schema(name = "array_array_of_model", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_array_of_model")
   public List<List<@Valid ReadOnlyFirstDto>> getArrayArrayOfModel() {

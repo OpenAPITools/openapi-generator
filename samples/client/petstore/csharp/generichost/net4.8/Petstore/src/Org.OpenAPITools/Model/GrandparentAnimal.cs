@@ -155,10 +155,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!petType.IsSet)
-                throw new ArgumentException("Property is required for class GrandparentAnimal.", nameof(petType));
+                throw new JsonException("Property is required for class GrandparentAnimal: pet_type.");
 
             if (petType.IsSet && petType.Value == null)
-                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class GrandparentAnimal.");
+                throw new JsonException("Property is not nullable for class GrandparentAnimal: pet_type.");
 
             return new GrandparentAnimal();
         }
@@ -169,7 +169,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="grandparentAnimal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
         {
             if (grandparentAnimal is ChildCat childCat){
@@ -194,7 +193,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="grandparentAnimal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("pet_type", grandparentAnimal.PetType);
