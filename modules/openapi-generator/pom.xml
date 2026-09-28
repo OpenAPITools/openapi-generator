@@ -281,6 +281,12 @@
     </reporting>
     <dependencies>
         <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>${swagger-parser-groupid.version}</groupId>
             <artifactId>swagger-parser</artifactId>
             <version>${swagger-parser.version}</version>
@@ -385,7 +391,6 @@
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-core</artifactId>
             <version>3.24.9</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.googlecode.java-diff-utils</groupId>

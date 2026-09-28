@@ -227,7 +227,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(POETRY1_FALLBACK, "Fallback to formatting pyproject.toml to Poetry 1.x format."));
         cliOptions.add(new CliOption(LAZY_IMPORTS, "Enable lazy imports.").defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(BUILD_SYSTEM, "Build system to use in pyproject.toml (setuptools, hatchling).").defaultValue("setuptools"));
-        cliOptions.add(CliOption.newBoolean(SUPPORT_HTTPX_SYNC, "Generate synchronous '_sync' variants of each API method (httpx library only). " +
+        cliOptions.add(CliOption.newBoolean(SUPPORT_HTTPX_SYNC, "Generate synchronous '_sync' variants of each API method (httpx and httpx2 libraries only). " +
                 "Each '_sync' method simply calls the corresponding async method and waits for its completion, " +
                 "so both synchronous and asynchronous methods are available from the same API class.").defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(CliOption.newBoolean(USE_INDEPENDENT_IMPLICIT_CLIENTS,
@@ -247,7 +247,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
         supportedLibraries.put("httpx", "httpx-based client");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, urllib3, httpx");
+        supportedLibraries.put("httpx2", "httpx2-based client");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, urllib3, httpx, httpx2");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
@@ -271,6 +272,9 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         this.setLegacyDiscriminatorBehavior(false);
 
         super.processOpts();
+        if (additionalProperties.containsKey(POETRY1_FALLBACK)) {
+            convertPropertyToBooleanAndWriteBack(POETRY1_FALLBACK);
+        }
 
         // map to Dot instead of Period
         specialCharReplacements.put(".", "Dot");
@@ -450,10 +454,12 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("async", "true");
             additionalProperties.put("asyncio", "true");
-        } else if ("httpx".equals(getLibrary())) {
+        } else if (isHttpxLibrary()) {
             supportingFiles.add(new SupportingFile("httpx/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("async", "true");
-            additionalProperties.put("httpx", "true");
+            additionalProperties.put(getLibrary(), "true");
+            additionalProperties.put("httpxLibrary", true);
+            additionalProperties.put("httpxModule", getLibrary());
             if (Boolean.parseBoolean(String.valueOf(additionalProperties.get(SUPPORT_HTTPX_SYNC)))) {
                 // generate synchronous '_sync' method variants alongside the async ones
                 additionalProperties.put(SUPPORT_HTTPX_SYNC, true);
@@ -465,10 +471,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
         }
 
-        // 'supportHttpxSync' only makes sense for the (async) httpx library
-        if (!"httpx".equals(getLibrary())) {
+        // 'supportHttpxSync' only makes sense for the (async) httpx and httpx2 libraries
+        if (!isHttpxLibrary()) {
             if (Boolean.parseBoolean(String.valueOf(additionalProperties.get(SUPPORT_HTTPX_SYNC)))) {
-                LOGGER.warn("'{}' is only supported with the 'httpx' library and will be ignored.", SUPPORT_HTTPX_SYNC);
+                LOGGER.warn("'{}' is only supported with the 'httpx' and 'httpx2' libraries and will be ignored.", SUPPORT_HTTPX_SYNC);
             }
             additionalProperties.remove(SUPPORT_HTTPX_SYNC);
         }
@@ -635,7 +641,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     private Set<String> independentClientApiMembers() {
         Set<String> members = new HashSet<>(INDEPENDENT_API_MEMBER_NAMES);
-        boolean async = "asyncio".equals(getLibrary()) || "httpx".equals(getLibrary());
+        boolean async = "asyncio".equals(getLibrary()) || isHttpxLibrary();
         members.addAll(async
                 ? ASYNC_API_LIFECYCLE_METHODS
                 : SYNC_API_LIFECYCLE_METHODS);
@@ -665,8 +671,12 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         return compatibleWithPythonLegacy && DEFAULT_LIBRARY.equals(getLibrary());
     }
 
+    private boolean isHttpxLibrary() {
+        return "httpx".equals(getLibrary()) || "httpx2".equals(getLibrary());
+    }
+
     private boolean supportsHttpxSync() {
-        return "httpx".equals(getLibrary())
+        return isHttpxLibrary()
                 && Boolean.parseBoolean(String.valueOf(
                         additionalProperties.get(SUPPORT_HTTPX_SYNC)));
     }

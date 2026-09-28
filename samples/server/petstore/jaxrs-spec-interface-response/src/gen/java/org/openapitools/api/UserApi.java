@@ -36,7 +36,8 @@ public interface UserApi {
          }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    Response createUser(@Valid @NotNull User user);
+    Response createUser(@Valid @NotNull User user
+);
 
 
     /**
@@ -54,7 +55,8 @@ public interface UserApi {
          }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    Response createUsersWithArrayInput(@Valid @NotNull List<@Valid User> user);
+    Response createUsersWithArrayInput(@NotNull List<@Valid User> user
+);
 
 
     /**
@@ -72,7 +74,8 @@ public interface UserApi {
          }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    Response createUsersWithListInput(@Valid @NotNull List<@Valid User> user);
+    Response createUsersWithListInput(@NotNull List<@Valid User> user
+);
 
 
     /**
@@ -91,7 +94,8 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    Response deleteUser(@PathParam("username") @ApiParam("The name that needs to be deleted") String username);
+    Response deleteUser(@PathParam("username") @ApiParam("The name that needs to be deleted") String username
+);
 
 
     /**
@@ -110,7 +114,8 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    Response getUserByName(@PathParam("username") @ApiParam("The name that needs to be fetched. Use user1 for testing.") String username);
+    Response getUserByName(@PathParam("username") @ApiParam("The name that needs to be fetched. Use user1 for testing.") String username
+);
 
 
     /**
@@ -128,7 +133,9 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
-    Response loginUser(@QueryParam("username") @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @ApiParam("The user name for login")  String username,@QueryParam("password") @NotNull  @ApiParam("The password for login in clear text")  String password);
+    Response loginUser(@QueryParam("username") @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @ApiParam("The user name for login")  String username
+,@QueryParam("password") @NotNull  @ApiParam("The password for login in clear text")  String password
+);
 
 
     /**
@@ -165,6 +172,8 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid @NotNull User user);
+    Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username
+,@Valid @NotNull User user
+);
 
 }

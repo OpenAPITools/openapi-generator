@@ -27,7 +27,8 @@ public class PetsApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "created", response = Void.class)
     })
-    public Response createPet(@Valid @NotNull PetRequest petRequest) {
+    public Response createPet(@Valid @NotNull PetRequest petRequest
+) {
         return Response.ok().entity("magic!").build();
     }
 }

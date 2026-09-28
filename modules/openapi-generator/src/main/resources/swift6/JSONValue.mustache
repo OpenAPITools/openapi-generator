@@ -7,7 +7,7 @@
 
 import Foundation
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum JSONValue: Sendable, Codable, Hashable {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}enum JSONValue: Sendable, Codable, Hashable {
     case string(String)
     case int(Int)
     case double(Double)
@@ -62,7 +62,7 @@ import Foundation
     }
 }
 
-extension JSONValue {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension JSONValue {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(_ value: String) {
         self = .string(value)
     }
@@ -97,7 +97,7 @@ extension JSONValue {
     }
 }
 
-extension JSONValue {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension JSONValue {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var isString: Bool {
         if case .string = self { return true }
         return false
@@ -134,7 +134,7 @@ extension JSONValue {
 
 }
 
-extension JSONValue {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension JSONValue {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var stringValue: String? {
         switch self {
         case .string(let value):
@@ -186,7 +186,7 @@ extension JSONValue {
     }
 }
 
-extension JSONValue {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension JSONValue {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} subscript(key: String) -> JSONValue? {
         return dictionaryValue?[key]
     }
@@ -199,38 +199,38 @@ extension JSONValue {
     }
 }
 
-extension JSONValue: ExpressibleByStringLiteral, ExpressibleByStringInterpolation {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension JSONValue: ExpressibleByStringLiteral, ExpressibleByStringInterpolation {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(stringLiteral value: StringLiteralType) {
         self = .string(value)
     }
 }
 
-extension JSONValue: ExpressibleByIntegerLiteral {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension JSONValue: ExpressibleByIntegerLiteral {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(integerLiteral value: IntegerLiteralType) {
         self = .int(value)
     }
 }
 
-extension JSONValue: ExpressibleByFloatLiteral {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension JSONValue: ExpressibleByFloatLiteral {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(floatLiteral value: FloatLiteralType) {
         self = .double(value)
     }
 }
 
 
-extension JSONValue: ExpressibleByBooleanLiteral {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension JSONValue: ExpressibleByBooleanLiteral {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(booleanLiteral value: BooleanLiteralType) {
         self = .bool(value)
     }
 }
 
-extension JSONValue: ExpressibleByArrayLiteral {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension JSONValue: ExpressibleByArrayLiteral {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(arrayLiteral elements: JSONValue...) {
         self = .array(elements)
     }
 }
 
-extension JSONValue: ExpressibleByDictionaryLiteral {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension JSONValue: ExpressibleByDictionaryLiteral {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(dictionaryLiteral elements: (String, JSONValue)...) {
         var dict: [String: JSONValue] = [:]
         for (key, value) in elements {
@@ -240,7 +240,7 @@ extension JSONValue: ExpressibleByDictionaryLiteral {
     }
 }
 
-extension JSONValue: ExpressibleByNilLiteral {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension JSONValue: ExpressibleByNilLiteral {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(nilLiteral: ()) {
         self = .null
     }
