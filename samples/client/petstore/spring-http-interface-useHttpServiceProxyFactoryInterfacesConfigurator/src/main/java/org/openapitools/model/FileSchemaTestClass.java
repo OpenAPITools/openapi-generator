@@ -70,7 +70,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
    */
-  @Valid 
+  
   @JsonProperty("files")
   public List<@Valid File> getFiles() {
     return files;

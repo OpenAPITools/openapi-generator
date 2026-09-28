@@ -19,6 +19,20 @@ repositories {
 }
 
 
+ext {
+    swagger_annotations_version = "1.6.3"
+    jackson_version = "2.21.5"
+    jackson_databind_version = "2.21.5"
+    {{#openApiNullable}}
+    jackson_databind_nullable_version = "0.2.11"
+    {{/openApiNullable}}
+    jakarta_annotation_version = "1.3.5"
+    threetenbp_version = "2.9.10"
+    resteasy_version = "4.5.11.Final"
+    assertj_version = "3.23.1"
+    junit_version = "5.10.2"
+}
+
 if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
@@ -96,20 +110,6 @@ if(hasProperty('target') && target == 'android') {
        mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
-}
-
-ext {
-    swagger_annotations_version = "1.6.3"
-    jackson_version = "2.21.5"
-    jackson_databind_version = "2.21.5"
-    {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.11"
-    {{/openApiNullable}}
-    jakarta_annotation_version = "1.3.5"
-    threetenbp_version = "2.9.10"
-    resteasy_version = "4.5.11.Final"
-    assertj_version = "3.23.1"
-    junit_version = "5.10.2"
 }
 
 dependencies {

@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -137,6 +138,30 @@ public class KotlinClientCodegenApiTest {
         assertFileContains(statusApi.toPath(), "state: PetStatus? = PetStatus.AVAILABLE");
     }
 
+    @DataProvider(name = "librariesWithPlainInlineEnumParams")
+    public static Object[][] librariesWithPlainInlineEnumParams() {
+        return new Object[][]{
+                {ClientLibrary.JVM_KTOR},
+                {ClientLibrary.JVM_VOLLEY}
+        };
+    }
+
+    @Test(dataProvider = "librariesWithPlainInlineEnumParams")
+    public void testInlineEnumArrayDefaultUsesItemValues_24851(ClientLibrary library) throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/kotlin/issue24851-enum-array-default-query.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(library);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+
+        assertFileContains(defaultApi.toPath(), "colors: kotlin.collections.Set<kotlin.String>? = setOf(\"red\",\"blue\")");
+        assertFileContains(defaultApi.toPath(), "sizes: kotlin.collections.List<kotlin.Int>? = arrayListOf(2)");
+        assertFileContains(defaultApi.toPath(), "refColors: kotlin.collections.List<Color>? = arrayListOf(Color.RED)");
+    }
+
     @Test(dataProvider = "clientLibraries")
     void testEnumReservedDefaultNotHtmlEscaped(ClientLibrary library) throws IOException {
         OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/enum-default-query-reserved-word.json");
@@ -227,6 +252,47 @@ public class KotlinClientCodegenApiTest {
         assertFileContains(defaultApi.toPath(), "localVariableQuery[\"model_deep[a]\"]");
 
         assertFileNotContains(defaultApi.toPath(), "mapDeep?.apply {");
+    }
+
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
+    public void testExplodedObjectQueryParameterJvmOkhttp() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/exploded-object-query-param.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_OKHTTP4);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+
+        String content = new String(Files.readAllBytes(defaultApi.toPath()), StandardCharsets.UTF_8);
+
+        // form style with explode - the default - puts every entry on the wire under its own
+        // property name. Serializing the whole map with toString() is what used to happen.
+        assertFileContains(defaultApi.toPath(), "(filter as? kotlin.collections.Map<*, *>)?.forEach { (key, value) ->");
+        assertFileNotContains(defaultApi.toPath(), "put(\"filter\", listOf(filter.toString()))");
+
+        // a declared map behaves the same way
+        assertFileContains(defaultApi.toPath(), "(typedFilter as? kotlin.collections.Map<*, *>)?.forEach { (key, value) ->");
+        assertFileNotContains(defaultApi.toPath(), "put(\"typedFilter\"");
+
+        // a null entry is left out rather than sent as "null", a collection repeats the key
+        // once per element rather than going out as its toString(), and an entry is appended
+        // rather than replacing a query parameter of the same name
+        assertFileContains(defaultApi.toPath(),
+                "is kotlin.collections.Iterable<*> -> value.toList()",
+                "}.filterNotNull().map { parameterToString(it) }",
+                "put(name, getOrElse(name) { emptyList() } + values)");
+
+        // deepObject and form without explode both keep a single parameter
+        assertFileContains(defaultApi.toPath(),
+                "put(\"deepFilter\", listOf(deepFilter.toString()))",
+                "put(\"flatFilter\", listOf(flatFilter.toString()))");
+
+        // the exploded entries are added after every declared parameter, so a declared
+        // parameter's put cannot overwrite an entry that happens to share its name
+        Assert.assertTrue(content.indexOf("(filter as? kotlin.collections.Map") > content.indexOf("put(\"flatFilter\""),
+                "exploded entries must be added after the declared query parameters");
     }
 
     private static void assertFileContainsLine(List<String> lines, String line) {

@@ -1,4 +1,4 @@
-import { mapValues{{#isDateLibraryDate}}{{#vendorExtensions.x-hasDateVars}}, parseDate, parseDateTime, serializeDate, serializeDateTime{{/vendorExtensions.x-hasDateVars}}{{/isDateLibraryDate}} } from '../runtime{{importFileExtension}}';
+import { mapValues{{^isDateLibraryString}}{{#vendorExtensions.x-hasDateVars}}, parseDate, parseDateTime, serializeDate, serializeDateTime{{/vendorExtensions.x-hasDateVars}}{{/isDateLibraryString}} } from '../runtime{{importFileExtension}}';
 {{#hasImports}}
 {{#tsImports}}
 import type { {{{classname}}} } from './{{filename}}{{importFileExtension}}';

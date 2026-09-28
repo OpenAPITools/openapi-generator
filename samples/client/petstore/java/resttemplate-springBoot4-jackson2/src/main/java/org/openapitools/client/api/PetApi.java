@@ -12,8 +12,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
@@ -46,7 +44,7 @@ public class PetApi extends BaseApi {
      * @return Pet
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Pet addPet(Pet pet) throws RestClientException {
+    public Pet addPet(@jakarta.annotation.Nonnull Pet pet) throws RestClientException {
         return addPetWithHttpInfo(pet).getBody();
     }
 
@@ -59,7 +57,7 @@ public class PetApi extends BaseApi {
      * @return ResponseEntity&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Pet> addPetWithHttpInfo(Pet pet) throws RestClientException {
+    public ResponseEntity<Pet> addPetWithHttpInfo(@jakarta.annotation.Nonnull Pet pet) throws RestClientException {
         Object localVarPostBody = pet;
         
         // verify the required parameter 'pet' is set

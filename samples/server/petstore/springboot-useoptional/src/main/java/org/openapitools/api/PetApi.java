@@ -147,7 +147,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) List<String> status
+        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) List<String> status
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -202,7 +202,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<Set<Pet>> findPetsByTags(
-        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "tags", required = true) Set<String> tags
+        @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) Set<String> tags
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -345,8 +345,8 @@ public interface PetApi {
     )
     default ResponseEntity<Void> updatePetWithForm(
         @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) Optional<String> name,
-        @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) Optional<String> status
+        @Parameter(name = "name", description = "Updated name of the pet") @RequestParam(value = "name", required = false) Optional<String> name,
+        @Parameter(name = "status", description = "Updated status of the pet") @RequestParam(value = "status", required = false) Optional<String> status
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -385,7 +385,7 @@ public interface PetApi {
     )
     default ResponseEntity<ModelApiResponse> uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata,
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     ) {
         getRequest().ifPresent(request -> {

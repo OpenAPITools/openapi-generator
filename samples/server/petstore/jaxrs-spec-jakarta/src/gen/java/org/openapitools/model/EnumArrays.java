@@ -117,7 +117,7 @@ public class EnumArrays  implements Serializable {
     }
 }
 
-  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   protected EnumArrays(EnumArraysBuilder<?, ?> b) {
     this.justSymbol = b.justSymbol;

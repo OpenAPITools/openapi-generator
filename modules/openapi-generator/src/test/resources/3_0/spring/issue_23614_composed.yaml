@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: HV000271 composed container elements (issue 23614)
+  version: 1.0.0
+paths:
+  /zoo:
+    get:
+      operationId: getZoo
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zoo'
+components:
+  schemas:
+    Cat:
+      type: object
+      properties:
+        meow:
+          type: string
+    Dog:
+      type: object
+      properties:
+        bark:
+          type: string
+    Animal:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+    Color:
+      type: string
+      enum:
+        - red
+        - green
+        - blue
+    Zoo:
+      type: object
+      properties:
+        animals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Animal'
+        colors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Color'

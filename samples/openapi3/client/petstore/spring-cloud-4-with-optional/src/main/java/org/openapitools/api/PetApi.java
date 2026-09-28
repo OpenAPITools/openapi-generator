@@ -78,7 +78,7 @@ public interface PetApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull  @Valid @RequestParam(value = "status", required = true) @Deprecated List<String> status
+        @NotNull  @RequestParam(value = "status", required = true) @Deprecated List<String> status
     );
 
 
@@ -99,7 +99,7 @@ public interface PetApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<List<Pet>> findPetsByTags(
-        @NotNull  @Valid @RequestParam(value = "tags", required = true) List<String> tags
+        @NotNull  @RequestParam(value = "tags", required = true) List<String> tags
     );
 
 
@@ -164,8 +164,8 @@ public interface PetApi {
     )
     ResponseEntity<Void> updatePetWithForm(
          @PathVariable("petId") Long petId,
-         @Valid @RequestParam(value = "name", required = false) Optional<String> name,
-         @Valid @RequestParam(value = "status", required = false) Optional<String> status
+         @RequestParam(value = "name", required = false) Optional<String> name,
+         @RequestParam(value = "status", required = false) Optional<String> status
     );
 
 
@@ -187,7 +187,7 @@ public interface PetApi {
     )
     ResponseEntity<ModelApiResponse> uploadFile(
          @PathVariable("petId") Long petId,
-         @Valid @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata,
+         @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file
     );
 
