@@ -200,7 +200,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="fruit"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -215,7 +214,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="fruit"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
             if (fruit.ColorOption.IsSet && fruit.Color == null)

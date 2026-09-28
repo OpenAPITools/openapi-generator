@@ -159,7 +159,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="file"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -174,7 +173,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="file"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
             if (file.SourceURIOption.IsSet && file.SourceURI == null)

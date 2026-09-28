@@ -174,7 +174,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="notificationtestGetElementsV1ResponseMPayload"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, NotificationtestGetElementsV1ResponseMPayload notificationtestGetElementsV1ResponseMPayload, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -189,7 +188,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="notificationtestGetElementsV1ResponseMPayload"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NotificationtestGetElementsV1ResponseMPayload notificationtestGetElementsV1ResponseMPayload, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WritePropertyName("a_objVariableobject");

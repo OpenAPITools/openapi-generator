@@ -171,7 +171,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="shapeOrNull"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -186,7 +185,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="shapeOrNull"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
             if (shapeOrNull.AreaOption.IsSet && shapeOrNull.Area == null)
