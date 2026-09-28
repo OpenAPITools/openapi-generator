@@ -612,6 +612,7 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
@@ -623,6 +624,7 @@ where
                                     Some(param_body) => param_body,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
@@ -664,6 +666,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -672,6 +678,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -715,6 +722,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -794,6 +805,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -802,6 +817,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -879,6 +895,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -887,6 +907,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -964,6 +985,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -972,6 +997,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -1049,6 +1075,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -1057,6 +1087,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -1100,6 +1131,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -1137,6 +1172,7 @@ where
                             Ok(param_query) => Some(param_query),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(body_from_string(format!("Couldn't parse query parameter query - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter query")),
                         }
@@ -1147,6 +1183,7 @@ where
                     Some(param_query) => param_query,
                     None => return Ok(Response::builder()
                         .status(StatusCode::BAD_REQUEST)
+                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                         .body(body_from_str("Missing required query parameter query"))
                         .expect("Unable to create Bad Request response for missing query parameter query")),
                 };
@@ -1167,6 +1204,7 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
@@ -1178,6 +1216,7 @@ where
                                     Some(param_body) => param_body,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
@@ -1213,6 +1252,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -1221,6 +1264,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -1259,6 +1303,7 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
@@ -1270,6 +1315,7 @@ where
                                     Some(param_body) => param_body,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
@@ -1311,6 +1357,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -1319,6 +1369,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -1346,6 +1397,7 @@ where
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
@@ -1427,6 +1479,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -1435,6 +1491,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -1467,6 +1524,7 @@ where
                         Err(err) => {
                             return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Invalid header enum_header_string_array - {err}")))
                                         .expect("Unable to create Bad Request response for invalid header enum_header_string_array"));
 
@@ -1485,6 +1543,7 @@ where
                         Err(err) => {
                             return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Invalid header enum_header_string - {err}")))
                                         .expect("Unable to create Bad Request response for invalid header enum_header_string"));
 
@@ -1516,6 +1575,7 @@ where
                             Ok(param_enum_query_string) => Some(param_enum_query_string),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(body_from_string(format!("Couldn't parse query parameter enum_query_string - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter enum_query_string")),
                         }
@@ -1535,6 +1595,7 @@ where
                             Ok(param_enum_query_integer) => Some(param_enum_query_integer),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(body_from_string(format!("Couldn't parse query parameter enum_query_integer - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter enum_query_integer")),
                         }
@@ -1554,6 +1615,7 @@ where
                             Ok(param_enum_query_double) => Some(param_enum_query_double),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(body_from_string(format!("Couldn't parse query parameter enum_query_double - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter enum_query_double")),
                         }
@@ -1606,6 +1668,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -1614,6 +1680,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -1652,6 +1719,7 @@ where
                                         Ok(param_param) => param_param,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter param - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter param due to schema")),
                                     }
@@ -1663,6 +1731,7 @@ where
                                     Some(param_param) => param_param,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter param".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter param")),
                                 };
@@ -1695,6 +1764,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -1703,6 +1776,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -1760,6 +1834,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -1768,6 +1846,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -1804,11 +1883,13 @@ where
                         Ok(param_hyphen_param) => param_hyphen_param,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't parse path parameter hyphen-param: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["hyphen-param"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode"))
                 };
@@ -1835,6 +1916,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -1864,6 +1949,7 @@ where
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
@@ -1885,6 +1971,7 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
@@ -1896,6 +1983,7 @@ where
                                     Some(param_body) => param_body,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
@@ -1937,6 +2025,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -1945,6 +2037,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -1972,6 +2065,7 @@ where
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
@@ -1987,6 +2081,7 @@ where
                             let missing_scopes = required_scopes.difference(scopes);
                             return Ok(Response::builder()
                                 .status(StatusCode::FORBIDDEN)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(BoxBody::new(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
                                     |s, scope| format!("{s} {scope}"))
@@ -2013,6 +2108,7 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
@@ -2024,6 +2120,7 @@ where
                                     Some(param_body) => param_body,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
@@ -2058,6 +2155,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -2066,6 +2167,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -2093,6 +2195,7 @@ where
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
@@ -2108,6 +2211,7 @@ where
                             let missing_scopes = required_scopes.difference(scopes);
                             return Ok(Response::builder()
                                 .status(StatusCode::FORBIDDEN)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(BoxBody::new(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
                                     |s, scope| format!("{s} {scope}"))
@@ -2170,6 +2274,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -2199,6 +2307,7 @@ where
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
@@ -2214,6 +2323,7 @@ where
                             let missing_scopes = required_scopes.difference(scopes);
                             return Ok(Response::builder()
                                 .status(StatusCode::FORBIDDEN)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(BoxBody::new(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
                                     |s, scope| format!("{s} {scope}"))
@@ -2276,6 +2386,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -2305,6 +2419,7 @@ where
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
@@ -2320,6 +2435,7 @@ where
                             let missing_scopes = required_scopes.difference(scopes);
                             return Ok(Response::builder()
                                 .status(StatusCode::FORBIDDEN)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(BoxBody::new(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
                                     |s, scope| format!("{s} {scope}"))
@@ -2346,6 +2462,7 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
@@ -2357,6 +2474,7 @@ where
                                     Some(param_body) => param_body,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
@@ -2401,6 +2519,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -2409,6 +2531,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -2436,6 +2559,7 @@ where
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
@@ -2451,6 +2575,7 @@ where
                             let missing_scopes = required_scopes.difference(scopes);
                             return Ok(Response::builder()
                                 .status(StatusCode::FORBIDDEN)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(BoxBody::new(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
                                     |s, scope| format!("{s} {scope}"))
@@ -2475,11 +2600,13 @@ where
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't parse path parameter petId: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode"))
                 };
@@ -2494,6 +2621,7 @@ where
                         Err(err) => {
                             return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Invalid header api_key - {err}")))
                                         .expect("Unable to create Bad Request response for invalid header api_key"));
 
@@ -2527,6 +2655,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -2556,6 +2688,7 @@ where
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
@@ -2575,11 +2708,13 @@ where
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't parse path parameter petId: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode"))
                 };
@@ -2635,6 +2770,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -2664,6 +2803,7 @@ where
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
@@ -2679,6 +2819,7 @@ where
                             let missing_scopes = required_scopes.difference(scopes);
                             return Ok(Response::builder()
                                 .status(StatusCode::FORBIDDEN)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(BoxBody::new(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
                                     |s, scope| format!("{s} {scope}"))
@@ -2703,11 +2844,13 @@ where
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't parse path parameter petId: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode"))
                 };
@@ -2748,6 +2891,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -2756,6 +2903,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -2783,6 +2931,7 @@ where
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
@@ -2798,6 +2947,7 @@ where
                             let missing_scopes = required_scopes.difference(scopes);
                             return Ok(Response::builder()
                                 .status(StatusCode::FORBIDDEN)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(BoxBody::new(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
                                     |s, scope| format!("{s} {scope}"))
@@ -2822,11 +2972,13 @@ where
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't parse path parameter petId: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode"))
                 };
@@ -2841,6 +2993,7 @@ where
                                     Some(boundary) => boundary.to_string(),
                                     None => return Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(BoxBody::new("Couldn't find valid multipart body".to_string()))
                                                 .expect("Unable to create Bad Request response for incorrect boundary")),
                                 };
@@ -2859,30 +3012,35 @@ where
                                     SaveResult::Partial(_, PartialReason::CountLimit) => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Unable to process message part due to excessive parts".to_string()))
                                                         .expect("Unable to create Bad Request response due to excessive parts"))
                                     },
                                     SaveResult::Partial(_, PartialReason::SizeLimit) => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Unable to process message part due to excessive data".to_string()))
                                                         .expect("Unable to create Bad Request response due to excessive data"))
                                     },
                                     SaveResult::Partial(_, PartialReason::Utf8Error(_)) => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Unable to process message part due to invalid data".to_string()))
                                                         .expect("Unable to create Bad Request response due to invalid data"))
                                     },
                                     SaveResult::Partial(_, PartialReason::IoError(_)) => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Failed to process message part due an internal error".to_string()))
                                                         .expect("Unable to create Internal Server Error response due to an internal error"))
                                     },
                                     SaveResult::Error(e) => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Failed to process all message parts due to an internal error".to_string()))
                                                         .expect("Unable to create Internal Server Error response due to an internal error"))
                                     },
@@ -2900,6 +3058,7 @@ where
                                                 return Ok(
                                                     Response::builder()
                                                     .status(StatusCode::BAD_REQUEST)
+                                                    .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                     .body(BoxBody::new(format!("additional_metadata data does not match API definition : {e}")))
                                                     .expect("Unable to create Bad Request due to missing required form parameter additional_metadata"))
                                             }
@@ -2924,6 +3083,7 @@ where
                                                 return Ok(
                                                     Response::builder()
                                                     .status(StatusCode::BAD_REQUEST)
+                                                    .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                     .body(BoxBody::new(format!("file data does not match API definition : {e}")))
                                                     .expect("Unable to create Bad Request due to missing required form parameter file"))
                                             }
@@ -2967,6 +3127,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -2975,6 +3139,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -3002,6 +3167,7 @@ where
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
@@ -3035,6 +3201,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -3075,6 +3245,7 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
@@ -3086,6 +3257,7 @@ where
                                     Some(param_body) => param_body,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
@@ -3144,6 +3316,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -3152,6 +3328,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -3188,11 +3365,13 @@ where
                         Ok(param_order_id) => param_order_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't parse path parameter order_id: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode"))
                 };
@@ -3224,6 +3403,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -3262,11 +3445,13 @@ where
                         Ok(param_order_id) => param_order_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't parse path parameter order_id: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode"))
                 };
@@ -3322,6 +3507,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -3362,6 +3551,7 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
@@ -3373,6 +3563,7 @@ where
                                     Some(param_body) => param_body,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
@@ -3407,6 +3598,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -3415,6 +3610,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -3453,6 +3649,7 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
@@ -3464,6 +3661,7 @@ where
                                     Some(param_body) => param_body,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
@@ -3498,6 +3696,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -3506,6 +3708,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -3544,6 +3747,7 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
@@ -3555,6 +3759,7 @@ where
                                     Some(param_body) => param_body,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
@@ -3589,6 +3794,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -3597,6 +3806,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
@@ -3632,6 +3842,7 @@ where
                             Ok(param_username) => Some(param_username),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(body_from_string(format!("Couldn't parse query parameter username - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter username")),
                         }
@@ -3642,6 +3853,7 @@ where
                     Some(param_username) => param_username,
                     None => return Ok(Response::builder()
                         .status(StatusCode::BAD_REQUEST)
+                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                         .body(body_from_str("Missing required query parameter username"))
                         .expect("Unable to create Bad Request response for missing query parameter username")),
                 };
@@ -3656,6 +3868,7 @@ where
                             Ok(param_password) => Some(param_password),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
+                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                 .body(body_from_string(format!("Couldn't parse query parameter password - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter password")),
                         }
@@ -3666,6 +3879,7 @@ where
                     Some(param_password) => param_password,
                     None => return Ok(Response::builder()
                         .status(StatusCode::BAD_REQUEST)
+                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                         .body(body_from_str("Missing required query parameter password"))
                         .expect("Unable to create Bad Request response for missing query parameter password")),
                 };
@@ -3698,6 +3912,7 @@ where
                                                         Err(e) => {
                                                             return Ok(Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                                     .body(body_from_string(format!("An internal server error occurred handling x_rate_limit header - {e}")))
                                                                     .expect("Unable to create Internal Server Error for invalid response header"))
                                                         }
@@ -3715,6 +3930,7 @@ where
                                                         Err(e) => {
                                                             return Ok(Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                                     .body(body_from_string(format!("An internal server error occurred handling x_expires_after header - {e}")))
                                                                     .expect("Unable to create Internal Server Error for invalid response header"))
                                                         }
@@ -3755,6 +3971,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -3800,6 +4020,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -3838,11 +4062,13 @@ where
                         Ok(param_username) => param_username,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't parse path parameter username: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode"))
                 };
@@ -3874,6 +4100,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -3912,11 +4142,13 @@ where
                         Ok(param_username) => param_username,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't parse path parameter username: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode"))
                 };
@@ -3972,6 +4204,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -4010,11 +4246,13 @@ where
                         Ok(param_username) => param_username,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't parse path parameter username: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode"))
                 };
@@ -4035,6 +4273,7 @@ where
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
@@ -4046,6 +4285,7 @@ where
                                     Some(param_body) => param_body,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
@@ -4086,6 +4326,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -4094,6 +4338,7 @@ where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }

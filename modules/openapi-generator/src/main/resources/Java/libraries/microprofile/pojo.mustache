@@ -52,10 +52,10 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#ve
 {{{.}}}
 {{/vendorExtensions.x-field-extra-annotation}}
 {{#isContainer}}
-  protected {{{datatypeWithEnum}}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^required}} = null{{/required}};
+  {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}protected {{>nullableDatatypeWithEnum}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^required}} = null{{/required}};
 {{/isContainer}}
 {{^isContainer}}
-  protected {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}protected {{>nullableDatatypeWithEnum}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 {{/isContainer}}
   {{/vars}}
 {{>additional_properties}}
@@ -67,7 +67,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#ve
  {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
   public {{classname}}(
   {{#readOnlyVars}}
-    {{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nillable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}{{#required}}, required = true{{/required}}){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+    {{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nillable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}{{#required}}, required = true{{/required}}){{/jackson}} {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}{{^-last}}, {{/-last}}
   {{/readOnlyVars}}
   ) {
   {{#readOnlyVars}}
@@ -100,18 +100,18 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#ve
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  {{#withXml}}{{#isEnum}}{{^isArray}}{{^isMap}} public {{dataType}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  {{#withXml}}{{#isEnum}}{{^isArray}}{{^isMap}} public {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}} {{getter}}() {
     if ({{name}} == null) {
       return null;
     }
     return {{name}}.value();
-  }{{/isMap}}{{/isArray}}{{/isEnum}}{{/withXml}}{{^withXml}}{{#isEnum}}{{^isArray}}{{^isMap}}public {{datatypeWithEnum}} {{getter}}() {
+  }{{/isMap}}{{/isArray}}{{/isEnum}}{{/withXml}}{{^withXml}}{{#isEnum}}{{^isArray}}{{^isMap}}public {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{getter}}() {
     return {{name}};
-  }{{/isMap}}{{/isArray}}{{/isEnum}}{{/withXml}}{{#isEnum}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMap}}{{/isArray}}{{/isEnum}}{{/withXml}}{{#isEnum}}{{#isArray}}public {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{getter}}() {
     return {{name}};
-  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{getter}}() {
     return {{name}};
-  }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{getter}}() {
     return {{name}};
   }{{/isEnum}}
 
@@ -120,11 +120,11 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#ve
    * Set {{name}}
    */
 {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
-{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  public void {{setter}}({{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}) {
     this.{{name}} = {{name}};
     return this;
   }

@@ -1,0 +1,13 @@
+openapi: 3.0.3
+info:
+  title: no x-spring-provide-args api interface test
+  version: 1.0.0
+paths:
+  /foo:
+    get:
+      tags:
+        - foo
+      operationId: foo
+      responses:
+        "204":
+          description: no content

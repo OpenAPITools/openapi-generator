@@ -7,7 +7,7 @@
 
 import Foundation
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class CodableHelper: @unchecked Sendable {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} {{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}class CodableHelper: @unchecked Sendable {
 
     // MARK: - Private state
 

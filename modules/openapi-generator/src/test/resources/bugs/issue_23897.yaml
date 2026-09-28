@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  title: Flask UUID missing import reproduction
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Pushnotification:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+    UuidList:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+    UuidMap:
+      type: object
+      properties:
+        ids:
+          type: object
+          additionalProperties:
+            type: string
+            format: uuid
+    NestedUuidContainers:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              type: array
+              items:
+                type: string
+                format: uuid
+    AllOfUuid:
+      type: object
+      properties:
+        ids:
+          allOf:
+            - type: string
+              format: uuid
+            - type: string
+              maxLength: 36
+    StringList:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string

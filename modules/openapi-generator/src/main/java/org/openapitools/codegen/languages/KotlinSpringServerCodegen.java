@@ -176,7 +176,27 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean beanQualifiers = false;
     @Setter private DeclarativeInterfaceReactiveMode declarativeInterfaceReactiveMode = DeclarativeInterfaceReactiveMode.coroutines;
     @Setter private boolean useResponseEntity = true;
-    @Setter private boolean autoXSpringPaginated = false;
+    @Getter private String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
+    @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
+    /**
+     * Configures automatic Spring Pageable detection using a canonical mode or legacy boolean alias.
+     *
+     * @param autoXSpringPaginated the configured mode
+     */
+    public void setAutoXSpringPaginated(String autoXSpringPaginated) {
+        autoXSpringPaginatedMode = SpringPageableScanUtils.resolveAutoPaginationMode(autoXSpringPaginated);
+        this.autoXSpringPaginated = autoXSpringPaginatedMode.getCanonicalValue();
+    }
+
+    /**
+     * @deprecated Use {@link #setAutoXSpringPaginated(String)} with {@code page-size-sort} or
+     * {@code none}.
+     */
+    @Deprecated
+    public void setAutoXSpringPaginated(boolean autoXSpringPaginated) {
+        setAutoXSpringPaginated(Boolean.toString(autoXSpringPaginated));
+    }
+
     @Setter private boolean generateSortValidation = false;
     @Setter private boolean generatePageableConstraintValidation = false;
     @Setter private boolean substituteGenericPagedModel = false;
@@ -192,6 +212,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Getter @Setter private boolean openApiNullable = false;
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
+
+    private Map<String, String> typeInfoDefaultImpls = new HashMap<>();
 
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
@@ -311,7 +333,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP, "A list of fields per schema name that should NOT be created with `override` keyword despite their presence in vendor extension `x-kotlin-implements-fields` for the schema. Example: yaml `xKotlinImplementsFieldsSkip: Pet: [photoUrls]` skips `override` for `photoUrls` in schema `Pet`", "empty map");
         addOption(SCHEMA_IMPLEMENTS, "A map of single interface or a list of interfaces per schema name that should be implemented (serves similar purpose as `x-kotlin-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map");
         addOption(SCHEMA_IMPLEMENTS_FIELDS, "A map of single field or a list of fields per schema name that should be prepended with `override` (serves similar purpose as `x-kotlin-implements-fields`, but is fully decoupled from the api spec). Example: yaml `schemaImplementsFields: {Pet: id, Category: [name, id], Dog: [bark, breed]}` marks fields to be prepended with `override` in schemas `Pet` (field `id`), `Category` (fields `name`, `id`) and `Dog` (fields `bark`, `breed`)", "empty map");
-        addSwitch(AUTO_X_SPRING_PAGINATED, "Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.", autoXSpringPaginated);
+        addOption(AUTO_X_SPRING_PAGINATED,
+                "Automatically add x-spring-paginated to operations that have the given set of pagination query "
+                + "parameters. 'page-size-sort' requires 'page', 'size', and 'sort'; 'page-size' requires only "
+                + "'page' and 'size' (sort may be absent). Operations with x-spring-paginated explicitly set to "
+                + "false will not be auto-detected. The legacy values 'true' (alias for 'page-size-sort') and "
+                + "'false' (alias for 'none') are deprecated and will be removed in a future release.",
+                autoXSpringPaginated, SpringPageableScanUtils.getAutoPaginationModeEnumValues());
         addSwitch(GENERATE_SORT_VALIDATION, "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generateSortValidation);
         addSwitch(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library is spring-boot or spring-cloud.", generatePageableConstraintValidation);
         addSwitch(SUBSTITUTE_GENERIC_PAGED_MODEL,
@@ -347,6 +375,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         + "deserialization null-handling defers to the global ObjectMapper. When left unset it defaults to "
                         + "false (7.23.0-equivalent output) and logs a warning; set it explicitly to silence the warning.", false);
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        addOption(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, CodegenConstants.TYPE_INFO_DEFAULT_IMPLS_DESC, "empty map");
         addSwitch(CodegenConstants.USE_ENUM_VALUE_INTERFACE, CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC, useEnumValueInterface);
         addSwitch(CodegenConstants.OPENAPI_NULLABLE,
                 "Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for strict null handling. "
@@ -631,6 +660,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
 
+        if (additionalProperties.containsKey(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS)) {
+            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS));
+        }
+
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
         // Set basePackage from invokerPackage
@@ -823,10 +856,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(USE_TAGS)) {
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
         }
-        if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED) && isPageableSupported()) {
-            this.setAutoXSpringPaginated(convertPropertyToBoolean(AUTO_X_SPRING_PAGINATED));
+        // Validate an explicitly supplied value for every library so typos are not silently ignored;
+        // the resolved mode is only used (and written back) when Pageable is supported.
+        if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED)) {
+            String rawAutoXSpringPaginated = String.valueOf(additionalProperties.get(AUTO_X_SPRING_PAGINATED));
+            pageableUtils.warnIfDeprecatedAutoPaginationValue(rawAutoXSpringPaginated);
+            setAutoXSpringPaginated(rawAutoXSpringPaginated);
+            if (isPageableSupported()) {
+                writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
+            }
         }
-        writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
         if (additionalProperties.containsKey(GENERATE_SORT_VALIDATION) && isPageableSupported()) {
             this.setGenerateSortValidation(convertPropertyToBoolean(GENERATE_SORT_VALIDATION));
         }
@@ -1066,7 +1105,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if (library.equals(SPRING_BOOT) && !useTags) {
+        if ((library.equals(SPRING_BOOT) || library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)) && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -1081,12 +1120,40 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
             }
+            if (SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
+                super.addOperationToGroup(getUniquePathGroupName(basePath, operations), resourcePath, operation, co, operations);
+                return;
+            }
             List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);
             co.baseName = basePath;
         } else {
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         }
+    }
+
+    private String getUniquePathGroupName(String basePath, Map<String, List<CodegenOperation>> operations) {
+        String sanitizedBasePath = sanitizeName(basePath);
+        if (sanitizedBasePath.isEmpty()) {
+            sanitizedBasePath = "Path";
+        } else if (sanitizedBasePath.matches("^\\d.*")) {
+            sanitizedBasePath = "Class" + sanitizedBasePath;
+        }
+        String groupName = camelize(sanitizedBasePath, LOWERCASE_FIRST_LETTER);
+        String uniqueGroupName = groupName;
+        int suffix = 2;
+        while (operations.containsKey(uniqueGroupName)
+                && !getFirstPathSegment(operations.get(uniqueGroupName).get(0).path).equals(basePath)) {
+            uniqueGroupName = groupName + suffix++;
+        }
+        return uniqueGroupName;
+    }
+
+    private String getFirstPathSegment(String path) {
+        String basePath = path.startsWith("/") ? path.substring(1) : path;
+        int pos = basePath.indexOf("/");
+        basePath = pos > 0 ? basePath.substring(0, pos) : basePath;
+        return basePath.isEmpty() ? "default" : basePath;
     }
 
     /**
@@ -1138,7 +1205,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // Only for libraries that support Pageable; respect manual x-spring-paginated: false override.
         if (isPageableSupported()) {
             SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(
-                    openAPI, operation, autoXSpringPaginated);
+                    openAPI, operation, autoXSpringPaginatedMode);
         }
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
@@ -1218,7 +1285,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         if (isPageableSupported()) {
-            pageableUtils.scanAll(openAPI, autoXSpringPaginated);
+            pageableUtils.scanAll(openAPI, autoXSpringPaginatedMode);
 
             if (generateSortValidation && useBeanValidation && !pageableUtils.sortValidationEnums.isEmpty()) {
                 importMapping.putIfAbsent("ValidSort", configPackage + ".ValidSort");
@@ -1482,6 +1549,23 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         Map<String, CodegenModel> allModelsMap = getAllModels(objs);
 
+        // Resolve x-jackson-default-impl and typeInfoDefaultImpls into x-jackson-resolved-default-impl
+        // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
+        // and discriminator-based oneOf interfaces.
+        for (CodegenModel cm : allModelsMap.values()) {
+            String resolved = JacksonDefaultImplResolver.resolve(
+                    typeInfoDefaultImpls, cm, this::toModelName, allModelsMap.keySet(), LOGGER::warn);
+            if (resolved != null && !resolved.isBlank()) {
+                cm.vendorExtensions.put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
+                // When a discriminator is present, the typeInfoAnnotation partial is rendered
+                // inside {{#discriminator}}, so JMustache resolves 'vendorExtensions' against
+                // CodegenDiscriminator (not CodegenModel). Store there too.
+                if (cm.discriminator != null) {
+                    cm.discriminator.getVendorExtensions().put(JacksonDefaultImplResolver.RESOLVED_DEFAULT_IMPL, resolved);
+                }
+            }
+        }
+
         // For each oneOf interface with a discriminator, mark the discriminator property
         // as inherited in each subtype and set its default value from the discriminator mapping
         for (CodegenModel cm : allModelsMap.values()) {
@@ -1502,6 +1586,67 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     if (child != null) {
                         String mappingName = childToMappingName.get(childName);
                         markPropertyAsInherited(child, discrimBaseName, discrimType, mappingName, isEnumDiscriminator);
+                    }
+                }
+            }
+        }
+
+        // Multi-level allOf inheritance: detect "mid-level" models — models that (a) have at least
+        // one child via allOf and (b) are themselves a child (have a parent) but are NOT a
+        // discriminator root. A data class cannot be subclassed, so these must become `open class`
+        // for their own subclasses to compile.
+        // Example: Animal (interface) <- Dog (open class, has child BigDog) <- BigDog (data class)
+        for (CodegenModel cm : allModelsMap.values()) {
+            boolean isMidLevel = cm.hasChildren
+                    && cm.discriminator == null
+                    && cm.parent != null
+                    && !Boolean.TRUE.equals(cm.vendorExtensions.get(CodegenConstants.X_IS_ONE_OF_INTERFACE));
+            if (isMidLevel) {
+                // Mark for `open class` rendering in the template
+                cm.vendorExtensions.put("x-is-open-class", true);
+                // Mark every *own* (non-inherited) property as `open` so subclasses can override it.
+                // Inherited properties (override) are implicitly open in an open class.
+                Stream.of(cm.vars, cm.requiredVars, cm.optionalVars, cm.allVars)
+                        .flatMap(List::stream)
+                        .filter(p -> !p.isInherited)
+                        .forEach(p -> p.vendorExtensions.put("x-is-open-property", true));
+                // An open class gets none of the compiler-generated data class members, so the
+                // template writes equals/hashCode/toString/copy itself. They must list properties
+                // in the same order the constructor declares them (required before optional), so
+                // that positional arguments to copy() bind to the properties the caller expects.
+                List<CodegenProperty> constructorOrder = new ArrayList<>(cm.getRequiredVars());
+                constructorOrder.addAll(cm.getOptionalVars());
+                // toString() prints the property name as a label. Kotlin back-ticks names that are
+                // not valid identifiers (`2ndField`), but the back-ticks are only source syntax and
+                // a data class does not print them, so strip them for the label.
+                constructorOrder.forEach(p -> p.vendorExtensions.put(
+                        "x-open-class-label", p.getName().replace("`", "")));
+                cm.vendorExtensions.put("x-open-class-vars", constructorOrder);
+            }
+        }
+
+        // For children of open (non-interface) parent classes, build a parent constructor call
+        // so the template can emit `: Dog(className = className, ...)`. This is a second pass
+        // because it reads x-is-open-class on the *parent*, which the loop above must have
+        // finished setting for every model first.
+        // x-parent-is-class tells the template the parent requires `()` (even when arg list is empty);
+        // x-parent-ctor-args holds the argument string. Kept separate so a parent with no properties
+        // still generates `: ParentClass()` rather than the compile-error `: ParentClass` (no parens).
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (cm.parent != null) {
+                CodegenModel parentModel = allModelsMap.get(cm.parent);
+                if (parentModel != null
+                        && Boolean.TRUE.equals(parentModel.vendorExtensions.get("x-is-open-class"))) {
+                    cm.vendorExtensions.put("x-parent-is-class", true);
+                    List<String> ctorArgs = new ArrayList<>();
+                    for (CodegenProperty prop : parentModel.getRequiredVars()) {
+                        ctorArgs.add(prop.getName() + " = " + prop.getName());
+                    }
+                    for (CodegenProperty prop : parentModel.getOptionalVars()) {
+                        ctorArgs.add(prop.getName() + " = " + prop.getName());
+                    }
+                    if (!ctorArgs.isEmpty()) {
+                        cm.vendorExtensions.put("x-parent-ctor-args", String.join(", ", ctorArgs));
                     }
                 }
             }
@@ -1947,6 +2092,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_CONTENT_TYPE);
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         extensions.add(VendorExtension.X_OPERATION_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_EXTRA_IMPORTS);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);

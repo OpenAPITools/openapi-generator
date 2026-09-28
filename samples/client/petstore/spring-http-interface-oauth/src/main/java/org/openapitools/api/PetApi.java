@@ -23,6 +23,7 @@ import jakarta.annotation.Generated;
 @ClientRegistrationId("petstore-oauth")
 public interface PetApi {
 
+    String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
      * 
@@ -33,7 +34,7 @@ public interface PetApi {
      */
     @HttpExchange(
         method = "POST",
-        value = "/pet",
+        value = PetApi.PATH_ADD_PET,
         accept = { "application/json", "application/xml" },
         contentType = "application/json"
     )

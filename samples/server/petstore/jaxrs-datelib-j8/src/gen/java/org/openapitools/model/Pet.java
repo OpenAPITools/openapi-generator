@@ -214,7 +214,7 @@ public class Pet  implements Serializable {
    **/
   @JsonProperty(value = "tags")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public List<@Valid Tag> getTags() {
     return tags;
   }
