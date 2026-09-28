@@ -803,6 +803,74 @@ public class PythonClientCodegenTest {
         assertFileContains(apiInitFile.toPath(), "from my_pkg.my_api.pet_api import PetApi");
     }
 
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
+    public void testExplodedObjectQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+            .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output.getAbsolutePath(), "openapi_client", "api", "default_api.py");
+
+        TestUtils.assertFileContains(api,
+            "_query_params.extend(self.api_client.explode_query_object('filter', filter))",
+            "_query_params.extend(self.api_client.explode_query_object('typedFilter', typed_filter))");
+        TestUtils.assertFileNotContains(api, "_query_params.append(('filter', filter))");
+
+        // deepObject and form without explode both keep a single parameter
+        TestUtils.assertFileContains(api,
+            "_query_params.append(('deepFilter', deep_filter))",
+            "_query_params.append(('flatFilter', flat_filter))");
+        TestUtils.assertFileNotContains(api,
+            "explode_query_object('deepFilter', deep_filter)",
+            "explode_query_object('flatFilter', flat_filter)");
+
+        // a collection format applies only to a list, so an exploded "context": "en" next to a context: multi array stays context=en
+        Path apiClient = Paths.get(output.getAbsolutePath(), "openapi_client", "api_client.py");
+        TestUtils.assertFileContains(apiClient,
+            "def explode_query_object(self, name, obj):",
+            "if k in collection_formats and isinstance(v, (list, tuple)):");
+    }
+
+    @Test
+    public void testExplodedModelQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/3_0/python/exploded-model-query-param.yaml")
+            .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output.getAbsolutePath(), "openapi_client", "api", "default_api.py");
+
+        // a model is serialized first (wire names), then exploded; a oneOf holding a primitive stays one parameter, one holding a list repeats the name
+        TestUtils.assertFileContains(api,
+            "_query_params.extend(self.api_client.explode_query_object('refFilter', ref_filter))",
+            "_query_params.extend(self.api_client.explode_query_object('inlineFilter', inline_filter))",
+            "_query_params.extend(self.api_client.explode_query_object('oneOfFilter', one_of_filter))");
+        TestUtils.assertFileNotContains(api, "_query_params.append(('oneOfFilter', one_of_filter))");
+
+        // deepObject and form without explode both keep a single parameter
+        TestUtils.assertFileContains(api,
+            "_query_params.append(('deepFilter', deep_filter))",
+            "_query_params.append(('flatFilter', flat_filter))");
+        TestUtils.assertFileNotContains(api,
+            "explode_query_object('deepFilter', deep_filter)",
+            "explode_query_object('flatFilter', flat_filter)");
+    }
+
     @Test(description = "Verify default license format uses object notation when poetry1 is false")
     public void testLicenseFormatInPyprojectToml() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
