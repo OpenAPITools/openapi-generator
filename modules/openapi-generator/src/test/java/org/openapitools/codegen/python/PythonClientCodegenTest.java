@@ -139,6 +139,7 @@ public class PythonClientCodegenTest {
                         PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS),
                 Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertNull(codegen.additionalProperties().get(CodegenConstants.SOURCE_FOLDER));
     }
 
     @Test
@@ -1684,5 +1685,26 @@ public class PythonClientCodegenTest {
                 "_owned_api_client",
                 "def close(self) -> None:");
         TestUtils.assertFileNotContains(rest, "def close(self) -> None:");
+    }
+
+    @Test( description = "test src-layout with setuptools" )
+    public void testSrcLayoutSetuptools() throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SOURCE_FOLDER, "src");
+        final String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+
+        final Path setup = Paths.get(output, "setup.py");
+        assertFileContains(setup, "package_dir={\"\": \"src\"}", "packages=find_packages(where=\"src\", exclude=");
+    }
+
+    @Test( description = "test src-layout with poetry1" )
+    public void testSrcLayoutPoetry() throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SOURCE_FOLDER, "src");
+        codegen.additionalProperties().put("poetry1", true);
+        final String output = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
+
+        final Path pyproject = Paths.get(output, "pyproject.toml");
+        assertFileContains(pyproject, "{ include = \"openapi_client\", from = \"src\" },", "include = [\"src/openapi_client/py.typed\"]", "\"src/openapi_client\",");
     }
 }
