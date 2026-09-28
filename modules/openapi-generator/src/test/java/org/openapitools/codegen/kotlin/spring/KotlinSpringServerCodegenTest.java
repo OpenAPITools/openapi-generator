@@ -7797,6 +7797,20 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test(description = "KDoc @param must name the property literally, without HTML-escaping its back-ticks")
+    public void kdocParamNameIsNotHtmlEscaped() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/param-json-property.yaml"
+        );
+
+        File itemFile = files.get("Item.kt");
+        assertThat(itemFile).isNotNull();
+        // "2nd_field" is not a valid Kotlin identifier, so the property is declared as `2ndField`.
+        // The KDoc must carry those back-ticks as written rather than as HTML entities.
+        assertFileNotContains(itemFile.toPath(), "&#x60;");
+        assertFileContains(itemFile.toPath(), "@param `2ndField` ");
+    }
+
 
     /**
      * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24139
