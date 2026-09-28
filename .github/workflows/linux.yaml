@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        java: [11, 17]
+        java: [11, 17, 21]
         os: [ubuntu-latest]
     steps:
       - name: Check out code
