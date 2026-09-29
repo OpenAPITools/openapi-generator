@@ -12,6 +12,7 @@ class {{rbNamespaceClassName}}
 end
 
 {{/rbNamespaceOnly}}
+{{^rbNamespaceOnly}}
 class {{classname}}
   def initialize(connection)
     @connection = connection
@@ -56,4 +57,4 @@ class {{classname}}
   end
 {{/rbNamespaceResources}}
 {{/rbNamespaceHasDirectOperations}}
-end
+end{{/rbNamespaceOnly}}
