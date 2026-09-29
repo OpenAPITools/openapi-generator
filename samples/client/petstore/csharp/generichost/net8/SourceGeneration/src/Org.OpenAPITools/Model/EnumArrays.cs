@@ -321,7 +321,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="enumArrays"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -336,7 +335,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="enumArrays"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions jsonSerializerOptions)
         {
             if (enumArrays.ArrayEnumOption.IsSet && enumArrays.ArrayEnum == null)

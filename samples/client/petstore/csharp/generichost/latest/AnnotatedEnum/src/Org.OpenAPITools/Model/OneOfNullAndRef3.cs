@@ -150,7 +150,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="oneOfNullAndRef3"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OneOfNullAndRef3 oneOfNullAndRef3, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -165,7 +164,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="oneOfNullAndRef3"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OneOfNullAndRef3 oneOfNullAndRef3, JsonSerializerOptions jsonSerializerOptions)
         {
             if (oneOfNullAndRef3.NumberOption.IsSet && oneOfNullAndRef3.Number == null)

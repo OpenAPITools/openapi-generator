@@ -157,7 +157,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="descendant2"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Descendant2 descendant2, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -172,7 +171,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="descendant2"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Descendant2 descendant2, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("alternativeName", descendant2.AlternativeName);
