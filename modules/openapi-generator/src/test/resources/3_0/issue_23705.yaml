@@ -27,7 +27,6 @@ components:
               - '@NotNull'
               - '@Size(max=50)'
             type: string
-            required: true
         listInteger:
           type: array
           items:
