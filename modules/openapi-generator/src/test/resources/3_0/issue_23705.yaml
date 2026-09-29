@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: issue 23705 x-items-extra-annotation
+  version: 1.0.0
+components:
+  schemas:
+    Stubb:
+      type: object
+      properties:
+        name:
+          type: string
+    SampleModel:
+      type: object
+      properties:
+        listStringNullable:
+          type: array
+          items:
+            type: string
+            nullable: true
+            x-items-extra-annotation: '@Size(max=50)'
+        listString:
+          type: array
+          items:
+            x-items-extra-annotation:
+              - '@NotNull'
+              - '@Size(max=50)'
+            type: string
+            required: true
+        listSample:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stubb'

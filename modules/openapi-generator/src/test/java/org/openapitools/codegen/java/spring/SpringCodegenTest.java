@@ -53,7 +53,6 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10152,4 +10151,25 @@ public class SpringCodegenTest {
                 .fileContains(expectedContains);
     }
 
+    @Test
+    void x_items_extra_annotation() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_23705.yaml", SPRING_BOOT,
+                Map.of("useBeanValidation", "true", "useSpringBoot3", "true"));
+
+        JavaFileAssert.assertThat(files.get("SampleModel.java"))
+                .fileContains("private List<@NotNull @Size(max=50) String> listString");
+    }
+
+    @Test
+    void additionalItemsAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_23705.yaml", SPRING_BOOT,
+                Map.of("useBeanValidation", "true", "useSpringBoot3", "true",
+                        ADDITIONAL_ITEMS_ANNOTATIONS, "@NotNull"
+                        ));
+
+        JavaFileAssert.assertThat(files.get("SampleModel.java"))
+                .fileContains("private List<@NotNull @Size(max=50) String> listString")
+                .fileContains("private List<@Size(max=50) String> listStringNullable")
+                .fileContains("private List<@NotNull @Valid Stubb> listSample");
+    }
 }
