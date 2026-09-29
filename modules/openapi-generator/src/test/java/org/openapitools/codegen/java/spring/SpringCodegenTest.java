@@ -10159,7 +10159,9 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("SampleModel.java"))
                 .fileContains(
                         "private List<@NotNull @Size(max=50) String> listString",
-                        "private List<@Min(0)Integer> listInteger");
+                        "private List<@Min(0)Integer> listInteger",
+                        "private List<@Size(max=10) String> listCode"
+                );
     }
 
     @Test
@@ -10173,6 +10175,7 @@ public class SpringCodegenTest {
                 "private List<@NotNull @Size(max=50) String> listString",
                 "private List<@Size(max=50) String> listStringNullable",
                 "private List<@NotNull @Valid Stubb> listSample",
-                "private List<@NotNull @Min(0)Integer> listInteger");
+                "private List<@NotNull @Min(0)Integer> listInteger",
+                "private List<@NotNull @Size(max=10) String> listCode");
     }
 }

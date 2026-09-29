@@ -1,9 +1,11 @@
 openapi: 3.0.3
 info:
-  title: issue 23705 x-items-extra-annotation
+  title: issue 23705 x-field-extra-annotation on array.items
   version: 1.0.0
 components:
   schemas:
+    Code:
+      type: string
     Stubb:
       type: object
       properties:
@@ -36,3 +38,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Stubb'
+        listCode:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Code'
+            x-field-extra-annotation: '@Size(max=10)'
+
