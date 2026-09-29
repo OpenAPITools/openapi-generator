@@ -396,6 +396,10 @@ public class RubyNextgenClientCodegenTest {
                 target.resolve("lib/acme.rb"), "\"two_fa_whitelist\" => \"TwoFAWhitelist\"");
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/acme/api/dedicated_cloud/two_fa_whitelist.rb"), "class DedicatedCloud::TwoFAWhitelist");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/acme/api/dedicated_cloud.rb"),
+                "class DedicatedCloud", "def two_fa_whitelist",
+                "@two_fa_whitelist ||= DedicatedCloud::TwoFAWhitelist.new(@connection)");
     }
 
     @Test
