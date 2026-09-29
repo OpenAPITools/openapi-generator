@@ -187,10 +187,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Pig.", nameof(className));
+                throw new JsonException("Property is required for class Pig: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Pig.");
+                throw new JsonException("Property is not nullable for class Pig: className.");
 
             if (basquePig != null)
                 return new Pig(basquePig);
@@ -207,7 +207,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="pig"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -234,7 +233,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="pig"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
 

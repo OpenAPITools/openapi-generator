@@ -58,6 +58,7 @@ part 'model/file_schema_test_class.dart';
 part 'model/foo.dart';
 part 'model/foo_get_default_response.dart';
 part 'model/format_test.dart';
+part 'model/get_user_info_response.dart';
 part 'model/has_only_read_only.dart';
 part 'model/health_check_result.dart';
 part 'model/map_test.dart';

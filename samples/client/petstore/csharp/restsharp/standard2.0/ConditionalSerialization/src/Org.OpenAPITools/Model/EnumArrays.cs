@@ -103,9 +103,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayEnum">arrayEnum.</param>
         public EnumArrays(JustSymbolEnum? justSymbol = default, List<ArrayEnumEnum> arrayEnum = default)
         {
-            this._JustSymbol = justSymbol;
-            if (this.JustSymbol != null)
+            if (justSymbol != null)
             {
+                this._JustSymbol = justSymbol.Value;
                 this._flagJustSymbol = true;
             }
             this._ArrayEnum = arrayEnum;

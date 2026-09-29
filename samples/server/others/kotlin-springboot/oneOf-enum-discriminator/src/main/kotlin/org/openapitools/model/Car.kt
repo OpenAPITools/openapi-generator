@@ -28,11 +28,11 @@ data class Car(
 
     @field:Valid
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("vehicleType")
+    @param:JsonProperty("vehicleType", required = true)
     @get:JsonProperty("vehicleType", required = true) override val vehicleType: VehicleType = VehicleType.CAR,
 
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
-    @param:JsonProperty("numDoors")
+    @param:JsonProperty("numDoors", required = true)
     @get:JsonProperty("numDoors", required = true) val numDoors: kotlin.Int
 ) : Vehicle {
 

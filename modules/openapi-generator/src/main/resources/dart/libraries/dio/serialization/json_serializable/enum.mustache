@@ -10,11 +10,13 @@ enum {{{classname}}} {
 {{#allowableValues}}
 {{#enumVars}}
   {{^isNull}}
-      {{#enumDescription}}
-          /// {{{.}}}
-      {{/enumDescription}}
-      @JsonValue({{#isString}}r{{/isString}}{{{value}}})
-      {{{name}}}({{^isString}}'{{/isString}}{{#isString}}r{{/isString}}{{{value}}}{{^isString}}'{{/isString}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+  {{#enumDescription}}
+  /**
+   * {{#lambda.dartdoc_2}}{{{.}}}{{/lambda.dartdoc_2}}
+   */
+  {{/enumDescription}}
+  @JsonValue({{#isString}}r{{/isString}}{{{value}}})
+  {{{name}}}({{^isString}}'{{/isString}}{{#isString}}r{{/isString}}{{{value}}}{{^isString}}'{{/isString}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
   {{/isNull}}
 {{/enumVars}}
 {{/allowableValues}}

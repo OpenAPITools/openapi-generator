@@ -227,6 +227,8 @@ class ApiClient {
           return FooGetDefaultResponse.fromJson(value);
         case 'FormatTest':
           return FormatTest.fromJson(value);
+        case 'GetUserInfoResponse':
+          return GetUserInfoResponse.fromJson(value);
         case 'HasOnlyReadOnly':
           return HasOnlyReadOnly.fromJson(value);
         case 'HealthCheckResult':

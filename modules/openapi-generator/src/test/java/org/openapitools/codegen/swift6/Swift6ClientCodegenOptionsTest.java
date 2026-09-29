@@ -56,6 +56,7 @@ public class Swift6ClientCodegenOptionsTest extends AbstractOptionsTest {
                 Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE));
         verify(clientCodegen).setHashableModels(Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.HASHABLE_MODELS_VALUE));
         verify(clientCodegen).setIdentifiableModels(Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.IDENTIFIABLE_MODELS_VALUE));
+        verify(clientCodegen).setNonisolatedModels(Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.NONISOLATED_MODELS_VALUE));
         verify(clientCodegen)
                 .setEnumUnknownDefaultCase(Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
         verify(clientCodegen).setApiStaticMethod(Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.API_STATIC_METHOD_VALUE));

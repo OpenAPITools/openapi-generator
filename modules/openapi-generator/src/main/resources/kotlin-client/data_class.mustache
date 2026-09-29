@@ -91,7 +91,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
 {{/vendorExtensions.x-class-extra-annotation}}
 {{#kotlinx_serialization}}{{#discriminator}}
 @OptIn(ExperimentalSerializationApi::class)
-@JsonClassDiscriminator(discriminator = "{{{discriminator.propertyName}}}")
+@JsonClassDiscriminator(discriminator = "{{#lambda.escapeDollar}}{{{discriminator.propertyBaseName}}}{{/lambda.escapeDollar}}")
 {{/discriminator}}
 {{#additionalProperties.discriminatorValue}}
 @SerialName(value = {{#lambda.doublequote}}{{{additionalProperties.discriminatorValue}}}{{/lambda.doublequote}})
@@ -99,7 +99,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
 {{/kotlinx_serialization}}
 {{#multiplatform}}{{#discriminator}}
 @OptIn(ExperimentalSerializationApi::class)
-@JsonClassDiscriminator(discriminator = "{{{discriminator.propertyName}}}")
+@JsonClassDiscriminator(discriminator = "{{#lambda.escapeDollar}}{{{discriminator.propertyBaseName}}}{{/lambda.escapeDollar}}")
 {{/discriminator}}
 {{#additionalProperties.discriminatorValue}}
 @SerialName(value = {{#lambda.doublequote}}{{{additionalProperties.discriminatorValue}}}{{/lambda.doublequote}})

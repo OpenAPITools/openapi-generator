@@ -18,9 +18,12 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 {{/infoUrl}}
 
 
+## Runtime compatibility
+This generator targets the 0.2.x series of [OpenAPI.jl](https://github.com/JuliaComputing/OpenAPI.jl), and the generated `Project.toml` pins `OpenAPI = "0.2"` accordingly. OpenAPI.jl 1.x is a pure-Julia generator with a different API (`OpenAPI.server`); code produced by this generator does not run on it. Julia-native users who do not need this generator's features may prefer generating directly with OpenAPI.jl 1.x.
+
 ## Installation
 Place the Julia files generated under the `src` folder in your Julia project. Include {{packageName}}.jl in the project code.
-It would include the module named {{packageName}}.
+It would include the module named {{packageName}}. The generated `Project.toml` declares the required dependencies and compatible versions; use it as the project environment or merge its entries into your own project.
 
 Implement the server methods as listed below. They are also documented with the {{packageName}} module.
 Launch a HTTP server with a router that has all handlers registered. A `register` method is provided in {{packageName}} module for convenience.

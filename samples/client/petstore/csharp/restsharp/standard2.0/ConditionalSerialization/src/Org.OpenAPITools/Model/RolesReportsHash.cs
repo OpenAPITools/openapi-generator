@@ -37,11 +37,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="roleUuid">roleUuid.</param>
         /// <param name="role">role.</param>
-        public RolesReportsHash(Guid roleUuid = default, RolesReportsHashRole role = default)
+        public RolesReportsHash(Guid? roleUuid = default, RolesReportsHashRole role = default)
         {
-            this._RoleUuid = roleUuid;
-            if (this.RoleUuid != null)
+            if (roleUuid != null)
             {
+                this._RoleUuid = roleUuid.Value;
                 this._flagRoleUuid = true;
             }
             this._Role = role;

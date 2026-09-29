@@ -2,7 +2,7 @@
 
 from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
-from pydantic import Field, StrictBytes, StrictInt, StrictStr, field_validator
+from pydantic import Field, StrictBytes, StrictStr, field_validator
 from typing import Any, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from openapi_server.models.api_response import ApiResponse
@@ -34,7 +34,7 @@ class BasePetApi:
 
     async def find_pets_by_status(
         self,
-        status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
+        status: Annotated[List[str], Field(description="Status values that need to be considered for filter")],
     ) -> List[Pet]:
         """Multiple status values can be provided with comma separated strings"""
         ...
@@ -42,7 +42,7 @@ class BasePetApi:
 
     async def find_pets_by_tags(
         self,
-        tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
+        tags: Annotated[List[str], Field(description="Tags to filter by")],
     ) -> List[Pet]:
         """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."""
         ...
@@ -50,7 +50,7 @@ class BasePetApi:
 
     async def get_pet_by_id(
         self,
-        petId: Annotated[StrictInt, Field(description="ID of pet to return")],
+        petId: Annotated[int, Field(description="ID of pet to return")],
     ) -> Pet:
         """Returns a single pet"""
         ...
@@ -58,7 +58,7 @@ class BasePetApi:
 
     async def update_pet_with_form(
         self,
-        petId: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
+        petId: Annotated[int, Field(description="ID of pet that needs to be updated")],
         name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")],
         status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")],
     ) -> None:
@@ -68,8 +68,8 @@ class BasePetApi:
 
     async def delete_pet(
         self,
-        petId: Annotated[StrictInt, Field(description="Pet id to delete")],
-        api_key: Optional[StrictStr],
+        petId: Annotated[int, Field(description="Pet id to delete")],
+        api_key: Optional[str],
     ) -> None:
         """"""
         ...
@@ -77,7 +77,7 @@ class BasePetApi:
 
     async def upload_file(
         self,
-        petId: Annotated[StrictInt, Field(description="ID of pet to update")],
+        petId: Annotated[int, Field(description="ID of pet to update")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")],
         file: Optional[UploadFile],
     ) -> ApiResponse:

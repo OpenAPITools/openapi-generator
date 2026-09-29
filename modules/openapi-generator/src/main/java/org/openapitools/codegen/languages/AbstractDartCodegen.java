@@ -1,6 +1,8 @@
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
+import com.samskivert.mustache.Mustache.Lambda;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
@@ -18,6 +20,8 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.IndentedLambda;
+import org.openapitools.codegen.templating.mustache.PrefixLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -349,6 +353,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (templateDir == null) {
             embeddedTemplateDir = templateDir = "dart2";
         }
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("dartdoc", new PrefixLambda(" * ", false))
+                .put("dartdoc_2", new IndentedLambda(2, " ", " * ", false, false));
     }
 
     @Override

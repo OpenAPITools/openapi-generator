@@ -56,6 +56,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateBuilders|Whether to generate builders for models| |false|
 |generateClientAsBean|For resttemplate, restclient and webclient, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).| |false|
 |generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
+|generateInsecureTlsHook|Generate the ApiClient.disableCertificateValidation hook, which trusts all TLS certificates (default to true). Set to false to omit it, e.g. when static analysis flags the trust-all TrustManager it contains. Available on `jersey2`, `jersey3` libraries.| |true|
 |gradleProperties|Append additional Gradle properties to the gradle.properties file| |null|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
@@ -100,7 +101,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useGzipFeature|Send gzip-encoded requests| |false|
 |useJackson3|Use Jackson 3 instead of Jackson 2. Supported for 'native', 'apache-httpclient', and 'jersey3' libraries (requires Java 17+) and for Spring 'resttemplate', 'webclient', and 'restclient' libraries (require useSpringBoot4=true).| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
-|useJspecify|Use Jspecify for null checks. Only supported for [native, restclient, resttemplate, webclient]| |false|
+|useJspecify|Use Jspecify for null checks. Only supported for [microprofile, native, restclient, resttemplate, webclient]| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped. Only jersey2, jersey3, native, okhttp-gson support this option.| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |usePlayWS|Use Play! Async HTTP client (Play WS API)| |false|

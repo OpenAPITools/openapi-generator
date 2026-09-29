@@ -56,7 +56,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     private static final StringProperty JSONITER_VERSION = new StringProperty("jsoniterVersion",
             "The version of jsoniter-scala " +
                     "library",
-            "2.39.1");
+            "2.40.1");
 
     public static final String DEFAULT_PACKAGE_NAME = "org.openapitools.client";
     private static final PackageProperty PACKAGE_PROPERTY = new PackageProperty();

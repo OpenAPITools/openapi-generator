@@ -1,0 +1,8 @@
+generatorName: rust
+outputDir: samples/client/others/rust/reqwest-deep-object-free-form-query-param
+library: reqwest
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/deep-object-free-form-query-param.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: false
+  packageName: deep-object-free-form-query-param

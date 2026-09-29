@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Inline enum array default test
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      operationId: getItems
+      parameters:
+        - name: colors
+          in: query
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum: [red, blue]
+            default: [red, blue]
+        - name: sizes
+          in: query
+          schema:
+            type: array
+            items:
+              type: integer
+              enum: [1, 2]
+            default: [2]
+        - name: refColors
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Color'
+            default: [RED]
+      responses:
+        "204":
+          description: No content
+components:
+  schemas:
+    Color:
+      type: string
+      enum: [RED, BLUE]

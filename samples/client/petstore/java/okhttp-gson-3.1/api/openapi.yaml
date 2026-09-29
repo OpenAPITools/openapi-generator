@@ -834,6 +834,15 @@ paths:
       - fake
       x-accepts:
       - application/json
+  /fake/path/backslash/GetPetById\(\):
+    get:
+      responses:
+        "200":
+          description: ""
+      tags:
+      - fake
+      x-accepts:
+      - application/json
 components:
   parameters:
     ref_to_uuid:
@@ -1206,6 +1215,8 @@ components:
           $ref: "#/components/schemas/Pet"
         second_property:
           description: just null type
+        third_property:
+          description: null type declared as the OAS 3.1 quoted string
     updatePetWithForm_request:
       properties:
         name:

@@ -45,7 +45,7 @@ using Microsoft.Extensions.DependencyInjection;
 using {{packageName}}.Api;
 using {{packageName}}.Client;
 using {{packageName}}.Model;
-using Org.OpenAPITools.Extensions;
+using {{packageName}}.Extensions;
 
 namespace YourProject
 {
@@ -53,7 +53,46 @@ namespace YourProject
     {
         public static async Task Main(string[] args)
         {
+            {{#net80OrLater}}
+            HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+
+            builder.Configure{{apiName}}(options =>
+            {
+                {{#authMethods}}
+                {{#-first}}
+                // The type of token here depends on the api security specifications
+                // Available token types are ApiKeyToken, BasicToken, BearerToken, HttpSigningToken, and OAuthToken.
+                BearerToken token = new("<your token>");
+                options.AddTokens(token);
+
+                // optionally choose the method the tokens will be provided with, default is RateLimitProvider
+                options.UseProvider<RateLimitProvider<BearerToken>, BearerToken>();
+
+                {{/-first}}
+                {{/authMethods}}
+                options.ConfigureJsonOptions(jsonOptions =>
+                {
+                    // your custom converters if any
+                });
+
+                options.Add{{apiName}}HttpClients(client =>
+                {
+                    // client configuration
+                }, clientBuilder =>
+                {
+                    clientBuilder
+                        .AddRetryPolicy(2)
+                        .AddTimeoutPolicy(TimeSpan.FromSeconds(5))
+                        .AddCircuitBreakerPolicy(10, TimeSpan.FromSeconds(30));
+                        // add whatever middleware you prefer
+                });
+            });
+
+            IHost host = builder.Build();
+            {{/net80OrLater}}
+            {{^net80OrLater}}
             var host = CreateHostBuilder(args).Build();
+            {{/net80OrLater}}
             {{#apiInfo}}
             {{#apis}}
             {{#-first}}
@@ -72,6 +111,7 @@ namespace YourProject
             {{/apis}}
             {{/apiInfo}}
         }
+        {{^net80OrLater}}
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
           .Configure{{apiName}}((context, options) =>
@@ -106,6 +146,7 @@ namespace YourProject
                   }
               );
           });
+        {{/net80OrLater}}
     }
 }
 ```

@@ -179,6 +179,13 @@
       <version>${jackson-databind-nullable-version}</version>
     </dependency>
 {{/openApiNullable}}
+    {{#useJspecify}}
+    <dependency>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    {{/useJspecify}}
   </dependencies>
   <build>
     <plugins>

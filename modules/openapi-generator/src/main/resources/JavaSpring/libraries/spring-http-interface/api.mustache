@@ -47,6 +47,7 @@ import {{javaxPackage}}.annotation.Generated;
 public interface {{classname}} {
 {{#operation}}
 
+    String PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = "{{{path}}}";
     /**
      * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
     {{#notes}}
@@ -74,7 +75,7 @@ public interface {{classname}} {
     {{/useResponseEntity}}
     @HttpExchange(
         method = "{{{httpMethod}}}",
-        value = "{{{path}}}",
+        value = {{classname}}.PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}},
         accept = { {{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{#vendorExtensions.x-content-type}},
         contentType = "{{{vendorExtensions.x-content-type}}}"{{/vendorExtensions.x-content-type}}
     )

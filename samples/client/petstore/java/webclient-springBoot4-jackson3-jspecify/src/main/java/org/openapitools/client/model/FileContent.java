@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FileContent.JSON_PROPERTY_SIZE,
   FileContent.JSON_PROPERTY_VIRUS_SCAN
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FileContent {
   public static final String JSON_PROPERTY_NAME = "name";
   

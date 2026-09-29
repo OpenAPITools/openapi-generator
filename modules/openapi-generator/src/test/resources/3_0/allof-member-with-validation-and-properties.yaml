@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: allOf member with validation and properties
+  version: 1.0.0
+paths:
+  /child:
+    get:
+      operationId: getChild
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Child"
+components:
+  schemas:
+    # `properties` without an explicit `type: object`, next to a validation keyword.
+    # This is a model, not "validation without a type".
+    Parent:
+      minProperties: 2
+      properties:
+        alpha:
+          type: string
+        beta:
+          type: string
+    Child:
+      allOf:
+        - $ref: "#/components/schemas/Parent"
+      properties:
+        gamma:
+          type: string

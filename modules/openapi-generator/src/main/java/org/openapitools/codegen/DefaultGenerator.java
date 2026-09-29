@@ -66,6 +66,10 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 
 @SuppressWarnings("rawtypes")
 public class DefaultGenerator implements Generator {
+    private static final String FILE_PATH_COLLISION_LOG = "FILEPATH_COLLISION";
+    private static final String FILE_PATH_COLLISION_LOG_MESSAGE =
+            FILE_PATH_COLLISION_LOG + ": File path collision detected. Files may be overwritten by later-processed collisions. " +
+            "Use 'modelNameMappings' or another name mapping to resolve file name collisions.";
     private static final String METADATA_DIR = ".openapi-generator";
     protected final Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
     private final boolean dryRun;
@@ -404,17 +408,6 @@ public class DefaultGenerator implements Generator {
         }
     }
 
-    /**
-     * Returns {@code true} if the named schema should be generated even when it appears in
-     * schemaMappings or importMappings. This is the case when the schema name is explicitly
-     * listed in {@code forcedGenerateSchemas} or when the wildcard
-     * {@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS} ({@code "*"}) is present.
-     */
-    private boolean isNotForcedGenerate(String schemaName) {
-        return !config.forcedGenerateSchemas().contains(CodegenConstants.FORCE_GENERATE_ALL_SCHEMAS)
-                && !config.forcedGenerateSchemas().contains(schemaName);
-    }
-
     private void generateModelDocumentation(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelDocTemplateFiles().keySet()) {
             String docExtension = config.getDocExtension();
@@ -478,8 +471,8 @@ public class DefaultGenerator implements Generator {
         for (String name : modelKeys) {
             processedModels.add(name);
             try {
-                //don't generate models that have an import mapping or are in the list of schemas to always generate
-                if (config.schemaMapping().containsKey(name) && isNotForcedGenerate(name)) {
+                //don't generate models that have an import mapping
+                if (config.schemaMapping().containsKey(name)) {
                     LOGGER.info("Model {} not generated due to schema mapping", name);
                     continue;
                 }
@@ -560,8 +553,8 @@ public class DefaultGenerator implements Generator {
             ModelsMap models = allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
             try {
-                //don't generate models that have a schema mapping or are in the list of schemas to always generate
-                if (config.schemaMapping().containsKey(modelName) && isNotForcedGenerate(modelName)) {
+                //don't generate models that have a schema mapping
+                if (config.schemaMapping().containsKey(modelName)) {
                     continue;
                 }
 
@@ -1472,7 +1465,9 @@ public class DefaultGenerator implements Generator {
 
                 // O(1) case-insensitive duplicate check via a pre-lowercased shadow set
                 if (!seenFilesLower.add(absoluteTarget.toString().toLowerCase(Locale.ROOT))) {
-                    LOGGER.warn("Duplicate file path detected. Not all operating systems can handle case sensitive file paths. path={}", absoluteTarget);
+                    once(LOGGER).warn(FILE_PATH_COLLISION_LOG_MESSAGE);
+                    LOGGER.warn("Duplicate file path detected. Not all operating systems can handle case sensitive file paths, see log '{}' for more information. path={}",
+                            FILE_PATH_COLLISION_LOG, absoluteTarget);
                 }
                 return this.templateProcessor.write(templateData, templateName, target);
             } else {

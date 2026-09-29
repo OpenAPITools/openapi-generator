@@ -29,7 +29,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |gemLicense|gem license. | |unlicense|
 |gemMetadata|gem metadata.| |{}|
 |gemName|gem name (convention: underscore_case).| |openapi_client|
-|gemRequiredRubyVersion|gem required Ruby version. | |&gt;= 2.4|
+|gemRequiredRubyVersion|gem required Ruby version. | |&gt;= 2.7|
 |gemSummary|gem summary. | |A ruby wrapper for the REST APIs|
 |gemVersion|gem version.| |1.0.0|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|

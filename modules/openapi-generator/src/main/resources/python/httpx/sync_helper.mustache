@@ -16,7 +16,7 @@ def _get_sync_loop() -> asyncio.AbstractEventLoop:
     """Return a dedicated event loop running in a background daemon thread.
 
     A single, long-lived loop is reused for every synchronous call so that the
-    underlying ``httpx.AsyncClient`` (and its connection pool) stays bound to one
+    underlying ``{{httpxModule}}.AsyncClient`` (and its connection pool) stays bound to one
     event loop across calls. The loop is created lazily and in a thread-safe way.
     """
     global _loop

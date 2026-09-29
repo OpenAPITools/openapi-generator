@@ -1,0 +1,27 @@
+openapi: 3.1.0
+info:
+  title: Pure SSE with x-sse-event-data-schema opt-in
+  version: 1.0.0
+paths:
+  /typed-events:
+    get:
+      x-sse-event-data-schema: true
+      tags:
+        - SSE
+      operationId: getTypedEvents
+      responses:
+        '200':
+          description: SSE streaming with per-operation typed event data
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/TypedEvent'
+components:
+  schemas:
+    TypedEvent:
+      type: object
+      properties:
+        seq:
+          type: integer
+        label:
+          type: string

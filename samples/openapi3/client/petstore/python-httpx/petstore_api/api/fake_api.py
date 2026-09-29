@@ -9515,7 +9515,7 @@ class FakeApi:
             
         if language is not None:
             
-            _query_params.append(('language', language))
+            _query_params.extend(self.api_client.explode_query_object('language', language))
             
         if allow_empty is not None:
             

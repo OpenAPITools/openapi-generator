@@ -304,11 +304,12 @@ extension {{projectName}}API {
             {{/hasFormParams}}
 {{/bodyParam}}{{#hasQueryParams}}
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([{{^queryParams}}:{{/queryParams}}
+        let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [{{^queryParams}}:{{/queryParams}}
             {{#queryParams}}
             {{> _param}},
             {{/queryParams}}
-        ]){{/hasQueryParams}}{{^hasQueryParams}}
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters){{/hasQueryParams}}{{^hasQueryParams}}
         let localVariableUrlComponents = URLComponents(string: localVariableURLString){{/hasQueryParams}}
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [{{^headerParams}}{{^hasFormParams}}{{^hasConsumes}}

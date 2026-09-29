@@ -141,6 +141,35 @@ public class GoClientCodegenTest {
         TestUtils.assertFileNotContains(modelFile, "dst.int32");
     }
 
+    @Test(description = "Verify form style query parameters explode an object instead of bracketing it")
+    public void testExplodedObjectQueryParameter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/client.go"),
+                "keyPrefixForMapEntry = k.String()",
+                "if !ok { continue } if entry.Kind() == reflect.Slice {",
+                "case reflect.Ptr: if v.IsNil() { return }",
+                "styleForElement = \"\"");
+
+        // the api passes the declared style through
+        Path api = Paths.get(output + "/api_default.go");
+        TestUtils.assertFileContains(api,
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"filter\", r.filter, \"form\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"typedFilter\", r.typedFilter, \"form\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"deepFilter\", r.deepFilter, \"deepObject\", \"\")",
+                "parameterAddToHeaderOrQuery(localVarQueryParams, \"flatFilter\", r.flatFilter, \"form\", \"\")");
+    }
+
     @Test
     public void testNullableComposition() throws IOException {
         File output = Files.createTempDirectory("test").toFile();

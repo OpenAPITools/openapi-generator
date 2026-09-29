@@ -19,6 +19,7 @@ import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/foo.dart';
 import 'package:openapi/src/model/foo_get_default_response.dart';
 import 'package:openapi/src/model/format_test.dart';
+import 'package:openapi/src/model/get_user_info_response.dart';
 import 'package:openapi/src/model/has_only_read_only.dart';
 import 'package:openapi/src/model/health_check_result.dart';
 import 'package:openapi/src/model/map_test.dart';
@@ -108,6 +109,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return FooGetDefaultResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'FormatTest':
           return FormatTest.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'GetUserInfoResponse':
+          return GetUserInfoResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'HasOnlyReadOnly':
           return HasOnlyReadOnly.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'HealthCheckResult':

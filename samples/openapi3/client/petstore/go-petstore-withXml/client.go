@@ -180,10 +180,14 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 				for i:=0;i<lenIndValue;i++ {
 					var arrayValue = indValue.Index(i)
 					var keyPrefixForCollectionType = keyPrefix
+					var styleForElement = style
 					if style == "deepObject" {
 						keyPrefixForCollectionType = keyPrefix + "[" + strconv.Itoa(i) + "]"
+					} else if style == "form" {
+						// only the parameter's own map is flattened; a map inside an array keeps its bracketed path
+						styleForElement = ""
 					}
-					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), style, collectionType)
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), styleForElement, collectionType)
 				}
 				return
 
@@ -195,13 +199,36 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 				iter := indValue.MapRange()
 				for iter.Next() {
 					k,v := iter.Key(), iter.Value()
-					parameterAddToHeaderOrQuery(headerOrQueryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface(), style, collectionType)
+					var keyPrefixForMapEntry = fmt.Sprintf("%s[%s]", keyPrefix, k.String())
+					var styleForMapEntry = style
+					if style == "form" {
+						// form style: one query parameter per entry, keyed by the property name; anything nested keeps its bracketed path
+						keyPrefixForMapEntry = k.String()
+						styleForMapEntry = ""
+						// a nil entry, or a nil item of a list entry, is left out rather than sent as "null"
+						entry, ok := parameterValueIndirect(v)
+						if !ok {
+							continue
+						}
+						if entry.Kind() == reflect.Slice {
+							for i := 0; i < entry.Len(); i++ {
+								if element, ok := parameterValueIndirect(entry.Index(i)); ok {
+									parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, element.Interface(), styleForMapEntry, collectionType)
+								}
+							}
+							continue
+						}
+					}
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, v.Interface(), styleForMapEntry, collectionType)
 				}
 				return
 
 			case reflect.Interface:
 				fallthrough
 			case reflect.Ptr:
+				if v.IsNil() {
+					return
+				}
 				parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, v.Elem().Interface(), style, collectionType)
 				return
 
@@ -234,6 +261,18 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 			valuesMap[keyPrefix] = value
 			break
 	}
+}
+
+// parameterValueIndirect unwraps interfaces and pointers down to the value they hold,
+// reporting false when that value is nil
+func parameterValueIndirect(v reflect.Value) (reflect.Value, bool) {
+	for v.Kind() == reflect.Interface || v.Kind() == reflect.Ptr {
+		if v.IsNil() {
+			return v, false
+		}
+		v = v.Elem()
+	}
+	return v, v.IsValid()
 }
 
 // helper for converting interface{} parameters to json strings

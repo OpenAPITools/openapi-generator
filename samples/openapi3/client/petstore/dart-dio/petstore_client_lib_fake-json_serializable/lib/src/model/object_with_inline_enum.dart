@@ -29,7 +29,7 @@ class ObjectWithInlineEnum {
     name: r'attribute',
     required: false,
     includeIfNull: false,
-  unknownEnumValue: Set<ObjectWithInlineEnumAttributeEnum>.unknownDefaultOpenApi,
+  unknownEnumValue: ObjectWithInlineEnumAttributeEnum.unknownDefaultOpenApi,
   )
 
 

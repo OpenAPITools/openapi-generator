@@ -1,0 +1,16 @@
+generatorName: jaxrs-spec
+outputDir: samples/server/petstore/jaxrs-spec-quarkus-jspecify
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/jspecify.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/spec
+validateSpec: false
+additionalProperties:
+  artifactId: jaxrs-spec-quarkus-jspecify
+  library: "quarkus"
+  hideGenerationTimestamp: "true"
+  interfaceOnly: "true"
+  useJakartaEe: "true"
+  useJspecify: "true"
+  openApiNullable: "false"
+  dateLibrary: "java8"
+typeMappings:
+  BigDecimal: java.math.BigDecimal

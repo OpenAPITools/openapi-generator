@@ -64,17 +64,17 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
 
-        protected final String separator;
+        private final String separator;
         CollectionFormat(String separator) {
             this.separator = separator;
         }
 
-        protected String collectionToString(Collection<?> collection) {
+        public String collectionToString(Collection<?> collection) {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
@@ -519,7 +519,7 @@ public class ApiClient extends JavaTimeFormatter {
                 throw exceptionProvider.jacksonException(e);
             }
         }
-        return parameterToMultiValueMap(collectionFormat, name, "[" + StringUtils.collectionToDelimitedString(values, collectionFormat.separator) + "]");
+        return parameterToMultiValueMap(collectionFormat, name, "[" + collectionFormat.collectionToString(values) + "]");
     }
 
     /**

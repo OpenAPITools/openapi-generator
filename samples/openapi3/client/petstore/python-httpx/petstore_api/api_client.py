@@ -522,6 +522,13 @@ class ApiClient:
                 new_params.append((k, v))
         return new_params
 
+    def explode_query_object(self, name, obj):
+        """form style, explode: one query parameter per entry, keyed by the property name; a list repeats the name, None is left out"""
+        obj = self.sanitize_for_serialization(obj)
+        if not isinstance(obj, dict):
+            obj = {name: obj}
+        return [(k, item) for k, v in obj.items() for item in (v if isinstance(v, (list, tuple)) else [v]) if item is not None]
+
     def parameters_to_url_query(self, params, collection_formats):
         """Get parameters as list of tuples, formatting collections.
 
@@ -540,11 +547,12 @@ class ApiClient:
             if isinstance(v, dict):
                 v = json.dumps(v)
 
-            if k in collection_formats:
+            # a collection format applies only to a list; an exploded entry may share a declared array parameter's name
+            if k in collection_formats and isinstance(v, (list, tuple)):
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':
                     new_params.extend(
-                        (k, quote(str(value).lower() if isinstance(value, bool) else str(value)))
+                        (quote(str(k)), quote(str(value).lower() if isinstance(value, bool) else str(value)))
                         for value in v
                     )
                 else:
@@ -557,12 +565,13 @@ class ApiClient:
                     else:  # csv is the default
                         delimiter = ','
                     new_params.append(
-                        (k, delimiter.join(
+                        (quote(str(k)), delimiter.join(
                             quote(str(value).lower() if isinstance(value, bool) else str(value))
                             for value in v))
                     )
             else:
-                new_params.append((k, quote(str(v))))
+                # names are quoted too: an exploded object's names are runtime data
+                new_params.append((quote(str(k)), quote(str(v))))
 
         return "&".join(["=".join(map(str, item)) for item in new_params])
 

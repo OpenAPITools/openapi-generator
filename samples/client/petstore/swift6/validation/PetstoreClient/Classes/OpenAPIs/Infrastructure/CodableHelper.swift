@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class CodableHelper: @unchecked Sendable {
+open nonisolated class CodableHelper: @unchecked Sendable {
 
     // MARK: - Private state
 

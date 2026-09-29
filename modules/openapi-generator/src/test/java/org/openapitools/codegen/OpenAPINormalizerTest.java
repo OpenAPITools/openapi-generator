@@ -50,6 +50,41 @@ public class OpenAPINormalizerTest {
     private static final String X_INTERNAL = "x-internal";
 
     @Test
+    public void testAllOfMemberWithValidationAndPropertiesIsKept() {
+        // A schema carrying `properties` but omitting `type: object`, next to a validation keyword,
+        // is a model -- not "validation without a type". It used to be classified as unsupported and
+        // silently dropped from allOf, so every model inheriting it lost those properties.
+        OpenAPI openAPI = TestUtils.parseSpec(
+                "src/test/resources/3_0/allof-member-with-validation-and-properties.yaml");
+
+        Schema child = openAPI.getComponents().getSchemas().get("Child");
+        assertNotNull(child.getAllOf());
+        assertTrue(refsParent(child), "precondition: Child starts out referencing Parent");
+
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, new HashMap<>());
+        openAPINormalizer.normalize();
+
+        Schema normalizedChild = openAPI.getComponents().getSchemas().get("Child");
+        assertNotNull(normalizedChild.getAllOf(),
+                "the whole allOf was dropped, so Child lost the inherited properties");
+        assertTrue(refsParent(normalizedChild),
+                "the allOf member carrying alpha/beta was dropped, so Child lost those properties");
+    }
+
+    private static boolean refsParent(Schema schema) {
+        if (schema.getAllOf() == null) {
+            return false;
+        }
+        for (Object item : schema.getAllOf()) {
+            String ref = ((Schema) item).get$ref();
+            if (ref != null && ref.endsWith("/Parent")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Test
     public void testOpenAPINormalizerOtherThanObjectWithProperties()
     {
         // to test the rule REF_AS_PARENT_IN_ALLOF

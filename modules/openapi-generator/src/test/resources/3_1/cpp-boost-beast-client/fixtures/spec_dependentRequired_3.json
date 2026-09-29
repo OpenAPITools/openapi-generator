@@ -1,0 +1,23 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "dependentRequired retention",
+    "version": "1"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "G0": {
+        "oneOf": [
+          {
+            "type": "object",
+            "dependentRequired": {
+              "foo\nbar": ["req\rA"],
+              "foo'bar": ["req'B"]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

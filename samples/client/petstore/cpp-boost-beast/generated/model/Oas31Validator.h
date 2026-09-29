@@ -1,0 +1,1315 @@
+// ============================================================================
+// Oas31Validator.h - shared SchemaEvaluator and ValidationContext
+// (ADR D2/D3/D5). Thin validate_<id> functions dispatch into this interpreter
+// over the densified IR in Oas31SchemaIr.h. It implements scalar, object, array,
+// applicator, reference, conditional, evaluated-coverage, and annotation logic
+// while preserving exact numeric lexemes through InstanceLexemeTable.
+//
+// HEADER-ONLY. Built under -Werror with g++ -std=c++17.
+// ============================================================================
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_VALIDATOR_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_VALIDATOR_H_
+
+#include "Oas31SchemaIr.h"
+#include "Oas31DeepEqual.h"
+#include "Oas31ExactJson.h"
+
+#include <boost/json.hpp>
+
+#include <cstddef>
+#include <cstdint>
+#include <functional>
+#include <regex>
+#include <set>
+#include <string>
+#include <vector>
+
+namespace org::openapitools::client::model::detail::schema_validation {
+
+// ============================================================================
+// ValidationPath - JSON-instance-path accumulator.
+// ============================================================================
+struct ValidationPath {
+    std::string path_;
+
+    ValidationPath() = default;
+    explicit ValidationPath(std::string path) : path_(std::move(path)) {}
+
+    ValidationPath& enter(std::string const& segment) {
+        if (path_.empty()) path_ = segment;
+        else { path_.push_back('.'); path_.append(segment); }
+        return *this;
+    }
+    ValidationPath& enterIndex(std::size_t index) {
+        path_.push_back('[');
+        path_.append(std::to_string(index));
+        path_.push_back(']');
+        return *this;
+    }
+    ValidationPath& exit() {
+        auto const dot = path_.rfind('.');
+        auto const brk = path_.rfind('[');
+        if (brk != std::string::npos && (dot == std::string::npos || brk > dot)) path_.resize(brk);
+        else if (dot != std::string::npos) path_.resize(dot);
+        else path_.clear();
+        return *this;
+    }
+    std::string const& str() const { return path_; }
+    bool empty() const { return path_.empty(); }
+};
+
+// ============================================================================
+// ValidationResult — carries the outcome of validating a schema object.
+// ============================================================================
+struct ValidationResult {
+    bool        success;
+    std::string failurePath;
+    std::string failureMessage;
+
+    static ValidationResult valid() {
+        return ValidationResult{true, std::string(), std::string()};
+    }
+    static ValidationResult invalid(std::string path, std::string message) {
+        return ValidationResult{false, std::move(path), std::move(message)};
+    }
+    static ValidationResult invalidAt(ValidationPath const& path, std::string message) {
+        return ValidationResult{false, path.str(), std::move(message)};
+    }
+};
+
+// ============================================================================
+// RawInstance is the raw-instance view from ADR D2. Exact numeric text comes
+// first from a scalar capture, then from the attached container lexeme table,
+// and finally from the lossy Boost.JSON value only when no exact source exists.
+// ============================================================================
+struct RawInstance {
+    boost::json::value const* value = nullptr;
+    std::string numericLexeme;   // exact lexeme when this instance is a JSON number (may be empty)
+    InstanceLexemeTable const* lexemes = nullptr;  // optional container-depth table
+    std::string instancePath_;   // canonical JSON-pointer path ("" root)
+
+    RawInstance() = default;
+    explicit RawInstance(boost::json::value const* v) : value(v) {
+        lexemes = activeInstanceLexemes(v, instancePath_);
+    }
+    RawInstance(boost::json::value const* v, std::string lexeme)
+        : value(v), numericLexeme(std::move(lexeme)) {}
+    RawInstance(boost::json::value const* v, InstanceLexemeTable const* table)
+        : value(v), lexemes(table) {}
+
+    bool isNull() const { return value == nullptr || value->is_null(); }
+    bool isNumber() const {
+        return value != nullptr && (value->is_int64() || value->is_uint64() || value->is_double());
+    }
+    bool isObject() const { return value != nullptr && value->is_object(); }
+    bool isArray() const { return value != nullptr && value->is_array(); }
+    bool asBool() const { return value != nullptr && value->is_bool() && value->as_bool(); }
+
+    std::string asString() const {
+        if (value != nullptr && value->is_string())
+            return std::string(value->as_string().data(), value->as_string().size());
+        return std::string();
+    }
+
+    JsonType kind() const {
+        if (value == nullptr) return JsonType::null_;
+        switch (value->kind()) {
+            case boost::json::kind::null: return JsonType::null_;
+            case boost::json::kind::bool_: return JsonType::boolean;
+            case boost::json::kind::int64:
+            case boost::json::kind::uint64:
+            case boost::json::kind::double_: return JsonType::number;
+            case boost::json::kind::string: return JsonType::string;
+            case boost::json::kind::array: return JsonType::array;
+            case boost::json::kind::object: return JsonType::object;
+        }
+        return JsonType::null_;
+    }
+
+    std::size_t size() const {
+        if (value == nullptr) return 0;
+        if (value->is_array()) return value->as_array().size();
+        if (value->is_object()) return value->as_object().size();
+        return 0;
+    }
+
+    bool hasMember(boost::json::string_view key) const {
+        if (value != nullptr && value->is_object()) {
+            return value->as_object().find(key) != value->as_object().end();
+        }
+        return false;
+    }
+
+    RawInstance atMember(boost::json::string_view key) const {
+        if (value != nullptr && value->is_object()) {
+            auto const* obj = value->if_object();
+            auto it = obj->find(key);
+            if (it != obj->end()) {
+                RawInstance child(&it->value());
+                child.instancePath_ = instancePath_ + "/" + jsonPointerEscape(key);
+                child.lexemes = lexemes;
+                return child;
+            }
+        }
+        return RawInstance();
+    }
+
+    RawInstance atIndex(std::size_t i) const {
+        if (value != nullptr && value->is_array()) {
+            auto const& arr = value->as_array();
+            if (i < arr.size()) {
+                RawInstance child(&arr[i]);
+                child.instancePath_ = instancePath_ + "/" + std::to_string(i);
+                child.lexemes = lexemes;
+                return child;
+            }
+        }
+        return RawInstance();
+    }
+
+    /// Ordered list of object member KEYS (as decoded by Boost.JSON). The
+    /// instance keys are the authoritative enumeration source for the
+    /// additionalProperties / unevaluatedProperties passes.
+    std::vector<std::string> objectKeys() const {
+        std::vector<std::string> keys;
+        if (value != nullptr && value->is_object()) {
+            boost::json::object const& ob = value->as_object();
+            keys.reserve(ob.size());
+            for (auto const& kv : ob) {
+                keys.emplace_back(kv.key().data(), kv.key().size());
+            }
+        }
+        return keys;
+    }
+
+    /// Exact number: raw lexeme (node-local, then container-depth table),
+    /// degraded to the typed value kind only when no lexeme is available.
+    ExactNumber asExactNumber() const {
+        if (!numericLexeme.empty()) return ExactNumber::parseLexeme(numericLexeme);
+        if (lexemes != nullptr) {
+            std::string const* lx = lexemes->lexemeAt(instancePath_);
+            if (lx != nullptr) return ExactNumber::parseLexeme(*lx);
+        }
+        if (value != nullptr) {
+            if (value->is_int64()) return ExactNumber::fromInt(value->as_int64());
+            if (value->is_uint64()) return ExactNumber::fromUint(value->as_uint64());
+            if (value->is_double()) return ExactNumber::fromDouble(value->as_double());
+        }
+        return ExactNumber();
+    }
+};
+
+// ============================================================================
+// Exact deep equality between an instance and a stored schema value. Numbers
+// compare through ExactNumber; objects compare exact key sets and arrays compare
+// positionally, using captured container lexemes whenever available.
+// ============================================================================
+inline bool deepRawEqual(RawInstance const& a, RawInstance const& b);
+
+inline bool deepInstanceEqual(
+        RawInstance const& instance,
+        boost::json::value const& schemaValue,
+        InstanceLexemeTable const* schemaLexemes = nullptr,
+        std::string schemaPath = std::string()) {
+    RawInstance schemaInstance(&schemaValue);
+    schemaInstance.lexemes = schemaLexemes;
+    schemaInstance.instancePath_ = std::move(schemaPath);
+    return deepRawEqual(instance, schemaInstance);
+}
+
+// ============================================================================
+// Exact deep equality between two raw instances for uniqueItems. Either side
+// may carry scalar or container-depth numeric lexemes.
+// ============================================================================
+inline bool deepRawEqual(RawInstance const& a, RawInstance const& b) {
+    JsonType const ka = a.kind();
+    JsonType const kb = b.kind();
+    if (ka != kb) return false;
+    switch (ka) {
+        case JsonType::null_:
+            return true;
+        case JsonType::boolean:
+            return a.asBool() == b.asBool();
+        case JsonType::number:
+            return a.asExactNumber() == b.asExactNumber();
+        case JsonType::string:
+            return a.asString() == b.asString();
+        case JsonType::array: {
+            if (a.size() != b.size()) return false;
+            for (std::size_t i = 0; i < a.size(); ++i) {
+                if (!deepRawEqual(a.atIndex(i), b.atIndex(i))) return false;
+            }
+            return true;
+        }
+        case JsonType::object: {
+            if (!a.value || !b.value || a.size() != b.size()) return false;
+            boost::json::object const& ob = b.value->as_object();
+            for (auto const& kv : ob) {
+                RawInstance const ma = a.atMember(kv.key());
+                RawInstance const mb = b.atMember(kv.key());
+                if (ma.value == nullptr || mb.value == nullptr) return false;
+                if (!deepRawEqual(ma, mb)) return false;
+            }
+            return true;
+        }
+        case JsonType::integer: /* not a raw-instance kind */ break;
+    }
+    return false;
+}
+
+// ============================================================================
+// Annotation + transactional branch support (D2/D3).
+// ============================================================================
+struct Annotation {
+    std::string keyword;
+    std::string instancePath;
+    std::string schemaPath;
+    std::string absSchemaUri;
+    std::string value;
+};
+
+struct AnnotationStore {
+    void add(Annotation a) { annotations_.push_back(std::move(a)); }
+    std::size_t snapshot() const { return annotations_.size(); }
+    void rollbackTo(std::size_t marker) {
+        if (marker < annotations_.size()) annotations_.resize(marker);
+    }
+    std::vector<Annotation> const& all() const { return annotations_; }
+    void clear() { annotations_.clear(); }
+
+private:
+    std::vector<Annotation> annotations_;
+};
+
+struct ValidationContext {
+    AnnotationStore annotations;
+    // Decode-only compatibility policy; standalone schema validation stays strict.
+    bool tolerateNonNullablePropertyNulls = false;
+    // Decode-only compatibility policy; unrecognized object members bypass
+    // additionalProperties and unevaluatedProperties enforcement.
+    bool tolerateAdditionalProperties = false;
+    struct ActiveEvaluation {
+        SchemaIndex node;
+        boost::json::value const* instance;
+
+        bool operator<(ActiveEvaluation const& other) const {
+            if (node != other.node) return node < other.node;
+            return std::less<boost::json::value const*>{}(instance, other.instance);
+        }
+    };
+    std::set<ActiveEvaluation> activeEvaluations;
+    // Location-scoped evaluation coverage: the TOP of each stack is the
+    // CURRENT instance location (an object's evaluated member keys / an
+    // array's evaluated item indices). Descending into a nested object/array
+    // value pushes a fresh location, so a nested object's keys can never leak
+    // into the parent's unevaluated* check (instance-location correctness:
+    // unevaluatedProperties g41/g42/g43).
+    std::vector<std::set<std::string>> evaluatedPropertiesStack{std::set<std::string>{}};
+    std::vector<std::set<std::size_t>> evaluatedItemsStack{std::set<std::size_t>{}};
+
+    std::set<std::string>& curProps() { return evaluatedPropertiesStack.back(); }
+    std::set<std::size_t>& curItems() { return evaluatedItemsStack.back(); }
+    // Ordered dynamic resource scope, outermost first. Entering a distinct
+    // resource or explicit root pushes a frame; failed composition branches
+    // restore their snapshots. currentValidationRes identifies the row's own
+    // resource or the innermost enclosing resource for vocabulary gating.
+    std::vector<int> dynamicScope;
+    int currentValidationRes = 0;
+    void pushScopeFrame(int resId) { dynamicScope.push_back(resId); }
+    void popScopeFrame() { if (!dynamicScope.empty()) dynamicScope.pop_back(); }
+    /// Outermost-to-innermost walk for $dynamicRef: 2020-12 applies the anchor
+    /// of the OUTERMOST resource in the dynamic scope that declares it, else
+    /// the static fallback. Returns the anchor target index or kNoSchema.
+    SchemaIndex resolveDynamicAnchor(
+            SchemaResourceRegistry const& reg, std::string const& name) const {
+        for (int resId : dynamicScope) {
+            if (resId < 0 || static_cast<std::size_t>(resId)
+                    >= reg.dynamicAnchorTables.size()) continue;
+            for (auto const& entry : reg.dynamicAnchorTables[resId]) {
+                if (entry.first == name) return entry.second;
+            }
+        }
+        return kNoSchema;
+    }
+    void pushLocation() {
+        evaluatedPropertiesStack.emplace_back();
+        evaluatedItemsStack.emplace_back();
+    }
+    void popLocation() {
+        evaluatedPropertiesStack.pop_back();
+        evaluatedItemsStack.pop_back();
+    }
+
+    struct Branch {
+        std::size_t annotationMark = 0;
+        std::vector<std::set<std::string>> evaluatedProperties;
+        std::vector<std::set<std::size_t>> evaluatedItems;
+        std::vector<int> dynamicScope;
+        int currentValidationRes = 0;
+        std::set<ActiveEvaluation> activeEvaluations;
+    };
+
+    Branch beginBranch() {
+        Branch b;
+        b.annotationMark = annotations.snapshot();
+        b.evaluatedProperties = evaluatedPropertiesStack;
+        b.evaluatedItems = evaluatedItemsStack;
+        b.dynamicScope = dynamicScope;
+        b.currentValidationRes = currentValidationRes;
+        b.activeEvaluations = activeEvaluations;
+        return b;
+    }
+    /// Keep this branch's additions (annotations + evaluated coverage) in place.
+    void commitBranch(Branch const&) { /* current state already includes branch output */ }
+    /// Discard this branch's output and restore annotations + coverage + scope.
+    void rollbackBranch(Branch const& b) {
+        annotations.rollbackTo(b.annotationMark);
+        evaluatedPropertiesStack = b.evaluatedProperties;
+        evaluatedItemsStack = b.evaluatedItems;
+        dynamicScope = b.dynamicScope;
+        currentValidationRes = b.currentValidationRes;
+        activeEvaluations = b.activeEvaluations;
+    }
+
+    /// Run a child evaluator against the CURRENT (base) coverage, capture only
+    /// the additions made at the current location into `acc*`, then restore
+    /// the coverage stacks to the base. This is the 2020-12 annotation-scope
+    /// rule: a subschema's unevaluated* check must NOT see its SIBLINGS'
+    /// coverage ("can't see inside cousins", unevaluatedProperties g22/g23/
+    /// g28) — the parent merges the accumulated additions after the group.
+    template <typename Fn>
+    ValidationResult evaluateAndCapture(Fn fn,
+                                        std::set<std::string>& accProps,
+                                        std::set<std::size_t>& accItems) {
+        std::vector<std::set<std::string>> baseProps = evaluatedPropertiesStack;
+        std::vector<std::set<std::size_t>> baseItems = evaluatedItemsStack;
+        std::vector<int> const baseScope = dynamicScope;
+        int const baseValidationRes = currentValidationRes;
+        std::set<ActiveEvaluation> const baseActiveEvaluations = activeEvaluations;
+        std::set<std::string> const bProps = curProps();
+        std::set<std::size_t> const bItems = curItems();
+        ValidationResult r = fn();
+        for (auto const& k : curProps())
+            if (bProps.count(k) == 0) accProps.insert(k);
+        for (auto const& it : curItems())
+            if (bItems.count(it) == 0) accItems.insert(it);
+        evaluatedPropertiesStack = baseProps;
+        evaluatedItemsStack = baseItems;
+        dynamicScope = baseScope;
+        currentValidationRes = baseValidationRes;
+        activeEvaluations = baseActiveEvaluations;
+        return r;
+    }
+
+    /// success-only capture: additions are accumulated ONLY when `fn`
+    /// validates (anyOf/oneOf: a FAILED branch must never contribute
+    /// evaluated-property/item coverage).
+    template <typename Fn>
+    ValidationResult evaluateAndCaptureValid(Fn fn,
+                                             std::set<std::string>& accProps,
+                                             std::set<std::size_t>& accItems) {
+        std::vector<std::set<std::string>> baseProps = evaluatedPropertiesStack;
+        std::vector<std::set<std::size_t>> baseItems = evaluatedItemsStack;
+        std::vector<int> const baseScope = dynamicScope;
+        int const baseValidationRes = currentValidationRes;
+        std::set<ActiveEvaluation> const baseActiveEvaluations = activeEvaluations;
+        std::set<std::string> const bProps = curProps();
+        std::set<std::size_t> const bItems = curItems();
+        ValidationResult r = fn();
+        if (r.success) {
+            for (auto const& k : curProps())
+                if (bProps.count(k) == 0) accProps.insert(k);
+            for (auto const& it : curItems())
+                if (bItems.count(it) == 0) accItems.insert(it);
+        }
+        evaluatedPropertiesStack = baseProps;
+        evaluatedItemsStack = baseItems;
+        dynamicScope = baseScope;
+        currentValidationRes = baseValidationRes;
+        activeEvaluations = baseActiveEvaluations;
+        return r;
+    }
+};
+
+// ============================================================================
+// SchemaEvaluator - shared schema interpreter.
+// ============================================================================
+class SchemaEvaluator {
+public:
+    explicit SchemaEvaluator(SchemaResourceRegistry const& registry) : registry_(registry) {}
+
+    SchemaResourceRegistry const& registry() const { return registry_; }
+
+    /// Validates one schema row. Entering a distinct resource or explicit root
+    /// pushes a dynamic-scope frame; re-entry creates a fresh frame. RAII restores
+    /// the scope, active-evaluation guard, and vocabulary resource on every exit.
+    ValidationResult validate(SchemaIndex node, RawInstance const& instance,
+                              ValidationPath& path, ValidationContext& ctx) const {
+        struct ContextFrame {
+            ValidationContext& context;
+            int const previousValidationRes;
+            bool pushedScope = false;
+            ValidationContext::ActiveEvaluation activeEvaluation;
+            bool trackingEvaluation = false;
+
+            ~ContextFrame() {
+                if (pushedScope) context.popScopeFrame();
+                if (trackingEvaluation) {
+                    context.activeEvaluations.erase(activeEvaluation);
+                }
+                context.currentValidationRes = previousValidationRes;
+            }
+        } frame{ctx, ctx.currentValidationRes, false, {node, instance.value}, false};
+
+        if (!ctx.activeEvaluations.insert(frame.activeEvaluation).second) {
+            return ValidationResult::valid();
+        }
+        frame.trackingEvaluation = true;
+
+        SchemaNode const& n = registry_.node(node);
+        // Effective resource for vocabulary gating: the row's own synthetic
+        // id when stamped, else the innermost enclosing marked resource.
+        if (n.dynamicResource != 0) {
+            ctx.currentValidationRes = n.dynamicResource;
+        } else if (!ctx.dynamicScope.empty()) {
+            ctx.currentValidationRes = ctx.dynamicScope.back();
+        } else {
+            ctx.currentValidationRes = 0;
+        }
+        if (n.dynamicResource != 0 || n.resourceRoot) {
+            int const top = ctx.dynamicScope.empty() ? -1 : ctx.dynamicScope.back();
+            if (n.dynamicResource != top || n.resourceRoot) {
+                ctx.pushScopeFrame(n.dynamicResource);
+                frame.pushedScope = true;
+            }
+        }
+        ValidationContext::Branch transaction = ctx.beginBranch();
+        try {
+            ValidationResult result = validateSchemaNode(n, instance, path, ctx);
+            if (!result.success) ctx.rollbackBranch(transaction);
+            return result;
+        } catch (...) {
+            ctx.rollbackBranch(transaction);
+            throw;
+        }
+    }
+
+    /// Records successful annotation keywords with instance pointer, schema row,
+    /// absolute resource URI, and JSON-text value. $comment is shape-checked at
+    /// generation time and never emitted.
+    void collectAnnotations(SchemaNode const& node,
+                            RawInstance const& instance,
+                            ValidationContext& ctx) const {
+        auto add = [&](std::string const& keyword, std::string const& value) {
+            if (value.empty()) return;
+            Annotation annotation;
+            annotation.keyword = keyword;
+            annotation.instancePath = instance.instancePath_;
+            std::string const keywordPath = "/" + jsonPointerEscape(keyword);
+            annotation.schemaPath = node.schemaPath + keywordPath;
+            annotation.absSchemaUri = node.absSchemaUri + keywordPath;
+            annotation.value = value;
+            ctx.annotations.add(std::move(annotation));
+        };
+        add("title", node.annTitle);
+        add("description", node.annDescription);
+        add("default", node.annDefaultJson);
+        add("examples", node.annExamplesJson);
+        add("deprecated", node.annDeprecatedJson);
+        add("readOnly", node.annReadOnlyJson);
+        add("writeOnly", node.annWriteOnlyJson);
+        add("format", node.annFormat);
+        add("contentEncoding", node.annContentEncoding);
+        add("contentMediaType", node.annContentMediaType);
+        add("contentSchema", node.annContentSchemaJson);
+        for (auto const& extra : node.annExtras) add(extra.first, extra.second);
+        // $comment intentionally produces no annotation output.
+    }
+
+    ValidationResult validateSchemaNode(SchemaNode const& node, RawInstance const& instance,
+                                        ValidationPath& path, ValidationContext& ctx) const {
+        // A resource whose dialect omits the validation vocabulary treats its
+        // validation keywords as inert annotations. Core applicators, boolean
+        // schemas, and annotation collection remain active.
+        bool const vInert =
+            !registry_.validationVocabActive(ctx.currentValidationRes);
+
+        // Boolean value-schema (OAS 3.1).
+        if (node.booleanValue == BooleanValue::true_) return ValidationResult::valid();
+        if (node.booleanValue == BooleanValue::false_)
+            return ValidationResult::invalidAt(path, "boolean value-schema false");
+
+        // Snapshot evaluated coverage on entry so unevaluated checks observe only
+        // this node's subtree at the current instance location.
+        std::set<std::string> unevalEntry;
+        if (node.hasUnevaluatedProperties && instance.isObject()) {
+            unevalEntry = ctx.curProps();
+        }
+        std::set<std::size_t> unevalItemsEntry;
+        if (node.hasUnevaluatedItems && instance.isArray()) {
+            unevalItemsEntry = ctx.curItems();
+        }
+
+        // Every in-place applicator evaluates against this row's entry coverage.
+        // Capture each keyword's successful additions and merge them only after
+        // every sibling has run; otherwise an inner unevaluated* keyword can see
+        // a sibling's annotations and make validation order-dependent.
+        std::set<std::string> inPlaceProps;
+        std::set<std::size_t> inPlaceItems;
+        if (node.applicator == ApplicatorKind::ref && !node.children.empty()) {
+            SchemaIndex target = node.children[0];
+            if (!node.dynamicRefAnchor.empty()
+                    && dynamicAnchorEligible(target, node.dynamicRefAnchor)) {
+                SchemaIndex dyn =
+                    ctx.resolveDynamicAnchor(registry_, node.dynamicRefAnchor);
+                if (dyn != kNoSchema) target = dyn;
+            }
+            ValidationResult rr = ctx.evaluateAndCaptureValid(
+                [&]() { return this->validate(target, instance, path, ctx); },
+                inPlaceProps, inPlaceItems);
+            if (!rr.success) return rr;
+        }
+
+        ValidationResult appRes = ctx.evaluateAndCaptureValid(
+            [&]() { return this->walkApplicators(node, instance, path, ctx); },
+            inPlaceProps, inPlaceItems);
+        if (!appRes.success) return appRes;
+
+        // Type flags (type / type-array). `number` matches any JSON number;
+        // `integer` matches only numbers whose exact mathematical value is an
+        // integer (ADR D1) — so 1 and 1.0 both satisfy `type: integer`, 1.5 does
+        // not. All numeric reasoning goes through ExactNumber, never `double`.
+        if (!vInert && node.typeFlags != 0) {
+            JsonType const k = instance.kind();
+            if (k == JsonType::number) {
+                bool const wantNumber = (node.typeFlags &
+                    (1u << static_cast<unsigned>(JsonType::number))) != 0;
+                bool const wantInteger = (node.typeFlags &
+                    (1u << static_cast<unsigned>(JsonType::integer))) != 0;
+                bool const isIntegral =
+                    wantInteger && numberIsIntegral(instance.asExactNumber());
+                if (!wantNumber && !isIntegral)
+                    return ValidationResult::invalidAt(path, "type mismatch");
+            } else {
+                if ((node.typeFlags & (1u << static_cast<unsigned>(k))) == 0)
+                    return ValidationResult::invalidAt(path, "type mismatch");
+            }
+        }
+
+        // Exact-number range constraints.
+        if (!vInert && instance.isNumber()) {
+            ExactNumber const n = instance.asExactNumber();
+            if (node.hasMinimum && n < node.minimum)
+                return ValidationResult::invalidAt(path, "below minimum");
+            if (node.hasMaximum && node.maximum < n)
+                return ValidationResult::invalidAt(path, "above maximum");
+            if (node.hasExclusiveMinimum && !(node.exclusiveMinimum < n))
+                return ValidationResult::invalidAt(path, "at or below exclusive minimum");
+            if (node.hasExclusiveMaximum && !(n < node.exclusiveMaximum))
+                return ValidationResult::invalidAt(path, "at or above exclusive maximum");
+            if (node.hasMultipleOf) {
+                if (!isPositiveMultipleOf(node.multipleOf))
+                    return ValidationResult::invalidAt(
+                        path, "invalid schema: multipleOf must be > 0");
+                if (!n.isMultipleOf(node.multipleOf))
+                    return ValidationResult::invalidAt(path, "not a multiple of");
+            }
+        }
+
+
+        // String lengths count Unicode code points and compare exact count values.
+        // Patterns use unanchored ECMAScript-subset search unless the expression
+        // contains its own anchors.
+        if (!vInert && instance.kind() == JsonType::string) {
+            std::string const s = instance.asString();
+            std::size_t const codePoints = countCodePoints(s);
+            if (node.hasMinLength && ExactNumber::fromUint(codePoints) < node.minLength)
+                return ValidationResult::invalidAt(
+                    path, "string shorter than minLength");
+            if (node.hasMaxLength && node.maxLength < ExactNumber::fromUint(codePoints))
+                return ValidationResult::invalidAt(
+                    path, "string longer than maxLength");
+            if (node.hasPattern) {
+                RegexMatch const match = ecmaRegexSearch(node.pattern, s);
+                if (!match.supported)
+                    return ValidationResult::invalidAt(
+                        path, "invalid schema: unsupported pattern expression");
+                if (!match.matched)
+                    return ValidationResult::invalidAt(
+                        path, "string does not match pattern");
+            }
+        }
+
+        // Enum candidates combine exact numeric lexemes, deep JSON members, and
+        // scalar strings/booleans. An explicitly empty enum rejects everything.
+        bool enumFound = false;
+        if (instance.isNumber() && !node.enumNumbers.empty()) {
+            ExactNumber const n = instance.asExactNumber();
+            for (ExactNumber const& e : node.enumNumbers)
+                if (n == e) { enumFound = true; break; }
+        }
+        if (!enumFound && node.hasEnumJson) {
+            for (std::size_t i = 0; i < node.enumJson.size(); ++i) {
+                if (deepInstanceEqual(instance, node.enumJson[i],
+                        &node.enumJsonLexemes, "/" + std::to_string(i))) {
+                    enumFound = true;
+                    break;
+                }
+            }
+        }
+        if (!enumFound && instance.kind() == JsonType::string && !node.enumStrings.empty()) {
+            std::string const s = instance.asString();
+            for (std::string const& e : node.enumStrings)
+                if (s == e) { enumFound = true; break; }
+        }
+        if (!enumFound && kindIsBool(instance) && !node.enumBooleans.empty()) {
+            bool const b = instance.asBool();
+            for (bool e : node.enumBooleans)
+                if (b == e) { enumFound = true; break; }
+        }
+        bool const hasAnyEnum = node.hasEnumJson || !node.enumNumbers.empty()
+                || !node.enumStrings.empty() || !node.enumBooleans.empty();
+        if (!vInert && hasAnyEnum && !enumFound)
+            return ValidationResult::invalidAt(path, "not in enum");
+        if (!vInert && node.hasConst) {
+            if (node.constIsJson) {
+                if (!deepInstanceEqual(instance, node.constJson,
+                        &node.constJsonLexemes))
+                    return ValidationResult::invalidAt(path, "const mismatch");
+            } else {
+                bool match = false;
+                if (node.constIsNumber && instance.isNumber())
+                    match = (instance.asExactNumber() == node.constNumber);
+                else if (node.constIsString && instance.kind() == JsonType::string)
+                    match = (instance.asString() == node.constString);
+                else if (node.constIsBool && kindIsBool(instance))
+                    match = (instance.asBool() == node.constBool);
+                if (!match) return ValidationResult::invalidAt(path, "const mismatch");
+            }
+        }
+
+        // uniqueItems uses exact deep equality, so 1 and 1.0 are duplicates.
+        if (!vInert && node.hasUniqueItems && instance.isArray()) {
+            std::size_t const n = instance.size();
+            for (std::size_t i = 0; i < n; ++i) {
+                for (std::size_t j = i + 1; j < n; ++j) {
+                    if (deepRawEqual(instance.atIndex(i), instance.atIndex(j)))
+                        return ValidationResult::invalidAt(path, "duplicate item in uniqueItems array");
+                }
+            }
+        }
+
+        // `not` subschema: valid iff the subschema does NOT match. The
+        // subschema is evaluated in a fresh branch so no annotations (and no
+        // evaluated-coverage markers) leak into the outer evaluation.
+        if (node.notSchema != kNoSchema) {
+            ValidationContext::Branch b = ctx.beginBranch();
+            ValidationResult inner =
+                this->validate(node.notSchema, instance, path, ctx);
+            ctx.rollbackBranch(b);
+            if (inner.success) return ValidationResult::invalidAt(path, "not subschema matched");
+        }
+
+        // Conditional and dependent applicators also run against entry coverage.
+        // Their successful output joins the other in-place annotations only after
+        // all siblings have completed.
+        ValidationResult condRes = ctx.evaluateAndCaptureValid(
+            [&]() { return this->walkConditional(node, instance, path, ctx); },
+            inPlaceProps, inPlaceItems);
+        if (!condRes.success) return condRes;
+        ValidationResult depRes = ctx.evaluateAndCaptureValid(
+            [&]() { return this->walkDependentSchemas(node, instance, path, ctx); },
+            inPlaceProps, inPlaceItems);
+        if (!depRes.success) return depRes;
+        ctx.curProps().insert(inPlaceProps.begin(), inPlaceProps.end());
+        ctx.curItems().insert(inPlaceItems.begin(), inPlaceItems.end());
+
+        // Child-location applicators run after in-place annotation merging. Their
+        // child schemas use fresh location stacks, while this row retains the
+        // property/item coverage needed by its own unevaluated* exit checks.
+        ValidationResult objRes = this->validateObjectTraversal(node, instance, path, ctx);
+        if (!objRes.success) return objRes;
+        ValidationResult arrRes = this->validateArrayTraversal(node, instance, path, ctx);
+        if (!arrRes.success) return arrRes;
+
+        // Best-effort unevaluatedProperties (bool false-form rejects; schema
+        // form validates and then marks keys evaluated; boolean-true form
+        // marks every remaining key evaluated). Only object instances are
+        // considered. A key is "unevaluated" when it was not yet evaluated at
+        // this node's entry and not added by this node's own subtree.
+        if (node.hasUnevaluatedProperties && instance.isObject()) {
+            std::vector<std::string> unevalKeys;
+            for (std::string const& k : instance.objectKeys()) {
+                if (unevalEntry.count(k) == 0 && ctx.curProps().count(k) == 0) {
+                    unevalKeys.push_back(k);
+                }
+            }
+            if (node.unevaluatedPropertiesRejects) {
+                if (!unevalKeys.empty())
+                    return ValidationResult::invalidAt(
+                        path, "unevaluated property '" + unevalKeys.front() + "'");
+            } else if (node.unevaluatedSchema != kNoSchema) {
+                for (std::string const& k : unevalKeys) {
+                    RawInstance const m = instance.atMember({k.data(), k.size()});
+                    ValidationPath childPath = path;
+                    childPath.enter(k);
+                    ctx.pushLocation();
+                    ValidationResult r =
+                        this->validate(node.unevaluatedSchema, m, childPath, ctx);
+                    ctx.popLocation();
+                    if (!r.success) return r;
+                    ctx.curProps().insert(k);  // examined by unevaluatedProperties -> evaluated
+                }
+            } else {
+                // boolean-true form: every remaining key is examined.
+                ctx.curProps().insert(unevalKeys.begin(), unevalKeys.end());
+            }
+        }
+
+        // unevaluatedItems applies evaluated-index tracking at this array location.
+        if (node.hasUnevaluatedItems && instance.isArray()) {
+            std::vector<std::size_t> unevalIdx;
+            for (std::size_t i = 0; i < instance.size(); ++i) {
+                if (unevalItemsEntry.count(i) == 0 && ctx.curItems().count(i) == 0) {
+                    unevalIdx.push_back(i);
+                }
+            }
+            if (node.unevaluatedItemsRejects) {
+                if (!unevalIdx.empty())
+                    return ValidationResult::invalidAt(
+                        path, "unevaluated item at index " + std::to_string(unevalIdx.front()));
+            } else if (node.unevaluatedItemsSchema != kNoSchema) {
+                for (std::size_t i : unevalIdx) {
+                    RawInstance const m = instance.atIndex(i);
+                    ValidationPath childPath = path;
+                    childPath.enterIndex(i);
+                    ctx.pushLocation();
+                    ValidationResult r =
+                        this->validate(node.unevaluatedItemsSchema, m, childPath, ctx);
+                    ctx.popLocation();
+                    if (!r.success) return r;
+                    ctx.curItems().insert(i);  // examined -> evaluated
+                }
+            } else {
+                ctx.curItems().insert(unevalIdx.begin(), unevalIdx.end());
+            }
+        }
+
+        // Collect annotations only after this node succeeds. Records retain the
+        // instance pointer, schema row, resource URI, and JSON-text value.
+        collectAnnotations(node, instance, ctx);
+
+        return ValidationResult::valid();
+    }
+
+private:
+    static bool kindIsBool(RawInstance const& i) { return i.kind() == JsonType::boolean; }
+
+    /// Dynamic replacement applies only when the initial target declares the
+    /// same dynamic anchor. Pure refs between the wrapper and declaration are
+    /// followed until the chain ends or repeats.
+    bool dynamicAnchorEligible(SchemaIndex wrapperIndex,
+                               std::string const& name) const {
+        SchemaIndex cur = wrapperIndex;
+        std::set<SchemaIndex> visited;
+        while (cur != kNoSchema && visited.insert(cur).second) {
+            SchemaNode const& w = registry_.node(cur);
+            if (w.dynamicAnchorName == name) return true;
+            // wrapper rows carry the anchored content as their oneOf child
+            SchemaIndex content = w.oneOfChildren.empty()
+                    ? kNoSchema : w.oneOfChildren[0];
+            if (content == kNoSchema) return false;
+            SchemaNode const& c = registry_.node(content);
+            if (c.dynamicAnchorName == name) return true;
+            if (c.applicator == ApplicatorKind::ref && !c.children.empty()) {
+                cur = c.children[0];   // follow the ref hop
+                continue;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    /// True when the exact value has zero fractional part (JSON Schema integer).
+    static bool numberIsIntegral(ExactNumber const& n) {
+        return n.isInteger();
+    }
+
+    /// Is `key` covered by a declared `properties` entry (never additionally
+    /// evaluated)?
+    static bool isListedProperty(SchemaNode const& node, std::string const& key) {
+        for (PropertyBinding const& pb : node.properties) {
+            if (pb.name == key) return true;
+        }
+        return false;
+    }
+
+    // ====================================================================
+    // ECMAScript-subset pattern engine
+    //
+    // The implementation decodes code points before translating supported
+    // Unicode letter escapes to wide-regex ranges. Matching is unanchored unless
+    // the pattern supplies anchors; unsupported constructs fail closed.
+    // ====================================================================
+
+    /// Letter ranges approximated from the Unicode Letter categories for the
+    /// corpus surface (Latin, Greek, Cyrillic, Armenian, Hebrew, Arabic,
+    /// Indic, CJK, Hangul). Documented approximation: not exhaustive.
+    static char const* letterRanges() {
+        return "a-zA-Z"
+            "\\u00C0-\\u00FF\\u0100-\\u024F"
+            "\\u0370-\\u03FF\\u0400-\\u04FF"
+            "\\u0500-\\u052F\\u0531-\\u058F"
+            "\\u0591-\\u05FF\\u0600-\\u06FF"
+            "\\u0900-\\u097F\\u0A00-\\u0A7F"
+            "\\u0B00-\\u0B7F\\u0C00-\\u0C7F"
+            "\\u0D00-\\u0D7F\\u1E00-\\u1EFF"
+            "\\u3041-\\u3096\\u30A1-\\u30FA"
+            "\\u3400-\\u4DBF\\u4E00-\\u9FFF"
+            "\\uAC00-\\uD7A3";
+    }
+
+    static std::string replaceAll(std::string s, std::string const& from,
+                                  std::string const& to) {
+        std::size_t pos = 0;
+        while ((pos = s.find(from, pos)) != std::string::npos) {
+            s.replace(pos, from.size(), to);
+            pos += to.size();
+        }
+        return s;
+    }
+
+    /// Translate \p{...} / \P{...} letter escapes into explicit ranges.
+    static std::wstring normalizeEcmaPattern(std::string p) {
+        p = replaceAll(std::move(p), "\\p{Letter}",
+                       "[" + std::string(letterRanges()) + "]");
+        p = replaceAll(std::move(p), "\\p{L}",
+                       "[" + std::string(letterRanges()) + "]");
+        p = replaceAll(std::move(p), "\\P{Letter}",
+                       "[^" + std::string(letterRanges()) + "]");
+        p = replaceAll(std::move(p), "\\P{L}",
+                       "[^" + std::string(letterRanges()) + "]");
+        return utf8ToWide(std::move(p));
+    }
+
+    /// UTF-8 code-point count: skips continuation bytes; invalid sequences
+    /// degrade to a byte count (never a crash).
+    static std::size_t countCodePoints(std::string const& s) {
+        std::size_t n = 0;
+        for (unsigned char c : s) {
+            if ((c & 0xC0) != 0x80) ++n;
+        }
+        return n;
+    }
+
+    /// Decode UTF-8 into code-point values stored in wchar_t (32-bit on
+    /// macOS/Linux). Invalid bytes pass through verbatim.
+    static std::wstring utf8ToWide(std::string const& s) {
+        std::wstring out;
+        out.reserve(s.size());
+        std::size_t i = 0;
+        while (i < s.size()) {
+            unsigned char c = static_cast<unsigned char>(s[i]);
+            std::uint32_t cp = 0;
+            std::size_t extra = 0;
+            if (c < 0x80) { out.push_back(static_cast<wchar_t>(c)); ++i; continue; }
+            if ((c >> 5) == 0x6) { cp = c & 0x1F; extra = 1; }
+            else if ((c >> 4) == 0xE) { cp = c & 0x0F; extra = 2; }
+            else if ((c >> 3) == 0x1E) { cp = c & 0x07; extra = 3; }
+            else { out.push_back(static_cast<wchar_t>(c)); ++i; continue; }
+            if (i + extra >= s.size()) {
+                out.push_back(static_cast<wchar_t>(c)); ++i; continue;
+            }
+            bool ok = true;
+            for (std::size_t j = 1; j <= extra; ++j) {
+                unsigned char cc = static_cast<unsigned char>(s[i + j]);
+                if ((cc & 0xC0) != 0x80) { ok = false; break; }
+                cp = (cp << 6) | (cc & 0x3F);
+            }
+            if (!ok) { out.push_back(static_cast<wchar_t>(c)); ++i; continue; }
+            out.push_back(static_cast<wchar_t>(cp));
+            i += extra + 1;
+        }
+        return out;
+    }
+
+    struct RegexMatch {
+        bool supported;
+        bool matched;
+    };
+
+    /// Unanchored ECMAScript-subset search on code points.
+    static RegexMatch ecmaRegexSearch(std::string const& pattern,
+                                      std::string const& key) {
+        try {
+            std::wregex re(normalizeEcmaPattern(pattern),
+                           std::regex_constants::ECMAScript);
+            std::wstring const wide = utf8ToWide(key);
+            return {true, std::regex_search(wide, re)};
+        } catch (std::regex_error const&) {
+            return {false, false};
+        }
+    }
+
+    /// allOf/anyOf/oneOf applicator walk with transactional, sibling-isolated
+    /// annotation merging. All three applicators may coexist (2020-12); each
+    /// group walks its own member rows. Members are evaluated against the
+    /// walk-entry coverage (a member's unevaluated* check never sees its
+    /// SIBLINGS' coverage — "can't see inside cousins"), and only SUCCESSFUL
+    /// branches contribute evaluated-property/item coverage and annotations —
+    /// the rule unevaluated* relies on. The caller captures this group's merged
+    /// output against the same base as every other in-place applicator.
+    ValidationResult walkApplicators(SchemaNode const& node, RawInstance const& instance,
+                                     ValidationPath& path, ValidationContext& ctx) const {
+        std::set<std::string> accProps;
+        std::set<std::size_t> accItems;
+
+        // allOf: EVERY member must validate; all successful members contribute.
+        for (SchemaIndex c : node.allOfChildren) {
+            ValidationContext::Branch b = ctx.beginBranch();
+            ValidationResult r = ctx.evaluateAndCaptureValid(
+                [&]() { return this->validate(c, instance, path, ctx); },
+                accProps, accItems);
+            if (!r.success) {
+                ctx.rollbackBranch(b);
+                return r;
+            }
+        }
+        // anyOf: at least one must validate; successful branches contribute.
+        if (!node.anyOfChildren.empty()) {
+            bool any = false;
+            std::set<std::string> grpProps;
+            std::set<std::size_t> grpItems;
+            for (SchemaIndex c : node.anyOfChildren) {
+                ValidationContext::Branch b = ctx.beginBranch();
+                ValidationResult r = ctx.evaluateAndCaptureValid(
+                    [&]() { return this->validate(c, instance, path, ctx); },
+                    grpProps, grpItems);
+                if (r.success) { any = true; }
+                else { ctx.rollbackBranch(b); }
+            }
+            if (!any) return ValidationResult::invalidAt(path, "anyOf: no branch matched");
+            accProps.insert(grpProps.begin(), grpProps.end());
+            accItems.insert(grpItems.begin(), grpItems.end());
+        }
+        // oneOf: EXACTLY one must validate; the successful branch contributes.
+        if (!node.oneOfChildren.empty()) {
+            std::size_t matches = 0;
+            std::set<std::string> grpProps;
+            std::set<std::size_t> grpItems;
+            for (SchemaIndex c : node.oneOfChildren) {
+                ValidationContext::Branch b = ctx.beginBranch();
+                ValidationResult r = ctx.evaluateAndCaptureValid(
+                    [&]() { return this->validate(c, instance, path, ctx); },
+                    grpProps, grpItems);
+                if (r.success) { ++matches; }
+                else { ctx.rollbackBranch(b); }
+            }
+            if (matches != 1) {
+                return ValidationResult::invalidAt(path,
+                    matches == 0 ? "oneOf: no branch matched"
+                                 : "oneOf: more than one branch matched");
+            }
+            accProps.insert(grpProps.begin(), grpProps.end());
+            accItems.insert(grpItems.begin(), grpItems.end());
+        }
+        // Merge the accumulated (sibling-isolated) coverage at this location,
+        // so enclosing unevaluated* checks see the successful members' output.
+        ctx.curProps().insert(accProps.begin(), accProps.end());
+        ctx.curItems().insert(accItems.begin(), accItems.end());
+        return ValidationResult::valid();
+    }
+
+    /// if/then/else: the `if` guard selects the branch but contributes neither
+    /// annotations nor evaluated coverage. The selected branch evaluates against
+    /// the keyword-entry coverage; only its successful output is merged.
+    ValidationResult walkConditional(SchemaNode const& node,
+                                     RawInstance const& instance,
+                                     ValidationPath& path,
+                                     ValidationContext& ctx) const {
+        if (!node.hasIf) return ValidationResult::valid();
+        std::set<std::string> accProps;
+        std::set<std::size_t> accItems;
+        ValidationContext::Branch guard = ctx.beginBranch();
+        ValidationResult ifRes;
+        try {
+            ifRes = this->validate(node.ifSchema, instance, path, ctx);
+        } catch (...) {
+            ctx.rollbackBranch(guard);
+            throw;
+        }
+        ctx.rollbackBranch(guard);
+        if (ifRes.success && node.hasThen) {
+            ValidationResult r = ctx.evaluateAndCaptureValid(
+                [&] { return this->validate(node.thenSchema, instance, path, ctx); },
+                accProps, accItems);
+            if (!r.success) return r;
+        } else if (!ifRes.success && node.hasElse) {
+            ValidationResult r = ctx.evaluateAndCaptureValid(
+                [&] { return this->validate(node.elseSchema, instance, path, ctx); },
+                accProps, accItems);
+            if (!r.success) return r;
+        }
+        ctx.curProps().insert(accProps.begin(), accProps.end());
+        ctx.curItems().insert(accItems.begin(), accItems.end());
+        return ValidationResult::valid();
+    }
+
+    /// Each triggered dependentSchemas value is an independent in-place
+    /// subschema. Merge their successful coverage only after every trigger passes.
+    ValidationResult walkDependentSchemas(SchemaNode const& node,
+                                           RawInstance const& instance,
+                                           ValidationPath& path,
+                                           ValidationContext& ctx) const {
+        if (!instance.isObject()) return ValidationResult::valid();
+        std::set<std::string> accProps;
+        std::set<std::size_t> accItems;
+        for (auto const& dep : node.dependentSchemas) {
+            if (instance.atMember({dep.first.data(), dep.first.size()}).value == nullptr) {
+                continue;
+            }
+            ValidationContext::Branch b = ctx.beginBranch();
+            ValidationResult r = ctx.evaluateAndCaptureValid(
+                [&] { return this->validate(dep.second, instance, path, ctx); },
+                accProps, accItems);
+            if (!r.success) {
+                ctx.rollbackBranch(b);
+                return r;
+            }
+        }
+        ctx.curProps().insert(accProps.begin(), accProps.end());
+        ctx.curItems().insert(accItems.begin(), accItems.end());
+        return ValidationResult::valid();
+    }
+
+    /// Object structural traversal. Only active for object instances; ignores
+    /// non-object kinds (as JSON Schema requires).
+    ValidationResult validateObjectTraversal(SchemaNode const& node, RawInstance const& instance,
+                                             ValidationPath& path, ValidationContext& ctx) const {
+        if (!instance.isObject()) return ValidationResult::valid();
+        // Property counts, required, and dependentRequired belong to the
+        // validation vocabulary and are gated by the resource dialect.
+        bool const vInert =
+            !registry_.validationVocabActive(ctx.currentValidationRes);
+
+        if (!vInert) {
+        // minProperties / maxProperties — ExactNumber from the instance size,
+        // never a double; a decimal bound (1.0) compares equal to 1.
+        std::size_t const n = instance.size();
+        if (node.hasMinProperties && ExactNumber::fromUint(n) < node.minProperties)
+            return ValidationResult::invalidAt(path, "object has fewer properties than minProperties");
+        if (node.hasMaxProperties && node.maxProperties < ExactNumber::fromUint(n))
+            return ValidationResult::invalidAt(path, "object has more properties than maxProperties");
+
+        // required: every listed name must be PRESENT (a null-valued member is
+        // present; absence is what fails).
+        for (std::string const& rn : node.required) {
+            if (!instance.hasMember({rn.data(), rn.size()}))
+                return ValidationResult::invalidAt(path, "missing required property '" + rn + "'");
+        }
+
+        // Each present dependentRequired trigger requires every listed name.
+        for (auto const& dep : node.dependentRequired) {
+            if (!instance.hasMember({dep.first.data(), dep.first.size()})) continue;
+            for (std::string const& rn : dep.second) {
+                if (!instance.hasMember({rn.data(), rn.size()}))
+                    return ValidationResult::invalidAt(
+                        path, "dependentRequired '" + dep.first
+                            + "' missing '" + rn + "'");
+            }
+        }
+        }
+
+        // Declared properties: validate each present member against its
+        // property subschema; absent members are not evaluated. Member VALUES
+        // live at a nested instance location, so their evaluation happens in
+        // a fresh location scope (their keys must never leak into this
+        // object's unevaluated* check).
+        for (PropertyBinding const& pb : node.properties) {
+            RawInstance m = instance.atMember({pb.name.data(), pb.name.size()});
+            if (m.value == nullptr) continue;
+            ValidationPath childPath = path;
+            childPath.enter(pb.name);
+            ctx.pushLocation();
+            ValidationResult r = this->validate(pb.node, m, childPath, ctx);
+            ctx.popLocation();
+            if (!r.success
+                    && (!ctx.tolerateNonNullablePropertyNulls || !m.isNull())) {
+                return r;
+            }
+            ctx.curProps().insert(pb.name);
+        }
+
+        // Every matching patternProperties schema validates the member. Matched
+        // members are evaluated and excluded from additionalProperties handling.
+        std::set<std::string> patternMatched;
+        if (!node.patternProperties.empty()) {
+            for (std::string const& k : instance.objectKeys()) {
+                for (SchemaNode::PatternPropertyBinding const& pb
+                         : node.patternProperties) {
+                    RegexMatch const match = ecmaRegexSearch(pb.regex, k);
+                    if (!match.supported)
+                        return ValidationResult::invalidAt(
+                            path,
+                            "invalid schema: unsupported patternProperties expression");
+                    if (match.matched) {
+                        patternMatched.insert(k);
+                        RawInstance const m = instance.atMember({k.data(), k.size()});
+                        ValidationPath childPath = path;
+                        childPath.enter(k);
+                        ctx.pushLocation();
+                        ValidationResult r =
+                            this->validate(pb.node, m, childPath, ctx);
+                        ctx.popLocation();
+                        if (!r.success) return r;
+                        ctx.curProps().insert(k);
+                    }
+                }
+            }
+        }
+
+        // propertyNames: the subschema applies to EVERY member NAME (as a
+        // string instance), independently of properties/additionalProperties.
+        if (node.propertyNames != kNoSchema) {
+            for (std::string const& k : instance.objectKeys()) {
+                boost::json::value keyValue(k);
+                RawInstance keyInst(&keyValue);
+                ValidationPath childPath = path;
+                childPath.enter(k);
+                ValidationResult r =
+                    this->validate(node.propertyNames, keyInst, childPath, ctx);
+                if (!r.success) return r;
+            }
+        }
+
+        // additionalProperties tri-state. Listed properties AND
+        // pattern-matched members are NEVER additionally evaluated: they are
+        // skipped. Unmatched keys are either allowed (absent/allowed),
+        // rejected (false), or validated against the additionalProperties
+        // schema.
+        auto isCovered = [&](std::string const& k) {
+            if (isListedProperty(node, k)) return true;
+            return patternMatched.count(k) != 0;
+        };
+        if (ctx.tolerateAdditionalProperties) {
+            for (std::string const& k : instance.objectKeys()) {
+                if (!isCovered(k)) ctx.curProps().insert(k);
+            }
+        } else if (node.additionalProperties == AdditionalPropertiesKind::reject ||
+                   node.additionalProperties == AdditionalPropertiesKind::schema) {
+            for (std::string const& k : instance.objectKeys()) {
+                if (isCovered(k)) continue;
+                RawInstance m = instance.atMember({k.data(), k.size()});
+                if (node.additionalProperties == AdditionalPropertiesKind::reject)
+                    return ValidationResult::invalidAt(
+                        path, "additionalProperties:false rejects '" + k + "'");
+                if (node.additionalSchema != kNoSchema) {
+                    ValidationPath childPath = path;
+                    childPath.enter(k);
+                    ctx.pushLocation();
+                    ValidationResult r =
+                        this->validate(node.additionalSchema, m, childPath, ctx);
+                    ctx.popLocation();
+                    if (!r.success) return r;
+                }
+                ctx.curProps().insert(k);
+            }
+        } else if (node.additionalProperties == AdditionalPropertiesKind::allowed) {
+            for (std::string const& k : instance.objectKeys()) {
+                if (isCovered(k)) continue;
+                ctx.curProps().insert(k);
+            }
+        }
+
+        return ValidationResult::valid();
+    }
+
+    /// Array structural traversal. Only active for array instances.
+    ValidationResult validateArrayTraversal(SchemaNode const& node, RawInstance const& instance,
+                                            ValidationPath& path, ValidationContext& ctx) const {
+        if (!instance.isArray()) return ValidationResult::valid();
+        // Item counts and contains bounds belong to the validation vocabulary;
+        // contains matching itself remains applicator behavior.
+        bool const vInert =
+            !registry_.validationVocabActive(ctx.currentValidationRes);
+
+        std::size_t const n = instance.size();
+        if (!vInert) {
+        if (node.hasMinItems && ExactNumber::fromUint(n) < node.minItems)
+            return ValidationResult::invalidAt(path, "array has fewer items than minItems");
+        if (node.hasMaxItems && node.maxItems < ExactNumber::fromUint(n))
+            return ValidationResult::invalidAt(path, "array has more items than maxItems");
+        }
+
+        // prefixItems: each schema applies to the item at ITS index. Item
+        // values live at nested array locations (fresh scopes).
+        std::size_t const prefixCount = node.prefixItems.size();
+        for (std::size_t i = 0; i < prefixCount && i < n; ++i) {
+            RawInstance m = instance.atIndex(i);
+            ValidationPath childPath = path;
+            childPath.enterIndex(i);
+            ctx.pushLocation();
+            ValidationResult r = this->validate(node.prefixItems[i], m, childPath, ctx);
+            ctx.popLocation();
+            if (!r.success) return r;
+            ctx.curItems().insert(i);
+        }
+
+        // items: applies to the REMAINDER (indices >= prefixItems.size()).
+        if (node.items != kNoSchema) {
+            for (std::size_t i = prefixCount; i < n; ++i) {
+                RawInstance m = instance.atIndex(i);
+                ValidationPath childPath = path;
+                childPath.enterIndex(i);
+                ctx.pushLocation();
+                ValidationResult r = this->validate(node.items, m, childPath, ctx);
+                ctx.popLocation();
+                if (!r.success) return r;
+                ctx.curItems().insert(i);
+            }
+        }
+
+        // `contains` evaluates every item and marks matching indices. The match
+        // count then applies minContains (default 1) and maxContains; both bounds
+        // are inert when contains is absent.
+        if (node.hasContains) {
+            std::vector<std::size_t> matched;
+            matched.reserve(n);
+            for (std::size_t i = 0; i < n; ++i) {
+                RawInstance const m = instance.atIndex(i);
+                ValidationPath childPath = path;
+                childPath.enterIndex(i);
+                ctx.pushLocation();
+                ValidationResult r =
+                    this->validate(node.containsSchema, m, childPath, ctx);
+                ctx.popLocation();
+                if (r.success) matched.push_back(i);
+            }
+            std::size_t const matchCount = matched.size();
+            if (!vInert) {
+                bool const minWaived =
+                    node.hasMinContains && node.minContains.isZero();
+                if (!minWaived) {
+                    ExactNumber const minC = node.hasMinContains
+                        ? node.minContains : ExactNumber::fromUint(1);
+                    if (ExactNumber::fromUint(matchCount) < minC)
+                        return ValidationResult::invalidAt(
+                            path, "contains: fewer matches than minContains");
+                }
+                if (node.hasMaxContains
+                        && node.maxContains < ExactNumber::fromUint(matchCount))
+                    return ValidationResult::invalidAt(
+                        path, "contains: more matches than maxContains");
+            }
+            for (std::size_t i : matched) ctx.curItems().insert(i);
+        }
+
+        return ValidationResult::valid();
+    }
+
+    SchemaResourceRegistry const& registry_;
+};
+
+} // namespace org::openapitools::client::model::detail::schema_validation
+
+#endif // ORG_OPENAPITOOLS_CLIENT_MODEL_OAS31_VALIDATOR_H_

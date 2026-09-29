@@ -5,7 +5,7 @@
 {{>typeInfoAnnotation}}
 {{/discriminator}}
 {{^discriminator}}{{#useDeductionForOneOfInterfaces}}{{#jackson}}
-@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
+@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION{{#vendorExtensions.x-jackson-resolved-default-impl}}, defaultImpl = {{vendorExtensions.x-jackson-resolved-default-impl}}::class{{/vendorExtensions.x-jackson-resolved-default-impl}})
 @JsonSubTypes(
   {{#interfaceModels}}
     JsonSubTypes.Type(value = {{classname}}::class){{^-last}},{{/-last}}

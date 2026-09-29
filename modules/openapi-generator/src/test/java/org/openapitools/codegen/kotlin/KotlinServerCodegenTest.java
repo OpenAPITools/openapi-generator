@@ -20,6 +20,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.antlr4.KotlinLexer;
 import org.openapitools.codegen.antlr4.KotlinParser;
+import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinServerCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.testng.Assert;
@@ -75,6 +76,32 @@ public class KotlinServerCodegenTest {
                 "Mercury is the first planet from the Sun and the smallest in the Solar System",
                 "The planet we all live on"
         );
+    }
+
+    @Test
+    public void additionalModelTypeAnnotationsAreNotAppliedToEnums() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(AbstractKotlinCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@ClassOnlyAnnotation");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.ADDITIONAL_ENUM_TYPE_ANNOTATIONS, "@EnumOnlyAnnotation");
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/enum-description.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path enumClass = Paths.get(outputPath + "/models/Type.kt");
+        assertFileContains(enumClass, "@EnumOnlyAnnotation");
+        assertFileNotContains(enumClass, "@ClassOnlyAnnotation");
+
+        Path dataClass = Paths.get(outputPath + "/models/Pony.kt");
+        assertFileContains(dataClass, "@ClassOnlyAnnotation");
+        assertFileNotContains(dataClass, "@EnumOnlyAnnotation");
     }
 
     @Test
@@ -283,6 +310,37 @@ public class KotlinServerCodegenTest {
                 new Object[]{JAVALIN6},
         };
     }
+    @DataProvider(name = "javalinLibraries")
+    private Object[][] javalinLibraries() {
+        return new Object[][]{
+                new Object[]{JAVALIN5},
+                new Object[]{JAVALIN6},
+        };
+    }
+
+    @Test(description = "Issue #24851", dataProvider = "javalinLibraries")
+    public void inlineEnumArrayParameterDefaultUsesItemValues(String library) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, library);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue24851-enum-array-default-query.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path service = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server/apis/DefaultApiService.kt");
+        assertFileContains(
+                service,
+                "colors: kotlin.collections.Set<kotlin.String> = setOf(\"red\",\"blue\")",
+                "sizes: kotlin.collections.List<kotlin.Int> = arrayListOf(2)",
+                "refColors: kotlin.collections.List<Color> = arrayListOf(Color.RED)"
+        );
+    }
+
     @Test(description = "Issue #20960", dataProvider = "dollarEscapeTest")
     public void givenSchemaObjectPropertyNameContainsDollarSignWhenGenerateThenDollarSignIsProperlyEscapedInAnnotation(String library) throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

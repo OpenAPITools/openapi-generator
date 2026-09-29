@@ -15,6 +15,7 @@
                                         Ok(param_{{{paramName}}}) => param_{{{paramName}}},
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter {{{baseName}}} - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter {{{baseName}}} due to schema")),
                                     }
@@ -39,6 +40,7 @@
                                         Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter {{{baseName}}} - not valid UTF-8: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter {{{baseName}}} due to UTF-8")),
                                     }
@@ -53,6 +55,7 @@
                                     Some(param_{{{paramName}}}) => param_{{{paramName}}},
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new("Missing required body parameter {{{baseName}}}".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter {{{baseName}}}")),
                                 };

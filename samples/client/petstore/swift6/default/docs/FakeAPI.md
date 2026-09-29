@@ -22,7 +22,7 @@ Method | HTTP request | Description
 
 # **createXmlItem**
 ```swift
-    open class func createXmlItem(xmlItem: XmlItem, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func createXmlItem(xmlItem: XmlItem, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 creates an XmlItem
@@ -37,15 +37,10 @@ import PetstoreClient
 let xmlItem = XmlItem(attributeString: "attributeString_example", attributeNumber: 123, attributeInteger: 123, attributeBoolean: true, wrappedArray: [123], nameString: "nameString_example", nameNumber: 123, nameInteger: 123, nameBoolean: true, nameArray: [123], nameWrappedArray: [123], prefixString: "prefixString_example", prefixNumber: 123, prefixInteger: 123, prefixBoolean: true, prefixArray: [123], prefixWrappedArray: [123], namespaceString: "namespaceString_example", namespaceNumber: 123, namespaceInteger: 123, namespaceBoolean: true, namespaceArray: [123], namespaceWrappedArray: [123], prefixNsString: "prefixNsString_example", prefixNsNumber: 123, prefixNsInteger: 123, prefixNsBoolean: true, prefixNsArray: [123], prefixNsWrappedArray: [123]) // XmlItem | XmlItem Body
 
 // creates an XmlItem
-FakeAPI.createXmlItem(xmlItem: xmlItem) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await FakeAPI.createXmlItem(xmlItem: xmlItem)
+} catch {
+    print(error)
 }
 ```
 
@@ -72,7 +67,7 @@ No authorization required
 
 # **fakeOuterBooleanSerialize**
 ```swift
-    open class func fakeOuterBooleanSerialize(body: Bool? = nil, completion: @escaping (_ data: Bool?, _ error: Error?) -> Void)
+    open class func fakeOuterBooleanSerialize(body: Bool? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Bool
 ```
 
 
@@ -86,15 +81,11 @@ import PetstoreClient
 
 let body = true // Bool | Input boolean as post body (optional)
 
-FakeAPI.fakeOuterBooleanSerialize(body: body) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await FakeAPI.fakeOuterBooleanSerialize(body: body)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 
@@ -121,7 +112,7 @@ No authorization required
 
 # **fakeOuterCompositeSerialize**
 ```swift
-    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, completion: @escaping (_ data: OuterComposite?, _ error: Error?) -> Void)
+    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> OuterComposite
 ```
 
 
@@ -135,15 +126,11 @@ import PetstoreClient
 
 let body = OuterComposite(myNumber: 123, myString: "myString_example", myBoolean: false) // OuterComposite | Input composite as post body (optional)
 
-FakeAPI.fakeOuterCompositeSerialize(body: body) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await FakeAPI.fakeOuterCompositeSerialize(body: body)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 
@@ -170,7 +157,7 @@ No authorization required
 
 # **fakeOuterNumberSerialize**
 ```swift
-    open class func fakeOuterNumberSerialize(body: Double? = nil, completion: @escaping (_ data: Double?, _ error: Error?) -> Void)
+    open class func fakeOuterNumberSerialize(body: Double? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Double
 ```
 
 
@@ -184,15 +171,11 @@ import PetstoreClient
 
 let body = 987 // Double | Input number as post body (optional)
 
-FakeAPI.fakeOuterNumberSerialize(body: body) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await FakeAPI.fakeOuterNumberSerialize(body: body)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 
@@ -219,7 +202,7 @@ No authorization required
 
 # **fakeOuterStringSerialize**
 ```swift
-    open class func fakeOuterStringSerialize(body: String? = nil, completion: @escaping (_ data: String?, _ error: Error?) -> Void)
+    open class func fakeOuterStringSerialize(body: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> String
 ```
 
 
@@ -233,15 +216,11 @@ import PetstoreClient
 
 let body = "body_example" // String | Input string as post body (optional)
 
-FakeAPI.fakeOuterStringSerialize(body: body) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await FakeAPI.fakeOuterStringSerialize(body: body)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 
@@ -268,7 +247,7 @@ No authorization required
 
 # **testBodyWithFileSchema**
 ```swift
-    open class func testBodyWithFileSchema(body: FileSchemaTestClass, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func testBodyWithFileSchema(body: FileSchemaTestClass, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 
@@ -282,15 +261,10 @@ import PetstoreClient
 
 let body = FileSchemaTestClass(file: File(sourceURI: "sourceURI_example"), files: [nil]) // FileSchemaTestClass | 
 
-FakeAPI.testBodyWithFileSchema(body: body) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await FakeAPI.testBodyWithFileSchema(body: body)
+} catch {
+    print(error)
 }
 ```
 
@@ -317,7 +291,7 @@ No authorization required
 
 # **testBodyWithQueryParams**
 ```swift
-    open class func testBodyWithQueryParams(query: String, body: User, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func testBodyWithQueryParams(query: String, body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 
@@ -330,15 +304,10 @@ import PetstoreClient
 let query = "query_example" // String | 
 let body = User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | 
 
-FakeAPI.testBodyWithQueryParams(query: query, body: body) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await FakeAPI.testBodyWithQueryParams(query: query, body: body)
+} catch {
+    print(error)
 }
 ```
 
@@ -366,7 +335,7 @@ No authorization required
 
 # **testClientModel**
 ```swift
-    open class func testClientModel(body: Client, completion: @escaping (_ data: Client?, _ error: Error?) -> Void)
+    open class func testClientModel(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Client
 ```
 
 To test \"client\" model
@@ -381,15 +350,11 @@ import PetstoreClient
 let body = Client(client: "client_example") // Client | client model
 
 // To test \"client\" model
-FakeAPI.testClientModel(body: body) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    let response = try await FakeAPI.testClientModel(body: body)
+    dump(response)
+} catch {
+    print(error)
 }
 ```
 
@@ -416,7 +381,7 @@ No authorization required
 
 # **testEndpointParameters**
 ```swift
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -444,15 +409,10 @@ let password = "password_example" // String | None (optional)
 let callback = "callback_example" // String | None (optional)
 
 // Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-FakeAPI.testEndpointParameters(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await FakeAPI.testEndpointParameters(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback)
+} catch {
+    print(error)
 }
 ```
 
@@ -492,7 +452,7 @@ Void (empty response body)
 
 # **testEnumParameters**
 ```swift
-    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 To test enum parameters
@@ -514,15 +474,10 @@ let enumFormStringArray = ["inner_example"] // [String] | Form parameter enum te
 let enumFormString = "enumFormString_example" // String | Form parameter enum test (string) (optional) (default to .efg)
 
 // To test enum parameters
-FakeAPI.testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await FakeAPI.testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString)
+} catch {
+    print(error)
 }
 ```
 
@@ -556,7 +511,7 @@ No authorization required
 
 # **testGroupParameters**
 ```swift
-    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 Fake endpoint to test group parameters (optional)
@@ -576,15 +531,10 @@ let booleanGroup = true // Bool | Boolean in group parameters (optional)
 let int64Group = 987 // Int64 | Integer in group parameters (optional)
 
 // Fake endpoint to test group parameters (optional)
-FakeAPI.testGroupParameters(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await FakeAPI.testGroupParameters(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group)
+} catch {
+    print(error)
 }
 ```
 
@@ -616,7 +566,7 @@ No authorization required
 
 # **testInlineAdditionalProperties**
 ```swift
-    open class func testInlineAdditionalProperties(param: [String: String], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func testInlineAdditionalProperties(param: [String: String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 test inline additionalProperties
@@ -629,15 +579,10 @@ import PetstoreClient
 let param = "TODO" // [String: String] | request body
 
 // test inline additionalProperties
-FakeAPI.testInlineAdditionalProperties(param: param) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await FakeAPI.testInlineAdditionalProperties(param: param)
+} catch {
+    print(error)
 }
 ```
 
@@ -664,7 +609,7 @@ No authorization required
 
 # **testJsonFormData**
 ```swift
-    open class func testJsonFormData(param: String, param2: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func testJsonFormData(param: String, param2: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 test json serialization of form data
@@ -678,15 +623,10 @@ let param = "param_example" // String | field1
 let param2 = "param2_example" // String | field2
 
 // test json serialization of form data
-FakeAPI.testJsonFormData(param: param, param2: param2) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await FakeAPI.testJsonFormData(param: param, param2: param2)
+} catch {
+    print(error)
 }
 ```
 
@@ -714,7 +654,7 @@ No authorization required
 
 # **testQueryParameterCollectionFormat**
 ```swift
-    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse)
 ```
 
 
@@ -732,15 +672,10 @@ let http = ["inner_example"] // [String] |
 let url = ["inner_example"] // [String] | 
 let context = ["inner_example"] // [String] | 
 
-FakeAPI.testQueryParameterCollectionFormat(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
+do {
+    try await FakeAPI.testQueryParameterCollectionFormat(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context)
+} catch {
+    print(error)
 }
 ```
 

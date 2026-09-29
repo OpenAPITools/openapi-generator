@@ -15,10 +15,17 @@ Method | HTTP request | Description
 {{^usePromiseKit}}
 {{^useRxSwift}}
 {{^useVapor}}
+{{^useAsyncAwait}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}completion: @escaping (_ data: {{{returnType}}}{{^returnType}}Void{{/returnType}}?, _ error: Error?) -> Void)
+{{/useAsyncAwait}}
 {{/useVapor}}
 {{/useRxSwift}}
 {{/usePromiseKit}}
+{{^useVapor}}
+{{#useAsyncAwait}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} {{#apiStaticMethod}}class {{/apiStaticMethod}}func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}apiConfiguration: {{projectName}}APIConfiguration = {{projectName}}APIConfiguration.shared{{/apiStaticMethod}}) async throws(ErrorResponse){{#returnType}} -> {{{returnType}}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}
+{{/useAsyncAwait}}
+{{/useVapor}}
 {{#usePromiseKit}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}} {{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Promise<{{{returnType}}}{{^returnType}}Void{{/returnType}}>
 {{/usePromiseKit}}
@@ -45,6 +52,7 @@ import {{{projectName}}}
 {{^usePromiseKit}}
 {{^useRxSwift}}
 {{^useVapor}}
+{{^useAsyncAwait}}
 {{#summary}}
 // {{{.}}}
 {{/summary}}
@@ -58,9 +66,25 @@ import {{{projectName}}}
         dump(response)
     }
 }
+{{/useAsyncAwait}}
 {{/useVapor}}
 {{/useRxSwift}}
 {{/usePromiseKit}}
+{{^useVapor}}
+{{#useAsyncAwait}}
+{{#summary}}
+// {{{.}}}
+{{/summary}}
+do {
+    {{#returnType}}let response = {{/returnType}}try await {{classname}}{{^apiStaticMethod}}(){{/apiStaticMethod}}.{{{operationId}}}({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+{{#returnType}}
+    dump(response)
+{{/returnType}}
+} catch {
+    print(error)
+}
+{{/useAsyncAwait}}
+{{/useVapor}}
 {{#usePromiseKit}}
 {{#summary}}
 // {{{.}}}

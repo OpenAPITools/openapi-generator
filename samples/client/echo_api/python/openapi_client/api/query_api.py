@@ -2204,7 +2204,7 @@ class QueryApi:
         # process the query parameters
         if query_object is not None:
             
-            _query_params.append(('query_object', query_object))
+            _query_params.extend(self.api_client.explode_query_object('query_object', query_object))
             
         # process the header parameters
         # process the form parameters
@@ -2466,7 +2466,7 @@ class QueryApi:
         # process the query parameters
         if query_object is not None:
             
-            _query_params.append(('query_object', query_object))
+            _query_params.extend(self.api_client.explode_query_object('query_object', query_object))
             
         # process the header parameters
         # process the form parameters
@@ -2728,7 +2728,7 @@ class QueryApi:
         # process the query parameters
         if query_object is not None:
             
-            _query_params.append(('query_object', query_object))
+            _query_params.extend(self.api_client.explode_query_object('query_object', query_object))
             
         # process the header parameters
         # process the form parameters

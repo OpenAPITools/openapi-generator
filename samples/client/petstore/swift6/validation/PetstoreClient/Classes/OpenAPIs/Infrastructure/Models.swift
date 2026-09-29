@@ -9,15 +9,15 @@ import Foundation
 import FoundationNetworking
 #endif
 
-protocol ParameterConvertible {
+nonisolated protocol ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable
 }
 
 /// An enum where the last case value can be used as a default catch-all.
-protocol CaseIterableDefaultsLast: Decodable & CaseIterable & RawRepresentable
+nonisolated protocol CaseIterableDefaultsLast: Decodable & CaseIterable & RawRepresentable
 where RawValue: Decodable, AllCases: BidirectionalCollection {}
 
-extension CaseIterableDefaultsLast {
+nonisolated extension CaseIterableDefaultsLast {
     /// Initializes an enum such that if a known raw value is found, then it is decoded.
     /// Otherwise the last case is used.
     /// - Parameter decoder: A decoder.
@@ -37,17 +37,17 @@ extension CaseIterableDefaultsLast {
 
 /// A flexible type that can be encoded (`.encodeNull` or `.encodeValue`)
 /// or not encoded (`.encodeNothing`). Intended for request payloads.
-public enum NullEncodable<Wrapped> {
+public nonisolated enum NullEncodable<Wrapped> {
     case encodeNothing
     case encodeNull
     case encodeValue(Wrapped)
 }
 
-extension NullEncodable: Equatable where Wrapped: Equatable {}
-extension NullEncodable: Hashable where Wrapped: Hashable {}
-extension NullEncodable: Sendable where Wrapped: Sendable {}
+nonisolated extension NullEncodable: Equatable where Wrapped: Equatable {}
+nonisolated extension NullEncodable: Hashable where Wrapped: Hashable {}
+nonisolated extension NullEncodable: Sendable where Wrapped: Sendable {}
 
-extension NullEncodable: Codable where Wrapped: Codable {
+nonisolated extension NullEncodable: Codable where Wrapped: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(Wrapped.self) {

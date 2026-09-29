@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * Shared pagination metadata schema
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class PageMeta implements Serializable {
 
   private static final long serialVersionUID = 1L;

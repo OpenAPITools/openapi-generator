@@ -29,7 +29,7 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "RequiredAndNullable")
 @XmlRootElement(name = "RequiredAndNullable")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class RequiredAndNullable {
 
   private JsonNullable<String> str = JsonNullable.<String>undefined();
