@@ -59,11 +59,22 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
             "Client", "Connection", "Configuration", "Response", "ApiError", "Serializable", "Validations", "Polymorphism"));
 
     // Methods already defined on the generated Client (Client#initialize plus the
-    // configuration/connection attr_readers). A namespace whose accessor would shadow one
-    // of these is suffixed so `client.connection` keeps returning the transport, not a
-    // sub-client. Mirrors the RESERVED_MODEL_NAMES guard, one level up.
+    // configuration/connection attr_readers), and public methods inherited by every Ruby
+    // namespace class from Object/Kernel. A generated accessor whose name would shadow one
+    // of these is suffixed so the namespace or resource remains reachable without changing
+    // normal Ruby object behavior.
     private static final Set<String> RESERVED_ACCESSOR_NAMES = new HashSet<>(Arrays.asList(
-            "initialize", "configuration", "connection", "client"));
+            "initialize", "configuration", "connection", "client",
+            "class", "singleton_class", "clone", "dup", "itself", "taint", "untaint",
+            "untrust", "trust", "freeze", "frozen?", "nil?", "hash", "eql?", "==",
+            "equal?", "!", "!=", "instance_of?", "kind_of?", "is_a?", "display",
+            "send", "__send__", "public_send", "respond_to?", "extend", "method",
+            "define_singleton_method", "singleton_method", "tap", "yield_self", "then",
+            "instance_eval", "instance_exec", "enum_for", "to_enum", "to_s", "inspect",
+            "methods", "public_methods", "protected_methods", "private_methods",
+            "singleton_methods", "__id__", "object_id", "instance_variable_get",
+            "instance_variable_set", "instance_variable_defined?", "remove_instance_variable",
+            "instance_variables"));
 
     // Prefix for enum constants whose value begins with a digit. A bare "_" prefix would
     // collide with Ruby 3.0+ numbered block parameters (_1.._9 are reserved and raise on
@@ -92,8 +103,6 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
     private String apiBasePrefix = "";
     private int emptyMethodNameCounter = 0;
     private List<Map<String, Object>> rubyNamespaces = Collections.emptyList();
-    private final Set<String> namespaceOnlyApiTags = new HashSet<>();
-
     // Accumulated across postProcessModels calls: file basename -> class name, for every
     // autoloaded model. Consumed by postProcessSupportingFileData to emit Zeitwerk
     // inflections for names whose acronym casing diverges from the default inflector.
@@ -534,7 +543,6 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
                 ? stripSlashes((String) additionalProperties.get("apiBasePath"))
                 : RubyApiRouting.commonBasePrefix(paths);
         this.rubyNamespaces = buildRubyNamespaces(openAPI);
-        this.namespaceOnlyApiTags.clear();
         additionalProperties.put("rbNamespaces", rubyNamespaces);
     }
 
@@ -545,7 +553,6 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
     private List<Map<String, Object>> buildRubyNamespaces(OpenAPI openAPI) {
         Map<String, Map<String, Object>> namespaces = new TreeMap<>();
         Map<String, Set<String>> resourcesByNamespace = new TreeMap<>();
-        Map<String, Set<String>> directOperationsByNamespace = new TreeMap<>();
         if (openAPI != null && openAPI.getPaths() != null) {
             for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
                 PathItem pathItem = pathEntry.getValue();
@@ -571,9 +578,6 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
                     });
                     if (route.resource == null) {
                         namespace.put("hasDirectOperations", true);
-                        directOperationsByNamespace
-                                .computeIfAbsent(route.namespace, k -> new TreeSet<>())
-                                .add(toOperationId(route.action));
                     } else {
                         resourcesByNamespace.computeIfAbsent(route.namespace, k -> new TreeSet<>()).add(route.resource);
                     }
@@ -585,14 +589,16 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         for (Map.Entry<String, Map<String, Object>> entry : namespaces.entrySet()) {
             Map<String, Object> namespace = entry.getValue();
             List<Map<String, Object>> resources = new ArrayList<>();
-            Set<String> reservedNames = directOperationsByNamespace
-                    .getOrDefault(entry.getKey(), Collections.emptySet());
             for (String resource : resourcesByNamespace.getOrDefault(entry.getKey(), Collections.emptySet())) {
                 Map<String, Object> resourceData = new HashMap<>();
                 resourceData.put("routeName", resource);
                 String resourceAccessor = underscore(sanitizeName(resource.replace('-', '_')));
                 resourceData.put("name", resourceAccessor);
-                resourceData.put("accessor", safeResourceAccessorName(resourceAccessor, reservedNames));
+                // Direct-operation names are not final until addOperationToGroup has applied
+                // operation-id mappings and collision suffixes. They are reconciled from the
+                // final CodegenOperation list in postProcessOperationsWithModels instead of
+                // being guessed from raw OpenAPI operation IDs here.
+                resourceData.put("accessor", safeResourceAccessorName(resourceAccessor, Collections.emptySet()));
                 resourceData.put("className", toApiName(entry.getKey() + "/" + resource));
                 resources.add(resourceData);
             }
@@ -614,30 +620,6 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         return null;
     }
 
-    private String apiTagForFilename(String templateName, String tag) {
-        if (!"api.mustache".equals(templateName)) {
-            return tag;
-        }
-        int slash = tag.indexOf('/');
-        // A namespace with only nested resource groups has no direct API file. Use the
-        // namespace filename for its resource group so api_operations.mustache can define the
-        // namespace class before the nested resource class and Zeitwerk can load it as a class.
-        if (slash > 0 && namespaceOnlyApiTags.contains(tag)) {
-            return tag.substring(0, slash);
-        }
-        return tag;
-    }
-
-    @Override
-    public String apiFilename(String templateName, String tag) {
-        return super.apiFilename(templateName, apiTagForFilename(templateName, tag));
-    }
-
-    @Override
-    public String apiFilename(String templateName, String tag, String outputDir) {
-        return super.apiFilename(templateName, apiTagForFilename(templateName, tag), outputDir);
-    }
-
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation,
                                     CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
@@ -648,6 +630,15 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         co.vendorExtensions.put("x-rb-namespace", r.namespace);
         if (r.resource != null) co.vendorExtensions.put("x-rb-resource", r.resource);
         co.baseName = groupKey;
+        Map<String, Object> namespace = findRubyNamespace(r.namespace);
+        if (r.resource != null && namespace != null
+                && !Boolean.TRUE.equals(namespace.get("hasDirectOperations"))) {
+            List<CodegenOperation> namespaceOperations = operations.computeIfAbsent(
+                    r.namespace, k -> new ArrayList<>());
+            if (namespaceOperations.isEmpty()) {
+                namespaceOperations.add(namespaceOnlyOperation(r.namespace));
+            }
+        }
         List<CodegenOperation> opList = operations.computeIfAbsent(groupKey, k -> new ArrayList<>());
         // An operation carrying multiple tags is delivered once per tag; because we group by
         // PATH (not by tag), those extra deliveries would emit duplicate methods (a single
@@ -675,6 +666,18 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
             co.operationId = unique;
         }
         opList.add(co);
+    }
+
+    private static CodegenOperation namespaceOnlyOperation(String namespace) {
+        CodegenOperation operation = new CodegenOperation();
+        operation.operationId = "__namespace__";
+        operation.operationIdOriginal = operation.operationId;
+        operation.path = "";
+        operation.httpMethod = "";
+        operation.baseName = namespace;
+        operation.vendorExtensions.put("x-rb-namespace", namespace);
+        operation.vendorExtensions.put("x-rb-namespace-only", true);
+        return operation;
     }
 
     /**
@@ -712,6 +715,18 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
     // configuration/connection accessors keep working.
     private static String safeAccessorName(String name) {
         return RESERVED_ACCESSOR_NAMES.contains(name) ? name + "_api" : name;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void updateResourceAccessors(Map<String, Object> namespace, Set<String> reservedNames) {
+        List<Map<String, Object>> resources = (List<Map<String, Object>>) namespace.get("resources");
+        if (resources == null) {
+            return;
+        }
+        for (Map<String, Object> resource : resources) {
+            String name = (String) resource.get("name");
+            resource.put("accessor", safeResourceAccessorName(name, reservedNames));
+        }
     }
 
     // Resource methods live on the namespace class beside its constructor and any direct
@@ -756,7 +771,8 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
                         });
                         if (res != null) {
                             resourcesByNs.computeIfAbsent(ns, k -> new TreeSet<>()).add(res);
-                        } else if (co.operationId != null) {
+                        } else if (co.operationId != null
+                                && !Boolean.TRUE.equals(co.vendorExtensions.get("x-rb-namespace-only"))) {
                             directOperationsByNs.computeIfAbsent(ns, k -> new TreeSet<>()).add(co.operationId);
                         }
                     }
@@ -865,28 +881,29 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         if (ops != null && !ops.getOperation().isEmpty()) {
             CodegenOperation firstOperation = ops.getOperation().get(0);
             String namespaceName = (String) firstOperation.vendorExtensions.get("x-rb-namespace");
-            String resourceName = (String) firstOperation.vendorExtensions.get("x-rb-resource");
             Map<String, Object> namespace = findRubyNamespace(namespaceName);
             if (namespace != null) {
+                boolean namespaceOnly = Boolean.TRUE.equals(
+                        firstOperation.vendorExtensions.get("x-rb-namespace-only"));
+                if (namespaceOnly) {
+                    updateResourceAccessors(namespace, Collections.emptySet());
+                    ops.put("rbNamespaceOnly", true);
+                    ops.put("rbNamespaceClassName", namespace.get("className"));
+                    ops.put("rbNamespaceResources", namespace.get("resources"));
+                    ops.put("rbNamespaceAccessor", namespace.get("accessor"));
+                }
                 boolean isNamespaceClass = ops.getClassname().equals(namespace.get("className"));
-                if (isNamespaceClass) {
+                if (!namespaceOnly && isNamespaceClass) {
+                    Set<String> directOperationNames = new HashSet<>();
+                    for (CodegenOperation operation : ops.getOperation()) {
+                        if (!Boolean.TRUE.equals(operation.vendorExtensions.get("x-rb-namespace-only"))) {
+                            directOperationNames.add(operation.operationId);
+                        }
+                    }
+                    updateResourceAccessors(namespace, directOperationNames);
                     ops.put("rbNamespaceHasDirectOperations", true);
                     ops.put("rbNamespaceResources", namespace.get("resources"));
                     ops.put("rbNamespaceAccessor", namespace.get("accessor"));
-                } else if (!Boolean.TRUE.equals(namespace.get("hasDirectOperations")) && resourceName != null) {
-                    String resourceTag = namespaceName + "/" + resourceName;
-                    String namespacePrefix = namespaceName + "/";
-                    boolean namespaceFileClaimed = namespaceOnlyApiTags.stream()
-                            .anyMatch(tag -> tag.startsWith(namespacePrefix));
-                    if (!namespaceFileClaimed) {
-                        namespaceOnlyApiTags.add(resourceTag);
-                    }
-                    if (namespaceOnlyApiTags.contains(resourceTag)) {
-                        ops.put("rbNamespaceOnly", true);
-                        ops.put("rbNamespaceClassName", namespace.get("className"));
-                        ops.put("rbNamespaceResources", namespace.get("resources"));
-                        ops.put("rbNamespaceAccessor", namespace.get("accessor"));
-                    }
                 }
             }
         }
