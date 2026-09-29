@@ -1,0 +1,32 @@
+openapi: 3.1.0
+info: { title: repro, version: 1.0.0 }
+paths: {}
+components:
+  schemas:
+    MessageType:
+      type: string
+      enum: [track, page]
+    AnyMessage:
+      type: object
+      required: [type]
+      properties:
+        type: { $ref: '#/components/schemas/MessageType' }
+        messageId: { type: string }
+      discriminator:
+        propertyName: type
+        mapping:
+          track: '#/components/schemas/TrackMessage'
+          page: '#/components/schemas/PageMessage'
+    TrackMessage:
+      allOf:
+        - $ref: '#/components/schemas/AnyMessage'
+        - type: object
+          required: [event]
+          properties:
+            event: { type: string }
+    PageMessage:
+      allOf:
+        - $ref: '#/components/schemas/AnyMessage'
+        - type: object
+          properties:
+            name: { type: string }

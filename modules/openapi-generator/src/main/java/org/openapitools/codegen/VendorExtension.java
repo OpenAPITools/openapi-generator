@@ -25,7 +25,6 @@ public enum VendorExtension {
     X_ACCEPTS("x-accepts", ExtensionLevel.OPERATION, "Specify custom value for 'Accept' header for operation", null),
     X_CONTENT_TYPE("x-content-type", ExtensionLevel.OPERATION, "Specify custom value for 'Content-Type' header for operation", null),
     X_CLASS_EXTRA_ANNOTATION("x-class-extra-annotation", ExtensionLevel.MODEL, "Custom annotation(s) to be added to model; accepts a string or list of strings", null),
-    X_ITEMS_EXTRA_ANNOTATION("x-items-extra-annotation", ExtensionLevel.MODEL, "Custom annotation(s) to be added to array items; accepts a string or list of strings", null),
     X_FIELD_EXTRA_ANNOTATION("x-field-extra-annotation", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Custom annotation(s) to be added to property; accepts a string or list of strings", null),
     X_OPERATION_EXTRA_ANNOTATION("x-operation-extra-annotation", ExtensionLevel.OPERATION, "Custom annotation(s) to be added to operation; accepts a string or list of strings", null),
     X_EXTRA_IMPORTS("x-extra-imports", Arrays.asList(ExtensionLevel.MODEL, ExtensionLevel.FIELD, ExtensionLevel.OPERATION, ExtensionLevel.OPERATION_PARAMETER), "Custom import(s) to add to the generated file that declares the annotated model, property, operation, or parameter (e.g. so custom annotations can be referenced by their short name); accepts a string or list of strings. Values are emitted verbatim (Kotlin alias imports supported) and only exact duplicates are removed", null),

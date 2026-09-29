@@ -1,0 +1,147 @@
+git update-index --chmod=+x samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify-openapiNullable/gradlew
+
+Fix some missing @Nullable annotations for java clients:
+add in builders
+add in toIndentedString()
+Add a sample for openapiNullable
+
+
+JAVA_HOME=/mnt/c/dev/src/tools/jdk17
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin
+export JAVA_HOME
+export PATH
+
+io.swagger.v3.core.util.Yaml.mapper().writeValueAsString(openAPI)
+
+org.openapitools.codegen.serializer.SerializerUtils.toYamlString(openAPI)
+
+alias java='java.exe'
+
+./bin/generate-samples.sh bin/configs/java*.
+
+
+
+package org.openapitools;
+
+import org.junit.jupiter.api.Test;
+import org.openapitools.model.Account;
+import org.springframework.boot.test.context.SpringBootTest;
+import tools.jackson.databind.json.JsonMapper;
+
+@SpringBootTest
+class OpenApiGeneratorApplicationTests {
+
+    @Test
+    void test() {
+        String json = """
+                {
+                "owner": "john does",
+                "iban": "456789",
+                "bank": {
+                "countryAlpha2": "BE"
+                }
+                }
+
+                """;
+
+        JsonMapper mapper = new JsonMapper();
+        Account account = mapper.readValue(json, Account.class);
+        System.out.println(account);
+        mapper.writeValue(System.out, account);
+    }
+}
+
+git update-index --chmod=+x gradlew
+
+
+
+    public static Schema shallowCopy(Schema schema, Schema dest) {
+        // cloneSchema does not work because it does conversions for some attributes (enums, default...)
+        // the intermediate JSON can convert between integer and BigInteger for example.
+        // so copy all the fields individually
+        dest.setDefault(schema.getDefault());
+        dest.setName(schema.getName());
+        dest.setTitle(schema.getTitle());
+        dest.setMultipleOf(schema.getMultipleOf());
+        dest.setMaximum(schema.getMaximum());
+        dest.setExclusiveMaximum(schema.getExclusiveMaximum());
+        dest.setMinimum(schema.getMinimum());
+        dest.setExclusiveMinimum(schema.getExclusiveMinimum());
+        dest.setMaxLength(schema.getMaxLength());
+        dest.setPattern(schema.getPattern());
+        dest.setMaxItems(schema.getMaxItems());
+        dest.setMinItems(schema.getMinItems());
+        dest.setUnevaluatedItems(schema.getUnevaluatedItems());
+        dest.setMaxProperties(schema.getMaxProperties());
+        dest.setMinProperties(schema.getMinProperties());
+        dest.setRequired(schema.getRequired());
+        dest.setType(schema.getType());
+        dest.setNot(schema.getNot());
+        dest.setProperties(schema.getProperties());
+        dest.setDescription(schema.getDescription());
+        dest.setFormat(schema.getFormat());
+        dest.set$ref(schema.get$ref());
+        dest.setNullable(schema.getNullable());
+        dest.setReadOnly(schema.getReadOnly());
+        dest.setWriteOnly(schema.getWriteOnly());
+        dest.setExample(schema.getExample());
+        dest.setExternalDocs(schema.getExternalDocs());
+        dest.setDeprecated(schema.getDeprecated());
+        dest.setXml(schema.getXml());
+        dest.setExtensions(schema.getExtensions());
+        dest.setEnum(schema.getEnum());
+        dest.setDiscriminator(schema.getDiscriminator());
+        dest.setExampleSetFlag(schema.getExampleSetFlag());
+        dest.setPrefixItems(schema.getPrefixItems());
+        dest.setAllOf(schema.getAllOf());
+        dest.setAnyOf(schema.getAnyOf());
+        dest.setOneOf(schema.getOneOf());
+        dest.setItems(schema.getItems());
+        dest.setConst(schema.getConst());
+        dest.setSpecVersion(schema.getSpecVersion());
+        dest.setPatternProperties(schema.getPatternProperties());
+        dest.setExclusiveMaximumValue(schema.getExclusiveMaximumValue());
+        dest.setExclusiveMinimumValue(schema.getExclusiveMinimumValue());
+        dest.setContains(schema.getContains());
+        dest.set$id(schema.get$id());
+        dest.set$schema(schema.get$schema());
+        dest.set$anchor(schema.get$anchor());
+        dest.set$vocabulary(schema.get$vocabulary());
+        dest.set$dynamicAnchor(schema.get$dynamicAnchor());
+        dest.set$dynamicRef(schema.get$dynamicRef());
+        dest.setContentEncoding(schema.getContentEncoding());
+        dest.setContentMediaType(schema.getContentMediaType());
+        dest.setPropertyNames(schema.getPropertyNames());
+        dest.setUnevaluatedProperties(schema.getUnevaluatedProperties());
+        dest.setMaxContains(schema.getMaxContains());
+        dest.setMinContains(schema.getMinContains());
+        dest.setAdditionalItems(schema.getAdditionalItems());
+        dest.setUnevaluatedItems(schema.getUnevaluatedItems());
+        dest.setIf(schema.getIf());
+        dest.setElse(schema.getElse());
+        dest.setThen(schema.getThen());
+        dest.setDependentSchemas(schema.getDependentSchemas());
+        dest.setDependentRequired(schema.getDependentRequired());
+        dest.set$comment(schema.get$comment());
+        dest.setExamples(schema.getExamples());
+        dest.setBooleanSchemaValue(schema.getBooleanSchemaValue());
+        dest.setJsonSchema(schema.getJsonSchema());
+        dest.setJsonSchemaImpl(schema.getJsonSchemaImpl());
+        return dest;
+    }
+
+    public static Schema cloneSchema(Schema schema, boolean openapi31) {
+        if (openapi31) {
+            return AnnotationsUtils.clone(schema, openapi31);
+        } else {
+            // AnnotationsUtils.clone doesn't support custom schema types for OpenAPI < 3.1
+            String schemaType = schema.getType();
+            if (schemaType != null && !OPENAPI_TYPES.contains(schemaType)) {
+                schema.setType(null);
+            }
+            Schema result = AnnotationsUtils.clone(schema, openapi31);
+            schema.setType(schemaType);
+            result.setType(schemaType);
+            return result;
+        }
+    }

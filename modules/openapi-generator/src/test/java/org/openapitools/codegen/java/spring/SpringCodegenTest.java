@@ -10157,7 +10157,9 @@ public class SpringCodegenTest {
                 Map.of("useBeanValidation", "true", "useSpringBoot3", "true"));
 
         JavaFileAssert.assertThat(files.get("SampleModel.java"))
-                .fileContains("private List<@NotNull @Size(max=50) String> listString");
+                .fileContains(
+                        "private List<@NotNull @Size(max=50) String> listString",
+                        "private List<@Min(0)Integer> listInteger");
     }
 
     @Test
@@ -10167,9 +10169,10 @@ public class SpringCodegenTest {
                         ADDITIONAL_ITEMS_ANNOTATIONS, "@NotNull"
                         ));
 
-        JavaFileAssert.assertThat(files.get("SampleModel.java"))
-                .fileContains("private List<@NotNull @Size(max=50) String> listString")
-                .fileContains("private List<@Size(max=50) String> listStringNullable")
-                .fileContains("private List<@NotNull @Valid Stubb> listSample");
+        JavaFileAssert.assertThat(files.get("SampleModel.java")).fileContains(
+                "private List<@NotNull @Size(max=50) String> listString",
+                "private List<@Size(max=50) String> listStringNullable",
+                "private List<@NotNull @Valid Stubb> listSample",
+                "private List<@NotNull @Min(0)Integer> listInteger");
     }
 }

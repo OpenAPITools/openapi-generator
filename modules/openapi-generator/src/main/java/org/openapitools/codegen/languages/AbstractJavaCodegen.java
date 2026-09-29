@@ -1216,7 +1216,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @return a String with the concatened annotations, or empty if none
      */
     protected String getExtraListAnnotation(Schema<?> items) {
-        List<String> customAnnotations = getObjectAsStringList(VendorExtension.X_ITEMS_EXTRA_ANNOTATION.getValue(items.getExtensions()));
+        List<String> customAnnotations = getObjectAsStringList(VendorExtension.X_FIELD_EXTRA_ANNOTATION.getValue(items.getExtensions()));
         if (!additionalItemsAnnotations.isEmpty() || !customAnnotations.isEmpty()) {
             Set<String> annotations = new LinkedHashSet<>(additionalItemsAnnotations);
             annotations.addAll(customAnnotations);
@@ -2945,7 +2945,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         extensions.add(VendorExtension.X_CONTENT_TYPE);
         extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
-        extensions.add(VendorExtension.X_ITEMS_EXTRA_ANNOTATION);
         return extensions;
     }
 

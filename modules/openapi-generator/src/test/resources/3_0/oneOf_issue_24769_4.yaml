@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  title: discriminator_inheritance
+  version: 1.0.0
+servers:
+  - url: /
+components:
+  schemas:
+    PetResponseEnumDisc:
+      oneOf:
+        - $ref: '#/components/schemas/DogEnumDisc'
+        - $ref: '#/components/schemas/CatEnumDisc'
+    PetEnumDisc:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+          enum:
+            - dog
+            - cat
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: DogEnumDisc
+          cat: CatEnumDisc
+    DogEnumDisc:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetEnumDisc'
+    CatEnumDisc:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetEnumDisc'

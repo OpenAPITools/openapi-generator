@@ -1,0 +1,21 @@
+openapi: "3.0.2"
+info:
+  title: foo
+  version: 1.0.0
+paths:
+  /bankAccounts:
+    get:
+      operationId: "bankAccountsGet"
+      parameters:
+        - name: foo
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        default:
+          description: foo
+          content:
+            application/json:
+              schema:
+                type: boolean

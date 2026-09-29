@@ -1,0 +1,33 @@
+openapi: 3.1.0
+info:
+  title: discriminator_uri
+  version: 1.0.0
+servers:
+- url: /
+components:
+  schemas:
+    PetResponseEnumDisc:
+      oneOf:
+      - $ref: "#/components/schemas/DogEnumDisc"
+      - $ref: "#/components/schemas/CatEnumDisc"
+      x-one-of-name: PetResponseEnumDisc
+    PetEnumDisc:
+      discriminator:
+        mapping:
+          dog: DogEnumDisc
+          cat: CatEnumDisc
+        propertyName: petType
+      properties:
+        petType:
+          enum:
+          - dog
+          - cat
+          type: string
+      required:
+      - petType
+    DogEnumDisc:
+      allOf:
+      - $ref: "#/components/schemas/PetEnumDisc"
+    CatEnumDisc:
+      allOf:
+      - $ref: "#/components/schemas/PetEnumDisc"

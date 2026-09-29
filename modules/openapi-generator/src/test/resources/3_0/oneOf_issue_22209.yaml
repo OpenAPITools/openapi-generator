@@ -1,0 +1,1368 @@
+---
+openapi: 3.0.1
+info:
+  title: Swagger UI pour services REST - ACP-SIMULATIONS-MAS
+  description: Swagger UI - DGFIP - ACP-SIMULATIONS-MAS
+  version: 1.0.0
+servers:
+  - url: "/acp-simulations-mas/api"
+    description: API JAX-RS
+tags:
+  - name: CalculerSimulations
+    description: Calcul des simulations
+  - name: SimulationsMed
+    description: Centralise la gestion des simulations MED
+  - name: SimulationsPca
+    description: Centralise la gestion des simulations PCA
+  - name: ResultatSimulation
+    description: Centralise la gestion des résultats de simulation
+  - name: SATDResultatCreation
+    description: Centralise la gestion des resultat de creation satd
+  - name: SimulationsSATD
+    description: Centralise la gestion des simulations SATD
+  - name: Tiers
+    description: Centralise la gestion des tiers
+paths:
+  "/calculer-simulations-satd":
+    post:
+      tags:
+        - CalculerSimulations
+      summary: Calcul des simulations SATD
+      description: Calcul des simulations SATD
+      operationId: calculerSimulationSATD
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CalculerSimulationsParIdParamSimulationsRequete"
+      responses:
+        '200':
+          description: Liste des résultats de simulation créés
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CalculerSimulationsParIdParamSimulationsReponse"
+        '500':
+          description: Erreur interne lors de la récuperation des informations sur
+            le resultat de création d'une satd éligible
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+  "/calculer-simulations-med":
+    post:
+      tags:
+        - CalculerSimulations
+      summary: Simuler des MED
+      description: Simuler des MED
+      operationId: calculerSimulationsMed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CalculerSimulationsMedRequete"
+      responses:
+        '200':
+          description: Liste des résultats de simulations effectuées
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CalculerSimulationsMedReponse"
+        '500':
+          description: Erreur interne lors de la simulation des MED
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+  "/calculer-simulations-pca":
+    post:
+      tags:
+        - CalculerSimulations
+      summary: Simuler des PCA
+      description: Simuler des PCA
+      operationId: calculerSimulationsPca
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CalculerSimulationsPcaRequete"
+      responses:
+        '200':
+          description: Liste des résultats de simulations effectuées
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CalculerSimulationsPcaReponse"
+        '500':
+          description: Erreur interne lors de la simulation des PCA
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+  "/simulations-med/rechercher-par-codique":
+    get:
+      tags:
+        - SimulationsMed
+      summary: Rechercher des simulations MED par codique
+      description: Rechercher des simulations MED par codique
+      operationId: rechercherResultatSimulationsMedParCodique
+      parameters:
+        - name: codique
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liste des résultats simulations MED récuperées
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/RechercherResultatSimulationMedParCodiqueReponse"
+        '500':
+          description: Erreur interne lors de la récuperation de la liste des résultats
+            de simulations MED par codique
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+  "/simulations-med/rechercher-par-statut":
+    get:
+      tags:
+        - SimulationsMed
+      summary: Rechercher des simulations MED par statut de poursuite
+      description: Rechercher des simulations MED par statut de poursuite
+      operationId: rechercherResultatSimulationsMedParStatut
+      parameters:
+        - name: statutPoursuite
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - A_DEMANDER
+              - DEMANDEE
+              - A_CREER
+              - CREEE
+              - ERREUR
+      responses:
+        '200':
+          description: Liste des résultats simulations MED récuperées
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/RechercherResultatSimulationMedReponse"
+        '500':
+          description: Erreur interne lors de la récuperation de la liste des résultats
+            de simulations
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+      deprecated: true
+  "/simulations-pca/rechercher-par-codique":
+    get:
+      tags:
+        - SimulationsPca
+      summary: Rechercher des simulations PCA par codique
+      description: Rechercher des simulations PCA par codique
+      operationId: rechercherResultatSimulationsPcaParCodique
+      parameters:
+        - name: codique
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liste des résultats simulations PCA récuperées
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/RechercherResultatSimulationPcaParCodiqueReponse"
+        '500':
+          description: Erreur interne lors de la récuperation de la liste des résultats
+            de simulations PCA par codique
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+  "/resultats-simulation/modifier-statut-poursuite":
+    post:
+      tags:
+        - ResultatSimulation
+      summary: Mise à jour du statut de poursuite de la simulation
+      description: Mise à jour du statut de poursuite de la simulation
+      operationId: mettreAJourStatutPoursuiteSimulation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ModifierStatutPoursuiteSimulationRequete"
+      responses:
+        '200':
+          description: Réponse de l'OS
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ModificationResultatSimulationReponse"
+        '500':
+          description: Erreur interne lors de la mise à jour des simulations
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+  "/resultats-simulation/rechercher-simulation-par-statut-poursuite":
+    post:
+      tags:
+        - ResultatSimulation
+      summary: Recherche des simulations par statut
+      description: Recherche des simulations par statut
+      operationId: recupererSimulationsParStatutPoursuite
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RechercherSimulationParStatutPoursuiteRequete"
+      responses:
+        '200':
+          description: Réponse de l'OS
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/RechercherSimulationParStatutReponse"
+        '500':
+          description: Erreur interne lors de la recherche des simulations par statut
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+  "/resultat-creation-satd/information-satd-eligible":
+    post:
+      tags:
+        - SATDResultatCreation
+      summary: Récuperation des informations sur le resultat de création d'une satd
+        éligible
+      description: Recuperer les informations sur le resultat de création d'une satd
+        éligible
+      operationId: recupererInfoResultatCreationSimulationEligible
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+      responses:
+        '200':
+          description: Liste des informations sur le resultat de création d'une satd
+            éligible
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/SATDResultatCreationDto"
+        '500':
+          description: Erreur interne lors de la récuperation des informations sur
+            le resultat de création d'une satd éligible
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+  "/simulations-satd/visualiser-liste/{codeCodique}":
+    get:
+      tags:
+        - SimulationsSATD
+      summary: Récuperation des simulation SATD
+      description: Visualisation par l'utilisateur connecté de la liste de simulations
+        SATD
+      operationId: listerSimulationSATD
+      parameters:
+        - name: codeCodique
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liste des simulations récuperées
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ListerSimulationsSATDReponse"
+        '500':
+          description: Erreur interne lors de la récuperation de la liste de simulations
+            SATD
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+  "/simulations-satd/mettre-a-jour-poursuite-simulation":
+    post:
+      tags:
+        - SimulationsSATD
+      summary: Mise à jour du statut de poursuite de la simulation
+      description: Mise à jour du statut de poursuite de la simulation
+      operationId: mettreAJourStatutPoursuiteSimulationControleur
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/MettreAJourStatutPoursuiteSimulationRequete"
+      responses:
+        '200':
+          description: Liste des simulations récuperées
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ModificationResultatSimulationReponse"
+        '500':
+          description: Erreur interne lors de la récuperation de la liste de simulations
+            SATD
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+      deprecated: true
+  "/simulations-satd/rechercher-par-statut":
+    get:
+      tags:
+        - SimulationsSATD
+      summary: Recherche des simulations SATD par statut
+      description: Recherche des simulations SATD par statut
+      operationId: rechercherSimulationsSATDParStatut
+      parameters:
+        - name: statutPoursuite
+          in: query
+          schema:
+            type: string
+            enum:
+              - A_DEMANDER
+              - DEMANDEE
+              - A_CREER
+              - CREEE
+              - ERREUR
+      responses:
+        '200':
+          description: Liste des simulations récuperées
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/RechercherSimulationsSATDParStatutReponse"
+        '500':
+          description: Erreur interne lors de la récuperation de la liste de simulations
+            SATD
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+      deprecated: true
+  "/tiers/rechercher-par-redevables-et-codique":
+    post:
+      tags:
+        - Tiers
+      summary: Recherche les tiers par redevables et codiques
+      description: Recherche les tiers par redevables et codiques
+      operationId: rechercherTiersParRedevableEtCodique
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RechercherTiersParRedevablesEtCodiqueRequete"
+      responses:
+        '200':
+          description: Tiers des redevables
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/RechercherTiersParRedevablesEtCodiqueReponse"
+        '500':
+          description: Erreur interne lors de la récuperation des tiers
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/erreurs"
+components:
+  schemas:
+    AlerteFonctionnelleDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type d'alerte
+          enum:
+            - ERREUR
+            - INFORMATION
+            - ERREUR
+            - INFORMATION
+        code:
+          type: string
+          description: Identifiant de l'alerte, dont la normalisation à préciser par
+            le fournisseur du service
+          example: ACQ_TITRE_STATUT_INCOHERENT
+        description:
+          type: string
+          description: Une description est normalement une 'simple' traduction litérale
+            du code de l'erreur.Elle est donc réputée invariante pour un code donné
+            - toutefois il revient au fournisseur de service d'expliciter ce point.
+          example: Erreur de contrôle sur plage de dates
+        parametreContexte:
+          type: object
+          additionalProperties:
+            type: string
+            description: Structure de type clé/valeur permettant d'ajouter du contexte
+              à l'alerte fonctionnelle.Cette map est valorisée en fonction du besoin
+              et du contexte.Il revient au fournisseur de service de documenter le
+              contenu de cette donnée pour chaque code d'alerte possible.
+            nullable: true
+            example: "[{seuil:'2'}]"
+          description: Structure de type clé/valeur permettant d'ajouter du contexte
+            à l'alerte fonctionnelle.Cette map est valorisée en fonction du besoin
+            et du contexte.Il revient au fournisseur de service de documenter le contenu
+            de cette donnée pour chaque code d'alerte possible.
+          nullable: true
+          example: "[{seuil:'2'}]"
+        libelle:
+          type: string
+          description: Libelle de l'erreur affichable pour le client
+      description: Une alerte fonctionnelle représente une information relative à
+        un évènement non technique, et méritant une attention particulière de la part
+        de l'appelant - sans pour autant que cette information soit à considérer comme
+        une exception.Une alerte peut représente, notamment, une simple information
+        sur le traitement concerné ou bien une erreur fonctionnelle.
+    CalculerSimulationsParIdParamSimulationsReponse:
+      type: object
+      properties:
+        alertes:
+          type: array
+          description: Les alertes associées à chaque 'article réponse' transmis en
+            retour d'un service (objet métier) - éventuellement vide, jamais nulle.
+          items:
+            "$ref": "#/components/schemas/AlerteFonctionnelleDto"
+        listeResultatSimulation:
+          type: array
+          description: Liste de resulats de simulation
+          items:
+            "$ref": "#/components/schemas/SATDResultatSimulationCalculDto"
+      description: Sortie de l'OS CalculerSimulationsParIdParamSimulations
+    SATDResultatSimulationCalculDto:
+      type: object
+      properties:
+        idResultSimulSATD:
+          type: string
+          description: Identifiant technique du resultat de simulation
+          format: uuid
+        idParamSimulSATD:
+          type: string
+          description: Identifiant technique du paramètre de simulation
+          format: uuid
+        horodatageSimulation:
+          type: string
+          description: Horodatage de la simulation
+          format: date-time
+        statutPoursuite:
+          type: string
+          description: Statut de la poursuite
+        horadatageLancementPoursuite:
+          type: string
+          description: Horodatage du lancement de poursuite
+          format: date-time
+        nbSATDBancaire:
+          type: integer
+          description: Nombre de SATD bancaire
+          format: int32
+        nbSATDEmployeur:
+          type: integer
+          description: Nombre de SATD employeur
+          format: int32
+        nbSATDAutre:
+          type: integer
+          description: Nombre de SATD autre
+          format: int32
+        resultatSimulation:
+          type: integer
+          description: Nombre de SATD total
+          format: int32
+      description: Représente un resultat de simulation SATD pour l'application NARA
+    erreur:
+      required:
+        - code
+        - horodatage
+        - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: Description courte ou code métier de l’erreur
+        message:
+          type: string
+          description: Message ou description longue, lisible par un humain
+        error_uri:
+          type: string
+          description: URI vers une description détaillée de l'erreur, par exemple
+            sur le portail développeur
+          format: uri
+        horodatage:
+          type: string
+          description: Message ou description longue, lisible par un humain
+          format: date-time
+    erreurs:
+      type: object
+      properties:
+        erreurs:
+          type: array
+          properties:
+            empty:
+              type: boolean
+            first:
+              "$ref": "#/components/schemas/erreur"
+            last:
+              "$ref": "#/components/schemas/erreur"
+          items:
+            "$ref": "#/components/schemas/erreur"
+    CalculerSimulationsParIdParamSimulationsRequete:
+      type: object
+      properties:
+        codique:
+          type: string
+          description: Codique
+        idParamsSimulSATD:
+          type: array
+          description: Liste des identifiants de paramètres de simulations
+          items:
+            type: string
+            description: Liste des identifiants de paramètres de simulations
+            format: uuid
+      description: Entrée de l'OS CalculerSimulationsParIdParamSimulations
+    CalculerSimulationsMedReponse:
+      type: object
+      properties:
+        alertes:
+          type: array
+          description: Les alertes associées à chaque 'article réponse' transmis en
+            retour d'un service (objet métier) - éventuellement vide, jamais nulle.
+          items:
+            "$ref": "#/components/schemas/AlerteFonctionnelleDto"
+        listeResultatSimulation:
+          type: array
+          description: Résultats des simulations Med
+          items:
+            "$ref": "#/components/schemas/ResultatSimulationMedDto"
+      description: Sortie de l'OS CalculerSimulationsMED
+    ResultatSimulationMedDto:
+      type: object
+      properties:
+        idResultSimulMed:
+          type: string
+          description: Identifiant technique du résultat de simulation
+          format: uuid
+        idParamSimulMed:
+          type: string
+          description: Identifiant technique du paramètre de simulation
+          format: uuid
+        horodatageSimulation:
+          type: string
+          description: Date de la simulation
+          format: date-time
+        statutPoursuite:
+          type: string
+          description: Statut de la poursuite
+        nbMedInitiale:
+          type: integer
+          description: Nombre de MED initiales
+          format: int32
+        nbRenouvellementMed:
+          type: integer
+          description: Nombre de renouvellements de MED
+          format: int32
+      description: Représente un résultat de simulation de MED
+    CalculerSimulationsMedRequete:
+      required:
+        - codique
+        - idParamsSimulMed
+      type: object
+      properties:
+        codique:
+          type: string
+          description: Codique
+        idParamsSimulMed:
+          type: array
+          description: Identifiants des paramètres de simulations de MED
+          items:
+            type: string
+            description: Identifiants des paramètres de simulations de MED
+            format: uuid
+      description: Entrée de l'OS CalculerSimulationsMED
+    CalculerSimulationsPcaReponse:
+      type: object
+      properties:
+        alertes:
+          type: array
+          description: Les alertes associées à chaque 'article réponse' transmis en
+            retour d'un service (objet métier) - éventuellement vide, jamais nulle.
+          items:
+            "$ref": "#/components/schemas/AlerteFonctionnelleDto"
+        listePcaResultatSimulation:
+          type: array
+          description: Résultats des simulations Pca
+          items:
+            "$ref": "#/components/schemas/ResultatSimulationPcaDto"
+      description: Sortie de l'OS CalculerSimulationsPCA
+    ResultatSimulationPcaDto:
+      type: object
+      properties:
+        idResultSimulPca:
+          type: string
+          description: Identifiant technique du résultat de simulation
+          format: uuid
+        idParamSimulPca:
+          type: string
+          description: Identifiant technique du paramètre de simulation
+          format: uuid
+        horodatageSimulation:
+          type: string
+          description: Date de la simulation
+          format: date-time
+        statutPoursuite:
+          type: string
+          description: Statut de la poursuite
+        nbPca:
+          type: integer
+          description: Nombre de PCA
+          format: int32
+      description: Représente un résultat de simulation de PCA
+    CalculerSimulationsPcaRequete:
+      required:
+        - codique
+        - idParamsSimulPca
+      type: object
+      properties:
+        codique:
+          type: string
+          description: Codique
+        idParamsSimulPca:
+          type: array
+          description: Identifiants des paramètres de simulations de PCA
+          items:
+            type: string
+            description: Identifiants des paramètres de simulations de PCA
+            format: uuid
+      description: Entrée de l'OS CalculerSimulationsPCA
+    RechercherParametreSimulationMedDto:
+      type: object
+      properties:
+        idParamSimulMed:
+          type: string
+          description: Identifiant technique du paramètre de simulation
+          format: uuid
+        idTypeAmende:
+          type: string
+          description: Identifiant technique de la typologie d’amende
+          format: uuid
+        delaiPriseEnCharge:
+          type: integer
+          description: Délai de prise en charge de la simulation
+          format: int32
+        anneePriseEnCharge:
+          type: integer
+          description: Année de prise en charge des créances
+          format: int32
+        delaiRenouvellementMed:
+          type: integer
+          description: Délai renouvellement
+          format: int32
+        delaiPrescription:
+          type: integer
+          description: Délai avant prescription de la créance
+          format: int32
+        seuilMinMed:
+          type: integer
+          description: Seuil minimal du RAR poursuivable MED
+          format: int32
+        simulationParDefaut:
+          type: boolean
+          description: Boolean indiquant si la simulation correspond à la simulation
+            MED par défaut. Si oui, la simulation n'est pas modifiable
+      description: Représente un paramètre de simulation MED pour l'application NARA
+    RechercherResultatSimulationMedAvecNombresDto:
+      type: object
+      properties:
+        idResultatSimulationMed:
+          type: string
+          description: Identifiant technique du résultat de la simulation
+          format: uuid
+        codique:
+          type: string
+          description: codique
+        horodatageSimulation:
+          type: string
+          description: Horodatage à laquelle est réalisée la simulation
+          format: date-time
+        horodatageLancementPoursuite:
+          type: string
+          description: Horodatage à laquelle la poursuite a été lancée
+          format: date-time
+        statutPoursuite:
+          type: string
+          description: Statut de la poursuite
+          enum:
+            - A_DEMANDER
+            - DEMANDEE
+            - A_CREER
+            - CREEE
+            - ERREUR
+        parametreSimulation:
+          "$ref": "#/components/schemas/RechercherParametreSimulationMedDto"
+        nbMedInitiale:
+          type: integer
+          description: Nombre de  MED initiale simulées
+          format: int32
+        nbRenouvellementMed:
+          type: integer
+          description: Nombre de  MED renouvelé simulées
+          format: int32
+      description: Représente un résultat de simulation MED avec les nombres de MED
+        calculés
+    RechercherResultatSimulationMedParCodiqueReponse:
+      type: object
+      properties:
+        alertes:
+          type: array
+          description: Les alertes associées à chaque 'article réponse' transmis en
+            retour d'un service (objet métier) - éventuellement vide, jamais nulle.
+          items:
+            "$ref": "#/components/schemas/AlerteFonctionnelleDto"
+        listeSimulationsMed:
+          type: array
+          items:
+            "$ref": "#/components/schemas/RechercherResultatSimulationMedAvecNombresDto"
+    RechercherResultatSimulationMedDto:
+      type: object
+      properties:
+        idResultatSimulationMed:
+          type: string
+          description: Identifiant technique du résultat de la simulation
+          format: uuid
+        codique:
+          type: string
+          description: codique
+        horodatageSimulation:
+          type: string
+          description: Horodatage à laquelle est réalisée la simulation
+          format: date-time
+        horodatageLancementPoursuite:
+          type: string
+          description: Horodatage à laquelle la poursuite a été lancée
+          format: date-time
+        statutPoursuite:
+          type: string
+          description: Statut de la poursuite
+          enum:
+            - A_DEMANDER
+            - DEMANDEE
+            - A_CREER
+            - CREEE
+            - ERREUR
+        parametreSimulation:
+          "$ref": "#/components/schemas/RechercherParametreSimulationMedDto"
+      description: Représente un résultat de simulation MED
+    RechercherResultatSimulationMedReponse:
+      type: object
+      properties:
+        alertes:
+          type: array
+          description: Les alertes associées à chaque 'article réponse' transmis en
+            retour d'un service (objet métier) - éventuellement vide, jamais nulle.
+          items:
+            "$ref": "#/components/schemas/AlerteFonctionnelleDto"
+        listeSimulationsMed:
+          type: array
+          items:
+            "$ref": "#/components/schemas/RechercherResultatSimulationMedDto"
+    RechercherParametreSimulationPcaDto:
+      type: object
+      properties:
+        idParamSimulPca:
+          type: string
+          description: Identifiant technique du paramètre de simulation
+          format: uuid
+        idTypeAmende:
+          type: string
+          description: Identifiant technique de la typologie d’amende
+          format: uuid
+        delaiPriseEnCharge:
+          type: integer
+          description: Délai de prise en charge de la simulation
+          format: int32
+        anneePriseEnCharge:
+          type: integer
+          description: Année de prise en charge des créances
+          format: int32
+        seuilMinPca:
+          type: integer
+          description: Seuil minimal du RAR poursuivable PCA
+          format: int32
+        simulationParDefaut:
+          type: boolean
+          description: Boolean indiquant si la simulation correspond à la simulation
+            PCA par défaut. Si oui, la simulation n'est pas modifiable
+      description: Représente un paramètre de simulation PCA pour l'application NARA
+    RechercherResultatSimulationPcaDto:
+      type: object
+      properties:
+        idResultatSimulationPca:
+          type: string
+          description: Identifiant technique du résultat de la simulation
+          format: uuid
+        codique:
+          type: string
+          description: codique
+        horodatageSimulation:
+          type: string
+          description: Horodatage à laquelle est réalisée la simulation
+          format: date-time
+        horodatageLancementPoursuite:
+          type: string
+          description: Horodatage à laquelle la poursuite a été lancée
+          format: date-time
+        statutPoursuite:
+          type: string
+          description: Statut de la poursuite
+          enum:
+            - A_DEMANDER
+            - DEMANDEE
+            - A_CREER
+            - CREEE
+            - ERREUR
+        nbPca:
+          type: integer
+          description: Nombre de PCA simulés
+          format: int32
+        parametreSimulation:
+          "$ref": "#/components/schemas/RechercherParametreSimulationPcaDto"
+      description: Représente un résultat de simulation PCA
+    RechercherResultatSimulationPcaParCodiqueReponse:
+      type: object
+      properties:
+        alertes:
+          type: array
+          description: Les alertes associées à chaque 'article réponse' transmis en
+            retour d'un service (objet métier) - éventuellement vide, jamais nulle.
+          items:
+            "$ref": "#/components/schemas/AlerteFonctionnelleDto"
+        listeSimulationsPca:
+          type: array
+          items:
+            "$ref": "#/components/schemas/RechercherResultatSimulationPcaDto"
+    ModificationResultatSimulationReponse:
+      type: object
+      properties:
+        alertes:
+          type: array
+          description: Les alertes associées à chaque 'article réponse' transmis en
+            retour d'un service (objet métier) - éventuellement vide, jamais nulle.
+          items:
+            "$ref": "#/components/schemas/AlerteFonctionnelleDto"
+      description: Sortie de l'OS MettreAJourStatutPoursuiteSimulation
+    ModifierStatutPoursuiteSimulationRequete:
+      required:
+        - listeIdsResultatsSimulation
+        - statutPoursuite
+        - typeSimulation
+      type: object
+      properties:
+        typeSimulation:
+          type: string
+          description: Type de simulation à modifier
+          enum:
+            - SATD
+            - MED
+            - PCA
+        statutPoursuite:
+          type: string
+          description: Statut de poursuite
+          enum:
+            - A_DEMANDER
+            - DEMANDEE
+            - A_CREER
+            - CREEE
+            - ERREUR
+        listeIdsResultatsSimulation:
+          type: array
+          description: Identifiants des résultats de simulation à mettre à jour
+          items:
+            type: string
+            description: Identifiants des résultats de simulation à mettre à jour
+            format: uuid
+      description: Entrée de l'OS MettreAJourStatutPoursuiteSimulationAction
+    RechercherSimulationParStatutReponse:
+      type: object
+      properties:
+        alertes:
+          type: array
+          description: Les alertes associées à chaque 'article réponse' transmis en
+            retour d'un service (objet métier) - éventuellement vide, jamais nulle.
+          items:
+            "$ref": "#/components/schemas/AlerteFonctionnelleDto"
+        simulations:
+          type: array
+          items:
+            "$ref": "#/components/schemas/SimulationDto"
+    SATDParametreSimulationDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifiant technique du paramètre de simulation
+          format: uuid
+        typeAmendeId:
+          type: string
+          description: Code typologie d’amendes
+          format: uuid
+        delaiPriseEnCharge:
+          type: integer
+          description: Booleen indiquant si la simulation doit prendre en compte les
+            SATD employeur
+          format: int32
+        satdBancaire:
+          type: boolean
+          description: Booleen indiquant si la simulation doit prendre en compte les
+            SATD bancaire
+        satdEmployeur:
+          type: boolean
+          description: Booleen indiquant si la simulation doit prendre en compte les
+            SATD employeur
+        satdAutre:
+          type: boolean
+          description: Booleen indiquant si la simulation doit prendre en compte les
+            SATD autre
+        satdMultiTiersNonBancaire:
+          type: boolean
+          description: Booleen indiquant si la simulation doit prendre en compte les
+            SATD multi tiers non bancaire
+        anneePriseEnCharge:
+          type: integer
+          description: Année de prise en charge des créances
+          format: int32
+        seuilMinSATDBancaire:
+          type: integer
+          description: Seuil minimal du RAR poursuivable SATD Bancaire
+          format: int32
+        seuilMinSATDEmployeur:
+          type: integer
+          description: Seuil minimal du RAR poursuivable SATD Employeur
+          format: int32
+        seuilMinSATDAutre:
+          type: integer
+          description: Seuil minimal du RAR poursuivable SATD Autre
+          format: int32
+        simulationParDefaut:
+          type: boolean
+          description: True = simulation non modifiable, False = simulation modifiable
+      description: Représente un paramètre de simulation SATD pour l'application NARA
+    SATDResultatSimulationDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifiant technique du resultat de simulation
+          format: uuid
+        nbSATDBancaire:
+          type: integer
+          description: Nombre de SATD bancaire
+          format: int32
+        nbSATDEmployeur:
+          type: integer
+          description: Nombre de SATD employeur
+          format: int32
+        nbSATDAutre:
+          type: integer
+          description: Nombre de SATD autre
+          format: int32
+        resultatSimulation:
+          type: integer
+          description: Nombre de SATD total
+          format: int32
+      description: Représente un resultat de simulation SATD pour l'application NARA
+    SimulationDto:
+      required:
+        - type
+      type: object
+      properties:
+        codique:
+          type: string
+          description: Code codique
+        horodatageSimulation:
+          type: string
+          description: Date à laquelle est réalisée la simulation
+          format: date-time
+        horodatageLancementPoursuite:
+          type: string
+          description: Date à laquelle les dernières poursuites ont été lancées
+          format: date-time
+        statutPoursuite:
+          type: string
+          description: Statut de la poursuite
+          enum:
+            - A_DEMANDER
+            - DEMANDEE
+            - A_CREER
+            - CREEE
+            - ERREUR
+        type:
+          type: string
+      description: Représente une simulation pour l'application NARA
+      discriminator:
+        propertyName: type
+      oneOf:
+        - "$ref": "#/components/schemas/SimulationSatdDto"
+        - "$ref": "#/components/schemas/SimulationMedDto"
+        - "$ref": "#/components/schemas/SimulationPcaDto"
+#    StatusPoursuite:
+#      type: string
+#      description: Statut de la poursuite
+#      enum:
+#        - A_DEMANDER
+#        - DEMANDEE
+#        - A_CREER
+#        - CREEE
+#        - ERREUR
+    SimulationMedDto:
+      type: object
+      description: Représente une simulation MED pour l'application NARA
+      allOf:
+        - "$ref": "#/components/schemas/SimulationDto"
+        - type: object
+          properties:
+            idResultatSimulationMed:
+              type: string
+              description: Identifiant technique du résultat de la simulation
+              format: uuid
+            parametreSimulation:
+              "$ref": "#/components/schemas/RechercherParametreSimulationMedDto"
+    SimulationPcaDto:
+      type: object
+      description: Représente une simulation PCA pour l'application NARA
+      allOf:
+        - "$ref": "#/components/schemas/SimulationDto"
+        - type: object
+          properties:
+            codique:
+              type: string
+              description: Code codique
+            horodatageSimulation:
+              type: string
+              description: Date à laquelle est réalisée la simulation
+              format: date-time
+            horodatageLancementPoursuite:
+              type: string
+              description: Date à laquelle les dernières poursuites ont été lancées
+              format: date-time
+            statutPoursuite:
+              type: string
+              description: Statut de la poursuite
+              enum:
+                - A_DEMANDER
+                - DEMANDEE
+                - A_CREER
+                - CREEE
+                - ERREUR
+            idResultatSimulationPca:
+              type: string
+              description: Identifiant technique du résultat de la simulation
+              format: uuid
+            parametreSimulation:
+              "$ref": "#/components/schemas/RechercherParametreSimulationPcaDto"
+    SimulationSatdDto:
+      type: object
+      description: Représente une simulation SATD pour l'application NARA
+      allOf:
+        - "$ref": "#/components/schemas/SimulationDto"
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Identifiant technique du resulat de simulation
+              format: uuid
+            parametreSimulation:
+              "$ref": "#/components/schemas/SATDParametreSimulationDto"
+            resultatSimulationDto:
+              "$ref": "#/components/schemas/SATDResultatSimulationDto"
+    RechercherSimulationParStatutPoursuiteRequete:
+      required:
+#        - statutPoursuite
+        - typeSimulation
+      type: object
+      properties:
+        typeSimulation:
+          type: string
+          description: Type de simulation à modifier
+          enum:
+            - SATD
+            - MED
+            - PCA
+#        statutPoursuite:
+#          type: string
+#          description: Statut de poursuite
+#          enum:
+#            - A_DEMANDER
+#            - DEMANDEE
+#            - A_CREER
+#            - CREEE
+#            - ERREUR
+      description: Entrée de RechercherSimulationParStatutPoursuiteRequete
+    SATDResultatCreationDto:
+      type: object
+      properties:
+        idResultatCreationSimulation:
+          type: string
+          description: Identifiant technique du resultat de creation du satd
+          format: uuid
+        codeCodique:
+          type: string
+          description: code codique du resultat de creation du satd
+        idResultatSimulation:
+          type: string
+          description: Identifiant technique du resultat de simulation
+          format: uuid
+        idParametreSimulation:
+          type: string
+          description: Identifiant technique du parametre simulation
+          format: uuid
+        seuilMinSATDEmployeur:
+          type: number
+          description: Seuil minimal du RAR poursuivable SATD Employeur
+          format: double
+        seuilMinSATDAutre:
+          type: number
+          description: Seuil minimal du RAR poursuivable SATD Autre
+          format: double
+        seuilMinSATDBancaire:
+          type: number
+          description: Seuil minimal du RAR poursuivable SATD Bancaire
+          format: double
+      description: Représente un resultat de création de simulation SATD éligible
+        pour l'application NARA
+    ListerSimulationsSATDReponse:
+      type: object
+      properties:
+        alertes:
+          type: array
+          description: Les alertes associées à chaque 'article réponse' transmis en
+            retour d'un service (objet métier) - éventuellement vide, jamais nulle.
+          items:
+            "$ref": "#/components/schemas/AlerteFonctionnelleDto"
+        listeSimulations:
+          type: array
+          description: Liste de simulation
+          items:
+            "$ref": "#/components/schemas/SATDSimulationDto"
+      description: Sortie de l'OS ListerSimulationsSATD
+    SATDSimulationDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifiant technique du resulat de simulation
+          format: uuid
+        codique:
+          type: string
+          description: Code codique
+        dateSimulation:
+          type: string
+          description: Date à laquelle est réalisée la simulation
+          format: date-time
+        lancementPoursuite:
+          type: string
+          description: Date à laquelle les dernières poursuites ont été lancées
+          format: date-time
+#        statutPoursuite:
+#          type: string
+#          description: Statut de la poursuite
+#          enum:
+#            - A_DEMANDER
+#            - DEMANDEE
+#            - A_CREER
+#            - CREEE
+#            - ERREUR
+        parametreSimulation:
+          "$ref": "#/components/schemas/SATDParametreSimulationDto"
+        resultatSimulationDto:
+          "$ref": "#/components/schemas/SATDResultatSimulationDto"
+      description: Représente une simulation SATD pour l'application NARA
+    MettreAJourStatutPoursuiteSimulationRequete:
+      type: object
+      properties:
+#        statutPoursuite:
+#          type: string
+#          description: Statut de poursuite
+#          enum:
+#            - A_DEMANDER
+#            - DEMANDEE
+#            - A_CREER
+#            - CREEE
+#            - ERREUR
+        listeIdsResultSimulationSATD:
+          type: array
+          description: Identifiants des résultats de simulation à mettre à jour
+          items:
+            type: string
+            description: Identifiants des résultats de simulation à mettre à jour
+            format: uuid
+      description: Entrée de l'OS MettreAJourStatutPoursuiteSimulation
+    RechercherSimulationsSATDParStatutReponse:
+      type: object
+      properties:
+        alertes:
+          type: array
+          description: Les alertes associées à chaque 'article réponse' transmis en
+            retour d'un service (objet métier) - éventuellement vide, jamais nulle.
+          items:
+            "$ref": "#/components/schemas/AlerteFonctionnelleDto"
+        listeSimulations:
+          type: array
+          description: Liste de simulations
+          items:
+            "$ref": "#/components/schemas/SATDSimulationDto"
+      description: Sortie de l'OS RechercherSimulationsSATDParStatut
+    RechercherTiersParRedevablesEtCodiqueReponse:
+      type: object
+      properties:
+        alertes:
+          type: array
+          description: Les alertes associées à chaque 'article réponse' transmis en
+            retour d'un service (objet métier) - éventuellement vide, jamais nulle.
+          items:
+            "$ref": "#/components/schemas/AlerteFonctionnelleDto"
+        tiersRedevables:
+          type: array
+          description: Liste des redevables avec leurs tiers
+          items:
+            "$ref": "#/components/schemas/TiersRedevableDto"
+      description: Sortie de l'OS RechercherTiersParRedevablesEtCodiqueReponse
+    TiersBancaireDto:
+      type: object
+      properties:
+        idItipTiers:
+          type: string
+          description: ITIP de l'employeur
+        nomTiers:
+          type: string
+          description: Nom du tiers
+        lbVoieTiers:
+          type: string
+          description: Libellé de la voie du tiers
+        cdPostalTiers:
+          type: string
+          description: Code postal du tiers
+        lbLocaliteTiers:
+          type: string
+          description: Libellé de la commune du tiers
+        lbComplVoieTiers:
+          type: string
+          description: Libellé du complément de l'adresse du tiers
+        cdPaysTiers:
+          type: string
+          description: Code pays du tiers
+        lbAutreComplAdrTiers:
+          type: string
+          description: Libellé d'un autre complément du tiers
+        codique:
+          type: string
+          description: Codique
+        cdEtablissement:
+          type: string
+          description: Code établissement de la banque
+        cdGuichet:
+          type: string
+          description: Code guichet de la banque
+        nbCompteBancaire:
+          type: integer
+          description: Nombre de comptes bancaires
+          format: int32
+        dateOuvertureDernierCompteBancaire:
+          type: string
+          description: Date ouverture du dernier compte bancaire
+          format: date
+      description: Représente un tiers bancaire
+    TiersEmployeurDto:
+      type: object
+      properties:
+        idItipTiers:
+          type: string
+          description: ITIP de l'employeur
+        nomTiers:
+          type: string
+          description: Nom du tiers
+        lbVoieTiers:
+          type: string
+          description: Libellé de la voie du tiers
+        cdPostalTiers:
+          type: string
+          description: Code postal du tiers
+        lbLocaliteTiers:
+          type: string
+          description: Libellé de la commune du tiers
+        lbComplVoieTiers:
+          type: string
+          description: Libellé du complément de l'adresse du tiers
+        cdPaysTiers:
+          type: string
+          description: Code pays du tiers
+        lbAutreComplAdrTiers:
+          type: string
+          description: Libellé d'un autre complément du tiers
+        codique:
+          type: string
+          description: Codique
+        sirenTiers:
+          type: string
+          description: SIREN de l'employeur
+        nicTiers:
+          type: string
+          description: NIC de l'employeur
+        enseigne:
+          type: string
+          description: Nom d'enseigne commerciale ou non commerciale
+        netFiscalEmpl:
+          type: integer
+          description: Net fiscal
+          format: int64
+        typeEmployeur:
+          type: string
+          description: Type de l'employeur
+      description: Représente un tiers employeur
+    TiersRedevableDto:
+      type: object
+      properties:
+        idRedevable:
+          type: string
+          description: Identifiant technique du redevable
+          format: uuid
+        tiersBancaires:
+          type: array
+          description: Liste des tiers bancaires liés au redevable
+          items:
+            "$ref": "#/components/schemas/TiersBancaireDto"
+        tiersEmployeurs:
+          type: array
+          description: Liste des tiers employeurs liés au redevable
+          items:
+            "$ref": "#/components/schemas/TiersEmployeurDto"
+      description: Représente un redevable avec ses tiers
+    RechercherTiersParRedevablesEtCodiqueRequete:
+      type: object
+      properties:
+        codique:
+          type: string
+          description: Codique
+        listeIdsRedevables:
+          type: array
+          description: Liste des identifiants de redevables
+          items:
+            type: string
+            description: Liste des identifiants de redevables
+            format: uuid
+      description: Entrée de l'OS RechercherTiersParRedevablesEtCodique

@@ -1,0 +1,48 @@
+openapi: 3.1.0
+info:
+  title: discriminator_uri
+  version: 1.0.0
+servers:
+  - url: /
+paths:
+  /:
+    get:
+      responses:
+        '200':
+          description: desc
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetResponseEnumDisc'
+components:
+  schemas:
+    # oneOf interface whose discriminator property is an inline enum inherited from a shared base
+    # schema (PetEnumDisc) via allOf. The interface getter must use the same enum type the
+    # concrete classes generate, not String. Ref: issue #22541.
+    PetResponseEnumDisc:
+      oneOf:
+        - $ref: '#/components/schemas/DogEnumDisc'
+        - $ref: '#/components/schemas/CatEnumDisc'
+    PetEnumDisc:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+          enum:
+            - dog
+            - cat
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: DogEnumDisc
+          cat: CatEnumDisc
+    DogEnumDisc:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetEnumDisc'
+    CatEnumDisc:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PetEnumDisc'

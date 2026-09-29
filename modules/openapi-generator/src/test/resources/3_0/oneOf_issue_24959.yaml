@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: OneOf discriminator reproduction
+  version: 1.0.0
+
+paths: {}
+
+components:
+  schemas:
+    SchemaProperty:
+      discriminator:
+        propertyName: type
+        mapping:
+          array: '#/components/schemas/ArrayProperty'
+          string: '#/components/schemas/BasicProperty'
+          number: '#/components/schemas/BasicProperty'
+      oneOf:
+        - $ref: '#/components/schemas/ArrayProperty'
+        - $ref: '#/components/schemas/BasicProperty'
+
+    ArrayProperty:
+      type: object
+      required:
+        - type
+        - items
+      properties:
+        type:
+          type: string
+          enum:
+            - array
+        items:
+          $ref: '#/components/schemas/SchemaProperty'
+
+    BasicProperty:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - string
+            - number
