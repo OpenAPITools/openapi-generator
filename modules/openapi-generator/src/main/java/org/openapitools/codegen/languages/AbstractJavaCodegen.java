@@ -706,7 +706,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (!additionalItemsAnnotations.isEmpty()) {
             // detect if @NotNull is present in the additionalItemsAnnotations
             setItemsNotNullByDefault(additionalItemsAnnotations.contains("@NotNull") ||
-                    additionalItemsAnnotations.contains("@" + additionalProperties.get(JAVAX_PACKAGE)+".validation.constraints.@NotNull"));
+                    additionalItemsAnnotations.contains("@" + additionalProperties.get(JAVAX_PACKAGE)+".validation.constraints.NotNull"));
         }
 
         convertPropertyToBooleanAndWriteBack(CONTAINER_DEFAULT_TO_NULL, this::setContainerDefaultToNull);
@@ -1225,7 +1225,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     // remove the @NotNull annotation if nullable: true
                     // Caveat: does not work for space separated annotations. Use a list instead.
                     annotations.remove("@NotNull");
-                    annotations.remove("@" + additionalProperties.get(JAVAX_PACKAGE)+".validation.constraints.@NotNull");
+                    annotations.remove("@" + additionalProperties.get(JAVAX_PACKAGE)+".validation.constraints.NotNull");
                 }
             }
             return String.join(" ", annotations);
