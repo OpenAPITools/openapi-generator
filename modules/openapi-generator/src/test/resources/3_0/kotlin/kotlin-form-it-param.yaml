@@ -12,5 +12,8 @@ paths:
               properties:
                 it: {type: string}
                 name: {type: string}
+                tags: {type: array, items: {type: string}}
+            encoding:
+              tags: {style: form, explode: true}
       responses:
         '200': {description: ok}

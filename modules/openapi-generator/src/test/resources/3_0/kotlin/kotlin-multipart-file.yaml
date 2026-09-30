@@ -13,5 +13,8 @@ paths:
                 my-file: {type: string, format: binary}
                 files: {type: array, items: {type: string, format: binary}}
                 note: {type: string}
+                tags: {type: array, items: {type: string}}
+            encoding:
+              tags: {explode: true}
       responses:
         '200': {description: ok}

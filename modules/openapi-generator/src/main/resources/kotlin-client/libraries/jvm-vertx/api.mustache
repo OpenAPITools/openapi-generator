@@ -138,7 +138,7 @@ import {{packageName}}.infrastructure.*
     {{/isDeprecated}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : Future<ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>> {
         val localVariableClient = WebClient.create(this.vertx)
-        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("${this.basePath}{{{path}}}"{{#pathParams}}.replace("{"+"{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"+"}", this.encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("${this.basePath}{{#lambda.escapeDollar}}{{{path}}}{{/lambda.escapeDollar}}"{{#pathParams}}.replace("{"+"{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"+"}", this.encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
 
         {{#hasFormParams}}localVariableRequest.putHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
         {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { localVariableRequest.putHeader("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
@@ -152,7 +152,27 @@ import {{packageName}}.infrastructure.*
         {{#hasFormParams}}
         {{#isMultipart}}val localVariableForm = io.vertx.ext.web.multipart.MultipartForm.create(){{/isMultipart}}{{^isMultipart}}val localVariableForm = io.vertx.core.MultiMap.caseInsensitiveMultiMap(){{/isMultipart}}
         {{#formParams}}
-        {{{paramName}}}{{^required}}?{{/required}}.let { localVariableForm.{{#isMultipart}}attribute{{/isMultipart}}{{^isMultipart}}add{{/isMultipart}}("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}}) }
+        {{#isMultipart}}
+        {{#isFile}}
+        {{{paramName}}}{{^required}}?{{/required}}.{{#isArray}}forEach{{/isArray}}{{^isArray}}let{{/isArray}} { localVariableForm.binaryFileUpload("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", it.name, it.absolutePath, {{#contentType}}"{{{contentType}}}"{{/contentType}}{{^contentType}}"application/octet-stream"{{/contentType}}) }
+        {{/isFile}}
+        {{^isFile}}
+        {{#isArray}}
+        {{{paramName}}}{{^required}}?{{/required}}.let { toMultiValue(it.toList(), "{{collectionFormat}}").forEach { localVariableForm.attribute("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", it) } }
+        {{/isArray}}
+        {{^isArray}}
+        {{{paramName}}}{{^required}}?{{/required}}.let { localVariableForm.attribute("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}}) }
+        {{/isArray}}
+        {{/isFile}}
+        {{/isMultipart}}
+        {{^isMultipart}}
+        {{#isArray}}
+        {{{paramName}}}{{^required}}?{{/required}}.let { localVariableForm.add("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", toMultiValue(it.toList(), "{{collectionFormat}}")) }
+        {{/isArray}}
+        {{^isArray}}
+        {{{paramName}}}{{^required}}?{{/required}}.let { localVariableForm.add("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}}) }
+        {{/isArray}}
+        {{/isMultipart}}
         {{/formParams}}
         {{/hasFormParams}}
 

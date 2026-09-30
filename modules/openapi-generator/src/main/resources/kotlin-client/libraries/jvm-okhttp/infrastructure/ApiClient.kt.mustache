@@ -438,25 +438,25 @@ import com.squareup.moshi.adapter
         {{#authMethods}}
         {{#isApiKey}}
         {{#isKeyInHeader}}
-        if (requestConfig.headers["{{keyParamName}}"].isNullOrEmpty()) {
+        if (requestConfig.headers["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"].isNullOrEmpty()) {
         {{/isKeyInHeader}}
         {{#isKeyInQuery}}
-        if (requestConfig.query["{{keyParamName}}"].isNullOrEmpty()) {
+        if (requestConfig.query["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"].isNullOrEmpty()) {
         {{/isKeyInQuery}}
-            if (apiKey["{{keyParamName}}"] != null) {
-                if (apiKeyPrefix["{{keyParamName}}"] != null) {
+            if (apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"] != null) {
+                if (apiKeyPrefix["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"] != null) {
                     {{#isKeyInHeader}}
-                    requestConfig.headers["{{keyParamName}}"] = apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!
+                    requestConfig.headers["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"] = apiKeyPrefix["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!! + " " + apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!!
                     {{/isKeyInHeader}}
                     {{#isKeyInQuery}}
-                    requestConfig.query["{{keyParamName}}"] = listOf(apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
+                    requestConfig.query["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"] = listOf(apiKeyPrefix["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!! + " " + apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!!)
                     {{/isKeyInQuery}}
                 } else {
                     {{#isKeyInHeader}}
-                    requestConfig.headers["{{keyParamName}}"] = apiKey["{{keyParamName}}"]!!
+                    requestConfig.headers["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"] = apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!!
                     {{/isKeyInHeader}}
                     {{#isKeyInQuery}}
-                    requestConfig.query["{{keyParamName}}"] = listOf(apiKey["{{keyParamName}}"]!!)
+                    requestConfig.query["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"] = listOf(apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!!)
                     {{/isKeyInQuery}}
                 }
             }

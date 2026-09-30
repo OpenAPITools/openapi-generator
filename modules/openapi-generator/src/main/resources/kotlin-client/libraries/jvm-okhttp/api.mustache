@@ -271,7 +271,7 @@ import {{packageName}}.infrastructure.Serializer
 {{^vendorExtensions.x-kotlin-custom-method}}
             method = RequestMethod.{{httpMethod}},
 {{/vendorExtensions.x-kotlin-custom-method}}
-            path = "{{{path}}}"{{#pathParams}}.replace("{"+"{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"+"}", this@{{classname}}.encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}},
+            path = "{{#lambda.escapeDollar}}{{{path}}}{{/lambda.escapeDollar}}"{{#pathParams}}.replace("{"+"{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"+"}", this@{{classname}}.encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}},
             query = localVariableQuery,
 {{#vendorExtensions.x-kotlin-querystring-params}}
             encodedQueryString = listOfNotNull({{{vendorExtensions.x-kotlin-querystring-params}}}).joinToString("&"),

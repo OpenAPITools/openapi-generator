@@ -591,7 +591,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         val localVariableForm = io.vertx.ext.web.multipart.MultipartForm.create()
         additionalMetadata?.let { localVariableForm.attribute("additionalMetadata", additionalMetadata) }
-        file?.let { localVariableForm.attribute("file", file.toString()) }
+        file?.let { localVariableForm.binaryFileUpload("file", it.name, it.absolutePath, "application/octet-stream") }
 
 
         this.accessToken?.let { localVariableAccessToken ->

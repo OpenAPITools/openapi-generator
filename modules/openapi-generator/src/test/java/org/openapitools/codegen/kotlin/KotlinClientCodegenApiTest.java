@@ -690,6 +690,44 @@ public class KotlinClientCodegenApiTest {
                 // `filter` param's value-side interpolation)
                 Assert.assertFalse(api.contains("\"$top\""),
                         lib[0] + ": bare \"$top\" means the wire key is unescaped");
+                // the static path `/odata/$count` and the `{$id}` path
+                // placeholder are Kotlin string literals too — `$count`/`$id`
+                // would interpolate (or fail compilation) unless escaped.
+                // retrofit2 drops the leading slash, so match `odata/...`
+                Assert.assertTrue(api.contains("odata/\\$count"),
+                        lib[0] + ": static path segment $count must be escaped");
+                // `odata/$count"` with a closing quote can only come from an
+                // unescaped string literal — the KDoc comment shows the path
+                // without quotes (`GET /odata/$count`)
+                Assert.assertFalse(api.contains("odata/$count\""),
+                        lib[0] + ": bare odata/$count means the path literal is unescaped");
+                Assert.assertTrue(api.contains("{\\$id}"),
+                        lib[0] + ": path placeholder {$id} must be escaped");
+                Assert.assertTrue(api.contains("dollarId"),
+                        lib[0] + ": path param $id must be renamed to a valid identifier");
+                // exploded-object libraries wire each property by its baseName;
+                // vertx/volley/spring/multiplatform keep `opts` as a single value
+                switch (lib[0]) {
+                    case "jvm-okhttp4":
+                    case "jvm-ktor":
+                        Assert.assertTrue(api.contains("\\$a"),
+                                lib[0] + ": exploded wire name $a must be escaped");
+                        break;
+                    case "jvm-retrofit2":
+                        // the @Query string keeps the escaped wire name, while
+                        // the identifier is the sanitized property name —
+                        // `"\$a"` inside the string vs `dollarA:` outside it
+                        Assert.assertTrue(api.contains("@Query(\"\\$a\") dollarA"),
+                                "jvm-retrofit2: exploded wire name $a must stay escaped in @Query "
+                                        + "and the identifier must be the sanitized name");
+                        Assert.assertFalse(api.contains("\\$a:"),
+                                "jvm-retrofit2: `\\$a` is not a valid Kotlin identifier");
+                        break;
+                    default:
+                        Assert.assertTrue(api.contains("opts"),
+                                lib[0] + ": object query param must still be emitted");
+                        break;
+                }
             } finally {
                 deleteRecursively(target);
             }
@@ -749,6 +787,15 @@ public class KotlinClientCodegenApiTest {
                         lib[0] + ": form field `it` must be appended via the named builder");
                 Assert.assertFalse(api.contains("it.append("),
                         lib[0] + ": implicit `it` is shadowed by the spec param inside also{}");
+                if (lib[0].equals("jvm-ktor")) {
+                    // issue #17 D4: the urlencoded array loop inside the `also`
+                    // block must call append on the named builder — a bare
+                    // `append` has no receiver there and cannot resolve
+                    Assert.assertTrue(api.contains("localVariableBuilder.append(\"tags\", x.toString())"),
+                            "jvm-ktor: array form fields must be appended via the named builder");
+                    Assert.assertFalse(api.contains("for (x in tags ?: listOf()) {\n                            append("),
+                            "jvm-ktor: bare `append` inside also{} cannot resolve");
+                }
             } finally {
                 deleteRecursively(target);
             }
@@ -960,6 +1007,120 @@ public class KotlinClientCodegenApiTest {
         } finally {
             deleteRecursively(target);
         }
+    }
+
+    /**
+     * Issue #17 (D1) wire check: jvm-vertx sent a multipart `File` part as the
+     * file's path string (`attribute("file", file.toString())`) instead of its
+     * content, and non-file arrays as a `[a, b]` toString blob. Compiles the
+     * generated vertx client with kotlinc and captures the raw multipart
+     * request, asserting the file content and repeated array parts reach the
+     * wire. Skipped when kotlinc or the copied vertx deps are unavailable —
+     * upstream CI without the ~/.m2 vertx jars will skip this test, so it is
+     * not protective there.
+     */
+    @Test
+    void testJvmVertxGeneratedClientSendsMultipartFileContent() throws IOException, InterruptedException {
+        Path kotlinc = requireKotlinc();
+        List<String> jars = vertxCaptureDepJars(kotlinc);
+
+        Path target = Files.createTempDirectory("kotlin-vertx-multipart");
+        try {
+            generate("jvm-vertx", "src/test/resources/3_0/kotlin/kotlin-multipart-file.yaml",
+                    target, "serializationLibrary=jackson");
+            List<String> sources = Files.walk(target.resolve("src/main/kotlin"))
+                    .filter(p -> p.toString().endsWith(".kt"))
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+            Path capture = target.resolve("Capture.kt");
+            Files.copy(Path.of("src/test/resources/3_0/kotlin-vertx-multipart-capture/Capture.kt"), capture);
+            sources.add(capture.toString());
+
+            String classPath = String.join(File.pathSeparator, jars);
+            Path classesDir = target.resolve("classes");
+            List<String> compile = new ArrayList<>(List.of(
+                    kotlinc.toString(), "-cp", classPath, "-d", classesDir.toString(), "-jvm-target", "17"));
+            compile.addAll(sources);
+            runProcess(target, "kotlinc.log", 300, compile.toArray(new String[0]));
+
+            String javaBin = Path.of(System.getProperty("java.home"), "bin", "java").toString();
+            String output = runProcess(target, "run.log", 120,
+                    javaBin, "-cp", classesDir + File.pathSeparator + classPath, "CaptureKt");
+            Assert.assertTrue(output.contains("CAPTURE-PASS"),
+                    "generated vertx client did not send file content/array parts on the wire:\n" + output);
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Issue #17 (D4) compile check: jvm-ktor's urlencoded array branch emitted
+     * a bare `append(...)` inside `ParametersBuilder().also { }`, which has no
+     * receiver — a compile error. Compiles the generated ktor client (which
+     * has a urlencoded `tags` array field and a field literally named `it`)
+     * with kotlinc. Skipped when kotlinc or the copied ktor deps are
+     * unavailable — upstream CI without the ~/.m2 ktor jars will skip this
+     * test, so it is not protective there.
+     */
+    @Test
+    void testJvmKtorGeneratedClientCompilesFormParams() throws IOException, InterruptedException {
+        Path kotlinc = requireKotlinc();
+        List<String> jars = ktorCompileDepJars(kotlinc);
+
+        Path target = Files.createTempDirectory("kotlin-ktor-form");
+        try {
+            generate("jvm-ktor", "src/test/resources/3_0/kotlin/kotlin-form-it-param.yaml",
+                    target, "serializationLibrary=jackson");
+            List<String> sources = Files.walk(target.resolve("src/main/kotlin"))
+                    .filter(p -> p.toString().endsWith(".kt"))
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+            Assert.assertFalse(sources.isEmpty(), "jvm-ktor produced no kotlin sources");
+
+            String classPath = String.join(File.pathSeparator, jars);
+            List<String> compile = new ArrayList<>(List.of(
+                    kotlinc.toString(), "-cp", classPath, "-d",
+                    target.resolve("classes").toString(), "-jvm-target", "17"));
+            compile.addAll(sources);
+            runProcess(target, "kotlinc.log", 300, compile.toArray(new String[0]));
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * ktor jars are not part of the build's dependency graph, so they are
+     * located directly in the local repository (~/.m2), alongside jackson and
+     * kotlinx-coroutines. Skips when absent.
+     */
+    private static List<String> ktorCompileDepJars(Path kotlinc) throws IOException {
+        Path m2 = Path.of(System.getProperty("user.home"), ".m2", "repository");
+        List<String> jars = new ArrayList<>();
+        for (String group : new String[]{"io/ktor", "com/fasterxml/jackson",
+                "org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm"}) {
+            Path dir = m2.resolve(group);
+            if (!Files.isDirectory(dir)) {
+                continue;
+            }
+            try (var stream = Files.walk(dir)) {
+                stream.filter(p -> p.toString().endsWith(".jar"))
+                        .filter(p -> !p.getFileName().toString().contains("sources"))
+                        .filter(p -> !p.getFileName().toString().contains("javadoc"))
+                        .forEach(p -> jars.add(p.toAbsolutePath().toString()));
+            }
+        }
+        if (jars.size() < 10 || jars.stream().noneMatch(j -> j.contains("ktor-client-core-jvm"))) {
+            throw new org.testng.SkipException("ktor jars not found in " + m2 + ", found " + jars.size());
+        }
+        Path kotlincLib = kotlinc.getParent().getParent().resolve("lib");
+        for (String name : new String[]{"kotlin-stdlib.jar", "kotlin-reflect.jar"}) {
+            Path jar = kotlincLib.resolve(name);
+            if (!Files.exists(jar)) {
+                throw new org.testng.SkipException("kotlinc lib dir lacks " + name + ": " + kotlincLib);
+            }
+            jars.add(jar.toString());
+        }
+        return jars;
     }
 
     /**

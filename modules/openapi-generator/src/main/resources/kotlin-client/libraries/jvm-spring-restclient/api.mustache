@@ -147,7 +147,7 @@ import {{packageName}}.infrastructure.*
 
         return RequestConfig(
             method = RequestMethod.{{httpMethod}},
-            path = "{{{path}}}",
+            path = "{{#lambda.escapeDollar}}{{{path}}}{{/lambda.escapeDollar}}",
             params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,

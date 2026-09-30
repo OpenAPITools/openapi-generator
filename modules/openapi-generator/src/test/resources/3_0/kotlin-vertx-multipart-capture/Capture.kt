@@ -1,13 +1,16 @@
 import io.vertx.core.Vertx
 import org.openapitools.client.apis.DefaultApi
+import java.io.File
 import java.net.ServerSocket
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
-// Raw HTTP capture for the jvm-vertx generated client: form fields must
-// actually reach the wire (issue #17: localVariableForm was filled but never
-// sent before the sendForm/sendMultipartForm fix). Vert.x sends the form with
-// Transfer-Encoding: chunked, so the body is reassembled from chunks.
+// Raw HTTP capture for the jvm-vertx generated client, multipart variant of
+// kotlin-vertx-capture/Capture.kt (issue #17, D1): file form fields must carry
+// the file CONTENT on the wire — attribute("file", file.toString()) used to
+// send the local path instead. Non-file arrays must arrive as repeated parts
+// (toMultiValue), not as a "[a, b]" toString blob. Vert.x may send the form
+// with Transfer-Encoding: chunked, so the body is reassembled from chunks.
 fun main() {
     val vertx = Vertx.vertx()
     val server = ServerSocket(0)
@@ -67,9 +70,14 @@ fun main() {
         }
     }.start()
 
+    val secret = File.createTempFile("secret-kotlin-vertx-", ".txt")
+    secret.writeText("FILE-CONTENT-XYZ")
+    val secret2 = File.createTempFile("secret2-kotlin-vertx-", ".txt")
+    secret2.writeText("FILE2-CONTENT-UVW")
+
     val api = DefaultApi(vertx = vertx, basePath = "http://localhost:$port")
     try {
-        api.createItem(`it` = "v1", name = "n2", tags = listOf("a", "b"))
+        api.upload(myFile = secret, files = listOf(secret2), note = "n1", tags = listOf("a", "b"))
             .toCompletionStage().toCompletableFuture().get(20, TimeUnit.SECONDS)
     } catch (e: Exception) {
         println("CALL-FAIL: $e")
@@ -78,12 +86,13 @@ fun main() {
     println("---CAPTURE---")
     println(captured.toString())
     val text = captured.toString()
-    // `tags` must arrive as repeated values (explode), not a "[a, b]"
-    // toString blob; `it`/`name` keep their spec wire names.
-    val pass = text.contains("it=v1") && text.contains("name=n2") &&
-            text.contains("tags=a") && text.contains("tags=b") &&
-            !text.contains("[a, b]") && !text.contains("%5Ba") &&
-            (text.contains("application/x-www-form-urlencoded") || text.contains("multipart/form-data"))
+    val tagParts = Regex("name=\"tags\"").findAll(text).count()
+    val pass = text.contains("multipart/form-data") &&
+            text.contains("FILE-CONTENT-XYZ") &&
+            text.contains("FILE2-CONTENT-UVW") &&
+            text.contains("name=\"note\"") && text.contains("n1") &&
+            tagParts == 2 && !text.contains("[a, b]") &&
+            !text.contains(secret.absolutePath) && !text.contains(secret2.absolutePath)
     println(if (pass) "CAPTURE-PASS" else "CAPTURE-FAIL")
     vertx.close()
 }

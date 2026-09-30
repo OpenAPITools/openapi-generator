@@ -63,7 +63,7 @@ import {{packageName}}.infrastructure.CollectionFormats.*
         // to make it easy to override with your own.
 
         // create path and map variables
-        val localVariablePath = "{{{path}}}"{{#pathParams}}.replace("{" + "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}IRequestFactory.escapeString({{{paramName}}}.toString()){{/isContainer}}){{/pathParams}}
+        val localVariablePath = "{{#lambda.escapeDollar}}{{{path}}}{{/lambda.escapeDollar}}"{{#pathParams}}.replace("{" + "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}IRequestFactory.escapeString({{{paramName}}}.toString()){{/isContainer}}){{/pathParams}}
 
         val localVariableFormParams = mapOf<String, String>({{^formParams}}){{/formParams}}{{#formParams}}
             "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
