@@ -1,0 +1,35 @@
+openapi: 3.1.0
+
+info:
+  title: oneOf not enum repro
+  version: 1.0.0
+
+paths: {}
+
+components:
+  schemas:
+    Known:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+          enum:
+            - known
+
+    Other:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+          not:
+            enum:
+              - known
+
+    TaggedUnion:
+      oneOf:
+        - $ref: '#/components/schemas/Known'
+        - $ref: '#/components/schemas/Other'
