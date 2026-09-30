@@ -383,7 +383,8 @@ func (c *APIClient) prepareRequest(
 	// Adding Query Param
 	// OpenAPI 3.2: an "in: querystring" parameter embeds the whole, already
 	// encoded query string into the path. Capture it before url.Query() would
-	// merge and re-encode it, and append it verbatim after encoding.
+	// merge and re-encode it, and keep it verbatim ahead of the encoded
+	// parameters (path-declared query data first, as before).
 	rawQueryString := url.RawQuery
 	url.RawQuery = ""
 	query := url.Query()
@@ -401,11 +402,12 @@ func (c *APIClient) prepareRequest(
 	})
 	if rawQueryString != "" {
 		if encodedQuery != "" {
-			encodedQuery += "&"
+			rawQueryString += "&"
 		}
-		encodedQuery += rawQueryString
+		url.RawQuery = rawQueryString + encodedQuery
+	} else {
+		url.RawQuery = encodedQuery
 	}
-	url.RawQuery = encodedQuery
 
 	// Generate a new request
 	if body != nil {
