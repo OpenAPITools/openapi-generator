@@ -1286,7 +1286,8 @@ public class ModelUtilsTest {
 
     /**
      * The OAS 3.1 serializer drops `nullable` at every level of the schema, so cloning must
-     * restore it on nested schemas too, not only on the root.
+     * restore it on nested schemas too, not only on the root. This covers every branch
+     * {@code restoreNullable} recurses into.
      */
     @Test
     public void testCloneSchemaPreservesNestedNullableForOpenAPI31() {
@@ -1306,25 +1307,44 @@ public class ModelUtilsTest {
         map.setAdditionalProperties(nullableStringSchema());
         properties.put("map", map);
 
-        Schema<Object> composed = new Schema<>();
-        composed.setAllOf(new ArrayList<>(List.of(nullableStringSchema())));
-        properties.put("composed", composed);
+        Schema<Object> negated = new Schema<>();
+        negated.setNot(nullableStringSchema());
+        properties.put("negated", negated);
+
+        Schema<Object> allOf = new Schema<>();
+        allOf.setAllOf(new ArrayList<>(List.of(nullableStringSchema())));
+        properties.put("allOf", allOf);
+
+        Schema<Object> oneOf = new Schema<>();
+        oneOf.setOneOf(new ArrayList<>(List.of(nullableStringSchema())));
+        properties.put("oneOf", oneOf);
+
+        Schema<Object> anyOf = new Schema<>();
+        anyOf.setAnyOf(new ArrayList<>(List.of(nullableStringSchema())));
+        properties.put("anyOf", anyOf);
 
         root.setProperties(properties);
 
         Schema<?> cloned = ModelUtils.cloneSchema(root, true);
 
         assertTrue(Boolean.TRUE.equals(cloned.getNullable()), "root nullable must be preserved");
-        assertTrue(Boolean.TRUE.equals(cloned.getProperties().get("inner").getNullable()),
-                "nullable must be preserved on a nested property");
-        assertTrue(Boolean.TRUE.equals(((Schema<?>) cloned.getProperties().get("list")).getItems().getNullable()),
-                "nullable must be preserved on array items");
-        assertTrue(Boolean.TRUE.equals(((Schema<?>) ((Schema<?>) cloned.getProperties().get("map"))
-                        .getAdditionalProperties()).getNullable()),
-                "nullable must be preserved on additionalProperties");
-        assertTrue(Boolean.TRUE.equals(((Schema<?>) ((Schema<?>) cloned.getProperties().get("composed"))
-                        .getAllOf().get(0)).getNullable()),
-                "nullable must be preserved on an allOf sub-schema");
+        assertNestedNullable(property(cloned, "inner"), "a nested property");
+        assertNestedNullable(property(cloned, "list").getItems(), "array items");
+        assertNestedNullable((Schema<?>) property(cloned, "map").getAdditionalProperties(), "additionalProperties");
+        assertNestedNullable(property(cloned, "negated").getNot(), "a `not` sub-schema");
+        assertNestedNullable(property(cloned, "allOf").getAllOf().get(0), "an `allOf` sub-schema");
+        assertNestedNullable(property(cloned, "oneOf").getOneOf().get(0), "a `oneOf` sub-schema");
+        assertNestedNullable(property(cloned, "anyOf").getAnyOf().get(0), "an `anyOf` sub-schema");
+    }
+
+    private static Schema<?> property(Schema<?> schema, String name) {
+        return schema.getProperties().get(name);
+    }
+
+    private static void assertNestedNullable(Schema<?> schema, String location) {
+        assertNotNull(schema, "expected a cloned schema at " + location);
+        assertTrue(Boolean.TRUE.equals(schema.getNullable()),
+                "nullable must be preserved on " + location);
     }
 
     private static Schema<?> nullableStringSchema() {
