@@ -1219,15 +1219,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         List<String> customAnnotations = getObjectAsStringList(VendorExtension.X_FIELD_EXTRA_ANNOTATION.getValue(items.getExtensions()));
         if (!additionalItemsAnnotations.isEmpty() || !customAnnotations.isEmpty()) {
             Set<String> annotations = new LinkedHashSet<>(additionalItemsAnnotations);
-            annotations.addAll(customAnnotations);
             if (items.getNullable() != null) {
                 if (items.getNullable() && itemsNotNullByDefault) {
-                    // remove the @NotNull annotation if nullable: true
+                    // remove the global @NotNull annotation if nullable: true
                     // Caveat: does not work for space separated annotations. Use a list instead.
                     annotations.remove("@NotNull");
                     annotations.remove("@" + additionalProperties.get(JAVAX_PACKAGE)+".validation.constraints.NotNull");
                 }
             }
+            annotations.addAll(customAnnotations);
             return String.join(" ", annotations);
         }
         return "";
