@@ -250,9 +250,14 @@ public class InlineModelResolver {
             // in case operationId is not defined later in other methods
             String pathname = pathsEntry.getKey();
 
-            // Include callback operation as well
-            // (readOperations() also covers query and arbitrary additionalOperations)
-            for (Operation operation : path.readOperations()) {
+            // Include callback operation as well. Iterate a snapshot of the
+            // filtered entries above (a snapshot because the callback's own
+            // operations are appended to toFlatten below): QUERY and
+            // additionalOperations callbacks must be skipped for generators
+            // without supportsAdditionalOperations(), same as in
+            // addOperationEntries.
+            for (Map.Entry<String, Operation> operationEntry : new ArrayList<>(toFlatten)) {
+                Operation operation = operationEntry.getValue();
                 Map<String, Callback> callbacks = operation.getCallbacks();
                 if (callbacks != null) {
                     for (Map.Entry<String, Callback> callbackEntry : callbacks.entrySet()) {
