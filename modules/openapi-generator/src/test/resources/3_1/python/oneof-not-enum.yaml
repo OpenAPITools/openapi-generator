@@ -28,6 +28,7 @@ components:
           not:
             enum:
               - known
+              - reserved
 
     TaggedUnion:
       oneOf:

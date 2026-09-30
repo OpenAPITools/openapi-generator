@@ -162,13 +162,16 @@ public class PythonClientCodegenTest {
                 "models",
                 "other.py");
 
-        TestUtils.assertFileContains(
-                other,
-                "from pydantic import BaseModel, ConfigDict, StrictStr, field_validator",
-                "@field_validator('kind')",
-                "def kind_validate_not_enum(cls, value):",
-                "if value in set([\"known\"]):",
-                "raise ValueError(\"must not be one of excluded enum values\")");
+        String otherContent = Files.readString(other);
+
+        Assert.assertTrue(otherContent.contains(
+                "if value in set([\"known\", \"reserved\"]):"));
+        Assert.assertTrue(otherContent.contains(
+                "raise ValueError(\"must not be one of excluded enum values\")"));
+
+        Assert.assertEquals(
+                otherContent.split("def kind_validate_not_enum", -1).length - 1,
+                1);
     }
 
     @Test
