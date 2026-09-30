@@ -145,7 +145,9 @@ export class BaseAPI {
             // only add the querystring to the URL if there are query parameters.
             // this is done to avoid urls ending with a "?" character which buggy webservers
             // do not handle correctly sometimes.
-            url += (url.includes('?') ? '&' : '?') + this.configuration.queryParamsStringify(context.query);
+            // the '?' check must only consider the part before the fragment: a '?' inside
+            // '#...' is fragment content, not an existing query string.
+            url += (url.split('#')[0].includes('?') ? '&' : '?') + this.configuration.queryParamsStringify(context.query);
         }
 
         const headers = Object.assign({}, this.configuration.headers, context.headers);

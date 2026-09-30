@@ -345,8 +345,10 @@ export class {{classname}} extends runtime.BaseAPI {
         {{#isQueryStringParam}}
         // OpenAPI 3.2 in: querystring - the value is the whole, already-encoded
         // query string; append it verbatim instead of a name=value pair
+        // ('?' is only searched before any '#': a '?' inside the fragment is
+        // fragment content, not an existing query string)
         if (requestParameters['{{paramName}}'] != null && requestParameters['{{paramName}}'] !== '') {
-            urlPath += (urlPath.includes('?') ? '&' : '?') + requestParameters['{{paramName}}'];
+            urlPath += (urlPath.split('#')[0].includes('?') ? '&' : '?') + requestParameters['{{paramName}}'];
         }
         {{/isQueryStringParam}}
         {{/queryParams}}

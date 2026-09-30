@@ -1258,11 +1258,15 @@ public class TypeScriptFetchClientCodegenTest {
         // in: querystring appends the already-encoded value to the path verbatim
         // rather than serialising a name=value pair
         TestUtils.assertFileContains(api,
-                "urlPath += (urlPath.includes('?') ? '&' : '?') + requestParameters['qs']");
+                "urlPath += (urlPath.split('#')[0].includes('?') ? '&' : '?') + requestParameters['qs']");
         TestUtils.assertFileNotContains(api, "queryParameters['qs']");
 
         // the HTTPMethod type admits arbitrary method strings
         TestUtils.assertFileContains(Paths.get(output + "/runtime.ts"), "| (string & {})");
+        // an existing query string is detected only before the fragment: a '?'
+        // inside '#...' must not make the runtime append with '&'
+        TestUtils.assertFileContains(Paths.get(output + "/runtime.ts"),
+                "url += (url.split('#')[0].includes('?') ? '&' : '?')");
     }
 
     @Test
