@@ -2572,7 +2572,16 @@ public class ModelUtils {
      */
     public static Schema cloneSchema(Schema schema, boolean openapi31) {
         if (openapi31) {
-            return AnnotationsUtils.clone(schema, openapi31);
+            Schema result = AnnotationsUtils.clone(schema, openapi31);
+            // `nullable` is not a valid OAS 3.1 keyword, so the 3.1 serializer used by
+            // AnnotationsUtils.clone silently drops it. OpenAPINormalizer rewrites an OAS 3.1
+            // `type: [<type>, "null"]` declaration into `nullable: true` plus a plain type, so
+            // dropping it here would turn cloned properties (e.g. those merged into a model from
+            // an `allOf` parent) into non-nullable ones. Carry it over explicitly.
+            if (result != null && schema.getNullable() != null) {
+                result.setNullable(schema.getNullable());
+            }
+            return result;
         } else {
             // AnnotationsUtils.clone doesn't support custom schema types for OpenAPI < 3.1
             String schemaType = schema.getType();

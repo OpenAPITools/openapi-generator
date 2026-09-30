@@ -1,0 +1,32 @@
+openapi: 3.1.0
+info:
+  title: allOf with OAS 3.1 nullable type array
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Base:
+      type: object
+      properties:
+        id:
+          type:
+            - string
+            - 'null'
+        name:
+          type: string
+    Derived:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+        - type: object
+          properties:
+            email:
+              type: string
+    Control:
+      type: object
+      properties:
+        id:
+          type:
+            - string
+            - 'null'
+        email:
+          type: string

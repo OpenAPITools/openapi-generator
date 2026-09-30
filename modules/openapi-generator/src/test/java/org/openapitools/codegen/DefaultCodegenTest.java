@@ -349,6 +349,27 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOAS31NullableTypeArrayIsInheritedThroughAllOf() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/allof-nullable-type-array.yaml");
+        new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        // `id` is declared as `type: [string, 'null']` on Base, so it must stay nullable both on
+        // Base itself and on Derived, which pulls it in via `allOf: [$ref: Base, {...}]`.
+        for (String modelName : List.of("Base", "Derived", "Control")) {
+            Schema<?> schema = openAPI.getComponents().getSchemas().get(modelName);
+            CodegenModel model = codegen.fromModel(modelName, schema);
+            CodegenProperty id = model.vars.stream()
+                    .filter(v -> "id".equals(v.baseName))
+                    .findFirst()
+                    .orElseThrow(() -> new AssertionError("no `id` var on " + modelName));
+            assertTrue(id.isNullable, "`id` must be nullable on " + modelName);
+        }
+    }
+
+    @Test
     public void testOAS31ContentMediaTypeBinaryFormParameter() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/binary-schema.yaml");
         new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();

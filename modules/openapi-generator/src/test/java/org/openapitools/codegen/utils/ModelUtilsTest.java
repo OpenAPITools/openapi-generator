@@ -1263,4 +1263,24 @@ public class ModelUtilsTest {
         assertEquals(bound.minBound, BigDecimal.valueOf(20));
     }
 
+    /**
+     * `nullable` is not a valid OAS 3.1 keyword, so a naive 3.1 clone drops it. The normalizer
+     * relies on `nullable` to carry an OAS 3.1 `type: [<type>, "null"]` declaration, so cloning
+     * must preserve it.
+     */
+    @Test
+    public void testCloneSchemaPreservesNullableForOpenAPI31() {
+        Schema<?> schema = new Schema<>();
+        schema.setType("string");
+        schema.setNullable(true);
+
+        Schema<?> cloned31 = ModelUtils.cloneSchema(schema, true);
+        assertTrue(Boolean.TRUE.equals(cloned31.getNullable()),
+                "nullable must be preserved when cloning an OpenAPI 3.1 schema");
+
+        Schema<?> cloned30 = ModelUtils.cloneSchema(schema, false);
+        assertTrue(Boolean.TRUE.equals(cloned30.getNullable()),
+                "nullable must be preserved when cloning an OpenAPI 3.0 schema");
+    }
+
 }
