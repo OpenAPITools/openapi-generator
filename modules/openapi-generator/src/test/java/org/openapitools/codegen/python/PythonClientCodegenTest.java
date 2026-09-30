@@ -168,6 +168,7 @@ public class PythonClientCodegenTest {
                 "if value in set([\"known\", \"reserved\"]):"));
         Assert.assertTrue(otherContent.contains(
                 "raise ValueError(\"must not be one of excluded enum values\")"));
+        Assert.assertTrue(otherContent.contains("@field_validator('kind')"));
 
         Assert.assertEquals(
                 otherContent.split("def kind_validate_not_enum", -1).length - 1,
