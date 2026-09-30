@@ -188,9 +188,9 @@ class RESTClientObject:
     ])
 
     def _pool_request(self, method, url, **kwargs):
-        if method.upper() in self._STANDARD_METHODS:
+        if method in self._STANDARD_METHODS:
             return self.pool_manager.request(method, url, **kwargs)
-        if method in self.pool_manager._encode_url_methods:
+        if method.upper() in self.pool_manager._encode_url_methods:
             return self.pool_manager.request_encode_url(method, url, **kwargs)
         return self.pool_manager.request_encode_body(method, url, **kwargs)
 
@@ -218,23 +218,17 @@ class RESTClientObject:
                                  (connection, read) timeouts.
         """
         # OpenAPI 3.2 allows arbitrary HTTP method names (query operations,
-        # additionalOperations keys). Keep the historic upper()+whitelist for
-        # the standard set; anything else is validated as an HTTP token
+        # additionalOperations keys). The generator emits standard methods
+        # already uppercase; anything else is validated as an HTTP token
         # (RFC 9110 tchar) and sent verbatim so casing like 'customMethod'
-        # survives
-        _upper_method = method.upper()
-        if _upper_method in [
-            'GET',
-            'HEAD',
-            'DELETE',
-            'POST',
-            'PUT',
-            'PATCH',
-            'OPTIONS'
-        ]:
-            method = _upper_method
-        else:
-            assert re.fullmatch(r"[!#$%&'*+\-.^_`|~0-9A-Za-z]+", method) is not None
+        # or 'get' (as a distinct additionalOperations key) survives. Do not
+        # use `assert` here: it is stripped under `python -O`.
+        if method not in self._STANDARD_METHODS:
+            if re.fullmatch(r"[!#$%&'*+\-.^_`|~0-9A-Za-z]+", method) is None:
+                raise ApiValueError(
+                    "Unrecognized HTTP method name %r: not a valid "
+                    "RFC 9110 token" % method
+                )
 
         if post_params and body:
             raise ApiValueError(
@@ -258,9 +252,13 @@ class RESTClientObject:
                 )
 
         try:
-            # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE` - or any
-            # OpenAPI 3.2 method that actually carries a body/form data
-            if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE'] or body is not None or post_params:
+            # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE` - or a
+            # non-standard OpenAPI 3.2 method that actually carries a
+            # body/form data. GET/HEAD keep the historic no-body path even
+            # when a spec defines one.
+            if (method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']
+                    or (method not in self._STANDARD_METHODS
+                        and (body is not None or post_params))):
 
                 content_type = headers.get('Content-Type')
                 is_json = (
