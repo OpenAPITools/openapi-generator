@@ -207,6 +207,39 @@ public class CodegenConfiguratorTest {
 
     // https://github.com/OpenAPITools/openapi-generator/issues/24212
     @Test
+    public void shouldNotFalsePositiveOnNestedQuotedPathItemMemberTypo() {
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        logger.addAppender(listAppender);
+
+        try {
+            @SuppressWarnings("unchecked") Context<OpenAPI> context = (Context<OpenAPI>) new CodegenConfigurator()
+                    .setInputSpec("src/test/resources/3_0/issue_24212_nested_quoted_path_member_typo.yaml")
+                    .setGeneratorName("java")
+                    .setValidateSpec(false)
+                    .toContext();
+
+            // generation still proceeds despite the typo'd path-item member
+            Assertions.assertNotNull(context.getSpecDocument().getPaths().get("/tasks'.'x-custom").getGet());
+
+            // the parser reports the typo'd member with a second quoted segment nested inside
+            // the path name's quotes ("attribute paths.'/tasks'.'x-custom'.nested is
+            // unexpected"); a typo'd member at that nested location is not a dropped operation
+            List<ILoggingEvent> missingWarnLogs = listAppender.list.stream()
+                    .filter(e -> e.getLevel() == ch.qos.logback.classic.Level.WARN)
+                    .filter(e -> e.getFormattedMessage().contains("MISSING"))
+                    .collect(Collectors.toList());
+            assertTrue(missingWarnLogs.isEmpty(),
+                    "A typo'd member reported under a nested quoted location must not be reported as a dropped path-item operation");
+        } finally {
+            logger.detachAppender(listAppender);
+        }
+    }
+
+    // https://github.com/OpenAPITools/openapi-generator/issues/24212
+    @Test
     public void shouldFailWithClearMessageAndNoMisleadingWarningWhenSpecificationIsNull() {
         ch.qos.logback.classic.Logger logger =
                 (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
