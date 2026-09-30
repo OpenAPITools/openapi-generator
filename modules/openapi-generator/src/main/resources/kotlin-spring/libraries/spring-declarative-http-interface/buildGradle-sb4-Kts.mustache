@@ -67,7 +67,8 @@ dependencies {
 {{/useJackson3}}
 
 {{#hasAuthMethods}}
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-client"){{/hasAuthMethods}}
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client"){{/hasAuthMethods}}{{^hasAuthMethods}}{{#clientRegistrationId}}
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client"){{/clientRegistrationId}}{{/hasAuthMethods}}
 
 {{#useBeanValidation}}
     implementation("jakarta.validation:jakarta.validation-api"){{/useBeanValidation}}

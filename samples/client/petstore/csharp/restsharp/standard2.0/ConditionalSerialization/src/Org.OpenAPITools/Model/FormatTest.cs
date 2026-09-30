@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="stringFormattedAsDecimalRequired">stringFormattedAsDecimalRequired (required).</param>
         /// <param name="duplicatePropertyName2">duplicatePropertyName2.</param>
         /// <param name="duplicatePropertyName">duplicatePropertyName.</param>
-        public FormatTest(int integer = default, int int32 = default, int int32Range = default, int int64Positive = default, int int64Negative = default, int int64PositiveExclusive = default, int int64NegativeExclusive = default, uint unsignedInteger = default, long int64 = default, ulong unsignedLong = default, decimal number = default, float varFloat = default, double varDouble = default, decimal varDecimal = default, string varString = default, byte[] varByte = default, System.IO.Stream binary = default, DateTime date = default, DateTime dateTime = default, Guid uuid = default, string password = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default, string patternWithBackslash = default, decimal stringFormattedAsDecimal = default, decimal stringFormattedAsDecimalRequired = default, string duplicatePropertyName2 = default, string duplicatePropertyName = default)
+        public FormatTest(int? integer = default, int? int32 = default, int? int32Range = default, int? int64Positive = default, int? int64Negative = default, int? int64PositiveExclusive = default, int? int64NegativeExclusive = default, uint? unsignedInteger = default, long? int64 = default, ulong? unsignedLong = default, decimal number = default, float? varFloat = default, double? varDouble = default, decimal? varDecimal = default, string varString = default, byte[] varByte = default, System.IO.Stream binary = default, DateTime date = default, DateTime? dateTime = default, Guid? uuid = default, string password = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default, string patternWithBackslash = default, decimal? stringFormattedAsDecimal = default, decimal stringFormattedAsDecimalRequired = default, string duplicatePropertyName2 = default, string duplicatePropertyName = default)
         {
             this._Number = number;
             // to ensure "varByte" is required (not null)
@@ -88,69 +88,69 @@ namespace Org.OpenAPITools.Model
             }
             this._Password = password;
             this._StringFormattedAsDecimalRequired = stringFormattedAsDecimalRequired;
-            this._Integer = integer;
-            if (this.Integer != null)
+            if (integer != null)
             {
+                this._Integer = integer.Value;
                 this._flagInteger = true;
             }
-            this._Int32 = int32;
-            if (this.Int32 != null)
+            if (int32 != null)
             {
+                this._Int32 = int32.Value;
                 this._flagInt32 = true;
             }
-            this._Int32Range = int32Range;
-            if (this.Int32Range != null)
+            if (int32Range != null)
             {
+                this._Int32Range = int32Range.Value;
                 this._flagInt32Range = true;
             }
-            this._Int64Positive = int64Positive;
-            if (this.Int64Positive != null)
+            if (int64Positive != null)
             {
+                this._Int64Positive = int64Positive.Value;
                 this._flagInt64Positive = true;
             }
-            this._Int64Negative = int64Negative;
-            if (this.Int64Negative != null)
+            if (int64Negative != null)
             {
+                this._Int64Negative = int64Negative.Value;
                 this._flagInt64Negative = true;
             }
-            this._Int64PositiveExclusive = int64PositiveExclusive;
-            if (this.Int64PositiveExclusive != null)
+            if (int64PositiveExclusive != null)
             {
+                this._Int64PositiveExclusive = int64PositiveExclusive.Value;
                 this._flagInt64PositiveExclusive = true;
             }
-            this._Int64NegativeExclusive = int64NegativeExclusive;
-            if (this.Int64NegativeExclusive != null)
+            if (int64NegativeExclusive != null)
             {
+                this._Int64NegativeExclusive = int64NegativeExclusive.Value;
                 this._flagInt64NegativeExclusive = true;
             }
-            this._UnsignedInteger = unsignedInteger;
-            if (this.UnsignedInteger != null)
+            if (unsignedInteger != null)
             {
+                this._UnsignedInteger = unsignedInteger.Value;
                 this._flagUnsignedInteger = true;
             }
-            this._Int64 = int64;
-            if (this.Int64 != null)
+            if (int64 != null)
             {
+                this._Int64 = int64.Value;
                 this._flagInt64 = true;
             }
-            this._UnsignedLong = unsignedLong;
-            if (this.UnsignedLong != null)
+            if (unsignedLong != null)
             {
+                this._UnsignedLong = unsignedLong.Value;
                 this._flagUnsignedLong = true;
             }
-            this._Float = varFloat;
-            if (this.Float != null)
+            if (varFloat != null)
             {
+                this._Float = varFloat.Value;
                 this._flagFloat = true;
             }
-            this._Double = varDouble;
-            if (this.Double != null)
+            if (varDouble != null)
             {
+                this._Double = varDouble.Value;
                 this._flagDouble = true;
             }
-            this._Decimal = varDecimal;
-            if (this.Decimal != null)
+            if (varDecimal != null)
             {
+                this._Decimal = varDecimal.Value;
                 this._flagDecimal = true;
             }
             this._String = varString;
@@ -163,14 +163,14 @@ namespace Org.OpenAPITools.Model
             {
                 this._flagBinary = true;
             }
-            this._DateTime = dateTime;
-            if (this.DateTime != null)
+            if (dateTime != null)
             {
+                this._DateTime = dateTime.Value;
                 this._flagDateTime = true;
             }
-            this._Uuid = uuid;
-            if (this.Uuid != null)
+            if (uuid != null)
             {
+                this._Uuid = uuid.Value;
                 this._flagUuid = true;
             }
             this._PatternWithDigits = patternWithDigits;
@@ -188,9 +188,9 @@ namespace Org.OpenAPITools.Model
             {
                 this._flagPatternWithBackslash = true;
             }
-            this._StringFormattedAsDecimal = stringFormattedAsDecimal;
-            if (this.StringFormattedAsDecimal != null)
+            if (stringFormattedAsDecimal != null)
             {
+                this._StringFormattedAsDecimal = stringFormattedAsDecimal.Value;
                 this._flagStringFormattedAsDecimal = true;
             }
             this._DuplicatePropertyName2 = duplicatePropertyName2;

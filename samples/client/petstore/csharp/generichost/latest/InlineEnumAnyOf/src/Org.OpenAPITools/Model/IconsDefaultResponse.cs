@@ -150,7 +150,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="iconsDefaultResponse"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, IconsDefaultResponse iconsDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -165,7 +164,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="iconsDefaultResponse"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, IconsDefaultResponse iconsDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (iconsDefaultResponse.StringOption.IsSet && iconsDefaultResponse.String == null)

@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: oneOf member without a type
+  version: "1"
+paths:
+  /conditions:
+    get:
+      operationId: getConditions
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conditions"
+components:
+  schemas:
+    Conditions:
+      type: object
+      oneOf:
+        - type: object
+          maxProperties: 0
+        - allOf:
+            - $ref: "#/components/schemas/WorkflowPathCondition"
+          required:
+            - workflow_path
+          maxProperties: 1
+    WorkflowPathCondition:
+      type: object
+      properties:
+        workflow_path:
+          type: string

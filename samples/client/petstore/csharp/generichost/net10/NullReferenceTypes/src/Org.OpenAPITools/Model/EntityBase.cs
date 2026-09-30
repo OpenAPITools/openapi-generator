@@ -168,7 +168,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="entityBase"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, EntityBase entityBase, JsonSerializerOptions jsonSerializerOptions)
         {
             if (entityBase is CopyActivity copyActivity){
@@ -188,7 +187,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="entityBase"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, EntityBase entityBase, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("$schema", entityBase.Schema);

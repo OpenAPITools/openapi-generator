@@ -356,7 +356,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="pet"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -371,7 +370,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="pet"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
             if (pet.CategoryOption.IsSet && pet.Category == null)

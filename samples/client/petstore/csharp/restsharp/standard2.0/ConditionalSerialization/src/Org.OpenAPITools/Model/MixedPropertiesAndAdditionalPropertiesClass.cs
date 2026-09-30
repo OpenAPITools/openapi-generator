@@ -39,21 +39,21 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid.</param>
         /// <param name="dateTime">dateTime.</param>
         /// <param name="map">map.</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuidWithPattern = default, Guid uuid = default, DateTime dateTime = default, Dictionary<string, Animal> map = default)
+        public MixedPropertiesAndAdditionalPropertiesClass(Guid? uuidWithPattern = default, Guid? uuid = default, DateTime? dateTime = default, Dictionary<string, Animal> map = default)
         {
-            this._UuidWithPattern = uuidWithPattern;
-            if (this.UuidWithPattern != null)
+            if (uuidWithPattern != null)
             {
+                this._UuidWithPattern = uuidWithPattern.Value;
                 this._flagUuidWithPattern = true;
             }
-            this._Uuid = uuid;
-            if (this.Uuid != null)
+            if (uuid != null)
             {
+                this._Uuid = uuid.Value;
                 this._flagUuid = true;
             }
-            this._DateTime = dateTime;
-            if (this.DateTime != null)
+            if (dateTime != null)
             {
+                this._DateTime = dateTime.Value;
                 this._flagDateTime = true;
             }
             this._Map = map;
