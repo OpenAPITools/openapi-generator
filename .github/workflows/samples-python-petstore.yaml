@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - samples/openapi3/client/petstore/python-aiohttp/**
+      - samples/openapi3/client/petstore/python-httpx2/**
+      - samples/openapi3/client/petstore/python-httpx2-sync/**
       - samples/openapi3/client/petstore/python-httpx/**
       - samples/openapi3/client/petstore/python-httpx-sync/**
       - samples/openapi3/client/petstore/python/**
@@ -37,6 +39,8 @@ jobs:
           - "3.14"
         sample:
           - samples/openapi3/client/petstore/python-aiohttp
+          - samples/openapi3/client/petstore/python-httpx2
+          - samples/openapi3/client/petstore/python-httpx2-sync
           - samples/openapi3/client/petstore/python-httpx
           - samples/openapi3/client/petstore/python-httpx-sync
           - samples/openapi3/client/petstore/python

@@ -86,7 +86,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     ResponseEntity<Void> createUsersWithArrayInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+        @Parameter(name = "User", description = "List of user object", required = true) @RequestBody List<@Valid User> user
     ) throws Exception;
 
 
@@ -113,7 +113,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     ResponseEntity<Void> createUsersWithListInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+        @Parameter(name = "User", description = "List of user object", required = true) @RequestBody List<@Valid User> user
     ) throws Exception;
 
 

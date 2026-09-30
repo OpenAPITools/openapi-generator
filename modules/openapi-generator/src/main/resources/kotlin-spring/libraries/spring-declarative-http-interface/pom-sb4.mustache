@@ -180,6 +180,14 @@
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
         </dependency>
         {{/hasAuthMethods}}
+        {{^hasAuthMethods}}
+        {{#clientRegistrationId}}
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+        {{/clientRegistrationId}}
+        {{/hasAuthMethods}}
 {{#useJackson3}}
         <dependency>
             <groupId>{{jacksonPackage}}.dataformat</groupId>

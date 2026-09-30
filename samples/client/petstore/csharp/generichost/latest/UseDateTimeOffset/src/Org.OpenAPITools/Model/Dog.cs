@@ -139,16 +139,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Dog.", nameof(className));
+                throw new JsonException("Property is required for class Dog: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Dog.");
+                throw new JsonException("Property is not nullable for class Dog: className.");
 
             if (breed.IsSet && breed.Value == null)
-                throw new ArgumentNullException(nameof(breed), "Property is not nullable for class Dog.");
+                throw new JsonException("Property is not nullable for class Dog: breed.");
 
             if (color.IsSet && color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Dog.");
+                throw new JsonException("Property is not nullable for class Dog: color.");
 
             return new Dog(breed, color);
         }
@@ -159,7 +159,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="dog"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -174,14 +173,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="dog"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
         {
             if (dog.BreedOption.IsSet && dog.Breed == null)
-                throw new ArgumentNullException(nameof(dog.Breed), "Property is required for class Dog.");
+                throw new JsonException("Cannot write null property Dog.Breed to non-nullable JSON property 'breed'.");
 
             if (dog.ColorOption.IsSet && dog.Color == null)
-                throw new ArgumentNullException(nameof(dog.Color), "Property is required for class Dog.");
+                throw new JsonException("Cannot write null property Dog.Color to non-nullable JSON property 'color'.");
 
             writer.WriteString("className", dog.ClassName);
 

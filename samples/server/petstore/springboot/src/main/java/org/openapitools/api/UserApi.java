@@ -96,7 +96,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithArrayInput(
-        @Parameter(name = "UserDto", description = "List of user object", required = true) @Valid @RequestBody List<@Valid UserDto> userDto
+        @Parameter(name = "UserDto", description = "List of user object", required = true) @RequestBody List<@Valid UserDto> userDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -126,7 +126,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithListInput(
-        @Parameter(name = "UserDto", description = "List of user object", required = true) @Valid @RequestBody List<@Valid UserDto> userDto
+        @Parameter(name = "UserDto", description = "List of user object", required = true) @RequestBody List<@Valid UserDto> userDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

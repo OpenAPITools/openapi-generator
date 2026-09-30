@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (message.IsSet && message.Value == null)
-                throw new ArgumentNullException(nameof(message), "Property is not nullable for class HelloWorldPostRequest.");
+                throw new JsonException("Property is not nullable for class HelloWorldPostRequest: message.");
 
             return new HelloWorldPostRequest(message);
         }
@@ -150,7 +150,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="helloWorldPostRequest"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, HelloWorldPostRequest helloWorldPostRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -165,11 +164,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="helloWorldPostRequest"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, HelloWorldPostRequest helloWorldPostRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (helloWorldPostRequest.MessageOption.IsSet && helloWorldPostRequest.Message == null)
-                throw new ArgumentNullException(nameof(helloWorldPostRequest.Message), "Property is required for class HelloWorldPostRequest.");
+                throw new JsonException("Cannot write null property HelloWorldPostRequest.Message to non-nullable JSON property 'message'.");
 
             if (helloWorldPostRequest.MessageOption.IsSet)
                 writer.WriteString("message", helloWorldPostRequest.Message);

@@ -624,6 +624,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (StringUtils.isNotEmpty(property.pattern)) {
             addImport(model, "import re");
         }
+        if (anyPropertyMatches(property, p -> p.isUuid)) {
+            addImport(model, "from uuid import UUID");
+        }
         postProcessPattern(property.pattern, property.vendorExtensions);
     }
 

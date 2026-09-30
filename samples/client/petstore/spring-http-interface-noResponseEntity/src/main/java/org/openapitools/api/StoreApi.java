@@ -22,6 +22,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public interface StoreApi {
 
+    String PATH_DELETE_ORDER = "/store/order/{order_id}";
     /**
      * DELETE /store/order/{order_id} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -33,7 +34,7 @@ public interface StoreApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
         method = "DELETE",
-        value = "/store/order/{order_id}",
+        value = StoreApi.PATH_DELETE_ORDER,
         accept = { "application/json" }
     )
     void deleteOrder(
@@ -41,6 +42,7 @@ public interface StoreApi {
     );
 
 
+    String PATH_GET_INVENTORY = "/store/inventory";
     /**
      * GET /store/inventory : Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -50,7 +52,7 @@ public interface StoreApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "GET",
-        value = "/store/inventory",
+        value = StoreApi.PATH_GET_INVENTORY,
         accept = { "application/json" }
     )
     Map<String, Integer> getInventory(
@@ -58,6 +60,7 @@ public interface StoreApi {
     );
 
 
+    String PATH_GET_ORDER_BY_ID = "/store/order/{order_id}";
     /**
      * GET /store/order/{order_id} : Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -70,7 +73,7 @@ public interface StoreApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "GET",
-        value = "/store/order/{order_id}",
+        value = StoreApi.PATH_GET_ORDER_BY_ID,
         accept = { "application/json", "application/xml" }
     )
     OrderDto getOrderById(
@@ -78,6 +81,7 @@ public interface StoreApi {
     );
 
 
+    String PATH_PLACE_ORDER = "/store/order";
     /**
      * POST /store/order : Place an order for a pet
      * 
@@ -89,7 +93,7 @@ public interface StoreApi {
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
         method = "POST",
-        value = "/store/order",
+        value = StoreApi.PATH_PLACE_ORDER,
         accept = { "application/json", "application/xml" },
         contentType = "application/json"
     )
