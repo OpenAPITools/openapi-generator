@@ -477,6 +477,145 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllOfRefChainCollectsRequiredFromEveryLevel() {
+        // a 3-level allOf chain through $ref (ChainA -> ChainB -> ChainC): the
+        // required traversal must follow every hop, not just the first
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-chain").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("chain_a").required,
+                "required from the first $ref target must apply");
+        assertTrue(paramsByBaseName.get("chain_b").required,
+                "required from the second $ref hop must apply");
+        assertTrue(paramsByBaseName.get("chain_c").required,
+                "required from the third $ref hop must apply");
+        assertFalse(paramsByBaseName.get("chain_a_opt").required,
+                "non-required property stays optional");
+        assertFalse(paramsByBaseName.get("chain_c_opt").required,
+                "non-required property stays optional");
+    }
+
+    @Test
+    public void testOneOfInsideAllOfMemberDoesNotForceRequired() {
+        // an allOf member that itself mixes `properties`/`required` with oneOf
+        // branches: the member's own required applies, but required entries
+        // inside the alternative branches must not force the form parameters
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-member-oneof").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("c").required,
+                "the allOf member's own required must apply");
+        assertFalse(paramsByBaseName.get("x").required,
+                "oneOf branch required must not force the form parameter");
+        assertFalse(paramsByBaseName.get("y").required,
+                "oneOf branch required must not force the form parameter");
+    }
+
+    @Test
+    public void testCircularAllOfRefsDoNotStackOverflow() {
+        // CycA allOf-> CycB and CycB allOf-> CycA form a $ref cycle; both the
+        // property collection and the required traversal must terminate via
+        // the visited-schema guard instead of recursing forever
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-cyclic").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("ca").required,
+                "required collected before the cycle closes must apply");
+        assertTrue(paramsByBaseName.get("cb").required,
+                "required collected before the cycle closes must apply");
+    }
+
+    @Test
+    public void testAllOfRefChainRequiredMatchesSnakeCaseBaseName() {
+        // snake_case names are normalized to camelCase paramNames (user_id ->
+        // userId); required matching must stay on the baseName even when the
+        // allOf member is reached through a $ref
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-ref-snake").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("user_id").required,
+                "required must match the schema name even when paramName is normalized to userId");
+        assertTrue(paramsByBaseName.get("plain_req").required,
+                "required must match the schema name even when paramName is normalized to plainReq");
+        assertFalse(paramsByBaseName.get("snake_opt").required,
+                "non-required property stays optional");
+    }
+
+    @Test
+    public void testComposedPropertyRequiredDoesNotLeak() {
+        // a property that is itself a composed schema with an inner `required`
+        // must not leak that entry into the enclosing form's required set
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-nested-composed").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("outer_req").required,
+                "top-level required must apply");
+        assertFalse(paramsByBaseName.get("nested").required,
+                "the composed property itself is not in the required list");
+        // tripwire: the optional top-level `z` would wrongly turn required if
+        // the inner `required: [z]` leaked into the enclosing required set
+        assertFalse(paramsByBaseName.get("z").required,
+                "required inside a property's own composed schema must not leak outward");
+    }
+
+    @Test
+    public void testAnyOfBranchesDoNotForceFormRequired() {
+        // same mixed shape as testOneOfBranchesDoNotForceFormRequired but with
+        // anyOf: required entries inside the alternatives must stay optional
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/form-allof-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        RequestBody requestBody = openAPI.getPaths().get("/register-anyof-mixed").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("common").required,
+                "top-level required must apply");
+        assertFalse(paramsByBaseName.get("p").required,
+                "anyOf branch required must not force the form parameter");
+        assertFalse(paramsByBaseName.get("q").required,
+                "anyOf branch required must not force the form parameter");
+    }
+
+    @Test
     public void testOriginalOpenApiDocumentVersion() {
         // Test with OAS 2.0 document.
         String location = "src/test/resources/2_0/python-prior/petstore-with-fake-endpoints-models-for-testing.yaml";

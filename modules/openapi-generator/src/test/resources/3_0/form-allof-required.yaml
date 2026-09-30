@@ -105,3 +105,191 @@ paths:
       responses:
         '200':
           description: ok
+  /register-chain:
+    post:
+      operationId: registerChain
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ChainA'
+      responses:
+        '200':
+          description: ok
+  /register-member-oneof:
+    post:
+      operationId: registerMemberOneof
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - type: object
+                  required:
+                    - c
+                  properties:
+                    c:
+                      type: string
+                  oneOf:
+                    - type: object
+                      required:
+                        - x
+                      properties:
+                        x:
+                          type: string
+                    - type: object
+                      required:
+                        - y
+                      properties:
+                        y:
+                          type: string
+      responses:
+        '200':
+          description: ok
+  /register-cyclic:
+    post:
+      operationId: registerCyclic
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CycA'
+      responses:
+        '200':
+          description: ok
+  /register-ref-snake:
+    post:
+      operationId: registerRefSnake
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/SnakeRequired'
+      responses:
+        '200':
+          description: ok
+  /register-nested-composed:
+    post:
+      operationId: registerNestedComposed
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - outer_req
+              properties:
+                outer_req:
+                  type: string
+                z:
+                  type: string
+                nested:
+                  allOf:
+                    - type: object
+                      required:
+                        - z
+                      properties:
+                        z:
+                          type: string
+      responses:
+        '200':
+          description: ok
+  /register-anyof-mixed:
+    post:
+      operationId: registerAnyofMixed
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - common
+              properties:
+                common:
+                  type: string
+              anyOf:
+                - type: object
+                  required:
+                    - p
+                  properties:
+                    p:
+                      type: string
+                - type: object
+                  required:
+                    - q
+                  properties:
+                    q:
+                      type: string
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    ChainA:
+      type: object
+      required:
+        - chain_a
+      properties:
+        chain_a:
+          type: string
+        chain_a_opt:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/ChainB'
+    ChainB:
+      type: object
+      required:
+        - chain_b
+      properties:
+        chain_b:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/ChainC'
+    ChainC:
+      type: object
+      required:
+        - chain_c
+      properties:
+        chain_c:
+          type: string
+        chain_c_opt:
+          type: string
+    CycA:
+      type: object
+      required:
+        - ca
+      properties:
+        ca:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/CycB'
+    CycB:
+      type: object
+      required:
+        - cb
+      properties:
+        cb:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/CycA'
+    SnakeRequired:
+      type: object
+      required:
+        - user_id
+        - plain_req
+      properties:
+        user_id:
+          type: string
+        plain_req:
+          type: string
+        snake_opt:
+          type: string
