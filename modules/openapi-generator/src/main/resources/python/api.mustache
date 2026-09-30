@@ -1,6 +1,8 @@
 {{>partial_header}}
 
+{{#x-python-has-json-header}}
 import json
+{{/x-python-has-json-header}}
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union

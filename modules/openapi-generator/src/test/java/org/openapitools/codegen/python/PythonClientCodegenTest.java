@@ -129,6 +129,29 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testJsonImportOnlyGeneratedForJsonHeaderContent() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "api",
+                "pet_api.py");
+
+        TestUtils.assertFileNotContains(api, "import json");
+    }
+
+    @Test
     public void testJsonContentHeaderUsesJsonSerialization() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

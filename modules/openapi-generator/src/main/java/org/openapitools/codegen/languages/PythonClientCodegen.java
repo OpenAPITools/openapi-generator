@@ -619,10 +619,21 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public OperationsMap postProcessOperationsWithModels(
             OperationsMap objs, List<ModelMap> allModels) {
+        List<CodegenOperation> operations = objs.getOperations().getOperation();
+
         if (useIndependentImplicitClients) {
-            renameIndependentClientOperationMembers(
-                    objs.getOperations().getOperation());
+            renameIndependentClientOperationMembers(operations);
         }
+
+        boolean hasJsonHeader = operations.stream()
+                .flatMap(operation -> operation.headerParams.stream())
+                .anyMatch(parameter ->
+                        parameter.vendorExtensions.containsKey("x-python-json-header"));
+
+        if (hasJsonHeader) {
+            objs.put("x-python-has-json-header", true);
+        }
+
         return super.postProcessOperationsWithModels(objs, allModels);
     }
 
