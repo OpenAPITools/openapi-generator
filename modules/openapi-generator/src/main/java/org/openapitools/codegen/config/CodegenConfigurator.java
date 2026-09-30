@@ -60,12 +60,23 @@ public class CodegenConfigurator {
     public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 
     // Matches swagger-parser's OpenAPIDeserializer$ParseResult#extra(...) message format,
-    // e.g. "attribute paths.'/tasks'.query is unexpected". The attribute name is restricted to a
-    // single simple token so this does NOT match a typo'd key nested one level down (e.g. a
-    // path-level parameter or server object), which is reported under the same "paths.'X'." prefix
-    // but is not itself a dropped operation.
+    // e.g. "attribute paths.'/tasks'.query is unexpected". The path name is restricted to a
+    // segment without single quotes so a message with a second quoted segment nested inside
+    // the first (e.g. "attribute paths.'/tasks'.'x-custom'.nested is unexpected", which the
+    // parser produces when the path template itself contains a quote) does NOT match -- such
+    // a nested member is not a dropped operation. The attribute name is likewise restricted
+    // to a single simple token so this does NOT match a typo'd key nested one level down
+    // (e.g. a path-level parameter or server object), which is reported under the same
+    // "paths.'X'." prefix but is not itself a dropped operation. Dots ARE allowed inside the
+    // attribute name: a custom HTTP method such as 'M.FOO' is a single path-item member key
+    // (RFC 9110 tchar permits '.'), and the parser reports it as
+    // "attribute paths.'/tasks'.M.FOO is unexpected". Nested locations are still rejected
+    // because the parser formats them with characters that remain excluded -- square
+    // brackets for parameter elements ("paths.'/tasks/{id}'.[id].requried"), parentheses
+    // for operation members ("paths.'/tasks'(get).summaryy"), and single quotes for nested
+    // quoted segments.
     private static final Pattern UNEXPECTED_PATH_ITEM_ATTRIBUTE =
-            Pattern.compile("attribute paths\\.'(.+)'\\.([^.\\[\\]()'\\s]+) is unexpected");
+            Pattern.compile("attribute paths\\.'([^']+)'\\.([^\\[\\]()'\\s]+) is unexpected");
 
     private GeneratorSettings.Builder generatorSettingsBuilder = GeneratorSettings.newBuilder();
     private WorkflowSettings.Builder workflowSettingsBuilder = WorkflowSettings.newBuilder();

@@ -17,7 +17,9 @@
 package org.openapitools.codegen.config;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.filter.Filter;
 import ch.qos.logback.core.read.ListAppender;
+import ch.qos.logback.core.spi.FilterReply;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.ClientOptInput;
@@ -43,6 +45,27 @@ import static org.testng.Assert.assertTrue;
 public class CodegenConfiguratorTest {
     private void want(ConfigAssert configAssert, String key, Object expected) {
         configAssert.assertValue(key, expected);
+    }
+
+    // Attaches a ListAppender that records only events logged on the calling thread.
+    // Surefire runs test classes in parallel (pom.xml: <parallel>classes</parallel>) and
+    // CodegenConfigurator.LOGGER is a shared static logger, so a plain ListAppender would
+    // also capture events emitted by other test classes' threads -- polluting the MISSING
+    // assertions and letting foreign threads mutate its list while we read it.
+    private ListAppender<ILoggingEvent> attachListAppenderCapturingCurrentThread(
+            ch.qos.logback.classic.Logger logger) {
+        final String testThreadName = Thread.currentThread().getName();
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.addFilter(new Filter<ILoggingEvent>() {
+            @Override
+            public FilterReply decide(ILoggingEvent event) {
+                return testThreadName.equals(event.getThreadName())
+                        ? FilterReply.NEUTRAL : FilterReply.DENY;
+            }
+        });
+        listAppender.start();
+        logger.addAppender(listAppender);
+        return listAppender;
     }
 
     @Test
@@ -143,14 +166,39 @@ public class CodegenConfiguratorTest {
         Assertions.assertNotNull(context.getSpecDocument().getPaths().get("/hello").getGet().getResponses().get("200").getContent());
     }
 
+    @Test
+    public void shouldNotCaptureLogEventsFromOtherThreads() throws Exception {
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
+        ListAppender<ILoggingEvent> listAppender = attachListAppenderCapturingCurrentThread(logger);
+
+        try {
+            // surefire is configured with <parallel>classes</parallel>, so sibling test
+            // classes can write to this shared static logger while these tests run; events
+            // from any thread other than the one that attached the appender must be ignored
+            Thread foreign = new Thread(
+                    () -> CodegenConfigurator.LOGGER.warn("foreign-thread MISSING marker"));
+            foreign.start();
+            foreign.join();
+            CodegenConfigurator.LOGGER.warn("own-thread MISSING marker");
+
+            assertTrue(listAppender.list.stream()
+                            .noneMatch(e -> e.getFormattedMessage().contains("foreign-thread MISSING")),
+                    "the capturing appender must ignore events logged by other threads");
+            assertTrue(listAppender.list.stream()
+                            .anyMatch(e -> e.getFormattedMessage().contains("own-thread MISSING")),
+                    "the capturing appender must still record events logged by the test's own thread");
+        } finally {
+            logger.detachAppender(listAppender);
+        }
+    }
+
     // https://github.com/OpenAPITools/openapi-generator/issues/24212
     @Test
     public void shouldWarnAboutDroppedUnrecognizedPathItemOperation() {
         ch.qos.logback.classic.Logger logger =
                 (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-        logger.addAppender(listAppender);
+        ListAppender<ILoggingEvent> listAppender = attachListAppenderCapturingCurrentThread(logger);
 
         try {
             @SuppressWarnings("unchecked") Context<OpenAPI> context = (Context<OpenAPI>) new CodegenConfigurator()
@@ -176,12 +224,44 @@ public class CodegenConfiguratorTest {
 
     // https://github.com/OpenAPITools/openapi-generator/issues/24212
     @Test
+    public void shouldWarnAboutDroppedCustomMethodContainingDot() {
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
+        ListAppender<ILoggingEvent> listAppender = attachListAppenderCapturingCurrentThread(logger);
+
+        try {
+            @SuppressWarnings("unchecked") Context<OpenAPI> context = (Context<OpenAPI>) new CodegenConfigurator()
+                    .setInputSpec("src/test/resources/3_0/issue_24212_dotted_custom_method.yaml")
+                    .setGeneratorName("java")
+                    .setValidateSpec(false)
+                    .toContext();
+
+            // generation still proceeds: the recognized 'get' operation is present
+            Assertions.assertNotNull(context.getSpecDocument().getPaths().get("/tasks").getGet());
+
+            // a custom method name may contain a dot (RFC 9110 tchar); the parser reports
+            // it as "attribute paths.'/tasks'.M.FOO is unexpected" and it must surface as
+            // MISSING rather than being silently dropped
+            for (String method : new String[]{"M.FOO", "m.foo"}) {
+                List<ILoggingEvent> missingWarnLogs = listAppender.list.stream()
+                        .filter(e -> e.getLevel() == ch.qos.logback.classic.Level.WARN)
+                        .filter(e -> e.getFormattedMessage().contains("'" + method + "' at path '/tasks'"))
+                        .filter(e -> e.getFormattedMessage().contains("MISSING"))
+                        .collect(Collectors.toList());
+                assertFalse(missingWarnLogs.isEmpty(),
+                        "A WARN log naming the dropped '" + method + "' custom method at path '/tasks' as MISSING must be emitted");
+            }
+        } finally {
+            logger.detachAppender(listAppender);
+        }
+    }
+
+    // https://github.com/OpenAPITools/openapi-generator/issues/24212
+    @Test
     public void shouldNotFalsePositiveOnNestedPathItemMemberTypo() {
         ch.qos.logback.classic.Logger logger =
                 (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-        logger.addAppender(listAppender);
+        ListAppender<ILoggingEvent> listAppender = attachListAppenderCapturingCurrentThread(logger);
 
         try {
             @SuppressWarnings("unchecked") Context<OpenAPI> context = (Context<OpenAPI>) new CodegenConfigurator()
@@ -207,12 +287,41 @@ public class CodegenConfiguratorTest {
 
     // https://github.com/OpenAPITools/openapi-generator/issues/24212
     @Test
+    public void shouldNotFalsePositiveOnNestedQuotedPathItemMemberTypo() {
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
+        ListAppender<ILoggingEvent> listAppender = attachListAppenderCapturingCurrentThread(logger);
+
+        try {
+            @SuppressWarnings("unchecked") Context<OpenAPI> context = (Context<OpenAPI>) new CodegenConfigurator()
+                    .setInputSpec("src/test/resources/3_0/issue_24212_nested_quoted_path_member_typo.yaml")
+                    .setGeneratorName("java")
+                    .setValidateSpec(false)
+                    .toContext();
+
+            // generation still proceeds despite the typo'd path-item member
+            Assertions.assertNotNull(context.getSpecDocument().getPaths().get("/tasks'.'x-custom").getGet());
+
+            // the parser reports the typo'd member with a second quoted segment nested inside
+            // the path name's quotes ("attribute paths.'/tasks'.'x-custom'.nested is
+            // unexpected"); a typo'd member at that nested location is not a dropped operation
+            List<ILoggingEvent> missingWarnLogs = listAppender.list.stream()
+                    .filter(e -> e.getLevel() == ch.qos.logback.classic.Level.WARN)
+                    .filter(e -> e.getFormattedMessage().contains("MISSING"))
+                    .collect(Collectors.toList());
+            assertTrue(missingWarnLogs.isEmpty(),
+                    "A typo'd member reported under a nested quoted location must not be reported as a dropped path-item operation");
+        } finally {
+            logger.detachAppender(listAppender);
+        }
+    }
+
+    // https://github.com/OpenAPITools/openapi-generator/issues/24212
+    @Test
     public void shouldFailWithClearMessageAndNoMisleadingWarningWhenSpecificationIsNull() {
         ch.qos.logback.classic.Logger logger =
                 (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-        logger.addAppender(listAppender);
+        ListAppender<ILoggingEvent> listAppender = attachListAppenderCapturingCurrentThread(logger);
 
         try {
             CodegenConfigurator configurator = new CodegenConfigurator()
