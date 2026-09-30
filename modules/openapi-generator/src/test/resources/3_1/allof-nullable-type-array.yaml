@@ -12,6 +12,18 @@ components:
           type:
             - string
             - 'null'
+        tags:
+          type: array
+          items:
+            type:
+              - string
+              - 'null'
+        meta:
+          type: object
+          additionalProperties:
+            type:
+              - string
+              - 'null'
         name:
           type: string
     Derived:
@@ -28,5 +40,17 @@ components:
           type:
             - string
             - 'null'
+        tags:
+          type: array
+          items:
+            type:
+              - string
+              - 'null'
+        meta:
+          type: object
+          additionalProperties:
+            type:
+              - string
+              - 'null'
         email:
           type: string

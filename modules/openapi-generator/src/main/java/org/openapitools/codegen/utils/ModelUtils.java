@@ -2574,13 +2574,12 @@ public class ModelUtils {
         if (openapi31) {
             Schema result = AnnotationsUtils.clone(schema, openapi31);
             // `nullable` is not a valid OAS 3.1 keyword, so the 3.1 serializer used by
-            // AnnotationsUtils.clone silently drops it. OpenAPINormalizer rewrites an OAS 3.1
-            // `type: [<type>, "null"]` declaration into `nullable: true` plus a plain type, so
-            // dropping it here would turn cloned properties (e.g. those merged into a model from
-            // an `allOf` parent) into non-nullable ones. Carry it over explicitly.
-            if (result != null && schema.getNullable() != null) {
-                result.setNullable(schema.getNullable());
-            }
+            // AnnotationsUtils.clone silently drops it -- at every level of the schema, not just
+            // the root. OpenAPINormalizer rewrites an OAS 3.1 `type: [<type>, "null"]` declaration
+            // into `nullable: true` plus a plain type, so dropping it here would turn cloned
+            // schemas (e.g. properties merged into a model from an `allOf` parent) and every
+            // schema nested inside them into non-nullable ones. Carry it over explicitly.
+            restoreNullable(schema, result);
             return result;
         } else {
             // AnnotationsUtils.clone doesn't support custom schema types for OpenAPI < 3.1
@@ -2592,6 +2591,60 @@ public class ModelUtils {
             schema.setType(schemaType);
             result.setType(schemaType);
             return result;
+        }
+    }
+
+    /**
+     * Copies the `nullable` flag from {@code original} onto {@code cloned}, recursing through
+     * every nested schema (properties, array items, additionalProperties, composed sub-schemas
+     * and `not`). Used to repair an OpenAPI 3.1 clone, whose serializer drops the flag because
+     * `nullable` is not a valid OAS 3.1 keyword.
+     * <p>
+     * The two schemas are walked in parallel, so this relies on {@code cloned} having the same
+     * shape as {@code original} -- which holds because it is a faithful deep copy in every other
+     * respect. Nested lists are matched positionally and defensively bounded by the shorter of
+     * the two.
+     *
+     * @param original the schema that was cloned
+     * @param cloned   the clone to repair
+     */
+    private static void restoreNullable(Schema original, Schema cloned) {
+        if (original == null || cloned == null) {
+            return;
+        }
+
+        if (original.getNullable() != null) {
+            cloned.setNullable(original.getNullable());
+        }
+
+        restoreNullableInMap(original.getProperties(), cloned.getProperties());
+        restoreNullable(original.getItems(), cloned.getItems());
+        restoreNullable(original.getNot(), cloned.getNot());
+
+        if (original.getAdditionalProperties() instanceof Schema
+                && cloned.getAdditionalProperties() instanceof Schema) {
+            restoreNullable((Schema) original.getAdditionalProperties(),
+                    (Schema) cloned.getAdditionalProperties());
+        }
+
+        restoreNullableInList(original.getAllOf(), cloned.getAllOf());
+        restoreNullableInList(original.getOneOf(), cloned.getOneOf());
+        restoreNullableInList(original.getAnyOf(), cloned.getAnyOf());
+    }
+
+    private static void restoreNullableInMap(Map<String, Schema> original, Map<String, Schema> cloned) {
+        if (original == null || cloned == null) {
+            return;
+        }
+        original.forEach((name, originalValue) -> restoreNullable(originalValue, cloned.get(name)));
+    }
+
+    private static void restoreNullableInList(List<Schema> original, List<Schema> cloned) {
+        if (original == null || cloned == null) {
+            return;
+        }
+        for (int i = 0; i < Math.min(original.size(), cloned.size()); i++) {
+            restoreNullable(original.get(i), cloned.get(i));
         }
     }
 
