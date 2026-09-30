@@ -27,6 +27,7 @@ import org.openapitools.codegen.languages.RustClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -593,11 +594,27 @@ public class RustClientCodegenTest {
         pb.environment().put("NO_PROXY", "127.0.0.1,localhost");
         pb.environment().put("no_proxy", "127.0.0.1,localhost");
         Process p = pb.start();
+        // Drain the merged stdout/stderr pipe on a separate thread while we wait: reading
+        // only after waitFor() lets a full OS pipe buffer (~64KB on Linux) block cargo's
+        // writes, deadlocking the wait.
+        ByteArrayOutputStream captured = new ByteArrayOutputStream();
+        Thread drainer = new Thread(() -> {
+            try {
+                p.getInputStream().transferTo(captured);
+            } catch (IOException ignored) {
+                // process died or the stream closed; whatever was captured is still reported
+            }
+        });
+        drainer.setDaemon(true);
+        drainer.start();
         boolean finished = p.waitFor(15, TimeUnit.MINUTES);
         if (!finished) {
             p.destroyForcibly();
         }
-        String output = new String(p.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        // process exit (or destroyForcibly) closes the pipe, so the drainer hits EOF and ends;
+        // bound the join so a stray cargo child still holding the pipe can't hang the test
+        drainer.join(30_000);
+        String output = new String(captured.toByteArray(), StandardCharsets.UTF_8);
         Assert.assertTrue(finished, "cargo " + String.join(" ", args) + " timed out:\n" + output);
         Assert.assertEquals(p.exitValue(), 0, "cargo " + String.join(" ", args) + " failed:\n" + output);
         return output;
