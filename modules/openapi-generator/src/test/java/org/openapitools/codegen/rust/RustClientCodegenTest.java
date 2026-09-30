@@ -433,6 +433,37 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testReqwestEscapesMarkdownSpecialsInMethodDoc() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary("reqwest")
+                    .setInputSpec("src/test/resources/3_2/rust-method-doc-escape.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path docPath = Path.of(target.toString(), "docs/DefaultApi.md");
+            TestUtils.assertFileExists(docPath);
+            String docs = new String(Files.readAllBytes(docPath), StandardCharsets.UTF_8);
+            // markdown-significant tchars must be escaped inside the method cell
+            for (String escaped : new String[]{"A\\|B", "A\\*B", "A\\_B", "A\\`B"}) {
+                Assert.assertTrue(docs.contains(escaped),
+                        "expected escaped method " + escaped + " in generated docs");
+            }
+            // the wire method itself stays verbatim in the API source
+            Path outputPath = Path.of(target.toString(), "src/apis/default_api.rs");
+            String generated = new String(Files.readAllBytes(outputPath), StandardCharsets.UTF_8);
+            for (String method : new String[]{"A|B", "A*B", "A_B", "A`B"}) {
+                Assert.assertTrue(generated.contains("reqwest::Method::from_bytes(b\"" + method + "\")"),
+                        "expected verbatim method literal for " + method);
+            }
+        } finally {
+            FileUtils.deleteDirectory(target.toFile());
+        }
+    }
+
+    @Test
     public void testReqwestSkipsInvalidMethodNames() throws IOException {
         Path target = Files.createTempDirectory("test");
         try {
@@ -461,7 +492,7 @@ public class RustClientCodegenTest {
             final CodegenConfigurator configurator = new CodegenConfigurator()
                     .setGeneratorName("rust")
                     .setLibrary("reqwest")
-                    .setInputSpec("src/test/resources/3_2/go-webhook-operations.yaml")
+                    .setInputSpec("src/test/resources/3_2/webhook-operations.yaml")
                     .setSkipOverwrite(false)
                     .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
             new DefaultGenerator().opts(configurator.toClientOptInput()).generate();

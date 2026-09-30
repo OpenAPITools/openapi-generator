@@ -604,7 +604,19 @@ public class GoClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
 
         Path clientFile = Paths.get(output + "/client.go");
-        TestUtils.assertFileContains(clientFile, "rawQueryString := url.RawQuery");
+        // the full verbatim-preservation chain: the path-embedded raw query is
+        // captured before url.Query() merges it, then written back ahead of the
+        // encoded parameters (path-declared query data first)
+        TestUtils.assertFileContains(clientFile,
+                "rawQueryString := url.RawQuery",
+                "url.RawQuery = \"\"",
+                "url.RawQuery = rawQueryString + encodedQuery");
+        // and the capture must precede the merge into url.Query()
+        String client = new String(Files.readAllBytes(clientFile), java.nio.charset.StandardCharsets.UTF_8);
+        Assert.assertTrue(
+                client.indexOf("rawQueryString := url.RawQuery")
+                        < client.indexOf("query := url.Query()"),
+                "raw query must be captured before url.Query() reads it");
     }
 
     @Test(description = "in:querystring together with a path parameter imports strings only once")
@@ -635,7 +647,7 @@ public class GoClientCodegenTest {
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("go")
-                .setInputSpec("src/test/resources/3_2/go-webhook-operations.yaml")
+                .setInputSpec("src/test/resources/3_2/webhook-operations.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();

@@ -1576,7 +1576,7 @@ public class PythonClientCodegenTest {
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("python")
-                .setInputSpec("src/test/resources/3_2/go-webhook-operations.yaml")
+                .setInputSpec("src/test/resources/3_2/webhook-operations.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();

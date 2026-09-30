@@ -842,8 +842,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             }
             operation.httpMethod = method;
             operation.vendorExtensions.put("x-rust-http-method-literal", true);
-            // `|` is a valid RFC 9110 tchar but breaks markdown tables in doc templates
-            operation.vendorExtensions.put("x-rust-http-method-doc", method.replace("|", "\\|"));
+            // `|`, `*`, `_` and a backtick are valid RFC 9110 tchars but have special
+            // meaning in the markdown tables/code spans used by the doc templates
+            operation.vendorExtensions.put("x-rust-http-method-doc",
+                    method.replaceAll("([*|_`])", "\\\\$1"));
         }
     }
 

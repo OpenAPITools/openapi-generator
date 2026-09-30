@@ -887,7 +887,7 @@ public class RubyClientCodegenTest {
             final CodegenConfigurator configurator = new CodegenConfigurator()
                     .setGeneratorName("ruby")
                     .setLibrary("httpx")
-                    .setInputSpec("src/test/resources/3_2/go-webhook-operations.yaml")
+                    .setInputSpec("src/test/resources/3_2/webhook-operations.yaml")
                     .setSkipOverwrite(false)
                     .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
             new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
