@@ -1,5 +1,7 @@
 package org.openapitools.codegen.typescript.fetch;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -16,6 +18,7 @@ import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -1260,6 +1263,39 @@ public class TypeScriptFetchClientCodegenTest {
 
         // the HTTPMethod type admits arbitrary method strings
         TestUtils.assertFileContains(Paths.get(output + "/runtime.ts"), "| (string & {})");
+    }
+
+    @Test
+    public void testFetchForbiddenMethodsStillWarn() throws IOException {
+        // CONNECT arrives only via additionalOperations and TRACE via the
+        // native PathItem field, yet fetch() rejects all three at runtime -
+        // the warning must not depend on the standard-method branch
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(TypeScriptFetchClientCodegen.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        logger.addAppender(listAppender);
+        try {
+            File output = generate(Collections.emptyMap(),
+                    "src/test/resources/3_2/typescript-fetch-forbidden-methods.yaml");
+
+            for (String op : new String[]{"connectPets", "tracePets", "trackPets"}) {
+                Assert.assertTrue(listAppender.list.stream().anyMatch(e ->
+                        e.getLevel() == ch.qos.logback.classic.Level.WARN
+                                && e.getFormattedMessage().contains("forbidden by the fetch specification")
+                                && e.getFormattedMessage().contains(op)),
+                        "missing fetch-forbidden WARN for " + op);
+            }
+
+            // output format is unchanged: standard names stay single-quoted,
+            // TRACK (non-standard) is emitted as an escaped literal
+            Path api = Paths.get(output + "/apis/DefaultApi.ts");
+            TestUtils.assertFileContains(api, "method: 'CONNECT'");
+            TestUtils.assertFileContains(api, "method: 'TRACE'");
+            TestUtils.assertFileContains(api, "method: \"TRACK\"");
+        } finally {
+            logger.detachAppender(listAppender);
+        }
     }
 
     private static File generate(

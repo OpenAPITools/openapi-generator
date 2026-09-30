@@ -902,7 +902,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    protected boolean supportsQueryStringParameters() {
+    public boolean supportsQueryStringParameters() {
         // the raw, already-encoded query string is appended to the request
         // path verbatim by the api template
         return true;
@@ -926,17 +926,21 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             // markdown docs render the method inside table cells where a '|'
             // (a valid tchar) would split the cell
             op.vendorExtensions.put("x-ts-http-method-doc", op.httpMethod.replace("|", "\\|"));
+            // CONNECT and TRACE are standard methods yet forbidden by the fetch
+            // spec, and CONNECT only ever arrives via additionalOperations
+            // (PathItem has no native field for it) - evaluate this independently
+            // of the standard-method branch below or it would never fire
+            if (FETCH_FORBIDDEN_METHODS.contains(op.httpMethod.toUpperCase(Locale.ROOT))) {
+                LOGGER.warn("HTTP method '{}' is forbidden by the fetch specification; "
+                        + "the generated client will throw TypeError when calling operation {}",
+                        op.httpMethod, op.operationId);
+            }
             if (!STANDARD_HTTP_METHODS.contains(op.httpMethod)) {
                 if (!HTTP_TOKEN.matcher(op.httpMethod).matches()) {
                     LOGGER.warn("HTTP method '{}' is not a valid RFC 9110 token; skipping operation {}",
                             op.httpMethod, op.operationId);
                     it.remove();
                     continue;
-                }
-                if (FETCH_FORBIDDEN_METHODS.contains(op.httpMethod.toUpperCase(Locale.ROOT))) {
-                    LOGGER.warn("HTTP method '{}' is forbidden by the fetch specification; "
-                            + "the generated client will throw TypeError when calling operation {}",
-                            op.httpMethod, op.operationId);
                 }
                 // fetch() byte-uppercases only DELETE/GET/HEAD/OPTIONS/POST/PUT;
                 // every other method reaches the wire exactly as written
