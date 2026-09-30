@@ -14,6 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
 
@@ -33,6 +34,13 @@ namespace Org.OpenAPITools.Controllers
         [HttpGet]
         [Route("/v2/test")]
         [ValidateModelState]
-        public abstract IActionResult TestGet([FromQuery (Name = "testQuery")]TestEnum? testQuery);
+        public virtual IActionResult TestGet([FromQuery (Name = "testQuery")]TestEnum? testQuery)
+        {
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200);
+
+            throw new NotImplementedException();
+        }
     }
 }

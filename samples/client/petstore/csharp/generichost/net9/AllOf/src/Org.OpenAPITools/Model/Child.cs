@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Age
         /// </summary>
         [JsonPropertyName("age")]
-        public int? Age { get { return this.AgeOption; } set { this.AgeOption = new(value); } }
+        public int? Age { get { return this.AgeOption.Value; } set { this.AgeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of BoosterSeat
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets BoosterSeat
         /// </summary>
         [JsonPropertyName("boosterSeat")]
-        public bool? BoosterSeat { get { return this.BoosterSeatOption; } set { this.BoosterSeatOption = new(value); } }
+        public bool? BoosterSeat { get { return this.BoosterSeatOption.Value; } set { this.BoosterSeatOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -93,8 +93,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Child" />
     /// </summary>
-    public class ChildJsonConverter : JsonConverter<Child>
+    public partial class ChildJsonConverter : JsonConverter<Child>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChildJsonConverter" /> class.
+        /// </summary>
+        public ChildJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Child" />
         /// </summary>
@@ -155,19 +165,19 @@ namespace Org.OpenAPITools.Model
             }
 
             if (age.IsSet && age.Value == null)
-                throw new ArgumentNullException(nameof(age), "Property is not nullable for class Child.");
+                throw new JsonException("Property is not nullable for class Child: age.");
 
             if (boosterSeat.IsSet && boosterSeat.Value == null)
-                throw new ArgumentNullException(nameof(boosterSeat), "Property is not nullable for class Child.");
+                throw new JsonException("Property is not nullable for class Child: boosterSeat.");
 
             if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Child.");
+                throw new JsonException("Property is not nullable for class Child: firstName.");
 
             if (lastName.IsSet && lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class Child.");
+                throw new JsonException("Property is not nullable for class Child: lastName.");
 
             if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Child.");
+                throw new JsonException("Property is not nullable for class Child: $_type.");
 
             return new Child(age, boosterSeat, firstName, lastName);
         }
@@ -178,7 +188,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="child"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Child child, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -193,14 +202,19 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="child"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Child child, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (child.AgeOption.IsSet && child.Age == null)
+                throw new JsonException("Cannot write null property Child.Age to non-nullable JSON property 'age'.");
+
+            if (child.BoosterSeatOption.IsSet && child.BoosterSeat == null)
+                throw new JsonException("Cannot write null property Child.BoosterSeat to non-nullable JSON property 'boosterSeat'.");
+
             if (child.FirstNameOption.IsSet && child.FirstName == null)
-                throw new ArgumentNullException(nameof(child.FirstName), "Property is required for class Child.");
+                throw new JsonException("Cannot write null property Child.FirstName to non-nullable JSON property 'firstName'.");
 
             if (child.LastNameOption.IsSet && child.LastName == null)
-                throw new ArgumentNullException(nameof(child.LastName), "Property is required for class Child.");
+                throw new JsonException("Cannot write null property Child.LastName to non-nullable JSON property 'lastName'.");
 
             if (child.AgeOption.IsSet)
                 writer.WriteNumber("age", child.AgeOption.Value!.Value);

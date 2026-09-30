@@ -60,6 +60,7 @@ extension KeyedEncodingContainerProtocol {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.locale = Locale(identifier: "en_US")
+        numberFormatter.usesGroupingSeparator = false
         let formattedString = numberFormatter.string(from: decimalNumber) ?? "\(value)"
         try encode(formattedString, forKey: key)
     }
@@ -132,13 +133,11 @@ extension KeyedDecodingContainerProtocol {
 
 }
 
-extension UUID: Content { }
+extension UUID: @retroactive Content { }
 
-extension URL: Content { }
+extension URL: @retroactive Content { }
 
-extension Bool: Content { }
-
-extension Set: ResponseEncodable where Element: Content {
+extension Set: @retroactive ResponseEncodable where Element: Content {
     public func encodeResponse(for request: Vapor.Request) -> EventLoopFuture<Vapor.Response> {
         let response = Vapor.Response()
         do {
@@ -150,7 +149,15 @@ extension Set: ResponseEncodable where Element: Content {
     }
 }
 
-extension Set: RequestDecodable where Element: Content {
+extension Set: @retroactive AsyncResponseEncodable where Element: Content {
+    public func encodeResponse(for request: Vapor.Request) async throws -> Vapor.Response {
+        let response = Vapor.Response()
+        try response.content.encode(Array(self))
+        return response
+    }
+}
+
+extension Set: @retroactive RequestDecodable where Element: Content {
     public static func decodeRequest(_ request: Vapor.Request) -> EventLoopFuture<Self> {
         do {
             let content = try request.content.decode([Element].self)
@@ -161,6 +168,13 @@ extension Set: RequestDecodable where Element: Content {
     }
 }
 
-extension Set: Content where Element: Content { }
+extension Set: @retroactive AsyncRequestDecodable where Element: Content {
+    public static func decodeRequest(_ request: Vapor.Request) async throws -> Self {
+        let content = try request.content.decode([Element].self)
+        return Set(content)
+    }
+}
+
+extension Set: @retroactive Content where Element: Content { }
 
 extension JSONValue: Content {}

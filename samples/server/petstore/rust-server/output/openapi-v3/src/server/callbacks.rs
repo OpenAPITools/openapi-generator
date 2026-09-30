@@ -123,16 +123,17 @@ impl<C> Client<DropContextService<hyper_util::service::TowerToHyperService<hyper
     }
 }
 
-#[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+#[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 type HttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+#[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
 type HttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
+#[cfg(feature = "client-tls")]
 impl<C> Client<DropContextService<hyper_util::service::TowerToHyperService<hyper_util::client::legacy::Client<HttpsConnector, BoxBody<Bytes, Infallible>>>, C>, C> where
     C: Clone + Send + Sync + 'static
 {
-    /// Create a client with a TLS connection to the server.
+    /// Create a client with a TLS connection to the server using native-tls.
     #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
     pub fn new_https()  -> Result<Self, native_tls::Error>
     {
@@ -140,7 +141,7 @@ impl<C> Client<DropContextService<hyper_util::service::TowerToHyperService<hyper
         Ok(Self::new_with_connector(https_connector))
     }
 
-    /// Create a client with a TLS connection to the server.
+    /// Create a client with a TLS connection to the server using OpenSSL.
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     pub fn new_https() -> Result<Self, openssl::error::ErrorStack>
     {

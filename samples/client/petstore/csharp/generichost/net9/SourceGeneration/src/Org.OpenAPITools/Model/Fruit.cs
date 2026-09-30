@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="apple"></param>
         /// <param name="color">color</param>
-        public Fruit(Apple apple, Option<string?> color = default)
+        internal Fruit(Apple apple, Option<string?> color = default)
         {
             Apple = apple;
             ColorOption = color;
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public Fruit(Banana banana, Option<string?> color = default)
+        internal Fruit(Banana banana, Option<string?> color = default)
         {
             Banana = banana;
             ColorOption = color;
@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string? Color { get { return this.ColorOption; } set { this.ColorOption = new(value); } }
+        public string? Color { get { return this.ColorOption.Value; } set { this.ColorOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Fruit" />
     /// </summary>
-    public class FruitJsonConverter : JsonConverter<Fruit>
+    public partial class FruitJsonConverter : JsonConverter<Fruit>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FruitJsonConverter" /> class.
+        /// </summary>
+        public FruitJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Fruit" />
         /// </summary>
@@ -176,7 +186,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (color.IsSet && color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Fruit.");
+                throw new JsonException("Property is not nullable for class Fruit: color.");
 
             if (apple != null)
                 return new Fruit(apple, color);
@@ -193,7 +203,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="fruit"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -208,11 +217,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="fruit"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
             if (fruit.ColorOption.IsSet && fruit.Color == null)
-                throw new ArgumentNullException(nameof(fruit.Color), "Property is required for class Fruit.");
+                throw new JsonException("Cannot write null property Fruit.Color to non-nullable JSON property 'color'.");
 
             if (fruit.ColorOption.IsSet)
                 writer.WriteString("color", fruit.Color);

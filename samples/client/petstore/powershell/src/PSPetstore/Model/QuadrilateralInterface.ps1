@@ -39,7 +39,7 @@ function Initialize-PSQuadrilateralInterface {
 
 
         $PSO = [PSCustomObject]@{
-            "quadrilateralType" = ${QuadrilateralType}
+            'quadrilateralType' = ${QuadrilateralType}
         }
 
 
@@ -77,7 +77,7 @@ function ConvertFrom-PSJsonToQuadrilateralInterface {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSQuadrilateralInterface
-        $AllProperties = ("quadrilateralType")
+        $AllProperties = ('quadrilateralType')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -88,14 +88,14 @@ function ConvertFrom-PSJsonToQuadrilateralInterface {
             throw "Error! Empty JSON cannot be serialized due to the required property 'quadrilateralType' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "quadrilateralType"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'quadrilateralType'))) {
             throw "Error! JSON cannot be serialized due to the required property 'quadrilateralType' missing."
         } else {
-            $QuadrilateralType = $JsonParameters.PSobject.Properties["quadrilateralType"].value
+            $QuadrilateralType = $JsonParameters.PSobject.Properties['quadrilateralType'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "quadrilateralType" = ${QuadrilateralType}
+            'quadrilateralType' = ${QuadrilateralType}
         }
 
         return $PSO

@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -20,6 +28,7 @@ import org.openapitools.client.models.Tag
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 
 /**
  * 
@@ -35,22 +44,28 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Pet (
 
+    @param:JsonProperty("name")
     @get:JsonProperty("name")
     val name: kotlin.String,
 
+    @param:JsonProperty("photoUrls")
     @get:JsonProperty("photoUrls")
     val photoUrls: kotlin.collections.List<kotlin.String>,
 
+    @param:JsonProperty("id")
     @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
+    @param:JsonProperty("category")
     @get:JsonProperty("category")
     val category: Category? = null,
 
+    @param:JsonProperty("tags")
     @get:JsonProperty("tags")
     val tags: kotlin.collections.List<Tag>? = null,
 
     /* pet status in the store */
+    @param:JsonProperty("status")
     @get:JsonProperty("status")
     val status: Pet.Status? = null
 
@@ -61,7 +76,7 @@ data class Pet (
      *
      * Values: available,pending,sold,unknown_default_open_api
      */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: kotlin.String) {
         @JsonProperty(value = "available") available("available"),
         @JsonProperty(value = "pending") pending("pending"),
         @JsonProperty(value = "sold") sold("sold"),

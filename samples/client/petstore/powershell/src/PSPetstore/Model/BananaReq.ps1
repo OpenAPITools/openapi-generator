@@ -44,8 +44,8 @@ function Initialize-PSBananaReq {
 
 
         $PSO = [PSCustomObject]@{
-            "lengthCm" = ${LengthCm}
-            "sweet" = ${Sweet}
+            'lengthCm' = ${LengthCm}
+            'sweet' = ${Sweet}
         }
 
 
@@ -83,7 +83,7 @@ function ConvertFrom-PSJsonToBananaReq {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSBananaReq
-        $AllProperties = ("lengthCm", "sweet")
+        $AllProperties = ('lengthCm', 'sweet')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -94,21 +94,21 @@ function ConvertFrom-PSJsonToBananaReq {
             throw "Error! Empty JSON cannot be serialized due to the required property 'lengthCm' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "lengthCm"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'lengthCm'))) {
             throw "Error! JSON cannot be serialized due to the required property 'lengthCm' missing."
         } else {
-            $LengthCm = $JsonParameters.PSobject.Properties["lengthCm"].value
+            $LengthCm = $JsonParameters.PSobject.Properties['lengthCm'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "sweet"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'sweet'))) { #optional property not found
             $Sweet = $null
         } else {
-            $Sweet = $JsonParameters.PSobject.Properties["sweet"].value
+            $Sweet = $JsonParameters.PSobject.Properties['sweet'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "lengthCm" = ${LengthCm}
-            "sweet" = ${Sweet}
+            'lengthCm' = ${LengthCm}
+            'sweet' = ${Sweet}
         }
 
         return $PSO

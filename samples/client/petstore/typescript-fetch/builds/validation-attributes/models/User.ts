@@ -21,53 +21,77 @@ import { mapValues } from '../runtime';
 export interface User {
     /**
      * 
-     * @type {number}
-     * @memberof User
      */
     id?: number;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     username?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     firstName?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     lastName?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     email?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     password?: string;
     /**
      * 
-     * @type {string}
-     * @memberof User
      */
     phone?: string;
     /**
+     * 
+     */
+    nickname?: string;
+    /**
      * User Status
-     * @type {number}
-     * @memberof User
      */
     userStatus?: number;
 }
+export const UserPropertyValidationAttributesMap: {
+    [property: string]: {
+        dataType?: string,
+        required?: boolean,
+        maxLength?: number,
+        minLength?: number,
+        pattern?: string,
+        maximum?: number,
+        exclusiveMaximum?: boolean,
+        minimum?: number,
+        exclusiveMinimum?: boolean,
+        multipleOf?: number,
+        maxItems?: number,
+        minItems?: number,
+        uniqueItems?: boolean
+    }
+} = {
+    password: {
+        dataType: "string",
+        maxLength: 256,
+        minLength: 8,
+    },
+    nickname: {
+        dataType: "string",
+        pattern: '/^[a-z&]+$/',
+    },
+    userStatus: {
+        dataType: "number",
+        maximum: 100,
+        exclusiveMaximum: true,
+        minimum: 0,
+        exclusiveMinimum: true,
+        multipleOf: 10,
+    },
+}
+
 
 /**
  * Check if a given object implements the User interface.
@@ -93,6 +117,7 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'email': json['email'] == null ? undefined : json['email'],
         'password': json['password'] == null ? undefined : json['password'],
         'phone': json['phone'] == null ? undefined : json['phone'],
+        'nickname': json['nickname'] == null ? undefined : json['nickname'],
         'userStatus': json['userStatus'] == null ? undefined : json['userStatus'],
     };
 }
@@ -115,35 +140,8 @@ export function UserToJSONTyped(value?: User | null, ignoreDiscriminator: boolea
         'email': value['email'],
         'password': value['password'],
         'phone': value['phone'],
+        'nickname': value['nickname'],
         'userStatus': value['userStatus'],
     };
-}
-
-export const UserPropertyValidationAttributesMap: {
-    [property: string]: {
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
-    password: {
-        maxLength: 256,
-        minLength: 8,
-    },
-    userStatus: {
-        maximum: 100,
-        exclusiveMaximum: true,
-        minimum: 0,
-        exclusiveMinimum: true,
-        multipleOf: 10,
-    },
 }
 

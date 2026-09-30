@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
@@ -11,23 +12,25 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Banana
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public final class Banana implements Fruit {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Integer length;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private FruitType fruitType;
 
   public Banana() {
@@ -58,6 +61,7 @@ public final class Banana implements Fruit {
     return length;
   }
 
+  @JsonProperty("length")
   public void setLength(Integer length) {
     this.length = length;
   }
@@ -78,6 +82,7 @@ public final class Banana implements Fruit {
     return fruitType;
   }
 
+  @JsonProperty("fruitType")
   public void setFruitType(FruitType fruitType) {
     this.fruitType = fruitType;
   }
@@ -114,11 +119,8 @@ public final class Banana implements Fruit {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
   public static class Builder {

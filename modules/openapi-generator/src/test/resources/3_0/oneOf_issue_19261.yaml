@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info:
+  title: test
+  description: Test
+  version: "2.0"
+servers:
+  - url: 'https://example.com'
+security:
+  - APIKeyHeader: []
+paths:
+  /products/{identifier}:
+    get:
+      tags:
+        - Product Item
+      summary: Get single product
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "100001951"
+          description: The product identifier
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+components:
+  schemas:
+#v
+    HomeProduct:
+      allOf:
+        - $ref: "#/components/schemas/Product"
+        - type: object
+          required:
+            - newField
+          properties:
+            newField:
+              type: string
+    InternetProduct:
+      allOf:
+        - $ref: "#/components/schemas/Product"
+        - type: object
+          required:
+            - extraField
+          properties:
+            extraField:
+              type: string
+    Product:
+      type: object
+      required:
+        - productId
+        - name
+        - type
+      properties:
+        productId:
+          type: string
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/AboType'
+      oneOf:
+          - $ref: '#/components/schemas/HomeProduct'
+          - $ref: '#/components/schemas/InternetProduct'
+      discriminator:
+          propertyName: type
+          mapping:
+            home: '#/components/schemas/HomeProduct'
+            internet: '#/components/schemas/InternetProduct'
+    AboType:
+      type: string
+      enum:
+        - "internet"
+        - "home"

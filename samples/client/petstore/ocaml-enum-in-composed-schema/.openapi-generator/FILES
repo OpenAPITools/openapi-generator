@@ -1,0 +1,14 @@
+.ocamlformat
+README.md
+dune
+dune-project
+petstore_client.opam
+src/apis/default_api.ml
+src/apis/default_api.mli
+src/models/test_model.ml
+src/models/test_model_config.ml
+src/models/test_model_config_all_of_options.ml
+src/models/test_model_optional_url.ml
+src/support/enums.ml
+src/support/jsonSupport.ml
+src/support/request.ml

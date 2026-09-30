@@ -1,0 +1,11 @@
+generatorName: go
+outputDir: samples/client/others/go/issue_20079_go_regex_wrongly_translated/
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_20079_go_regex_wrongly_translated.yaml
+templateDir: modules/openapi-generator/src/main/resources/go
+#additionalProperties:
+#  enumClassPrefix: "true"
+#  packageName: petstore
+#  disallowAdditionalPropertiesIfNotPresent: false
+#  generateInterfaces: true
+#  useDefaultValuesForRequiredVars: "true"
+#  enumUnknownDefaultCase: true

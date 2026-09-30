@@ -1,4 +1,4 @@
-# # Cat
+# Cat
 
 ## Properties
 

@@ -20,17 +20,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @JsonTypeName("Pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Pet  implements Serializable {
   private Long id;
   private Category category;
   private String name;
-  private @Valid Set<String> photoUrls = new LinkedHashSet<>();
-  private @Valid List<@Valid Tag> tags = new ArrayList<>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
+  private List<@Valid Tag> tags = new ArrayList<>();
   public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
@@ -204,7 +205,7 @@ public class Pet  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
-  @Valid public List<@Valid Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
@@ -292,10 +293,7 @@ public class Pet  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -353,4 +351,3 @@ public class Pet  implements Serializable {
     }
   }
 }
-

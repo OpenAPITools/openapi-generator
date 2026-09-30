@@ -21,7 +21,7 @@ import org.springframework.util.LinkedMultiValueMap
 import {{packageName}}.infrastructure.*
 
 {{#operations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class {{classname}}(client: WebClient) : ApiClient(client) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}open {{/nonPublicApi}}class {{classname}}(client: WebClient) : ApiClient(client) {
 
     {{#jackson}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(baseUrl: String) : this(WebClient.builder()
@@ -72,7 +72,7 @@ import {{packageName}}.infrastructure.*
     {{/isDeprecated}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{#defaultValue}} = {{>param_default_value}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): Mono<{{#returnType}}{{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
         return {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
-            .map { {{#returnType}}it.body{{/returnType}}{{^returnType}}Unit{{/returnType}} }
+            .map { {{#returnType}}it.body!!{{/returnType}}{{^returnType}}Unit{{/returnType}} }
     }
 
     @Throws(WebClientResponseException::class)
@@ -103,29 +103,28 @@ import {{packageName}}.infrastructure.*
                 {{#queryParams}}
                 {{^required}}
                 if ({{{paramName}}} != null) {
-                    put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
+                    put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
                 }
                 {{/required}}
                 {{#required}}
                 {{#isNullable}}
                 if ({{{paramName}}} != null) {
-                    put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
+                    put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
                 }
                 {{/isNullable}}
                 {{^isNullable}}
-                put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
+                put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
                 {{/isNullable}}
                 {{/required}}
                 {{/queryParams}}
             }
             {{/hasQueryParams}}
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf({{#hasFormParams}}"Content-Type" to {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{/hasFormParams}})
-        {{#headerParams}}
-        {{{paramName}}}{{^required}}?{{/required}}.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
-        {{/headerParams}}
         {{^hasFormParams}}{{#hasConsumes}}{{#consumes}}localVariableHeaders["Content-Type"] = "{{{mediaType}}}"
-        {{/consumes}}{{/hasConsumes}}{{/hasFormParams}}{{#hasProduces}}localVariableHeaders["Accept"] = "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"
-{{/hasProduces}}
+        {{/consumes}}{{/hasConsumes}}{{/hasFormParams}}{{#hasProduces}}localVariableHeaders["Accept"] = "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"{{/hasProduces}}
+{{#headerParams}}
+        {{{paramName}}}{{^required}}?{{/required}}.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
+{{/headerParams}}
 
         val params = mutableMapOf<String, Any>(
         {{#pathParams}}

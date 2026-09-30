@@ -9,7 +9,7 @@
 import Foundation
 import PetstoreClient
 
-public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
+public final class BearerOpenAPIInterceptor: OpenAPIInterceptor {
     public init() {}
     
     public func intercept<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
@@ -54,7 +54,12 @@ public class BearerOpenAPIInterceptor: OpenAPIInterceptor {
         }
     }
     
-    private var bearerToken: String? = nil
+    private let lock = NSRecursiveLock()
+    nonisolated(unsafe) private var _bearerToken: String? = nil
+    private var bearerToken: String? {
+        get { lock.withLock { _bearerToken } }
+        set { lock.withLock { _bearerToken = newValue } }
+    }
     
     func refreshTokenIfDoesntExist(completionHandler: @escaping (String) -> Void) {
         if let bearerToken = bearerToken {

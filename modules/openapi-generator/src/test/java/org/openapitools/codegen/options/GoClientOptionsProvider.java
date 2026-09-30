@@ -40,6 +40,9 @@ public class GoClientOptionsProvider implements OptionsProvider {
     public static final boolean GENERATE_MARSHAL_JSON_VALUE = true;
     public static final boolean GENERATE_UNMARSHAL_JSON_VALUE = true;
     public static final boolean USE_DEFAULT_VALUES_FOR_REQUIRED_VARS_VALUE = true;
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
+    public static final boolean USE_HTTP_HEADER_SET = true;
+
 
     @Override
     public String getLanguage() {
@@ -66,6 +69,8 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put("generateInterfaces", "true")
                 .put("structPrefix", "true")
                 .put(CodegenConstants.USE_DEFAULT_VALUES_FOR_REQUIRED_VARS, "true")
+                .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+                .put("useHttpHeaderSet", "true")
                 .build();
     }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct EnumArrays: Sendable, Codable, ParameterConvertible {
+internal struct EnumArrays: Sendable, Codable {
 
     internal enum JustSymbol: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case greaterThanOrEqualTo = ">="
@@ -41,3 +41,12 @@ internal struct EnumArrays: Sendable, Codable, ParameterConvertible {
     }
 }
 
+
+extension EnumArrays: UnknownCaseCheckable {
+    internal var containsUnknownDefaultOpenApiCase: Bool {
+        if justSymbol == .unknownDefaultOpenApi { return true }
+        
+        if arrayEnum?.contains(.unknownDefaultOpenApi) == true { return true }
+        return false
+    }
+}

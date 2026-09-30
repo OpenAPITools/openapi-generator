@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Pet: Sendable, Codable, ParameterConvertible, Hashable {
+public struct Pet: Sendable, Codable, Hashable {
 
     public enum Status: String, Sendable, Codable, CaseIterable {
         case available = "available"
@@ -55,5 +55,4 @@ public struct Pet: Sendable, Codable, ParameterConvertible, Hashable {
 }
 
 
-@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
 extension Pet: Identifiable {}

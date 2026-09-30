@@ -16,7 +16,6 @@ open class AnotherFakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Client
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func call123testSpecialTags(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Client {
         return try await call123testSpecialTagsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
     }

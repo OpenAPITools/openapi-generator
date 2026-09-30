@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -30,7 +38,7 @@ import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 import org.openapitools.client.infrastructure.*
 
-class PetApi(client: WebClient) : ApiClient(client) {
+open class PetApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
@@ -45,7 +53,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun addPet(pet: Pet): Mono<Pet> {
         return addPetWithHttpInfo(pet = pet)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -97,8 +105,9 @@ class PetApi(client: WebClient) : ApiClient(client) {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
         
+        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
+
         val params = mutableMapOf<String, Any>(
             "petId" to petId,
         )
@@ -127,7 +136,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>): Mono<kotlin.collections.List<Pet>> {
         return findPetsByStatusWithHttpInfo(status = status)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -166,7 +175,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
     @Deprecated(message = "This operation is deprecated.")
     fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): Mono<kotlin.collections.List<Pet>> {
         return findPetsByTagsWithHttpInfo(tags = tags)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -206,7 +215,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun getPetById(petId: kotlin.Long): Mono<Pet> {
         return getPetByIdWithHttpInfo(petId = petId)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -242,7 +251,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun updatePet(pet: Pet): Mono<Pet> {
         return updatePetWithHttpInfo(pet = pet)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -297,6 +306,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         
+
         val params = mutableMapOf<String, Any>(
             "petId" to petId,
         )
@@ -316,7 +326,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): Mono<ModelApiResponse> {
         return uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)

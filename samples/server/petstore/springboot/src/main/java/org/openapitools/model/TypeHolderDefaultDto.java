@@ -2,11 +2,10 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +15,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -26,18 +26,22 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("TypeHolderDefault")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class TypeHolderDefaultDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private String stringItem = "what";
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private BigDecimal numberItem = new BigDecimal("1.234");
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Integer integerItem = -2;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Boolean boolItem = true;
 
-  @Valid
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
   public TypeHolderDefaultDto() {
@@ -65,12 +69,13 @@ public class TypeHolderDefaultDto {
    * @return stringItem
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "string_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
   }
 
+  @JsonProperty("string_item")
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
@@ -85,12 +90,13 @@ public class TypeHolderDefaultDto {
    * @return numberItem
    */
   @NotNull @Valid 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "number_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
 
+  @JsonProperty("number_item")
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
@@ -105,12 +111,13 @@ public class TypeHolderDefaultDto {
    * @return integerItem
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "integer_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
   }
 
+  @JsonProperty("integer_item")
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
@@ -125,12 +132,13 @@ public class TypeHolderDefaultDto {
    * @return boolItem
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "bool_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
   }
 
+  @JsonProperty("bool_item")
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
@@ -142,7 +150,7 @@ public class TypeHolderDefaultDto {
 
   public TypeHolderDefaultDto addArrayItemItem(Integer arrayItemItem) {
     if (this.arrayItem == null) {
-      this.arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+      this.arrayItem = new ArrayList<>();
     }
     this.arrayItem.add(arrayItemItem);
     return this;
@@ -153,12 +161,13 @@ public class TypeHolderDefaultDto {
    * @return arrayItem
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "array_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
 
+  @JsonProperty("array_item")
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
@@ -201,11 +210,8 @@ public class TypeHolderDefaultDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

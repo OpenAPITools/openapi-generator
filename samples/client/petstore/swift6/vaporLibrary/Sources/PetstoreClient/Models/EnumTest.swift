@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class EnumTest: Content, Hashable {
+public struct EnumTest: Sendable, Content, Hashable {
 
     public enum EnumString: String, Sendable, Content, Hashable, CaseIterable {
         case upper = "UPPER"
@@ -59,24 +59,6 @@ public final class EnumTest: Content, Hashable {
         try container.encodeIfPresent(enumInteger, forKey: .enumInteger)
         try container.encodeIfPresent(enumNumber, forKey: .enumNumber)
         try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
-    }
-
-    public static func == (lhs: EnumTest, rhs: EnumTest) -> Bool {
-        lhs.enumString == rhs.enumString &&
-        lhs.enumStringRequired == rhs.enumStringRequired &&
-        lhs.enumInteger == rhs.enumInteger &&
-        lhs.enumNumber == rhs.enumNumber &&
-        lhs.outerEnum == rhs.outerEnum
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(enumString?.hashValue)
-        hasher.combine(enumStringRequired.hashValue)
-        hasher.combine(enumInteger?.hashValue)
-        hasher.combine(enumNumber?.hashValue)
-        hasher.combine(outerEnum?.hashValue)
-        
     }
 }
 

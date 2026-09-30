@@ -12,7 +12,7 @@ public typealias MapTest = PetstoreClientAPI.MapTest
 
 extension PetstoreClientAPI {
 
-public final class MapTest: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
+public final class MapTest: @unchecked Sendable, Codable, Hashable {
 
     public enum MapOfEnumString: String, Sendable, Codable, CaseIterable {
         case upper = "UPPER"

@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class FileSchemaTestClass: Content, Hashable {
+public struct FileSchemaTestClass: Sendable, Content, Hashable {
 
     public var file: File?
     public var files: [File]?
@@ -29,18 +29,6 @@ public final class FileSchemaTestClass: Content, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(file, forKey: .file)
         try container.encodeIfPresent(files, forKey: .files)
-    }
-
-    public static func == (lhs: FileSchemaTestClass, rhs: FileSchemaTestClass) -> Bool {
-        lhs.file == rhs.file &&
-        lhs.files == rhs.files
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(file?.hashValue)
-        hasher.combine(files?.hashValue)
-        
     }
 }
 

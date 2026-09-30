@@ -102,11 +102,29 @@ public class RustClientCodegenTest {
         s.setMinimum(BigDecimal.valueOf(0));
         s.setMaximum(BigDecimal.valueOf(1));
 
+        s.setFormat("int8");
+        Assert.assertEquals(codegen.getSchemaType(s), "i8");
+
+        s.setFormat("int16");
+        Assert.assertEquals(codegen.getSchemaType(s), "i16");
+
         s.setFormat("int32");
         Assert.assertEquals(codegen.getSchemaType(s), "i32");
 
         s.setFormat("int64");
         Assert.assertEquals(codegen.getSchemaType(s), "i64");
+
+        s.setFormat("uint8");
+        Assert.assertEquals(codegen.getSchemaType(s), "u8");
+
+        s.setFormat("uint16");
+        Assert.assertEquals(codegen.getSchemaType(s), "u16");
+
+        s.setFormat("uint32");
+        Assert.assertEquals(codegen.getSchemaType(s), "u32");
+
+        s.setFormat("uint64");
+        Assert.assertEquals(codegen.getSchemaType(s), "u64");
 
         // Clear format - should use default of i32
         s.setFormat(null);
@@ -180,6 +198,14 @@ public class RustClientCodegenTest {
 
         s.setMaximum(BigDecimal.valueOf(Long.MAX_VALUE));
         Assert.assertEquals(codegen.getSchemaType(s), "u32");
+
+        // Should respect hardcoded 8-bits, but prefer unsigned
+        s.setFormat("int8");
+        Assert.assertEquals(codegen.getSchemaType(s), "u8");
+
+        // Should respect hardcoded 16-bits, but prefer unsigned
+        s.setFormat("int16");
+        Assert.assertEquals(codegen.getSchemaType(s), "u16");
 
         // Should respect hardcoded 32-bits, but prefer unsigned
         s.setFormat("int32");
@@ -270,5 +296,195 @@ public class RustClientCodegenTest {
                 "}");
         TestUtils.assertFileExists(outputPath);
         TestUtils.assertFileContains(outputPath, enumSpec);
+    }
+
+    @Test
+    public void testIntegerPropertyEnum() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_1/rust_integer_property_enum.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path outputPath = Path.of(target.toString(), "/src/models/signed_message_signature.rs");
+        TestUtils.assertFileExists(outputPath);
+        // The integer-enum property must use serde_repr (not string rename)
+        TestUtils.assertFileContains(outputPath, "use serde_repr::{Serialize_repr,Deserialize_repr}");
+        TestUtils.assertFileContains(outputPath, "Serialize_repr, Deserialize_repr");
+        TestUtils.assertFileContains(outputPath, "= 0");
+        TestUtils.assertFileContains(outputPath, "= 1");
+        // Must NOT contain a string rename for an integer variant
+        TestUtils.assertFileNotContains(outputPath, linearize("#[serde(rename = \"0\")]"));
+    }
+
+    @Test
+    public void testFreeFormObjectParams() throws IOException {
+        for (String library : List.of("reqwest", "hyper", "hyper0x", "reqwest-trait")) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary(library)
+                    .setInputSpec("src/test/resources/3_0/rust/free-form-object-params.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            files.forEach(File::deleteOnExit);
+            Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
+            TestUtils.assertFileExists(outputPath);
+            // A free-form object query, path or header parameter maps to `serde_json::Value`, which lives
+            // outside of the `models` module.
+            TestUtils.assertFileContains(outputPath, "filter: Option<serde_json::Value>");
+            TestUtils.assertFileContains(outputPath, "selector: serde_json::Value");
+            TestUtils.assertFileContains(outputPath, "x_filter: Option<serde_json::Value>");
+            TestUtils.assertFileNotContains(outputPath, "models::serde_json");
+            // A free-form object with additionalProperties stays a map.
+            TestUtils.assertFileContains(outputPath, "tags: Option<std::collections::HashMap<String, String>>");
+            TestUtils.assertFileContains(outputPath, "meta: Option<std::collections::HashMap<String, serde_json::Value>>");
+            if (library.equals("reqwest")) {
+                // Maps keep their JSON serialization (`HashMap` does not implement `Display`).
+                TestUtils.assertFileContains(outputPath, "req_builder.query(&[(\"meta\", &serde_json::to_string(param_value)?)])");
+            }
+        }
+    }
+
+    @Test
+    public void testExplodedDeepObjectMapQueryParams() throws IOException {
+        // exploded deepObject maps (typed or free-form) go through parse_deep_object like the non-explode branch
+        for (String library : new String[] {"reqwest", "reqwest-trait"}) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary(library)
+                    .setInputSpec("src/test/resources/3_0/rust/deep-object-free-form-query-param.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            files.forEach(File::deleteOnExit);
+            Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
+            TestUtils.assertFileExists(outputPath);
+            // optional typed map, optional free-form object, required-nullable typed map
+            TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"filter\"");
+            TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"extra\"");
+            TestUtils.assertFileContains(outputPath, "crate::apis::parse_deep_object(\"scope\"");
+            TestUtils.assertFileNotContains(outputPath, "param_value.len()");
+            TestUtils.assertFileNotContains(outputPath, "param_value.iter()");
+        }
+    }
+
+    @Test
+    public void testArrayWithObjectEnumValues() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_1/issue_23278.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path outputPath = Path.of(target.toString(), "/src/models/object_arrays_options.rs");
+        String enumSpec = linearize("pub enum ObjectArraysOptions { " +
+                "ArrayVecTestObject(Vec<models::TestObject>), " +
+                "ArrayVecTestArray(Vec<models::TestArray>)," +
+                "}");
+        TestUtils.assertFileExists(outputPath);
+        TestUtils.assertFileContains(outputPath, enumSpec);
+    }
+
+    @Test
+    public void testReqwestTraitUuidParamsUseNamedLifetimes() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary("reqwest-trait")
+                .addAdditionalProperty("mockall", true)
+                .setInputSpec("src/test/resources/3_0/rust/reqwest-trait-uuid-params.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path outputPath = Path.of(target.toString(), "/src/apis/widget_api.rs");
+        TestUtils.assertFileExists(outputPath);
+        // mockall's #[automock] cannot elide the lifetime of a reference nested in Option<..>
+        TestUtils.assertFileContains(outputPath,
+                "async fn list_widget_items<'id, 'run_id>(&self, id: &'id str, run_id: Option<&'run_id str>)");
+        TestUtils.assertFileNotContains(outputPath, "Option<&str>");
+    }
+
+    @Test
+    public void testReqwestConfigurationDebugRedactsCredentials() throws IOException {
+        for (String library : new String[]{"reqwest", "reqwest-trait"}) {
+            Path outputPath = generateReqwestConfiguration(library, false);
+            TestUtils.assertFileNotContains(outputPath, "#[derive(Debug, Clone)]");
+            TestUtils.assertFileContains(outputPath,
+                    ".field(\"basic_auth\", &self.basic_auth.as_ref().map(|(username, password)| (username, password.as_ref().map(|_| \"[REDACTED]\"))))",
+                    ".field(\"oauth_access_token\", &self.oauth_access_token.as_ref().map(|_| \"[REDACTED]\"))",
+                    ".field(\"bearer_access_token\", &self.bearer_access_token.as_ref().map(|_| \"[REDACTED]\"))",
+                    ".field(\"api_key\", &self.api_key)",
+                    ".field(\"key\", &\"[REDACTED]\")");
+
+            Path tokenSourcePath = generateReqwestConfiguration(library, true);
+            TestUtils.assertFileNotContains(tokenSourcePath, "#[derive(Debug, Clone)]", "&self.token_source");
+            TestUtils.assertFileContains(tokenSourcePath, ".field(\"token_source\", &\"[REDACTED]\")");
+        }
+    }
+
+    private Path generateReqwestConfiguration(String library, boolean supportTokenSource) throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary(library)
+                .addAdditionalProperty("supportAsync", true)
+                .addAdditionalProperty("supportTokenSource", supportTokenSource)
+                .setInputSpec("src/test/resources/3_0/rust/petstore.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        Path outputPath = Path.of(target.toString(), "/src/apis/configuration.rs");
+        TestUtils.assertFileExists(outputPath);
+        return outputPath;
+    }
+
+    @Test
+    public void testMapQueryParamsSerializeAsJson() throws IOException {
+        // HashMap has no Display: map-typed query params must serialize via serde_json::to_string
+        for (String library : new String[] {"reqwest", "reqwest-trait"}) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary(library)
+                    .setInputSpec("src/test/resources/3_0/rust/map-query-params.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
+            TestUtils.assertFileExists(outputPath);
+            TestUtils.assertFileContains(outputPath, "(\"labels\", &serde_json::to_string(&");
+            TestUtils.assertFileContains(outputPath, "(\"counts\", &serde_json::to_string(param_value)?)");
+            TestUtils.assertFileNotContains(outputPath, "labels.to_string()");
+            TestUtils.assertFileNotContains(outputPath, "param_value.to_string()");
+        }
+    }
+
+    @Test
+    public void testOneOfMemberWithoutTitleOrType() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_0/rust/oneof-member-without-type.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        Path outputPath = Path.of(target.toString(), "/src/models/conditions.rs");
+        TestUtils.assertFileExists(outputPath);
+        TestUtils.assertFileContains(outputPath, "WorkflowPathCondition(Box<models::WorkflowPathCondition>)");
     }
 }

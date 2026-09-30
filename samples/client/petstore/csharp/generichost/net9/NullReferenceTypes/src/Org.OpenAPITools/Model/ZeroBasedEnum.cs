@@ -150,6 +150,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override ZeroBasedEnum? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             ZeroBasedEnum? result = rawValue == null
@@ -170,7 +173,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ZeroBasedEnum? zeroBasedEnum, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(zeroBasedEnum.HasValue ? ZeroBasedEnumValueConverter.ToJsonValue(zeroBasedEnum.Value).ToString() : "null");
+            if (zeroBasedEnum.HasValue)
+                writer.WriteStringValue(ZeroBasedEnumValueConverter.ToJsonValue(zeroBasedEnum.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

@@ -36,26 +36,18 @@ import {
 export interface EnumPatternObject {
     /**
      * 
-     * @type {StringEnum}
-     * @memberof EnumPatternObject
      */
     stringEnum?: StringEnum;
     /**
      * 
-     * @type {StringEnum}
-     * @memberof EnumPatternObject
      */
     nullableStringEnum?: StringEnum | null;
     /**
      * 
-     * @type {NumberEnum}
-     * @memberof EnumPatternObject
      */
     numberEnum?: NumberEnum;
     /**
      * 
-     * @type {NumberEnum}
-     * @memberof EnumPatternObject
      */
     nullableNumberEnum?: NumberEnum | null;
 }
@@ -80,9 +72,9 @@ export function EnumPatternObjectFromJSONTyped(json: any, ignoreDiscriminator: b
     return {
         
         'stringEnum': json['string-enum'] == null ? undefined : StringEnumFromJSON(json['string-enum']),
-        'nullableStringEnum': json['nullable-string-enum'] == null ? undefined : StringEnumFromJSON(json['nullable-string-enum']),
+        'nullableStringEnum': json['nullable-string-enum'] === undefined ? undefined : json['nullable-string-enum'] === null ? null : StringEnumFromJSON(json['nullable-string-enum']),
         'numberEnum': json['number-enum'] == null ? undefined : NumberEnumFromJSON(json['number-enum']),
-        'nullableNumberEnum': json['nullable-number-enum'] == null ? undefined : NumberEnumFromJSON(json['nullable-number-enum']),
+        'nullableNumberEnum': json['nullable-number-enum'] === undefined ? undefined : json['nullable-number-enum'] === null ? null : NumberEnumFromJSON(json['nullable-number-enum']),
     };
 }
 

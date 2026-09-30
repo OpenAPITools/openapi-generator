@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -10,6 +8,7 @@
 
     Do not edit the class manually.
 """  # noqa: E501
+
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
@@ -85,6 +84,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': "FooGetDefaultResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -146,6 +146,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': "FooGetDefaultResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -207,6 +208,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            'default': "FooGetDefaultResponse",
         }
         response_data = self.api_client.call_api(
             *_param,

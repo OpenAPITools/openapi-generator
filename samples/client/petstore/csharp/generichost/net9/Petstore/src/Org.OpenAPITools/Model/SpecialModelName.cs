@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarSpecialModelName
         /// </summary>
         [JsonPropertyName("_special_model.name_")]
-        public string VarSpecialModelName { get { return this.VarSpecialModelNameOption; } set { this.VarSpecialModelNameOption = new(value); } }
+        public string VarSpecialModelName { get { return this.VarSpecialModelNameOption.Value; } set { this.VarSpecialModelNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of SpecialPropertyName
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [JsonPropertyName("$special[property.name]")]
-        public long? SpecialPropertyName { get { return this.SpecialPropertyNameOption; } set { this.SpecialPropertyNameOption = new(value); } }
+        public long? SpecialPropertyName { get { return this.SpecialPropertyNameOption.Value; } set { this.SpecialPropertyNameOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -105,8 +105,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="SpecialModelName" />
     /// </summary>
-    public class SpecialModelNameJsonConverter : JsonConverter<SpecialModelName>
+    public partial class SpecialModelNameJsonConverter : JsonConverter<SpecialModelName>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpecialModelNameJsonConverter" /> class.
+        /// </summary>
+        public SpecialModelNameJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="SpecialModelName" />
         /// </summary>
@@ -155,10 +165,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varSpecialModelName.IsSet && varSpecialModelName.Value == null)
-                throw new ArgumentNullException(nameof(varSpecialModelName), "Property is not nullable for class SpecialModelName.");
+                throw new JsonException("Property is not nullable for class SpecialModelName: _special_model.name_.");
 
             if (specialPropertyName.IsSet && specialPropertyName.Value == null)
-                throw new ArgumentNullException(nameof(specialPropertyName), "Property is not nullable for class SpecialModelName.");
+                throw new JsonException("Property is not nullable for class SpecialModelName: $special[property.name].");
 
             return new SpecialModelName(varSpecialModelName, specialPropertyName);
         }
@@ -169,7 +179,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="specialModelName"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, SpecialModelName specialModelName, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -184,11 +193,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="specialModelName"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, SpecialModelName specialModelName, JsonSerializerOptions jsonSerializerOptions)
         {
             if (specialModelName.VarSpecialModelNameOption.IsSet && specialModelName.VarSpecialModelName == null)
-                throw new ArgumentNullException(nameof(specialModelName.VarSpecialModelName), "Property is required for class SpecialModelName.");
+                throw new JsonException("Cannot write null property SpecialModelName.VarSpecialModelName to non-nullable JSON property '_special_model.name_'.");
+
+            if (specialModelName.SpecialPropertyNameOption.IsSet && specialModelName.SpecialPropertyName == null)
+                throw new JsonException("Cannot write null property SpecialModelName.SpecialPropertyName to non-nullable JSON property '$special[property.name]'.");
 
             if (specialModelName.VarSpecialModelNameOption.IsSet)
                 writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName);

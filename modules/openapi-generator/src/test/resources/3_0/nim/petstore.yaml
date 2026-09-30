@@ -1020,3 +1020,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PetReview'
+
+    # Test numeric enum with negative values
+    DigestEmailFrequency:
+      description: Email digest frequency with negative value for disabled
+      type: number
+      enum: [-1, 0, 1, 2]
+
+    # Test nested maps (map of maps)
+    StringMap:
+      description: A simple string to string map
+      type: object
+      additionalProperties:
+        type: string
+    NestedStringMap:
+      description: A nested map (string to map of string to string)
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/StringMap'
+    PetStatistics:
+      description: Statistics about a pet including nested map for health records
+      type: object
+      properties:
+        groomingHistory:
+          $ref: '#/components/schemas/StringMap'
+        healthRecords:
+          $ref: '#/components/schemas/NestedStringMap'

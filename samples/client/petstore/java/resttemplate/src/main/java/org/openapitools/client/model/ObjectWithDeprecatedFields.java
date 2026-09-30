@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -28,6 +27,7 @@ import java.util.List;
 import org.openapitools.client.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * ObjectWithDeprecatedFields
@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @javax.annotation.Nullable
@@ -62,7 +62,7 @@ public class ObjectWithDeprecatedFields {
   /**
    * Constructor with all args parameters
    */
-  public ObjectWithDeprecatedFields(@JsonProperty(JSON_PROPERTY_UUID) String uuid, @JsonProperty(JSON_PROPERTY_ID) BigDecimal id, @JsonProperty(JSON_PROPERTY_DEPRECATED_REF) DeprecatedObject deprecatedRef, @JsonProperty(JSON_PROPERTY_BARS) List<String> bars) {
+  public ObjectWithDeprecatedFields(@JsonProperty(JSON_PROPERTY_UUID) @javax.annotation.Nullable String uuid, @JsonProperty(JSON_PROPERTY_ID) @javax.annotation.Nullable BigDecimal id, @JsonProperty(JSON_PROPERTY_DEPRECATED_REF) @javax.annotation.Nullable DeprecatedObject deprecatedRef, @JsonProperty(JSON_PROPERTY_BARS) @javax.annotation.Nullable List<String> bars) {
     this.uuid = uuid;
     this.id = id;
     this.deprecatedRef = deprecatedRef;
@@ -221,10 +221,7 @@ public class ObjectWithDeprecatedFields {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

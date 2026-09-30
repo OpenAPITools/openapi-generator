@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: Response union regression
+  version: 1.0.0
+paths:
+  /items/{id}:
+    get:
+      operationId: getItem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: full resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FullResource"
+        "201":
+          description: summary resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SummaryResource"
+        "204":
+          description: no content
+components:
+  schemas:
+    FullResource:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: integer
+          format: int32
+        createdAt:
+          type: string
+    SummaryResource:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string

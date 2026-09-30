@@ -8,6 +8,16 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+pub type SSE = std::pin::Pin<
+    std::boxed::Box<
+        dyn futures_util::Stream<
+                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
+            > + std::marker::Send
+            + std::marker::Sync,
+    >,
+>;
+
+#[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
     let mut errs = validator::ValidationErrors::new();
     errs.add("na", e);
@@ -156,6 +166,15 @@ pub struct ParamgetGetQueryParams {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct QueryExampleGetQueryParams {
+    #[serde(rename = "required_no_example")]
+    pub required_no_example: String,
+    #[serde(rename = "required_with_example")]
+    pub required_with_example: i32,
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct RegisterCallbackPostQueryParams {
     #[serde(rename = "url")]
     pub url: String,
@@ -233,9 +252,7 @@ impl ::std::str::FromStr for AdditionalPropertiesReferencedAnyOfObject {
     type Err = &'static str;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err(
-            "Parsing additionalProperties for AdditionalPropertiesReferencedAnyOfObject is not supported",
-        )
+        std::result::Result::Err("Parsing additionalProperties for AdditionalPropertiesReferencedAnyOfObject is not supported")
     }
 }
 
@@ -379,7 +396,7 @@ impl std::str::FromStr for AdditionalPropertiesWithNullable {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing AdditionalPropertiesWithNullable".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -663,10 +680,10 @@ impl AnotherXmlObject {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for AnotherXmlObject {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> =
-            vec![self.inner_string.as_ref().map(|inner_string| {
-                ["inner_string".to_string(), inner_string.to_string()].join(",")
-            })];
+        let params: Vec<Option<String>> = vec![self
+            .inner_string
+            .as_ref()
+            .map(|inner_string| ["inner_string".to_string(), inner_string.to_string()].join(","))];
 
         write!(
             f,
@@ -702,7 +719,7 @@ impl std::str::FromStr for AnotherXmlObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing AnotherXmlObject".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -716,7 +733,7 @@ impl std::str::FromStr for AnotherXmlObject {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing AnotherXmlObject".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -953,7 +970,7 @@ impl std::str::FromStr for AnyOfProperty {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing AnyOfProperty".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -973,7 +990,7 @@ impl std::str::FromStr for AnyOfProperty {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing AnyOfProperty".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1107,7 +1124,7 @@ impl std::str::FromStr for DuplicateXmlObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing DuplicateXmlObject".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -1126,7 +1143,7 @@ impl std::str::FromStr for DuplicateXmlObject {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing DuplicateXmlObject".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1338,15 +1355,20 @@ impl std::ops::DerefMut for Error {
 pub struct FormTestRequest {
     #[serde(rename = "requiredArray")]
     #[validate(custom(function = "check_xss_vec_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub required_array: Option<Vec<String>>,
+    pub required_array: Vec<String>,
+
+    /// Note: inline enums are not fully supported by openapi-generator
+    #[serde(rename = "enum_field")]
+    #[validate(custom(function = "check_xss_string"))]
+    pub enum_field: String,
 }
 
 impl FormTestRequest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new() -> FormTestRequest {
+    pub fn new(required_array: Vec<String>, enum_field: String) -> FormTestRequest {
         FormTestRequest {
-            required_array: None,
+            required_array,
+            enum_field,
         }
     }
 }
@@ -1356,18 +1378,18 @@ impl FormTestRequest {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for FormTestRequest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> =
-            vec![self.required_array.as_ref().map(|required_array| {
-                [
-                    "requiredArray".to_string(),
-                    required_array
-                        .iter()
-                        .map(|x| x.to_string())
-                        .collect::<Vec<_>>()
-                        .join(","),
-                ]
-                .join(",")
-            })];
+        let params: Vec<Option<String>> = vec![
+            Some("requiredArray".to_string()),
+            Some(
+                self.required_array
+                    .iter()
+                    .map(|x| x.to_string())
+                    .collect::<Vec<_>>()
+                    .join(","),
+            ),
+            Some("enum_field".to_string()),
+            Some(self.enum_field.to_string()),
+        ];
 
         write!(
             f,
@@ -1389,6 +1411,7 @@ impl std::str::FromStr for FormTestRequest {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub required_array: Vec<Vec<String>>,
+            pub enum_field: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -1403,7 +1426,7 @@ impl std::str::FromStr for FormTestRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing FormTestRequest".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -1414,12 +1437,16 @@ impl std::str::FromStr for FormTestRequest {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in FormTestRequest"
                                 .to_string(),
-                        );
+                        )
                     }
+                    #[allow(clippy::redundant_clone)]
+                    "enum_field" => intermediate_rep.enum_field.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing FormTestRequest".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1430,7 +1457,16 @@ impl std::str::FromStr for FormTestRequest {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(FormTestRequest {
-            required_array: intermediate_rep.required_array.into_iter().next(),
+            required_array: intermediate_rep
+                .required_array
+                .into_iter()
+                .next()
+                .ok_or_else(|| "requiredArray missing in FormTestRequest".to_string())?,
+            enum_field: intermediate_rep
+                .enum_field
+                .into_iter()
+                .next()
+                .ok_or_else(|| "enum_field missing in FormTestRequest".to_string())?,
         })
     }
 }
@@ -1527,11 +1563,10 @@ impl MultigetGet201Response {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for MultigetGet201Response {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![
-            self.foo
-                .as_ref()
-                .map(|foo| ["foo".to_string(), foo.to_string()].join(",")),
-        ];
+        let params: Vec<Option<String>> = vec![self
+            .foo
+            .as_ref()
+            .map(|foo| ["foo".to_string(), foo.to_string()].join(","))];
 
         write!(
             f,
@@ -1567,7 +1602,7 @@ impl std::str::FromStr for MultigetGet201Response {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MultigetGet201Response".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -1581,7 +1616,7 @@ impl std::str::FromStr for MultigetGet201Response {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing MultigetGet201Response".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1812,6 +1847,42 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MyIdList> {
                 r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
+    }
+}
+
+/// An object with no type
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct NoTypeObject(pub crate::types::Object);
+
+impl validator::Validate for NoTypeObject {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
+impl std::convert::From<crate::types::Object> for NoTypeObject {
+    fn from(x: crate::types::Object) -> Self {
+        NoTypeObject(x)
+    }
+}
+
+impl std::convert::From<NoTypeObject> for crate::types::Object {
+    fn from(x: NoTypeObject) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for NoTypeObject {
+    type Target = crate::types::Object;
+    fn deref(&self) -> &crate::types::Object {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for NoTypeObject {
+    fn deref_mut(&mut self) -> &mut crate::types::Object {
+        &mut self.0
     }
 }
 
@@ -2058,7 +2129,7 @@ impl std::str::FromStr for NullableTest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing NullableTest".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -2085,30 +2156,30 @@ impl std::str::FromStr for NullableTest {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        );
+                        )
                     }
                     "min_item_test" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        );
+                        )
                     }
                     "max_item_test" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        );
+                        )
                     }
                     "min_max_item_test" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        );
+                        )
                     }
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing NullableTest".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -2258,7 +2329,7 @@ impl std::str::FromStr for ObjectHeader {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectHeader".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -2276,7 +2347,7 @@ impl std::str::FromStr for ObjectHeader {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ObjectHeader".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -2409,7 +2480,7 @@ impl std::str::FromStr for ObjectParam {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectParam".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -2427,7 +2498,7 @@ impl std::str::FromStr for ObjectParam {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ObjectParam".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -2576,7 +2647,7 @@ impl std::str::FromStr for ObjectUntypedProps {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectUntypedProps".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -2726,7 +2797,7 @@ impl std::str::FromStr for ObjectWithArrayOfObjects {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectWithArrayOfObjects".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -3389,7 +3460,7 @@ impl std::str::FromStr for XmlObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing XmlObject".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -3407,7 +3478,7 @@ impl std::str::FromStr for XmlObject {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing XmlObject".to_string(),
-                        );
+                        )
                     }
                 }
             }

@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -31,6 +30,7 @@ import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Pet
@@ -43,7 +43,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nullable
@@ -112,7 +112,7 @@ public class Pet {
   /**
    * Constructor with all args parameters
    */
-  public Pet(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_CATEGORY) Category category, @JsonProperty(JSON_PROPERTY_NAME) String name, @JsonProperty(JSON_PROPERTY_PHOTO_URLS) Set<String> photoUrls, @JsonProperty(JSON_PROPERTY_TAGS) List<Tag> tags, @JsonProperty(JSON_PROPERTY_STATUS) StatusEnum status) {
+  public Pet(@JsonProperty(JSON_PROPERTY_ID) @javax.annotation.Nullable Long id, @JsonProperty(JSON_PROPERTY_CATEGORY) @javax.annotation.Nullable Category category, @JsonProperty(JSON_PROPERTY_NAME) @javax.annotation.Nonnull String name, @JsonProperty(JSON_PROPERTY_PHOTO_URLS) @javax.annotation.Nonnull Set<String> photoUrls, @JsonProperty(JSON_PROPERTY_TAGS) @javax.annotation.Nullable List<Tag> tags, @JsonProperty(JSON_PROPERTY_STATUS) @javax.annotation.Nullable StatusEnum status) {
     this.id = id;
     this.category = category;
     this.name = name;
@@ -330,10 +330,7 @@ public class Pet {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

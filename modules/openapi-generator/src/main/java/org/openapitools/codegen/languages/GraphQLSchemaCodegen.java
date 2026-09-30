@@ -26,6 +26,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/graphql-schema/}.
+ */
 public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(GraphQLSchemaCodegen.class);

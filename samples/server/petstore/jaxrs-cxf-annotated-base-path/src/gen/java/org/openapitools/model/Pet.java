@@ -42,8 +42,6 @@ public class Pet  {
 
   @ApiModelProperty(value = "")
 
-  @Valid
-
   private List<@Valid Tag> tags = new ArrayList<>();
 
 public enum StatusEnum {
@@ -249,10 +247,7 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

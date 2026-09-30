@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -54,38 +53,38 @@ public class User  {
   
   public static final String JSON_PROPERTY_ID = "id";
   @XmlElement(name = "id")
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_USERNAME = "username";
   @XmlElement(name = "username")
-  private String username;
+  protected String username;
 
   public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
   @XmlElement(name = "firstName")
-  private String firstName;
+  protected String firstName;
 
   public static final String JSON_PROPERTY_LAST_NAME = "lastName";
   @XmlElement(name = "lastName")
-  private String lastName;
+  protected String lastName;
 
   public static final String JSON_PROPERTY_EMAIL = "email";
   @XmlElement(name = "email")
-  private String email;
+  protected String email;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   @XmlElement(name = "password")
-  private String password;
+  protected String password;
 
   public static final String JSON_PROPERTY_PHONE = "phone";
   @XmlElement(name = "phone")
-  private String phone;
+  protected String phone;
 
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   @XmlElement(name = "userStatus")
  /**
   * User Status
   */
-  private Integer userStatus;
+  protected Integer userStatus;
 
 
   /**
@@ -345,10 +344,7 @@ public class User  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

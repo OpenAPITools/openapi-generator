@@ -1,0 +1,83 @@
+
+{{>License}}
+
+{{#models}}
+{{#model}}
+{{^vendorExtensions.isOneOfSchema}}
+{{^vendorExtensions.isAnyOfSchema}}
+#include "{{vendorExtensions.modelClassName}}.h"
+
+namespace {{vendorExtensions.modelNamespace}} {
+
+{{vendorExtensions.modelClassName}}::{{vendorExtensions.modelClassName}}()
+{{#vars}}
+{{#defaultValue}}
+{{#-first}}:{{/-first}}{{^-first}},{{/-first}} {{nameInCamelCase}}({{{defaultValue}}})
+{{/defaultValue}}
+{{/vars}}
+{
+}
+// =========================================
+// ===== Getters/Setters =====
+// =========================================
+{{#vars}}
+{{#-first}}
+// ===================
+// ===== Getters =====
+// ===================
+{{/-first}}
+{{! For enums, construct return type with proper class qualification }}
+{{#isEnum}}{{#isContainer}}std::vector<{{model.vendorExtensions.modelClassName}}::{{enumName}}>{{/isContainer}}{{^isContainer}}{{#vendorExtensions.isOptionalEnum}}std::optional<{{model.vendorExtensions.modelClassName}}::{{enumName}}>{{/vendorExtensions.isOptionalEnum}}{{^vendorExtensions.isOptionalEnum}}{{model.vendorExtensions.modelClassName}}::{{enumName}}{{/vendorExtensions.isOptionalEnum}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{datatypeWithEnum}}}{{/isEnum}} {{model.vendorExtensions.modelClassName}}::{{getter}}() const
+{
+    return {{nameInCamelCase}};
+}
+{{/vars}}
+
+{{#vars}}
+{{#-first}}
+// ===================
+// ===== Setters =====
+// ===================
+{{/-first}}
+void {{model.vendorExtensions.modelClassName}}::{{setter}}(const {{{datatypeWithEnum}}}& {{nameInCamelCase}}Obj)
+{
+    {{nameInCamelCase}} = {{nameInCamelCase}}Obj;
+}
+{{/vars}}
+
+{{#vars}}{{#isEnum}}{{^isArray}}
+// =========================================
+// ===== Enum {{enumName}} Conversions =====
+// =========================================
+std::string {{classname}}::{{enumName}}ToString({{classname}}::{{enumName}} value)
+{
+    switch (value)
+    {
+        {{#vendorExtensions.enumCases}}
+        case {{enumName}}::{{name}}: return "{{value}}";
+        {{/vendorExtensions.enumCases}}
+        default: return {};
+    }
+}
+
+{{classname}}::{{enumName}} {{classname}}::{{enumName}}FromString(const std::string& str)
+{
+    {{#vendorExtensions.enumCases}}
+    if (str == "{{value}}")
+    {
+        return {{enumName}}::{{name}};
+    }
+    {{/vendorExtensions.enumCases}}
+    throw std::invalid_argument("Invalid enum value");
+}
+{{/isArray}}{{/isEnum}}{{/vars}}
+
+
+
+{{/vendorExtensions.isAnyOfSchema}}
+{{/vendorExtensions.isOneOfSchema}}
+{{^vendorExtensions.isOneOfSchema}}{{^vendorExtensions.isAnyOfSchema}}
+} // namespace {{vendorExtensions.modelNamespace}}
+{{/vendorExtensions.isAnyOfSchema}}{{/vendorExtensions.isOneOfSchema}}
+{{/model}}
+{{/models}}

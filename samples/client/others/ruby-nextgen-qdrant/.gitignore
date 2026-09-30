@@ -1,0 +1,11 @@
+# Bundler
+/.bundle/
+Gemfile.lock
+
+# Built gem packages
+/pkg/
+*.gem
+
+# Temporary and generated files
+/tmp/
+/coverage/

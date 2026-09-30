@@ -17,9 +17,6 @@ import tempfile
 
 from urllib.parse import quote
 from pydantic import SecretStr
-{{#tornado}}
-import tornado.gen
-{{/tornado}}
 
 from {{packageName}}.configuration import Configuration
 from {{packageName}}.api_response import ApiResponse
@@ -155,9 +152,6 @@ class ApiClient:
         """
         cls._default = default
 
-    {{#tornado}}
-    @tornado.gen.coroutine
-    {{/tornado}}
     {{#asyncio}}async {{/asyncio}}def __call_api(
             self, resource_path, method, path_params=None,
             query_params=None, header_params=None, body=None, post_params=None,
@@ -224,7 +218,7 @@ class ApiClient:
 
         try:
             # perform request and return response
-            response_data = {{#asyncio}}await {{/asyncio}}{{#tornado}}yield {{/tornado}}self.request(
+            response_data = {{#asyncio}}await {{/asyncio}}self.request(
                 method, url,
                 query_params=query_params,
                 headers=header_params,
@@ -264,7 +258,6 @@ class ApiClient:
           else:
               return_data = None
 
-{{^tornado}}
         if _return_http_data_only:
             return return_data
         else:
@@ -272,16 +265,6 @@ class ApiClient:
                            data = return_data,
                            headers = response_data.getheaders(),
                            raw_data = response_data.data)
-{{/tornado}}
-{{#tornado}}
-        if _return_http_data_only:
-            raise tornado.gen.Return(return_data)
-        else:
-            raise tornado.gen.Return(ApiResponse(status_code = response_data.status,
-                                                 data = return_data,
-                                                 headers = response_data.getheaders(),
-                                                 raw_data = response_data.data))
-{{/tornado}}
 
     def sanitize_for_serialization(self, obj):
         """Builds a JSON POST object.

@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**color** | [**Color**](.md) |  | [required] |
+**color** | [**Color**](Color.md) |  | [required] |
 
 ### Return type
 

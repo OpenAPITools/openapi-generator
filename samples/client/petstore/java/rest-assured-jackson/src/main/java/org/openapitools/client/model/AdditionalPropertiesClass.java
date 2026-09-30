@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -47,7 +46,7 @@ import org.hibernate.validator.constraints.*;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   @javax.annotation.Nullable
@@ -149,7 +148,6 @@ public class AdditionalPropertiesClass {
    * @return mapNumber
    */
   @javax.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_MAP_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -252,7 +250,6 @@ public class AdditionalPropertiesClass {
    * @return mapArrayInteger
    */
   @javax.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_MAP_ARRAY_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -287,7 +284,6 @@ public class AdditionalPropertiesClass {
    * @return mapArrayAnytype
    */
   @javax.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_MAP_ARRAY_ANYTYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -322,7 +318,6 @@ public class AdditionalPropertiesClass {
    * @return mapMapString
    */
   @javax.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_MAP_MAP_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -357,7 +352,6 @@ public class AdditionalPropertiesClass {
    * @return mapMapAnytype
    */
   @javax.annotation.Nullable
-  @Valid
 
   @JsonProperty(value = JSON_PROPERTY_MAP_MAP_ANYTYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -451,6 +445,7 @@ public class AdditionalPropertiesClass {
     this.anytype3 = anytype3;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -502,10 +497,7 @@ public class AdditionalPropertiesClass {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

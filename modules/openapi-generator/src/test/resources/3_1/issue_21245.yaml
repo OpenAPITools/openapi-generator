@@ -1,0 +1,23 @@
+openapi: 3.1.0
+info:
+  title: Angular OIDC test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  securitySchemes:
+    oidc:
+      type: openIdConnect
+      openIdConnectUrl: 'http://localhost:8000'
+security:
+  - oidc:
+      - board:read
+      - board:write

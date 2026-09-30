@@ -28,6 +28,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.EnumSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/kotlin-vertx-server/}.
+ */
 public class KotlinVertxServerCodegen extends AbstractKotlinCodegen {
 
     protected String rootPackage = "org.openapitools.server.api";

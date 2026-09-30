@@ -5,9 +5,9 @@ package {{packageName}}
 import (
 	{{#hasBodyParams}}
 	"encoding/json"
+	"errors"
 	{{/hasBodyParams}}
 	{{#hasOptionalBodyParams}}
-	"errors"
 	"io"
 	{{/hasOptionalBodyParams}}
 	"net/http"
@@ -92,11 +92,11 @@ func (c *{{classname}}Controller) OrderedRoutes() []Route {
 
 {{#operations}}{{#operation}}
 
-// {{nickname}} - {{{summary}}}
+// {{operationId}} - {{{summary}}}
 {{#isDeprecated}}
 // Deprecated
 {{/isDeprecated}}
-func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Request) {
+func (c *{{classname}}Controller) {{operationId}}(w http.ResponseWriter, r *http.Request) {
 	{{#hasFormParams}}
 	{{#isMultipart}}
 	if err := r.ParseMultipartForm(32 << 20); err != nil {
@@ -567,6 +567,16 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		}
 
 		{{paramName}}Param = param
+		{{#isArray}}
+		defer func() {
+			for _, f := range param {
+				f.Close()
+			}
+		}()
+		{{/isArray}}
+		{{^isArray}}
+		defer param.Close()
+		{{/isArray}}
 	}
 	{{/isFile}}
 	{{#isLong}}{{#isArray}}
@@ -614,6 +624,11 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	d.DisallowUnknownFields()
 	{{/isAdditionalPropertiesTrue}}
 	if err := d.Decode(&{{paramName}}Param); err != nil {{^required}}&& !errors.Is(err, io.EOF) {{/required}}{
+		var requiredErr *RequiredError
+		if errors.As(err, &requiredErr) {
+			c.errorHandler(w, r, err, nil)
+			return
+		}
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
@@ -641,7 +656,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isArray}}
 	{{/isBodyParam}}
 	{{/allParams}}
-	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{#isNullable}}{{#isBodyParam}}&{{/isBodyParam}}{{/isNullable}}{{paramName}}Param{{/allParams}})
+	result, err := c.service.{{operationId}}(r.Context(){{#allParams}}, {{#isNullable}}{{#isBodyParam}}&{{/isBodyParam}}{{/isNullable}}{{paramName}}Param{{/allParams}})
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

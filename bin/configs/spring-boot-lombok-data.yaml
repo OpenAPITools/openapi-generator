@@ -3,6 +3,9 @@ outputDir: samples/server/petstore/springboot-lombok-data
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
+  optionalNonNullPropertyJsonInclude: "NON_EMPTY"
   groupId: org.openapitools.openapi3
   artifactId: springboot-lombok-data
   hideGenerationTimestamp: "true"

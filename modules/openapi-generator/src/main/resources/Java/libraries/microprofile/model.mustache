@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 {{#imports}}import {{import}};
 {{/imports}}
 {{#serializableModel}}
@@ -59,7 +58,12 @@ import {{rootJavaEEPackage}}.validation.Valid;
 
 {{/isEnum}}
 {{^isEnum}}
+{{#vendorExtensions.x-is-one-of-interface}}
+{{>oneof_interface}}
+{{/vendorExtensions.x-is-one-of-interface}}
+{{^vendorExtensions.x-is-one-of-interface}}
 {{>pojo}}
+{{/vendorExtensions.x-is-one-of-interface}}
 
 {{/isEnum}}
 {{/model}}

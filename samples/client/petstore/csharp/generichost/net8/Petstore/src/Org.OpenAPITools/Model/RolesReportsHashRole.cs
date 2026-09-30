@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
+        public string Name { get { return this.NameOption.Value; } set { this.NameOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="RolesReportsHashRole" />
     /// </summary>
-    public class RolesReportsHashRoleJsonConverter : JsonConverter<RolesReportsHashRole>
+    public partial class RolesReportsHashRoleJsonConverter : JsonConverter<RolesReportsHashRole>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RolesReportsHashRoleJsonConverter" /> class.
+        /// </summary>
+        public RolesReportsHashRoleJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RolesReportsHashRole" />
         /// </summary>
@@ -135,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class RolesReportsHashRole.");
+                throw new JsonException("Property is not nullable for class RolesReportsHashRole: name.");
 
             return new RolesReportsHashRole(name);
         }
@@ -146,7 +156,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="rolesReportsHashRole"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, RolesReportsHashRole rolesReportsHashRole, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -161,11 +170,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="rolesReportsHashRole"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, RolesReportsHashRole rolesReportsHashRole, JsonSerializerOptions jsonSerializerOptions)
         {
             if (rolesReportsHashRole.NameOption.IsSet && rolesReportsHashRole.Name == null)
-                throw new ArgumentNullException(nameof(rolesReportsHashRole.Name), "Property is required for class RolesReportsHashRole.");
+                throw new JsonException("Cannot write null property RolesReportsHashRole.Name to non-nullable JSON property 'name'.");
 
             if (rolesReportsHashRole.NameOption.IsSet)
                 writer.WriteString("name", rolesReportsHashRole.Name);

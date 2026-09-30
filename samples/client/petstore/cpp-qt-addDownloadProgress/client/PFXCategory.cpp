@@ -20,7 +20,7 @@
 
 namespace test_namespace {
 
-PFXCategory::PFXCategory(QString json) {
+PFXCategory::PFXCategory(const QString &json) {
     this->initializeModel();
     this->fromJson(json);
 }
@@ -40,7 +40,7 @@ void PFXCategory::initializeModel() {
     m_name_isValid = false;
 }
 
-void PFXCategory::fromJson(QString jsonString) {
+void PFXCategory::fromJson(const QString &jsonString) {
     QByteArray array(jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();

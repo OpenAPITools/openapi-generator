@@ -7,3 +7,4 @@ additionalProperties:
   npmName: ts-petstore-client
   projectName: ts-petstore-client
   moduleName: petstore
+  enumType: stringUnion

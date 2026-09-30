@@ -1,4 +1,4 @@
-# # ObjectWithDeprecatedFields
+# ObjectWithDeprecatedFields
 
 ## Properties
 

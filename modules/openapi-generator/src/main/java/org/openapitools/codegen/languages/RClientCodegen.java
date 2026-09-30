@@ -41,9 +41,16 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/r/} (root templates shared across all libraries) and
+ * {@code src/main/resources/r/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
 
@@ -601,6 +608,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public ModelsMap postProcessModels(ModelsMap objs) {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
+            boolean needsExtractSimpleType = false;
             for (CodegenProperty var : cm.vars) {
                 // check to see if base name is an empty string
                 if ("".equals(var.baseName)) {
@@ -608,9 +616,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     var.baseName = "empty_string";
                 }
 
+                if (!var.isPrimitiveType) {
+                    needsExtractSimpleType = true;
+                }
+
                 // create extension x-r-doc-type to store the data type in r doc format
                 var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
             }
+
+            // create extension x-r-has-non-primitive-field to indicate whether generated models need special handling for complex types
+            cm.vendorExtensions.put("x-r-has-non-primitive-field", needsExtractSimpleType);
 
             // apply the same fix, enhancement for allVars
             for (CodegenProperty var : cm.allVars) {
@@ -953,7 +968,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
                     if (Boolean.TRUE.equals(codegenProperty.isEnum)) { // enum
-                        return "\"" + ((List<Object>) codegenProperty.allowableValues.get("values")).get(0) + "\"";
+                        return "\"" + (getEnumValues(codegenProperty.allowableValues)).get(0) + "\"";
                     } else {
                         return "\"" + codegenProperty.name + "_example\"";
                     }
@@ -1000,15 +1015,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
-        System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
-        System.out.println("# - OpenAPI Generator for R Developers                http://bit.ly/3lpywTG    #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
+            System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
+            System.out.println("# - OpenAPI Generator for R Developers                http://bit.ly/3lpywTG    #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override

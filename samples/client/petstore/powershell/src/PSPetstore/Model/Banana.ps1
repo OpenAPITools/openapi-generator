@@ -35,7 +35,7 @@ function Initialize-PSBanana {
 
 
         $PSO = [PSCustomObject]@{
-            "lengthCm" = ${LengthCm}
+            'lengthCm' = ${LengthCm}
         }
 
 
@@ -73,21 +73,21 @@ function ConvertFrom-PSJsonToBanana {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSBanana
-        $AllProperties = ("lengthCm")
+        $AllProperties = ('lengthCm')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "lengthCm"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'lengthCm'))) { #optional property not found
             $LengthCm = $null
         } else {
-            $LengthCm = $JsonParameters.PSobject.Properties["lengthCm"].value
+            $LengthCm = $JsonParameters.PSobject.Properties['lengthCm'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "lengthCm" = ${LengthCm}
+            'lengthCm' = ${LengthCm}
         }
 
         return $PSO

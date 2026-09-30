@@ -22,6 +22,9 @@ import com.squareup.moshi.JsonClass
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 {{/enumUnknownDefaultCase}}
 import com.fasterxml.jackson.annotation.JsonProperty
+{{#hasEnums}}
+import com.fasterxml.jackson.annotation.JsonValue
+{{/hasEnums}}
 {{#discriminator}}
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonSubTypes
@@ -88,7 +91,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
 {{/vendorExtensions.x-class-extra-annotation}}
 {{#kotlinx_serialization}}{{#discriminator}}
 @OptIn(ExperimentalSerializationApi::class)
-@JsonClassDiscriminator(discriminator = "{{{discriminator.propertyName}}}")
+@JsonClassDiscriminator(discriminator = "{{#lambda.escapeDollar}}{{{discriminator.propertyBaseName}}}{{/lambda.escapeDollar}}")
 {{/discriminator}}
 {{#additionalProperties.discriminatorValue}}
 @SerialName(value = {{#lambda.doublequote}}{{{additionalProperties.discriminatorValue}}}{{/lambda.doublequote}})
@@ -96,7 +99,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
 {{/kotlinx_serialization}}
 {{#multiplatform}}{{#discriminator}}
 @OptIn(ExperimentalSerializationApi::class)
-@JsonClassDiscriminator(discriminator = "{{{discriminator.propertyName}}}")
+@JsonClassDiscriminator(discriminator = "{{#lambda.escapeDollar}}{{{discriminator.propertyBaseName}}}{{/lambda.escapeDollar}}")
 {{/discriminator}}
 {{#additionalProperties.discriminatorValue}}
 @SerialName(value = {{#lambda.doublequote}}{{{additionalProperties.discriminatorValue}}}{{/lambda.doublequote}})
@@ -123,7 +126,8 @@ import {{packageName}}.infrastructure.ITransformForStorage
         private const val serialVersionUID: Long = 123
     }
 {{/serializableModel}}
-{{#discriminator}}{{#vars}}{{#required}}
+{{^serializableModel}}{{^generateRoomModels}}{{^generateOneOfAnyOfWrappers}}{{#companionObject}}    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object { }
+{{/companionObject}}{{/generateOneOfAnyOfWrappers}}{{/generateRoomModels}}{{/serializableModel}}{{#discriminator}}{{#vars}}{{#required}}
 {{>interface_req_var}}{{/required}}{{^required}}
 {{>interface_opt_var}}{{/required}}{{/vars}}{{/discriminator}}
 {{#hasEnums}}
@@ -145,9 +149,14 @@ import {{packageName}}.infrastructure.ITransformForStorage
     {{#multiplatform}}
     @Serializable
     {{/multiplatform}}
-    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{{nameInPascalCase}}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}{{dataType}}{{/mostInnerItems}}{{/isContainer}}) {
+    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{{nameInPascalCase}}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}{{#jackson}}@get:JsonValue {{/jackson}}val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}{{dataType}}{{/mostInnerItems}}{{/isContainer}}) {
     {{#allowableValues}}
     {{#enumVars}}
+        {{#enumDescription}}
+        /**
+        * {{.}}
+        */
+        {{/enumDescription}}
         {{^multiplatform}}
         {{#moshi}}
         @Json(name = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
@@ -167,6 +176,9 @@ import {{packageName}}.infrastructure.ITransformForStorage
         {{/multiplatform}}
     {{/enumVars}}
     {{/allowableValues}}
+    {{#multiplatform}}
+        override fun toString(): kotlin.String = value{{^isString}}.toString(){{/isString}}
+    {{/multiplatform}}
     }
     {{#kotlinx_serialization}}
     {{#enumUnknownDefaultCase}}
@@ -176,7 +188,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
 
         override fun deserialize(decoder: Decoder): {{nameInPascalCase}} {
             val value = decoder.decodeSerializableValue({{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}.serializer())
-            return {{nameInPascalCase}}.values().firstOrNull { it.value == value }
+            return {{nameInPascalCase}}.entries.firstOrNull { it.value == value }
                 ?: {{nameInPascalCase}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
         }
 
@@ -360,14 +372,14 @@ import {{packageName}}.infrastructure.ITransformForStorage
             {{#isEnum}}
             {{#required}}
             // validate the required field `{{{baseName}}}`
-            require({{{datatypeWithEnum}}}.values().any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
+            require({{{datatypeWithEnum}}}.entries.any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
                 String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{datatypeWithEnum}}}` enum value in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
             }
             {{/required}}
             {{^required}}
             // validate the optional field `{{{baseName}}}`
             if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null && !jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonNull) {
-                require({{{datatypeWithEnum}}}.values().any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
+                require({{{datatypeWithEnum}}}.entries.any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
                     String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{datatypeWithEnum}}}` enum value in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
                 }
             }
@@ -376,14 +388,14 @@ import {{packageName}}.infrastructure.ITransformForStorage
             {{#isEnumRef}}
             {{#required}}
             // validate the required field `{{{baseName}}}`
-            require({{{dataType}}}.values().any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
+            require({{{dataType}}}.entries.any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
                 String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{dataType}}}` enum value in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
             }
             {{/required}}
             {{^required}}
             // validate the optional field `{{{baseName}}}`
             if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null && !jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonNull) {
-                require({{{dataType}}}.values().any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
+                require({{{dataType}}}.entries.any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
                     String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{dataType}}}` enum value in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
                 }
             }

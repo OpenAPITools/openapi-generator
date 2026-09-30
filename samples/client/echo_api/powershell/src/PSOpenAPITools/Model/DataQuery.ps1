@@ -57,11 +57,11 @@ function Initialize-DataQuery {
 
 
         $PSO = [PSCustomObject]@{
-            "id" = ${Id}
-            "outcomes" = ${Outcomes}
-            "suffix" = ${Suffix}
-            "text" = ${Text}
-            "date" = ${Date}
+            'id' = ${Id}
+            'outcomes' = ${Outcomes}
+            'suffix' = ${Suffix}
+            'text' = ${Text}
+            'date' = ${Date}
         }
 
 
@@ -99,49 +99,49 @@ function ConvertFrom-JsonToDataQuery {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in DataQuery
-        $AllProperties = ("id", "outcomes", "suffix", "text", "date")
+        $AllProperties = ('id', 'outcomes', 'suffix', 'text', 'date')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'id'))) { #optional property not found
             $Id = $null
         } else {
-            $Id = $JsonParameters.PSobject.Properties["id"].value
+            $Id = $JsonParameters.PSobject.Properties['id'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "outcomes"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'outcomes'))) { #optional property not found
             $Outcomes = $null
         } else {
-            $Outcomes = $JsonParameters.PSobject.Properties["outcomes"].value
+            $Outcomes = $JsonParameters.PSobject.Properties['outcomes'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "suffix"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'suffix'))) { #optional property not found
             $Suffix = $null
         } else {
-            $Suffix = $JsonParameters.PSobject.Properties["suffix"].value
+            $Suffix = $JsonParameters.PSobject.Properties['suffix'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "text"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'text'))) { #optional property not found
             $Text = $null
         } else {
-            $Text = $JsonParameters.PSobject.Properties["text"].value
+            $Text = $JsonParameters.PSobject.Properties['text'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "date"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'date'))) { #optional property not found
             $Date = $null
         } else {
-            $Date = $JsonParameters.PSobject.Properties["date"].value
+            $Date = $JsonParameters.PSobject.Properties['date'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "id" = ${Id}
-            "outcomes" = ${Outcomes}
-            "suffix" = ${Suffix}
-            "text" = ${Text}
-            "date" = ${Date}
+            'id' = ${Id}
+            'outcomes' = ${Outcomes}
+            'suffix' = ${Suffix}
+            'text' = ${Text}
+            'date' = ${Date}
         }
 
         return $PSO

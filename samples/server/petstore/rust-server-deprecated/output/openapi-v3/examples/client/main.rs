@@ -20,8 +20,10 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       OneOfGetResponse,
                       OverrideServerGetResponse,
                       ParamgetGetResponse,
+                      QueryExampleGetResponse,
                       ReadonlyAuthSchemeGetResponse,
                       RegisterCallbackPostResponse,
+                      RequiredBinaryStreamPutResponse,
                       RequiredOctetStreamPutResponse,
                       ResponsesWithHeadersGetResponse,
                       Rfc7807GetResponse,
@@ -79,8 +81,10 @@ fn main() {
                 "OneOfGet",
                 "OverrideServerGet",
                 "ParamgetGet",
+                "QueryExampleGet",
                 "ReadonlyAuthSchemeGet",
                 "RegisterCallbackPost",
+                "RequiredBinaryStreamPut",
                 "RequiredOctetStreamPut",
                 "ResponsesWithHeadersGet",
                 "Rfc7807Get",
@@ -254,6 +258,13 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        Some("QueryExampleGet") => {
+            let result = rt.block_on(client.query_example_get(
+                  "required_no_example_example".to_string(),
+                  42
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("ReadonlyAuthSchemeGet") => {
             let result = rt.block_on(client.readonly_auth_scheme_get(
             ));
@@ -262,6 +273,12 @@ fn main() {
         Some("RegisterCallbackPost") => {
             let result = rt.block_on(client.register_callback_post(
                   "url_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("RequiredBinaryStreamPut") => {
+            let result = rt.block_on(client.required_binary_stream_put(
+                  swagger::ByteArray(Vec::from("BINARY_DATA_HERE"))
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

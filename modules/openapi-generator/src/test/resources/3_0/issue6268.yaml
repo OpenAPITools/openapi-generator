@@ -19,12 +19,26 @@ paths:
           description: successful operation
 components:
   schemas:
+    AvroDefaultNullReference:
+      type: object
+      properties:
+        id:
+          type: string
     SampleModelToTestAvroDefaultValues:
       type: object
       required:
         - tagsRequired
         - tagsRequiredWithDefault
       properties:
+        nullableScalarWithNullDefault:
+          type: string
+          nullable: true
+          default: null
+        nullableModelWithNullDefault:
+          nullable: true
+          default: null
+          allOf:
+            - $ref: '#/components/schemas/AvroDefaultNullReference'
         name:
           type: string
           default: 'defaultName'

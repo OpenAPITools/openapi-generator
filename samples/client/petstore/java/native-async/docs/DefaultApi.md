@@ -71,7 +71,7 @@ No authorization required
 
 ## fooGetWithHttpInfo
 
-> CompletableFuture<ApiResponse<FooGetDefaultResponse>> fooGet fooGetWithHttpInfo()
+> CompletableFuture<ApiResponse<FooGetDefaultResponse>> fooGetWithHttpInfo()
 
 
 

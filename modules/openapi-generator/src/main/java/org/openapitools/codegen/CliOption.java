@@ -112,6 +112,10 @@ public class CliOption {
         return new CliOption(opt, description, SchemaTypeUtil.STRING_TYPE);
     }
 
+    public static CliOption newString(String opt, String description, String defaultValue) {
+        return new CliOption(opt, description, SchemaTypeUtil.STRING_TYPE).defaultValue(String.valueOf(defaultValue));
+    }
+
     @JsonIgnore
     public String getOptionHelp() {
         StringBuilder sb = new StringBuilder(description);

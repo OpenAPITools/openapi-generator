@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -27,6 +26,7 @@ import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * ArrayTest
@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   @javax.annotation.Nullable
@@ -56,7 +56,7 @@ public class ArrayTest {
   /**
    * Constructor with all args parameters
    */
-  public ArrayTest(@JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING) List<String> arrayOfString, @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER) List<List<Long>> arrayArrayOfInteger, @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL) List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest(@JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING) @javax.annotation.Nullable List<String> arrayOfString, @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER) @javax.annotation.Nullable List<List<Long>> arrayArrayOfInteger, @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL) @javax.annotation.Nullable List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayOfString = arrayOfString;
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     this.arrayArrayOfModel = arrayArrayOfModel;
@@ -197,10 +197,7 @@ public class ArrayTest {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

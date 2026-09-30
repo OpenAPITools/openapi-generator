@@ -1,0 +1,36 @@
+
+import coursier.LocalRepositories.Dangerous
+import coursier.Repositories
+import mill.scalalib.DepSyntax
+import mill.*
+import mill.api.Task
+import mill.meta.MillBuildRootModule
+import java.util.Properties
+import java.io.FileInputStream
+import scala.util.Using
+
+object `package` extends MillBuildRootModule {
+
+  override def repositories = Task {
+    Seq(
+      // central needed for default deps
+      Repositories.central.root,
+      // the previously installed snapshot is in local maven
+      // see docs on Coursier, why m2 is considered dangerous
+      Dangerous.maven2Local.root)
+  }
+
+  def propsFile = Task.Source("version.properties")
+
+  def readOpenapiSnapshotVersion: Task[String] = Task {
+    val props = new Properties()
+    Using(new FileInputStream(propsFile().path.toIO)) { fis =>
+      props.load(fis)
+      props.getProperty("openApiGeneratorVersion")
+    }.get
+  }
+
+  override def mvnDeps = Seq(
+    mvn"org.openapitools:openapi-generator-mill-plugin:${readOpenapiSnapshotVersion()}"
+  )
+}

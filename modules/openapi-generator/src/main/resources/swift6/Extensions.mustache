@@ -11,51 +11,53 @@ import FoundationNetworking
 @preconcurrency import PromiseKit{{/usePromiseKit}}{{#useVapor}}
 import Vapor{{/useVapor}}{{^useVapor}}
 
-extension Bool: ParameterConvertible {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Bool: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Float: ParameterConvertible {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Float: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Int: ParameterConvertible {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Int: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Int32: ParameterConvertible {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Int32: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Int64: ParameterConvertible {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Int64: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Double: ParameterConvertible {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Double: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension Decimal: ParameterConvertible {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Decimal: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension String: ParameterConvertible {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension String: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension URL: ParameterConvertible {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension URL: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension UUID: ParameterConvertible {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension UUID: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension RawRepresentable where RawValue: ParameterConvertible, RawValue: Sendable {
-    func asParameter(codableHelper: CodableHelper) -> any Sendable { return self.rawValue }
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension RawRepresentable where RawValue: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable {
+        rawValue.asParameter(codableHelper: codableHelper)
+    }
 }
 
-private func encodeIfPossible<T: Sendable>(_ object: T, codableHelper: CodableHelper) -> any Sendable {
+private {{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}func encodeIfPossible<T: Sendable>(_ object: T, codableHelper: CodableHelper) -> any Sendable {
     if let encodableObject = object as? ParameterConvertible {
         return encodableObject.asParameter(codableHelper: codableHelper)
     } else {
@@ -63,19 +65,19 @@ private func encodeIfPossible<T: Sendable>(_ object: T, codableHelper: CodableHe
     }
 }
 
-extension Array where Element: Sendable {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Array where Element: Sendable {
     func asParameter(codableHelper: CodableHelper) -> any Sendable {
         return self.map { encodeIfPossible($0, codableHelper: codableHelper) }
     }
 }
 
-extension Set where Element: Sendable {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Set where Element: Sendable {
     func asParameter(codableHelper: CodableHelper) -> any Sendable {
         return Array(self).asParameter(codableHelper: codableHelper)
     }
 }
 
-extension Dictionary where Key: Sendable, Value: Sendable {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Dictionary where Key: Sendable, Value: Sendable {
     func asParameter(codableHelper: CodableHelper) -> any Sendable {
         var dictionary = [Key: any Sendable]()
         for (key, value) in self {
@@ -85,28 +87,19 @@ extension Dictionary where Key: Sendable, Value: Sendable {
     }
 }
 
-extension Data: ParameterConvertible {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Data: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable {
         return self.base64EncodedString(options: Data.Base64EncodingOptions())
     }
 }
 
-extension Date: ParameterConvertible {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension Date: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable {
         return codableHelper.dateFormatter.string(from: self)
     }
-}
-
-extension ParameterConvertible where Self: Encodable {
-    func asParameter(codableHelper: CodableHelper) -> any Sendable {
-        guard let data = try? codableHelper.jsonEncoder.encode(self) else {
-            fatalError("Could not encode to json: \(self)")
-        }
-        return data.asParameter(codableHelper: codableHelper)
-    }
 }{{/useVapor}}{{#generateModelAdditionalProperties}}
 
-extension String: @retroactive CodingKey {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension String: @retroactive CodingKey {
 
     public var stringValue: String {
         return self
@@ -126,7 +119,7 @@ extension String: @retroactive CodingKey {
 
 }
 
-extension KeyedEncodingContainerProtocol {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension KeyedEncodingContainerProtocol {
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} mutating func encodeArray<T>(_ values: [T], forKey key: Self.Key) throws where T: Encodable {
         var arrayContainer = nestedUnkeyedContainer(forKey: key)
@@ -156,6 +149,7 @@ extension KeyedEncodingContainerProtocol {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.locale = Locale(identifier: "en_US")
+        numberFormatter.usesGroupingSeparator = false
         let formattedString = numberFormatter.string(from: decimalNumber) ?? "\(value)"
         try encode(formattedString, forKey: key)
     }
@@ -167,7 +161,7 @@ extension KeyedEncodingContainerProtocol {
     }
 }
 
-extension KeyedDecodingContainerProtocol {
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension KeyedDecodingContainerProtocol {
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func decodeArray<T>(_ type: T.Type, forKey key: Self.Key) throws -> [T] where T: Decodable {
         var tmpArray = [T]()
@@ -243,13 +237,11 @@ extension RequestBuilder {
     }
 }{{/usePromiseKit}}{{#useVapor}}
 
-extension UUID: Content { }
+extension UUID: @retroactive Content { }
 
-extension URL: Content { }
+extension URL: @retroactive Content { }
 
-extension Bool: Content { }
-
-extension Set: ResponseEncodable where Element: Content {
+extension Set: @retroactive ResponseEncodable where Element: Content {
     public func encodeResponse(for request: Vapor.Request) -> EventLoopFuture<Vapor.Response> {
         let response = Vapor.Response()
         do {
@@ -261,7 +253,15 @@ extension Set: ResponseEncodable where Element: Content {
     }
 }
 
-extension Set: RequestDecodable where Element: Content {
+extension Set: @retroactive AsyncResponseEncodable where Element: Content {
+    public func encodeResponse(for request: Vapor.Request) async throws -> Vapor.Response {
+        let response = Vapor.Response()
+        try response.content.encode(Array(self))
+        return response
+    }
+}
+
+extension Set: @retroactive RequestDecodable where Element: Content {
     public static func decodeRequest(_ request: Vapor.Request) -> EventLoopFuture<Self> {
         do {
             let content = try request.content.decode([Element].self)
@@ -272,6 +272,13 @@ extension Set: RequestDecodable where Element: Content {
     }
 }
 
-extension Set: Content where Element: Content { }
+extension Set: @retroactive AsyncRequestDecodable where Element: Content {
+    public static func decodeRequest(_ request: Vapor.Request) async throws -> Self {
+        let content = try request.content.decode([Element].self)
+        return Set(content)
+    }
+}
 
-extension JSONValue: Content {}{{/useVapor}}
+extension Set: @retroactive Content where Element: Content { }
+
+{{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}extension JSONValue: Content {}{{/useVapor}}

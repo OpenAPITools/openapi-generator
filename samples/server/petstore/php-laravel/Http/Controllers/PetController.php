@@ -51,10 +51,10 @@ class PetController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -91,17 +91,17 @@ class PetController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     'petId' => $petId,
                 ],
-                $request->all(),
             ),
             [
                 'petId' => [
                     'required',
                     'integer',
                 ],
-                'apiKey' => [
+                'api_key' => [
                     'string',
                 ],
             ],
@@ -112,7 +112,7 @@ class PetController extends Controller
         }
 
 
-        $apiKey = $request->string('apiKey')->value();
+        $apiKey = $request->string('api_key')->value();
 
 
         $apiResult = $this->api->deletePet($petId, $apiKey);
@@ -139,10 +139,10 @@ class PetController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
                 'status' => [
@@ -185,10 +185,10 @@ class PetController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
                 'tags' => [
@@ -230,10 +230,10 @@ class PetController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     'petId' => $petId,
                 ],
-                $request->all(),
             ),
             [
                 'petId' => [
@@ -277,10 +277,10 @@ class PetController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     
                 ],
-                $request->all(),
             ),
             [
             ],
@@ -325,10 +325,10 @@ class PetController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     'petId' => $petId,
                 ],
-                $request->all(),
             ),
             [
                 'petId' => [
@@ -378,10 +378,10 @@ class PetController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     'petId' => $petId,
                 ],
-                $request->all(),
             ),
             [
                 'petId' => [
@@ -427,10 +427,10 @@ class PetController extends Controller
     {
         $validator = Validator::make(
             array_merge(
+                $request->all(),
                 [
                     'petId' => $petId,
                 ],
-                $request->all(),
             ),
             [
                 'petId' => [

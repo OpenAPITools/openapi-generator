@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -25,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * MapTest
@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   @javax.annotation.Nullable
@@ -94,7 +94,7 @@ public class MapTest {
   /**
    * Constructor with all args parameters
    */
-  public MapTest(@JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING) Map<String, Map<String, String>> mapMapOfString, @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING) Map<String, InnerEnum> mapOfEnumString, @JsonProperty(JSON_PROPERTY_DIRECT_MAP) Map<String, Boolean> directMap, @JsonProperty(JSON_PROPERTY_INDIRECT_MAP) Map<String, Boolean> indirectMap) {
+  public MapTest(@JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING) @javax.annotation.Nullable Map<String, Map<String, String>> mapMapOfString, @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING) @javax.annotation.Nullable Map<String, InnerEnum> mapOfEnumString, @JsonProperty(JSON_PROPERTY_DIRECT_MAP) @javax.annotation.Nullable Map<String, Boolean> directMap, @JsonProperty(JSON_PROPERTY_INDIRECT_MAP) @javax.annotation.Nullable Map<String, Boolean> indirectMap) {
     this.mapMapOfString = mapMapOfString;
     this.mapOfEnumString = mapOfEnumString;
     this.directMap = directMap;
@@ -271,10 +271,7 @@ public class MapTest {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

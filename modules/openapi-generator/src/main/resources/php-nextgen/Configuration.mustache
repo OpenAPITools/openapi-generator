@@ -115,6 +115,13 @@ class Configuration
     protected string $tempFolderPath;
 
     /**
+     * Ignore operation specific hosts
+     * 
+     * @var bool
+     */
+    protected bool $ignoreOperationHosts = false;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -384,6 +391,29 @@ class Configuration
     }
 
     /**
+     * Sets the ignore operation specific hosts flag
+     *
+     * @param bool $ignoreOperationHosts Ignore operation specific hosts flag
+     *
+     * @return $this
+     */
+    public function setIgnoreOperationHosts(bool $ignoreOperationHosts): static
+    {
+        $this->ignoreOperationHosts = $ignoreOperationHosts;
+        return $this;
+    }
+
+    /**
+     * Gets the ignore operation specific hosts flag
+     *
+     * @return bool Ignore operation specific hosts flag
+     */
+    public function getIgnoreOperationHosts(): bool
+    {
+        return $this->ignoreOperationHosts;
+    }
+
+    /**
      * Gets the default configuration instance
      *
      * @return Configuration
@@ -492,13 +522,13 @@ class Configuration
     }
 
     /**
-    * Returns URL based on host settings, index and variables
-    *
-    * @param array      $hostSettings array of host settings, generated from getHostSettings() or equivalent from the API clients
-    * @param int        $hostIndex    index of the host settings
-    * @param array|null $variables    hash of variable and the corresponding value (optional)
-    * @return string URL based on host settings
-    */
+     * Returns URL based on host settings, index and variables
+     *
+     * @param array      $hostSettings array of host settings, generated from getHostSettings() or equivalent from the API clients
+     * @param int        $hostIndex    index of the host settings
+     * @param array|null $variables    hash of variable and the corresponding value (optional)
+     * @return string URL based on host settings
+     */
     public static function getHostString(array $hostSettings, int $hostIndex, ?array $variables = null): string
     {
         if (null === $variables) {

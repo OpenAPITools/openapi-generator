@@ -75,7 +75,7 @@ class StoreController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type('string');
         $response = $this->validate($orderId, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -212,7 +212,7 @@ class StoreController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("int");
+        $asserts[] = new Assert\Type('int');
         $asserts[] = new Assert\GreaterThanOrEqual(1);
         $asserts[] = new Assert\LessThanOrEqual(5);
         $response = $this->validate($orderId, $asserts);
@@ -298,7 +298,7 @@ class StoreController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("OpenAPI\Server\Model\Order");
+        $asserts[] = new Assert\Type('OpenAPI\Server\Model\Order');
         $asserts[] = new Assert\Valid();
         $response = $this->validate($order, $asserts);
         if ($response instanceof Response) {

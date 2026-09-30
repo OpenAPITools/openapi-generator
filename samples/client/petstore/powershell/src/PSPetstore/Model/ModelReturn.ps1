@@ -35,7 +35,7 @@ function Initialize-PSModelReturn {
 
 
         $PSO = [PSCustomObject]@{
-            "return" = ${VarReturn}
+            'return' = ${VarReturn}
         }
 
 
@@ -73,21 +73,21 @@ function ConvertFrom-PSJsonToModelReturn {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSModelReturn
-        $AllProperties = ("return")
+        $AllProperties = ('return')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "return"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'return'))) { #optional property not found
             $VarReturn = $null
         } else {
-            $VarReturn = $JsonParameters.PSobject.Properties["return"].value
+            $VarReturn = $JsonParameters.PSobject.Properties['return'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "return" = ${VarReturn}
+            'return' = ${VarReturn}
         }
 
         return $PSO

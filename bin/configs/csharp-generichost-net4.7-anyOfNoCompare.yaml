@@ -12,3 +12,5 @@ additionalProperties:
   targetFramework: net47
   modelPropertySorting: alphabetical
   operationParameterSorting: alphabetical
+  treatWarningsAsErrors: true
+  warningsNotAsErrors: CS0612

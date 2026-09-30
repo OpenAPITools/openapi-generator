@@ -14,9 +14,16 @@ func Test_Model_Pet(t *testing.T) {
 
 		lines := utils.ReadLines(filepath)
 		expected := "\tId int64 `json:\"id,omitempty\"`"
-		
-		if lines[18] != expected {
-			t.Errorf("Expected  '%s', but got '%s'", expected, lines[18])
+
+		found := false
+		for _, line := range lines {
+			if line == expected {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Errorf("Expected line '%s' not found in %s", expected, filepath)
 		}
 	})
 }

@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -59,8 +67,17 @@ data class Order (
      * Values: placed,approved,delivered,unknown_default_open_api
      */
     enum class Status(val value: kotlin.String) {
+        /**
+        * An order is placed but not yet approved.
+        */
         @SerializedName(value = "placed") placed("placed"),
+        /**
+        * An order is approved and delivery is in progress.
+        */
         @SerializedName(value = "approved") approved("approved"),
+        /**
+        * An order is delivered and finalized.
+        */
         @SerializedName(value = "delivered") delivered("delivered"),
         @SerializedName(value = "unknown_default_open_api") unknown_default_open_api("unknown_default_open_api");
     }

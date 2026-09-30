@@ -80,7 +80,7 @@ This endpoint does not need any parameter.
 
 ## testAuthHttpBasicWithHttpInfo
 
-> ApiResponse<String> testAuthHttpBasic testAuthHttpBasicWithHttpInfo()
+> ApiResponse<String> testAuthHttpBasicWithHttpInfo()
 
 To test HTTP basic authentication
 
@@ -217,7 +217,7 @@ This endpoint does not need any parameter.
 
 ## testAuthHttpBearerWithHttpInfo
 
-> ApiResponse<String> testAuthHttpBearer testAuthHttpBearerWithHttpInfo()
+> ApiResponse<String> testAuthHttpBearerWithHttpInfo()
 
 To test HTTP bearer authentication
 

@@ -84,7 +84,7 @@ No authorization required
 
 ## testFormIntegerBooleanStringWithHttpInfo
 
-> ApiResponse<String> testFormIntegerBooleanString testFormIntegerBooleanStringWithHttpInfo(integerForm, booleanForm, stringForm)
+> ApiResponse<String> testFormIntegerBooleanStringWithHttpInfo(integerForm, booleanForm, stringForm)
 
 Test form parameter(s)
 
@@ -222,7 +222,7 @@ No authorization required
 
 ## testFormObjectMultipartWithHttpInfo
 
-> ApiResponse<String> testFormObjectMultipart testFormObjectMultipartWithHttpInfo(marker)
+> ApiResponse<String> testFormObjectMultipartWithHttpInfo(marker)
 
 Test form parameter(s) for multipart schema
 
@@ -366,7 +366,7 @@ No authorization required
 
 ## testFormOneofWithHttpInfo
 
-> ApiResponse<String> testFormOneof testFormOneofWithHttpInfo(form1, form2, form3, form4, id, name)
+> ApiResponse<String> testFormOneofWithHttpInfo(form1, form2, form3, form4, id, name)
 
 Test form parameter(s) for oneOf schema
 

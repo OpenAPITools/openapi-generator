@@ -637,12 +637,12 @@ components:
     Order:
       description: An order for a pets from the pet store
       example:
+        id: 0
         petId: 6
         quantity: 1
-        id: 0
         shipDate: 2000-01-23T04:56:07.000+00:00
-        complete: false
         status: placed
+        complete: false
       properties:
         id:
           format: int64
@@ -679,8 +679,8 @@ components:
     Category:
       description: A category for a pet
       example:
-        name: name
         id: 6
+        name: name
       properties:
         id:
           format: int64
@@ -697,14 +697,14 @@ components:
     User:
       description: A User who is purchasing from the pet store
       example:
+        id: 0
+        username: username
         firstName: firstName
         lastName: lastName
-        password: password
-        userStatus: 6
-        phone: phone
-        id: 0
         email: email
-        username: username
+        password: password
+        phone: phone
+        userStatus: 6
       properties:
         id:
           format: int64
@@ -740,8 +740,8 @@ components:
     Tag:
       description: A tag for a pet
       example:
-        name: name
         id: 1
+        name: name
       properties:
         id:
           format: int64
@@ -757,19 +757,19 @@ components:
     Pet:
       description: A pet for sale in the pet store
       example:
+        id: 0
+        category:
+          id: 6
+          name: name
+        name: doggie
         photoUrls:
         - photoUrls
         - photoUrls
-        name: doggie
-        id: 0
-        category:
-          name: name
-          id: 6
         tags:
-        - name: name
-          id: 1
-        - name: name
-          id: 1
+        - id: 1
+          name: name
+        - id: 1
+          name: name
         status: available
       properties:
         id:

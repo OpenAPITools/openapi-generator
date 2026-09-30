@@ -36,6 +36,9 @@ import java.util.Map;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/java-undertow-server/}.
+ */
 public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaUndertowServerCodegen.class);

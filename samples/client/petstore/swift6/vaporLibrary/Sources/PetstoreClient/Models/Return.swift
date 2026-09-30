@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 /** Model for testing reserved words */
-public final class Return: Content, Hashable {
+public struct Return: Sendable, Content, Hashable {
 
     public var `return`: Int?
 
@@ -26,16 +26,6 @@ public final class Return: Content, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(`return`, forKey: .`return`)
-    }
-
-    public static func == (lhs: Return, rhs: Return) -> Bool {
-        lhs.`return` == rhs.`return`
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(`return`?.hashValue)
-        
     }
 }
 

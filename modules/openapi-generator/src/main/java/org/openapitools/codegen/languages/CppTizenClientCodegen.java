@@ -35,6 +35,9 @@ import java.util.HashSet;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/cpp-tizen-client/}.
+ */
 public class CppTizenClientCodegen extends AbstractCppCodegen implements CodegenConfig {
     protected static String PREFIX = "ArtikCloud";
     protected String sourceFolder = "src";

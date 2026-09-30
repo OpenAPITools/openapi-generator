@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ActivityOutputs
         /// </summary>
         [JsonPropertyName("activity_outputs")]
-        public Dictionary<string, List<ActivityOutputElementRepresentation>> ActivityOutputs { get { return this.ActivityOutputsOption; } set { this.ActivityOutputsOption = new Option<Dictionary<string, List<ActivityOutputElementRepresentation>>>(value); } }
+        public Dictionary<string, List<ActivityOutputElementRepresentation>> ActivityOutputs { get { return this.ActivityOutputsOption.Value; } set { this.ActivityOutputsOption = new Option<Dictionary<string, List<ActivityOutputElementRepresentation>>>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,8 +89,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Activity" />
     /// </summary>
-    public class ActivityJsonConverter : JsonConverter<Activity>
+    public partial class ActivityJsonConverter : JsonConverter<Activity>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActivityJsonConverter" /> class.
+        /// </summary>
+        public ActivityJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Activity" />
         /// </summary>
@@ -135,7 +145,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (activityOutputs.IsSet && activityOutputs.Value == null)
-                throw new ArgumentNullException(nameof(activityOutputs), "Property is not nullable for class Activity.");
+                throw new JsonException("Property is not nullable for class Activity: activity_outputs.");
 
             return new Activity(activityOutputs);
         }
@@ -146,7 +156,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="activity"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Activity activity, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -161,11 +170,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="activity"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Activity activity, JsonSerializerOptions jsonSerializerOptions)
         {
             if (activity.ActivityOutputsOption.IsSet && activity.ActivityOutputs == null)
-                throw new ArgumentNullException(nameof(activity.ActivityOutputs), "Property is required for class Activity.");
+                throw new JsonException("Cannot write null property Activity.ActivityOutputs to non-nullable JSON property 'activity_outputs'.");
 
             if (activity.ActivityOutputsOption.IsSet)
             {

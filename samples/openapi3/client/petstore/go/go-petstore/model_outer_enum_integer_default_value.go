@@ -23,6 +23,7 @@ const (
 	OUTERENUMINTEGERDEFAULTVALUE__0 OuterEnumIntegerDefaultValue = 0
 	OUTERENUMINTEGERDEFAULTVALUE__1 OuterEnumIntegerDefaultValue = 1
 	OUTERENUMINTEGERDEFAULTVALUE__2 OuterEnumIntegerDefaultValue = 2
+	OUTERENUMINTEGERDEFAULTVALUE__unknown_default_open_api OuterEnumIntegerDefaultValue = 11184809
 )
 
 // All allowed values of OuterEnumIntegerDefaultValue enum
@@ -30,6 +31,7 @@ var AllowedOuterEnumIntegerDefaultValueEnumValues = []OuterEnumIntegerDefaultVal
 	0,
 	1,
 	2,
+	11184809,
 }
 
 func (v *OuterEnumIntegerDefaultValue) UnmarshalJSON(src []byte) error {
@@ -46,7 +48,8 @@ func (v *OuterEnumIntegerDefaultValue) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid OuterEnumIntegerDefaultValue", value)
+	*v = OUTERENUMINTEGERDEFAULTVALUE__unknown_default_open_api
+	return nil
 }
 
 // NewOuterEnumIntegerDefaultValueFromValue returns a pointer to a valid OuterEnumIntegerDefaultValue

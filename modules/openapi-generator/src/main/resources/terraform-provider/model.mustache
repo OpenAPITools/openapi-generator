@@ -1,0 +1,13 @@
+{{>partial_header}}
+package client
+{{#models}}
+{{#model}}
+
+// {{classname}} - {{{description}}}{{^description}}{{classname}} struct{{/description}}
+type {{classname}} struct {
+{{#vars}}
+	{{name}} {{#isArray}}[]{{#items}}{{dataType}}{{/items}}{{/isArray}}{{^isArray}}{{#isMap}}map[string]{{#items}}{{dataType}}{{/items}}{{/isMap}}{{^isMap}}{{dataType}}{{/isMap}}{{/isArray}}{{{vendorExtensions.x-go-datatag}}}
+{{/vars}}
+}
+{{/model}}
+{{/models}}

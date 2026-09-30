@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Pet: Sendable, Codable, ParameterConvertible, Hashable {
+internal struct Pet: Sendable, Codable, Hashable {
 
     internal enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case available = "available"
@@ -58,5 +58,11 @@ internal struct Pet: Sendable, Codable, ParameterConvertible, Hashable {
 }
 
 
-@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
 extension Pet: Identifiable {}
+
+extension Pet: UnknownCaseCheckable {
+    internal var containsUnknownDefaultOpenApiCase: Bool {
+        if status == .encodeValue(.unknownDefaultOpenApi) { return true }
+        return false
+    }
+}

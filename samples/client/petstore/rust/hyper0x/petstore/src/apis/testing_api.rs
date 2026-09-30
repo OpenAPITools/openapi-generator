@@ -38,6 +38,8 @@ impl<C: hyper::client::connect::Connect> TestingApiClient<C>
 pub trait TestingApi {
     fn tests_all_of_with_one_model_get(&self, person: models::Person) -> Pin<Box<dyn Future<Output = Result<String, Error>>>>;
     fn tests_file_response_get(&self, ) -> Pin<Box<dyn Future<Output = Result<std::path::PathBuf, Error>>>>;
+    fn tests_inline_enum_boxing_get(&self, status: Option<&str>) -> Pin<Box<dyn Future<Output = Result<Vec<models::ModelWithInlineEnum>, Error>>>>;
+    fn tests_inline_enum_boxing_post(&self, model_with_inline_enum: models::ModelWithInlineEnum) -> Pin<Box<dyn Future<Output = Result<models::ModelWithInlineEnum, Error>>>>;
     fn tests_type_testing_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::TypeTesting, Error>>>>;
 }
 
@@ -56,6 +58,27 @@ impl<C: hyper::client::connect::Connect>TestingApi for TestingApiClient<C>
     fn tests_file_response_get(&self, ) -> Pin<Box<dyn Future<Output = Result<std::path::PathBuf, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/tests/fileResponse".to_string())
         ;
+
+        req.execute(self.configuration.borrow())
+    }
+
+    #[allow(unused_mut)]
+    fn tests_inline_enum_boxing_get(&self, status: Option<&str>) -> Pin<Box<dyn Future<Output = Result<Vec<models::ModelWithInlineEnum>, Error>>>> {
+        let mut req = __internal_request::Request::new(hyper::Method::GET, "/tests/inlineEnumBoxing".to_string())
+        ;
+        if let Some(ref s) = status {
+            let query_value = s.to_string();
+            req = req.with_query_param("status".to_string(), query_value);
+        }
+
+        req.execute(self.configuration.borrow())
+    }
+
+    #[allow(unused_mut)]
+    fn tests_inline_enum_boxing_post(&self, model_with_inline_enum: models::ModelWithInlineEnum) -> Pin<Box<dyn Future<Output = Result<models::ModelWithInlineEnum, Error>>>> {
+        let mut req = __internal_request::Request::new(hyper::Method::POST, "/tests/inlineEnumBoxing".to_string())
+        ;
+        req = req.with_body_param(model_with_inline_enum);
 
         req.execute(self.configuration.borrow())
     }

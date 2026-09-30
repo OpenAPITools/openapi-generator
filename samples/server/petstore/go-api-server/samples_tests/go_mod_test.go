@@ -25,7 +25,7 @@ func Test_Go_Mod(t *testing.T) {
 		filepath := "../go.mod"
 
 		lines := utils.ReadLines(filepath)
-		expected := "go 1.18"
+		expected := "go 1.25"
 		
 		if lines[2] != expected {
 			t.Errorf("Expected '%s', but got '%s'", expected, lines[2])

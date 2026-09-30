@@ -95,16 +95,14 @@ class ObjectWithDeprecatedFields {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "ObjectWithDeprecatedFields[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "ObjectWithDeprecatedFields[$key]" has a null value in JSON.');
-        });
         return true;
       }());
 
       return ObjectWithDeprecatedFields(
         uuid: mapValueOfType<String>(json, r'uuid'),
-        id: num.parse('${json[r'id']}'),
+        id: json[r'id'] == null
+            ? null
+            : num.parse('${json[r'id']}'),
         deprecatedRef: DeprecatedObject.fromJson(json[r'deprecatedRef']),
         bars: json[r'bars'] is Iterable
             ? (json[r'bars'] as Iterable).cast<String>().toList(growable: false)

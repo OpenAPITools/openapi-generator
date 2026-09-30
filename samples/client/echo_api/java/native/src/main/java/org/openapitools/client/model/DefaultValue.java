@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -50,7 +49,7 @@ import org.openapitools.client.ApiClient;
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE,
   DefaultValue.JSON_PROPERTY_STRING_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class DefaultValue {
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
   @javax.annotation.Nullable
@@ -128,7 +127,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringEnumRefDefaultItem(StringEnumRef arrayStringEnumRefDefaultItem) {
     if (this.arrayStringEnumRefDefault == null) {
-      this.arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
+      this.arrayStringEnumRefDefault = new ArrayList<>();
     }
     this.arrayStringEnumRefDefault.add(arrayStringEnumRefDefaultItem);
     return this;
@@ -160,7 +159,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringEnumDefaultItem(ArrayStringEnumDefaultEnum arrayStringEnumDefaultItem) {
     if (this.arrayStringEnumDefault == null) {
-      this.arrayStringEnumDefault = new ArrayList<>(Arrays.asList(ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE));
+      this.arrayStringEnumDefault = new ArrayList<>();
     }
     this.arrayStringEnumDefault.add(arrayStringEnumDefaultItem);
     return this;
@@ -192,7 +191,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayStringDefaultItem(String arrayStringDefaultItem) {
     if (this.arrayStringDefault == null) {
-      this.arrayStringDefault = new ArrayList<>(Arrays.asList("failure", "skipped"));
+      this.arrayStringDefault = new ArrayList<>();
     }
     this.arrayStringDefault.add(arrayStringDefaultItem);
     return this;
@@ -224,7 +223,7 @@ public class DefaultValue {
 
   public DefaultValue addArrayIntegerDefaultItem(Integer arrayIntegerDefaultItem) {
     if (this.arrayIntegerDefault == null) {
-      this.arrayIntegerDefault = new ArrayList<>(Arrays.asList(1, 3));
+      this.arrayIntegerDefault = new ArrayList<>();
     }
     this.arrayIntegerDefault.add(arrayIntegerDefaultItem);
     return this;
@@ -287,7 +286,7 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringNullableItem(String arrayStringNullableItem) {
-    if (this.arrayStringNullable == null || !this.arrayStringNullable.isPresent()) {
+    if (this.arrayStringNullable == null || !this.arrayStringNullable.isPresent() || this.arrayStringNullable.get() == null) {
       this.arrayStringNullable = JsonNullable.<List<String>>of(new ArrayList<>());
     }
     try {
@@ -331,7 +330,7 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringExtensionNullableItem(String arrayStringExtensionNullableItem) {
-    if (this.arrayStringExtensionNullable == null || !this.arrayStringExtensionNullable.isPresent()) {
+    if (this.arrayStringExtensionNullable == null || !this.arrayStringExtensionNullable.isPresent() || this.arrayStringExtensionNullable.get() == null) {
       this.arrayStringExtensionNullable = JsonNullable.<List<String>>of(new ArrayList<>());
     }
     try {
@@ -460,10 +459,7 @@ public class DefaultValue {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -502,8 +498,8 @@ public class DefaultValue {
     if (getArrayStringEnumRefDefault() != null) {
       for (int i = 0; i < getArrayStringEnumRefDefault().size(); i++) {
         if (getArrayStringEnumRefDefault().get(i) != null) {
-          joiner.add(String.format(Locale.ROOT, "%sarray_string_enum_ref_default%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%sarray_string_enum_ref_default%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               ApiClient.urlEncode(ApiClient.valueToString(getArrayStringEnumRefDefault().get(i)))));
         }
       }
@@ -512,8 +508,8 @@ public class DefaultValue {
     // add `array_string_enum_default` to the URL query string
     if (getArrayStringEnumDefault() != null) {
       for (int i = 0; i < getArrayStringEnumDefault().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%sarray_string_enum_default%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sarray_string_enum_default%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayStringEnumDefault().get(i)))));
       }
     }
@@ -521,8 +517,8 @@ public class DefaultValue {
     // add `array_string_default` to the URL query string
     if (getArrayStringDefault() != null) {
       for (int i = 0; i < getArrayStringDefault().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%sarray_string_default%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sarray_string_default%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayStringDefault().get(i)))));
       }
     }
@@ -530,8 +526,8 @@ public class DefaultValue {
     // add `array_integer_default` to the URL query string
     if (getArrayIntegerDefault() != null) {
       for (int i = 0; i < getArrayIntegerDefault().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%sarray_integer_default%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sarray_integer_default%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayIntegerDefault().get(i)))));
       }
     }
@@ -539,8 +535,8 @@ public class DefaultValue {
     // add `array_string` to the URL query string
     if (getArrayString() != null) {
       for (int i = 0; i < getArrayString().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%sarray_string%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sarray_string%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayString().get(i)))));
       }
     }
@@ -548,8 +544,8 @@ public class DefaultValue {
     // add `array_string_nullable` to the URL query string
     if (getArrayStringNullable() != null) {
       for (int i = 0; i < getArrayStringNullable().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%sarray_string_nullable%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sarray_string_nullable%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayStringNullable().get(i)))));
       }
     }
@@ -557,15 +553,15 @@ public class DefaultValue {
     // add `array_string_extension_nullable` to the URL query string
     if (getArrayStringExtensionNullable() != null) {
       for (int i = 0; i < getArrayStringExtensionNullable().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%sarray_string_extension_nullable%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sarray_string_extension_nullable%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayStringExtensionNullable().get(i)))));
       }
     }
 
     // add `string_nullable` to the URL query string
     if (getStringNullable() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sstring_nullable%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getStringNullable()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sstring_nullable%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getStringNullable()))));
     }
 
     return joiner.toString();

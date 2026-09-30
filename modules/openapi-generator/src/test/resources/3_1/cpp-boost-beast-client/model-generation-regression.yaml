@@ -1,0 +1,124 @@
+openapi: 3.1.0
+info:
+  title: Cpp Boost Beast model generation regression
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    BaseModel:
+      type: object
+      discriminator:
+        propertyName: modelType
+      properties:
+        modelType:
+          type: string
+        baseValue:
+          type: string
+    DerivedModel:
+      allOf:
+        - $ref: '#/components/schemas/BaseModel'
+        - type: object
+          properties:
+            derivedValue:
+              type: boolean
+            localValue:
+              type: integer
+              format: int32
+    ChildModel:
+      type: object
+      properties:
+        name:
+          type: string
+    ReferencedEnum:
+      type: string
+      enum:
+        - first
+        - second
+    ContainerModel:
+      type: object
+      required:
+        - requiredValue
+      properties:
+        requiredValue:
+          type: string
+        optionalScalar:
+          type: integer
+          format: int32
+        integerChoice:
+          type: integer
+          format: int32
+          enum:
+            - 1
+            - 2
+        stringChoice:
+          type: string
+          enum:
+            - alpha
+            - beta
+        booleanChoice:
+          type: boolean
+          enum:
+            - true
+            - false
+        arrayChoice:
+          type: array
+          items:
+            type: string
+            enum:
+              - red
+              - blue
+        mapChoice:
+          type: object
+          additionalProperties:
+            type: string
+            enum:
+              - green
+              - yellow
+        nestedArrayChoice:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+              enum:
+                - 3
+                - 4
+        nullValue:
+          type: "null"
+        freeFormValue: {}
+        optionalModel:
+          $ref: '#/components/schemas/ChildModel'
+        referencedEnum:
+          $ref: '#/components/schemas/ReferencedEnum'
+        modelArray:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChildModel'
+        modelMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ChildModel'
+        nestedModelArrays:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/ChildModel'
+        nestedModelMaps:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/ChildModel'
+        arrayOfModelMaps:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/ChildModel'
+        mapOfModelArrays:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/ChildModel'

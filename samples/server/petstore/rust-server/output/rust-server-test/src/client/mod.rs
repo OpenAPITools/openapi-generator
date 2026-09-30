@@ -161,10 +161,17 @@ impl<Connector, C> Client<
     }
 }
 
+#[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+type HyperHttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
+
+#[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
+type HyperHttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
+
 #[derive(Debug, Clone)]
 pub enum HyperClient {
     Http(hyper_util::client::legacy::Client<hyper_util::client::legacy::connect::HttpConnector, BoxBody<Bytes, Infallible>>),
-    Https(hyper_util::client::legacy::Client<HttpsConnector, BoxBody<Bytes, Infallible>>),
+    #[cfg(feature = "client-tls")]
+    Https(hyper_util::client::legacy::Client<HyperHttpsConnector, BoxBody<Bytes, Infallible>>),
 }
 
 impl Service<Request<BoxBody<Bytes, Infallible>>> for HyperClient {
@@ -175,7 +182,8 @@ impl Service<Request<BoxBody<Bytes, Infallible>>> for HyperClient {
     fn call(&self, req: Request<BoxBody<Bytes, Infallible>>) -> Self::Future {
        match self {
           HyperClient::Http(client) => client.request(req),
-          HyperClient::Https(client) => client.request(req)
+          #[cfg(feature = "client-tls")]
+          HyperClient::Https(client) => client.request(req),
        }
     }
 }
@@ -201,11 +209,17 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
             "http" => {
                 HyperClient::Http(hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector.build()))
             },
+            #[cfg(feature = "client-tls")]
             "https" => {
-                let connector = connector.https()
-                   .build()
-                   .map_err(ClientInitError::SslError)?;
-                HyperClient::Https(hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector))
+                let https_connector = connector
+                    .https()
+                    .build()
+                    .map_err(ClientInitError::SslError)?;
+                HyperClient::Https(hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(https_connector))
+            },
+            #[cfg(not(feature = "client-tls"))]
+            "https" => {
+                return Err(ClientInitError::TlsNotEnabled);
             },
             _ => {
                 return Err(ClientInitError::InvalidScheme);
@@ -249,12 +263,13 @@ impl<C> Client<
     }
 }
 
-#[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+#[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 type HttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+#[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
 type HttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
+#[cfg(feature = "client-tls")]
 impl<C> Client<
     DropContextService<
         hyper_util::service::TowerToHyperService<
@@ -269,10 +284,11 @@ impl<C> Client<
 > where
     C: Clone + Send + Sync + 'static
 {
-    /// Create a client with a TLS connection to the server
+    /// Create a client with a TLS connection to the server.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
+    /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
+    #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
     pub fn try_new_https(base_path: &str) -> Result<Self, ClientInitError>
     {
         let https_connector = Connector::builder()
@@ -282,10 +298,24 @@ impl<C> Client<
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
-    /// Create a client with a TLS connection to the server using a pinned certificate
+    /// Create a client with a TLS connection to the server using OpenSSL via swagger.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
+    /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    pub fn try_new_https(base_path: &str) -> Result<Self, ClientInitError>
+    {
+        let https_connector = Connector::builder()
+            .https()
+            .build()
+            .map_err(ClientInitError::SslError)?;
+        Self::try_new_with_connector(base_path, Some("https"), https_connector)
+    }
+
+    /// Create a client with a TLS connection to the server using a pinned certificate.
+    ///
+    /// # Arguments
+    /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     pub fn try_new_https_pinned<CA>(
@@ -306,7 +336,7 @@ impl<C> Client<
     /// Create a client with a mutually authenticated TLS connection to the server.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
+    /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
@@ -368,12 +398,15 @@ pub enum ClientInitError {
     /// Missing Hostname
     MissingHost,
 
+    /// HTTPS requested but TLS features not enabled
+    TlsNotEnabled,
+
     /// SSL Connection Error
-    #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+    #[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     SslError(native_tls::Error),
 
     /// SSL Connection Error
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    #[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
     SslError(openssl::error::ErrorStack),
 }
 
@@ -399,6 +432,11 @@ impl Error for ClientInitError {
 #[allow(dead_code)]
 fn body_from_string(s: String) -> BoxBody<Bytes, Infallible> {
     BoxBody::new(Full::new(Bytes::from(s)))
+}
+
+#[allow(dead_code)]
+fn body_from_bytes(b: Vec<u8>) -> BoxBody<Bytes, Infallible> {
+    BoxBody::new(Full::new(Bytes::from(b)))
 }
 
 #[async_trait]
@@ -460,8 +498,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -470,7 +508,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::AllOfObject>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(AllOfGetResponse::OK
                     (body)
@@ -685,8 +722,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -695,7 +732,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<swagger::ByteArray>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(FileResponseGetResponse::Success
                     (body)
@@ -765,8 +801,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -774,7 +810,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = body.to_string();
-
 
                 Ok(GetStructuredYamlResponse::OK
                     (body)
@@ -853,8 +888,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -862,7 +897,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = body.to_string();
-
 
                 Ok(HtmlPostResponse::Success
                     (body)
@@ -1009,8 +1043,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
-                let body = http_body_util::BodyExt::collect(body)
+
+                let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec())
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
@@ -1019,7 +1053,6 @@ impl<S, C, B> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<serde_json::Value>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(RawJsonGetResponse::Success
                     (body)

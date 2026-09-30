@@ -7,6 +7,6 @@ generateAliasAsModel: true
 additionalProperties:
   projectName: PetstoreClient
   useSPMFileStructure: true
-  useClasses: true
+  useClasses: false
   useBacktickEscapes: true
   mapFileBinaryToData: true

@@ -13,14 +13,14 @@ using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 {{/useSwashbuckle}}
-{{^isLibrary}}
+{{#generateBody}}
 {{#useNewtonsoft}}
 using Newtonsoft.Json;
 {{/useNewtonsoft}}
 {{^useNewtonsoft}}
 using System.Text.Json;
 {{/useNewtonsoft}}
-{{/isLibrary}}
+{{/generateBody}}
 using {{packageName}}.Attributes;
 using {{modelPackage}};
 

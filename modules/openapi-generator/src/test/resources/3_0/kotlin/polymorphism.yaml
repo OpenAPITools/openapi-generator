@@ -30,6 +30,35 @@ paths:
         name: id
         in: path
         required: true
+  '/v1/bird/upload':
+    post:
+      tags:
+        - bird
+      operationId: upload-bird-with-metadata
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                metadata:
+                  $ref: '#/components/schemas/bird'
+                file:
+                  type: string
+                  format: binary
+              required:
+                - metadata
+                - file
+            encoding:
+              metadata:
+                contentType: application/json
+      responses:
+        '200':
+          description: Upload successful
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
   schemas:
     animal:
@@ -41,8 +70,19 @@ components:
           format: uuid
         optional_property:
           type: number
+        stringSet:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        stringArray:
+          type: array
+          items:
+            type: string
       required:
         - id
+        - string_set
+        - string_array
       discriminator:
         propertyName: discriminator
         mapping:

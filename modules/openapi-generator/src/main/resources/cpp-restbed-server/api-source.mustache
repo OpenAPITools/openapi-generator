@@ -117,6 +117,8 @@ namespace {{classname}}Resources {
 	{{/vendorExtensions.x-codegen-other-methods}}
 }
 
+{{vendorExtensions.x-codegen-resource-name}}Resource::~{{vendorExtensions.x-codegen-resource-name}}Resource() = default;
+
 std::pair<int, std::string> {{vendorExtensions.x-codegen-resource-name}}Resource::handle{{classname}}Exception(const {{classname}}Exception& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());

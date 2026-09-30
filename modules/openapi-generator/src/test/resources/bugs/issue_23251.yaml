@@ -1,0 +1,44 @@
+openapi: 3.0.2
+info:
+  title: Reproduce
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      summary: test
+      operationId: test
+      responses:
+        200:
+          description: Test
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BugResponse'
+components:
+  schemas:
+    BugResponse:
+      type: object
+      properties:
+        nullableField:
+          type: string
+          nullable: true
+          x-is-jackson-optional-nullable: true
+        nullableList:
+          type: array
+          items:
+            type: string
+          nullable: true
+          x-is-jackson-optional-nullable: true
+        nullableObjectList:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedResponse'
+          nullable: true
+          x-is-jackson-optional-nullable: true
+    NestedResponse:
+      type: object
+      properties:
+        nestedField:
+          type: string
+          nullable: true
+          x-is-jackson-optional-nullable: true

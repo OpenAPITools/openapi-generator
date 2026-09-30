@@ -8,10 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+pub type SSE = std::pin::Pin<std::boxed::Box<dyn futures_util::Stream<Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>> + std::marker::Send + std::marker::Sync>>;
+
+#[allow(dead_code)]
 fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
-  let mut errs = validator::ValidationErrors::new();
-  errs.add("na", e);
-  errs
+    let mut errs = validator::ValidationErrors::new();
+    errs.add("na", e);
+    errs
 }
 
 #[allow(dead_code)]
@@ -533,7 +536,7 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
 /// which helps with FFI.
 #[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, {{^isAnyType}}PartialOrd, Ord,{{/isAnyType}} serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum {{{classname}}} {
 {{#allowableValues}}
@@ -584,7 +587,7 @@ impl std::str::FromStr for {{{classname}}} {
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 {{/isMap}}
 {{^isMap}}
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, {{^isAnyType}}PartialOrd, {{/isAnyType}} serde::Serialize, serde::Deserialize)]
 {{/isMap}}
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct {{{classname}}}(pub {{{dataType}}});

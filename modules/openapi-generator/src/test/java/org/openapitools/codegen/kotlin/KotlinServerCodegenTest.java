@@ -1,40 +1,51 @@
 package org.openapitools.codegen.kotlin;
 
-import lombok.Getter;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.checkerframework.checker.units.qual.C;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.antlr4.KotlinLexer;
-import org.openapitools.codegen.antlr4.KotlinParser;
-import org.openapitools.codegen.antlr4.KotlinParserBaseListener;
-import org.openapitools.codegen.languages.KotlinServerCodegen;
-import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
+import io.swagger.v3.oas.models.Operation;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.antlr4.KotlinLexer;
+import org.openapitools.codegen.antlr4.KotlinParser;
+import org.openapitools.codegen.languages.AbstractKotlinCodegen;
+import org.openapitools.codegen.languages.KotlinServerCodegen;
+import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.CodegenConstants.API_PACKAGE;
+import static org.openapitools.codegen.CodegenConstants.LIBRARY;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
+import static org.openapitools.codegen.CodegenConstants.MODEL_PACKAGE;
+import static org.openapitools.codegen.CodegenConstants.PACKAGE_NAME;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKARTA_EE;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.*;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN5;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN6;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAXRS_SPEC;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RETURN_RESPONSE;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
 import static org.openapitools.codegen.languages.features.BeanValidationFeatures.USE_BEANVALIDATION;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.DELEGATE_PATTERN;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.KTOR;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RESOURCES;
 
 public class KotlinServerCodegenTest {
-
 
     @Test
     public void enumDescription() throws IOException {
@@ -65,6 +76,32 @@ public class KotlinServerCodegenTest {
                 "Mercury is the first planet from the Sun and the smallest in the Solar System",
                 "The planet we all live on"
         );
+    }
+
+    @Test
+    public void additionalModelTypeAnnotationsAreNotAppliedToEnums() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(AbstractKotlinCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@ClassOnlyAnnotation");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.ADDITIONAL_ENUM_TYPE_ANNOTATIONS, "@EnumOnlyAnnotation");
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/enum-description.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path enumClass = Paths.get(outputPath + "/models/Type.kt");
+        assertFileContains(enumClass, "@EnumOnlyAnnotation");
+        assertFileNotContains(enumClass, "@ClassOnlyAnnotation");
+
+        Path dataClass = Paths.get(outputPath + "/models/Pony.kt");
+        assertFileContains(dataClass, "@ClassOnlyAnnotation");
+        assertFileNotContains(dataClass, "@EnumOnlyAnnotation");
     }
 
     @Test
@@ -158,12 +195,12 @@ public class KotlinServerCodegenTest {
 
         Path petModel = Paths.get(outputPath + "/models/Pet.kt");
         assertFileNotContains(
-                petApi,
+                petModel,
                 "import jakarta.validation.Valid",
                 "import jakarta.validation.Valid"
         );
         assertFileContains(
-                petApi,
+                petModel,
                 "import javax.validation.constraints.*",
                 "import javax.validation.Valid"
         );
@@ -273,6 +310,37 @@ public class KotlinServerCodegenTest {
                 new Object[]{JAVALIN6},
         };
     }
+    @DataProvider(name = "javalinLibraries")
+    private Object[][] javalinLibraries() {
+        return new Object[][]{
+                new Object[]{JAVALIN5},
+                new Object[]{JAVALIN6},
+        };
+    }
+
+    @Test(description = "Issue #24851", dataProvider = "javalinLibraries")
+    public void inlineEnumArrayParameterDefaultUsesItemValues(String library) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, library);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue24851-enum-array-default-query.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path service = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server/apis/DefaultApiService.kt");
+        assertFileContains(
+                service,
+                "colors: kotlin.collections.Set<kotlin.String> = setOf(\"red\",\"blue\")",
+                "sizes: kotlin.collections.List<kotlin.Int> = arrayListOf(2)",
+                "refColors: kotlin.collections.List<Color> = arrayListOf(Color.RED)"
+        );
+    }
+
     @Test(description = "Issue #20960", dataProvider = "dollarEscapeTest")
     public void givenSchemaObjectPropertyNameContainsDollarSignWhenGenerateThenDollarSignIsProperlyEscapedInAnnotation(String library) throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -308,7 +376,513 @@ public class KotlinServerCodegenTest {
         ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
         KotlinTestUtils.CustomKotlinParseListener customKotlinParseListener = new KotlinTestUtils.CustomKotlinParseListener();
         parseTreeWalker.walk(customKotlinParseListener, parseTree);
-        Assert.assertTrue(syntaxErrorListener.getSyntaxErrorCount() == 0);
-        Assert.assertTrue(customKotlinParseListener.getStringReferenceCount() == 0);
+        Assert.assertEquals(syntaxErrorListener.getSyntaxErrorCount(), 0);
+        Assert.assertEquals(customKotlinParseListener.getStringReferenceCount(), 0);
+    }
+
+    // ==================== Polymorphism and Discriminator Tests ====================
+
+    @Test
+    public void oneOfWithDiscriminator_generatesSealedClassWithDiscriminatorProperty() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petModel = Paths.get(outputPath + "/models/Pet.kt");
+
+        // Pet should be a sealed class with Jackson polymorphism annotations and discriminator property
+        assertFileContains(
+                petModel,
+                "sealed class Pet(",
+                "open val petType: kotlin.String",
+                "@com.fasterxml.jackson.annotation.JsonTypeInfo",
+                "property = \"petType\"",
+                "visible = true",
+                "@com.fasterxml.jackson.annotation.JsonSubTypes"
+        );
+    }
+
+    @Test
+    public void oneOfWithDiscriminator_generatesChildrenWithOverrideDiscriminatorProperty() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+
+        // Cat should have petType as overridden non-nullable String with default value
+        Path catModel = Paths.get(outputPath + "/models/Cat.kt");
+        assertFileContains(
+                catModel,
+                "data class Cat(",
+                "override val petType: kotlin.String = \"cat\"",
+                ") : Pet(petType = petType)"
+        );
+        // Should NOT be nullable
+        assertFileNotContains(
+                catModel,
+                "petType: kotlin.String?",
+                "petType: kotlin.Any"
+        );
+
+        // Dog should have petType as overridden non-nullable String with default value
+        Path dogModel = Paths.get(outputPath + "/models/Dog.kt");
+        assertFileContains(
+                dogModel,
+                "data class Dog(",
+                "override val petType: kotlin.String = \"dog\"",
+                ") : Pet(petType = petType)"
+        );
+        // Should NOT be nullable
+        assertFileNotContains(
+                dogModel,
+                "petType: kotlin.String?",
+                "petType: kotlin.Any"
+        );
+    }
+
+    @Test
+    public void allOfWithDiscriminator_generatesSealedClassWithProperties() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petModel = Paths.get(outputPath + "/models/Pet.kt");
+
+        // Pet should be a sealed class WITH properties (allOf pattern)
+        assertFileContains(
+                petModel,
+                "sealed class Pet(",
+                "open val name: kotlin.String",
+                "open val petType: kotlin.String",
+                "@com.fasterxml.jackson.annotation.JsonTypeInfo",
+                "visible = true"
+        );
+    }
+
+    @Test
+    public void allOfWithDiscriminator_generatesChildrenWithOverrideProperties() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+
+        // Cat should use override for inherited properties and pass them to parent constructor
+        Path catModel = Paths.get(outputPath + "/models/Cat.kt");
+        assertFileContains(
+                catModel,
+                "data class Cat(",
+                "override val name: kotlin.String",
+                "override val petType: kotlin.String",
+                ") : Pet(name = name, petType = petType)"
+        );
+
+        // Dog should use override for inherited properties and pass them to parent constructor
+        Path dogModel = Paths.get(outputPath + "/models/Dog.kt");
+        assertFileContains(
+                dogModel,
+                "data class Dog(",
+                "override val name: kotlin.String",
+                "override val petType: kotlin.String",
+                ") : Pet(name = name, petType = petType)"
+        );
+    }
+
+    @Test
+    public void polymorphismWithoutDiscriminator_generatesRegularDataClass() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petModel = Paths.get(outputPath + "/models/Pet.kt");
+
+        // Without discriminator, Pet should be a regular data class (not sealed)
+        assertFileContains(
+                petModel,
+                "data class Pet("
+        );
+        assertFileNotContains(
+                petModel,
+                "sealed class",
+                "@com.fasterxml.jackson.annotation.JsonTypeInfo",
+                "@com.fasterxml.jackson.annotation.JsonSubTypes"
+        );
+    }
+
+    @Test
+    public void fixJacksonJsonTypeInfoInheritance_canBeDisabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(KotlinServerCodegen.Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE, false);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petModel = Paths.get(outputPath + "/models/Pet.kt");
+
+        // When fixJacksonJsonTypeInfoInheritance is false and parent has no properties,
+        // visible should be false for oneOf pattern
+        assertFileContains(
+                petModel,
+                "visible = false"
+        );
+    }
+
+    // ==================== useTags for JAXRS-SPEC ====================
+
+    @Test
+    public void useTags_false_classNameFromTagsAndRootPathForJaxrsSpecLibrary() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(USE_TAGS, false);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petApi = Paths.get(outputPath + "/apis/PetApi.kt");
+
+        assertFileContains(petApi,
+                "class PetApi",
+                "@Path(\"/pet\")",
+                "@Path(\"/findByStatus\")",
+                "@Path(\"/{petId}\")"
+        );
+        assertFileNotContains(petApi, "@Path(\"/pet\")".replace("/pet", "/store"));
+    }
+
+    @Test
+    public void useTags_notSpecified_behavesLikeUseTagsTrueForJaxrsSpecLibrary() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        // useTags intentionally NOT set — must default to true
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petApi = Paths.get(outputPath + "/apis/PetApi.kt");
+
+        assertFileContains(petApi,
+                "class PetApi",
+                "@Path(\"/pet\")",
+                "@Path(\"/findByStatus\")",
+                "@Path(\"/{petId}\")"
+        );
+        assertFileNotContains(petApi, "@Path(\"/\")");
+        assertFileNotContains(petApi, "@Path(\"/store\")");
+    }
+
+    // ==================== useTags for all libraries ====================
+
+    @Test
+    public void useTags_false_groupsByFirstPathSegment() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(USE_TAGS, false);
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "findByStatus";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Pet", "/pet/findByStatus", new Operation(), co, groups);
+
+        Assert.assertTrue(groups.containsKey("pet"));
+        Assert.assertEquals(co.baseName, "pet");
+    }
+
+    @Test
+    public void useTags_false_rootPath_groupsAsDefault() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(USE_TAGS, false);
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "getRoot";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Root", "/", new Operation(), co, groups);
+
+        Assert.assertTrue(groups.containsKey("default"));
+        Assert.assertEquals(co.baseName, "default");
+    }
+
+    @Test
+    public void useTags_false_pathParamOnly_groupsAsDefault() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(USE_TAGS, false);
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "getById";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Resource", "/{uuid}", new Operation(), co, groups);
+
+        Assert.assertTrue(groups.containsKey("default"));
+        Assert.assertEquals(co.baseName, "default");
+    }
+
+    @Test
+    public void delegatePattern_canBeEnabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+        codegen.additionalProperties().put(DELEGATE_PATTERN, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petApi = Paths.get(outputPath + "/apis/PetApi.kt");
+
+        // API should use the delegate
+        assertFileContains(
+                petApi,
+                "val petApiDelegate: PetApiDelegate? by call.delegates"
+        );
+
+        // Delegate interface should be generated
+        Path petApiDelegate = Paths.get(outputPath + "/apis/PetApiDelegate.kt");
+        Assert.assertTrue(Files.exists(petApiDelegate));
+        assertFileContains(
+                petApiDelegate,
+                "interface PetApiDelegate"
+        );
+
+        // Supporting files should be generated
+        String infraPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server/infrastructure";
+        Assert.assertTrue(Files.exists(Paths.get(infraPath + "/Delegates.kt")));
+        Assert.assertTrue(Files.exists(Paths.get(infraPath + "/AppDelegates.kt")));
+        Assert.assertTrue(Files.exists(Paths.get(infraPath + "/BadParameterException.kt")));
+        Assert.assertTrue(Files.exists(Paths.get(infraPath + "/APINotImplementedException.kt")));
+    }
+
+    @Test
+    public void delegatePattern_enumWireValue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        var codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+        codegen.additionalProperties().put(DELEGATE_PATTERN, true);
+        codegen.additionalProperties().put(RESOURCES, false);
+        codegen.inlineSchemaOption().put("RESOLVE_INLINE_ENUMS","true");
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/enum-wire-value.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+
+
+        Path statusFile = Paths.get(outputPath + "/models/TestEnumStatusParameter.kt");
+
+        assertFileContains(
+                statusFile,
+                "companion object {",
+                "fun fromValue(value: kotlin.String): TestEnumStatusParameter =",
+                "values().firstOrNull { it.value == value } ?: throw IllegalArgumentException(\"No enum constant TestEnumStatusParameter.$value\")"
+        );
+
+        // Check parameter extraction
+        // Check Enum definition in the API file (inline enum)
+        Path apiPath = Paths.get(outputPath + "/apis/DefaultApi.kt");
+        assertFileContains(
+                apiPath,
+                "val status = call.request.queryParameters[\"status\"]?.let { runCatching { TestEnumStatusParameter.fromValue(it) }.getOrElse { throw BadParameterException(message = \"Invalid enum value for parameter status: $it\", parameterName = \"status\") } }"
+        );
+    }
+
+    @Test
+    public void delegatePattern_headerParamPrimitiveConversion() throws IOException {
+        // Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24214
+        // Header params were converted with `it.to<fully.qualified.DataType>()`
+        // (e.g. `it.tokotlin.Boolean()`, `it.tojava.math.BigDecimal()`), which is not valid Kotlin.
+        // The correct String extension is `it.to<SimpleName>()`.
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+        codegen.additionalProperties().put(DELEGATE_PATTERN, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue24214-ktor-header-param-conversion.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiPath = Paths.get(output.getAbsolutePath()
+                + "/src/main/kotlin/org/openapitools/server/apis/DefaultApi.kt");
+
+        assertFileContains(
+                apiPath,
+                "val boolHeader = call.request.headers[\"bool-header\"]?.let { runCatching { it.toBoolean() }",
+                "val intHeader = call.request.headers[\"int-header\"]?.let { runCatching { it.toInt() }",
+                "val longHeader = call.request.headers[\"long-header\"]?.let { runCatching { it.toLong() }",
+                "val doubleHeader = call.request.headers[\"double-header\"]?.let { runCatching { it.toDouble() }",
+                "val numberHeader = call.request.headers[\"number-header\"]?.let { runCatching { it.toBigDecimal() }"
+        );
+
+        // The old, uncompilable fully-qualified conversions must be gone.
+        assertFileNotContains(
+                apiPath,
+                "it.tokotlin.Boolean()",
+                "it.tokotlin.Int()",
+                "it.tokotlin.Long()",
+                "it.tokotlin.Double()",
+                "it.tojava.math.BigDecimal()"
+        );
+    }
+
+
+    @Test
+    public void testFloatingPointMultipleOfValidationUsesTolerance() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+        codegen.additionalProperties().put(DELEGATE_PATTERN, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/kotlin/multiple-of-validation.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String modelPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server/models/MultipleOfModel.kt";
+        Path multipleOfModel = Paths.get(modelPath);
+
+        Assert.assertTrue(Files.exists(multipleOfModel));
+
+        // Floating-point multipleOf validation must tolerate JVM representation error.
+        assertFileContains(
+                multipleOfModel,
+                "if (kotlin.math.abs((floatVal.toDouble() / 0.1) - kotlin.math.round(floatVal.toDouble() / 0.1)) > 1.0e-6) {",
+                "if (kotlin.math.abs((doubleVal.toDouble() / 0.1) - kotlin.math.round(doubleVal.toDouble() / 0.1)) > 1.0e-10) {",
+                "if (kotlin.math.abs((it.toString().toDouble() / 0.1) - kotlin.math.round(it.toString().toDouble() / 0.1)) > 1.0e-6) {",
+                "if (kotlin.math.abs((value.toString().toDouble() / 0.01) - kotlin.math.round(value.toString().toDouble() / 0.01)) > 1.0e-10) {"
+        );
+
+        assertFileNotContains(
+                multipleOfModel,
+                "if (floatVal % 0.1 != 0) {",
+                "if (doubleVal % 0.1 != 0) {"
+        );
+
+        // Integral multipleOf validation remains exact.
+        assertFileContains(
+                multipleOfModel,
+                "if (intVal % 2 != 0) {"
+        );
+    }
+
+    // ==================== Cross-tag path shadowing (issue #23414) ====================
+
+    @Test
+    public void testCommonPathDoesNotShadowOtherTags_jaxrsSpec() throws IOException {
+        // Regression test for https://github.com/OpenAPITools/openapi-generator/issues/23414
+        // tag-one owns /foo/bar/one and /foo/bar/two
+        // tag-two owns /foo/bar/three and /baz/bar/four
+        // TagOneApi must NOT have @Path("/foo/bar") at class level because that would shadow
+        // TagTwoApi's /foo/bar/three route in the JAX-RS runtime.
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(USE_TAGS, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/issue_23414.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path tagOneApi = Paths.get(outputPath + "/apis/TagOneApi.kt");
+        Path tagTwoApi = Paths.get(outputPath + "/apis/TagTwoApi.kt");
+
+        // TagOneApi must NOT have @Path("/foo/bar") — this shadows TagTwoApi's /foo/bar/three
+        assertFileNotContains(tagOneApi, "@Path(\"/foo/bar\")");
+
+        // All operations must still be reachable with their full paths
+        assertFileContains(tagOneApi, "@Path(\"/foo/bar/one\")", "@Path(\"/foo/bar/two\")");
+        assertFileContains(tagTwoApi, "@Path(\"/foo/bar/three\")", "@Path(\"/baz/bar/four\")");
     }
 }

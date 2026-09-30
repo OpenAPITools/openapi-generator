@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -28,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter (
 
+    @param:JsonProperty("values")
     @get:JsonProperty("values")
     val propertyValues: kotlin.collections.List<kotlin.String>? = null
 

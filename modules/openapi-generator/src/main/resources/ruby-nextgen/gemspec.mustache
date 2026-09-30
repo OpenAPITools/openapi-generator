@@ -1,0 +1,33 @@
+# frozen_string_literal: true
+
+{{^moduleNameNested}}
+require_relative 'lib/{{gemName}}/version'
+
+{{/moduleNameNested}}
+Gem::Specification.new do |s|
+  s.name        = '{{gemName}}'
+{{#moduleNameNested}}
+  # version.rb opens `module {{moduleName}}` whose parent isn't defined during gemspec
+  # evaluation (RubyGems evals this file in its own lexical scope), so `require`-ing it
+  # would raise NameError. Read the literal VERSION string instead.
+  s.version     = File.read(File.expand_path('lib/{{gemName}}/version.rb', __dir__))[/VERSION\s*=\s*['"]([^'"]+)['"]/, 1]
+{{/moduleNameNested}}
+{{^moduleNameNested}}
+  s.version     = {{moduleName}}::VERSION
+{{/moduleNameNested}}
+  s.platform    = Gem::Platform::RUBY
+  s.authors     = ['{{gemAuthor}}']
+  s.email       = ['{{gemAuthorEmail}}']
+  s.homepage    = '{{gemHomepage}}'
+  s.summary     = '{{gemSummary}}'
+  s.description = '{{gemDescription}}'
+  s.license     = '{{gemLicense}}'
+
+  s.required_ruby_version = '>= 3.0.0'
+
+  s.files = Dir['LICENSE', 'README.md', 'lib/**/*.rb']
+
+  s.add_dependency 'faraday'
+  s.add_dependency 'faraday-multipart'
+  s.add_dependency 'zeitwerk'
+end

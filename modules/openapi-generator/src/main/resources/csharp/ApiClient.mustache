@@ -467,7 +467,8 @@ namespace {{packageName}}.Client
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent,
                 UseDefaultCredentials = configuration.UseDefaultCredentials,
-                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
+                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback{{#throwOnAnyError}},
+                ThrowOnAnyError = true{{/throwOnAnyError}}
             };
             setOptions(clientOptions);
             
@@ -566,10 +567,15 @@ namespace {{packageName}}.Client
             }
             else
             {
+                {{#throwOnAnyError}}
+                throw policyResult.FinalException ?? new InvalidOperationException("The retry policy failed without an exception.");
+                {{/throwOnAnyError}}
+                {{^throwOnAnyError}}
                 return new RestResponse<T>(request)
                 {
                     ErrorException = policyResult.FinalException
                 };
+                {{/throwOnAnyError}}
             }
         }
                 

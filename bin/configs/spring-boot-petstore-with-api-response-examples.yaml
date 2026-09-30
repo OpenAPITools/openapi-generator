@@ -4,6 +4,8 @@ library: spring-boot
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore_with_api_response_examples.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   artifactId: springboot-petstore-with-api-response-examples
   documentationProvider: springdoc
   useSpringBoot3: true

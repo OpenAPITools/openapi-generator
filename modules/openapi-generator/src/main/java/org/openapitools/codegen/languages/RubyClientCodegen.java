@@ -28,6 +28,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +38,14 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/ruby-client/}.
+ */
 public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_VERSION = "gemVersion";
     public static final String GEM_LICENSE = "gemLicense";
@@ -63,7 +69,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String specFolder = "spec";
     protected String libFolder = "lib";
     @Setter protected String gemLicense = "unlicense";
-    @Setter protected String gemRequiredRubyVersion = ">= 1.9";
+    @Setter protected String gemRequiredRubyVersion = ">= 2.7";
     @Setter protected String gemHomepage = "https://openapitools.org";
     @Setter protected String gemSummary = "A Ruby SDK for the REST API";
     @Setter protected String gemDescription = "This gem maps to a REST API";
@@ -158,7 +164,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 defaultValue("unlicense"));
 
         cliOptions.add(new CliOption(GEM_REQUIRED_RUBY_VERSION, "gem required Ruby version. ").
-                defaultValue(">= 2.4"));
+                defaultValue(">= 2.7"));
 
         cliOptions.add(new CliOption(GEM_HOMEPAGE, "gem homepage. ").
                 defaultValue("https://openapi-generator.tech"));
@@ -295,7 +301,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             // for Faraday
             additionalProperties.put("isHttpx", Boolean.TRUE);
         } else {
-            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only faraday, typhoeus and httpx are supported.");
+            throw new IllegalArgumentException("Invalid HTTP library " + getLibrary() + ". Only faraday, typhoeus and httpx are supported.");
         }
 
         // test files should not be overwritten
@@ -469,11 +475,11 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public String toApiFilename(final String name) {
         // replace - with _ e.g. created-at => created_at
         String filename = name;
-        if (apiNameSuffix != null && apiNameSuffix.length() > 0) {
+        if (apiNameSuffix != null && !apiNameSuffix.isEmpty()) {
             filename = filename + "_" + apiNameSuffix;
         }
 
-        filename = filename.replaceAll("-", "_");
+        filename = filename.replace("-", "_");
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
         return underscore(filename);
@@ -495,11 +501,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toApiName(String name) {
-        return super.toApiName(name);
-    }
-
-    @Override
     public String toEnumValue(String value, String datatype) {
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
@@ -514,16 +515,16 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             return enumNameMapping.get(name);
         }
 
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "EMPTY";
         }
 
         // number
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = varName.replace("-", "MINUS_");
+            varName = varName.replace("+", "PLUS_");
+            varName = varName.replace(".", "_DOT_");
             return NUMERIC_ENUM_PREFIX + varName;
         }
 
@@ -594,7 +595,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+        final Schema<?> additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
@@ -646,7 +647,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isEnum) {
                 // When inline enum, set example to first allowable value
-                List<Object> values = (List<Object>) codegenParameter.allowableValues.get("values");
+                List<Object> values = getEnumValues(codegenParameter.allowableValues);
                 codegenParameter.example = String.valueOf(values.get(0));
             }
             if (codegenParameter.isString || "String".equalsIgnoreCase(codegenParameter.baseType)) {
@@ -692,7 +693,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             if (modelMaps.containsKey(codegenParameter.dataType)) {
                 return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap);
             } else {
-                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
+                LOGGER.debug("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
                 return "TODO";
             }
         }
@@ -702,8 +703,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if (codegenProperty.isArray) { // array
             if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
                 String value = codegenProperty.example;
-                value = value.replaceAll(",", ", ");
-                value = value.replaceAll(":", ": ");
+                value = value.replace(",", ", ");
+                value = value.replace(":", ": ");
                 return value;
             }
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "]";
@@ -716,7 +717,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isEnum) {
                 // When inline enum, set example to first allowable value
-                List<Object> values = (List<Object>) codegenProperty.allowableValues.get("values");
+                List<Object> values = getEnumValues(codegenProperty.allowableValues);
                 codegenProperty.example = String.valueOf(values.get(0));
             }
             if (codegenProperty.isString || "String".equalsIgnoreCase(codegenProperty.baseType)) {
@@ -764,7 +765,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             if (modelMaps.containsKey(codegenProperty.dataType)) {
                 return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap);
             } else {
-                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
+                LOGGER.debug("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
                 return "TODO";
             }
         }
@@ -783,15 +784,15 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 throw new RuntimeException("Invalid count when constructing example: " + count);
             }
         } else if (codegenModel.isEnum) {
-            List<Map<String, String>> enumVars = (List<Map<String, String>>) codegenModel.allowableValues.get("enumVars");
-            return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get("name");
+            List<EnumVarMap> enumVars = getEnumVars(codegenModel.allowableValues);
+            return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).getEnumName();
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
             if (modelMaps.containsKey(subModel)) {
                 // oneOf models
                 return constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
             } else {
-                // TODO oneOf primitive type not supported at the moment
+                // oneOf primitive type not supported at the moment
                 LOGGER.warn("oneOf example value not supported at the moment.");
                 return "nil";
             }

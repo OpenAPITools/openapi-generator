@@ -21,6 +21,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -32,7 +38,8 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 @JsonTypeName("NullableClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@JsonFormat(shape=JsonFormat.Shape.OBJECT)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "NullableClass", propOrder =
     { "integerProp", "numberProp", "booleanProp", "stringProp", "dateProp", "datetimeProp", "arrayNullableProp", "arrayAndItemsNullableProp", "arrayItemsNullable", "objectNullableProp", "objectAndItemsNullableProp", "objectItemsNullable"
     })
@@ -46,12 +53,12 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   private String stringProp;
   private LocalDate dateProp;
   private Date datetimeProp;
-  private @Valid List<Object> arrayNullableProp;
-  private @Valid List<Object> arrayAndItemsNullableProp;
-  private @Valid List<Object> arrayItemsNullable = new ArrayList<>();
-  private @Valid Map<String, Object> objectNullableProp;
-  private @Valid Map<String, Object> objectAndItemsNullableProp;
-  private @Valid Map<String, Object> objectItemsNullable = new HashMap<>();
+  private List<Object> arrayNullableProp;
+  private List<Object> arrayAndItemsNullableProp;
+  private List<Object> arrayItemsNullable = new ArrayList<>();
+  private Map<String, Object> objectNullableProp;
+  private Map<String, Object> objectAndItemsNullableProp;
+  private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public NullableClass() {
   }
@@ -392,6 +399,36 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
 
     return this;
   }
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * Creates the property if it does not already exist, otherwise replaces it.
+   * @param key the name of the property
+   * @param value the value of the property
+   * @return self reference
+   */
+  @JsonAnySetter
+  public NullableClass putAdditionalProperty(String key, Object value) {
+    this.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) properties.
+   * @return the additional (undeclared) properties
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   * @param key the name of the property
+   * @return the additional (undeclared) property with the specified name
+   */
+  public Object getAdditionalProperty(String key) {
+    return this.get(key);
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -448,12 +485,8 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
 }
-

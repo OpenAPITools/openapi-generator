@@ -27,6 +27,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.EnumSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/graphql-nodejs-express-server/}.
+ */
 public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(GraphQLNodeJSExpressServerCodegen.class);

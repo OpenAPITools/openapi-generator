@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Kind
         /// </summary>
         [JsonPropertyName("kind")]
-        public string? Kind { get { return this.KindOption; } set { this.KindOption = new(value); } }
+        public string? Kind { get { return this.KindOption.Value; } set { this.KindOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -90,8 +90,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="Apple" />
     /// </summary>
-    public class AppleJsonConverter : JsonConverter<Apple>
+    public partial class AppleJsonConverter : JsonConverter<Apple>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppleJsonConverter" /> class.
+        /// </summary>
+        public AppleJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Apple" />
         /// </summary>
@@ -136,7 +146,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (kind.IsSet && kind.Value == null)
-                throw new ArgumentNullException(nameof(kind), "Property is not nullable for class Apple.");
+                throw new JsonException("Property is not nullable for class Apple: kind.");
 
             return new Apple(kind);
         }
@@ -147,7 +157,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="apple"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -162,11 +171,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="apple"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
             if (apple.KindOption.IsSet && apple.Kind == null)
-                throw new ArgumentNullException(nameof(apple.Kind), "Property is required for class Apple.");
+                throw new JsonException("Cannot write null property Apple.Kind to non-nullable JSON property 'kind'.");
 
             if (apple.KindOption.IsSet)
                 writer.WriteString("kind", apple.Kind);

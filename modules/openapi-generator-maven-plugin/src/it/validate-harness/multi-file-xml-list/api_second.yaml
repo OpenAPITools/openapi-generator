@@ -1,0 +1,10 @@
+openapi: 3.0.3
+info:
+  title: Second XML API Element
+  version: 1.0.0
+paths:
+  /second:
+    get:
+      responses:
+        '200':
+          description: OK

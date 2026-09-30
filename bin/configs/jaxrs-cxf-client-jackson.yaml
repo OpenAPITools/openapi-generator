@@ -5,3 +5,5 @@ templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/cxf
 additionalProperties:
   artifactId: jaxrs-cxf-jackson-petstore-client
   jackson: "true"
+  useJackson3: "true"
+  useJakartaEe: "true"

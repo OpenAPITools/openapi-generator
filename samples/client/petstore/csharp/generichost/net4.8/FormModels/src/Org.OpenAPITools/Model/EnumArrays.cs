@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustSymbol
         /// </summary>
         [JsonPropertyName("just_symbol")]
-        public EnumArraysJustSymbol? JustSymbol { get { return this.JustSymbolOption; } set { this.JustSymbolOption = new Option<EnumArraysJustSymbol?>(value); } }
+        public EnumArraysJustSymbol? JustSymbol { get { return this.JustSymbolOption.Value; } set { this.JustSymbolOption = new Option<EnumArraysJustSymbol?>(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayEnum
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayEnum
         /// </summary>
         [JsonPropertyName("array_enum")]
-        public List<EnumArraysArrayEnumInner> ArrayEnum { get { return this.ArrayEnumOption; } set { this.ArrayEnumOption = new Option<List<EnumArraysArrayEnumInner>>(value); } }
+        public List<EnumArraysArrayEnumInner> ArrayEnum { get { return this.ArrayEnumOption.Value; } set { this.ArrayEnumOption = new Option<List<EnumArraysArrayEnumInner>>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -105,8 +105,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="EnumArrays" />
     /// </summary>
-    public class EnumArraysJsonConverter : JsonConverter<EnumArrays>
+    public partial class EnumArraysJsonConverter : JsonConverter<EnumArrays>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumArraysJsonConverter" /> class.
+        /// </summary>
+        public EnumArraysJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="EnumArrays" />
         /// </summary>
@@ -146,9 +156,7 @@ namespace Org.OpenAPITools.Model
                             arrayEnum = new Option<List<EnumArraysArrayEnumInner>>(JsonSerializer.Deserialize<List<EnumArraysArrayEnumInner>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "just_symbol":
-                            string justSymbolRawValue = utf8JsonReader.GetString();
-                            if (justSymbolRawValue != null)
-                                justSymbol = new Option<EnumArraysJustSymbol?>(EnumArraysJustSymbolValueConverter.FromStringOrDefault(justSymbolRawValue));
+                            justSymbol = new Option<EnumArraysJustSymbol?>(JsonSerializer.Deserialize<EnumArraysJustSymbol?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -157,10 +165,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (arrayEnum.IsSet && arrayEnum.Value == null)
-                throw new ArgumentNullException(nameof(arrayEnum), "Property is not nullable for class EnumArrays.");
+                throw new JsonException("Property is not nullable for class EnumArrays: array_enum.");
 
             if (justSymbol.IsSet && justSymbol.Value == null)
-                throw new ArgumentNullException(nameof(justSymbol), "Property is not nullable for class EnumArrays.");
+                throw new JsonException("Property is not nullable for class EnumArrays: just_symbol.");
 
             return new EnumArrays(arrayEnum, justSymbol);
         }
@@ -171,7 +179,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="enumArrays"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -186,11 +193,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="enumArrays"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions jsonSerializerOptions)
         {
             if (enumArrays.ArrayEnumOption.IsSet && enumArrays.ArrayEnum == null)
-                throw new ArgumentNullException(nameof(enumArrays.ArrayEnum), "Property is required for class EnumArrays.");
+                throw new JsonException("Cannot write null property EnumArrays.ArrayEnum to non-nullable JSON property 'array_enum'.");
+
+            if (enumArrays.JustSymbolOption.IsSet && enumArrays.JustSymbol == null)
+                throw new JsonException("Cannot write null property EnumArrays.JustSymbol to non-nullable JSON property 'just_symbol'.");
 
             if (enumArrays.ArrayEnumOption.IsSet)
             {

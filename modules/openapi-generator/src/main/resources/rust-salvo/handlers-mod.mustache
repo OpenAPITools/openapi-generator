@@ -1,0 +1,18 @@
+{{>partial_header}}
+//! API handlers module
+//!
+//! This module contains HTTP request handlers for the API endpoints.
+//! Each handler function processes incoming requests and returns responses.
+
+{{#apiInfo}}
+{{#apis}}
+pub mod {{classFilename}};
+{{/apis}}
+{{/apiInfo}}
+
+// Re-exports for easier access
+{{#apiInfo}}
+{{#apis}}
+pub use {{classFilename}}::*;
+{{/apis}}
+{{/apiInfo}}

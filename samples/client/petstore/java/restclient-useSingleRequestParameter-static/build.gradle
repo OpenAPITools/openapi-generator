@@ -19,6 +19,17 @@ repositories {
 }
 
 
+ext {
+    jackson_version = "2.21.6"
+    jackson_annotations_version = "2.21"
+    jackson_databind_nullable_version = "0.2.11"
+    spring_web_version = "6.2.16"
+    jakarta_annotation_version = "2.1.1"
+    bean_validation_version = "3.1.1"
+    jodatime_version = "2.14.0"
+    junit_version = "5.10.2"
+}
+
 if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
@@ -78,8 +89,10 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 
     publishing {
         publications {
@@ -96,24 +109,12 @@ if(hasProperty('target') && target == 'android') {
     }
 }
 
-ext {
-    jackson_version = "2.19.2"
-    jackson_databind_version = "2.19.2"
-    jackson_databind_nullable_version = "0.2.8"
-    spring_web_version = "6.1.21"
-    jakarta_annotation_version = "2.1.1"
-    jodatime_version = "2.9.9"
-    junit_version = "5.10.2"
-}
-
 dependencies {
-    implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "org.springframework:spring-web:$spring_web_version"
     implementation "org.springframework:spring-context:$spring_web_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    implementation "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
@@ -132,5 +133,4 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
-
 }

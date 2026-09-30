@@ -14,8 +14,8 @@ Name | Type | Description | Notes
 **decimal** | **decimal.Decimal** |  | [optional] 
 **string** | **str** |  | [optional] 
 **string_with_double_quote_pattern** | **str** |  | [optional] 
-**byte** | **bytearray** |  | [optional] 
-**binary** | **bytearray** |  | [optional] 
+**byte** | **bytes** |  | [optional] 
+**binary** | **bytes** |  | [optional] 
 **var_date** | **date** |  | 
 **date_time** | **datetime** |  | [optional] 
 **uuid** | **UUID** |  | [optional] 

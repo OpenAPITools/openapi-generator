@@ -23,6 +23,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -38,8 +39,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.EnumUtils.getEnumVars;
+import static org.openapitools.codegen.utils.EnumUtils.hasEnumVars;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/nim-client/}.
+ */
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
 
@@ -248,19 +254,18 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
      * without quotes so they serialize correctly: %(0) instead of %("0")
      */
     private void stripQuotesFromIntegerEnumValues(Map<String, Object> allowableValues) {
-        if (allowableValues == null || !allowableValues.containsKey("enumVars")) {
+        if (!hasEnumVars(allowableValues)) {
             return;
         }
 
-        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
-        for (Map<String, Object> enumVar : enumVars) {
-            Object value = enumVar.get("value");
+        List<EnumVarMap> enumVars = getEnumVars(allowableValues);
+        for (EnumVarMap enumVar : enumVars) {
+            Object value = enumVar.getEnumValue();
             if (value instanceof String) {
                 String strValue = (String) value;
                 // Remove surrounding quotes if present
                 if (strValue.startsWith("\"") && strValue.endsWith("\"")) {
-                    enumVar.put("value", strValue.substring(1, strValue.length() - 1));
+                    enumVar.setEnumValue(strValue.substring(1, strValue.length() - 1));
                 }
             }
         }
@@ -273,7 +278,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
 
-            if (cm.isEnum && cm.allowableValues != null && cm.allowableValues.containsKey("enumVars")) {
+            if (cm.isEnum && hasEnumVars(cm.allowableValues)) {
                 cm.vendorExtensions.put("x-is-top-level-enum", true);
 
                 // For integer enums, strip quotes from enum values
@@ -458,10 +463,13 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = normalizeSchemaName(name);
         CodegenModel mdl = super.fromModel(name, schema);
 
-        // Detect integer enums - check both the schema type and the dataType
+        // Detect numeric enums - check both the schema type and the dataType
+        // Note: "number" type in OpenAPI can include integer values in enums
         if (mdl.isEnum) {
             String schemaType = schema != null ? schema.getType() : null;
-            if ("integer".equals(schemaType) || "int".equals(mdl.dataType) || "int64".equals(mdl.dataType)) {
+            if ("integer".equals(schemaType) || "number".equals(schemaType) ||
+                "int".equals(mdl.dataType) || "int64".equals(mdl.dataType) ||
+                "float".equals(mdl.dataType) || "float64".equals(mdl.dataType)) {
                 mdl.vendorExtensions.put("x-is-integer-enum", true);
             }
         }
@@ -606,22 +614,38 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
+    /**
+     * Resolve a schema reference to its target schema.
+     * This is needed to properly detect nested maps/arrays when the schema is a $ref.
+     */
+    private Schema resolveSchema(Schema schema) {
+        if (schema != null && schema.get$ref() != null) {
+            Schema resolved = ModelUtils.getReferencedSchema(this.openAPI, schema);
+            return resolved != null ? resolved : schema;
+        }
+        return schema;
+    }
+
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            Schema inner = ModelUtils.getSchemaItems(p);
+        // Resolve the schema to check for nested maps/arrays - refs that point to map/array schemas
+        Schema resolved = resolveSchema(p);
+
+        if (ModelUtils.isArraySchema(resolved)) {
+            Schema inner = ModelUtils.getSchemaItems(resolved);
             if (inner == null) {
                 return null;
             }
             return "seq[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+        } else if (ModelUtils.isMapSchema(resolved)) {
+            Schema inner = ModelUtils.getAdditionalProperties(resolved);
             if (inner == null) {
                 inner = new StringSchema();
             }
             return "Table[string, " + getTypeDeclaration(inner) + "]";
         }
 
+        // For non-containers, use the original schema to preserve model names
         String schemaType = getSchemaType(p);
         if (typeMapping.containsKey(schemaType)) {
             return typeMapping.get(schemaType);
@@ -719,10 +743,17 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        // Handle negative numbers by prefixing with "Neg" to avoid collisions
+        // e.g., -1 and 1 would both become `1` without this, causing invalid syntax
+        if (name.startsWith("-")) {
+            name = "Neg" + name.substring(1);
+        }
+
         name = name.replace(" ", "_");
         name = StringUtils.camelize(name);
 
-        // starts with number or contains any character not allowed,see
+        // starts with number or contains any character not allowed, see
+        // https://nim-lang.org/docs/manual.html#lexical-analysis-identifiers-amp-keywords
         if (isValidIdentifier(name)) {
             return name;
         } else {

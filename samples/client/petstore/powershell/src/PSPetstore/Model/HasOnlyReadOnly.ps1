@@ -40,8 +40,8 @@ function Initialize-PSHasOnlyReadOnly {
 
 
         $PSO = [PSCustomObject]@{
-            "bar" = ${Bar}
-            "foo" = ${Foo}
+            'bar' = ${Bar}
+            'foo' = ${Foo}
         }
 
 
@@ -79,28 +79,28 @@ function ConvertFrom-PSJsonToHasOnlyReadOnly {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSHasOnlyReadOnly
-        $AllProperties = ("bar", "foo")
+        $AllProperties = ('bar', 'foo')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "bar"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'bar'))) { #optional property not found
             $Bar = $null
         } else {
-            $Bar = $JsonParameters.PSobject.Properties["bar"].value
+            $Bar = $JsonParameters.PSobject.Properties['bar'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "foo"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'foo'))) { #optional property not found
             $Foo = $null
         } else {
-            $Foo = $JsonParameters.PSobject.Properties["foo"].value
+            $Foo = $JsonParameters.PSobject.Properties['foo'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "bar" = ${Bar}
-            "foo" = ${Foo}
+            'bar' = ${Bar}
+            'foo' = ${Foo}
         }
 
         return $PSO

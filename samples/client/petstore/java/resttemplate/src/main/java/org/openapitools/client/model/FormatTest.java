@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -28,6 +27,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * FormatTest
@@ -51,7 +51,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   @javax.annotation.Nullable
@@ -123,7 +123,7 @@ public class FormatTest {
   /**
    * Constructor with all args parameters
    */
-  public FormatTest(@JsonProperty(JSON_PROPERTY_INTEGER) Integer integer, @JsonProperty(JSON_PROPERTY_INT32) Integer int32, @JsonProperty(JSON_PROPERTY_INT64) Long int64, @JsonProperty(JSON_PROPERTY_NUMBER) BigDecimal number, @JsonProperty(JSON_PROPERTY_FLOAT) Float _float, @JsonProperty(JSON_PROPERTY_DOUBLE) Double _double, @JsonProperty(JSON_PROPERTY_DECIMAL) BigDecimal decimal, @JsonProperty(JSON_PROPERTY_STRING) String string, @JsonProperty(JSON_PROPERTY_BYTE) byte[] _byte, @JsonProperty(JSON_PROPERTY_BINARY) File binary, @JsonProperty(JSON_PROPERTY_DATE) LocalDate date, @JsonProperty(JSON_PROPERTY_DATE_TIME) OffsetDateTime dateTime, @JsonProperty(JSON_PROPERTY_UUID) UUID uuid, @JsonProperty(JSON_PROPERTY_PASSWORD) String password, @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS) String patternWithDigits, @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER) String patternWithDigitsAndDelimiter) {
+  public FormatTest(@JsonProperty(JSON_PROPERTY_INTEGER) @javax.annotation.Nullable Integer integer, @JsonProperty(JSON_PROPERTY_INT32) @javax.annotation.Nullable Integer int32, @JsonProperty(JSON_PROPERTY_INT64) @javax.annotation.Nullable Long int64, @JsonProperty(JSON_PROPERTY_NUMBER) @javax.annotation.Nonnull BigDecimal number, @JsonProperty(JSON_PROPERTY_FLOAT) @javax.annotation.Nullable Float _float, @JsonProperty(JSON_PROPERTY_DOUBLE) @javax.annotation.Nullable Double _double, @JsonProperty(JSON_PROPERTY_DECIMAL) @javax.annotation.Nullable BigDecimal decimal, @JsonProperty(JSON_PROPERTY_STRING) @javax.annotation.Nullable String string, @JsonProperty(JSON_PROPERTY_BYTE) @javax.annotation.Nonnull byte[] _byte, @JsonProperty(JSON_PROPERTY_BINARY) @javax.annotation.Nullable File binary, @JsonProperty(JSON_PROPERTY_DATE) @javax.annotation.Nonnull LocalDate date, @JsonProperty(JSON_PROPERTY_DATE_TIME) @javax.annotation.Nullable OffsetDateTime dateTime, @JsonProperty(JSON_PROPERTY_UUID) @javax.annotation.Nullable UUID uuid, @JsonProperty(JSON_PROPERTY_PASSWORD) @javax.annotation.Nonnull String password, @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS) @javax.annotation.Nullable String patternWithDigits, @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER) @javax.annotation.Nullable String patternWithDigitsAndDelimiter) {
     this.integer = integer;
     this.int32 = int32;
     this.int64 = int64;
@@ -614,10 +614,7 @@ public class FormatTest {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

@@ -26,7 +26,7 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future<Response> addPetWithHttpInfo(Pet pet,) async {
+  Future<Response> addPetWithHttpInfo(Pet pet, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet';
 
@@ -48,6 +48,7 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -59,8 +60,8 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future<void> addPet(Pet pet,) async {
-    final response = await addPetWithHttpInfo(pet,);
+  Future<void> addPet(Pet pet, { Future<void>? abortTrigger, }) async {
+    final response = await addPetWithHttpInfo(pet, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -78,7 +79,7 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<Response> deletePetWithHttpInfo(int petId, { String? apiKey, }) async {
+  Future<Response> deletePetWithHttpInfo(int petId, { String? apiKey, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
       .replaceAll('{petId}', petId.toString());
@@ -105,6 +106,7 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -118,8 +120,8 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<void> deletePet(int petId, { String? apiKey, }) async {
-    final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey, );
+  Future<void> deletePet(int petId, { String? apiKey, Future<void>? abortTrigger, }) async {
+    final response = await deletePetWithHttpInfo(petId, apiKey: apiKey, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -135,7 +137,7 @@ class PetApi {
   ///
   /// * [List<String>] status (required):
   ///   Status values that need to be considered for filter
-  Future<Response> findPetsByStatusWithHttpInfo(List<String> status,) async {
+  Future<Response> findPetsByStatusWithHttpInfo(List<String> status, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/findByStatus';
 
@@ -159,6 +161,7 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -170,8 +173,8 @@ class PetApi {
   ///
   /// * [List<String>] status (required):
   ///   Status values that need to be considered for filter
-  Future<List<Pet>?> findPetsByStatus(List<String> status,) async {
-    final response = await findPetsByStatusWithHttpInfo(status,);
+  Future<List<Pet>?> findPetsByStatus(List<String> status, { Future<void>? abortTrigger, }) async {
+    final response = await findPetsByStatusWithHttpInfo(status, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -198,7 +201,7 @@ class PetApi {
   ///
   /// * [Set<String>] tags (required):
   ///   Tags to filter by
-  Future<Response> findPetsByTagsWithHttpInfo(Set<String> tags,) async {
+  Future<Response> findPetsByTagsWithHttpInfo(Set<String> tags, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/findByTags';
 
@@ -222,6 +225,7 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -233,8 +237,8 @@ class PetApi {
   ///
   /// * [Set<String>] tags (required):
   ///   Tags to filter by
-  Future<Set<Pet>?> findPetsByTags(Set<String> tags,) async {
-    final response = await findPetsByTagsWithHttpInfo(tags,);
+  Future<Set<Pet>?> findPetsByTags(Set<String> tags, { Future<void>? abortTrigger, }) async {
+    final response = await findPetsByTagsWithHttpInfo(tags, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -261,7 +265,7 @@ class PetApi {
   ///
   /// * [int] petId (required):
   ///   ID of pet to return
-  Future<Response> getPetByIdWithHttpInfo(int petId,) async {
+  Future<Response> getPetByIdWithHttpInfo(int petId, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
       .replaceAll('{petId}', petId.toString());
@@ -284,6 +288,7 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -295,8 +300,8 @@ class PetApi {
   ///
   /// * [int] petId (required):
   ///   ID of pet to return
-  Future<Pet?> getPetById(int petId,) async {
-    final response = await getPetByIdWithHttpInfo(petId,);
+  Future<Pet?> getPetById(int petId, { Future<void>? abortTrigger, }) async {
+    final response = await getPetByIdWithHttpInfo(petId, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -320,7 +325,7 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future<Response> updatePetWithHttpInfo(Pet pet,) async {
+  Future<Response> updatePetWithHttpInfo(Pet pet, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet';
 
@@ -342,6 +347,7 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -353,8 +359,8 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future<void> updatePet(Pet pet,) async {
-    final response = await updatePetWithHttpInfo(pet,);
+  Future<void> updatePet(Pet pet, { Future<void>? abortTrigger, }) async {
+    final response = await updatePetWithHttpInfo(pet, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -376,7 +382,7 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future<Response> updatePetWithFormWithHttpInfo(int petId, { String? name, String? status, }) async {
+  Future<Response> updatePetWithFormWithHttpInfo(int petId, { String? name, String? status, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
       .replaceAll('{petId}', petId.toString());
@@ -405,6 +411,7 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -422,8 +429,8 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future<void> updatePetWithForm(int petId, { String? name, String? status, }) async {
-    final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status, );
+  Future<void> updatePetWithForm(int petId, { String? name, String? status, Future<void>? abortTrigger, }) async {
+    final response = await updatePetWithFormWithHttpInfo(petId, name: name, status: status, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -445,7 +452,7 @@ class PetApi {
   ///
   /// * [MultipartFile] file:
   ///   file to upload
-  Future<Response> uploadFileWithHttpInfo(int petId, { String? additionalMetadata, MultipartFile? file, }) async {
+  Future<Response> uploadFileWithHttpInfo(int petId, { String? additionalMetadata, MultipartFile? file, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}/uploadImage'
       .replaceAll('{petId}', petId.toString());
@@ -482,6 +489,7 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -499,8 +507,8 @@ class PetApi {
   ///
   /// * [MultipartFile] file:
   ///   file to upload
-  Future<ApiResponse?> uploadFile(int petId, { String? additionalMetadata, MultipartFile? file, }) async {
-    final response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file, );
+  Future<ApiResponse?> uploadFile(int petId, { String? additionalMetadata, MultipartFile? file, Future<void>? abortTrigger, }) async {
+    final response = await uploadFileWithHttpInfo(petId, additionalMetadata: additionalMetadata, file: file, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -530,7 +538,7 @@ class PetApi {
   ///
   /// * [String] additionalMetadata:
   ///   Additional data to pass to server
-  Future<Response> uploadFileWithRequiredFileWithHttpInfo(int petId, MultipartFile requiredFile, { String? additionalMetadata, }) async {
+  Future<Response> uploadFileWithRequiredFileWithHttpInfo(int petId, MultipartFile requiredFile, { String? additionalMetadata, Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/{petId}/uploadImageWithRequiredFile'
       .replaceAll('{petId}', petId.toString());
@@ -567,6 +575,7 @@ class PetApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -584,8 +593,8 @@ class PetApi {
   ///
   /// * [String] additionalMetadata:
   ///   Additional data to pass to server
-  Future<ApiResponse?> uploadFileWithRequiredFile(int petId, MultipartFile requiredFile, { String? additionalMetadata, }) async {
-    final response = await uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile,  additionalMetadata: additionalMetadata, );
+  Future<ApiResponse?> uploadFileWithRequiredFile(int petId, MultipartFile requiredFile, { String? additionalMetadata, Future<void>? abortTrigger, }) async {
+    final response = await uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata: additionalMetadata, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

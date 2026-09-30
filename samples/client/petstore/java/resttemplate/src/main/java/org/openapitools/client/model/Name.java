@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Model for testing model name same as property name
@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nonnull
@@ -69,7 +69,7 @@ public class Name {
   /**
    * Constructor with all args parameters
    */
-  public Name(@JsonProperty(JSON_PROPERTY_NAME) Integer name, @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, @JsonProperty(JSON_PROPERTY_PROPERTY) String property, @JsonProperty(JSON_PROPERTY_123NUMBER) Integer _123number) {
+  public Name(@JsonProperty(JSON_PROPERTY_NAME) @javax.annotation.Nonnull Integer name, @JsonProperty(JSON_PROPERTY_SNAKE_CASE) @javax.annotation.Nullable Integer snakeCase, @JsonProperty(JSON_PROPERTY_PROPERTY) @javax.annotation.Nullable String property, @JsonProperty(JSON_PROPERTY_123NUMBER) @javax.annotation.Nullable Integer _123number) {
     this.name = name;
     this.snakeCase = snakeCase;
     this.property = property;
@@ -192,10 +192,7 @@ public class Name {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

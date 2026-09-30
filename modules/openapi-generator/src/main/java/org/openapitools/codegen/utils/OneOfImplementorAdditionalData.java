@@ -9,25 +9,27 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
+
 /**
  * This class holds data to add to `oneOf` members. Let's consider this example:
  * <p>
  * Foo:
- * properties:
- * x:
- * oneOf:
- * - $ref: "#/components/schemas/One
- * - $ref: "#/components/schemas/Two
- * y:
- * type: string
+ *   properties:
+ *     x:
+ *       oneOf:
+ *         - $ref: "#/components/schemas/One"
+ *         - $ref: "#/components/schemas/Two"
+ *     y:
+ *       type: string
  * One:
- * properties:
- * z:
- * type: string
+ *   properties:
+ *     z:
+ *       type: string
  * Two:
- * properties:
- * a:
- * type: string
+ *   properties:
+ *     a:
+ *       type: string
  * <p>
  * In codegens that use this mechanism, `Foo` will become an interface and `One` will
  * become its implementing class. This class carries all data necessary to properly modify
@@ -97,15 +99,24 @@ public class OneOfImplementorAdditionalData {
      * @param cc                  CodegenConfig running this operation
      * @param implcm              the implementing model
      * @param implImports         imports of the implementing model
-     * @param addInterfaceImports whether or not to add the interface model as import (will vary by language)
+     * @param addInterfaceImports whether to add the interface model as import (will vary by language)
      */
     @SuppressWarnings("unchecked")
     public void addToImplementor(CodegenConfig cc, CodegenModel implcm, List<Map<String, String>> implImports, boolean addInterfaceImports) {
-        implcm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+        // The model may already declare x-implements in the spec, in which case the parsed value can be
+        // a scalar string or an immutable list. Normalize it to a fresh mutable list (preserving any
+        // existing entries) so the oneOf interfaces below can be appended without failing.
+        Object existing = implcm.getVendorExtensions().get(X_IMPLEMENTS);
+        List<String> impl = new ArrayList<>();
+        if (existing instanceof Collection) {
+            impl.addAll((Collection<String>) existing);
+        } else if (existing instanceof String && !((String) existing).isEmpty()) {
+            impl.add((String) existing);
+        }
+        implcm.getVendorExtensions().put(X_IMPLEMENTS, impl);
 
         // Add implemented interfaces
         for (String intf : additionalInterfaces) {
-            List<String> impl = (List<String>) implcm.getVendorExtensions().get("x-implements");
             impl.add(intf);
             if (addInterfaceImports) {
                 // Add imports for interfaces

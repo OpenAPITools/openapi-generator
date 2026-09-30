@@ -90,7 +90,7 @@ No authorization required
 
 ## testBinaryGifWithHttpInfo
 
-> ApiResponse<File> testBinaryGif testBinaryGifWithHttpInfo()
+> ApiResponse<File> testBinaryGifWithHttpInfo()
 
 Test binary (gif) response body
 
@@ -220,7 +220,7 @@ No authorization required
 
 ## testBodyApplicationOctetstreamBinaryWithHttpInfo
 
-> ApiResponse<String> testBodyApplicationOctetstreamBinary testBodyApplicationOctetstreamBinaryWithHttpInfo(body)
+> ApiResponse<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(body)
 
 Test body parameter(s)
 
@@ -354,7 +354,7 @@ No authorization required
 
 ## testBodyMultipartFormdataArrayOfBinaryWithHttpInfo
 
-> ApiResponse<String> testBodyMultipartFormdataArrayOfBinary testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files)
+> ApiResponse<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files)
 
 Test array of binary in multipart mime
 
@@ -488,7 +488,7 @@ No authorization required
 
 ## testBodyMultipartFormdataSingleBinaryWithHttpInfo
 
-> ApiResponse<String> testBodyMultipartFormdataSingleBinary testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile)
+> ApiResponse<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile)
 
 Test single binary in multipart mime
 
@@ -622,7 +622,7 @@ No authorization required
 
 ## testEchoBodyAllOfPetWithHttpInfo
 
-> ApiResponse<Pet> testEchoBodyAllOfPet testEchoBodyAllOfPetWithHttpInfo(pet)
+> ApiResponse<Pet> testEchoBodyAllOfPetWithHttpInfo(pet)
 
 Test body parameter(s)
 
@@ -756,7 +756,7 @@ No authorization required
 
 ## testEchoBodyFreeFormObjectResponseStringWithHttpInfo
 
-> ApiResponse<String> testEchoBodyFreeFormObjectResponseString testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body)
+> ApiResponse<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body)
 
 Test free form object
 
@@ -890,7 +890,7 @@ No authorization required
 
 ## testEchoBodyPetWithHttpInfo
 
-> ApiResponse<Pet> testEchoBodyPet testEchoBodyPetWithHttpInfo(pet)
+> ApiResponse<Pet> testEchoBodyPetWithHttpInfo(pet)
 
 Test body parameter(s)
 
@@ -1024,7 +1024,7 @@ No authorization required
 
 ## testEchoBodyPetResponseStringWithHttpInfo
 
-> ApiResponse<String> testEchoBodyPetResponseString testEchoBodyPetResponseStringWithHttpInfo(pet)
+> ApiResponse<String> testEchoBodyPetResponseStringWithHttpInfo(pet)
 
 Test empty response body
 
@@ -1158,7 +1158,7 @@ No authorization required
 
 ## testEchoBodyStringEnumWithHttpInfo
 
-> ApiResponse<StringEnumRef> testEchoBodyStringEnum testEchoBodyStringEnumWithHttpInfo(body)
+> ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(body)
 
 Test string enum response body
 
@@ -1292,7 +1292,7 @@ No authorization required
 
 ## testEchoBodyTagResponseStringWithHttpInfo
 
-> ApiResponse<String> testEchoBodyTagResponseString testEchoBodyTagResponseStringWithHttpInfo(tag)
+> ApiResponse<String> testEchoBodyTagResponseStringWithHttpInfo(tag)
 
 Test empty json (request body)
 

@@ -35,6 +35,7 @@ public class WorkflowSettingsTest {
                 .withValidateSpec(null)
                 .withEnablePostProcessFile(null)
                 .withEnableMinimalUpdate(null)
+                .withQuiet(null)
                 .withStrictSpecBehavior(null)
                 .build();
 
@@ -46,6 +47,7 @@ public class WorkflowSettingsTest {
         assertTrue(settings.isValidateSpec());
         assertFalse(settings.isEnablePostProcessFile());
         assertFalse(settings.isEnableMinimalUpdate());
+        assertFalse(settings.isQuiet());
         assertTrue(settings.isStrictSpecBehavior());
     }
 
@@ -78,6 +80,7 @@ public class WorkflowSettingsTest {
                 .withValidateSpec(false)
                 .withEnablePostProcessFile(true)
                 .withEnableMinimalUpdate(true)
+                .withQuiet(true)
                 .withStrictSpecBehavior(false)
                 .build();
 
@@ -104,6 +107,9 @@ public class WorkflowSettingsTest {
 
         assertNotEquals(defaultSettings.isEnableMinimalUpdate(), newSettings.isEnableMinimalUpdate());
         assertTrue(newSettings.isEnableMinimalUpdate());
+
+        assertNotEquals(defaultSettings.isQuiet(), newSettings.isQuiet());
+        assertTrue(newSettings.isQuiet());
 
         assertNotEquals(defaultSettings.isStrictSpecBehavior(), newSettings.isStrictSpecBehavior());
         assertFalse(newSettings.isStrictSpecBehavior());

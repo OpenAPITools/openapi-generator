@@ -35,6 +35,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TestDiscriminatorResponse'
+  /test-snake-case-discriminator:
+    get:
+      operationId: testSnakeCaseDiscriminator
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestSnakeCaseDiscriminatorResponse'
+  /test-dashed-discriminator:
+    get:
+      operationId: testDashedDiscriminator
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestDashedDiscriminatorResponse'
 components:
   schemas:
     TestArrayResponse:
@@ -94,3 +114,78 @@ components:
           type: string
       required:
         - discriminatorField
+    NumericSingletonEnumModel:
+      type: object
+      properties:
+        kind:
+          type: integer
+          enum:
+            - 42
+      required:
+        - kind
+    TestSnakeCaseDiscriminatorResponse:
+      discriminator:
+        propertyName: discriminator_field
+        mapping:
+          snakeOptionOne: "#/components/schemas/SnakeOptionOne"
+          snakeOptionTwo: "#/components/schemas/SnakeOptionTwo"
+      oneOf:
+        - $ref: "#/components/schemas/SnakeOptionOne"
+        - $ref: "#/components/schemas/SnakeOptionTwo"
+    SnakeOptionOne:
+      type: object
+      properties:
+        discriminator_field:
+          enum:
+            - "snakeOptionOne"
+          type: string
+        some_property:
+          type: string
+      required:
+        - discriminator_field
+        - some_property
+    SnakeOptionTwo:
+      type: object
+      properties:
+        discriminator_field:
+          enum:
+            - "snakeOptionTwo"
+          type: string
+        some_property:
+          type: string
+      required:
+        - discriminator_field
+        - some_property
+    TestDashedDiscriminatorResponse:
+      discriminator:
+        propertyName: discriminator-field
+        mapping:
+          dashedOptionOne: "#/components/schemas/DashedOptionOne"
+          dashedOptionTwo: "#/components/schemas/DashedOptionTwo"
+      oneOf:
+        - $ref: "#/components/schemas/DashedOptionOne"
+        - $ref: "#/components/schemas/DashedOptionTwo"
+    DashedOptionOne:
+      type: object
+      properties:
+        discriminator-field:
+          enum:
+            - "dashedOptionOne"
+          type: string
+        some-property:
+          type: string
+      required:
+        - discriminator-field
+        - some-property
+    DashedOptionTwo:
+      type: object
+      properties:
+        discriminator-field:
+          enum:
+            - "dashedOptionTwo"
+          type: string
+        some-property:
+          type: string
+      required:
+        - discriminator-field
+        - some-property

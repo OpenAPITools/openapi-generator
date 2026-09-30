@@ -25,8 +25,11 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.Swift6ClientCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.Map;
 
 @SuppressWarnings("static-method")
 public class Swift6ClientCodegenModelTest {
@@ -161,6 +164,28 @@ public class Swift6ClientCodegenModelTest {
         Assert.assertEquals(property7.baseType, "OpenAPIDateWithoutTime");
         Assert.assertFalse(property7.required);
         Assert.assertFalse(property7.isContainer);
+    }
+
+    @Test(description = "nested map via $ref should resolve to [String: [String: String]], not [String: Dictionary]", enabled = true)
+    public void nestedMapRefTypeTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/swift6_nested_map.yaml");
+        final Swift6ClientCodegen codegen = new Swift6ClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+
+        Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
+        Schema emailTemplateSchema = schemas.get("EmailTemplate");
+        Assert.assertNotNull(emailTemplateSchema, "EmailTemplate schema should exist");
+
+        final CodegenModel cm = codegen.fromModel("EmailTemplate", emailTemplateSchema);
+
+        CodegenProperty translationProp = cm.vars.stream()
+                .filter(p -> p.baseName.equals("translationOverridesByLocale"))
+                .findFirst().orElse(null);
+        Assert.assertNotNull(translationProp, "translationOverridesByLocale property should exist");
+        // Must be [String: [String: String]], NOT [String: Dictionary]
+        Assert.assertEquals(translationProp.dataType, "[String: [String: String]]",
+                "Nested map via $ref should resolve to [String: [String: String]]");
     }
 
 }

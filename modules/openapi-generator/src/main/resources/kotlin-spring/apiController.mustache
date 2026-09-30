@@ -3,17 +3,12 @@ package {{package}}
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import java.util.Optional
-{{#useRequestMappingOnController}}
-import {{#apiPackage}}{{.}}.{{/apiPackage}}{{classname}}Controller.Companion.BASE_PATH
-{{/useRequestMappingOnController}}
 
 {{>generatedAnnotation}}
 
 @Controller{{#beanQualifiers}}("{{package}}.{{classname}}Controller"){{/beanQualifiers}}
 {{#useRequestMappingOnController}}
-{{=<% %>=}}
-@RequestMapping("\${openapi.<%title%>.base-path:\${api.base-path:$BASE_PATH}}")
-<%={{ }}=%>
+@RequestMapping("\${api.base-path:{{contextPath}}}")
 {{/useRequestMappingOnController}}
 {{#operations}}
 class {{classname}}Controller(

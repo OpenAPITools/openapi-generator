@@ -101,7 +101,7 @@ export class StoreApi {
      */
     public async deleteOrder (orderId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
-            .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
+            .replace('{orderId}', encodeURIComponent(String(orderId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
@@ -227,7 +227,7 @@ export class StoreApi {
      */
     public async getOrderById (orderId: number, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Order;  }> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
-            .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
+            .replace('{orderId}', encodeURIComponent(String(orderId)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/xml', 'application/json'];

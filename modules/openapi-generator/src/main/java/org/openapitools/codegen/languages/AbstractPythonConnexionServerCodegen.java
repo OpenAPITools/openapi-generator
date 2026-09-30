@@ -308,8 +308,13 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
     @Override
     public String toApiName(String name) {
-        if (name == null || name.length() == 0) {
-            return "DefaultController";
+        if (name == null || name.length() == 0 || "default".equalsIgnoreCase(name)) {
+            // Operations without a tag are grouped under the "default" tag. Honor the
+            // configurable defaultController module name for them (issue #1891); this
+            // drives both the generated controller file name and connexion's
+            // x-openapi-router-controller routing, keeping the two consistent.
+            String controller = defaultController != null ? defaultController : "default_controller";
+            return camelize(controller);
         }
         return camelize(name) + "Controller";
     }
@@ -618,6 +623,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         if (StringUtils.isNotEmpty(property.pattern)) {
             addImport(model, "import re");
+        }
+        if (anyPropertyMatches(property, p -> p.isUuid)) {
+            addImport(model, "from uuid import UUID");
         }
         postProcessPattern(property.pattern, property.vendorExtensions);
     }

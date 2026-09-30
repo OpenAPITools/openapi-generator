@@ -29,7 +29,7 @@ class ObjectWithInlineEnum {
     name: r'attribute',
     required: false,
     includeIfNull: false,
-  unknownEnumValue: Set<ObjectWithInlineEnumAttributeEnum>.unknownDefaultOpenApi,
+  unknownEnumValue: ObjectWithInlineEnumAttributeEnum.unknownDefaultOpenApi,
   )
 
 
@@ -57,7 +57,6 @@ class ObjectWithInlineEnum {
   }
 
 }
-
 
 enum ObjectWithInlineEnumAttributeEnum {
 @JsonValue(r'value_one')

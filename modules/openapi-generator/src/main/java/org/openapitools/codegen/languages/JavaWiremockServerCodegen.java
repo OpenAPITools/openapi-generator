@@ -13,6 +13,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/java-wiremock/}.
+ */
 public class JavaWiremockServerCodegen extends AbstractJavaCodegen implements CodegenConfig {
 
     @Override

@@ -1,1 +1,1 @@
-{{! PathParam is always required }}@NotNull {{>beanValidationCore}}
+{{! PathParam is always required }}{{#additionalNotNullAnnotations}}@NotNull {{/additionalNotNullAnnotations}}{{>beanValidationCore}}

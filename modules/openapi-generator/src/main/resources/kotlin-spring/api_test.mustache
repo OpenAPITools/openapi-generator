@@ -35,7 +35,8 @@ class {{classname}}Test {
         val {{{paramName}}}: {{>optionalDataType}} = TODO()
         {{/allParams}}
         {{#includeHttpRequestContext}}val {{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}} = TODO(){{/includeHttpRequestContext}}
-        val response: {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}} = api.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}}, {{/hasParams}}{{#reactive}}exchange{{/reactive}}{{^reactive}}request{{/reactive}}{{/includeHttpRequestContext}})
+        {{#vendorExtensions.x-spring-paginated}}val pageable: Pageable = TODO(){{/vendorExtensions.x-spring-paginated}}
+        val response: {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}} = api.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}}, {{/hasParams}}{{#reactive}}exchange{{/reactive}}{{^reactive}}request{{/reactive}}{{/includeHttpRequestContext}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#includeHttpRequestContext}}, {{/includeHttpRequestContext}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}})
 
         // TODO: test validations
     }

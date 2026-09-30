@@ -82,7 +82,7 @@ function Invoke-PSApiClient {
     # construct URL query string
     $HttpValues = [System.Web.HttpUtility]::ParseQueryString([String]::Empty)
     foreach ($Parameter in $QueryParameters.GetEnumerator()) {
-        if ($Parameter.Value.Count -gt 1) { // array
+        if ($Parameter.Value.Count -gt 1) { # array
             foreach ($Value in $Parameter.Value) {
                 $HttpValues.Add($Parameter.Key + '[]', $Value)
             }

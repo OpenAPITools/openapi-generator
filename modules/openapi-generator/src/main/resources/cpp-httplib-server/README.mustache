@@ -1,0 +1,437 @@
+# {{projectName}} - C++ Server
+
+## Overview
+
+This server was generated using the [OpenAPI Generator](https://openapi-generator.tech) project.
+It uses the [cpp-httplib](https://github.com/yhirose/cpp-httplib) library to implement a lightweight HTTP server
+with JSON request/response handling via [nlohmann/json](https://github.com/nlohmann/json).
+
+## Requirements
+
+- C++17 compatible compiler
+- CMake (3.14 or higher)
+- OpenSSL (for HTTPS support)
+- ZLIB (for compression support)
+
+**Note:** The following libraries are automatically downloaded via CMake FetchContent:
+- [cpp-httplib](https://github.com/yhirose/cpp-httplib) v0.15.3
+- [nlohmann/json](https://github.com/nlohmann/json) v3.11.3
+
+### Platform-Specific Installation
+
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt-get update
+sudo apt-get install -y libssl-dev zlib1g-dev cmake build-essential
+```
+
+**macOS:**
+```bash
+brew install openssl zlib cmake
+```
+
+**Windows:**
+```powershell
+# Using vcpkg
+vcpkg install openssl:x64-windows zlib:x64-windows
+
+# Then configure CMake with vcpkg toolchain:
+cmake -B build -DCMAKE_TOOLCHAIN_FILE=[vcpkg_root]/scripts/buildsystems/vcpkg.cmake
+```
+
+## Project Structure
+
+```
+├── CMakeLists.txt          # Project build configuration
+├── README.md               # This file
+├── models/                  # Generated model classes
+└── api/                    # Generated API handler classes
+```
+
+## Building the Project
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+{{#addApiImplStubs}}
+### Quick Start with Generated Stubs
+
+This project was generated with implementation stubs enabled. You can build and run the server immediately:
+
+```bash
+mkdir build && cd build
+cmake ..
+make
+./{{cmakeProjectName}}_server
+```
+
+The server will start on `http://0.0.0.0:8080` with:
+- All API endpoints registered with stub implementations
+- Health check endpoint at `/health`
+{{#hasAuthMethods}}
+- Example authentication manager (remember to implement real authentication logic!)
+{{/hasAuthMethods}}
+
+**Implementation files to customize:**
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+- `api/{{classFilename}}{{apiSuffix}}Impl.h` - API interface implementation
+- `api/{{classFilename}}{{apiSuffix}}Impl.cpp` - Business logic stubs
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+- `main.cpp` - Server configuration and startup
+
+{{/addApiImplStubs}}
+## Working with Models
+
+### Model Classes
+
+{{#models}}
+{{#model}}
+#### {{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}
+
+```cpp
+// Create a model
+auto model = {{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}();
+{{#vars}}
+model.{{vendorExtensions.setter}}(/* value */);  // Set {{baseName}}
+{{/vars}}
+
+// Serialize to JSON
+nlohmann::json json = {{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}::toJson(model);
+std::string jsonString = json.dump();
+
+// Deserialize from JSON
+auto parsedModel = {{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}::fromJson(nlohmann::json::parse(jsonString));
+```
+{{/model}}
+{{/models}}
+
+## Implementing API Handlers
+
+### API Classes
+
+Each API is generated as an abstract base class with pure virtual methods that you must implement.
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+#### {{classname}}
+
+Create a class that inherits from the generated base class:
+
+```cpp
+#include "api/{{classFilename}}{{apiSuffix}}.h"
+
+class {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
+public:
+    {{#operation}}
+    {{#vendorExtensions}}
+    {{#hasAnyResponseSchema}}
+    {{responseType}} {{handlerFunctionName}}({{#hasAnyRequestSchema}}const {{requestType}}& params{{/hasAnyRequestSchema}}) override {
+        {{#hasAnyRequestSchema}}
+        // Access request parameters:
+        {{#pathParams}}
+        // Path: params.m_{{paramName}}
+        {{/pathParams}}
+        {{#queryParams}}
+        // Query: params.m_{{paramName}}{{^vendorExtensions.isRequired}} (optional){{/vendorExtensions.isRequired}}
+        {{/queryParams}}
+        {{#headerParams}}
+        // Header: params.m_{{paramName}}{{^vendorExtensions.isRequired}} (optional){{/vendorExtensions.isRequired}}
+        {{/headerParams}}
+        {{#requestModel}}
+        // Body: params.m_request (std::optional<{{requestModelNamespace}}::{{requestModel}}>)
+        {{/requestModel}}
+        {{/hasAnyRequestSchema}}
+
+        // Implement your business logic here
+
+        {{#successCodeToTypes}}
+        // Return success response (HTTP {{successConstName}}):
+        {{successType}} successResponse;
+        // ... populate response ...
+        return successResponse;
+        {{/successCodeToTypes}}
+        {{#errorCodeToTypes}}
+
+        // Or return error response (HTTP {{errorConstName}}):
+        // {{errorType}} errorResponse;
+        // return errorResponse;
+        {{/errorCodeToTypes}}
+    }
+    {{/hasAnyResponseSchema}}
+    {{^hasAnyResponseSchema}}
+    void {{handlerFunctionName}}({{#hasAnyRequestSchema}}const {{requestType}}& params{{/hasAnyRequestSchema}}) override {
+        {{#hasAnyRequestSchema}}
+        // Access request parameters from params struct
+        {{/hasAnyRequestSchema}}
+        // Implement your logic here
+    }
+    {{/hasAnyResponseSchema}}
+    {{/vendorExtensions}}
+
+    {{/operation}}
+};
+```
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+## Running the Server
+
+Here's a complete example of setting up and running the server:
+
+```cpp
+#include <httplib.h>
+#include <memory>
+{{#apiInfo}}{{#apis}}{{#operations}}
+#include "api/{{classFilename}}{{apiSuffix}}.h"
+{{/operations}}{{/apis}}{{/apiInfo}}
+{{#hasAuthMethods}}
+#include "api/AuthenticationManager.h"
+{{/hasAuthMethods}}
+
+int main() {
+    httplib::Server server;
+
+{{#hasAuthMethods}}
+    // Create authentication manager (required for this API)
+    auto authMgr = std::make_shared<MyAuthManager>();
+
+{{/hasAuthMethods}}
+    // Create API implementations
+{{#apiInfo}}{{#apis}}{{#operations}}
+    {{classname}}Impl {{classVarName}};
+{{/operations}}{{/apis}}{{/apiInfo}}
+
+    // Register routes
+{{#apiInfo}}{{#apis}}{{#operations}}
+    {{classVarName}}.registerRoutes(server{{#hasAuthMethods}}, authMgr{{/hasAuthMethods}});
+{{/operations}}{{/apis}}{{/apiInfo}}
+
+    // Start server
+    std::cout << "Server starting on http://localhost:8080" << std::endl;
+    server.listen("localhost", 8080);
+
+    return 0;
+}
+```
+
+{{#hasAuthMethods}}
+### With Authentication
+
+When authentication is required, you must:
+1. Implement the `AuthenticationManager` interface (see Authentication section below)
+2. Pass the authentication manager to `registerRoutes()`
+
+{{/hasAuthMethods}}
+{{^hasAuthMethods}}
+### Without Authentication
+
+This API does not require authentication. Simply create your API implementations and register them with the server.
+
+{{/hasAuthMethods}}
+
+## Authentication
+
+{{#hasAuthMethods}}
+This API requires authentication. Implement the `AuthenticationManager` interface to provide your authentication logic:
+
+```cpp
+#include "api/AuthenticationManager.h"
+
+class MyAuthManager : public {{apiNamespace}}::AuthenticationManager {
+public:
+    bool validateApiKey(const std::string& key) override {
+        // Validate API key from header, query, or cookie
+        // Example: check against database or cache
+        return checkApiKeyInDatabase(key);
+    }
+
+    bool validateBearerToken(const std::string& token) override {
+        // Validate JWT or other bearer tokens
+        // Example: verify signature and expiration
+        return jwt::verify(token, secret_key);
+    }
+
+    bool validateBasicAuth(const std::string& username, const std::string& password) override {
+        // Validate username/password credentials
+        // Example: check against user database with hashed passwords
+        auto user = findUser(username);
+        return user && bcrypt::verify(password, user->passwordHash);
+    }
+
+    bool validateOAuth2(const std::string& token, const std::vector<std::string>& scopes) override {
+        // Validate OAuth2 token and check required scopes
+        // Example: introspect token and verify scopes
+        auto introspection = oauthProvider.introspect(token);
+        return introspection.active && hasAllScopes(introspection.scopes, scopes);
+    }
+};
+```
+
+### Authentication Flow
+
+1. The server automatically extracts credentials from requests (headers, query params, cookies)
+2. Before calling your handler, it validates credentials using your `AuthenticationManager`
+3. If validation fails, the server returns HTTP 401 Unauthorized automatically
+4. If validation succeeds, your handler is called
+
+### Security Schemes
+
+The generated code supports:
+- **API Key**: Header, query parameter, or cookie-based authentication
+- **Bearer Token**: Authorization header with "Bearer" scheme (e.g., JWT)
+- **Basic Auth**: HTTP Basic authentication (username:password)
+- **OAuth2**: OAuth 2.0 token-based authentication with scope validation
+
+{{/hasAuthMethods}}
+{{^hasAuthMethods}}
+This API does not require authentication.
+
+{{/hasAuthMethods}}
+
+## Error Handling
+
+### Response Variants
+
+Each API endpoint that returns data uses `std::variant` to represent multiple possible response types (success and errors):
+
+```cpp
+// Example: endpoint returns success (User) or errors (NotFound, ServerError)
+using GetUserResponse = std::variant<User, NotFound, ServerError>;
+
+GetUserResponse handleGetUser(const GetUserRequest& params) override {
+    if (userExists(params.m_userId)) {
+        User user = fetchUser(params.m_userId);
+        return user;  // Automatically sets HTTP 200
+    } else {
+        NotFound error;
+        error.setMessage("User not found");
+        return error;  // Automatically sets HTTP 404
+    }
+}
+```
+
+The server automatically:
+- Detects which type is returned from the variant
+- Sets the appropriate HTTP status code
+- Serializes the response to JSON
+
+### HTTP Status Codes
+
+Status codes are automatically set based on the response type you return. Each model type is associated with a specific HTTP status code defined in your OpenAPI specification.
+
+**Optimized Status Code Constants:**
+The generator only creates HTTP status code constants (e.g., `HTTP_RESPONSE_CODE_200`, `HTTP_RESPONSE_CODE_404`) for codes actually used by your API operations. This reduces code bloat and compilation time compared to generating all possible HTTP status codes.
+
+### Parameter Validation
+
+The generated code automatically validates:
+- **Required parameters**: Returns HTTP 400 if missing
+- **Type conversion**: Returns HTTP 400 if parameter cannot be converted to expected type
+- **JSON parsing**: Returns HTTP 400 if request body is invalid JSON
+
+Custom validation logic should be implemented in your handler methods.
+
+### Working with Optional Parameters
+
+Optional parameters and model fields use `std::optional`:
+
+```cpp
+void handleRequest(const RequestParams& params) override {
+    // Check if optional query parameter is present
+    if (params.m_optionalParam) {
+        auto value = *params.m_optionalParam;  // Dereference to get value
+        // Use value...
+    }
+
+    // Check if optional request body is present
+    if (params.m_request) {
+        auto body = *params.m_request;  // Dereference to get body
+        // Use body...
+    }
+}
+```
+
+## Advanced Features
+
+### Parameter Serialization Styles
+
+The generator supports various parameter serialization styles as defined in OpenAPI:
+
+- **simple**: Comma-separated values (default for path/header)
+- **form**: Ampersand-separated values (default for query)
+- **spaceDelimited**: Space-separated values
+- **pipeDelimited**: Pipe-separated values
+- **deepObject**: Nested object notation for query parameters
+
+These are automatically handled during parameter parsing.
+
+### Enum Handling
+
+All generated enums automatically include an `UNSPECIFIED` value as the first enum entry for safe initialization:
+
+```cpp
+enum class Status {
+    UNSPECIFIED = 0,  // Added automatically for safety
+    PENDING,
+    APPROVED,
+    REJECTED
+};
+
+// Safe default initialization
+Status status;  // Defaults to UNSPECIFIED (0)
+
+// Explicit initialization
+Status activeStatus = Status::APPROVED;
+
+// Enum serialization/deserialization
+// UNSPECIFIED is not a valid API value and indicates uninitialized state
+```
+
+**Why UNSPECIFIED?**
+- Provides a safe default value for uninitialized enums
+- Prevents undefined behavior from using uninitialized enum values
+- Makes it clear when an enum hasn't been set vs. having a valid API value
+- Does not appear in OpenAPI spec - internal C++ implementation detail
+
+### Union Types (anyOf/oneOf)
+
+When your OpenAPI spec uses `anyOf` or `oneOf`, the generated code uses `std::variant`:
+
+```cpp
+// OpenAPI: { "anyOf": [{"type": "string"}, {"type": "number"}] }
+using MyUnionType = std::variant<std::string, double>;
+
+// In your model:
+MyUnionType value;
+
+// Use std::visit to handle different types:
+std::visit([](const auto& v) {
+    using T = std::decay_t<decltype(v)>;
+    if constexpr (std::is_same_v<T, std::string>) {
+        std::cout << "String: " << v << std::endl;
+    } else if constexpr (std::is_same_v<T, double>) {
+        std::cout << "Number: " << v << std::endl;
+    }
+}, value);
+```
+
+## Additional Resources
+
+- [cpp-httplib Documentation](https://github.com/yhirose/cpp-httplib)
+- [nlohmann/json Documentation](https://github.com/nlohmann/json)
+- [OpenAPI Generator Documentation](https://openapi-generator.tech/docs/generators/cpp-httplib-server)
+- [OpenAPI Specification](https://swagger.io/specification/)
+
+- [cpp-httplib Documentation](https://github.com/yhirose/cpp-httplib)
+- [nlohmann/json Documentation](https://github.com/nlohmann/json)
+- [OpenAPI Generator Documentation](https://openapi-generator.tech/docs/generators/)

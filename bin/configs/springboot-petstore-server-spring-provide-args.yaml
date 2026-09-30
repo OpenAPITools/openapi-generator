@@ -4,5 +4,7 @@ library: spring-boot
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-spring-provide-args.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  generateJsonIncludeAnnotations: "true"
+  generateJsonSetterNullsAnnotations: "true"
   artifactId: springboot-spring-provide-args
   hideGenerationTimestamp: 'true'

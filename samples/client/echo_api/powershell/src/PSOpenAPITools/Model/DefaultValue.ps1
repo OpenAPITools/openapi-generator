@@ -72,14 +72,14 @@ function Initialize-DefaultValue {
 
 
         $PSO = [PSCustomObject]@{
-            "array_string_enum_ref_default" = ${ArrayStringEnumRefDefault}
-            "array_string_enum_default" = ${ArrayStringEnumDefault}
-            "array_string_default" = ${ArrayStringDefault}
-            "array_integer_default" = ${ArrayIntegerDefault}
-            "array_string" = ${ArrayString}
-            "array_string_nullable" = ${ArrayStringNullable}
-            "array_string_extension_nullable" = ${ArrayStringExtensionNullable}
-            "string_nullable" = ${StringNullable}
+            'array_string_enum_ref_default' = ${ArrayStringEnumRefDefault}
+            'array_string_enum_default' = ${ArrayStringEnumDefault}
+            'array_string_default' = ${ArrayStringDefault}
+            'array_integer_default' = ${ArrayIntegerDefault}
+            'array_string' = ${ArrayString}
+            'array_string_nullable' = ${ArrayStringNullable}
+            'array_string_extension_nullable' = ${ArrayStringExtensionNullable}
+            'string_nullable' = ${StringNullable}
         }
 
 
@@ -117,70 +117,70 @@ function ConvertFrom-JsonToDefaultValue {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in DefaultValue
-        $AllProperties = ("array_string_enum_ref_default", "array_string_enum_default", "array_string_default", "array_integer_default", "array_string", "array_string_nullable", "array_string_extension_nullable", "string_nullable")
+        $AllProperties = ('array_string_enum_ref_default', 'array_string_enum_default', 'array_string_default', 'array_integer_default', 'array_string', 'array_string_nullable', 'array_string_extension_nullable', 'string_nullable')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "array_string_enum_ref_default"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'array_string_enum_ref_default'))) { #optional property not found
             $ArrayStringEnumRefDefault = $null
         } else {
-            $ArrayStringEnumRefDefault = $JsonParameters.PSobject.Properties["array_string_enum_ref_default"].value
+            $ArrayStringEnumRefDefault = $JsonParameters.PSobject.Properties['array_string_enum_ref_default'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "array_string_enum_default"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'array_string_enum_default'))) { #optional property not found
             $ArrayStringEnumDefault = $null
         } else {
-            $ArrayStringEnumDefault = $JsonParameters.PSobject.Properties["array_string_enum_default"].value
+            $ArrayStringEnumDefault = $JsonParameters.PSobject.Properties['array_string_enum_default'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "array_string_default"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'array_string_default'))) { #optional property not found
             $ArrayStringDefault = $null
         } else {
-            $ArrayStringDefault = $JsonParameters.PSobject.Properties["array_string_default"].value
+            $ArrayStringDefault = $JsonParameters.PSobject.Properties['array_string_default'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "array_integer_default"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'array_integer_default'))) { #optional property not found
             $ArrayIntegerDefault = $null
         } else {
-            $ArrayIntegerDefault = $JsonParameters.PSobject.Properties["array_integer_default"].value
+            $ArrayIntegerDefault = $JsonParameters.PSobject.Properties['array_integer_default'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "array_string"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'array_string'))) { #optional property not found
             $ArrayString = $null
         } else {
-            $ArrayString = $JsonParameters.PSobject.Properties["array_string"].value
+            $ArrayString = $JsonParameters.PSobject.Properties['array_string'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "array_string_nullable"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'array_string_nullable'))) { #optional property not found
             $ArrayStringNullable = $null
         } else {
-            $ArrayStringNullable = $JsonParameters.PSobject.Properties["array_string_nullable"].value
+            $ArrayStringNullable = $JsonParameters.PSobject.Properties['array_string_nullable'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "array_string_extension_nullable"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'array_string_extension_nullable'))) { #optional property not found
             $ArrayStringExtensionNullable = $null
         } else {
-            $ArrayStringExtensionNullable = $JsonParameters.PSobject.Properties["array_string_extension_nullable"].value
+            $ArrayStringExtensionNullable = $JsonParameters.PSobject.Properties['array_string_extension_nullable'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "string_nullable"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'string_nullable'))) { #optional property not found
             $StringNullable = $null
         } else {
-            $StringNullable = $JsonParameters.PSobject.Properties["string_nullable"].value
+            $StringNullable = $JsonParameters.PSobject.Properties['string_nullable'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "array_string_enum_ref_default" = ${ArrayStringEnumRefDefault}
-            "array_string_enum_default" = ${ArrayStringEnumDefault}
-            "array_string_default" = ${ArrayStringDefault}
-            "array_integer_default" = ${ArrayIntegerDefault}
-            "array_string" = ${ArrayString}
-            "array_string_nullable" = ${ArrayStringNullable}
-            "array_string_extension_nullable" = ${ArrayStringExtensionNullable}
-            "string_nullable" = ${StringNullable}
+            'array_string_enum_ref_default' = ${ArrayStringEnumRefDefault}
+            'array_string_enum_default' = ${ArrayStringEnumDefault}
+            'array_string_default' = ${ArrayStringDefault}
+            'array_integer_default' = ${ArrayIntegerDefault}
+            'array_string' = ${ArrayString}
+            'array_string_nullable' = ${ArrayStringNullable}
+            'array_string_extension_nullable' = ${ArrayStringExtensionNullable}
+            'string_nullable' = ${StringNullable}
         }
 
         return $PSO

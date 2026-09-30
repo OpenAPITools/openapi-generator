@@ -1,10 +1,20 @@
 package org.openapitools.codegen.typescript.axios;
 
+import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
@@ -129,5 +139,145 @@ public class TypeScriptAxiosClientCodegenTest {
         codegen.processOpts();
 
         assertEquals(codegen.additionalProperties().get("axiosVersion"), "^1.2.3");
+    }
+
+    @Test(description = "Verify @deprecated annotation is generated for array-type properties")
+    public void testDeprecatedArrayAttribute() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_deprecated_array_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_1/typescript-axios/deprecated-array-attribute.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path file = Paths.get(output + "/api.ts");
+        String content = Files.readString(file);
+
+        // The model has three deprecated properties:
+        //   'age' (integer), 'tags' (array of strings), 'oldTags' (array of $ref Tag objects)
+        // and one non-deprecated array property: 'nicknames'
+        // There should be exactly 3 occurrences of @deprecated in the model file
+        assertEquals(TestUtils.countOccurrences(content, "@deprecated"), 3,
+                "Expected @deprecated on 'age' (scalar), 'tags' (array of strings), and 'oldTags' (array of $ref objects)");
+
+        // Verify the @deprecated annotation appears in the generated output
+        TestUtils.assertFileContains(file, "* @deprecated");
+
+        // Verify the deprecated array property 'tags' (array of primitives) is present with correct type
+        TestUtils.assertFileContains(file, "'tags'?: Array<string>");
+
+        // Verify the deprecated array property 'oldTags' (array of $ref objects) is present with correct type
+        TestUtils.assertFileContains(file, "'oldTags'?: Array<Tag>");
+
+        // Verify the non-deprecated array property 'nicknames' is also present
+        TestUtils.assertFileContains(file, "'nicknames'?: Array<string>");
+    }
+
+    @Test(description = "Nullable oneOf references do not make other uses of the referenced schema nullable")
+    public void testNullableReferenceDoesNotLeakIntoModelProperty() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_nullable_reference_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_1/issue_23340.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output + "/api.ts");
+        TestUtils.assertFileContains(api,
+                "export interface TitleGroupHierarchyLite {",
+                "'content_type': ContentType;");
+        TestUtils.assertFileNotContains(api, "'content_type': ContentType | null;");
+        TestUtils.assertFileContains(api, "search: async (contentType?: ContentType | null");
+    }
+
+    @Test(description = "Verify multipart file arrays use repeated form fields")
+    public void testMultipartFileArrayUsesRepeatedFormFields() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_multipart_file_array_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output + "/api.ts");
+        TestUtils.assertFileExists(api);
+        TestUtils.assertFileContains(api, "files?: Array<File>");
+        TestUtils.assertFileContains(api, "files.forEach((element) => {");
+        TestUtils.assertFileContains(api, "localVarFormParams.append('files', element as any);");
+        TestUtils.assertFileNotContains(api, "files.join(COLLECTION_FORMATS.csv)");
+    }
+
+    @Test
+    public void generatesNullUnionsForOpenApi31NullableContainers() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_nullable_container_types_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_1/typescript-axios/nullable-container-types.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path file = Paths.get(output + "/api.ts");
+
+        TestUtils.assertFileContains(file, "'validation'?: { [key: string]: string; } | null;");
+        TestUtils.assertFileContains(file, "'requirements'?: Array<string> | null;");
+        TestUtils.assertFileContains(file, "'settings': MappingItemResourceSettings | null;");
+    }
+
+    @Test
+    public void generatesTrailingCommasInAsConstEnumObjects() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_trailing_commas_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path file = Paths.get(output + "/api.ts");
+        String content = Files.readString(file);
+
+        assertThat(content).contains(
+                "export const ChildCatPetTypeEnum = {\n" +
+                        "    ChildCat: 'ChildCat',\n" +
+                        "} as const;");
+        assertThat(content).contains(
+                "export const OuterEnum = {\n" +
+                        "    Placed: 'placed',\n" +
+                        "    Approved: 'approved',\n" +
+                        "    Delivered: 'delivered',\n" +
+                        "} as const;");
+        assertThat(content).contains(
+                "export const TestEnumParametersEnumHeaderStringEnum = {\n" +
+                        "    Abc: '_abc',\n" +
+                        "    Efg: '-efg',\n" +
+                        "    Xyz: '(xyz)',\n" +
+                        "} as const;");
     }
 }

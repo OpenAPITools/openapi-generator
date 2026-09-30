@@ -27,7 +27,57 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+
 public class DefaultGeneratorTest {
+
+    @Test
+    public void testQuietModeRunsPostProcess() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            ClientOptInput clientOptInput = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/pingSomeObj.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString())
+                    .setQuiet(true)
+                    .toClientOptInput();
+
+            CodegenConfig configSpy = spy(clientOptInput.getConfig());
+            clientOptInput.config(configSpy);
+
+            DefaultGenerator generator = new DefaultGenerator(true);
+            generator.opts(clientOptInput).generate();
+
+            verify(configSpy).postProcess();
+        } finally {
+            output.deleteOnExit();
+        }
+    }
+
+    @Test
+    public void testPostProcessRunsWhenQuietIsDisabled() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            ClientOptInput clientOptInput = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/pingSomeObj.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString())
+                    .toClientOptInput();
+
+            CodegenConfig configSpy = spy(clientOptInput.getConfig());
+            clientOptInput.config(configSpy);
+
+            DefaultGenerator generator = new DefaultGenerator(true);
+            generator.opts(clientOptInput).generate();
+
+            verify(configSpy).postProcess();
+        } finally {
+            output.deleteOnExit();
+        }
+    }
 
     @Test
     public void testIgnoreFileProcessing() throws IOException {
@@ -669,6 +719,32 @@ public class DefaultGeneratorTest {
         Assert.assertEquals(servers.get(0).url, "");
         Assert.assertEquals(servers.get(1).url, "http://trailingshlash.io:80/v1");
         Assert.assertEquals(servers.get(2).url, "http://notrailingslash.io:80/v2");
+    }
+
+    @Test
+    public void testHandlesRelativeUrlsWithSpecialChars() {
+        final Map<String, String> specToBasePath = Map.of(
+          "src/test/resources/3_0/relative-url-point.yaml", "/api/v4.0",
+          "src/test/resources/3_0/relative-url-dash.yaml", "/api-v3",
+          "src/test/resources/3_0/relative-url-tilde.yaml", "/~api/v5",
+          "src/test/resources/3_0/relative-url-at.yaml", "/api/@6"
+        );
+
+        specToBasePath.forEach((spec, expectedBasePath) -> {
+            OpenAPI openAPI = TestUtils.parseFlattenSpec(spec);
+            ClientOptInput opts = new ClientOptInput();
+            opts.openAPI(openAPI);
+            DefaultCodegen config = new DefaultCodegen();
+            config.setStrictSpecBehavior(false);
+            opts.config(config);
+            final DefaultGenerator generator = new DefaultGenerator();
+            generator.opts(opts);
+            generator.configureGeneratorProperties();
+
+            Map<String, Object> bundle = generator.buildSupportFileBundle(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            final String actualBasePath = (String) bundle.get("basePath");
+            Assert.assertEquals(actualBasePath, expectedBasePath);
+        });
     }
 
     @Test

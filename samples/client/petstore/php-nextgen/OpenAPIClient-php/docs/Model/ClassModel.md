@@ -1,4 +1,4 @@
-# # ClassModel
+# ClassModel
 
 ## Properties
 

@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -29,7 +37,7 @@ import org.springframework.util.LinkedMultiValueMap
 import org.openapitools.client.models.StringEnumRef
 import org.openapitools.client.infrastructure.*
 
-class PathApi(client: WebClient) : ApiClient(client) {
+open class PathApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
@@ -53,7 +61,7 @@ class PathApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: kotlin.String, pathInteger: kotlin.Int, enumNonrefStringPath: EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, enumRefStringPath: StringEnumRef): Mono<kotlin.String> {
         return testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString = pathString, pathInteger = pathInteger, enumNonrefStringPath = enumNonrefStringPath, enumRefStringPath = enumRefStringPath)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -10,6 +8,7 @@
 
     Do not edit the class manually.
 """  # noqa: E501
+
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
@@ -49,9 +48,29 @@ class FakeApi:
     """
 
     def __init__(self, api_client=None) -> None:
+        # api_client remains publicly assignable. Retain the client acquired at
+        # construction so reassignment cannot transfer or discard ownership.
         if api_client is None:
-            api_client = ApiClient.get_default()
+            api_client, owns_api_client = ApiClient._get_default_or_new()
+        else:
+            owns_api_client = False
         self.api_client = api_client
+        self._owned_api_client: Optional[ApiClient] = (
+            api_client if owns_api_client else None
+        )
+
+
+    def close(self) -> None:
+        owned_api_client = self._owned_api_client
+        self._owned_api_client = None
+        if owned_api_client is not None:
+            owned_api_client.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
 
 
     @validate_call
@@ -2990,7 +3009,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> bytearray:
+    ) -> bytes:
         """test byte like json
 
 
@@ -3024,7 +3043,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
+            '200': "bytes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3052,7 +3071,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[bytearray]:
+    ) -> ApiResponse[bytes]:
         """test byte like json
 
 
@@ -3086,7 +3105,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
+            '200': "bytes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3148,7 +3167,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
+            '200': "bytes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5451,7 +5470,7 @@ class FakeApi:
         For this test, the body has to be a binary file.
 
         :param body: image to upload (required)
-        :type body: bytearray
+        :type body: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5518,7 +5537,7 @@ class FakeApi:
         For this test, the body has to be a binary file.
 
         :param body: image to upload (required)
-        :type body: bytearray
+        :type body: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5585,7 +5604,7 @@ class FakeApi:
         For this test, the body has to be a binary file.
 
         :param body: image to upload (required)
-        :type body: bytearray
+        :type body: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7090,7 +7109,7 @@ class FakeApi:
         :param pattern_without_delimiter: None (required)
         :type pattern_without_delimiter: str
         :param byte: None (required)
-        :type byte: bytearray
+        :type byte: bytes
         :param integer: None
         :type integer: int
         :param int32: None
@@ -7102,9 +7121,9 @@ class FakeApi:
         :param string: None
         :type string: str
         :param binary: None
-        :type binary: bytearray
+        :type binary: bytes
         :param byte_with_max_length: None
-        :type byte_with_max_length: bytearray
+        :type byte_with_max_length: bytes
         :param var_date: None
         :type var_date: date
         :param date_time: None
@@ -7214,7 +7233,7 @@ class FakeApi:
         :param pattern_without_delimiter: None (required)
         :type pattern_without_delimiter: str
         :param byte: None (required)
-        :type byte: bytearray
+        :type byte: bytes
         :param integer: None
         :type integer: int
         :param int32: None
@@ -7226,9 +7245,9 @@ class FakeApi:
         :param string: None
         :type string: str
         :param binary: None
-        :type binary: bytearray
+        :type binary: bytes
         :param byte_with_max_length: None
-        :type byte_with_max_length: bytearray
+        :type byte_with_max_length: bytes
         :param var_date: None
         :type var_date: date
         :param date_time: None
@@ -7338,7 +7357,7 @@ class FakeApi:
         :param pattern_without_delimiter: None (required)
         :type pattern_without_delimiter: str
         :param byte: None (required)
-        :type byte: bytearray
+        :type byte: bytes
         :param integer: None
         :type integer: int
         :param int32: None
@@ -7350,9 +7369,9 @@ class FakeApi:
         :param string: None
         :type string: str
         :param binary: None
-        :type binary: bytearray
+        :type binary: bytes
         :param byte_with_max_length: None
-        :type byte_with_max_length: bytearray
+        :type byte_with_max_length: bytes
         :param var_date: None
         :type var_date: date
         :param date_time: None
@@ -9516,7 +9535,7 @@ class FakeApi:
             
         if language is not None:
             
-            _query_params.append(('language', language))
+            _query_params.extend(self.api_client.explode_query_object('language', language))
             
         if allow_empty is not None:
             
@@ -9841,7 +9860,7 @@ class FakeApi:
         
 
         :param file: file to upload (required)
-        :type file: bytearray
+        :type file: bytes
         :param object:
         :type object: UploadFileWithAdditionalPropertiesRequestObject
         :param count: Integer count
@@ -9916,7 +9935,7 @@ class FakeApi:
         
 
         :param file: file to upload (required)
-        :type file: bytearray
+        :type file: bytes
         :param object:
         :type object: UploadFileWithAdditionalPropertiesRequestObject
         :param count: Integer count
@@ -9991,7 +10010,7 @@ class FakeApi:
         
 
         :param file: file to upload (required)
-        :type file: bytearray
+        :type file: bytes
         :param object:
         :type object: UploadFileWithAdditionalPropertiesRequestObject
         :param count: Integer count

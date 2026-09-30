@@ -1,22 +1,46 @@
 #![allow(unused_qualifications)]
-
+#[cfg(not(feature = "validate"))]
 use validator::Validate;
 
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
+#[cfg(feature = "validate")]
+use serde_valid::Validate;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_property: Option<std::collections::HashMap<String, String>>,
 
     #[serde(rename = "map_of_map_property")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_of_map_property: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for AdditionalPropertiesClass {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for AdditionalPropertiesClass {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -127,7 +151,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesClass>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -143,7 +167,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesClass
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AdditionalPropertiesClass>> {
     type Error = String;
 
@@ -179,16 +203,38 @@ impl AdditionalPropertiesClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Animal {
     #[serde(rename = "className")]
+
     pub class_name: String,
 
     #[serde(rename = "color")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Animal {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Animal {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -307,7 +353,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Animal>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -323,7 +369,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Animal>>> for hyper::head
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Animal>> {
     type Error = String;
 
@@ -360,6 +406,7 @@ impl Animal {
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnimalFarm(
     Vec<Animal>
@@ -484,7 +531,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnimalFarm>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -500,7 +547,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnimalFarm>>> for hyper::
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnimalFarm>> {
     type Error = String;
 
@@ -536,21 +583,44 @@ impl AnimalFarm {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ApiResponse {
     #[serde(rename = "code")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub code: Option<i32>,
 
     #[serde(rename = "type")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub r#type: Option<String>,
 
     #[serde(rename = "message")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub message: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ApiResponse {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ApiResponse {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -684,7 +754,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ApiResponse>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -700,7 +770,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ApiResponse>>> for hyper:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ApiResponse>> {
     type Error = String;
 
@@ -736,13 +806,34 @@ impl ApiResponse {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfArrayOfNumberOnly {
     #[serde(rename = "ArrayArrayNumber")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_number: Option<Vec<Vec<f64>>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ArrayOfArrayOfNumberOnly {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ArrayOfArrayOfNumberOnly {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -848,7 +939,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ArrayOfArrayOfNumberOnly>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -864,7 +955,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ArrayOfArrayOfNumberOnly>
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ArrayOfArrayOfNumberOnly>> {
     type Error = String;
 
@@ -900,13 +991,34 @@ impl ArrayOfArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfNumberOnly {
     #[serde(rename = "ArrayNumber")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_number: Option<Vec<f64>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ArrayOfNumberOnly {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ArrayOfNumberOnly {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1017,7 +1129,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ArrayOfNumberOnly>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1033,7 +1145,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ArrayOfNumberOnly>>> for 
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ArrayOfNumberOnly>> {
     type Error = String;
 
@@ -1069,25 +1181,51 @@ impl ArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayTest {
     #[serde(rename = "array_of_string")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_of_string: Option<Vec<String>>,
 
     #[serde(rename = "array_array_of_integer")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_of_integer: Option<Vec<Vec<i64>>>,
 
     #[serde(rename = "array_array_of_model")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_of_model: Option<Vec<Vec<models::ReadOnlyFirst>>>,
 
     #[serde(rename = "array_of_enum")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_of_enum: Option<Vec<models::MapTestMapMapOfEnumValueValue>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ArrayTest {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ArrayTest {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1213,7 +1351,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ArrayTest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1229,7 +1367,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ArrayTest>>> for hyper::h
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ArrayTest>> {
     type Error = String;
 
@@ -1265,34 +1403,60 @@ impl ArrayTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Capitalization {
     #[serde(rename = "smallCamel")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub small_camel: Option<String>,
 
     #[serde(rename = "CapitalCamel")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub capital_camel: Option<String>,
 
     #[serde(rename = "small_Snake")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub small_snake: Option<String>,
 
     #[serde(rename = "Capital_Snake")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub capital_snake: Option<String>,
 
     #[serde(rename = "SCA_ETH_Flow_Points")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub sca_eth_flow_points: Option<String>,
 
     /// Name of the pet 
     #[serde(rename = "ATT_NAME")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub att_name: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Capitalization {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Capitalization {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1459,7 +1623,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Capitalization>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1475,7 +1639,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Capitalization>>> for hyp
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Capitalization>> {
     type Error = String;
 
@@ -1511,20 +1675,43 @@ impl Capitalization {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Cat {
     #[serde(rename = "className")]
+
     pub class_name: String,
 
     #[serde(rename = "color")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
     #[serde(rename = "declawed")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub declawed: Option<bool>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Cat {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Cat {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1654,7 +1841,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Cat>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1670,7 +1857,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Cat>>> for hyper::header:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Cat>> {
     type Error = String;
 
@@ -1706,18 +1893,40 @@ impl Cat {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Category")]
 pub struct Category {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Category {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Category {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1840,7 +2049,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Category>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1856,7 +2065,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Category>>> for hyper::he
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Category>> {
     type Error = String;
 
@@ -1893,13 +2102,34 @@ impl Category {
 }
 
 /// Model for testing model with \"_class\" property
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ClassModel {
     #[serde(rename = "_class")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub _class: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ClassModel {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ClassModel {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -2011,7 +2241,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ClassModel>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2027,7 +2257,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ClassModel>>> for hyper::
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ClassModel>> {
     type Error = String;
 
@@ -2063,13 +2293,34 @@ impl ClassModel {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Client {
     #[serde(rename = "client")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub client: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Client {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Client {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -2181,7 +2432,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Client>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2197,7 +2448,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Client>>> for hyper::head
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Client>> {
     type Error = String;
 
@@ -2233,20 +2484,43 @@ impl Client {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Dog {
     #[serde(rename = "className")]
+
     pub class_name: String,
 
     #[serde(rename = "color")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
     #[serde(rename = "breed")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub breed: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Dog {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Dog {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -2376,7 +2650,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Dog>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2392,7 +2666,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Dog>>> for hyper::header:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Dog>> {
     type Error = String;
 
@@ -2428,14 +2702,35 @@ impl Dog {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "$special[model.name]")]
 pub struct DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     #[serde(rename = "$special[property.name]")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub dollar_special_left_square_bracket_property_name_right_square_bracket: Option<i64>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -2547,7 +2842,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2563,7 +2858,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBr
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>> {
     type Error = String;
 
@@ -2599,21 +2894,47 @@ impl DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumArrays {
     #[serde(rename = "just_symbol")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub just_symbol: Option<models::EnumArraysJustSymbol>,
 
     #[serde(rename = "array_enum")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_enum: Option<Vec<models::EnumArraysArrayEnumInner>>,
 
     #[serde(rename = "array_array_enum")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_enum: Option<Vec<Vec<models::EnumArraysArrayArrayEnumInnerInner>>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for EnumArrays {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for EnumArrays {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -2730,7 +3051,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArrays>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2746,7 +3067,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArrays>>> for hyper::
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumArrays>> {
     type Error = String;
 
@@ -2788,6 +3109,7 @@ impl EnumArrays {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumArraysArrayArrayEnumInnerInner {
     #[serde(rename = "Cat")]
@@ -2852,7 +3174,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArraysArrayArrayEnumInnerInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2868,7 +3190,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArraysArrayArrayEnumI
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumArraysArrayArrayEnumInnerInner>> {
     type Error = String;
 
@@ -2910,6 +3232,7 @@ impl EnumArraysArrayArrayEnumInnerInner {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumArraysArrayEnumInner {
     #[serde(rename = "fish")]
@@ -2974,7 +3297,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArraysArrayEnumInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2990,7 +3313,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArraysArrayEnumInner>
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumArraysArrayEnumInner>> {
     type Error = String;
 
@@ -3032,6 +3355,7 @@ impl EnumArraysArrayEnumInner {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumArraysJustSymbol {
     #[serde(rename = ">=")]
@@ -3096,7 +3420,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArraysJustSymbol>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3112,7 +3436,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArraysJustSymbol>>> f
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumArraysJustSymbol>> {
     type Error = String;
 
@@ -3154,6 +3478,7 @@ impl EnumArraysJustSymbol {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumClass {
     #[serde(rename = "_abc")]
@@ -3222,7 +3547,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumClass>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3238,7 +3563,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumClass>>> for hyper::h
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumClass>> {
     type Error = String;
 
@@ -3274,28 +3599,58 @@ impl EnumClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumTest {
     #[serde(rename = "enum_string")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_string: Option<models::EnumTestEnumString>,
 
     #[serde(rename = "enum_string_required")]
+
+    #[cfg_attr(feature = "validate", validate)]
     pub enum_string_required: models::EnumTestEnumString,
 
     #[serde(rename = "enum_integer")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_integer: Option<models::EnumTestEnumInteger>,
 
     #[serde(rename = "enum_number")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_number: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
 
     #[serde(rename = "outerEnum")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub outer_enum: Option<models::OuterEnum>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for EnumTest {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for EnumTest {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -3426,7 +3781,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumTest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3442,7 +3797,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumTest>>> for hyper::he
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumTest>> {
     type Error = String;
 
@@ -3482,22 +3837,18 @@ impl EnumTest {
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
-#[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[repr(i32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde_repr::Serialize_repr, serde_repr::Deserialize_repr, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumTestEnumInteger {
-    #[serde(rename = "1")]
-    Variant1,
-    #[serde(rename = "-1")]
-    Variant12,
+    Variant1 = 1,
+    Variant12 = -1,
 }
 
 impl std::fmt::Display for EnumTestEnumInteger {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match *self {
-            EnumTestEnumInteger::Variant1 => write!(f, "1"),
-            EnumTestEnumInteger::Variant12 => write!(f, "-1"),
-        }
+        write!(f, "{}", *self as i32)
     }
 }
 
@@ -3505,9 +3856,9 @@ impl std::str::FromStr for EnumTestEnumInteger {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        match s {
-            "1" => std::result::Result::Ok(EnumTestEnumInteger::Variant1),
-            "-1" => std::result::Result::Ok(EnumTestEnumInteger::Variant12),
+        match s.parse::<i32>() {
+            std::result::Result::Ok(1) => std::result::Result::Ok(EnumTestEnumInteger::Variant1),
+            std::result::Result::Ok(-1) => std::result::Result::Ok(EnumTestEnumInteger::Variant12),
             _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
@@ -3548,7 +3899,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumTestEnumInteger>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3564,7 +3915,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumTestEnumInteger>>> fo
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumTestEnumInteger>> {
     type Error = String;
 
@@ -3606,6 +3957,7 @@ impl EnumTestEnumInteger {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumTestEnumString {
     #[serde(rename = "UPPER")]
@@ -3674,7 +4026,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumTestEnumString>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3690,7 +4042,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumTestEnumString>>> for
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumTestEnumString>> {
     type Error = String;
 
@@ -3732,6 +4084,7 @@ impl EnumTestEnumString {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum FindPetsByStatusStatusParameterInner {
     #[serde(rename = "available")]
@@ -3800,7 +4153,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FindPetsByStatusStatusParameterInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3816,7 +4169,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FindPetsByStatusStatusPar
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<FindPetsByStatusStatusParameterInner>> {
     type Error = String;
 
@@ -3852,81 +4205,127 @@ impl FindPetsByStatusStatusParameterInner {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FormatTest {
     #[serde(rename = "integer")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             range(min = 10u8, max = 100u8),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 10u8))]
+    #[cfg_attr(feature = "validate", validate(maximum = 100u8))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub integer: Option<u8>,
 
     #[serde(rename = "int32")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             range(min = 20u32, max = 200u32),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 20u32))]
+    #[cfg_attr(feature = "validate", validate(maximum = 200u32))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub int32: Option<u32>,
 
     #[serde(rename = "int64")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub int64: Option<i64>,
 
     #[serde(rename = "number")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             range(min = 32.1f64, max = 543.2f64),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 32.1f64))]
+    #[cfg_attr(feature = "validate", validate(maximum = 543.2f64))]
+
     pub number: f64,
 
     #[serde(rename = "float")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             range(min = 54.3f32, max = 987.6f32),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 54.3f32))]
+    #[cfg_attr(feature = "validate", validate(maximum = 987.6f32))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub float: Option<f32>,
 
     #[serde(rename = "double")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             range(min = 67.8f64, max = 123.4f64),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 67.8f64))]
+    #[cfg_attr(feature = "validate", validate(maximum = 123.4f64))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub double: Option<f64>,
 
     #[serde(rename = "string")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
            regex(path = *RE_FORMATTEST_STRING),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(pattern = r"/[a-z]/i"))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub string: Option<String>,
 
     #[serde(rename = "byte")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
            custom(function = "validate_byte_formattest_byte")
-        )]
+        ))]
+
     pub byte: swagger::ByteArray,
 
     #[serde(rename = "binary")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub binary: Option<swagger::ByteArray>,
 
     #[serde(rename = "date")]
+
     pub date: chrono::naive::NaiveDate,
 
     #[serde(rename = "dateTime")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub date_time: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "uuid")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "password")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             length(min = 10, max = 64),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(min_length = 10))]
+    #[cfg_attr(feature = "validate", validate(max_length = 64))]
+
     pub password: String,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for FormatTest {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for FormatTest {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 lazy_static::lazy_static! {
@@ -3935,6 +4334,7 @@ lazy_static::lazy_static! {
 lazy_static::lazy_static! {
     static ref RE_FORMATTEST_BYTE: regex::bytes::Regex = regex::bytes::Regex::new(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}&#x3D;&#x3D;|[A-Za-z0-9+/]{3}&#x3D;)?$").unwrap();
 }
+#[cfg(not(feature = "validate"))]
 fn validate_byte_formattest_byte(
     b: &swagger::ByteArray
 ) -> Result<(), validator::ValidationError> {
@@ -4149,7 +4549,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FormatTest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4165,7 +4565,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FormatTest>>> for hyper::
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<FormatTest>> {
     type Error = String;
 
@@ -4201,17 +4601,39 @@ impl FormatTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HasOnlyReadOnly {
     #[serde(rename = "bar")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub bar: Option<String>,
 
     #[serde(rename = "foo")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub foo: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for HasOnlyReadOnly {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for HasOnlyReadOnly {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -4334,7 +4756,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<HasOnlyReadOnly>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4350,7 +4772,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<HasOnlyReadOnly>>> for hy
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<HasOnlyReadOnly>> {
     type Error = String;
 
@@ -4386,13 +4808,34 @@ impl HasOnlyReadOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct List {
     #[serde(rename = "123-list")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub param_123_list: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for List {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for List {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -4504,7 +4947,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<List>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4520,7 +4963,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<List>>> for hyper::header
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<List>> {
     type Error = String;
 
@@ -4556,21 +4999,46 @@ impl List {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_map_of_string: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     #[serde(rename = "map_map_of_enum")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_map_of_enum: Option<std::collections::HashMap<String, std::collections::HashMap<String, models::MapTestMapMapOfEnumValueValue>>>,
 
     #[serde(rename = "map_of_enum_string")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_of_enum_string: Option<std::collections::HashMap<String, models::MapTestMapMapOfEnumValueValue>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for MapTest {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for MapTest {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -4686,7 +5154,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MapTest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4702,7 +5170,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MapTest>>> for hyper::hea
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MapTest>> {
     type Error = String;
 
@@ -4744,6 +5212,7 @@ impl MapTest {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum MapTestMapMapOfEnumValueValue {
     #[serde(rename = "UPPER")]
@@ -4808,7 +5277,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MapTestMapMapOfEnumValueValue>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4824,7 +5293,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MapTestMapMapOfEnumValueV
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MapTestMapMapOfEnumValueValue>> {
     type Error = String;
 
@@ -4860,21 +5329,45 @@ impl MapTestMapMapOfEnumValueValue {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MixedPropertiesAndAdditionalPropertiesClass {
     #[serde(rename = "uuid")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "dateTime")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub date_time: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "map")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map: Option<std::collections::HashMap<String, models::Animal>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for MixedPropertiesAndAdditionalPropertiesClass {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for MixedPropertiesAndAdditionalPropertiesClass {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -4992,7 +5485,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MixedPropertiesAndAdditionalPropertiesClass>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5008,7 +5501,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MixedPropertiesAndAdditio
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MixedPropertiesAndAdditionalPropertiesClass>> {
     type Error = String;
 
@@ -5045,18 +5538,40 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 }
 
 /// Model for testing model name starting with number
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Model200Response {
     #[serde(rename = "name")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<i32>,
 
     #[serde(rename = "class")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub class: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Model200Response {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Model200Response {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -5179,7 +5694,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Model200Response>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5195,7 +5710,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Model200Response>>> for h
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Model200Response>> {
     type Error = String;
 
@@ -5232,25 +5747,49 @@ impl Model200Response {
 }
 
 /// Model for testing model name same as property name
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Name {
     #[serde(rename = "name")]
+
     pub name: i32,
 
     #[serde(rename = "snake_case")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub snake_case: Option<i32>,
 
     #[serde(rename = "property")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub property: Option<String>,
 
     #[serde(rename = "123Number")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub param_123_number: Option<i32>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Name {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Name {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -5391,7 +5930,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Name>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5407,7 +5946,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Name>>> for hyper::header
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Name>> {
     type Error = String;
 
@@ -5443,13 +5982,34 @@ impl Name {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NumberOnly {
     #[serde(rename = "JustNumber")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub just_number: Option<f64>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for NumberOnly {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for NumberOnly {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -5561,7 +6121,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NumberOnly>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5577,7 +6137,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NumberOnly>>> for hyper::
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<NumberOnly>> {
     type Error = String;
 
@@ -5613,13 +6173,35 @@ impl NumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     #[serde(rename = "inner")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner: Option<models::ObjectWithOnlyAdditionalProperties>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ObjectContainingObjectWithOnlyAdditionalProperties {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ObjectContainingObjectWithOnlyAdditionalProperties {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -5726,7 +6308,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectContainingObjectWithOnlyAdditionalProperties>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5742,7 +6324,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectContainingObjectWit
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectContainingObjectWithOnlyAdditionalProperties>> {
     type Error = String;
 
@@ -5779,8 +6361,11 @@ impl ObjectContainingObjectWithOnlyAdditionalProperties {
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct ObjectWithOnlyAdditionalProperties(std::collections::HashMap<String, String>);
+pub struct ObjectWithOnlyAdditionalProperties(
+    std::collections::HashMap<String, String>
+);
 
 impl std::convert::From<std::collections::HashMap<String, String>> for ObjectWithOnlyAdditionalProperties {
     fn from(x: std::collections::HashMap<String, String>) -> Self {
@@ -5807,6 +6392,25 @@ impl std::ops::DerefMut for ObjectWithOnlyAdditionalProperties {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ObjectWithOnlyAdditionalProperties {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ObjectWithOnlyAdditionalProperties {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the ObjectWithOnlyAdditionalProperties value to the Query Parameters representation (style=form, explode=false)
 /// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
@@ -5863,7 +6467,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectWithOnlyAdditionalProperties>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5879,7 +6483,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectWithOnlyAdditionalP
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectWithOnlyAdditionalProperties>> {
     type Error = String;
 
@@ -5915,34 +6519,61 @@ impl ObjectWithOnlyAdditionalProperties {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Order")]
 pub struct Order {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "petId")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub pet_id: Option<i64>,
 
     #[serde(rename = "quantity")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub quantity: Option<i32>,
 
     #[serde(rename = "shipDate")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub ship_date: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "status")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<models::OrderStatus>,
 
     #[serde(rename = "complete")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub complete: Option<bool>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Order {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Order {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -6099,7 +6730,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Order>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6115,7 +6746,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Order>>> for hyper::heade
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Order>> {
     type Error = String;
 
@@ -6158,6 +6789,7 @@ impl Order {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum OrderStatus {
     #[serde(rename = "placed")]
@@ -6226,7 +6858,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OrderStatus>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6242,7 +6874,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OrderStatus>>> for hyper:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OrderStatus>> {
     type Error = String;
 
@@ -6279,8 +6911,11 @@ impl OrderStatus {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OuterBoolean(bool);
+pub struct OuterBoolean(
+    bool
+);
 
 impl std::convert::From<bool> for OuterBoolean {
     fn from(x: bool) -> Self {
@@ -6307,6 +6942,25 @@ impl std::ops::DerefMut for OuterBoolean {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for OuterBoolean {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for OuterBoolean {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the OuterBoolean value to the Query Parameters representation (style=form, explode=false)
 /// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
@@ -6365,7 +7019,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterBoolean>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6381,7 +7035,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterBoolean>>> for hyper
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OuterBoolean>> {
     type Error = String;
 
@@ -6417,21 +7071,44 @@ impl OuterBoolean {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterComposite {
     #[serde(rename = "my_number")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub my_number: Option<f64>,
 
     #[serde(rename = "my_string")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub my_string: Option<String>,
 
     #[serde(rename = "my_boolean")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub my_boolean: Option<bool>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for OuterComposite {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for OuterComposite {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -6565,7 +7242,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterComposite>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6581,7 +7258,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterComposite>>> for hyp
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OuterComposite>> {
     type Error = String;
 
@@ -6623,6 +7300,7 @@ impl OuterComposite {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum OuterEnum {
     #[serde(rename = "placed")]
@@ -6691,7 +7369,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterEnum>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6707,7 +7385,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterEnum>>> for hyper::h
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OuterEnum>> {
     type Error = String;
 
@@ -6744,8 +7422,11 @@ impl OuterEnum {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OuterNumber(f64);
+pub struct OuterNumber(
+    f64
+);
 
 impl std::convert::From<f64> for OuterNumber {
     fn from(x: f64) -> Self {
@@ -6772,6 +7453,25 @@ impl std::ops::DerefMut for OuterNumber {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for OuterNumber {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for OuterNumber {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the OuterNumber value to the Query Parameters representation (style=form, explode=false)
 /// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
@@ -6830,7 +7530,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterNumber>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6846,7 +7546,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterNumber>>> for hyper:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OuterNumber>> {
     type Error = String;
 
@@ -6883,8 +7583,11 @@ impl OuterNumber {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OuterString(String);
+pub struct OuterString(
+    String
+);
 
 impl std::convert::From<String> for OuterString {
     fn from(x: String) -> Self {
@@ -6911,6 +7614,25 @@ impl std::ops::DerefMut for OuterString {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for OuterString {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for OuterString {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
 impl std::fmt::Display for OuterString {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.0.clone())
@@ -6959,7 +7681,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterString>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6975,7 +7697,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterString>>> for hyper:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OuterString>> {
     type Error = String;
 
@@ -7011,32 +7733,61 @@ impl OuterString {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Pet")]
 pub struct Pet {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "category")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub category: Option<models::Category>,
 
     #[serde(rename = "name")]
+
     pub name: String,
 
     #[serde(rename = "photoUrls")]
+
     pub photo_urls: Vec<String>,
 
     #[serde(rename = "tags")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub tags: Option<Vec<models::Tag>>,
 
     #[serde(rename = "status")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<models::PetStatus>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Pet {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Pet {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -7178,7 +7929,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Pet>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -7194,7 +7945,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Pet>>> for hyper::header:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Pet>> {
     type Error = String;
 
@@ -7237,6 +7988,7 @@ impl Pet {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum PetStatus {
     #[serde(rename = "available")]
@@ -7305,7 +8057,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<PetStatus>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -7321,7 +8073,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<PetStatus>>> for hyper::h
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<PetStatus>> {
     type Error = String;
 
@@ -7357,17 +8109,39 @@ impl PetStatus {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ReadOnlyFirst {
     #[serde(rename = "bar")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub bar: Option<String>,
 
     #[serde(rename = "baz")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub baz: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ReadOnlyFirst {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ReadOnlyFirst {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -7490,7 +8264,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ReadOnlyFirst>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -7506,7 +8280,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ReadOnlyFirst>>> for hype
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ReadOnlyFirst>> {
     type Error = String;
 
@@ -7543,14 +8317,35 @@ impl ReadOnlyFirst {
 }
 
 /// Model for testing reserved words
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Return")]
 pub struct Return {
     #[serde(rename = "return")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub r#return: Option<i32>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Return {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Return {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -7662,7 +8457,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Return>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -7678,7 +8473,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Return>>> for hyper::head
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Return>> {
     type Error = String;
 
@@ -7714,18 +8509,40 @@ impl Return {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Tag")]
 pub struct Tag {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Tag {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Tag {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -7848,7 +8665,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Tag>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -7864,7 +8681,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Tag>>> for hyper::header:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Tag>> {
     type Error = String;
 
@@ -7906,6 +8723,7 @@ impl Tag {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumHeaderStringArrayParameterInner {
     #[serde(rename = ">")]
@@ -7970,7 +8788,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumHeaderStringArrayParameterInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -7986,7 +8804,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumHea
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<TestEnumParametersEnumHeaderStringArrayParameterInner>> {
     type Error = String;
 
@@ -8028,6 +8846,7 @@ impl TestEnumParametersEnumHeaderStringArrayParameterInner {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumHeaderStringParameter {
     #[serde(rename = "_abc")]
@@ -8096,7 +8915,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumHeaderStringParameter>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -8112,7 +8931,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumHea
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<TestEnumParametersEnumHeaderStringParameter>> {
     type Error = String;
 
@@ -8154,6 +8973,7 @@ impl TestEnumParametersEnumHeaderStringParameter {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumQueryDoubleParameter {
     #[serde(rename = "1.1")]
@@ -8218,7 +9038,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumQueryDoubleParameter>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -8234,7 +9054,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumQue
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<TestEnumParametersEnumQueryDoubleParameter>> {
     type Error = String;
 
@@ -8274,22 +9094,18 @@ impl TestEnumParametersEnumQueryDoubleParameter {
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
-#[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[repr(i32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde_repr::Serialize_repr, serde_repr::Deserialize_repr, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumQueryIntegerParameter {
-    #[serde(rename = "1")]
-    Variant1,
-    #[serde(rename = "-2")]
-    Variant2,
+    Variant1 = 1,
+    Variant2 = -2,
 }
 
 impl std::fmt::Display for TestEnumParametersEnumQueryIntegerParameter {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match *self {
-            TestEnumParametersEnumQueryIntegerParameter::Variant1 => write!(f, "1"),
-            TestEnumParametersEnumQueryIntegerParameter::Variant2 => write!(f, "-2"),
-        }
+        write!(f, "{}", *self as i32)
     }
 }
 
@@ -8297,9 +9113,9 @@ impl std::str::FromStr for TestEnumParametersEnumQueryIntegerParameter {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        match s {
-            "1" => std::result::Result::Ok(TestEnumParametersEnumQueryIntegerParameter::Variant1),
-            "-2" => std::result::Result::Ok(TestEnumParametersEnumQueryIntegerParameter::Variant2),
+        match s.parse::<i32>() {
+            std::result::Result::Ok(1) => std::result::Result::Ok(TestEnumParametersEnumQueryIntegerParameter::Variant1),
+            std::result::Result::Ok(-2) => std::result::Result::Ok(TestEnumParametersEnumQueryIntegerParameter::Variant2),
             _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
@@ -8340,7 +9156,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumQueryIntegerParameter>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -8356,7 +9172,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumQue
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<TestEnumParametersEnumQueryIntegerParameter>> {
     type Error = String;
 
@@ -8399,6 +9215,7 @@ impl TestEnumParametersEnumQueryIntegerParameter {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersRequestEnumFormString {
     #[serde(rename = "_abc")]
@@ -8467,7 +9284,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersRequestEnumFormString>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -8483,7 +9300,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersRequest
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<TestEnumParametersRequestEnumFormString>> {
     type Error = String;
 
@@ -8519,43 +9336,71 @@ impl TestEnumParametersRequestEnumFormString {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "User")]
 pub struct User {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "username")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub username: Option<String>,
 
     #[serde(rename = "firstName")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub first_name: Option<String>,
 
     #[serde(rename = "lastName")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub last_name: Option<String>,
 
     #[serde(rename = "email")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub email: Option<String>,
 
     #[serde(rename = "password")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub password: Option<String>,
 
     #[serde(rename = "phone")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub phone: Option<String>,
 
     /// User Status
     #[serde(rename = "userStatus")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub user_status: Option<i32>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for User {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for User {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -8744,7 +9589,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<User>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -8760,7 +9605,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<User>>> for hyper::header
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<User>> {
     type Error = String;
 

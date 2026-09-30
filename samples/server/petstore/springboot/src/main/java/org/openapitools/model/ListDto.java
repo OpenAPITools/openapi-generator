@@ -2,16 +2,16 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -22,9 +22,10 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class ListDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String _123List;
 
   public ListDto _123List(@Nullable String _123List) {
@@ -37,12 +38,13 @@ public class ListDto {
    * @return _123List
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "123-list", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("123-list")
   public @Nullable String get123List() {
     return _123List;
   }
 
+  @JsonProperty("123-list")
   public void set123List(@Nullable String _123List) {
     this._123List = _123List;
   }
@@ -77,11 +79,8 @@ public class ListDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

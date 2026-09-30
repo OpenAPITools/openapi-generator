@@ -142,6 +142,10 @@ func ReadFormFilesToTempFiles(r *http.Request, key string) ([]*os.File, error) {
 	for _, fileHeader := range r.MultipartForm.File[key] {
 		file, err := readFileHeaderToTempFile(fileHeader)
 		if err != nil {
+			for _, f := range files {
+				f.Close()
+				os.Remove(f.Name())
+			}
 			return nil, err
 		}
 
@@ -167,13 +171,21 @@ func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error
 		return nil, err
 	}
 
-	defer file.Close()
-
 	_, err = io.Copy(file, formFile)
 	if err != nil {
+		file.Close()
+		os.Remove(file.Name())
 		return nil, err
 	}
-	
+
+	// Rewind so the caller can read from the beginning.
+	// The caller is responsible for closing the returned file.
+	if _, err := file.Seek(0, io.SeekStart); err != nil {
+		file.Close()
+		os.Remove(file.Name())
+		return nil, err
+	}
+
 	return file, nil
 }
 

@@ -312,8 +312,8 @@ SYNOPSIS
                 [--model-name-suffix <model name suffix>]
                 [--model-package <model package>]
                 [(-o <output directory> | --output <output directory>)] [(-p <additional properties> | --additional-properties <additional properties>)...]
-                [--package-name <package name>] [--release-note <release note>]
-                [--remove-operation-id-prefix]
+                [--package-name <package name>] [(-q | --quiet)]
+                [--release-note <release note>] [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
                 [(-s | --skip-overwrite)] [--server-variables <server variables>...]
                 [--skip-operation-example] [--skip-validate-spec]
@@ -464,6 +464,9 @@ OPTIONS
         --package-name <package name>
             package for generated classes (where supported)
 
+        -q, --quiet
+            quiet mode
+
         --release-note <release note>
             Release note, default to 'Minor update'.
 
@@ -555,7 +558,7 @@ openapi-generator-cli generate \
     -i petstore.yaml \
     -g kotlin-spring \
     -o out \
-    --additional-properties=library=spring-boot,beanValidations=true,serviceImplementation=true \
+    --additional-properties=library=spring-boot,useBeanValidation=true,serviceImplementation=true \
     --import-mappings=DateTime=java.time.LocalDateTime \
     --type-mappings=DateTime=java.time.LocalDateTime
 ```

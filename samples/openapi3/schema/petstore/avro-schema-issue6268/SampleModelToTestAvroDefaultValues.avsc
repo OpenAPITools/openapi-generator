@@ -5,6 +5,18 @@
   "name": "SampleModelToTestAvroDefaultValues",
   "fields": [
     {
+      "name": "nullableScalarWithNullDefault",
+      "type": ["null", "string"],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "nullableModelWithNullDefault",
+      "type": ["null", "model.AvroDefaultNullReference"],
+      "doc": "",
+      "default": null
+    },
+    {
       "name": "name",
       "type": ["string", "null"],
       "doc": "",

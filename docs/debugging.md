@@ -216,7 +216,7 @@ The steps are shown here for a specific version of the generator, but apply the 
         ]
     }
     ```
-    to attach the the suspended process above.
+    to attach the suspended process above.
 
 ## Logs
 

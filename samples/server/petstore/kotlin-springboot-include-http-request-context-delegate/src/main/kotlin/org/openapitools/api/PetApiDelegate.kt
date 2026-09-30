@@ -1,6 +1,8 @@
 package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.openapitools.model.Pet
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -14,7 +16,7 @@ import java.util.Optional
  * A delegate to be called by the {@link PetApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.26.0-SNAPSHOT")
 interface PetApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()
@@ -56,6 +58,88 @@ interface PetApiDelegate {
 
 
     /**
+     * @see PetApi#listAllPetsPaginated
+     */
+    fun listAllPetsPaginated(exchange: org.springframework.web.server.ServerWebExchange,
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
+
+
+    /**
+     * @see PetApi#listPetsByIdPaginated
+     */
+    fun listPetsByIdPaginated(xRequestID: kotlin.String?,
+        exchange: org.springframework.web.server.ServerWebExchange,
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
+
+
+    /**
+     * @see PetApi#listPetsByOwnerPaginated
+     */
+    fun listPetsByOwnerPaginated(ownerId: kotlin.Long,
+        includeAdopted: kotlin.Boolean,
+        exchange: org.springframework.web.server.ServerWebExchange,
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
+
+
+    /**
+     * @see PetApi#listPetsMixedParams
+     */
+    fun listPetsMixedParams(authorization: kotlin.String?,
+        xTenantID: kotlin.String?,
+        status: kotlin.String?,
+        includeInactive: kotlin.Boolean?,
+        exchange: org.springframework.web.server.ServerWebExchange,
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
+
+
+    /**
+     * @see PetApi#listPetsMultipleParams
+     */
+    fun listPetsMultipleParams(name: kotlin.String?,
+        minAge: kotlin.Int?,
+        maxAge: kotlin.Int?,
+        tags: kotlin.collections.List<kotlin.String>?,
+        exchange: org.springframework.web.server.ServerWebExchange,
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
+
+
+    /**
+     * @see PetApi#listPetsNoPagination
+     */
+    fun listPetsNoPagination(status: kotlin.String?,
+        page: kotlin.Int?,
+        size: kotlin.Int?,
+        sort: kotlin.String?,
+        exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Flow<Pet>>
+
+
+    /**
+     * @see PetApi#listPetsPartialPagination
+     */
+    fun listPetsPartialPagination(status: kotlin.String?,
+        exchange: org.springframework.web.server.ServerWebExchange,
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
+
+
+    /**
+     * @see PetApi#listPetsWithFilterPaginated
+     */
+    fun listPetsWithFilterPaginated(status: kotlin.String?,
+        name: kotlin.String?,
+        exchange: org.springframework.web.server.ServerWebExchange,
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
+
+
+    /**
+     * @see PetApi#listPetsWithHeaderSize
+     */
+    fun listPetsWithHeaderSize(size: kotlin.String?,
+        category: kotlin.String?,
+        exchange: org.springframework.web.server.ServerWebExchange,
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
+
+
+    /**
      * @see PetApi#updatePet
      */
     suspend fun updatePet(pet: Pet,
@@ -76,7 +160,7 @@ interface PetApiDelegate {
      */
     suspend fun uploadFile(petId: kotlin.Long,
         additionalMetadata: kotlin.String?,
-        file: org.springframework.web.multipart.MultipartFile,
+        file: org.springframework.http.codec.multipart.Part?,
         exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<ModelApiResponse>
 
 }

@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface ItemId {
     /**
      * Unique identifier of the item
-     * @type {string}
-     * @memberof ItemId
      */
     id: string;
     /**
      * playlist
-     * @type {string}
-     * @memberof ItemId
      */
     type: string;
 }

@@ -1,1 +1,1 @@
-{{#isCookieParam}}@CookieParam("{{baseName}}") {{#useBeanValidation}}{{>beanValidationCookieParams}}{{/useBeanValidation}} {{{dataType}}} {{paramName}}{{/isCookieParam}}
+{{#isCookieParam}}@CookieParam("{{baseName}}") {{#useBeanValidation}}{{>beanValidationCookieParams}}{{/useBeanValidation}} {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDataType}} {{paramName}}{{/isCookieParam}}

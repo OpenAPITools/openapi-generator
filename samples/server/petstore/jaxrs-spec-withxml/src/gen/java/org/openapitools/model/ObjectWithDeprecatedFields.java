@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -28,7 +29,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 @JsonTypeName("ObjectWithDeprecatedFields")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "ObjectWithDeprecatedFields", propOrder =
     { "uuid", "id", "deprecatedRef", "bars"
     })
@@ -37,9 +38,12 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class ObjectWithDeprecatedFields  implements Serializable {
   private String uuid;
+  @Deprecated
   private BigDecimal id;
+  @Deprecated
   private DeprecatedObject deprecatedRef;
-  private @Valid List<String> bars = new ArrayList<>();
+  @Deprecated
+  private List<String> bars = new ArrayList<>();
 
   protected ObjectWithDeprecatedFields(ObjectWithDeprecatedFieldsBuilder<?, ?> b) {
     this.uuid = b.uuid;
@@ -72,13 +76,19 @@ public class ObjectWithDeprecatedFields  implements Serializable {
   }
 
   /**
+   * @deprecated
    **/
+  @Deprecated
   public ObjectWithDeprecatedFields id(BigDecimal id) {
     this.id = id;
     return this;
   }
 
       @XmlElement(name="id")
+  /**
+   * @deprecated
+   */
+  @Deprecated
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -86,19 +96,29 @@ public class ObjectWithDeprecatedFields  implements Serializable {
     return id;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   @JsonProperty("id")
   public void setId(BigDecimal id) {
     this.id = id;
   }
 
   /**
+   * @deprecated
    **/
+  @Deprecated
   public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
     return this;
   }
 
       @XmlElement(name="deprecatedRef")
+  /**
+   * @deprecated
+   */
+  @Deprecated
   
   @ApiModelProperty(value = "")
   @JsonProperty("deprecatedRef")
@@ -106,19 +126,29 @@ public class ObjectWithDeprecatedFields  implements Serializable {
     return deprecatedRef;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   @JsonProperty("deprecatedRef")
   public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
 
   /**
+   * @deprecated
    **/
+  @Deprecated
   public ObjectWithDeprecatedFields bars(List<String> bars) {
     this.bars = bars;
     return this;
   }
 
       @XmlElement(name="bars")
+  /**
+   * @deprecated
+   */
+  @Deprecated
   
   @ApiModelProperty(value = "")
   @JsonProperty("bars")
@@ -126,11 +156,19 @@ public class ObjectWithDeprecatedFields  implements Serializable {
     return bars;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   @JsonProperty("bars")
   public void setBars(List<String> bars) {
     this.bars = bars;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   public ObjectWithDeprecatedFields addBarsItem(String barsItem) {
     if (this.bars == null) {
       this.bars = new ArrayList<>();
@@ -140,6 +178,10 @@ public class ObjectWithDeprecatedFields  implements Serializable {
     return this;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   public ObjectWithDeprecatedFields removeBarsItem(String barsItem) {
     if (barsItem != null && this.bars != null) {
       this.bars.remove(barsItem);
@@ -186,10 +228,7 @@ public class ObjectWithDeprecatedFields  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -223,18 +262,20 @@ public class ObjectWithDeprecatedFields  implements Serializable {
       this.uuid = uuid;
       return self();
     }
+    @Deprecated
     public B id(BigDecimal id) {
       this.id = id;
       return self();
     }
+    @Deprecated
     public B deprecatedRef(DeprecatedObject deprecatedRef) {
       this.deprecatedRef = deprecatedRef;
       return self();
     }
+    @Deprecated
     public B bars(List<String> bars) {
       this.bars = bars;
       return self();
     }
   }
 }
-

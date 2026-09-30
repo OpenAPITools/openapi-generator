@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: openAPIPetstore
+
+  jackson:
+    datatype:
+      datetime:
+        WRITE_DATES_AS_TIMESTAMPS: false
+
+server:
+  port: 8080

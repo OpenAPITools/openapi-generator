@@ -12,21 +12,32 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  TestArrayResponse,
-  TestDiscriminatorResponse,
-  TestResponse,
-} from '../models/index';
 import {
+    type TestArrayResponse,
     TestArrayResponseFromJSON,
     TestArrayResponseToJSON,
+} from '../models/TestArrayResponse';
+import {
+    type TestDashedDiscriminatorResponse,
+    TestDashedDiscriminatorResponseFromJSON,
+    TestDashedDiscriminatorResponseToJSON,
+} from '../models/TestDashedDiscriminatorResponse';
+import {
+    type TestDiscriminatorResponse,
     TestDiscriminatorResponseFromJSON,
     TestDiscriminatorResponseToJSON,
+} from '../models/TestDiscriminatorResponse';
+import {
+    type TestResponse,
     TestResponseFromJSON,
     TestResponseToJSON,
-} from '../models/index';
+} from '../models/TestResponse';
+import {
+    type TestSnakeCaseDiscriminatorResponse,
+    TestSnakeCaseDiscriminatorResponseFromJSON,
+    TestSnakeCaseDiscriminatorResponseToJSON,
+} from '../models/TestSnakeCaseDiscriminatorResponse';
 
 /**
  * 
@@ -34,8 +45,9 @@ import {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
+     * Creates request options for test without sending the request
      */
-    async testRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestResponse>> {
+    async testRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -43,12 +55,19 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/test`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     */
+    async testRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestResponse>> {
+        const requestOptions = await this.testRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TestResponseFromJSON(jsonValue));
     }
@@ -61,8 +80,9 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for testArray without sending the request
      */
-    async testArrayRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestArrayResponse>> {
+    async testArrayRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -70,12 +90,19 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/test-array`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     */
+    async testArrayRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestArrayResponse>> {
+        const requestOptions = await this.testArrayRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TestArrayResponseFromJSON(jsonValue));
     }
@@ -88,8 +115,44 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for testDashedDiscriminator without sending the request
      */
-    async testDiscriminatorRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestDiscriminatorResponse>> {
+    async testDashedDiscriminatorRequestOpts(): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/test-dashed-discriminator`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     */
+    async testDashedDiscriminatorRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestDashedDiscriminatorResponse>> {
+        const requestOptions = await this.testDashedDiscriminatorRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TestDashedDiscriminatorResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async testDashedDiscriminator(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestDashedDiscriminatorResponse> {
+        const response = await this.testDashedDiscriminatorRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for testDiscriminator without sending the request
+     */
+    async testDiscriminatorRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -97,12 +160,19 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/test-discriminator`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     */
+    async testDiscriminatorRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestDiscriminatorResponse>> {
+        const requestOptions = await this.testDiscriminatorRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TestDiscriminatorResponseFromJSON(jsonValue));
     }
@@ -111,6 +181,41 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async testDiscriminator(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestDiscriminatorResponse> {
         const response = await this.testDiscriminatorRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for testSnakeCaseDiscriminator without sending the request
+     */
+    async testSnakeCaseDiscriminatorRequestOpts(): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/test-snake-case-discriminator`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     */
+    async testSnakeCaseDiscriminatorRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestSnakeCaseDiscriminatorResponse>> {
+        const requestOptions = await this.testSnakeCaseDiscriminatorRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TestSnakeCaseDiscriminatorResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async testSnakeCaseDiscriminator(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestSnakeCaseDiscriminatorResponse> {
+        const response = await this.testSnakeCaseDiscriminatorRaw(initOverrides);
         return await response.value();
     }
 

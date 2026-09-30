@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -26,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * FakeBigDecimalMap200Response
@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_MAP
 })
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
   @javax.annotation.Nullable
@@ -51,7 +51,7 @@ public class FakeBigDecimalMap200Response {
   /**
    * Constructor with all args parameters
    */
-  public FakeBigDecimalMap200Response(@JsonProperty(JSON_PROPERTY_SOME_ID) BigDecimal someId, @JsonProperty(JSON_PROPERTY_SOME_MAP) Map<String, BigDecimal> someMap) {
+  public FakeBigDecimalMap200Response(@JsonProperty(JSON_PROPERTY_SOME_ID) @javax.annotation.Nullable BigDecimal someId, @JsonProperty(JSON_PROPERTY_SOME_MAP) @javax.annotation.Nullable Map<String, BigDecimal> someMap) {
     this.someId = someId;
     this.someMap = someMap;
   }
@@ -148,10 +148,7 @@ public class FakeBigDecimalMap200Response {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   public static class Builder {

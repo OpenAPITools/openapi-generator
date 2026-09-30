@@ -15,15 +15,15 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Set up JDK 11
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6.0.1
         with:
           java-version: 11
           distribution: 'temurin'
           cache: gradle
       - name: Cache maven dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-maven-repository
         with:
@@ -39,10 +39,10 @@ jobs:
       - name: Run maven
         run: ./mvnw clean --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
         env:
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
       - run: ls -la  modules/openapi-generator-cli/target
       - name: Upload openapi-generator-cli.jar artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target/openapi-generator-cli.jar
@@ -54,15 +54,15 @@ jobs:
     needs:
       - build
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Set up JDK 11
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6.0.1
         with:
           java-version: 11
           distribution: 'temurin'
           cache: gradle
       - name: Cache maven dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-maven-repository
         with:
@@ -78,10 +78,10 @@ jobs:
       - name: Run unit tests
         run: ./mvnw clean --no-snapshot-updates --batch-mode --quiet --fail-at-end test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
         env:
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
       - name: Publish unit test reports
         if: ${{ always() }}
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: surefire-test-results
           path: '**/surefire-reports/TEST-*.xml'
@@ -92,14 +92,14 @@ jobs:
     needs:
       - build
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Set up JDK 11
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6.0.1
         with:
           java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
@@ -131,14 +131,14 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Set up JDK 11
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6.0.1
         with:
           java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target

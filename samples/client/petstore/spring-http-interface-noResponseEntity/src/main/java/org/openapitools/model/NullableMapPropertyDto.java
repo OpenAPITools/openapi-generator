@@ -24,10 +24,9 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("NullableMapProperty")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class NullableMapPropertyDto {
 
-  
   private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
 
   public NullableMapPropertyDto languageValues(Map<String, String> languageValues) {
@@ -36,7 +35,7 @@ public class NullableMapPropertyDto {
   }
 
   public NullableMapPropertyDto putLanguageValuesItem(String key, String languageValuesItem) {
-    if (this.languageValues == null || !this.languageValues.isPresent()) {
+    if (this.languageValues == null || !this.languageValues.isPresent() || this.languageValues.get() == null) {
       this.languageValues = JsonNullable.of(new HashMap<>());
     }
     this.languageValues.get().put(key, languageValuesItem);
@@ -98,11 +97,8 @@ public class NullableMapPropertyDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

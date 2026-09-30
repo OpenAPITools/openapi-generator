@@ -133,3 +133,4 @@ class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
   }
 }
 
+

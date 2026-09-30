@@ -4,10 +4,12 @@ export 'package:{{pubName}}/{{sourceFolder}}/auth/api_key_auth.dart';
 export 'package:{{pubName}}/{{sourceFolder}}/auth/basic_auth.dart';
 export 'package:{{pubName}}/{{sourceFolder}}/auth/bearer_auth.dart';
 export 'package:{{pubName}}/{{sourceFolder}}/auth/oauth.dart';
+{{#useOptional}}export 'package:{{pubName}}/{{sourceFolder}}/optional.dart';
+{{/useOptional}}
 {{#useBuiltValue}}export 'package:{{pubName}}/{{sourceFolder}}/serializers.dart';
 {{#useDateLibCore}}export 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/date.dart';{{/useDateLibCore}}{{/useBuiltValue}}
 
 {{#apiInfo}}{{#apis}}export 'package:{{pubName}}/{{sourceFolder}}/{{apiPackage}}/{{classFilename}}.dart';
 {{/apis}}{{/apiInfo}}
-{{#models}}{{#model}}export 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/{{classFilename}}.dart';
+{{#models}}{{#model}}export '{{{vendorExtensions.x-import-path}}}';
 {{/model}}{{/models}}

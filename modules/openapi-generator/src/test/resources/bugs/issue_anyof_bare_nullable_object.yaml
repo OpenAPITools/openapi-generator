@@ -1,0 +1,44 @@
+openapi: 3.0.3
+info:
+  title: anyOf bare nullable object test
+  description: >
+    Tests that anyOf with a $ref and {type: object, nullable: true} (no properties)
+    is simplified to a typed nullable field, not Object.
+    This pattern is produced by apispec 6.7.1+ for OpenAPI 3.0.x specs.
+  version: 1.0.0
+paths:
+  /orders/{orderId}:
+    get:
+      operationId: getOrder
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        shippingAddress:
+          anyOf:
+            - $ref: '#/components/schemas/Address'
+            - type: object
+              nullable: true
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string

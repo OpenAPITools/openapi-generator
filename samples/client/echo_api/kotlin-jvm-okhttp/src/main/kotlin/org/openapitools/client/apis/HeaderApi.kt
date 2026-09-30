@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -37,11 +45,11 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class HeaderApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
+open class HeaderApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://localhost:3000")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "http://localhost:3000")
         }
     }
 
@@ -136,12 +144,12 @@ class HeaderApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory 
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "text/plain"
         integerHeader?.apply { localVariableHeaders["integer_header"] = this.toString() }
         booleanHeader?.apply { localVariableHeaders["boolean_header"] = this.toString() }
         stringHeader?.apply { localVariableHeaders["string_header"] = this.toString() }
         enumNonrefStringHeader?.apply { localVariableHeaders["enum_nonref_string_header"] = this.toString() }
         enumRefStringHeader?.apply { localVariableHeaders["enum_ref_string_header"] = this.toString() }
-        localVariableHeaders["Accept"] = "text/plain"
 
         return RequestConfig(
             method = RequestMethod.GET,

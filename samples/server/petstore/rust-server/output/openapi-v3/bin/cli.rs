@@ -17,11 +17,14 @@ use openapi_v3::{
     MergePatchJsonGetResponse,
     MultigetGetResponse,
     MultipleAuthSchemeGetResponse,
+    MultipleResponseContentTypesResponse,
     OneOfGetResponse,
     OverrideServerGetResponse,
     ParamgetGetResponse,
+    QueryExampleGetResponse,
     ReadonlyAuthSchemeGetResponse,
     RegisterCallbackPostResponse,
+    RequiredBinaryStreamPutResponse,
     RequiredOctetStreamPutResponse,
     ResponsesWithHeadersGetResponse,
     Rfc7807GetResponse,
@@ -63,17 +66,17 @@ struct Cli {
     server_address: String,
 
     /// Path to the client private key if using client-side TLS authentication
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    #[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
     #[clap(long, requires_all(&["client_certificate", "server_certificate"]))]
     client_key: Option<String>,
 
     /// Path to the client's public certificate associated with the private key
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    #[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
     #[clap(long, requires_all(&["client_key", "server_certificate"]))]
     client_certificate: Option<String>,
 
     /// Path to CA certificate used to authenticate the server
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    #[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
     #[clap(long)]
     server_certificate: Option<String>,
 
@@ -135,6 +138,11 @@ enum Operation {
     },
     MultipleAuthSchemeGet {
     },
+    /// Test multiple content types in a single response
+    MultipleResponseContentTypes {
+        #[clap(value_parser = parse_json::<models::ObjectParam>)]
+        object_param: models::ObjectParam,
+    },
     OneOfGet {
     },
     OverrideServerGet {
@@ -151,10 +159,19 @@ enum Operation {
         #[clap(value_parser = parse_json::<models::MyIdList>)]
         some_list: Option<models::MyIdList>,
     },
+    /// Test required query params with and without examples
+    QueryExampleGet {
+        required_no_example: String,
+        required_with_example: i32,
+    },
     ReadonlyAuthSchemeGet {
     },
     RegisterCallbackPost {
         url: String,
+    },
+    RequiredBinaryStreamPut {
+        #[clap(value_parser = parse_json::<swagger::ByteArray>)]
+        body: swagger::ByteArray,
     },
     RequiredOctetStreamPut {
         #[clap(value_parser = parse_json::<swagger::ByteArray>)]
@@ -214,7 +231,8 @@ enum Operation {
     },
 }
 
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+// On Linux/Unix with OpenSSL (client-tls feature), support certificate pinning and mutual TLS
+#[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
 fn create_client(args: &Cli, context: ClientContext) -> Result<Box<dyn ApiNoContext<ClientContext>>> {
     if args.client_certificate.is_some() {
         debug!("Using mutual TLS");
@@ -240,8 +258,15 @@ fn create_client(args: &Cli, context: ClientContext) -> Result<Box<dyn ApiNoCont
     }
 }
 
-#[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+// On macOS/Windows/iOS or without client-tls feature, use simple client (no cert pinning/mutual TLS)
+#[cfg(any(
+    not(feature = "client-tls"),
+    all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios"))
+))]
 fn create_client(args: &Cli, context: ClientContext) -> Result<Box<dyn ApiNoContext<ClientContext>>> {
+    // Client::try_new() automatically detects the URL scheme (http:// or https://)
+    // and creates the appropriate client.
+    // Note: Certificate pinning and mutual TLS are only available on Linux/Unix with OpenSSL
     let client =
         Client::try_new(&args.server_address).context("Failed to create HTTP(S) client")?;
     Ok(Box::new(client.with_context(context)))
@@ -494,6 +519,29 @@ async fn main() -> Result<()> {
                     ,
             }
         }
+        Operation::MultipleResponseContentTypes {
+            object_param,
+        } => {
+            info!("Performing a MultipleResponseContentTypes request");
+
+            let result = client.multiple_response_content_types(
+                object_param,
+            ).await?;
+            debug!("Result: {:?}", result);
+
+            match result {
+                MultipleResponseContentTypesResponse::Created
+                (body)
+                => "Created\n".to_string()
+                   +
+                    &serde_json::to_string_pretty(&body)?,
+                MultipleResponseContentTypesResponse::Forbidden
+                (body)
+                => "Forbidden\n".to_string()
+                   +
+                    &serde_json::to_string_pretty(&body)?,
+            }
+        }
         Operation::OneOfGet {
         } => {
             info!("Performing a OneOfGet request");
@@ -546,6 +594,24 @@ async fn main() -> Result<()> {
                     &serde_json::to_string_pretty(&body)?,
             }
         }
+        Operation::QueryExampleGet {
+            required_no_example,
+            required_with_example,
+        } => {
+            info!("Performing a QueryExampleGet request");
+
+            let result = client.query_example_get(
+                required_no_example,
+                required_with_example,
+            ).await?;
+            debug!("Result: {:?}", result);
+
+            match result {
+                QueryExampleGetResponse::OK
+                => "OK\n".to_string()
+                    ,
+            }
+        }
         Operation::ReadonlyAuthSchemeGet {
         } => {
             info!("Performing a ReadonlyAuthSchemeGet request");
@@ -572,6 +638,22 @@ async fn main() -> Result<()> {
 
             match result {
                 RegisterCallbackPostResponse::OK
+                => "OK\n".to_string()
+                    ,
+            }
+        }
+        Operation::RequiredBinaryStreamPut {
+            body,
+        } => {
+            info!("Performing a RequiredBinaryStreamPut request");
+
+            let result = client.required_binary_stream_put(
+                body,
+            ).await?;
+            debug!("Result: {:?}", result);
+
+            match result {
+                RequiredBinaryStreamPutResponse::OK
                 => "OK\n".to_string()
                     ,
             }

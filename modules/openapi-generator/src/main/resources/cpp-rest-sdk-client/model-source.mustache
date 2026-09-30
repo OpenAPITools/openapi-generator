@@ -207,6 +207,9 @@ void {{classname}}::setValue({{classname}}::e{{classname}} const value)
     {{/isNullable}}
     {{/isInherited}}
     {{/vars}}
+    {{#additionalPropertiesType}}
+    m_AdditionalPropertiesIsSet = false;
+    {{/additionalPropertiesType}}
 }
 
 {{classname}}::~{{classname}}()
@@ -262,6 +265,16 @@ web::json::value {{classname}}::toJson() const
     {{/isNullable}}
     {{/isInherited}}
     {{/vars}}
+    {{#additionalPropertiesType}}
+    // Serialize additional properties
+    if(m_AdditionalPropertiesIsSet)
+    {
+        for(const auto& item : m_AdditionalProperties)
+        {
+            val[item.first] = item.second;
+        }
+    }
+    {{/additionalPropertiesType}}
 
     return val;
 }
@@ -295,6 +308,24 @@ bool {{classname}}::fromJson(const web::json::value& val)
     }
     {{/isInherited}}
     {{/vars}}
+    {{#additionalPropertiesType}}
+    // Capture additional properties (keys not defined in the schema)
+    if(val.is_object())
+    {
+        for(const auto& item : val.as_object())
+        {
+            // Skip known properties
+            {{#vars}}
+            {{^isInherited}}
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))) continue;
+            {{/isInherited}}
+            {{/vars}}
+            // This is an additional property
+            m_AdditionalProperties[item.first] = item.second;
+            m_AdditionalPropertiesIsSet = true;
+        }
+    }
+    {{/additionalPropertiesType}}
     return ok;
 }
 
@@ -515,6 +546,36 @@ void {{classname}}::unset{{name}}()
     {{/isNullable}}
 }
 {{/isInherited}}{{/vars}}
+{{#additionalPropertiesType}}
+
+std::map<utility::string_t, web::json::value> {{classname}}::getAdditionalProperties() const
+{
+    return m_AdditionalProperties;
+}
+
+void {{classname}}::setAdditionalProperties(const std::map<utility::string_t, web::json::value>& value)
+{
+    m_AdditionalProperties = value;
+    m_AdditionalPropertiesIsSet = true;
+}
+
+void {{classname}}::addAdditionalProperty(const utility::string_t& key, const web::json::value& value)
+{
+    m_AdditionalProperties[key] = value;
+    m_AdditionalPropertiesIsSet = true;
+}
+
+bool {{classname}}::additionalPropertiesIsSet() const
+{
+    return m_AdditionalPropertiesIsSet;
+}
+
+void {{classname}}::unsetAdditionalProperties()
+{
+    m_AdditionalProperties.clear();
+    m_AdditionalPropertiesIsSet = false;
+}
+{{/additionalPropertiesType}}
 {{/isEnum}}
 {{/oneOf}}
 {{#modelNamespaceDeclarations}}

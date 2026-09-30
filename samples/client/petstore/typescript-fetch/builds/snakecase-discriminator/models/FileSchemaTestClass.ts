@@ -21,14 +21,10 @@ import { mapValues } from '../runtime';
 export interface FileSchemaTestClass {
     /**
      * 
-     * @type {any}
-     * @memberof FileSchemaTestClass
      */
     file?: any;
     /**
      * 
-     * @type {Array<any>}
-     * @memberof FileSchemaTestClass
      */
     files?: Array<any>;
 }

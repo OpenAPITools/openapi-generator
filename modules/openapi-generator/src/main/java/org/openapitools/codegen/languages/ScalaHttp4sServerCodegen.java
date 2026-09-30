@@ -32,6 +32,11 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
+
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-http4s-server/}.
+ */
 public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaHttp4sServerCodegen.class);
     protected String artifactId = "http4s-server";
@@ -325,6 +330,8 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
         if (!additionalProperties.containsKey(EXCLUDE_SBT) && !Boolean.parseBoolean((String) additionalProperties.get(EXCLUDE_SBT))) {
             supportingFiles.add(new SupportingFile("build.sbt", "", "build.sbt"));
             supportingFiles.add(new SupportingFile("build.properties", "project", "build.properties"));
+            supportingFiles.add(new SupportingFile("project/plugins.mustache", "project", "plugins.sbt"));
+            supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
         }
     }
 
@@ -374,7 +381,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
                 }
                 //
                 try {
-                    List<String> exts = (List<String>) cModel.getVendorExtensions().get("x-implements");
+                    List<String> exts = (List<String>) cModel.getVendorExtensions().get(X_IMPLEMENTS);
                     if (exts != null) {
                         cModel.getVendorExtensions().put("x-extends", exts.subList(0, 1));
                         cModel.getVendorExtensions().put("x-extendsWith", exts.subList(1, exts.size()));

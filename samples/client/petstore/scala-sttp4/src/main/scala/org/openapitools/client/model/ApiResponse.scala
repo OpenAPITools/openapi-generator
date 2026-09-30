@@ -21,4 +21,3 @@ case class ApiResponse(
   `type`: Option[String] = None,
   message: Option[String] = None
 )
-

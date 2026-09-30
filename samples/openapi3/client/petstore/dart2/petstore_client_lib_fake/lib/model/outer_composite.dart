@@ -89,15 +89,13 @@ class OuterComposite {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "OuterComposite[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "OuterComposite[$key]" has a null value in JSON.');
-        });
         return true;
       }());
 
       return OuterComposite(
-        myNumber: num.parse('${json[r'my_number']}'),
+        myNumber: json[r'my_number'] == null
+            ? null
+            : num.parse('${json[r'my_number']}'),
         myString: mapValueOfType<String>(json, r'my_string'),
         myBoolean: mapValueOfType<bool>(json, r'my_boolean'),
       );

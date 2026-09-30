@@ -1,0 +1,120 @@
+openapi: 3.0.3
+info:
+  version: v1
+  title: Device service events
+paths: {}
+components:
+  schemas:
+    DeviceLifecycleEvent:
+      type: object
+      description: Notification about device lifecycle events
+      required:
+        - type
+        - header
+        - payload
+      properties:
+        type:
+          type: string
+          enum:
+            - device_datatransfer_status_changed
+            - device_communication_mode_status_changed
+        header:
+          $ref: "#/components/schemas/DeviceMessageHeader"
+        payload:
+#          $ref: "#/components/schemas/DeviceLifecycleEventPayload"
+#    DeviceLifecycleEventPayload:
+          oneOf:
+            - $ref: "#/components/schemas/DeviceDataTransferEventPayload"
+            - $ref: "#/components/schemas/DeviceCommModeStatusEventPayload"
+          discriminator:
+            propertyName: type
+            mapping:
+              device_datatransfer_status_changed: "#/components/schemas/DeviceDataTransferEventPayload"
+              device_communication_mode_status_changed: "#/components/schemas/DeviceCommModeStatusEventPayload"
+
+    DeviceMessageHeader:
+      type: object
+      required:
+        - ts
+        - correlationId
+        - deviceId
+      properties:
+        correlationId:
+          type: string
+        deviceId:
+          type: string
+        ts:
+          type: string
+          format: date-time
+
+    DeviceDataTransferEventPayload:
+      type: object
+      required:
+        - deviceId
+        - serialNumber
+        - updatedAt
+        - eventData
+      properties:
+        deviceId:
+          type: string
+        serialNumber:
+          type: string
+        updatedAt:
+          type: string
+        eventData:
+          $ref: "#/components/schemas/DeviceDataTransferEventData"
+
+    DeviceCommModeStatusEventPayload:
+      type: object
+      required:
+        - deviceId
+        - serialNumber
+        - updatedAt
+        - eventData
+      properties:
+        deviceId:
+          type: string
+        serialNumber:
+          type: string
+        updatedAt:
+          type: string
+        eventData:
+          $ref: "#/components/schemas/DeviceCommModeStatusEventData"
+
+    DeviceDataTransferEventData:
+      type: object
+      required:
+        - StatusDetails
+      properties:
+        StatusDetails:
+          type: object
+          properties:
+            dataTransfer:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [capable, incapable, Not Applicable]
+                statusReason:
+                  type: string
+                updatedAt:
+                  type: string
+            isMuted:
+              type: boolean
+
+    DeviceCommModeStatusEventData:
+      type: object
+      required:
+        - StatusDetails
+      properties:
+        StatusDetails:
+          type: object
+          properties:
+            communicationMode:
+              type: object
+              properties:
+                runtimeCommMode:
+                  type: string
+                  enum: [limited, normal]
+                updatedAt:
+                  type: string

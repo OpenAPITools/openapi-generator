@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -28,7 +36,7 @@ import org.springframework.http.MediaType
 import org.openapitools.client.models.StringEnumRef
 import org.openapitools.client.infrastructure.*
 
-class HeaderApi(client: RestClient) : ApiClient(client) {
+open class HeaderApi(client: RestClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(RestClient.builder()
         .baseUrl(baseUrl)
@@ -64,12 +72,12 @@ class HeaderApi(client: RestClient) : ApiClient(client) {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "text/plain"
         integerHeader?.apply { localVariableHeaders["integer_header"] = this.toString() }
         booleanHeader?.apply { localVariableHeaders["boolean_header"] = this.toString() }
         stringHeader?.apply { localVariableHeaders["string_header"] = this.toString() }
         enumNonrefStringHeader?.apply { localVariableHeaders["enum_nonref_string_header"] = this.toString() }
         enumRefStringHeader?.apply { localVariableHeaders["enum_ref_string_header"] = this.toString() }
-        localVariableHeaders["Accept"] = "text/plain"
 
         val params = mutableMapOf<String, Any>(
         )

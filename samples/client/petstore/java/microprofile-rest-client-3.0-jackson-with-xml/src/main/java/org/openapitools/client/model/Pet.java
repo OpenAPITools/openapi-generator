@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -57,25 +56,25 @@ public class Pet  {
   
   public static final String JSON_PROPERTY_ID = "id";
   @XmlElement(name = "id")
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
   @XmlElement(name = "Category")
-  private Category category;
+  protected Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
   @XmlElement(name = "name")
-  private String name;
+  protected String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   @XmlElement(name = "photoUrl")
   @XmlElementWrapper(name = "photoUrl")
-  private List<String> photoUrls = new ArrayList<>();
+  protected List<String> photoUrls = new ArrayList<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @XmlElement(name = "Tag")
   @XmlElementWrapper(name = "tag")
-  private List<Tag> tags = null;
+  protected List<Tag> tags = null;
 
 @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
@@ -115,7 +114,7 @@ public class Pet  {
  /**
   * pet status in the store
   */
-  private StatusEnum status;
+  protected StatusEnum status;
 
 
   /**
@@ -344,10 +343,7 @@ public class Pet  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

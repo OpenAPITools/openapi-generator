@@ -29,7 +29,7 @@ openapi_petstore_pet_STATUS_e pet_status_FromString(char* status);
 
 
 typedef struct pet_t {
-    long id; //numeric
+    long *id; //numeric
     struct category_t *category; //model
     char *name; // string
     list_t *photo_urls; //primitive container
@@ -40,7 +40,7 @@ typedef struct pet_t {
 } pet_t;
 
 __attribute__((deprecated)) pet_t *pet_create(
-    long id,
+    long *id,
     category_t *category,
     char *name,
     list_t *photo_urls,

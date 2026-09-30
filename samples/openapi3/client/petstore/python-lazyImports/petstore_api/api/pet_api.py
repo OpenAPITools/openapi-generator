@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     OpenAPI Petstore
 
@@ -10,6 +8,7 @@
 
     Do not edit the class manually.
 """  # noqa: E501
+
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
@@ -35,9 +34,29 @@ class PetApi:
     """
 
     def __init__(self, api_client=None) -> None:
+        # api_client remains publicly assignable. Retain the client acquired at
+        # construction so reassignment cannot transfer or discard ownership.
         if api_client is None:
-            api_client = ApiClient.get_default()
+            api_client, owns_api_client = ApiClient._get_default_or_new()
+        else:
+            owns_api_client = False
         self.api_client = api_client
+        self._owned_api_client: Optional[ApiClient] = (
+            api_client if owns_api_client else None
+        )
+
+
+    def close(self) -> None:
+        owned_api_client = self._owned_api_client
+        self._owned_api_client = None
+        if owned_api_client is not None:
+            owned_api_client.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
 
 
     @validate_call
@@ -1999,7 +2018,7 @@ class PetApi:
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param file: file to upload
-        :type file: bytearray
+        :type file: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2074,7 +2093,7 @@ class PetApi:
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param file: file to upload
-        :type file: bytearray
+        :type file: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2149,7 +2168,7 @@ class PetApi:
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param file: file to upload
-        :type file: bytearray
+        :type file: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2301,7 +2320,7 @@ class PetApi:
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
-        :type required_file: bytearray
+        :type required_file: bytes
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2376,7 +2395,7 @@ class PetApi:
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
-        :type required_file: bytearray
+        :type required_file: bytes
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2451,7 +2470,7 @@ class PetApi:
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
-        :type required_file: bytearray
+        :type required_file: bytes
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param _request_timeout: timeout setting for this request. If one

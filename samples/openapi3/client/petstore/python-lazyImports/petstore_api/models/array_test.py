@@ -23,6 +23,7 @@ from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class ArrayTest(BaseModel):
     """
@@ -36,7 +37,8 @@ class ArrayTest(BaseModel):
     __properties: ClassVar[List[str]] = ["array_of_string", "array_of_nullable_float", "array_array_of_integer", "array_array_of_model"]
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -48,8 +50,7 @@ class ArrayTest(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
@@ -80,10 +81,9 @@ class ArrayTest(BaseModel):
         _items = []
         if self.array_array_of_model:
             for _item_array_array_of_model in self.array_array_of_model:
-                if _item_array_array_of_model:
-                    _items.append(
-                         [_inner_item.to_dict() for _inner_item in _item_array_array_of_model if _inner_item is not None]
-                    )
+                _items.append(
+                     [_inner_item.to_dict() if _inner_item is not None else None for _inner_item in _item_array_array_of_model] if _item_array_array_of_model is not None else None
+                )
             _dict['array_array_of_model'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
@@ -106,7 +106,7 @@ class ArrayTest(BaseModel):
             "array_of_nullable_float": obj.get("array_of_nullable_float"),
             "array_array_of_integer": obj.get("array_array_of_integer"),
             "array_array_of_model": [
-                    [ReadOnlyFirst.from_dict(_inner_item) for _inner_item in _item]
+                    [ReadOnlyFirst.from_dict(_inner_item) for _inner_item in _item] if _item is not None else None
                     for _item in obj["array_array_of_model"]
                 ] if obj.get("array_array_of_model") is not None else None
         })

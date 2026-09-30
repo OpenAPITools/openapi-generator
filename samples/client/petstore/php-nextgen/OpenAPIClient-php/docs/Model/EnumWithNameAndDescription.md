@@ -1,4 +1,4 @@
-# # EnumWithNameAndDescription
+# EnumWithNameAndDescription
 
 ## Properties
 

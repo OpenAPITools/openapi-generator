@@ -1,0 +1,15 @@
+{{>licenseInfo}}
+package {{packageName}}.infrastructure
+
+import io.ktor.http.HttpStatusCode
+
+/**
+ * Exception thrown when an API operation has not been implemented yet.
+ *
+ * @param message The error message detailing the missing implementation.
+ * @param statusCode The HTTP status code to respond with, defaults to [HttpStatusCode.NotImplemented].
+ */
+class APINotImplementedException(
+    message: String = "This API operation has not been implemented yet.",
+    val statusCode: HttpStatusCode = HttpStatusCode.NotImplemented
+) : Exception(message)

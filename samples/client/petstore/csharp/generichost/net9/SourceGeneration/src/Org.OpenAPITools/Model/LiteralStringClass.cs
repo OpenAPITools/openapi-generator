@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EscapedLiteralString
         /// </summary>
         [JsonPropertyName("escapedLiteralString")]
-        public string? EscapedLiteralString { get { return this.EscapedLiteralStringOption; } set { this.EscapedLiteralStringOption = new(value); } }
+        public string? EscapedLiteralString { get { return this.EscapedLiteralStringOption.Value; } set { this.EscapedLiteralStringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of UnescapedLiteralString
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UnescapedLiteralString
         /// </summary>
         [JsonPropertyName("unescapedLiteralString")]
-        public string? UnescapedLiteralString { get { return this.UnescapedLiteralStringOption; } set { this.UnescapedLiteralStringOption = new(value); } }
+        public string? UnescapedLiteralString { get { return this.UnescapedLiteralStringOption.Value; } set { this.UnescapedLiteralStringOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -108,8 +108,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="LiteralStringClass" />
     /// </summary>
-    public class LiteralStringClassJsonConverter : JsonConverter<LiteralStringClass>
+    public partial class LiteralStringClassJsonConverter : JsonConverter<LiteralStringClass>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LiteralStringClassJsonConverter" /> class.
+        /// </summary>
+        public LiteralStringClassJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="LiteralStringClass" />
         /// </summary>
@@ -158,10 +168,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (escapedLiteralString.IsSet && escapedLiteralString.Value == null)
-                throw new ArgumentNullException(nameof(escapedLiteralString), "Property is not nullable for class LiteralStringClass.");
+                throw new JsonException("Property is not nullable for class LiteralStringClass: escapedLiteralString.");
 
             if (unescapedLiteralString.IsSet && unescapedLiteralString.Value == null)
-                throw new ArgumentNullException(nameof(unescapedLiteralString), "Property is not nullable for class LiteralStringClass.");
+                throw new JsonException("Property is not nullable for class LiteralStringClass: unescapedLiteralString.");
 
             return new LiteralStringClass(escapedLiteralString, unescapedLiteralString);
         }
@@ -172,7 +182,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="literalStringClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, LiteralStringClass literalStringClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -187,14 +196,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="literalStringClass"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, LiteralStringClass literalStringClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (literalStringClass.EscapedLiteralStringOption.IsSet && literalStringClass.EscapedLiteralString == null)
-                throw new ArgumentNullException(nameof(literalStringClass.EscapedLiteralString), "Property is required for class LiteralStringClass.");
+                throw new JsonException("Cannot write null property LiteralStringClass.EscapedLiteralString to non-nullable JSON property 'escapedLiteralString'.");
 
             if (literalStringClass.UnescapedLiteralStringOption.IsSet && literalStringClass.UnescapedLiteralString == null)
-                throw new ArgumentNullException(nameof(literalStringClass.UnescapedLiteralString), "Property is required for class LiteralStringClass.");
+                throw new JsonException("Cannot write null property LiteralStringClass.UnescapedLiteralString to non-nullable JSON property 'unescapedLiteralString'.");
 
             if (literalStringClass.EscapedLiteralStringOption.IsSet)
                 writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString);

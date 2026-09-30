@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -24,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * An order for a pets from the pet store
@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   @jakarta.annotation.Nullable
@@ -105,7 +105,7 @@ public class Order {
   /**
    * Constructor with all args parameters
    */
-  public Order(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_PET_ID) Long petId, @JsonProperty(JSON_PROPERTY_QUANTITY) Integer quantity, @JsonProperty(JSON_PROPERTY_SHIP_DATE) OffsetDateTime shipDate, @JsonProperty(JSON_PROPERTY_STATUS) StatusEnum status, @JsonProperty(JSON_PROPERTY_COMPLETE) Boolean complete) {
+  public Order(@JsonProperty(JSON_PROPERTY_ID) @jakarta.annotation.Nullable Long id, @JsonProperty(JSON_PROPERTY_PET_ID) @jakarta.annotation.Nullable Long petId, @JsonProperty(JSON_PROPERTY_QUANTITY) @jakarta.annotation.Nullable Integer quantity, @JsonProperty(JSON_PROPERTY_SHIP_DATE) @jakarta.annotation.Nullable OffsetDateTime shipDate, @JsonProperty(JSON_PROPERTY_STATUS) @jakarta.annotation.Nullable StatusEnum status, @JsonProperty(JSON_PROPERTY_COMPLETE) @jakarta.annotation.Nullable Boolean complete) {
     this.id = id;
     this.petId = petId;
     this.quantity = quantity;
@@ -306,10 +306,7 @@ public class Order {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

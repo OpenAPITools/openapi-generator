@@ -87,6 +87,10 @@
         "title": "Config Options for clojure",
         "sidebar_label": "clojure"
       },
+      "generators/cpp-httplib-server": {
+        "title": "Config Options for cpp-httplib-server",
+        "sidebar_label": "cpp-httplib-server"
+      },
       "generators/cpp-oatpp-client": {
         "title": "Config Options for cpp-oatpp-client",
         "sidebar_label": "cpp-oatpp-client"

@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: Cpp Boost Beast required nullable property regression
+  version: 1.0.0
+  description: >
+    OAS 3.0 required nullable property regression fixture.
+    A required property tagged nullable: true must accept JSON null or a
+    value, but reject missing (key absent from the JSON object).  Unlike
+    optional nullable, the type must NOT be NullableField because there
+    is no "missing" state to distinguish from null.
+paths:
+  /required-nullable:
+    post:
+      operationId: postRequiredNullable
+      summary: Round-trip a required nullable string property
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequiredNullableContainer'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequiredNullableContainer'
+components:
+  schemas:
+    RequiredNullableContainer:
+      description: >
+        Object with a required nullable string property.  The generator
+        must emit std::optional<std::string> (not NullableField) because
+        the property is required — only null and present-value are valid,
+        with missing rejected at the decode level.
+      type: object
+      properties:
+        label:
+          type: string
+        nullableValue:
+          type: string
+          nullable: true
+      required:
+        - label
+        - nullableValue

@@ -468,7 +468,8 @@ namespace Org.OpenAPITools.Client
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent,
                 UseDefaultCredentials = configuration.UseDefaultCredentials,
-                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
+                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback,
+                ThrowOnAnyError = true
             };
             setOptions(clientOptions);
             
@@ -565,10 +566,7 @@ namespace Org.OpenAPITools.Client
             }
             else
             {
-                return new RestResponse<T>(request)
-                {
-                    ErrorException = policyResult.FinalException
-                };
+                throw policyResult.FinalException ?? new InvalidOperationException("The retry policy failed without an exception.");
             }
         }
                 

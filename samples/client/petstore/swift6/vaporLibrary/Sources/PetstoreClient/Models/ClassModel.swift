@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 /** Model for testing model with \&quot;_class\&quot; property */
-public final class ClassModel: Content, Hashable {
+public struct ClassModel: Sendable, Content, Hashable {
 
     public var `class`: String?
 
@@ -26,16 +26,6 @@ public final class ClassModel: Content, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(`class`, forKey: .`class`)
-    }
-
-    public static func == (lhs: ClassModel, rhs: ClassModel) -> Bool {
-        lhs.`class` == rhs.`class`
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(`class`?.hashValue)
-        
     }
 }
 

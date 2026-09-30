@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SomeProperty
         /// </summary>
         [JsonPropertyName("someProperty")]
-        public string? SomeProperty { get { return this.SomePropertyOption; } set { this.SomePropertyOption = new(value); } }
+        public string? SomeProperty { get { return this.SomePropertyOption.Value; } set { this.SomePropertyOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -92,8 +92,18 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="TestInlineFreeformAdditionalPropertiesRequest" />
     /// </summary>
-    public class TestInlineFreeformAdditionalPropertiesRequestJsonConverter : JsonConverter<TestInlineFreeformAdditionalPropertiesRequest>
+    public partial class TestInlineFreeformAdditionalPropertiesRequestJsonConverter : JsonConverter<TestInlineFreeformAdditionalPropertiesRequest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestInlineFreeformAdditionalPropertiesRequestJsonConverter" /> class.
+        /// </summary>
+        public TestInlineFreeformAdditionalPropertiesRequestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestInlineFreeformAdditionalPropertiesRequest" />
         /// </summary>
@@ -138,7 +148,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (someProperty.IsSet && someProperty.Value == null)
-                throw new ArgumentNullException(nameof(someProperty), "Property is not nullable for class TestInlineFreeformAdditionalPropertiesRequest.");
+                throw new JsonException("Property is not nullable for class TestInlineFreeformAdditionalPropertiesRequest: someProperty.");
 
             return new TestInlineFreeformAdditionalPropertiesRequest(someProperty);
         }
@@ -149,7 +159,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -164,11 +173,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="testInlineFreeformAdditionalPropertiesRequest"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet && testInlineFreeformAdditionalPropertiesRequest.SomeProperty == null)
-                throw new ArgumentNullException(nameof(testInlineFreeformAdditionalPropertiesRequest.SomeProperty), "Property is required for class TestInlineFreeformAdditionalPropertiesRequest.");
+                throw new JsonException("Cannot write null property TestInlineFreeformAdditionalPropertiesRequest.SomeProperty to non-nullable JSON property 'someProperty'.");
 
             if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet)
                 writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty);

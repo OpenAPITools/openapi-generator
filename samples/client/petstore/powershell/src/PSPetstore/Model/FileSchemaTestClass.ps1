@@ -40,8 +40,8 @@ function Initialize-PSFileSchemaTestClass {
 
 
         $PSO = [PSCustomObject]@{
-            "file" = ${File}
-            "files" = ${Files}
+            'file' = ${File}
+            'files' = ${Files}
         }
 
 
@@ -79,28 +79,28 @@ function ConvertFrom-PSJsonToFileSchemaTestClass {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSFileSchemaTestClass
-        $AllProperties = ("file", "files")
+        $AllProperties = ('file', 'files')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "file"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'file'))) { #optional property not found
             $File = $null
         } else {
-            $File = $JsonParameters.PSobject.Properties["file"].value
+            $File = $JsonParameters.PSobject.Properties['file'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "files"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'files'))) { #optional property not found
             $Files = $null
         } else {
-            $Files = $JsonParameters.PSobject.Properties["files"].value
+            $Files = $JsonParameters.PSobject.Properties['files'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "file" = ${File}
-            "files" = ${Files}
+            'file' = ${File}
+            'files' = ${Files}
         }
 
         return $PSO

@@ -18,7 +18,7 @@ import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction, replaceWithSerializableTypeIfNeeded } from './common';
 import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
@@ -100,13 +100,13 @@ export interface EnumArrays {
 
 export const EnumArraysJustSymbolEnum = {
     GreaterThanOrEqualTo: '>=',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 
 export type EnumArraysJustSymbolEnum = typeof EnumArraysJustSymbolEnum[keyof typeof EnumArraysJustSymbolEnum];
 export const EnumArraysArrayEnumEnum = {
     Fish: 'fish',
-    Crab: 'crab'
+    Crab: 'crab',
 } as const;
 
 export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
@@ -115,7 +115,7 @@ export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeo
 export const EnumClass = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 
 export type EnumClass = typeof EnumClass[keyof typeof EnumClass];
@@ -135,26 +135,26 @@ export interface EnumTest {
 export const EnumTestEnumStringEnum = {
     Upper: 'UPPER',
     Lower: 'lower',
-    Empty: ''
+    Empty: '',
 } as const;
 
 export type EnumTestEnumStringEnum = typeof EnumTestEnumStringEnum[keyof typeof EnumTestEnumStringEnum];
 export const EnumTestEnumStringRequiredEnum = {
     Upper: 'UPPER',
     Lower: 'lower',
-    Empty: ''
+    Empty: '',
 } as const;
 
 export type EnumTestEnumStringRequiredEnum = typeof EnumTestEnumStringRequiredEnum[keyof typeof EnumTestEnumStringRequiredEnum];
 export const EnumTestEnumIntegerEnum = {
     NUMBER_1: 1,
-    NUMBER_MINUS_1: -1
+    NUMBER_MINUS_1: -1,
 } as const;
 
 export type EnumTestEnumIntegerEnum = typeof EnumTestEnumIntegerEnum[keyof typeof EnumTestEnumIntegerEnum];
 export const EnumTestEnumNumberEnum = {
     NUMBER_1_DOT_1: 1.1,
-    NUMBER_MINUS_1_DOT_2: -1.2
+    NUMBER_MINUS_1_DOT_2: -1.2,
 } as const;
 
 export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof EnumTestEnumNumberEnum];
@@ -227,14 +227,14 @@ export type Mammal = { className: 'whale' } & Whale | { className: 'zebra' } & Z
 
 export interface MapTest {
     'map_map_of_string'?: { [key: string]: { [key: string]: string; }; };
-    'map_of_enum_string'?: { [key: string]: string; };
+    'map_of_enum_string'?: { [key: string]: MapTestMapOfEnumStringEnum; };
     'direct_map'?: { [key: string]: boolean; };
     'indirect_map'?: { [key: string]: boolean; };
 }
 
 export const MapTestMapOfEnumStringEnum = {
     Upper: 'UPPER',
-    Lower: 'lower'
+    Lower: 'lower',
 } as const;
 
 export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
@@ -303,7 +303,7 @@ export interface Order {
 export const OrderStatusEnum = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
@@ -317,7 +317,7 @@ export interface OuterComposite {
 export const OuterEnum = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
@@ -327,7 +327,7 @@ export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
 export const OuterEnumDefaultValue = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OuterEnumDefaultValue = typeof OuterEnumDefaultValue[keyof typeof OuterEnumDefaultValue];
@@ -337,7 +337,7 @@ export type OuterEnumDefaultValue = typeof OuterEnumDefaultValue[keyof typeof Ou
 export const OuterEnumInteger = {
     NUMBER_0: 0,
     NUMBER_1: 1,
-    NUMBER_2: 2
+    NUMBER_2: 2,
 } as const;
 
 export type OuterEnumInteger = typeof OuterEnumInteger[keyof typeof OuterEnumInteger];
@@ -347,7 +347,7 @@ export type OuterEnumInteger = typeof OuterEnumInteger[keyof typeof OuterEnumInt
 export const OuterEnumIntegerDefaultValue = {
     NUMBER_0: 0,
     NUMBER_1: 1,
-    NUMBER_2: 2
+    NUMBER_2: 2,
 } as const;
 
 export type OuterEnumIntegerDefaultValue = typeof OuterEnumIntegerDefaultValue[keyof typeof OuterEnumIntegerDefaultValue];
@@ -369,7 +369,7 @@ export interface Pet {
 export const PetStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
@@ -447,7 +447,7 @@ export interface Zebra {
 export const ZebraTypeEnum = {
     Plains: 'plains',
     Mountain: 'mountain',
-    Grevys: 'grevys'
+    Grevys: 'grevys',
 } as const;
 
 export type ZebraTypeEnum = typeof ZebraTypeEnum[keyof typeof ZebraTypeEnum];
@@ -1119,7 +1119,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
 
             if (enumHeaderStringArray) {
-                let mapped = enumHeaderStringArray.map(value => (<any>"Array<'>' | '$'>" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
+                let mapped = enumHeaderStringArray.map(value => (<any>"Array<'>' | '$'>" !== "Array<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
                 localVarHeaderParameter['enum_header_string_array'] = mapped.join(COLLECTION_FORMATS["csv"]);
             }
             if (enumHeaderString != null) {
@@ -1190,12 +1190,12 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             if (requiredBooleanGroup != null) {
                 localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string'
                     ? requiredBooleanGroup
-                    : JSON.stringify(requiredBooleanGroup);
+                    : JSON.stringify(requiredBooleanGroup, replaceWithSerializableTypeIfNeeded);
             }
             if (booleanGroup != null) {
                 localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string'
                     ? booleanGroup
-                    : JSON.stringify(booleanGroup);
+                    : JSON.stringify(booleanGroup, replaceWithSerializableTypeIfNeeded);
             }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1448,7 +1448,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             localVarHeaderParameter['Accept'] = 'application/json';
 
             if (headerUnique) {
-                let mapped = Array.from(headerUnique).map(value => (<any>"Set<string>" !== "Set<string>") ? JSON.stringify(value) : (value || ""));
+                let mapped = Array.from(headerUnique).map(value => (<any>"Set<string>" !== "Set<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
                 localVarHeaderParameter['headerUnique'] = mapped.join(COLLECTION_FORMATS["csv"]);
             }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2169,45 +2169,45 @@ export class FakeApi extends BaseAPI {
 
 export const TestEnumParametersEnumHeaderStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumHeaderStringArrayEnum = typeof TestEnumParametersEnumHeaderStringArrayEnum[keyof typeof TestEnumParametersEnumHeaderStringArrayEnum];
 export const TestEnumParametersEnumHeaderStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumHeaderStringEnum = typeof TestEnumParametersEnumHeaderStringEnum[keyof typeof TestEnumParametersEnumHeaderStringEnum];
 export const TestEnumParametersEnumQueryStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumQueryStringArrayEnum = typeof TestEnumParametersEnumQueryStringArrayEnum[keyof typeof TestEnumParametersEnumQueryStringArrayEnum];
 export const TestEnumParametersEnumQueryStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumQueryStringEnum = typeof TestEnumParametersEnumQueryStringEnum[keyof typeof TestEnumParametersEnumQueryStringEnum];
 export const TestEnumParametersEnumQueryIntegerEnum = {
     NUMBER_1: 1,
-    NUMBER_MINUS_2: -2
+    NUMBER_MINUS_2: -2,
 } as const;
 export type TestEnumParametersEnumQueryIntegerEnum = typeof TestEnumParametersEnumQueryIntegerEnum[keyof typeof TestEnumParametersEnumQueryIntegerEnum];
 export const TestEnumParametersEnumQueryDoubleEnum = {
     NUMBER_1_DOT_1: 1.1,
-    NUMBER_MINUS_1_DOT_2: -1.2
+    NUMBER_MINUS_1_DOT_2: -1.2,
 } as const;
 export type TestEnumParametersEnumQueryDoubleEnum = typeof TestEnumParametersEnumQueryDoubleEnum[keyof typeof TestEnumParametersEnumQueryDoubleEnum];
 export const TestEnumParametersEnumFormStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumFormStringArrayEnum = typeof TestEnumParametersEnumFormStringArrayEnum[keyof typeof TestEnumParametersEnumFormStringArrayEnum];
 export const TestEnumParametersEnumFormStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];
 
@@ -2374,7 +2374,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('deletePet', 'petId', petId)
             const localVarPath = `/pet/{petId}`
-                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+                .replace('{petId}', encodeURIComponent(String(petId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2501,7 +2501,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('getPetById', 'petId', petId)
             const localVarPath = `/pet/{petId}`
-                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+                .replace('{petId}', encodeURIComponent(String(petId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2580,7 +2580,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('updatePetWithForm', 'petId', petId)
             const localVarPath = `/pet/{petId}`
-                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+                .replace('{petId}', encodeURIComponent(String(petId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2630,7 +2630,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('uploadFile', 'petId', petId)
             const localVarPath = `/pet/{petId}/uploadImage`
-                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+                .replace('{petId}', encodeURIComponent(String(petId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2683,7 +2683,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // verify required parameter 'requiredFile' is not null or undefined
             assertParamExists('uploadFileWithRequiredFile', 'requiredFile', requiredFile)
             const localVarPath = `/fake/{petId}/uploadImageWithRequiredFile`
-                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+                .replace('{petId}', encodeURIComponent(String(petId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3080,7 +3080,7 @@ export class PetApi extends BaseAPI {
 export const FindPetsByStatusStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof typeof FindPetsByStatusStatusEnum];
 
@@ -3101,7 +3101,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // verify required parameter 'orderId' is not null or undefined
             assertParamExists('deleteOrder', 'orderId', orderId)
             const localVarPath = `/store/order/{order_id}`
-                .replace(`{${"order_id"}}`, encodeURIComponent(String(orderId)));
+                .replace('{order_id}', encodeURIComponent(String(orderId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3167,7 +3167,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // verify required parameter 'orderId' is not null or undefined
             assertParamExists('getOrderById', 'orderId', orderId)
             const localVarPath = `/store/order/{order_id}`
-                .replace(`{${"order_id"}}`, encodeURIComponent(String(orderId)));
+                .replace('{order_id}', encodeURIComponent(String(orderId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3504,7 +3504,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // verify required parameter 'username' is not null or undefined
             assertParamExists('deleteUser', 'username', username)
             const localVarPath = `/user/{username}`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+                .replace('{username}', encodeURIComponent(String(username)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3537,7 +3537,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // verify required parameter 'username' is not null or undefined
             assertParamExists('getUserByName', 'username', username)
             const localVarPath = `/user/{username}`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+                .replace('{username}', encodeURIComponent(String(username)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3647,7 +3647,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             // verify required parameter 'user' is not null or undefined
             assertParamExists('updateUser', 'user', user)
             const localVarPath = `/user/{username}`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+                .replace('{username}', encodeURIComponent(String(username)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

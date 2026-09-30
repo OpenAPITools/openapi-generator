@@ -22,6 +22,8 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.Swift6ClientCodegen;
 import org.openapitools.codegen.options.Swift6ClientCodegenOptionsProvider;
 
+import java.util.Collections;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -54,9 +56,16 @@ public class Swift6ClientCodegenOptionsTest extends AbstractOptionsTest {
                 Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE));
         verify(clientCodegen).setHashableModels(Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.HASHABLE_MODELS_VALUE));
         verify(clientCodegen).setIdentifiableModels(Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.IDENTIFIABLE_MODELS_VALUE));
+        verify(clientCodegen).setNonisolatedModels(Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.NONISOLATED_MODELS_VALUE));
         verify(clientCodegen)
                 .setEnumUnknownDefaultCase(Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
         verify(clientCodegen).setApiStaticMethod(Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.API_STATIC_METHOD_VALUE));
         verify(clientCodegen).setCombineDeferred(Boolean.parseBoolean(Swift6ClientCodegenOptionsProvider.COMBINE_DEFERRED_VALUE));
+        verify(clientCodegen).setAdditionalModelObjectAttributes(
+                Collections.singletonList(Swift6ClientCodegenOptionsProvider.ADDITIONAL_MODEL_OBJECT_ATTRIBUTES_VALUE));
+        verify(clientCodegen).setAdditionalModelEnumAttributes(
+                Collections.singletonList(Swift6ClientCodegenOptionsProvider.ADDITIONAL_MODEL_ENUM_ATTRIBUTES_VALUE));
+        verify(clientCodegen).setAdditionalModelImports(
+                Collections.singletonList(Swift6ClientCodegenOptionsProvider.ADDITIONAL_MODEL_IMPORTS_VALUE));
     }
 }

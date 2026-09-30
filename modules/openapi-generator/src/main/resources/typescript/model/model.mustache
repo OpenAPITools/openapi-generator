@@ -89,6 +89,8 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 
 {{#vars}}
 {{#isEnum}}
+{{#enumTypes}}
+{{#enum}}
 export enum {{classname}}{{enumName}} {
     {{#allowableValues}}
     {{#enumVars}}
@@ -96,6 +98,11 @@ export enum {{classname}}{{enumName}} {
     {{/enumVars}}
     {{/allowableValues}}
 }
+{{/enum}}
+{{#stringUnion}}
+    export type {{classname}}{{enumName}} ={{#allowableValues}}{{#values}} "{{.}}" {{^-last}}|{{/-last}}{{/values}}{{/allowableValues}};
+{{/stringUnion}}
+{{/enumTypes}}
 {{/isEnum}}
 {{/vars}}
 
@@ -103,6 +110,8 @@ export enum {{classname}}{{enumName}} {
 {{/oneOf}}
 {{/isEnum}}
 {{#isEnum}}
+{{#enumTypes}}
+{{#enum}}
 export enum {{classname}} {
     {{#allowableValues}}
     {{#enumVars}}
@@ -110,6 +119,11 @@ export enum {{classname}} {
     {{/enumVars}}
     {{/allowableValues}}
 }
+{{/enum}}
+{{#stringUnion}}
+    export type {{classname}} ={{#allowableValues}}{{#values}} "{{.}}" {{^-last}}|{{/-last}}{{/values}}{{/allowableValues}};
+{{/stringUnion}}
+{{/enumTypes}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

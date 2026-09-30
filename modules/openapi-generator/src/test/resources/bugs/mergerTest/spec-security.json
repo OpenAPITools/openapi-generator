@@ -1,0 +1,45 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Security Spec",
+    "version": "1.0.0"
+  },
+  "servers": [
+    { "url": "api.my-domain.com/my-context-root/v1" }
+  ],
+  "security": [
+    { "apiKeyAuth": [] }
+  ],
+  "paths": {
+    "/secured": {
+      "get": {
+        "tags": ["secured"],
+        "summary": "secured",
+        "operationId": "securedOperation",
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      }
+    },
+    "/open": {
+      "get": {
+        "tags": ["open"],
+        "summary": "open",
+        "operationId": "openOperation",
+        "security": [],
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    }
+  }
+}

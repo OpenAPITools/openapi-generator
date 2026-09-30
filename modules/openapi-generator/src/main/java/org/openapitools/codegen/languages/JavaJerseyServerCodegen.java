@@ -29,6 +29,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/JavaJaxRS/} (root templates shared across all libraries) and
+ * {@code src/main/resources/JavaJaxRS/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     protected static final String LIBRARY_JERSEY2 = "jersey2";

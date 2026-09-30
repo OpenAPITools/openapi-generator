@@ -41,6 +41,9 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/haskell-yesod/}.
+ */
 public class HaskellYesodServerCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
     public static final String API_MODULE_NAME = "apiModuleName";

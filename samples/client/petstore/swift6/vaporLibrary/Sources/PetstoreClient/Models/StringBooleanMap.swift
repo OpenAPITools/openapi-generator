@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class StringBooleanMap: Content, Hashable {
+public struct StringBooleanMap: Sendable, Content, Hashable {
 
 
     public enum CodingKeys: CodingKey, CaseIterable {
@@ -45,14 +45,6 @@ public final class StringBooleanMap: Content, Hashable {
         var nonAdditionalPropertyKeys = Set<String>()
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         additionalProperties = try additionalPropertiesContainer.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
-    }
-
-    public static func == (lhs: StringBooleanMap, rhs: StringBooleanMap) -> Bool {
-        lhs.additionalProperties == rhs.additionalProperties
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(additionalProperties.hashValue)
     }
 }
 

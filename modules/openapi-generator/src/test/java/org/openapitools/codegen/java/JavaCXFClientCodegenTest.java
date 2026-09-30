@@ -52,12 +52,17 @@ public class JavaCXFClientCodegenTest {
     @Test
     public void responseWithoutContent() throws Exception {
         final Schema listOfPets = new ArraySchema().items(new Schema<>().$ref("#/components/schemas/Pet"));
+        final Schema mapOfPets = new Schema<>().additionalProperties(new Schema<>().$ref("#/components/schemas/Pet"));
         Operation operation = new Operation()
                 .responses(new ApiResponses()
                         .addApiResponse("200",
                                 new ApiResponse().description("Return a list of pets")
                                         .content(new Content().addMediaType("application/json",
                                                 new MediaType().schema(listOfPets))))
+                        .addApiResponse("201",
+                                new ApiResponse().description("Return a map  of pets")
+                                        .content(new Content().addMediaType("application/json",
+                                                new MediaType().schema(mapOfPets))))
                         .addApiResponse("400", new ApiResponse().description("Error")));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
         final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
@@ -71,18 +76,30 @@ public class JavaCXFClientCodegenTest {
         objs.setImports(Collections.emptyList());
         codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 
-        Assert.assertEquals(co.responses.size(), 2);
+        Assert.assertEquals(co.responses.size(), 3);
         CodegenResponse cr1 = co.responses.get(0);
         Assert.assertEquals(cr1.code, "200");
         Assert.assertEquals(cr1.baseType, "Pet");
         Assert.assertEquals(cr1.dataType, "List<Pet>");
+        Assert.assertTrue(cr1.isArray);
+        Assert.assertFalse(cr1.isModel);
+        Assert.assertFalse(cr1.isMap);
         Assert.assertFalse(cr1.vendorExtensions.containsKey("x-java-is-response-void"));
 
         CodegenResponse cr2 = co.responses.get(1);
-        Assert.assertEquals(cr2.code, "400");
-        Assert.assertEquals(cr2.baseType, "Void");
-        Assert.assertEquals(cr2.dataType, "void");
-        Assert.assertEquals(cr2.vendorExtensions.get("x-java-is-response-void"), Boolean.TRUE);
+        Assert.assertEquals(cr2.code, "201");
+        Assert.assertEquals(cr2.baseType, "Pet");
+        Assert.assertEquals(cr2.dataType, "Map<String, Pet>");
+        Assert.assertTrue(cr2.isMap);
+        Assert.assertFalse(cr2.isArray);
+        Assert.assertFalse(cr2.isModel);
+        Assert.assertFalse(cr2.vendorExtensions.containsKey("x-java-is-response-void"));
+
+        CodegenResponse cr3 = co.responses.get(2);
+        Assert.assertEquals(cr3.code, "400");
+        Assert.assertEquals(cr3.baseType, "Void");
+        Assert.assertEquals(cr3.dataType, "void");
+        Assert.assertEquals(cr3.vendorExtensions.get("x-java-is-response-void"), Boolean.TRUE);
     }
 
     @Test

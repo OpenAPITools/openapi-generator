@@ -1,4 +1,4 @@
-# # AdditionalPropertiesClass
+# AdditionalPropertiesClass
 
 ## Properties
 

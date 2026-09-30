@@ -30,13 +30,13 @@ namespace test_namespace {
 class PFXApiResponse : public PFXObject {
 public:
     PFXApiResponse();
-    PFXApiResponse(QString json);
+    PFXApiResponse(const QString &json);
     ~PFXApiResponse() override;
 
     QString asJson() const override;
     QJsonObject asJsonObject() const override;
     void fromJsonObject(QJsonObject json) override;
-    void fromJson(QString jsonString) override;
+    void fromJson(const QString &jsonString) override;
 
     qint32 getCode() const;
     void setCode(const qint32 &code);

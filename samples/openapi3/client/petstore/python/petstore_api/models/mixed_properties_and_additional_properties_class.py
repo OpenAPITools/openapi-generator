@@ -24,6 +24,7 @@ from uuid import UUID
 from petstore_api.models.animal import Animal
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     """
@@ -36,7 +37,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     __properties: ClassVar[List[str]] = ["uuid", "dateTime", "map"]
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -48,8 +50,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
@@ -80,8 +81,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         _field_dict = {}
         if self.map:
             for _key_map in self.map:
-                if self.map[_key_map]:
-                    _field_dict[_key_map] = self.map[_key_map].to_dict()
+                _field_dict[_key_map] = self.map[_key_map].to_dict() if self.map[_key_map] is not None else None
             _dict['map'] = _field_dict
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

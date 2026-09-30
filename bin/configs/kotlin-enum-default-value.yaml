@@ -7,5 +7,6 @@ additionalProperties:
   serializableModel: "true"
   dateLibrary: java8
   enumUnknownDefaultCase: true
+  enumPropertyNaming: bestEffortBacktick
 enumNameMappings:
   CHRISTMAS_DAY: XMAS_DAY

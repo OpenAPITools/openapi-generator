@@ -1,0 +1,75 @@
+{{>partial_header}}
+//! Data models for {{#appName}}{{.}}{{/appName}}{{^appName}}{{packageName}}{{/appName}}
+//!
+//! API version: {{#appVersion}}{{.}}{{/appVersion}}{{^appVersion}}1.0.0{{/appVersion}}
+//!
+
+#![allow(unused_qualifications)]
+
+use salvo::oapi::ToSchema;
+use serde::{Deserialize, Serialize};
+{{#hasUUIDs}}
+use uuid::Uuid;
+{{/hasUUIDs}}
+{{#enableRequestValidation}}
+use validator::Validate;
+{{/enableRequestValidation}}
+
+// Self-reference so `models::Foo` (the form emitted by the codegen for
+// cross-model references) resolves inside this file.
+use crate::models;
+
+{{#models}}
+{{#model}}
+{{#description}}
+/// {{.}}
+{{/description}}
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, ToSchema{{#enableRequestValidation}}, Validate{{/enableRequestValidation}})]
+{{#vendorExtensions.x-is-string}}
+#[serde(transparent)]
+{{/vendorExtensions.x-is-string}}
+pub struct {{classname}} {
+{{#vars}}
+{{#description}}
+    /// {{.}}
+{{/description}}
+    {{#enableRequestValidation}}
+    {{#hasValidation}}
+    #[validate({{#hasMinLength}}length(min = {{minLength}}){{/hasMinLength}}{{#hasMaxLength}}{{#hasMinLength}}, {{/hasMinLength}}length(max = {{maxLength}}){{/hasMaxLength}}{{#hasMinimum}}{{#hasMinLength}}{{hasMaxLength}}, {{/hasMinLength}}{{#hasMaxLength}}, {{/hasMaxLength}}range(min = {{minimum}}){{/hasMinimum}}{{#hasMaximum}}{{#hasMinimum}}, {{/hasMinimum}}{{^hasMinimum}}{{#hasMinLength}}{{hasMaxLength}}, {{/hasMinLength}}{{#hasMaxLength}}, {{/hasMaxLength}}{{/hasMinimum}}range(max = {{maximum}}){{/hasMaximum}})]
+    {{/hasValidation}}
+    {{/enableRequestValidation}}
+    {{#required}}
+    {{#vendorExtensions.x-salvo-serde-rename}}
+    #[serde(rename = "{{baseName}}")]
+    {{/vendorExtensions.x-salvo-serde-rename}}
+    pub {{{name}}}: {{{dataType}}},
+    {{/required}}
+    {{^required}}
+    {{#vendorExtensions.x-salvo-serde-rename}}
+    #[serde(rename = "{{baseName}}", skip_serializing_if = "Option::is_none")]
+    {{/vendorExtensions.x-salvo-serde-rename}}
+    {{^vendorExtensions.x-salvo-serde-rename}}
+    #[serde(skip_serializing_if = "Option::is_none")]
+    {{/vendorExtensions.x-salvo-serde-rename}}
+    pub {{{name}}}: Option<{{{dataType}}}>,
+    {{/required}}
+{{/vars}}
+}
+
+impl {{classname}} {
+    pub fn new({{#requiredVars}}{{{name}}}: {{{dataType}}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> Self {
+        Self {
+{{#vars}}
+{{#required}}
+            {{{name}}},
+{{/required}}
+{{^required}}
+            {{{name}}}: None,
+{{/required}}
+{{/vars}}
+        }
+    }
+}
+
+{{/model}}
+{{/models}}

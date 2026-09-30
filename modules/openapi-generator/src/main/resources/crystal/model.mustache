@@ -1,10 +1,5 @@
 # {{#lambdaPrefixWithHash}}{{> api_info}}{{/lambdaPrefixWithHash}}
 
-require "big"
-require "json"
-require "yaml"
-require "time"
-
 module {{moduleName}}
 {{#models}}
 {{#model}}
@@ -20,8 +15,16 @@ module {{moduleName}}
 {{/-first}}
 {{/oneOf}}
 {{^oneOf}}
+{{#anyOf}}
+{{#-first}}
+{{>partial_model_anyof}}
+
+{{/-first}}
+{{/anyOf}}
+{{^anyOf}}
 {{>partial_model_generic}}
 
+{{/anyOf}}
 {{/oneOf}}
 {{/isEnum}}
 {{/model}}

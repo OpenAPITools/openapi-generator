@@ -25,7 +25,7 @@ namespace Org.OpenAPITools.Test.Api
     public class DependencyInjectionTest
     {
         private readonly IHost _hostUsingConfigureWithoutAClient =
-            Host.CreateDefaultBuilder([]).ConfigureApi((context, services, options) =>
+            Host.CreateDefaultBuilder([]).ConfigureApi((context, options) =>
             {
                 ApiKeyToken apiKeyToken1 = new("<token>", ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken1);
@@ -45,11 +45,14 @@ namespace Org.OpenAPITools.Test.Api
 
                 OAuthToken oauthToken1 = new("token", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken1);
+
+                OAuthToken oauthToken2 = new("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken2);
             })
             .Build();
 
         private readonly IHost _hostUsingConfigureWithAClient =
-            Host.CreateDefaultBuilder([]).ConfigureApi((context, services, options) =>
+            Host.CreateDefaultBuilder([]).ConfigureApi((context, options) =>
             {
                 ApiKeyToken apiKeyToken1 = new("<token>", ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken1);
@@ -67,8 +70,11 @@ namespace Org.OpenAPITools.Test.Api
                 HttpSignatureToken httpSignatureToken1 = new(config1, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(httpSignatureToken1);
 
-                OAuthToken oauthToken = new("token", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(oauthToken);
+                OAuthToken oauthToken1 = new("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken1);
+
+                OAuthToken oauthToken2 = new("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken2);
                 options.AddApiHttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
             })
             .Build();
@@ -96,6 +102,9 @@ namespace Org.OpenAPITools.Test.Api
 
                     OAuthToken oauthToken1 = new("token", timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(oauthToken1);
+
+                    OAuthToken oauthToken2 = new("token", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(oauthToken2);
                 });
             })
             .Build();
@@ -123,6 +132,9 @@ namespace Org.OpenAPITools.Test.Api
 
                     OAuthToken oauthToken1 = new("token", timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(oauthToken1);
+
+                    OAuthToken oauthToken2 = new("token", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(oauthToken2);
                     options.AddApiHttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
                 });
             })

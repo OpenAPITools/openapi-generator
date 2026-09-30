@@ -86,13 +86,13 @@ class HeaderSelector
     }
 
     /**
-    * Create an Accept header string from the given "Accept" headers array, recalculating all weights
-    *
-    * @param string[] $accept            Array of Accept Headers
-    * @param string[] $headersWithJson   Array of Accept Headers of type "json"
-    *
-    * @return string "Accept" Header (e.g. "application/json, text/html; q=0.9")
-    */
+     * Create an Accept header string from the given "Accept" headers array, recalculating all weights
+     *
+     * @param string[] $accept            Array of Accept Headers
+     * @param string[] $headersWithJson   Array of Accept Headers of type "json"
+     *
+     * @return string "Accept" Header (e.g. "application/json, text/html; q=0.9")
+     */
     private function getAcceptHeaderWithAdjustedWeight(array $accept, array $headersWithJson): string
     {
         $processedHeaders = [

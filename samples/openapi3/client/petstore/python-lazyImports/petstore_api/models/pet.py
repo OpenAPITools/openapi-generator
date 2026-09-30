@@ -24,6 +24,7 @@ from petstore_api.models.category import Category
 from petstore_api.models.tag import Tag
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class Pet(BaseModel):
     """
@@ -31,7 +32,7 @@ class Pet(BaseModel):
     """ # noqa: E501
     id: Optional[StrictInt] = None
     category: Optional[Category] = None
-    name: StrictStr
+    name: StrictStr = Field(json_schema_extra={"examples": ["doggie"]})
     photo_urls: Annotated[List[StrictStr], Field(min_length=0)] = Field(alias="photoUrls")
     tags: Optional[List[Tag]] = None
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
@@ -49,7 +50,8 @@ class Pet(BaseModel):
         return value
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -61,8 +63,7 @@ class Pet(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
@@ -96,8 +97,7 @@ class Pet(BaseModel):
         _items = []
         if self.tags:
             for _item_tags in self.tags:
-                if _item_tags:
-                    _items.append(_item_tags.to_dict())
+                _items.append(_item_tags.to_dict() if _item_tags is not None else None)
             _dict['tags'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

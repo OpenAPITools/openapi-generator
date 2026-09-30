@@ -17,7 +17,7 @@ import FormData from 'form-data'
 {{/withNodeImports}}
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction{{#withAWSV4Signature}}, setAWS4SignatureInterceptor{{/withAWSV4Signature}} } from '{{apiRelativeToRoot}}common{{importFileExtension}}';
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction, replaceWithSerializableTypeIfNeeded{{#withAWSV4Signature}}, setAWS4SignatureInterceptor{{/withAWSV4Signature}} } from '{{apiRelativeToRoot}}common{{importFileExtension}}';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '{{apiRelativeToRoot}}base{{importFileExtension}}';
 {{#imports}}
@@ -55,7 +55,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{/required}}
     {{/allParams}}
             const localVarPath = `{{{path}}}`{{#pathParams}}
-                .replace(`{${"{{baseName}}"}}`, encodeURIComponent(String({{paramName}}))){{/pathParams}};
+                .replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, encodeURIComponent(String({{paramName}}))){{/pathParams}};
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -166,7 +166,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
               {{#contentType}}
-                localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}})], { type: "{{contentType}}", }));
+                localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}}, replaceWithSerializableTypeIfNeeded)], { type: "{{contentType}}", }));
               {{/contentType}}
               {{^contentType}}
                 {{paramName}}.forEach((element) => {
@@ -184,7 +184,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isBoolean}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isBoolean}}
                 localVarFormParams.append('{{baseName}}', String({{paramName}}) as any);{{/isBoolean}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isEnumRef}}
                 localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isEnumRef}}{{^isEnumRef}}
-                localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}})], { type: "application/json", }));{{/isEnumRef}}{{/isPrimitiveType}}{{/multipartFormData}}
+                localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}}, replaceWithSerializableTypeIfNeeded)], { type: "application/json", }));{{/isEnumRef}}{{/isPrimitiveType}}{{/multipartFormData}}
             }{{/isArray}}
     {{/formParams}}
     {{/vendorExtensions}}
@@ -214,10 +214,10 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{#isArray}}
             if ({{paramName}}) {
                 {{#uniqueItems}}
-                let mapped = Array.from({{paramName}}).map(value => (<any>"{{{dataType}}}" !== "Set<string>") ? JSON.stringify(value) : (value || ""));
+                let mapped = Array.from({{paramName}}).map(value => (<any>"{{{dataType}}}" !== "Set<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
                 {{/uniqueItems}}
                 {{^uniqueItems}}
-                let mapped = {{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
+                let mapped = {{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
                 {{/uniqueItems}}
                 localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             }
@@ -232,7 +232,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 {{! isString is falsy also for $ref that defines a string or enum type}}
                 localVarHeaderParameter['{{baseName}}'] = typeof {{paramName}} === 'string'
                     ? {{paramName}}
-                    : JSON.stringify({{paramName}});
+                    : JSON.stringify({{paramName}}, replaceWithSerializableTypeIfNeeded);
                 {{/isString}}
             }
             {{/isArray}}
@@ -451,7 +451,7 @@ export enum {{operationIdCamelCase}}{{enumName}} {
 export const {{operationIdCamelCase}}{{enumName}} = {
 {{#allowableValues}}
     {{#enumVars}}
-    {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
+    {{{name}}}: {{{value}}},
     {{/enumVars}}
 {{/allowableValues}}
 } as const;

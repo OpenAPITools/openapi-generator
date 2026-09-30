@@ -1,7 +1,9 @@
 {{>licenseInfo}}
 package {{invokerPackage}};
 
+{{^useJackson3}}
 import java.io.IOException;
+{{/useJackson3}}
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -12,18 +14,34 @@ import java.time.temporal.TemporalAccessor;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
+{{#useJackson3}}
+import tools.jackson.core.JacksonException;
+{{/useJackson3}}
+import {{jacksonPackage}}.core.JsonParser;
+import {{jacksonPackage}}.databind.DeserializationContext;
+{{^useJackson3}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeFeature;
 import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.ext.javatime.deser.InstantDeserializer;
+{{/useJackson3}}
 
 {{>generatedAnnotation}}
 
 public class RFC3339InstantDeserializer<T extends Temporal> extends InstantDeserializer<T> {
     private static final long serialVersionUID = 1L;
+{{^useJackson3}}
     private final static boolean DEFAULT_NORMALIZE_ZONE_ID = JavaTimeFeature.NORMALIZE_DESERIALIZED_ZONE_ID.enabledByDefault();
     private final static boolean DEFAULT_ALWAYS_ALLOW_STRINGIFIED_DATE_TIMESTAMPS
     = JavaTimeFeature.ALWAYS_ALLOW_STRINGIFIED_DATE_TIMESTAMPS.enabledByDefault();
+{{/useJackson3}}
+{{#useJackson3}}
+    private final static boolean DEFAULT_NORMALIZE_ZONE_ID = DateTimeFeature.NORMALIZE_DESERIALIZED_ZONE_ID.enabledByDefault();
+    private final static boolean DEFAULT_ALWAYS_ALLOW_STRINGIFIED_DATE_TIMESTAMPS
+    = DateTimeFeature.ALWAYS_ALLOW_STRINGIFIED_DATE_TIMESTAMPS.enabledByDefault();
+{{/useJackson3}}
 
     public static final RFC3339InstantDeserializer<Instant> INSTANT = new RFC3339InstantDeserializer<>(
         Instant.class, DateTimeFormatter.ISO_INSTANT,
@@ -84,7 +102,7 @@ public class RFC3339InstantDeserializer<T extends Temporal> extends InstantDeser
     }
 
     @Override
-    protected T _fromString(JsonParser p, DeserializationContext ctxt, String string0) throws IOException {
+    protected T _fromString(JsonParser p, DeserializationContext ctxt, String string0) throws {{^useJackson3}}IOException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
         return super._fromString(p, ctxt, string0.replace( ' ', 'T' ));
     }
 }

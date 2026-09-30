@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,7 +77,7 @@ public class EnumArrays  {
   }
 
   @JsonbProperty("just_symbol")
-  private JustSymbolEnum justSymbol;
+  protected JustSymbolEnum justSymbol;
 
   @JsonbTypeSerializer(ArrayEnumEnum.Serializer.class)
   @JsonbTypeDeserializer(ArrayEnumEnum.Deserializer.class)
@@ -123,7 +122,7 @@ public class EnumArrays  {
   }
 
   @JsonbProperty("array_enum")
-  private List<ArrayEnumEnum> arrayEnum = null;
+  protected List<ArrayEnumEnum> arrayEnum = null;
 
 
   /**
@@ -211,10 +210,7 @@ public class EnumArrays  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

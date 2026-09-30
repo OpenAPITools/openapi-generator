@@ -473,7 +473,7 @@ public class ScalaAkkaClientCodegenTest {
         Generator gen = generator.opts(clientOptInput);
         List<File> files = gen.generate();
 
-        Assert.assertEquals(files.size(), 16);
+        Assert.assertEquals(files.size(), 18);
 
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/SomeObj.scala");
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/core/ApiSettings.scala");
@@ -511,7 +511,7 @@ public class ScalaAkkaClientCodegenTest {
         Generator gen = generator.opts(clientOptInput);
 
         List<File> files = gen.generate();
-        Assert.assertEquals(files.size(), 16);
+        Assert.assertEquals(files.size(), 18);
 
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/package/SomeObj.scala");
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/package/invoker/ApiSettings.scala");

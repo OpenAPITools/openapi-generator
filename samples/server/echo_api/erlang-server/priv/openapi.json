@@ -974,8 +974,8 @@
     "schemas" : {
       "Category" : {
         "example" : {
-          "name" : "Dogs",
-          "id" : 1
+          "id" : 1,
+          "name" : "Dogs"
         },
         "properties" : {
           "id" : {
@@ -995,8 +995,8 @@
       },
       "Tag" : {
         "example" : {
-          "name" : "name",
-          "id" : 0
+          "id" : 0,
+          "name" : "name"
         },
         "properties" : {
           "id" : {
@@ -1014,19 +1014,19 @@
       },
       "Pet" : {
         "example" : {
-          "photoUrls" : [ "photoUrls", "photoUrls" ],
-          "name" : "doggie",
           "id" : 10,
+          "name" : "doggie",
           "category" : {
-            "name" : "Dogs",
-            "id" : 1
+            "id" : 1,
+            "name" : "Dogs"
           },
+          "photoUrls" : [ "photoUrls", "photoUrls" ],
           "tags" : [ {
-            "name" : "name",
-            "id" : 0
+            "id" : 0,
+            "name" : "name"
           }, {
-            "name" : "name",
-            "id" : 0
+            "id" : 0,
+            "name" : "name"
           } ],
           "status" : "available"
         },

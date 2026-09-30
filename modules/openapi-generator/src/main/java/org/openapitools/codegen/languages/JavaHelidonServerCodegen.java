@@ -39,6 +39,12 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/java-helidon/server/} (root templates shared across all libraries) and
+ * {@code src/main/resources/java-helidon/server/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaHelidonServerCodegen.class);

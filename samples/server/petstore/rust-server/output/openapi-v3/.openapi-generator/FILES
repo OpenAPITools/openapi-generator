@@ -64,3 +64,4 @@ src/models.rs
 src/server/callbacks.rs
 src/server/mod.rs
 src/server/server_auth.rs
+tests/auth_scheme_precedence.rs

@@ -31,6 +31,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class MustacheEngineAdapter implements TemplatingEngineAdapter {
@@ -52,6 +53,20 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
     Mustache.Compiler compiler = Mustache.compiler();
 
     /**
+     * Per-executor cache of template file name → compiled {@link Template}.
+     * <p>
+     * Keying on the executor instance eliminates the non-atomic check-clear-update invalidation pattern
+     * that the previous single-cache approach required. Each executor gets its own independent inner
+     * map, so different executors (e.g. different generator runs, test fixtures) can never observe
+     * each other's compiled templates, and no state ever needs to be cleared.
+     * <p>
+     * {@link ConcurrentHashMap#computeIfAbsent} guarantees that the inner map for a given executor
+     * is created exactly once even under concurrent access.
+     */
+    private final ConcurrentHashMap<TemplatingExecutor, ConcurrentHashMap<String, Template>> compiledTemplateCaches =
+            new ConcurrentHashMap<>();
+
+    /**
      * Compiles a template into a string
      *
      * @param executor     From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
@@ -62,10 +77,22 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
      */
     @Override
     public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) throws IOException {
-        Template tmpl = compiler
-                .withLoader(name -> findTemplate(executor, name))
-                .defaultValue("")
-                .compile(executor.getFullTemplateContents(templateFile));
+        // Each executor gets its own compiled-template cache. computeIfAbsent is atomic, so two threads
+        // racing on the same executor key will share one inner map rather than creating two separate ones.
+        ConcurrentHashMap<String, Template> cache =
+                compiledTemplateCaches.computeIfAbsent(executor, k -> new ConcurrentHashMap<>());
+
+        // Manual get → compile → put so IOException propagates naturally.
+        // At worst, two threads compile the same template simultaneously; the last writer wins,
+        // which is harmless because compilation is pure/deterministic.
+        Template tmpl = cache.get(templateFile);
+        if (tmpl == null) {
+            tmpl = compiler
+                    .withLoader(name -> findTemplate(executor, name))
+                    .defaultValue("")
+                    .compile(executor.getFullTemplateContents(templateFile));
+            cache.put(templateFile, tmpl);
+        }
         StringWriter out = new StringWriter();
 
         // the value of bundle[MUSTACHE_PARENT_CONTEXT] is used a parent content in mustache.

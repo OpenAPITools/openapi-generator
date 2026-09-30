@@ -11,3 +11,5 @@ additionalProperties:
   equatable: true
   modelPropertySorting: alphabetical
   operationParameterSorting: alphabetical
+  treatWarningsAsErrors: true
+  warningsNotAsErrors: CS0612

@@ -3,14 +3,23 @@
 package {{invokerPackage}};
 
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.json.JsonMapper;
+import {{jacksonPackage}}.databind.*;
+import {{jacksonPackage}}.databind.json.JsonMapper;
+{{^useJackson3}}
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.cfg.EnumFeature;
+{{#openApiNullable}}
+import org.openapitools.jackson.nullable.JsonNullableJackson3Module;
+{{/openApiNullable}}
+{{/useJackson3}}
 {{#joda}}
-import com.fasterxml.jackson.datatype.joda.JodaModule;
+import {{jacksonPackage}}.datatype.joda.JodaModule;
 {{/joda}}
 
 import java.text.DateFormat;
@@ -27,6 +36,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
   private ObjectMapper mapper;
 
   public JSON() {
+    {{^useJackson3}}
     mapper = JsonMapper.builder()
             .serializationInclusion(JsonInclude.Include.NON_NULL)
             .configure(MapperFeature.ALLOW_COERCION_OF_SCALARS, false)
@@ -45,6 +55,31 @@ public class JSON implements ContextResolver<ObjectMapper> {
             {{/openApiNullable}}
             .addModule(new RFC3339JavaTimeModule())
             .build();
+    {{/useJackson3}}
+    {{#useJackson3}}
+    JsonMapper.Builder jsonMapperBuilder = JsonMapper.builder()
+            .changeDefaultPropertyInclusion(v -> v.withValueInclusion(JsonInclude.Include.NON_NULL))
+            .disable(MapperFeature.ALLOW_COERCION_OF_SCALARS)
+            {{#failOnUnknownProperties}}
+            .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            {{/failOnUnknownProperties}}
+            {{^failOnUnknownProperties}}
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            {{/failOnUnknownProperties}}
+            .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
+            .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .enable(EnumFeature.WRITE_ENUMS_USING_TO_STRING)
+            .enable(EnumFeature.READ_ENUMS_USING_TO_STRING)
+            .defaultDateFormat(new RFC3339DateFormat());
+    {{#joda}}
+    jsonMapperBuilder.addModule(new JodaModule());
+    {{/joda}}
+    {{#openApiNullable}}
+    jsonMapperBuilder.addModule(new JsonNullableJackson3Module());
+    {{/openApiNullable}}
+    jsonMapperBuilder.addModule(new RFC3339JavaTimeModule());
+    mapper = jsonMapperBuilder.build();
+    {{/useJackson3}}
   }
 
   /**
@@ -52,7 +87,12 @@ public class JSON implements ContextResolver<ObjectMapper> {
    * @param dateFormat Date format
    */
   public void setDateFormat(DateFormat dateFormat) {
+    {{^useJackson3}}
     mapper.setDateFormat(dateFormat);
+    {{/useJackson3}}
+    {{#useJackson3}}
+    mapper = ((JsonMapper) mapper).rebuild().defaultDateFormat(dateFormat).build();
+    {{/useJackson3}}
   }
 
   @Override

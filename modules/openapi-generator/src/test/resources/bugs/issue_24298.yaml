@@ -1,0 +1,25 @@
+openapi: "3.1.0"
+info:
+  title: Enum Default Issue Demo
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    OutputFormat:
+      type: object
+      properties:
+        order:
+          type: string
+          enum:
+            - IMPORTANCE
+            - SIMILARITY
+        limit:
+          type: integer
+      default:
+        order: SIMILARITY
+        limit: 10
+    Formatter:
+      type: object
+      properties:
+        format:
+          $ref: '#/components/schemas/OutputFormat'

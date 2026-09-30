@@ -1031,21 +1031,21 @@ components:
       example:
         petId: 5
         quantity: 5
-        comment: comment
-        id: 1
         shipDate: 2000-01-23T04:56:07.000+00:00
-        type: type
-        complete: false
         promotion: true
+        type: type
+        id: 1
         status: placed
+        complete: false
+        comment: comment
       type: object
       xml:
         name: Order
     Category:
       description: A category for a pet
       example:
-        name: name
         id: 6
+        name: name
       nullable: true
       properties:
         id:
@@ -1061,160 +1061,160 @@ components:
     User:
       description: A User who is purchasing from the pet store
       example:
+        id: 0
+        username: username
         firstName: firstName
         lastName: lastName
+        email: email
         password: password
-        userStatus: 6
         phone: phone
+        userStatus: 6
         deepSliceModel:
-        - - - name: name
-              id: 1
-            - name: name
-              id: 1
-          - - name: name
-              id: 1
-            - name: name
-              id: 1
-        - - - name: name
-              id: 1
-            - name: name
-              id: 1
-          - - name: name
-              id: 1
-            - name: name
-              id: 1
-        id: 0
+        - - - id: 1
+              name: name
+            - id: 1
+              name: name
+          - - id: 1
+              name: name
+            - id: 1
+              name: name
+        - - - id: 1
+              name: name
+            - id: 1
+              name: name
+          - - id: 1
+              name: name
+            - id: 1
+              name: name
         deepSliceMap:
         - - tag:
-              name: name
               id: 1
+              name: name
             Pet:
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
           - tag:
-              name: name
               id: 1
+              name: name
             Pet:
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
         - - tag:
-              name: name
               id: 1
+              name: name
             Pet:
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
           - tag:
-              name: name
               id: 1
+              name: name
             Pet:
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
-              tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
-              status: available
-            - photoUrls:
-              - photoUrls
-              - photoUrls
+                name: name
               name: doggie
-              id: 0
-              category:
-                name: name
-                id: 6
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
-        email: email
-        username: username
+            - id: 0
+              category:
+                id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
+              tags:
+              - id: 1
+                name: name
+              - id: 1
+                name: name
+              status: available
       properties:
         id:
           format: int64
@@ -1265,160 +1265,160 @@ components:
     UserNullable:
       description: A User who is purchasing from the pet store
       example:
+        id: 0
+        username: username
         firstName: firstName
         lastName: lastName
+        email: email
         password: password
-        userStatus: 6
         phone: phone
+        userStatus: 6
         deepSliceModel:
-        - - - name: name
-              id: 1
-            - name: name
-              id: 1
-          - - name: name
-              id: 1
-            - name: name
-              id: 1
-        - - - name: name
-              id: 1
-            - name: name
-              id: 1
-          - - name: name
-              id: 1
-            - name: name
-              id: 1
-        id: 0
+        - - - id: 1
+              name: name
+            - id: 1
+              name: name
+          - - id: 1
+              name: name
+            - id: 1
+              name: name
+        - - - id: 1
+              name: name
+            - id: 1
+              name: name
+          - - id: 1
+              name: name
+            - id: 1
+              name: name
         deepSliceMap:
         - - tag:
-              name: name
               id: 1
+              name: name
             Pet:
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
           - tag:
-              name: name
               id: 1
+              name: name
             Pet:
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
         - - tag:
-              name: name
               id: 1
+              name: name
             Pet:
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
           - tag:
-              name: name
               id: 1
+              name: name
             Pet:
-            - photoUrls:
-              - photoUrls
-              - photoUrls
-              name: doggie
-              id: 0
+            - id: 0
               category:
-                name: name
                 id: 6
-              tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
-              status: available
-            - photoUrls:
-              - photoUrls
-              - photoUrls
+                name: name
               name: doggie
-              id: 0
-              category:
-                name: name
-                id: 6
+              photoUrls:
+              - photoUrls
+              - photoUrls
               tags:
-              - name: name
-                id: 1
-              - name: name
-                id: 1
+              - id: 1
+                name: name
+              - id: 1
+                name: name
               status: available
-        email: email
-        username: username
+            - id: 0
+              category:
+                id: 6
+                name: name
+              name: doggie
+              photoUrls:
+              - photoUrls
+              - photoUrls
+              tags:
+              - id: 1
+                name: name
+              - id: 1
+                name: name
+              status: available
       nullable: true
       properties:
         id:
@@ -1470,8 +1470,8 @@ components:
     Tag:
       description: A tag for a pet
       example:
-        name: name
         id: 1
+        name: name
       properties:
         id:
           format: int64
@@ -1485,19 +1485,19 @@ components:
     Pet:
       description: A pet for sale in the pet store
       example:
+        id: 0
+        category:
+          id: 6
+          name: name
+        name: doggie
         photoUrls:
         - photoUrls
         - photoUrls
-        name: doggie
-        id: 0
-        category:
-          name: name
-          id: 6
         tags:
-        - name: name
-          id: 1
-        - name: name
-          id: 1
+        - id: 1
+          name: name
+        - id: 1
+          name: name
         status: available
       properties:
         id:
@@ -1615,36 +1615,36 @@ components:
       description: An array 3-deep.
       example:
         tag:
-          name: name
           id: 1
+          name: name
         Pet:
-        - photoUrls:
-          - photoUrls
-          - photoUrls
-          name: doggie
-          id: 0
+        - id: 0
           category:
-            name: name
             id: 6
+            name: name
+          name: doggie
+          photoUrls:
+          - photoUrls
+          - photoUrls
           tags:
-          - name: name
-            id: 1
-          - name: name
-            id: 1
+          - id: 1
+            name: name
+          - id: 1
+            name: name
           status: available
-        - photoUrls:
-          - photoUrls
-          - photoUrls
-          name: doggie
-          id: 0
+        - id: 0
           category:
-            name: name
             id: 6
+            name: name
+          name: doggie
+          photoUrls:
+          - photoUrls
+          - photoUrls
           tags:
-          - name: name
-            id: 1
-          - name: name
-            id: 1
+          - id: 1
+            name: name
+          - id: 1
+            name: name
           status: available
       properties:
         tag:

@@ -20,7 +20,7 @@
 
 namespace test_namespace {
 
-PFXTestAnyType::PFXTestAnyType(QString json) {
+PFXTestAnyType::PFXTestAnyType(const QString &json) {
     this->initializeModel();
     this->fromJson(json);
 }
@@ -40,7 +40,7 @@ void PFXTestAnyType::initializeModel() {
     m_message_isValid = false;
 }
 
-void PFXTestAnyType::fromJson(QString jsonString) {
+void PFXTestAnyType::fromJson(const QString &jsonString) {
     QByteArray array(jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();

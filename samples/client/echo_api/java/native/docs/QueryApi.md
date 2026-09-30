@@ -98,7 +98,7 @@ No authorization required
 
 ## testEnumRefStringWithHttpInfo
 
-> ApiResponse<String> testEnumRefString testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery)
+> ApiResponse<String> testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery)
 
 Test query parameter(s)
 
@@ -238,7 +238,7 @@ No authorization required
 
 ## testQueryDatetimeDateStringWithHttpInfo
 
-> ApiResponse<String> testQueryDatetimeDateString testQueryDatetimeDateStringWithHttpInfo(datetimeQuery, dateQuery, stringQuery)
+> ApiResponse<String> testQueryDatetimeDateStringWithHttpInfo(datetimeQuery, dateQuery, stringQuery)
 
 Test query parameter(s)
 
@@ -380,7 +380,7 @@ No authorization required
 
 ## testQueryIntegerBooleanStringWithHttpInfo
 
-> ApiResponse<String> testQueryIntegerBooleanString testQueryIntegerBooleanStringWithHttpInfo(integerQuery, booleanQuery, stringQuery)
+> ApiResponse<String> testQueryIntegerBooleanStringWithHttpInfo(integerQuery, booleanQuery, stringQuery)
 
 Test query parameter(s)
 
@@ -518,7 +518,7 @@ No authorization required
 
 ## testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo
 
-> ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObject testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -652,7 +652,7 @@ No authorization required
 
 ## testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo
 
-> ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOf testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -786,7 +786,7 @@ No authorization required
 
 ## testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo
 
-> ApiResponse<String> testQueryStyleFormExplodeFalseArrayInteger testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -920,7 +920,7 @@ No authorization required
 
 ## testQueryStyleFormExplodeFalseArrayStringWithHttpInfo
 
-> ApiResponse<String> testQueryStyleFormExplodeFalseArrayString testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -1054,7 +1054,7 @@ No authorization required
 
 ## testQueryStyleFormExplodeTrueArrayStringWithHttpInfo
 
-> ApiResponse<String> testQueryStyleFormExplodeTrueArrayString testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -1188,7 +1188,7 @@ No authorization required
 
 ## testQueryStyleFormExplodeTrueObjectWithHttpInfo
 
-> ApiResponse<String> testQueryStyleFormExplodeTrueObject testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -1322,7 +1322,7 @@ No authorization required
 
 ## testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo
 
-> ApiResponse<String> testQueryStyleFormExplodeTrueObjectAllOf testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -1458,7 +1458,7 @@ No authorization required
 
 ## testQueryStyleJsonSerializationObjectWithHttpInfo
 
-> ApiResponse<String> testQueryStyleJsonSerializationObject testQueryStyleJsonSerializationObjectWithHttpInfo(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery)
+> ApiResponse<String> testQueryStyleJsonSerializationObjectWithHttpInfo(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery)
 
 Test query parameter(s)
 

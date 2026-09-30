@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A User who is purchasing from the pet store
@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   @jakarta.annotation.Nullable
@@ -77,7 +77,7 @@ public class User {
   /**
    * Constructor with all args parameters
    */
-  public User(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_USERNAME) String username, @JsonProperty(JSON_PROPERTY_FIRST_NAME) String firstName, @JsonProperty(JSON_PROPERTY_LAST_NAME) String lastName, @JsonProperty(JSON_PROPERTY_EMAIL) String email, @JsonProperty(JSON_PROPERTY_PASSWORD) String password, @JsonProperty(JSON_PROPERTY_PHONE) String phone, @JsonProperty(JSON_PROPERTY_USER_STATUS) Integer userStatus) {
+  public User(@JsonProperty(JSON_PROPERTY_ID) @jakarta.annotation.Nullable Long id, @JsonProperty(JSON_PROPERTY_USERNAME) @jakarta.annotation.Nullable String username, @JsonProperty(JSON_PROPERTY_FIRST_NAME) @jakarta.annotation.Nullable String firstName, @JsonProperty(JSON_PROPERTY_LAST_NAME) @jakarta.annotation.Nullable String lastName, @JsonProperty(JSON_PROPERTY_EMAIL) @jakarta.annotation.Nullable String email, @JsonProperty(JSON_PROPERTY_PASSWORD) @jakarta.annotation.Nullable String password, @JsonProperty(JSON_PROPERTY_PHONE) @jakarta.annotation.Nullable String phone, @JsonProperty(JSON_PROPERTY_USER_STATUS) @jakarta.annotation.Nullable Integer userStatus) {
     this.id = id;
     this.username = username;
     this.firstName = firstName;
@@ -334,10 +334,7 @@ public class User {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

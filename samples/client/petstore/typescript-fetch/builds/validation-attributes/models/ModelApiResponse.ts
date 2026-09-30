@@ -21,23 +21,36 @@ import { mapValues } from '../runtime';
 export interface ModelApiResponse {
     /**
      * 
-     * @type {number}
-     * @memberof ModelApiResponse
      */
     code?: number;
     /**
      * 
-     * @type {string}
-     * @memberof ModelApiResponse
      */
     type?: string;
     /**
      * 
-     * @type {string}
-     * @memberof ModelApiResponse
      */
     message?: string;
 }
+export const ModelApiResponsePropertyValidationAttributesMap: {
+    [property: string]: {
+        dataType?: string,
+        required?: boolean,
+        maxLength?: number,
+        minLength?: number,
+        pattern?: string,
+        maximum?: number,
+        exclusiveMaximum?: boolean,
+        minimum?: number,
+        exclusiveMinimum?: boolean,
+        multipleOf?: number,
+        maxItems?: number,
+        minItems?: number,
+        uniqueItems?: boolean
+    }
+} = {
+}
+
 
 /**
  * Check if a given object implements the ModelApiResponse interface.
@@ -77,22 +90,5 @@ export function ModelApiResponseToJSONTyped(value?: ModelApiResponse | null, ign
         'type': value['type'],
         'message': value['message'],
     };
-}
-
-export const ModelApiResponsePropertyValidationAttributesMap: {
-    [property: string]: {
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
 }
 

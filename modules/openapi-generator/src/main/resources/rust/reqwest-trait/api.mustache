@@ -47,7 +47,7 @@ pub trait {{{classname}}}: Send + Sync {
     ### &str and Vec<&str>
     }}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}} str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{!
     ### UUIDs
-    }}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{!
+    }}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}} str{{#isArray}}>{{/isArray}}{{/isUuid}}{{!
     ### Models and primative types
     }}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{!
     ### Option End
@@ -155,7 +155,7 @@ impl {{classname}} for {{classname}}Client {
     ### &str and Vec<&str>
     }}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}} str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{!
     ### UUIDs
-    }}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{!
+    }}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}} str{{#isArray}}>{{/isArray}}{{/isUuid}}{{!
     ### Models and primative types
     }}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{!
     ### Option End
@@ -188,7 +188,12 @@ impl {{classname}} for {{classname}}Client {
         {{/isArray}}
         {{^isArray}}
         {{^isNullable}}
+        {{#isMap}}
+        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(&{{{paramName}}})?)]);
+        {{/isMap}}
+        {{^isMap}}
         local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.to_string())]);
+        {{/isMap}}
         {{/isNullable}}
         {{#isNullable}}
         {{#isDeepObject}}
@@ -206,11 +211,8 @@ impl {{classname}} for {{classname}}Client {
         {{/isModel}}
         {{#isMap}}
         if let Some(ref param_value) = {{{paramName}}} {
-            let mut query_params = Vec::with_capacity(param_value.len());
-            for (key, value) in param_value.iter() {
-                query_params.push((key.to_string(), serde_json::to_string(value)?));
-            }
-            local_var_req_builder = local_var_req_builder.query(&query_params);
+            let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+            local_var_req_builder = local_var_req_builder.query(&params);
         }
         {{/isMap}}
         {{/isExplode}}
@@ -228,9 +230,16 @@ impl {{classname}} for {{classname}}Client {
         {{/isModel}}
         {{^isObject}}
         {{^isModel}}
+        {{#isMap}}
+        if let Some(ref param_value) = {{{paramName}}} {
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+        };
+        {{/isMap}}
+        {{^isMap}}
         if let Some(ref param_value) = {{{paramName}}} {
             local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
         };
+        {{/isMap}}
         {{/isModel}}
         {{/isObject}}
         {{/isDeepObject}}
@@ -256,11 +265,8 @@ impl {{classname}} for {{classname}}Client {
             local_var_req_builder = local_var_req_builder.query(&param_value);
             {{/isModel}}
             {{#isMap}}
-            let mut query_params = Vec::with_capacity(param_value.len());
-            for (key, value) in param_value.iter() {
-                query_params.push((key.to_string(), serde_json::to_string(value)?));
-            }
-            local_var_req_builder = local_var_req_builder.query(&query_params);
+            let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+            local_var_req_builder = local_var_req_builder.query(&params);
             {{/isMap}}
             {{/isExplode}}
             {{/isDeepObject}}
@@ -273,7 +279,12 @@ impl {{classname}} for {{classname}}Client {
             {{/isModel}}
             {{^isObject}}
             {{^isModel}}
+            {{#isMap}}
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+            {{/isMap}}
+            {{^isMap}}
             local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+            {{/isMap}}
             {{/isModel}}
             {{/isObject}}
             {{/isDeepObject}}
@@ -391,7 +402,14 @@ impl {{classname}} for {{classname}}Client {
         let mut local_var_form = reqwest::multipart::Form::new();
         {{#formParams}}
         {{#isFile}}
-        // TODO: support file upload for '{{{baseName}}}' parameter
+        {{^isRequired}}
+        if let Some(ref path) = {{{baseName}}} {
+            local_var_form = local_var_form.file("{{{baseName}}}", path.as_os_str()).await?;
+        }
+        {{/isRequired}}
+        {{#isRequired}}
+            local_var_form = local_var_form.file("{{{baseName}}}", {{{baseName}}}.as_os_str()).await?;
+        {{/isRequired}}
         {{/isFile}}
         {{^isFile}}
         {{#required}}

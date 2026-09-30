@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
-import org.openapitools.api.PetApiController.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
@@ -33,7 +32,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
+@RequestMapping("\${api.base-path:/v2}")
 class PetApiController(@Autowired(required = true) val service: PetApiService) {
 
     @Operation(
@@ -47,7 +46,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_ADD_PET /* "/pet" */],
+        // "/pet"
+        value = [PATH_ADD_PET],
         produces = ["application/xml", "application/json"],
         consumes = ["application/json", "application/xml"]
     )
@@ -67,7 +67,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = [PATH_DELETE_PET /* "/pet/{petId}" */]
+        // "/pet/{petId}"
+        value = [PATH_DELETE_PET]
     )
     suspend fun deletePet(
         @Parameter(description = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long,
@@ -87,7 +88,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */],
+        // "/pet/findByStatus"
+        value = [PATH_FIND_PETS_BY_STATUS],
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByStatus(
@@ -105,9 +107,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             ApiResponse(responseCode = "400", description = "Invalid tag value") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "read:pets" ]) ]
     )
+    @Deprecated(message="Operation is deprecated")
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */],
+        // "/pet/findByTags"
+        value = [PATH_FIND_PETS_BY_TAGS],
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByTags(
@@ -128,7 +132,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_PET_BY_ID /* "/pet/{petId}" */],
+        // "/pet/{petId}"
+        value = [PATH_GET_PET_BY_ID],
         produces = ["application/xml", "application/json"]
     )
     suspend fun getPetById(
@@ -150,7 +155,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = [PATH_UPDATE_PET /* "/pet" */],
+        // "/pet"
+        value = [PATH_UPDATE_PET],
         produces = ["application/xml", "application/json"],
         consumes = ["application/json", "application/xml"]
     )
@@ -170,7 +176,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */],
+        // "/pet/{petId}"
+        value = [PATH_UPDATE_PET_WITH_FORM],
         consumes = ["application/x-www-form-urlencoded"]
     )
     suspend fun updatePetWithForm(
@@ -191,14 +198,15 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */],
+        // "/pet/{petId}/uploadImage"
+        value = [PATH_UPLOAD_FILE],
         produces = ["application/json"],
         consumes = ["multipart/form-data"]
     )
     suspend fun uploadFile(
         @Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,
         @Parameter(description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String?,
-        @Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile
+        @Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.http.codec.multipart.Part?
     ): ResponseEntity<ModelApiResponse> {
         return ResponseEntity(service.uploadFile(petId, additionalMetadata, file), HttpStatus.valueOf(200))
     }

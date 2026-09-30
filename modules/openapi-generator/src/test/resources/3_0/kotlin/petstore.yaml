@@ -682,6 +682,10 @@ components:
             - placed
             - approved
             - delivered
+          x-enum-descriptions:
+            - An order is placed but not yet approved.
+            - An order is approved and delivery is in progress.
+            - An order is delivered and finalized.
         complete:
           type: boolean
           default: false
@@ -799,10 +803,12 @@ components:
           type: string
           format: uuid
     UserOrPet:
+      description: A schema that can be either a User or a Pet
       oneOf:
         - $ref: "#/components/schemas/User"
         - $ref: "#/components/schemas/Pet"
     UserOrPetOrArrayString:
+      description: A schema that can be either a User, a Pet, or an array of strings
       oneOf:
         - $ref: "#/components/schemas/User"
         - $ref: "#/components/schemas/Pet"

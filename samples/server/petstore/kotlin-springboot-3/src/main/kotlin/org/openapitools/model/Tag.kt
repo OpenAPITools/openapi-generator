@@ -1,9 +1,9 @@
 package org.openapitools.model
 
-import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.io.Serializable
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Email
@@ -21,10 +21,14 @@ import jakarta.validation.Valid
  */
 data class Tag(
 
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
+    @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("name")
     @get:JsonProperty("name") val name: kotlin.String? = null
-) : Serializable {
+) : java.io.Serializable {
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1

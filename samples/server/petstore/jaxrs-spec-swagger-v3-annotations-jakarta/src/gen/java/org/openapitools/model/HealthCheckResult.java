@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
@@ -18,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Schema(description="Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
 @JsonTypeName("HealthCheckResult")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
 public class HealthCheckResult  implements Serializable {
   private String nullableMessage;
 
@@ -81,10 +82,7 @@ public class HealthCheckResult  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -117,4 +115,3 @@ public class HealthCheckResult  implements Serializable {
     }
   }
 }
-

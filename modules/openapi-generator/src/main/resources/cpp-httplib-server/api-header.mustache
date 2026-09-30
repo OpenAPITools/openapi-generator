@@ -1,0 +1,128 @@
+{{>License}}
+
+#pragma once
+
+// System headers
+#include <httplib.h>{{#hasAuthMethods}}
+#include <memory>{{/hasAuthMethods}}{{#includeVariantHeader}}
+{{{includeVariantHeader}}}{{/includeVariantHeader}}{{#includeOptionalHeader}}
+{{{includeOptionalHeader}}}{{/includeOptionalHeader}}
+
+// Project headers
+{{#modelsUsed}}
+#include "models/{{{.}}}.h"
+{{/modelsUsed}}
+
+namespace {{apiNamespace}} {
+{{#hasAuthMethods}}
+    class AuthenticationManager;
+{{/hasAuthMethods}}
+class {{apiClassnameInPascalCase}} {
+public:
+    {{apiClassnameInPascalCase}}() = default;
+    virtual ~{{apiClassnameInPascalCase}}() = default;
+    /**
+     * @brief Register all routes for this API
+     * @param svr The httplib::Server instance to register routes on
+{{#hasAnyAuth}}
+     * @param auth The AuthenticationManager for authentication (optional, defaults to nullptr)
+{{/hasAnyAuth}}
+     */
+    void registerRoutes(httplib::Server& svr{{#hasAnyAuth}}, std::shared_ptr<AuthenticationManager> auth = nullptr{{/hasAnyAuth}});
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions}}
+{{#hasAnyRequestSchema}}
+{{#-first}}
+    // =========================
+    // ===== Request types =====
+    // =========================
+{{/-first}}
+
+    /**
+    * @brief Request type for {{handlerFunctionName}}.
+    */
+    struct {{requestType}}
+    {
+        {{#requestModel}}
+        {{{bodyParam.dataType}}} m_request; //Request Body{{#bodyParam.vendorExtensions.isRequired}} (required){{/bodyParam.vendorExtensions.isRequired}}{{^bodyParam.vendorExtensions.isRequired}} (optional){{/bodyParam.vendorExtensions.isRequired}}{{/requestModel}}{{#queryParams}}
+        {{{dataType}}} m_{{paramName}}; //Query Params{{#vendorExtensions.isRequired}} (required){{/vendorExtensions.isRequired}}{{^vendorExtensions.isRequired}} (optional){{/vendorExtensions.isRequired}}{{/queryParams}}{{#headerParams}}
+        {{{dataType}}} m_{{paramName}}; //HeaderParams{{#vendorExtensions.isRequired}} (required){{/vendorExtensions.isRequired}}{{^vendorExtensions.isRequired}} (optional){{/vendorExtensions.isRequired}}{{/headerParams}}{{#pathParams}}
+        {{{dataType}}} m_{{paramName}}; //PathParams (always required){{/pathParams}}{{#cookieParams}}
+        {{{dataType}}} m_{{paramName}}; //Cookies{{#vendorExtensions.isRequired}} (required){{/vendorExtensions.isRequired}}{{^vendorExtensions.isRequired}} (optional){{/vendorExtensions.isRequired}}{{/cookieParams}}
+    };
+{{/hasAnyRequestSchema}}
+{{/vendorExtensions}}
+{{/operation}}
+{{/operations}}
+
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions}}
+{{#hasAnyResponseSchema}}
+{{#-first}}
+    // ==========================
+    // ===== Response types =====
+    // ==========================
+{{/-first}}
+
+    /**
+    * @brief Response type for {{handlerFunctionName}}.
+    */
+{{#hasSingleResponseType}}
+    using {{responseType}} = {{singleResponseType}};
+{{/hasSingleResponseType}}
+{{^hasSingleResponseType}}
+    using {{responseType}} = std::variant<{{#successCodeToTypes}}{{#successType}}
+                                        {{successType}}{{/successType}}{{#errorCodeToTypes}}{{#-first}} ,{{/-first}}{{/errorCodeToTypes}}{{/successCodeToTypes}}{{^errorCodeToTypes}}>;{{/errorCodeToTypes}}{{#errorCodeToTypes}}
+                                        {{#errorType}}{{errorType}}{{/errorType}}{{^-last}} ,{{/-last}}{{#-last}} >;{{/-last}}{{/errorCodeToTypes}}
+{{/hasSingleResponseType}}
+{{/hasAnyResponseSchema}}
+{{/vendorExtensions}}
+{{/operation}}
+{{/operations}}
+    // ============================================================
+    // ===== Pure virtual functions to be handled by the user =====
+    // ============================================================
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions}}
+    /**
+ {{#hasAnyRequestSchema}}
+     * {{requestType}} - struct containing all the query parameters and headers and schemas as available.
+ {{/hasAnyRequestSchema}}
+ {{#hasAnyResponseSchema}}
+     * @return {{responseType}} The response type returned by the handler.
+ {{/hasAnyResponseSchema}}
+     */
+    virtual {{#hasAnyResponseSchema}}{{responseType}}{{/hasAnyResponseSchema}}{{^hasAnyResponseSchema}}void{{/hasAnyResponseSchema}} {{handlerFunctionName}}({{#hasAnyRequestSchema}}const {{requestType}}& params{{/hasAnyRequestSchema}})=0;
+
+{{/vendorExtensions}}
+{{/operation}}
+{{/operations}}
+private:
+    // ========================================
+    // ===== Helper function declarations =====
+    // ========================================
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions}}
+{{#hasAnyRequestSchema}}
+    static bool parse{{operationIdPascalCase}}Params(const httplib::Request& req, {{requestType}}& params, std::vector<std::string>& paramErrors);
+{{/hasAnyRequestSchema}}
+    void handle{{operationIdPascalCase}}Request(const httplib::Request& req, httplib::Response& res{{#hasAuth}}, std::shared_ptr<AuthenticationManager> auth{{/hasAuth}});
+{{#hasAnyResponseSchema}}
+    static void handle{{responseType}}(const {{responseType}}& result, httplib::Response& res);
+{{/hasAnyResponseSchema}}
+{{/vendorExtensions}}
+{{/operation}}
+{{/operations}}
+{{#hasAnyAuth}}
+    static bool performAuthentication(
+        const httplib::Request& req,
+        std::shared_ptr<AuthenticationManager> auth,
+        httplib::Response& res);
+{{/hasAnyAuth}}
+};
+
+} // namespace {{apiNamespace}}

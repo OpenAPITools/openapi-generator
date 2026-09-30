@@ -1,10 +1,14 @@
 package org.openapitools.codegen.java.assertions;
 
+import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.CanIgnoreReturnValue;
@@ -15,7 +19,9 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @CanIgnoreReturnValue
 public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUnit> {
@@ -31,7 +37,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
     public static JavaFileAssert assertThat(final Path path) {
         try {
             return new JavaFileAssert(StaticJavaParser.parse(path));
-        } catch (IOException e) {
+        } catch (IOException | ParseProblemException e) {
             throw new RuntimeException("Exception while reading file: " + path, e);
         }
     }
@@ -53,6 +59,73 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
                 .withFailMessage("Expected type %s to be a normal class(non-abstract)", actual.getType(0).getName().asString())
                 .extracting(ClassOrInterfaceDeclaration::isInterface, NodeWithAbstractModifier::isAbstract)
                 .containsExactly(false, false);
+        return this;
+    }
+
+    public JavaFileAssert extendsClass(String parentClass) {
+        String actualParent = actual.getType(0)
+                .asClassOrInterfaceDeclaration().getExtendedTypes()
+                .stream()
+                .filter(JavaFileAssert::isClass)
+                .map(ClassOrInterfaceType::getNameWithScope)
+                .findFirst()
+                .orElse(null);
+
+        Assertions.assertThat(actualParent)
+                .withFailMessage("Expected type %s to extends %s, but found %s",
+                        actual.getType(0).getName().asString(), parentClass, actualParent)
+                .isEqualTo(parentClass);
+        return this;
+    }
+
+    private static boolean isClass(ClassOrInterfaceType cit) {
+        return cit.asClassOrInterfaceType().getParentNode()
+                .map(node -> node instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)node).isInterface())
+                .orElse(false);
+    }
+
+    public JavaFileAssert doesNotExtendsClasses() {
+        String actualParent = actual.getType(0)
+                .asClassOrInterfaceDeclaration().getExtendedTypes()
+                .stream()
+                .filter(JavaFileAssert::isClass)
+                .map(ClassOrInterfaceType::getNameWithScope)
+                .findFirst()
+                .orElse(null);
+        Assertions.assertThat(actualParent)
+                .withFailMessage("Expected type %s to extends a class, but found %s",
+                        actual.getType(0).getName().asString(), actualParent)
+                .isNull();
+        return this;
+    }
+
+    public JavaFileAssert implementsInterfaces(String... implementedInterfaces) {
+        Set<String> expectedInterfaces = Stream.of(implementedInterfaces)
+                .collect(Collectors.toSet());
+
+        Set<String> actualInterfaces = actual.getType(0)
+                .asClassOrInterfaceDeclaration()
+                .getImplementedTypes().stream()
+                .map(ClassOrInterfaceType::getNameWithScope)
+                .collect(Collectors.toSet());
+
+        Assertions.assertThat(actualInterfaces)
+                .withFailMessage("Expected type %s to implement interfaces %s, but found %s",
+                        actual.getType(0).getName().asString(), expectedInterfaces, actualInterfaces)
+                .isEqualTo(expectedInterfaces);
+        return this;
+    }
+
+    public JavaFileAssert doesNotImplementInterfaces(String... interfaces) {
+        Set<String> forbiddenInterfaces = Stream.of(interfaces).collect(Collectors.toSet());
+        Set<String> implemented = actual.getType(0).asClassOrInterfaceDeclaration()
+                .getImplementedTypes().stream()
+                .map(ClassOrInterfaceType::getNameWithScope)
+                .collect(Collectors.toSet());
+        Assertions.assertThat(implemented)
+                .withFailMessage("Expected type %s to not implement interfaces %s, but found %s",
+                        actual.getType(0).getName().asString(), forbiddenInterfaces, implemented)
+                .doesNotContainAnyElementsOf(forbiddenInterfaces);
         return this;
     }
 
@@ -162,8 +235,10 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
                 .toString();
         Assertions.assertThat(actualBody)
                 .withFailMessage(
-                        "File should contains lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
-                        Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
+                        "File should contain lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                        Arrays.stream(lines)
+                                .filter(line -> !actualBody.contains(line))
+                                .collect(Collectors.joining(System.lineSeparator())), actualBody
                 )
                 .contains(lines);
 
@@ -176,8 +251,10 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
                 .toString();
         Assertions.assertThat(actualBody)
                 .withFailMessage(
-                        "File should not contains lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
-                        Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
+                        "File should not contain lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                        Arrays.stream(lines)
+                                .filter(line -> actualBody.contains(line))
+                                .collect(Collectors.joining(System.lineSeparator())), actualBody
                 )
                 .doesNotContain(lines);
 
@@ -194,10 +271,24 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
                 .toString();
         Assertions.assertThat(actualBody)
                 .withFailMessage(
-                        "File should contains pattern\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                        "File should contain pattern\n====\n%s\n====\nbut actually was\n====\n%s\n====",
                         pattern, actualBody
                 )
                 .containsPattern(pattern);
+
+        return this;
+    }
+
+    public JavaFileAssert fileDoesNotContainPattern(final String pattern) {
+        final String actualBody = actual.getTokenRange()
+                .orElseThrow(() -> new IllegalStateException("Empty file"))
+                .toString();
+        Assertions.assertThat(actualBody)
+                .withFailMessage(
+                        "File should not contain pattern\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                        pattern, actualBody
+                )
+                .doesNotContainPattern(pattern);
 
         return this;
     }

@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -42,15 +41,15 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
   
   public static final String JSON_PROPERTY_UUID = "uuid";
   
-  private UUID uuid;
+  protected UUID uuid;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   
-  private Date dateTime;
+  protected Date dateTime;
 
   public static final String JSON_PROPERTY_MAP = "map";
   
-  private Map<String, Animal> map = null;
+  protected Map<String, Animal> map = null;
 
 
   /**
@@ -163,10 +162,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -41,9 +41,17 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.CodegenConstants.X_CSHARP_VALUE_TYPE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
+import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/csharp/} (root templates shared across all libraries) and
+ * {@code src/main/resources/csharp/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 @SuppressWarnings("Duplicates")
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected String apiName = "Api";
@@ -77,6 +85,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected static final String NET_70_OR_LATER = "net70OrLater";
     protected static final String NET_80_OR_LATER = "net80OrLater";
     protected static final String NET_90_OR_LATER = "net90OrLater";
+    protected static final String NET_10_OR_LATER = "net10OrLater";
 
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
@@ -90,7 +99,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NETFRAMEWORK_4_8,
             FrameworkStrategy.NET_8_0,
-            FrameworkStrategy.NET_9_0
+            FrameworkStrategy.NET_9_0,
+            FrameworkStrategy.NET_10
     );
     private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() - 1);
     protected final Map<String, String> frameworks;
@@ -114,6 +124,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsFileParameters = Boolean.TRUE;
     protected boolean supportsDateOnly = Boolean.FALSE;
     protected boolean useIntForTimeout = Boolean.FALSE;
+    protected boolean throwOnAnyError = Boolean.FALSE;
 
     @Setter protected boolean validatable = Boolean.TRUE;
     @Setter protected boolean equatable = Boolean.FALSE;
@@ -124,6 +135,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private static final String OPERATION_PARAMETER_SORTING_KEY = "operationParameterSorting";
     private static final String MODEL_PROPERTY_SORTING_KEY = "modelPropertySorting";
     private static final String USE_INT_FOR_TIMEOUT = "useIntForTimeout";
+    private static final String THROW_ON_ANY_ERROR = "throwOnAnyError";
 
     enum SortingMethod {
         DEFAULT,
@@ -240,6 +252,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addOption(CSharpClientCodegen.USE_INT_FOR_TIMEOUT,
                 "Use int for Timeout (fall back to v7.9.0 templates). This option (for restsharp only) will be deprecated so please migrated to TimeSpan instead.",
                 String.valueOf(this.useIntForTimeout));
+
+        addSwitch(CSharpClientCodegen.THROW_ON_ANY_ERROR,
+                "Configure RestSharp to rethrow deserialization and transport errors instead of swallowing them into RestResponse.ErrorException (which the default ToApiResponse<T> discards as null Data). Recommended for production use to surface bugs that would otherwise be invisible. (restsharp only)",
+                this.throwOnAnyError);
 
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
@@ -863,6 +879,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, "useSourceGeneration", this::setUseSourceGeneration, this.useSourceGeneration);
         syncBooleanProperty(additionalProperties, "supportsDateOnly", this::setSupportsDateOnly, this.supportsDateOnly);
         syncBooleanProperty(additionalProperties, "useIntForTimeout", this::setUseIntForTimeout, this.useIntForTimeout);
+        syncBooleanProperty(additionalProperties, "throwOnAnyError", this::setThrowOnAnyError, this.throwOnAnyError);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -1124,13 +1141,21 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
         supportingFiles.add(new SupportingFile("CookieContainer.mustache", clientPackageDir, "CookieContainer.cs"));
         supportingFiles.add(new SupportingFile("Option.mustache", clientPackageDir, "Option.cs"));
+        supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
 
         supportingFiles.add(new SupportingFile("IApi.mustache", sourceFolder + File.separator + packageName + File.separator + apiPackage(), getInterfacePrefix() + "Api.cs"));
+
+        String loggingFolder = sourceFolder + File.separator + packageName + File.separator + "Logging";
+        supportingFiles.add(new SupportingFile("libraries" + File.separator + GENERICHOST + File.separator + "RestLogEvents.mustache", loggingFolder, "RestLogEvents.cs"));
 
         // extensions
         String extensionsFolder = sourceFolder + File.separator + packageName + File.separator + "Extensions";
         supportingFiles.add(new SupportingFile("IHttpClientBuilderExtensions.mustache", extensionsFolder, "IHttpClientBuilderExtensions.cs"));
         supportingFiles.add(new SupportingFile("IHostBuilderExtensions.mustache", extensionsFolder, "IHostBuilderExtensions.cs"));
+        // IHostApplicationBuilder is only available on .NET 8 or later
+        if (additionalProperties.containsKey(NET_80_OR_LATER)) {
+            supportingFiles.add(new SupportingFile("IHostApplicationBuilderExtensions.mustache", extensionsFolder, "IHostApplicationBuilderExtensions.cs"));
+        }
         supportingFiles.add(new SupportingFile("IServiceCollectionExtensions.mustache", extensionsFolder, "IServiceCollectionExtensions.cs"));
 
         String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();
@@ -1233,6 +1258,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setUseIntForTimeout(Boolean useIntForTimeout) {
         this.useIntForTimeout = useIntForTimeout;
+    }
+
+    public void setThrowOnAnyError(Boolean throwOnAnyError) {
+        this.throwOnAnyError = throwOnAnyError;
     }
 
     public void setSupportsRetry(Boolean supportsRetry) {
@@ -1448,8 +1477,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NET_8_0 = new FrameworkStrategy("net8.0", ".NET 8.0 (End of Support 10 November 2026)", "net8.0", Boolean.FALSE) {
         };
-        static FrameworkStrategy NET_9_0 = new FrameworkStrategy("net9.0", ".NET 9.0 (End of Support 12 May 2026)", "net9.0", Boolean.FALSE) {
+        static FrameworkStrategy NET_9_0 = new FrameworkStrategy("net9.0", ".NET 9.0 (End of Support 10 November 2026)", "net9.0", Boolean.FALSE) {
         };
+        static FrameworkStrategy NET_10 = new FrameworkStrategy("net10.0", ".NET 10.0 (End of Support 14 November 2028)", "net10.0", Boolean.FALSE) {
+        };
+
         protected String name;
         protected String description;
         protected String testTargetFramework;
@@ -1580,6 +1612,19 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_70_OR_LATER, true);
                 properties.put(NET_80_OR_LATER, true);
                 properties.put(NET_90_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "net10.0".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+                properties.put(NET_70_OR_LATER, true);
+                properties.put(NET_80_OR_LATER, true);
+                properties.put(NET_90_OR_LATER, true);
+                properties.put(NET_10_OR_LATER, true);
             } else {
                 throw new RuntimeException("Unhandled case");
             }
@@ -1649,12 +1694,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
 
-            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.remove("Null")) {
+            if (hasOneOf(cm) && cm.oneOf.remove("Null")) {
                 // if oneOf contains "null" type
                 cm.isNullable = true;
             }
 
-            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.remove("Null")) {
+            if (hasAnyOf(cm) && cm.anyOf.remove("Null")) {
                 // if anyOf contains "null" type
                 cm.isNullable = true;
             }
@@ -1737,14 +1782,16 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
-        System.out.println("################################################################################");
+        if (!isQuietMode()) {
+            System.out.println("################################################################################");
+            System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+            System.out.println("# Please consider donating to help us maintain this project \uD83D\uDE4F                 #");
+            System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+            System.out.println("#                                                                              #");
+            System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+            System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+            System.out.println("################################################################################");
+        }
     }
 
     @Override

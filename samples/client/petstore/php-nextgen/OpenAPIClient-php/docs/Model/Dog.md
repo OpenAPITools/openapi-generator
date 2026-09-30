@@ -1,4 +1,4 @@
-# # Dog
+# Dog
 
 ## Properties
 

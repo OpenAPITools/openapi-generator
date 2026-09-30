@@ -30,8 +30,8 @@ class DiscriminatorAllOfSuper(BaseModel):
     """
     DiscriminatorAllOfSuper
     """
-    element_type: StrictStr = Field(default=..., alias="elementType")
-    __properties = ["elementType"]
+    element_type: StrictStr = Field(default=..., alias="element'\"\\Type")
+    __properties = ["element'\"\\Type"]
 
     class Config:
         """Pydantic configuration"""
@@ -39,11 +39,11 @@ class DiscriminatorAllOfSuper(BaseModel):
         validate_assignment = True
 
     # JSON field name that stores the object type
-    __discriminator_property_name = 'elementType'
+    __discriminator_property_name = 'element\'"\\Type'
 
     # discriminator mappings
     __discriminator_value_class_map = {
-        'DiscriminatorAllOfSub': 'DiscriminatorAllOfSub'
+        'sub\'"\\kind\nvalue': 'DiscriminatorAllOfSub'
     }
 
     @classmethod
@@ -64,7 +64,7 @@ class DiscriminatorAllOfSuper(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Union(DiscriminatorAllOfSub):
+    def from_json(cls, json_str: str) -> Union[DiscriminatorAllOfSub]:
         """Create an instance of DiscriminatorAllOfSuper from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -77,7 +77,7 @@ class DiscriminatorAllOfSuper(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Union(DiscriminatorAllOfSub):
+    def from_dict(cls, obj: dict) -> Union[DiscriminatorAllOfSub]:
         """Create an instance of DiscriminatorAllOfSuper from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)

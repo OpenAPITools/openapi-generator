@@ -36,14 +36,10 @@ import {
 export interface GetMatchingPartsResponse {
     /**
      * 
-     * @type {ResponseMeta}
-     * @memberof GetMatchingPartsResponse
      */
     meta: ResponseMeta;
     /**
      * 
-     * @type {MatchingParts}
-     * @memberof GetMatchingPartsResponse
      */
     data?: MatchingParts;
 }
