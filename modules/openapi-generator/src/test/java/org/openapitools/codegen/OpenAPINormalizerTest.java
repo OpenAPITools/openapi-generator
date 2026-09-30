@@ -908,6 +908,37 @@ public class OpenAPINormalizerTest {
         assertEquals(pathItem2.getAdditionalOperations().get("PURGE").getExtensions().get(X_INTERNAL), false);
     }
 
+    @Test
+    public void testFilterWithCaseCollidingAdditionalOperation() {
+        // OpenAPI 3.2: an additionalOperations key differing from a fixed method only by
+        // case (e.g. "GET") must not hide the fixed method's operation from FILTER:
+        // both operations have to be evaluated and marked with x-internal
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        PathItem pathItem = new PathItem()
+                .get(new Operation().operationId("fixedGet"))
+                .addAdditionalOperation("GET", new Operation().operationId("additionalGet"));
+        openAPI.path("/pets", pathItem);
+
+        Map<String, String> options = Map.of("FILTER", "operationId:additionalGet");
+        new OpenAPINormalizer(openAPI, options).normalize();
+
+        assertEquals(pathItem.getGet().getExtensions().get(X_INTERNAL), true);
+        assertEquals(pathItem.getAdditionalOperations().get("GET").getExtensions().get(X_INTERNAL), false);
+
+        // `method:` filtering matches both operations by the lowercased method name
+        OpenAPI openAPI2 = TestUtils.createOpenAPI();
+        PathItem pathItem2 = new PathItem()
+                .get(new Operation().operationId("fixedGet"))
+                .addAdditionalOperation("GET", new Operation().operationId("additionalGet"));
+        openAPI2.path("/pets", pathItem2);
+
+        Map<String, String> options2 = Map.of("FILTER", "method:get");
+        new OpenAPINormalizer(openAPI2, options2).normalize();
+
+        assertEquals(pathItem2.getGet().getExtensions().get(X_INTERNAL), false);
+        assertEquals(pathItem2.getAdditionalOperations().get("GET").getExtensions().get(X_INTERNAL), false);
+    }
+
     static OpenAPINormalizer.Filter parseOperationsFilter(String filters) {
         OpenAPINormalizer.Filter filter = new OpenAPINormalizer.Filter(filters);
         filter.parse();
