@@ -1021,6 +1021,11 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
+
+        if (parameter.isHeaderParam && isJsonMimeType(parameter.contentType)) {
+            parameter.vendorExtensions.put("x-python-json-header", true);
+        }
+
         // Only operation signatures gain this control argument. Keep model
         // field naming independent of the selected library.
         if (usesLegacyApiCompatibility()

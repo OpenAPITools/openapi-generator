@@ -1,5 +1,6 @@
 {{>partial_header}}
 
+import json
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -383,7 +384,14 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         # process the header parameters
 {{#headerParams}}
         if {{paramName}} is not None:
+            {{#vendorExtensions.x-python-json-header}}
+            _header_params['{{baseName}}'] = json.dumps(
+                self.api_client.sanitize_for_serialization({{paramName}})
+            )
+            {{/vendorExtensions.x-python-json-header}}
+            {{^vendorExtensions.x-python-json-header}}
             _header_params['{{baseName}}'] = {{paramName}}
+            {{/vendorExtensions.x-python-json-header}}
 {{/headerParams}}
         # process the form parameters
 {{#formParams}}
