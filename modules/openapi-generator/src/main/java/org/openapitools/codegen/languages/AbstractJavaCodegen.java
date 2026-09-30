@@ -18,9 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
@@ -87,7 +85,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
     private static final ZoneId UTC = ZoneId.of("UTC");
-
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String SUPPORT_ASYNC = "supportAsync";
@@ -1442,7 +1439,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toDefaultValue(CodegenProperty cp, Schema schema) {
-        schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        Schema originalSchema = schema;
+        Schema resolvedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        if (hasOptionalNullableExplicitNullDefault(cp, originalSchema, resolvedSchema)) {
+            return null;
+        }
+        String complexDefault = renderComplexDefaultValue(cp, originalSchema, resolvedSchema);
+        if (complexDefault != null) {
+            return complexDefault;
+        }
+
+        schema = resolvedSchema;
         if (ModelUtils.isArraySchema(schema)) {
             if (defaultToEmptyContainer) {
                 // if default to empty container option is set, respect the default values provided in the spec
@@ -1564,7 +1571,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         } else if (ModelUtils.isObjectSchema(schema)) {
             if (schema.getDefault() != null) {
-                return toObjectDefaultValue(cp, schema.getDefault(), schema.getProperties());
+                return renderComplexDefaultValue(cp, schema, schema);
             }
             return null;
         } else if (ModelUtils.isComposedSchema(schema)) {
@@ -1576,11 +1583,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 // default (e.g. `{"one":"one"}`) as Java, which does not compile (see #23795).
                 Map<String, Schema> propertySchemas = getComposedSchemaProperties(schema);
                 if (!propertySchemas.isEmpty()) {
-                    return toObjectDefaultValue(cp, schema.getDefault(), propertySchemas);
+                    return renderComplexDefaultValue(cp, schema, schema);
                 }
                 // No object properties resolved: the composition wraps a non-object, e.g. an `allOf`
                 // to an enum or scalar (`allOf: [{$ref: '#/.../CurrencyCode'}]` + sibling `default`).
-                // There is nothing to build via toObjectDefaultValue, so defer to the base behavior,
+                // There is nothing to build via the complex default renderer, so defer to the base behavior,
                 // which emits the raw default for later enum var-name / scalar conversion. Returning
                 // null here dropped the default and regressed enum defaults (see #24384).
                 return super.toDefaultValue(schema);
@@ -1591,102 +1598,33 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.toDefaultValue(schema);
     }
 
-    /**
-     * Renders the default value of an object-typed property as a Java fluent builder expression, e.g.
-     * {@code new Pet().name("doggie").id(1l)}. Only scalar (value node) default properties for which a
-     * matching property schema is known are rendered; nested objects are skipped.
-     *
-     * @param cp              the codegen property carrying the target Java type ({@code datatypeWithEnum})
-     * @param defaultValue    the raw default value from the schema (a {@code Map}/{@code ObjectNode})
-     * @param propertySchemas the resolved property schemas used to type each default entry
-     * @return the Java expression, or {@code null} if it cannot be resolved
-     */
-    private String toObjectDefaultValue(CodegenProperty cp, Object defaultValue, Map<String, Schema> propertySchemas) {
-        try {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("new " + cp.datatypeWithEnum + "()");
-            if (propertySchemas != null) {
-                // With `parseOptions.setResolve(true)`, objects with 1 key-value pair are LinkedHashMap and objects with more than 1 are ObjectNode
-                // When not set, objects of any size are ObjectNode
-                ObjectMapper objectMapper = new ObjectMapper();
-                ObjectNode objectNode;
-                if(!(defaultValue instanceof ObjectNode)) {
-                    objectNode = objectMapper.valueToTree(defaultValue);
-                } else {
-                    objectNode = (ObjectNode) defaultValue;
+    private String renderComplexDefaultValue(CodegenProperty property, Schema schema, Schema resolvedSchema) {
+        JavaDefaultValueRenderer.Context context = new JavaDefaultValueRenderer.Context(
+                openAPI,
+                dateLibrary,
+                useOneOfInterfaces,
+                this::escapeText,
+                this::toVarName,
+                this::toEnumVarName,
+                this::fromProperty,
+                this::getDefaultCollectionType,
+                this::getComposedSchemaProperties);
+        return new JavaDefaultValueRenderer(context).render(property, schema, resolvedSchema);
+    }
 
-                }
-                Set<Map.Entry<String, JsonNode>> defaultProperties = objectNode.properties();
-                for (Map.Entry<String, JsonNode> defaultProperty : defaultProperties) {
-                    String key = defaultProperty.getKey();
-                    JsonNode value = defaultProperty.getValue();
-                    Schema propertySchema = propertySchemas.get(key);
-                    if (!value.isValueNode() || propertySchema == null) { //Skip complex objects for now
-                        continue;
-                    }
+    private boolean hasOptionalNullableExplicitNullDefault(CodegenProperty property, Schema originalSchema,
+                                                            Schema resolvedSchema) {
+        return openApiNullable && property != null && !property.required && property.isNullable
+                && isExplicitNullDefault(originalSchema, resolvedSchema);
+    }
 
-                    String defaultPropertyExpression = null;
-                    if(ModelUtils.isEnumSchema(ModelUtils.getReferencedSchema(this.openAPI, propertySchema))) {
-                        // Enum-typed property: render the enum constant (e.g. `OutputFormat.OrderEnum.SIMILARITY`)
-                        // rather than a raw quoted string, which would not compile (see #24298).
-                        CodegenProperty enumProperty = fromProperty(key, propertySchema);
-                        String enumType = enumProperty.isEnum
-                                // an inline enum is generated as a nested class of the containing object type
-                                ? cp.datatypeWithEnum + "." + enumProperty.datatypeWithEnum
-                                // a `$ref` to a named enum is a top-level type
-                                : enumProperty.datatypeWithEnum;
-                        defaultPropertyExpression = enumType + "." + toEnumVarName(value.asText(), enumProperty.dataType);
-                    } else if(ModelUtils.isLongSchema(propertySchema)) {
-                        defaultPropertyExpression = value.asText()+"l";
-                    } else if(ModelUtils.isIntegerSchema(propertySchema)) {
-                        defaultPropertyExpression = value.asText();
-                    } else if(ModelUtils.isDoubleSchema(propertySchema)) {
-                        defaultPropertyExpression = value.asText()+"d";
-                    } else if(ModelUtils.isFloatSchema(propertySchema)) {
-                        defaultPropertyExpression = value.asText()+"f";
-                    } else if(ModelUtils.isNumberSchema(propertySchema)) {
-                        defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
-                    } else if(ModelUtils.isURISchema(propertySchema)) {
-                        defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
-                    } else if(ModelUtils.isDateSchema(propertySchema)) {
-                        if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDate.parse(\"%s\")", value.asText());
-                        }
-                    } else if(ModelUtils.isDateTimeSchema(propertySchema)) {
-                        if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.OffsetDateTime.parse(\"%s\", %s)",
-                                    value.asText(),
-                                    "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
-                        }
-                    } else if(ModelUtils.isTimeLocalSchema(propertySchema)) {
-                        if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalTime.parse(\"%s\")", value.asText());
-                        }
-                    } else if(ModelUtils.isDateTimeLocalSchema(propertySchema)) {
-                        if("java8".equals(getDateLibrary())) {
-                            defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDateTime.parse(\"%s\")", value.asText());
-                        }
-                    } else if(ModelUtils.isUUIDSchema(propertySchema)) {
-                        defaultPropertyExpression = "java.util.UUID.fromString(\"" + value.asText() + "\")";
-                    } else if(ModelUtils.isStringSchema(propertySchema)) {
-                        defaultPropertyExpression = "\"" + value.asText() + "\"";
-                    } else if(ModelUtils.isBooleanSchema(propertySchema)) {
-                        defaultPropertyExpression = value.asText();
-                    }
-                    if(defaultPropertyExpression != null) {
-                        stringBuilder
-//                                        .append(System.lineSeparator())
-                                .append(".")
-                                .append(toVarName(key))
-                                .append("(").append(defaultPropertyExpression).append(")");
-                    }
-                }
-            }
-            return stringBuilder.toString();
-        } catch (ClassCastException e) {
-            LOGGER.error("Can't resolve default value: "+defaultValue, e);
-            return null;
-        }
+    private boolean isExplicitNullDefault(Schema originalSchema, Schema resolvedSchema) {
+        return isNullNode(originalSchema == null ? null : originalSchema.getDefault())
+                || isNullNode(resolvedSchema == null ? null : resolvedSchema.getDefault());
+    }
+
+    private boolean isNullNode(Object defaultValue) {
+        return defaultValue instanceof JsonNode && ((JsonNode) defaultValue).isNull();
     }
 
     /**
@@ -1702,15 +1640,31 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (schema.getProperties() != null) {
             propertySchemas.putAll(schema.getProperties());
         }
-        if (schema.getAllOf() != null) {
-            for (Object member : schema.getAllOf()) {
-                Schema resolved = ModelUtils.getReferencedSchema(this.openAPI, (Schema) member);
-                if (resolved != null && resolved.getProperties() != null) {
-                    propertySchemas.putAll(resolved.getProperties());
-                }
-            }
-        }
+        Set<Schema> visitedSchemas = Collections.newSetFromMap(new IdentityHashMap<>());
+        visitedSchemas.add(schema);
+        addComposedSchemaProperties(propertySchemas, schema.getAllOf(), visitedSchemas);
+        addComposedSchemaProperties(propertySchemas, schema.getOneOf(), visitedSchemas);
+        addComposedSchemaProperties(propertySchemas, schema.getAnyOf(), visitedSchemas);
         return propertySchemas;
+    }
+
+    private void addComposedSchemaProperties(Map<String, Schema> propertySchemas, List<Schema> members,
+                                             Set<Schema> visitedSchemas) {
+        if (members == null) {
+            return;
+        }
+        for (Schema member : members) {
+            Schema resolved = ModelUtils.getReferencedSchema(this.openAPI, member);
+            if (resolved == null || !visitedSchemas.add(resolved)) {
+                continue;
+            }
+            if (resolved.getProperties() != null) {
+                propertySchemas.putAll(resolved.getProperties());
+            }
+            addComposedSchemaProperties(propertySchemas, resolved.getAllOf(), visitedSchemas);
+            addComposedSchemaProperties(propertySchemas, resolved.getOneOf(), visitedSchemas);
+            addComposedSchemaProperties(propertySchemas, resolved.getAnyOf(), visitedSchemas);
+        }
     }
 
     private String getDefaultCollectionType(Schema schema) {
