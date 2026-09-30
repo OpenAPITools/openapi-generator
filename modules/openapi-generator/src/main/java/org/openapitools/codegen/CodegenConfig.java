@@ -401,4 +401,18 @@ public interface CodegenConfig {
         return false;
     }
 
+    /**
+     * Whether the generator can serialize an OpenAPI 3.2 {@code in: querystring}
+     * parameter (the caller supplies the whole, already-encoded query string).
+     * Generators that cannot must keep the default {@code false}: operations
+     * declaring such a parameter are then skipped with a warning instead of
+     * emitting it through the ordinary name=value query serialization, which
+     * would corrupt the encoded value on the wire.
+     *
+     * @return true if the generator supports {@code in: querystring} parameters
+     */
+    default boolean supportsQueryStringParameters() {
+        return false;
+    }
+
 }

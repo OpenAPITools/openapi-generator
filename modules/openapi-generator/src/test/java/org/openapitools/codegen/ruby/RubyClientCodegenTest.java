@@ -827,21 +827,18 @@ public class RubyClientCodegenTest {
                 Assert.assertFalse(generated.contains("def " + op),
                         "typhoeus must skip unsupported 3.2 operation " + op);
             }
-            // `in: querystring` on a standard method degrades to a name=value
-            // parameter - the verbatim-append path is httpx-only
-            Assert.assertTrue(generated.contains("def find_pets"),
-                    "GET+querystring operation should be kept");
-            Assert.assertTrue(generated.contains("query_params[:'q'] = q"),
-                    "unsupported library must degrade querystring to name=value");
-            Assert.assertFalse(generated.contains("+ q.to_s"),
-                    "unsupported library must not emit the verbatim querystring append");
+            // `in: querystring` on a standard method is skipped entirely for
+            // libraries without querystring support - emitting it as a
+            // name=value pair would corrupt the encoded query on the wire
+            Assert.assertFalse(generated.contains("def find_pets"),
+                    "typhoeus must skip the GET+querystring operation");
         } finally {
             FileUtils.deleteDirectory(target.toFile());
         }
     }
 
     @Test
-    public void testFaradayDegradesQueryStringParam() throws IOException {
+    public void testFaradaySkipsQueryStringParam() throws IOException {
         Path target = Files.createTempDirectory("test");
         try {
             final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -854,12 +851,8 @@ public class RubyClientCodegenTest {
             Path apiPath = target.resolve("lib/openapi_client/api/default_api.rb");
             TestUtils.assertFileExists(apiPath);
             String generated = new String(Files.readAllBytes(apiPath), StandardCharsets.UTF_8);
-            Assert.assertTrue(generated.contains("def find_pets"),
-                    "GET+querystring operation should be kept");
-            Assert.assertTrue(generated.contains("query_params[:'q'] = q"),
-                    "faraday must degrade querystring to an ordinary name=value pair");
-            Assert.assertFalse(generated.contains("+ q.to_s"),
-                    "faraday must not emit the verbatim querystring append");
+            Assert.assertFalse(generated.contains("def find_pets"),
+                    "faraday must skip the GET+querystring operation");
         } finally {
             FileUtils.deleteDirectory(target.toFile());
         }

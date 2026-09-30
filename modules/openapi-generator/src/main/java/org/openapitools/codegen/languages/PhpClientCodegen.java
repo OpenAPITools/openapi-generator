@@ -161,7 +161,7 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    protected boolean supportsQueryStringParameters() {
+    public boolean supportsQueryStringParameters() {
         return GUZZLE.equals(getLibrary());
     }
 

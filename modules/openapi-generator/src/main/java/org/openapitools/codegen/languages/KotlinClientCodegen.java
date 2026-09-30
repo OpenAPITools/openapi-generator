@@ -1311,7 +1311,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    protected boolean supportsQueryStringParameters() {
+    public boolean supportsQueryStringParameters() {
         return JVM_OKHTTP.equals(getLibrary()) || JVM_OKHTTP4.equals(getLibrary());
     }
 

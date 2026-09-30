@@ -6027,7 +6027,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @return true if the generator supports {@code in: querystring} parameters
      */
-    protected boolean supportsQueryStringParameters() {
+    public boolean supportsQueryStringParameters() {
         return false;
     }
 

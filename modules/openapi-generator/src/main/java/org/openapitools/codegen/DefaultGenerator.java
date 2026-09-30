@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.QueryStringParameter;
 import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
 import lombok.Getter;
@@ -1546,12 +1547,44 @@ public class DefaultGenerator implements Generator {
                 || (path.getAdditionalOperations() != null && !path.getAdditionalOperations().isEmpty());
     }
 
+    /**
+     * True when the operation (or its path item) declares an OpenAPI 3.2
+     * {@code in: querystring} parameter — the whole, already-encoded query
+     * string — which generators without {@code supportsQueryStringParameters()}
+     * cannot serialize. Operation-level and path-level parameters are both
+     * consulted, with {@code $ref}s resolved.
+     */
+    private boolean hasQueryStringParameter(Operation operation, PathItem path) {
+        return hasQueryStringParameter(operation.getParameters())
+                || (path != null && hasQueryStringParameter(path.getParameters()));
+    }
+
+    private boolean hasQueryStringParameter(List<Parameter> parameters) {
+        if (parameters == null) {
+            return false;
+        }
+        for (Parameter p : parameters) {
+            Parameter resolved = ModelUtils.getReferencedParameter(openAPI, p);
+            if (resolved != null && (resolved instanceof QueryStringParameter
+                    || "querystring".equalsIgnoreCase(resolved.getIn()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
         processOperation(resourcePath, httpMethod, null, operation, operations, path);
     }
 
     private void processOperation(String resourcePath, String httpMethod, String wireHttpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
         if (operation == null) {
+            return;
+        }
+
+        if (!config.supportsQueryStringParameters() && hasQueryStringParameter(operation, path)) {
+            LOGGER.warn("{} {} declares an OpenAPI 3.2 'in: querystring' parameter but generator '{}' does not support it; the operation will be missing from the generated output",
+                    httpMethod.toUpperCase(Locale.ROOT), resourcePath, config.getName());
             return;
         }
 

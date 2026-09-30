@@ -610,7 +610,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     }
 
     @Override
-    protected boolean supportsQueryStringParameters() {
+    public boolean supportsQueryStringParameters() {
         // the raw, already-encoded query string is appended to the request
         // path verbatim by the api template
         return true;

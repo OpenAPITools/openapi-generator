@@ -1837,7 +1837,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected boolean supportsQueryStringParameters() {
+    public boolean supportsQueryStringParameters() {
         return GENERICHOST.equals(getLibrary());
     }
 

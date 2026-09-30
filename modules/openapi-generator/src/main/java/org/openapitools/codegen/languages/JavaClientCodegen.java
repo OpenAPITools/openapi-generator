@@ -1429,7 +1429,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    protected boolean supportsQueryStringParameters() {
+    public boolean supportsQueryStringParameters() {
         // only the okhttp-gson api.mustache serializes an `in: querystring`
         // parameter as the whole (already-encoded) query string
         return isLibrary(OKHTTP_GSON) || StringUtils.isBlank(getLibrary());
@@ -1448,7 +1448,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         super.preprocessOpenAPI(openAPI);
         // the generated ApiClient (dynamicOperations mode) calls PathItem.getQuery()/
         // getAdditionalOperations(), which only exist in swagger-parser releases with
-        // OpenAPI 3.2 model support - only emit those calls when the spec uses them
+        // OpenAPI 3.2 model support - only emit those calls when the spec uses them.
+        // Webhooks are intentionally not scanned: the ApiClient lookup has never
+        // covered openAPI.getWebhooks() (a pre-existing limitation), so counting
+        // them here would flag support the template does not provide
         boolean hasQueryOrAdditionalOperations = openAPI.getPaths() != null
                 && openAPI.getPaths().values().stream().anyMatch(pathItem -> pathItem.getQuery() != null
                 || (pathItem.getAdditionalOperations() != null && !pathItem.getAdditionalOperations().isEmpty()));

@@ -639,7 +639,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    protected boolean supportsQueryStringParameters() {
+    public boolean supportsQueryStringParameters() {
         // the raw, already-encoded query string is appended to the request
         // path verbatim by the api template and preserved by prepareRequest
         return true;

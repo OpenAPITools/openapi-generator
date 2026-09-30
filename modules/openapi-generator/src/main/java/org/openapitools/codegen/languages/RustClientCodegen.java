@@ -789,7 +789,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
-    protected boolean supportsQueryStringParameters() {
+    public boolean supportsQueryStringParameters() {
         return REQWEST_LIBRARY.equals(getLibrary());
     }
 
