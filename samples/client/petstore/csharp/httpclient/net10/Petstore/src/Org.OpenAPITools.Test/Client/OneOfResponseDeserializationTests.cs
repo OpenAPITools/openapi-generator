@@ -57,8 +57,8 @@ namespace Org.OpenAPITools.Test.Client
         [Fact]
         public async Task OneOfResponseIsDeserializedToConcreteType()
         {
-            var httpClient = new HttpClient(new StubHttpMessageHandler("{\"className\":\"BasquePig\"}"));
-            var apiClient = new ApiClient(httpClient, "http://localhost");
+            using var httpClient = new HttpClient(new StubHttpMessageHandler("{\"className\":\"BasquePig\"}"));
+            using var apiClient = new ApiClient(httpClient, "http://localhost");
 
             ApiResponse<Pig> response = await apiClient.GetAsync<Pig>("/fake", new RequestOptions());
 
