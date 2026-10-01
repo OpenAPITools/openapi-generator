@@ -160,7 +160,9 @@ public class GoClientCodegenTest {
                 "parameterToJSONHeaderValue(r.xVendorJson)",
                 "parameterToJSONHeaderValue(r.xOptionalJson)",
                 "localVarHeaderParams[\"X-Json-Arg\"] = jsonHeaderValue",
-                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Plain-Arg\", r.xPlainArg");
+                "localVarHeaderParams[\"X-Vendor-Json\"] = jsonHeaderValue",
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Plain-Arg\", r.xPlainArg",
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Required-Plain\", r.xRequiredPlain");
         TestUtils.assertFileNotContains(api,
                 "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Json-Arg\", r.xJsonArg",
                 "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Vendor-Json\", r.xVendorJson");

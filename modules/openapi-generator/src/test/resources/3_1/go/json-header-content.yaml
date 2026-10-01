@@ -25,6 +25,11 @@ paths:
           in: header
           schema:
             type: string
+        - name: X-Required-Plain
+          in: header
+          required: true
+          schema:
+            type: string
         - name: X-Optional-Json
           in: header
           content:
