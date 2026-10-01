@@ -2602,12 +2602,11 @@ public class ModelUtils {
         // if only one element left, simplify to just the element (schema)
         if (subSchemas.size() == 1) {
             Schema<?> subSchema = subSchemas.get(0);
-            // The parser may reuse a $ref schema instance in multiple locations. Clone the
-            // remaining $ref before applying parent metadata so those locations stay isolated.
-            if (subSchema.get$ref() != null) {
-                subSchema = cloneSchema(subSchema,
-                        openAPI != null && SpecVersion.V31.equals(openAPI.getSpecVersion()));
-            }
+            // The parser may reuse a schema instance in multiple locations: a $ref, or in 3.1
+            // specs an identical inline schema. Clone the remaining schema before applying
+            // parent metadata so those locations stay isolated.
+            subSchema = cloneSchema(subSchema,
+                    openAPI != null && SpecVersion.V31.equals(openAPI.getSpecVersion()));
             // Preserve parent-level docs when nullable anyOf/oneOf collapses to a single child schema.
             if (subSchema.getDescription() == null && schema.getDescription() != null) {
                 subSchema.setDescription(schema.getDescription());

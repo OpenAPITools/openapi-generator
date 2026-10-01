@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -23,6 +24,7 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
@@ -640,6 +642,27 @@ public class OpenAPINormalizerTest {
         // both type and types are defined
         assertNotNull(petSchema.getType());
         assertNotNull(petSchema.getTypes());
+    }
+
+    @Test
+    public void testSimplifyAnyOfKeepsDescriptionsOfSharedInlineSubSchema() {
+        // Parsed with resolve enabled, as CodegenConfigurator does, the 3.1 parser hands both
+        // anyOf lists the same `type: string` instance.
+        ParseOptions parseOptions = new ParseOptions();
+        parseOptions.setResolve(true);
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_1/issue_25030.json", null, parseOptions)
+                .getOpenAPI();
+
+        new OpenAPINormalizer(openAPI, new HashMap<>()).normalize();
+
+        Schema parameter = openAPI.getPaths().get("/book-with-pages").getGet().getParameters().get(0).getSchema();
+        Schema property = (Schema) ModelUtils.getSchema(openAPI, "Book").getProperties().get("broken_field");
+        assertNull(parameter.getAnyOf());
+        assertNull(property.getAnyOf());
+        // the spec names the parameter's own description "WRONG DESCRIPTION! (schema)"
+        assertEquals(parameter.getDescription(), "WRONG DESCRIPTION! (schema)");
+        assertEquals(property.getDescription(), "Correct description.");
     }
 
     @Test
