@@ -131,6 +131,21 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
+        /// Serializes the given object as an ASCII-safe JSON string. Used to serialize the value of
+        /// a header parameter whose content type is JSON (e.g. <c>content: application/json</c>),
+        /// so model objects are rendered as JSON instead of their debug ToString() representation.
+        /// </summary>
+        /// <param name="obj">The object to serialize.</param>
+        /// <returns>JSON representation of the object with non-ASCII characters escaped as \uXXXX.</returns>
+        public static string ParameterToJsonString(object obj)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(obj, new Newtonsoft.Json.JsonSerializerSettings
+            {
+                StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii
+            });
+        }
+
+        /// <summary>
         /// Encode string in base64 format.
         /// </summary>
         /// <param name="text">string to be encoded.</param>
