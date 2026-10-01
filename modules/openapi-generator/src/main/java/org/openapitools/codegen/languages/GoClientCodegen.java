@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.google.common.collect.Iterables;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
@@ -548,6 +549,31 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 }
             }
 
+            boolean hasStringEnumValidation = false;
+            if (generateUnmarshalJSON) {
+                for (CodegenProperty param : model.vars) {
+                    String allowed = stringEnumComparison(param, false);
+                    CodegenProperty not = param.getComposedSchemas() == null ? null : param.getComposedSchemas().getNot();
+                    String excluded = stringEnumComparison(not, true);
+                    if (allowed != null || excluded != null) {
+                        hasStringEnumValidation = true;
+                        param.vendorExtensions.put("x-go-enum-property-name", TextNode.valueOf(param.baseName).toString());
+                        if (allowed != null) {
+                            param.vendorExtensions.put("x-go-allowed-string-enum-comparison", allowed);
+                            if (param.isNullable && ((List<?>) param.allowableValues.get("values")).contains(null)) {
+                                param.vendorExtensions.put("x-go-allowed-string-enum-null", true);
+                            }
+                        }
+                        if (excluded != null) {
+                            param.vendorExtensions.put("x-go-excluded-string-enum-comparison", excluded);
+                        }
+                    }
+                }
+                if (hasStringEnumValidation) {
+                    model.vendorExtensions.put("x-go-has-string-enum-validation", true);
+                }
+            }
+
             // additional import for different cases
             boolean addedFmtImport = false;
 
@@ -580,13 +606,45 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 }
             }
 
+            if (hasStringEnumValidation && !addedFmtImport && !model.hasRequired) {
+                imports.add(createMapping("import", "fmt"));
+            }
+
             // additionalProperties: true and parent
             if (model.isAdditionalPropertiesTrue && model.parent != null && Boolean.FALSE.equals(model.isMap)) {
                 imports.add(createMapping("import", "reflect"));
                 imports.add(createMapping("import", "strings"));
             }
+
+            if (hasStringEnumValidation && !hasOneOf(model) && !hasAnyOf(model)
+                    && imports.stream().noneMatch(i -> "strings".equals(i.get("import")))) {
+                imports.add(createMapping("import", "strings"));
+            }
         }
         return objs;
+    }
+
+    private static String stringEnumComparison(CodegenProperty property, boolean excluded) {
+        if (property == null || !(property.isString && property.isEnum || property.isEnumRef)
+                || property.allowableValues == null
+                || !(property.allowableValues.get("values") instanceof List)) {
+            return null;
+        }
+        StringJoiner comparisons = new StringJoiner(excluded ? " || " : " && ");
+        for (Object value : (List<?>) property.allowableValues.get("values")) {
+            if (value == null && excluded) {
+                comparisons.add("value == nil");
+                continue;
+            }
+            if (value == null && property.isNullable) {
+                continue;
+            }
+            if (!(value instanceof String)) {
+                return null;
+            }
+            comparisons.add("value " + (excluded ? "==" : "!=") + " " + TextNode.valueOf((String) value));
+        }
+        return comparisons.length() == 0 ? (property.isNullable && !excluded ? "true" : null) : comparisons.toString();
     }
 
     /**

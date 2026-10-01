@@ -1,0 +1,55 @@
+openapi: 3.1.0
+info:
+  title: oneOf not enum test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Known:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          enum: [known]
+    Other:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          not:
+            enum: [known]
+    TaggedUnion:
+      oneOf:
+        - $ref: '#/components/schemas/Known'
+        - $ref: '#/components/schemas/Other'
+    ExcludedKinds:
+      type: string
+      enum: [known, 'a"b']
+    OptionalOther:
+      type: object
+      properties:
+        kind:
+          type: string
+          not:
+            $ref: '#/components/schemas/ExcludedKinds'
+    AnyOther:
+      type: object
+      properties:
+        kind:
+          not:
+            enum: [known]
+    NullableEnum:
+      type: object
+      properties:
+        kind:
+          type: [string, 'null']
+          enum: [known, null]
+    NullableExcludedEnum:
+      type: object
+      properties:
+        kind:
+          type: [string, 'null']
+          not:
+            enum: [known, null]
