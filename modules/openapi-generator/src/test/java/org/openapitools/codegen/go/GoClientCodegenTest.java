@@ -168,6 +168,36 @@ public class GoClientCodegenTest {
                 "func parameterToJSONHeaderValue(obj interface{}) (string, error)");
     }
 
+    @Test
+    public void testJsonHeaderHelperDoesNotLeakAcrossGenerations() throws IOException {
+        GoClientCodegen codegen = new GoClientCodegen();
+        File firstOutput = Files.createTempDirectory("go-json-header-first").toFile();
+        firstOutput.deleteOnExit();
+        ClientOptInput firstInput = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_1/go/json-header-content.yaml")
+                .setOutputDir(firstOutput.getAbsolutePath())
+                .toClientOptInput()
+                .config(codegen);
+        codegen.setOutputDir(firstOutput.getAbsolutePath());
+        new DefaultGenerator().opts(firstInput).generate().forEach(File::deleteOnExit);
+        TestUtils.assertFileContains(Paths.get(firstOutput.getAbsolutePath(), "client.go"),
+                "func parameterToJSONHeaderValue(obj interface{}) (string, error)");
+
+        File secondOutput = Files.createTempDirectory("go-json-header-second").toFile();
+        secondOutput.deleteOnExit();
+        ClientOptInput secondInput = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+                .setOutputDir(secondOutput.getAbsolutePath())
+                .toClientOptInput()
+                .config(codegen);
+        codegen.setOutputDir(secondOutput.getAbsolutePath());
+        new DefaultGenerator().opts(secondInput).generate().forEach(File::deleteOnExit);
+        TestUtils.assertFileNotContains(Paths.get(secondOutput.getAbsolutePath(), "client.go"),
+                "parameterToJSONHeaderValue");
+    }
+
     @Test(description = "Verify form style query parameters explode an object instead of bracketing it")
     public void testExplodedObjectQueryParameter() throws IOException {
         File output = Files.createTempDirectory("test").toFile();

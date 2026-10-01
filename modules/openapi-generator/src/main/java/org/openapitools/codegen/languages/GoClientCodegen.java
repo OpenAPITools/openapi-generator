@@ -229,6 +229,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     @Override
     public void processOpts() {
+        additionalProperties.remove("x-go-has-json-header");
         this.setLegacyDiscriminatorBehavior(false);
         super.processOpts();
 
