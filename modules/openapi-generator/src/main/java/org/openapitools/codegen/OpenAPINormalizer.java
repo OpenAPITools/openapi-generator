@@ -985,7 +985,17 @@ public class OpenAPINormalizer {
 
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
-            normalizeSchema(result.getItems(), visitedSchemas);
+            if (result.getItems() != null) {
+                Schema normalized = normalizeSchema(result.getItems(), visitedSchemas);
+                if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, normalized)) {
+                    Schema anyTypeNullable = new Schema();
+                    anyTypeNullable.setNullable(true);
+                    ModelUtils.copyMetadata(normalized, anyTypeNullable);
+                    result.setItems(anyTypeNullable);
+                } else if (getRule(NORMALIZE_31SPEC) && normalized != null) {
+                    result.setItems(normalized);
+                }
+            }
             return result;
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
             return normalizeOneOf(schema, visitedSchemas);
@@ -1046,6 +1056,7 @@ public class OpenAPINormalizer {
                 // generated as a normal (nullable) object instead.
                 Schema anyTypeNullable = new Schema();
                 anyTypeNullable.setNullable(true);
+                ModelUtils.copyMetadata(additionalProperties, anyTypeNullable);
                 result.setAdditionalProperties(anyTypeNullable);
             } else {
                 Schema normalized = normalizeSchema(additionalProperties, visitedSchemas);
@@ -1224,7 +1235,14 @@ public class OpenAPINormalizer {
                 }
             }
             Schema newProperty = normalizeSchema(property, new HashSet<>());
-            propertiesEntry.setValue(newProperty);
+            if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, newProperty)) {
+                Schema anyTypeNullable = new Schema();
+                anyTypeNullable.setNullable(true);
+                ModelUtils.copyMetadata(newProperty, anyTypeNullable);
+                propertiesEntry.setValue(anyTypeNullable);
+            } else {
+                propertiesEntry.setValue(newProperty);
+            }
         }
     }
 

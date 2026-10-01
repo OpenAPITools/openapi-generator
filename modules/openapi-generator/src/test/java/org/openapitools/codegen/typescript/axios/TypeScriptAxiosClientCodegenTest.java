@@ -281,7 +281,6 @@ public class TypeScriptAxiosClientCodegenTest {
                         "} as const;");
     }
 
-
     @Test(description = "Generated package.json supports TypeScript 6")
     public void testGeneratedPackageJsonSupportsTypeScript6() throws Exception {
         final File output = Files.createTempDirectory("typescript_axios_typescript_6_").toFile();
@@ -303,6 +302,28 @@ public class TypeScriptAxiosClientCodegenTest {
                 "\"typescript\": \"^4.0 || ^5.0 || ^6.0\"");
         assertThat(Files.readString(Paths.get(output + "/tsconfig.json")))
                 .doesNotContain("\"moduleResolution\": \"node\"");
+    }
 
+    @Test
+    public void testBareNullPropertiesIssue24520() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_bare_null_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_1/issue_24520.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path file = Paths.get(output + "/api.ts");
+        String content = Files.readString(file);
+
+        assertThat(content).doesNotContain("Null;");
+        assertThat(content).doesNotContain("Array<Null>");
+        assertThat(content).doesNotContain("from './null'");
     }
 }
