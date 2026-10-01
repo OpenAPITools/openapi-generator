@@ -162,6 +162,8 @@ public class GoClientCodegenTest {
                 "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Plain-Arg\", r.xPlainArg");
         TestUtils.assertFileNotContains(api,
                 "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Json-Arg\", r.xJsonArg");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "client.go"),
+                "func parameterToJSONHeaderValue(obj interface{}) (string, error)");
     }
 
     @Test(description = "Verify form style query parameters explode an object instead of bracketing it")
@@ -183,6 +185,8 @@ public class GoClientCodegenTest {
                 "if !ok { continue } if entry.Kind() == reflect.Slice {",
                 "case reflect.Ptr: if v.IsNil() { return }",
                 "styleForElement = \"\"");
+        TestUtils.assertFileNotContains(Paths.get(output + "/client.go"),
+                "parameterToJSONHeaderValue", "unicode/utf16");
 
         // the api passes the declared style through
         Path api = Paths.get(output + "/api_default.go");

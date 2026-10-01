@@ -21,7 +21,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"unicode/utf16"
 	"unicode/utf8"
 
 	{{#hasOAuthMethods}}
@@ -157,26 +156,16 @@ func parameterValueToString( obj interface{}, key string ) string {
 	return fmt.Sprintf("%v", dataMap[key])
 }
 
-// parameterToJSONHeaderValue encodes a content: application/json header as ASCII-safe JSON.
+{{#x-go-has-json-header}}
+// parameterToJSONHeaderValue encodes a content: application/json header.
 func parameterToJSONHeaderValue(obj interface{}) (string, error) {
 	encoded, err := json.Marshal(obj)
 	if err != nil {
 		return "", err
 	}
-
-	var value strings.Builder
-	for _, r := range string(encoded) {
-		if r < utf8.RuneSelf {
-			value.WriteByte(byte(r))
-		} else if r <= 0xffff {
-			fmt.Fprintf(&value, "\\u%04x", r)
-		} else {
-			high, low := utf16.EncodeRune(r)
-			fmt.Fprintf(&value, "\\u%04x\\u%04x", high, low)
-		}
-	}
-	return value.String(), nil
+	return string(encoded), nil
 }
+{{/x-go-has-json-header}}
 
 // parameterAddToHeaderOrQuery adds the provided object to the request header or url query
 // supporting deep object syntax
