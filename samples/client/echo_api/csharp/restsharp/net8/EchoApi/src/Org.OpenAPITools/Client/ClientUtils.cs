@@ -137,13 +137,26 @@ namespace Org.OpenAPITools.Client
         /// so model objects are rendered as JSON instead of their debug ToString() representation.
         /// </summary>
         /// <param name="obj">The object to serialize.</param>
-        /// <returns>JSON representation of the object with non-ASCII characters escaped as \uXXXX.</returns>
+        /// <returns>JSON representation of the object with every non-ASCII character (including DEL, U+007F) escaped as \uXXXX.</returns>
         public static string ParameterToJsonString(object obj)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(obj, new Newtonsoft.Json.JsonSerializerSettings
+            string json = Serialize(obj);
+            if (json == null)
+                return null;
+
+            // Escape every character outside the printable ASCII range (anything >= U+007F, which
+            // includes DEL) as \uXXXX. This runs over the final JSON string, so it is robust to
+            // custom converters that emit raw JSON, producing a value safe to use as an HTTP header.
+            StringBuilder escaped = new StringBuilder(json.Length);
+            foreach (char c in json)
             {
-                StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii
-            });
+                if (c >= 0x7f)
+                    escaped.Append("\\u").Append(((int)c).ToString("x4", CultureInfo.InvariantCulture));
+                else
+                    escaped.Append(c);
+            }
+
+            return escaped.ToString();
         }
 
         /// <summary>
