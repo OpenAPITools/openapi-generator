@@ -157,11 +157,13 @@ public class GoClientCodegenTest {
         Path api = Paths.get(output.getAbsolutePath(), "api_default.go");
         TestUtils.assertFileContains(api,
                 "parameterToJSONHeaderValue(r.xJsonArg)",
+                "parameterToJSONHeaderValue(r.xVendorJson)",
                 "parameterToJSONHeaderValue(r.xOptionalJson)",
                 "localVarHeaderParams[\"X-Json-Arg\"] = jsonHeaderValue",
                 "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Plain-Arg\", r.xPlainArg");
         TestUtils.assertFileNotContains(api,
-                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Json-Arg\", r.xJsonArg");
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Json-Arg\", r.xJsonArg",
+                "parameterAddToHeaderOrQuery(localVarHeaderParams, \"X-Vendor-Json\", r.xVendorJson");
         TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "client.go"),
                 "func parameterToJSONHeaderValue(obj interface{}) (string, error)");
     }

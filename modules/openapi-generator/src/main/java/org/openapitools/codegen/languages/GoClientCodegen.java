@@ -182,7 +182,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-        if (parameter.isHeaderParam && isJsonMimeType(parameter.contentType)) {
+        if (parameter.isHeaderParam
+                && (isJsonMimeType(parameter.contentType) || isJsonVendorMimeType(parameter.contentType))) {
             parameter.vendorExtensions.put("x-go-json-header", true);
             additionalProperties.put("x-go-has-json-header", true);
         }

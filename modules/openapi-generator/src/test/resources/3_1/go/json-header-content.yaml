@@ -14,6 +14,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HeaderArg'
+        - name: X-Vendor-Json
+          in: header
+          required: true
+          content:
+            application/vnd.example+json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
         - name: X-Plain-Arg
           in: header
           schema:
